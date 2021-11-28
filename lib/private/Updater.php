@@ -559,13 +559,13 @@ class Updater extends BasicEmitter {
 			$log->info('\OC\Updater::incompatibleAppDisabled: Disabled incompatible app: ' . $app, ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($log) {
-			$log->info('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
+			$log->debug('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($log) {
 			$log->info('\OC\Updater::upgradeAppStoreApp: Update app "' . $app . '" from appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($log) {
-			$log->info('\OC\Updater::checkAppStoreApp: Checked for update of app "' . $app . '" in appstore', ['app' => 'updater']);
+			$log->debug('\OC\Updater::checkAppStoreApp: Checked for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($log) {
 			$log->info('\OC\Updater::appSimulateUpdate: Checking whether the database schema for <' . $app . '> can be updated (this can take a long time depending on the database size)', ['app' => 'updater']);
