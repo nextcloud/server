@@ -372,8 +372,6 @@
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ett meddelande om lösenordsåterställning har skickats till e-postadressen för det här kontot. Om du får det, kontrollera dina spam/skräp -mappar eller fråga din lokala administratör om hjälp.",
     "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
     "Can't install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
-    "Can't install this app" : "Appen kan inte installeras",
-    "Checking for update of app \"%s\" in App Store" : "Letar efter uppdatering av appen \"%s\" i appbutiken",
-    "Checked for update of app \"%s\" in App Store" : "Letade efter uppdatering av appen \"%s\" i appbutiken"
+    "Can't install this app" : "Appen kan inte installeras"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -368,8 +368,6 @@
     "Password can not be changed. Please contact your administrator." : "Salasanan vaihtaminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
-    "Can't install this app" : "Tätä sovellusta ei voi asentaa",
-    "Checking for update of app \"%s\" in App Store" : "Tarkistetaan sovelluksen \"%s\" päivityksiä sovelluskaupasta",
-    "Checked for update of app \"%s\" in App Store" : "Päivitykset tarkistettu sovelluskaupasta sovellukselle \"%s\""
+    "Can't install this app" : "Tätä sovellusta ei voi asentaa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

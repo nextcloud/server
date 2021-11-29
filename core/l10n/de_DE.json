@@ -423,8 +423,6 @@
     "Password can not be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktieren Sie Ihren Administrator.",
     "Could not fetch list of apps from the app store." : "Liste der Apps kann nicht vom App Store abgerufen werden",
     "Can't install this app because it is not compatible" : "App kann nicht installiert werden, da sie inkompatibel ist",
-    "Can't install this app" : "App kann nicht installiert werden",
-    "Checking for update of app \"%s\" in App Store" : "Suche nach einer Aktualisierung für die App \"%s\" im App-Store",
-    "Checked for update of app \"%s\" in App Store" : "App-Store auf Aktualisierung für die App \"%s\" geprüft"
+    "Can't install this app" : "App kann nicht installiert werden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

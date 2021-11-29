@@ -337,8 +337,6 @@
     "Password can not be changed. Please contact your administrator." : "ไม่สามารถเปลี่ยนรหัสผ่าน กรุณาติดต่อผู้ดูแลระบบ",
     "Could not fetch list of apps from the app store." : "ไม่สามารถดึงรายการแอปจากร้านค้าแอป",
     "Can't install this app because it is not compatible" : "ไม่สามารถติดตั้งแอปนี้ เนื่องจากแอปนี้เข้ากันไม่ได้",
-    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้",
-    "Checking for update of app \"%s\" in App Store" : "กำลังตรวจสอบอัปเดตของแอป \"%s\" ในร้านค้าแอป",
-    "Checked for update of app \"%s\" in App Store" : "ตรวจสอบอัปเดตของแอป \"%s\" จากร้านค้าแอปแล้ว"
+    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
