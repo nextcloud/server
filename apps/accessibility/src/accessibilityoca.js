@@ -26,7 +26,7 @@ import { loadState } from '@nextcloud/initial-state'
 OCA.Accessibility = loadState('accessibility', 'data')
 // Force a specific theme for guests based on force-color-scheme param
 const srvUrl = new URL(window.location.href)
-const forceColorScheme = srvUrl.searchParams.get("force-color-scheme")
+const forceColorScheme = srvUrl.searchParams.get('force-color-scheme')
 if (forceColorScheme !== null && (forceColorScheme === 'dark' || forceColorScheme === 'light')) {
 	OCA.Accessibility.theme = forceColorScheme
 } else if (OCA.Accessibility.checkMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
