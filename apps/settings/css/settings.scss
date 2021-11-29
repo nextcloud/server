@@ -1566,15 +1566,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
 				}
-
-				/* fake input for groups validation */
-				input#newgroups {
-					position: absolute;
-					opacity: 0;
-					width: 80% !important;
-					margin: 0 10%;
-					z-index: 0;
-				}
 			}
 
 			// separate prop to set initial value to top: 50px
