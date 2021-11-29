@@ -419,8 +419,6 @@
     "Password can not be changed. Please contact your administrator." : "Пароль не может быть изменён. Свяжитесь с вашим системным администратором.",
     "Could not fetch list of apps from the app store." : "Не удалось получить список приложений.",
     "Can't install this app because it is not compatible" : "Приложение не может быть установлено, так как оно несовместимо",
-    "Can't install this app" : "Это приложение не может быть установлено",
-    "Checking for update of app \"%s\" in App Store" : "Проверяется наличие обновления приложения «%s»",
-    "Checked for update of app \"%s\" in App Store" : "Проверено наличие обновления приложения «%s»"
+    "Can't install this app" : "Это приложение не может быть установлено"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

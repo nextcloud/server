@@ -139,6 +139,7 @@
     "Your account is not setup for passwordless login." : "Račun ni nastavljen za brezgeselno prijavo.",
     "Browser not supported" : "Trenutno uporabljen brskalnik ni podprt!",
     "Passwordless authentication is not supported in your browser." : "Brezgeselna overitev v tem brskalniku ni podprta.",
+    "Your connection is not secure" : "Vzpostavljena povezava ni varna",
     "Passwordless authentication is only available over a secure connection." : "Brezgeselna overitev je na voljo le prek vzpostavljene varne povezave.",
     "Reset password" : "Ponastavi geslo",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Sporočilo za ponastavitev gesla je bilo poslano na elektronski naslov računa. Če sporočila v kratkem ne prejmete, preverite mape neželene pošte ali pa za pomoč prosite krajevnega skrbnika sistema.",
@@ -409,8 +410,6 @@
     "Password can not be changed. Please contact your administrator." : "Gesla ni mogoče spremeniti. Stopite v stik s skrbnikom.",
     "Could not fetch list of apps from the app store." : "Ni mogoče pridobiti seznama programov iz trgovine.",
     "Can't install this app because it is not compatible" : "Programa ni mogoče namestiti, ker ni skladen z različico okolja.",
-    "Can't install this app" : "Programa ni mogoče namestiti.",
-    "Checking for update of app \"%s\" in App Store" : "Poteka preverjanje posodobitev programa »%s« v trgovini ...",
-    "Checked for update of app \"%s\" in App Store" : "Preverjanje posodobitev programa »%s« v trgovini je končano."
+    "Can't install this app" : "Programa ni mogoče namestiti."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
