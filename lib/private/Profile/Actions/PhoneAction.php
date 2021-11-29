@@ -70,11 +70,11 @@ class PhoneAction implements ILinkAction {
 	}
 
 	public function getDisplayId(): string {
-		return $this->l10nFactory->get('core')->t('Phone');
+		return $this->l10nFactory->get('lib')->t('Phone');
 	}
 
 	public function getTitle(): string {
-		return $this->l10nFactory->get('core')->t('Call %s', [$this->value]);
+		return $this->l10nFactory->get('lib')->t('Call %s', [$this->value]);
 	}
 
 	public function getPriority(): int {
