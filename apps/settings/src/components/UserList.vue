@@ -623,4 +623,16 @@ export default {
 	.row::v-deep .multiselect__single {
 		z-index: auto !important;
 	}
+
+	/* fake input for groups validation */
+	input#newgroups {
+		position: absolute;
+		opacity: 0;
+		/* The "hidden" input is behind the Multiselect, so in general it does
+		 * not receives clicks. However, with Firefox, after the validation
+		 * fails, it will receive the first click done on it, so its width needs
+		 * to be set to 0 to prevent that ("pointer-events: none" does not
+		 * prevent it). */
+		width: 0;
+	}
 </style>
