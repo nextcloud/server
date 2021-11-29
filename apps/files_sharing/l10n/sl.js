@@ -127,6 +127,7 @@ OC.L10N.register(
     "shared by %s" : "souporaba: %s",
     "Download all files" : "Prejmi vse datoteke",
     "Direct link" : "Neposredna povezava",
+    "Add to your %s" : "Dodaj v %s",
     "Share API is disabled" : "Vmesnik API za souporabo je onemogočen",
     "File sharing" : "Souporaba datotek",
     "Share will expire tomorrow" : "Souporaba bo jutri pretekla",

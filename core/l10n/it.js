@@ -402,8 +402,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "La password non può essere cambiata. Contatta il tuo amministratore.",
     "Could not fetch list of apps from the app store." : "Impossibile scaricare l'elenco delle applicazioni dal negozio delle applicazioni.",
     "Can't install this app because it is not compatible" : "Impossibile installare questa applicazione poiché non è compatibile",
-    "Can't install this app" : "Impossibile installare questa applicazione",
-    "Checking for update of app \"%s\" in App Store" : "Controllo degli aggiornamenti dell'applicazione \"%s\" nel negozio delle applicazioni",
-    "Checked for update of app \"%s\" in App Store" : "Controllo degli aggiornamenti dell'applicazione \"%s\" nel negozio delle applicazioni"
+    "Can't install this app" : "Impossibile installare questa applicazione"
 },
 "nplurals=2; plural=(n != 1);");

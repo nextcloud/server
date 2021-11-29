@@ -422,8 +422,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "A senha não pôde ser alterada. Por favor, contate o administrador.",
     "Could not fetch list of apps from the app store." : "Não foi possível buscar a lista de aplicativos na loja.",
     "Can't install this app because it is not compatible" : "Não foi possível instalar este aplicativo pois é incompatível",
-    "Can't install this app" : "Não foi possível instalar este aplicativo",
-    "Checking for update of app \"%s\" in App Store" : "Verificando a atualização do aplicativo \"%s\" na App Store",
-    "Checked for update of app \"%s\" in App Store" : "Verificando a atualização do aplicativo \"%s\" na App Store"
+    "Can't install this app" : "Não foi possível instalar este aplicativo"
 },
 "nplurals=2; plural=(n > 1);");

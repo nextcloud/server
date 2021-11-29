@@ -425,8 +425,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Heslo nemožno zmeniť. Kontaktujte prosím vášho administrátora.",
     "Could not fetch list of apps from the app store." : "Nepodarilo sa načítať zoznam apiek z katalógu.",
     "Can't install this app because it is not compatible" : "Táto apka sa nedá nainštalovať, nie je kompatibilná",
-    "Can't install this app" : "Táto apka sa nedá nainštalovať",
-    "Checking for update of app \"%s\" in App Store" : "Hľadá sa aktualizácia aplikácie \"%s\" v obchode",
-    "Checked for update of app \"%s\" in App Store" : "Hľadá sa aktualizácia aplikácie \"%s\" v obchode"
+    "Can't install this app" : "Táto apka sa nedá nainštalovať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

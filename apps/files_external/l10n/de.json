@@ -2,7 +2,7 @@
     "External storage" : "Externer Speicher",
     "Personal" : "Persönlich",
     "System" : "System",
-    "Grant access" : "Zugriff gestatten",
+    "Grant access" : "Zugriff gewähren",
     "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
     "Please provide a valid app key and secret." : "Bitte einen gültigen Anwendungsschlüssel (App-Key) mit Sicherheitsschlüssel (Secret) eingeben.",
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",

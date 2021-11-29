@@ -425,8 +425,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Parola değiştirilemedi. Lütfen BT yöneticiniz ile görüşün.",
     "Could not fetch list of apps from the app store." : "Uygulama mağazasından uygulama listesi alınamadı.",
     "Can't install this app because it is not compatible" : "Bu uygulama uyumlu olmadığından kurulamadı",
-    "Can't install this app" : "Bu uygulama kurulamadı",
-    "Checking for update of app \"%s\" in App Store" : "Uygulama mağazasından \"%s\"  uygulamasının güncellemesi denetleniyor",
-    "Checked for update of app \"%s\" in App Store" : "Uygulama mağazasından \"%s\"  uygulamasının güncellemesi denetlendi"
+    "Can't install this app" : "Bu uygulama kurulamadı"
 },
 "nplurals=2; plural=(n > 1);");

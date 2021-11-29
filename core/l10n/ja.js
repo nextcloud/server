@@ -409,8 +409,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "パスワードは変更できません。管理者に問い合わせてください。",
     "Could not fetch list of apps from the app store." : "App Storeからアプリのリストを取得できませんでした。",
     "Can't install this app because it is not compatible" : "アプリの互換性がないため、インストールできません",
-    "Can't install this app" : "このアプリはインストールできません",
-    "Checking for update of app \"%s\" in App Store" : "アプリストアで \"%s\" アプリのアップデートを確認しています",
-    "Checked for update of app \"%s\" in App Store" : "アプリストアで \"%s\" アプリのアップデートを確認済"
+    "Can't install this app" : "このアプリはインストールできません"
 },
 "nplurals=1; plural=0;");
