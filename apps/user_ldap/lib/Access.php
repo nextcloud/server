@@ -1433,12 +1433,15 @@ class Access extends LDAPUtility {
 			return $name;
 		}
 
-		// Transliteration to ASCII
-		$transliterated = @iconv('UTF-8', 'ASCII//TRANSLIT', $name);
-		if ($transliterated !== false) {
-			// depending on system config iconv can work or not
-			$name = $transliterated;
-		}
+		// Use htmlentities to get rid of accents
+		$name = htmlentities($name, ENT_NOQUOTES, 'UTF-8');
+
+		// Remove accents
+		$name = preg_replace('#&([A-Za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $name);
+		// Remove ligatures
+		$name = preg_replace('#&([A-Za-z]{2})(?:lig);#', '\1', $name);
+		// Remove unknown leftover entities
+		$name = preg_replace('#&[^;]+;#', '', $name);
 
 		// Replacements
 		$name = str_replace(' ', '_', $name);
