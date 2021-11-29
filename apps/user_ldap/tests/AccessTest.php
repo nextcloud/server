@@ -689,16 +689,14 @@ class AccessTest extends TestCase {
 	}
 
 	public function intUsernameProvider() {
-		// system dependent :-/
-		$translitExpected = @iconv('UTF-8', 'ASCII//TRANSLIT', 'fränk') ? 'frank' : 'frnk';
-
 		return [
 			['alice', 'alice'],
 			['b/ob', 'bob'],
 			['charly🐬', 'charly'],
 			['debo rah', 'debo_rah'],
 			['epost@poste.test', 'epost@poste.test'],
-			['fränk', $translitExpected],
+			['fränk', 'frank'],
+			[' UPPÉR Case/[\]^`', 'UPPER_Case'],
 			[' gerda ', 'gerda'],
 			['🕱🐵🐘🐑', null],
 			[
@@ -732,9 +730,6 @@ class AccessTest extends TestCase {
 	 * @param $expected
 	 */
 	public function testSanitizeUsername($name, $expected) {
-		if ($name === 'fränk' && PHP_MAJOR_VERSION > 7) {
-			$this->markTestSkipped('Special chars do boom still on CI in php8');
-		}
 		if ($expected === null) {
 			$this->expectException(\InvalidArgumentException::class);
 		}
