@@ -18,26 +18,22 @@
  */
 namespace OCA\Files_Trashbin\Command;
 
+use OC\Core\Command\Base;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUserBackend;
-use OC\Files\View;
-use OC\Files\Filesystem;
-use OC_User;
 use OCA\Files_Trashbin\Trashbin;
 use OCA\Files_Trashbin\Helper;
-use OCA\Files\Exception\TransferOwnershipException;
-use OCA\Files\Service\OwnershipTransferService;
-use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
+use OCP\L10N\IFactory;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RestoreAllFiles extends Command {
+class RestoreAllFiles extends Base {
 
 	/** @var IUserManager */
 	protected $userManager;
@@ -48,19 +44,24 @@ class RestoreAllFiles extends Command {
 	/** @var \OCP\IDBConnection */
 	protected $dbConnection;
 
+	/** @var IL10N */
+	protected $l10n;
+
 	/**
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $dbConnection
 	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection, IFactory $l10nFactory) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
 		$this->dbConnection = $dbConnection;
+		$this->l10n = $l10nFactory->get('files_trashbin');
 	}
 
-	protected function configure() {
+	protected function configure(): void {
+		parent::configure();
 		$this
 			->setName('trashbin:restore')
 			->setDescription('Restore all deleted files')
@@ -78,6 +79,7 @@ class RestoreAllFiles extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		/** @var string[] $users */
 		$users = $input->getArgument('user_id');
 		if ((!empty($users)) and ($input->getOption('all-users'))) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
@@ -120,30 +122,40 @@ class RestoreAllFiles extends Command {
 	 * Restore deleted files for the given user
 	 *
 	 * @param string $uid
-     * @param OutputInterface $output
+	 * @param OutputInterface $output
 	 */
-	protected function restoreDeletedFiles($uid, $output) {
+	protected function restoreDeletedFiles(string $uid, OutputInterface $output): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
-        $filesInTrash = Helper::getTrashFiles('/', $uid, 'mtime');
-        $trashCount = count($filesInTrash);
-        $output->writeln("Preparing to restore <info>$trashCount</info> files...");
-        $count = 0;
-        foreach ($filesInTrash as $trashFile) {
-            $filename = $trashFile->getName();
-            $timestamp = $trashFile->getMtime();
-            $output->writeln("File <info>$filename</info> originally deleted at timestamp <info>$timestamp</info>.");
-            $file = $filename . '.d' . $timestamp;
-            $location = Trashbin::getLocation($uid, $filename, $timestamp);;
-            OC_User::setUserId($uid);
-            $user = OC_User::getUser();
-            $output->writeln("location $location");
-            $result = Trashbin::restore($file, $filename, $timestamp);
-            $count = $count + $result;
-            $output->writeln($result);
-        }
+		\OC_User::setUserId($uid);
 
-        $output->writeln("Successfully restored <info>$count</info> out of <info>$trashCount</info> files.");
+		$filesInTrash = Helper::getTrashFiles('/', $uid, 'mtime');
+		$trashCount = count($filesInTrash);
+		if ($trashCount == 0) {
+			$output->writeln("User has no deleted files in the trashbin");
+			return;
+		}
+		$output->writeln("Preparing to restore <info>$trashCount</info> files...");
+		$count = 0;
+		foreach ($filesInTrash as $trashFile) {
+			$filename = $trashFile->getName();
+			$timestamp = $trashFile->getMtime();
+			$humanTime = $this->l10n->l('datetime', $timestamp);
+			$output->write("File <info>$filename</info> originally deleted at <info>$humanTime</info> ");
+			$file = $filename . '.d' . $timestamp;
+			$location = Trashbin::getLocation($uid, $filename, (string) $timestamp);
+			if ($location === '.') {
+				$location = '';
+			}
+			$output->write("restoring to <info>/$location</info>:");
+			if (Trashbin::restore($file, $filename, $timestamp)) {
+				$count = $count + 1;
+				$output->writeln(" <info>success</info>");
+			} else {
+				$output->writeln(" <error>failed</error>");
+			}
+		}
+
+		$output->writeln("Successfully restored <info>$count</info> out of <info>$trashCount</info> files.");
 	}
 }
-?>
