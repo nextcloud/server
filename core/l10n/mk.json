@@ -397,8 +397,6 @@
     "Password can not be changed. Please contact your administrator." : "Лозинката не може да се промени. Ве молам контактирајте го вашиот администратор.",
     "Could not fetch list of apps from the app store." : "Неможе да се вчита листата на апликации од продавницата.",
     "Can't install this app because it is not compatible" : "Неможе да се инсталираа оваа апликација бидејќи не е компатибилна",
-    "Can't install this app" : "Неможе да се инсталираа оваа апликација ",
-    "Checking for update of app \"%s\" in App Store" : "Проверка за ажурирање на апликација \"%s\" во продавницата",
-    "Checked for update of app \"%s\" in App Store" : "Проверка за ажурирање на апликација \"%s\" во appstore"
+    "Can't install this app" : "Неможе да се инсталираа оваа апликација "
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

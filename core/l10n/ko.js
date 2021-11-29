@@ -396,8 +396,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "암호를 변경할 수 없습니다. 관리자에게 문의하십시오.",
     "Could not fetch list of apps from the app store." : "앱스토어로부터 앱 목록을 가져올 수 없음",
     "Can't install this app because it is not compatible" : "호환되지 않아 앱을 설치할 수 없습니다.",
-    "Can't install this app" : "앱을 설치할 수 없음",
-    "Checking for update of app \"%s\" in App Store" : "앱 스토어에서 \"%s\" 앱의 업데이트를 확인하는 중",
-    "Checked for update of app \"%s\" in App Store" : "앱 스토어에서 \"%s\" 앱 업데이트 확인함"
+    "Can't install this app" : "앱을 설치할 수 없음"
 },
 "nplurals=1; plural=0;");

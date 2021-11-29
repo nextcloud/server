@@ -407,8 +407,6 @@
     "Password can not be changed. Please contact your administrator." : "Sa crae non faghet a dda cambiare. Cuntata s'amministratzione.",
     "Could not fetch list of apps from the app store." : "No at fatu a recuperare sa lista dae sa butega de is aplicatziones.",
     "Can't install this app because it is not compatible" : "Non faghet a installare custa aplicatzione ca no est cumpatìbile",
-    "Can't install this app" : "Non faghet a installare custa aplicatzione",
-    "Checking for update of app \"%s\" in App Store" : "Chirchende un'agiornamentu de s'aplicatzione \"%s\" in sa butega de is aplicatziones",
-    "Checked for update of app \"%s\" in App Store" : "Controlladu s'agiornamentu de s'aplicatzione \"%s\" in sa butega de is aplicatziones"
+    "Can't install this app" : "Non faghet a installare custa aplicatzione"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

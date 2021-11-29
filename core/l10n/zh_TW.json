@@ -423,8 +423,6 @@
     "Password can not be changed. Please contact your administrator." : "無法重設密碼，請聯絡管理員。",
     "Could not fetch list of apps from the app store." : "無法從應用程式商店抓取應用程式清單",
     "Can't install this app because it is not compatible" : "應用程式無法安裝，因為不相容",
-    "Can't install this app" : "無法安裝這個應用程式",
-    "Checking for update of app \"%s\" in App Store" : "正於應用程式商店中檢查應用程式「%s」的更新",
-    "Checked for update of app \"%s\" in App Store" : "已於應用程式商店中檢查應用程式「%s」的更新"
+    "Can't install this app" : "無法安裝這個應用程式"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

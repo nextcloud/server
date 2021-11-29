@@ -407,8 +407,6 @@
     "Password can not be changed. Please contact your administrator." : "Zaporku nije moguće promijeniti. Obratite se svom administratoru.",
     "Could not fetch list of apps from the app store." : "Dohvaćanje popisa aplikacija iz trgovine aplikacijama nije uspjelo.",
     "Can't install this app because it is not compatible" : "Aplikaciju nije moguće instalirati jer nije kompatibilna",
-    "Can't install this app" : "Aplikaciju nije moguće instalirati",
-    "Checking for update of app \"%s\" in App Store" : "U tijeku je provjera ažuriranja aplikacije „%s” iz trgovine aplikacija App Store",
-    "Checked for update of app \"%s\" in App Store" : "Izvedena je provjera ažuriranja aplikacije „%s” iz trgovine aplikacija App Store"
+    "Can't install this app" : "Aplikaciju nije moguće instalirati"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

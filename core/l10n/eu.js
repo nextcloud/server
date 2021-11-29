@@ -425,8 +425,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Ezin da pasahitza aldatu. Jarri zure administratzailearekin harremanetan.",
     "Could not fetch list of apps from the app store." : "Ezin izan da aplikazioen zerrenda eskuratu aplikazioen biltegitik.",
     "Can't install this app because it is not compatible" : "Ezin da aplikazio hau instalatu ez delako bateragarria",
-    "Can't install this app" : "Ezin da aplikazio hau instalatu",
-    "Checking for update of app \"%s\" in App Store" : "App Store-n\"%s\" aplikazioaren eguneratzea egiaztatzen",
-    "Checked for update of app \"%s\" in App Store" : "App Store-n \"%s\" aplikazioaren eguneratzea egiaztatu da"
+    "Can't install this app" : "Ezin da aplikazio hau instalatu"
 },
 "nplurals=2; plural=(n != 1);");
