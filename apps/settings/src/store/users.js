@@ -96,12 +96,12 @@ const mutations = {
 			console.error('Can\'t create group', e)
 		}
 	},
-	renameGroup(state, { gid, displayname }) {
+	renameGroup(state, { gid, displayName }) {
 		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
 		if (groupIndex >= 0) {
 			const updatedGroup = state.groups[groupIndex]
-			updatedGroup.name = displayname
-			state.groups[groupIndex] = updatedGroup
+			updatedGroup.name = displayName
+			state.groups.splice(groupIndex, 1, updatedGroup)
 			state.groups = orderGroups(state.groups, state.orderBy)
 		}
 	},
@@ -362,7 +362,7 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			return api.put(generateOcsUrl('cloud/groups/{groupId}', { groupId: encodeURIComponent(groupid) }), { key: 'displayname', value: displayName })
 				.then((response) => {
-					context.commit('renameGroup', { gid: groupid, displayname: displayName })
+					context.commit('renameGroup', { gid: groupid, displayName })
 					return { groupid, displayName }
 				})
 				.catch((error) => { throw error })
