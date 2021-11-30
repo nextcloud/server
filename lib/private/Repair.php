@@ -140,7 +140,7 @@ class Repair implements IOutput {
 						throw new \Exception("Repair step '$repairStep' can't be instantiated: " . $e->getMessage(), 0, $e);
 					}
 				} else {
-					throw new \Exception("Repair step '$repairStep' is unknown");
+					throw new \Exception("Repair step '$repairStep' is unknown", 0, $e);
 				}
 			}
 
