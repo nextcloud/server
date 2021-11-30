@@ -123,10 +123,10 @@
   "browserslist": [
     "extends @nextcloud/browserslist-config"
   ],
-  "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=7.0.0"
-  },
+	"engines": {
+		"node": "^14.0.0",
+		"npm": "^7.0.0"
+	},
   "jest": {
     "moduleFileExtensions": [
       "js",
