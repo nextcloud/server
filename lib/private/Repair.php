@@ -80,6 +80,7 @@ use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Throwable;
 
 class Repair implements IOutput {
 
@@ -140,7 +141,13 @@ class Repair implements IOutput {
 				$s = \OC::$server->query($repairStep);
 			} catch (QueryException $e) {
 				if (class_exists($repairStep)) {
-					$s = new $repairStep();
+					try {
+						// Last resort: hope there are no constructor arguments
+						$s = new $repairStep();
+					} catch (Throwable $inner) {
+						// Well, it was worth a try
+						throw new \Exception("Repair step '$repairStep' can't be instantiated: " . $e->getMessage(), 0, $e);
+					}
 				} else {
 					throw new \Exception("Repair step '$repairStep' is unknown");
 				}
