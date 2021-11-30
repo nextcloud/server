@@ -264,6 +264,8 @@ export default {
 	},
 
 	mounted() {
+		// Set the user's displayname or userId in the page title and preserve the default title of "Nextcloud" at the end
+		document.title = `${this.displayname || this.userId} - ${document.title}`
 		subscribe('user_status:status.updated', this.handleStatusUpdate)
 	},
 
