@@ -70,11 +70,11 @@ class WebsiteAction implements ILinkAction {
 	}
 
 	public function getDisplayId(): string {
-		return $this->l10nFactory->get('core')->t('Website');
+		return $this->l10nFactory->get('lib')->t('Website');
 	}
 
 	public function getTitle(): string {
-		return $this->l10nFactory->get('core')->t('Visit %s', [$this->value]);
+		return $this->l10nFactory->get('lib')->t('Visit %s', [$this->value]);
 	}
 
 	public function getPriority(): int {
