@@ -418,7 +418,7 @@ class FolderTest extends NodeTest {
 		$subStorage = $this->createMock(Storage::class);
 		$subStorage->method('getId')->willReturn('test::2');
 		$subCache = new Cache($subStorage);
-		$subMount = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([null, ''])->getMock();
+		$subMount = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([Temporary::class, ''])->getMock();
 
 		$mount = $this->createMock(IMountPoint::class);
 		$mount->method('getStorage')
@@ -954,11 +954,11 @@ class FolderTest extends NodeTest {
 		$subStorage1 = $this->createMock(Storage::class);
 		$subStorage1->method('getId')->willReturn('test::2');
 		$subCache1 = new Cache($subStorage1);
-		$subMount1 = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([null, ''])->getMock();
+		$subMount1 = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([Temporary::class, ''])->getMock();
 		$subStorage2 = $this->createMock(Storage::class);
 		$subStorage2->method('getId')->willReturn('test::3');
 		$subCache2 = new Cache($subStorage2);
-		$subMount2 = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([null, ''])->getMock();
+		$subMount2 = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([Temporary::class, ''])->getMock();
 
 		$mount = $this->createMock(IMountPoint::class);
 		$mount->method('getStorage')

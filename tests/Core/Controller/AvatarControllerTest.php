@@ -119,6 +119,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarFile->method('getContent')->willReturn('image data');
 		$this->avatarFile->method('getMimeType')->willReturn('image type');
 		$this->avatarFile->method('getEtag')->willReturn('my etag');
+		$this->avatarFile->method('getName')->willReturn('my name');
+		$this->avatarFile->method('getMTime')->willReturn(42);
 	}
 
 	protected function tearDown(): void {
@@ -290,7 +292,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testPostAvatarFile() {
 		//Create temp file
-		$fileName = tempnam(null, "avatarTest");
+		$fileName = tempnam('', "avatarTest");
 		$copyRes = copy(\OC::$SERVERROOT.'/tests/data/testimage.jpg', $fileName);
 		$this->assertTrue($copyRes);
 
@@ -328,7 +330,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testPostAvatarFileGif() {
 		//Create temp file
-		$fileName = tempnam(null, "avatarTest");
+		$fileName = tempnam('', "avatarTest");
 		$copyRes = copy(\OC::$SERVERROOT.'/tests/data/testimage.gif', $fileName);
 		$this->assertTrue($copyRes);
 

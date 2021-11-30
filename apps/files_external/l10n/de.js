@@ -4,7 +4,7 @@ OC.L10N.register(
     "External storage" : "Externer Speicher",
     "Personal" : "Persönlich",
     "System" : "System",
-    "Grant access" : "Zugriff gestatten",
+    "Grant access" : "Zugriff gewähren",
     "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
     "Please provide a valid app key and secret." : "Bitte einen gültigen Anwendungsschlüssel (App-Key) mit Sicherheitsschlüssel (Secret) eingeben.",
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
@@ -133,11 +133,10 @@ OC.L10N.register(
     "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden.",
     "External storages" : "Externe Speicher",
     "(group)" : "(Gruppe)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Anmeldung",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden."
+    "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Anmeldung"
 },
 "nplurals=2; plural=(n != 1);");

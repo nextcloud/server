@@ -32,7 +32,11 @@
 			{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
 		</em>
 
-		<div class="visibility-dropdowns">
+		<div
+			class="visibility-dropdowns"
+			:style="{
+				gridTemplateRows: `repeat(${rows}, 44px)`,
+			}">
 			<VisibilityDropdown v-for="param in visibilityParams"
 				:key="param.id"
 				:param-id="param.id"
@@ -53,6 +57,16 @@ import { PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstan
 const { profileConfig } = loadState('settings', 'profileParameters', {})
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
+const compareParams = (a, b) => {
+	if (a.appId === b.appId || (a.appId !== 'core' && b.appId !== 'core')) {
+		return a.displayId.localeCompare(b.displayId)
+	} else if (a.appId === 'core') {
+		return 1
+	} else {
+		return -1
+	}
+}
+
 export default {
 	name: 'ProfileVisibilitySection',
 
@@ -67,9 +81,11 @@ export default {
 			profileEnabled,
 			visibilityParams: Object.entries(profileConfig)
 				.map(([paramId, { appId, displayId, visibility }]) => ({ id: paramId, appId, displayId, visibility }))
-				.sort((a, b) => a.appId === b.appId ? a.displayId.localeCompare(b.displayId) : (a.appId !== 'core' ? -1 : 1)),
+				.sort(compareParams),
 			// TODO remove this when not used once the settings layout is updated
-			marginLeft: window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim(),
+			marginLeft: window.matchMedia('(min-width: 1600px)').matches
+				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
+				: '0px'
 		}
 	},
 
@@ -77,13 +93,17 @@ export default {
 		disabled() {
 			return !this.profileEnabled
 		},
+
+		rows() {
+			return Math.ceil(this.visibilityParams.length / 2)
+		},
 	},
 
 	mounted() {
 		subscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
 		// TODO remove this when not used once the settings layout is updated
 		window.onresize = () => {
-			this.marginLeft = window.matchMedia('(min-width: 1200px)').matches
+			this.marginLeft = window.matchMedia('(min-width: 1600px)').matches
 				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
 				: '0px'
 		}
@@ -125,7 +145,6 @@ section {
 
 	.visibility-dropdowns {
 		display: grid;
-		grid-template-rows: repeat(auto-fit, 44px);
 		gap: 10px 40px;
 	}
 
@@ -134,7 +153,6 @@ section {
 
 		.visibility-dropdowns {
 			grid-auto-flow: column;
-			height: 320px;
 		}
 	}
 

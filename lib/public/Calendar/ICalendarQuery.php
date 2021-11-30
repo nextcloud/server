@@ -23,6 +23,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCP\Calendar;
 
 use DateTimeImmutable;
@@ -33,6 +34,56 @@ use DateTimeImmutable;
  * @since 23.0.0
  */
 interface ICalendarQuery {
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_CATEGORIES = 'CATEGORIES';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_COMMENT = 'COMMENT';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_DESCRIPTION = 'DESCRIPTION';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_LOCATION = 'LOCATION';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_RESOURCES = 'RESOURCES';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_STATUS = 'STATUS';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_SUMMARY = 'SUMMARY';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_ATTENDEE = 'ATTENDEE';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_CONTACT = 'CONTACT';
+
+	/**
+	 * @since 24.0.0
+	 */
+	public const SEARCH_PROPERTY_ORGANIZER = 'ORGANIZER';
 
 	/**
 	 * Limit the results to the calendar uri(s)
@@ -50,6 +101,12 @@ interface ICalendarQuery {
 
 	/**
 	 * Define the property name(s) to search for
+	 *
+	 * Note: Nextcloud only indexes *some* properties. You can not search for
+	 *       arbitrary properties.
+	 *
+	 * @param string $value any of the ICalendarQuery::SEARCH_PROPERTY_* values
+	 * @psalm-param ICalendarQuery::SEARCH_PROPERTY_* $value
 	 *
 	 * @since 23.0.0
 	 */

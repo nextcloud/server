@@ -137,7 +137,7 @@ class S3Signature implements SignatureInterface {
 			$modify['set_headers']['X-Amz-Security-Token'] = $token;
 		}
 
-		return Psr7\modify_request($request, $modify);
+		return Psr7\Utils::modifyRequest($request, $modify);
 	}
 
 	private function signString($string, CredentialsInterface $credentials) {
@@ -201,7 +201,7 @@ class S3Signature implements SignatureInterface {
 		$query = $request->getUri()->getQuery();
 
 		if ($query) {
-			$params = Psr7\parse_query($query);
+			$params = Psr7\Query::parse($query);
 			$first = true;
 			foreach ($this->signableQueryString as $key) {
 				if (array_key_exists($key, $params)) {

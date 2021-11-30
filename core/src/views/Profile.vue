@@ -141,8 +141,8 @@
 							title=""
 							fill-color="var(--color-text-maxcontrast)"
 							:size="60" />
-						<h3>{{ displayname || userId }} {{ t('core', 'hasn\'t added any info yet') }}</h3>
-						<p>{{ t('core', 'The headline and about section will show up here') }}</p>
+						<h3>{{ emptyProfileMessage }}</h3>
+						<p>{{ t('core', 'The headline and about sections will show up here') }}</p>
 					</div>
 				</template>
 			</div>
@@ -255,9 +255,17 @@ export default {
 			// For some reason the returned string has prepended whitespace
 			return getComputedStyle(document.body).getPropertyValue('--color-main-background').trim()
 		},
+
+		emptyProfileMessage() {
+			return this.isCurrentUser
+				? t('core', 'You haven\'t added any info yet')
+				: t('core', '{user} hasn\'t added any info yet', { user: (this.displayname || this.userId) })
+		},
 	},
 
 	mounted() {
+		// Set the user's displayname or userId in the page title and preserve the default title of "Nextcloud" at the end
+		document.title = `${this.displayname || this.userId} - ${document.title}`
 		subscribe('user_status:status.updated', this.handleStatusUpdate)
 	},
 
@@ -267,7 +275,9 @@ export default {
 
 	methods: {
 		handleStatusUpdate(status) {
-			this.status = status
+			if (this.isCurrentUser && status.userId === this.userId) {
+				this.status = status
+			}
 		},
 
 		openStatusModal() {
@@ -358,7 +368,9 @@ $content-max-width: 640px;
 				line-height: 44px;
 				font-weight: bold;
 
-				&:hover {
+				&:hover,
+				&:focus,
+				&:active {
 					color: var(--color-primary-text);
 					background-color: var(--color-primary-element-light);
 				}
@@ -374,13 +386,15 @@ $content-max-width: 640px;
 				width: max-content;
 				max-width: $content-max-width;
 				padding: 5px 10px;
-				margin-left: -14px;
+				margin-left: -12px;
 				margin-top: 2px;
 
 				&.interactive {
 					cursor: pointer;
 
-					&:hover {
+					&:hover,
+					&:focus,
+					&:active {
 						background-color: var(--color-main-background);
 						color: var(--color-main-text);
 						border-radius: var(--border-radius-pill);
@@ -432,7 +446,9 @@ $content-max-width: 640px;
 			.avatardiv__user-status {
 				cursor: pointer;
 
-				&:hover {
+				&:hover,
+				&:focus,
+				&:active {
 					box-shadow: 0 3px 6px var(--color-box-shadow);
 				}
 			}
@@ -502,6 +518,52 @@ $content-max-width: 640px;
 				font-size: 18px;
 				margin: 8px 0;
 			}
+		}
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.profile {
+		&__header {
+			height: 250px;
+			position: unset;
+
+			&__container {
+				grid-template-columns: unset;
+
+				&__displayname {
+					margin: 100px 20px 0px;
+					width: unset;
+					display: unset;
+					text-align: center;
+				}
+
+				&__edit-button {
+					width: fit-content;
+					display: block;
+					margin: 30px auto;
+				}
+			}
+		}
+
+		&__content {
+			display: block;
+		}
+
+		&__blocks {
+			width: unset;
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px 50px 50px 50px;
+
+			&-empty-info {
+				margin: 0;
+			}
+		}
+
+		&__sidebar {
+			margin: unset;
+			position: unset;
 		}
 	}
 }

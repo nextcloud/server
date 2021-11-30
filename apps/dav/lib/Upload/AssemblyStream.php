@@ -277,7 +277,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 		]);
 		stream_wrapper_register('assembly', self::class);
 		try {
-			$wrapped = fopen('assembly://', 'r', null, $context);
+			$wrapped = fopen('assembly://', 'r', false, $context);
 		} catch (\BadMethodCallException $e) {
 			stream_wrapper_unregister('assembly');
 			throw $e;

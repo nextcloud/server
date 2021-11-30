@@ -396,35 +396,36 @@ class ProfileManager {
 		$propertiesMetadata = [
 			IAccountManager::PROPERTY_ADDRESS => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Address'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Address'),
 			],
 			IAccountManager::PROPERTY_AVATAR => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Profile picture'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Profile picture'),
 			],
 			IAccountManager::PROPERTY_BIOGRAPHY => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('About'),
+				'displayId' => $this->l10nFactory->get('lib')->t('About'),
 			],
 			IAccountManager::PROPERTY_DISPLAYNAME => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Full name'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Full name'),
 			],
 			IAccountManager::PROPERTY_HEADLINE => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Headline'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Headline'),
 			],
 			IAccountManager::PROPERTY_ORGANISATION => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Organisation'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Organisation'),
 			],
 			IAccountManager::PROPERTY_ROLE => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Role'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Role'),
 			],
 		];
 
 		$paramMetadata = array_merge($actionsMetadata, $propertiesMetadata);
+		$configArray = array_intersect_key($configArray, $paramMetadata);
 
 		foreach ($configArray as $paramId => $paramConfig) {
 			if (isset($paramMetadata[$paramId])) {

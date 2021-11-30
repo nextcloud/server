@@ -75,7 +75,6 @@ abstract class Proxy {
 		if ($fs === null) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs = new FilesystemHelper();
-			$log = new LogWrapper();
 			$avatarM = \OC::$server->getAvatarManager();
 			$db = \OC::$server->getDatabaseConnection();
 			$userMap = new UserMapping($db);
@@ -86,7 +85,7 @@ abstract class Proxy {
 			$logger = \OC::$server->get(LoggerInterface::class);
 		}
 		$userManager =
-			new Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(),
+			new Manager($ocConfig, $fs, $logger, $avatarM, new \OCP\Image(),
 				$coreUserManager, $coreNotificationManager, $shareManager);
 		$connector = new Connection($this->ldap, $configPrefix);
 		$access = new Access($connector, $this->ldap, $userManager, new Helper($ocConfig, \OC::$server->getDatabaseConnection()), $ocConfig, $coreUserManager, $logger);

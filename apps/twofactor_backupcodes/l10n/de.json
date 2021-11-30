@@ -13,7 +13,7 @@
     "Print backup codes" : "Backup-Codes drucken",
     "Regenerate backup codes" : "Backup-Codes erneuern",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Wenn Du Backup-Codes erneuerst, werden alte automatisch ungültig.",
-    "An error occurred while generating your backup codes" : "Beim Erstellen Deiner Backup-Codes ist ein Fehler aufgetreten",
+    "An error occurred while generating your backup codes" : "Es ist ein Fehler beim Erstellen Deiner Backup-Codes aufgetreten",
     "{name} backup codes" : "{name} Backup-Codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Verwende einen der Backup-Codes, den Du bei der Einrichtung der Zwei-Faktor-Authentifizierung gespeichert hast.",
     "Submit" : "Übermitteln"

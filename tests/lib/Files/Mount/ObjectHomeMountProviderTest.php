@@ -54,7 +54,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucket() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
 			->with($this->equalTo('objectstore_multibucket'), '')
 			->willReturn([
@@ -98,9 +98,9 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucketWithPrefix() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'), '')
+			->with('objectstore_multibucket')
 			->willReturn([
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 				'arguments' => [
@@ -147,7 +147,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	public function testMultiBucketBucketAlreadySet() {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'), '')
+			->with('objectstore_multibucket')
 			->willReturn([
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 				'arguments' => [
@@ -185,9 +185,9 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucketConfigFirst() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'))
+			->with('objectstore_multibucket')
 			->willReturn([
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 			]);
