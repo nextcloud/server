@@ -273,7 +273,9 @@ export default {
 
 	methods: {
 		handleStatusUpdate(status) {
-			this.status = status
+			if (this.isCurrentUser && status.userId === this.userId) {
+				this.status = status
+			}
 		},
 
 		openStatusModal() {
