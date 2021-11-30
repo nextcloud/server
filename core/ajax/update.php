@@ -120,6 +120,7 @@ if (\OCP\Util::needUpgrade()) {
 		\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
+	$incompatibleOverwrites = $config->getSystemValue('app_install_overwrite', []);
 
 	/** @var IEventDispatcher $dispatcher */
 	$dispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -162,8 +163,10 @@ if (\OCP\Util::needUpgrade()) {
 	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updated "%1$s" to %2$s', [$app, $version]));
 	});
-	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
-		$incompatibleApps[] = $app;
+	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps, &$incompatibleOverwrites) {
+		if (!in_array($app, $incompatibleOverwrites)) {
+			$incompatibleApps[] = $app;
+		}
 	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
