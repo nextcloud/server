@@ -52,8 +52,7 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(
 				'OCA\Files::loadAdditionalScripts',
 				function () {
-					// FIXME: no public API for these ?
-					\OCP\Util::addScript('dist/systemtags');
+					\OCP\Util::addScript('core', 'dist/systemtags');
 					\OCP\Util::addScript(self::APP_ID, 'systemtags');
 				}
 			);
