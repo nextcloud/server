@@ -18,7 +18,7 @@
     "No comments yet, start the conversation!" : "Brak komentarzy, rozpocznij rozmowę!",
     "No more messages" : "Nie ma więcej wiadomości",
     "Retry" : "Powtórz",
-    "Unable to load the comments list" : "Nie można pobrać listy komentarzy",
+    "Unable to load the comments list" : "Nie można załadować listy komentarzy",
     "_%n unread comment_::_%n unread comments_" : ["%n nieprzeczytany komentarz","%n nieprzeczytane komentarze","%n nieprzeczytanych komentarzy","%n nieprzeczytanych komentarzy"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} nowy komentarz","{unread} nowe komentarze","{unread} nowych komentarzy","{unread} nowe komentarze"],
     "Comment" : "Komentarz",
