@@ -35,14 +35,10 @@ use OC\Authentication\Exceptions\WipeTokenException;
 
 class Manager implements IProvider {
 
-	/** @var DefaultTokenProvider */
-	private $defaultTokenProvider;
-
 	/** @var PublicKeyTokenProvider */
 	private $publicKeyTokenProvider;
 
-	public function __construct(DefaultTokenProvider $defaultTokenProvider, PublicKeyTokenProvider $publicKeyTokenProvider) {
-		$this->defaultTokenProvider = $defaultTokenProvider;
+	public function __construct(PublicKeyTokenProvider $publicKeyTokenProvider) {
 		$this->publicKeyTokenProvider = $publicKeyTokenProvider;
 	}
 
@@ -117,10 +113,7 @@ class Manager implements IProvider {
 	 * @return IToken[]
 	 */
 	public function getTokenByUser(string $uid): array {
-		$old = $this->defaultTokenProvider->getTokenByUser($uid);
-		$new = $this->publicKeyTokenProvider->getTokenByUser($uid);
-
-		return array_merge($old, $new);
+		return $this->publicKeyTokenProvider->getTokenByUser($uid);
 	}
 
 	/**
@@ -139,19 +132,8 @@ class Manager implements IProvider {
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $e) {
-			// No worries we try to convert it to a PublicKey Token
+			throw $e;
 		}
-
-		//Convert!
-		$token = $this->defaultTokenProvider->getToken($tokenId);
-
-		try {
-			$password = $this->defaultTokenProvider->getPassword($token, $tokenId);
-		} catch (PasswordlessTokenException $e) {
-			$password = null;
-		}
-
-		return $this->publicKeyTokenProvider->convertToken($token, $tokenId, $password);
 	}
 
 	/**
@@ -169,7 +151,7 @@ class Manager implements IProvider {
 		} catch (WipeTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $e) {
-			return $this->defaultTokenProvider->getTokenById($tokenId);
+			throw $e;
 		}
 	}
 
@@ -185,7 +167,7 @@ class Manager implements IProvider {
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $e) {
-			return $this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			throw $e;
 		}
 	}
 
@@ -207,17 +189,14 @@ class Manager implements IProvider {
 	}
 
 	public function invalidateToken(string $token) {
-		$this->defaultTokenProvider->invalidateToken($token);
 		$this->publicKeyTokenProvider->invalidateToken($token);
 	}
 
 	public function invalidateTokenById(string $uid, int $id) {
-		$this->defaultTokenProvider->invalidateTokenById($uid, $id);
 		$this->publicKeyTokenProvider->invalidateTokenById($uid, $id);
 	}
 
 	public function invalidateOldTokens() {
-		$this->defaultTokenProvider->invalidateOldTokens();
 		$this->publicKeyTokenProvider->invalidateOldTokens();
 	}
 
@@ -230,16 +209,6 @@ class Manager implements IProvider {
 	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
-		if ($token instanceof DefaultToken) {
-			try {
-				$password = $this->defaultTokenProvider->getPassword($token, $oldTokenId);
-			} catch (PasswordlessTokenException $e) {
-				$password = null;
-			}
-
-			return $this->publicKeyTokenProvider->convertToken($token, $newTokenId, $password);
-		}
-
 		if ($token instanceof PublicKeyToken) {
 			return $this->publicKeyTokenProvider->rotate($token, $oldTokenId, $newTokenId);
 		}
@@ -253,9 +222,6 @@ class Manager implements IProvider {
 	 * @throws InvalidTokenException
 	 */
 	private function getProvider(IToken $token): IProvider {
-		if ($token instanceof DefaultToken) {
-			return $this->defaultTokenProvider;
-		}
 		if ($token instanceof PublicKeyToken) {
 			return $this->publicKeyTokenProvider;
 		}
@@ -268,7 +234,6 @@ class Manager implements IProvider {
 	}
 
 	public function updatePasswords(string $uid, string $password) {
-		$this->defaultTokenProvider->updatePasswords($uid, $password);
 		$this->publicKeyTokenProvider->updatePasswords($uid, $password);
 	}
 }

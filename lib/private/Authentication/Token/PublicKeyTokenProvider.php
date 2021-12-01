@@ -322,30 +322,6 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	/**
-	 * Convert a DefaultToken to a publicKeyToken
-	 * This will also be updated directly in the Database
-	 * @throws \RuntimeException when OpenSSL reports a problem
-	 */
-	public function convertToken(DefaultToken $defaultToken, string $token, $password): PublicKeyToken {
-		$this->cache->clear();
-
-		$pkToken = $this->newToken(
-			$token,
-			$defaultToken->getUID(),
-			$defaultToken->getLoginName(),
-			$password,
-			$defaultToken->getName(),
-			$defaultToken->getType(),
-			$defaultToken->getRemember()
-		);
-
-		$pkToken->setExpires($defaultToken->getExpires());
-		$pkToken->setId($defaultToken->getId());
-
-		return $this->mapper->update($pkToken);
-	}
-
-	/**
 	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	private function newToken(string $token,
