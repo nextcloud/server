@@ -56,6 +56,7 @@ class JSResourceLocator extends ResourceLocator {
 			// For language files we try to load them all, so themes can overwrite
 			// single l10n strings without having to translate all of them.
 			$found = 0;
+			$found += $this->appendIfExist($this->serverroot, 'core/'.$script.'.js');
 			$found += $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js');
 			$found += $this->appendIfExist($this->serverroot, $script.'.js');
 			$found += $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js');
@@ -78,6 +79,7 @@ class JSResourceLocator extends ResourceLocator {
 			return;
 		}
 
+		$script = substr($script, strpos($script, '/') + 1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
 
@@ -89,21 +91,21 @@ class JSResourceLocator extends ResourceLocator {
 		}
 
 		// missing translations files fill be ignored
-		if (strpos($scriptName, 'l10n/') === 0) {
-			$this->appendIfExist($app_path, $scriptName . '.js', $app_url);
+		if (strpos($script, 'l10n/') === 0) {
+			$this->appendIfExist($app_path, $script . '.js', $app_url);
 			return;
 		}
 
 		if ($app_path === false && $app_url === false) {
 			$this->logger->error('Could not find resource {resource} to load', [
-				'resource' => $app . '/' . $scriptName . '.js',
+				'resource' => $app . '/' . $script . '.js',
 				'app' => 'jsresourceloader',
 			]);
 			return;
 		}
 
-		if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $scriptName.'.json', $app)) {
-			$this->append($app_path, $scriptName . '.js', $app_url);
+		if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
+			$this->append($app_path, $script . '.js', $app_url);
 		}
 	}
 
