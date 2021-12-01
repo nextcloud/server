@@ -225,30 +225,35 @@ class UtilTest extends \Test\TestCase {
 
 		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
+		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
 	}
 	protected function tearDown(): void {
 		parent::tearDown();
 
 		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
+		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
 	}
 
 	public function testAddScript() {
-		\OC_Util::addScript('core', 'myFancyJSFile1');
-		\OC_Util::addScript('myApp', 'myFancyJSFile2');
-		\OC_Util::addScript('core', 'myFancyJSFile0', true);
-		\OC_Util::addScript('core', 'myFancyJSFile10', true);
+		\OCP\Util::addScript('core', 'myFancyJSFile1');
+		\OCP\Util::addScript('files', 'myFancyJSFile2', 'core');
+		\OCP\Util::addScript('myApp', 'myFancyJSFile3');
+		\OCP\Util::addScript('core', 'myFancyJSFile4');
+		// after itself
+		\OCP\Util::addScript('core', 'myFancyJSFile5', 'core');
 		// add duplicate
-		\OC_Util::addScript('core', 'myFancyJSFile1');
+		\OCP\Util::addScript('core', 'myFancyJSFile1');
 
 		$this->assertEquals([
-			'core/js/myFancyJSFile10',
-			'core/js/myFancyJSFile0',
 			'core/js/myFancyJSFile1',
+			'core/js/myFancyJSFile4',
+			'files/js/myFancyJSFile2',
+			'core/js/myFancyJSFile5',
+			'files/l10n/en',
 			'myApp/l10n/en',
-			'myApp/js/myFancyJSFile2',
-		], \OC_Util::$scripts);
-		$this->assertEquals([], \OC_Util::$styles);
+			'myApp/js/myFancyJSFile3',
+		], array_values(\OCP\Util::getScripts()));
 	}
 
 	public function testAddVendorScript() {

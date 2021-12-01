@@ -232,6 +232,8 @@ class Util {
 
 	/**
 	 * Return the list of scripts injected to the page
+	 * @return array
+	 * @since 24.0.0
 	 */
 	public static function getScripts(): array {
 		// merging first and last data set
