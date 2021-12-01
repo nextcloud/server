@@ -38,14 +38,16 @@ use OCA\User_LDAP\PagedResults\IAdapter;
 use OCA\User_LDAP\PagedResults\Php73;
 
 class LDAP implements ILDAPWrapper {
+	protected $logFile = '';
 	protected $curFunc = '';
 	protected $curArgs = [];
 
 	/** @var IAdapter */
 	protected $pagedResultsAdapter;
 
-	public function __construct() {
+	public function __construct(string $logFile = '') {
 		$this->pagedResultsAdapter = new Php73();
+		$this->logFile = $logFile;
 	}
 
 	/**
@@ -349,6 +351,18 @@ class LDAP implements ILDAPWrapper {
 	private function preFunctionCall($functionName, $args) {
 		$this->curFunc = $functionName;
 		$this->curArgs = $args;
+
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			$args = array_reduce($this->curArgs, static function (array $carry, $item): array {
+				$carry[] = !is_resource($item) ? $item : '(resource)';
+				return $carry;
+			}, []);
+			file_put_contents(
+				$this->logFile,
+				$this->curFunc . '::' . json_encode($args) . "\n",
+				FILE_APPEND
+			);
+		}
 	}
 
 	/**
