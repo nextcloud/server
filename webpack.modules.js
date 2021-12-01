@@ -34,7 +34,6 @@ module.exports = {
 	core: {
 		files_client: path.join(__dirname, 'core/src', 'files/client.js'),
 		files_fileinfo: path.join(__dirname, 'core/src', 'files/fileinfo.js'),
-		files_iedavclient: path.join(__dirname, 'core/src', 'files/iedavclient.js'),
 		install: path.join(__dirname, 'core/src', 'install.js'),
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
