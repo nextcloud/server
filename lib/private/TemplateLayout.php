@@ -96,7 +96,7 @@ class TemplateLayout extends \OC_Template {
 
 			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 			$this->initialState->provideInitialState('unified-search', 'limit-default', SearchQuery::LIMIT_DEFAULT);
-			Util::addScript('core', 'dist/unified-search', 'core');
+			Util::addScript('core', 'unified-search', 'core');
 
 			// Add navigation entry
 			$this->assign('application', '');
@@ -209,7 +209,7 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		// Add the js files
-		$jsFiles = self::findJavascriptFiles(array_merge(\OC_Util::$scripts, Util::getScripts()));
+		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 		$this->assign('jsfiles', []);
 		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)

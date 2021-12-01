@@ -106,7 +106,7 @@ class OC_Template extends \OC\Template\Base {
 			//meaning the last script/style in this list will be loaded first
 			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR && !\OCP\Util::needUpgrade()) {
 				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-					OC_Util::addScript('backgroundjobs', null, true);
+					OC_Util::addScript('core', 'backgroundjobs', true);
 				}
 			}
 			OC_Util::addStyle('css-variables', null, true);
@@ -114,11 +114,11 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addTranslations('core', null, true);
 
 			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
-				OC_Util::addScript('merged-template-prepend', null, true);
-				OC_Util::addScript('dist/files_client', null, true);
-				OC_Util::addScript('dist/files_fileinfo', null, true);
+				OC_Util::addScript('core', 'merged-template-prepend', true);
+				OC_Util::addScript('core', 'files_client', true);
+				OC_Util::addScript('core', 'files_fileinfo', true);
 			}
-			OC_Util::addScript('core', 'dist/main', true);
+			OC_Util::addScript('core', 'main', true);
 
 			self::$initTemplateEngineFirstRun = false;
 		}

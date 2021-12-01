@@ -143,7 +143,7 @@ class ProfilePageController extends Controller {
 			$this->profileManager->getProfileParams($targetUser, $visitingUser),
 		);
 
-		\OCP\Util::addScript('core', 'dist/profile');
+		\OCP\Util::addScript('core', 'profile');
 
 		return new TemplateResponse(
 			'core',

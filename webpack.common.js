@@ -7,40 +7,45 @@ const ESLintPlugin = require('eslint-webpack-plugin')
 
 const modules = require('./webpack.modules.js')
 
+const formatOutputFromModules = (modules) => {
+	// merge all configs into one object, and use AppID to generate the fileNames
+	// with the following format:
+	// AppId-fileName: path/to/js-file.js
+	const moduleEntries = Object.keys(modules).map(moduleKey => {
+		const module = modules[moduleKey]
+
+		const entries = Object.keys(module).map(entryKey => {
+			const entry = module[entryKey]
+			return { [`${moduleKey}-${entryKey}`]: entry }
+		})
+
+		return Object.assign({}, ...Object.values(entries))
+	})
+	return Object.assign({}, ...Object.values(moduleEntries))
+}
+
 const modulesToBuild = () => {
 	const MODULE = process.env.MODULE
 	if (MODULE) {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
 		}
-		return modules[MODULE]
+		return formatOutputFromModules({
+			[MODULE]: modules[MODULE]
+		})
 	}
-	// merge all configs into one object
-	return Object.assign({}, ...Object.values(modules))
+
+	return formatOutputFromModules(modules)
 }
 
 module.exports = {
 	entry: modulesToBuild(),
 	output: {
 		// Step away from the src folder and extract to the js folder
-		path: path.join(__dirname),
+		path: path.join(__dirname, 'dist'),
 		publicPath: '/dist/',
-		filename: (chunkData) => {
-			// Get relative path of the src folder
-			let srcPath = chunkData.chunk.entryModule.context
-			if (srcPath === null) {
-				srcPath = chunkData.chunk.entryModule.rootModule.context
-			}
-			const relativePath = path.relative(__dirname, srcPath)
-
-			// If this is a core source, output in core dist folder
-			if (relativePath.indexOf('core/src') > -1) {
-				return path.join('core/js/dist/', '[name].js?v=[contenthash]')
-			}
-			// Get out of the shared dist folder and output inside apps js folder
-			return path.join(relativePath, '..', 'js') + '/[name].js?v=[contenthash]'
-		},
-		chunkFilename: 'dist/[name]-[id].js?v=[contenthash]',
+		filename: '[name].js?v=[contenthash]',
+		chunkFilename: '[name]-[id].js?v=[contenthash]',
 	},
 
 	module: {
