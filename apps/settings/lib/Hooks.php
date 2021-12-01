@@ -248,7 +248,7 @@ class Hooks {
 
 		foreach ($usersToNotify as $userToNotify) {
 			$event->setAffectedUser($userToNotify->getUID());
-			$this->activityManager->publish($event);
+			// $this->activityManager->publish($event);
 		}
 	}
 
@@ -285,7 +285,7 @@ class Hooks {
 
 		foreach ($usersToNotify as $userToNotify) {
 			$event->setAffectedUser($userToNotify->getUID());
-			$this->activityManager->publish($event);
+			// $this->activityManager->publish($event);
 		}
 	}
 }
