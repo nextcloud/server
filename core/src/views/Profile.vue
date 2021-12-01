@@ -93,10 +93,10 @@
 							</ActionLink>
 						</Actions>
 						<template v-if="otherActions">
-							<Actions v-for="action in otherActions"
-								:key="action.id"
+							<Actions
 								:force-menu="true">
-								<ActionLink
+								<ActionLink v-for="action in otherActions"
+									:key="action.id"
 									:class="{ 'icon-invert': colorMainBackground === '#181818' }"
 									:close-after-click="true"
 									:icon="action.icon"
