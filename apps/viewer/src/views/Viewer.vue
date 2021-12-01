@@ -145,6 +145,7 @@ import filesActionHandler from '../services/FilesActionHandler'
 import getFileInfo from '../services/FileInfo'
 import getFileList from '../services/FileList'
 import Mime from '../mixins/Mime'
+import logger from '../services/logger'
 
 export default {
 	name: 'Viewer',
@@ -252,28 +253,10 @@ export default {
 	},
 
 	watch: {
-		// make sure any late external app can register handlers
-		// should not happens if external apps do not wait for
-		// the DOMContentLoaded event!
-		handlers() {
-			// make sure the viewer is done registering handlers
-			// so we only register handlers added AFTER the init
-			// of the viewer
-			if (this.isLoaded) {
-				console.error('Please do NOT wait for the DOMContentLoaded before registering your viewer handler')
-				const handler = this.handlers[this.handlers.length - 1]
-				// register all primary components mimes
-				this.registerHandler(handler)
-				// then register aliases. We need to have the components
-				// first so we can bind the alias to them.
-				this.registerHandlerAlias(handler)
-			}
-		},
-
 		file(path) {
 			// we got a valid path! Load file...
 			if (path.trim() !== '') {
-				console.info('Opening viewer for file ', path)
+				logger.info('Opening viewer for file ', path)
 				this.openFile(path)
 			} else {
 				// path is empty, we're closing!
@@ -286,7 +269,7 @@ export default {
 			const currentIndex = fileList.findIndex(file => file.basename === this.currentFile.basename)
 			if (currentIndex > -1) {
 				this.currentIndex = currentIndex
-				console.debug('The files list changed, new current file index is', currentIndex)
+				logger.debug('The files list changed, new current file index is ' + currentIndex)
 			}
 			// finally replace the fileList
 			this.fileList = fileList
@@ -300,7 +283,7 @@ export default {
 
 			// if we have a loadMore handler, let's fetch more files
 			if (this.loadMore && typeof this.loadMore === 'function') {
-				console.debug('Fetching additional files...')
+				logger.debug('Fetching additional files...')
 				const list = await this.loadMore()
 
 				if (Array.isArray(list) && list.length > 0) {
@@ -329,12 +312,14 @@ export default {
 			if (OCA.Files && OCA.Files.Sidebar) {
 				this.Sidebar = OCA.Files.Sidebar.state
 			}
+
+			logger.info(`${this.handlers.length} viewer handlers registered`, { handlers: this.handlers })
 		})
 
 		window.addEventListener('resize', this.onResize)
 
 		if (this.isStandalone) {
-			console.debug('No OCA.Files app found, viewer is now in standalone mode')
+			logger.info('No OCA.Files app found, viewer is now in standalone mode')
 		}
 	},
 
@@ -406,7 +391,7 @@ export default {
 
 				// if we don't have a handler for this mime, abort
 				if (!(mime in this.components)) {
-					console.error('The following file could not be displayed', fileName, fileInfo)
+					logger.error('The following file could not be displayed', { fileName, fileInfo })
 					showError(t('viewer', 'There is no plugin available to display this file type'))
 					this.close()
 					return
@@ -415,7 +400,7 @@ export default {
 				// check if part of a group, if so retrieve full files list
 				const group = this.mimeGroups[mime]
 				if (this.files && this.files.length > 0) {
-					console.debug('A files list have been provided. No folder content will be fetched.')
+					logger.debug('A files list have been provided. No folder content will be fetched.')
 					// we won't sort files here, let's use the order the array has
 					this.fileList = this.files
 
@@ -530,13 +515,13 @@ export default {
 		registerHandler(handler) {
 			// checking if handler is not already registered
 			if (handler.id && Object.values(this.registeredHandlers).findIndex((h) => h.id === handler.id) > -1) {
-				console.error('The following handler is already registered', handler)
+				logger.error('The following handler is already registered', { handler })
 				return
 			}
 
 			// checking valid handler id
 			if (!handler.id || handler.id.trim() === '' || typeof handler.id !== 'string') {
-				console.error('The following handler doesn\'t have a valid id', handler)
+				logger.error('The following handler doesn\'t have a valid id', { handler })
 				return
 			}
 
@@ -547,13 +532,13 @@ export default {
 
 			// Nothing available to process! Failure
 			if (!(handler.mimes && Array.isArray(handler.mimes)) && !handler.mimesAliases) {
-				console.error('The following handler doesn\'t have a valid mime array', handler)
+				logger.error('The following handler doesn\'t have a valid mime array', { handler })
 				return
 			}
 
 			// checking valid handler component data
 			if ((!handler.component || typeof handler.component !== 'object')) {
-				console.error('The following handler doesn\'t have a valid component', handler)
+				logger.error('The following handler doesn\'t have a valid component', { handler })
 				return
 			}
 
@@ -565,7 +550,7 @@ export default {
 				handler.mimes.forEach(mime => {
 					// checking valid mime
 					if (this.components[mime]) {
-						console.error('The following mime is already registered', mime, handler)
+						logger.error('The following mime is already registered', { mime, handler })
 						return
 					}
 
@@ -588,7 +573,7 @@ export default {
 				Object.keys(handler.mimesAliases).forEach(mime => {
 
 					if (handler.mimesAliases && typeof handler.mimesAliases !== 'object') {
-						console.error('The following handler doesn\'t have a valid mimesAliases object', handler)
+						logger.error('The following handler doesn\'t have a valid mimesAliases object', { handler })
 						return
 
 					}
@@ -598,11 +583,11 @@ export default {
 
 					// checking valid mime
 					if (this.components[mime]) {
-						console.error('The following mime is already registered', mime, handler)
+						logger.error('The following mime is already registered', { mime, handler })
 						return
 					}
 					if (!this.components[alias]) {
-						console.error('The requested alias does not exists', alias, mime, handler)
+						logger.error('The requested alias does not exists', { alias, mime, handler })
 						return
 					}
 
