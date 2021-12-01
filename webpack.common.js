@@ -27,7 +27,10 @@ module.exports = {
 		publicPath: '/dist/',
 		filename: (chunkData) => {
 			// Get relative path of the src folder
-			const srcPath = chunkData.chunk.entryModule.context
+			let srcPath = chunkData.chunk.entryModule.context
+			if (srcPath === null) {
+				srcPath = chunkData.chunk.entryModule.rootModule.context
+			}
 			const relativePath = path.relative(__dirname, srcPath)
 
 			// If this is a core source, output in core dist folder
