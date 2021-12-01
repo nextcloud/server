@@ -84,7 +84,12 @@ class TransferOwnership extends Command {
 				null,
 				InputOption::VALUE_NONE,
 				'move data from source user to root directory of destination user, which must be empty'
-		);
+			)->addOption(
+				'ignore-encryption-error',
+				null,
+				InputOption::VALUE_NONE,
+				'ignore encryption error. Usage: --ignore-encryption-error',
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -110,6 +115,8 @@ class TransferOwnership extends Command {
 			$output->writeln("<error>Unknown destination user " . $input->getArgument('destination-user') . "</error>");
 			return 1;
 		}
+
+		$GLOBALS['ignore-encryption-error'] = $input->getOption('ignore-encryption-error');
 
 		try {
 			$this->transferService->transfer(
