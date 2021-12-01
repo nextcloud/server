@@ -243,6 +243,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:math";
+
 $comment-padding: 10px;
 
 .comment {
@@ -253,7 +255,7 @@ $comment-padding: 10px;
 		display: flex;
 		align-items: center;
 		min-height: 44px;
-		padding: $comment-padding / 2 0;
+		padding: math.div($comment-padding, 2) 0;
 	}
 
 	&__author,

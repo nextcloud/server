@@ -638,6 +638,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:math";
+
 $margin: 10px;
 $input-height: 34px;
 $input-padding: 6px;
@@ -660,7 +662,7 @@ $input-padding: 6px;
 	}
 
 	&__filters {
-		margin: $margin / 2 $margin;
+		margin: math.div($margin, 2) $margin;
 		ul {
 			display: inline-flex;
 			justify-content: space-between;
@@ -680,7 +682,7 @@ $input-padding: 6px;
 
 		&-input,
 		&-reset {
-			margin: $input-padding / 2;
+			margin: math.div($input-padding, 2);
 		}
 
 		&-input {
@@ -732,7 +734,7 @@ $input-padding: 6px;
 	}
 
 	&__filters {
-		margin-right: $margin / 2;
+		margin-right: math.div($margin, 2);
 	}
 
 	&__results {
