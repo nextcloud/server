@@ -479,6 +479,10 @@ div.select2-drop {
 			text-overflow: ellipsis;
 			span {
 				cursor: pointer;
+				em {
+					cursor: inherit;
+					background: unset;
+				}
 			}
 		}
 		.select2-result,
