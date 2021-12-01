@@ -25,7 +25,6 @@ namespace Test\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
@@ -38,7 +37,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class PublicKeyTokenProviderTest extends TestCase {
-
 	/** @var PublicKeyTokenProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenProvider;
 	/** @var PublicKeyTokenMapper|\PHPUnit\Framework\MockObject\MockObject */

@@ -28,7 +28,6 @@ namespace Test\Authentication\Token;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OC\Authentication\Token\PublicKeyToken;
@@ -37,7 +36,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var PublicKeyTokenProvider|MockObject */
 	private $publicKeyTokenProvider;
 	/** @var Manager */
