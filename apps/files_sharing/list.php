@@ -28,8 +28,6 @@ use OCA\Files\Event\LoadSidebar;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\EventDispatcher\GenericEvent;
 
-// Check if we are a user
-OC_Util::checkLoggedIn();
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 $legacyEventDispatcher = \OC::$server->getEventDispatcher();

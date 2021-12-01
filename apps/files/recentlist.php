@@ -23,8 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Check if we are a user
-OC_Util::checkLoggedIn();
+
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
