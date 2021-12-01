@@ -476,39 +476,8 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertNull($new->getPassword());
 	}
 
-	public function testConvertToken() {
-		$defaultToken = new DefaultToken();
-		$defaultToken->setId(42);
-		$defaultToken->setPassword('oldPass');
-		$defaultToken->setExpires(1337);
-		$defaultToken->setToken('oldToken');
-		$defaultToken->setUid('uid');
-		$defaultToken->setLoginName('loginName');
-		$defaultToken->setLastActivity(999);
-		$defaultToken->setName('name');
-		$defaultToken->setRemember(IToken::REMEMBER);
-		$defaultToken->setType(IToken::PERMANENT_TOKEN);
-
-		$this->mapper->expects($this->once())
-			->method('update')
-			->willReturnArgument(0);
-
-		$newToken = $this->tokenProvider->convertToken($defaultToken, 'newToken', 'newPassword');
-
-		$this->assertSame(42, $newToken->getId());
-		$this->assertSame('newPassword', $this->tokenProvider->getPassword($newToken, 'newToken'));
-		$this->assertSame(1337, $newToken->getExpires());
-		$this->assertSame('uid', $newToken->getUID());
-		$this->assertSame('loginName', $newToken->getLoginName());
-		$this->assertSame(1313131, $newToken->getLastActivity());
-		$this->assertSame(1313131, $newToken->getLastCheck());
-		$this->assertSame('name', $newToken->getName());
-		$this->assertSame(IToken::REMEMBER, $newToken->getRemember());
-		$this->assertSame(IToken::PERMANENT_TOKEN, $newToken->getType());
-	}
-
 	public function testMarkPasswordInvalidInvalidToken() {
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(IToken::class);
 
 		$this->expectException(InvalidTokenException::class);
 

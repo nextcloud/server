@@ -25,8 +25,8 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Tests\Settings\Personal\Security;
 
-use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
+use OC\Authentication\Token\PublicKeyToken;
 use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -74,15 +74,15 @@ class AuthtokensTest extends TestCase {
 	}
 
 	public function testGetForm() {
-		$token1 = new DefaultToken();
+		$token1 = new PublicKeyToken();
 		$token1->setId(100);
-		$token2 = new DefaultToken();
+		$token2 = new PublicKeyToken();
 		$token2->setId(200);
 		$tokens = [
 			$token1,
 			$token2,
 		];
-		$sessionToken = new DefaultToken();
+		$sessionToken = new PublicKeyToken();
 		$sessionToken->setId(100);
 
 		$this->authTokenProvider->expects($this->once())
