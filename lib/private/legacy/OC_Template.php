@@ -39,6 +39,7 @@
  */
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Util;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -111,14 +112,17 @@ class OC_Template extends \OC\Template\Base {
 			}
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
-			OC_Util::addTranslations('core', null, true);
+
+			// include common nextcloud webpack bundle
+			Util::addScript('core', 'common');
+			Util::addScript('core', 'main');
+			Util::addTranslations('core');
 
 			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
-				OC_Util::addScript('core', 'merged-template-prepend', true);
-				OC_Util::addScript('core', 'files_client', true);
-				OC_Util::addScript('core', 'files_fileinfo', true);
+				Util::addScript('core', 'files_fileinfo');
+				Util::addScript('core', 'files_client');
+				Util::addScript('core', 'merged-template-prepend');
 			}
-			OC_Util::addScript('core', 'main', true);
 
 			self::$initTemplateEngineFirstRun = false;
 		}

@@ -1,0 +1,3 @@
+/*! For license information please see comments-comments-tab.js.LICENSE.txt */
+(()=>{let e=null;const n=new OCA.Files.Sidebar.Tab({id:"comments",name:t("comments","Comments"),icon:"icon-comment",async mount(t,n,o){e&&e.$destroy(),e=new OCA.Comments.View("files",{parent:o}),await e.update(n.id),e.$mount(t)},update(t){e.update(t.id)},destroy(){e.$destroy(),e=null},scrollBottomReached(){e.onScrollBottomReached()}});window.addEventListener("DOMContentLoaded",(function(){OCA.Files&&OCA.Files.Sidebar&&OCA.Files.Sidebar.registerTab(n)}))})();
+//# sourceMappingURL=comments-comments-tab.js.map?v=23eebc496cdeac953126

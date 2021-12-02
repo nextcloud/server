@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
-const CircularDependencyPlugin = require('circular-dependency-plugin')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const webpack = require('webpack')
@@ -113,25 +112,25 @@ module.exports = {
 	},
 
 	optimization: {
-		splitChunks: false,
-		// {
-		// 	automaticNameDelimiter: '-',
-		// 	cacheGroups: {
-		// 		vendors: {
-		// 			test: /[\\/]node_modules[\\/]/,
-		// 			enforce: true,
-		// 			name: 'nextcloud',
-		// 			chunks: 'all',
-		// 		},
-		// 	},
-		// },
+		splitChunks: {
+			automaticNameDelimiter: '-',
+			cacheGroups: {
+				vendors: {
+					// split every dependency into one bundle
+					test: /[\\/]node_modules[\\/]/,
+					enforce: true,
+					// necessary to keep this name to properly inject it
+					// see OC_Template.php
+					name: 'core-common',
+					chunks: 'all',
+				},
+			},
+		},
 	},
 
 	plugins: [
 		new VueLoaderPlugin(),
 		new ESLintPlugin(),
-		new CircularDependencyPlugin({
-		}),
 		new webpack.ProvidePlugin({
 			_: 'underscore',
 			$: 'jquery',
@@ -140,8 +139,6 @@ module.exports = {
 	],
 	resolve: {
 		alias: {
-			OC: path.resolve(__dirname, './core/src/OC'),
-			OCA: path.resolve(__dirname, './core/src/OCA'),
 			// make sure to use the handlebar runtime when importing
 			handlebars: 'handlebars/runtime',
 		},
@@ -149,6 +146,7 @@ module.exports = {
 		symlinks: false,
 		fallback: {
 			stream: require.resolve('stream-browserify'),
+			buffer: require.resolve('buffer'),
 		},
 	},
 }

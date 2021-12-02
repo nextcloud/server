@@ -209,7 +209,8 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		// Add the js files
-		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
+		// TODO: remove deprecated OC_Util injection
+		$jsFiles = self::findJavascriptFiles(array_merge(\OC_Util::$scripts, Util::getScripts()));
 		$this->assign('jsfiles', []);
 		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)

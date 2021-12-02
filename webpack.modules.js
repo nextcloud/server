@@ -50,9 +50,7 @@ module.exports = {
 	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
-		templates: path.join(__dirname, 'apps/files/src', 'templates.js'),
-		'files-app-settings': path.join(__dirname, 'apps/files/src', 'files-app-settings.js'),
-		'legacy-filelist-search': path.join(__dirname, 'apps/files/src', 'legacy/filelistSearch.js'),
+		main: path.join(__dirname, 'apps/files/src', 'main.js'),
 		'personal-settings': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
 	},
 	files_sharing: {
