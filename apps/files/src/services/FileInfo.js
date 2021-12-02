@@ -22,6 +22,9 @@
 
 import axios from '@nextcloud/axios'
 
+/**
+ * @param url
+ */
 export default async function(url) {
 	const response = await axios({
 		method: 'PROPFIND',

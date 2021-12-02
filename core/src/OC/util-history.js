@@ -41,7 +41,7 @@ export default {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param {Object|string} params to append to the URL, can be either a string
+	 * @param {object | string} params to append to the URL, can be either a string
 	 * or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
 	 * using the params as query string
@@ -92,7 +92,7 @@ export default {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param {Object|string} params to append to the URL, can be either a string or a map
+	 * @param {object | string} params to append to the URL, can be either a string or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used, using the params as query string
 	 */
 	pushState(params, url) {
@@ -105,7 +105,7 @@ export default {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param {Object|string} params to append to the URL, can be either a string
+	 * @param {object | string} params to append to the URL, can be either a string
 	 * or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
 	 * using the params as query string
@@ -126,7 +126,8 @@ export default {
 	/**
 	 * Parse a query string from the hash part of the URL.
 	 * (workaround for IE8 / IE9)
-	 * @returns {string}
+	 *
+	 * @return {string}
 	 */
 	_parseHashQuery() {
 		const hash = window.location.hash
@@ -149,7 +150,7 @@ export default {
 	 * Parse the query/search part of the URL.
 	 * Also try and parse it from the URL hash (for IE8)
 	 *
-	 * @returns {Object} map of parameters
+	 * @return {object} map of parameters
 	 */
 	parseUrlQuery() {
 		const query = this._parseHashQuery()

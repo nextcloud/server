@@ -27,7 +27,7 @@ export default class Config {
 	/**
 	 * Is public upload allowed on link shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -39,7 +39,7 @@ export default class Config {
 	/**
 	 * Are link share allowed ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -51,7 +51,7 @@ export default class Config {
 	/**
 	 * Get the federated sharing documentation link
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -62,7 +62,7 @@ export default class Config {
 	/**
 	 * Get the default link share expiration date as string
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -80,7 +80,7 @@ export default class Config {
 	/**
 	 * Get the default internal expiration date as string
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -98,7 +98,7 @@ export default class Config {
 	/**
 	 * Get the default remote expiration date as string
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -116,7 +116,7 @@ export default class Config {
 	/**
 	 * Are link shares password-enforced ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -127,7 +127,7 @@ export default class Config {
 	/**
 	 * Is password asked by default on link shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -138,7 +138,7 @@ export default class Config {
 	/**
 	 * Is link shares expiration enforced ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -149,7 +149,7 @@ export default class Config {
 	/**
 	 * Is there a default expiration date for new link shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -160,7 +160,7 @@ export default class Config {
 	/**
 	 * Is internal shares expiration enforced ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -171,7 +171,7 @@ export default class Config {
 	/**
 	 * Is remote shares expiration enforced ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -182,7 +182,7 @@ export default class Config {
 	/**
 	 * Is there a default expiration date for new internal shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -193,7 +193,7 @@ export default class Config {
 	/**
 	 * Are users on this server allowed to send shares to other servers ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -204,7 +204,7 @@ export default class Config {
 	/**
 	 * Is sharing my mail (link share) enabled ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -219,7 +219,7 @@ export default class Config {
 	/**
 	 * Get the default days to link shares expiration
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -230,7 +230,7 @@ export default class Config {
 	/**
 	 * Get the default days to internal shares expiration
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -241,7 +241,7 @@ export default class Config {
 	/**
 	 * Get the default days to remote shares expiration
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -252,7 +252,7 @@ export default class Config {
 	/**
 	 * Is resharing allowed ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -263,7 +263,7 @@ export default class Config {
 	/**
 	 * Is password enforced for mail shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -272,7 +272,7 @@ export default class Config {
 	}
 
 	/**
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -283,7 +283,7 @@ export default class Config {
 	/**
 	 * Is sharing with groups allowed ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -294,7 +294,7 @@ export default class Config {
 	/**
 	 * Get the maximum results of a share search
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -306,7 +306,7 @@ export default class Config {
 	 * Get the minimal string length
 	 * to initiate a share search
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -317,7 +317,7 @@ export default class Config {
 	/**
 	 * Get the password policy config
 	 *
-	 * @returns {Object}
+	 * @return {object}
 	 * @readonly
 	 * @memberof Config
 	 */

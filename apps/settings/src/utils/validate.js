@@ -31,10 +31,10 @@ import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants'
 /**
  * Validate the string input
  *
- * *Generic validator just to check that input is not an empty string*
+ * Generic validator just to check that input is not an empty string*
  *
  * @param {string} input the input
- * @returns {boolean}
+ * @return {boolean}
  */
 export function validateStringInput(input) {
 	return input !== ''
@@ -43,12 +43,12 @@ export function validateStringInput(input) {
 /**
  * Validate the email input
  *
- * *Compliant with PHP core FILTER_VALIDATE_EMAIL validator*
+ * Compliant with PHP core FILTER_VALIDATE_EMAIL validator*
  *
- * *Reference implementation https://github.com/mpyw/FILTER_VALIDATE_EMAIL.js/blob/71e62ca48841d2246a1b531e7e84f5a01f15e615/src/index.ts*
+ * Reference implementation https://github.com/mpyw/FILTER_VALIDATE_EMAIL.js/blob/71e62ca48841d2246a1b531e7e84f5a01f15e615/src/index.ts*
  *
  * @param {string} input the input
- * @returns {boolean}
+ * @return {boolean}
  */
 export function validateEmail(input) {
 	return typeof input === 'string'
@@ -62,7 +62,7 @@ export function validateEmail(input) {
  * Validate the language input
  *
  * @param {object} input the input
- * @returns {boolean}
+ * @return {boolean}
  */
 export function validateLanguage(input) {
 	return input.code !== ''
@@ -74,7 +74,7 @@ export function validateLanguage(input) {
  * Validate boolean input
  *
  * @param {boolean} input the input
- * @returns {boolean}
+ * @return {boolean}
  */
 export function validateBoolean(input) {
 	return typeof input === 'boolean'

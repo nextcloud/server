@@ -114,7 +114,7 @@ export default {
 		 * results into the autocomplete dropdown
 		 * Used for the guests app
 		 *
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		externalResults() {
 			return this.ShareSearch.results
@@ -321,8 +321,8 @@ export default {
 		 * Filter out existing shares from
 		 * the provided shares search results
 		 *
-		 * @param {Object[]} shares the array of shares object
-		 * @returns {Object[]}
+		 * @param {object[]} shares the array of shares object
+		 * @return {object[]}
 		 */
 		filterOutExistingShares(shares) {
 			return shares.reduce((arr, share) => {
@@ -376,8 +376,9 @@ export default {
 
 		/**
 		 * Get the icon based on the share type
+		 *
 		 * @param {number} type the share type
-		 * @returns {string} the icon class
+		 * @return {string} the icon class
 		 */
 		shareTypeToIcon(type) {
 			switch (type) {
@@ -406,8 +407,9 @@ export default {
 
 		/**
 		 * Format shares for the multiselect options
-		 * @param {Object} result select entry item
-		 * @returns {Object}
+		 *
+		 * @param {object} result select entry item
+		 * @return {object}
 		 */
 		formatForMultiselect(result) {
 			let subtitle
@@ -438,7 +440,8 @@ export default {
 
 		/**
 		 * Process the new share request
-		 * @param {Object} value the multiselect option
+		 *
+		 * @param {object} value the multiselect option
 		 */
 		async addShare(value) {
 			if (value.lookup) {

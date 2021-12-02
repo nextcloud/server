@@ -41,7 +41,8 @@ export const getToken = function() {
 
 /**
  * Return the current directory, fallback to root
- * @returns {string}
+ *
+ * @return {string}
  */
 export const getCurrentDirectory = function() {
 	const currentDirInfo = OCA?.Files?.App?.currentFileList?.dirInfo

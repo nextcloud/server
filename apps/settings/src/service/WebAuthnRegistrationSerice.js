@@ -23,6 +23,9 @@
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 
+/**
+ *
+ */
 export async function startRegistration() {
 	const url = generateUrl('/settings/api/personal/webauthn/registration')
 
@@ -30,6 +33,10 @@ export async function startRegistration() {
 	return resp.data
 }
 
+/**
+ * @param name
+ * @param data
+ */
 export async function finishRegistration(name, data) {
 	const url = generateUrl('/settings/api/personal/webauthn/registration')
 
@@ -37,6 +44,9 @@ export async function finishRegistration(name, data) {
 	return resp.data
 }
 
+/**
+ * @param id
+ */
 export async function removeRegistration(id) {
 	const url = generateUrl(`/settings/api/personal/webauthn/registration/${id}`)
 

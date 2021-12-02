@@ -38,7 +38,7 @@ export default class ExternalLinkActions {
 	 *
 	 * @readonly
 	 * @memberof ExternalLinkActions
-	 * @returns {Object} the data state
+	 * @return {object} the data state
 	 */
 	get state() {
 		return this._state
@@ -48,8 +48,8 @@ export default class ExternalLinkActions {
 	 * Register a new action for the link share
 	 * Mostly used by the social sharing app.
 	 *
-	 * @param {Object} action new action component to register
-	 * @returns {boolean}
+	 * @param {object} action new action component to register
+	 * @return {boolean}
 	 */
 	registerAction(action) {
 		console.warn('OCA.Sharing.ExternalLinkActions is deprecated, use OCA.Sharing.ExternalShareAction instead')

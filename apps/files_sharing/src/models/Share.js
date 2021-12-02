@@ -32,7 +32,7 @@ export default class Share {
 	/**
 	 * Create the share object
 	 *
-	 * @param {Object} ocsData ocs request response
+	 * @param {object} ocsData ocs request response
 	 */
 	constructor(ocsData) {
 		if (ocsData.ocs && ocsData.ocs.data && ocsData.ocs.data[0]) {
@@ -54,7 +54,7 @@ export default class Share {
 	 * inject its watchers into the #share
 	 * state and make the whole class reactive
 	 *
-	 * @returns {Object} the share raw state
+	 * @return {object} the share raw state
 	 * @readonly
 	 * @memberof Sidebar
 	 */
@@ -65,7 +65,7 @@ export default class Share {
 	/**
 	 * get the share id
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -76,7 +76,7 @@ export default class Share {
 	/**
 	 * Get the share type
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -88,7 +88,7 @@ export default class Share {
 	 * Get the share permissions
 	 * See OC.PERMISSION_* variables
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -111,7 +111,7 @@ export default class Share {
 	/**
 	 * Get the share owner uid
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -122,7 +122,7 @@ export default class Share {
 	/**
 	 * Get the share owner's display name
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -134,7 +134,7 @@ export default class Share {
 	/**
 	 * Get the share with entity uid
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -146,7 +146,7 @@ export default class Share {
 	 * Get the share with entity display name
 	 * fallback to its uid if none
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -159,7 +159,7 @@ export default class Share {
 	 * Unique display name in case of multiple
 	 * duplicates results with the same name.
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -171,7 +171,7 @@ export default class Share {
 	/**
 	 * Get the share with entity link
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -182,7 +182,7 @@ export default class Share {
 	/**
 	 * Get the share with avatar if any
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -194,7 +194,7 @@ export default class Share {
 	/**
 	 * Get the shared item owner uid
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -206,7 +206,7 @@ export default class Share {
 	 * Get the shared item display name
 	 * fallback to its uid if none
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -219,7 +219,7 @@ export default class Share {
 	/**
 	 * Get the share creation timestamp
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -230,7 +230,7 @@ export default class Share {
 	/**
 	 * Get the expiration date as a string format
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -253,7 +253,7 @@ export default class Share {
 	/**
 	 * Get the public share token
 	 *
-	 * @returns {string} the token
+	 * @return {string} the token
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -264,7 +264,7 @@ export default class Share {
 	/**
 	 * Get the share note if any
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -286,7 +286,7 @@ export default class Share {
 	 * Get the share label if any
 	 * Should only exist on link shares
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -308,7 +308,7 @@ export default class Share {
 	/**
 	 * Have a mail been sent
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -319,7 +319,7 @@ export default class Share {
 	/**
 	 * Hide the download button on public page
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -340,7 +340,7 @@ export default class Share {
 	/**
 	 * Password protection of the share
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -361,7 +361,7 @@ export default class Share {
 	/**
 	 * Password protection by Talk of the share
 	 *
-	 * @returns {Boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -372,7 +372,7 @@ export default class Share {
 	/**
 	 * Password protection by Talk of the share
 	 *
-	 * @param {Boolean} sendPasswordByTalk whether to send the password by Talk
+	 * @param {boolean} sendPasswordByTalk whether to send the password by Talk
 	 *        or not
 	 * @memberof Share
 	 */
@@ -384,7 +384,7 @@ export default class Share {
 	/**
 	 * Get the shared item absolute full path
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -395,7 +395,7 @@ export default class Share {
 	/**
 	 * Return the item type: file or folder
 	 *
-	 * @returns {string} 'folder' or 'file'
+	 * @return {string} 'folder' or 'file'
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -406,7 +406,7 @@ export default class Share {
 	/**
 	 * Get the shared item mimetype
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -417,7 +417,7 @@ export default class Share {
 	/**
 	 * Get the shared item id
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -430,7 +430,7 @@ export default class Share {
 	 * e.g the file /xxx/aaa will be shared in
 	 * the receiving root as /aaa, the fileTarget is /aaa
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -441,7 +441,7 @@ export default class Share {
 	/**
 	 * Get the parent folder id if any
 	 *
-	 * @returns {int}
+	 * @return {int}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -454,7 +454,7 @@ export default class Share {
 	/**
 	 * Does this share have READ permissions
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -465,7 +465,7 @@ export default class Share {
 	/**
 	 * Does this share have CREATE permissions
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -476,7 +476,7 @@ export default class Share {
 	/**
 	 * Does this share have DELETE permissions
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -487,7 +487,7 @@ export default class Share {
 	/**
 	 * Does this share have UPDATE permissions
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -498,7 +498,7 @@ export default class Share {
 	/**
 	 * Does this share have SHARE permissions
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -512,7 +512,7 @@ export default class Share {
 	/**
 	 * Can the current user EDIT this share ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -523,7 +523,7 @@ export default class Share {
 	/**
 	 * Can the current user DELETE this share ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -533,7 +533,8 @@ export default class Share {
 
 	/**
 	 * Top level accessible shared folder fileid for the current user
-	 * @returns {string}
+	 *
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -543,7 +544,8 @@ export default class Share {
 
 	/**
 	 * Top level accessible shared folder path for the current user
-	 * @returns {string}
+	 *
+	 * @return {string}
 	 * @readonly
 	 * @memberof Share
 	 */

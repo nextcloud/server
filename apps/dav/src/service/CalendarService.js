@@ -25,6 +25,9 @@ import { parseXML } from 'webdav/dist/node/tools/dav'
 import { getZoneString } from 'icalzone'
 import { v4 as uuidv4 } from 'uuid'
 
+/**
+ *
+ */
 export function getEmptySlots() {
 	return {
 		MO: [],
@@ -37,6 +40,9 @@ export function getEmptySlots() {
 	}
 }
 
+/**
+ *
+ */
 export async function findScheduleInboxAvailability() {
 	const client = getClient('calendars')
 
@@ -101,6 +107,10 @@ export async function findScheduleInboxAvailability() {
 	}
 }
 
+/**
+ * @param slots
+ * @param timezoneId
+ */
 export async function saveScheduleInboxAvailability(slots, timezoneId) {
 	const all = [...Object.keys(slots).flatMap(dayId => slots[dayId].map(slot => ({
 		...slot,

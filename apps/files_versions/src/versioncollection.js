@@ -31,7 +31,7 @@
 		sync: OC.Backbone.davSync,
 
 		/**
-		 * @var OCA.Files.FileInfoModel
+		 * @member OCA.Files.FileInfoModel
 		 */
 		_fileInfo: null,
 

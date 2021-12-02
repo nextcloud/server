@@ -24,6 +24,7 @@ import Search from './search'
 
 /**
  * Namespace for apps
+ *
  * @namespace OCA
  */
 export default {

@@ -213,8 +213,9 @@ import Template from './templates/template.handlebars';
 
 		/**
 		 * Returns true for files, false for folders.
+		 *
 		 * @param {FileInfo} fileInfo fileInfo
-		 * @returns {bool} true for files, false for folders
+		 * @return {bool} true for files, false for folders
 		 */
 		canDisplay(fileInfo) {
 			if (!fileInfo) {

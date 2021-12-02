@@ -26,10 +26,10 @@ import { generateUrl } from '@nextcloud/router'
 /**
  * Sends a heartbeat
  *
- * @param {Boolean} isAway Whether or not the user is active
- * @returns {Promise<void>}
+ * @param {boolean} isAway Whether or not the user is active
+ * @return {Promise<void>}
  */
-const sendHeartbeat = async(isAway) => {
+const sendHeartbeat = async (isAway) => {
 	const url = generateUrl('/apps/user_status/heartbeat')
 	const response = await HttpClient.put(url, {
 		status: isAway ? 'away' : 'online',

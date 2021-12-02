@@ -27,7 +27,7 @@ import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
 /**
  * Returns the capabilities
  *
- * @returns {Array} capabilities
+ * @return {Array} capabilities
  *
  * @since 14.0
  */

@@ -32,9 +32,9 @@ import { SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants'
  *
  * @param {string} accountProperty the account property
  * @param {string|boolean} value the primary value
- * @returns {object}
+ * @return {object}
  */
-export const savePrimaryAccountProperty = async(accountProperty, value) => {
+export const savePrimaryAccountProperty = async (accountProperty, value) => {
 	// TODO allow boolean values on backend route handler
 	// Convert boolean to string for compatibility
 	if (typeof value === 'boolean') {
@@ -59,9 +59,9 @@ export const savePrimaryAccountProperty = async(accountProperty, value) => {
  *
  * @param {string} accountProperty the account property
  * @param {string} scope the federation scope
- * @returns {object}
+ * @return {object}
  */
-export const savePrimaryAccountPropertyScope = async(accountProperty, scope) => {
+export const savePrimaryAccountPropertyScope = async (accountProperty, scope) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 

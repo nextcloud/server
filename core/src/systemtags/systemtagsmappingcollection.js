@@ -38,22 +38,22 @@ import { generateRemoteUrl } from '@nextcloud/router'
 			sync: OC.Backbone.davSync,
 
 			/**
-		 * Use PUT instead of PROPPATCH
-		 */
+			 * Use PUT instead of PROPPATCH
+			 */
 			usePUT: true,
 
 			/**
-		 * Id of the file for which to filter activities by
-		 *
-		 * @var int
-		 */
+			 * Id of the file for which to filter activities by
+			 *
+			 * @member int
+			 */
 			_objectId: null,
 
 			/**
-		 * Type of the object to filter by
-		 *
-		 * @var string
-		 */
+			 * Type of the object to filter by
+			 *
+			 * @member string
+			 */
 			_objectType: 'files',
 
 			model: OC.SystemTags.SystemTagModel,
@@ -63,19 +63,19 @@ import { generateRemoteUrl } from '@nextcloud/router'
 			},
 
 			/**
-		 * Sets the object id to filter by or null for all.
-		 *
-		 * @param {int} objectId file id or null
-		 */
+			 * Sets the object id to filter by or null for all.
+			 *
+			 * @param {int} objectId file id or null
+			 */
 			setObjectId(objectId) {
 				this._objectId = objectId
 			},
 
 			/**
-		 * Sets the object type to filter by or null for all.
-		 *
-		 * @param {int} objectType file id or null
-		 */
+			 * Sets the object type to filter by or null for all.
+			 *
+			 * @param {int} objectType file id or null
+			 */
 			setObjectType(objectType) {
 				this._objectType = objectType
 			},

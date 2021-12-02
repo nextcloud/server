@@ -166,7 +166,8 @@ export default {
 
 		/**
 		 * Is the current user the author of this comment
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		isOwnComment() {
 			return getCurrentUser().uid === this.actorId
@@ -174,7 +175,8 @@ export default {
 
 		/**
 		 * Rendered content as html string
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		renderedContent() {
 			if (this.isEmptyMessage) {
@@ -208,6 +210,7 @@ export default {
 	methods: {
 		/**
 		 * Update local Message on outer change
+		 *
 		 * @param {string} message the message to set
 		 */
 		updateLocalMessage(message) {

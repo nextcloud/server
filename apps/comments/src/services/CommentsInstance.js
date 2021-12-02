@@ -49,7 +49,7 @@ export default class CommentInstance {
 	 * Initialize a new Comments instance for the desired type
 	 *
 	 * @param {string} commentsType the comments endpoint type
-	 * @param  {Object} options the vue options (propsData, parent, el...)
+	 * @param  {object} options the vue options (propsData, parent, el...)
 	 */
 	constructor(commentsType = 'files', options) {
 		// Add comments type as a global mixin

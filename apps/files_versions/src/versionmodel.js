@@ -38,8 +38,8 @@
 		/**
 		 * Restores the original file to this revision
 		 *
-		 * @param {Object} [options] options
-		 * @returns {Promise}
+		 * @param {object} [options] options
+		 * @return {Promise}
 		 */
 		revert(options) {
 			options = options ? _.clone(options) : {}

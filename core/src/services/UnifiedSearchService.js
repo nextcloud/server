@@ -34,14 +34,15 @@ export const regexFilterNot = /-in:([a-z_-]+)/ig
 
 /**
  * Create a cancel token
- * @returns {CancelTokenSource}
+ *
+ * @return {CancelTokenSource}
  */
 const createCancelToken = () => axios.CancelToken.source()
 
 /**
  * Get the list of available search providers
  *
- * @returns {Array}
+ * @return {Array}
  */
 export async function getTypes() {
 	try {
@@ -64,11 +65,11 @@ export async function getTypes() {
 /**
  * Get the list of available search providers
  *
- * @param {Object} options destructuring object
+ * @param {object} options destructuring object
  * @param {string} options.type the type to search
  * @param {string} options.query the search
  * @param {int|string|undefined} options.cursor the offset for paginated searches
- * @returns {Object} {request: Promise, cancel: Promise}
+ * @return {object} {request: Promise, cancel: Promise}
  */
 export function search({ type, query, cursor }) {
 	/**
@@ -76,7 +77,7 @@ export function search({ type, query, cursor }) {
 	 */
 	const cancelToken = createCancelToken()
 
-	const request = async() => axios.get(generateOcsUrl('search/providers/{type}/search', { type }), {
+	const request = async () => axios.get(generateOcsUrl('search/providers/{type}/search', { type }), {
 		cancelToken: cancelToken.token,
 		params: {
 			term: query,

@@ -99,7 +99,7 @@ export default {
 		/**
 		 * The profile page link
 		 *
-		 * @returns {String|null}
+		 * @return {string | null}
 		 */
 		profilePageLink() {
 			if (this.profileEnabled) {
@@ -194,7 +194,7 @@ export default {
 		/**
 		 * Sends the status heartbeat to the server
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 * @private
 		 */
 		async _backgroundHeartbeat() {

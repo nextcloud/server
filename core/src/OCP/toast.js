@@ -34,7 +34,7 @@ export default {
 	 *
 	 * @param {string} text the toast text
 	 * @param {object} options options
-	 * @returns {Toast}
+	 * @return {Toast}
 	 */
 	success(text, options) {
 		return showSuccess(text, options)
@@ -44,7 +44,7 @@ export default {
 	 *
 	 * @param {string} text the toast text
 	 * @param {object} options options
-	 * @returns {Toast}
+	 * @return {Toast}
 	 */
 	warning(text, options) {
 		return showWarning(text, options)
@@ -54,7 +54,7 @@ export default {
 	 *
 	 * @param {string} text the toast text
 	 * @param {object} options options
-	 * @returns {Toast}
+	 * @return {Toast}
 	 */
 	error(text, options) {
 		return showError(text, options)
@@ -64,7 +64,7 @@ export default {
 	 *
 	 * @param {string} text the toast text
 	 * @param {object} options options
-	 * @returns {Toast}
+	 * @return {Toast}
 	 */
 	info(text, options) {
 		return showInfo(text, options)
@@ -74,7 +74,7 @@ export default {
 	 *
 	 * @param {string} text the toast text
 	 * @param {object} options options
-	 * @returns {Toast}
+	 * @return {Toast}
 	 */
 	message(text, options) {
 		return showMessage(text, options)

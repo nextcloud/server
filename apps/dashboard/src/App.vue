@@ -266,7 +266,7 @@ export default {
 		 * Method to register panels that will be called by the integrating apps
 		 *
 		 * @param {string} app The unique app id for the widget
-		 * @param {function} callback The callback function to register a panel which gets the DOM element passed as parameter
+		 * @param {Function} callback The callback function to register a panel which gets the DOM element passed as parameter
 		 */
 		register(app, callback) {
 			Vue.set(this.callbacks, app, callback)

@@ -23,6 +23,9 @@
 import Axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 
+/**
+ * @param loginName
+ */
 export function startAuthentication(loginName) {
 	const url = generateUrl('/login/webauthn/start')
 
@@ -30,6 +33,9 @@ export function startAuthentication(loginName) {
 		.then(resp => resp.data)
 }
 
+/**
+ * @param data
+ */
 export function finishAuthentication(data) {
 	const url = generateUrl('/login/webauthn/finish')
 

@@ -31,8 +31,8 @@ const mutations = {
 	/**
 	 * Adds a predefined status to the state
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} status The status to add
+	 * @param {object} state The Vuex state
+	 * @param {object} status The status to add
 	 */
 	addPredefinedStatus(state, status) {
 		state.predefinedStatuses.push(status)
@@ -46,8 +46,9 @@ const actions = {
 	/**
 	 * Loads all predefined statuses from the server
 	 *
-	 * @param {Object} vuex The Vuex components
+	 * @param {object} vuex The Vuex components
 	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param vuex.state
 	 */
 	async loadAllPredefinedStatuses({ state, commit }) {
 		if (state.predefinedStatuses.length > 0) {

@@ -42,7 +42,7 @@ export default {
 			selected: this.authorizedGroups
 				.filter((group) => group.class === this.setting.class)
 				.map((groupToMap) => this.availableGroups.find((group) => group.gid === groupToMap.group_id))
-				.filter((group) => group !== undefined)
+				.filter((group) => group !== undefined),
 		}
 	},
 	watch: {
@@ -63,7 +63,7 @@ export default {
 				logger.error('Unable to modify setting', e)
 			}
 		},
-	}
+	},
 }
 </script>
 

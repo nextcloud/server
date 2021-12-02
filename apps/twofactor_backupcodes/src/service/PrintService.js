@@ -21,6 +21,9 @@
  *
  */
 
+/**
+ * @param data
+ */
 export function print(data) {
 	const name = OC.theme.name || 'Nextcloud'
 	const newTab = window.open('', t('twofactor_backupcodes', '{name} backup codes', { name }))

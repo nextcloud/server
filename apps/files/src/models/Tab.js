@@ -34,7 +34,7 @@ export default class Tab {
 	/**
 	 * Create a new tab instance
 	 *
-	 * @param {Object} options destructuring object
+	 * @param {object} options destructuring object
 	 * @param {string} options.id the unique id of this tab
 	 * @param {string} options.name the translated tab name
 	 * @param {string} options.icon the vue component

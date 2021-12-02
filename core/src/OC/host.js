@@ -32,7 +32,7 @@ export const getProtocol = () => window.location.protocol.split(':')[0]
  * https://example.com => example.com
  * http://example.com:8080 => example.com:8080
  *
- * @returns {string} host
+ * @return {string} host
  *
  * @since 8.2
  * @deprecated 17.0.0 use window.location.host directly
@@ -43,7 +43,7 @@ export const getHost = () => window.location.host
  * Returns the hostname used to access this Nextcloud instance
  * The hostname is always stripped of the port
  *
- * @returns {string} hostname
+ * @return {string} hostname
  * @since 9.0
  * @deprecated 17.0.0 use window.location.hostname directly
  */
@@ -52,7 +52,7 @@ export const getHostName = () => window.location.hostname
 /**
  * Returns the port number used to access this Nextcloud instance
  *
- * @returns {int} port number
+ * @return {int} port number
  *
  * @since 8.2
  * @deprecated 17.0.0 use window.location.port directly

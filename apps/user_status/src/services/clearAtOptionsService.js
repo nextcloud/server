@@ -25,7 +25,7 @@ import { translate as t } from '@nextcloud/l10n'
 /**
  * Returns an array
  *
- * @returns {Object[]}
+ * @return {object[]}
  */
 const getAllClearAtOptions = () => {
 	return [{

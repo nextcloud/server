@@ -159,7 +159,7 @@ export default {
 		 *
 		 * @param {string} user The user name
 		 * @param {int} size Size integer, default 32
-		 * @returns {string}
+		 * @return {string}
 		 */
 		generateAvatar(user, size = 32) {
 			return generateUrl(

@@ -38,7 +38,7 @@ export default class ExternalShareActions {
 	 *
 	 * @readonly
 	 * @memberof ExternalLinkActions
-	 * @returns {Object} the data state
+	 * @return {object} the data state
 	 */
 	get state() {
 		return this._state
@@ -47,12 +47,12 @@ export default class ExternalShareActions {
 	/**
 	 * Register a new option/entry for the a given share type
 	 *
-	 * @param {Object} action new action component to register
+	 * @param {object} action new action component to register
 	 * @param {string} action.id unique action id
 	 * @param {Function} action.data data to bind the component to
 	 * @param {Array} action.shareType list of OC.Share.SHARE_XXX to be mounted on
-	 * @param {Object} action.handlers list of listeners
-	 * @returns {boolean}
+	 * @param {object} action.handlers list of listeners
+	 * @return {boolean}
 	 */
 	registerAction(action) {
 		// Validate action

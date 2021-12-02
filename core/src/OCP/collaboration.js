@@ -25,20 +25,21 @@ import escapeHTML from 'escape-html'
 
 /**
  * @typedef TypeDefinition
- * @method {callback} action This action is executed to let the user select a resource
+ * @function {callback} action This action is executed to let the user select a resource
  * @param {string} icon Contains the icon css class for the type
- * @constructor
+ * @function Object() { [native code] }
  */
 
 /**
  * @type {TypeDefinition[]}
- **/
+ */
 const types = {}
 
 /**
  * Those translations will be used by the vue component but they should be shipped with the server
  * FIXME: Those translations should be added to the library
- * @returns {Array}
+ *
+ * @return {Array}
  */
 export const l10nProjects = () => {
 	return [

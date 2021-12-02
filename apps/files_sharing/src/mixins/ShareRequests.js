@@ -40,7 +40,7 @@ export default {
 		/**
 		 * Create a new share
 		 *
-		 * @param {Object} data destructuring object
+		 * @param {object} data destructuring object
 		 * @param {string} data.path  path to the file/folder which should be shared
 		 * @param {number} data.shareType  0 = user; 1 = group; 3 = public link; 6 = federated cloud share
 		 * @param {string} data.shareWith  user/group id with which the file should be shared (optional for shareType > 1)
@@ -50,7 +50,7 @@ export default {
 		 * @param {boolean} [data.sendPasswordByTalk=false] send the password via a talk conversation
 		 * @param {string} [data.expireDate=''] expire the shareautomatically after
 		 * @param {string} [data.label=''] custom label
-		 * @returns {Share} the new share
+		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
 		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label }) {
@@ -99,7 +99,7 @@ export default {
 		 * Update a share
 		 *
 		 * @param {number} id share id
-		 * @param {Object} properties key-value object of the properties to update
+		 * @param {object} properties key-value object of the properties to update
 		 */
 		async updateShare(id, properties) {
 			try {

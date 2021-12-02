@@ -27,7 +27,7 @@ import { emit } from '@nextcloud/event-bus'
  * @private
  * @param {Document} global the document to read the initial value from
  * @param {Function} emit the function to invoke for every new token
- * @returns {Object}
+ * @return {object}
  */
 export const manageToken = (global, emit) => {
 	let token = global.getElementsByTagName('head')[0].getAttribute('data-requesttoken')
@@ -47,11 +47,11 @@ export const manageToken = (global, emit) => {
 const manageFromDocument = manageToken(document, emit)
 
 /**
- * @returns {string}
+ * @return {string}
  */
 export const getToken = manageFromDocument.getToken
 
 /**
- * @param {String} newToken new token
+ * @param {string} newToken new token
  */
 export const setToken = manageFromDocument.setToken

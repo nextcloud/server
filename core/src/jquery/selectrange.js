@@ -25,10 +25,11 @@ import $ from 'jquery'
 
 /**
  * select a range in an input field
+ *
  * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
  * @param {int} start start selection from
  * @param {int} end number of char from start
- * @returns {Void}
+ * @return {Void}
  */
 $.fn.selectRange = function(start, end) {
 	return this.each(function() {

@@ -35,7 +35,7 @@ export default {
 	 *
 	 * @param {string} app the app name
 	 * @param {string} file the script file name
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	loadScript(app, file) {
 		const key = app + file
@@ -59,7 +59,7 @@ export default {
 	 *
 	 * @param {string} app the app name
 	 * @param {string} file the script file name
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	loadStylesheet(app, file) {
 		const key = app + file

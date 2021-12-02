@@ -27,8 +27,8 @@ import { dateFactory } from '../services/dateService'
 /**
  * Formats a clearAt object to be human readable
  *
- * @param {Object} clearAt The clearAt object
- * @returns {string|null}
+ * @param {object} clearAt The clearAt object
+ * @return {string|null}
  */
 const clearAtFilter = (clearAt) => {
 	if (clearAt === null) {

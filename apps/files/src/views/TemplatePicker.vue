@@ -109,7 +109,8 @@ export default {
 	computed: {
 		/**
 		 * Strip away extension from name
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		nameWithoutExt() {
 			return this.name.indexOf('.') > -1
@@ -133,7 +134,8 @@ export default {
 
 		/**
 		 * Style css vars bin,d
-		 * @returns {Object}
+		 *
+		 * @return {object}
 		 */
 		style() {
 			return {
@@ -149,6 +151,7 @@ export default {
 	methods: {
 		/**
 		 * Open the picker
+		 *
 		 * @param {string} name the file name to create
 		 * @param {object} provider the template provider picked
 		 */
@@ -188,6 +191,7 @@ export default {
 
 		/**
 		 * Manages the radio template picker change
+		 *
 		 * @param {number} fileid the selected template file id
 		 */
 		onCheck(fileid) {
