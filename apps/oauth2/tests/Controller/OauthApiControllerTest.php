@@ -27,8 +27,8 @@ namespace OCA\OAuth2\Tests\Controller;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider as TokenProvider;
+use OC\Authentication\Token\PublicKeyToken;
 use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Controller\OauthApiController;
 use OCA\OAuth2\Db\AccessToken;
@@ -238,7 +238,7 @@ class OauthApiControllerTest extends TestCase {
 				'validrefresh'
 			)->willReturn('decryptedToken');
 
-		$appToken = new DefaultToken();
+		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
 		$this->tokenProvider->method('getTokenById')
 			->with(1337)
@@ -267,7 +267,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (DefaultToken $token) {
+				$this->callback(function (PublicKeyToken $token) {
 					return $token->getExpires() === 4600;
 				})
 			);
@@ -330,7 +330,7 @@ class OauthApiControllerTest extends TestCase {
 				'validrefresh'
 			)->willReturn('decryptedToken');
 
-		$appToken = new DefaultToken();
+		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
 		$this->tokenProvider->method('getTokenById')
 			->with(1337)
@@ -359,7 +359,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (DefaultToken $token) {
+				$this->callback(function (PublicKeyToken $token) {
 					return $token->getExpires() === 4600;
 				})
 			);
@@ -425,7 +425,7 @@ class OauthApiControllerTest extends TestCase {
 				'validrefresh'
 			)->willReturn('decryptedToken');
 
-		$appToken = new DefaultToken();
+		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
 		$this->tokenProvider->method('getTokenById')
 			->with(1337)
@@ -454,7 +454,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (DefaultToken $token) {
+				$this->callback(function (PublicKeyToken $token) {
 					return $token->getExpires() === 4600;
 				})
 			);
