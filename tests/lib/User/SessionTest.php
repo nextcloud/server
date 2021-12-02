@@ -26,11 +26,9 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\Lockdown\ILockdownManager;
-use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
