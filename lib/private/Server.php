@@ -679,7 +679,16 @@ class Server extends ServerContainer implements IServerContainer {
 			$config = $c->get(\OCP\IConfig::class);
 
 			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				$v = \OC_App::getAppVersions();
+				if (!$config->getSystemValueBool('log_query')) {
+					$v = \OC_App::getAppVersions();
+				} else {
+					// If the log_query is enabled, we can not get the app versions
+					// as that does a query, which will be logged and the logging
+					// depends on redis and here we are back again in the same function.
+					$v = [
+						'log_query' => 'enabled',
+					];
+				}
 				$v['core'] = implode(',', \OC_Util::getVersion());
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
