@@ -133,20 +133,10 @@ moment.locale(locale)
  */
 export const initCore = () => {
 	const userAgent = window.navigator.userAgent
-	const msie = userAgent.indexOf('MSIE ')
-	const trident = userAgent.indexOf('Trident/')
 	const edge = userAgent.indexOf('Edge/')
 
-	if (msie > 0 || trident > 0) {
-		// (IE 10 or older) || IE 11
-		$('html').addClass('ie')
-	} else if (edge > 0) {
-		// for edge
+	if (edge > 0) {
 		$('html').addClass('edge')
-	}
-
-	// css variables fallback for IE
-	if (msie > 0 || trident > 0 || edge > 0) {
 		console.info('Legacy browser detected, applying css vars polyfill')
 		cssVars({
 			watch: true,
