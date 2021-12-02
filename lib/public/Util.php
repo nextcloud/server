@@ -72,8 +72,11 @@ class Util {
 	 */
 	public const FATAL = 4;
 
-	/** \OCP\Share\IManager */
+	/** @var \OCP\Share\IManager */
 	private static $shareManager;
+
+	/** @var array */
+	private static $scripts = [];
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -173,10 +176,75 @@ class Util {
 	 * add a javascript file
 	 * @param string $application
 	 * @param string $file
+	 * @param string $afterAppId
 	 * @since 4.0.0
 	 */
-	public static function addScript($application, $file = null) {
-		\OC_Util::addScript($application, $file);
+	public static function addScript($application, $file = null, $afterAppId = null) {
+		if (!empty($application)) {
+			$path = "$application/js/$file";
+		} else {
+			$path = "js/$file";
+		}
+
+		// Inject js translations if we load a script for
+		// a specific app that is not core, as those js files
+		// need separate handling
+		if ($application !== 'core'
+			&& $file !== null
+			&& strpos($file, 'l10n') === false) {
+			self::addTranslations($application);
+		}
+
+		// manage priorities if defined
+		// we store the data like this, then flatten everything
+		// [
+		// 	'core' => [
+		// 		'first' => [
+		// 			'/core/js/main.js',
+		// 		],
+		// 		'last' => [
+		// 			'/apps/viewer/js/viewer-main.js',
+		// 		]
+		// 	],
+		// 	'viewer' => [
+		// 		'first' => [
+		// 			'/apps/viewer/js/viewer-public.js',
+		// 		],
+		// 		'last' => [
+		// 			'/apps/files_pdfviewer/js/files_pdfviewer-main.js',
+		// 		]
+		// 	]
+		// ]
+		if (!empty($afterAppId)) {
+			// init afterAppId app array if it doesn't exists
+			if (!array_key_exists($afterAppId, self::$scripts)) {
+				self::$scripts[$afterAppId] = ['first' => [], 'last' => []];
+			}
+			self::$scripts[$afterAppId]['last'][] = $path;
+		} else {
+			// init app array if it doesn't exists
+			if (!array_key_exists($application, self::$scripts)) {
+				self::$scripts[$application] = ['first' => [], 'last' => []];
+			}
+			self::$scripts[$application]['first'][] = $path;
+		}
+	}
+
+	/**
+	 * Return the list of scripts injected to the page
+	 * @return array
+	 * @since 24.0.0
+	 */
+	public static function getScripts(): array {
+		// merging first and last data set
+		$mapFunc = function (array $scriptsArray): array {
+			return array_merge(...array_values($scriptsArray));
+		};
+		$appScripts = array_map($mapFunc, self::$scripts);
+		// sort core first
+		$scripts = array_merge(isset($appScripts['core']) ? $appScripts['core'] : [], ...array_values($appScripts));
+		// remove duplicates
+		return array_unique($scripts);
 	}
 
 	/**
@@ -186,7 +254,15 @@ class Util {
 	 * @since 8.0.0
 	 */
 	public static function addTranslations($application, $languageCode = null) {
-		\OC_Util::addTranslations($application, $languageCode);
+		if (is_null($languageCode)) {
+			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+		}
+		if (!empty($application)) {
+			$path = "$application/l10n/$languageCode";
+		} else {
+			$path = "l10n/$languageCode";
+		}
+		self::$scripts[$application]['first'][] = $path;
 	}
 
 	/**

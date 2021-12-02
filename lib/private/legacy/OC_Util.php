@@ -580,6 +580,8 @@ class OC_Util {
 	/**
 	 * add a javascript file
 	 *
+	 * @deprecated 24.0.0
+	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
 	 * @param bool $prepend prepend the Script to the beginning of the list
@@ -610,6 +612,8 @@ class OC_Util {
 
 	/**
 	 * add a translation JS file
+	 *
+	 * @deprecated 24.0.0
 	 *
 	 * @param string $application application id
 	 * @param string|null $languageCode language code, defaults to the current language
