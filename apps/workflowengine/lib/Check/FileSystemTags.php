@@ -135,8 +135,8 @@ class FileSystemTags implements ICheck, IFileCheck {
 		// TODO: Fix caching inside group folders
 		// Do not cache file ids inside group folders because multiple file ids might be mapped to
 		// the same combination of cache id + path.
-		$shouldCacheFileIds = !$this->storage
-			->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
+		/** @psalm-suppress InvalidArgument */
+		$shouldCacheFileIds = !$this->storage->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
 		$cacheId = $cache->getNumericStorageId();
 		if ($shouldCacheFileIds && isset($this->fileIds[$cacheId][$path])) {
 			return $this->fileIds[$cacheId][$path];

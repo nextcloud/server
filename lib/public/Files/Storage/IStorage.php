@@ -356,9 +356,12 @@ interface IStorage {
 	/**
 	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
 	 *
+	 * @template T of IStorage
 	 * @param string $class
+	 * @psalm-param class-string<T> $class
 	 * @return bool
 	 * @since 9.0.0
+	 * @psalm-assert-if-true T $this
 	 */
 	public function instanceOfStorage($class);
 
