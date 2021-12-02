@@ -1555,8 +1555,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			/* various */
-			&#grid-header,
-			&#new-user {
+			&#grid-header {
 				@include position('sticky');
 				align-self: normal;
 				background-color: var(--color-main-background);
@@ -1568,18 +1567,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 			}
 
-			// separate prop to set initial value to top: 50px
-			&#new-user {
-				height: 120px;
-
-				.row {
-					padding-top: 50px;
-				}
-			}
-
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
-				z-index: 60; /* above new-user */
 				border-bottom-width: thin;
 
 				#headerDisplayName,
