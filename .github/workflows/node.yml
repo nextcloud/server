@@ -52,6 +52,9 @@ jobs:
 
   jsunit:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use node ${{ matrix.node-version }}
