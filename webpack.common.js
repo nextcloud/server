@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
-
+const CircularDependencyPlugin = require('circular-dependency-plugin')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const ESLintPlugin = require('eslint-webpack-plugin')
 
@@ -31,7 +31,7 @@ const modulesToBuild = () => {
 			throw new Error(`No module "${MODULE}" found`)
 		}
 		return formatOutputFromModules({
-			[MODULE]: modules[MODULE]
+			[MODULE]: modules[MODULE],
 		})
 	}
 
@@ -99,29 +99,32 @@ module.exports = {
 			{
 				test: /\.handlebars/,
 				loader: 'handlebars-loader',
-				query: {
-					extensions: '.handlebars',
-				},
 			},
 
 		],
 	},
 
 	optimization: {
-		splitChunks: {
-			automaticNameDelimiter: '-',
-			cacheGroups: {
-				vendors: {
-					test: /[\\/]node_modules[\\/]/,
-					enforce: true,
-					name: 'nextcloud',
-					chunks: 'all',
-				},
-			},
-		},
+		splitChunks: false,
+		// {
+		// 	automaticNameDelimiter: '-',
+		// 	cacheGroups: {
+		// 		vendors: {
+		// 			test: /[\\/]node_modules[\\/]/,
+		// 			enforce: true,
+		// 			name: 'nextcloud',
+		// 			chunks: 'all',
+		// 		},
+		// 	},
+		// },
 	},
 
-	plugins: [new VueLoaderPlugin(), new ESLintPlugin()],
+	plugins: [
+		new VueLoaderPlugin(),
+		new ESLintPlugin(),
+		new CircularDependencyPlugin({
+		}),
+	],
 	resolve: {
 		alias: {
 			OC: path.resolve(__dirname, './core/src/OC'),
@@ -131,5 +134,8 @@ module.exports = {
 		},
 		extensions: ['*', '.js', '.vue'],
 		symlinks: false,
+		fallback: {
+			stream: require.resolve('stream-browserify'),
+		},
 	},
 }

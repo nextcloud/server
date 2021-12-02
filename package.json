@@ -47,6 +47,7 @@
     "blueimp-md5": "^2.19.0",
     "bootstrap": "^4.6.0",
     "camelcase": "^6.3.0",
+    "circular-dependency-plugin": "^5.2.2",
     "clipboard": "^2.0.8",
     "core-js": "^3.20.1",
     "css-vars-ponyfill": "^2.4.7",
@@ -69,10 +70,12 @@
     "nextcloud-vue-collections": "^0.9.0",
     "p-limit": "^4.0.0",
     "p-queue": "^7.1.0",
+    "path": "^0.12.7",
     "query-string": "^7.0.1",
     "regenerator-runtime": "^0.13.9",
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
+    "stream-browserify": "^3.0.0",
     "strengthify": "github:nextcloud/strengthify#0.5.9",
     "underscore": "^1.12.0",
     "url-search-params-polyfill": "^8.1.1",
@@ -90,7 +93,8 @@
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "webdav": "^4.7.0"
+    "webdav": "^4.7.0",
+    "webpack-bundle-analyzer": "^4.5.0"
   },
   "devDependencies": {
     "@nextcloud/babel-config": "^1.0.0",

@@ -93,7 +93,8 @@ export default {
 
 		/**
 		 * Does the current share have a note
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		hasNote: {
 			get() {
@@ -143,7 +144,7 @@ export default {
 		 * firing the request
 		 *
 		 * @param {Share} share the share to check
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		checkShare(share) {
 			if (share.password) {
@@ -187,7 +188,8 @@ export default {
 
 		/**
 		 * Note changed, let's save it to a different key
-		 * @param {String} note the share note
+		 *
+		 * @param {string} note the share note
 		 */
 		onNoteChange(note) {
 			this.$set(this.share, 'newNote', note.trim())
@@ -241,7 +243,7 @@ export default {
 				// share api controller accepts
 				propertyNames.map(p => (properties[p] = this.share[p].toString()))
 
-				this.updateQueue.add(async() => {
+				this.updateQueue.add(async () => {
 					this.saving = true
 					this.errors = {}
 					try {
@@ -270,6 +272,7 @@ export default {
 
 		/**
 		 * Manage sync errors
+		 *
 		 * @param {string} property the errored property, e.g. 'password'
 		 * @param {string} message the error message
 		 */
@@ -321,8 +324,9 @@ export default {
 
 		/**
 		 * Returns which dates are disabled for the datepicker
+		 *
 		 * @param {Date} date date to check
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		disabledDate(date) {
 			const dateMoment = moment(date)

@@ -73,19 +73,19 @@ module.exports = {
 		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
 	},
 	settings: {
-		'settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
-		'settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
-		'settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
-		'settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
-		'settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
-		'settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
+		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
+		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
+		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
+		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
+		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
+		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
 	},
 	systemtags: {
 		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
 	},
 	user_status: {
-		'user_status-dashboard': path.join(__dirname, 'apps/user_status/src', 'dashboard.js'),
-		'user_status-menu': path.join(__dirname, 'apps/user_status/src', 'main-user-status-menu.js'),
+		dashboard: path.join(__dirname, 'apps/user_status/src', 'dashboard.js'),
+		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
 	},
 	weather_status: {
 		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
