@@ -36,6 +36,8 @@ if (!window.OCA.Files) {
 Object.assign(window.OCA.Files, { Sidebar: new Sidebar() })
 Object.assign(window.OCA.Files.Sidebar, { Tab })
 
+console.debug('OCA.Files.Sidebar initialized')
+
 window.addEventListener('DOMContentLoaded', function() {
 	const contentElement = document.querySelector('body > .content')
 		|| document.querySelector('body > #content')
