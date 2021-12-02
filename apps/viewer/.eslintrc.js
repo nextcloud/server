@@ -1,5 +1,6 @@
 module.exports = {
 	globals: {
+		appName: true,
 		appVersion: true,
 		isTesting: true,
 		PLYR_ICONS: true,
