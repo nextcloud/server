@@ -37,8 +37,11 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	private static $cache = null;
 
-	public function __construct($prefix = '') {
+	private $logFile;
+
+	public function __construct($prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
+		$this->logFile = $logFile;
 		if (is_null(self::$cache)) {
 			self::$cache = \OC::$server->getGetRedisFactory()->getInstance();
 		}
@@ -52,6 +55,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function get($key) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::get::' . $key . "\n",
+				FILE_APPEND
+			);
+		}
+
 		$result = self::$cache->get($this->getNameSpace() . $key);
 		if ($result === false && !self::$cache->exists($this->getNameSpace() . $key)) {
 			return null;
@@ -61,6 +72,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function set($key, $value, $ttl = 0) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::set::' . $key . '::' . $ttl . '::' . json_encode($value) . "\n",
+				FILE_APPEND
+			);
+		}
+
 		if ($ttl > 0) {
 			return self::$cache->setex($this->getNameSpace() . $key, $ttl, json_encode($value));
 		} else {
@@ -69,10 +88,26 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function hasKey($key) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::hasKey::' . $key . "\n",
+				FILE_APPEND
+			);
+		}
+
 		return (bool)self::$cache->exists($this->getNameSpace() . $key);
 	}
 
 	public function remove($key) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::remove::' . $key . "\n",
+				FILE_APPEND
+			);
+		}
+
 		if (self::$cache->del($this->getNameSpace() . $key)) {
 			return true;
 		} else {
@@ -81,6 +116,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function clear($prefix = '') {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::clear::' . $prefix . "\n",
+				FILE_APPEND
+			);
+		}
+
 		$prefix = $this->getNameSpace() . $prefix . '*';
 		$keys = self::$cache->keys($prefix);
 		$deleted = self::$cache->del($keys);
@@ -106,6 +149,14 @@ class Redis extends Cache implements IMemcacheTTL {
 		if ($ttl !== 0 && is_int($ttl)) {
 			$args['ex'] = $ttl;
 		}
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::add::' . $key . '::' . $value . "\n",
+				FILE_APPEND
+			);
+		}
+
 
 		return self::$cache->set($this->getPrefix() . $key, $value, $args);
 	}
@@ -118,6 +169,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return int | bool
 	 */
 	public function inc($key, $step = 1) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::inc::' . $key . "\n",
+				FILE_APPEND
+			);
+		}
+
 		return self::$cache->incrBy($this->getNameSpace() . $key, $step);
 	}
 
@@ -129,6 +188,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return int | bool
 	 */
 	public function dec($key, $step = 1) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::dec::' . $key . "\n",
+				FILE_APPEND
+			);
+		}
+
 		if (!$this->hasKey($key)) {
 			return false;
 		}
@@ -144,6 +211,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return bool
 	 */
 	public function cas($key, $old, $new) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::cas::' . $key . "\n",
+				FILE_APPEND
+			);
+		}
+
 		if (!is_int($new)) {
 			$new = json_encode($new);
 		}
@@ -166,6 +241,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return bool
 	 */
 	public function cad($key, $old) {
+		if ($this->logFile !== '' && is_writable($this->logFile)) {
+			file_put_contents(
+				$this->logFile,
+				$this->getNameSpace() . '::cad::' . $key . "\n",
+				FILE_APPEND
+			);
+		}
+
 		self::$cache->watch($this->getNameSpace() . $key);
 		if ($this->get($key) === $old) {
 			$result = self::$cache->multi()
