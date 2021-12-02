@@ -34,7 +34,6 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
-use ScssPhp\ScssPhp\Compiler;
 
 class Util {
 
@@ -97,14 +96,52 @@ class Util {
 	}
 
 	/**
+	 * Convert RGB to HSL
+	 *
+	 * Copied from cssphp, copyright Leaf Corcoran, licensed under MIT
+	 *
+	 * @param integer $red
+	 * @param integer $green
+	 * @param integer $blue
+	 *
+	 * @return array
+	 */
+	public function toHSL($red, $green, $blue)
+	{
+		$min = min($red, $green, $blue);
+		$max = max($red, $green, $blue);
+		$l = $min + $max;
+		$d = $max - $min;
+
+		if ((int) $d === 0) {
+		    $h = $s = 0;
+		} else {
+			if ($l < 255) {
+				$s = $d / $l;
+			} else {
+				$s = $d / (510 - $l);
+			}
+
+			if ($red == $max) {
+				$h = 60 * ($green - $blue) / $d;
+			} elseif ($green == $max) {
+				$h = 60 * ($blue - $red) / $d + 120;
+			} elseif ($blue == $max) {
+				$h = 60 * ($red - $green) / $d + 240;
+			}
+		}
+
+		return [fmod($h, 360), $s * 100, $l / 5.1];
+	}
+
+	/**
 	 * @param string $color rgb color value
 	 * @return float
 	 */
 	public function calculateLuminance($color) {
 		[$red, $green, $blue] = $this->hexToRGB($color);
-		$compiler = new Compiler();
-		$hsl = $compiler->toHSL($red, $green, $blue);
-		return $hsl[3] / 100;
+		$hsl = $this->toHSL($red, $green, $blue);
+		return $hsl[2] / 100;
 	}
 
 	/**
