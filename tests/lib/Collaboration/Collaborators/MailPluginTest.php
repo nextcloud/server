@@ -209,6 +209,7 @@ class MailPluginTest extends TestCase {
 						],
 					],
 					[
+						'isLocalSystemBook' => true,
 						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'EMAIL' => [
@@ -263,6 +264,7 @@ class MailPluginTest extends TestCase {
 						],
 					],
 					[
+						'isLocalSystemBook' => true,
 						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'EMAIL' => [
@@ -373,6 +375,7 @@ class MailPluginTest extends TestCase {
 						],
 					],
 					[
+						'isLocalSystemBook' => true,
 						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'EMAIL' => [
