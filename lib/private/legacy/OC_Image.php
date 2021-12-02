@@ -125,11 +125,13 @@ class OC_Image implements \OCP\IImage {
 	 * @return int
 	 */
 	public function width() {
-		if ($this->valid() && (($width = imagesx($this->resource)) !== false)) {
-			return $width;
-		} else {
-			return -1;
+		if ($this->valid()) {
+			$width = imagesx($this->resource);
+			if ($width !== false) {
+				return $width;
+			}
 		}
+		return -1;
 	}
 
 	/**
@@ -138,11 +140,13 @@ class OC_Image implements \OCP\IImage {
 	 * @return int
 	 */
 	public function height() {
-		if ($this->valid() && (($height = imagesy($this->resource)) !== false)) {
-			return $height;
-		} else {
-			return -1;
+		if ($this->valid()) {
+			$height = imagesy($this->resource);
+			if ($height !== false) {
+				return $height;
+			}
 		}
+		return -1;
 	}
 
 	/**
