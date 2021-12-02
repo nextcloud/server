@@ -106,15 +106,14 @@ class Util {
 	 *
 	 * @return array
 	 */
-	public function toHSL($red, $green, $blue)
-	{
+	public function toHSL($red, $green, $blue) {
 		$min = min($red, $green, $blue);
 		$max = max($red, $green, $blue);
 		$l = $min + $max;
 		$d = $max - $min;
 
 		if ((int) $d === 0) {
-		    $h = $s = 0;
+			$h = $s = 0;
 		} else {
 			if ($l < 255) {
 				$s = $d / $l;
@@ -126,7 +125,7 @@ class Util {
 				$h = 60 * ($green - $blue) / $d;
 			} elseif ($green == $max) {
 				$h = 60 * ($blue - $red) / $d + 120;
-			} elseif ($blue == $max) {
+			} else {
 				$h = 60 * ($red - $green) / $d + 240;
 			}
 		}
