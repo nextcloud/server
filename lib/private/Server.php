@@ -522,11 +522,11 @@ class Server extends ServerContainer implements IServerContainer {
 			$session = new \OC\Session\Memory('');
 			$timeFactory = new TimeFactory();
 			// Token providers might require a working database. This code
-			// might however be called when ownCloud is not yet setup.
+			// might however be called when Nextcloud is not yet setup.
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
-				$defaultTokenProvider = $c->get(IProvider::class);
+				$provider = $c->get(IProvider::class);
 			} else {
-				$defaultTokenProvider = null;
+				$provider = null;
 			}
 
 			$legacyDispatcher = $c->get(SymfonyAdapter::class);
@@ -535,7 +535,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$manager,
 				$session,
 				$timeFactory,
-				$defaultTokenProvider,
+				$provider,
 				$c->get(\OCP\IConfig::class),
 				$c->get(ISecureRandom::class),
 				$c->getLockdownManager(),
