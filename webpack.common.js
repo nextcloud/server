@@ -4,7 +4,7 @@ const path = require('path')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const ESLintPlugin = require('eslint-webpack-plugin')
-
+const webpack = require('webpack')
 const modules = require('./webpack.modules.js')
 
 const formatOutputFromModules = (modules) => {
@@ -50,6 +50,14 @@ module.exports = {
 
 	module: {
 		rules: [
+			{
+				test: /davclient/,
+				loader: 'exports-loader',
+				options: {
+					type: 'commonjs',
+					exports: 'dav',
+				},
+			},
 			{
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader'],
@@ -123,6 +131,11 @@ module.exports = {
 		new VueLoaderPlugin(),
 		new ESLintPlugin(),
 		new CircularDependencyPlugin({
+		}),
+		new webpack.ProvidePlugin({
+			_: 'underscore',
+			$: 'jquery',
+			jQuery: 'jquery',
 		}),
 	],
 	resolve: {
