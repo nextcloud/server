@@ -76,6 +76,10 @@ class SMB extends Backend {
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		$auth = $storage->getAuthMechanism();
 		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
+			if (!is_string($storage->getBackendOption('user')) || !is_string($storage->getBackendOption('password'))) {
+				throw new \InvalidArgumentException('user or password is not set');
+			}
+
 			$smbAuth = new BasicAuth(
 				$storage->getBackendOption('user'),
 				$storage->getBackendOption('domain'),
