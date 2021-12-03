@@ -326,6 +326,19 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		$output->writeln('<info>Check indices of the oc_jobs table.</info>');
+		if ($schema->hasTable('jobs')) {
+			$table = $schema->getTable('jobs');
+			if (!$table->hasIndex('job_lastcheck_reserved')) {
+				$output->writeln('<info>Adding job_lastcheck_reserved index to the oc_jobs table, this can take some time...</info>');
+
+				$table->addIndex(['last_checked', 'reserved_at'], 'job_lastcheck_reserved');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_properties table updated successfully.</info>');
+			}
+		}
+
 		if (!$updated) {
 			$output->writeln('<info>Done.</info>');
 		}

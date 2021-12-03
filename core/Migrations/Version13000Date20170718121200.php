@@ -525,6 +525,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['class'], 'job_class_index');
+			$table->addIndex(['last_checked', 'reserved_at'], 'job_lastcheck_reserved');
 		}
 
 		if (!$schema->hasTable('users')) {
