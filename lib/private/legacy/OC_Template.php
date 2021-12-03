@@ -102,14 +102,9 @@ class OC_Template extends \OC\Template\Base {
 	public static function initTemplateEngine($renderAs) {
 		if (self::$initTemplateEngineFirstRun) {
 
-			//apps that started before the template initialization can load their own scripts/styles
-			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
-			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR && !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-					OC_Util::addScript('core', 'backgroundjobs', true);
-				}
-			}
+			// apps that started before the template initialization can load their own scripts/styles
+			// so to make sure this scripts/styles here are loaded first we put all core scripts first
+			// check lib/public/Util.php
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
 
@@ -122,6 +117,15 @@ class OC_Template extends \OC\Template\Base {
 				Util::addScript('core', 'files_fileinfo');
 				Util::addScript('core', 'files_client');
 				Util::addScript('core', 'merged-template-prepend');
+			}
+
+			// If installed and background job is set to ajax, add dedicated script
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)
+				&& $renderAs !== TemplateResponse::RENDER_AS_ERROR
+				&& !\OCP\Util::needUpgrade()) {
+				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+					Util::addScript('core', 'backgroundjobs');
+				}
 			}
 
 			self::$initTemplateEngineFirstRun = false;
