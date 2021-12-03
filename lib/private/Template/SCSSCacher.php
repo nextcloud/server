@@ -45,7 +45,6 @@ use OCP\ILogger;
 use OCP\IMemcache;
 use OCP\IURLGenerator;
 use ScssPhp\ScssPhp\Compiler;
-use ScssPhp\ScssPhp\Exception\ParserException;
 use ScssPhp\ScssPhp\OutputStyle;
 
 class SCSSCacher {
@@ -340,7 +339,7 @@ class SCSSCacher {
 				'@import "variables.scss";' .
 				'@import "functions.scss";' .
 				'@import "' . $fileNameSCSS . '";');
-		} catch (ParserException $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'scss_cacher']);
 
 			return false;
@@ -431,7 +430,7 @@ class SCSSCacher {
 			$scss = new Compiler();
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
-		} catch (ParserException $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'scss_cacher']);
 		}
 
