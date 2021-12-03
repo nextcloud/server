@@ -20,7 +20,6 @@
  *
  */
 
-import { generateFilePath } from '@nextcloud/router'
 import { getLoggerBuilder } from '@nextcloud/logger'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
@@ -30,9 +29,6 @@ import UnifiedSearch from './views/UnifiedSearch.vue'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
-
-// eslint-disable-next-line camelcase
-__webpack_public_path__ = generateFilePath('core', '', 'js/')
 
 const logger = getLoggerBuilder()
 	.setApp('unified-search')

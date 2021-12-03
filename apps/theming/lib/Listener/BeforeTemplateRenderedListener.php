@@ -77,6 +77,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			]
 		);
 
-		\OCP\Util::addScript('theming', 'theming');
+		// Making sure to inject just after core
+		\OCP\Util::addScript('theming', 'theming', 'core');
 	}
 }

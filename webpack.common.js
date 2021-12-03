@@ -42,7 +42,8 @@ module.exports = {
 	output: {
 		// Step away from the src folder and extract to the js folder
 		path: path.join(__dirname, 'dist'),
-		publicPath: '/dist/',
+		// Let webpack determine automatically where it's located
+		publicPath: 'auto',
 		filename: '[name].js?v=[contenthash]',
 		chunkFilename: '[name]-[id].js?v=[contenthash]',
 		// Make sure sourcemaps have a proper path and do not

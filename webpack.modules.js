@@ -43,7 +43,7 @@ module.exports = {
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 	},
 	dashboard: {
-		'dashboard-main': path.join(__dirname, 'apps/dashboard/src', 'main.js'),
+		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
 	},
 	dav: {
 		'settings-admin-caldav': path.join(__dirname, 'apps/dav/src', 'settings.js'),
