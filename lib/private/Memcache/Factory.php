@@ -64,16 +64,21 @@ class Factory implements ICacheFactory {
 	 */
 	private $lockingCacheClass;
 
+	/** @var string */
+	private $logFile;
+
 	/**
 	 * @param string $globalPrefix
 	 * @param ILogger $logger
 	 * @param string|null $localCacheClass
 	 * @param string|null $distributedCacheClass
 	 * @param string|null $lockingCacheClass
+	 * @param string $logFile
 	 */
 	public function __construct(string $globalPrefix, ILogger $logger,
-		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null) {
+		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null, string $logFile = '') {
 		$this->logger = $logger;
+		$this->logFile = $logFile;
 		$this->globalPrefix = $globalPrefix;
 
 		if (!$localCacheClass) {
@@ -112,7 +117,7 @@ class Factory implements ICacheFactory {
 	 * @return IMemcache
 	 */
 	public function createLocking(string $prefix = ''): IMemcache {
-		return new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix);
+		return new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix, $this->logFile);
 	}
 
 	/**
@@ -122,7 +127,7 @@ class Factory implements ICacheFactory {
 	 * @return ICache
 	 */
 	public function createDistributed(string $prefix = ''): ICache {
-		return new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix);
+		return new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix, $this->logFile);
 	}
 
 	/**
@@ -132,7 +137,7 @@ class Factory implements ICacheFactory {
 	 * @return ICache
 	 */
 	public function createLocal(string $prefix = ''): ICache {
-		return new $this->localCacheClass($this->globalPrefix . '/' . $prefix);
+		return new $this->localCacheClass($this->globalPrefix . '/' . $prefix, $this->logFile);
 	}
 
 	/**

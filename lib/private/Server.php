@@ -706,7 +706,8 @@ class Server extends ServerContainer implements IServerContainer {
 				return new \OC\Memcache\Factory($prefix, $c->get(ILogger::class),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
-					$config->getSystemValue('memcache.locking', null)
+					$config->getSystemValue('memcache.locking', null),
+					$config->getSystemValueString('redis_log_file')
 				);
 			}
 			return $arrayCacheFactory;
