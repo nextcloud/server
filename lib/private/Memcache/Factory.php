@@ -124,9 +124,9 @@ class Factory implements ICacheFactory {
 	 * create a distributed cache instance
 	 *
 	 * @param string $prefix
-	 * @return ICache
+	 * @return IMemcache
 	 */
-	public function createDistributed(string $prefix = ''): ICache {
+	public function createDistributed(string $prefix = ''): IMemcache {
 		return new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix, $this->logFile);
 	}
 

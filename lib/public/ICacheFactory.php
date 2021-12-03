@@ -62,10 +62,10 @@ interface ICacheFactory {
 	 * create a distributed cache instance
 	 *
 	 * @param string $prefix
-	 * @return ICache
+	 * @return IMemcache since 24.0.0 this method always returns a IMemcache, before it could theoretically also return a simple ICache
 	 * @since 13.0.0
 	 */
-	public function createDistributed(string $prefix = ''): ICache;
+	public function createDistributed(string $prefix = ''): IMemcache;
 
 	/**
 	 * create a local cache instance
