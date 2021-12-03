@@ -1656,6 +1656,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$result = $outerQuery->execute();
 		$calendarObjects = $result->fetchAll();
+		$result->closeCursor();
 
 		return array_map(function ($o) {
 			$calendarData = Reader::read($o['calendardata']);
@@ -2315,6 +2316,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'size' => (int)$row['size'],
 			];
 		}
+		$stmt->closeCursor();
 
 		return $result;
 	}
@@ -2695,6 +2697,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->execute();
 
 		$ids = $result->fetchAll();
+		$result->closeCursor();
 		foreach ($ids as $id) {
 			$this->deleteCalendar($id['id']);
 		}
