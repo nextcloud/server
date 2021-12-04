@@ -66,7 +66,7 @@
 		"@cypress/browserify-preprocessor": "^3.0.1",
 		"@nextcloud/babel-config": "^1.0.0",
 		"@nextcloud/browserslist-config": "^2.2.0",
-		"@nextcloud/eslint-config": "^6.1.0",
+		"@nextcloud/eslint-config": "^6.1.1",
 		"@nextcloud/stylelint-config": "^1.0.0-beta.0",
 		"@nextcloud/webpack-vue-config": "^4.2.0",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
