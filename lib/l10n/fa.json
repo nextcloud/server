@@ -166,7 +166,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "%sاین امر معمولاً با دسترسی به نوشتن وب سرور به فهرست تنظیمات قابل حل است. دیدن",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "یا اگر ترجیح می دهید پرونده config.php را فقط بخوانید ، گزینه \"config_is_read_only\" را در آن تنظیم کنید. دیدن%s",
     "Cannot write into \"apps\" directory" : "نمی توان در فهرست \"برنامه ها\" نوشت",
-    "Cannot create \"data\" directory" : "دایرکتوری \"داده\" ایجاد نمی شود",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "این امر معمولاً با دسترسی به نوشتن وب سرور به فهرست اصلی قابل حل است. دیدن%s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "معمولاً مجوزها می توانند با دسترسی به نوشتن وب سرور به فهرست اصلی ، ثابت شوند. دیدن%s",
     "Setting locale to %s failed" : "تنظیم محلی در %sانجام نشد",
@@ -210,6 +209,7 @@
     "Files can’t be shared with delete permissions" : "فایلها را نمی توان با مجوزهای حذف حذف کرد",
     "Files can’t be shared with create permissions" : "فایلها را نمی توان با ایجاد مجوزها به اشتراک گذاشت",
     "Can’t set expiration date more than %s days in the future" : "نمی توان تاریخ انقضا را بیش%s از روزها در آینده تعیین کرد",
-    "Can't read file" : "امکان خواندن فایل وجود ندارد"
+    "Can't read file" : "امکان خواندن فایل وجود ندارد",
+    "Cannot create \"data\" directory" : "دایرکتوری \"داده\" ایجاد نمی شود"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

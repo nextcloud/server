@@ -215,7 +215,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Если для файла «config.php» должен быть установлен режим «только чтение», задайте параметру \"config_is_read_only\" значение \"true\". Изучите %s.",
     "Cannot write into \"apps\" directory" : "Запись в каталог «app» невозможна",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Обычно это можно исправить, предоставлением веб-серверу права для записи в каталог приложений или отключением магазина приложений в файле конфигурации.",
-    "Cannot create \"data\" directory" : "Невозможно создать каталог «data»",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Обычно это можно исправить, предоставив веб-серверу права на запись в корневой каталог. Смотрите %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Разрешения обычно можно исправить, предоставив веб-серверу право на запись в корневой каталог. Смотрите %s.",
     "Setting locale to %s failed" : "Установка локали %s не удалась",
@@ -260,6 +259,7 @@
     "Files can’t be shared with create permissions" : "Файлы не могут иметь общий доступ с правами на создание",
     "Can’t set expiration date more than %s days in the future" : "Невозможно установить дату окончания срока действия более %s дней",
     "Can't read file" : "Не удается прочитать файл",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Обычно это можно исправить, предоставив веб-серверу права для записи в каталог приложений или отключив магазин приложений в файле конфигурации."
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Обычно это можно исправить, предоставив веб-серверу права для записи в каталог приложений или отключив магазин приложений в файле конфигурации.",
+    "Cannot create \"data\" directory" : "Невозможно создать каталог «data»"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
