@@ -151,7 +151,6 @@
     "Cannot write into \"config\" directory" : "Kan ikke skrive i \"config\"-mappen",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dette kan vanligvis ordnes ved å gi webserveren skrivetilgang til config-mappen. Se %s",
     "Cannot write into \"apps\" directory" : "Kan ikke skrive i \"apps\"-mappen",
-    "Cannot create \"data\" directory" : "Kan ikke opprette \"data\"-mappe",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Dette kan vanligvis ordnes ved å gi webserveren skrivetilgang til rotmappen. Se %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Tillatelser kan vanligvis ordnes ved å gi webserveren skrivetilgang til rotmappen. Se %s.",
     "Setting locale to %s failed" : "Setting av nasjonale innstillinger til %s mislyktes.",
@@ -189,6 +188,7 @@
     "Files can’t be shared with delete permissions" : "Filer kan ikke deles med tilgang til sletting",
     "Files can’t be shared with create permissions" : "Filer kan ikke deles med tilgang til opprettelse",
     "Can’t set expiration date more than %s days in the future" : "Kan ikke sette utløpsdato mer enn %s dager i fremtiden",
-    "Can't read file" : "Kan ikke lese fil"
+    "Can't read file" : "Kan ikke lese fil",
+    "Cannot create \"data\" directory" : "Kan ikke opprette \"data\"-mappe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

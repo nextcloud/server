@@ -215,7 +215,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ou, si vous préférez conserver le fichier config.php en lecture seule, définissez l'option \"config_is_read_only\" sur true. Voir %s",
     "Cannot write into \"apps\" directory" : "Impossible d’écrire dans le répertoire \"apps\"",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire des applications ou en désactivant le magasin d'applications dans le fichier de configuration.",
-    "Cannot create \"data\" directory" : "Impossible de créer le dossier \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Le problème de permissions peut généralement être résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s.",
     "Setting locale to %s failed" : "Echec de la spécification des paramètres régionaux à %s",
@@ -260,6 +259,7 @@
     "Files can’t be shared with create permissions" : "Les fichiers ne peuvent pas être partagés avec les autorisations de création",
     "Can’t set expiration date more than %s days in the future" : "Impossible de définir la date d'expiration à plus de %s jours dans le futur",
     "Can't read file" : "Impossible de lire le fichier",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire des applications ou en désactivant l'appstore dans le fichier de configuration."
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire des applications ou en désactivant l'appstore dans le fichier de configuration.",
+    "Cannot create \"data\" directory" : "Impossible de créer le dossier \"data\""
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
