@@ -185,7 +185,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Polo xeral, isto pode ser fixado para permitirlle ao servidor web acceso de escritura  ao directorio «config». Vexa %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ou, se prefire conservar o ficheiro «config.php» como de só lectura, marque a opción «config_is_read_only» como «true» nel. Vexa %s",
     "Cannot write into \"apps\" directory" : "Non é posíbel escribir no directorio «apps»",
-    "Cannot create \"data\" directory" : "Non é posíbel crear o directorio «data»",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Polo xeral, isto pódese solucionar dándolle ao servidor web acceso de escritura  ao directorio raíz. Vexa %s.",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Polo xeral, pódense corrixir os permisos dándolle ao servidor web acceso de escritura  ao directorio raíz. Vexa %s.",
     "Setting locale to %s failed" : "Fallou o axuste da configuración rexional a %s",
@@ -230,6 +229,7 @@
     "Files can’t be shared with create permissions" : "Non é posíbel compartir ficheiros con permisos de creación",
     "Can’t set expiration date more than %s days in the future" : "Non é posíbel estabelecer a data de caducidade máis alo de %s días no futuro",
     "Can't read file" : "Non é posíbel ler o ficheiro",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Polo xeral, isto pódese solucionar dándolle ao servidor web acceso de escritura  ao directorio de aplicacións ou desactivando a appstore no ficheiro de configuración."
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Polo xeral, isto pódese solucionar dándolle ao servidor web acceso de escritura  ao directorio de aplicacións ou desactivando a appstore no ficheiro de configuración.",
+    "Cannot create \"data\" directory" : "Non é posíbel crear o directorio «data»"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

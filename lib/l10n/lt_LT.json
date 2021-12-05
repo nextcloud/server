@@ -155,7 +155,6 @@
     "Cannot write into \"config\" directory" : "Nepavyksta rašyti į „config“ katalogą",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Tai, dažniausiai, gali būti pataisyta, suteikiant saityno serveriui rašymo prieigą prie konfigūracijos katalogo. Žiūrėkite %s",
     "Cannot write into \"apps\" directory" : "Nepavyksta rašyti į „apps“ katalogą",
-    "Cannot create \"data\" directory" : "Nepavyksta sukurti katalogo „data“",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Tai, dažniausiai, gali būti ištaisyta, suteikiant saityno serveriui rašymo prieigą prie šakninio katalogo. Žiūrėkite %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Teisės gali būti pataisytos, suteikiant saityno serveriui rašymo prieigą prie šakninio katalogo. Žiūrėkite %s",
     "Setting locale to %s failed" : "Nepavyko nustatyti vietos %s",
@@ -193,6 +192,7 @@
     "Files can’t be shared with delete permissions" : "Failai negali būti bendrinami su trynimo leidimu.",
     "Files can’t be shared with create permissions" : "Failai negali būti bendrinami su sukūrimo leidimu.",
     "Can’t set expiration date more than %s days in the future" : "Negalima nustatyti galiojimo laiko ilgesnio nei %s dienos.",
-    "Can't read file" : "Nepavyksta perskaityti failo"
+    "Can't read file" : "Nepavyksta perskaityti failo",
+    "Cannot create \"data\" directory" : "Nepavyksta sukurti katalogo „data“"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

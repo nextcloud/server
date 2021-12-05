@@ -215,7 +215,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "或者，如果您比較希望保留 config.php 的唯讀狀態，請在該設定檔中將 \"config_is_read_only\" 設定為 true。見%s",
     "Cannot write into \"apps\" directory" : "無法寫入 apps 目錄",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "這通常可以通過授予網絡伺服器對應用程式目錄的寫存取權限或在配置檔案中禁用 App Store 來解決。",
-    "Cannot create \"data\" directory" : "無法建立 \"data\" 目錄",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "開放網頁伺服器存取根目錄通常就可以修正這個問題，詳見 %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "開放網頁伺服器存取根目錄通常就可以修正權限問題，詳見 %s",
     "Setting locale to %s failed" : "設定語系為 %s 失敗",
@@ -260,6 +259,7 @@
     "Files can’t be shared with create permissions" : "無法分享具有新建權限的檔案",
     "Can’t set expiration date more than %s days in the future" : "到期日不能設定為 %s 天以後的日期",
     "Can't read file" : "無法讀取檔案",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "允許網頁伺服器寫入 \"apps\" 目錄或是在設定檔中停用應用程式商店通常可以解決這個問題"
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "允許網頁伺服器寫入 \"apps\" 目錄或是在設定檔中停用應用程式商店通常可以解決這個問題",
+    "Cannot create \"data\" directory" : "無法建立 \"data\" 目錄"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
