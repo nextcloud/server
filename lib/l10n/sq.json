@@ -134,7 +134,6 @@
     "Cannot write into \"config\" directory" : "S’shkruhet dot te drejtoria \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Kjo zakonisht mund të rregullohet duke i dhënë serverit të web-it akses shkrimi tek direktoria config. Shih %s",
     "Cannot write into \"apps\" directory" : "S’shkruhet dot te drejtoria \"apps\"",
-    "Cannot create \"data\" directory" : "Nuk mund të krijohet direktoria \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Kjo zakonisht mund të rregullohet duke i dhënë serverit të web-it akses shkrimi tek direktoria rrënjë. Shih %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Zakonisht lejet mund të rregullohen duke i dhënë serverit të web-it akses shkrimi tek direktoria rrënjë. Shih %s.",
     "Setting locale to %s failed" : "Caktimi i gjuhës si %s dështoi",
@@ -172,6 +171,7 @@
     "Files can’t be shared with delete permissions" : "Skedarët nuk mund të ndahen me leje të fshira",
     "Files can’t be shared with create permissions" : "matchSkedarët nuk mund të ndahen me leje të krijuara",
     "Can’t set expiration date more than %s days in the future" : "Nuk mund të caktohet data e skadimit më shumë se %s ditë në të ardhmen",
-    "Can't read file" : "S'lexohet dot kartela"
+    "Can't read file" : "S'lexohet dot kartela",
+    "Cannot create \"data\" directory" : "Nuk mund të krijohet direktoria \"data\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

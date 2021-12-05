@@ -215,7 +215,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Alebo, ak preferujete ponechať súbor config.php iba na čítanie, nastavte v ňom parameter \"config_is_read_only\" na true.  Viď %s",
     "Cannot write into \"apps\" directory" : "Nie je možné zapisovať do priečinka \"apps\"",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami.",
-    "Cannot create \"data\" directory" : "Nie je možné vytvoriť priečinok \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového adresára. Viď %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Oprávnenia je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového priečinka. Viď %s.",
     "Setting locale to %s failed" : "Nastavenie locale na %s zlyhalo",
@@ -260,6 +259,7 @@
     "Files can’t be shared with create permissions" : "Súbory nie je možné sprístupňovať s oprávneniami na vytváranie",
     "Can’t set expiration date more than %s days in the future" : "Nie je možné nastaviť dátum konca platnosti viac ako %s dní v budúcnosti",
     "Can't read file" : "Nemožno čítať súbor.",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami."
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami.",
+    "Cannot create \"data\" directory" : "Nie je možné vytvoriť priečinok \"data\""
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

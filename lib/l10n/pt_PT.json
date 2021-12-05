@@ -150,7 +150,6 @@
     "Cannot write into \"config\" directory" : "Não é possível escrever na directoria \"configurar\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Isto pode geralmente ser corrigido ao adicionar permissões de escrita à pasta de configuração ao servidor web. Ver %s.",
     "Cannot write into \"apps\" directory" : "Não é possivel escrever na directoria \"aplicações\"",
-    "Cannot create \"data\" directory" : "Não é possivel criar a directoria \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Isto pode geralmente ser corrigido ao adicionar permissões de escrita à pasta de raiz. Ver %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "As permissões podem geralmente ser corrigidas dando ao servidor web permissões de escrita na pasta de raiz. Ver %s.",
     "Setting locale to %s failed" : "Definindo local para %s falhado",
@@ -188,6 +187,7 @@
     "Files can’t be shared with delete permissions" : "Ficheiros não podem ser partilhados com permissões de apagar",
     "Files can’t be shared with create permissions" : "Ficheiros não podem ser partilhados com permissões de criação",
     "Can’t set expiration date more than %s days in the future" : "Não é possível definir data de expiração a mais de %s dias no futuro",
-    "Can't read file" : "Não é possível ler o ficheiro"
+    "Can't read file" : "Não é possível ler o ficheiro",
+    "Cannot create \"data\" directory" : "Não é possivel criar a directoria \"data\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

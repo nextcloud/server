@@ -215,7 +215,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Eller, om du föredrar att behålla config.php skrivskyddad, sätt alternativet \"config_is_read_only\" till true i den. Se %s",
     "Cannot write into \"apps\" directory" : "Kan inte skriva till \"apps\" katalogen!",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivrättigheter till applikationskatalogen eller stänga av appbutiken i konfigurationsfilen.",
-    "Cannot create \"data\" directory" : "Kan inte skapa \"data\"-mapp",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Detta kan vanligtvis åtgärda genom att ge webbservern skrivåtkomst till rotkatalogen. Se %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Rättigheter kan vanligtvis fixas genom att ge webbservern skrivåtkomst till rotkatalogen. Se %s.",
     "Setting locale to %s failed" : "Sätta locale till %s misslyckades",
@@ -260,6 +259,7 @@
     "Files can’t be shared with create permissions" : "Filer kan inte delas med rättigheter att skapa",
     "Can’t set expiration date more than %s days in the future" : "Kan inte sätta utgångsdatum mer än %s dagar framåt",
     "Can't read file" : "Kan inte läsa filen",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivrättigheter till applikationskatalogen eller stänga av app-butiken i konfigurationsfilen."
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivrättigheter till applikationskatalogen eller stänga av app-butiken i konfigurationsfilen.",
+    "Cannot create \"data\" directory" : "Kan inte skapa \"data\"-mapp"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

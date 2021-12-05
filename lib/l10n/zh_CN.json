@@ -215,7 +215,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "或者，如果希望保持 config.php 文件的只读权限，请将 \"config_is_read_only\" 设置为 true。查看 %s",
     "Cannot write into \"apps\" directory" : "无法写入“apps”目录",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "这通常可以通过给予 webserver 对应用目录的写入权限或在配置文件中禁用应用商店来解决。",
-    "Cannot create \"data\" directory" : "无法创建“data”目录 ",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "这个通常可以通过赋予根目录写入权限来修复。查看：%s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "权限通常可以通过赋予根目录写入权限来修复。查看：%s。",
     "Setting locale to %s failed" : "设置语言为 %s 失败",
@@ -260,6 +259,7 @@
     "Files can’t be shared with create permissions" : "无法共享有创建权限的文件",
     "Can’t set expiration date more than %s days in the future" : "允许设置的最远到期日是从今天算起的 %s-1 天",
     "Can't read file" : "无法读取文件",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "通常可以通过授予 Web 服务器对 apps 目录的写访问权限或在配置文件中禁用 appstore 来解决此问题。"
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "通常可以通过授予 Web 服务器对 apps 目录的写访问权限或在配置文件中禁用 appstore 来解决此问题。",
+    "Cannot create \"data\" directory" : "无法创建“data”目录 "
 },"pluralForm" :"nplurals=1; plural=0;"
 }
