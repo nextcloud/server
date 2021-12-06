@@ -113,7 +113,12 @@ class AccessibilityController extends Controller {
 		if ($this->userSession->isLoggedIn()) {
 			$userValues = $this->getUserValues();
 		} else {
-			$userValues = ['dark'];
+			if (isset($_GET['force-color-scheme']) && ($_GET['force-color-scheme'] === 'dark' || $_GET['force-color-scheme'] === 'light')) {
+				$userValues = $_GET['force-color-scheme'];
+			} else {
+				$userValues = ['dark'];
+			}
+			
 		}
 
 		foreach ($userValues as $key => $scssFile) {

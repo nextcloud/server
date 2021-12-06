@@ -71,14 +71,17 @@ class Application extends App implements IBootstrap {
 				$linkToCSS = $urlGenerator->linkToRoute(self::APP_ID . '.accessibility.getCss', ['md5' => $hash]);
 				\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS]);
 			}
-			\OCP\Util::addScript('accessibility', 'accessibilityoca');
 		} else {
-			$userValues = ['dark'];
-
+			//override prefers-color-scheme for guests if force-color-scheme is given
+			if (isset($_GET['force-color-scheme']) && ($_GET['force-color-scheme'] === 'dark' || $_GET['force-color-scheme'] === 'light')) {
+				$userValues = [$_GET['force-color-scheme']];
+			} else {
+				$userValues = ['dark'];
+			}
 			$hash = md5(implode('-', $userValues));
 			$linkToCSS = $urlGenerator->linkToRoute(self::APP_ID . '.accessibility.getCss', ['md5' => $hash]);
-			\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'media' => '(prefers-color-scheme: dark)', 'href' => $linkToCSS]);
-			\OCP\Util::addScript('accessibility', 'accessibilityoca');
+			\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'media' => '(prefers-color-scheme: ' . $userValues[0] . ')', 'href' => $linkToCSS]);
 		}
+		\OCP\Util::addScript('accessibility', 'accessibilityoca');
 	}
 }
