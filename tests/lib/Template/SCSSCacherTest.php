@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Julius Härtl <jus@bitgrid.net>
  *
@@ -34,10 +37,10 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IMemcache;
 use OCP\IURLGenerator;
 
 class SCSSCacherTest extends \Test\TestCase {
@@ -53,7 +56,7 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected $themingDefaults;
 	/** @var SCSSCacher */
 	protected $scssCacher;
-	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMemcache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $depsCache;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $isCachedCache;
@@ -89,15 +92,15 @@ class SCSSCacherTest extends \Test\TestCase {
 				return $defaultValue;
 			}));
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->depsCache = $this->createMock(ICache::class);
-		$this->isCachedCache = $this->createMock(ICache::class);
+		$this->depsCache = $this->cache = $this->createMock(IMemcache::class);;
+		$this->isCachedCache = $this->cache = $this->createMock(IMemcache::class);;
 		$this->cacheFactory
 			->method('createDistributed')
 			->withConsecutive()
 			->willReturnOnConsecutiveCalls(
 				$this->depsCache,
 				$this->isCachedCache,
-				$this->createMock(ICache::class)
+				$this->createMock(IMemcache::class)
 			);
 
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);

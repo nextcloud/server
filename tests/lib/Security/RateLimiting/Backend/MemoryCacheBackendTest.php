@@ -28,6 +28,7 @@ use OC\Security\RateLimiting\Backend\MemoryCacheBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IMemcache;
 use Test\TestCase;
 
 class MemoryCacheBackendTest extends TestCase {
@@ -45,7 +46,7 @@ class MemoryCacheBackendTest extends TestCase {
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->cache = $this->createMock(ICache::class);
+		$this->cache = $this->cache = $this->createMock(IMemcache::class);
 
 		$this->cacheFactory
 			->expects($this->once())

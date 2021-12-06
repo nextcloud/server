@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -44,34 +47,36 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IMemcache;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
-	/** @var \OC_Defaults|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OC_Defaults|MockObject */
 	private $defaults;
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppData|MockObject */
 	private $appData;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICacheFactory|MockObject */
 	private $cacheFactory;
 	/** @var ThemingDefaults */
 	private $template;
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util|MockObject */
 	private $util;
-	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICache|MockObject */
 	private $cache;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppManager|MockObject */
 	private $appManager;
-	/** @var ImageManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ImageManager|MockObject */
 	private $imageManager;
-	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var INavigationManager|MockObject */
 	private $navigationManager;
 
 	protected function setUp(): void {
@@ -80,7 +85,8 @@ class ThemingDefaultsTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cache = $this->createMock(ICache::class);
+		$this->cache = $this->cache = $this->createMock(IMemcache::class);
+		;
 		$this->util = $this->createMock(Util::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);

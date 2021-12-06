@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
@@ -25,8 +28,8 @@ namespace Test\Repair;
 
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
-use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IMemcache;
 use OCP\Migration\IOutput;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
@@ -60,7 +63,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 
 
 	public function testRun() {
-		$imagePathCache = $this->createMock(ICache::class);
+		$imagePathCache = $this->cache = $this->createMock(IMemcache::class);
 		$imagePathCache->expects($this->once())
 			->method('clear')
 			->with('');

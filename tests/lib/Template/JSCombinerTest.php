@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -33,6 +36,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ILogger;
+use OCP\IMemcache;
 use OCP\IURLGenerator;
 
 class JSCombinerTest extends \Test\TestCase {
@@ -58,7 +62,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->depsCache = $this->createMock(ICache::class);
+		$this->depsCache = $this->cache = $this->createMock(IMemcache::class);
 		$this->cacheFactory->expects($this->at(0))
 			->method('createDistributed')
 			->willReturn($this->depsCache);
@@ -546,7 +550,8 @@ var b = \'world\';
 			->method('getDirectoryListing')
 			->willReturn([$file]);
 
-		$cache = $this->createMock(ICache::class);
+		$cache = $this->cache = $this->createMock(IMemcache::class);
+		;
 		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
 			->willReturn($cache);

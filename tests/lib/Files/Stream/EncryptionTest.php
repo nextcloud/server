@@ -6,9 +6,9 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Cache\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IMemcache;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EncryptionTest extends \Test\TestCase {
@@ -31,7 +31,7 @@ class EncryptionTest extends \Test\TestCase {
 		$header = [];
 		$uid = '';
 		$this->encryptionModule = $this->buildMockModule();
-		$cache = $this->createMock(ICache::class);
+		$cache = $this->cache = $this->createMock(IMemcache::class);
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()->getMock();
 		$encStorage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')

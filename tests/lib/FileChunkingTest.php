@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
@@ -56,7 +59,7 @@ class FileChunkingTest extends \Test\TestCase {
 			]])
 			->getMock();
 
-		$cache = $this->createMock(ICache::class);
+		$cache = $this->cache = $this->createMock(ICache::class);
 
 		$cache->expects($this->atLeastOnce())
 			->method('hasKey')

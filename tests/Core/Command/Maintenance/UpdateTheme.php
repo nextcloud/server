@@ -26,7 +26,6 @@ namespace Tests\Core\Command\Maintenance;
 use OC\Core\Command\Maintenance\UpdateTheme;
 use OC\Files\Type\Detection;
 use OCP\Files\IMimeTypeDetector;
-use OCP\ICache;
 use OCP\ICacheFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -66,7 +65,8 @@ class UpdateThemeTest extends TestCase {
 		$this->detector->expects($this->once())
 			->method('getAllAliases')
 			->willReturn([]);
-		$cache = $this->createMock(ICache::class);
+		$cache = $this->cache = $this->createMock(\OCP\IMemcache::class);
+		;
 		$cache->expects($this->once())
 			->method('clear')
 			->with('');

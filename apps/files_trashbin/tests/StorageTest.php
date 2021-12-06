@@ -40,12 +40,12 @@ use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\ILogger;
+use OCP\IMemcache;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
@@ -561,7 +561,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testShouldMoveToTrash($mountPoint, $path, $userExists, $appDisablesTrash, $expected) {
 		$fileID = 1;
-		$cache = $this->createMock(ICache::class);
+		$cache = $this->cache = $this->createMock(IMemcache::class);
 		$cache->expects($this->any())->method('getId')->willReturn($fileID);
 		$tmpStorage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()->getMock($cache);

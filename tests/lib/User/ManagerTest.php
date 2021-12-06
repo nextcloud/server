@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -16,6 +18,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IMemcache;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
@@ -47,7 +50,7 @@ class ManagerTest extends TestCase {
 		$this->oldDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cache = $this->createMock(ICache::class);
+		$this->cache = $this->createMock(IMemcache::class);
 
 		$this->cacheFactory->method('createDistributed')
 			->with('user_backend_map')

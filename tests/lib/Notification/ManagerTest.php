@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
@@ -30,6 +31,7 @@ use OC\Notification\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IMemcache;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
@@ -67,7 +69,7 @@ class ManagerTest extends TestCase {
 
 		$this->validator = $this->createMock(IValidator::class);
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->cache = $this->createMock(ICache::class);
+		$this->cache = $this->cache = $this->createMock(IMemcache::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
 		$this->logger = $this->createMock(LoggerInterface::class);

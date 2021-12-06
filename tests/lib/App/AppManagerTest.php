@@ -20,6 +20,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IMemcache;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -107,7 +108,7 @@ class AppManagerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->getAppConfig();
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cache = $this->createMock(ICache::class);
+		$this->cache = $this->cache = $this->createMock(IMemcache::class);
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cacheFactory->expects($this->any())

@@ -15,11 +15,11 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IMemcache;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Files\Storage\Storage;
 
@@ -584,7 +584,7 @@ class EncryptionTest extends Storage {
 					$this->arrayCache
 				]
 			)->getMock();
-		
+
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
 			->disableOriginalConstructor()->getMock();
 		$cache->expects($this->any())
@@ -607,9 +607,9 @@ class EncryptionTest extends Storage {
 			)
 			->setMethods(['getCache','readFirstBlock', 'parseRawHeader'])
 			->getMock();
-		
+
 		$instance->expects($this->once())->method('getCache')->willReturn($cache);
-		
+
 		$instance->expects($this->once())->method(('parseRawHeader'))
 			->willReturn([Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']);
 
@@ -768,7 +768,7 @@ class EncryptionTest extends Storage {
 			});
 		$storage2->method('getId')
 			->willReturn('stroage2');
-		$cache = $this->createMock(ICache::class);
+		$cache = $this->cache = $this->createMock(IMemcache::class);
 		$cache->expects($this->once())
 			->method('get')
 			->with($sourceInternalPath)
@@ -818,7 +818,8 @@ class EncryptionTest extends Storage {
 		$storage2->method('getId')
 			->willReturn('stroage2');
 		if ($expectedEncrypted) {
-			$cache = $this->createMock(ICache::class);
+			$cache = $this->cache = $this->createMock(IMemcache::class);
+			;
 			$cache->expects($this->once())
 				->method('get')
 				->with($sourceInternalPath)

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -39,10 +42,10 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
 use OCP\AppFramework\IAppContainer;
-use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IMemcache;
 use OCP\IUser;
 
 class CleaningDBConfig extends DBConfigService {
@@ -315,7 +318,8 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$mountCache->clear();
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
-		$cache = $this->createMock(ICache::class);
+		$cache = $this->cache = $this->createMock(IMemcache::class);
+		;
 		$storage = $this->createMock(IStorage::class);
 		$storage->method('getCache')->willReturn($cache);
 		$mount = $this->createMock(IMountPoint::class);
