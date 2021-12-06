@@ -30,6 +30,7 @@ use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
+use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
@@ -55,7 +56,10 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/** @var bool */
 	private $returnCachedSubscriptions = false;
 
-	public function __construct(BackendInterface $caldavBackend, $principalInfo) {
+	/** @var LoggerInterface */
+	private $logger;
+
+	public function __construct(BackendInterface $caldavBackend, $principalInfo, LoggerInterface $logger) {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');
 		$this->config = \OC::$server->getConfig();
@@ -63,6 +67,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			\OC::$server,
 			\OC::$server->getAppManager()
 		);
+		$this->logger = $logger;
 	}
 
 	/**
@@ -95,7 +100,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
 		$objects = [];
 		foreach ($calendars as $calendar) {
-			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config);
+			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 		}
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
@@ -157,7 +162,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		// Calendars
 		foreach ($this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']) as $calendar) {
 			if ($calendar['uri'] === $name) {
-				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config);
+				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 			}
 		}
 

@@ -34,6 +34,8 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -44,26 +46,29 @@ use Test\TestCase;
  */
 class MoveCalendarTest extends TestCase {
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+	/** @var \OCP\IUserManager|MockObject $userManager */
 	private $userManager;
 
-	/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
+	/** @var \OCP\IGroupManager|MockObject $groupManager */
 	private $groupManager;
 
-	/** @var \OCP\Share\IManager|\PHPUnit\Framework\MockObject\MockObject $shareManager */
+	/** @var \OCP\Share\IManager|MockObject $shareManager */
 	private $shareManager;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $l10n */
+	/** @var IConfig|MockObject $l10n */
 	private $config;
 
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
+	/** @var IL10N|MockObject $l10n */
 	private $l10n;
 
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject $l10n */
+	/** @var CalDavBackend|MockObject $l10n */
 	private $calDav;
 
 	/** @var MoveCalendar */
 	private $command;
+
+	/** @var LoggerInterface|MockObject */
+	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -74,6 +79,7 @@ class MoveCalendarTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->calDav = $this->createMock(CalDavBackend::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->command = new MoveCalendar(
 			$this->userManager,
@@ -81,7 +87,8 @@ class MoveCalendarTest extends TestCase {
 			$this->shareManager,
 			$this->config,
 			$this->l10n,
-			$this->calDav
+			$this->calDav,
+			$this->logger
 		);
 	}
 

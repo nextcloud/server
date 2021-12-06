@@ -28,6 +28,8 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\PublicCalendar;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\Reader;
 
 class PublicCalendarTest extends CalendarTest {
@@ -42,7 +44,7 @@ class PublicCalendarTest extends CalendarTest {
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
+		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
@@ -62,10 +64,11 @@ class PublicCalendarTest extends CalendarTest {
 			'id' => 666,
 			'uri' => 'cal',
 		];
-		/** @var \PHPUnit\Framework\MockObject\MockObject | IConfig $config */
+		/** @var MockObject | IConfig $config */
 		$config = $this->createMock(IConfig::class);
-
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config);
+		/** @var  MockObject | LoggerInterface $logger */
+		$logger = $this->createMock(LoggerInterface::class);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config,$logger);
 		$children = $c->getChildren();
 		$this->assertEquals(2, count($children));
 		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
@@ -129,7 +132,7 @@ EOD;
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL, 'calendardata' => $calData];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
+		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
@@ -149,9 +152,11 @@ EOD;
 			'id' => 666,
 			'uri' => 'cal',
 		];
-		/** @var \PHPUnit\Framework\MockObject\MockObject | IConfig $config */
+		/** @var MockObject | IConfig $config */
 		$config = $this->createMock(IConfig::class);
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config);
+		/** @var  MockObject | LoggerInterface $logger */
+		$logger = $this->createMock(LoggerInterface::class);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config,$logger);
 
 		$this->assertEquals(count($c->getChildren()), 2);
 

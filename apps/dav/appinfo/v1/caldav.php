@@ -34,6 +34,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use Psr\Log\LoggerInterface;
 
 $authBackend = new Auth(
 	\OC::$server->getSession(),
@@ -83,7 +84,7 @@ $sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitation
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend);
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', \OC::$server->get(LoggerInterface::class));
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [
