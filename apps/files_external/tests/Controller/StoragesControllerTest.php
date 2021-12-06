@@ -130,6 +130,36 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$this->assertEquals($storageConfig, $data);
 	}
 
+	public function testAddLocalStorageWhenDisabled() {
+		$authMech = $this->getAuthMechMock();
+		$backend = $this->getBackendMock();
+
+		$storageConfig = new StorageConfig(1);
+		$storageConfig->setMountPoint('mount');
+		$storageConfig->setBackend($backend);
+		$storageConfig->setAuthMechanism($authMech);
+		$storageConfig->setBackendOptions([]);
+
+		$this->service->expects($this->never())
+			->method('createStorage');
+		$this->service->expects($this->never())
+			->method('addStorage');
+
+		$response = $this->controller->create(
+			'mount',
+			'local',
+			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			[],
+			[],
+			[],
+			[],
+			null
+		);
+
+		$data = $response->getData();
+		$this->assertEquals(Http::STATUS_FORBIDDEN, $response->getStatus());
+	}
+
 	public function testUpdateStorage() {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
