@@ -107,8 +107,8 @@ class CacheJail extends CacheWrapper {
 	}
 
 	/**
-	 * @param ICacheEntry|array $entry
-	 * @return array
+	 * @param ICacheEntry $entry
+	 * @return ICacheEntry
 	 */
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['path'])) {
@@ -118,7 +118,7 @@ class CacheJail extends CacheWrapper {
 	}
 
 	/**
-	 * get the stored metadata of a file or folder
+	 * Get the stored metadata of a file or folder
 	 *
 	 * @param string /int $file
 	 * @return ICacheEntry|false
@@ -229,10 +229,25 @@ class CacheJail extends CacheWrapper {
 	}
 
 	private function formatSearchResults($results) {
-		return array_map(function ($entry) {
+		$finalResult = [];
+		foreach ($results as $entry) {
+			// Filter not accessible entries (e.g. some groupfolder entries when ACLs are enabled)
+			$cacheWrapper = $this;
+			while (($cacheWrapper instanceof CacheWrapper) && $entry !== false) {
+				if (!($cacheWrapper instanceof CacheJail)) { // We apply the jail at the end
+					$entry = $cacheWrapper->formatCacheEntry($entry);
+				}
+				$cacheWrapper = $cacheWrapper->getCache();
+			}
+			if ($entry === false) {
+				continue;
+			}
+
+			// Unjailed the path (remove __groupfolder/<id> prefix)
 			$entry['path'] = $this->getJailedPath($entry['path'], $this->getGetUnjailedRoot());
-			return $entry;
-		}, $results);
+			$finalResult[] = $entry;
+		}
+		return $finalResult;
 	}
 
 	/**
