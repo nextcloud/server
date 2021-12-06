@@ -349,52 +349,52 @@ class FileTest extends TestCase {
 	public function legalMtimeProvider() {
 		return [
 			"string" => [
-					'HTTP_X_OC_MTIME' => "string",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "string",
+				'expected result' => null
 			],
 			"castable string (int)" => [
-					'HTTP_X_OC_MTIME' => "34",
-					'expected result' => 34
+				'HTTP_X_OC_MTIME' => "987654321",
+				'expected result' => 987654321
 			],
 			"castable string (float)" => [
-					'HTTP_X_OC_MTIME' => "34.56",
-					'expected result' => 34
+				'HTTP_X_OC_MTIME' => "123456789.56",
+				'expected result' => 123456789
 			],
 			"float" => [
-					'HTTP_X_OC_MTIME' => 34.56,
-					'expected result' => 34
+				'HTTP_X_OC_MTIME' => 123456789.56,
+				'expected result' => 123456789
 			],
 			"zero" => [
-					'HTTP_X_OC_MTIME' => 0,
-					'expected result' => 0
+				'HTTP_X_OC_MTIME' => 0,
+				'expected result' => null
 			],
 			"zero string" => [
-					'HTTP_X_OC_MTIME' => "0",
-					'expected result' => 0
+				'HTTP_X_OC_MTIME' => "0",
+				'expected result' => null
 			],
 			"negative zero string" => [
-					'HTTP_X_OC_MTIME' => "-0",
-					'expected result' => 0
+				'HTTP_X_OC_MTIME' => "-0",
+				'expected result' => null
 			],
 			"string starting with number following by char" => [
-					'HTTP_X_OC_MTIME' => "2345asdf",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "2345asdf",
+				'expected result' => null
 			],
 			"string castable hex int" => [
-					'HTTP_X_OC_MTIME' => "0x45adf",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "0x45adf",
+				'expected result' => null
 			],
 			"string that looks like invalid hex int" => [
-					'HTTP_X_OC_MTIME' => "0x123g",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "0x123g",
+				'expected result' => null
 			],
 			"negative int" => [
-					'HTTP_X_OC_MTIME' => -34,
-					'expected result' => -34
+				'HTTP_X_OC_MTIME' => -34,
+				'expected result' => null
 			],
 			"negative float" => [
-					'HTTP_X_OC_MTIME' => -34.43,
-					'expected result' => -34
+				'HTTP_X_OC_MTIME' => -34.43,
+				'expected result' => null
 			],
 		];
 	}
@@ -405,15 +405,14 @@ class FileTest extends TestCase {
 	 */
 	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime) {
 		$request = new \OC\AppFramework\Http\Request([
-				'server' => [
-						'HTTP_X_OC_MTIME' => $requestMtime,
-				]
+			'server' => [
+					'HTTP_X_OC_MTIME' => $requestMtime,
+			]
 		], null, $this->config, null);
 		$file = 'foo.txt';
 
 		if ($resultMtime === null) {
 			$this->expectException(\InvalidArgumentException::class);
-			$this->expectExceptionMessage("X-OC-MTime header must be an integer (unix timestamp).");
 		}
 
 		$this->doPut($file, null, $request);
@@ -439,7 +438,6 @@ class FileTest extends TestCase {
 
 		if ($resultMtime === null) {
 			$this->expectException(\Sabre\DAV\Exception::class);
-			$this->expectExceptionMessage("X-OC-MTime header must be an integer (unix timestamp).");
 		}
 
 		$this->doPut($file.'-chunking-12345-2-0', null, $request);
@@ -836,7 +834,7 @@ class FileTest extends TestCase {
 		$file->setName('/super*star.txt');
 	}
 
-	
+
 	public function testUploadAbort() {
 		// setup
 		$view = $this->getMockBuilder(View::class)
@@ -880,7 +878,7 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
-	
+
 	public function testDeleteWhenAllowed() {
 		// setup
 		$view = $this->getMockBuilder(View::class)
@@ -900,7 +898,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionNotAllowed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -918,7 +916,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionFailed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -941,7 +939,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionThrows() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -1111,7 +1109,7 @@ class FileTest extends TestCase {
 		];
 	}
 
-	
+
 	public function testGetFopenFails() {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -1131,7 +1129,7 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-	
+
 	public function testGetFopenThrows() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -1151,7 +1149,7 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-	
+
 	public function testGetThrowsIfNoPermission() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
