@@ -3,7 +3,7 @@
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
 
-name: Node
+name: Node Build
 
 on:
   pull_request:
@@ -16,7 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    name: node
     steps:
       - name: Checkout
         uses: actions/checkout@v2
