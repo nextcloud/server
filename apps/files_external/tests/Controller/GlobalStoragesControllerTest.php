@@ -28,6 +28,7 @@ namespace OCA\Files_External\Tests\Controller;
 use OC\User\User;
 use OCA\Files_External\Controller\GlobalStoragesController;
 use OCA\Files_External\Service\BackendService;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -38,6 +39,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class GlobalStoragesControllerTest extends StoragesControllerTest {
 	protected function setUp(): void {
 		parent::setUp();
+
 		$this->service = $this->getMockBuilder('\OCA\Files_External\Service\GlobalStoragesService')
 			->disableOriginalConstructor()
 			->getMock();
@@ -45,11 +47,20 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 		$this->service->method('getVisibilityType')
 			->willReturn(BackendService::VISIBILITY_ADMIN);
 
+		$this->controller = $this->createController(true);
+	}
+
+	private function createController($allowCreateLocal = true) {
 		$session = $this->createMock(IUserSession::class);
 		$session->method('getUser')
 			->willReturn(new User('test', null, $this->createMock(EventDispatcherInterface::class)));
 
-		$this->controller = new GlobalStoragesController(
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->with('files_external_allow_create_new_local', true)
+			->willReturn($allowCreateLocal);
+
+		return new GlobalStoragesController(
 			'files_external',
 			$this->createMock(IRequest::class),
 			$this->createMock(IL10N::class),
@@ -57,6 +68,12 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 			$this->createMock(ILogger::class),
 			$session,
 			$this->createMock(IGroupManager::class),
+			$config
 		);
+	}
+
+	public function testAddLocalStorageWhenDisabled() {
+		$this->controller = $this->createController(false);
+		parent::testAddLocalStorageWhenDisabled();
 	}
 }
