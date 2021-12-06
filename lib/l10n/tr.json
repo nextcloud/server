@@ -215,6 +215,7 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ya da config.php dosyasının salt okunur olarak kalmasını istiyorsanız içindeki \"config_is_read_only\" seçeneğini true olarak ayarlayın. %s bölümüne bakabilirsiniz",
     "Cannot write into \"apps\" directory" : "\"apps\" klasörüne yazılamıyor",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Bu sorun genellikle, web sunucusuna apps klasörüne yazma izni verilerek ya da yapılandırma dosyasından Uygulama Mağazası devre dışı bırakılarak çözülebilir.",
+    "Cannot create \"data\" directory." : "\"data\" klasörü oluşturulamadı",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Bu sorun genellikle, web sunucusuna kök klasöre yazma izni verilerek çözülebilir. %s bölümüne bakın",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "İzinler genellikle, web sunucusuna kök klasöre yazma izni verilerek düzeltilebilir. %s bölümüne bakın.",
     "Setting locale to %s failed" : "Dil %s olarak ayarlanamadı",
