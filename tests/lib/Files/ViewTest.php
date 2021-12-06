@@ -12,6 +12,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Common;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\Constants;
@@ -1576,9 +1577,11 @@ class ViewTest extends \Test\TestCase {
 	private function createTestMovableMountPoints($mountPoints) {
 		$mounts = [];
 		foreach ($mountPoints as $mountPoint) {
-			$storage = $this->getMockBuilder(Temporary::class)
+			$storage = $this->getMockBuilder(Storage::class)
 				->setMethods([])
+				->setConstructorArgs([[]])
 				->getMock();
+			$storage->method('getId')->willReturn('non-null-id');
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
 				->setMethods(['moveMount'])
