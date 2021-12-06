@@ -165,8 +165,54 @@ class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$node = new  \OCA\DAV\Connector\Sabre\File($view, $info);
+		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
 		$this->assertEquals($expected, $node->getSharePermissions($user));
+	}
+
+	public function sanitizeMtimeProvider() {
+		return [
+			[123456789, 123456789],
+			['987654321', 987654321],
+		];
+	}
+
+	/**
+	 * @dataProvider sanitizeMtimeProvider
+	 */
+	public function testSanitizeMtime($mtime, $expected) {
+		$view = $this->getMockBuilder(View::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$info = $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$result = $this->invokePrivate($node, 'sanitizeMtime', [$mtime]);
+		$this->assertEquals($expected, $result);
+	}
+
+	public function invalidSanitizeMtimeProvider() {
+		return [
+			[-1337], [0], ['abcdef'], ['-1337'], ['0'], [12321], [24 * 60 * 60 - 1]
+		];
+	}
+
+	/**
+	 * @dataProvider invalidSanitizeMtimeProvider
+	 */
+	public function testInvalidSanitizeMtime($mtime) {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$view = $this->getMockBuilder(View::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$info = $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$result = $this->invokePrivate($node, 'sanitizeMtime', [$mtime]);
 	}
 }
