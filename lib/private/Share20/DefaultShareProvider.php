@@ -202,6 +202,10 @@ class DefaultShareProvider implements IShareProvider {
 		// Set the file target
 		$qb->setValue('file_target', $qb->createNamedParameter($share->getTarget()));
 
+		if ($share->getNote() !== '') {
+			$qb->setValue('note', $qb->createNamedParameter($share->getNote()));
+		}
+
 		// Set the time this share was created
 		$qb->setValue('stime', $qb->createNamedParameter(time()));
 

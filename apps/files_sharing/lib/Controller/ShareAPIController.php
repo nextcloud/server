@@ -449,6 +449,7 @@ class ShareAPIController extends OCSController {
 		string $password = '',
 		string $sendPasswordByTalk = null,
 		string $expireDate = '',
+		string $note = '',
 		string $label = ''
 	): DataResponse {
 		$share = $this->shareManager->newShare();
@@ -652,6 +653,10 @@ class ShareAPIController extends OCSController {
 
 		$share->setShareType($shareType);
 		$share->setSharedBy($this->currentUser);
+
+		if ($note !== '') {
+			$share->setNote($note);
+		}
 
 		try {
 			$share = $this->shareManager->createShare($share);
