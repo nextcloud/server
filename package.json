@@ -73,7 +73,7 @@
     "regenerator-runtime": "^0.13.9",
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
-    "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.9",
+    "strengthify": "github:nextcloud/strengthify#0.5.9",
     "underscore": "^1.12.0",
     "url-search-params-polyfill": "^8.1.1",
     "uuid": "^8.3.2",
