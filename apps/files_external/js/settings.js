@@ -907,6 +907,14 @@ MountConfigListView.prototype = _.extend({
 	loadStorages: function() {
 		var self = this;
 
+		var onLoaded1 = $.Deferred();
+		var onLoaded2 = $.Deferred();
+
+		this.$el.find('.externalStorageLoading').removeClass('hidden');
+		$.when(onLoaded1, onLoaded2).always(() => {
+			self.$el.find('.externalStorageLoading').addClass('hidden');
+		})
+
 		if (this._isPersonal) {
 			// load userglobal storages
 			$.ajax({
@@ -953,8 +961,11 @@ MountConfigListView.prototype = _.extend({
 						$('#emptycontent').show();
 					}
 					onCompletion.resolve();
+					onLoaded1.resolve();
 				}
 			});
+		} else {
+			onLoaded1.resolve();
 		}
 
 		var url = this._storageConfigClass.prototype._url;
@@ -973,6 +984,7 @@ MountConfigListView.prototype = _.extend({
 					self.recheckStorageConfig($tr);
 				});
 				onCompletion.resolve();
+				onLoaded2.resolve();
 			}
 		});
 	},
