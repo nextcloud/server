@@ -7,7 +7,7 @@ steps:
   commands:
     - git submodule update --init
 - name: checkers
-  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-6
+  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
   commands:
     - ./autotest-checkers.sh
   secrets: [ github_token ]
@@ -223,11 +223,6 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: nodb-php7.3
-  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-6
-  commands:
-    - bash tests/drone-run-php-tests.sh || exit 0
-    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.4
   image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
   commands:
@@ -260,11 +255,6 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: sqlite-php7.3
-  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-6
-  commands:
-    - bash tests/drone-run-php-tests.sh || exit 0
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php7.4
   image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
   commands:
@@ -290,15 +280,15 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.1-php7.3
+name: mariadb10.1-php7.4
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: mariadb10.1-php7.3
-  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-6
+- name: mariadb10.1-php7.4
+  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -435,15 +425,15 @@ trigger:
 
 ---
 kind: pipeline
-name: postgres9.6-php7.3
+name: postgres9.6-php7.4
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: postgres-php7.3
-  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-6
+- name: postgres-php7.4
+  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
