@@ -252,7 +252,7 @@ OC.L10N.register(
     "Connect items to a project to make them easier to find" : "Połącz elementy z projektem, aby łatwiej je znaleźć",
     "Type to search for existing projects" : "Wpisz rodzaj, aby wyszukać istniejące projekty",
     "New in" : "Nowość w",
-    "View changelog" : "Przeglądaj zmiany rejestru",
+    "View changelog" : "Przeglądaj listę zmian",
     "Very weak password" : "Bardzo słabe hasło",
     "Weak password" : "Słabe hasło",
     "So-so password" : "Mało skomplikowane hasło",
