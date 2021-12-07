@@ -4887,11 +4887,6 @@
     </RedundantCondition>
   </file>
   <file src="lib/private/legacy/OC_Image.php">
-    <FalsableReturnStatement occurrences="3">
-      <code>$this-&gt;resource</code>
-      <code>$this-&gt;valid() ? imagesx($this-&gt;resource) : -1</code>
-      <code>$this-&gt;valid() ? imagesy($this-&gt;resource) : -1</code>
-    </FalsableReturnStatement>
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|string</code>
     </ImplementedReturnTypeMismatch>
@@ -4899,9 +4894,6 @@
       <code>$data[floor($p)]</code>
       <code>$data[floor($p)]</code>
     </InvalidArrayOffset>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$resource</code>
-    </InvalidPropertyAssignmentValue>
     <InvalidScalarArgument occurrences="4">
       <code>$this-&gt;bitDepth</code>
       <code>$x</code>
