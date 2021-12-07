@@ -2087,6 +2087,10 @@
 			this.hideMask();
 
 			if (status === 401) {
+				if (this.getCurrentDirectory() === '/') {
+					// Give up, if we are not authorized to access user root folder, we are logged out
+					location.reload(); // this will redirect the user to the login page while saving the current url
+				}
 				return false;
 			}
 
