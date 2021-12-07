@@ -1555,8 +1555,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			/* various */
-			&#grid-header,
-			&#new-user {
+			&#grid-header {
 				@include position('sticky');
 				align-self: normal;
 				background-color: var(--color-main-background);
@@ -1566,29 +1565,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
 				}
-
-				/* fake input for groups validation */
-				input#newgroups {
-					position: absolute;
-					opacity: 0;
-					width: 80% !important;
-					margin: 0 10%;
-					z-index: 0;
-				}
-			}
-
-			// separate prop to set initial value to top: 50px
-			&#new-user {
-				height: 120px;
-
-				.row {
-					padding-top: 50px;
-				}
 			}
 
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
-				z-index: 60; /* above new-user */
 				border-bottom-width: thin;
 
 				#headerDisplayName,
