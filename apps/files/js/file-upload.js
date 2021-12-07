@@ -911,7 +911,7 @@ OC.Uploader.prototype = _.extend({
 				type: 'PUT',
 				dropZone: options.dropZone, // restrict dropZone to content div
 				autoUpload: false,
-				progressInterval: 300, // increased from default 0.1s for more stable behvaviour when predicting remaining time
+				progressInterval: 300, // increased from the default of 100ms for more stable behvaviour when predicting remaining time
 				sequentialUploads: false,
 				limitConcurrentUploads: 4,
 				/**
