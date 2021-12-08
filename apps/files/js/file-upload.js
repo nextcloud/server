@@ -1197,7 +1197,7 @@ OC.Uploader.prototype = _.extend({
 					var diffUpdate = (thisUpdate - lastUpdate)/1000; // eg. 2s
 					lastUpdate = thisUpdate;
 					var diffSize = data.loaded - lastSize;
-					if (diffSize <= 0){
+					if (diffSize <= 0) {
 						diffSize = lastSize;
 					}
 					lastSize = data.loaded;
