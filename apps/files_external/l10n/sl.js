@@ -101,7 +101,7 @@ OC.L10N.register(
     "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Koren",
-    "SFTP with secret key login" : "Prijava prek protokola SFTP z geslom",
+    "SFTP with secret key login" : "Prijava z uporabo protokola SFTP z geslom",
     "SMB/CIFS" : "SMB / CIFS",
     "Share" : "Souporaba",
     "Show hidden files" : "Pokaži skrite datoteke",

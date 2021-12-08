@@ -81,6 +81,7 @@ OC.L10N.register(
     "\"{name}\" is not an allowed filetype" : "Ime »{name}« ni dovoljena vrsta datoteke.",
     "Storage of {owner} is full, files cannot be updated or synced anymore!" : "Shramba uporabnika {owner} je polna, zato datotek ni več mogoče posodabljati in usklajevati!",
     "Group folder \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Skupinska mapa »{mountPoint}« je do konca zasedena, zato datotek ni mogoče več posodobiti in usklajevati!",
+    "External storage \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Zunanja shramba »{mountPoint}« je do konca zasedena, zato datotek ni mogoče več posodobiti in usklajevati!",
     "Your storage is full, files cannot be updated or synced anymore!" : "Shramba je povsem napolnjena. Datotek ni več mogoče posodabljati in usklajevati!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Shramba uporabnika {owner} je do konca zasedena ({usedSpacePercent}%).",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Skupinska mapa »{mountPoint}« je skoraj do konca zasedena ({usedSpacePercent}%).",
