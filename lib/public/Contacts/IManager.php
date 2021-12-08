@@ -93,7 +93,8 @@ interface IManager {
 	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * 	- 'limit' - Set a numeric limit for the search results
 	 * 	- 'offset' - Set the offset for the limited search results
-	 * 	- 'wildcard' - Whether the search should use wildcards
+	 * 	- 'enumeration' - Whether user enumeration on system address book is allowed
+	 * 	- 'fullmatch' - Whether matching on full detail in system addresss book is allowed
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0
 	 */
