@@ -22,5 +22,7 @@
  */
 namespace OCA\Files_Sharing;
 
-interface ISharedStorage {
+use OCP\Files\Storage\IStorage;
+
+interface ISharedStorage extends IStorage {
 }

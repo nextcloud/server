@@ -166,10 +166,6 @@ class Scanner extends PublicEmitter {
 				continue;
 			}
 
-			// don't scan received local shares, these can be scanned when scanning the owner's storage
-			if ($storage->instanceOfStorage(SharedStorage::class)) {
-				continue;
-			}
 			$scanner = $storage->getScanner();
 			$this->attachListener($mount);
 

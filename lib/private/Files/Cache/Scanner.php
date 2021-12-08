@@ -37,6 +37,7 @@ namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Encoding;
 use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
@@ -509,19 +510,31 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		if (!$this->cache->inCache('')) {
-			$this->runBackgroundScanJob(function () {
-				$this->scan('', self::SCAN_RECURSIVE, self::REUSE_ETAG);
-			}, '');
+		if ($this->storage->instanceOfStorage(Jail::class)) {
+			// for jail storage wrappers (shares, groupfolders) we run the background scan on the source storage
+			// this is mainly done because the jail wrapper doesn't implement `getIncomplete` (because it would be inefficient).
+			//
+			// Running the scan on the source storage might scan more than "needed", but the unscanned files outside the jail will
+			// have to be scanned at some point anyway.
+			$unJailedScanner = $this->storage->getUnjailedStorage()->getScanner();
+			$unJailedScanner->backgroundScan();
 		} else {
-			$lastPath = null;
-			while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-				$this->runBackgroundScanJob(function () use ($path) {
-					$this->scan($path, self::SCAN_RECURSIVE_INCOMPLETE, self::REUSE_ETAG | self::REUSE_SIZE);
-				}, $path);
-				// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
-				// to make this possible
-				$lastPath = $path;
+			if (!$this->cache->inCache('')) {
+				// if the storage isn't in the cache yet, just scan the root completely
+				$this->runBackgroundScanJob(function () {
+					$this->scan('', self::SCAN_RECURSIVE, self::REUSE_ETAG);
+				}, '');
+			} else {
+				$lastPath = null;
+				// find any path marked as unscanned and run the scanner until no more paths are unscanned (or we get stuck)
+				while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
+					$this->runBackgroundScanJob(function () use ($path) {
+						$this->scan($path, self::SCAN_RECURSIVE_INCOMPLETE, self::REUSE_ETAG | self::REUSE_SIZE);
+					}, $path);
+					// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
+					// to make this possible
+					$lastPath = $path;
+				}
 			}
 		}
 	}
