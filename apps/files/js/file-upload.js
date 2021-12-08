@@ -1218,7 +1218,7 @@ OC.Uploader.prototype = _.extend({
 					}
 					//console.log('#', ' idx: ',bufferIndex, ' Total: ', bufferTotal, ' remainSeconds: ', remainingSeconds, ' during: ', diffUpdate);
 
-					if (smoothRemainingSeconds == null){
+					if (smoothRemainingSeconds === null) {
 						smoothRemainingSeconds = bufferTotal / bufferSize;
 					} else{
 						smoothRemainingSeconds = smoothing * (bufferTotal / bufferSize) + ((1-smoothing) * smoothRemainingSeconds);
