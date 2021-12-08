@@ -1062,6 +1062,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 											array $searchProperties,
 											array $options = []): array {
 		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
+		$strictSearch = array_key_exists('strict_search', $options) && $options['strict_search'] === true;
 
 		$query2 = $this->db->getQueryBuilder();
 
@@ -1103,10 +1104,18 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
-			if (!$escapePattern) {
-				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter($pattern)));
+			if ($strictSearch) {
+				if (!$escapePattern) {
+					$query2->andWhere( $query2->expr()->eq('cp.value', $query2->createNamedParameter($pattern)));
+				} else {
+					$query2->andWhere( $query2->expr()->eq('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+				}
 			} else {
-				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+				if (!$escapePattern) {
+					$query2->andWhere( $query2->expr()->ilike('cp.value', $query2->createNamedParameter($pattern)));
+				} else {
+					$query2->andWhere( $query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+				}
 			}
 		}
 
