@@ -1005,6 +1005,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *    - 'limit' - Set a numeric limit for the search results
 	 *    - 'offset' - Set the offset for the limited search results
 	 *    - 'wildcard' - Whether the search should use wildcards
+	 * @psalm-param array{escape_like_param?: bool, limit?: int, offset?: int, wildcard?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
 	public function search($addressBookId, $pattern, $searchProperties, $options = []): array {
@@ -1036,6 +1037,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $pattern
 	 * @param array $searchProperties
 	 * @param array $options
+	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, wildcard?: bool} $options
 	 * @return array
 	 */
 	private function searchByAddressBookIds(array $addressBookIds,
