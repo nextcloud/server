@@ -1224,7 +1224,7 @@ OC.Uploader.prototype = _.extend({
 						smoothRemainingSeconds = smoothing * (bufferTotal / bufferSize) + ((1-smoothing) * smoothRemainingSeconds);
 					}
 
-					if (bufferIndex % 4 == 0){
+					if (bufferIndex % 4 === 0) {
 						h = moment.duration(smoothRemainingSeconds, "seconds").humanize({m: 50, h: 50});
 					}
 
