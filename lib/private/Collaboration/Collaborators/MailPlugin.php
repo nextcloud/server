@@ -101,7 +101,15 @@ class MailPlugin implements ISearchPlugin {
 		$emailType = new SearchResultType('emails');
 
 		// Search in contacts
-		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN'], ['limit' => $limit, 'offset' => $offset]);
+		$addressBookContacts = $this->contactsManager->search(
+			$search,
+			['EMAIL', 'FN'],
+			[
+				'limit' => $limit,
+				'offset' => $offset,
+				'wildcard' => $this->shareeEnumeration,
+			]
+		);
 		$lowerSearch = strtolower($search);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['EMAIL'])) {
