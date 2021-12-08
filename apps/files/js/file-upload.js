@@ -1235,7 +1235,7 @@ OC.Uploader.prototype = _.extend({
 					}
 
 					// smooth bitrate
-					if (smoothBitrate == null){
+					if (smoothBitrate === null) {
 						smoothBitrate = data.bitrate;
 					} else{
 						smoothBitrate = smoothing * data.bitrate + ((1-smoothing) * smoothBitrate);
