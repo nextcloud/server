@@ -1213,7 +1213,7 @@ OC.Uploader.prototype = _.extend({
 
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 					}
-					if (bufferIndex == bufferSize - 1){
+					if (bufferIndex === bufferSize - 1) {
 						bufferFilled = true;
 					}
 					//console.log('#', ' idx: ',bufferIndex, ' Total: ', bufferTotal, ' remainSeconds: ', remainingSeconds, ' during: ', diffUpdate);
