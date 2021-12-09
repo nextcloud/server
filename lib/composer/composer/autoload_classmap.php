@@ -987,6 +987,7 @@ return array(
     'OC\\Core\\Migrations\\Version23000Date20210721100600' => $baseDir . '/core/Migrations/Version23000Date20210721100600.php',
     'OC\\Core\\Migrations\\Version23000Date20210906132259' => $baseDir . '/core/Migrations/Version23000Date20210906132259.php',
     'OC\\Core\\Migrations\\Version23000Date20210930122352' => $baseDir . '/core/Migrations/Version23000Date20210930122352.php',
+    'OC\\Core\\Migrations\\Version23000Date20211203110726' => $baseDir . '/core/Migrations/Version23000Date20211203110726.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
