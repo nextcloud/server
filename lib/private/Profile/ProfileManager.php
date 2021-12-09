@@ -396,7 +396,7 @@ class ProfileManager {
 		$propertiesMetadata = [
 			IAccountManager::PROPERTY_ADDRESS => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get('lib')->t('Address'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Location'),
 			],
 			IAccountManager::PROPERTY_AVATAR => [
 				'appId' => self::CORE_APP_ID,

@@ -32,6 +32,9 @@ use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
 
+use function Safe\parse_url;
+use function Safe\substr;
+
 class WebsiteAction implements ILinkAction {
 
 	/** @var string */
@@ -74,7 +77,13 @@ class WebsiteAction implements ILinkAction {
 	}
 
 	public function getTitle(): string {
-		return $this->l10nFactory->get('lib')->t('Visit %s', [$this->value]);
+		// Saved websites are guaranteed to have the https/http scheme
+		$displayWebsite = str_starts_with($this->value, 'https://')
+			? substr($this->value, 8)
+			: (str_starts_with($this->value, 'http://')
+				? substr($this->value, 7)
+				: null);
+		return $this->l10nFactory->get('lib')->t('Visit %s', [$displayWebsite]);
 	}
 
 	public function getPriority(): int {

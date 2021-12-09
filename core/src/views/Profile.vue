@@ -39,12 +39,12 @@
 						{{ t('core', 'Edit Profile') }}
 					</a>
 				</h2>
-				<div v-if="status.icon || status.message"
+				<button v-if="status.icon || status.message"
 					class="profile__header__container__status-text"
 					:class="{ interactive: isCurrentUser }"
 					@click.prevent.stop="openStatusModal">
 					{{ status.icon }} {{ status.message }}
-				</div>
+				</button>
 			</div>
 		</div>
 
@@ -93,8 +93,7 @@
 							</ActionLink>
 						</Actions>
 						<template v-if="otherActions">
-							<Actions
-								:force-menu="true">
+							<Actions>
 								<ActionLink v-for="action in otherActions"
 									:key="action.id"
 									:class="{ 'icon-invert': colorMainBackground === '#181818' }"
@@ -384,6 +383,7 @@ $content-max-width: 640px;
 
 			&__status-text {
 				width: max-content;
+				height: 44px;
 				max-width: $content-max-width;
 				padding: 5px 10px;
 				margin-left: -12px;
@@ -463,7 +463,7 @@ $content-max-width: 640px;
 	}
 
 	&__blocks {
-		margin: 18px 0 80px 0;
+		margin: 18px 0 30vh 0;
 		display: grid;
 		gap: 16px 0;
 		width: $content-max-width;
