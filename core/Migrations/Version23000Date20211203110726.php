@@ -44,15 +44,11 @@ class Version23000Date20211203110726 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if ($schema->hasTable(self::TABLE_NAME)) {
-			$table = $schema->getTable(self::TABLE_NAME);
-			if ($table->hasIndex('user_id')) {
-				$table->renameIndex('user_id', self::TABLE_NAME . '_user_id_idx');
-				return $schema;
-			}
-			return null;
+		$table = $schema->getTable(self::TABLE_NAME);
+		if ($table->hasIndex('user_id')) {
+			$table->renameIndex('user_id', self::TABLE_NAME . '_user_id_idx');
+			return $schema;
 		}
-
 		return null;
 	}
 }
