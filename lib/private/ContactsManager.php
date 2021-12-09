@@ -42,13 +42,35 @@ class ContactsManager implements IManager {
 	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * 	- 'limit' - Set a numeric limit for the search results
 	 * 	- 'offset' - Set the offset for the limited search results
+	 * 	- 'enumeration' - (since 23.0.0) Whether user enumeration on system address book is allowed
+	 * 	- 'fullmatch' - (since 23.0.0) Whether matching on full detail in system address book is allowed
+	 * 	- 'strict_search' - (since 23.0.0) Whether the search pattern is full string or partial search
+	 * @psalm-param array{escape_like_param?: bool, limit?: int, offset?: int, enumeration?: bool, fullmatch?: bool, strict_search?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
 	public function search($pattern, $searchProperties = [], $options = []) {
 		$this->loadAddressBooks();
 		$result = [];
 		foreach ($this->addressBooks as $addressBook) {
-			$r = $addressBook->search($pattern, $searchProperties, $options);
+			$searchOptions = $options;
+			$strictSearch = array_key_exists('strict_search', $options) && $options['strict_search'] === true;
+
+			if ($addressBook->isSystemAddressBook()) {
+				$fullMatch = !\array_key_exists('fullmatch', $options) || $options['fullmatch'] !== false;
+				if (!$fullMatch) {
+					// Neither full match is allowed, so skip the system address book
+					continue;
+				}
+				if ($strictSearch) {
+					$searchOptions['wildcard'] = false;
+				} else {
+					$searchOptions['wildcard'] = !\array_key_exists('enumeration', $options) || $options['enumeration'] !== false;
+				}
+			} else {
+				$searchOptions['wildcard'] = !$strictSearch;
+			}
+
+			$r = $addressBook->search($pattern, $searchProperties, $searchOptions);
 			$contacts = [];
 			foreach ($r as $c) {
 				$c['addressbook-key'] = $addressBook->getKey();
