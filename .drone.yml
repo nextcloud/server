@@ -30,12 +30,12 @@ steps:
   commands:
     - git submodule update --init
 - name: litmus-v1
-  image: nextcloudci/litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v1/script.sh
 - name: litmus-v2
-  image: nextcloudci/litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v2/script.sh
@@ -58,7 +58,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-new-endpoint
-  image: nextcloudci/litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -82,7 +82,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-old-endpoint
-  image: nextcloudci/litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -106,7 +106,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-new-endpoint
-  image: nextcloudci/litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -130,7 +130,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-old-endpoint
-  image: nextcloudci/litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -154,7 +154,7 @@ steps:
   commands:
     - git submodule update --init
 - name: sqlite-php7.4-samba-native
-  image: nextcloudci/samba-native-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-samba-native-php7.4:latest
   commands:
     - smbd -D -FS &
     - ./autotest-external.sh sqlite smb-linux
@@ -164,7 +164,7 @@ steps:
     - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
 - name: sqlite-php7.4-samba-non-native
-  image: nextcloudci/samba-non-native-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-samba-non-native-php7.4:latest
   commands:
     - smbd -D -FS &
     - ./autotest-external.sh sqlite smb-linux
@@ -192,7 +192,7 @@ steps:
   commands:
     - git submodule update --init
 - name: sqlite-php7.4-webdav-apache
-  image: nextcloudci/webdav-apache-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-webdav-apache-php7.4:latest
   commands:
     - apache2
     - ./autotest-external.sh sqlite webdav-apachedrone
@@ -1969,7 +1969,7 @@ steps:
   commands:
     - git submodule update --init
 - name: memcache-memcached
-  image: nextcloudci/php7.4-memcached:latest
+  image: ghcr.io/nextcloud/continuous-integration-php7.4-memcached:latest
   commands:
     - phpenmod xdebug
     - service memcached restart
