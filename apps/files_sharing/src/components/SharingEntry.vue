@@ -102,7 +102,6 @@
 					}"
 					:class="{ error: errors.expireDate}"
 					:disabled="saving"
-					:first-day-of-week="firstDay"
 					:lang="lang"
 					:value="share.expireDate"
 					value-type="format"

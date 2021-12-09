@@ -105,19 +105,6 @@ export default {
 			return moment().add(1, 'days')
 		},
 
-		/**
-		 * Datepicker lang values
-		 * https://github.com/nextcloud/nextcloud-vue/pull/146
-		 * TODO: have this in vue-components
-		 *
-		 * @returns {int}
-		 */
-		firstDay() {
-			return window.firstDay
-				? window.firstDay
-				: 0 // sunday as default
-		},
-
 		// Datepicker language
 		lang() {
 			const weekdaysShort = window.dayNamesShort
@@ -126,16 +113,16 @@ export default {
 			const monthsShort = window.monthNamesShort
 				? window.monthNamesShort // provided by nextcloud
 				: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
+			const firstDayOfWeek = window.firstDay ? window.firstDay : 0
 
 			return {
 				formatLocale: {
+					firstDayOfWeek,
+					monthsShort,
 					weekdaysMin: weekdaysShort,
 					weekdaysShort,
-					monthsShort,
 				},
-				placeholder: {
-					date: t('files_sharing', 'Select Date'),
-				},
+				monthFormat: 'MMM',
 			}
 		},
 
