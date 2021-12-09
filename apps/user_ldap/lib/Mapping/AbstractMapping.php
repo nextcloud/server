@@ -68,6 +68,7 @@ abstract class AbstractMapping {
 	public function isColNameValid($col) {
 		switch ($col) {
 			case 'ldap_dn':
+			case 'ldap_dn_hash':
 			case 'owncloud_name':
 			case 'directory_uuid':
 				return true;
@@ -151,11 +152,11 @@ abstract class AbstractMapping {
 		$oldDn = $this->getDnByUUID($uuid);
 		$statement = $this->dbc->prepare('
 			UPDATE `' . $this->getTableName() . '`
-			SET `ldap_dn` = ?
+			SET `ldap_dn_hash` = ?, `ldap_dn` = ?
 			WHERE `directory_uuid` = ?
 		');
 
-		$r = $this->modify($statement, [$fdn, $uuid]);
+		$r = $this->modify($statement, [$this->getDNHash($fdn), $fdn, $uuid]);
 
 		if ($r && is_string($oldDn) && isset($this->cache[$oldDn])) {
 			$this->cache[$fdn] = $this->cache[$oldDn];
@@ -178,12 +179,24 @@ abstract class AbstractMapping {
 		$statement = $this->dbc->prepare('
 			UPDATE `' . $this->getTableName() . '`
 			SET `directory_uuid` = ?
-			WHERE `ldap_dn` = ?
+			WHERE `ldap_dn_hash` = ?
 		');
 
 		unset($this->cache[$fdn]);
 
-		return $this->modify($statement, [$uuid, $fdn]);
+		return $this->modify($statement, [$uuid, $this->getDNHash($fdn)]);
+	}
+
+	/**
+	 * Get the hash to store in database column ldap_dn_hash for a given dn
+	 */
+	protected function getDNHash(string $fdn): string {
+		$hash = hash('sha256', $fdn, false);
+		if (is_string($hash)) {
+			return $hash;
+		} else {
+			throw new \RuntimeException('hash function did not return a string');
+		}
 	}
 
 	/**
@@ -194,16 +207,19 @@ abstract class AbstractMapping {
 	 */
 	public function getNameByDN($fdn) {
 		if (!isset($this->cache[$fdn])) {
-			$this->cache[$fdn] = $this->getXbyY('owncloud_name', 'ldap_dn', $fdn);
+			$this->cache[$fdn] = $this->getXbyY('owncloud_name', 'ldap_dn_hash', $this->getDNHash($fdn));
 		}
 		return $this->cache[$fdn];
 	}
 
-	protected function prepareListOfIdsQuery(array $dnList): IQueryBuilder {
+	/**
+	 * @param array<string> $hashList
+	 */
+	protected function prepareListOfIdsQuery(array $hashList): IQueryBuilder {
 		$qb = $this->dbc->getQueryBuilder();
-		$qb->select('owncloud_name', 'ldap_dn')
+		$qb->select('owncloud_name', 'ldap_dn_hash', 'ldap_dn')
 			->from($this->getTableName(false))
-			->where($qb->expr()->in('ldap_dn', $qb->createNamedParameter($dnList, QueryBuilder::PARAM_STR_ARRAY)));
+			->where($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($hashList, QueryBuilder::PARAM_STR_ARRAY)));
 		return $qb;
 	}
 
@@ -216,6 +232,10 @@ abstract class AbstractMapping {
 		$stmt->closeCursor();
 	}
 
+	/**
+	 * @param array<string> $fdns
+	 * @return array<string,string>
+	 */
 	public function getListOfIdsByDn(array $fdns): array {
 		$totalDBParamLimit = 65000;
 		$sliceSize = 1000;
@@ -223,6 +243,7 @@ abstract class AbstractMapping {
 		$results = [];
 
 		$slice = 1;
+		$fdns = array_map([$this, 'getDNHash'], $fdns);
 		$fdnsSlice = count($fdns) > $sliceSize ? array_slice($fdns, 0, $sliceSize) : $fdns;
 		$qb = $this->prepareListOfIdsQuery($fdnsSlice);
 
@@ -240,7 +261,7 @@ abstract class AbstractMapping {
 			}
 
 			if (!empty($fdnsSlice)) {
-				$qb->orWhere($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)));
+				$qb->orWhere($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)));
 			}
 
 			if ($slice % $maxSlices === 0) {
@@ -305,7 +326,7 @@ abstract class AbstractMapping {
 	 * @throws \Exception
 	 */
 	public function getUUIDByDN($dn) {
-		return $this->getXbyY('directory_uuid', 'ldap_dn', $dn);
+		return $this->getXbyY('directory_uuid', 'ldap_dn_hash', $this->getDNHash($dn));
 	}
 
 	/**
@@ -339,9 +360,9 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function map($fdn, $name, $uuid) {
-		if (mb_strlen($fdn) > 255) {
+		if (mb_strlen($fdn) > 4096) {
 			\OC::$server->getLogger()->error(
-				'Cannot map, because the DN exceeds 255 characters: {dn}',
+				'Cannot map, because the DN exceeds 4096 characters: {dn}',
 				[
 					'app' => 'user_ldap',
 					'dn' => $fdn,
@@ -351,6 +372,7 @@ abstract class AbstractMapping {
 		}
 
 		$row = [
+			'ldap_dn_hash' => $this->getDNHash($fdn),
 			'ldap_dn' => $fdn,
 			'owncloud_name' => $name,
 			'directory_uuid' => $uuid
@@ -438,7 +460,7 @@ abstract class AbstractMapping {
 	 */
 	public function count() {
 		$qb = $this->dbc->getQueryBuilder();
-		$query = $qb->select($qb->func()->count('ldap_dn'))
+		$query = $qb->select($qb->func()->count('ldap_dn_hash'))
 			->from($this->getTableName());
 		$res = $query->execute();
 		$count = $res->fetchOne();
