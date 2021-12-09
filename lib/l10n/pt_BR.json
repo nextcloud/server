@@ -215,6 +215,7 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ou, se você preferir manter o arquivo config.php somente para leitura, defina a opção \"config_is_read_only\" como true. Veja %s",
     "Cannot write into \"apps\" directory" : "Não foi possível gravar no diretório \"apps\"",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Isso geralmente pode ser corrigido fornecendo ao servidor da web acesso de gravação ao diretório de aplicativos ou desativando a App Store no arquivo de configuração.",
+    "Cannot create \"data\" directory." : "Não é possível criar o diretório \"dados\".",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Normalmente isso pode ser resolvido dando ao webserver permissão de escrita no diretório raiz. Veja %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "As permissões normalmente podem ser corrigidas dando permissão de escrita do diretório raiz para o servidor web. Veja %s.",
     "Setting locale to %s failed" : "Falha ao configurar localização para %s",
