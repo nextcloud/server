@@ -117,17 +117,24 @@ export default {
 				? window.firstDay
 				: 0 // sunday as default
 		},
+
+		// Datepicker language
 		lang() {
-			// fallback to default in case of unavailable data
+			const weekdaysShort = window.dayNamesShort
+				? window.dayNamesShort // provided by nextcloud
+				: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
+			const monthsShort = window.monthNamesShort
+				? window.monthNamesShort // provided by nextcloud
+				: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
+
 			return {
-				days: window.dayNamesShort
-					? window.dayNamesShort // provided by nextcloud
-					: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'],
-				months: window.monthNamesShort
-					? window.monthNamesShort // provided by nextcloud
-					: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'],
+				formatLocale: {
+					weekdaysMin: weekdaysShort,
+					weekdaysShort,
+					monthsShort,
+				},
 				placeholder: {
-					date: 'Select Date', // TODO: Translate
+					date: t('files_sharing', 'Select Date'),
 				},
 			}
 		},
