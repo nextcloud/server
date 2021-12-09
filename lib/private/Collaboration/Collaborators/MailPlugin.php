@@ -86,12 +86,7 @@ class MailPlugin implements ISearchPlugin {
 	}
 
 	/**
-	 * @param $search
-	 * @param $limit
-	 * @param $offset
-	 * @param ISearchResult $searchResult
-	 * @return bool
-	 * @since 13.0.0
+	 * {@inheritdoc}
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$currentUserId = $this->userSession->getUser()->getUID();
