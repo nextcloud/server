@@ -784,8 +784,12 @@ class Encryption extends Wrapper {
 				fclose($source);
 				fclose($target);
 			} catch (\Exception $e) {
-				fclose($source);
-				fclose($target);
+				if (is_resource($source)) {
+					fclose($source);
+				}
+				if (is_resource($target)) {
+					fclose($target);
+				}
 				throw $e;
 			}
 			if ($result) {
