@@ -58,6 +58,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
           node-version: ${{ matrix.node-version }}
+    # This test requires npm6 for some reason
+    - name: Set up npm 6
+      run: npm i -g npm@^6
     - name: Test
       run: ./autotest-js.sh
 
