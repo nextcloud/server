@@ -886,7 +886,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 		$result = $this->access->countUsers('memberOf=*', ['memberOf'], 1);
-		if (is_int($result) &&  $result > 0) {
+		if (is_int($result) && $result > 0) {
 			return true;
 		}
 		return false;

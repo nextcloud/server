@@ -88,7 +88,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * is user in group?
+	 * Check if user is in group
 	 *
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
@@ -240,18 +240,21 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
+	 * Get group members from dn.
+	 * @psalm-param array<string, int|array|string> $seen List of DN that have already been processed.
 	 * @throws ServerNotAvailableException
 	 */
 	private function _groupMembers(string $dnGroup, ?array &$seen = null): array {
 		if ($seen === null) {
 			$seen = [];
-			// the root entry has to be marked as processed to avoind infinit loops,
-			// but not included in the results laters on
+			// the root entry has to be marked as processed to avoid infinite loops,
+			// but not included in the results later on
 			$excludeFromResult = $dnGroup;
 		}
 		// cache only base groups, otherwise groups get additional unwarranted members
 		$shouldCacheResult = count($seen) === 0;
 
+		/** @psalm-var array<string, string[]|bool> $rawMemberReads */
 		static $rawMemberReads = []; // runtime cache for intermediate ldap read results
 		$allMembers = [];
 
@@ -331,6 +334,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
+	 * @return string[]
 	 * @throws ServerNotAvailableException
 	 */
 	private function _getGroupDNsFromMemberOf(string $dn): array {
@@ -357,7 +361,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @param list<array{dn: list<string>}|string> $list
+	 * @psalm-param list<array{dn: list<string>}|string> $list
+	 * @psalm-param array<string, int|array|string> $seen List of DN that have already been processed.
 	 * @param Closure(string) $fetcher
 	 */
 	private function processListFromWalkingNestedGroups(array &$list, array &$seen, string $dn, Closure $fetcher): void {
@@ -382,7 +387,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @param list<array{dn: list<string>}|string> $list
+	 * @psalm-param list<array{dn: list<string>}|string> $list
+	 * @psalm-param array<string, int|array|string> $seen List of DN that have already been processed.
 	 * @param Closure(string) $fetcher
 	 */
 	private function walkNestedGroupsReturnDNs(string $dn, Closure $fetcher, array $list, array &$seen = []): array {
@@ -397,7 +403,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @param list<array{dn: list<string>}> $list
+	 * @psalm-param list<array{dn: list<string>}> $list
+	 * @psalm-param array<string, int|array|string> $seen List of DN that have already been processed.
+	 * @return array[] An array of records
 	 * @param Closure(string) $fetcher
 	 */
 	private function walkNestedGroupsReturnRecords(string $dn, Closure $fetcher, array $list, array &$seen = []): array {
@@ -419,9 +427,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * translates a gidNumber into an ownCloud internal name
+	 * Translates a gidNumber into the Nextcloud internal name.
 	 *
-	 * @return string|bool
+	 * @return string|false The nextcloud internal name.
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
@@ -442,10 +450,11 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
+	 * @return ?string The name of the group
 	 * @throws ServerNotAvailableException
 	 * @throws Exception
 	 */
-	private function getNameOfGroup(string $filter, string $cacheKey) {
+	private function getNameOfGroup(string $filter, string $cacheKey): ?string {
 		$result = $this->access->searchGroups($filter, ['dn'], 1);
 		if (empty($result)) {
 			$this->access->connection->writeToCache($cacheKey, false);
@@ -464,9 +473,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * returns the entry's gidNumber
-	 *
-	 * @return string|bool
+	 * @return string|bool The entry's gidNumber
 	 * @throws ServerNotAvailableException
 	 */
 	private function getEntryGidNumber(string $dn, string $attribute) {
@@ -478,7 +485,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @return string|bool
+	 * @return string|bool The group's gidNumber
 	 * @throws ServerNotAvailableException
 	 */
 	public function getGroupGidNumber(string $dn) {
@@ -486,9 +493,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * returns the user's gidNumber
-	 *
-	 * @return string|bool
+	 * @return string|bool The user's gidNumber
 	 * @throws ServerNotAvailableException
 	 */
 	public function getUserGidNumber(string $dn) {
@@ -523,8 +528,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * returns a list of users that have the given group as gid number
-	 *
+	 * @return array A list of users that have the given group as gid number
 	 * @throws ServerNotAvailableException
 	 */
 	public function getUsersInGidNumber(
@@ -551,7 +555,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 	/**
 	 * @throws ServerNotAvailableException
-	 * @return bool
+	 * @return false|string
 	 */
 	public function getUserGroupByGid(string $dn) {
 		$groupID = $this->getUserGidNumber($dn);
@@ -566,9 +570,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * translates a primary group ID into an Nextcloud internal name
+	 * Translates a primary group ID into an Nextcloud internal name
 	 *
-	 * @return string|bool
+	 * @return string|false
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
@@ -593,9 +597,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * returns the entry's primary group ID
-	 *
-	 * @return string|bool
+	 * @return string|false The entry's group Id
 	 * @throws ServerNotAvailableException
 	 */
 	private function getEntryGroupID(string $dn, string $attribute) {
@@ -607,7 +609,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @return string|bool
+	 * @return string|false The entry's primary group Id
 	 * @throws ServerNotAvailableException
 	 */
 	public function getGroupPrimaryGroupID(string $dn) {
@@ -615,7 +617,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @return string|bool
+	 * @return string|false
 	 * @throws ServerNotAvailableException
 	 */
 	public function getUserPrimaryGroupIDs(string $dn) {
@@ -695,7 +697,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @return string|bool
+	 * @return string|false
 	 * @throws ServerNotAvailableException
 	 */
 	public function getUserPrimaryGroup(string $dn) {
@@ -949,7 +951,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 		$groupDN = $this->access->groupname2dn($gid);
 		if (!$groupDN) {
-			// group couldn't be found, return empty resultset
+			// group couldn't be found, return empty result-set
 			$this->access->connection->writeToCache($cacheKey, []);
 			return [];
 		}
