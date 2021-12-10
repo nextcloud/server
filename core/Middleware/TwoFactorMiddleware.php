@@ -109,7 +109,7 @@ class TwoFactorMiddleware extends Middleware {
 			&& $this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
 			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
 
-			if ($providers->getProviders() === [] && !$providers->isProviderMissing()) {
+			if ($providers->getPrimaryProviders() === [] && !$providers->isProviderMissing()) {
 				return;
 			}
 		}
