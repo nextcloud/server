@@ -85,7 +85,7 @@ class Quota extends Wrapper {
 				$cache = $storage->getCache();
 			}
 			$data = $cache->get($path);
-			if ($data instanceof ICacheEntry and isset($data['size'])) {
+			if ($data instanceof ICacheEntry && isset($data['size'])) {
 				return $data['size'];
 			} else {
 				return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
@@ -129,7 +129,7 @@ class Quota extends Wrapper {
 	 */
 	public function file_put_contents($path, $data) {
 		$free = $this->free_space($path);
-		if ($free < 0 or strlen($data) < $free) {
+		if ($free < 0 || strlen($data) < $free) {
 			return $this->storage->file_put_contents($path, $data);
 		} else {
 			return false;
@@ -145,7 +145,7 @@ class Quota extends Wrapper {
 	 */
 	public function copy($source, $target) {
 		$free = $this->free_space($target);
-		if ($free < 0 or $this->getSize($source) < $free) {
+		if ($free < 0 || $this->getSize($source) < $free) {
 			return $this->storage->copy($source, $target);
 		} else {
 			return false;
@@ -218,7 +218,7 @@ class Quota extends Wrapper {
 	 */
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		$free = $this->free_space($targetInternalPath);
-		if ($free < 0 or $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
 			return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
 			return false;
