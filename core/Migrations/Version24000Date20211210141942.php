@@ -55,7 +55,7 @@ class Version24000Date20211210141942 extends SimpleMigrationStep {
 
 		$update->update('preferences')
 			->set('configvalue', $update->func()->lower('configvalue'))
-			->where($update->expr()->eq('appid', $update->createNamedParameter('core')))
+			->where($update->expr()->eq('appid', $update->createNamedParameter('settings')))
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter('email')));
 
 		$update->executeStatement();

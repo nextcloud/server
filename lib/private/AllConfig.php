@@ -260,7 +260,7 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		if ($appName === 'core' && $key === 'email') {
+		if ($appName === 'settings' && $key === 'email') {
 			$value = strtolower((string) $value);
 		}
 
@@ -518,7 +518,7 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		if ($appName === 'core' && $key === 'email') {
+		if ($appName === 'settings' && $key === 'email') {
 			// Email address is always stored lowercase in the database
 			return $this->getUsersForUserValue($appName, $key, strtolower($value));
 		}
