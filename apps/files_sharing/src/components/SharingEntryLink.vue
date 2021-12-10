@@ -105,7 +105,7 @@
 				}"
 				class="share-link-expire-date"
 				:disabled="saving"
-				:first-day-of-week="firstDay"
+
 				:lang="lang"
 				icon=""
 				type="date"
@@ -251,7 +251,6 @@
 						class="share-link-expire-date"
 						:class="{ error: errors.expireDate}"
 						:disabled="saving"
-						:first-day-of-week="firstDay"
 						:lang="lang"
 						:value="share.expireDate"
 						value-type="format"
