@@ -261,7 +261,7 @@ class AllConfig implements \OCP\IConfig {
 		$this->fixDIInit();
 
 		if ($appName === 'core' && $key === 'email') {
-			$value = strtolower($value);
+			$value = strtolower((string) $value);
 		}
 
 		$prevValue = $this->getUserValue($userId, $appName, $key, null);
