@@ -377,7 +377,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$fetched = $this->access->connection->getFromCache($cacheKey);
 			if ($fetched === null) {
 				$fetched = $fetcher($recordDN);
-				$fetched = $this->access->connection->writeToCache($cacheKey, $fetched);
+				$this->access->connection->writeToCache($cacheKey, $fetched);
 			}
 			$list = array_merge($list, $fetched);
 			if (!isset($seen[$recordDN]) || is_bool($seen[$recordDN]) && is_array($record)) {
