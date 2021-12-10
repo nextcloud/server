@@ -519,12 +519,12 @@ class AllConfig implements \OCP\IConfig {
 
 		if ($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
 			//oracle hack: need to explicitly cast CLOB to CHAR for comparison
-			$sql .= 'AND LOWER(to_char(`configvalue`)) = LOWER(?)';
+			$sql .= 'AND LOWER(to_char(`configvalue`)) = ?';
 		} else {
-			$sql .= 'AND LOWER(`configvalue`) = LOWER(?)';
+			$sql .= 'AND LOWER(`configvalue`) = ?';
 		}
 
-		$result = $this->connection->executeQuery($sql, [$appName, $key, $value]);
+		$result = $this->connection->executeQuery($sql, [$appName, $key, strtolower($value)]);
 
 		$userIDs = [];
 		while ($row = $result->fetch()) {
