@@ -187,6 +187,13 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'properties_path_index');
 					}
 				}
+
+				if ($schema->hasTable('jobs')) {
+					$table = $schema->getTable('jobs');
+					if (!$table->hasIndex('job_lastcheck_reserved')) {
+						$subject->addHintForMissingSubject($table->getName(), 'job_lastcheck_reserved');
+					}
+				}
 			}
 		);
 
