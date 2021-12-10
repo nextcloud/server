@@ -39,9 +39,9 @@ class HomeCache extends Cache {
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		if ($path !== '/' and $path !== '' and $path !== 'files' and $path !== 'files_trashbin' and $path !== 'files_versions') {
+		if ($path !== '/' && $path !== '' && $path !== 'files' && $path !== 'files_trashbin' && $path !== 'files_versions') {
 			return parent::calculateFolderSize($path, $entry);
-		} elseif ($path === '' or $path === '/') {
+		} elseif ($path === '' || $path === '/') {
 			// since the size of / isn't used (the size of /files is used instead) there is no use in calculating it
 			return 0;
 		}
@@ -83,7 +83,7 @@ class HomeCache extends Cache {
 	 */
 	public function get($path) {
 		$data = parent::get($path);
-		if ($path === '' or $path === '/') {
+		if ($path === '' || $path === '/') {
 			// only the size of the "files" dir counts
 			$filesData = parent::get('files');
 
