@@ -213,10 +213,10 @@ class Scanner extends PublicEmitter {
 			}
 
 			// if the home storage isn't writable then the scanner is run as the wrong user
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Home') and
-				(!$storage->isCreatable('') or !$storage->isCreatable('files'))
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Home') &&
+				(!$storage->isCreatable('') || !$storage->isCreatable('files'))
 			) {
-				if ($storage->file_exists('') or $storage->getCache()->inCache('')) {
+				if ($storage->file_exists('') || $storage->getCache()->inCache('')) {
 					throw new ForbiddenException();
 				} else {// if the root exists in neither the cache nor the storage the user isn't setup yet
 					break;
