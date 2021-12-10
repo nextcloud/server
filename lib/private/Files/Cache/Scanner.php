@@ -141,7 +141,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		}
 		// only proceed if $file is not a partial file nor a blacklisted file
-		if (!self::isPartialFile($file) and !Filesystem::isFileBlacklisted($file)) {
+		if (!self::isPartialFile($file) && !Filesystem::isFileBlacklisted($file)) {
 
 			//acquire a lock
 			if ($lock) {
@@ -180,7 +180,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					}
 
 					// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
-					if ($file and $parentId === -1) {
+					if ($file && $parentId === -1) {
 						$parentData = $this->scanFile($parent);
 						if (!$parentData) {
 							return null;
@@ -194,7 +194,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						/** @var CacheEntry $cacheData */
 						$cacheData = $this->cache->get($file);
 					}
-					if ($cacheData and $reuseExisting and isset($cacheData['fileid'])) {
+					if ($cacheData && $reuseExisting and isset($cacheData['fileid'])) {
 						// prevent empty etag
 						if (empty($cacheData['etag'])) {
 							$etag = $data['etag'];
@@ -338,7 +338,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		try {
 			$data = $this->scanFile($path, $reuse, -1, null, $lock);
-			if ($data and $data['mimetype'] === 'httpd/unix-directory') {
+			if ($data && $data['mimetype'] === 'httpd/unix-directory') {
 				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock);
 				$data['size'] = $size;
 			}
@@ -437,9 +437,9 @@ class Scanner extends BasicEmitter implements IScanner {
 				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
-					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
+					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {
 						$childQueue[$child] = $data['fileid'];
-					} elseif ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE_INCOMPLETE and $data['size'] === -1) {
+					} elseif ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE_INCOMPLETE and $data['size'] === -1) {
 						// only recurse into folders which aren't fully scanned
 						$childQueue[$child] = $data['fileid'];
 					} elseif ($data['size'] === -1) {
