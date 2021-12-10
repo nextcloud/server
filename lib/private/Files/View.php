@@ -240,7 +240,7 @@ class View {
 		$parent = substr($path, 0, strrpos($path, '/'));
 		$path = $this->getAbsolutePath($path);
 		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) and $storage) {
+		if (Filesystem::isValidPath($parent) && $storage) {
 			return $storage->getLocalFile($internalPath);
 		} else {
 			return null;
@@ -255,7 +255,7 @@ class View {
 		$parent = substr($path, 0, strrpos($path, '/'));
 		$path = $this->getAbsolutePath($path);
 		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) and $storage) {
+		if (Filesystem::isValidPath($parent) && $storage) {
 			return $storage->getLocalFolder($internalPath);
 		} else {
 			return null;
@@ -561,7 +561,7 @@ class View {
 	 * @return bool
 	 */
 	public function touch($path, $mtime = null) {
-		if (!is_null($mtime) and !is_numeric($mtime)) {
+		if (!is_null($mtime) && !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
 
@@ -653,7 +653,7 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (Filesystem::isValidPath($path)
-				and !Filesystem::isFileBlacklisted($path)
+				&& !Filesystem::isFileBlacklisted($path)
 			) {
 				$path = $this->getRelativePath($absolutePath);
 
@@ -719,7 +719,7 @@ class View {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
-		if ($mount and $mount->getInternalPath($absolutePath) === '') {
+		if ($mount && $mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $absolutePath);
 		}
 		if ($this->is_dir($path)) {
@@ -760,14 +760,14 @@ class View {
 		$result = false;
 		if (
 			Filesystem::isValidPath($path2)
-			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			&& Filesystem::isValidPath($path1)
+			&& !Filesystem::isFileBlacklisted($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
 			$exists = $this->file_exists($path2);
 
-			if ($path1 == null or $path2 == null) {
+			if ($path1 == null || $path2 == null) {
 				return false;
 			}
 
@@ -852,7 +852,7 @@ class View {
 							$this->emit_file_hooks_post($exists, $path2);
 						}
 					} elseif ($result) {
-						if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
+						if ($this->shouldEmitHooks($path1) && $this->shouldEmitHooks($path2)) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
 								Filesystem::signal_post_rename,
@@ -889,13 +889,13 @@ class View {
 		$result = false;
 		if (
 			Filesystem::isValidPath($path2)
-			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			&& Filesystem::isValidPath($path1)
+			&& !Filesystem::isFileBlacklisted($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
 
-			if ($path1 == null or $path2 == null) {
+			if ($path1 == null || $path2 == null) {
 				return false;
 			}
 			$run = true;
@@ -1139,7 +1139,7 @@ class View {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
-			and !Filesystem::isFileBlacklisted($path)
+			&& !Filesystem::isFileBlacklisted($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
@@ -1154,7 +1154,7 @@ class View {
 			$run = $this->runHooks($hooks, $path);
 			/** @var \OC\Files\Storage\Storage $storage */
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
-			if ($run and $storage) {
+			if ($run && $storage) {
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 					try {
 						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
@@ -1179,7 +1179,7 @@ class View {
 					throw $e;
 				}
 
-				if ($result && in_array('delete', $hooks) and $result) {
+				if ($result && in_array('delete', $hooks) && $result) {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result && in_array('write', $hooks,  true) && $operation !== 'fopen' && $operation !== 'touch') {
@@ -1407,8 +1407,8 @@ class View {
 			}
 			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 
-			if ($data and isset($data['fileid'])) {
-				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
+			if ($data && isset($data['fileid'])) {
+				if ($includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
 					$mounts = Filesystem::getMountManager()->findIn($path);
