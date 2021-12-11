@@ -3839,10 +3839,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidArgument occurrences="2">
-      <code>$source</code>
-      <code>$target</code>
-    </InvalidArgument>
     <InvalidOperand occurrences="3">
       <code>$result</code>
       <code>$result</code>
