@@ -1070,7 +1070,7 @@ $CONFIG = [
  * Max file size for generating image previews with imagegd (default behavior).
  * If the image is bigger, it'll try other preview generators, but will most
  * likely either show the default mimetype icon or not display the image at all.
- * Set to ``-1`` for no limit and try to generate previews on all images sizes.
+ * Set to ``-1`` for no limit and try to generate image previews on all file sizes.
  *
  * Defaults to ``50`` megabytes
  */
