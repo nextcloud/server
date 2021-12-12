@@ -395,10 +395,10 @@ class ShareByMailProvider implements IShareProvider {
 			'note' => $note
 		]);
 
-		$emailTemplate->setSubject($this->l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]));
+		$emailTemplate->setSubject($this->l->t('%1$s shared « %2$s » with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
-		$text = $this->l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
+		$emailTemplate->addHeading($this->l->t('%1$s shared « %2$s » with you', [$initiatorDisplayName, $filename]), false);
+		$text = $this->l->t('%1$s shared « %2$s » with you.', [$initiatorDisplayName, $filename]);
 
 		if ($note !== '') {
 			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
@@ -408,7 +408,7 @@ class ShareByMailProvider implements IShareProvider {
 			$text
 		);
 		$emailTemplate->addBodyButton(
-			$this->l->t('Open »%s«', [$filename]),
+			$this->l->t('Open « %s »', [$filename]),
 			$link
 		);
 
@@ -462,8 +462,8 @@ class ShareByMailProvider implements IShareProvider {
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 
-		$plainBodyPart = $this->l->t("%1\$s shared »%2\$s« with you.\nYou should have already received a separate mail with a link to access it.\n", [$initiatorDisplayName, $filename]);
-		$htmlBodyPart = $this->l->t('%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it.', [$initiatorDisplayName, $filename]);
+		$plainBodyPart = $this->l->t("%1\$s shared « %2\$s » with you.\nYou should have already received a separate mail with a link to access it.\n", [$initiatorDisplayName, $filename]);
+		$htmlBodyPart = $this->l->t('%1$s shared « %2$s » with you. You should have already received a separate mail with a link to access it.', [$initiatorDisplayName, $filename]);
 
 		$message = $this->mailer->createMessage();
 
@@ -475,9 +475,9 @@ class ShareByMailProvider implements IShareProvider {
 			'shareWith' => $shareWith,
 		]);
 
-		$emailTemplate->setSubject($this->l->t('Password to access »%1$s« shared to you by %2$s', [$filename, $initiatorDisplayName]));
+		$emailTemplate->setSubject($this->l->t('Password to access « %1$s » shared to you by %2$s', [$filename, $initiatorDisplayName]));
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
+		$emailTemplate->addHeading($this->l->t('Password to access « %s »', [$filename]), false);
 		$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
 		$emailTemplate->addBodyText($this->l->t('It is protected with the following password:'));
 		$emailTemplate->addBodyText($password);
@@ -523,14 +523,14 @@ class ShareByMailProvider implements IShareProvider {
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 
-		$plainHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add:', [$initiatorDisplayName, $filename]);
-		$htmlHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add', [$initiatorDisplayName, $filename]);
+		$plainHeading = $this->l->t('%1$s shared « %2$s » with you and wants to add:', [$initiatorDisplayName, $filename]);
+		$htmlHeading = $this->l->t('%1$s shared « %2$s » with you and wants to add', [$initiatorDisplayName, $filename]);
 
 		$message = $this->mailer->createMessage();
 
 		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
 
-		$emailTemplate->setSubject($this->l->t('»%s« added a note to a file shared with you', [$initiatorDisplayName]));
+		$emailTemplate->setSubject($this->l->t('« %s » added a note to a file shared with you', [$initiatorDisplayName]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading(htmlspecialchars($htmlHeading), $plainHeading);
 		$emailTemplate->addBodyText(htmlspecialchars($note), $note);
@@ -538,7 +538,7 @@ class ShareByMailProvider implements IShareProvider {
 		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 			['token' => $share->getToken()]);
 		$emailTemplate->addBodyButton(
-			$this->l->t('Open »%s«', [$filename]),
+			$this->l->t('Open « %s »', [$filename]),
 			$link
 		);
 
@@ -589,7 +589,7 @@ class ShareByMailProvider implements IShareProvider {
 			);
 		}
 
-		$bodyPart = $this->l->t('You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.', [$filename, $shareWith, $this->defaults->getName()]);
+		$bodyPart = $this->l->t('You just shared « %1$s » with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.', [$filename, $shareWith, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage();
 		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.OwnerPasswordNotification', [
@@ -600,9 +600,9 @@ class ShareByMailProvider implements IShareProvider {
 			'shareWith' => $shareWith,
 		]);
 
-		$emailTemplate->setSubject($this->l->t('Password to access »%1$s« shared by you with %2$s', [$filename, $shareWith]));
+		$emailTemplate->setSubject($this->l->t('Password to access « %1$s » shared by you with %2$s', [$filename, $shareWith]));
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
+		$emailTemplate->addHeading($this->l->t('Password to access « %s »', [$filename]), false);
 		$emailTemplate->addBodyText($bodyPart);
 		$emailTemplate->addBodyText($this->l->t('This is the password:'));
 		$emailTemplate->addBodyText($password);
