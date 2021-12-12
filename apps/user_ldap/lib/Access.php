@@ -511,6 +511,11 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, array $record = null) {
+		static $intermediates = [];
+		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
+			return false; // is a known intermediate
+		}
+
 		$newlyMapped = false;
 		if ($isUser) {
 			$mapper = $this->getUserMapper();
@@ -546,6 +551,7 @@ class Access extends LDAPUtility {
 			$ldapName = $this->readAttribute($fdn, $nameAttribute, $filter);
 			if (!isset($ldapName[0]) || empty($ldapName[0])) {
 				$this->logger->debug('No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ['app' => 'user_ldap']);
+				$intermediates[($isUser ? 'user-' : 'group-') . $fdn] = true;
 				return false;
 			}
 			$ldapName = $ldapName[0];
