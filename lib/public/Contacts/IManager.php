@@ -93,6 +93,10 @@ interface IManager {
 	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * 	- 'limit' - Set a numeric limit for the search results
 	 * 	- 'offset' - Set the offset for the limited search results
+	 * 	- 'enumeration' - (since 23.0.0) Whether user enumeration on system address book is allowed
+	 * 	- 'fullmatch' - (since 23.0.0) Whether matching on full detail in system addresss book is allowed
+	 * 	- 'strict_search' - (since 23.0.0) Whether the search pattern is full string or partial search
+	 * @psalm-param array{escape_like_param?: bool, limit?: int, offset?: int, enumeration?: bool, fullmatch?: bool, strict_search?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0
 	 */
