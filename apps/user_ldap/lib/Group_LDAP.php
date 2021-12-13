@@ -240,26 +240,15 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 	/**
 	 * Get group members from dn.
-	 * @psalm-param array<string, int|array|string> $seen List of DN that have already been processed.
+	 * @psalm-param array<string, bool> $seen List of DN that have already been processed.
 	 * @throws ServerNotAvailableException
 	 */
-	private function _groupMembers(string $dnGroup, ?array &$seen = null): array {
-		if ($seen === null) {
-			$seen = [];
-			// the root entry has to be marked as processed to avoid infinite loops,
-			// but not included in the results later on
-			$excludeFromResult = $dnGroup;
-		}
-		// cache only base groups, otherwise groups get additional unwarranted members
-		$shouldCacheResult = count($seen) === 0;
-
-		/** @psalm-var array<string, string[]|bool> $rawMemberReads */
-		static $rawMemberReads = []; // runtime cache for intermediate ldap read results
-		$allMembers = [];
-
-		if (array_key_exists($dnGroup, $seen)) {
+	private function _groupMembers(string $dnGroup, array &$seen = []): array {
+		if (isset($seen[$dnGroup])) {
 			return [];
 		}
+		$seen[$dnGroup] = true;
+
 		// used extensively in cron job, caching makes sense for nested groups
 		$cacheKey = '_groupMembers' . $dnGroup;
 		$groupMembers = $this->access->connection->getFromCache($cacheKey);
@@ -288,40 +277,43 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 				return $carry;
 			}, []);
 			if ($this->access->connection->ldapMatchingRuleInChainState === Configuration::LDAP_SERVER_FEATURE_AVAILABLE) {
+				$this->access->connection->writeToCache($cacheKey, $result);
 				return $result;
 			} elseif (!empty($memberRecords)) {
 				$this->access->connection->ldapMatchingRuleInChainState = Configuration::LDAP_SERVER_FEATURE_AVAILABLE;
 				$this->access->connection->saveConfiguration();
+				$this->access->connection->writeToCache($cacheKey, $result);
 				return $result;
 			}
 			// when feature availability is unknown, and the result is empty, continue and test with original approach
 		}
 
-		$seen[$dnGroup] = 1;
-		$members = $rawMemberReads[$dnGroup] ?? null;
-		if ($members === null) {
-			$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
-			$rawMemberReads[$dnGroup] = $members;
-		}
+		$allMembers = [];
+		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
 		if (is_array($members)) {
-			$fetcher = function (string $memberDN) use (&$seen) {
-				return $this->_groupMembers($memberDN, $seen);
-			};
-			$allMembers = $this->walkNestedGroupsReturnDNs($dnGroup, $fetcher, $members, $seen);
-		}
-
-		$allMembers += $this->getDynamicGroupMembers($dnGroup);
-		if (isset($excludeFromResult)) {
-			$index = array_search($excludeFromResult, $allMembers, true);
-			if ($index !== false) {
-				unset($allMembers[$index]);
+			if ((int)$this->access->connection->ldapNestedGroups === 1) {
+				while ($recordDn = array_shift($members)) {
+					$nestedMembers = $this->_groupMembers($recordDn, $seen);
+					$members = array_merge($members, $nestedMembers);
+					$allMembers[] = $recordDn;
+				}
+			} else {
+				$allMembers = $members;
 			}
 		}
 
-		if ($shouldCacheResult) {
-			$this->access->connection->writeToCache($cacheKey, $allMembers);
-			unset($rawMemberReads[$dnGroup]);
+		$allMembers += $this->getDynamicGroupMembers($dnGroup);
+
+		$allMembers = array_unique($allMembers);
+
+		// A group cannot be a member of itself
+		$index = array_search($dnGroup, $allMembers, true);
+		if ($index !== false) {
+			unset($allMembers[$index]);
 		}
+
+		$this->access->connection->writeToCache($cacheKey, $allMembers);
+
 		if (isset($attemptedLdapMatchingRuleInChain)
 			&& $this->access->connection->ldapMatchingRuleInChainState === Configuration::LDAP_SERVER_FEATURE_UNKNOWN
 			&& !empty($allMembers)
@@ -329,6 +321,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$this->access->connection->ldapMatchingRuleInChainState = Configuration::LDAP_SERVER_FEATURE_UNAVAILABLE;
 			$this->access->connection->saveConfiguration();
 		}
+
 		return $allMembers;
 	}
 
