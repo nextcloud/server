@@ -73,7 +73,10 @@ class ContactsStore implements IContactsStore {
 	 * @return IEntry[]
 	 */
 	public function getContacts(IUser $user, $filter, ?int $limit = null, ?int $offset = null) {
-		$options = [];
+		$options = [
+			'enumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes',
+			'fullmatch' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes',
+		];
 		if ($limit !== null) {
 			$options['limit'] = $limit;
 		}
@@ -242,7 +245,9 @@ class ContactsStore implements IContactsStore {
 		}
 
 		$userId = $user->getUID();
-		$allContacts = $this->contactsManager->search($shareWith, $filter);
+		$allContacts = $this->contactsManager->search($shareWith, $filter, [
+			'strict_search' => true,
+		]);
 		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
 			return $contact['UID'] !== $userId;
 		});
