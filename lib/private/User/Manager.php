@@ -628,8 +628,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
-			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')))
-			->andWhere($queryBuilder->expr()->isNotNull('configvalue'));
+			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')));
 
 		$query = $queryBuilder->execute();
 
