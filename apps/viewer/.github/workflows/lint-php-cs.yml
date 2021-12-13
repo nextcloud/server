@@ -1,0 +1,35 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    name: php-cs
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          coverage: none
+
+      - name: Install dependencies
+        run: composer i
+
+      - name: Lint
+        run: composer run cs:check || ( echo 'Please run `composer run cs:fix` to format your code' && exit 1 )
