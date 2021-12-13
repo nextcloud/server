@@ -1,0 +1,31 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
+
+jobs:
+  xml-linters:
+    runs-on: ubuntu-latest
+
+    name: info.xml lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Download schema
+        run: wget https://raw.githubusercontent.com/nextcloud/appstore/master/nextcloudappstore/api/v1/release/info.xsd
+
+      - name: Lint info.xml
+        uses: ChristophWurst/xmllint-action@v1
+        with:
+          xml-file: ./appinfo/info.xml
+          xml-schema-file: ./info.xsd
