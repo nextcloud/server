@@ -294,8 +294,13 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			if ((int)$this->access->connection->ldapNestedGroups === 1) {
 				while ($recordDn = array_shift($members)) {
 					$nestedMembers = $this->_groupMembers($recordDn, $seen);
-					$members = array_merge($members, $nestedMembers);
-					$allMembers[] = $recordDn;
+					if (!empty($nestedMembers)) {
+						// Group, queue its members for processing
+						$members = array_merge($members, $nestedMembers);
+					} else {
+						// User (or empty group, or previously seen group), add it to the member list
+						$allMembers[] = $recordDn;
+					}
 				}
 			} else {
 				$allMembers = $members;
