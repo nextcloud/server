@@ -1274,33 +1274,70 @@ class Group_LDAPTest extends TestCase {
 	public function groupMemberProvider() {
 		$base = 'dc=species,dc=earth';
 
-		$groups0 = [
+		$birdsDn = [
 			'uid=3723,' . $base,
 			'uid=8372,' . $base,
 			'uid=8427,' . $base,
 			'uid=2333,' . $base,
 			'uid=4754,' . $base,
 		];
-		$groups1 = [
+		$birdsUid = [
 			'3723',
 			'8372',
 			'8427',
 			'2333',
 			'4754',
 		];
-		$groups2Nested = ['6642', '1424'];
-		$expGroups2 = array_merge($groups1, $groups2Nested);
+		$animalsDn = [
+			'uid=lion,' . $base,
+			'uid=tiger,' . $base,
+		];
+		$plantsDn = [
+			'uid=flower,' . $base,
+			'uid=tree,' . $base,
+		];
+		$thingsDn = [
+			'uid=thing1,' . $base,
+			'uid=thing2,' . $base,
+		];
 
 		return [
 			[ #0 – test DNs
 				'cn=Birds,' . $base,
-				$groups0,
-				['cn=Birds,' . $base => $groups0]
+				$birdsDn,
+				['cn=Birds,' . $base => $birdsDn]
 			],
 			[ #1 – test uids
 				'cn=Birds,' . $base,
-				$groups1,
-				['cn=Birds,' . $base => $groups1]
+				$birdsUid,
+				['cn=Birds,' . $base => $birdsUid]
+			],
+			[ #2 – test simple nested group
+				'cn=Animals,' . $base,
+				array_merge($birdsDn, $animalsDn),
+				[
+					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base], $animalsDn),
+					'cn=Birds,' . $base => $birdsDn,
+				]
+			],
+			[ #3 – test recursive nested group
+				'cn=Animals,' . $base,
+				// Because of complicated nesting the group gets returned as a member
+				array_merge(['cn=Birds,' . $base], $birdsDn, $animalsDn),
+				[
+					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base,'cn=Birds,' . $base,'cn=Animals,' . $base], $animalsDn),
+					'cn=Birds,' . $base => array_merge(['cn=Animals,' . $base,'cn=Birds,' . $base], $birdsDn),
+				]
+			],
+			[ #4 – Complicated nested group
+				'cn=Things,' . $base,
+				array_merge($birdsDn, $animalsDn, $thingsDn, $plantsDn),
+				[
+					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base], $animalsDn),
+					'cn=Birds,' . $base => $birdsDn,
+					'cn=Plants,' . $base => $plantsDn,
+					'cn=Things,' . $base => array_merge(['cn=Animals,' . $base,'cn=Plants,' . $base], $thingsDn),
+				]
 			],
 		];
 	}
