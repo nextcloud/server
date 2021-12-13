@@ -245,7 +245,9 @@ class ContactsStore implements IContactsStore {
 		}
 
 		$userId = $user->getUID();
-		$allContacts = $this->contactsManager->search($shareWith, $filter);
+		$allContacts = $this->contactsManager->search($shareWith, $filter, [
+			'strict_search' => true,
+		]);
 		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
 			return $contact['UID'] !== $userId;
 		});
