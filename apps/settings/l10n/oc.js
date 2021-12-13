@@ -144,6 +144,7 @@ OC.L10N.register(
     "Unable to update language" : "Actualizacion de la lenga impossibla",
     "No language set" : "Cap de lenga pas definida",
     "Your organisation" : "Vòstra organizacion",
+    "Edit your Profile visibility" : "Modificatz la visibilitat de vòstre perfil",
     "Enable Profile" : "Activar Perfil",
     "{displayId}" : "{displayId}",
     "Your role" : "Vòstre ròtle",
