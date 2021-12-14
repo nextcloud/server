@@ -22,11 +22,15 @@
 import Vue from 'vue'
 import ViewerComponent from './views/Viewer'
 import ViewerService from './services/Viewer'
+import { translate as t } from '@nextcloud/l10n'
 
 import { generateFilePath } from '@nextcloud/router'
 
-Vue.prototype.t = t
-Vue.prototype.n = n
+Vue.mixin({
+	methods: {
+		t,
+	},
+})
 
 Vue.prototype.OC = OC
 Vue.prototype.OCA = OCA
