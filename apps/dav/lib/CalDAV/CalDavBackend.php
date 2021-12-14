@@ -100,7 +100,9 @@ use function array_merge;
 use function array_values;
 use function explode;
 use function is_array;
+use function is_resource;
 use function pathinfo;
+use function rewind;
 use function sprintf;
 use function str_replace;
 use function strtolower;
@@ -1900,7 +1902,39 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$result = $outerQuery->executeQuery();
-		$calendarObjects = $result->fetchAll();
+		$calendarObjects = array_filter($result->fetchAll(), function (array $row) use ($options) {
+			$start = $options['timerange']['start'] ?? null;
+			$end = $options['timerange']['end'] ?? null;
+
+			if ($start === null || !($start instanceof DateTimeInterface) || $end === null || !($end instanceof DateTimeInterface)) {
+				// No filter required
+				return true;
+			}
+
+			$isValid = $this->validateFilterForObject($row, [
+				'name' => 'VCALENDAR',
+				'comp-filters' => [
+					[
+						'name' => 'VEVENT',
+						'comp-filters' => [],
+						'prop-filters' => [],
+						'is-not-defined' => false,
+						'time-range' => [
+							'start' => $start,
+							'end' => $end,
+						],
+					],
+				],
+				'prop-filters' => [],
+				'is-not-defined' => false,
+				'time-range' => null,
+			]);
+			if (is_resource($row['calendardata'])) {
+				// Put the stream back to the beginning so it can be read another time
+				rewind($row['calendardata']);
+			}
+			return $isValid;
+		});
 		$result->closeCursor();
 
 		return array_map(function ($o) {
