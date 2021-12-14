@@ -43,7 +43,6 @@
  */
 namespace OCA\User_LDAP;
 
-use Closure;
 use Exception;
 use OC;
 use OCP\Cache\CappedMemoryCache;
