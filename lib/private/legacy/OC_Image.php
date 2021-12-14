@@ -6,6 +6,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Byron Marohn <combustible@live.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -46,7 +47,7 @@ use OCP\IImage;
  * Class for basic image manipulation
  */
 class OC_Image implements \OCP\IImage {
-	/** @var false|resource */
+	/** @var false|resource|\GdImage */
 	protected $resource = false; // tmp resource.
 	/** @var int */
 	protected $imageType = IMAGETYPE_PNG; // Default to png if file type isn't evident.
@@ -68,7 +69,7 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * Constructor.
 	 *
-	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by
+	 * @param resource|string|\GdImage $imageRef The path to a local file, a base64 encoded string or a resource created by
 	 * an imagecreate* function.
 	 * @param \OCP\ILogger $logger
 	 * @param \OCP\IConfig $config
@@ -98,7 +99,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return bool
 	 */
-	public function valid() { // apparently you can't name a method 'empty'...
+	public function valid() {
 		if (is_resource($this->resource)) {
 			return true;
 		}
@@ -124,7 +125,13 @@ class OC_Image implements \OCP\IImage {
 	 * @return int
 	 */
 	public function width() {
-		return $this->valid() ? imagesx($this->resource) : -1;
+		if ($this->valid()) {
+			$width = imagesx($this->resource);
+			if ($width !== false) {
+				return $width;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -133,7 +140,13 @@ class OC_Image implements \OCP\IImage {
 	 * @return int
 	 */
 	public function height() {
-		return $this->valid() ? imagesy($this->resource) : -1;
+		if ($this->valid()) {
+			$height = imagesy($this->resource);
+			if ($height !== false) {
+				return $height;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -327,7 +340,7 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
-	 * @return resource|\GdImage Returns the image resource in any.
+	 * @return false|resource|\GdImage Returns the image resource if any
 	 */
 	public function resource() {
 		return $this->resource;
@@ -469,6 +482,10 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function fixOrientation() {
+		if (!$this->valid()) {
+			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			return false;
+		}
 		$o = $this->getOrientation();
 		$this->logger->debug('OC_Image->fixOrientation() Orientation: ' . $o, ['app' => 'core']);
 		$rotate = 0;
@@ -876,6 +893,10 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function resize($maxSize) {
+		if (!$this->valid()) {
+			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			return false;
+		}
 		$result = $this->resizeNew($maxSize);
 		imagedestroy($this->resource);
 		$this->resource = $result;
@@ -912,6 +933,10 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function preciseResize(int $width, int $height): bool {
+		if (!$this->valid()) {
+			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			return false;
+		}
 		$result = $this->preciseResizeNew($width, $height);
 		imagedestroy($this->resource);
 		$this->resource = $result;
@@ -991,9 +1016,8 @@ class OC_Image implements \OCP\IImage {
 			$targetHeight = $height;
 		}
 		$process = imagecreatetruecolor($targetWidth, $targetHeight);
-		if ($process == false) {
+		if ($process === false) {
 			$this->logger->error('OC_Image->centerCrop, Error creating true color image', ['app' => 'core']);
-			imagedestroy($process);
 			return false;
 		}
 
@@ -1005,9 +1029,8 @@ class OC_Image implements \OCP\IImage {
 		}
 
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
-		if ($process == false) {
+		if ($process === false) {
 			$this->logger->error('OC_Image->centerCrop, Error re-sampling process image ' . $width . 'x' . $height, ['app' => 'core']);
-			imagedestroy($process);
 			return false;
 		}
 		imagedestroy($this->resource);
@@ -1025,6 +1048,10 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool for success or failure
 	 */
 	public function crop(int $x, int $y, int $w, int $h): bool {
+		if (!$this->valid()) {
+			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			return false;
+		}
 		$result = $this->cropNew($x, $y, $w, $h);
 		imagedestroy($this->resource);
 		$this->resource = $result;
@@ -1038,7 +1065,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param int $y Vertical position
 	 * @param int $w Width
 	 * @param int $h Height
-	 * @return resource | bool
+	 * @return resource|\GdImage|false
 	 */
 	public function cropNew(int $x, int $y, int $w, int $h) {
 		if (!$this->valid()) {
@@ -1046,9 +1073,8 @@ class OC_Image implements \OCP\IImage {
 			return false;
 		}
 		$process = imagecreatetruecolor($w, $h);
-		if ($process == false) {
+		if ($process === false) {
 			$this->logger->error(__METHOD__ . '(): Error creating true color image', ['app' => 'core']);
-			imagedestroy($process);
 			return false;
 		}
 
@@ -1060,9 +1086,8 @@ class OC_Image implements \OCP\IImage {
 		}
 
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $w, $h, $w, $h);
-		if ($process == false) {
+		if ($process === false) {
 			$this->logger->error(__METHOD__ . '(): Error re-sampling process image ' . $w . 'x' . $h, ['app' => 'core']);
-			imagedestroy($process);
 			return false;
 		}
 		return $process;
@@ -1179,7 +1204,7 @@ class OC_Image implements \OCP\IImage {
 		if ($this->valid()) {
 			imagedestroy($this->resource);
 		}
-		$this->resource = null;
+		$this->resource = false;
 	}
 
 	public function __destruct() {
