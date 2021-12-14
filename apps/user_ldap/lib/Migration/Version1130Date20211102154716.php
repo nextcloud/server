@@ -128,13 +128,13 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 		$select = $this->getSelectQuery($table);
 		$update = $this->getUpdateQuery($table);
 
-		$result = $select->executeQuery();
+		$result = $select->execute();
 		while ($row = $result->fetch()) {
 			$dnHash = hash('sha256', $row['ldap_dn'], false);
 			$update->setParameter('name', $row['owncloud_name']);
 			$update->setParameter('dn_hash', $dnHash);
 			try {
-				$update->executeStatement();
+				$update->execute();
 			} catch (Exception $e) {
 				$this->logger->error('Failed to add hash "{dnHash}" ("{name}" of {table})',
 					[
