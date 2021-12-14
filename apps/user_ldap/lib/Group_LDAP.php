@@ -787,6 +787,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
+	 * @return array[]
 	 * @throws ServerNotAvailableException
 	 */
 	private function getGroupsByMember(string $dn, array &$seen = []): array {
