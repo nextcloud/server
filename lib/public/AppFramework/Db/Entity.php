@@ -260,6 +260,7 @@ abstract class Entity {
 	 * @param string $attributeName the name of the attribute, which value should be slugified
 	 * @return string slugified value
 	 * @since 7.0.0
+	 * @deprecated 24.0.0
 	 */
 	public function slugify($attributeName) {
 		// toSlug should only work for existing attributes
