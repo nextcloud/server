@@ -948,7 +948,7 @@ class Group_LDAPTest extends TestCase {
 					case 'ldapDynamicGroupMemberURL':
 						return '';
 					case 'ldapNestedGroups':
-						return $nestedGroups;
+						return (int)$nestedGroups;
 					case 'ldapGroupMemberAssocAttr':
 						return 'member';
 					case 'ldapGroupFilter':
@@ -982,30 +982,47 @@ class Group_LDAPTest extends TestCase {
 		$group1 = [
 			'cn' => 'group1',
 			'dn' => ['cn=group1,ou=groups,dc=domain,dc=com'],
+			'member' => [$dn],
 		];
 		$group2 = [
 			'cn' => 'group2',
 			'dn' => ['cn=group2,ou=groups,dc=domain,dc=com'],
+			'member' => [$dn],
 		];
+		$group3 = [
+			'cn' => 'group3',
+			'dn' => ['cn=group3,ou=groups,dc=domain,dc=com'],
+			'member' => [$group2['dn'][0]],
+		];
+
+		$expectedGroups = ($nestedGroups ? [$group1, $group2, $group3] : [$group1, $group2]);
+		$expectedGroupsNames = ($nestedGroups ? ['group1', 'group2', 'group3'] : ['group1', 'group2']);
 
 		$access->expects($this->any())
 			->method('nextcloudGroupNames')
-			->with([$group1, $group2])
-			->willReturn(['group1', 'group2']);
+			->with($expectedGroups)
+			->willReturn($expectedGroupsNames);
 		$access->expects($nestedGroups ? $this->atLeastOnce() : $this->once())
 			->method('fetchListOfGroups')
-			->willReturnCallback(function ($filter, $attr, $limit, $offset) use ($nestedGroups, $groupFilter, $group1, $group2) {
+			->willReturnCallback(function ($filter, $attr, $limit, $offset) use ($nestedGroups, $groupFilter, $group1, $group2, $group3, $dn) {
 				static $firstRun = true;
 				if (!$nestedGroups) {
 					// When nested groups are enabled, groups cannot be filtered early as it would
 					// exclude intermediate groups. But we can, and should, when working with flat groups.
 					$this->assertTrue(strpos($filter, $groupFilter) !== false);
 				}
-				if ($firstRun) {
-					$firstRun = false;
-					return [$group1, $group2];
+				[$memberFilter] = explode('&', $filter);
+				if ($memberFilter === 'member='.$dn) {
+					if ($firstRun) {
+						$firstRun = false;
+						return [$group1, $group2];
+					}
+					return [];
+				} elseif ($memberFilter === 'member='.$group2['dn'][0]) {
+					return [$group3];
+				} else {
+					return [];
 				}
-				return [];
 			});
 		$access->expects($this->any())
 			->method('dn2groupname')
@@ -1014,12 +1031,15 @@ class Group_LDAPTest extends TestCase {
 			});
 		$access->expects($this->any())
 			->method('groupname2dn')
-			->willReturnCallback(function (string $gid) use ($group1, $group2) {
+			->willReturnCallback(function (string $gid) use ($group1, $group2, $group3) {
 				if ($gid === $group1['cn']) {
 					return $group1['dn'][0];
 				}
 				if ($gid === $group2['cn']) {
 					return $group2['dn'][0];
+				}
+				if ($gid === $group3['cn']) {
+					return $group3['dn'][0];
 				}
 			});
 		$access->expects($this->any())
@@ -1028,10 +1048,10 @@ class Group_LDAPTest extends TestCase {
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groups = $groupBackend->getUserGroups('userX');
-		$this->assertEquals(['group1', 'group2'], $groups);
+		$this->assertEquals($expectedGroupsNames, $groups);
 
 		$groupsAgain = $groupBackend->getUserGroups('userX');
-		$this->assertEquals(['group1', 'group2'], $groupsAgain);
+		$this->assertEquals($expectedGroupsNames, $groupsAgain);
 	}
 
 	public function testCreateGroupWithPlugin() {
