@@ -263,7 +263,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : 0;
 		$rootQuery = new SearchQuery(
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $internalPath . '%'),
+				new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', $internalPath . '%'),
 				$query->getSearchOperation(),
 			]
 			),
