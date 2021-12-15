@@ -580,6 +580,8 @@ class OC_Util {
 	/**
 	 * add a javascript file
 	 *
+	 * @deprecated 24.0.0
+	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
 	 * @param bool $prepend prepend the Script to the beginning of the list
@@ -610,6 +612,8 @@ class OC_Util {
 
 	/**
 	 * add a translation JS file
+	 *
+	 * @deprecated 24.0.0
 	 *
 	 * @param string $application application id
 	 * @param string|null $languageCode language code, defaults to the current language
@@ -837,7 +841,6 @@ class OC_Util {
 				'json_encode' => 'JSON',
 				'gd_info' => 'GD',
 				'gzencode' => 'zlib',
-				'iconv' => 'iconv',
 				'simplexml_load_string' => 'SimpleXML',
 				'hash' => 'HASH Message Digest Framework',
 				'curl_init' => 'cURL',
@@ -1443,18 +1446,5 @@ class OC_Util {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * is this Internet explorer ?
-	 *
-	 * @return boolean
-	 */
-	public static function isIe() {
-		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-			return false;
-		}
-
-		return preg_match(Request::USER_AGENT_IE, $_SERVER['HTTP_USER_AGENT']) === 1;
 	}
 }
