@@ -785,7 +785,7 @@ class OC_Util {
 					$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 				} else {
 					$errors[] = [
-						'error' => $l->t('Cannot create "data" directory'),
+						'error' => $l->t('Cannot create "data" directory.'),
 						'hint' => $l->t('This can usually be fixed by giving the web server write access to the root directory. See %s',
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
