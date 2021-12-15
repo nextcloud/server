@@ -250,7 +250,7 @@ class OC {
 
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!')."\n";
-				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory.')."\n";
+				echo $l->t('This can usually be fixed by giving the web server write access to the config directory.')."\n";
 				echo "\n";
 				echo $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.')."\n";
 				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ])."\n";
@@ -258,7 +258,7 @@ class OC {
 			} else {
 				OC_Template::printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
-					$l->t('This can usually be fixed by giving the webserver write access to the config directory.') . ' '
+					$l->t('This can usually be fixed by giving the web server write access to the config directory.') . ' '
 					. $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . ' '
 					. $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]),
 					503
@@ -610,7 +610,7 @@ class OC {
 		}
 
 		//try to configure php to enable big file uploads.
-		//this doesn´t work always depending on the webserver and php configuration.
+		//this doesn´t work always depending on the web server and php configuration.
 		//Let´s try to overwrite some defaults anyway
 
 		//try to set the maximum execution time to 60min
