@@ -78,6 +78,9 @@ class Util {
 	/** @var array */
 	private static $scripts = [];
 
+	/** @var array */
+	private static $scriptDeps = [];
+
 	/**
 	 * get the current installed version of Nextcloud
 	 * @return array
@@ -216,13 +219,15 @@ class Util {
 		// 	]
 		// ]
 		if (!empty($afterAppId)) {
-			// init afterAppId app array if it doesn't exists
+			// init afterAppId app array if it doesn't exist
 			if (!array_key_exists($afterAppId, self::$scripts)) {
 				self::$scripts[$afterAppId] = ['first' => [], 'last' => []];
 			}
 			self::$scripts[$afterAppId]['last'][] = $path;
+			// store dependency
+			self::$scriptDeps[$application] = $afterAppId;
 		} else {
-			// init app array if it doesn't exists
+			// init app array if it doesn't exist
 			if (!array_key_exists($application, self::$scripts)) {
 				self::$scripts[$application] = ['first' => [], 'last' => []];
 			}
@@ -237,12 +242,31 @@ class Util {
 	 */
 	public static function getScripts(): array {
 		// merging first and last data set
-		$mapFunc = function (array $scriptsArray): array {
+		$mapFunc = static function (array $scriptsArray): array {
 			return array_merge(...array_values($scriptsArray));
 		};
 		$appScripts = array_map($mapFunc, self::$scripts);
+
+		// Sort by dependency if any
+		$sortedScripts = [];
+		foreach ($appScripts as $app => $scripts) {
+			if (array_key_exists($app, self::$scriptDeps)) {
+				$dep = self::$scriptDeps[$app];
+				if (!array_key_exists($dep, $sortedScripts)) {
+					$sortedScripts[$dep] = [];
+				}
+				array_push($sortedScripts[$dep], ...$scripts);
+			} else {
+				if (!array_key_exists($app, $sortedScripts)) {
+					$sortedScripts[$app] = [];
+				}
+				array_unshift($sortedScripts[$app], ...$scripts);
+			}
+		}
+
 		// sort core first
-		$scripts = array_merge(isset($appScripts['core']) ? $appScripts['core'] : [], ...array_values($appScripts));
+		$scripts = array_merge(isset($sortedScripts['core']) ? $sortedScripts['core'] : [], ...array_values($sortedScripts));
+
 		// remove duplicates
 		return array_unique($scripts);
 	}
