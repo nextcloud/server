@@ -919,7 +919,7 @@ class OC_Util {
 		if ($iniWrapper->getBool('mbstring.func_overload') !== null &&
 			$iniWrapper->getBool('mbstring.func_overload') === true) {
 			$errors[] = [
-				'error' => $l->t('<code>mbstring.func_overload</code> is set to "%s" instead of the expected value "0".', [$iniWrapper->getString('mbstring.func_overload')]),
+				'error' => $l->t('<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>.', [$iniWrapper->getString('mbstring.func_overload')]),
 				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini.')
 			];
 		}
