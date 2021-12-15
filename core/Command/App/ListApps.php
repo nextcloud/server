@@ -88,12 +88,12 @@ class ListApps extends Base {
 
 		sort($enabledApps);
 		foreach ($enabledApps as $app) {
-			$apps['enabled'][$app] = isset($versions[$app]) ? $versions[$app] : true;
+			$apps['enabled'][$app] = $versions[$app] ?? true;
 		}
 
 		sort($disabledApps);
 		foreach ($disabledApps as $app) {
-			$apps['disabled'][$app] = null;
+			$apps['disabled'][$app] = $versions[$app] ?? null;
 		}
 
 		$this->writeAppList($input, $output, $apps);
