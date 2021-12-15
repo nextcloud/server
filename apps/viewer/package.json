@@ -46,6 +46,7 @@
 		"@nextcloud/router": "^2.0.0",
 		"@nextcloud/vue": "^4.2.0",
 		"@skjnldsv/vue-plyr": "^7.0.1-alpha.0",
+		"@nextcloud/l10n": "^1.4.1",
 		"camelcase": "^6.2.0",
 		"debounce": "^1.2.1",
 		"nextcloud-server": "^0.15.10",
