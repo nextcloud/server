@@ -559,7 +559,7 @@ class AccessTest extends TestCase {
 			->expects($this->any())
 			->method('isResource')
 			->willReturnCallback(function ($resource) {
-				return is_resource($resource);
+				return is_resource($resource) || is_object($resource);
 			});
 		$this->ldap
 			->expects($this->any())

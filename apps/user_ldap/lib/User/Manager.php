@@ -177,7 +177,7 @@ class Manager {
 			$this->access->getConnection()->ldapExtStorageHomeAttribute,
 		];
 
-		$homeRule = $this->access->getConnection()->homeFolderNamingRule;
+		$homeRule = (string)$this->access->getConnection()->homeFolderNamingRule;
 		if (strpos($homeRule, 'attr:') === 0) {
 			$attributes[] = substr($homeRule, strlen('attr:'));
 		}

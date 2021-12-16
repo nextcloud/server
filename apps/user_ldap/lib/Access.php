@@ -260,7 +260,7 @@ class Access extends LDAPUtility {
 	/**
 	 * Runs an read operation against LDAP
 	 *
-	 * @param resource $cr the LDAP connection
+	 * @param resource|\LDAP\Connection $cr the LDAP connection
 	 * @param string $dn
 	 * @param string $attribute
 	 * @param string $filter
@@ -926,7 +926,7 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function batchApplyUserAttributes(array $ldapRecords) {
-		$displayNameAttribute = strtolower($this->connection->ldapUserDisplayName);
+		$displayNameAttribute = strtolower((string)$this->connection->ldapUserDisplayName);
 		foreach ($ldapRecords as $userRecord) {
 			if (!isset($userRecord[$displayNameAttribute])) {
 				// displayName is obligatory
@@ -1186,7 +1186,7 @@ class Access extends LDAPUtility {
 	/**
 	 * processes an LDAP paged search operation
 	 *
-	 * @param resource $sr the array containing the LDAP search resources
+	 * @param resource|\LDAP\Result|resource[]|\LDAP\Result[] $sr the array containing the LDAP search resources
 	 * @param int $foundItems number of results in the single search operation
 	 * @param int $limit maximum results to be counted
 	 * @param bool $pagedSearchOK whether a paged search has been executed
@@ -1303,7 +1303,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param resource $sr
+	 * @param resource|\LDAP\Result|resource[]|\LDAP\Result[] $sr
 	 * @return int
 	 * @throws ServerNotAvailableException
 	 */

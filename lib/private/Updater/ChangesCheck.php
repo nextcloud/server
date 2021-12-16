@@ -138,9 +138,13 @@ class ChangesCheck {
 	protected function extractData($body):array {
 		$data = [];
 		if ($body) {
-			$loadEntities = libxml_disable_entity_loader(true);
-			$xml = @simplexml_load_string($body);
-			libxml_disable_entity_loader($loadEntities);
+			if (\LIBXML_VERSION < 20900) {
+				$loadEntities = libxml_disable_entity_loader(true);
+				$xml = @simplexml_load_string($body);
+				libxml_disable_entity_loader($loadEntities);
+			} else {
+				$xml = @simplexml_load_string($body);
+			}
 			if ($xml !== false) {
 				$data['changelogURL'] = (string)$xml->changelog['href'];
 				$data['whatsNew'] = [];

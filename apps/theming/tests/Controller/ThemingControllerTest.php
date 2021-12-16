@@ -689,6 +689,8 @@ class ThemingControllerTest extends TestCase {
 
 	public function testGetLogo() {
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('logo.svg');
+		$file->method('getMTime')->willReturn(42);
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -719,6 +721,8 @@ class ThemingControllerTest extends TestCase {
 
 	public function testGetLoginBackground() {
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('background.png');
+		$file->method('getMTime')->willReturn(42);
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -744,6 +748,7 @@ class ThemingControllerTest extends TestCase {
 		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
+		$file->expects($this->any())->method('getMTime')->willReturn(42);
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');
 		$this->scssCacher->expects($this->once())->method('process')->willReturn(true);
 		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willReturn($file);
@@ -759,6 +764,7 @@ class ThemingControllerTest extends TestCase {
 		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
+		$file->expects($this->any())->method('getMTime')->willReturn(42);
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');
 		$this->scssCacher->expects($this->once())->method('process')->willReturn(true);
 		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willThrowException(new NotFoundException());
@@ -772,6 +778,7 @@ class ThemingControllerTest extends TestCase {
 		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn('/outside/serverroot/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
+		$file->expects($this->any())->method('getMTime')->willReturn(42);
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');
 		$this->scssCacher->expects($this->once())->method('process')->with('/outside/serverroot/theming', 'css/theming.scss', 'theming')->willReturn(true);
 		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willReturn($file);
