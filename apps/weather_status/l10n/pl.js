@@ -24,7 +24,7 @@ OC.L10N.register(
     "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Lekki przelotny deszcz do {time}",
     "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Ulewa przelotna do {time}",
     "More weather for {adr}" : "Więcej pogody dla {adr}",
-    "Loading weather" : "Ładowanie pogody",
+    "Loading weather" : "Wczytywanie pogody",
     "Set location for weather" : "Ustaw lokalizację dla pogody",
     "Remove from favorites" : "Usuń z ulubionych",
     "Add as favorite" : "Dodaj jako ulubione",
