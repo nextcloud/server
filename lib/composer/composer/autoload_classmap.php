@@ -1361,6 +1361,7 @@ return array(
     'OC\\Repair\\Owncloud\\CleanPreviewsBackgroundJob' => $baseDir . '/lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
     'OC\\Repair\\Owncloud\\InstallCoreBundle' => $baseDir . '/lib/private/Repair/Owncloud/InstallCoreBundle.php',
+    'OC\\Repair\\Owncloud\\MigrateOauthTables' => $baseDir . '/lib/private/Repair/Owncloud/MigrateOauthTables.php',
     'OC\\Repair\\Owncloud\\MoveAvatars' => $baseDir . '/lib/private/Repair/Owncloud/MoveAvatars.php',
     'OC\\Repair\\Owncloud\\MoveAvatarsBackgroundJob' => $baseDir . '/lib/private/Repair/Owncloud/MoveAvatarsBackgroundJob.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
