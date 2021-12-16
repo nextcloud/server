@@ -38,7 +38,7 @@
     "Error while clearing the mappings." : "Błąd podczas czyszczenia mapowania.",
     "Anonymous bind is not allowed. Please provide a User DN and Password." : "Anonimowe połączenie nie jest dozwolone. Proszę podać DN użytkownika i hasło.",
     "LDAP Operations error. Anonymous bind might not be allowed." : "Błąd operacji LDAP. Anonimowe połączenie nie jest dozwolone.",
-    "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Zapisywanie nie powiodło się. Upewnij się, że baza danych działa. Załaduj ponownie przed kontynuowaniem.",
+    "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Zapisywanie nie powiodło się. Upewnij się, że baza danych działa. Wczytaj ponownie przed kontynuowaniem.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Zmiana trybu włączy automatyczne odpytywanie LDAP-a. W zależności od jego wielkości może to trochę potrwać. Nadal chcesz zmienić tryb?",
     "Mode switch" : "Przełącznik trybów",
     "Select attributes" : "Wybierz atrybuty",
