@@ -175,7 +175,7 @@
 					</template>
 
 					<!-- file -->
-					<ActionCheckbox v-else
+					<ActionCheckbox v-if="!isFolder"
 						:checked.sync="canUpdate"
 						:disabled="saving"
 						@change="queueUpdate('permissions')">
