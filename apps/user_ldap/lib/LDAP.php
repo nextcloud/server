@@ -352,7 +352,7 @@ class LDAP implements ILDAPWrapper {
 		$this->curFunc = $functionName;
 		$this->curArgs = $args;
 
-		if ($this->logFile !== '' && is_writable($this->logFile)) {
+		if ($this->logFile !== '' && is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
 			$args = array_reduce($this->curArgs, static function (array $carry, $item): array {
 				$carry[] = !is_resource($item) ? $item : '(resource)';
 				return $carry;

@@ -272,7 +272,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	protected function logQueryToFile(string $sql): void {
 		$logFile = $this->systemConfig->getValue('query_log_file', '');
-		if ($logFile !== '' && is_writable($logFile)) {
+		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
 				$sql . "\n",
