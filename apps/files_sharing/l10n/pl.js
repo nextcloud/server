@@ -237,7 +237,7 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link.",
     "Share note" : "Notatka udostępnienia",
     "Toggle grid view" : "Przełącz widok siatki",
-    "Upload files to %s" : "Prześlij pliki do %s",
+    "Upload files to %s" : "Wyślij pliki do %s",
     "Note" : "Notatka",
     "Select or drop files" : "Wybierz lub upuść pliki",
     "Uploading files" : "Wysyłanie plików",
