@@ -165,6 +165,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
     "Add another link" : "Legg til en lenke til",
     "Create a new share link" : "Opprett ny delingslenke",
+    "Share link ({label})" : "Del lenke ({label})",
     "Share link" : "Share link",
     "No recommendations. Start typing." : "Ingen forslag. Start skriving.",
     "Resharing is not allowed" : "Videre deling er ikke tillatt",
