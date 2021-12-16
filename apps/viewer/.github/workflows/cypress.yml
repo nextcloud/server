@@ -14,25 +14,12 @@ env:
   TESTING: true
 
 jobs:
-  cypress:
+  init:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        # run multiple copies of the current job in parallel
-        containers: [1, 2, 3, 4, 5, 6, 7, 8]
-
-    name: runner ${{ matrix.containers }}
 
     steps:
       - name: Checkout app
         uses: actions/checkout@v2
-
-      - name: Setup server
-        run: |
-          cd cypress
-          docker-compose up -d
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@v1.1
@@ -53,6 +40,36 @@ jobs:
         run: |
           npm ci
           npm run build --if-present
+
+      - name: Save context
+        uses: actions/cache@v2
+        with:
+          key: cypress-context-${{ github.run_id }}
+          path: /home/runner/work/viewer
+
+  cypress:
+    runs-on: ubuntu-latest
+    needs: init
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # run multiple copies of the current job in parallel
+        containers: [1, 2, 3, 4, 5, 6, 7, 8]
+
+    name: runner ${{ matrix.containers }}
+
+    steps:
+      - name: Restore context
+        uses: actions/cache@v2
+        with:
+          key: cypress-context-${{ github.run_id }}
+          path: /home/runner/work/viewer
+
+      - name: Setup server
+        run: |
+          cd cypress
+          docker-compose up -d
 
       - name: Wait for server
         run: npm run wait-on $CYPRESS_baseUrl
