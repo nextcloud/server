@@ -57,6 +57,12 @@
 					class="unified-search__form-reset icon-close"
 					:aria-label="t('core','Reset search')"
 					value="">
+
+				<input v-if="!!query && !isLoading && !enableLiveSearch"
+					type="submit"
+					class="unified-search__form-submit icon-confirm"
+					:aria-label="t('core','Start search')"
+					value="">
 			</form>
 
 			<!-- Search filters -->
@@ -76,7 +82,10 @@
 			<SearchResultPlaceholders v-if="isLoading" />
 
 			<EmptyContent v-else-if="isValidQuery" icon="icon-search">
-				<Highlight :text="t('core', 'No results for {query}', { query })" :search="query" />
+				<Highlight v-if="triggered" :text="t('core', 'No results for {query}', { query })" :search="query" />
+				<div v-else>
+					{{ t('core', 'Press enter to start searching') }}
+				</div>
 			</EmptyContent>
 
 			<EmptyContent v-else-if="!isLoading || isShortQuery" icon="icon-search">
@@ -124,7 +133,7 @@
 
 <script>
 import { emit } from '@nextcloud/event-bus'
-import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot } from '../services/UnifiedSearchService'
+import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot, enableLiveSearch } from '../services/UnifiedSearchService'
 import { showError } from '@nextcloud/dialogs'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -175,9 +184,11 @@ export default {
 
 			query: '',
 			focused: null,
+			triggered: false,
 
 			defaultLimit,
 			minSearchLength,
+			enableLiveSearch,
 
 			open: false,
 		}
@@ -354,6 +365,7 @@ export default {
 			this.reached = {}
 			this.results = {}
 			this.focused = null
+			this.triggered = false
 			await this.cancelPendingRequests()
 		},
 
@@ -422,6 +434,7 @@ export default {
 
 			// Reset search if the query changed
 			await this.resetState()
+			this.triggered = true
 			this.$set(this.loading, 'all', true)
 			this.logger.debug(`Searching ${query} in`, types)
 
@@ -481,9 +494,13 @@ export default {
 				this.loading = {}
 			})
 		},
-		onInputDebounced: debounce(function(e) {
-			this.onInput(e)
-		}, 500),
+		onInputDebounced: enableLiveSearch
+			? debounce(function(e) {
+				this.onInput(e)
+			}, 500)
+			: function() {
+				this.triggered = false
+			},
 
 		/**
 		 * Load more results for the provided type
@@ -728,7 +745,7 @@ $input-padding: 6px;
 			}
 		}
 
-		&-reset {
+		&-reset, &-submit {
 			position: absolute;
 			top: 0;
 			right: 0;
@@ -745,6 +762,10 @@ $input-padding: 6px;
 			&:active {
 				opacity: 1;
 			}
+		}
+
+		&-submit {
+			right: 28px;
 		}
 	}
 
