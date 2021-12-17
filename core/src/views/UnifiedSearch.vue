@@ -483,7 +483,7 @@ export default {
 		},
 		onInputDebounced: debounce(function(e) {
 			this.onInput(e)
-		}, 200),
+		}, 500),
 
 		/**
 		 * Load more results for the provided type
