@@ -43,7 +43,6 @@ use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -86,7 +85,6 @@ class PublicCalendarRootTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->psrLogger = $this->createMock(LoggerInterface::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
-		$legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$config = $this->createMock(IConfig::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
@@ -105,7 +103,6 @@ class PublicCalendarRootTest extends TestCase {
 			$this->random,
 			$this->logger,
 			$dispatcher,
-			$legacyDispatcher,
 			$config
 		);
 		$this->l10n = $this->getMockBuilder(IL10N::class)

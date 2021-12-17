@@ -93,7 +93,6 @@ class CreateCalendar extends Command {
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
-		$legacyDispatcher = \OC::$server->getEventDispatcher();
 		$config = \OC::$server->get(IConfig::class);
 
 		$name = $input->getArgument('name');
@@ -105,7 +104,6 @@ class CreateCalendar extends Command {
 			$random,
 			$logger,
 			$dispatcher,
-			$legacyDispatcher,
 			$config
 		);
 		$caldav->createCalendar("principals/users/$user", $name, []);

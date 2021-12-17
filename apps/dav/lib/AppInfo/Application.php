@@ -61,8 +61,10 @@ use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
+use OCA\DAV\Events\CalendarPublishedEvent;
 use OCA\DAV\Events\CalendarRestoredEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
+use OCA\DAV\Events\CalendarUnpublishedEvent;
 use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
@@ -75,6 +77,9 @@ use OCA\DAV\Listener\AddressbookListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
 use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;
+use OCA\DAV\Listener\CalendarPublicationListener;
+use OCA\DAV\Listener\CalendarShareUpdateListener;
+use OCA\DAV\Listener\CalendarUnpublicationListener;
 use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\SubscriptionCreationListener;
 use OCA\DAV\Listener\SubscriptionDeletionListener;
@@ -154,6 +159,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
+		$context->registerEventListener(CalendarPublishedEvent::class, CalendarPublicationListener::class);
+		$context->registerEventListener(CalendarUnpublishedEvent::class, CalendarUnpublicationListener::class);
+		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarShareUpdateListener::class);
 
 		$context->registerEventListener(SubscriptionCreatedEvent::class, SubscriptionCreationListener::class);
 		$context->registerEventListener(SubscriptionDeletedEvent::class, SubscriptionDeletionListener::class);
@@ -255,16 +263,6 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
-
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::publishCalendar', function (GenericEvent $event) use ($container) {
-			/** @var Backend $backend */
-			$backend = $container->query(Backend::class);
-			$backend->onCalendarPublication(
-				$event->getArgument('calendarData'),
-				$event->getArgument('public')
-			);
-		});
-
 
 		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 			function (GenericEvent $event) {

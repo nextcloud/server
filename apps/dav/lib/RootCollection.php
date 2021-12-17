@@ -7,6 +7,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -106,7 +107,6 @@ class RootCollection extends SimpleCollection {
 			$random,
 			$logger,
 			$dispatcher,
-			$legacyDispatcher,
 			$config
 		);
 		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $psrLogger);
