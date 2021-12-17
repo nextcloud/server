@@ -665,7 +665,7 @@ Raw output
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2(I|D)
 			// on previous version argon2 wasn't part of the "standard" extension
 			// and RedHat disabled it so even installing php-sodium won't provide
-			//argon2(i|d) support in password_hash/password_verify.
+			// argon2(i|d) support in password_hash/password_verify.
 			$recommendedPHPModules[] = 'sodium';
 		}
 
