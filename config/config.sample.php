@@ -809,11 +809,11 @@ $CONFIG = [
 
 /**
  * In certain environments it is desired to have a read-only configuration file.
- * When this switch is set to ``true`` Nextcloud will not verify whether the
- * configuration is writable. However, it will not be possible to configure
- * all options via the Web interface. Furthermore, when updating Nextcloud
- * it is required to make the configuration file writable again for the update
- * process.
+ * When this switch is set to ``true``, writing to the config file will be
+ * forbidden. Therefore, it will not be possible to configure all options via
+ * the Web interface. Furthermore, when updating Nextcloud it is required to
+ * make the configuration file writable again and to set this switch to ``false``
+ * for the update process.
  *
  * Defaults to ``false``
  */
