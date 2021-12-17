@@ -238,22 +238,70 @@ class UtilTest extends \Test\TestCase {
 	public function testAddScript() {
 		\OCP\Util::addScript('core', 'myFancyJSFile1');
 		\OCP\Util::addScript('files', 'myFancyJSFile2', 'core');
+		\OCP\Util::addScript('myApp5', 'myApp5JSFile', 'myApp2');
 		\OCP\Util::addScript('myApp', 'myFancyJSFile3');
 		\OCP\Util::addScript('core', 'myFancyJSFile4');
 		// after itself
 		\OCP\Util::addScript('core', 'myFancyJSFile5', 'core');
 		// add duplicate
 		\OCP\Util::addScript('core', 'myFancyJSFile1');
+		// dependency chain
+		\OCP\Util::addScript('myApp4', 'myApp4JSFile', 'myApp3');
+		\OCP\Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
+		\OCP\Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
 
-		$this->assertEquals([
+		// Core should appear first
+		$this->assertEquals(
+			0,
+			array_search('core/js/myFancyJSFile1', \OCP\Util::getScripts(), true)
+		);
+		$this->assertEquals(
+			1,
+			array_search('core/js/myFancyJSFile4', \OCP\Util::getScripts(), true)
+		);
+
+		// Dependencies should appear before their children
+		$this->assertLessThan(
+			array_search('files/js/myFancyJSFile2', \OCP\Util::getScripts(), true),
+			array_search('core/js/myFancyJSFile3', \OCP\Util::getScripts(), true)
+		);
+		$this->assertLessThan(
+			array_search('myApp2/js/myApp2JSFile', \OCP\Util::getScripts(), true),
+			array_search('myApp/js/myFancyJSFile3', \OCP\Util::getScripts(), true)
+		);
+		$this->assertLessThan(
+			array_search('myApp3/js/myApp3JSFile', \OCP\Util::getScripts(), true),
+			array_search('myApp2/js/myApp2JSFile', \OCP\Util::getScripts(), true)
+		);
+		$this->assertLessThan(
+			array_search('myApp4/js/myApp4JSFile', \OCP\Util::getScripts(), true),
+			array_search('myApp3/js/myApp3JSFile', \OCP\Util::getScripts(), true)
+		);
+		$this->assertLessThan(
+			array_search('myApp5/js/myApp5JSFile', \OCP\Util::getScripts(), true),
+			array_search('myApp2/js/myApp2JSFile', \OCP\Util::getScripts(), true)
+		);
+
+		// No duplicates
+		$this->assertEquals(
+			\OCP\Util::getScripts(),
+			array_unique(\OCP\Util::getScripts())
+		);
+
+		// All scripts still there
+		$scripts = [
 			'core/js/myFancyJSFile1',
 			'core/js/myFancyJSFile4',
 			'files/js/myFancyJSFile2',
 			'core/js/myFancyJSFile5',
-			'files/l10n/en',
-			'myApp/l10n/en',
 			'myApp/js/myFancyJSFile3',
-		], array_values(\OCP\Util::getScripts()));
+			'myApp2/js/myApp2JSFile',
+			'myApp3/js/myApp3JSFile',
+			'myApp4/js/myApp4JSFile',
+		];
+		foreach ($scripts as $script) {
+			$this->assertContains($script, \OCP\Util::getScripts());
+		}
 	}
 
 	public function testAddVendorScript() {
