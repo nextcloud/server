@@ -192,7 +192,7 @@ class Notifier implements INotifier {
 				}
 
 				$group = $this->groupManager->get($share->getSharedWith());
-				if (!$group->inGroup($user)) {
+				if ($group === null || !$group->inGroup($user)) {
 					throw new AlreadyProcessedException();
 				}
 
