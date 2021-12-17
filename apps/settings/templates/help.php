@@ -8,7 +8,9 @@
 	p('active');
 } ?>"
 				href="<?php print_unescaped($_['urlUserDocs']); ?>">
-				<?php p($l->t('User documentation')); ?>
+				<span class="help-list__text">
+					<?php p($l->t('User documentation')); ?>
+				</span>
 			</a>
 		</li>
 	<?php if ($_['admin']) { ?>
@@ -17,19 +19,25 @@
 	p('active');
 } ?>"
 				href="<?php print_unescaped($_['urlAdminDocs']); ?>">
-				<?php p($l->t('Administrator documentation')); ?>
+				<span class="help-list__text">
+					<?php p($l->t('Administrator documentation')); ?>
+				</span>
 			</a>
 		</li>
 	<?php } ?>
 
 		<li>
 			<a href="https://docs.nextcloud.com" class="icon-category-office" target="_blank" rel="noreferrer noopener">
-				<?php p($l->t('Documentation')); ?> ↗
+				<span class="help-list__text">
+					<?php p($l->t('Documentation')); ?> ↗
+				</span>
 			</a>
 		</li>
 		<li>
 			<a href="https://help.nextcloud.com" class="icon-comment" target="_blank" rel="noreferrer noopener">
-				<?php p($l->t('Forum')); ?> ↗
+				<span class="help-list__text">
+					<?php p($l->t('Forum')); ?> ↗
+				</span>
 			</a>
 		</li>
 </div>
