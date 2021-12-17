@@ -141,8 +141,8 @@
 							title=""
 							fill-color="var(--color-text-maxcontrast)"
 							:size="60" />
-						<h3>{{ emptyProfileMessage }}</h3>
-						<p>{{ t('core', 'The headline and about sections will show up here') }}</p>
+						<h3>{{ emptyProfileHeading }}</h3>
+						<p>{{ emptyProfileMessage }}</p>
 					</div>
 				</template>
 			</div>
@@ -256,10 +256,16 @@ export default {
 			return getComputedStyle(document.body).getPropertyValue('--color-main-background').trim()
 		},
 
+		emptyProfileHeading() {
+			return this.isCurrentUser
+				? t('core', 'You haven\'t added a headline or biography yet')
+				: t('core', '{user} hasn\'t added a headline or biography yet', { user: (this.displayname || this.userId) })
+		},
+
 		emptyProfileMessage() {
 			return this.isCurrentUser
-				? t('core', 'You haven\'t added any info yet')
-				: t('core', '{user} hasn\'t added any info yet', { user: (this.displayname || this.userId) })
+				? t('core', 'Your added info will show up here')
+				: t('core', 'Added info of {user} will show up here', { user: (this.displayname || this.userId) })
 		},
 	},
 

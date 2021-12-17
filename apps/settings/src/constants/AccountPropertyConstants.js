@@ -48,7 +48,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	ADDRESS: t('settings', 'Address'),
 	AVATAR: t('settings', 'Avatar'),
-	BIOGRAPHY: t('settings', 'About'),
+	BIOGRAPHY: t('settings', 'Biography'),
 	DISPLAYNAME: t('settings', 'Full name'),
 	EMAIL_COLLECTION: t('settings', 'Additional email'),
 	EMAIL: t('settings', 'Email'),
