@@ -198,41 +198,12 @@ class Util {
 			self::addTranslations($application);
 		}
 
-		// manage priorities if defined
-		// we store the data like this, then flatten everything
-		// [
-		// 	'core' => [
-		// 		'first' => [
-		// 			'/core/js/main.js',
-		// 		],
-		// 		'last' => [
-		// 			'/apps/viewer/js/viewer-main.js',
-		// 		]
-		// 	],
-		// 	'viewer' => [
-		// 		'first' => [
-		// 			'/apps/viewer/js/viewer-public.js',
-		// 		],
-		// 		'last' => [
-		// 			'/apps/files_pdfviewer/js/files_pdfviewer-main.js',
-		// 		]
-		// 	]
-		// ]
+		// store dependency if defined
 		if (!empty($afterAppId)) {
-			// init afterAppId app array if it doesn't exist
-			if (!array_key_exists($afterAppId, self::$scripts)) {
-				self::$scripts[$afterAppId] = ['first' => [], 'last' => []];
-			}
-			self::$scripts[$afterAppId]['last'][] = $path;
-			// store dependency
 			self::$scriptDeps[$application] = $afterAppId;
-		} else {
-			// init app array if it doesn't exist
-			if (!array_key_exists($application, self::$scripts)) {
-				self::$scripts[$application] = ['first' => [], 'last' => []];
-			}
-			self::$scripts[$application]['first'][] = $path;
 		}
+
+		self::$scripts[$application][] = $path;
 	}
 
 	/**
@@ -241,34 +212,32 @@ class Util {
 	 * @since 24.0.0
 	 */
 	public static function getScripts(): array {
-		// merging first and last data set
-		$mapFunc = static function (array $scriptsArray): array {
-			return array_merge(...array_values($scriptsArray));
-		};
-		$appScripts = array_map($mapFunc, self::$scripts);
-
 		// Sort by dependency if any
-		$sortedScripts = [];
-		foreach ($appScripts as $app => $scripts) {
-			if (array_key_exists($app, self::$scriptDeps)) {
-				$dep = self::$scriptDeps[$app];
-				if (!array_key_exists($dep, $sortedScripts)) {
-					$sortedScripts[$dep] = [];
-				}
-				array_push($sortedScripts[$dep], ...$scripts);
-			} else {
-				if (!array_key_exists($app, $sortedScripts)) {
-					$sortedScripts[$app] = [];
-				}
-				array_unshift($sortedScripts[$app], ...$scripts);
+		$sortByDeps = static function (string $app1, string $app2): int {
+			// Always sort core first
+			if ($app1 === 'core') {
+				return -1;
 			}
-		}
+			if ($app2 === 'core') {
+				return 1;
+			}
 
-		// sort core first
-		$scripts = array_merge(isset($sortedScripts['core']) ? $sortedScripts['core'] : [], ...array_values($sortedScripts));
+			// If app1 has a dependency
+			if (array_key_exists($app1, self::$scriptDeps)) {
+				$apps = array_keys(self::$scripts);
+				// Move app1 backwards if dep comes afterwards
+				if (array_search($app1, $apps, true) <
+					array_search(self::$scriptDeps[$app1], $apps, true)) {
+					return 1;
+				}
+			}
 
-		// remove duplicates
-		return array_unique($scripts);
+			return 0;
+		};
+		uksort(self::$scripts, $sortByDeps);
+
+		// Flatten array and remove duplicates
+		return self::$scripts ? array_unique(array_merge(...array_values(self::$scripts))) : [];
 	}
 
 	/**
@@ -286,7 +255,7 @@ class Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		self::$scripts[$application]['first'][] = $path;
+		self::$scripts[$application][] = $path;
 	}
 
 	/**
