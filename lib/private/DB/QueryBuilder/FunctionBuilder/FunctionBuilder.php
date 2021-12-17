@@ -50,8 +50,13 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction('MD5(' . $this->helper->quoteColumnName($input) . ')');
 	}
 
-	public function concat($x, $y): IQueryFunction {
-		return new QueryFunction('CONCAT(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
+	public function concat($x, ...$expr): IQueryFunction {
+		$args = func_get_args();
+		$list = [];
+		foreach ($args as $item) {
+			$list[] = $this->helper->quoteColumnName($item);
+		}
+		return new QueryFunction(sprintf('CONCAT(%s)', implode(', ', $list)));
 	}
 
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {

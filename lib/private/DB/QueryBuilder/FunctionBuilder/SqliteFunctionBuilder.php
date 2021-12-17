@@ -27,8 +27,13 @@ use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class SqliteFunctionBuilder extends FunctionBuilder {
-	public function concat($x, $y): IQueryFunction {
-		return new QueryFunction('(' . $this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y) . ')');
+	public function concat($x, ...$expr): IQueryFunction {
+		$args = func_get_args();
+		$list = [];
+		foreach ($args as $item) {
+			$list[] = $this->helper->quoteColumnName($item);
+		}
+		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
