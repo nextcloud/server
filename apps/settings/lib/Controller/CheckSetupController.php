@@ -661,7 +661,7 @@ Raw output
 			}
 		}
 
-		if (!defined('PASSWORD_ARGON2I') || !defined('PASSWORD_ARGON2ID') && PHP_VERSION_ID >= 70400) {
+		if ((!defined('PASSWORD_ARGON2I') && !defined('PASSWORD_ARGON2ID')) && PHP_VERSION_ID >= 70400) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2(I|D)
 			// on previous version argon2 wasn't part of the "standard" extension
 			// and RedHat disabled it so even installing php-sodium won't provide
