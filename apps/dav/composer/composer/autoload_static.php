@@ -254,6 +254,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Listener\\CalendarDeletionDefaultUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarDeletionDefaultUpdaterListener.php',
         'OCA\\DAV\\Listener\\CalendarObjectReminderUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarObjectReminderUpdaterListener.php',
         'OCA\\DAV\\Listener\\CardListener' => __DIR__ . '/..' . '/../lib/Listener/CardListener.php',
+        'OCA\\DAV\\Listener\\SubscriptionCreationListener' => __DIR__ . '/..' . '/../lib/Listener/SubscriptionCreationListener.php',
+        'OCA\\DAV\\Listener\\SubscriptionDeletionListener' => __DIR__ . '/..' . '/../lib/Listener/SubscriptionDeletionListener.php',
         'OCA\\DAV\\Migration\\BuildCalendarSearchIndex' => __DIR__ . '/..' . '/../lib/Migration/BuildCalendarSearchIndex.php',
         'OCA\\DAV\\Migration\\BuildCalendarSearchIndexBackgroundJob' => __DIR__ . '/..' . '/../lib/Migration/BuildCalendarSearchIndexBackgroundJob.php',
         'OCA\\DAV\\Migration\\BuildSocialSearchIndex' => __DIR__ . '/..' . '/../lib/Migration/BuildSocialSearchIndex.php',

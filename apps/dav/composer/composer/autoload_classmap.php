@@ -239,6 +239,8 @@ return array(
     'OCA\\DAV\\Listener\\CalendarDeletionDefaultUpdaterListener' => $baseDir . '/../lib/Listener/CalendarDeletionDefaultUpdaterListener.php',
     'OCA\\DAV\\Listener\\CalendarObjectReminderUpdaterListener' => $baseDir . '/../lib/Listener/CalendarObjectReminderUpdaterListener.php',
     'OCA\\DAV\\Listener\\CardListener' => $baseDir . '/../lib/Listener/CardListener.php',
+    'OCA\\DAV\\Listener\\SubscriptionCreationListener' => $baseDir . '/../lib/Listener/SubscriptionCreationListener.php',
+    'OCA\\DAV\\Listener\\SubscriptionDeletionListener' => $baseDir . '/../lib/Listener/SubscriptionDeletionListener.php',
     'OCA\\DAV\\Migration\\BuildCalendarSearchIndex' => $baseDir . '/../lib/Migration/BuildCalendarSearchIndex.php',
     'OCA\\DAV\\Migration\\BuildCalendarSearchIndexBackgroundJob' => $baseDir . '/../lib/Migration/BuildCalendarSearchIndexBackgroundJob.php',
     'OCA\\DAV\\Migration\\BuildSocialSearchIndex' => $baseDir . '/../lib/Migration/BuildSocialSearchIndex.php',

@@ -36,17 +36,14 @@ use Exception;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\BirthdayService;
-use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
-use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
 
-use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
@@ -70,6 +67,8 @@ use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCA\DAV\Events\SubscriptionCreatedEvent;
+use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
@@ -77,6 +76,8 @@ use OCA\DAV\Listener\CalendarContactInteractionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
 use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;
 use OCA\DAV\Listener\CardListener;
+use OCA\DAV\Listener\SubscriptionCreationListener;
+use OCA\DAV\Listener\SubscriptionDeletionListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -153,6 +154,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
+
+		$context->registerEventListener(SubscriptionCreatedEvent::class, SubscriptionCreationListener::class);
+		$context->registerEventListener(SubscriptionDeletedEvent::class, SubscriptionDeletionListener::class);
 
 
 		$context->registerEventListener(AddressBookCreatedEvent::class, AddressbookListener::class);
@@ -271,48 +275,6 @@ class Application extends App implements IBootstrap {
 				if (!is_null($addressBook)) {
 					$cardDavBackend->deleteAddressBook($addressBook['id']);
 				}
-			}
-		);
-
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createSubscription',
-			function (GenericEvent $event) use ($container, $serverContainer) {
-				$jobList = $serverContainer->getJobList();
-				$subscriptionData = $event->getArgument('subscriptionData');
-
-				/**
-				 * Initial subscription refetch
-				 *
-				 * @var RefreshWebcalService $refreshWebcalService
-				 */
-				$refreshWebcalService = $container->query(RefreshWebcalService::class);
-				$refreshWebcalService->refreshSubscription(
-					(string) $subscriptionData['principaluri'],
-					(string) $subscriptionData['uri']
-				);
-
-				$jobList->add(\OCA\DAV\BackgroundJob\RefreshWebcalJob::class, [
-					'principaluri' => $subscriptionData['principaluri'],
-					'uri' => $subscriptionData['uri']
-				]);
-			}
-		);
-
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteSubscription',
-			function (GenericEvent $event) use ($container, $serverContainer) {
-				$jobList = $serverContainer->getJobList();
-				$subscriptionData = $event->getArgument('subscriptionData');
-
-				$jobList->remove(\OCA\DAV\BackgroundJob\RefreshWebcalJob::class, [
-					'principaluri' => $subscriptionData['principaluri'],
-					'uri' => $subscriptionData['uri']
-				]);
-
-				/** @var CalDavBackend $calDavBackend */
-				$calDavBackend = $container->get(CalDavBackend::class);
-				$calDavBackend->purgeAllCachedEventsForSubscription($subscriptionData['id']);
-				/** @var ReminderBackend $calDavBackend */
-				$reminderBackend = $container->get(ReminderBackend::class);
-				$reminderBackend->cleanRemindersForCalendar((int) $subscriptionData['id']);
 			}
 		);
 
