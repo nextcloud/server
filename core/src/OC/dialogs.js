@@ -335,6 +335,7 @@ const Dialogs = {
 			})
 
 			OC.registerMenu(newButton, self.$filePicker.find('.menu'), function() {
+				$input.tooltip('hide')
 				$input.focus()
 				self.$filePicker.ocdialog('setEnterCallback', function() {
 					event.stopImmediatePropagation()
@@ -434,6 +435,9 @@ const Dialogs = {
 					event.preventDefault()
 					$form.submit()
 				}
+			})
+			$input.on('input', function(event) {
+				$input.tooltip('hide')
 			})
 
 			self.$filePicker.ready(function() {
