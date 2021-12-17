@@ -130,7 +130,7 @@
 			menu-align="right"
 			:open.sync="open"
 			@close="onMenuClose">
-			<template v-if="share">
+			<template v-if="share && share.id">
 				<template v-if="share.canEdit && canReshare">
 					<!-- Custom Label -->
 					<ActionInput
@@ -685,8 +685,8 @@ export default {
 				if (this.share && !this.share.id) {
 					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
-						await this.pushNewLinkShare(this.share, true)
-						return true
+						 await this.pushNewLinkShare(this.share, true)
+						 return true
 					} else {
 						this.open = true
 						OC.Notification.showTemporary(t('files_sharing', 'Error, please enter proper password and/or expiration date'))
@@ -779,14 +779,19 @@ export default {
 				}
 
 			} catch ({ response }) {
-				const message = response.data.ocs.meta.message
-				if (message.match(/password/i)) {
-					this.onSyncError('password', message)
-				} else if (message.match(/date/i)) {
-					this.onSyncError('expireDate', message)
-				} else {
-					this.onSyncError('pending', message)
+				const message = response?.data?.ocs?.meta?.message
+				if (message) {
+					if (message.match(/password/i)) { // TODO that doesn't work with other locales!!!
+						this.onSyncError('password', message)
+					} else if (message.match(/date/i)) {
+						this.onSyncError('expireDate', message)
+					} else {
+						this.onSyncError('pending', message)
+					}
 				}
+
+				this.pending = false
+				this.open = true
 			} finally {
 				this.loading = false
 			}

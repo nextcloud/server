@@ -62,11 +62,6 @@ export default {
 				return new Share(request.data.ocs.data)
 			} catch (error) {
 				console.error('Error while creating share', error)
-				const errorMessage = error?.response?.data?.ocs?.meta?.message
-				OC.Notification.showTemporary(
-					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
-					{ type: 'error' }
-				)
 				throw error
 			}
 		},
