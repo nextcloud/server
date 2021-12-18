@@ -39,6 +39,7 @@
     "Credentials saved" : "Poświadczenia zapisane",
     "Credentials saving failed" : "Zapisywanie poświadczeń nie powiodło się",
     "Credentials required" : "Wymagane poświadczenia",
+    "Forbidden to manage local mounts" : "Zabronione zarządzanie lokalnym montowaniem",
     "Storage with ID \"%d\" not found" : "Nie znaleziono magazynu o ID \"%d\"",
     "Invalid backend or authentication mechanism class" : "Nieprawidłowy mechanizm uwierzytelniania powrotu lub klasy",
     "Invalid mount point" : "Nieprawidłowy punkt montowania",
