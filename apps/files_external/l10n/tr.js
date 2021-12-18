@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Kimlik doğrulama bilgileri kaydedildi",
     "Credentials saving failed" : "Kimlik doğrulama bilgileri kaydedilemedi",
     "Credentials required" : "Kimlik doğrulama bilgileri gerekli",
+    "Forbidden to manage local mounts" : "Yerel bağlantıları yönetme izni verilmemiş",
     "Storage with ID \"%d\" not found" : "\"%d\" kodlu depolama bulunamadı",
     "Invalid backend or authentication mechanism class" : "Arka yüz ya da kimlik doğrulama yöntemi sınıfı geçersiz",
     "Invalid mount point" : "Bağlama noktası geçersiz",
