@@ -2065,11 +2065,6 @@
       <code>$lastNumber + 1</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/user_ldap/lib/ILDAPWrapper.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>Resource</code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="apps/user_ldap/lib/Jobs/CleanUp.php">
     <InvalidScalarArgument occurrences="3">
       <code>$newOffset</code>
@@ -2106,53 +2101,6 @@
       <code>3600</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/user_ldap/lib/LDAP.php">
-    <ImplementedParamTypeMismatch occurrences="22">
-      <code>$baseDN</code>
-      <code>$baseDN</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$resource</code>
-      <code>$result</code>
-      <code>$result</code>
-      <code>$result</code>
-      <code>$result</code>
-      <code>$result</code>
-    </ImplementedParamTypeMismatch>
-    <InvalidArgument occurrences="1">
-      <code>$baseDN</code>
-    </InvalidArgument>
-    <LessSpecificImplementedReturnType occurrences="13">
-      <code>array|mixed</code>
-      <code>array|mixed</code>
-      <code>bool|mixed</code>
-      <code>bool|mixed</code>
-      <code>bool|mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed|string</code>
-      <code>mixed|true</code>
-      <code>mixed|true</code>
-    </LessSpecificImplementedReturnType>
-    <UndefinedDocblockClass occurrences="1">
-      <code>Resource</code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <InvalidOperand occurrences="1">
       <code>$isUnmapped</code>
@@ -2187,7 +2135,7 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;refreshedFeatures</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnType occurrences="2">
+    <InvalidReturnType occurrences="1">
       <code>null</code>
       <code>null</code>
     </InvalidReturnType>
@@ -2225,12 +2173,6 @@
       <code>false</code>
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidArgument occurrences="4">
-      <code>$attributes</code>
-      <code>$er</code>
-      <code>$er</code>
-      <code>$er</code>
-    </InvalidArgument>
     <InvalidDocblock occurrences="3">
       <code>private function checkAgentRequirements() {</code>
       <code>private function detectGroupMemberAssoc() {</code>
