@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Zugangsdaten gespeichert",
     "Credentials saving failed" : "Speichern der Zugangsdaten fehlgeschlagen",
     "Credentials required" : "Zugangsdaten benötigt",
+    "Forbidden to manage local mounts" : "Das Verwalten lokaler Laufwerke ist nicht erlaubt",
     "Storage with ID \"%d\" not found" : "Der Speicher mit ID \"1 %d\" nicht gefunden",
     "Invalid backend or authentication mechanism class" : "Ungültiger Backend- oder Authentifizierungsmechanismus",
     "Invalid mount point" : "Ungültiger Einbindungspunkt",

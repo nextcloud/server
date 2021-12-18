@@ -39,6 +39,7 @@
     "Credentials saved" : "Přihlašovací údaje uloženy",
     "Credentials saving failed" : "Uložení přihlašovacích údajů se nezdařilo",
     "Credentials required" : "Vyžadovány přihlašovací údaje",
+    "Forbidden to manage local mounts" : "Odepřeno spravovat místní připojení (mount)",
     "Storage with ID \"%d\" not found" : "Úložiště s identifikátorem „%d“ nebylo nalezeno",
     "Invalid backend or authentication mechanism class" : "Neplatná podpůrná vrstva nebo třída ověřovacího mechanismu",
     "Invalid mount point" : "Neplatný přípojný bod",
