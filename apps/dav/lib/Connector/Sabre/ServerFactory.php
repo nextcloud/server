@@ -36,6 +36,7 @@ use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\App\IAppManager;
 use OCP\Comments\ICommentsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -51,7 +52,6 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	/** @var IConfig */
@@ -70,7 +70,7 @@ class ServerFactory {
 	private $request;
 	/** @var IPreview  */
 	private $previewManager;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 	/** @var IL10N */
 	private $l10n;
@@ -84,6 +84,8 @@ class ServerFactory {
 	 * @param ITagManager $tagManager
 	 * @param IRequest $request
 	 * @param IPreview $previewManager
+	 * @param IEventDispatcher $eventDispatcher
+	 * @param IL10N $l10n
 	 */
 	public function __construct(
 		IConfig $config,
@@ -94,7 +96,7 @@ class ServerFactory {
 		ITagManager $tagManager,
 		IRequest $request,
 		IPreview $previewManager,
-		EventDispatcherInterface $eventDispatcher,
+		IEventDispatcher $eventDispatcher,
 		IL10N $l10n
 	) {
 		$this->config = $config;
@@ -222,7 +224,7 @@ class ServerFactory {
 
 			// Load dav plugins from apps
 			$event = new SabrePluginEvent($server);
-			$this->eventDispatcher->dispatch($event);
+			$this->eventDispatcher->dispatchTyped($event);
 			$pluginManager = new PluginManager(
 				\OC::$server,
 				\OC::$server->get(IAppManager::class)

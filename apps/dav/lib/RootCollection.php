@@ -28,7 +28,6 @@
  */
 namespace OCA\DAV;
 
-use OC\EventDispatcher\SymfonyAdapter;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\CalDavBackend;

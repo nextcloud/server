@@ -26,6 +26,7 @@ namespace OCA\DAV\Comments;
 
 use OCP\Comments\CommentsEntityEvent;
 use OCP\Comments\ICommentsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
@@ -33,7 +34,6 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RootCollection implements ICollection {
 
@@ -55,21 +55,21 @@ class RootCollection implements ICollection {
 	/** @var IUserSession */
 	protected $userSession;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	protected $dispatcher;
 
 	/**
 	 * @param ICommentsManager $commentsManager
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
-	 * @param EventDispatcherInterface $dispatcher
+	 * @param IEventDispatcher $dispatcher
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		EventDispatcherInterface $dispatcher,
+		IEventDispatcher $dispatcher,
 		LoggerInterface $logger) {
 		$this->commentsManager = $commentsManager;
 		$this->logger = $logger;
@@ -94,8 +94,8 @@ class RootCollection implements ICollection {
 			throw new NotAuthenticated();
 		}
 
-		$event = new CommentsEntityEvent(CommentsEntityEvent::EVENT_ENTITY);
-		$this->dispatcher->dispatch(CommentsEntityEvent::EVENT_ENTITY, $event);
+		$event = new CommentsEntityEvent(CommentsEntityEvent::class);
+		$this->dispatcher->dispatchTyped($event);
 
 		$this->entityTypeCollections = [];
 		foreach ($event->getEntityCollections() as $entity => $entityExistsFunction) {

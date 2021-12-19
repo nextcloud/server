@@ -29,6 +29,8 @@
  *
  */
 // no php execution timeout for webdav
+use OCA\DAV\Events\SabreAddPluginEvent;
+
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	@set_time_limit(0);
 }
@@ -75,7 +77,9 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 });
 
 $dispatcher = \OC::$server->getEventDispatcher();
+$newDispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 // allow setup of additional plugins
+$newDispatcher->dispatchTyped(new SabreAddPluginEvent($server));
 $event = new \OCP\SabrePluginEvent($server);
 $dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
 

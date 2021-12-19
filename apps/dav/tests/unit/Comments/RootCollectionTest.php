@@ -25,11 +25,10 @@
  */
 namespace OCA\DAV\Tests\unit\Comments;
 
-use OC\EventDispatcher\EventDispatcher;
-use OC\EventDispatcher\SymfonyAdapter;
 use OCA\DAV\Comments\EntityTypeCollection as EntityTypeCollectionImplementation;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\Comments\ICommentsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -72,21 +71,16 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->dispatcher = new SymfonyAdapter(
-			new EventDispatcher(
-				new \Symfony\Component\EventDispatcher\EventDispatcher(),
-				\OC::$server,
-				$this->logger
-			),
-			$this->logger
-		);
+		$this->dispatcher = $this->getMockBuilder(IEventDispatcher::class)
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->collection = new \OCA\DAV\Comments\RootCollection(
 			$this->commentsManager,
 			$this->userManager,
 			$this->userSession,
 			$this->dispatcher,
-			$this->createMock(ILogger::class)
+			$this->logger
 		);
 	}
 
@@ -99,7 +93,7 @@ class RootCollectionTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event) {
+		$this->dispatcher->addListener(CommentsEntityEvent::class, function (CommentsEntityEvent $event) {
 			$event->addEntityCollection('files', function () {
 				return true;
 			});
