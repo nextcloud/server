@@ -30,7 +30,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\Files\StorageNotAvailableException;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
@@ -86,12 +86,12 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	/** @var string */
 	private $appName;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/**
 	 * @param string $loggerAppName app name to use when logging
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct($loggerAppName, $logger) {
 		$this->appName = $loggerAppName;
@@ -119,19 +119,15 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function logException(\Throwable $ex) {
 		$exceptionClass = get_class($ex);
-		$level = ILogger::FATAL;
 		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
 			(
 				$exceptionClass === ServiceUnavailable::class &&
 				$ex->getMessage() === 'System in maintenance mode.'
 			)
 		) {
-			$level = ILogger::DEBUG;
+			$this->logger->debug('Sabre has thrown an exception', ['exception' => $ex, 'app' => $this->appName]);
 		}
 
-		$this->logger->logException($ex, [
-			'app' => $this->appName,
-			'level' => $level,
-		]);
+		$this->logger->critical('Sabre has thrown an exception', ['exception' => $ex, 'app' => $this->appName]);
 	}
 }

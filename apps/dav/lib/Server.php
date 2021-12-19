@@ -107,7 +107,7 @@ class Server {
 	public function __construct(IRequest $request, $baseUri) {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
-		$logger = \OC::$server->getLogger();
+		$logger = \OC::$server->get(LoggerInterface::class);
 		$dispatcher = \OC::$server->get(\OC\EventDispatcher\SymfonyAdapter::class);
 		/** @var IEventDispatcher $newDispatcher */
 		$newDispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -177,7 +177,7 @@ class Server {
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->get(IConfig::class), \OC::$server->getLogger()));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->get(IConfig::class), \OC::$server->get(LoggerInterface::class)));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->get(IConfig::class)));
 			if (\OC::$server->get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 				$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
@@ -204,7 +204,7 @@ class Server {
 			$this->server->addPlugin(new HasPhotoPlugin());
 			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
 				\OC::$server->getAppDataDir('dav-photocache'),
-				\OC::$server->getLogger())
+				\OC::$server->get(LoggerInterface::class))
 			));
 		}
 

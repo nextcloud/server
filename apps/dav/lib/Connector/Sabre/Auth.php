@@ -41,6 +41,7 @@ use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\IRequest;
 use OCP\ISession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\ServiceUnavailable;
@@ -157,7 +158,7 @@ class Auth extends AbstractBasic {
 		} catch (Exception $e) {
 			$class = get_class($e);
 			$msg = $e->getMessage();
-			\OC::$server->getLogger()->logException($e);
+			\OC::$server->get(LoggerInterface::class)->error('Unable to check auth in Sabre Connector', ['exception' => $e]);
 			throw new ServiceUnavailable("$class: $msg");
 		}
 	}

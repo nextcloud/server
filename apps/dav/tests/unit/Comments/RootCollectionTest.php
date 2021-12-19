@@ -30,7 +30,6 @@ use OC\EventDispatcher\SymfonyAdapter;
 use OCA\DAV\Comments\EntityTypeCollection as EntityTypeCollectionImplementation;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\Comments\ICommentsManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;

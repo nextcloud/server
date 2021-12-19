@@ -95,8 +95,7 @@ class RefreshWebcalJob extends Job {
 			/** @var DateInterval $dateInterval */
 			$dateInterval = DateTimeParser::parseDuration($refreshRate);
 		} catch (InvalidDataException $ex) {
-			$this->logger->logException($ex);
-			$this->logger->warning("Subscription $subscriptionId could not be refreshed, refreshrate in database is invalid");
+			$this->logger->warning("Subscription $subscriptionId could not be refreshed, refreshrate in database is invalid", ['exception' => $ex]);
 			return;
 		}
 

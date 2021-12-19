@@ -34,11 +34,11 @@ namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 use DateTime;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Parameter;
@@ -60,13 +60,13 @@ class EmailProvider extends AbstractProvider {
 	/**
 	 * @param IConfig $config
 	 * @param IMailer $mailer
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param L10NFactory $l10nFactory
 	 * @param IUrlGenerator $urlGenerator
 	 */
 	public function __construct(IConfig $config,
 								IMailer $mailer,
-								ILogger $logger,
+								LoggerInterface $logger,
 								L10NFactory $l10nFactory,
 								IURLGenerator $urlGenerator) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
@@ -133,7 +133,7 @@ class EmailProvider extends AbstractProvider {
 						$this->logger->error('Unable to deliver message to {failed}', ['app' => 'dav', 'failed' => implode(', ', $failed)]);
 					}
 				} catch (\Exception $ex) {
-					$this->logger->logException($ex, ['app' => 'dav']);
+					$this->logger->error('Unable to deliver reminder message', ['app' => 'dav', 'exception' => $ex]);
 				}
 			}
 		}

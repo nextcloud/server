@@ -32,12 +32,12 @@ namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Property;
 
@@ -60,14 +60,14 @@ class PushProvider extends AbstractProvider {
 	/**
 	 * @param IConfig $config
 	 * @param IManager $manager
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param L10NFactory $l10nFactory
 	 * @param IUrlGenerator $urlGenerator
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IConfig $config,
 								IManager $manager,
-								ILogger $logger,
+								LoggerInterface $logger,
 								L10NFactory $l10nFactory,
 								IURLGenerator $urlGenerator,
 								ITimeFactory $timeFactory) {

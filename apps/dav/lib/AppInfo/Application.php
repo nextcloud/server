@@ -96,12 +96,12 @@ use OCP\AppFramework\IAppContainer;
 use OCP\BackgroundJob\IJobList;
 use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Contacts\IManager as IContactsManager;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Throwable;
@@ -122,7 +122,7 @@ class Application extends App implements IBootstrap {
 
 			return new PhotoCache(
 				$server->getAppDataDir('dav-photocache'),
-				$c->get(ILogger::class)
+				$c->get(LoggerInterface::class)
 			);
 		});
 
@@ -254,7 +254,7 @@ class Application extends App implements IBootstrap {
 				$job->run([]);
 				$serverContainer->get(IJobList::class)->setLastRun($job);
 			} catch (Exception $ex) {
-				$serverContainer->getLogger()->logException($ex);
+				$serverContainer->get(LoggerInterface::class)->error('Error while setting last run for UpdateCalendarResourcesRoomsBackgroundJob', ['exception' => $ex]);
 			}
 		};
 
@@ -308,13 +308,13 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerCalendarReminders(NotificationProviderManager $manager,
-											   ILogger $logger): void {
+											   LoggerInterface $logger): void {
 		try {
 			$manager->registerProvider(AudioProvider::class);
 			$manager->registerProvider(EmailProvider::class);
 			$manager->registerProvider(PushProvider::class);
 		} catch (Throwable $ex) {
-			$logger->logException($ex);
+			$logger->error('Error while registering calendar reminder provider', ['exception' => $ex]);
 		}
 	}
 }

@@ -28,7 +28,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 
@@ -38,7 +38,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	/** @var CalDavBackend */
 	private $calDavBackend;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IJobList */
@@ -50,13 +50,13 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	/**
 	 * @param IDBConnection $db
 	 * @param CalDavBackend $calDavBackend
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param IJobList $jobList
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IDBConnection $db,
 								CalDavBackend $calDavBackend,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IJobList $jobList,
 								ITimeFactory $timeFactory) {
 		$this->db = $db;

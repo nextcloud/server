@@ -39,7 +39,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -71,7 +70,7 @@ class PublicCalendarRootTest extends TestCase {
 
 	/** @var ISecureRandom */
 	private $random;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	protected function setUp(): void {
@@ -82,8 +81,12 @@ class PublicCalendarRootTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = \OC::$server->getSecureRandom();
+<<<<<<< HEAD
 		$this->logger = $this->createMock(ILogger::class);
 		$this->psrLogger = $this->createMock(LoggerInterface::class);
+=======
+		$this->logger = $this->createMock(LoggerInterface::class);
+>>>>>>> 4565b23b66 (Move uses of ILogger to LoggerInterface)
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$config = $this->createMock(IConfig::class);
 

@@ -41,7 +41,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
@@ -50,13 +49,14 @@ use OCP\SabrePluginEvent;
 use OCP\Share\IManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	/** @var IConfig */
 	private $config;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IDBConnection */
 	private $databaseConnection;
@@ -77,7 +77,7 @@ class ServerFactory {
 
 	/**
 	 * @param IConfig $config
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param IDBConnection $databaseConnection
 	 * @param IUserSession $userSession
 	 * @param IMountManager $mountManager
@@ -87,7 +87,7 @@ class ServerFactory {
 	 */
 	public function __construct(
 		IConfig $config,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IDBConnection $databaseConnection,
 		IUserSession $userSession,
 		IMountManager $mountManager,

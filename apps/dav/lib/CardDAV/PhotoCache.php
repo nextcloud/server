@@ -34,7 +34,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Card;
 use Sabre\VObject\Document;
 use Sabre\VObject\Parameter;
@@ -54,16 +54,16 @@ class PhotoCache {
 	/** @var IAppData */
 	protected $appData;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/**
 	 * PhotoCache constructor.
 	 *
 	 * @param IAppData $appData
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
-	public function __construct(IAppData $appData, ILogger $logger) {
+	public function __construct(IAppData $appData, LoggerInterface $logger) {
 		$this->appData = $appData;
 		$this->logger = $logger;
 	}
@@ -216,8 +216,8 @@ class PhotoCache {
 			$vObject = $this->readCard($node->get());
 			return $this->getPhotoFromVObject($vObject);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Exception during vcard photo parsing'
+			$this->logger->error('Exception during vcard photo parsing', [
+				'exception' => $e
 			]);
 		}
 		return false;
@@ -262,8 +262,8 @@ class PhotoCache {
 				'body' => $val
 			];
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Exception during vcard photo parsing'
+			$this->logger->error('Exception during vcard photo parsing', [
+				'exception' => $e
 			]);
 		}
 		return false;

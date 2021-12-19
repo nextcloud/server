@@ -27,7 +27,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 
@@ -37,7 +37,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 	/** @var CardDavBackend */
 	private $davBackend;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IJobList */
@@ -49,13 +49,13 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 	/**
 	 * @param IDBConnection $db
 	 * @param CardDavBackend $davBackend
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param IJobList $jobList
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IDBConnection $db,
 								CardDavBackend $davBackend,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IJobList $jobList,
 								ITimeFactory $timeFactory) {
 		$this->db = $db;

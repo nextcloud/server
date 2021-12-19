@@ -35,7 +35,6 @@ use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
-
 use Test\TestCase;
 
 class RefreshWebcalJobTest extends TestCase {

@@ -23,7 +23,7 @@
 namespace OCA\DAV\CalDAV\ICSExportPlugin;
 
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -39,7 +39,7 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var string */
@@ -50,7 +50,7 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	 *
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, ILogger $logger) {
+	public function __construct(IConfig $config, LoggerInterface $logger) {
 		$this->config = $config;
 		$this->logger = $logger;
 	}

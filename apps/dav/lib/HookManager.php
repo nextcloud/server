@@ -35,6 +35,7 @@ use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class HookManager {
@@ -177,7 +178,7 @@ class HookManager {
 						'components' => 'VEVENT'
 					]);
 				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+					\OC::$server->get(LoggerInterface::class)->error('Error creating initial calendar for user', ['exception' => $ex]);
 				}
 			}
 			if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
@@ -186,7 +187,7 @@ class HookManager {
 						'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 					]);
 				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+					\OC::$server->get(LoggerInterface::class)->logException('Error creating initial addressbook for user', ['exception' => $ex]);
 				}
 			}
 		}
