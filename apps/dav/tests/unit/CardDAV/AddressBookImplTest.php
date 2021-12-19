@@ -34,9 +34,10 @@ use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\AddressBookImpl;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCard;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property\Text;
-//use Sabre\VObject\Property\;
 use Test\TestCase;
 
 class AddressBookImplTest extends TestCase {
@@ -47,16 +48,16 @@ class AddressBookImplTest extends TestCase {
 	/** @var  array */
 	private $addressBookInfo;
 
-	/** @var  AddressBook | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var  AddressBook | MockObject */
 	private $addressBook;
 
-	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator | MockObject */
 	private $urlGenerator;
 
-	/** @var  CardDavBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var  CardDavBackend | MockObject */
 	private $backend;
 
-	/** @var  VCard | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var  VCard | MockObject */
 	private $vCard;
 
 	protected function setUp(): void {
@@ -83,19 +84,19 @@ class AddressBookImplTest extends TestCase {
 		);
 	}
 
-	public function testGetKey() {
+	public function testGetKey(): void {
 		$this->assertSame($this->addressBookInfo['id'],
 			$this->addressBookImpl->getKey());
 	}
 
-	public function testGetDisplayName() {
+	public function testGetDisplayName(): void {
 		$this->assertSame($this->addressBookInfo['{DAV:}displayname'],
 			$this->addressBookImpl->getDisplayName());
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
+		/** @var MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -105,11 +106,11 @@ class AddressBookImplTest extends TestCase {
 					$this->urlGenerator,
 				]
 			)
-			->setMethods(['vCard2Array', 'readCard'])
+			->onlyMethods(['vCard2Array', 'readCard'])
 			->getMock();
 
 		$pattern = 'pattern';
-		$searchProperties = 'properties';
+		$searchProperties = ['properties' => 'value'];
 
 		$this->backend->expects($this->once())->method('search')
 			->with($this->addressBookInfo['id'], $pattern, $searchProperties)
@@ -130,7 +131,7 @@ class AddressBookImplTest extends TestCase {
 
 		$result = $addressBookImpl->search($pattern, $searchProperties, []);
 		$this->assertTrue((is_array($result)));
-		$this->assertSame(2, count($result));
+		$this->assertCount(2, $result);
 	}
 
 	/**
@@ -138,10 +139,10 @@ class AddressBookImplTest extends TestCase {
 	 *
 	 * @param array $properties
 	 */
-	public function testCreate($properties) {
+	public function testCreate(array $properties): void {
 		$uid = 'uid';
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
+		/** @var MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -151,7 +152,7 @@ class AddressBookImplTest extends TestCase {
 					$this->urlGenerator,
 				]
 			)
-			->setMethods(['vCard2Array', 'createUid', 'createEmptyVCard'])
+			->onlyMethods(['vCard2Array', 'createUid', 'createEmptyVCard'])
 			->getMock();
 
 		$expectedProperties = 0;
@@ -178,7 +179,7 @@ class AddressBookImplTest extends TestCase {
 		$this->assertTrue($addressBookImpl->createOrUpdate($properties));
 	}
 
-	public function dataTestCreate() {
+	public function dataTestCreate(): array {
 		return [
 			[[]],
 			[['FN' => 'John Doe']],
@@ -186,12 +187,12 @@ class AddressBookImplTest extends TestCase {
 		];
 	}
 
-	public function testUpdate() {
+	public function testUpdate(): void {
 		$uid = 'uid';
 		$uri = 'bla.vcf';
 		$properties = ['URI' => $uri, 'UID' => $uid, 'FN' => 'John Doe'];
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
+		/** @var MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -201,7 +202,7 @@ class AddressBookImplTest extends TestCase {
 					$this->urlGenerator,
 				]
 			)
-			->setMethods(['vCard2Array', 'createUid', 'createEmptyVCard', 'readCard'])
+			->onlyMethods(['vCard2Array', 'createUid', 'createEmptyVCard', 'readCard'])
 			->getMock();
 
 		$addressBookImpl->expects($this->never())->method('createUid');
@@ -221,14 +222,17 @@ class AddressBookImplTest extends TestCase {
 		$this->assertTrue($addressBookImpl->createOrUpdate($properties));
 	}
 
-	public function testUpdateWithTypes() {
+	/**
+	 * @throws InvalidDataException
+	 */
+	public function testUpdateWithTypes(): void {
 		$uid = 'uid';
 		$uri = 'bla.vcf';
 		$properties = ['URI' => $uri, 'UID' => $uid, 'FN' => 'John Doe', 'ADR' => [['type' => 'HOME', 'value' => ';;street;city;;;country']]];
 		$vCard = new vCard;
 		$textProperty = $vCard->createProperty('KEY','value');
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
+		/** @var MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -238,7 +242,7 @@ class AddressBookImplTest extends TestCase {
 					$this->urlGenerator,
 				]
 			)
-			->setMethods(['vCard2Array', 'createUid', 'createEmptyVCard', 'readCard'])
+			->onlyMethods(['vCard2Array', 'createUid', 'createEmptyVCard', 'readCard'])
 			->getMock();
 
 		$this->backend->expects($this->once())->method('getCard')
@@ -262,7 +266,7 @@ class AddressBookImplTest extends TestCase {
 	 * @param array $permissions
 	 * @param int $expected
 	 */
-	public function testGetPermissions($permissions, $expected) {
+	public function testGetPermissions(array $permissions, int $expected): void {
 		$this->addressBook->expects($this->once())->method('getACL')
 			->willReturn($permissions);
 
@@ -271,7 +275,7 @@ class AddressBookImplTest extends TestCase {
 		);
 	}
 
-	public function dataTestGetPermissions() {
+	public function dataTestGetPermissions(): array {
 		return [
 			[[], 0],
 			[[['privilege' => '{DAV:}read']], 1],
@@ -285,7 +289,7 @@ class AddressBookImplTest extends TestCase {
 		];
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$cardId = 1;
 		$cardUri = 'cardUri';
 		$this->backend->expects($this->once())->method('getCardUri')
@@ -297,19 +301,19 @@ class AddressBookImplTest extends TestCase {
 		$this->assertTrue($this->addressBookImpl->delete($cardId));
 	}
 
-	public function testReadCard() {
+	public function testReadCard(): void {
 		$vCard = new VCard();
 		$vCard->add(new Text($vCard, 'UID', 'uid'));
 		$vCardSerialized = $vCard->serialize();
 
-		$result = $this->invokePrivate($this->addressBookImpl, 'readCard', [$vCardSerialized]);
+		$result = self::invokePrivate($this->addressBookImpl, 'readCard', [$vCardSerialized]);
 		$resultSerialized = $result->serialize();
 
 		$this->assertSame($vCardSerialized, $resultSerialized);
 	}
 
-	public function testCreateUid() {
-		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
+	public function testCreateUid(): void {
+		/** @var MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -319,38 +323,40 @@ class AddressBookImplTest extends TestCase {
 					$this->urlGenerator,
 				]
 			)
-			->setMethods(['getUid'])
+			->onlyMethods(['getUid'])
 			->getMock();
 
-		$addressBookImpl->expects($this->at(0))->method('getUid')->willReturn('uid0');
-		$addressBookImpl->expects($this->at(1))->method('getUid')->willReturn('uid1');
+		$addressBookImpl->expects($this->exactly(2))->method('getUid')->willReturnOnConsecutiveCalls('uid0', 'uid1');
 
 		// simulate that 'uid0' already exists, so the second uid will be returned
 		$this->backend->expects($this->exactly(2))->method('getContact')
 			->willReturnCallback(
 				function ($id, $uid) {
-					return ($uid === 'uid0.vcf');
+					return ($uid === 'uid0.vcf' ? ['carddata' => 'something'] : []);
 				}
 			);
 
 		$this->assertSame('uid1',
-			$this->invokePrivate($addressBookImpl, 'createUid', [])
+			self::invokePrivate($addressBookImpl, 'createUid', [])
 		);
 	}
 
-	public function testCreateEmptyVCard() {
+	public function testCreateEmptyVCard(): void {
 		$uid = 'uid';
 		$expectedVCard = new VCard();
 		$expectedVCard->UID = $uid;
 		$expectedVCardSerialized = $expectedVCard->serialize();
 
-		$result = $this->invokePrivate($this->addressBookImpl, 'createEmptyVCard', [$uid]);
+		$result = self::invokePrivate($this->addressBookImpl, 'createEmptyVCard', [$uid]);
 		$resultSerialized = $result->serialize();
 
 		$this->assertSame($expectedVCardSerialized, $resultSerialized);
 	}
 
-	public function testVCard2Array() {
+	/**
+	 * @throws InvalidDataException
+	 */
+	public function testVCard2Array(): void {
 		$vCard = new VCard();
 
 		$vCard->add($vCard->createProperty('FN', 'Full Name'));
@@ -378,9 +384,8 @@ class AddressBookImplTest extends TestCase {
 		$property->add('TYPE', 'facebook');
 		$vCard->add($property);
 
-		$array = $this->invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard]);
-		unset($array['PRODID']);
-		unset($array['UID']);
+		$array = self::invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard]);
+		unset($array['PRODID'], $array['UID']);
 
 		$this->assertEquals([
 			'URI' => 'uri',
@@ -417,7 +422,10 @@ class AddressBookImplTest extends TestCase {
 		], $array);
 	}
 
-	public function testVCard2ArrayWithTypes() {
+	/**
+	 * @throws InvalidDataException
+	 */
+	public function testVCard2ArrayWithTypes(): void {
 		$vCard = new VCard();
 
 		$vCard->add($vCard->createProperty('FN', 'Full Name'));
@@ -457,9 +465,8 @@ class AddressBookImplTest extends TestCase {
 		$property->add('TYPE', 'facebook');
 		$vCard->add($property);
 
-		$array = $this->invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard, true]);
-		unset($array['PRODID']);
-		unset($array['UID']);
+		$array = self::invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard, true]);
+		unset($array['PRODID'], $array['UID']);
 
 		$this->assertEquals([
 			'URI' => 'uri',
