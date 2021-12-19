@@ -35,7 +35,6 @@ namespace OCA\DAV\AppInfo;
 use Exception;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
-use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
@@ -74,6 +73,7 @@ use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
+use OCA\DAV\Listener\BirthdayListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
 use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;
@@ -81,6 +81,7 @@ use OCA\DAV\Listener\CalendarPublicationListener;
 use OCA\DAV\Listener\CalendarShareUpdateListener;
 use OCA\DAV\Listener\CalendarUnpublicationListener;
 use OCA\DAV\Listener\CardListener;
+use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\SubscriptionCreationListener;
 use OCA\DAV\Listener\SubscriptionDeletionListener;
 use OCA\DAV\Search\ContactsSearchProvider;
@@ -174,6 +175,11 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardCreatedEvent::class, CardListener::class);
 		$context->registerEventListener(CardDeletedEvent::class, CardListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, CardListener::class);
+		$context->registerEventListener(CardCreatedEvent::class, BirthdayListener::class);
+		$context->registerEventListener(CardDeletedEvent::class, BirthdayListener::class);
+		$context->registerEventListener(CardUpdatedEvent::class, BirthdayListener::class);
+		$context->registerEventListener(CardDeletedEvent::class, ClearPhotoCacheListener::class);
+		$context->registerEventListener(CardUpdatedEvent::class, ClearPhotoCacheListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
@@ -204,44 +210,6 @@ class Application extends App implements IBootstrap {
 				$hm->firstLogin($event->getSubject());
 			}
 		});
-
-		$birthdayListener = function ($event) use ($container): void {
-			if ($event instanceof GenericEvent) {
-				/** @var BirthdayService $b */
-				$b = $container->query(BirthdayService::class);
-				$b->onCardChanged(
-					(int) $event->getArgument('addressBookId'),
-					(string) $event->getArgument('cardUri'),
-					(string) $event->getArgument('cardData')
-				);
-			}
-		};
-
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::createCard', $birthdayListener);
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $birthdayListener);
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function ($event) use ($container) {
-			if ($event instanceof GenericEvent) {
-				/** @var BirthdayService $b */
-				$b = $container->query(BirthdayService::class);
-				$b->onCardDeleted(
-					(int) $event->getArgument('addressBookId'),
-					(string) $event->getArgument('cardUri')
-				);
-			}
-		});
-
-		$clearPhotoCache = function ($event) use ($container): void {
-			if ($event instanceof GenericEvent) {
-				/** @var PhotoCache $p */
-				$p = $container->query(PhotoCache::class);
-				$p->delete(
-					$event->getArgument('addressBookId'),
-					$event->getArgument('cardUri')
-				);
-			}
-		};
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $clearPhotoCache);
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $clearPhotoCache);
 
 		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($container) {
 			$user = $event->getSubject();

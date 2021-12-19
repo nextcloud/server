@@ -32,12 +32,15 @@
  */
 namespace OCA\DAV\Tests\unit\CardDAV;
 
+use InvalidArgumentException;
+use OC;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\App\IAppManager;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -48,12 +51,13 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager as ShareManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 /**
@@ -68,19 +72,16 @@ class CardDavBackendTest extends TestCase {
 	/** @var CardDavBackend */
 	private $backend;
 
-	/** @var Principal | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Principal | MockObject */
 	private $principal;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|MockObject */
 	private $groupManager;
 
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $legacyDispatcher;
-
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 
 	/** @var  IDBConnection */
@@ -127,6 +128,11 @@ class CardDavBackendTest extends TestCase {
 						'N:TestNoUID;;;;'.PHP_EOL.
 						'END:VCARD';
 
+	/**
+	 * @throws Exception
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface|\Sabre\DAV\Exception
+	 */
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -144,7 +150,7 @@ class CardDavBackendTest extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
+			->onlyMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->method('getPrincipalByPath')
 			->willReturn([
@@ -155,11 +161,10 @@ class CardDavBackendTest extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-		$this->legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = OC::$server->get(IDBConnection::class);
 
-		$this->backend = new CardDavBackend($this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher);
+		$this->backend = new CardDavBackend($this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher);
 		// start every test with a empty cards_properties and cards table
 		$query = $this->db->getQueryBuilder();
 		$query->delete('cards_properties')->execute();
@@ -169,6 +174,10 @@ class CardDavBackendTest extends TestCase {
 		$this->tearDown();
 	}
 
+	/**
+	 * @throws \Sabre\DAV\Exception
+	 * @throws Exception
+	 */
 	protected function tearDown(): void {
 		parent::tearDown();
 
@@ -185,14 +194,19 @@ class CardDavBackendTest extends TestCase {
 		}
 	}
 
-	public function testAddressBookOperations() {
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testAddressBookOperations(): void {
 
 		// create a new address book
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 
 		$this->assertEquals(1, $this->backend->getAddressBooksForUserCount(self::UNIT_TEST_USER));
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
+		$this->assertCount(1, $books);
 		$this->assertEquals('Example', $books[0]['{DAV:}displayname']);
 		$this->assertEquals('User\'s displayname', $books[0]['{http://nextcloud.com/ns}owner-displayname']);
 
@@ -204,30 +218,23 @@ class CardDavBackendTest extends TestCase {
 		$this->backend->updateAddressBook($books[0]['id'], $patch);
 		$patch->commit();
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
+		$this->assertCount(1, $books);
 		$this->assertEquals('Unit test', $books[0]['{DAV:}displayname']);
 		$this->assertEquals('Addressbook used for unit testing', $books[0]['{urn:ietf:params:xml:ns:carddav}addressbook-description']);
 
 		// delete the address book
 		$this->backend->deleteAddressBook($books[0]['id']);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(0, count($books));
+		$this->assertCount(0, $books);
 	}
 
-	public function testAddressBookSharing() {
-		$this->userManager->expects($this->any())
-			->method('userExists')
-			->willReturn(true);
-
-		$this->groupManager->expects($this->any())
-			->method('groupExists')
-			->willReturn(true);
-
-		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-		$l = $this->createMock(IL10N::class);
-		$addressBook = new AddressBook($this->backend, $books[0], $l);
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testAddressBookSharing(): void {
+		$addressBook = $this->configureSharing();
 		$this->backend->updateShares($addressBook, [
 			[
 				'href' => 'principal:' . self::UNIT_TEST_USER1,
@@ -237,47 +244,50 @@ class CardDavBackendTest extends TestCase {
 			]
 		], []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
-		$this->assertEquals(1, count($books));
+		$this->assertCount(1, $books);
 
 		// delete the address book
 		$this->backend->deleteAddressBook($books[0]['id']);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(0, count($books));
+		$this->assertCount(0, $books);
 	}
 
-	public function testCardOperations() {
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testCardOperations(): void {
 
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
+		/** @var CardDavBackend | MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)
-				->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-				->setMethods(['updateProperties', 'purgeProperties'])->getMock();
+				->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
+				->onlyMethods(['updateProperties', 'purgeProperties'])->getMock();
 
 		// create a new address book
 		$backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
+		$this->assertCount(1, $books);
 		$bookId = $books[0]['id'];
 
-		$uri = $this->getUniqueID('card');
+		$uri = self::getUniqueID('card');
 		// updateProperties is expected twice, once for createCard and once for updateCard
-		$backend->expects($this->at(0))->method('updateProperties')->with($bookId, $uri, $this->vcardTest0);
-		$backend->expects($this->at(1))->method('updateProperties')->with($bookId, $uri, $this->vcardTest1);
+		$backend->expects($this->exactly(2))->method('updateProperties')->withConsecutive(
+			[$bookId, $uri, $this->vcardTest0],
+			[$bookId, $uri, $this->vcardTest1]
+		);
 
 		// Expect event
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CardDAV\CardDavBackend::createCard', $this->callback(function (GenericEvent $e) use ($bookId, $uri) {
-				return $e->getArgument('addressBookId') === $bookId &&
-					$e->getArgument('cardUri') === $uri &&
-					$e->getArgument('cardData') === $this->vcardTest0;
-			}));
+		$this->dispatcher
+			->expects($this->exactly(3))
+			->method('dispatchTyped');
 
 		// create a card
 		$backend->createCard($bookId, $uri, $this->vcardTest0);
 
 		// get all the cards
 		$cards = $backend->getCards($bookId);
-		$this->assertEquals(1, count($cards));
+		$this->assertCount(1, $cards);
 		$this->assertEquals($this->vcardTest0, $cards[0]['carddata']);
 
 		// get the cards
@@ -290,45 +300,25 @@ class CardDavBackendTest extends TestCase {
 		$this->assertArrayHasKey('size', $card);
 		$this->assertEquals($this->vcardTest0, $card['carddata']);
 
-		// Expect event
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $this->callback(function (GenericEvent $e) use ($bookId, $uri) {
-				return $e->getArgument('addressBookId') === $bookId &&
-					$e->getArgument('cardUri') === $uri &&
-					$e->getArgument('cardData') === $this->vcardTest1;
-			}));
-
 		// update the card
 		$backend->updateCard($bookId, $uri, $this->vcardTest1);
 		$card = $backend->getCard($bookId, $uri);
 		$this->assertEquals($this->vcardTest1, $card['carddata']);
 
-		// Expect event
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $this->callback(function (GenericEvent $e) use ($bookId, $uri) {
-				return $e->getArgument('addressBookId') === $bookId &&
-					$e->getArgument('cardUri') === $uri;
-			}));
-
 		// delete the card
 		$backend->expects($this->once())->method('purgeProperties')->with($bookId, $card['id']);
 		$backend->deleteCard($bookId, $uri);
 		$cards = $backend->getCards($bookId);
-		$this->assertEquals(0, count($cards));
+		$this->assertCount(0, $cards);
 	}
 
-	public function testMultiCard() {
-		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-			->setMethods(['updateProperties'])->getMock();
-
-		// create a new address book
-		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-		$bookId = $books[0]['id'];
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testMultiCard(): void {
+		$bookId = $this->provideAddressBook();
 
 		// create a card
 		$uri0 = self::getUniqueID('card');
@@ -340,8 +330,8 @@ class CardDavBackendTest extends TestCase {
 
 		// get all the cards
 		$cards = $this->backend->getCards($bookId);
-		$this->assertEquals(3, count($cards));
-		usort($cards, function ($a, $b) {
+		$this->assertCount(3, $cards);
+		usort($cards, static function ($a, $b) {
 			return $a['id'] < $b['id'] ? -1 : 1;
 		});
 
@@ -351,8 +341,8 @@ class CardDavBackendTest extends TestCase {
 
 		// get the cards 1 & 2 (not 0)
 		$cards = $this->backend->getMultipleCards($bookId, [$uri1, $uri2]);
-		$this->assertEquals(2, count($cards));
-		usort($cards, function ($a, $b) {
+		$this->assertCount(2, $cards);
+		usort($cards, static function ($a, $b) {
 			return $a['id'] < $b['id'] ? -1 : 1;
 		});
 		foreach ($cards as $index => $card) {
@@ -369,73 +359,76 @@ class CardDavBackendTest extends TestCase {
 		$this->backend->deleteCard($bookId, $uri1);
 		$this->backend->deleteCard($bookId, $uri2);
 		$cards = $this->backend->getCards($bookId);
-		$this->assertEquals(0, count($cards));
+		$this->assertCount(0, $cards);
 	}
 
-	public function testMultipleUIDOnDifferentAddressbooks() {
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testMultipleUIDOnDifferentAddressbooks(): void {
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-			->setMethods(['updateProperties'])->getMock();
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
+			->onlyMethods(['updateProperties'])->getMock();
 
 		// create 2 new address books
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example2', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(2, count($books));
+		$this->assertCount(2, $books);
 		$bookId0 = $books[0]['id'];
 		$bookId1 = $books[1]['id'];
 
 		// create a card
-		$uri0 = $this->getUniqueID('card');
+		$uri0 = self::getUniqueID('card');
 		$this->backend->createCard($bookId0, $uri0, $this->vcardTest0);
 
 		// create another card with same uid but in second address book
-		$uri1 = $this->getUniqueID('card');
+		$uri1 = self::getUniqueID('card');
 		$this->backend->createCard($bookId1, $uri1, $this->vcardTest0);
 	}
 
-	public function testMultipleUIDDenied() {
-		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-			->setMethods(['updateProperties'])->getMock();
-
-		// create a new address book
-		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-		$bookId = $books[0]['id'];
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testMultipleUIDDenied(): void {
+		$bookId = $this->provideAddressBook();
 
 		// create a card
-		$uri0 = $this->getUniqueID('card');
+		$uri0 = self::getUniqueID('card');
 		$this->backend->createCard($bookId, $uri0, $this->vcardTest0);
 
 		// create another card with same uid
-		$uri1 = $this->getUniqueID('card');
+		$uri1 = self::getUniqueID('card');
 		$this->expectException(BadRequest::class);
-		$test = $this->backend->createCard($bookId, $uri1, $this->vcardTest0);
+		$this->backend->createCard($bookId, $uri1, $this->vcardTest0);
 	}
 
-	public function testNoValidUID() {
-		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-			->setMethods(['updateProperties'])->getMock();
-
-		// create a new address book
-		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-		$bookId = $books[0]['id'];
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testNoValidUID(): void {
+		$bookId = $this->provideAddressBook();
 
 		// create a card without uid
-		$uri1 = $this->getUniqueID('card');
+		$uri1 = self::getUniqueID('card');
 		$this->expectException(BadRequest::class);
-		$test = $this->backend->createCard($bookId, $uri1, $this->vcardTestNoUID);
+		$this->backend->createCard($bookId, $uri1, $this->vcardTestNoUID);
 	}
 
-	public function testDeleteWithoutCard() {
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 */
+	public function testDeleteWithoutCard(): void {
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-			->setMethods([
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
+			->onlyMethods([
 				'getCardId',
 				'addChange',
 				'purgeProperties',
@@ -446,16 +439,16 @@ class CardDavBackendTest extends TestCase {
 		// create a new address book
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getUsersOwnAddressBooks(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
+		$this->assertCount(1, $books);
 
 		$bookId = $books[0]['id'];
-		$uri = $this->getUniqueID('card');
+		$uri = self::getUniqueID('card');
 
 		// create a new address book
 		$this->backend->expects($this->once())
 			->method('getCardId')
 			->with($bookId, $uri)
-			->willThrowException(new \InvalidArgumentException());
+			->willThrowException(new InvalidArgumentException());
 		$this->backend->expects($this->exactly(2))
 			->method('addChange')
 			->withConsecutive(
@@ -472,23 +465,19 @@ class CardDavBackendTest extends TestCase {
 		$this->assertTrue($this->backend->deleteCard($bookId, $uri));
 	}
 
-	public function testSyncSupport() {
-		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-			->setMethods(['updateProperties'])->getMock();
-
-		// create a new address book
-		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-		$bookId = $books[0]['id'];
+	/**
+	 * @throws BadRequest
+	 * @throws Exception|\Sabre\DAV\Exception
+	 */
+	public function testSyncSupport(): void {
+		$bookId = $this->provideAddressBook();
 
 		// fist call without synctoken
 		$changes = $this->backend->getChangesForAddressBook($bookId, '', 1);
 		$syncToken = $changes['syncToken'];
 
 		// add a change
-		$uri0 = $this->getUniqueID('card');
+		$uri0 = self::getUniqueID('card');
 		$this->backend->createCard($bookId, $uri0, $this->vcardTest0);
 
 		// look for changes
@@ -496,60 +485,55 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals($uri0, $changes['added'][0]);
 	}
 
-	public function testSharing() {
-		$this->userManager->expects($this->any())
-			->method('userExists')
-			->willReturn(true);
-
-		$this->groupManager->expects($this->any())
-			->method('groupExists')
-			->willReturn(true);
-
-		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-
-		$l = $this->createMock(IL10N::class);
-		$exampleBook = new AddressBook($this->backend, $books[0], $l);
+	/**
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	public function testSharing(): void {
+		$exampleBook = $this->configureSharing();
 		$this->backend->updateShares($exampleBook, [['href' => 'principal:' . self::UNIT_TEST_USER1]], []);
 
 		$shares = $this->backend->getShares($exampleBook->getResourceId());
-		$this->assertEquals(1, count($shares));
+		$this->assertCount(1, $shares);
 
 		// adding the same sharee again has no effect
 		$this->backend->updateShares($exampleBook, [['href' => 'principal:' . self::UNIT_TEST_USER1]], []);
 
 		$shares = $this->backend->getShares($exampleBook->getResourceId());
-		$this->assertEquals(1, count($shares));
+		$this->assertCount(1, $shares);
 
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
-		$this->assertEquals(1, count($books));
+		$this->assertCount(1, $books);
 
 		$this->backend->updateShares($exampleBook, [], ['principal:' . self::UNIT_TEST_USER1]);
 
 		$shares = $this->backend->getShares($exampleBook->getResourceId());
-		$this->assertEquals(0, count($shares));
+		$this->assertCount(0, $shares);
 
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
-		$this->assertEquals(0, count($books));
+		$this->assertCount(0, $books);
 	}
 
-	public function testUpdateProperties() {
+	/**
+	 * @throws Exception
+	 */
+	public function testUpdateProperties(): void {
 		$bookId = 42;
 		$cardUri = 'card-uri';
 		$cardId = 2;
 
 		$backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher, $this->legacyDispatcher])
-			->setMethods(['getCardId'])->getMock();
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
+			->onlyMethods(['getCardId'])->getMock();
 
-		$backend->expects($this->any())->method('getCardId')->willReturn($cardId);
+		$backend->method('getCardId')->willReturn($cardId);
 
 		// add properties for new vCard
 		$vCard = new VCard();
 		$vCard->UID = $cardUri;
 		$vCard->FN = 'John Doe';
-		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
+		self::invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
@@ -559,7 +543,7 @@ class CardDavBackendTest extends TestCase {
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
-		$this->assertSame(2, count($result));
+		$this->assertCount(2, $result);
 
 		$this->assertSame('UID', $result[0]['name']);
 		$this->assertSame($cardUri, $result[0]['value']);
@@ -574,7 +558,7 @@ class CardDavBackendTest extends TestCase {
 		// update properties for existing vCard
 		$vCard = new VCard();
 		$vCard->UID = $cardUri;
-		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
+		self::invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
@@ -584,7 +568,7 @@ class CardDavBackendTest extends TestCase {
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 
 		$this->assertSame('UID', $result[0]['name']);
 		$this->assertSame($cardUri, $result[0]['value']);
@@ -592,7 +576,10 @@ class CardDavBackendTest extends TestCase {
 		$this->assertSame($cardId, (int)$result[0]['cardid']);
 	}
 
-	public function testPurgeProperties() {
+	/**
+	 * @throws Exception
+	 */
+	public function testPurgeProperties(): void {
 		$query = $this->db->getQueryBuilder();
 		$query->insert('cards_properties')
 			->values(
@@ -619,7 +606,7 @@ class CardDavBackendTest extends TestCase {
 			);
 		$query->execute();
 
-		$this->invokePrivate($this->backend, 'purgeProperties', [1, 1]);
+		self::invokePrivate($this->backend, 'purgeProperties', [1, 1]);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
@@ -629,12 +616,15 @@ class CardDavBackendTest extends TestCase {
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame(1 ,(int)$result[0]['addressbookid']);
 		$this->assertSame(2 ,(int)$result[0]['cardid']);
 	}
 
-	public function testGetCardId() {
+	/**
+	 * @throws Exception
+	 */
+	public function testGetCardId(): void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->insert('cards')
@@ -652,14 +642,14 @@ class CardDavBackendTest extends TestCase {
 		$id = $query->getLastInsertId();
 
 		$this->assertSame($id,
-			$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']));
+			self::invokePrivate($this->backend, 'getCardId', [1, 'uri']));
 	}
 
 
-	public function testGetCardIdFailed() {
-		$this->expectException(\InvalidArgumentException::class);
+	public function testGetCardIdFailed(): void {
+		$this->expectException(InvalidArgumentException::class);
 
-		$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']);
+		self::invokePrivate($this->backend, 'getCardId', [1, 'uri']);
 	}
 
 	/**
@@ -669,8 +659,9 @@ class CardDavBackendTest extends TestCase {
 	 * @param array $properties
 	 * @param array $options
 	 * @param array $expected
+	 * @throws Exception
 	 */
-	public function testSearch($pattern, $properties, $options, $expected) {
+	public function testSearch(string $pattern, array $properties, array $options, array $expected): void {
 		/** @var VCard $vCards */
 		$vCards = [];
 		$vCards[0] = new VCard();
@@ -762,7 +753,7 @@ class CardDavBackendTest extends TestCase {
 		$result = $this->backend->search(0, $pattern, $properties, $options);
 
 		// check result
-		$this->assertSame(count($expected), count($result));
+		$this->assertCount(count($expected), $result);
 		$found = [];
 		foreach ($result as $r) {
 			foreach ($expected as $exp) {
@@ -773,10 +764,10 @@ class CardDavBackendTest extends TestCase {
 			}
 		}
 
-		$this->assertSame(count($expected), count($found));
+		$this->assertCount(count($expected), $found);
 	}
 
-	public function dataTestSearch() {
+	public function dataTestSearch(): array {
 		return [
 			['John', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
 			['M. Doe', ['FN'], [], [['uri1', 'John M. Doe']]],
@@ -790,7 +781,10 @@ class CardDavBackendTest extends TestCase {
 		];
 	}
 
-	public function testGetCardUri() {
+	/**
+	 * @throws Exception
+	 */
+	public function testGetCardUri(): void {
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsTable)
 				->values(
@@ -811,13 +805,19 @@ class CardDavBackendTest extends TestCase {
 	}
 
 
-	public function testGetCardUriFailed() {
-		$this->expectException(\InvalidArgumentException::class);
+	/**
+	 * @throws Exception
+	 */
+	public function testGetCardUriFailed(): void {
+		$this->expectException(InvalidArgumentException::class);
 
 		$this->backend->getCardUri(1);
 	}
 
-	public function testGetContact() {
+	/**
+	 * @throws Exception
+	 */
+	public function testGetContact(): void {
 		$query = $this->db->getQueryBuilder();
 		for ($i = 0; $i < 2; $i++) {
 			$query->insert($this->dbCardsTable)
@@ -835,7 +835,7 @@ class CardDavBackendTest extends TestCase {
 		}
 
 		$result = $this->backend->getContact(0, 'uri0');
-		$this->assertSame(8, count($result));
+		$this->assertCount(8, $result);
 		$this->assertSame(0, (int)$result['addressbookid']);
 		$this->assertSame('uri0', $result['uri']);
 		$this->assertSame(5489543, (int)$result['lastmodified']);
@@ -848,11 +848,17 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEmpty($result);
 	}
 
-	public function testGetContactFail() {
+	/**
+	 * @throws Exception
+	 */
+	public function testGetContactFail(): void {
 		$this->assertEmpty($this->backend->getContact(0, 'uri'));
 	}
 
-	public function testCollectCardProperties() {
+	/**
+	 * @throws Exception
+	 */
+	public function testCollectCardProperties(): void {
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -868,5 +874,46 @@ class CardDavBackendTest extends TestCase {
 
 		$result = $this->backend->collectCardProperties(666, 'FN');
 		$this->assertEquals(['John Doe'], $result);
+	}
+
+	/**
+	 * @return AddressBook
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	private function configureSharing(): AddressBook {
+		$this->userManager
+			->method('userExists')
+			->willReturn(true);
+
+		$this->groupManager
+			->method('groupExists')
+			->willReturn(true);
+
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $books);
+
+		$l = $this->createMock(IL10N::class);
+		return new AddressBook($this->backend, $books[0], $l);
+	}
+
+	/**
+	 * @return int
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws \Sabre\DAV\Exception
+	 */
+	private function provideAddressBook(): int {
+		$this->backend = $this->getMockBuilder(CardDavBackend::class)
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
+			->onlyMethods(['updateProperties'])->getMock();
+
+		// create a new address book
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $books);
+		return $books[0]['id'];
 	}
 }
