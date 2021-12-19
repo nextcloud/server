@@ -206,7 +206,7 @@ class AddressBookImpl implements IAddressBook {
 	}
 
 	/**
-	 * @param object $id the unique identifier to a contact
+	 * @param int $id the unique identifier to a contact
 	 * @return bool successful or not
 	 * @since 5.0.0
 	 */
