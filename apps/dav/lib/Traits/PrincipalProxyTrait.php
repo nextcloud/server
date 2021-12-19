@@ -108,7 +108,7 @@ trait PrincipalProxyTrait {
 	 *
 	 * @param string $principal
 	 * @param string[] $members
-	 * @throws Exception
+	 * @throws Exception|\OCP\DB\Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {
 		[$principalUri, $target] = \Sabre\Uri\split($principal);
@@ -183,7 +183,7 @@ trait PrincipalProxyTrait {
 		[$realPrincipalUri, $proxy] = \Sabre\Uri\split($principalUri);
 		[$prefix, $userId] = \Sabre\Uri\split($realPrincipalUri);
 
-		if (!isset($prefix) || !isset($userId)) {
+		if (!isset($prefix, $userId)) {
 			return false;
 		}
 		if ($prefix !== $this->principalPrefix) {

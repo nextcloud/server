@@ -235,12 +235,10 @@ class Principal implements BackendInterface {
 			}
 		}
 
-		$groups = array_unique(array_merge(
+		return array_unique(array_merge(
 			$groups,
 			$this->traitGetGroupMembership($principal, $needGroups)
 		));
-
-		return $groups;
 	}
 
 	/**
@@ -472,25 +470,23 @@ class Principal implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
-		if (strpos($uri, 'mailto:') === 0) {
-			if ($principalPrefix === 'principals/users') {
-				$users = $this->userManager->getByEmail(substr($uri, 7));
-				if (count($users) !== 1) {
+		if ($principalPrefix === 'principals/users' && (strpos($uri, 'mailto:') === 0)) {
+			$users = $this->userManager->getByEmail(substr($uri, 7));
+			if (count($users) !== 1) {
+				return null;
+			}
+			$user = $users[0];
+
+			if ($restrictGroups !== false) {
+				$userGroups = $this->groupManager->getUserGroupIds($user);
+				if (count(array_intersect($userGroups, $restrictGroups)) === 0) {
 					return null;
 				}
-				$user = $users[0];
-
-				if ($restrictGroups !== false) {
-					$userGroups = $this->groupManager->getUserGroupIds($user);
-					if (count(array_intersect($userGroups, $restrictGroups)) === 0) {
-						return null;
-					}
-				}
-
-				return $this->principalPrefix . '/' . $user->getUID();
 			}
+
+			return $this->principalPrefix . '/' . $user->getUID();
 		}
-		if (substr($uri, 0, 10) === 'principal:') {
+		if (strpos($uri, 'principal:') === 0) {
 			$principal = substr($uri, 10);
 			$principal = $this->getPrincipalByPath($principal);
 			if ($principal !== null) {
@@ -505,7 +501,7 @@ class Principal implements BackendInterface {
 	 * @param IUser $user
 	 * @return array
 	 */
-	protected function userToPrincipal($user) {
+	protected function userToPrincipal(IUser $user): array {
 		$userId = $user->getUID();
 		$displayName = $user->getDisplayName();
 		$principal = [
@@ -523,7 +519,7 @@ class Principal implements BackendInterface {
 		return $principal;
 	}
 
-	public function getPrincipalPrefix() {
+	public function getPrincipalPrefix(): string {
 		return $this->principalPrefix;
 	}
 
@@ -531,13 +527,13 @@ class Principal implements BackendInterface {
 	 * @param string $circleUniqueId
 	 * @return array|null
 	 */
-	protected function circleToPrincipal($circleUniqueId) {
+	protected function circleToPrincipal(string $circleUniqueId): ?array {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return null;
 		}
 
 		try {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId, true);
+			$circle = Circles::detailsCircle($circleUniqueId, true);
 		} catch (QueryException $ex) {
 			return null;
 		} catch (CircleNotFoundException $ex) {
@@ -562,10 +558,9 @@ class Principal implements BackendInterface {
 	 * @param string $principal
 	 * @return array
 	 * @throws Exception
-	 * @throws \OCP\AppFramework\QueryException
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	public function getCircleMembership($principal):array {
+	public function getCircleMembership(string $principal):array {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return [];
 		}
@@ -577,14 +572,12 @@ class Principal implements BackendInterface {
 				throw new Exception('Principal not found');
 			}
 
-			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles($name, true);
+			$circles = Circles::joinedCircles($name, true);
 
-			$circles = array_map(function ($circle) {
-				/** @var \OCA\Circles\Model\Circle $circle */
+			return array_map(static function ($circle) {
+				/** @var Circle $circle */
 				return 'principals/circles/' . urlencode($circle->getSingleId());
 			}, $circles);
-
-			return $circles;
 		}
 
 		return [];
