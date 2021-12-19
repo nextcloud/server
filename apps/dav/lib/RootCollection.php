@@ -28,6 +28,7 @@
  */
 namespace OCA\DAV;
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -46,37 +47,46 @@ use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
 use OCA\DAV\Upload\CleanupService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Security\ISecureRandom;
+use OCP\Share\IManager;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
 	public function __construct() {
-		$l10n = \OC::$server->getL10N('dav');
-		$random = \OC::$server->getSecureRandom();
+		$l10n = \OC::$server->get(IFactory::class)->get('dav');
+		$random = \OC::$server->get(ISecureRandom::class);
 		$logger = \OC::$server->getLogger();
 		$psrLogger = \OC::$server->get(LoggerInterface::class);
-		$userManager = \OC::$server->getUserManager();
-		$userSession = \OC::$server->getUserSession();
-		$groupManager = \OC::$server->getGroupManager();
-		$shareManager = \OC::$server->getShareManager();
-		$db = \OC::$server->getDatabaseConnection();
+		$userManager = \OC::$server->get(IUserManager::class);
+		$userSession = \OC::$server->get(IUserSession::class);
+		$groupManager = \OC::$server->get(IGroupManager::class);
+		$shareManager = \OC::$server->get(IManager::class);
+		$db = \OC::$server->get(IDBConnection::class);
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
-		$legacyDispatcher = \OC::$server->getEventDispatcher();
 		$config = \OC::$server->get(IConfig::class);
-		$proxyMapper = \OC::$server->query(ProxyMapper::class);
+		$proxyMapper = \OC::$server->get(ProxyMapper::class);
 
 		$userPrincipalBackend = new Principal(
 			$userManager,
 			$groupManager,
 			$shareManager,
-			\OC::$server->getUserSession(),
-			\OC::$server->getAppManager(),
+			\OC::$server->get(IUserSession::class),
+			\OC::$server->get(IAppManager::class),
 			$proxyMapper,
 			\OC::$server->get(KnownUserService::class),
-			\OC::$server->getConfig(),
-			\OC::$server->getL10NFactory()
+			\OC::$server->get(IConfig::class),
+			\OC::$server->get(IFactory::class)
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);
 		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
@@ -121,45 +131,45 @@ class RootCollection extends SimpleCollection {
 		$publicCalendarRoot->disableListing = $disableListing;
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
-			\OC::$server->getSystemTagManager(),
-			\OC::$server->getUserSession(),
+			\OC::$server->get(ISystemTagManager::class),
+			\OC::$server->get(IUserSession::class),
 			$groupManager
 		);
 		$systemTagRelationsCollection = new SystemTag\SystemTagsRelationsCollection(
-			\OC::$server->getSystemTagManager(),
-			\OC::$server->getSystemTagObjectMapper(),
-			\OC::$server->getUserSession(),
+			\OC::$server->get(ISystemTagManager::class),
+			\OC::$server->get(ISystemTagObjectMapper::class),
+			\OC::$server->get(IUserSession::class),
 			$groupManager,
-			\OC::$server->getEventDispatcher()
+			\OC::$server->get(\OC\EventDispatcher\SymfonyAdapter::class)
 		);
 		$commentsCollection = new Comments\RootCollection(
-			\OC::$server->getCommentsManager(),
+			\OC::$server->get(ICommentsManager::class),
 			$userManager,
-			\OC::$server->getUserSession(),
-			\OC::$server->getEventDispatcher(),
+			\OC::$server->get(IUserSession::class),
+			\OC::$server->get(\OC\EventDispatcher\SymfonyAdapter::class),
 			\OC::$server->getLogger()
 		);
 
-		$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
-		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher, $legacyDispatcher);
+		$pluginManager = new PluginManager(\OC::$server, \OC::$server->get(IAppManager::class));
+		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher, $legacyDispatcher);
+		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
 		$uploadCollection = new Upload\RootCollection(
 			$userPrincipalBackend,
 			'principals/users',
-			\OC::$server->query(CleanupService::class));
+			\OC::$server->get(CleanupService::class));
 		$uploadCollection->disableListing = $disableListing;
 
 		$avatarCollection = new Avatars\RootCollection($userPrincipalBackend, 'principals/users');
 		$avatarCollection->disableListing = $disableListing;
 
 		$appleProvisioning = new AppleProvisioningNode(
-			\OC::$server->query(ITimeFactory::class));
+			\OC::$server->get(ITimeFactory::class));
 
 		$children = [
 			new SimpleCollection('principals', [

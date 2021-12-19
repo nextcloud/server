@@ -93,11 +93,14 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
+use OCP\BackgroundJob\IJobList;
 use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -235,7 +238,7 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 			function (GenericEvent $event) {
 				/** @var CardDavBackend $cardDavBackend */
-				$cardDavBackend = \OC::$server->query(CardDavBackend::class);
+				$cardDavBackend = \OC::$server->get(CardDavBackend::class);
 				$addressBookUri = $event->getSubject();
 				$addressBook = $cardDavBackend->getAddressBooksByUri('principals/system/system', $addressBookUri);
 				if (!is_null($addressBook)) {
@@ -249,7 +252,7 @@ class Application extends App implements IBootstrap {
 				/** @var UpdateCalendarResourcesRoomsBackgroundJob $job */
 				$job = $container->query(UpdateCalendarResourcesRoomsBackgroundJob::class);
 				$job->run([]);
-				$serverContainer->getJobList()->setLastRun($job);
+				$serverContainer->get(IJobList::class)->setLastRun($job);
 			} catch (Exception $ex) {
 				$serverContainer->getLogger()->logException($ex);
 			}
@@ -261,7 +264,7 @@ class Application extends App implements IBootstrap {
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
 		$cm->register(function () use ($container, $cm): void {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 			if (!is_null($user)) {
 				$this->setupContactsProvider($cm, $container, $user->getUID());
 			} else {
@@ -275,7 +278,7 @@ class Application extends App implements IBootstrap {
 										   string $userID): void {
 		/** @var ContactsManager $cm */
 		$cm = $container->query(ContactsManager::class);
-		$urlGenerator = $container->getServer()->getURLGenerator();
+		$urlGenerator = $container->getServer()->get(IURLGenerator::class);
 		$cm->setupContactsProvider($contactsManager, $userID, $urlGenerator);
 	}
 
@@ -283,14 +286,14 @@ class Application extends App implements IBootstrap {
 												 IAppContainer $container): void {
 		/** @var ContactsManager $cm */
 		$cm = $container->query(ContactsManager::class);
-		$urlGenerator = $container->getServer()->getURLGenerator();
+		$urlGenerator = $container->getServer()->get(IURLGenerator::class);
 		$cm->setupSystemContactsProvider($contactsManager, $urlGenerator);
 	}
 
 	public function registerCalendarManager(ICalendarManager $calendarManager,
 											 IAppContainer $container): void {
 		$calendarManager->register(function () use ($container, $calendarManager) {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 			if ($user !== null) {
 				$this->setupCalendarProvider($calendarManager, $container, $user->getUID());
 			}

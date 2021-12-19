@@ -32,6 +32,7 @@ use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use Sabre\CardDAV\Backend;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\CardDAV\IAddressBook;
@@ -63,10 +64,10 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 */
 	public function getChildren() {
 		if ($this->l10n === null) {
-			$this->l10n = \OC::$server->getL10N('dav');
+			$this->l10n = \OC::$server->get(IFactory::class)->get('dav');
 		}
 		if ($this->config === null) {
-			$this->config = \OC::$server->getConfig();
+			$this->config = \OC::$server->get(IConfig::class);
 		}
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);

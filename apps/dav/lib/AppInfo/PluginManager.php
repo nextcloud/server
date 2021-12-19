@@ -253,7 +253,7 @@ class PluginManager {
 
 	private function createClass(string $className): object {
 		try {
-			return $this->container->query($className);
+			return $this->container->get($className);
 		} catch (QueryException $e) {
 			if (class_exists($className)) {
 				return new $className();

@@ -29,11 +29,16 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Security\ISecureRandom;
+use OCP\Share\IManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -82,15 +87,15 @@ class CreateCalendar extends Command {
 		$principalBackend = new Principal(
 			$this->userManager,
 			$this->groupManager,
-			\OC::$server->getShareManager(),
-			\OC::$server->getUserSession(),
-			\OC::$server->getAppManager(),
-			\OC::$server->query(ProxyMapper::class),
+			\OC::$server->get(IManager::class),
+			\OC::$server->get(IUserSession::class),
+			\OC::$server->get(IAppManager::class),
+			\OC::$server->get(ProxyMapper::class),
 			\OC::$server->get(KnownUserService::class),
-			\OC::$server->getConfig(),
-			\OC::$server->getL10NFactory(),
+			\OC::$server->get(IConfig::class),
+			\OC::$server->get(IFactory::class),
 		);
-		$random = \OC::$server->getSecureRandom();
+		$random = \OC::$server->get(ISecureRandom::class);
 		$logger = \OC::$server->getLogger();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$config = \OC::$server->get(IConfig::class);

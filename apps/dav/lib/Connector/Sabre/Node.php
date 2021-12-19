@@ -89,7 +89,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($shareManager) {
 			$this->shareManager = $shareManager;
 		} else {
-			$this->shareManager = \OC::$server->getShareManager();
+			$this->shareManager = \OC::$server->get(IManager::class);
 		}
 	}
 

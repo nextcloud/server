@@ -34,9 +34,12 @@ namespace OCA\DAV\Connector\Sabre;
 use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCP\App\IAppManager;
+use OCP\Comments\ICommentsManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IPreview;
@@ -44,6 +47,9 @@ use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\SabrePluginEvent;
+use OCP\Share\IManager;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Sabre\DAV\Auth\Plugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -187,19 +193,19 @@ class ServerFactory {
 					$objectTree,
 					$this->userSession,
 					$userFolder,
-					\OC::$server->getShareManager()
+					\OC::$server->get(IManager::class)
 				));
-				$server->addPlugin(new \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin(\OC::$server->getCommentsManager(), $this->userSession));
+				$server->addPlugin(new \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin(\OC::$server->get(ICommentsManager::class), $this->userSession));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesReportPlugin(
 					$objectTree,
 					$view,
-					\OC::$server->getSystemTagManager(),
-					\OC::$server->getSystemTagObjectMapper(),
-					\OC::$server->getTagManager(),
+					\OC::$server->get(ISystemTagManager::class),
+					\OC::$server->get(ISystemTagObjectMapper::class),
+					\OC::$server->get(ITagManager::class),
 					$this->userSession,
-					\OC::$server->getGroupManager(),
+					\OC::$server->get(IGroupManager::class),
 					$userFolder,
-					\OC::$server->getAppManager()
+					\OC::$server->get(IAppManager::class)
 				));
 				// custom properties plugin must be the last one
 				$server->addPlugin(
@@ -219,7 +225,7 @@ class ServerFactory {
 			$this->eventDispatcher->dispatch($event);
 			$pluginManager = new PluginManager(
 				\OC::$server,
-				\OC::$server->getAppManager()
+				\OC::$server->get(IAppManager::class)
 			);
 			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
 				$server->addPlugin($appPlugin);

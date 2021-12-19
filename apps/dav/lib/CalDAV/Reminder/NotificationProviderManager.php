@@ -73,7 +73,7 @@ class NotificationProviderManager {
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function registerProvider(string $providerClassName):void {
-		$provider = \OC::$server->query($providerClassName);
+		$provider = \OC::$server->get($providerClassName);
 
 		if (!$provider instanceof INotificationProvider) {
 			throw new \InvalidArgumentException('Invalid notification provider registered');

@@ -34,8 +34,23 @@
  */
 namespace OCA\DAV;
 
-use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCP\Diagnostics\IEventLogger;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
+use OC\Security\Bruteforce\Throttler;
+use OCP\App\IAppManager;
+use OCP\Comments\ICommentsManager;
+use OCP\Files\IRootFolder;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IPreview;
+use OCP\ITagManager;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Share\IManager;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Psr\Log\LoggerInterface;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\BirthdayService;
@@ -58,6 +73,7 @@ use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
+use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -92,30 +108,30 @@ class Server {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->getLogger();
-		$dispatcher = \OC::$server->getEventDispatcher();
+		$dispatcher = \OC::$server->get(\OC\EventDispatcher\SymfonyAdapter::class);
 		/** @var IEventDispatcher $newDispatcher */
-		$newDispatcher = \OC::$server->query(IEventDispatcher::class);
+		$newDispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->get(IConfig::class), \OC::$server->get(IFactory::class)->get('dav')));
 
 		// Backends
 		$authBackend = new Auth(
-			\OC::$server->getSession(),
-			\OC::$server->getUserSession(),
-			\OC::$server->getRequest(),
-			\OC::$server->getTwoFactorAuthManager(),
-			\OC::$server->getBruteForceThrottler()
+			\OC::$server->get(IUserSession::class)->getSession(),
+			\OC::$server->get(IUserSession::class),
+			\OC::$server->get(IRequest::class),
+			\OC::$server->get(TwoFactorAuthManager::class),
+			\OC::$server->get(Throttler::class)
 		);
 
 		// Set URL explicitly due to reverse-proxy situations
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
 		$this->server->setBaseUri($this->baseUri);
 
-		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->get(IConfig::class)));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
 		$authPlugin = new Plugin();
 		$authPlugin->addBackend(new PublicAuth());
@@ -129,16 +145,16 @@ class Server {
 		$newDispatcher->dispatchTyped($newAuthEvent);
 
 		$bearerAuthBackend = new BearerAuth(
-			\OC::$server->getUserSession(),
-			\OC::$server->getSession(),
-			\OC::$server->getRequest()
+			\OC::$server->get(IUserSession::class),
+			\OC::$server->get(IUserSession::class)->getSession(),
+			\OC::$server->get(IRequest::class)
 		);
 		$authPlugin->addBackend($bearerAuthBackend);
 		// because we are throwing exceptions this plugin has to be the last one
 		$authPlugin->addBackend($authBackend);
 
 		// debugging
-		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
+		if (\OC::$server->get(IConfig::class)->getSystemValue('debug', false)) {
 			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
 		} else {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
@@ -161,10 +177,10 @@ class Server {
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), \OC::$server->getLogger()));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
-			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
-				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->get(IConfig::class), \OC::$server->getLogger()));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->get(IConfig::class)));
+			if (\OC::$server->get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
+				$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
@@ -172,16 +188,16 @@ class Server {
 			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->get(IRequest::class), \OC::$server->get(IConfig::class)));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
-				\OC::$server->getConfig(),
-				\OC::$server->getURLGenerator()
+				\OC::$server->get(IConfig::class),
+				\OC::$server->get(IURLGenerator::class)
 			));
 		}
 
 		// addressbook plugins
 		if ($this->requestIsForSubtree(['addressbooks', 'principals'])) {
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->get(IRequest::class), \OC::$server->get(IConfig::class)));
 			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
@@ -194,15 +210,15 @@ class Server {
 
 		// system tags plugins
 		$this->server->addPlugin(new SystemTagPlugin(
-			\OC::$server->getSystemTagManager(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getUserSession()
+			\OC::$server->get(ISystemTagManager::class),
+			\OC::$server->get(IGroupManager::class),
+			\OC::$server->get(IUserSession::class)
 		));
 
 		// comments plugin
 		$this->server->addPlugin(new CommentsPlugin(
-			\OC::$server->getCommentsManager(),
-			\OC::$server->getUserSession()
+			\OC::$server->get(ICommentsManager::class),
+			\OC::$server->get(IUserSession::class)
 		));
 
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
@@ -232,19 +248,19 @@ class Server {
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend) {
 			// custom properties plugin must be the last one
-			$userSession = \OC::$server->getUserSession();
+			$userSession = \OC::$server->get(IUserSession::class);
 			$user = $userSession->getUser();
 			if ($user !== null) {
 				$view = \OC\Files\Filesystem::getView();
 				$this->server->addPlugin(
 					new FilesPlugin(
 						$this->server->tree,
-						\OC::$server->getConfig(),
+						\OC::$server->get(IConfig::class),
 						$this->request,
-						\OC::$server->getPreviewManager(),
-						\OC::$server->getUserSession(),
+						\OC::$server->get(IPreview::class),
+						\OC::$server->get(IUserSession::class),
 						false,
-						!\OC::$server->getConfig()->getSystemValue('debug', false)
+						!\OC::$server->get(IConfig::class)->getSystemValue('debug', false)
 					)
 				);
 
@@ -252,8 +268,8 @@ class Server {
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new CustomPropertiesBackend(
 							$this->server->tree,
-							\OC::$server->getDatabaseConnection(),
-							\OC::$server->getUserSession()->getUser()
+							\OC::$server->get(IDBConnection::class),
+							\OC::$server->get(IUserSession::class)->getUser()
 						)
 					)
 				);
@@ -263,7 +279,7 @@ class Server {
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(
-						$this->server->tree, \OC::$server->getTagManager()
+						$this->server->tree, \OC::$server->get(ITagManager::class)
 					)
 				);
 				// TODO: switch to LazyUserFolder
@@ -272,10 +288,10 @@ class Server {
 					$this->server->tree,
 					$userSession,
 					$userFolder,
-					\OC::$server->getShareManager()
+					\OC::$server->get(IManager::class)
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(
-					\OC::$server->getCommentsManager(),
+					\OC::$server->get(ICommentsManager::class),
 					$userSession
 				));
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
@@ -283,19 +299,19 @@ class Server {
 					$this->server->addPlugin(new FilesReportPlugin(
 						$this->server->tree,
 						$view,
-						\OC::$server->getSystemTagManager(),
-						\OC::$server->getSystemTagObjectMapper(),
-						\OC::$server->getTagManager(),
+						\OC::$server->get(ISystemTagManager::class),
+						\OC::$server->get(ISystemTagObjectMapper::class),
+						\OC::$server->get(ITagManager::class),
 						$userSession,
-						\OC::$server->getGroupManager(),
+						\OC::$server->get(IGroupManager::class),
 						$userFolder,
-						\OC::$server->getAppManager()
+						\OC::$server->get(IAppManager::class)
 					));
 					$lazySearchBackend->setBackend(new \OCA\DAV\Files\FileSearchBackend(
 						$this->server->tree,
 						$user,
-						\OC::$server->getRootFolder(),
-						\OC::$server->getShareManager(),
+						\OC::$server->get(IRootFolder::class),
+						\OC::$server->get(IManager::class),
 						$view
 					));
 					$logger = \OC::$server->get(LoggerInterface::class);
@@ -304,15 +320,15 @@ class Server {
 					);
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
-					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
+					\OC::$server->get(IConfig::class),
+					\OC::$server->get(BirthdayService::class)
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
-					\OC::$server->getUserSession(),
-					\OC::$server->getURLGenerator(),
+					\OC::$server->get(IUserSession::class),
+					\OC::$server->get(IURLGenerator::class),
 					\OC::$server->getThemingDefaults(),
-					\OC::$server->getRequest(),
-					\OC::$server->getL10N('dav'),
+					\OC::$server->get(IRequest::class),
+					\OC::$server->get(IFactory::class)->get('dav'),
 					function () {
 						return UUIDUtil::getUUID();
 					}
@@ -322,7 +338,7 @@ class Server {
 			// register plugins from apps
 			$pluginManager = new PluginManager(
 				\OC::$server,
-				\OC::$server->getAppManager()
+				\OC::$server->get(IAppManager::class)
 			);
 			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
 				$this->server->addPlugin($appPlugin);

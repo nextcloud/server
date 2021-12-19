@@ -24,6 +24,7 @@
  */
 namespace OCA\DAV\Avatars;
 
+use OCP\IAvatarManager;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 
 class RootCollection extends AbstractPrincipalCollection {
@@ -39,7 +40,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @return AvatarHome
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
-		$avatarManager = \OC::$server->getAvatarManager();
+		$avatarManager = \OC::$server->get(IAvatarManager::class);
 		return new AvatarHome($principalInfo, $avatarManager);
 	}
 

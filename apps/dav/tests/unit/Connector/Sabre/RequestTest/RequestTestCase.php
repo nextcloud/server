@@ -28,10 +28,20 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCP\Files\Mount\IMountManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IPreview;
 use OCP\IRequest;
+use OCP\ITagManager;
+use OCP\ITempManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
@@ -59,25 +69,25 @@ abstract class RequestTestCase extends TestCase {
 		unset($_SERVER['HTTP_OC_CHUNKED']);
 
 		$this->serverFactory = new ServerFactory(
-			\OC::$server->getConfig(),
-			\OC::$server->getLogger(),
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getUserSession(),
-			\OC::$server->getMountManager(),
-			\OC::$server->getTagManager(),
+			\OC::$server->get(IConfig::class),
+			\OC::$server->get(LoggerInterface::class),
+			\OC::$server->get(IDBConnection::class),
+			\OC::$server->get(IUserSession::class),
+			\OC::$server->get(IMountManager::class),
+			\OC::$server->get(ITagManager::class),
 			$this->getMockBuilder(IRequest::class)
 				->disableOriginalConstructor()
 				->getMock(),
-			\OC::$server->getPreviewManager(),
-			\OC::$server->getEventDispatcher(),
-			\OC::$server->getL10N('dav')
+			\OC::$server->get(IPreview::class),
+			\OC::$server->get(\OC\EventDispatcher\SymfonyAdapter::class),
+			\OC::$server->get(IFactory::class)->get('dav')
 		);
 	}
 
 	protected function setupUser($name, $password) {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
+		$tmpFolder = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
+		$this->registerMount($name, Local::class, '/' . $name, ['datadir' => $tmpFolder]);
 		$this->loginAsUser($name);
 		return new View('/' . $name . '/files');
 	}
