@@ -49,6 +49,7 @@
 				<button :key="`add-slot-${day.id}`"
 					:disabled="loading"
 					class="icon-add add-another button"
+					:class="{ 'add-another-not-first': day.slots.length !== 0 }"
 					:title="$t('dav', 'Add slot')"
 					@click="addSlot(day)" />
 			</template>
@@ -196,11 +197,16 @@ export default {
 .availability-slots {
 	display: flex;
 	padding-left: 8px;
+	white-space: nowrap;
 }
 .availability-slot {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+
+	&:last-child {
+		margin-bottom: 12px;
+	}
 }
 .availability-slot-group {
 	display: flex;
@@ -217,12 +223,13 @@ export default {
 	width: 120px;
 }
 .time-zone {
-	padding: 12px 12px 12px 0;
+	padding: 32px 12px 12px 0;
 }
 .grid-table {
 	display: grid;
+	padding-bottom: 24px;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 0px;
 	grid-template-columns: min-content min-content min-content;
 }
 .button {
@@ -249,6 +256,11 @@ export default {
 	opacity: .5;
 	display: inline-flex;
 	padding: 0;
+	margin-bottom: 1px;
+
+	&-not-first {
+		margin-bottom: 15px;
+	}
 
 	&:hover {
 		opacity: 1;
