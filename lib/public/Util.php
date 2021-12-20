@@ -78,6 +78,9 @@ class Util {
 	/** @var array */
 	private static $scripts = [];
 
+	/** @var array */
+	private static $scriptDeps = [];
+
 	/**
 	 * get the current installed version of Nextcloud
 	 * @return array
@@ -195,39 +198,12 @@ class Util {
 			self::addTranslations($application);
 		}
 
-		// manage priorities if defined
-		// we store the data like this, then flatten everything
-		// [
-		// 	'core' => [
-		// 		'first' => [
-		// 			'/core/js/main.js',
-		// 		],
-		// 		'last' => [
-		// 			'/apps/viewer/js/viewer-main.js',
-		// 		]
-		// 	],
-		// 	'viewer' => [
-		// 		'first' => [
-		// 			'/apps/viewer/js/viewer-public.js',
-		// 		],
-		// 		'last' => [
-		// 			'/apps/files_pdfviewer/js/files_pdfviewer-main.js',
-		// 		]
-		// 	]
-		// ]
+		// store dependency if defined
 		if (!empty($afterAppId)) {
-			// init afterAppId app array if it doesn't exists
-			if (!array_key_exists($afterAppId, self::$scripts)) {
-				self::$scripts[$afterAppId] = ['first' => [], 'last' => []];
-			}
-			self::$scripts[$afterAppId]['last'][] = $path;
-		} else {
-			// init app array if it doesn't exists
-			if (!array_key_exists($application, self::$scripts)) {
-				self::$scripts[$application] = ['first' => [], 'last' => []];
-			}
-			self::$scripts[$application]['first'][] = $path;
+			self::$scriptDeps[$application] = $afterAppId;
 		}
+
+		self::$scripts[$application][] = $path;
 	}
 
 	/**
@@ -236,15 +212,32 @@ class Util {
 	 * @since 24.0.0
 	 */
 	public static function getScripts(): array {
-		// merging first and last data set
-		$mapFunc = function (array $scriptsArray): array {
-			return array_merge(...array_values($scriptsArray));
+		// Sort by dependency if any
+		$sortByDeps = static function (string $app1, string $app2): int {
+			// Always sort core first
+			if ($app1 === 'core') {
+				return -1;
+			}
+			if ($app2 === 'core') {
+				return 1;
+			}
+
+			// If app1 has a dependency
+			if (array_key_exists($app1, self::$scriptDeps)) {
+				$apps = array_keys(self::$scripts);
+				// Move app1 backwards if dep comes afterwards
+				if (array_search($app1, $apps, true) <
+					array_search(self::$scriptDeps[$app1], $apps, true)) {
+					return 1;
+				}
+			}
+
+			return 0;
 		};
-		$appScripts = array_map($mapFunc, self::$scripts);
-		// sort core first
-		$scripts = array_merge(isset($appScripts['core']) ? $appScripts['core'] : [], ...array_values($appScripts));
-		// remove duplicates
-		return array_unique($scripts);
+		uksort(self::$scripts, $sortByDeps);
+
+		// Flatten array and remove duplicates
+		return self::$scripts ? array_unique(array_merge(...array_values(self::$scripts))) : [];
 	}
 
 	/**
@@ -262,7 +255,7 @@ class Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		self::$scripts[$application]['first'][] = $path;
+		self::$scripts[$application][] = $path;
 	}
 
 	/**
