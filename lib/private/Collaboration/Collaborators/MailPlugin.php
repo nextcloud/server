@@ -87,12 +87,7 @@ class MailPlugin implements ISearchPlugin {
 	}
 
 	/**
-	 * @param $search
-	 * @param $limit
-	 * @param $offset
-	 * @param ISearchResult $searchResult
-	 * @return bool
-	 * @since 13.0.0
+	 * {@inheritdoc}
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$currentUserId = $this->userSession->getUser()->getUID();
@@ -102,7 +97,16 @@ class MailPlugin implements ISearchPlugin {
 		$emailType = new SearchResultType('emails');
 
 		// Search in contacts
-		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN'], ['limit' => $limit, 'offset' => $offset]);
+		$addressBookContacts = $this->contactsManager->search(
+			$search,
+			['EMAIL', 'FN'],
+			[
+				'limit' => $limit,
+				'offset' => $offset,
+				'enumeration' => (bool) $this->shareeEnumeration,
+				'fullmatch' => (bool) $this->shareeEnumerationFullMatch,
+			]
+		);
 		$lowerSearch = strtolower($search);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['EMAIL'])) {
