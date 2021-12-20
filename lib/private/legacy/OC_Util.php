@@ -798,7 +798,7 @@ class OC_Util {
 					$permissionsHint = $l->t('Permissions can usually be fixed by giving the web server write access to the root directory. See %s.',
 						[$urlGenerator->linkToDocs('admin-dir_permissions')]);
 					$errors[] = [
-						'error' => 'Your data directory is not writable.',
+						'error' => $l->t('Your data directory is not writable.'),
 						'hint' => $permissionsHint
 					];
 				} else {
