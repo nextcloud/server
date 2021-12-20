@@ -25,6 +25,7 @@
  * @author timm2k <timm2k@gmx.de>
  * @author Timo Förster <tfoerster@webfoersterei.de>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
+ * @author MichaIng <micha@dietpi.com>
  *
  * @license AGPL-3.0
  *
@@ -238,7 +239,7 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Check if the used  SSL lib is outdated. Older OpenSSL and NSS versions do
+	 * Check if the used SSL lib is outdated. Older OpenSSL and NSS versions do
 	 * have multiple bugs which likely lead to problems in combination with
 	 * functionality required by ownCloud such as SNI.
 	 *
@@ -450,31 +451,61 @@ Raw output
 	}
 
 	/**
-	 * Checks whether a PHP opcache is properly set up
-	 * @return bool
+	 * Checks whether a PHP OPcache is properly set up
+	 * @return string[] The list of OPcache setup recommendations
 	 */
-	protected function isOpcacheProperlySetup() {
+	protected function getOpcacheSetupRecommendations(): array {
+		// If the module is not loaded, return directly to skip inapplicable checks
+		if (!extension_loaded('Zend OPcache')) {
+			return ['The PHP OPcache module is not loaded. <a target="_blank" rel="noreferrer noopener" class="external" href="' . $this->urlGenerator->linkToDocs('admin-php-opcache') . '">For better performance it is recommended</a> to load it into your PHP installation.'];
+		}
+
+		$recommendations = [];
+
+		// Check whether Nextcloud is allowed to use the OPcache API
+		$isPermitted = true;
+		$permittedPath = $this->iniGetWrapper->getString('opcache.restrict_api');
+		if (isset($permittedPath) && $permittedPath !== '' && !str_starts_with(\OC::$SERVERROOT, $permittedPath)) {
+			$isPermitted = false;
+		}
+
 		if (!$this->iniGetWrapper->getBool('opcache.enable')) {
-			return false;
+			$recommendations[] = 'OPcache is disabled. For better performance, it is recommended to apply <code>opcache.enable=1</code> to your PHP configuration.';
+
+			// Check for saved comments only when OPcache is currently disabled. If it was enabled, opcache.save_comments=0 would break Nextcloud in the first place.
+			if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
+				$recommendations[] = 'OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function.';
+			}
+
+			if (!$isPermitted) {
+				$recommendations[] = 'Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.';
+			}
+		} elseif (!$isPermitted) {
+			$recommendations[] = 'Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.';
+		} else {
+			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
+			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
+			if (isset($disabledFunctions) && str_contains($disabledFunctions, 'opcache_get_status')) {
+				return [];
+			}
+
+			$status = opcache_get_status(false);
+
+			// Recommend to raise value, if more than 90% of max value is reached
+			if ($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9) {
+				$recommendations[] = 'The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently') . '</code>.';
+			}
+
+			if ($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9) {
+				$recommendations[] = 'The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently') . '</code>.';
+			}
+
+			if ($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9) {
+				$recommendations[] = 'The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently') . '</code>.';
+			}
 		}
 
-		if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
-			return false;
-		}
-
-		if ($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
-			return false;
-		}
-
-		if ($this->iniGetWrapper->getNumeric('opcache.memory_consumption') < 128) {
-			return false;
-		}
-
-		if ($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
-			return false;
-		}
-
-		return true;
+		return $recommendations;
 	}
 
 	/**
@@ -572,10 +603,6 @@ Raw output
 		}
 
 		return [];
-	}
-
-	protected function hasOpcacheLoaded(): bool {
-		return extension_loaded('Zend OPcache');
 	}
 
 	private function isTemporaryDirectoryWritable(): bool {
@@ -791,9 +818,7 @@ Raw output
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
-				'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
-				'hasOpcacheLoaded' => $this->hasOpcacheLoaded(),
-				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
+				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
