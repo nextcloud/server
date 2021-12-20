@@ -49,7 +49,6 @@
 				<button :key="`add-slot-${day.id}`"
 					:disabled="loading"
 					class="icon-add add-another button"
-					:class="{ 'add-another-not-first': day.slots.length !== 0 }"
 					:title="$t('dav', 'Add slot')"
 					@click="addSlot(day)" />
 			</template>
@@ -191,22 +190,17 @@ export default {
 
 <style lang="scss" scoped>
 .availability-day {
-	padding: 0 10px 10px 10px;
+	padding: 0 10px 0 10px;
 	position: absolute;
 }
 .availability-slots {
 	display: flex;
-	padding-left: 8px;
 	white-space: nowrap;
 }
 .availability-slot {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-
-	&:last-child {
-		margin-bottom: 12px;
-	}
 }
 .availability-slot-group {
 	display: flex;
@@ -227,9 +221,9 @@ export default {
 }
 .grid-table {
 	display: grid;
-	padding-bottom: 24px;
-	grid-column-gap: 20px;
-	grid-row-gap: 0px;
+	margin-bottom: 32px;
+	grid-column-gap: 24px;
+	grid-row-gap: 6px;
 	grid-template-columns: min-content min-content min-content;
 }
 .button {
@@ -238,7 +232,7 @@ export default {
 .label-weekday {
 	position: relative;
 	display: inline-flex;
-	padding-top: 7px;
+	padding-top: 4px;
 }
 .delete-slot {
 	background-color: transparent;
@@ -256,11 +250,8 @@ export default {
 	opacity: .5;
 	display: inline-flex;
 	padding: 0;
-	margin-bottom: 1px;
-
-	&-not-first {
-		margin-bottom: 15px;
-	}
+	margin: 0;
+	margin-bottom: 3px;
 
 	&:hover {
 		opacity: 1;
@@ -274,7 +265,7 @@ export default {
 }
 .empty-content {
 	color: var(--color-text-lighter);
-	align-self: center;
+	margin-top: 4px;
 }
 
 </style>
