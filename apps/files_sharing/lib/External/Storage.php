@@ -45,6 +45,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Http\Client\LocalServerException;
 
 class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	/** @var ICloudId */
@@ -315,9 +316,16 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		$token = $this->getToken();
 		$password = $this->getPassword();
 
-		// If remote is not an ownCloud do not try to get any share info
-		if (!$this->remoteIsOwnCloud()) {
-			return ['status' => 'unsupported'];
+		try {
+			// If remote is not an ownCloud do not try to get any share info
+			if (!$this->remoteIsOwnCloud()) {
+				return ['status' => 'unsupported'];
+			}
+		} catch (LocalServerException $e) {
+			// throw this to be on the safe side: the share will still be visible
+			// in the UI in case the failure is intermittent, and the user will
+			// be able to decide whether to remove it if it's really gone
+			throw new StorageNotAvailableException();
 		}
 
 		$url = rtrim($remote, '/') . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
