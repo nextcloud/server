@@ -39,6 +39,7 @@
     "Credentials saved" : "已儲存認證資訊",
     "Credentials saving failed" : "認證資訊儲存失敗",
     "Credentials required" : "需要認證資訊",
+    "Forbidden to manage local mounts" : "禁止管理本機掛載",
     "Storage with ID \"%d\" not found" : "沒有找到 ID 為「%d」的儲存空間 ",
     "Invalid backend or authentication mechanism class" : "無效的後端或認證機制類別",
     "Invalid mount point" : "無效的掛載點",
