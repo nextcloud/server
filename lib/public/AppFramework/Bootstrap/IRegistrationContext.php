@@ -264,4 +264,15 @@ interface IRegistrationContext {
 	 * @since 23.0.0
 	 */
 	public function registerProfileLinkAction(string $actionClass): void;
+
+	/**
+	 * Register the backend of the Talk app
+	 *
+	 * This service must only be used by the Talk app
+	 *
+	 * @param string $backend
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerTalkBackend(string $backend): void;
 }

@@ -30,6 +30,8 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use OCP\Talk\ITalkBackend;
+use RuntimeException;
 use function array_shift;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
@@ -64,6 +66,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ILinkAction>[] */
 	private $profileLinkActions = [];
+
+	/** @var null|ServiceRegistration<ITalkBackend> */
+	private $talkBackendRegistration = null;
 
 	/** @var ServiceFactoryRegistration[] */
 	private $services = [];
@@ -259,6 +264,13 @@ class RegistrationContext {
 					$actionClass
 				);
 			}
+
+			public function registerTalkBackend(string $backend): void {
+				$this->context->registerTalkBackend(
+					$this->appId,
+					$backend
+				);
+			}
 		};
 	}
 
@@ -347,6 +359,21 @@ class RegistrationContext {
 	 */
 	public function registerProfileLinkAction(string $appId, string $actionClass): void {
 		$this->profileLinkActions[] = new ServiceRegistration($appId, $actionClass);
+	}
+
+	/**
+	 * @psalm-param class-string<ITalkBackend> $backend
+	 */
+	public function registerTalkBackend(string $appId, string $backend) {
+		// Some safeguards for invalid registrations
+		if ($appId !== 'spreed') {
+			throw new RuntimeException("Only the Talk app is allowed to register a Talk backend");
+		}
+		if ($this->talkBackendRegistration !== null) {
+			throw new RuntimeException("There can only be one Talk backend");
+		}
+
+		$this->talkBackendRegistration = new ServiceRegistration($appId, $backend);
 	}
 
 	/**
@@ -599,5 +626,13 @@ class RegistrationContext {
 	 */
 	public function getProfileLinkActions(): array {
 		return $this->profileLinkActions;
+	}
+
+	/**
+	 * @return ServiceRegistration|null
+	 * @psalm-return ServiceRegistration<ITalkBackend>|null
+	 */
+	public function getTalkBackendRegistration(): ?ServiceRegistration {
+		return $this->talkBackendRegistration;
 	}
 }
