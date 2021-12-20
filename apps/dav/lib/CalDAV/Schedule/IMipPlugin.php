@@ -172,8 +172,13 @@ class IMipPlugin extends SabreIMipPlugin {
 			return;
 		}
 
-		$senderName = $iTipMessage->senderName ?: null;
 		$recipientName = $iTipMessage->recipientName ?: null;
+
+		/** @var Parameter|string|null $senderName */
+		$senderName = $iTipMessage->senderName ?: null;
+		if($senderName instanceof Parameter) {
+			$senderName = $senderName->getValue() ?? null;
+		}
 
 		if ($senderName === null || empty(trim($senderName))) {
 			$senderName = $this->userManager->getDisplayName($this->userId);
