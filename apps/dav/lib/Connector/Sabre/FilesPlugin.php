@@ -404,6 +404,9 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
 			});
+			$propFind->handle(self::CREATIONDATE_PROPERTYNAME, function () use ($node) {
+				return $node->getFileInfo()->getCreationTime();
+			});
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {

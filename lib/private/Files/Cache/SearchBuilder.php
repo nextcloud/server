@@ -178,6 +178,8 @@ class SearchBuilder {
 		$types = [
 			'mimetype' => 'string',
 			'mtime' => 'integer',
+			'creation_time' => 'integer',
+			'upload_time' => 'integer',
 			'name' => 'string',
 			'path' => 'string',
 			'size' => 'integer',
@@ -188,6 +190,8 @@ class SearchBuilder {
 		];
 		$comparisons = [
 			'mimetype' => ['eq', 'like'],
+			'creation_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
+			'upload_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'mtime' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'name' => ['eq', 'like', 'clike'],
 			'path' => ['eq', 'like', 'clike'],
