@@ -177,6 +177,7 @@ export default {
 
 	&__multiselect {
 		width: 260px;
+		max-width: 40vw;
 	}
 }
 </style>
