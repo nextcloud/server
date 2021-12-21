@@ -72,4 +72,11 @@ class OCIFunctionBuilder extends FunctionBuilder {
 
 		return parent::least($x, $y);
 	}
+
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		if (is_null($separator)) {
+			return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr));
+		}
+		return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ", '$separator')");
+	}
 }

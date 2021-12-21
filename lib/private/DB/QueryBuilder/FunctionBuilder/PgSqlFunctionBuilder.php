@@ -30,4 +30,11 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 	public function concat($x, $y): IQueryFunction {
 		return new QueryFunction('(' . $this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y) . ')');
 	}
+
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		if (is_null($separator)) {
+			return new QueryFunction('string_agg(' . $this->helper->quoteColumnName($expr));
+		}
+		return new QueryFunction('string_agg(' . $this->helper->quoteColumnName($expr) . ", '$separator')");
+	}
 }

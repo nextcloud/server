@@ -49,6 +49,10 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction('CONCAT(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ')');
+	}
+
 	public function substring($input, $start, $length = null): IQueryFunction {
 		if ($length) {
 			return new QueryFunction('SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($start) . ', ' . $this->helper->quoteColumnName($length) . ')');
