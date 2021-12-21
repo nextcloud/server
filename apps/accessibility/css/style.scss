@@ -62,7 +62,7 @@
 	}
 }
 
-@media (max-width: 500px) {
+@media (max-width: $breakpoint-mobile/2) {
 	.app-settings #accessibility .preview-list .preview {
 		display: unset;
 
