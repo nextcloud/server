@@ -90,6 +90,8 @@ trait WebDav {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . "$path";
 		} elseif ($type === "uploads") {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
+		} else {
+			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . '/' . $type .  "$path";
 		}
 		$client = new GClient();
 		$options = [
