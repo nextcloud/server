@@ -222,6 +222,14 @@ class Util {
 				return 1;
 			}
 
+			// Always sort files second
+			if ($app1 === 'files') {
+				return -1;
+			}
+			if ($app2 === 'files') {
+				return 1;
+			}
+
 			// If app1 has a dependency
 			if (array_key_exists($app1, self::$scriptDeps)) {
 				$apps = array_keys(self::$scripts);
