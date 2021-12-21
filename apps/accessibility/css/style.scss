@@ -61,3 +61,13 @@
 		}
 	}
 }
+
+@media (max-width: 500px) {
+	.app-settings #accessibility .preview-list .preview {
+		display: unset;
+
+		.preview-image {
+			height: 150px;
+		}
+	}
+}
