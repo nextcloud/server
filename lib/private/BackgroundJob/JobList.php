@@ -214,7 +214,7 @@ class JobList implements IJobList {
 	 * Get the next job in the list
 	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
 	 */
-	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
+	public function getNext(bool $onlyTimeSensitive = false, string $jobClass = null): ?IJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
@@ -225,6 +225,10 @@ class JobList implements IJobList {
 
 		if ($onlyTimeSensitive) {
 			$query->andWhere($query->expr()->eq('time_sensitive', $query->createNamedParameter(IJob::TIME_SENSITIVE, IQueryBuilder::PARAM_INT)));
+		}
+
+		if ($jobClass) {
+			$query->andWhere($query->expr()->eq('class', $query->createNamedParameter($jobClass)));
 		}
 
 		$result = $query->executeQuery();
@@ -261,7 +265,7 @@ class JobList implements IJobList {
 
 			if ($count === 0) {
 				// Background job already executed elsewhere, try again.
-				return $this->getNext($onlyTimeSensitive);
+				return $this->getNext($onlyTimeSensitive, $jobClass);
 			}
 
 			if ($job === null) {
@@ -274,7 +278,7 @@ class JobList implements IJobList {
 				$reset->executeStatement();
 
 				// Background job from disabled app, try again.
-				return $this->getNext($onlyTimeSensitive);
+				return $this->getNext($onlyTimeSensitive, $jobClass);
 			}
 
 			return $job;
