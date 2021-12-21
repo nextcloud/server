@@ -31,6 +31,7 @@
 namespace OCP\Files;
 
 use OCP\Lock\LockedException;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Interface Node
@@ -87,7 +88,7 @@ interface Node extends FileInfo {
 	/**
 	 * Get the storage backend the file or folder is stored on
 	 *
-	 * @return Storage
+	 * @return IStorage
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
