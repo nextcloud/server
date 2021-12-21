@@ -32,7 +32,6 @@ namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
 use Aws\Credentials\CredentialProvider;
-use Aws\Credentials\EcsCredentialProvider;
 use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
 use Aws\S3\Exception\S3Exception;
