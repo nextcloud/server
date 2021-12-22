@@ -661,6 +661,8 @@ return array(
     'OC\\AppFramework\\Utility\\ControllerMethodReflector' => $baseDir . '/lib/private/AppFramework/Utility/ControllerMethodReflector.php',
     'OC\\AppFramework\\Utility\\SimpleContainer' => $baseDir . '/lib/private/AppFramework/Utility/SimpleContainer.php',
     'OC\\AppFramework\\Utility\\TimeFactory' => $baseDir . '/lib/private/AppFramework/Utility/TimeFactory.php',
+    'OC\\AppScriptDependency' => $baseDir . '/lib/private/AppScriptDependency.php',
+    'OC\\AppScriptSort' => $baseDir . '/lib/private/AppScriptSort.php',
     'OC\\App\\AppManager' => $baseDir . '/lib/private/App/AppManager.php',
     'OC\\App\\AppStore\\Bundles\\Bundle' => $baseDir . '/lib/private/App/AppStore/Bundles/Bundle.php',
     'OC\\App\\AppStore\\Bundles\\BundleFetcher' => $baseDir . '/lib/private/App/AppStore/Bundles/BundleFetcher.php',

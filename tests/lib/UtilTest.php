@@ -236,6 +236,7 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testAddScript() {
+		\OCP\Util::addScript('first', 'myFirstJSFile');
 		\OCP\Util::addScript('core', 'myFancyJSFile1');
 		\OCP\Util::addScript('files', 'myFancyJSFile2', 'core');
 		\OCP\Util::addScript('myApp5', 'myApp5JSFile', 'myApp2');
@@ -250,42 +251,44 @@ class UtilTest extends \Test\TestCase {
 		\OCP\Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
 		\OCP\Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
 
+		$scripts = \OCP\Util::getScripts();
+
 		// Core should appear first
 		$this->assertEquals(
 			0,
-			array_search('core/js/myFancyJSFile1', \OCP\Util::getScripts(), true)
+			array_search('core/js/myFancyJSFile1', $scripts, true)
 		);
 		$this->assertEquals(
 			1,
-			array_search('core/js/myFancyJSFile4', \OCP\Util::getScripts(), true)
+			array_search('core/js/myFancyJSFile4', $scripts, true)
 		);
 
 		// Dependencies should appear before their children
 		$this->assertLessThan(
-			array_search('files/js/myFancyJSFile2', \OCP\Util::getScripts(), true),
-			array_search('core/js/myFancyJSFile3', \OCP\Util::getScripts(), true)
+			array_search('files/js/myFancyJSFile2', $scripts, true),
+			array_search('core/js/myFancyJSFile3', $scripts, true)
 		);
 		$this->assertLessThan(
-			array_search('myApp2/js/myApp2JSFile', \OCP\Util::getScripts(), true),
-			array_search('myApp/js/myFancyJSFile3', \OCP\Util::getScripts(), true)
+			array_search('myApp2/js/myApp2JSFile', $scripts, true),
+			array_search('myApp/js/myFancyJSFile3', $scripts, true)
 		);
 		$this->assertLessThan(
-			array_search('myApp3/js/myApp3JSFile', \OCP\Util::getScripts(), true),
-			array_search('myApp2/js/myApp2JSFile', \OCP\Util::getScripts(), true)
+			array_search('myApp3/js/myApp3JSFile', $scripts, true),
+			array_search('myApp2/js/myApp2JSFile', $scripts, true)
 		);
 		$this->assertLessThan(
-			array_search('myApp4/js/myApp4JSFile', \OCP\Util::getScripts(), true),
-			array_search('myApp3/js/myApp3JSFile', \OCP\Util::getScripts(), true)
+			array_search('myApp4/js/myApp4JSFile', $scripts, true),
+			array_search('myApp3/js/myApp3JSFile', $scripts, true)
 		);
 		$this->assertLessThan(
-			array_search('myApp5/js/myApp5JSFile', \OCP\Util::getScripts(), true),
-			array_search('myApp2/js/myApp2JSFile', \OCP\Util::getScripts(), true)
+			array_search('myApp5/js/myApp5JSFile', $scripts, true),
+			array_search('myApp2/js/myApp2JSFile', $scripts, true)
 		);
 
 		// No duplicates
 		$this->assertEquals(
-			\OCP\Util::getScripts(),
-			array_unique(\OCP\Util::getScripts())
+			$scripts,
+			array_unique($scripts)
 		);
 
 		// All scripts still there
@@ -300,8 +303,17 @@ class UtilTest extends \Test\TestCase {
 			'myApp4/js/myApp4JSFile',
 		];
 		foreach ($scripts as $script) {
-			$this->assertContains($script, \OCP\Util::getScripts());
+			$this->assertContains($script, $scripts);
 		}
+	}
+
+	public function testAddScriptCircularDependency() {
+		\OCP\Util::addScript('circular', 'file1', 'dependency');
+		\OCP\Util::addScript('dependency', 'file2', 'circular');
+
+		$scripts = \OCP\Util::getScripts();
+		$this->assertContains('circular/js/file1', $scripts);
+		$this->assertContains('dependency/js/file2', $scripts);
 	}
 
 	public function testAddVendorScript() {
