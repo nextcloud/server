@@ -190,12 +190,12 @@ export default {
 
 <style lang="scss" scoped>
 .availability-day {
-	padding: 0 10px 10px 10px;
+	padding: 0 10px 0 10px;
 	position: absolute;
 }
 .availability-slots {
 	display: flex;
-	padding-left: 8px;
+	white-space: nowrap;
 }
 .availability-slot {
 	display: flex;
@@ -217,12 +217,13 @@ export default {
 	width: 120px;
 }
 .time-zone {
-	padding: 12px 12px 12px 0;
+	padding: 32px 12px 12px 0;
 }
 .grid-table {
 	display: grid;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	margin-bottom: 32px;
+	grid-column-gap: 24px;
+	grid-row-gap: 6px;
 	grid-template-columns: min-content min-content min-content;
 }
 .button {
@@ -231,7 +232,7 @@ export default {
 .label-weekday {
 	position: relative;
 	display: inline-flex;
-	padding-top: 7px;
+	padding-top: 4px;
 }
 .delete-slot {
 	background-color: transparent;
@@ -249,6 +250,8 @@ export default {
 	opacity: .5;
 	display: inline-flex;
 	padding: 0;
+	margin: 0;
+	margin-bottom: 3px;
 
 	&:hover {
 		opacity: 1;
@@ -262,7 +265,7 @@ export default {
 }
 .empty-content {
 	color: var(--color-text-lighter);
-	align-self: center;
+	margin-top: 4px;
 }
 
 </style>
