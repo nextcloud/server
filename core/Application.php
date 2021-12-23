@@ -186,6 +186,9 @@ class Application extends App {
 					if (!$table->hasIndex('properties_path_index')) {
 						$subject->addHintForMissingSubject($table->getName(), 'properties_path_index');
 					}
+					if (!$table->hasIndex('properties_pathonly_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'properties_pathonly_index');
+					}
 				}
 
 				if ($schema->hasTable('jobs')) {
