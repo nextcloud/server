@@ -357,6 +357,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['userid'], 'property_index');
 			$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
+			$table->addIndex(['propertypath'], 'properties_pathonly_index');
 		} else {
 			$table = $schema->getTable('properties');
 			if ($table->hasColumn('propertytype')) {
