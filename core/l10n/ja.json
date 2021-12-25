@@ -308,7 +308,7 @@
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Nextcloudを再インストールしようとしているようです。 しかし、CAN_INSTALLファイルがconfigディレクトリにありません。 続行するには、configフォルダーにCAN_INSTALLファイルを作成してください。",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "設定フォルダーからCAN_INSTALLを削除できませんでした。 このファイルを手動で削除してください。",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "このアプリケーションの動作にはJavaScriptが必要です。\n {linkstart}JavaScriptを有効にし{linkend} 、ページを更新してください。 ",
-    "Get your own free account" : "あなた自身の無料アカウントを入手",
+    "Get your own free account" : "無料でアカウントを作成",
     "Skip to main content" : "メインコンテンツへスキップ",
     "Skip to navigation of app" : "アプリのナビゲーションにスキップする",
     "More apps" : "さらにアプリ",
