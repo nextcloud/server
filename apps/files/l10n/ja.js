@@ -191,7 +191,7 @@ OC.L10N.register(
     "Show hidden files" : "隠しファイルを表示",
     "Crop image previews" : "プレビュー画像を切り抜く",
     "WebDAV" : "WebDAV",
-    "Use this address to access your Files via WebDAV" : "このアドレスを使用して、WebDAV経由でファイルにアクセスします",
+    "Use this address to access your Files via WebDAV" : "このアドレスを使用すれば、WebDAV経由でファイルにアクセスできます",
     "Toggle %1$s sublist" : "サブリスト %1$s を切り替え",
     "Toggle grid view" : "グリッド表示の切り替え",
     "No files in here" : "ファイルがありません",

@@ -4,7 +4,7 @@ OC.L10N.register(
     "Recent statuses" : "最近のステータス",
     "In a meeting" : "会議中",
     "Commuting" : "通勤中",
-    "Out sick" : "病欠",
+    "Out sick" : "体調不良",
     "Vacationing" : "休暇",
     "Working remotely" : "リモートワーク中",
     "User status" : "ユーザーステータス",
