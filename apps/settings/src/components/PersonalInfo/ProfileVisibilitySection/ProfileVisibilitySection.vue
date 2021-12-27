@@ -124,6 +124,7 @@ export default {
 <style lang="scss" scoped>
 section {
 	padding: 30px;
+	max-width: 100vw;
 
 	em {
 		display: block;
