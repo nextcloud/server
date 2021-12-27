@@ -247,18 +247,21 @@ $comment-padding: 10px;
 
 .comment {
 	position: relative;
-	padding: $comment-padding 0 $comment-padding * 1.5;
+	padding: $comment-padding;
+
+	&:first-of-type {
+		padding-top: 0;
+	}
 
 	&__header {
 		display: flex;
 		align-items: center;
 		min-height: 44px;
-		padding: $comment-padding / 2 0;
 	}
 
 	&__author,
 	&__actions {
-		margin-left: $comment-padding !important;
+		margin-left: $comment-padding * 1.5 !important;
 	}
 
 	&__author {
@@ -277,8 +280,7 @@ $comment-padding: 10px;
 	&__editor,
 	&__message {
 		position: relative;
-		// Avatar size, align with author name
-		padding-left: 32px + $comment-padding;
+		margin-top: 6px;
 	}
 
 	&__submit {
@@ -308,8 +310,12 @@ $comment-padding: 10px;
 	&__message {
 		white-space: pre-wrap;
 		word-break: break-word;
-		max-height: 70px;
+		max-height: 84px;
 		overflow: hidden;
+		padding: 6px 12px;
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-large);
+
 		&--expanded {
 			max-height: none;
 			overflow: visible;
