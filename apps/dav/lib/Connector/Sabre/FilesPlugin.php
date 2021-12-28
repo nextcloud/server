@@ -65,6 +65,7 @@ class FilesPlugin extends ServerPlugin {
 	public const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	public const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	public const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
+	public const CREATIONDATE_PROPERTYNAME = '{DAV:}creationdate';
 	public const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
 	public const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 	public const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
@@ -395,6 +396,11 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function () use ($node) {
 				return $this->config->getSystemValue('data-fingerprint', '');
 			});
+			$propFind->handle(self::CREATIONDATE_PROPERTYNAME, function () use ($node) {
+				return (new \DateTimeImmutable())
+					->setTimestamp($node->getFileInfo()->getCreationTime())
+					->format(\DateTimeInterface::ATOM);
+			});
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
 			});
@@ -494,6 +500,14 @@ class FilesPlugin extends ServerPlugin {
 				return true;
 			}
 			return false;
+		});
+		$propPatch->handle(self::CREATIONDATE_PROPERTYNAME, function ($time) use ($node) {
+			if (empty($time)) {
+				return false;
+			}
+			$dateTime = new \DateTimeImmutable($time);
+			$node->setCreationTime($dateTime->getTimestamp());
+			return true;
 		});
 		$propPatch->handle(self::CREATION_TIME_PROPERTYNAME, function ($time) use ($node) {
 			if (empty($time)) {
