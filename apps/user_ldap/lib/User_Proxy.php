@@ -31,6 +31,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserSession;
@@ -344,11 +345,15 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 */
 	public function countUsers() {
 		$users = false;
-		foreach ($this->backends as $backend) {
-			$backendUsers = $backend->countUsers();
-			if ($backendUsers !== false) {
-				$users += $backendUsers;
+		try {
+			foreach ($this->backends as $backend) {
+				$backendUsers = $backend->countUsers();
+				if ($backendUsers !== false) {
+					$users += $backendUsers;
+				}
 			}
+			}catch(ServerNotAvailableException $e){
+			return false;
 		}
 		return $users;
 	}
