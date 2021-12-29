@@ -353,7 +353,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 				}
 			}
 		} catch (ServerNotAvailableException $e) {
-				return false;
+			return false;
 		}
 		return $users;
 	}
