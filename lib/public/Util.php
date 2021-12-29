@@ -12,6 +12,7 @@
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Meurer <jonas@freesources.org>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -44,6 +45,9 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 
 namespace OCP;
+
+use OC\AppScriptDependency;
+use OC\AppScriptSort;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -80,6 +84,9 @@ class Util {
 
 	/** @var array */
 	private static $scriptDeps = [];
+
+	/** @var array */
+	private static $sortedScriptDeps = [];
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -177,12 +184,13 @@ class Util {
 
 	/**
 	 * add a javascript file
+	 *
 	 * @param string $application
-	 * @param string $file
+	 * @param string|null $file
 	 * @param string $afterAppId
 	 * @since 4.0.0
 	 */
-	public static function addScript($application, $file = null, $afterAppId = null) {
+	public static function addScript(string $application, string $file = null, string $afterAppId = 'core'): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {
@@ -198,9 +206,11 @@ class Util {
 			self::addTranslations($application);
 		}
 
-		// store dependency if defined
-		if (!empty($afterAppId)) {
-			self::$scriptDeps[$application] = $afterAppId;
+		// store app in dependency list
+		if (!array_key_exists($application, self::$scriptDeps)) {
+			self::$scriptDeps[$application] = new AppScriptDependency($application, [$afterAppId]);
+		} else {
+			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
 		self::$scripts[$application][] = $path;
@@ -208,36 +218,17 @@ class Util {
 
 	/**
 	 * Return the list of scripts injected to the page
+	 *
 	 * @return array
 	 * @since 24.0.0
 	 */
 	public static function getScripts(): array {
-		// Sort by dependency if any
-		$sortByDeps = static function (string $app1, string $app2): int {
-			// Always sort core first
-			if ($app1 === 'core') {
-				return -1;
-			}
-			if ($app2 === 'core') {
-				return 1;
-			}
-
-			// If app1 has a dependency
-			if (array_key_exists($app1, self::$scriptDeps)) {
-				$apps = array_keys(self::$scripts);
-				// Move app1 backwards if dep comes afterwards
-				if (array_search($app1, $apps, true) <
-					array_search(self::$scriptDeps[$app1], $apps, true)) {
-					return 1;
-				}
-			}
-
-			return 0;
-		};
-		uksort(self::$scripts, $sortByDeps);
+		// Sort scriptDeps into sortedScriptDeps
+		$scriptSort = \OC::$server->get(AppScriptSort::class);
+		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
-		return self::$scripts ? array_unique(array_merge(...array_values(self::$scripts))) : [];
+		return $sortedScripts ? array_unique(array_merge(...array_values(($sortedScripts)))) : [];
 	}
 
 	/**

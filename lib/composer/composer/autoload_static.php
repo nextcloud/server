@@ -690,6 +690,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppFramework\\Utility\\ControllerMethodReflector' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/ControllerMethodReflector.php',
         'OC\\AppFramework\\Utility\\SimpleContainer' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/SimpleContainer.php',
         'OC\\AppFramework\\Utility\\TimeFactory' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/TimeFactory.php',
+        'OC\\AppScriptDependency' => __DIR__ . '/../../..' . '/lib/private/AppScriptDependency.php',
+        'OC\\AppScriptSort' => __DIR__ . '/../../..' . '/lib/private/AppScriptSort.php',
         'OC\\App\\AppManager' => __DIR__ . '/../../..' . '/lib/private/App/AppManager.php',
         'OC\\App\\AppStore\\Bundles\\Bundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/Bundle.php',
         'OC\\App\\AppStore\\Bundles\\BundleFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/BundleFetcher.php',
