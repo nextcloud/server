@@ -104,6 +104,17 @@ export default {
 		},
 	},
 
+	mounted() {
+		// Prevent swiping to the next/previous item when scrubbing the timeline or changing volume
+		[...this.$el.querySelectorAll('.plyr__controls__item')].forEach(control => {
+			if (!control?.addEventListener) {
+				return
+			}
+			control.addEventListener('mouseenter', this.disableSwipe)
+			control.addEventListener('mouseleave', this.enableSwipe)
+		})
+	},
+
 	methods: {
 		// Updates the dimensions of the modal
 		updateVideoSize() {
