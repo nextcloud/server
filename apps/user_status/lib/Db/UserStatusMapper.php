@@ -23,6 +23,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\UserStatus\Db;
 
 use OCP\AppFramework\Db\QBMapper;
@@ -31,14 +32,7 @@ use OCP\IDBConnection;
 use OCP\UserStatus\IUserStatus;
 
 /**
- * Class UserStatusMapper
- *
- * @package OCA\UserStatus\Db
- *
- * @method UserStatus insert(UserStatus $entity)
- * @method UserStatus update(UserStatus $entity)
- * @method UserStatus insertOrUpdate(UserStatus $entity)
- * @method UserStatus delete(UserStatus $entity)
+ * @template-extends QBMapper<UserStatus>
  */
 class UserStatusMapper extends QBMapper {
 
