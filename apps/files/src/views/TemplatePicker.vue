@@ -213,8 +213,11 @@ export default {
 				)
 				this.logger.debug('Created new file', fileInfo)
 
-				await fileList?.addAndFetchFileInfo(this.name)
+				const data = await fileList?.addAndFetchFileInfo(this.name).then((status, data) => data)
 
+				const model = new OCA.Files.FileInfoModel(data, {
+					filesClient: fileList?.filesClient,
+				})
 				// Run default action
 				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
 				fileAction.action(fileInfo.basename, {
@@ -222,7 +225,7 @@ export default {
 					dir: currentDirectory,
 					fileList,
 					fileActions: fileList?.fileActions,
-					fileInfoModel: fileList?.getModelForFile(this.name),
+					fileInfoModel: model,
 				})
 
 				this.close()
