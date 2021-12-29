@@ -152,7 +152,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{DAV:}displayname' => ['displayname', 'string'],
 		'{urn:ietf:params:xml:ns:caldav}calendar-description' => ['description', 'string'],
 		'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => ['timezone', 'string'],
-		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'string'],
+		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'int'],
 		'{http://apple.com/ns/ical/}calendar-color' => ['calendarcolor', 'string'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}deleted-at' => ['deleted_at', 'int'],
 	];
