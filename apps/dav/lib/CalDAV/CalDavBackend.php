@@ -97,6 +97,7 @@ use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function array_column;
 use function array_merge;
 use function array_values;
 use function explode;
@@ -164,13 +165,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @var array
 	 */
 	public $subscriptionPropertyMap = [
-		'{DAV:}displayname' => 'displayname',
-		'{http://apple.com/ns/ical/}refreshrate' => 'refreshrate',
-		'{http://apple.com/ns/ical/}calendar-order' => 'calendarorder',
-		'{http://apple.com/ns/ical/}calendar-color' => 'calendarcolor',
-		'{http://calendarserver.org/ns/}subscribed-strip-todos' => 'striptodos',
-		'{http://calendarserver.org/ns/}subscribed-strip-alarms' => 'stripalarms',
-		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => 'stripattachments',
+		'{DAV:}displayname' => ['displayname', 'string'],
+		'{http://apple.com/ns/ical/}refreshrate' => ['refreshrate', 'string'],
+		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'int'],
+		'{http://apple.com/ns/ical/}calendar-color' => ['calendarcolor', 'string'],
+		'{http://calendarserver.org/ns/}subscribed-strip-todos' => ['striptodos', 'bool'],
+		'{http://calendarserver.org/ns/}subscribed-strip-alarms' => ['stripalarms', 'string'],
+		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => ['stripattachments', 'string'],
 	];
 
 	/**
@@ -763,7 +764,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param $subscriptionId
 	 */
 	public function getSubscriptionById($subscriptionId) {
-		$fields = array_values($this->subscriptionPropertyMap);
+		$fields = array_column($this->subscriptionPropertyMap, 0);
 		$fields[] = 'id';
 		$fields[] = 'uri';
 		$fields[] = 'source';
@@ -795,13 +796,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
 		];
 
-		foreach ($this->subscriptionPropertyMap as $xmlName => $dbName) {
-			if (!is_null($row[$dbName])) {
-				$subscription[$xmlName] = $row[$dbName];
-			}
-		}
-
-		return $subscription;
+		return $this->rowToSubscription($row, $subscription);
 	}
 
 	/**
@@ -2432,7 +2427,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function getSubscriptionsForUser($principalUri) {
-		$fields = array_values($this->subscriptionPropertyMap);
+		$fields = array_column($this->subscriptionPropertyMap, 0);
 		$fields[] = 'id';
 		$fields[] = 'uri';
 		$fields[] = 'source';
@@ -2460,13 +2455,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
 			];
 
-			foreach ($this->subscriptionPropertyMap as $xmlName => $dbName) {
-				if (!is_null($row[$dbName])) {
-					$subscription[$xmlName] = $row[$dbName];
-				}
-			}
-
-			$subscriptions[] = $subscription;
+			$subscriptions[] = $this->rowToSubscription($row, $subscription);
 		}
 
 		return $subscriptions;
@@ -2497,7 +2486,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$propertiesBoolean = ['striptodos', 'stripalarms', 'stripattachments'];
 
-		foreach ($this->subscriptionPropertyMap as $xmlName => $dbName) {
+		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type]) {
 			if (array_key_exists($xmlName, $properties)) {
 				$values[$dbName] = $properties[$xmlName];
 				if (in_array($dbName, $propertiesBoolean)) {
@@ -2559,7 +2548,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				if ($propertyName === '{http://calendarserver.org/ns/}source') {
 					$newValues['source'] = $propertyValue->getHref();
 				} else {
-					$fieldName = $this->subscriptionPropertyMap[$propertyName];
+					$fieldName = $this->subscriptionPropertyMap[$propertyName][0];
 					$newValues[$fieldName] = $propertyValue;
 				}
 			}
@@ -3261,5 +3250,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendar[$xmlName] = $value;
 		}
 		return $calendar;
+	}
+
+	/**
+	 * Amend the subscription info with database row data
+	 *
+	 * @param array $row
+	 * @param array $subscription
+	 *
+	 * @return array
+	 */
+	private function rowToSubscription($row, array $subscription): array {
+		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type]) {
+			$value = $row[$dbName];
+			if ($value !== null) {
+				settype($value, $type);
+			}
+			$subscription[$xmlName] = $value;
+		}
+		return $subscription;
 	}
 }
