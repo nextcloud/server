@@ -64,8 +64,8 @@ $urlGenerator = $_['urlGenerator'];
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
 		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
 	</form>
-</div>
 
-<?php if (empty($_['oauthState'])): ?>
-<a id="app-token-login" class="warning" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
-<?php endif; ?>
+	<?php if (empty($_['oauthState'])): ?>
+		<a id="app-token-login" class="apptoken-link" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
+	<?php endif; ?>
+</div>
