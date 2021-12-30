@@ -248,7 +248,12 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			// but not included in the results laters on
 			$excludeFromResult = $dnGroup;
 		}
+		// cache only base groups, otherwise groups get additional unwarranted members
+		$shouldCacheResult = count($seen) === 0;
+
+		static $rawMemberReads = []; // runtime cache for intermediate ldap read results
 		$allMembers = [];
+
 		if (array_key_exists($dnGroup, $seen)) {
 			return [];
 		}
@@ -290,7 +295,11 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		}
 
 		$seen[$dnGroup] = 1;
-		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
+		$members = $rawMemberReads[$dnGroup] ?? null;
+		if ($members === null) {
+			$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
+			$rawMemberReads[$dnGroup] = $members;
+		}
 		if (is_array($members)) {
 			$fetcher = function ($memberDN) use (&$seen) {
 				return $this->_groupMembers($memberDN, $seen);
@@ -306,7 +315,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			}
 		}
 
-		$this->access->connection->writeToCache($cacheKey, $allMembers);
+		if ($shouldCacheResult) {
+			$this->access->connection->writeToCache($cacheKey, $allMembers);
+			unset($rawMemberReads[$dnGroup]);
+		}
 		if (isset($attemptedLdapMatchingRuleInChain)
 			&& $this->access->connection->ldapMatchingRuleInChainState === Configuration::LDAP_SERVER_FEATURE_UNKNOWN
 			&& !empty($allMembers)
