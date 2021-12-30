@@ -968,9 +968,20 @@ class Trashbin {
 		[$storage,] = $view->resolvePath('/');
 
 		//force rescan of versions, local storage may not have updated the cache
-		if (!self::$scannedVersions) {
-			$storage->getScanner()->scan('files_trashbin/versions');
-			self::$scannedVersions = true;
+		$waitstart = time();
+		while (!self::$scannedVersions) {
+			try {
+				$storage->getScanner()->scan('files_trashbin/versions');
+				self::$scannedVersions = true;
+			} catch (LockedException $e) {
+				/* a concurrent remove/restore from trash occurred,
+				 * retry with a maximum wait time of approx. 15 seconds
+				 */
+				if (time() - $waitstart > 15) {
+					throw $e;
+				}
+				usleep(50000 + rand(0, 10000));
+			}
 		}
 
 		$pattern = \OC::$server->getDatabaseConnection()->escapeLikeParameter(basename($filename));
