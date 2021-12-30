@@ -115,6 +115,7 @@ interface IToken extends JsonSerializable {
 	 * Get the token type
 	 *
 	 * @return int
+	 * @psalm-return IToken::DO_NOT_REMEMBER|IToken::REMEMBER
 	 */
 	public function getType(): int;
 
