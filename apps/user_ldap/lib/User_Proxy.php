@@ -345,16 +345,17 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 */
 	public function countUsers() {
 		$users = false;
-		try {
-			foreach ($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
+			try{
 				$backendUsers = $backend->countUsers();
-				if ($backendUsers !== false) {
-					$users += $backendUsers;
+			} catch (ServerNotAvailableException $e) {
+					return false;
+					}
+			if ($backendUsers !== false) {
+				$users += $backendUsers;
 				}
 			}
-		} catch (ServerNotAvailableException $e) {
-			return false;
-		}
+		} 
 		return $users;
 	}
 
