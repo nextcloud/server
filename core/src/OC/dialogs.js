@@ -309,6 +309,9 @@ const Dialogs = {
 
 			$('body').append(self.$filePicker)
 
+			self.$showGridView = $('input#picker-showgridview')
+			self.$showGridView.on('change', _.bind(self._onGridviewChange, self))
+
 			self._getGridSettings()
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add')
