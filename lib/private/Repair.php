@@ -44,6 +44,7 @@ use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\Owncloud\CleanPreviews;
+use OC\Repair\Owncloud\MigrateOauthTables;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\InstallCoreBundle;
@@ -164,6 +165,7 @@ class Repair implements IOutput {
 				\OC::$server->getUserManager(),
 				\OC::$server->getConfig()
 			),
+			new MigrateOauthTables(\OC::$server->getDatabaseConnection()),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new InstallCoreBundle(
