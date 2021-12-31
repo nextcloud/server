@@ -354,8 +354,6 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 			if ($backendUsers !== false) {
 				$users += $backendUsers;
 				}
-			}
-		} 
 		return $users;
 	}
 
