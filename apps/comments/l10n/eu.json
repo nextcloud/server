@@ -1,9 +1,9 @@
 { "translations": {
     "Comments" : "Iruzkinak",
     "You commented" : "Iruzkindu duzu",
-    "%1$s commented" : "%1$s iruzkin du",
-    "{author} commented" : "{author}-(e)k iruzkin du",
-    "You commented on %1$s" : "%1$s-en Iruzkin duzu",
+    "%1$s commented" : "%1$s-(e)k iruzkindu du",
+    "{author} commented" : "{author}-(e)k iruzkindu du",
+    "You commented on %1$s" : "%1$s-en iruzkindu duzu",
     "You commented on {file}" : "{file} fitxategian iruzkina egin duzu",
     "%1$s commented on %2$s" : "%1$s %2$s-en iruzkin du",
     "{author} commented on {file}" : "{author}-(e)k {file}-en iruzkina egin du",
