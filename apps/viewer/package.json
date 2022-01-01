@@ -63,7 +63,7 @@
 		"npm": "^7.0.0"
 	},
 	"devDependencies": {
-		"@babel/plugin-proposal-class-properties": "^7.16.5",
+		"@babel/plugin-proposal-class-properties": "^7.16.7",
 		"@cypress/browserify-preprocessor": "^3.0.1",
 		"@nextcloud/babel-config": "^1.0.0",
 		"@nextcloud/browserslist-config": "^2.2.0",
