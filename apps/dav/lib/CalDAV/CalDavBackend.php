@@ -93,6 +93,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Parameter;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
@@ -3020,8 +3021,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$parameters = $property->parameters();
 					$indexedParametersForProperty = self::$indexParameters[$property->name];
 
-					foreach ($parameters as $key => $value) {
+					foreach ($parameters as $key => $parameter) {
+						/** @var Parameter $parameter */
 						if (in_array($key, $indexedParametersForProperty)) {
+							$value = $parameter->getValue();
 							// is this a shitty db?
 							if ($this->db->supports4ByteText()) {
 								$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
