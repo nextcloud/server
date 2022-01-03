@@ -31,10 +31,15 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction('(' . $this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
-	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
-		if (is_null($separator)) {
-			return new QueryFunction('string_agg(' . $this->helper->quoteColumnName($expr));
+	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
+		if (is_null($orderBy)) {
+			$orderByClause = '';
+		} else {
+			$orderByClause = ' ORDER BY ' . $orderBy;
 		}
-		return new QueryFunction('string_agg(' . $this->helper->quoteColumnName($expr) . ", '$separator')");
+		if (is_null($separator)) {
+			return new QueryFunction('string_agg(' . $this->helper->quoteColumnName($expr) . $orderByClause . ')');
+		}
+		return new QueryFunction('string_agg(' . $this->helper->quoteColumnName($expr) . ", '$separator'$orderByClause)");
 	}
 }

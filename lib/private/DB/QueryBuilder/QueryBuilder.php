@@ -155,16 +155,16 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function func() {
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIFunctionBuilder($this->helper);
+			return new OCIFunctionBuilder($this->connection, $this->helper);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteFunctionBuilder($this->helper);
+			return new SqliteFunctionBuilder($this->connection, $this->helper);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlFunctionBuilder($this->helper);
+			return new PgSqlFunctionBuilder($this->connection, $this->helper);
 		}
 
-		return new FunctionBuilder($this->helper);
+		return new FunctionBuilder($this->connection, $this->helper);
 	}
 
 	/**

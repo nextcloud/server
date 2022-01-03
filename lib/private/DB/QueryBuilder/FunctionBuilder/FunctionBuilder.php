@@ -27,17 +27,22 @@ use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\IDBConnection;
 
 class FunctionBuilder implements IFunctionBuilder {
 	/** @var QuoteHelper */
 	protected $helper;
+
+	/** @var IDBConnection */
+	protected $connection;
 
 	/**
 	 * ExpressionBuilder constructor.
 	 *
 	 * @param QuoteHelper $helper
 	 */
-	public function __construct(QuoteHelper $helper) {
+	public function __construct(IDBConnection $connection, QuoteHelper $helper) {
+		$this->connection = $connection;
 		$this->helper = $helper;
 	}
 
@@ -49,8 +54,14 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction('CONCAT(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
-	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
-		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ')');
+	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
+		if (is_null($orderBy)) {
+			$orderByClause = '';
+		} else {
+			$orderByClause = ' ORDER BY ' . $orderBy;
+		}
+		$separator = $this->connection->quote($separator);
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . $orderByClause . ' SEPARATOR ' . $separator . ')');
 	}
 
 	public function substring($input, $start, $length = null): IQueryFunction {

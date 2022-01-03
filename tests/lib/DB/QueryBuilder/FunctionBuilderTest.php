@@ -54,6 +54,32 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals('foobar', $column);
 	}
 
+	public function testGroupConcatWithoutSeparatorAndOrder() {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('appid'));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertGreaterThan(1, str_getcsv($column, ','));
+	}
+
+	public function testGroupConcatWithSeparatorAndOrder() {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('appid', '#', 'appid'));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertGreaterThan(1, str_getcsv($column, '#', 'appid'));
+	}
+
 	public function testMd5() {
 		$query = $this->connection->getQueryBuilder();
 
