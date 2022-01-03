@@ -8,6 +8,7 @@ OC.L10N.register(
     "Vacationing" : "Poilsiauju",
     "Working remotely" : "Dirbu nuotoliniu būdu",
     "User status" : "Naudotojo būsena",
+    "View profile" : "Rodyti profilį",
     "Clear status message after" : "Išvalyti būsenos žinutę po",
     "What is your status?" : "Kokia jūsų būsena?",
     "Set status" : "Nustatyti būseną",
