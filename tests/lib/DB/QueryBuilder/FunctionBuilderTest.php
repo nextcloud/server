@@ -58,7 +58,7 @@ class FunctionBuilderTest extends TestCase {
 		$delete = $this->connection->getQueryBuilder();
 
 		$delete->delete('appconfig')
-			->where($delete->expr()->eq('appid', $delete->createNamedParameter('group_concat', IQueryBuilder::PARAM_STR)));
+			->where($delete->expr()->eq('appid', $delete->createNamedParameter('group_concat')));
 		$delete->executeStatement();
 	}
 
@@ -67,9 +67,9 @@ class FunctionBuilderTest extends TestCase {
 		$insert = $this->connection->getQueryBuilder();
 
 		$insert->insert('appconfig')
-			->setValue('appid', $insert->createNamedParameter('group_concat', IQueryBuilder::PARAM_STR))
-			->setValue('configvalue', $insert->createNamedParameter('unittest', IQueryBuilder::PARAM_STR))
-			->setValue('configkey', $insert->createParameter('value', IQueryBuilder::PARAM_STR));
+			->setValue('appid', $insert->createNamedParameter('group_concat'))
+			->setValue('configvalue', $insert->createNamedParameter('unittest'))
+			->setValue('configkey', $insert->createParameter('value'));
 
 		$insert->setParameter('value', '1');
 		$insert->executeStatement();
@@ -90,10 +90,13 @@ class FunctionBuilderTest extends TestCase {
 		$result = $query->execute();
 		$column = $result->fetchOne();
 		$result->closeCursor();
-		$this->assertGreaterThan(1, str_getcsv($column, ','));
+		$this->assertStringContainsString(',', $column);
+		$actual = explode(',', $column);
+		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
-	public function testGroupConcatWithSeparatorAndOrder() {
+	public function testGroupConcatWithSeparator() {
+		$this->addDummyData();
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->groupConcat('configkey', '#'))
@@ -103,7 +106,9 @@ class FunctionBuilderTest extends TestCase {
 		$result = $query->execute();
 		$column = $result->fetchOne();
 		$result->closeCursor();
-		$this->assertGreaterThan(1, str_getcsv($column, '#', 'appid'));
+		$this->assertStringContainsString('#', $column);
+		$actual = explode('#', $column);
+		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
 	public function testMd5() {
