@@ -35,6 +35,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	 *
 	 * @param string|IQueryFunction $column
 	 * @param mixed $type One of IQueryBuilder::PARAM_*
+	 * @psalm-param IQueryBuilder::PARAM_* $type
 	 * @return IQueryFunction
 	 */
 	public function castColumn($column, $type): IQueryFunction {

@@ -26,7 +26,9 @@
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use OC\DB\ConnectionAdapter;
+use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 
 class MySqlExpressionBuilder extends ExpressionBuilder {
 
@@ -51,5 +53,22 @@ class MySqlExpressionBuilder extends ExpressionBuilder {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, ' COLLATE ' . $this->collation . ' LIKE', $y);
+	}
+
+	/**
+	 * Returns a IQueryFunction that casts the column to the given type
+	 *
+	 * @param string|IQueryFunction $column
+	 * @param mixed $type One of IQueryBuilder::PARAM_*
+	 * @psalm-param IQueryBuilder::PARAM_* $type
+	 * @return IQueryFunction
+	 */
+	public function castColumn($column, $type): IQueryFunction {
+		switch ($type) {
+			case IQueryBuilder::PARAM_STR:
+				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS CHAR)');
+			default:
+				return parent::castColumn($column, $type);
+		}
 	}
 }
