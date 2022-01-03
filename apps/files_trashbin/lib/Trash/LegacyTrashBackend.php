@@ -33,7 +33,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
-class LegacyTrashBackend implements IHomeTrashBackend {
+class LegacyTrashBackend implements ITrashBackend {
 	/** @var array */
 	private $deletedFiles = [];
 
@@ -114,10 +114,6 @@ class LegacyTrashBackend implements IHomeTrashBackend {
 		}
 
 		return $result;
-	}
-
-	public function copyToTrash(IStorage $storage, string $internalPath): bool {
-		return \OCA\Files_Trashbin\Trashbin::copy2trash($storage, $internalPath);
 	}
 
 	public function getTrashNodeById(IUser $user, int $fileId) {
