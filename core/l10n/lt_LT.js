@@ -232,7 +232,7 @@ OC.L10N.register(
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Jei sinchronizavimui naudojate kliento programas, tuomet SQLite naudojimas yra primygtinai nerekomenduojamas.",
     "Install recommended apps" : "Įdiegti rekomenduojamas programėles",
     "Finish setup" : "Užbaigti sąranką",
-    "Finishing …" : "Užbaigiama …",
+    "Finishing …" : "Užbaigiama…",
     "Need help?" : "Reikia pagalbos?",
     "See the documentation" : "Žiūrėkite dokumentaciją",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Nepavyko iš konfigūracijos aplanko pašalinti failo CAN_INSTALL. Pašalinkite šį failą rankiniu būdu.",
