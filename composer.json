@@ -5,6 +5,9 @@
 		"sort-packages": true,
 		"platform": {
 			"php": "7.3"
+		},
+		"allow-plugins": {
+			"bamarni/composer-bin-plugin": true
 		}
 	},
 	"autoload": {
