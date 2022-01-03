@@ -2200,9 +2200,6 @@
       <code>registerProvider</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/user_status/lib/Db/UserStatusMapper.php">
-    <MoreSpecificImplementedParamType occurrences="1"/>
-  </file>
   <file src="apps/workflowengine/lib/Check/AbstractStringCheck.php">
     <NullArgument occurrences="1">
       <code>null</code>
