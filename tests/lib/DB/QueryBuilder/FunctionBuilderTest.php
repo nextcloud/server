@@ -54,12 +54,38 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals('foobar', $column);
 	}
 
-	public function testGroupConcatWithoutSeparatorAndOrder() {
+	protected function clearDummyData() {
+		$delete = $this->connection->getQueryBuilder();
+
+		$delete->delete('appconfig')
+			->where($delete->expr()->eq('appid', $delete->createNamedParameter('group_concat', IQueryBuilder::PARAM_STR)));
+		$delete->executeStatement();
+	}
+
+	protected function addDummyData() {
+		$this->clearDummyData();
+		$insert = $this->connection->getQueryBuilder();
+
+		$insert->insert('appconfig')
+			->setValue('appid', $insert->createNamedParameter('group_concat', IQueryBuilder::PARAM_STR))
+			->setValue('configvalue', $insert->createNamedParameter('unittest', IQueryBuilder::PARAM_STR))
+			->setValue('configkey', $insert->createParameter('value', IQueryBuilder::PARAM_STR));
+
+		$insert->setParameter('value', '1');
+		$insert->executeStatement();
+		$insert->setParameter('value', '3');
+		$insert->executeStatement();
+		$insert->setParameter('value', '2');
+		$insert->executeStatement();
+	}
+
+	public function testGroupConcatWithoutSeparator() {
+		$this->addDummyData();
 		$query = $this->connection->getQueryBuilder();
 
-		$query->select($query->func()->groupConcat('appid'));
-		$query->from('appconfig')
-			->setMaxResults(1);
+		$query->select($query->func()->groupConcat('configkey'))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
 
 		$result = $query->execute();
 		$column = $result->fetchOne();
@@ -70,9 +96,9 @@ class FunctionBuilderTest extends TestCase {
 	public function testGroupConcatWithSeparatorAndOrder() {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->select($query->func()->groupConcat('appid', '#', 'appid'));
-		$query->from('appconfig')
-			->setMaxResults(1);
+		$query->select($query->func()->groupConcat('configkey', '#'))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
 
 		$result = $query->execute();
 		$column = $result->fetchOne();

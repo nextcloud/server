@@ -31,9 +31,9 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction('(' . $this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
-	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
-		$separator = $this->helper->quoteColumnName($separator);
-		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . "$separator)");
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$separator = $this->connection->quote($separator);
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ", $separator)");
 	}
 
 	public function greatest($x, $y): IQueryFunction {

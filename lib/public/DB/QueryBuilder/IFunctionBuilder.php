@@ -62,11 +62,10 @@ interface IFunctionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $expr The expression to group
 	 * @param string|null $separator The separator
-	 * @param string|null $orderBy Optional SQL expression (and direction) to order the grouped rows by.
 	 * @return IQueryFunction
 	 * @since 24.0.0
 	 */
-	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction;
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction;
 
 	/**
 	 * Takes a substring from the input string

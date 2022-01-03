@@ -54,14 +54,9 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction('CONCAT(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
-	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
-		if (is_null($orderBy)) {
-			$orderByClause = '';
-		} else {
-			$orderByClause = ' ORDER BY ' . $orderBy;
-		}
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$separator = $this->connection->quote($separator);
-		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . $orderByClause . ' SEPARATOR ' . $separator . ')');
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ' SEPARATOR ' . $separator . ')');
 	}
 
 	public function substring($input, $start, $length = null): IQueryFunction {

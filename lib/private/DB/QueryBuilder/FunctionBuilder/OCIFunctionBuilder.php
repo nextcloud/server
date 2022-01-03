@@ -73,11 +73,8 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return parent::least($x, $y);
 	}
 
-	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
-		if (is_null($orderBy)) {
-			$orderBy = 'NULL';
-		}
-		$orderByClause = ' WITHIN GROUP(ORDER BY ' . $orderBy . ')';
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$orderByClause = ' WITHIN GROUP(ORDER BY NULL)';
 		if (is_null($separator)) {
 			return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . $orderByClause . ')');
 		}
