@@ -113,9 +113,11 @@ class OC_Template extends \OC\Template\Base {
 			Util::addTranslations('core');
 
 			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
-				Util::addScript('core', 'files_fileinfo');
-				Util::addScript('core', 'files_client');
-				Util::addScript('core', 'merged-template-prepend');
+				if ($renderAs !== TemplateResponse::RENDER_AS_BLANK && $renderAs !== TemplateResponse::RENDER_AS_BASE) {
+					Util::addScript('core', 'files_fileinfo');
+					Util::addScript('core', 'files_client');
+					Util::addScript('core', 'merged-template-prepend');
+				}
 			}
 
 			// If installed and background job is set to ajax, add dedicated script
