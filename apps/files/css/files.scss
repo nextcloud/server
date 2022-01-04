@@ -428,11 +428,6 @@ table {
 			padding: 0 20px 0 0;
 		}
 	}
-
-	.uploadtext {
-		position: absolute;
-		left: 55px;
-	}
 }
 
 .hide-hidden-files #filestable #fileList tr.hidden-file,
@@ -460,13 +455,22 @@ table td.filename .nametext .innernametext {
 /* for smaller resolutions - see mobile.css */
 
 table td.filename .uploadtext {
+	position: absolute;
 	font-weight: normal;
-	margin-left: 55px;
-	margin-top: 5px;
+	// checkbox width
+	margin-left: 50px;
+	left: 0;
+	bottom: 0;
 	height: 20px;
-	padding: 10px 0;
+	padding: 0 4px;
+	// align with file name
+	padding-left: 1px;
 	font-size: 11px;
-	opacity: .5;
+	// double the font size
+	line-height: 22px;
+	color: var(--color-text-maxcontrast);
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 table td.selection {
@@ -986,6 +990,18 @@ table.dragshadow td.size {
 							right: -22px; // center in corner of thumbnail
 						}
 					}
+				}
+
+				.uploadtext {
+					width: 100%;
+					margin: 0;
+					top: 0;
+					bottom: auto;
+					// checkbox align
+					height: 28px;
+					padding-top: 4px;
+					// checkbox margins
+					padding-left: calc(44px - 16px);
 				}
 
 				.name {
