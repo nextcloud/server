@@ -31,6 +31,11 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction('(' . $this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$separator = $this->connection->quote($separator);
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')');
+	}
+
 	public function greatest($x, $y): IQueryFunction {
 		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}

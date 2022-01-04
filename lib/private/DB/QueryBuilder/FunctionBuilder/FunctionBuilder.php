@@ -26,18 +26,23 @@ namespace OC\DB\QueryBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\IDBConnection;
 
 class FunctionBuilder implements IFunctionBuilder {
+	/** @var IDBConnection */
+	protected $connection;
+
+	/** @var IQueryBuilder */
+	protected $queryBuilder;
+
 	/** @var QuoteHelper */
 	protected $helper;
 
-	/**
-	 * ExpressionBuilder constructor.
-	 *
-	 * @param QuoteHelper $helper
-	 */
-	public function __construct(QuoteHelper $helper) {
+	public function __construct(IDBConnection $connection, IQueryBuilder $queryBuilder, QuoteHelper $helper) {
+		$this->connection = $connection;
+		$this->queryBuilder = $queryBuilder;
 		$this->helper = $helper;
 	}
 
@@ -47,6 +52,11 @@ class FunctionBuilder implements IFunctionBuilder {
 
 	public function concat($x, $y): IQueryFunction {
 		return new QueryFunction('CONCAT(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
+	}
+
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$separator = $this->connection->quote($separator);
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ' SEPARATOR ' . $separator . ')');
 	}
 
 	public function substring($input, $start, $length = null): IQueryFunction {

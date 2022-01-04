@@ -54,6 +54,149 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals('foobar', $column);
 	}
 
+	protected function clearDummyData(): void {
+		$delete = $this->connection->getQueryBuilder();
+
+		$delete->delete('appconfig')
+			->where($delete->expr()->eq('appid', $delete->createNamedParameter('group_concat')));
+		$delete->executeStatement();
+	}
+
+	protected function addDummyData(): void {
+		$this->clearDummyData();
+		$insert = $this->connection->getQueryBuilder();
+
+		$insert->insert('appconfig')
+			->setValue('appid', $insert->createNamedParameter('group_concat'))
+			->setValue('configvalue', $insert->createNamedParameter('unittest'))
+			->setValue('configkey', $insert->createParameter('value'));
+
+		$insert->setParameter('value', '1');
+		$insert->executeStatement();
+		$insert->setParameter('value', '3');
+		$insert->executeStatement();
+		$insert->setParameter('value', '2');
+		$insert->executeStatement();
+	}
+
+	public function testGroupConcatWithoutSeparator(): void {
+		$this->addDummyData();
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('configkey'))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals('1,2,3', $column);
+		$this->assertStringContainsString(',', $column);
+		$actual = explode(',', $column);
+		$this->assertEqualsCanonicalizing([1,2,3], $actual);
+	}
+
+	public function testGroupConcatWithSeparator(): void {
+		$this->addDummyData();
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('configkey', '#'))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertStringContainsString('#', $column);
+		$actual = explode('#', $column);
+		$this->assertEqualsCanonicalizing([1,2,3], $actual);
+	}
+
+	public function testGroupConcatWithSingleQuoteSeparator(): void {
+		$this->addDummyData();
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('configkey', '\''))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals('1\'2\'3', $column);
+	}
+
+	public function testGroupConcatWithDoubleQuoteSeparator(): void {
+		$this->addDummyData();
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('configkey', '"'))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals('1"2"3', $column);
+	}
+
+	protected function clearIntDummyData(): void {
+		$delete = $this->connection->getQueryBuilder();
+
+		$delete->delete('systemtag')
+			->where($delete->expr()->eq('name', $delete->createNamedParameter('group_concat')));
+		$delete->executeStatement();
+	}
+
+	protected function addIntDummyData(): void {
+		$this->clearIntDummyData();
+		$insert = $this->connection->getQueryBuilder();
+
+		$insert->insert('systemtag')
+			->setValue('name', $insert->createNamedParameter('group_concat'))
+			->setValue('visibility', $insert->createNamedParameter(1))
+			->setValue('editable', $insert->createParameter('value'));
+
+		$insert->setParameter('value', 1);
+		$insert->executeStatement();
+		$insert->setParameter('value', 2);
+		$insert->executeStatement();
+		$insert->setParameter('value', 3);
+		$insert->executeStatement();
+	}
+
+	public function testIntGroupConcatWithoutSeparator(): void {
+		$this->addIntDummyData();
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('editable'))
+			->from('systemtag')
+			->where($query->expr()->eq('name', $query->createNamedParameter('group_concat')));
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertStringContainsString(',', $column);
+		$actual = explode(',', $column);
+		$this->assertEqualsCanonicalizing([1,2,3], $actual);
+	}
+
+	public function testIntGroupConcatWithSeparator(): void {
+		$this->addIntDummyData();
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->groupConcat('editable', '#'))
+			->from('systemtag')
+			->where($query->expr()->eq('name', $query->createNamedParameter('group_concat')));
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertStringContainsString('#', $column);
+		$actual = explode('#', $column);
+		$this->assertEqualsCanonicalizing([1,2,3], $actual);
+	}
+
 	public function testMd5() {
 		$query = $this->connection->getQueryBuilder();
 
