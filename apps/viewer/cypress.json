@@ -4,5 +4,6 @@
   "viewportWidth": 1280,
   "viewportHeight": 720,
   "defaultCommandTimeout": 6000,
-  "retries": 2
+  "retries": 2,
+  "testFiles": "**/*.spec.js"
 }
