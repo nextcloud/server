@@ -8,6 +8,7 @@
 	<version>1.4.0</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
+	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
 	<namespace>ContactsInteraction</namespace>
 	<types>
 		<dav/>

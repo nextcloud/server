@@ -229,13 +229,19 @@ export default {
 
 		// sidebar app binding
 		appSidebar() {
+			const authorName = (xmlNode) => {
+				if (xmlNode['@value']) {
+					// Complex node (with email or homepage attribute)
+					return xmlNode['@value']
+				}
+
+				// Simple text node
+				return xmlNode
+			}
+
 			const author = Array.isArray(this.app.author)
-				? this.app.author[0]['@value']
-					? this.app.author.map(author => author['@value']).join(', ')
-					: this.app.author.join(', ')
-				: this.app.author['@value']
-					? this.app.author['@value']
-					: this.app.author
+				? this.app.author.map(authorName).join(', ')
+				: authorName(this.app.author)
 			const license = t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
 
 			const subtitle = t('settings', 'by {author}\n{license}', { author, license })
