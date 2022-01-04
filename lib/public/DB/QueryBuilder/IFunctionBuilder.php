@@ -44,7 +44,7 @@ interface IFunctionBuilder {
 	 * Combines two input strings
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The first input string
-	 * @param string|ILiteral|IParameter|IQueryFunction $y The seccond input string
+	 * @param string|ILiteral|IParameter|IQueryFunction $y The second input string
 	 *
 	 * @return IQueryFunction
 	 * @since 12.0.0

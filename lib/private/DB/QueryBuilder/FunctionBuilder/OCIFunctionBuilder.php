@@ -26,7 +26,6 @@ namespace OC\DB\QueryBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class OCIFunctionBuilder extends FunctionBuilder {
@@ -80,10 +79,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 			return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ')' . $orderByClause);
 		}
 
-		if ($separator === '\'') {
-			$separator = '\'\'';
-		}
-
-		return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ", '$separator')$orderByClause");
+		$separator = $this->connection->quote($separator);
+		return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')' . $orderByClause);
 	}
 }
