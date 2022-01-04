@@ -81,7 +81,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		}
 
 		if ($separator === '\'') {
-			$separator = '\\\'';
+			$separator = '\'\'';
 		}
 
 		return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ", '$separator')$orderByClause");
