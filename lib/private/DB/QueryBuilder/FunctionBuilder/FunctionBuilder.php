@@ -26,23 +26,23 @@ namespace OC\DB\QueryBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 
 class FunctionBuilder implements IFunctionBuilder {
-	/** @var QuoteHelper */
-	protected $helper;
-
 	/** @var IDBConnection */
 	protected $connection;
 
-	/**
-	 * ExpressionBuilder constructor.
-	 *
-	 * @param QuoteHelper $helper
-	 */
-	public function __construct(IDBConnection $connection, QuoteHelper $helper) {
+	/** @var IQueryBuilder */
+	protected $queryBuilder;
+
+	/** @var QuoteHelper */
+	protected $helper;
+
+	public function __construct(IDBConnection $connection, IQueryBuilder $queryBuilder, QuoteHelper $helper) {
 		$this->connection = $connection;
+		$this->queryBuilder = $queryBuilder;
 		$this->helper = $helper;
 	}
 

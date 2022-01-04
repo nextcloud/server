@@ -33,7 +33,7 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$separator = $this->connection->quote($separator);
-		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ", $separator)");
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')');
 	}
 
 	public function greatest($x, $y): IQueryFunction {

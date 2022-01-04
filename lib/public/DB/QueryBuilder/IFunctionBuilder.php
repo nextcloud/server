@@ -60,7 +60,7 @@ interface IFunctionBuilder {
 	 *
 	 * groupConcat('column', ';') -- with different separator
 	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $expr The expression to group
+	 * @param string|IQueryFunction $expr The expression to group
 	 * @param string|null $separator The separator
 	 * @return IQueryFunction
 	 * @since 24.0.0

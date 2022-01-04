@@ -24,6 +24,7 @@
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class PgSqlFunctionBuilder extends FunctionBuilder {
@@ -32,10 +33,13 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 	}
 
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$castedExpression = $this->queryBuilder->expr()->castColumn($expr, IQueryBuilder::PARAM_STR);
+
 		if (is_null($separator)) {
-			return new QueryFunction('string_agg(cast(' . $this->helper->quoteColumnName($expr) . ' AS varchar)');
+			return new QueryFunction('string_agg(' . $castedExpression . ')');
 		}
+
 		$separator = $this->connection->quote($separator);
-		return new QueryFunction('string_agg(cast(' . $this->helper->quoteColumnName($expr) . " AS varchar), $separator)");
+		return new QueryFunction('string_agg(' . $castedExpression . ', ' . $separator . ')');
 	}
 }
