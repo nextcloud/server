@@ -30,7 +30,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable20
+  target-branch: stable23
   labels:
     - "3. to review"
     - "dependencies"
@@ -62,7 +62,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable22
+  target-branch: stable21
   labels:
     - "3. to review"
     - "dependencies"
