@@ -25,7 +25,7 @@
 			<Actions
 				class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
-				:menu-title="visibleMessage">
+				:menu-title="currentWeatherMessage">
 				<ActionText v-if="gotWeather"
 					:icon="futureWeatherIcon">
 					{{ forecastMessage }}
@@ -233,66 +233,42 @@ export default {
 			return t('weather_status', 'More weather for {adr}', { adr: this.address })
 		},
 		temperature() {
-			return this.forecasts.length > 0 ? this.forecasts[0].data.instant.details.air_temperature : ''
+			return this.getTemperature(this.forecasts, 0)
+		},
+		futureTemperature() {
+			return this.getTemperature(this.forecasts, this.offset)
 		},
 		weatherCode() {
-			console.debug('weatherCode', this.forecasts[0].data.next_1_hours.summary.symbol_code)
-			return this.forecasts.length > 0 ? this.forecasts[0].data.next_1_hours.summary.symbol_code : ''
+			return this.getWeatherCode(this.forecasts, 0)
+		},
+		futureWeatherCode() {
+			return this.getWeatherCode(this.forecasts, this.offset)
 		},
 		weatherIcon() {
-			if (this.loading) {
-				return 'icon-loading-small'
-			} else {
-				return this.weatherCode && this.weatherCode in weatherOptions
-					? weatherOptions[this.weatherCode].icon
-					: 'icon-fair-day'
-			}
+			return this.getWeatherIcon(this.weatherCode, this.loading)
+		},
+		futureWeatherIcon() {
+			return this.getWeatherIcon(this.futureWeatherCode, this.loading)
 		},
 		/**
 		 * The message displayed in the top right corner
 		 *
 		 * @returns {String}
 		 */
-		visibleMessage() {
+		currentWeatherMessage() {
 			if (this.loading) {
 				return t('weather_status', 'Loading weather')
 			} else if (this.errorMessage) {
 				return this.errorMessage
 			} else {
-				return this.weatherCode && this.weatherCode in weatherOptions
-					? weatherOptions[this.weatherCode].text(
-						this.getLocalizedTemperature(this.temperature),
-						this.temperatureUnit
-					)
-					: t('weather_status', 'Set location for weather')
-			}
-		},
-		futureTemperature() {
-			return this.forecasts.length > (this.offset - 1) ? this.forecasts[this.offset].data.instant.details.air_temperature : ''
-		},
-		futureWeatherCode() {
-			return this.forecasts.length > (this.offset - 1) ? this.forecasts[this.offset].data.next_1_hours.summary.symbol_code : ''
-		},
-		futureWeatherIcon() {
-			if (this.loading) {
-				return 'icon-loading-small'
-			} else {
-				return this.futureWeatherCode && this.futureWeatherCode in weatherOptions
-					? weatherOptions[this.futureWeatherCode].icon
-					: 'icon-fair-day'
+				return this.getWeatherMessage(this.weatherCode, this.temperature)
 			}
 		},
 		forecastMessage() {
 			if (this.loading) {
 				return t('weather_status', 'Loading weather')
 			} else {
-				return this.futureWeatherCode && this.futureWeatherCode in weatherOptions
-					? weatherOptions[this.futureWeatherCode].text(
-						this.getLocalizedTemperature(this.futureTemperature),
-						this.temperatureUnit,
-						true
-					)
-					: t('weather_status', 'Set location for weather')
+				return this.getWeatherMessage(this.futureWeatherCode, this.futureTemperature, true)
 			}
 		},
 		weatherLinkTarget() {
@@ -516,6 +492,30 @@ export default {
 		},
 		formatTime(time) {
 			return moment(time).format('LT')
+		},
+		getTemperature(forecasts, offset = 0) {
+			return forecasts.length > offset ? forecasts[offset].data.instant.details.air_temperature : ''
+		},
+		getWeatherCode(forecasts, offset = 0) {
+			return forecasts.length > offset ? forecasts[offset].data.next_1_hours.summary.symbol_code : ''
+		},
+		getWeatherIcon(weatherCode, loading) {
+			if (loading) {
+				return 'icon-loading-small'
+			} else {
+				return weatherCode && weatherCode in weatherOptions
+					? weatherOptions[weatherCode].icon
+					: 'icon-fair-day'
+			}
+		},
+		getWeatherMessage(weatherCode, temperature, later = false) {
+			return weatherCode && weatherCode in weatherOptions
+				? weatherOptions[weatherCode].text(
+					this.getLocalizedTemperature(temperature),
+					this.temperatureUnit,
+					later
+				)
+				: t('weather_status', 'Set location for weather')
 		},
 	},
 }
