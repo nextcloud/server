@@ -22,6 +22,9 @@
  */
 namespace OCP\DB;
 
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+
 /**
  * Interface ISchemaWrapper
  *
@@ -81,7 +84,7 @@ interface ISchemaWrapper {
 	 * @since 13.0.0
 	 */
 	public function getTableNames();
-	
+
 	/**
 	 * Gets all table names
 	 *
@@ -89,4 +92,14 @@ interface ISchemaWrapper {
 	 * @since 13.0.0
 	 */
 	public function getTableNamesWithoutPrefix();
+
+	/**
+	 * Gets the DatabasePlatform for the database.
+	 *
+	 * @return AbstractPlatform
+	 *
+	 * @throws Exception
+	 * @since 22.2.4
+	 */
+	public function getDatabasePlatform();
 }
