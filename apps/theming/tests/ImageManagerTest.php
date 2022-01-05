@@ -136,7 +136,6 @@ class ImageManagerTest extends TestCase {
 				['theming', 'logoMime', '']
 				)
 			->willReturn(0);
-		$this->mockGetImage('logo', $file);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->willReturn('url-to-image');
@@ -148,9 +147,9 @@ class ImageManagerTest extends TestCase {
 			->method('getAppValue')
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', false]
+				['theming', 'logoMime', '']
 			)
-			->willReturnOnConsecutiveCalls(0, false);
+			->willReturnOnConsecutiveCalls(0, '');
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'logo/logo.png')
@@ -167,15 +166,8 @@ class ImageManagerTest extends TestCase {
 				['theming', 'cachebuster', '0'],
 				['theming', 'logoMime', '']
 			)
-			->willReturn(0);
-		$this->mockGetImage('logo', $file);
-		$this->urlGenerator->expects($this->at(0))
-			->method('getBaseUrl')
-			->willReturn('baseurl');
-		$this->urlGenerator->expects($this->at(1))
-			->method('getAbsoluteUrl')
-			->willReturn('url-to-image-absolute?v=0');
-		$this->urlGenerator->expects($this->at(2))
+			->willReturnOnConsecutiveCalls(0, 0);
+		$this->urlGenerator->expects($this->any())
 			->method('getAbsoluteUrl')
 			->willReturn('url-to-image-absolute?v=0');
 		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo', false));
@@ -207,7 +199,7 @@ class ImageManagerTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'cachebuster', '0')
 			->willReturn('0');
-		$this->appData->expects($this->at(0))
+		$this->appData->expects($this->once())
 			->method('getFolder')
 			->with('0')
 			->willReturn($folder);
