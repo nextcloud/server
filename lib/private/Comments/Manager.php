@@ -677,6 +677,10 @@ class Manager implements ICommentsManager {
 	 * @since 21.0.0
 	 */
 	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int {
+		if ($verb !== '') {
+			return $this->getNumberOfCommentsWithVerbsForObjectSinceComment($objectType, $objectId, $lastRead, [$verb]);
+		}
+
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->func()->count('id', 'num_messages'))
 			->from('comments')
@@ -684,11 +688,31 @@ class Manager implements ICommentsManager {
 			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastRead)));
 
-		if ($verb !== '') {
-			$query->andWhere($query->expr()->eq('verb', $query->createNamedParameter($verb)));
-		}
+		$result = $query->executeQuery();
+		$data = $result->fetch();
+		$result->closeCursor();
 
-		$result = $query->execute();
+		return (int) ($data['num_messages'] ?? 0);
+	}
+
+	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param int $lastRead
+	 * @param string[] $verbs
+	 * @return int
+	 * @since 24.0.0
+	 */
+	public function getNumberOfCommentsWithVerbsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, array $verbs): int {
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select($query->func()->count('id', 'num_messages'))
+			->from('comments')
+			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
+			->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastRead)))
+			->andWhere($query->expr()->in('verb', $query->createNamedParameter($verbs, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$result = $query->executeQuery();
 		$data = $result->fetch();
 		$result->closeCursor();
 
