@@ -42,6 +42,7 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 
@@ -141,11 +142,10 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		}
 		// only proceed if $file is not a partial file nor a blacklisted file
-		if (!self::isPartialFile($file) and !Filesystem::isFileBlacklisted($file)) {
+		if (!self::isPartialFile($file) && !Filesystem::isFileBlacklisted($file)) {
 
-			//acquire a lock
-			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			// acquire a lock
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
 					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 			}
@@ -153,10 +153,8 @@ class Scanner extends BasicEmitter implements IScanner {
 			try {
 				$data = $data ?? $this->getData($file);
 			} catch (ForbiddenException $e) {
-				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-					}
+				if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 
 				return null;
@@ -172,7 +170,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					}
 
 					$parent = dirname($file);
-					if ($parent === '.' or $parent === '/') {
+					if ($parent === '.' || $parent === '/') {
 						$parent = '';
 					}
 					if ($parentId === -1) {
@@ -180,7 +178,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					}
 
 					// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
-					if ($file and $parentId === -1) {
+					if ($file && $parentId === -1) {
 						$parentData = $this->scanFile($parent);
 						if (!$parentData) {
 							return null;
@@ -194,7 +192,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						/** @var CacheEntry $cacheData */
 						$cacheData = $this->cache->get($file);
 					}
-					if ($cacheData and $reuseExisting and isset($cacheData['fileid'])) {
+					if ($cacheData && $reuseExisting && isset($cacheData['fileid'])) {
 						// prevent empty etag
 						if (empty($cacheData['etag'])) {
 							$etag = $data['etag'];
@@ -204,7 +202,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						$fileId = $cacheData['fileid'];
 						$data['fileid'] = $fileId;
 						// only reuse data if the file hasn't explicitly changed
-						if (isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
+						if (isset($data['storage_mtime'], $cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
 							$data['mtime'] = $cacheData['mtime'];
 							if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 								$data['size'] = $cacheData['size'];
@@ -244,19 +242,15 @@ class Scanner extends BasicEmitter implements IScanner {
 					$this->removeFromCache($file);
 				}
 			} catch (\Exception $e) {
-				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-					}
+				if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 				throw $e;
 			}
 
-			//release the acquired lock
-			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-				}
+			// release the acquired lock
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+				$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
 
 			if ($data && !isset($data['encrypted'])) {
@@ -325,29 +319,26 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $reuse
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return array|null an array of the meta data of the scanned file or folder
+	 * @throws \OCP\Lock\LockedException
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
-		if ($lock) {
-			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-				$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
-				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-			}
+		if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+			$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+			$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 		}
 		try {
 			$data = $this->scanFile($path, $reuse, -1, null, $lock);
-			if ($data and $data['mimetype'] === 'httpd/unix-directory') {
+			if ($data && $data['mimetype'] === 'httpd/unix-directory') {
 				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock);
 				$data['size'] = $size;
 			}
 		} finally {
-			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-					$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-					$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
-				}
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+				$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 			}
 		}
 		return $data;
@@ -437,9 +428,9 @@ class Scanner extends BasicEmitter implements IScanner {
 				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
-					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
+					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {
 						$childQueue[$child] = $data['fileid'];
-					} elseif ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE_INCOMPLETE and $data['size'] === -1) {
+					} elseif ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE_INCOMPLETE && $data['size'] === -1) {
 						// only recurse into folders which aren't fully scanned
 						$childQueue[$child] = $data['fileid'];
 					} elseif ($data['size'] === -1) {
