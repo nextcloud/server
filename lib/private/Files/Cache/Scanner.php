@@ -145,14 +145,14 @@ class Scanner extends BasicEmitter implements IScanner {
 		if (!self::isPartialFile($file) && !Filesystem::isFileBlacklisted($file)) {
 
 			// acquire a lock
-			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage)) {
 				$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
 
 			try {
 				$data = $data ?? $this->getData($file);
 			} catch (ForbiddenException $e) {
-				if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+				if ($lock && $this->storage->instanceOfStorage(ILockingStorage)) {
 					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 
@@ -241,14 +241,14 @@ class Scanner extends BasicEmitter implements IScanner {
 					$this->removeFromCache($file);
 				}
 			} catch (\Exception $e) {
-				if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+				if ($lock && $this->storage->instanceOfStorage(ILockingStorage)) {
 					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 				throw $e;
 			}
 
 			// release the acquired lock
-			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage)) {
 				$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
 
@@ -324,7 +324,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
-		if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+		if ($lock && $this->storage->instanceOfStorage(ILockingStorage)) {
 			$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 			$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 		}
@@ -335,7 +335,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$data['size'] = $size;
 			}
 		} finally {
-			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage)) {
 				$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 			}
