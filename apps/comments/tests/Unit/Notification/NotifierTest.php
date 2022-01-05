@@ -273,7 +273,7 @@ class NotifierTest extends TestCase {
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
-			->with('You were mentioned on “{file}”, in a comment by a user that has since been deleted', $this->anything())
+			->with('You were mentioned on "{file}", in a comment by a user that has since been deleted', $this->anything())
 			->willReturnSelf();
 		$this->notification
 			->expects($this->once())
