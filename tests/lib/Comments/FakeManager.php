@@ -101,6 +101,10 @@ class FakeManager implements ICommentsManager {
 		return 0;
 	}
 
+	public function getNumberOfCommentsWithVerbsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, array $verbs): int {
+		return 0;
+	}
+
 	public function getLastCommentBeforeDate(string $objectType, string $objectId, \DateTime $beforeDate, string $verb = ''): int {
 		return 0;
 	}
