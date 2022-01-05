@@ -32,7 +32,7 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		$args = func_get_args();
 		$list = [];
 		foreach ($args as $item) {
-			$list[] = $this->helper->quoteColumnName($item);
+			$list[] = $this->queryBuilder->expr()->castColumn($item, IQueryBuilder::PARAM_STR);
 		}
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
