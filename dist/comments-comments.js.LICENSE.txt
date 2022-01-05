@@ -22,10 +22,13 @@
  */
 
 /**
- * Copyright (c) 2016
+ * Copyright (c) 2016 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Michael Jobst <mjobst+github@tecratech.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

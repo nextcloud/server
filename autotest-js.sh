@@ -28,7 +28,7 @@ for SCSSFILE in core/css/*.scss
 do
     FILE=$(basename $SCSSFILE)
     FILENAME="${FILE%.*}"
-    printf "\$webroot:''; @import 'functions.scss'; @import 'variables.scss'; @import '${FILE}';" | ./build/bin/node-sass --include-path core/css/ > tests/css/${FILE}.css
+    # printf "\$webroot:''; @import 'functions.scss'; @import 'variables.scss'; @import '${FILE}';" | ./build/bin/node-sass --include-path core/css/ > tests/css/${FILE}.css
 done
 
 KARMA="$PREFIX/node_modules/karma/bin/karma"
