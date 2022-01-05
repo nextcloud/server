@@ -146,8 +146,7 @@ class Scanner extends BasicEmitter implements IScanner {
 
 			// acquire a lock
 			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
-					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-				}
+				$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
 
 			try {
