@@ -462,7 +462,7 @@ export default {
 		},
 		getLocalizedTemperature(celcius) {
 			return this.useFahrenheitLocale
-				? ((celcius * (9 / 5)) + 32).toFixed(1)
+				? (celcius * (9 / 5)) + 32
 				: celcius
 		},
 		onAddRemoveFavoriteClick() {
@@ -511,7 +511,7 @@ export default {
 		getWeatherMessage(weatherCode, temperature, later = false) {
 			return weatherCode && weatherCode in weatherOptions
 				? weatherOptions[weatherCode].text(
-					this.getLocalizedTemperature(temperature),
+					Math.round(this.getLocalizedTemperature(temperature)),
 					this.temperatureUnit,
 					later
 				)
