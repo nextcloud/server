@@ -62,8 +62,8 @@ class SetMasterKeyStatus implements IRepairStep {
 
 		// if no config for the master key is set we set it explicitly to '0' in
 		// order not to break old installations because the default changed to '1'.
-		$configAlreadySet = $this->config->getAppValue('encryption', 'useMasterKey', false);
-		if ($configAlreadySet === false) {
+		$configAlreadySet = $this->config->getAppValue('encryption', 'useMasterKey', 'not-set');
+		if ($configAlreadySet === 'not-set') {
 			$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		}
 	}

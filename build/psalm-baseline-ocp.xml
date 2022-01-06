@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+<files psalm-version="4.18.1@dda05fa913f4dc6eb3386f2f7ce5a45d37a71bcb">
   <file src="lib/private/legacy/OC_Image.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|string</code>
@@ -220,7 +220,9 @@
     <InvalidReturnType occurrences="1">
       <code>float</code>
     </InvalidReturnType>
-    <UndefinedClass occurrences="12">
+    <UndefinedClass occurrences="14">
+      <code>\OC</code>
+      <code>\OC</code>
       <code>\OC</code>
       <code>\OC</code>
       <code>\OC</code>

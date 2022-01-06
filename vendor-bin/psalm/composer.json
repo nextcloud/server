@@ -1,9 +1,11 @@
 {
     "require": {
-        "nikic/php-parser": "^4.13",
-        "vimeo/psalm": "^4.17"
+        "vimeo/psalm": "^4.18"
     },
     "config": {
+        "platform": {
+            "php": "7.3"
+        },
         "allow-plugins": {
             "composer/package-versions-deprecated": true
         }

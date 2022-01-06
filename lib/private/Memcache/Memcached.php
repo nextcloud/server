@@ -66,6 +66,7 @@ class Memcached extends Cache implements IMemcache {
 				//\Memcached::OPT_BINARY_PROTOCOL =>      true,
 			];
 			// by default enable igbinary serializer if available
+            /** @psalm-suppress RedundantCondition */
 			if (\Memcached::HAVE_IGBINARY) {
 				$defaultOptions[\Memcached::OPT_SERIALIZER] =
 					\Memcached::SERIALIZER_IGBINARY;

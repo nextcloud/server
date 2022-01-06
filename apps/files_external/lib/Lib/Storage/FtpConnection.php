@@ -27,7 +27,7 @@ namespace OCA\Files_External\Lib\Storage;
  * Low level wrapper around the ftp functions that smooths over some difference between servers
  */
 class FtpConnection {
-	/** @var resource */
+	/** @var resource|\FTP\Connection */
 	private $connection;
 
 	public function __construct(bool $secure, string $hostname, int $port, string $username, string $password) {

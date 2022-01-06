@@ -131,7 +131,7 @@ class Manager implements IManager {
 	 */
 	public function searchCollections(IUser $user, string $filter, int $limit = 50, int $start = 0): array {
 		$query = $this->connection->getQueryBuilder();
-		$userId = $user instanceof IUser ? $user->getUID() : '';
+		$userId = $user->getUID();
 
 		$query->select('c.*', 'a.access')
 			->from(self::TABLE_COLLECTIONS, 'c')

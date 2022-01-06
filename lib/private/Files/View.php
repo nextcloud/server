@@ -1407,7 +1407,7 @@ class View {
 			}
 			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 
-			if ($data and isset($data['fileid'])) {
+			if (isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
