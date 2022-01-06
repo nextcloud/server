@@ -854,7 +854,6 @@ class OC_Util {
 				'json_encode' => 'JSON',
 				'gd_info' => 'GD',
 				'gzencode' => 'zlib',
-				'iconv' => 'iconv',
 				'simplexml_load_string' => 'SimpleXML',
 				'hash' => 'HASH Message Digest Framework',
 				'curl_init' => 'cURL',
