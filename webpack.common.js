@@ -141,7 +141,7 @@ module.exports = {
 		new VueLoaderPlugin(),
 		new ESLintPlugin(),
 		new webpack.ProvidePlugin({
-			_: 'underscore',
+			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			jQuery: 'jquery',
 		}),
 	],
