@@ -59,7 +59,7 @@ class OC_DB_StatementWrapper {
 	/**
 	 * pass all other function directly to the \Doctrine\DBAL\Driver\Statement
 	 */
-	public function __call($name,$arguments) {
+	public function __call($name, $arguments) {
 		return call_user_func_array([$this->statement,$name], $arguments);
 	}
 

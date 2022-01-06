@@ -357,8 +357,8 @@ class JobList implements IJobList {
 	public function resetBackgroundJob(IJob $job): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
-			->set('last_run',  $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			->set('reserved_at',  $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId()), IQueryBuilder::PARAM_INT));
 		$query->executeStatement();
 	}

@@ -1,10 +1,14 @@
 {
-	"config": {
-		"platform": {
-			"php": "7.3"
-		}
-	},
     "require": {
-        "vimeo/psalm": "4.8.1"
+        "nikic/php-parser": "^4.13",
+        "vimeo/psalm": "^4.18"
+    },
+    "config": {
+        "platform": {
+            "php": "7.3"
+        },
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     }
 }

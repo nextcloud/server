@@ -381,12 +381,12 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('The given notification has been processed');
 			}
 
-			if (!($notification instanceof INotification) || !$notification->isValidParsed()) {
+			if (!$notification->isValidParsed()) {
 				throw new \InvalidArgumentException('The given notification has not been handled');
 			}
 		}
 
-		if (!($notification instanceof INotification) || !$notification->isValidParsed()) {
+		if (!$notification->isValidParsed()) {
 			throw new \InvalidArgumentException('The given notification has not been handled');
 		}
 

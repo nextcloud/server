@@ -122,8 +122,7 @@ class ExpressionBuilderDBTest extends TestCase {
 					$query->createFunction(
 						'(' . $query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)
 						. ' + 1)'
-					)
-					, IQueryBuilder::PARAM_STR
+					), IQueryBuilder::PARAM_STR
 				)
 			)
 			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))

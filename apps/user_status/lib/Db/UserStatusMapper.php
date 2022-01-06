@@ -35,6 +35,8 @@ use OCP\UserStatus\IUserStatus;
  *
  * @package OCA\UserStatus\Db
  *
+ * @psalm-suppress MoreSpecificImplementedParamType
+ *
  * @method UserStatus insert(UserStatus $entity)
  * @method UserStatus update(UserStatus $entity)
  * @method UserStatus insertOrUpdate(UserStatus $entity)

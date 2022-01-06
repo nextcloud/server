@@ -45,7 +45,7 @@ class L10nTest extends TestCase {
 
 	public function testRussianPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
-		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA',[$transFile]);
+		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA', [$transFile]);
 
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
 		$this->assertEquals('2 файла', (string)$l->n('%n file', '%n files', 2));

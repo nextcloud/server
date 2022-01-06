@@ -63,7 +63,7 @@ class FileCacheTest extends TestCache {
 		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
 		$storage = new \OC\Files\Storage\Temporary([]);
-		\OC\Files\Filesystem::mount($storage,[],'/');
+		\OC\Files\Filesystem::mount($storage, [], '/');
 		$datadir = str_replace('local::', '', $storage->getId());
 		$config = \OC::$server->getConfig();
 		$this->datadir = $config->getSystemValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');

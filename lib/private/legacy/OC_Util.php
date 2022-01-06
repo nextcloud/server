@@ -850,6 +850,7 @@ class OC_Util {
 			],
 		];
 		$missingDependencies = [];
+		/** @var array<array-key, bool|string|int> $invalidIniSettings */
 		$invalidIniSettings = [];
 
 		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
@@ -895,7 +896,7 @@ class OC_Util {
 		}
 		foreach ($invalidIniSettings as $setting) {
 			if (is_bool($setting[1])) {
-				$setting[1] = $setting[1] ? 'on' : 'off';
+				$setting[1] = $setting[1] === true ? 'on' : 'off';
 			}
 			$errors[] = [
 				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
