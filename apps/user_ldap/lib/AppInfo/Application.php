@@ -32,6 +32,7 @@ use OCA\User_LDAP\Controller\RenewPasswordController;
 use OCA\User_LDAP\Events\GroupBackendRegistered;
 use OCA\User_LDAP\Events\UserBackendRegistered;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\FirstLoginListener;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
@@ -57,6 +58,7 @@ use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
+use OCP\User\Events\PostLoginEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -142,6 +144,7 @@ class Application extends App implements IBootstrap {
 		});
 
 		$context->injectFn(Closure::fromCallable([$this, 'registerBackendDependents']));
+		$context->injectFn(Closure::fromCallable([$this, 'registerFirstLoginListener']));
 
 		\OCP\Util::connectHook(
 			'\OCA\Files_Sharing\API\Server2Server',
@@ -160,6 +163,16 @@ class Application extends App implements IBootstrap {
 					return $appContainer->get(ExtStorageConfigHandler::class);
 				});
 			}
+		);
+	}
+
+	private function registerFirstLoginListener(IEventDispatcher $dispatcher) {
+		$dispatcher->addServiceListener(PostLoginEvent::class, FirstLoginListener::class);
+		\OCP\Util::connectHook(
+			'\OC\User',
+			'assignedUserId',
+			FirstLoginListener::class,
+			'onAssignedId'
 		);
 	}
 }
