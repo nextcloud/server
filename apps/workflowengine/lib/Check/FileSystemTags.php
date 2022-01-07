@@ -31,6 +31,7 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IFileCheck;
+use OC\Files\Storage\Wrapper\Wrapper;
 
 class FileSystemTags implements ICheck, IFileCheck {
 	use TFileCheck;
@@ -67,6 +68,11 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
+		if (str_starts_with($this->path,  '__groupfolders')) {
+			// System tags are always empty in this case and executeCheck is called
+			// a second time with the jailedPath
+			return false;
+		}
 		$systemTags = $this->getSystemTags();
 		return ($operator === 'is') === in_array($value, $systemTags);
 	}
@@ -127,13 +133,29 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return int[]
 	 */
 	protected function getFileIds(ICache $cache, $path, $isExternalStorage) {
-		// TODO: Fix caching inside group folders
-		// Do not cache file ids inside group folders because multiple file ids might be mapped to
-		// the same combination of cache id + path.
 		/** @psalm-suppress InvalidArgument */
-		$shouldCacheFileIds = !$this->storage->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
-		$cacheId = $cache->getNumericStorageId();
-		if ($shouldCacheFileIds && isset($this->fileIds[$cacheId][$path])) {
+		if ($this->storage->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class)) {
+			static $groupFolderStorage = null;
+			if ($groupFolderStorage === null) {
+				// Special implementation for groupfolder since all groupfolder chare the same storage
+				// so add the group folder id in the cache key too.
+				$groupFolderStorage = $this->storage;
+				$groupFolderStoragClass = \OCA\GroupFolders\Mount\GroupFolderStorage::class;
+				while ($groupFolderStorage->instanceOfStorage(Wrapper::class)) {
+					if ($groupFolderStorage instanceof $groupFolderStoragClass) {
+						break;
+					}
+					/**
+					 * @var Wrapper $sourceStorage
+					 */
+					$groupFolderStorage = $groupFolderStorage->getWrapperStorage();
+				}
+			}
+			$cacheId = $cache->getNumericStorageId() . '/' . $groupFolderStorage->getFolderId();
+		} else {
+			$cacheId = $cache->getNumericStorageId();
+		}
+		if (isset($this->fileIds[$cacheId][$path])) {
 			return $this->fileIds[$cacheId][$path];
 		}
 
@@ -149,9 +171,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 			$parentIds[] = $cache->getId($path);
 		}
 
-		if ($shouldCacheFileIds) {
-			$this->fileIds[$cacheId][$path] = $parentIds;
-		}
+		$this->fileIds[$cacheId][$path] = $parentIds;
 
 		return $parentIds;
 	}
