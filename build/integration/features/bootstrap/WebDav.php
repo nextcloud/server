@@ -31,6 +31,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
@@ -273,11 +275,11 @@ trait WebDav {
 	 * @param string $user
 	 * @param string $elementType
 	 * @param string $path
-	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	 * @param TableNode|null $propertiesTable
 	 */
 	public function asGetsPropertiesOfFolderWith($user, $elementType, $path, $propertiesTable) {
 		$properties = null;
-		if ($propertiesTable instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($propertiesTable instanceof TableNode) {
 			foreach ($propertiesTable->getRows() as $row) {
 				$properties[] = $row[0];
 			}
@@ -290,7 +292,7 @@ trait WebDav {
 	 * @param string $user
 	 * @param string $entry
 	 * @param string $path
-	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	 * @param TableNode|null $propertiesTable
 	 */
 	public function asTheFileOrFolderDoesNotExist($user, $entry, $path) {
 		$client = $this->getSabreClient($user);
@@ -574,18 +576,53 @@ trait WebDav {
 
 	/**
 	 * @Then /^user "([^"]*)" should see following elements$/
+	 * @Then /^user "([^"]*)" should see following elements in folder "([^"]*)"$/
 	 * @param string $user
-	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
+	 * @param string|TableNode|null $folder
+	 * @param TableNode|null $expectedElements
 	 */
-	public function checkElementList($user, $expectedElements) {
-		$elementList = $this->listFolder($user, '/', 3);
-		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
+	public function checkElementList($user, $folder, $expectedElements = null) {
+		if ($folder instanceof TableNode and $expectedElements === null) {
+			$expectedElements = $folder;
+			$folder = null;
+		}
+		$path = $folder ?? '/';
+		$elementList = $this->listFolder($user, $path, 3);
+		if ($expectedElements instanceof TableNode) {
 			$elementRows = $expectedElements->getRows();
 			$elementsSimplified = $this->simplifyArray($elementRows);
 			foreach ($elementsSimplified as $expectedElement) {
 				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
 				if (!array_key_exists($webdavPath, $elementList)) {
 					Assert::fail("$webdavPath" . " is not in propfind answer");
+				}
+			}
+		}
+	}
+
+	/**
+	 * @Then /^user "([^"]*)" should not see following elements$/
+	 * @param string $user
+	 * @param TableNode|null $expectedElements
+	 */
+	public function checkElementNotList($user, $expectedElements) {
+		try {
+			$elementList = $this->listFolder($user, '/', 3);
+		} catch (\Sabre\HTTP\ClientHttpException $e) {
+			$status = $e->getResponse()->getStatus();
+			if ($status === 403 || $status === 404) {
+				// if listing fails the elements are also not listed, so this is fine
+				return;
+			}
+		}
+
+		if ($expectedElements instanceof TableNode) {
+			$elementRows = $expectedElements->getRows();
+			$elementsSimplified = $this->simplifyArray($elementRows);
+			foreach ($elementsSimplified as $expectedElement) {
+				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
+				if (array_key_exists($webdavPath, $elementList)) {
+					Assert::fail("$webdavPath" . " is in propfind answer");
 				}
 			}
 		}
@@ -622,7 +659,7 @@ trait WebDav {
 		Assert::assertEquals(1, file_exists("work/$filename"));
 		$this->userUploadsAFileTo($user, "work/$filename", $destination);
 		$this->removeFile("work/", $filename);
-		$expectedElements = new \Behat\Gherkin\Node\TableNode([["$destination"]]);
+		$expectedElements = new TableNode([["$destination"]]);
 		$this->checkElementList($user, $expectedElements);
 	}
 
@@ -861,7 +898,7 @@ trait WebDav {
 	 * @Given user :user stores etag of element :path
 	 */
 	public function userStoresEtagOfElement($user, $path) {
-		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
+		$propertiesTable = new TableNode([['{DAV:}getetag']]);
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		$pathETAG[$path] = $this->response['{DAV:}getetag'];
 		$this->storedETAG[$user] = $pathETAG;
@@ -871,7 +908,7 @@ trait WebDav {
 	 * @Then etag of element :path of user :user has not changed
 	 */
 	public function checkIfETAGHasNotChanged($path, $user) {
-		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
+		$propertiesTable = new TableNode([['{DAV:}getetag']]);
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		Assert::assertEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
@@ -880,7 +917,7 @@ trait WebDav {
 	 * @Then etag of element :path of user :user has changed
 	 */
 	public function checkIfETAGHasChanged($path, $user) {
-		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
+		$propertiesTable = new TableNode([['{DAV:}getetag']]);
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		Assert::assertNotEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
@@ -913,14 +950,14 @@ trait WebDav {
 	 * @Then /^user "([^"]*)" in folder "([^"]*)" should have favorited the following elements$/
 	 * @param string $user
 	 * @param string $folder
-	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
+	 * @param TableNode|null $expectedElements
 	 */
 	public function checkFavoritedElements($user, $folder, $expectedElements) {
 		$elementList = $this->reportFolder($user,
 			$folder,
 			'<oc:favorite/>',
 			'<oc:favorite>1</oc:favorite>');
-		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($expectedElements instanceof TableNode) {
 			$elementRows = $expectedElements->getRows();
 			$elementsSimplified = $this->simplifyArray($elementRows);
 			foreach ($elementsSimplified as $expectedElement) {
@@ -957,7 +994,7 @@ trait WebDav {
 	 * @return int
 	 */
 	private function getFileIdForPath($user, $path) {
-		$propertiesTable = new \Behat\Gherkin\Node\TableNode([["{http://owncloud.org/ns}fileid"]]);
+		$propertiesTable = new TableNode([["{http://owncloud.org/ns}fileid"]]);
 		$this->asGetsPropertiesOfFolderWith($user, 'file', $path, $propertiesTable);
 		return (int)$this->response['{http://owncloud.org/ns}fileid'];
 	}

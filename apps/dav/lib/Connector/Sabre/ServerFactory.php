@@ -107,6 +107,7 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
+		$server->addPlugin(new \OCA\DAV\Files\HiddenFolderPlugin());
 
 		$server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
 
