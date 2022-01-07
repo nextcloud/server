@@ -24,6 +24,8 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\ISchemaWrapper;
 
@@ -129,5 +131,16 @@ class SchemaWrapper implements ISchemaWrapper {
 	 */
 	public function getTables() {
 		return $this->schema->getTables();
+	}
+
+	/**
+	 * Gets the DatabasePlatform for the database.
+	 *
+	 * @return AbstractPlatform
+	 *
+	 * @throws Exception
+	 */
+	public function getDatabasePlatform() {
+		return $this->connection->getDatabasePlatform();
 	}
 }
