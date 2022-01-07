@@ -45,7 +45,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
 
       - name: Set up Nextcloud
         run: |
@@ -94,7 +94,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
 
       - name: Set up Nextcloud
         run: |

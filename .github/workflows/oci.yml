@@ -41,7 +41,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, oci8
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, oci8
           tools: phpunit:8.5.2
           coverage: none
 
