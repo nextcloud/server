@@ -121,6 +121,7 @@ function print_unescaped($string) {
  * @param string $app the appname
  * @param string|string[] $file the filename,
  * if an array is given it will add all scripts
+ * @deprecated 23.1.0
  */
 function script($app, $file = null) {
 	if (is_array($file)) {
