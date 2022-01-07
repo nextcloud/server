@@ -152,7 +152,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 
 		$fileId = $cache->getId($path);
 		if ($fileId !== -1) {
-			$parentIds[] = $cache->getId($path);
+			$parentIds[] = $fileId;
 		}
 
 		$this->fileIds[$cacheId][$path] = $parentIds;
