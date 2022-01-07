@@ -23,6 +23,7 @@ namespace Test\Accounts;
 
 use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
+use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
@@ -585,5 +586,43 @@ class AccountManagerTest extends TestCase {
 				],
 			],
 		];
+	}
+
+	public function dataCheckEmailVerification(): array {
+		return [
+			[$this->makeUser('steve', 'Steve Smith', 'steve@steve.steve'), null],
+			[$this->makeUser('emma', 'Emma Morales', 'emma@emma.com'), 'emma@morales.com'],
+			[$this->makeUser('sarah@web.org', 'Sarah Foster', 'sarah@web.org'), null],
+			[$this->makeUser('cole@web.org', 'Cole Harrison', 'cole@web.org'), 'cole@example.com'],
+			[$this->makeUser('8d29e358-cf69-4849-bbf9-28076c0b908b', 'Alice McPherson', 'alice@example.com'), 'alice@mcpherson.com'],
+			[$this->makeUser('11da2744-3f4d-4c17-8c13-4c057a379237', 'James Loranger', 'james@example.com'), ''],
+		];
+	}
+
+	/**
+	 * @dataProvider dataCheckEmailVerification
+	 */
+	public function testCheckEmailVerification(IUser $user, ?string $newEmail): void {
+		$account = $this->accountManager->getAccount($user);
+		$emailUpdated = false;
+
+		if (!empty($newEmail)) {
+			$account->getProperty(IAccountManager::PROPERTY_EMAIL)->setValue($newEmail);
+			$emailUpdated = true;
+		}
+
+		if ($emailUpdated) {
+			$this->jobList->expects($this->once())
+				->method('add')
+				->with(VerifyUserData::class);
+		} else {
+			$this->jobList->expects($this->never())
+				->method('add')
+				->with(VerifyUserData::class);
+		}
+
+		/** @var array $oldData */
+		$oldData = $this->invokePrivate($this->accountManager, 'getUser', [$user, false]);
+		$this->invokePrivate($this->accountManager, 'checkEmailVerification', [$account, $oldData]);
 	}
 }
