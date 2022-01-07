@@ -224,6 +224,7 @@ class UtilTest extends \Test\TestCase {
 		parent::setUp();
 
 		\OC_Util::$scripts = [];
+		\OCP\Util::clearScriptsState();
 		\OC_Util::$styles = [];
 		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
 	}
@@ -231,6 +232,7 @@ class UtilTest extends \Test\TestCase {
 		parent::tearDown();
 
 		\OC_Util::$scripts = [];
+		\OCP\Util::clearScriptsState();
 		\OC_Util::$styles = [];
 		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
 	}
