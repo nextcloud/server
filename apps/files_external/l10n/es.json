@@ -39,6 +39,7 @@
     "Credentials saved" : "Credenciales guardados",
     "Credentials saving failed" : "Guardado de credenciales fallido",
     "Credentials required" : "Credenciales requeridos",
+    "Forbidden to manage local mounts" : "Prohibido gestionar montajes locales",
     "Storage with ID \"%d\" not found" : "No se ha encontrado el almacenamiento con ID \"%d\"",
     "Invalid backend or authentication mechanism class" : "Sistema o mecanismo de autentificación inválido",
     "Invalid mount point" : "Punto de montaje no válido",
