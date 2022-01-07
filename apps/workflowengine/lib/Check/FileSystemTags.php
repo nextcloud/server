@@ -140,22 +140,18 @@ class FileSystemTags implements ICheck, IFileCheck {
 	protected function getFileIds(ICache $cache, $path, $isExternalStorage) {
 		/** @psalm-suppress InvalidArgument */
 		if ($this->storage->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class)) {
-			static $groupFolderStorage = null;
-			if ($groupFolderStorage === null) {
-				// Special implementation for groupfolder since all groupfolder chare the same storage
-				// so add the group folder id in the cache key too.
-				$groupFolderStorage = $this->storage;
-				$groupFolderStoragClass = \OCA\GroupFolders\Mount\GroupFolderStorage::class;
-				while ($groupFolderStorage->instanceOfStorage(Wrapper::class)) {
-					if ($groupFolderStorage instanceof $groupFolderStoragClass) {
-						break;
-					}
-					/**
-					 * @var Wrapper $sourceStorage
-					 */
-					$groupFolderStorage = $groupFolderStorage->getWrapperStorage();
+			// Special implementation for groupfolder since all groupfolders share the same storage
+			// id so add the group folder id in the cache key too.
+			$groupFolderStorage = $this->storage;
+			$groupFolderStorageClass = \OCA\GroupFolders\Mount\GroupFolderStorage::class;
+			while ($groupFolderStorage->instanceOfStorage(Wrapper::class)) {
+				if ($groupFolderStorage instanceof $groupFolderStorageClass) {
+					break;
 				}
+				/** @var Wrapper $groupFolderStorage */
+				$groupFolderStorage = $groupFolderStorage->getWrapperStorage();
 			}
+			/** @psalm-suppress UndefinedMethod */
 			$cacheId = $cache->getNumericStorageId() . '/' . $groupFolderStorage->getFolderId();
 		} else {
 			$cacheId = $cache->getNumericStorageId();
@@ -173,7 +169,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 
 		$fileId = $cache->getId($path);
 		if ($fileId !== -1) {
-			$parentIds[] = $cache->getId($path);
+			$parentIds[] = $fileId;
 		}
 
 		$this->fileIds[$cacheId][$path] = $parentIds;
