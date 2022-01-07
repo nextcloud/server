@@ -44,6 +44,7 @@ use OCP\ILogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
+use function strtr;
 
 /**
  * logging utilities
@@ -207,13 +208,7 @@ class Log implements ILogger, IDataLogger {
 		array_walk($context, [$this->normalizer, 'format']);
 
 		$app = $context['app'] ?? 'no app in context';
-
-		// interpolate $message as defined in PSR-3
-		$replace = [];
-		foreach ($context as $key => $val) {
-			$replace['{' . $key . '}'] = $val;
-		}
-		$message = strtr($message, $replace);
+		$message = $this->interpolateMessage($context, $message);
 
 		try {
 			if ($level >= $minLevel) {
@@ -316,7 +311,7 @@ class Log implements ILogger, IDataLogger {
 
 		$serializer = new ExceptionSerializer($this->config);
 		$data = $serializer->serializeException($exception);
-		$data['CustomMessage'] = $context['message'] ?? '--';
+		$data['CustomMessage'] = $this->interpolateMessage($context, $context['message'] ?? '--');
 
 		$minLevel = $this->getLogLevel($context);
 
@@ -376,5 +371,21 @@ class Log implements ILogger, IDataLogger {
 			return $this->logger->getLogFilePath();
 		}
 		throw new \RuntimeException('Log implementation has no path');
+	}
+
+	/**
+	 * Interpolate $message as defined in PSR-3
+	 *
+	 * @param array $context
+	 * @param string $message
+	 *
+	 * @return string
+	 */
+	private function interpolateMessage(array $context, string $message): string {
+		$replace = [];
+		foreach ($context as $key => $val) {
+			$replace['{' . $key . '}'] = $val;
+		}
+		return strtr($message, $replace);
 	}
 }
