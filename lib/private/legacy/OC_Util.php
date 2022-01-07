@@ -755,8 +755,8 @@ class OC_Util {
 		if (!OC_Helper::isReadOnlyConfigEnabled()) {
 			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 				$errors[] = [
-					'error' => $l->t('Cannot write into "config" directory'),
-					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
+					'error' => $l->t('Cannot write into "config" directory.'),
+					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
 						[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 						. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
 						[ $urlGenerator->linkToDocs('admin-config') ])
@@ -771,8 +771,8 @@ class OC_Util {
 				|| !is_readable(OC_App::getInstallPath())
 			) {
 				$errors[] = [
-					'error' => $l->t('Cannot write into "apps" directory'),
-					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the apps directory'
+					'error' => $l->t('Cannot write into "apps" directory.'),
+					'hint' => $l->t('This can usually be fixed by giving the web server write access to the apps directory'
 						. ' or disabling the App Store in the config file.')
 				];
 			}
@@ -786,7 +786,7 @@ class OC_Util {
 				} else {
 					$errors[] = [
 						'error' => $l->t('Cannot create "data" directory.'),
-						'hint' => $l->t('This can usually be fixed by giving the webserver write access to the root directory. See %s',
+						'hint' => $l->t('This can usually be fixed by giving the web server write access to the root directory. See %s',
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
@@ -795,10 +795,10 @@ class OC_Util {
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');
 				if (!$handle || fwrite($handle, 'Test write operation') === false) {
-					$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
+					$permissionsHint = $l->t('Permissions can usually be fixed by giving the web server write access to the root directory. See %s.',
 						[$urlGenerator->linkToDocs('admin-dir_permissions')]);
 					$errors[] = [
-						'error' => 'Your data directory is not writable',
+						'error' => $l->t('Your data directory is not writable.'),
 						'hint' => $permissionsHint
 					];
 				} else {
@@ -812,10 +812,10 @@ class OC_Util {
 
 		if (!OC_Util::isSetLocaleWorking()) {
 			$errors[] = [
-				'error' => $l->t('Setting locale to %s failed',
+				'error' => $l->t('Setting locale to %s failed.',
 					['en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/'
 						. 'pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8']),
-				'hint' => $l->t('Please install one of these locales on your system and restart your webserver.')
+				'hint' => $l->t('Please install one of these locales on your system and restart your web server.')
 			];
 		}
 
@@ -919,8 +919,8 @@ class OC_Util {
 		if ($iniWrapper->getBool('mbstring.func_overload') !== null &&
 			$iniWrapper->getBool('mbstring.func_overload') === true) {
 			$errors[] = [
-				'error' => $l->t('mbstring.func_overload is set to "%s" instead of the expected value "0"', [$iniWrapper->getString('mbstring.func_overload')]),
-				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini')
+				'error' => $l->t('<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>.', [$iniWrapper->getString('mbstring.func_overload')]),
+				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini.')
 			];
 		}
 
@@ -979,8 +979,8 @@ class OC_Util {
 					$version = $data['server_version'];
 					if (version_compare($version, '9.0.0', '<')) {
 						$errors[] = [
-							'error' => $l->t('PostgreSQL >= 9 required'),
-							'hint' => $l->t('Please upgrade your database version')
+							'error' => $l->t('PostgreSQL >= 9 required.'),
+							'hint' => $l->t('Please upgrade your database version.')
 						];
 					}
 				}
@@ -1012,7 +1012,7 @@ class OC_Util {
 			if ($perms[2] !== '0') {
 				$l = \OC::$server->getL10N('lib');
 				return [[
-					'error' => $l->t('Your data directory is readable by other users'),
+					'error' => $l->t('Your data directory is readable by other users.'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
 				]];
 			}
@@ -1032,13 +1032,13 @@ class OC_Util {
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [
-				'error' => $l->t('Your data directory must be an absolute path'),
-				'hint' => $l->t('Check the value of "datadirectory" in your configuration')
+				'error' => $l->t('Your data directory must be an absolute path.'),
+				'hint' => $l->t('Check the value of "datadirectory" in your configuration.')
 			];
 		}
 		if (!file_exists($dataDirectory . '/.ocdata')) {
 			$errors[] = [
-				'error' => $l->t('Your data directory is invalid'),
+				'error' => $l->t('Your data directory is invalid.'),
 				'hint' => $l->t('Ensure there is a file called ".ocdata"' .
 					' in the root of the data directory.')
 			];
@@ -1182,7 +1182,7 @@ class OC_Util {
 		$fp = @fopen($testFile, 'w');
 		if (!$fp) {
 			throw new \OCP\HintException('Can\'t create test file to check for working .htaccess file.',
-				'Make sure it is possible for the webserver to write to ' . $testFile);
+				'Make sure it is possible for the web server to write to ' . $testFile);
 		}
 		fwrite($fp, $testContent);
 		fclose($fp);
