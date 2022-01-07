@@ -196,6 +196,11 @@ class User implements IUser {
 		if ($oldMailAddress !== $mailAddress) {
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
+
+		$accountMailAddress = $this->accountManager->getAccount($this)->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue();
+		if ($accountMailAddress !== $mailAddress) {
+			$this->triggerChange('eMailAddress', $mailAddress, $accountMailAddress);
+		}
 	}
 
 	/**
