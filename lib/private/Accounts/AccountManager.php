@@ -388,7 +388,10 @@ class AccountManager implements IAccountManager {
 		} catch (PropertyDoesNotExistException $e) {
 			return;
 		}
-		$oldMail = isset($oldData[self::PROPERTY_EMAIL]) ? $oldData[self::PROPERTY_EMAIL]['value']['value'] : '';
+
+		$oldMailIndex = array_search(self::PROPERTY_EMAIL, array_column($oldData, 'name'), true);
+		$oldMail = $oldMailIndex !== false ? $oldData[$oldMailIndex]['value'] : '';
+
 		if ($oldMail !== $property->getValue()) {
 			$this->jobList->add(
 				VerifyUserData::class,
