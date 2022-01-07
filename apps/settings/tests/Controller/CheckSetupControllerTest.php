@@ -179,13 +179,12 @@ class CheckSetupControllerTest extends TestCase {
 				'getSuggestedOverwriteCliURL',
 				'getCurlVersion',
 				'isPhpOutdated',
-				'isOpcacheProperlySetup',
+				'getOpcacheSetupRecommendations',
 				'hasFreeTypeSupport',
 				'hasMissingIndexes',
 				'hasMissingPrimaryKeys',
 				'isSqliteUsed',
 				'isPHPMailerUsed',
-				'hasOpcacheLoaded',
 				'getAppDirsWithDifferentOwner',
 				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
@@ -479,8 +478,8 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(true);
 		$this->checkSetupController
 			->expects($this->once())
-			->method('isOpcacheProperlySetup')
-			->willReturn(false);
+			->method('getOpcacheSetupRecommendations')
+			->willReturn(['recommendation1', 'recommendation2']);
 		$this->checkSetupController
 			->method('hasFreeTypeSupport')
 			->willReturn(false);
@@ -504,10 +503,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checkSetupController
 			->expects($this->once())
 			->method('hasFileinfoInstalled')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('hasOpcacheLoaded')
 			->willReturn(true);
 		$this->checkSetupController
 			->expects($this->once())
@@ -624,9 +619,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
-				'isOpcacheProperlySetup' => false,
-				'hasOpcacheLoaded' => true,
-				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
+				'OpcacheSetupRecommendations' => ['recommendation1', 'recommendation2'],
 				'isSettimelimitAvailable' => true,
 				'hasFreeTypeSupport' => false,
 				'isSqliteUsed' => false,
