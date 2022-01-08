@@ -50,15 +50,13 @@
 		:groups="groups"
 		:languages="languages"
 		:loading="loading"
-		:opened-menu="openedMenu"
+		:opened-menu.sync="openedMenu"
 		:settings="settings"
 		:show-config="showConfig"
 		:sub-admins-groups="subAdminsGroups"
 		:user-actions="userActions"
 		:user="user"
-		:class="{'row--menu-opened': openedMenu}"
-		@hideMenu="hideMenu"
-		@toggleMenu="toggleMenu" />
+		:class="{'row--menu-opened': openedMenu}" />
 	<div v-else
 		:class="{
 			'disabled': loading.delete || loading.disable,
