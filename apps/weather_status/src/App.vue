@@ -137,56 +137,56 @@ const weatherOptions = {
 	lightrain: {
 		icon: 'icon-lightrain',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} light rain later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} light rain', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} light rainfall later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} light rainfall', { temperature, unit }),
 	},
 	rain: {
 		icon: 'icon-rain',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} rain later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} rain', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} rainfall later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} rainfall', { temperature, unit }),
 	},
 	heavyrain: {
 		icon: 'icon-heavyrain',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} heavy rain later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} heavy rain', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} heavy rainfall later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} heavy rainfall', { temperature, unit }),
 	},
 	rainshowers_day: {
 		icon: 'icon-rainshowers-day',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} rain showers later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} rain showers', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} rainfall showers', { temperature, unit }),
 	},
 	rainshowers_night: {
 		icon: 'icon-rainshowers-night',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} rain showers later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} rain showers', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} rainfall showers', { temperature, unit }),
 	},
 	lightrainshowers_day: {
 		icon: 'icon-light-rainshowers-day',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} light rain showers later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} light rain showers', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} light rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} light rainfall showers', { temperature, unit }),
 	},
 	lightrainshowers_night: {
 		icon: 'icon-light-rainshowers-night',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} light rain showers later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} light rain showers', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} light rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} light rainfall showers', { temperature, unit }),
 	},
 	heavyrainshowers_day: {
 		icon: 'icon-heavy-rainshowers-day',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} heavy rain showers later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} heavy rain showers', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} heavy rainfall showers', { temperature, unit }),
 	},
 	heavyrainshowers_night: {
 		icon: 'icon-heavy-rainshowers-night',
 		text: (temperature, unit, later = false) => later
-			? t('weather_status', '{temperature} {unit} heavy rain showers later today', { temperature, unit })
-			: t('weather_status', '{temperature} {unit} heavy rain showers', { temperature, unit }),
+			? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} heavy rainfall showers', { temperature, unit }),
 	},
 }
 
