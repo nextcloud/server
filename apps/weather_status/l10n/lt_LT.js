@@ -11,6 +11,8 @@ OC.L10N.register(
     "Detect location" : "Aptikti vietą",
     "Set custom address" : "Nustatyti tinkintą adresą",
     "Favorites" : "Mėgstamos",
+    "{temperature} {unit} cloudy" : "{temperature} {unit} debesuota",
+    "{temperature} {unit} foggy" : "{temperature} {unit} ūkanota",
     "More weather for {adr}" : "Daugiau orų ties {adr}",
     "Loading weather" : "Įkeliami orai",
     "Remove from favorites" : "Šalinti iš mėgstamų",

@@ -10,6 +10,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s 對 %2$s 留了言",
     "{author} commented on {file}" : "{author} 對 {file} 留了言",
     "<strong>Comments</strong> for files" : "檔案的<strong>留言</strong>",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "一個已被刪除的用戶在 “{file}” 的留言中提到你",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} 在 “{file}” 的留言中提到你",
     "Files app plugin to add comments to files" : "檔案插件程式插件，用於為檔案增加註釋",
     "Edit comment" : "編輯留言",
     "Delete comment" : "刪除留言",
