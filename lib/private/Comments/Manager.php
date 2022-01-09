@@ -1123,16 +1123,35 @@ class Manager implements ICommentsManager {
 	}
 
 	private function addReaction(IComment $reaction): void {
+		// Prevent violate constraint
 		$qb = $this->dbConn->getQueryBuilder();
-		$qb->insert('reactions')
-			->values([
-				'parent_id' => $qb->createNamedParameter($reaction->getParentId()),
-				'message_id' => $qb->createNamedParameter($reaction->getId()),
-				'actor_type' => $qb->createNamedParameter($reaction->getActorType()),
-				'actor_id' => $qb->createNamedParameter($reaction->getActorId()),
-				'reaction' => $qb->createNamedParameter($reaction->getMessage()),
-			])
-			->executeStatement();
+		$qb->select($qb->func()->count('*'))
+			->from('reactions')
+			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($reaction->getParentId())))
+			->andWhere($qb->expr()->eq('actor_type', $qb->createNamedParameter($reaction->getActorType())))
+			->andWhere($qb->expr()->eq('actor_id', $qb->createNamedParameter($reaction->getActorId())))
+			->andWhere($qb->expr()->eq('reaction', $qb->createNamedParameter($reaction->getMessage())));
+		$result = $qb->executeQuery();
+		$exists = (int) $result->fetchOne();
+		if (!$exists) {
+			$qb = $this->dbConn->getQueryBuilder();
+			try {
+				$qb->insert('reactions')
+					->values([
+						'parent_id' => $qb->createNamedParameter($reaction->getParentId()),
+						'message_id' => $qb->createNamedParameter($reaction->getId()),
+						'actor_type' => $qb->createNamedParameter($reaction->getActorType()),
+						'actor_id' => $qb->createNamedParameter($reaction->getActorId()),
+						'reaction' => $qb->createNamedParameter($reaction->getMessage()),
+					])
+					->executeStatement();
+			} catch (\Exception $e) {
+				$this->logger->error($e->getMessage(), [
+					'exception' => $e,
+					'app' => 'core_comments',
+				]);
+			}
+		}
 		$this->sumReactions($reaction->getParentId());
 	}
 
