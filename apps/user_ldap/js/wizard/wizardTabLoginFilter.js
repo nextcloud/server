@@ -16,8 +16,8 @@ OCA = OCA || {};
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
-		 * @param tabIndex
-		 * @param tabID
+		 * @param {any} tabIndex -
+		 * @param {any} tabID -
 		 */
 		init: function (tabIndex, tabID) {
 			this._super(tabIndex, tabID);
@@ -134,7 +134,7 @@ OCA = OCA || {};
 		/**
 		 * presents the result of the login name test
 		 *
-		 * @param result
+		 * @param {any} result -
 		 */
 		handleLoginTestResult: function(result) {
 			var message;

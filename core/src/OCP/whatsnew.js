@@ -26,7 +26,7 @@ import $ from 'jquery'
 import { generateOcsUrl } from '@nextcloud/router'
 
 /**
- * @param options
+ * @param {any} options -
  */
 export function query(options) {
 	options = options || {}
@@ -42,8 +42,8 @@ export function query(options) {
 }
 
 /**
- * @param version
- * @param options
+ * @param {any} version -
+ * @param {any} options -
  */
 export function dismiss(version, options) {
 	options = options || {}
@@ -59,10 +59,10 @@ export function dismiss(version, options) {
 }
 
 /**
- * @param data
- * @param statusText
- * @param xhr
- * @param dismissOptions
+ * @param {any} data -
+ * @param {any} statusText -
+ * @param {any} xhr -
+ * @param {any} dismissOptions -
  */
 function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	console.debug('querying Whats New data was successful: ' + statusText)
@@ -145,9 +145,9 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 }
 
 /**
- * @param x
- * @param t
- * @param e
+ * @param {any} x -
+ * @param {any} t -
+ * @param {any} e -
  */
 function onQueryError(x, t, e) {
 	console.debug('querying Whats New Data resulted in an error: ' + t + e)
@@ -155,14 +155,14 @@ function onQueryError(x, t, e) {
 }
 
 /**
- * @param data
+ * @param {any} data -
  */
 function onDismissSuccess(data) {
 	// noop
 }
 
 /**
- * @param data
+ * @param {any} data -
  */
 function onDismissError(data) {
 	console.debug('dismissing Whats New data resulted in an error: ' + data)

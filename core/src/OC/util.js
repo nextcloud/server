@@ -28,7 +28,7 @@ import OC from './index'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
 /**
- * @param t
+ * @param {any} t -
  */
 function chunkify(t) {
 	// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288

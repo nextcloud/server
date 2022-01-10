@@ -34,8 +34,8 @@ export async function startRegistration() {
 }
 
 /**
- * @param name
- * @param data
+ * @param {any} name -
+ * @param {any} data -
  */
 export async function finishRegistration(name, data) {
 	const url = generateUrl('/settings/api/personal/webauthn/registration')
@@ -45,7 +45,7 @@ export async function finishRegistration(name, data) {
 }
 
 /**
- * @param id
+ * @param {any} id -
  */
 export async function removeRegistration(id) {
 	const url = generateUrl(`/settings/api/personal/webauthn/registration/${id}`)

@@ -23,7 +23,7 @@
 import axios from '@nextcloud/axios'
 
 /**
- * @param url
+ * @param {any} url -
  */
 export default async function(url) {
 	const response = await axios({

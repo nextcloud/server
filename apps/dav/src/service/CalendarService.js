@@ -108,8 +108,8 @@ export async function findScheduleInboxAvailability() {
 }
 
 /**
- * @param slots
- * @param timezoneId
+ * @param {any} slots -
+ * @param {any} timezoneId -
  */
 export async function saveScheduleInboxAvailability(slots, timezoneId) {
 	const all = [...Object.keys(slots).flatMap(dayId => slots[dayId].map(slot => ({

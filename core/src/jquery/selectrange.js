@@ -26,7 +26,7 @@ import $ from 'jquery'
 /**
  * select a range in an input field
  *
- * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
+ * @see {@link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area}
  * @param {number} start start selection from
  * @param {number} end number of char from start
  * @return {void}

@@ -377,12 +377,12 @@ OCA.Sharing.PublicApp = {
 	 * fall back to old behaviour where we redirect the user to his server to mount
 	 * the public link instead of creating a dedicated federated share
 	 *
-	 * @param remote
-	 * @param token
-	 * @param owner
-	 * @param ownerDisplayName
-	 * @param name
-	 * @param isProtected
+	 * @param {any} remote -
+	 * @param {any} token -
+	 * @param {any} owner -
+	 * @param {any} ownerDisplayName -
+	 * @param {any} name -
+	 * @param {any} isProtected -
 	 * @private
 	 */
 	_legacyCreateFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {

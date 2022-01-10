@@ -1203,7 +1203,7 @@
 		/**
 		 * Custom code
 		 * Set tag for all selected files
-		 * @param tagModel
+		 * @param {any} tagModel -
 		 * @private
 		 */
 		_onSelectTag: function(tagModel) {
@@ -1221,7 +1221,7 @@
 		},
 		/**
 		 * remove tag from all selected files
-		 * @param tagId
+		 * @param {any} tagId -
 		 * @private
 		 */
 		_onDeselectTag: function(tagId) {
@@ -3348,7 +3348,7 @@
 		},
 		/**
 		 * hide files matching the given filter
-		 * @param filter
+		 * @param {any} filter -
 		 */
 		setFilter:function(filter) {
 			var total = 0;
@@ -3413,7 +3413,7 @@
 		},
 		/**
 		 * get the current filter
-		 * @param filter
+		 * @param {any} filter -
 		 */
 		getFilter:function(filter) {
 			return this._filter;

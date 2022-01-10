@@ -61,7 +61,7 @@
 		 * Lazy fetch.
 		 * Only fetches once, subsequent calls will directly call the success handler.
 		 *
-		 * @param options
+		 * @param {any} options -
 		 * @param [options.force] true to force fetch even if cached entries exist
 		 *
 		 * @see Backbone.Collection#fetch

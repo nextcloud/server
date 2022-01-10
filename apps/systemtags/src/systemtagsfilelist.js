@@ -48,7 +48,7 @@
 			/**
 			 * Array of system tag ids to filter by
 			 *
-			 * @type Array.<string>
+			 * @type {Array.<string>}
 			 */
 			_systemTagIds: [],
 			_lastUsedTags: [],

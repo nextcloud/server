@@ -22,7 +22,7 @@
  */
 
 /**
- * @param name
+ * @param {any} name -
  */
 export default function getURLParameter(name) {
 	return decodeURIComponent(

@@ -27,7 +27,7 @@
 (function(OCA) {
 
 	/**
-	 * @param model
+	 * @param {any} model -
 	 */
 	function modelToSelection(model) {
 		const data = model.toJSON()

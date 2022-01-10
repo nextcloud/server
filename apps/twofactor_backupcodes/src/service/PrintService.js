@@ -22,7 +22,7 @@
  */
 
 /**
- * @param data
+ * @param {any} data -
  */
 export function print(data) {
 	const name = OC.theme.name || 'Nextcloud'

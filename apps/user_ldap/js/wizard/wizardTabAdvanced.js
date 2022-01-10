@@ -17,8 +17,8 @@ OCA = OCA || {};
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
-		 * @param tabIndex
-		 * @param tabID
+		 * @param {any} tabIndex -
+		 * @param {any} tabID -
 		 */
 		init: function (tabIndex, tabID) {
 			this._super(tabIndex, tabID);
@@ -281,7 +281,7 @@ OCA = OCA || {};
 		setDynamicGroupMemberURL: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_dynamic_group_member_url.$element, attribute);
 		},
-                
+
 		/**
 		 * enabled or disables the use of nested groups (groups in groups in
 		 * groups…)

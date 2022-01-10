@@ -147,8 +147,8 @@ OCA = OCA || {};
 		/**
 		 * displays server error messages.
 		 *
-		 * @param view
-		 * @param payload
+		 * @param {any} view -
+		 * @param {any} payload -
 		 */
 		onServerError: function(view, payload) {
 			if (   !_.isUndefined(view.managedItems[payload.relatedKey])) {
@@ -456,7 +456,7 @@ OCA = OCA || {};
 		 * sets the filter mode initially and resets the "isToggling" marker.
 		 * This method is called after a save operation against the mode key.
 		 *
-		 * @param mode
+		 * @param {any} mode -
 		 */
 		setFilterModeOnce: function(mode) {
 			this.isToggling = false;

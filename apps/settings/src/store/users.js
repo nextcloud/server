@@ -278,7 +278,7 @@ const actions = {
 	 * @param {object} options destructuring object
 	 * @param {number} options.offset List offset to request
 	 * @param {number} options.limit List number to return from offset
-	 * @param options.search
+	 * @param {string} options.search -
 	 * @return {Promise}
 	 */
 	getUsersFromList(context, { offset, limit, search }) {
@@ -301,7 +301,7 @@ const actions = {
 	 * @param {object} options destructuring object
 	 * @param {number} options.offset List offset to request
 	 * @param {number} options.limit List number to return from offset
-	 * @param options.groupid
+	 * @param {string} options.groupid -
 	 * @return {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
@@ -462,8 +462,8 @@ const actions = {
 	 * Add a user
 	 *
 	 * @param {object} context store context
-	 * @param {Function} context.commit
-	 * @param {Function} context.dispatch
+	 * @param {Function} context.commit -
+	 * @param {Function} context.dispatch -
 	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.password User password
@@ -473,7 +473,6 @@ const actions = {
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
 	 * @param {string} options.language User language
-	 * @param options.language
 	 * @return {Promise}
 	 */
 	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language }) {

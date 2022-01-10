@@ -48,7 +48,7 @@ const actions = {
 	 *
 	 * @param {object} vuex The Vuex components
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param vuex.state
+	 * @param {object} vuex.state -
 	 */
 	async loadAllPredefinedStatuses({ state, commit }) {
 		if (state.predefinedStatuses.length > 0) {
