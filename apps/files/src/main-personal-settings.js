@@ -32,5 +32,7 @@ __webpack_nonce__ = btoa(getRequestToken())
 
 Vue.prototype.t = t
 
-const View = Vue.extend(PersonalSettings)
-new View().$mount('#files-personal-settings')
+if (!window.TESTING) {
+	const View = Vue.extend(PersonalSettings)
+	new View().$mount('#files-personal-settings')
+}
