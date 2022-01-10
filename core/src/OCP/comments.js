@@ -34,14 +34,23 @@ import $ from 'jquery'
  */
 const urlRegex = /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
 
+/**
+ * @param content
+ */
 export function plainToRich(content) {
 	return this.formatLinksRich(content)
 }
 
+/**
+ * @param content
+ */
 export function richToPlain(content) {
 	return this.formatLinksPlain(content)
 }
 
+/**
+ * @param content
+ */
 export function formatLinksRich(content) {
 	return content.replace(urlRegex, function(_, leadingSpace, protocol, url, trailingSpace) {
 		let linkText = url
@@ -55,6 +64,9 @@ export function formatLinksRich(content) {
 	})
 }
 
+/**
+ * @param content
+ */
 export function formatLinksPlain(content) {
 	const $content = $('<div></div>').html(content)
 	$content.find('a').each(function() {

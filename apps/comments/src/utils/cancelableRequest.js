@@ -24,15 +24,16 @@ import axios from '@nextcloud/axios'
 
 /**
  * Create a cancel token
- * @returns {CancelTokenSource}
+ *
+ * @return {CancelTokenSource}
  */
 const createCancelToken = () => axios.CancelToken.source()
 
 /**
  * Creates a cancelable axios 'request object'.
  *
- * @param {function} request the axios promise request
- * @returns {Object}
+ * @param {Function} request the axios promise request
+ * @return {object}
  */
 const cancelableRequest = function(request) {
 	/**
@@ -44,7 +45,7 @@ const cancelableRequest = function(request) {
 	 * Execute the request
 	 *
 	 * @param {string} url the url to send the request to
-	 * @param {Object} [options] optional config for the request
+	 * @param {object} [options] optional config for the request
 	 */
 	const fetch = async function(url, options) {
 		return request(

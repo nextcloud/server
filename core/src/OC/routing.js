@@ -28,8 +28,9 @@ import {
 
 /**
  * Creates a relative url for remote use
+ *
  * @param {string} service id
- * @returns {string} the url
+ * @return {string} the url
  */
 export const linkToRemoteBase = service => {
 	return realGetRootUrl() + '/remote.php/' + service

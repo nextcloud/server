@@ -22,7 +22,7 @@ declare(strict_types=1);
  *
  */
 
-script(\OCA\Files_Sharing\AppInfo\Application::APP_ID, 'dist/personal-settings');
+script(\OCA\Files_Sharing\AppInfo\Application::APP_ID, 'personal-settings');
 
 ?>
 <div id="files-sharing-personal-settings" class="section">

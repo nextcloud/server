@@ -35,9 +35,9 @@ export let currentMenuToggle = null
  *
  * @param {jQuery} $toggle the toggle element
  * @param {jQuery} $menuEl the menu container element
- * @param {function|undefined} toggle callback invoked everytime the menu is opened
+ * @param {Function | undefined} toggle callback invoked everytime the menu is opened
  * @param {boolean} headerMenu is this a top right header menu?
- * @returns {undefined}
+ * @return {undefined}
  */
 export const registerMenu = function($toggle, $menuEl, toggle, headerMenu) {
 	$menuEl.addClass('menu')
@@ -119,8 +119,8 @@ export const hideMenus = function(complete) {
 /**
  * Shows a given element as menu
  *
- * @param {Object} [$toggle=null] menu toggle
- * @param {Object} $menuEl menu element
+ * @param {object} [$toggle=null] menu toggle
+ * @param {object} $menuEl menu element
  * @param {Function} complete callback when the showing animation is done
  */
 export const showMenu = ($toggle, $menuEl, complete) => {

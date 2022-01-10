@@ -29,10 +29,10 @@ const mutations = {}
 const getters = {}
 const actions = {
 	/**
-     * Set application config in database
-     *
-	 * @param {Object} context store context
-     * @param {Object} options destructuring object
+	 * Set application config in database
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.app Application name
 	 * @param {boolean} options.key Config key
 	 * @param {boolean} options.value Value to set

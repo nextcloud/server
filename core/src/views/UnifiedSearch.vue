@@ -203,7 +203,8 @@ export default {
 
 		/**
 		 * Is there any result to display
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		hasResults() {
 			return Object.keys(this.results).length !== 0
@@ -211,7 +212,8 @@ export default {
 
 		/**
 		 * Return ordered results
-		 * @returns {Array}
+		 *
+		 * @return {Array}
 		 */
 		orderedResults() {
 			return this.typesIDs
@@ -225,7 +227,8 @@ export default {
 		/**
 		 * Available filters
 		 * We only show filters that are available on the results
-		 * @returns {string[]}
+		 *
+		 * @return {string[]}
 		 */
 		availableFilters() {
 			return Object.keys(this.results)
@@ -233,7 +236,8 @@ export default {
 
 		/**
 		 * Applied filters
-		 * @returns {string[]}
+		 *
+		 * @return {string[]}
 		 */
 		usedFiltersIn() {
 			let match
@@ -246,7 +250,8 @@ export default {
 
 		/**
 		 * Applied anti filters
-		 * @returns {string[]}
+		 *
+		 * @return {string[]}
 		 */
 		usedFiltersNot() {
 			let match
@@ -259,7 +264,8 @@ export default {
 
 		/**
 		 * Is the current search too short
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		isShortQuery() {
 			return this.query && this.query.trim().length < minSearchLength
@@ -267,7 +273,8 @@ export default {
 
 		/**
 		 * Is the current search valid
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		isValidQuery() {
 			return this.query && this.query.trim() !== '' && !this.isShortQuery
@@ -275,7 +282,8 @@ export default {
 
 		/**
 		 * Have we reached the end of all types searches
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		isDoneSearching() {
 			return Object.values(this.reached).every(state => state === false)
@@ -283,7 +291,8 @@ export default {
 
 		/**
 		 * Is there any search in progress
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		isLoading() {
 			return Object.values(this.loading).some(state => state === true)
@@ -478,7 +487,8 @@ export default {
 
 		/**
 		 * Load more results for the provided type
-		 * @param {String} type type
+		 *
+		 * @param {string} type type
 		 */
 		async loadMore(type) {
 			// If already loading, ignore
@@ -535,7 +545,7 @@ export default {
 		 *
 		 * @param {Array} list the results
 		 * @param {string} type the type
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		limitIfAny(list, type) {
 			if (type in this.limits) {
@@ -550,6 +560,7 @@ export default {
 
 		/**
 		 * Focus the first result if any
+		 *
 		 * @param {Event} event the keydown event
 		 */
 		focusFirst(event) {
@@ -565,6 +576,7 @@ export default {
 
 		/**
 		 * Focus the next result if any
+		 *
 		 * @param {Event} event the keydown event
 		 */
 		focusNext(event) {
@@ -584,6 +596,7 @@ export default {
 
 		/**
 		 * Focus the previous result if any
+		 *
 		 * @param {Event} event the keydown event
 		 */
 		focusPrev(event) {
@@ -604,6 +617,7 @@ export default {
 
 		/**
 		 * Focus the specified result index if it exists
+		 *
 		 * @param {number} index the result index
 		 */
 		focusIndex(index) {
@@ -615,6 +629,7 @@ export default {
 
 		/**
 		 * Set the current focused element based on the target
+		 *
 		 * @param {Event} event the focus event
 		 */
 		setFocusedIndex(event) {
@@ -638,6 +653,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:math";
+
 $margin: 10px;
 $input-height: 34px;
 $input-padding: 6px;
@@ -660,7 +677,7 @@ $input-padding: 6px;
 	}
 
 	&__filters {
-		margin: $margin / 2 $margin;
+		margin: math.div($margin, 2) $margin;
 		ul {
 			display: inline-flex;
 			justify-content: space-between;
@@ -680,7 +697,7 @@ $input-padding: 6px;
 
 		&-input,
 		&-reset {
-			margin: $input-padding / 2;
+			margin: math.div($input-padding, 2);
 		}
 
 		&-input {
@@ -732,7 +749,7 @@ $input-padding: 6px;
 	}
 
 	&__filters {
-		margin-right: $margin / 2;
+		margin-right: math.div($margin, 2);
 	}
 
 	&__results {

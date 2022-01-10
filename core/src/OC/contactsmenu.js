@@ -23,6 +23,7 @@
  */
 
 /* eslint-disable */
+import _ from 'underscore'
 import $ from 'jquery'
 import { Collection, Model, View } from 'backbone'
 

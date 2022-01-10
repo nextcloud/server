@@ -21,7 +21,6 @@
  */
 
 import { getRequestToken } from '@nextcloud/auth'
-import { generateFilePath } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
 
@@ -30,8 +29,6 @@ import RecommendedApps from './components/setup/RecommendedApps'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
-// eslint-disable-next-line camelcase
-__webpack_public_path__ = generateFilePath('core', '', 'js/')
 
 Vue.mixin({
 	methods: {

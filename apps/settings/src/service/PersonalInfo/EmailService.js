@@ -31,9 +31,9 @@ import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountProp
  * Save the primary email of the user
  *
  * @param {string} email the primary email
- * @returns {object}
+ * @return {object}
  */
-export const savePrimaryEmail = async(email) => {
+export const savePrimaryEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
@@ -50,12 +50,12 @@ export const savePrimaryEmail = async(email) => {
 /**
  * Save an additional email of the user
  *
- * *Will be appended to the user's additional emails*
+ * Will be appended to the user's additional emails*
  *
  * @param {string} email the additional email
- * @returns {object}
+ * @return {object}
  */
-export const saveAdditionalEmail = async(email) => {
+export const saveAdditionalEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
@@ -73,9 +73,9 @@ export const saveAdditionalEmail = async(email) => {
  * Save the notification email of the user
  *
  * @param {string} email the notification email
- * @returns {object}
+ * @return {object}
  */
-export const saveNotificationEmail = async(email) => {
+export const saveNotificationEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
@@ -93,9 +93,9 @@ export const saveNotificationEmail = async(email) => {
  * Remove an additional email of the user
  *
  * @param {string} email the additional email
- * @returns {object}
+ * @return {object}
  */
-export const removeAdditionalEmail = async(email) => {
+export const removeAdditionalEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}/{collection}', { userId, collection: ACCOUNT_PROPERTY_ENUM.EMAIL_COLLECTION })
 
@@ -114,9 +114,9 @@ export const removeAdditionalEmail = async(email) => {
  *
  * @param {string} prevEmail the additional email to be updated
  * @param {string} newEmail the new additional email
- * @returns {object}
+ * @return {object}
  */
-export const updateAdditionalEmail = async(prevEmail, newEmail) => {
+export const updateAdditionalEmail = async (prevEmail, newEmail) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}/{collection}', { userId, collection: ACCOUNT_PROPERTY_ENUM.EMAIL_COLLECTION })
 
@@ -134,9 +134,9 @@ export const updateAdditionalEmail = async(prevEmail, newEmail) => {
  * Save the federation scope for the primary email of the user
  *
  * @param {string} scope the federation scope
- * @returns {object}
+ * @return {object}
  */
-export const savePrimaryEmailScope = async(scope) => {
+export const savePrimaryEmailScope = async (scope) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
@@ -155,9 +155,9 @@ export const savePrimaryEmailScope = async(scope) => {
  *
  * @param {string} email the additional email
  * @param {string} scope the federation scope
- * @returns {object}
+ * @return {object}
  */
-export const saveAdditionalEmailScope = async(email, scope) => {
+export const saveAdditionalEmailScope = async (email, scope) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}/{collectionScope}', { userId, collectionScope: `${ACCOUNT_PROPERTY_ENUM.EMAIL_COLLECTION}${SCOPE_SUFFIX}` })
 

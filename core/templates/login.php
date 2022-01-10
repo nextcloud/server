@@ -1,6 +1,6 @@
 <?php /** @var \OCP\IL10N $l */ ?>
 <?php
-script('core', 'dist/login');
+script('core', 'login');
 ?>
 
 <div id="login"></div>

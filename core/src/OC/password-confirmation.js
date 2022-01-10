@@ -52,7 +52,7 @@ export default {
 
 	/**
 	 * @param {Function} callback success callback function
-	 * @param {Object} options options
+	 * @param {object} options options
 	 * @param {Function} rejectCallback error callback function
 	 */
 	requirePasswordConfirmation(callback, options, rejectCallback) {

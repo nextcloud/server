@@ -38,7 +38,7 @@ export default class ShareSearch {
 	 *
 	 * @readonly
 	 * @memberof ShareSearch
-	 * @returns {Object} the data state
+	 * @return {object} the data state
 	 */
 	get state() {
 		return this._state
@@ -49,14 +49,14 @@ export default class ShareSearch {
 	 * Mostly used by the guests app.
 	 * We should consider deprecation and add results via php ?
 	 *
-	 * @param {Object} result entry to append
+	 * @param {object} result entry to append
 	 * @param {string} [result.user] entry user
 	 * @param {string} result.displayName entry first line
 	 * @param {string} [result.desc] entry second line
 	 * @param {string} [result.icon] entry icon
-	 * @param {function} result.handler function to run on entry selection
-	 * @param {function} [result.condition] condition to add entry or not
-	 * @returns {boolean}
+	 * @param {Function} result.handler function to run on entry selection
+	 * @param {Function} [result.condition] condition to add entry or not
+	 * @return {boolean}
 	 */
 	addNewResult(result) {
 		if (result.displayName.trim() !== ''

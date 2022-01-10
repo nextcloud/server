@@ -372,8 +372,8 @@ export default {
 
 	methods: {
 		/**
-			 * Creates a new authentication token and loads the updater URL
-			 */
+		 * Creates a new authentication token and loads the updater URL
+		 */
 		clickUpdaterButton() {
 			$.ajax({
 				url: generateUrl('/apps/updatenotification/credentials'),

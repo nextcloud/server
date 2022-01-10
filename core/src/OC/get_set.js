@@ -36,8 +36,9 @@ export const get = context => name => {
 
 /**
  * Set a variable by name
+ *
  * @param {string} context context
- * @returns {Function} setter
+ * @return {Function} setter
  * @deprecated 19.0.0 use https://lodash.com/docs#set
  */
 export const set = context => (name, value) => {

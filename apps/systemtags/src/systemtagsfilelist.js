@@ -30,7 +30,7 @@
 	 * @classdesc SystemTags file list.
 	 * Contains a list of files filtered by system tags.
 	 *
-	 * @param {Object} $el container element with existing markup for the #controls and a table
+	 * @param {object} $el container element with existing markup for the #controls and a table
 	 * @param {Array} [options] map of options, see other parameters
 	 * @param {Array.<string>} [options.systemTagIds] array of system tag ids to
 	 * filter by
@@ -60,8 +60,8 @@
 
 			/**
 			 * @private
-			 * @param {Object} $el container element
-			 * @param {Object} [options] map of options, see other parameters
+			 * @param {object} $el container element
+			 * @param {object} [options] map of options, see other parameters
 			 */
 			initialize($el, options) {
 				OCA.Files.FileList.prototype.initialize.apply(this, arguments)
@@ -190,7 +190,7 @@
 			/**
 			 * Autocomplete function for dropdown results
 			 *
-			 * @param {Object} query select2 query object
+			 * @param {object} query select2 query object
 			 */
 			_queryTagsAutocomplete(query) {
 				OC.SystemTags.collection.fetch({

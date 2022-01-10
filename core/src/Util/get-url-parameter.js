@@ -21,6 +21,9 @@
  *
  */
 
+/**
+ * @param name
+ */
 export default function getURLParameter(name) {
 	return decodeURIComponent(
 		// eslint-disable-next-line no-sparse-arrays

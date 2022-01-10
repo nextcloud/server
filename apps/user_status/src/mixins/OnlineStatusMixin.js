@@ -35,7 +35,7 @@ export default {
 		/**
 		 * The message displayed in the top right corner
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		visibleMessage() {
 			if (this.customIcon && this.customMessage) {
@@ -71,7 +71,7 @@ export default {
 		/**
 		 * The status indicator icon
 		 *
-		 * @returns {String|null}
+		 * @return {string | null}
 		 */
 		statusIcon() {
 			switch (this.statusType) {
@@ -97,7 +97,7 @@ export default {
 		/**
 		 * Changes the user-status
 		 *
-		 * @param {String} statusType (online / away / dnd / invisible)
+		 * @param {string} statusType (online / away / dnd / invisible)
 		 */
 		async changeStatus(statusType) {
 			try {

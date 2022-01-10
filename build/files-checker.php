@@ -20,8 +20,8 @@
  */
 
 $expectedFiles = [
-	'.',
 	'..',
+	'.',
 	'.codecov.yml',
 	'.devcontainer',
 	'.drone.yml',
@@ -63,6 +63,7 @@ $expectedFiles = [
 	'COPYING',
 	'core',
 	'cron.php',
+	'dist',
 	'index.html',
 	'index.php',
 	'lib',
@@ -73,8 +74,8 @@ $expectedFiles = [
 	'ocs',
 	'package-lock.json',
 	'package.json',
-	'psalm.xml',
 	'psalm-ocp.xml',
+	'psalm.xml',
 	'public.php',
 	'README.md',
 	'remote.php',
@@ -88,6 +89,7 @@ $expectedFiles = [
 	'version.php',
 	'webpack.common.js',
 	'webpack.dev.js',
+	'webpack.modules.js',
 	'webpack.prod.js',
 ];
 $actualFiles = [];

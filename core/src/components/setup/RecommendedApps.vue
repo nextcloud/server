@@ -81,15 +81,15 @@ const recommended = {
 	},
 	spreed: {
 		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
-		icon: imagePath('core', 'apps/spreed.svg')
+		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {
 		description: t('core', 'Collaboratively edit office documents.'),
-		icon: imagePath('core', 'apps/richdocuments.svg')
+		icon: imagePath('core', 'apps/richdocuments.svg'),
 	},
 	richdocumentscode: {
 		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
-		icon: imagePath('core', 'apps/richdocumentscode.svg')
+		icon: imagePath('core', 'apps/richdocumentscode.svg'),
 	},
 }
 const recommendedIds = Object.keys(recommended)

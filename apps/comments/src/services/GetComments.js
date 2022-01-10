@@ -28,11 +28,11 @@ export const DEFAULT_LIMIT = 20
 /**
  * Retrieve the comments list
  *
- * @param {Object} data destructuring object
+ * @param {object} data destructuring object
  * @param {string} data.commentsType the ressource type
  * @param {number} data.ressourceId the ressource ID
- * @param {Object} [options] optional options for axios
- * @returns {Object[]} the comments list
+ * @param {object} [options] optional options for axios
+ * @return {object[]} the comments list
  */
 export default async function({ commentsType, ressourceId }, options = {}) {
 	let response = null
@@ -64,6 +64,10 @@ export default async function({ commentsType, ressourceId }, options = {}) {
 }
 
 // https://github.com/perry-mitchell/webdav-client/blob/9de2da4a2599e06bd86c2778145b7ade39fe0b3c/source/interface/directoryContents.js#L32
+/**
+ * @param result
+ * @param isDetailed
+ */
 function processMultistatus(result, isDetailed = false) {
 	// Extract the response items (directory contents)
 	const {
@@ -86,6 +90,10 @@ function processMultistatus(result, isDetailed = false) {
 	})
 }
 
+/**
+ * @param value
+ * @param passes
+ */
 function decodeHtmlEntities(value, passes = 1) {
 	const parser = new DOMParser()
 	let decoded = value

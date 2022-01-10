@@ -34,8 +34,8 @@ const encodeFilePath = function(path) {
 /**
  * Extract dir and name from file path
  *
- * @param {String} path the full path
- * @returns {String[]} [dirPath, fileName]
+ * @param {string} path the full path
+ * @return {string[]} [dirPath, fileName]
  */
 const extractFilePaths = function(path) {
 	const pathSections = path.split('/')

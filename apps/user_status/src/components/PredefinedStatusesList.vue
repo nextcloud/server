@@ -55,7 +55,7 @@ export default {
 		/**
 		 * Indicator whether the predefined statuses have already been loaded
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasLoaded() {
 			return this.predefinedStatuses.length > 0
@@ -72,10 +72,10 @@ export default {
 		/**
 		 * Emits an event when the user selects a status
 		 *
-		 * @param {Object} status The selected status
+		 * @param {object} status The selected status
 		 */
 		selectStatus(status) {
-			this.$emit('selectStatus', status)
+			this.$emit('select-status', status)
 		},
 	},
 }

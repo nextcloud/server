@@ -31,7 +31,7 @@ describe('CalDavSettings', () => {
 		global.OCP = originalOCP
 	})
 
-	test('interactions', async() => {
+	test('interactions', async () => {
 		const TLUtils = render(
 			CalDavSettings,
 			{

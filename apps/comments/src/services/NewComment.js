@@ -31,7 +31,7 @@ import client from './DavClient'
  * @param {string} commentsType the ressource type
  * @param {number} ressourceId the ressource ID
  * @param {string} message the message
- * @returns {Object} the new comment
+ * @return {object} the new comment
  */
 export default async function(commentsType, ressourceId, message) {
 	const ressourcePath = ['', commentsType, ressourceId].join('/')

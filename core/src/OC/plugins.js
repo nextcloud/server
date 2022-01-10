@@ -31,7 +31,7 @@ export default {
 	/**
 	 * Register plugin
 	 *
-	 * @param {String} targetName app name / class name to hook into
+	 * @param {string} targetName app name / class name to hook into
 	 * @param {OC.Plugin} plugin plugin
 	 */
 	register(targetName, plugin) {
@@ -46,8 +46,8 @@ export default {
 	 * Returns all plugin registered to the given target
 	 * name / app name / class name.
 	 *
-	 * @param {String} targetName app name / class name to hook into
-	 * @returns {Array.<OC.Plugin>} array of plugins
+	 * @param {string} targetName app name / class name to hook into
+	 * @return {Array.<OC.Plugin>} array of plugins
 	 */
 	getPlugins(targetName) {
 		return this._plugins[targetName] || []
@@ -56,9 +56,9 @@ export default {
 	/**
 	 * Call attach() on all plugins registered to the given target name.
 	 *
-	 * @param {String} targetName app name / class name
-	 * @param {Object} targetObject to be extended
-	 * @param {Object} [options] options
+	 * @param {string} targetName app name / class name
+	 * @param {object} targetObject to be extended
+	 * @param {object} [options] options
 	 */
 	attach(targetName, targetObject, options) {
 		const plugins = this.getPlugins(targetName)
@@ -72,9 +72,9 @@ export default {
 	/**
 	 * Call detach() on all plugins registered to the given target name.
 	 *
-	 * @param {String} targetName app name / class name
-	 * @param {Object} targetObject to be extended
-	 * @param {Object} [options] options
+	 * @param {string} targetName app name / class name
+	 * @param {object} targetObject to be extended
+	 * @param {object} [options] options
 	 */
 	detach(targetName, targetObject, options) {
 		const plugins = this.getPlugins(targetName)

@@ -113,7 +113,7 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Always add main sharing script
 		 */
-		Util::addScript(self::APP_ID, 'dist/main');
+		Util::addScript(self::APP_ID, 'main');
 	}
 
 
@@ -129,7 +129,7 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function () {
-			\OCP\Util::addScript('files_sharing', 'dist/collaboration');
+			\OCP\Util::addScript('files_sharing', 'collaboration');
 		});
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$dispatcher->addServiceListener(UserAddedEvent::class, UserAddedToGroupListener::class);

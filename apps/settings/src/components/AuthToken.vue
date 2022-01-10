@@ -48,7 +48,7 @@
 				:open.sync="actionOpen">
 				<ActionCheckbox v-if="token.type === 1"
 					:checked="token.scope.filesystem"
-					@change.stop.prevent="$emit('toggleScope', token, 'filesystem', !token.scope.filesystem)">
+					@change.stop.prevent="$emit('toggle-scope', token, 'filesystem', !token.scope.filesystem)">
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}
 				</ActionCheckbox>

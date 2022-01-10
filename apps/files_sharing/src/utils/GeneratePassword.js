@@ -31,7 +31,7 @@ const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
  * request a valid password if password_policy
  * is enabled
  *
- * @returns {string} a valid password
+ * @return {string} a valid password
  */
 export default async function() {
 	// password policy is enabled, let's request a pass

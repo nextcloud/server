@@ -159,9 +159,10 @@ const store = new Vuex.Store({
 
 		/**
 		 * Return all available checker plugins for a given entity class
-		 * @param {Object} state the store state
-		 * @param {Object} entity the entity class
-		 * @returns {Array} the available plugins
+		 *
+		 * @param {object} state the store state
+		 * @param {object} entity the entity class
+		 * @return {Array} the available plugins
 		 */
 		getChecksForEntity(state) {
 			return (entity) => {

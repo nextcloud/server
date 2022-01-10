@@ -26,6 +26,9 @@
 
 (function(OCA) {
 
+	/**
+	 * @param model
+	 */
 	function modelToSelection(model) {
 		const data = model.toJSON()
 		if (!OC.isUserAdmin() && !data.canAssign) {
@@ -82,7 +85,8 @@
 
 			/**
 			 * Event handler whenever a tag was selected
-			 * @param {Object} tag the tag to create
+			 *
+			 * @param {object} tag the tag to create
 			 */
 			_onSelectTag(tag) {
 			// create a mapping entry for this tag

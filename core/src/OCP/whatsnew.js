@@ -25,6 +25,9 @@ import _ from 'underscore'
 import $ from 'jquery'
 import { generateOcsUrl } from '@nextcloud/router'
 
+/**
+ * @param options
+ */
 export function query(options) {
 	options = options || {}
 	const dismissOptions = options.dismiss || {}
@@ -38,6 +41,10 @@ export function query(options) {
 	})
 }
 
+/**
+ * @param version
+ * @param options
+ */
 export function dismiss(version, options) {
 	options = options || {}
 	$.ajax({
@@ -51,6 +58,12 @@ export function dismiss(version, options) {
 	$('.whatsNewPopover').remove()
 }
 
+/**
+ * @param data
+ * @param statusText
+ * @param xhr
+ * @param dismissOptions
+ */
 function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	console.debug('querying Whats New data was successful: ' + statusText)
 	console.debug(data)
@@ -131,15 +144,26 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	document.body.appendChild(div)
 }
 
+/**
+ * @param x
+ * @param t
+ * @param e
+ */
 function onQueryError(x, t, e) {
 	console.debug('querying Whats New Data resulted in an error: ' + t + e)
 	console.debug(x)
 }
 
+/**
+ * @param data
+ */
 function onDismissSuccess(data) {
 	// noop
 }
 
+/**
+ * @param data
+ */
 function onDismissError(data) {
 	console.debug('dismissing Whats New data resulted in an error: ' + data)
 }

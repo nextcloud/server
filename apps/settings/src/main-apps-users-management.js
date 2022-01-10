@@ -35,14 +35,8 @@ Vue.use(VTooltip, { defaultHtml: false })
 sync(store, router)
 
 // CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
+// eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)
-
-// Correct the root of the app for chunk loading
-// OC.linkTo matches the apps folders
-// OC.generateUrl ensure the index.php (or not)
-// eslint-disable-next-line
-__webpack_public_path__ = OC.linkTo('settings', 'js/')
 
 // bind to window
 Vue.prototype.t = t

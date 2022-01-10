@@ -39,6 +39,7 @@
  */
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Util;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -101,24 +102,31 @@ class OC_Template extends \OC\Template\Base {
 	public static function initTemplateEngine($renderAs) {
 		if (self::$initTemplateEngineFirstRun) {
 
-			//apps that started before the template initialization can load their own scripts/styles
-			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
-			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR && !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-					OC_Util::addScript('backgroundjobs', null, true);
-				}
-			}
+			// apps that started before the template initialization can load their own scripts/styles
+			// so to make sure this scripts/styles here are loaded first we put all core scripts first
+			// check lib/public/Util.php
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
-			OC_Util::addTranslations('core', null, true);
+
+			// include common nextcloud webpack bundle
+			Util::addScript('core', 'common');
+			Util::addScript('core', 'main');
+			Util::addTranslations('core');
 
 			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
-				OC_Util::addScript('merged-template-prepend', null, true);
-				OC_Util::addScript('dist/files_client', null, true);
-				OC_Util::addScript('dist/files_fileinfo', null, true);
+				Util::addScript('core', 'files_fileinfo');
+				Util::addScript('core', 'files_client');
+				Util::addScript('core', 'merged-template-prepend');
 			}
-			OC_Util::addScript('core', 'dist/main', true);
+
+			// If installed and background job is set to ajax, add dedicated script
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)
+				&& $renderAs !== TemplateResponse::RENDER_AS_ERROR
+				&& !\OCP\Util::needUpgrade()) {
+				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+					Util::addScript('core', 'backgroundjobs');
+				}
+			}
 
 			self::$initTemplateEngineFirstRun = false;
 		}

@@ -69,7 +69,7 @@
 						v-click-outside="hideMenu"
 						class="icon-more"
 						:aria-label="t('settings', 'Toggle user actions menu')"
-						@click.prevent="$emit('toggleMenu')" />
+						@click.prevent="toggleMenu" />
 					<div class="popovermenu" :class="{ 'open': openedMenu }" :aria-expanded="openedMenu">
 						<PopoverMenu :menu="userActions" />
 					</div>
@@ -176,8 +176,11 @@ export default {
 		},
 	},
 	methods: {
+		toggleMenu() {
+			this.$emit('update:openedMenu', !this.openedMenu)
+		},
 		hideMenu() {
-			this.$emit('hideMenu')
+			this.$emit('update:openedMenu', false)
 		},
 		toggleEdit() {
 			this.$emit('update:editing', true)

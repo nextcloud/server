@@ -62,7 +62,7 @@ export default {
 	 *     .catch((error) => {throw error;});
 	 * }).catch((error) => {requireAdmin OR API failure});
 	 *
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	requireAdmin() {
 		return confirmPassword()

@@ -292,7 +292,7 @@ class OC {
 
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
-			OC_Util::addScript('dist/maintenance');
+			OC_Util::addScript('maintenance');
 			OC_Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();

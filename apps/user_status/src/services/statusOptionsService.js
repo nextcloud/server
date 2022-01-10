@@ -26,7 +26,7 @@ import { translate as t } from '@nextcloud/l10n'
 /**
  * Returns a list of all user-definable statuses
  *
- * @returns {Object[]}
+ * @return {object[]}
  */
 const getAllStatusOptions = () => {
 	return [{

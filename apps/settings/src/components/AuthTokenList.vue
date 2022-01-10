@@ -67,7 +67,7 @@ export default {
 	methods: {
 		toggleScope(token, scope, value) {
 			// Just pass it on
-			this.$emit('toggleScope', token, scope, value)
+			this.$emit('toggle-scope', token, scope, value)
 		},
 		rename(token, newName) {
 			// Just pass it on

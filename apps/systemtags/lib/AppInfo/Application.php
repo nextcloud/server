@@ -52,7 +52,7 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(
 				'OCA\Files::loadAdditionalScripts',
 				function () {
-					\OCP\Util::addScript('core', 'dist/systemtags');
+					\OCP\Util::addScript('core', 'systemtags');
 					\OCP\Util::addScript(self::APP_ID, 'systemtags');
 				}
 			);

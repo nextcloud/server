@@ -59,7 +59,7 @@ export default {
 		/**
 		 * Returns an object of the currently selected option
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		option() {
 			return {
@@ -72,14 +72,14 @@ export default {
 		/**
 		 * Triggered when the user selects a new option.
 		 *
-		 * @param {Object=} option The new selected option
+		 * @param {object=} option The new selected option
 		 */
 		select(option) {
 			if (!option) {
 				return
 			}
 
-			this.$emit('selectClearAt', option.clearAt)
+			this.$emit('select-clear-at', option.clearAt)
 		},
 	},
 }

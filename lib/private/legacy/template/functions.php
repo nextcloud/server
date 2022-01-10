@@ -1,4 +1,7 @@
 <?php
+
+use OCP\Util;
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -111,17 +114,22 @@ function print_unescaped($string) {
 
 /**
  * Shortcut for adding scripts to a page
+ * All scripts are forced to be loaded after core since
+ * they are coming from a template registration.
+ * Please consider moving them into the relevant controller
+ *
  * @param string $app the appname
  * @param string|string[] $file the filename,
  * if an array is given it will add all scripts
+ * @deprecated 23.1.0
  */
 function script($app, $file = null) {
 	if (is_array($file)) {
-		foreach ($file as $f) {
-			OC_Util::addScript($app, $f);
+		foreach ($file as $script) {
+			Util::addScript($app, $script, 'core');
 		}
 	} else {
-		OC_Util::addScript($app, $file);
+		Util::addScript($app, $file, 'core');
 	}
 }
 

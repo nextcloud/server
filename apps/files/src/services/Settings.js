@@ -34,7 +34,7 @@ export default class Settings {
 	 *
 	 * @since 19.0.0
 	 * @param {OCA.Files.Settings.Setting} view element to add to settings
-	 * @returns {boolean} whether registering was successful
+	 * @return {boolean} whether registering was successful
 	 */
 	register(view) {
 		if (this._settings.filter(e => e.name === view.name).length > 0) {
@@ -47,7 +47,8 @@ export default class Settings {
 
 	/**
 	 * All settings elements
-	 * @returns {OCA.Files.Settings.Setting[]} All currently registered settings
+	 *
+	 * @return {OCA.Files.Settings.Setting[]} All currently registered settings
 	 */
 	get settings() {
 		return this._settings

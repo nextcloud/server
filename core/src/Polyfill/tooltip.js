@@ -22,6 +22,8 @@
  *
  */
 
+import $ from 'jquery'
+
 $.prototype.tooltip = (function(tooltip) {
 	return function(config) {
 		try {

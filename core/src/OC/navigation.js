@@ -25,6 +25,7 @@ export const redirect = targetURL => { window.location = targetURL }
 
 /**
  * Reloads the current page
+ *
  * @deprecated 17.0.0 use window.location.reload directly
  */
 export const reload = () => { window.location.reload() }

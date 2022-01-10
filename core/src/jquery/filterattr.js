@@ -28,7 +28,7 @@ import $ from 'jquery'
  *
  * @param {string} attrName attribute name
  * @param {string} attrValue attribute value
- * @returns {Void}
+ * @return {Void}
  */
 $.fn.filterAttr = function(attrName, attrValue) {
 	return this.filter(function() {

@@ -30,9 +30,9 @@ import confirmPassword from '@nextcloud/password-confirmation'
  *
  * @param {string} paramId the profile parameter ID
  * @param {string} visibility the visibility
- * @returns {object}
+ * @return {object}
  */
-export const saveProfileParameterVisibility = async(paramId, visibility) => {
+export const saveProfileParameterVisibility = async (paramId, visibility) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('/profile/{userId}', { userId })
 

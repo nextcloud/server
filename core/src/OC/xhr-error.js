@@ -41,6 +41,7 @@ export const ajaxConnectionLostHandler = _.throttle(() => {
 /**
  * Process ajax error, redirects to main page
  * if an error/auth error status was returned.
+ *
  * @param {XMLHttpRequest} xhr xhr request
  */
 export const processAjaxError = xhr => {

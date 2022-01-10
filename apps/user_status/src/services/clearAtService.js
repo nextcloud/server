@@ -28,8 +28,8 @@ import moment from '@nextcloud/moment'
 /**
  * Calculates the actual clearAt timestamp
  *
- * @param {Object|null} clearAt The clear-at config
- * @returns {Number|null}
+ * @param {object | null} clearAt The clear-at config
+ * @return {number | null}
  */
 const getTimestampForClearAt = (clearAt) => {
 	if (clearAt === null) {
