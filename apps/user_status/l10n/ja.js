@@ -8,6 +8,7 @@ OC.L10N.register(
     "Vacationing" : "休暇",
     "Working remotely" : "リモートワーク中",
     "User status" : "ユーザーステータス",
+    "View profile" : "プロフィールを表示",
     "Clear status message after" : "ステータスメッセージの有効期限",
     "What is your status?" : "現在のオンラインステータスは？",
     "Set status" : "ステータスを設定",
