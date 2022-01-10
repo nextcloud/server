@@ -768,7 +768,11 @@ class Encryption extends Wrapper {
 
 		if ($sourceStorage->is_dir($sourceInternalPath)) {
 			$dh = $sourceStorage->opendir($sourceInternalPath);
-			$result = $this->mkdir($targetInternalPath);
+			if (!$this->is_dir($targetInternalPath)) {
+				$result = $this->mkdir($targetInternalPath);
+			} else {
+				$result = true;
+			}
 			if (is_resource($dh)) {
 				while ($result and ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
