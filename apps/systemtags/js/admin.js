@@ -179,6 +179,8 @@
 })();
 
 window.addEventListener('DOMContentLoaded', function() {
-	OCA.SystemTags.Admin.init();
+	if (!window.TESTING) {
+		OCA.SystemTags.Admin.init();
+	}
 });
 
