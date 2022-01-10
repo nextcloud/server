@@ -909,13 +909,13 @@ class Manager implements ICommentsManager {
 		return ($affectedRows > 0);
 	}
 
-	private function deleteReaction(IComment $comment): void {
+	private function deleteReaction(IComment $reaction): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('reactions')
-			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($comment->getParentId())))
-			->andWhere($qb->expr()->eq('message_id', $qb->createNamedParameter($comment->getId())))
+			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($reaction->getParentId())))
+			->andWhere($qb->expr()->eq('message_id', $qb->createNamedParameter($reaction->getId())))
 			->executeStatement();
-		$this->sumReactions($comment);
+		$this->sumReactions($reaction->getParentId());
 	}
 
 	/**
@@ -1122,21 +1122,21 @@ class Manager implements ICommentsManager {
 		return $affectedRows > 0;
 	}
 
-	private function addReaction(IComment $comment): void {
+	private function addReaction(IComment $reaction): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('reactions')
 			->values([
-				'parent_id' => $qb->createNamedParameter($comment->getParentId()),
-				'message_id' => $qb->createNamedParameter($comment->getId()),
-				'actor_type' => $qb->createNamedParameter($comment->getActorType()),
-				'actor_id' => $qb->createNamedParameter($comment->getActorId()),
-				'reaction' => $qb->createNamedParameter($comment->getMessage()),
+				'parent_id' => $qb->createNamedParameter($reaction->getParentId()),
+				'message_id' => $qb->createNamedParameter($reaction->getId()),
+				'actor_type' => $qb->createNamedParameter($reaction->getActorType()),
+				'actor_id' => $qb->createNamedParameter($reaction->getActorId()),
+				'reaction' => $qb->createNamedParameter($reaction->getMessage()),
 			])
 			->executeStatement();
-		$this->sumReactions($comment);
+		$this->sumReactions($reaction->getParentId());
 	}
 
-	private function sumReactions(IComment $comment): void {
+	private function sumReactions(string $parentId): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$totalQuery = $this->dbConn->getQueryBuilder();
@@ -1151,7 +1151,7 @@ class Manager implements ICommentsManager {
 				'total'
 			)
 			->from('reactions', 'r')
-			->where($totalQuery->expr()->eq('r.parent_id', $qb->createNamedParameter($comment->getParentId())))
+			->where($totalQuery->expr()->eq('r.parent_id', $qb->createNamedParameter($parentId)))
 			->groupBy('r.reaction');
 
 		$jsonQuery = $this->dbConn->getQueryBuilder();
@@ -1169,7 +1169,7 @@ class Manager implements ICommentsManager {
 		$qb
 			->update('comments')
 			->set('reactions', $jsonQuery->createFunction('(' . $jsonQuery->getSQL() . ')'))
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($comment->getParentId())))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($parentId)))
 			->executeStatement();
 	}
 
