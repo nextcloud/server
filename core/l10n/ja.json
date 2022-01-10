@@ -257,6 +257,7 @@
     "Admin" : "管理",
     "Help" : "ヘルプ",
     "Access forbidden" : "アクセスが禁止されています",
+    "Profile not found" : "プロフィールが見つかりません",
     "Back to %s" : "%s に戻る",
     "File not found" : "ファイルが見つかりません",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ドキュメントはサーバー上に見つかりませんでした。 共有が削除されたか、期限が切れている可能性があります。",
