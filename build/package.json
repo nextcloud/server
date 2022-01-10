@@ -26,7 +26,10 @@
     "sinon": "<= 5.0.7"
   },
   "overrides": {
-	  "colors": "1.4.0"
+    "colors": "1.4.0"
   },
-  "engine": "node >= 6.9"
+  "engine": "node >= 6.9",
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  }
 }
