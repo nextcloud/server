@@ -68,11 +68,6 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
-		if (str_starts_with($this->path,  '__groupfolders')) {
-			// System tags are always empty in this case and executeCheck is called
-			// a second time with the jailedPath
-			return false;
-		}
 		$systemTags = $this->getSystemTags();
 		return ($operator === 'is') === in_array($value, $systemTags);
 	}
@@ -138,13 +133,11 @@ class FileSystemTags implements ICheck, IFileCheck {
 			// Special implementation for groupfolder since all groupfolders share the same storage
 			// id so add the group folder id in the cache key too.
 			$groupFolderStorage = $this->storage;
-			$groupFolderStorageClass = \OCA\GroupFolders\Mount\GroupFolderStorage::class;
-			while ($groupFolderStorage->instanceOfStorage(Wrapper::class)) {
-				if ($groupFolderStorage instanceof $groupFolderStorageClass) {
-					break;
-				}
-				/** @var Wrapper $groupFolderStorage */
-				$groupFolderStorage = $groupFolderStorage->getWrapperStorage();
+			if ($this->storage instanceof Wrapper) {
+				$groupFolderStorage = $this->storage->getInstanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
+			}
+			if ($groupFolderStorage === null) {
+				throw new \LogicException('Should not happen: Storage is instance of GroupFolderStorage but no group folder storage found while unwrapping.');
 			}
 			/** @psalm-suppress UndefinedMethod */
 			$cacheId = $cache->getNumericStorageId() . '/' . $groupFolderStorage->getFolderId();
