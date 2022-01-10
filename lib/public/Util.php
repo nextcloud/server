@@ -597,14 +597,4 @@ class Util {
 		}
 		return $temp;
 	}
-
-	/**
-	 * Reset scripts and scriptDeps to empty arrays.
-	 * Only used in tests.
-	 * @since 24.0.0
-	 */
-	public static function clearScriptsState() {
-		self::$scripts = [];
-		self::$scriptDeps = [];
-	}
 }
