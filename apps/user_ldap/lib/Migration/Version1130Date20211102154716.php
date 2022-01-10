@@ -103,9 +103,36 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					$table->addUniqueIndex(['directory_uuid'], 'ldap_group_directory_uuid');
 					$changeSchema = true;
 				}
-				if (!$table->hasPrimaryKey() || ($table->getPrimaryKeyColumns() !== ['owncloud_name'])) {
-					$table->dropPrimaryKey();
+				if (!$table->hasPrimaryKey()) {
 					$table->setPrimaryKey(['owncloud_name']);
+					$changeSchema = true;
+				}
+
+				if ($table->getPrimaryKeyColumns() !== ['owncloud_name']) {
+					// We need to copy the table twice to be able to change primary key, prepare the backup table
+					$table2 = $schema->createTable('ldap_group_mapping_backup');
+					$table2->addColumn('ldap_dn', Types::STRING, [
+						'notnull' => true,
+						'length' => 255,
+						'default' => '',
+					]);
+					$table2->addColumn('owncloud_name', Types::STRING, [
+						'notnull' => true,
+						'length' => 64,
+						'default' => '',
+					]);
+					$table2->addColumn('directory_uuid', Types::STRING, [
+						'notnull' => true,
+						'length' => 255,
+						'default' => '',
+					]);
+					$table2->addColumn('ldap_dn_hash', Types::STRING, [
+						'notnull' => false,
+						'length' => 64,
+					]);
+					$table2->setPrimaryKey(['owncloud_name']);
+					$table2->addUniqueIndex(['ldap_dn_hash'], 'ldap_group_dn_hashes');
+					$table2->addUniqueIndex(['directory_uuid'], 'ldap_group_directory_uuid');
 					$changeSchema = true;
 				}
 			}
