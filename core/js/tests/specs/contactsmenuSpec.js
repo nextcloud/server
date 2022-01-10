@@ -73,7 +73,7 @@ describe('Contacts menu', function() {
 
 		opening.then(function() {
 			expect($menuEl.html()).toContain('Could not load your contacts');
-			expect(console.error).toHaveBeenCalledTimes(1);
+			expect(console.error).toHaveBeenCalled();
 			done();
 		}, function(e) {
 			done.fail(e);
