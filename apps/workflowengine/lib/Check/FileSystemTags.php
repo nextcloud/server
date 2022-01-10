@@ -68,11 +68,6 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
-		if (str_starts_with($this->path,  '__groupfolders')) {
-			// System tags are always empty in this case and executeCheck is called
-			// a second time with the jailedPath
-			return false;
-		}
 		$systemTags = $this->getSystemTags();
 		return ($operator === 'is') === in_array($value, $systemTags);
 	}
