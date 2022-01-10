@@ -141,6 +141,7 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "このアプリケーションを使用すると、ユーザーはNextcloud内でファイルを共有できます。 有効にすると、管理者はファイルを共有できるグループを選択できます。 その後、該当するユーザーは、ファイルやフォルダーをNextcloud内の他のユーザーやグループと共有できます。 さらに、管理者が共有リンク機能を有効にすると、外部リンクを使用してNextcloud以外の他のユーザーとファイルを共有することができます。 管理者は、パスワード、有効期限の日付を設定し、共有リンクを介したサーバー間の共有やモバイルデバイスからの共有も可能にします。この機能をオフにすると、サーバー上のすべての共有受信者の共有ファイルとフォルダーが削除され、 クライアントアプリとモバイルアプリにも同期されます。 詳しくはNextcloudのドキュメントを参照してください。",
     "Sharing" : "共有",
     "Accept user and group shares by default" : "デフォルトでユーザーとグループの共有を受け入れる",
+    "Unknown error" : "不明なエラー",
     "Allow editing" : "編集を許可",
     "Allow creating" : "作成許可",
     "Allow deleting" : "削除許可",
