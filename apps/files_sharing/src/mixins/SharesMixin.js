@@ -27,7 +27,6 @@
 
 // eslint-disable-next-line import/no-unresolved, node/no-missing-import
 import PQueue from 'p-queue'
-// import PQueue from 'p-queue/dist/index'
 import debounce from 'debounce'
 
 import Share from '../models/Share'
@@ -200,7 +199,6 @@ export default {
 		/**
 		 * When the note change, we trim, save and dispatch
 		 *
-		 * @param {string} note the note
 		 */
 		onNoteSubmit() {
 			if (this.share.newNote) {
@@ -231,7 +229,7 @@ export default {
 		/**
 		 * Send an update of the share to the queue
 		 *
-		 * @param {string} propertyNames the properties to sync
+		 * @param {Array<string>} propertyNames the properties to sync
 		 */
 		queueUpdate(...propertyNames) {
 			if (propertyNames.length === 0) {

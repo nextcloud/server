@@ -36,7 +36,7 @@ const actions = {
 	 * @param {string} options.app Application name
 	 * @param {boolean} options.key Config key
 	 * @param {boolean} options.value Value to set
-	 * @returns{Promise}
+	 * @return {Promise}
 	 */
 	setAppConfig(context, { app, key, value }) {
 		return api.requireAdmin().then((response) => {

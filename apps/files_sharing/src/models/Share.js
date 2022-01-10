@@ -65,7 +65,7 @@ export default class Share {
 	/**
 	 * get the share id
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -76,7 +76,7 @@ export default class Share {
 	/**
 	 * Get the share type
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -88,7 +88,7 @@ export default class Share {
 	 * Get the share permissions
 	 * See OC.PERMISSION_* variables
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -100,7 +100,7 @@ export default class Share {
 	 * Set the share permissions
 	 * See OC.PERMISSION_* variables
 	 *
-	 * @param {int} permissions valid permission, See OC.PERMISSION_* variables
+	 * @param {number} permissions valid permission, See OC.PERMISSION_* variables
 	 * @memberof Share
 	 */
 	set permissions(permissions) {
@@ -219,7 +219,7 @@ export default class Share {
 	/**
 	 * Get the share creation timestamp
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -417,7 +417,7 @@ export default class Share {
 	/**
 	 * Get the shared item id
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -441,7 +441,7 @@ export default class Share {
 	/**
 	 * Get the parent folder id if any
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Share
 	 */

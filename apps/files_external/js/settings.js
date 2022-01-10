@@ -54,7 +54,7 @@ function highlightInput($input) {
  * Initialize select2 plugin on the given elements
  *
  * @param {Array<Object>} array of jQuery elements
- * @param {int} userListLimit page size for result list
+ * @param {number} userListLimit page size for result list
  */
 function addSelect2 ($elements, userListLimit) {
 	var escapeHTML = function (text) {
@@ -571,7 +571,7 @@ MountOptionsDropdown.prototype = {
  *
  * @param {Object} $el DOM object containing the list
  * @param {Object} [options]
- * @param {int} [options.userListLimit] page size in applicable users dropdown
+ * @param {number} [options.userListLimit] page size in applicable users dropdown
  */
 var MountConfigListView = function($el, options) {
 	this.initialize($el, options);
@@ -642,7 +642,7 @@ MountConfigListView.prototype = _.extend({
 	/**
 	 * @param {Object} $el DOM object containing the list
 	 * @param {Object} [options]
-	 * @param {int} [options.userListLimit] page size in applicable users dropdown
+	 * @param {number} [options.userListLimit] page size in applicable users dropdown
 	 */
 	initialize: function($el, options) {
 		var self = this;
@@ -1227,7 +1227,7 @@ MountConfigListView.prototype = _.extend({
 	 * Update status display
 	 *
 	 * @param {jQuery} $tr
-	 * @param {int} status
+	 * @param {number} status
 	 * @param {string} message
 	 */
 	updateStatus: function($tr, status, message) {

@@ -29,7 +29,7 @@ OCA = OCA || {};
 		bjQuiButtonClass: 'ui-button',
 
 		/**
-		 * @property {bool} - indicates whether a filter mode toggle operation
+		 * @property {boolean} - indicates whether a filter mode toggle operation
 		 * is still in progress
 		 */
 		isToggling: false,

@@ -22,7 +22,7 @@
  */
 
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store } from 'vuex'
 import users from './users'
 import apps from './apps'
 import settings from './settings'
@@ -44,7 +44,7 @@ const mutations = {
 	},
 }
 
-export default new Vuex.Store({
+export default new Store({
 	modules: {
 		users,
 		apps,

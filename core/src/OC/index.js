@@ -153,7 +153,7 @@ export default {
 	/**
 	 * Currently logged in user or null if none
 	 *
-	 * @type String
+	 * @type {string}
 	 * @deprecated use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
 	 */
 	currentUser,
@@ -307,7 +307,7 @@ export default {
 	 * Relative path to Nextcloud root.
 	 * For example: "/nextcloud"
 	 *
-	 * @type string
+	 * @type {string}
 	 *
 	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 * @see OC#getRootPath

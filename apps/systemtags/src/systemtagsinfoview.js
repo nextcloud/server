@@ -56,7 +56,7 @@
 			id: 'systemTagsInfoView',
 
 			/**
-			 * @type OC.SystemTags.SystemTagsInputField
+			 * @type {OC.SystemTags.SystemTagsInputField}
 			 */
 			_inputView: null,
 

@@ -42,7 +42,7 @@ import escapeHTML from 'escape-html'
 	 *
 	 * @param {Object} options
 	 * @param {String} options.host host name
-	 * @param {int} [options.port] port
+	 * @param {number} [options.port] port
 	 * @param {boolean} [options.useHTTPS] whether to use https
 	 * @param {String} [options.root] root path
 	 * @param {String} [options.userName] user name
@@ -449,7 +449,7 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Returns whether the given status code means success
 		 *
-		 * @param {int} status status code
+		 * @param {number} status status code
 		 *
 		 * @returns true if status code is between 200 and 299 included
 		 */
@@ -546,7 +546,7 @@ import escapeHTML from 'escape-html'
 		 *
 		 * @param {Object} filter filter criteria
 		 * @param {Object} [filter.systemTagIds] list of system tag ids to filter by
-		 * @param {bool} [filter.favorite] set it to filter by favorites
+		 * @param {boolean} [filter.favorite] set it to filter by favorites
 		 * @param {Object} [options] options
 		 * @param {Array} [options.properties] list of Webdav properties to retrieve
 		 *
@@ -698,7 +698,7 @@ import escapeHTML from 'escape-html'
 		 * @param {String} body file body
 		 * @param {Object} [options]
 		 * @param {String} [options.contentType='text/plain'] content type
-		 * @param {bool} [options.overwrite=true] whether to overwrite an existing file
+		 * @param {boolean} [options.overwrite=true] whether to overwrite an existing file
 		 *
 		 * @returns {Promise}
 		 */

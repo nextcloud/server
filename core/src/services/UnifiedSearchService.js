@@ -68,7 +68,7 @@ export async function getTypes() {
  * @param {object} options destructuring object
  * @param {string} options.type the type to search
  * @param {string} options.query the search
- * @param {int|string|undefined} options.cursor the offset for paginated searches
+ * @param {number|string|undefined} options.cursor the offset for paginated searches
  * @return {object} {request: Promise, cancel: Promise}
  */
 export function search({ type, query, cursor }) {

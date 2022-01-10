@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license  GPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -101,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license  GPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -183,7 +183,7 @@ __webpack_require__.r(__webpack_exports__);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jan C. Borchardt <hey@jancborchardt.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license  GPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -2188,4 +2188,8 @@ render._withStripped = true
 /***/ })
 
 }]);
+<<<<<<< HEAD
 //# sourceMappingURL=user-status-modal-user-status-modal.js.map?v=6a32fa31da9cdc6321d2
+=======
+//# sourceMappingURL=user-status-modal-user-status-modal.js.map?v=c52a56aeed3681614f38
+>>>>>>> 5f2027f1e1 (Typing corrections)

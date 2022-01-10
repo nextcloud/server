@@ -29,7 +29,7 @@ import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
  *
  * @return {Array} capabilities
  *
- * @since 14.0
+ * @since 14.0.0
  */
 export const getCapabilities = () => {
 	console.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')

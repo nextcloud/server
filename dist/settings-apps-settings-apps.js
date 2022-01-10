@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license  GPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -3610,4 +3610,8 @@ render._withStripped = true
 /***/ })
 
 }]);
+<<<<<<< HEAD
 //# sourceMappingURL=settings-apps-settings-apps.js.map?v=a5f2375a4af256153b26
+=======
+//# sourceMappingURL=settings-apps-settings-apps.js.map?v=a2e2fa5f03a6f10d3519
+>>>>>>> 5f2027f1e1 (Typing corrections)

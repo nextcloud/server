@@ -24,7 +24,7 @@
 export default {
 
 	/**
-	 * @type Array.<OC.Plugin>
+	 * @type {Array.<OC.Plugin>}
 	 */
 	_plugins: {},
 

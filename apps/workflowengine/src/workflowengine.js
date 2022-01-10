@@ -37,8 +37,8 @@ import ShippedChecks from './components/Checks'
  *  The component should handle the v-model directive properly,
  *  so it needs a value property to receive data and emit an input
  *  event once the data has changed
- * @property {callable} placeholder - Return a placeholder of no custom component is used
- * @property {callable} validate - validate a check if no custom component is used
+ * @property {Function} placeholder - Return a placeholder of no custom component is used
+ * @property {Function} validate - validate a check if no custom component is used
  */
 
 /**

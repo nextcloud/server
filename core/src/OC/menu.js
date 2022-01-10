@@ -37,7 +37,7 @@ export let currentMenuToggle = null
  * @param {jQuery} $menuEl the menu container element
  * @param {Function | undefined} toggle callback invoked everytime the menu is opened
  * @param {boolean} headerMenu is this a top right header menu?
- * @return {undefined}
+ * @return {void}
  */
 export const registerMenu = function($toggle, $menuEl, toggle, headerMenu) {
 	$menuEl.addClass('menu')

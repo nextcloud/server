@@ -22,7 +22,7 @@
  */
 
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store } from 'vuex'
 import { generateCodes } from './service/BackupCodesService'
 
 Vue.use(Vuex)
@@ -63,7 +63,7 @@ const actions = {
 	},
 }
 
-export default new Vuex.Store({
+export default new Store({
 	strict: process.env.NODE_ENV !== 'production',
 	state,
 	mutations,

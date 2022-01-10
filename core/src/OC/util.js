@@ -148,7 +148,7 @@ export default {
 	/**
 	 * Returns the width of a generic browser scrollbar
 	 *
-	 * @return {int} width of scrollbar
+	 * @return {number} width of scrollbar
 	 */
 	getScrollBarWidth() {
 		if (this._scrollBarWidth) {
@@ -230,7 +230,7 @@ export default {
 	 * Calls the callback in a given interval until it returns true
 	 *
 	 * @param {Function} callback function to call on success
-	 * @param {integer} interval in milliseconds
+	 * @param {number} interval in milliseconds
 	 */
 	waitFor(callback, interval) {
 		const internalCallback = function() {

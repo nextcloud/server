@@ -104,7 +104,7 @@
 		 * Returns the full URL to the given directory
 		 *
 		 * @param {Object.<String, String>} part crumb data as map
-		 * @param {int} index crumb index
+		 * @param {number} index crumb index
 		 * @return full URL
 		 */
 		getCrumbUrl: function(part, index) {

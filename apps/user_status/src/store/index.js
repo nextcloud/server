@@ -21,13 +21,13 @@
  */
 
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store } from 'vuex'
 import predefinedStatuses from './predefinedStatuses'
 import userStatus from './userStatus'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export default new Store({
 	modules: {
 		predefinedStatuses,
 		userStatus,

@@ -207,8 +207,8 @@ const actions = {
 	 *
 	 * @param {object} context store context
 	 * @param {object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
 	 * @param {string} options.search Search amongst users
 	 * @param {string} options.group Get users from group
 	 * @return {Promise}
@@ -276,8 +276,8 @@ const actions = {
 	 *
 	 * @param {object} context store context
 	 * @param {object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
 	 * @param options.search
 	 * @return {Promise}
 	 */
@@ -299,8 +299,8 @@ const actions = {
 	 *
 	 * @param {object} context store context
 	 * @param {object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
 	 * @param options.groupid
 	 * @return {Promise}
 	 */
@@ -462,6 +462,8 @@ const actions = {
 	 * Add a user
 	 *
 	 * @param {object} context store context
+	 * @param {Function} context.commit
+	 * @param {Function} context.dispatch
 	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.password User password
@@ -470,8 +472,7 @@ const actions = {
 	 * @param {string} options.groups User groups
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
-	 * @param context.commit
-	 * @param context.dispatch
+	 * @param {string} options.language User language
 	 * @param options.language
 	 * @return {Promise}
 	 */

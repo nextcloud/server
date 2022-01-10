@@ -22,7 +22,7 @@
  */
 
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store } from 'vuex'
 
 Vue.use(Vuex)
 
@@ -44,7 +44,7 @@ const mutations = {
 	},
 }
 
-export default new Vuex.Store({
+export default new Store({
 	strict: process.env.NODE_ENV !== 'production',
 	state,
 	mutations,

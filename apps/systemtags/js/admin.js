@@ -122,7 +122,7 @@
 		/**
 		 * Prepare the form for create/update
 		 *
-		 * @param {int} tagId
+		 * @param {number} tagId
 		 */
 		_prepareForm: function (tagId) {
 			if (tagId > 0) {

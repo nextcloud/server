@@ -15,14 +15,14 @@
 	 * @classdesc File information
 	 *
 	 * @param {Object} attributes file data
-	 * @param {int} attributes.id file id
+	 * @param {number} attributes.id file id
 	 * @param {string} attributes.name file name
 	 * @param {string} attributes.path path leading to the file,
 	 * without the file name and with a leading slash
-	 * @param {int} attributes.size size
+	 * @param {number} attributes.size size
 	 * @param {string} attributes.mimetype mime type
 	 * @param {string} attributes.icon icon URL
-	 * @param {int} attributes.permissions permissions
+	 * @param {number} attributes.permissions permissions
 	 * @param {Date} attributes.mtime modification time
 	 * @param {string} attributes.etag etag
 	 * @param {string} mountType mount type

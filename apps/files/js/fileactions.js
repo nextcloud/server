@@ -191,7 +191,7 @@
 		 *
 		 * @param {string} mime mime type
 		 * @param {string} type "dir" or "file"
-		 * @param {int} permissions permissions
+		 * @param {number} permissions permissions
 		 * @param {string} filename filename
 		 *
 		 * @return {Object.<string,OCA.Files.FileActions~actionHandler>} map of action name to action spec
@@ -210,7 +210,7 @@
 		 *
 		 * @param {string} mime mime type
 		 * @param {string} type "dir" or "file"
-		 * @param {int} permissions permissions
+		 * @param {number} permissions permissions
 		 * @param {string} filename filename
 		 *
 		 * @return {Array.<OCA.Files.FileAction>} array of action specs
@@ -262,7 +262,7 @@
 		 *
 		 * @param {string} mime mime type
 		 * @param {string} type "dir" or "file"
-		 * @param {int} permissions permissions
+		 * @param {number} permissions permissions
 		 *
 		 * @return {OCA.Files.FileActions~actionHandler} action handler
 		 *
@@ -294,7 +294,7 @@
 		 *
 		 * @param {string} mime mime type
 		 * @param {string} type "dir" or "file"
-		 * @param {int} permissions permissions
+		 * @param {number} permissions permissions
 		 *
 		 * @return {OCA.Files.FileActions~actionSpec} action spec
 		 * @since 8.2
@@ -797,7 +797,7 @@
 	 * Defaults to the name given in name property
 	 * @property {String} mime mime type
 	 * @property {String} filename filename
-	 * @property {int} permissions permissions
+	 * @property {number} permissions permissions
 	 * @property {(Function|String)} icon icon path to the icon or function that returns it (deprecated, use iconClass instead)
 	 * @property {(String|OCA.Files.FileActions~iconClassFunction)} iconClass class name of the icon (recommended for theming)
 	 * @property {OCA.Files.FileActions~renderActionFunction} [render] optional rendering function

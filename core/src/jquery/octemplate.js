@@ -65,14 +65,14 @@ import escapeHTML from 'escape-html'
  * var contacts = // fetched in some ajax call
  *
  * $.each(contacts, function(idx, contact) {
- * 		$contactList.append(
- * 			$tmpl.octemplate({
- * 				id: contact.getId(),
- * 				name: contact.getDisplayName(),
- * 				email: contact.getPreferredEmail(),
- * 				phone: contact.getPreferredPhone(),
- * 			});
- * 		);
+ *         $contactList.append(
+ *             $tmpl.octemplate({
+ *                 id: contact.getId(),
+ *                 name: contact.getDisplayName(),
+ *                 email: contact.getPreferredEmail(),
+ *                 phone: contact.getPreferredPhone(),
+ *             });
+ *         );
  * });
  */
 /**

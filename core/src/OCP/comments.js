@@ -26,7 +26,7 @@ import $ from 'jquery'
 /*
  * Detects links:
  * Either the http(s) protocol is given or two strings, basically limited to ascii with the last
- * 	word being at least one digit long,
+ * word being at least one digit long,
  * followed by at least another character
  *
  * The downside: anything not ascii is excluded. Not sure how common it is in areas using different

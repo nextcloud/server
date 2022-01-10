@@ -219,7 +219,7 @@ export default class Config {
 	/**
 	 * Get the default days to link shares expiration
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -230,7 +230,7 @@ export default class Config {
 	/**
 	 * Get the default days to internal shares expiration
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -241,7 +241,7 @@ export default class Config {
 	/**
 	 * Get the default days to remote shares expiration
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -294,7 +294,7 @@ export default class Config {
 	/**
 	 * Get the maximum results of a share search
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -306,7 +306,7 @@ export default class Config {
 	 * Get the minimal string length
 	 * to initiate a share search
 	 *
-	 * @return {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */

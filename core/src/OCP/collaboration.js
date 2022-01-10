@@ -25,7 +25,7 @@ import escapeHTML from 'escape-html'
 
 /**
  * @typedef TypeDefinition
- * @function {callback} action This action is executed to let the user select a resource
+ * @function {Function} action This action is executed to let the user select a resource
  * @param {string} icon Contains the icon css class for the type
  * @function Object() { [native code] }
  */

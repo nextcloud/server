@@ -27,7 +27,7 @@ import $ from 'jquery'
  * check if an element exists.
  * allows you to write if ($('#myid').exists()) to increase readability
  *
- * @link http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
+ * @see {@link http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery}
  * @return {boolean}
  */
 $.fn.exists = function() {

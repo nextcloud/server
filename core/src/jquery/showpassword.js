@@ -23,20 +23,19 @@
 
 import $ from 'jquery'
 
-/*
-*	@name							Show Password
-*	@description
-*	@version						1.3
-*	@requires						Jquery 1.5
-*
-*	@author							Jan Jarfalk
-*	@author-email					jan.jarfalk@unwrongest.com
-*	@author-website					http://www.unwrongest.com
-*
-*	@special-thanks					Michel Gratton
-*
-*	@licens							MIT License - http://www.opensource.org/licenses/mit-license.php
-*/
+/**
+ * @name Show Password
+ * @description
+ * @version 1.3.0
+ * @requires Jquery 1.5
+ *
+ * @author Jan Jarfalk <jan.jarfalk@unwrongest.com>
+ * author-website http://www.unwrongest.com
+ *
+ * special-thanks Michel Gratton
+ *
+ * @license MIT
+ */
 $.fn.extend({
 	showPassword(c) {
 

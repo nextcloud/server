@@ -97,7 +97,6 @@ const getLocation = async () => {
 /**
  * Fetches the weather forecast
  *
- * @param {string} address The location
  * @return {Promise<object>}
  */
 const fetchForecast = async () => {
@@ -110,7 +109,6 @@ const fetchForecast = async () => {
 /**
  * Fetches the location favorites
  *
- * @param {string} address The location
  * @return {Promise<object>}
  */
 const getFavorites = async () => {

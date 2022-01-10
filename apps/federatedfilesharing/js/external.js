@@ -19,7 +19,7 @@
 	 * @param {String} share.owner owner name
 	 * @param {String} share.name name of the shared folder
 	 * @param {String} share.token authentication token
-	 * @param {bool} passwordProtected true if the share is password protected
+	 * @param {boolean} passwordProtected true if the share is password protected
 	 * @param {Function} callback the callback
 	 */
 	OCA.Sharing.showAddExternalDialog = function(share, passwordProtected, callback) {

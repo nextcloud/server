@@ -65,7 +65,7 @@ import { generateRemoteUrl } from '@nextcloud/router'
 			/**
 			 * Sets the object id to filter by or null for all.
 			 *
-			 * @param {int} objectId file id or null
+			 * @param {number} objectId file id or null
 			 */
 			setObjectId(objectId) {
 				this._objectId = objectId
@@ -74,7 +74,7 @@ import { generateRemoteUrl } from '@nextcloud/router'
 			/**
 			 * Sets the object type to filter by or null for all.
 			 *
-			 * @param {int} objectType file id or null
+			 * @param {number} objectType file id or null
 			 */
 			setObjectType(objectType) {
 				this._objectType = objectType

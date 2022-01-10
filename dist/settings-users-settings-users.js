@@ -18,7 +18,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license  GPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -207,7 +207,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
      * Generate avatar url
      *
      * @param {string} user The user name
-     * @param {int} size Size integer, default 32
+     * @param {number} size Size integer, default 32
      * @return {string}
      */
     generateAvatar: function generateAvatar(user) {
@@ -5035,4 +5035,8 @@ render._withStripped = true
 /***/ })
 
 }]);
+<<<<<<< HEAD
 //# sourceMappingURL=settings-users-settings-users.js.map?v=3a4fbcc884b49145f7f1
+=======
+//# sourceMappingURL=settings-users-settings-users.js.map?v=c111d46c81ea40916677
+>>>>>>> 5f2027f1e1 (Typing corrections)

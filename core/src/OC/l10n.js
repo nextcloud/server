@@ -106,8 +106,8 @@ const L10n = {
 	 * @param {object} [vars] map of placeholder key to value
 	 * @param {number} [count] number to replace %n with
 	 * @param {Array} [options] options array
-	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
-	 * @param {bool} [options.sanitize=true] enable/disable sanitization (by default enabled)
+	 * @param {boolean} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
+	 * @param {boolean} [options.sanitize=true] enable/disable sanitization (by default enabled)
 	 * @return {string}
 	 */
 	translate(app, text, vars, count, options) {
@@ -159,7 +159,7 @@ const L10n = {
 	 * @param {number} count number to determine whether to use singular or plural
 	 * @param {object} [vars] map of placeholder key to value
 	 * @param {Array} [options] options array
-	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
+	 * @param {boolean} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
 	 * @return {string} Translated string
 	 */
 	translatePlural(app, textSingular, textPlural, count, vars, options) {

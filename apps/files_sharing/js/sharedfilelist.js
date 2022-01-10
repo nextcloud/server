@@ -374,7 +374,7 @@
 		 * Converts the OCS API share response data to a file info
 		 * list
 		 * @param {Array} data OCS API share array
-		 * @param {bool} sharedWithUser
+		 * @param {boolean} sharedWithUser
 		 * @returns {Array.<OCA.Sharing.SharedFileInfo>} array of shared file info
 		 */
 			_makeFilesFromShares: function(data, sharedWithUser) {
@@ -511,10 +511,10 @@
 	 *
 	 * @typedef {Object} OCA.Sharing.ShareInfo
 	 *
-	 * @property {int} id share ID
-	 * @property {int} type share type
+	 * @property {number} id share ID
+	 * @property {number} type share type
 	 * @property {String} target share target, either user name or group name
-	 * @property {int} stime share timestamp in milliseconds
+	 * @property {number} stime share timestamp in milliseconds
 	 * @property {String} [targetDisplayName] display name of the recipient
 	 * (only when shared with others)
 	 * @property {String} [targetShareWithId] id of the recipient
@@ -536,7 +536,7 @@
 	 *
 	 * @property {Array.<OCA.Sharing.ShareInfo>} shares array of shares for
 	 * this file
-	 * @property {int} mtime most recent share time (if multiple shares)
+	 * @property {number} mtime most recent share time (if multiple shares)
 	 * @property {String} shareOwner name of the share owner
 	 * @property {Array.<String>} recipients name of the first 4 recipients
 	 * (this is mostly for display purposes)

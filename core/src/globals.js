@@ -69,7 +69,7 @@ const warnIfNotTesting = function() {
  *
  * @param {Function} func the library to deprecate
  * @param {string} funcName the name of the library
- * @param {Int} version the version this gets removed
+ * @param {number} version the version this gets removed
  * @return {Function}
  */
 const deprecate = (func, funcName, version) => {

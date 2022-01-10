@@ -26,7 +26,7 @@ const isAdmin = !!window._oc_isadmin
 /**
  * Returns whether the current user is an administrator
  *
- * @return {bool} true if the user is an admin, false otherwise
+ * @return {boolean} true if the user is an admin, false otherwise
  * @since 9.0.0
  */
 export const isUserAdmin = () => isAdmin
