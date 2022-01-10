@@ -20,7 +20,7 @@ then
 fi
 
 # update/install test packages
-mkdir -p "$PREFIX" && $NPM install --link --prefix "$PREFIX" || exit 3
+mkdir -p "$PREFIX" && $NPM ci --link --prefix "$PREFIX" || exit 3
 
 # create scss test
 mkdir -p tests/css
