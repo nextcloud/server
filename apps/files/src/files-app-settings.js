@@ -37,6 +37,9 @@ Object.assign(window.OCA.Files, { Settings: new Settings() })
 Object.assign(window.OCA.Files.Settings, { Setting })
 
 window.addEventListener('DOMContentLoaded', function() {
+	if (window.TESTING) {
+		return
+	}
 	// Init Vue app
 	// eslint-disable-next-line
 	new Vue({
