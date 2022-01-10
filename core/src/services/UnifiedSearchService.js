@@ -35,14 +35,14 @@ export const regexFilterNot = /-in:([a-z_-]+)/ig
 /**
  * Create a cancel token
  *
- * @return {CancelTokenSource}
+ * @return {import('axios').CancelTokenSource}
  */
 const createCancelToken = () => axios.CancelToken.source()
 
 /**
  * Get the list of available search providers
  *
- * @return {Array}
+ * @return {Promise<Array>}
  */
 export async function getTypes() {
 	try {

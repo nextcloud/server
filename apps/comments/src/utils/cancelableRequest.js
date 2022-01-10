@@ -25,7 +25,7 @@ import axios from '@nextcloud/axios'
 /**
  * Create a cancel token
  *
- * @return {CancelTokenSource}
+ * @return {import('axios').CancelTokenSource}
  */
 const createCancelToken = () => axios.CancelToken.source()
 

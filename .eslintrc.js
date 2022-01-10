@@ -20,4 +20,9 @@ module.exports = {
 			ignores: ['/^[a-z]+(?:-[a-z]+)*:[a-z]+(?:-[a-z]+)*$/u'],
 		}],
 	},
+	settings: {
+		jsdoc: {
+			mode: 'typescript',
+		},
+	},
 }

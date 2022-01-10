@@ -23,6 +23,7 @@
  */
 
 import _ from 'underscore'
+/** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
 
 import { menuSpeed } from './constants'

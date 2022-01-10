@@ -26,6 +26,7 @@
  */
 
 import _ from 'underscore'
+/** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
 import { showMessage, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 
@@ -162,7 +163,7 @@ export default {
 	 * @param {number} [options.timeout=7] timeout in seconds, if this is 0 it will show the message permanently
 	 * @param {boolean} [options.isHTML=false] an indicator for HTML notifications (true) or text (false)
 	 * @param {string} [options.type] notification type
-	 * @return {JQuery<any>} the toast element
+	 * @return {JQuery} the toast element
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
 	showTemporary(text, options) {

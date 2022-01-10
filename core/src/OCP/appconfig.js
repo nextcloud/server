@@ -33,7 +33,6 @@ import OC from '../OC/index'
  * @param {object} [options.data] option data
  * @param {Function} [options.success] success callback
  * @param {Function} [options.error] error callback
- * @internal
  */
 function call(method, endpoint, options) {
 	if ((method === 'post' || method === 'delete') && OC.PasswordConfirmation.requiresPasswordConfirmation()) {

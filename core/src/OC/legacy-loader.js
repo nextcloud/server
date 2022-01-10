@@ -22,6 +22,7 @@
  *
  */
 
+/** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
 import { generateFilePath } from '@nextcloud/router'
 

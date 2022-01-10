@@ -21,6 +21,8 @@
  *
  */
 
+/** @typedef {import('jquery')} jQuery */
+
 (function() {
 	OCA.Comments.ActivityTabViewPlugin = {
 
