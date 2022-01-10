@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "author": {
     "name": "Vincent Petry",
-    "email": "pvince81@owncloud.com"
+    "email": "vincent@nextcloud.com"
   },
   "private": true,
   "homepage": "https://github.com/nextcloud/",
@@ -24,6 +24,9 @@
     "node-sass": "~5.0.0",
     "puppeteer": "^5.5.0",
     "sinon": "<= 5.0.7"
+  },
+  "overrides": {
+	  "colors": "1.4.0"
   },
   "engine": "node >= 6.9"
 }
