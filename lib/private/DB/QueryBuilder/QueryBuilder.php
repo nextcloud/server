@@ -694,7 +694,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->from('users', 'u')
 	 * </code>
 	 *
-	 * @param string $from The table.
+	 * @param string|IQueryFunction $from The table.
 	 * @param string|null $alias The alias of the table.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -1303,7 +1303,7 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Returns the table name quoted and with database prefix as needed by the implementation
 	 *
-	 * @param string $table
+	 * @param string|IQueryFunction $table
 	 * @return string
 	 */
 	public function getTableName($table) {

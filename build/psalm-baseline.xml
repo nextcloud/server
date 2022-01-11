@@ -4387,10 +4387,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
-    <ImplicitToStringCast occurrences="2">
-      <code>$query-&gt;createFunction('(' . $subQuery-&gt;getSQL() . ')')</code>
-      <code>$subQuery-&gt;createFunction('(' . $subSubQuery-&gt;getSQL() . ')')</code>
-    </ImplicitToStringCast>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;userToNotify</code>
     </InvalidPropertyAssignmentValue>

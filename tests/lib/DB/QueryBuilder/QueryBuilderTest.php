@@ -1204,6 +1204,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataGetTableName() {
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(ILogger::class);
+		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			['*PREFIX*table', null, '`*PREFIX*table`'],
 			['*PREFIX*table', true, '`*PREFIX*table`'],
@@ -1212,13 +1215,17 @@ class QueryBuilderTest extends \Test\TestCase {
 			['table', null, '`*PREFIX*table`'],
 			['table', true, '`*PREFIX*table`'],
 			['table', false, '`table`'],
+
+			[$qb->createFunction('(' . $qb->select('*')->from('table')->getSQL() . ')'), null, '(SELECT * FROM `*PREFIX*table`)'],
+			[$qb->createFunction('(' . $qb->select('*')->from('table')->getSQL() . ')'), true, '(SELECT * FROM `*PREFIX*table`)'],
+			[$qb->createFunction('(' . $qb->select('*')->from('table')->getSQL() . ')'), false, '(SELECT * FROM `*PREFIX*table`)'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataGetTableName
 	 *
-	 * @param string $tableName
+	 * @param string|IQueryFunction $tableName
 	 * @param bool $automatic
 	 * @param string $expected
 	 */
