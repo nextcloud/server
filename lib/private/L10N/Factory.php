@@ -431,6 +431,15 @@ class Factory implements IFactory {
 			if ($language !== null) {
 				return $language;
 			}
+
+			// Use language from request
+			if ($this->userSession->getUser() instanceof IUser &&
+				$user->getUID() === $this->userSession->getUser()->getUID()) {
+				try {
+					return $this->getLanguageFromRequest();
+				} catch (LanguageNotFoundException $e) {
+				}
+			}
 		}
 
 		return $this->config->getSystemValue('default_language', 'en');
