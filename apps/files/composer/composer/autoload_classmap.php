@@ -48,6 +48,7 @@ return array(
     'OCA\\Files\\Event\\LoadSidebar' => $baseDir . '/../lib/Event/LoadSidebar.php',
     'OCA\\Files\\Exception\\TransferOwnershipException' => $baseDir . '/../lib/Exception/TransferOwnershipException.php',
     'OCA\\Files\\Helper' => $baseDir . '/../lib/Helper.php',
+    'OCA\\Files\\Listener\\HiddenFolderListener' => $baseDir . '/../lib/Listener/HiddenFolderListener.php',
     'OCA\\Files\\Listener\\LegacyLoadAdditionalScriptsAdapter' => $baseDir . '/../lib/Listener/LegacyLoadAdditionalScriptsAdapter.php',
     'OCA\\Files\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files\\Migration\\Version11301Date20191205150729' => $baseDir . '/../lib/Migration/Version11301Date20191205150729.php',

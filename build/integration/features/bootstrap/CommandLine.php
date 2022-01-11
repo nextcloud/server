@@ -150,4 +150,13 @@ trait CommandLine {
 	public function theCommandErrorOutputContainsTheText($text) {
 		Assert::assertStringContainsString($text, $this->lastStdErr, 'The command did not output the expected text on stderr');
 	}
+
+	/**
+	 * @Given /^system parameter "([^"]*)" is set to "([^"]*)"$/
+	 * @param string $parameter
+	 * @param string $value
+	 */
+	public function setSystemConfig(string $parameter, string $value) {
+		$this->runOcc(['config:system:set', $parameter, '--value', $value]);
+	}
 }

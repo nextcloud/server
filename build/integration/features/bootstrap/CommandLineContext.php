@@ -149,13 +149,4 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	public function transferFolderNameContains($text) {
 		Assert::assertStringContainsString($text, $this->lastTransferPath);
 	}
-
-	/**
-	 * @Given /^system parameter "([^"]*)" is set to "([^"]*)"$/
-	 * @param string $parameter
-	 * @param string $value
-	 */
-	public function setSystemConfig(string $parameter, string $value) {
-		$this->runOcc(['config:system:set', $parameter, '--value', $value]);
-	}
 }
