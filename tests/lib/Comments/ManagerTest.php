@@ -32,6 +32,8 @@ class ManagerTest extends TestCase {
 
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
 		$this->connection->prepare($sql)->execute();
+		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*reactions`');
+		$this->connection->prepare($sql)->execute();
 	}
 
 	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null) {
@@ -469,14 +471,20 @@ class ManagerTest extends TestCase {
 		$manager->get($id);
 	}
 
-	public function testSaveNew() {
+	/**
+	 * @dataProvider providerTestSaveNew
+	 */
+	public function testSaveNew(string $message, string $actorId, string $verb, ?string $parentId): IComment {
 		$manager = $this->getManager();
 		$comment = new Comment();
 		$comment
-			->setActor('users', 'alice')
+			->setActor('users', $actorId)
 			->setObject('files', 'file64')
-			->setMessage('very beautiful, I am impressed!')
-			->setVerb('comment');
+			->setMessage($message)
+			->setVerb($verb);
+		if ($parentId) {
+			$comment->setParentId($parentId);
+		}
 
 		$saveSuccessful = $manager->save($comment);
 		$this->assertTrue($saveSuccessful);
@@ -487,6 +495,13 @@ class ManagerTest extends TestCase {
 		$loadedComment = $manager->get($comment->getId());
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
 		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $loadedComment->getCreationDateTime()->getTimestamp());
+		return $comment;
+	}
+
+	public function providerTestSaveNew(): array {
+		return [
+			['very beautiful, I am impressed!', 'alice', 'comment', null]
+		];
 	}
 
 	public function testSaveUpdate() {
@@ -859,6 +874,78 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(is_string($manager->resolveDisplayName('planet', 'neptune')));
 	}
 
+	/**
+	 * @dataProvider providerTestReactionAddAndDelete
+	 *
+	 * @return void
+	 */
+	public function testReactionAddAndDelete(array $comments, array $reactionsExpected) {
+		$manager = $this->getManager();
+		$buffer = [];
+		foreach ($comments as $commentData) {
+			[$message, $actorId, $verb, $parentText] = $commentData;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $buffer[$parentText]->getId();
+			}
+			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
+			if (!$parentId) {
+				$buffer[$comment->getMessage()] = $comment;
+			}
+		}
+		$comment = end($buffer);
+		if ($comment->getParentId()) {
+			$parent = $manager->get($comment->getParentId());
+			$this->assertEqualsCanonicalizing($reactionsExpected, $parent->getReactions());
+		}
+	}
+
+	public function providerTestReactionAddAndDelete(): array {
+		return[
+			[
+				[
+					['message', 'alice', 'comment', null],
+				], [],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'frank', 'reaction', 'message'],
+				], ['👍' => 2],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'frank', 'reaction', 'message'],
+					['👍', 'frank', 'reaction_deleted', 'message'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'frank', 'reaction', 'message'],
+					['👍', 'alice', 'reaction_deleted', 'message'],
+					['👍', 'frank', 'reaction_deleted', 'message'],
+				], [],
+			],
+		];
+	}
 
 	public function testResolveDisplayNameInvalidType() {
 		$this->expectException(\InvalidArgumentException::class);
@@ -871,5 +958,175 @@ class ManagerTest extends TestCase {
 
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$this->assertTrue(is_string($manager->resolveDisplayName(1337, 'neptune')));
+	}
+
+	/**
+	 * @dataProvider providerTestRetrieveAllReactions
+	 */
+	public function testRetrieveAllReactions(array $comments, array $expected) {
+		$manager = $this->getManager();
+
+		$buffer = [];
+		foreach ($comments as $commentData) {
+			[$message, $actorId, $verb, $parentText] = $commentData;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $buffer[$parentText]->getId();
+			}
+			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
+			if (!$parentId) {
+				$buffer[$comment->getMessage()] = $comment;
+			}
+		}
+		$all = $manager->retrieveAllReactions($buffer['message']->getId());
+		$actual = array_map(function ($row) {
+			return [
+				'message' => $row->getMessage(),
+				'actorId' => $row->getActorId(),
+			];
+		}, $all);
+		$this->assertEqualsCanonicalizing($expected, $actual);
+	}
+
+	public function providerTestRetrieveAllReactions(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+				],
+				[],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'frank', 'reaction', 'message'],
+				],
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'frank', 'reaction', 'message'],
+				],
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestRetrieveAllReactionsWithSpecificReaction
+	 */
+	public function testRetrieveAllReactionsWithSpecificReaction(array $comments, string $reaction, array $expected) {
+		$manager = $this->getManager();
+
+		$buffer = [];
+		foreach ($comments as $commentData) {
+			[$message, $actorId, $verb, $parentText] = $commentData;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $buffer[$parentText]->getId();
+			}
+			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
+			if (!$parentId) {
+				$buffer[$comment->getMessage()] = $comment;
+			}
+		}
+		$all = $manager->retrieveAllReactionsWithSpecificReaction($buffer['message']->getId(), $reaction);
+		$actual = array_map(function ($row) {
+			return [
+				'message' => $row->getMessage(),
+				'actorId' => $row->getActorId(),
+			];
+		}, $all);
+		$this->assertEqualsCanonicalizing($expected, $actual);
+	}
+
+	public function providerTestRetrieveAllReactionsWithSpecificReaction(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+				],
+				'👎',
+				[],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'frank', 'reaction', 'message'],
+				],
+				'👍',
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+					['👎', 'alice', 'reaction', 'message'],
+					['👍', 'frank', 'reaction', 'message'],
+				],
+				'👎',
+				[
+					['👎', 'alice'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestGetReactionComment
+	 */
+	public function testGetReactionComment(array $comments, $expected) {
+		$manager = $this->getManager();
+
+		$buffer = [];
+		foreach ($comments as $comment) {
+			[$message, $actorId, $verb, $parentText] = $comment;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $buffer[$parentText]->getId();
+			}
+			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
+			if (!$parentId) {
+				$buffer[$comment->getMessage()] = $comment;
+			}
+		}
+		$actual = $manager->getReactionComment($comment->getParentId(), $comment->getActorType(), $comment->getActorId(), $comment->getMessage());
+		$this->assertEquals($expected[0], $actual->getMessage());
+		$this->assertEquals($expected[1], $actual->getActorId());
+		$this->assertEquals($expected[2], $actual->getVerb());
+		$this->assertEquals($buffer[$expected[3]]->getId(), $actual->getParentId());
+	}
+
+	public function providerTestGetReactionComment(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+				],
+				['👍', 'alice', 'reaction', 'message'],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👎', 'alice', 'reaction', 'message'],
+				],
+				['👎', 'alice', 'reaction', 'message'],
+			],
+		];
 	}
 }
