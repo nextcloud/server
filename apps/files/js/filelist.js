@@ -768,7 +768,7 @@
 				if( (this._currentDirectory || this.$el.find('#dir').val()) && currentDir === e.dir) {
 					return;
 				}
-				this.changeDirectory(e.dir, false, true);
+				this.changeDirectory(e.dir, true, true, undefined, true);
 			}
 		},
 
@@ -1912,15 +1912,16 @@
 		 * @param {boolean} [changeUrl=true] if the URL must not be changed (defaults to true)
 		 * @param {boolean} [force=false] set to true to force changing directory
 		 * @param {string} [fileId] optional file id, if known, to be appended in the URL
+		 * @param {bool} [changedThroughUrl=false] true if the dir was set through a URL change
 		 */
-		changeDirectory: function(targetDir, changeUrl, force, fileId) {
+		changeDirectory: function(targetDir, changeUrl, force, fileId, changedThroughUrl) {
 			var self = this;
 			var currentDir = this.getCurrentDirectory();
 			targetDir = targetDir || '/';
 			if (!force && currentDir === targetDir) {
 				return;
 			}
-			this._setCurrentDir(targetDir, changeUrl, fileId);
+			this._setCurrentDir(targetDir, changeUrl, fileId, changedThroughUrl);
 
 			// discard finished uploads list, we'll get it through a regular reload
 			this._uploads = {};
@@ -1955,8 +1956,9 @@
 		 * @param targetDir directory to display
 		 * @param changeUrl true to also update the URL, false otherwise (default)
 		 * @param {string} [fileId] file id
+		 * @param {bool} changedThroughUrl true if the dir was set through a URL change
 		 */
-		_setCurrentDir: function(targetDir, changeUrl, fileId) {
+		_setCurrentDir: function(targetDir, changeUrl, fileId, changedThroughUrl) {
 			targetDir = targetDir.replace(/\\/g, '/');
 			if (!this._isValidPath(targetDir)) {
 				targetDir = '/';
@@ -1988,6 +1990,7 @@
 				if (fileId) {
 					params.fileId = fileId;
 				}
+				params.changedThroughUrl = changedThroughUrl
 				this.$el.trigger(jQuery.Event('changeDirectory', params));
 			}
 			this.breadcrumb.setDirectory(this.getCurrentDirectory());
@@ -2089,7 +2092,7 @@
 			if (status === 401) {
 				// We are not authentificated, so reload the page so that we get
 				// redirected to the login page while saving the current url.
-				location.reload(); 
+				location.reload();
 			}
 
 			// Firewall Blocked request?
