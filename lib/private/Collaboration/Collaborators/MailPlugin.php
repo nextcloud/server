@@ -247,11 +247,14 @@ class MailPlugin implements ISearchPlugin {
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
 
+		[$username, $domain] = explode('@', $search);
+		$domain = idn_to_ascii($domain);
+		$searchIdn = $username . '@' . $domain;
 
-		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
+		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($searchIdn, FILTER_VALIDATE_EMAIL)) {
 			$result['exact'][] = [
 				'label' => $search,
-				'uuid' => $search,
+				'uuid' => $searchIdn,
 				'value' => [
 					'shareType' => IShare::TYPE_EMAIL,
 					'shareWith' => $search,
