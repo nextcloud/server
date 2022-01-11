@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GPL-3.0-or-later
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GPL-3.0-or-later
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -52,7 +52,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
- * @license GPL-3.0-or-later
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
