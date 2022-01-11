@@ -25,8 +25,9 @@ use OCP\IL10N;
 use OCP\IRequest;
 
 class RequestURL extends AbstractStringCheck {
+	public const CLI = 'cli';
 
-	/** @var string */
+	/** @var ?string */
 	protected $url;
 
 	/** @var IRequest */
@@ -47,7 +48,11 @@ class RequestURL extends AbstractStringCheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
-		$actualValue = $this->getActualValue();
+		if (\OC::$CLI) {
+			$actualValue = $this->url = RequestURL::CLI;
+		} else {
+			$actualValue = $this->getActualValue();
+		}
 		if (in_array($operator, ['is', '!is'])) {
 			switch ($value) {
 				case 'webdav':
@@ -77,10 +82,10 @@ class RequestURL extends AbstractStringCheck {
 		return $this->url; // E.g. https://localhost/nextcloud/index.php/apps/files_texteditor/ajax/loadfile
 	}
 
-	/**
-	 * @return bool
-	 */
-	protected function isWebDAVRequest() {
+	protected function isWebDAVRequest(): bool {
+		if ($this->url === RequestURL::CLI) {
+			return false;
+		}
 		return substr($this->request->getScriptName(), 0 - strlen('/remote.php')) === '/remote.php' && (
 			$this->request->getPathInfo() === '/webdav' ||
 			strpos($this->request->getPathInfo(), '/webdav/') === 0 ||
