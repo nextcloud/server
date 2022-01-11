@@ -1143,6 +1143,16 @@ const Dialogs = {
 				})
 			}
 
+			// Check if the showHidden input field exist and if it exist follow it
+			// Otherwise just show the hidden files
+			const showHiddenInput = document.getElementById('showHiddenFiles')
+			const showHidden = showHiddenInput === null || showHiddenInput.value === "1"
+			if (!showHidden) {
+				files = files.filter(function(file) {
+					return !file.name.startsWith('.')
+				})
+			}
+
 			var Comparators = {
 				name: function(fileInfo1, fileInfo2) {
 					if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
