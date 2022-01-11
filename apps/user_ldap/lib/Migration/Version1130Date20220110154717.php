@@ -43,7 +43,7 @@ class Version1130Date20220110154717 extends SimpleMigrationStep {
 	}
 
 	public function getName() {
-		return 'Copy ldap_group_mapping data to backup table and back if needed';
+		return 'Copy ldap_group_mapping data to backup table if needed';
 	}
 
 	protected function copyGroupMappingData(string $sourceTable, string $destinationTable): void {
@@ -111,49 +111,7 @@ class Version1130Date20220110154717 extends SimpleMigrationStep {
 		}
 
 		$schema->dropTable('ldap_group_mapping');
-		$table = $schema->createTable('ldap_group_mapping');
-		$table->addColumn('ldap_dn', Types::STRING, [
-			'notnull' => true,
-			'length' => 255,
-			'default' => '',
-		]);
-		$table->addColumn('owncloud_name', Types::STRING, [
-			'notnull' => true,
-			'length' => 64,
-			'default' => '',
-		]);
-		$table->addColumn('directory_uuid', Types::STRING, [
-			'notnull' => true,
-			'length' => 255,
-			'default' => '',
-		]);
-		$table->addColumn('ldap_dn_hash', Types::STRING, [
-			'notnull' => false,
-			'length' => 64,
-		]);
-		$table->setPrimaryKey(['owncloud_name']);
-		$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_group_dn_hashes');
-		$table->addUniqueIndex(['directory_uuid'], 'ldap_group_directory_uuid');
 
 		return $schema;
-	}
-
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 */
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-
-		if (!$schema->hasTable('ldap_group_mapping_backup')) {
-			// Backup table does not exist
-			return;
-		}
-
-		$output->startProgress();
-		$this->copyGroupMappingData('ldap_group_mapping_backup', 'ldap_group_mapping');
-		$output->finishProgress();
 	}
 }
