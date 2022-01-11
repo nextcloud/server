@@ -217,7 +217,7 @@ class ShareByMailProviderTest extends TestCase {
 
 	public function testCreateSendPasswordByMailWithoutEnforcedPasswordProtection() {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
-		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@examplelölöl.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 

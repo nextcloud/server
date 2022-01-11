@@ -334,6 +334,16 @@ class ShareByMailProvider implements IShareProvider {
 			$share->getNote()
 		);
 
+		if ($this->mailer->validateMailAddress($share->getSharedWith())) {
+			$this->removeShareFromTable($shareId);
+			$e = new HintException('Failed to send share by mail. Got an invalid email address: ' . $share->getSharedWith(),
+				$this->l->t('Failed to send share by email. Got an invalid email address'));
+			$this->logger->error($e->getMessage(), [
+				'message' => 'Failed to send share by mail. Got an invalid email address ' . $share->getSharedWith(),
+				'app' => 'sharebymail',
+			]);
+		}
+
 		try {
 			$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 				['token' => $share->getToken()]);
