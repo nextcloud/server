@@ -211,7 +211,8 @@ export default {
 				const fileInfo = response.data.ocs.data
 				this.logger.debug('Created new file', fileInfo)
 
-				await fileList?.addAndFetchFileInfo(this.name)
+				const options = _.extend({ scrollTo: true }, { showDetailsView: false } || {})
+				await fileList?.addAndFetchFileInfo(this.name, undefined, options)
 				fileList.rename(this.name)
 				this.close()
 			} catch (error) {
