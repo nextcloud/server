@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Inloggegevens opgeslagen",
     "Credentials saving failed" : "Opslaan inloggegevens mislukt",
     "Credentials required" : "Inloggegevens vereist",
+    "Forbidden to manage local mounts" : "Niet toegestaan lokale koppelpunten te beheren",
     "Storage with ID \"%d\" not found" : "Opslag met ID \"%d\" niet gevonden",
     "Invalid backend or authentication mechanism class" : "Ongeldige backend of authenticatie mechanisme klasse",
     "Invalid mount point" : "Ongeldig aankoppelpunt",
