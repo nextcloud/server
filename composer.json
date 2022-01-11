@@ -1,11 +1,14 @@
 {
-    "config" : {
+    "config": {
         "vendor-dir": "lib/composer",
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
     },
-    "autoload" : {
-			"psr-4": {
-			"": "lib/private/legacy",
+    "autoload": {
+        "psr-4": {
+            "": "lib/private/legacy",
             "OC\\": "lib/private",
             "OC\\Core\\": "core/",
             "OCP\\": "lib/public"
@@ -17,7 +20,7 @@
         "ext-pdo": "*",
         "ext-simplexml": "*",
         "ext-xmlreader": "*"
-	},
+    },
     "require-dev": {
         "nextcloud/coding-standard": "^0.3.0",
         "vimeo/psalm": "^4.0"
