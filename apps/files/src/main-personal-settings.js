@@ -58,5 +58,7 @@ __webpack_public_path__ = generateFilePath('files', '', 'js/')
 
 Vue.prototype.t = t
 
-const View = Vue.extend(PersonalSettings)
-new View().$mount('#files-personal-settings')
+if (!window.TESTING) {
+	const View = Vue.extend(PersonalSettings)
+	new View().$mount('#files-personal-settings')
+}
