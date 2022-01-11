@@ -3,7 +3,7 @@
  *
  * @author François Freitag <mail@franek.fr>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,4 +20,4 @@
  *
  */
 
-require("@testing-library/jest-dom");
+require('@testing-library/jest-dom')

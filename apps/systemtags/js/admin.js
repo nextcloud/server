@@ -2,7 +2,7 @@
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as

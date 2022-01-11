@@ -7,7 +7,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -137,7 +137,7 @@ describe('OCA.Versions.VersionsTabView', function() {
 			tabView.setFileInfo(fileInfoModel);
 			tabView.collection.set(testVersions);
 		});
-		
+
 		afterEach(function() {
 			revertStub.restore();
 		});
