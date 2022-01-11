@@ -492,15 +492,24 @@ Raw output
 			$status = opcache_get_status(false);
 
 			// Recommend to raise value, if more than 90% of max value is reached
-			if ($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9) {
+			if (
+				empty($status['opcache_statistics']['max_cached_keys']) ||
+				($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
+			) {
 				$recommendations[] = 'The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently') . '</code>.';
 			}
 
-			if ($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9) {
+			if (
+				empty($status['memory_usage']['free_memory']) ||
+				($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
+			) {
 				$recommendations[] = 'The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently') . '</code>.';
 			}
 
-			if ($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9) {
+			if (
+				empty($status['interned_strings_usage']['free_memory']) ||
+				($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
+			) {
 				$recommendations[] = 'The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently') . '</code>.';
 			}
 		}
