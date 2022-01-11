@@ -53,7 +53,7 @@
 				fileType: 'folder',
 				actionHandler: function(name) {
 					const uniqueName = self.fileList.getUniqueName(name);
-                	let tempPromise = self.fileList.createDirectory(uniqueName);
+                	let tempPromise = self.fileList.createDirectory(uniqueName, { showDetailsView: false });
                 	Promise.all([tempPromise]).then(() => {
                 		self.fileList.rename(uniqueName);
                 	});

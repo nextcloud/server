@@ -1940,7 +1940,7 @@
 			}
 
 			if (options.scrollTo) {
-				this.scrollTo(fileData.name);
+				this.scrollTo(fileData.name, options.showDetailsView !== undefined ? options.showDetailsView : true);
 			}
 
 			// defaults to true if not defined
@@ -3050,7 +3050,7 @@
 		 *
 		 * @since 8.2
 		 */
-		createDirectory: function(name) {
+		 createDirectory: function(name, options) {
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
@@ -3066,7 +3066,8 @@
 
 			this.filesClient.createDirectory(targetPath)
 				.done(function() {
-					self.addAndFetchFileInfo(targetPath, '', {scrollTo:true}).then(function(status, data) {
+					options = _.extend({scrollTo: true}, options || {});
++					self.addAndFetchFileInfo(targetPath, '', options).then(function(status, data) {
 						deferred.resolve(status, data);
 					}, function() {
 						OC.Notification.show(t('files', 'Could not create folder "{dir}"',
@@ -3077,8 +3078,9 @@
 				.fail(function(createStatus) {
 					// method not allowed, folder might exist already
 					if (createStatus === 405) {
+						options = _.extend({scrollTo: true}, options || {});
 						// add it to the list, for completeness
-						self.addAndFetchFileInfo(targetPath, '', {scrollTo:true})
+						self.addAndFetchFileInfo(targetPath, '', options)
 							.done(function(status, data) {
 								OC.Notification.show(t('files', 'Could not create folder "{dir}" because it already exists',
 									{dir: name}), {type: 'error'}
@@ -3316,11 +3318,11 @@
 			this.$el.find('.mask').remove();
 			this.$table.removeClass('hidden');
 		},
-		scrollTo:function(file) {
+		scrollTo:function(file, showDetailsView = true) {
 			if (!_.isArray(file)) {
 				file = [file];
 			}
-			if (file.length === 1) {
+			if (file.length === 1 && showDetailsView) {
 				_.defer(function() {
 					this.showDetailsView(file[0]);
 				}.bind(this));
@@ -3536,7 +3538,11 @@
 		},
 
 		getUniqueName: function(name) {
-			if (this.findFileEl(name).exists()) {
+			var fileNamesOld = this.files.findIndex(function(el)
+			{
+				return el.name==name;
+			});
+			if (fileNamesOld!=-1) {
 				var numMatch;
 				var parts=name.split('.');
 				var extension = "";
