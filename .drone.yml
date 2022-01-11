@@ -1093,6 +1093,23 @@ steps:
     - cd build/integration
     - ./run.sh features/webdav-related.feature
 
+---
+kind: pipeline
+name: integration-webdav-hidden-folder
+
+steps:
+  - name: submodules
+    image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+    commands:
+      - git submodule update --init
+  - name: integration-webdav-related
+    image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
+    commands:
+      - bash tests/drone-run-integration-tests.sh || exit 0
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+      - cd build/integration
+      - ./run.sh features/hidden-folder.feature
+
 trigger:
   branch:
     - master
