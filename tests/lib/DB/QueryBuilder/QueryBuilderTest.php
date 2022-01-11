@@ -28,6 +28,7 @@ use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use OCP\ILogger;
 
@@ -506,7 +507,13 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataFrom() {
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(ILogger::class);
+		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
+			[$qb->createFunction('(' . $qb->select('*')->from('test')->getSQL() . ')'), 'q', null, null, [
+				['table' => '(SELECT * FROM `*PREFIX*test`)', 'alias' => '`q`']
+			], '(SELECT * FROM `*PREFIX*test`) `q`'],
 			['data', null, null, null, [['table' => '`*PREFIX*data`', 'alias' => null]], '`*PREFIX*data`'],
 			['data', 't', null, null, [['table' => '`*PREFIX*data`', 'alias' => '`t`']], '`*PREFIX*data` `t`'],
 			['data1', null, 'data2', null, [
@@ -523,9 +530,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataFrom
 	 *
-	 * @param string $table1Name
+	 * @param string|IQueryFunction $table1Name
 	 * @param string $table1Alias
-	 * @param string $table2Name
+	 * @param string|IQueryFunction $table2Name
 	 * @param string $table2Alias
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
