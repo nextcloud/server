@@ -163,6 +163,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\FilesReportPlugin' => $baseDir . '/../lib/Connector/Sabre/FilesReportPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\LockPlugin' => $baseDir . '/../lib/Connector/Sabre/LockPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\MaintenancePlugin' => $baseDir . '/../lib/Connector/Sabre/MaintenancePlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\MtimeSanitizer' => $baseDir . '/../lib/Connector/Sabre/MtimeSanitizer.php',
     'OCA\\DAV\\Connector\\Sabre\\Node' => $baseDir . '/../lib/Connector/Sabre/Node.php',
     'OCA\\DAV\\Connector\\Sabre\\ObjectTree' => $baseDir . '/../lib/Connector/Sabre/ObjectTree.php',
     'OCA\\DAV\\Connector\\Sabre\\Principal' => $baseDir . '/../lib/Connector/Sabre/Principal.php',

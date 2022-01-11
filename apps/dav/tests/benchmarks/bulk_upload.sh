@@ -37,7 +37,7 @@ do
 		echo -en "--$BOUNDARY\r\n"
 		# echo -en "Content-ID: $file_name\r\n"
 		echo -en "X-File-Path: $file_remote_path\r\n"
-		echo -en "X-File-Mtime: $file_mtime\r\n"
+		echo -en "X-OC-Mtime: $file_mtime\r\n"
 		# echo -en "X-File-Id: $file_id\r\n"
 		echo -en "X-File-Md5: $file_hash\r\n"
 		echo -en "Content-Length: $file_size\r\n"
