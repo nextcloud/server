@@ -152,6 +152,7 @@ class AccountProperty implements IAccountProperty {
 
 		switch ($scope) {
 			case IAccountManager::VISIBILITY_PRIVATE:
+			case '':
 				return IAccountManager::SCOPE_LOCAL;
 			case IAccountManager::VISIBILITY_CONTACTS_ONLY:
 				return IAccountManager::SCOPE_FEDERATED;
