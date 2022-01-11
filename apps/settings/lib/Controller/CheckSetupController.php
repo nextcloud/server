@@ -379,7 +379,7 @@ class CheckSetupController extends Controller {
 			return true;
 		}
 
-		// there are two different memcached modules for PHP
+		// there are two different memcache modules for PHP
 		// we only support memcached and not memcache
 		// https://code.google.com/p/memcached/wiki/PHPClientComparison
 		return !(!extension_loaded('memcached') && extension_loaded('memcache'));
@@ -392,7 +392,7 @@ class CheckSetupController extends Controller {
 	 */
 	private function isSettimelimitAvailable() {
 		if (function_exists('set_time_limit')
-			&& strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			&& strpos(ini_get('disable_functions'), 'set_time_limit') === false) {
 			return true;
 		}
 
@@ -819,12 +819,12 @@ Raw output
 
 		$tempPath = sys_get_temp_dir();
 		if (!is_dir($tempPath)) {
-			$this->logger->error('Error while checking the temporary PHP path - it was not properly set to a directory. value: ' . $tempPath);
+			$this->logger->error('Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: ' . $tempPath);
 			return false;
 		}
-		$freeSpaceInTemp = disk_free_space($tempPath);
+		$freeSpaceInTemp = function_exists('disk_free_space') ? disk_free_space($tempPath) : false;
 		if ($freeSpaceInTemp === false) {
-			$this->logger->error('Error while checking the available disk space of temporary PHP path - no free disk space returned. temporary path: ' . $tempPath);
+			$this->logger->error('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: ' . $tempPath);
 			return false;
 		}
 
