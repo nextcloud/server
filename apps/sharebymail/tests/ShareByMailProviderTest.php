@@ -459,6 +459,7 @@ class ShareByMailProviderTest extends TestCase {
 	public function testCreateMailShare() {
 		$this->share->expects($this->any())->method('getToken')->willReturn('token');
 		$this->share->expects($this->once())->method('setToken')->with('token');
+		$this->share->expects($this->any())->method('getSharedWith')->willReturn('valid@valid.com');
 		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('fileName');
 		$this->share->expects($this->any())->method('getNode')->willReturn($node);
@@ -483,6 +484,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->share->expects($this->any())->method('getToken')->willReturn('token');
 		$this->share->expects($this->once())->method('setToken')->with('token');
+		$this->share->expects($this->any())->method('getSharedWith')->willReturn('valid@valid.com');
 		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('fileName');
 		$this->share->expects($this->any())->method('getNode')->willReturn($node);
@@ -987,6 +989,7 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturn(new \OC\Share20\Share($rootFolder, $userManager));
 
 		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
+		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 		$u2 = $userManager->createUser('testFed2', md5(time()));
@@ -1033,6 +1036,7 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturn(new \OC\Share20\Share($rootFolder, $userManager));
 
 		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
+		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 		$u2 = $userManager->createUser('testFed2', md5(time()));
