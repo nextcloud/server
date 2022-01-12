@@ -2,6 +2,7 @@
 
 namespace Test\Comments;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\Comments\Comment;
 use OC\Comments\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -874,12 +875,21 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(is_string($manager->resolveDisplayName('planet', 'neptune')));
 	}
 
+	private function skipIfNotSupport4ByteUTF() {
+		// 4 byte UTF doesn't work on mysql
+		$params = \OC::$server->get(\OC\DB\Connection::class)->getParams();
+		if (\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySQLPlatform && $params['charset'] !== 'utf8mb4') {
+			$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
+		}
+	}
+
 	/**
 	 * @dataProvider providerTestReactionAddAndDelete
 	 *
 	 * @return void
 	 */
 	public function testReactionAddAndDelete(array $comments, array $reactionsExpected) {
+		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 		$buffer = [];
 		foreach ($comments as $commentData) {
@@ -964,6 +974,7 @@ class ManagerTest extends TestCase {
 	 * @dataProvider providerTestRetrieveAllReactions
 	 */
 	public function testRetrieveAllReactions(array $comments, array $expected) {
+		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
 		$buffer = [];
@@ -1026,6 +1037,7 @@ class ManagerTest extends TestCase {
 	 * @dataProvider providerTestRetrieveAllReactionsWithSpecificReaction
 	 */
 	public function testRetrieveAllReactionsWithSpecificReaction(array $comments, string $reaction, array $expected) {
+		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
 		$buffer = [];
@@ -1090,6 +1102,7 @@ class ManagerTest extends TestCase {
 	 * @dataProvider providerTestGetReactionComment
 	 */
 	public function testGetReactionComment(array $comments, $expected) {
+		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
 		$buffer = [];
