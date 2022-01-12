@@ -306,7 +306,7 @@
 		 * Event handler for when an app notified that its directory changed
 		 */
 		_onDirectoryChanged: function(e) {
-			if (e.dir) {
+			if (e.dir && !e.changedThroughUrl) {
 				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
 			}
 		},
@@ -376,9 +376,11 @@
 				params.fileid = fileId;
 			}
 			var currentParams = OC.Util.History.parseUrlQuery();
-			if (currentParams.dir === params.dir && currentParams.view === params.view && currentParams.fileid !== params.fileid) {
-				// if only fileid changed or was added, replace instead of push
-				OC.Util.History.replaceState(this._makeUrlParams(params));
+			if (currentParams.dir === params.dir && currentParams.view === params.view) {
+				if (currentParams.fileid !== params.fileid) {
+					// if only fileid changed or was added, replace instead of push
+					OC.Util.History.replaceState(this._makeUrlParams(params));
+				}
 			} else {
 				OC.Util.History.pushState(this._makeUrlParams(params));
 			}
