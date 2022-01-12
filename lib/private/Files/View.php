@@ -1182,7 +1182,7 @@ class View {
 				if ($result && in_array('delete', $hooks) and $result) {
 					$this->removeUpdate($storage, $internalPath);
 				}
-				if ($result && in_array('write', $hooks,  true) && $operation !== 'fopen' && $operation !== 'touch') {
+				if ($result && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
 					$this->writeUpdate($storage, $internalPath);
 				}
 				if ($result && in_array('touch', $hooks)) {

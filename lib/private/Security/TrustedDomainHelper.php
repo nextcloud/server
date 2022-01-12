@@ -98,7 +98,7 @@ class TrustedDomainHelper implements ITrustedDomainHelper {
 			return true;
 		}
 		// Reject misformed domains in any case
-		if (strpos($domain,'-') === 0 || strpos($domain,'..') !== false) {
+		if (strpos($domain, '-') === 0 || strpos($domain, '..') !== false) {
 			return false;
 		}
 		// Match, allowing for * wildcards

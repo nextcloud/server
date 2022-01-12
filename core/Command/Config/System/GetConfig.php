@@ -67,7 +67,7 @@ class GetConfig extends Base {
 	 * @param OutputInterface $output An OutputInterface instance
 	 * @return int 0 if everything went fine, or an error code
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = array_shift($configNames);
 		$defaultValue = $input->getOption('default-value');
