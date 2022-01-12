@@ -178,6 +178,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\FilesReportPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/FilesReportPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\LockPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/LockPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\MaintenancePlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/MaintenancePlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\MtimeSanitizer' => __DIR__ . '/..' . '/../lib/Connector/Sabre/MtimeSanitizer.php',
         'OCA\\DAV\\Connector\\Sabre\\Node' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Node.php',
         'OCA\\DAV\\Connector\\Sabre\\ObjectTree' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ObjectTree.php',
         'OCA\\DAV\\Connector\\Sabre\\Principal' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Principal.php',
