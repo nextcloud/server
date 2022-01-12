@@ -969,7 +969,7 @@ class Manager implements ICommentsManager {
 		}
 		$comments = [];
 		if ($commentIds) {
-			$comments = $this->getCommentsOnList($commentIds);
+			$comments = $this->getCommentsById($commentIds);
 		}
 
 		return $comments;
@@ -996,9 +996,7 @@ class Manager implements ICommentsManager {
 			$commentIds[] = $data['message_id'];
 		}
 		$comments = [];
-		if ($commentIds) {
-			$comments = $this->getCommentsOnList($commentIds);
-		}
+		$comments = $this->getCommentsById($commentIds);
 
 		return $comments;
 	}
@@ -1006,16 +1004,19 @@ class Manager implements ICommentsManager {
 	/**
 	 * Get all comments on list
 	 *
-	 * @param integer[] $objectIds
+	 * @param integer[] $commentIds
 	 * @return IComment[]
 	 * @since 24.0.0
 	 */
-	private function getCommentsOnList(array $objectIds): array {
+	private function getCommentsById(array $commentIds): array {
+		if (!$commentIds) {
+			return [];
+		}
 		$query = $this->dbConn->getQueryBuilder();
 
 		$query->select('*')
 			->from('comments')
-			->where($query->expr()->in('id', $query->createNamedParameter($objectIds, IQueryBuilder::PARAM_STR_ARRAY)))
+			->where($query->expr()->in('id', $query->createNamedParameter($commentIds, IQueryBuilder::PARAM_STR_ARRAY)))
 			->orderBy('creation_timestamp', 'DESC')
 			->addOrderBy('id', 'DESC');
 
