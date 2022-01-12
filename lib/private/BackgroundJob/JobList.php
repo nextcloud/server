@@ -93,7 +93,7 @@ class JobList implements IJobList {
 				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
 				->andWhere($query->expr()->eq('argument', $query->createNamedParameter($argumentJson)));
 		}
-		$query->executeStatement();
+		$query->execute();
 	}
 
 	/**
