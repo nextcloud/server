@@ -1024,6 +1024,16 @@ $CONFIG = [
 'preview_max_filesize_image' => 50,
 
 /**
+ * max memory for generating image previews with imagegd (default behavior)
+ * Reads the image dimensions from the header and assumes 32 bits per pixel.
+ * If creating the image would allocate more memory, preview generation will
+ * be disabled and the default mimetype icon is shown. Set to -1 for no limit.
+ *
+ * Defaults to ``128`` megabytes
+ */
+'preview_max_memory' => 128,
+
+/**
  * custom path for LibreOffice/OpenOffice binary
  *
  *
