@@ -301,8 +301,6 @@ class JSConfigHelper {
 				'docPlaceholderUrl' => $this->defaults->buildDocLinkToKey('PLACEHOLDER'),
 				'slogan' => $this->defaults->getSlogan(),
 				'logoClaim' => '',
-				'shortFooter' => $this->defaults->getShortFooter(),
-				'longFooter' => $this->defaults->getLongFooter(),
 				'folder' => \OC_Util::getTheme(),
 			]),
 		];
