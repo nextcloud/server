@@ -323,7 +323,6 @@ OC.FileUpload.prototype = {
 	},
 
 	_delete: function() {
-		var self = this;
 		if (this.data.isChunked) {
 			this._deleteChunkFolder()
 		}
@@ -334,7 +333,6 @@ OC.FileUpload.prototype = {
 	 * Abort the upload
 	 */
 	abort: function() {
-		var self = this;
 		if (this.aborted) {
 			return
 		}
@@ -691,9 +689,22 @@ OC.Uploader.prototype = _.extend({
 		// the upload info there still
 		var self = this;
 		var uploadId = upload.data.uploadId;
+		// mark as deleted for the progress bar
+		this._uploads[uploadId].deleted = true;
 		window.setTimeout(function() {
 			delete self._uploads[uploadId];
 		}, 5000)
+	},
+
+	_activeUploadCount: function() {
+		var count = 0;
+		for (var key in this._uploads) {
+			if (!this._uploads[key].deleted) {
+				count++;
+			}
+		}
+
+		return count;
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
@@ -1321,9 +1332,9 @@ OC.Uploader.prototype = _.extend({
 
 					self._pendingUploadDoneCount++;
 
-					upload.done().then(function() {
+					upload.done().always(function() {
 						self._pendingUploadDoneCount--;
-						if (Object.keys(self._uploads).length === 0 && self._pendingUploadDoneCount === 0) {
+						if (self._activeUploadCount() === 0 && self._pendingUploadDoneCount === 0) {
 							// All the uploads ended and there is no pending
 							// operation, so hide the progress bar.
 							// Note that this happens here only with chunked
@@ -1337,7 +1348,7 @@ OC.Uploader.prototype = _.extend({
 							// hides the progress bar in that case).
 							self._hideProgressBar();
 						}
-
+					}).done(function() {
 						self.trigger('done', e, upload);
 					}).fail(function(status, response) {
 						if (upload.aborted) {
