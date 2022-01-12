@@ -3,7 +3,7 @@
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,8 +34,8 @@ export async function startRegistration() {
 }
 
 /**
- * @param name
- * @param data
+ * @param {any} name -
+ * @param {any} data -
  */
 export async function finishRegistration(name, data) {
 	const url = generateUrl('/settings/api/personal/webauthn/registration')
@@ -45,7 +45,7 @@ export async function finishRegistration(name, data) {
 }
 
 /**
- * @param id
+ * @param {any} id -
  */
 export async function removeRegistration(id) {
 	const url = generateUrl(`/settings/api/personal/webauthn/registration/${id}`)

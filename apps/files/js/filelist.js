@@ -102,7 +102,7 @@
 		 * Number of files per page
 		 * Always show a minimum of 1
 		 *
-		 * @return {int} page size
+		 * @return {number} page size
 		 */
 		pageSize: function() {
 			var isGridView = this.$showGridView.is(':checked');
@@ -803,7 +803,7 @@
 		 * the internal selection cache.
 		 *
 		 * @param {Object} $tr single file row element
-		 * @param {bool} state true to select, false to deselect
+		 * @param {boolean} state true to select, false to deselect
 		 */
 		_selectFileEl: function($tr, state) {
 			var $checkbox = $tr.find('td.selection>.selectCheckBox');
@@ -1203,7 +1203,7 @@
 		/**
 		 * Custom code
 		 * Set tag for all selected files
-		 * @param tagModel
+		 * @param {any} tagModel -
 		 * @private
 		 */
 		_onSelectTag: function(tagModel) {
@@ -1221,7 +1221,7 @@
 		},
 		/**
 		 * remove tag from all selected files
-		 * @param tagId
+		 * @param {any} tagId -
 		 * @private
 		 */
 		_onDeselectTag: function(tagId) {
@@ -1958,7 +1958,7 @@
 		 *
 		 * @param {OC.Files.FileInfo} fileData map of file attributes
 		 * @param {Object} [options] map of attributes
-		 * @param {int} [options.index] index at which to insert the element
+		 * @param {number} [options.index] index at which to insert the element
 		 * @param {boolean} [options.updateSummary] true to update the summary
 		 * after adding (default), false otherwise. Defaults to true.
 		 * @param {boolean} [options.animate] true to animate the thumbnail image after load
@@ -2351,8 +2351,8 @@
 		/**
 		 * Generates a preview URL based on the URL space.
 		 * @param urlSpec attributes for the URL
-		 * @param {int} urlSpec.x width
-		 * @param {int} urlSpec.y height
+		 * @param {number} urlSpec.x width
+		 * @param {number} urlSpec.y height
 		 * @param {String} urlSpec.file path to the file
 		 * @return preview URL
 		 */
@@ -3169,7 +3169,7 @@
 		 *
 		 * @param {string} file file name
 		 *
-		 * @return {bool} true if the file exists in the list, false otherwise
+		 * @return {boolean} true if the file exists in the list, false otherwise
 		 */
 		inList:function(file) {
 			return this.findFile(file);
@@ -3179,7 +3179,7 @@
 		 * Shows busy state on a given file row or multiple
 		 *
 		 * @param {string|Array.<string>} files file name or array of file names
-		 * @param {bool} [busy=true] busy state, true for busy, false to remove busy state
+		 * @param {boolean} [busy=true] busy state, true for busy, false to remove busy state
 		 *
 		 * @since 8.2
 		 */
@@ -3351,7 +3351,7 @@
 		},
 		/**
 		 * hide files matching the given filter
-		 * @param filter
+		 * @param {any} filter -
 		 */
 		setFilter:function(filter) {
 			var total = 0;
@@ -3416,7 +3416,7 @@
 		},
 		/**
 		 * get the current filter
-		 * @param filter
+		 * @param {any} filter -
 		 */
 		getFilter:function(filter) {
 			return this._filter;
@@ -3955,7 +3955,7 @@
 		 *
 		 * @param {OC.Files.FileInfo} fileInfo1 file info
 		 * @param {OC.Files.FileInfo} fileInfo2 file info
-		 * @return {int} -1 if the first file must appear before the second one,
+		 * @return {number} -1 if the first file must appear before the second one,
 		 * 0 if they are identify, 1 otherwise.
 		 */
 		name: function(fileInfo1, fileInfo2) {
@@ -3972,7 +3972,7 @@
 		 *
 		 * @param {OC.Files.FileInfo} fileInfo1 file info
 		 * @param {OC.Files.FileInfo} fileInfo2 file info
-		 * @return {int} -1 if the first file must appear before the second one,
+		 * @return {number} -1 if the first file must appear before the second one,
 		 * 0 if they are identify, 1 otherwise.
 		 */
 		size: function(fileInfo1, fileInfo2) {
@@ -3983,7 +3983,7 @@
 		 *
 		 * @param {OC.Files.FileInfo} fileInfo1 file info
 		 * @param {OC.Files.FileInfo} fileInfo2 file info
-		 * @return {int} -1 if the first file must appear before the second one,
+		 * @return {number} -1 if the first file must appear before the second one,
 		 * 0 if they are identify, 1 otherwise.
 		 */
 		mtime: function(fileInfo1, fileInfo2) {

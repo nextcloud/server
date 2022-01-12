@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,7 +34,7 @@ export const getProtocol = () => window.location.protocol.split(':')[0]
  *
  * @return {string} host
  *
- * @since 8.2
+ * @since 8.2.0
  * @deprecated 17.0.0 use window.location.host directly
  */
 export const getHost = () => window.location.host
@@ -44,7 +44,7 @@ export const getHost = () => window.location.host
  * The hostname is always stripped of the port
  *
  * @return {string} hostname
- * @since 9.0
+ * @since 9.0.0
  * @deprecated 17.0.0 use window.location.hostname directly
  */
 export const getHostName = () => window.location.hostname
@@ -52,9 +52,9 @@ export const getHostName = () => window.location.hostname
 /**
  * Returns the port number used to access this Nextcloud instance
  *
- * @return {int} port number
+ * @return {number} port number
  *
- * @since 8.2
+ * @since 8.2.0
  * @deprecated 17.0.0 use window.location.port directly
  */
 export const getPort = () => window.location.port

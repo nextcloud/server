@@ -187,7 +187,7 @@
 		 * they have initialized themselves. Therefore the files list needs to call this
 		 * method manually
 		 *
-		 * @param {OCA.Files.FileList} newFileList
+		 * @param {OCA.Files.FileList} newFileList -
 		 */
 		updateCurrentFileList: function(newFileList) {
 			this.currentFileList = newFileList;

@@ -7,7 +7,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
  */
 
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store } from 'vuex'
 import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
 import confirmPassword from '@nextcloud/password-confirmation'
@@ -33,7 +33,7 @@ import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+const store = new Store({
 	state: {
 		rules: [],
 		scope: loadState('workflowengine', 'scope'),
@@ -161,8 +161,7 @@ const store = new Vuex.Store({
 		 * Return all available checker plugins for a given entity class
 		 *
 		 * @param {object} state the store state
-		 * @param {object} entity the entity class
-		 * @return {Array} the available plugins
+		 * @return {Function} the available plugins
 		 */
 		getChecksForEntity(state) {
 			return (entity) => {

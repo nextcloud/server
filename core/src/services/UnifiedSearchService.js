@@ -6,7 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,14 +35,14 @@ export const regexFilterNot = /-in:([a-z_-]+)/ig
 /**
  * Create a cancel token
  *
- * @return {CancelTokenSource}
+ * @return {import('axios').CancelTokenSource}
  */
 const createCancelToken = () => axios.CancelToken.source()
 
 /**
  * Get the list of available search providers
  *
- * @return {Array}
+ * @return {Promise<Array>}
  */
 export async function getTypes() {
 	try {
@@ -68,7 +68,7 @@ export async function getTypes() {
  * @param {object} options destructuring object
  * @param {string} options.type the type to search
  * @param {string} options.query the search
- * @param {int|string|undefined} options.cursor the offset for paginated searches
+ * @param {number|string|undefined} options.cursor the offset for paginated searches
  * @return {object} {request: Promise, cancel: Promise}
  */
 export function search({ type, query, cursor }) {

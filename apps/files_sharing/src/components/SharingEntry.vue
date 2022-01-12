@@ -373,7 +373,7 @@ export default {
 		},
 
 		/**
-		 * @return {bool}
+		 * @return {boolean}
 		 */
 		hasStatus() {
 			if (this.share.type !== this.SHARE_TYPES.SHARE_TYPE_USER) {

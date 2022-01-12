@@ -383,8 +383,8 @@ OCA.Files_External.StatusManager = {
 
 	/**
 	 * Function to display custom dialog to enter credentials
-	 * @param mountPoint
-	 * @param mountData
+	 * @param {any} mountPoint -
+	 * @param {any} mountData -
 	 */
 	showCredentialsDialog: function (mountPoint, mountData) {
 		var dialog = $(OCA.Files_External.Templates.credentialsDialog({

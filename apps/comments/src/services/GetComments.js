@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -65,8 +65,8 @@ export default async function({ commentsType, ressourceId }, options = {}) {
 
 // https://github.com/perry-mitchell/webdav-client/blob/9de2da4a2599e06bd86c2778145b7ade39fe0b3c/source/interface/directoryContents.js#L32
 /**
- * @param result
- * @param isDetailed
+ * @param {any} result -
+ * @param {any} isDetailed -
  */
 function processMultistatus(result, isDetailed = false) {
 	// Extract the response items (directory contents)
@@ -91,8 +91,8 @@ function processMultistatus(result, isDetailed = false) {
 }
 
 /**
- * @param value
- * @param passes
+ * @param {any} value -
+ * @param {any} passes -
  */
 function decodeHtmlEntities(value, passes = 1) {
 	const parser = new DOMParser()

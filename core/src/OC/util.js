@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@ import OC from './index'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
 /**
- * @param t
+ * @param {any} t -
  */
 function chunkify(t) {
 	// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
@@ -148,7 +148,7 @@ export default {
 	/**
 	 * Returns the width of a generic browser scrollbar
 	 *
-	 * @return {int} width of scrollbar
+	 * @return {number} width of scrollbar
 	 */
 	getScrollBarWidth() {
 		if (this._scrollBarWidth) {
@@ -230,7 +230,7 @@ export default {
 	 * Calls the callback in a given interval until it returns true
 	 *
 	 * @param {Function} callback function to call on success
-	 * @param {integer} interval in milliseconds
+	 * @param {number} interval in milliseconds
 	 */
 	waitFor(callback, interval) {
 		const internalCallback = function() {

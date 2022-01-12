@@ -4,7 +4,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@
  */
 
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store } from 'vuex'
 import { generateCodes } from './service/BackupCodesService'
 
 Vue.use(Vuex)
@@ -63,7 +63,7 @@ const actions = {
 	},
 }
 
-export default new Vuex.Store({
+export default new Store({
 	strict: process.env.NODE_ENV !== 'production',
 	state,
 	mutations,

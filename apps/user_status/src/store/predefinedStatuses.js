@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -48,7 +48,7 @@ const actions = {
 	 *
 	 * @param {object} vuex The Vuex components
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param vuex.state
+	 * @param {object} vuex.state -
 	 */
 	async loadAllPredefinedStatuses({ state, commit }) {
 		if (state.predefinedStatuses.length > 0) {

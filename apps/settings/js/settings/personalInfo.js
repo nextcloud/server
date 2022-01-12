@@ -16,7 +16,7 @@ OC.Settings = OC.Settings || {};
  * The callback will be fired as soon as enter is pressed by the
  * user or 1 second after the last data entry
  *
- * @param callback
+ * @param {any} callback -
  * @param allowEmptyValue if this is set to true the callback is also called when the value is empty
  */
 jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {

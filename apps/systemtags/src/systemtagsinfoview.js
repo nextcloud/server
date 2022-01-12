@@ -7,7 +7,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -27,7 +27,7 @@
 (function(OCA) {
 
 	/**
-	 * @param model
+	 * @param {any} model -
 	 */
 	function modelToSelection(model) {
 		const data = model.toJSON()
@@ -56,7 +56,7 @@
 			id: 'systemTagsInfoView',
 
 			/**
-			 * @type OC.SystemTags.SystemTagsInputField
+			 * @type {OC.SystemTags.SystemTagsInputField}
 			 */
 			_inputView: null,
 

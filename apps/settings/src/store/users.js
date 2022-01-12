@@ -9,7 +9,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -207,8 +207,8 @@ const actions = {
 	 *
 	 * @param {object} context store context
 	 * @param {object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
 	 * @param {string} options.search Search amongst users
 	 * @param {string} options.group Get users from group
 	 * @return {Promise}
@@ -276,9 +276,9 @@ const actions = {
 	 *
 	 * @param {object} context store context
 	 * @param {object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
-	 * @param options.search
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search -
 	 * @return {Promise}
 	 */
 	getUsersFromList(context, { offset, limit, search }) {
@@ -299,9 +299,9 @@ const actions = {
 	 *
 	 * @param {object} context store context
 	 * @param {object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
-	 * @param options.groupid
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.groupid -
 	 * @return {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
@@ -462,6 +462,8 @@ const actions = {
 	 * Add a user
 	 *
 	 * @param {object} context store context
+	 * @param {Function} context.commit -
+	 * @param {Function} context.dispatch -
 	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.password User password
@@ -470,9 +472,7 @@ const actions = {
 	 * @param {string} options.groups User groups
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
-	 * @param context.commit
-	 * @param context.dispatch
-	 * @param options.language
+	 * @param {string} options.language User language
 	 * @return {Promise}
 	 */
 	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language }) {

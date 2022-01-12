@@ -17,8 +17,8 @@ OCA = OCA || {};
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
-		 * @param tabIndex
-		 * @param tabID
+		 * @param {any} tabIndex -
+		 * @param {any} tabID -
 		 */
 		init: function (tabIndex, tabID) {
 			this._super(tabIndex, tabID);

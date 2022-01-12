@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@ const isAdmin = !!window._oc_isadmin
 /**
  * Returns whether the current user is an administrator
  *
- * @return {bool} true if the user is an admin, false otherwise
+ * @return {boolean} true if the user is an admin, false otherwise
  * @since 9.0.0
  */
 export const isUserAdmin = () => isAdmin

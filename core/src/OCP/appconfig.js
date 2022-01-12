@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,7 +33,6 @@ import OC from '../OC/index'
  * @param {object} [options.data] option data
  * @param {Function} [options.success] success callback
  * @param {Function} [options.error] error callback
- * @internal
  */
 function call(method, endpoint, options) {
 	if ((method === 'post' || method === 'delete') && OC.PasswordConfirmation.requiresPasswordConfirmation()) {

@@ -4,7 +4,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@ import escapeHTML from 'escape-html'
 
 /**
  * @typedef TypeDefinition
- * @function {callback} action This action is executed to let the user select a resource
+ * @function {Function} action This action is executed to let the user select a resource
  * @param {string} icon Contains the icon css class for the type
  * @function Object() { [native code] }
  */

@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,10 +26,10 @@ import $ from 'jquery'
 /**
  * select a range in an input field
  *
- * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
- * @param {int} start start selection from
- * @param {int} end number of char from start
- * @return {Void}
+ * @see {@link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area}
+ * @param {number} start start selection from
+ * @param {number} end number of char from start
+ * @return {void}
  */
 $.fn.selectRange = function(start, end) {
 	return this.each(function() {
