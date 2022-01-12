@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "資格情報を保存しました",
     "Credentials saving failed" : "資格情報の保存に失敗しました",
     "Credentials required" : "資格情報が必要です",
+    "Forbidden to manage local mounts" : "ローカルマウントの利用は禁止されています",
     "Storage with ID \"%d\" not found" : "ID \"%d\" のストレージが見つかりません",
     "Invalid backend or authentication mechanism class" : "バックエンドまたは認証システムクラスが無効",
     "Invalid mount point" : "無効なマウントポイント",
