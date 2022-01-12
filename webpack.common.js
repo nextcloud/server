@@ -54,6 +54,7 @@ module.exports = {
 			const rel = path.relative(rootDir, info.absoluteResourcePath)
 			return `webpack:///nextcloud/${rel}`
 		},
+		clean: true,
 	},
 
 	module: {
