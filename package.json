@@ -107,7 +107,6 @@
     "babel-loader": "^8.2.3",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "css-loader": "^5.2.7",
-    "eslint-loader": "^4.0.2",
     "eslint-plugin-es": "^4.1.0",
     "eslint-webpack-plugin": "^2.5.4",
     "exports-loader": "^1.1.1",
