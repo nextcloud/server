@@ -322,26 +322,34 @@ OC.FileUpload.prototype = {
 		);
 	},
 
+	_delete: function() {
+		var self = this;
+		if (this.data.isChunked) {
+			this._deleteChunkFolder()
+		}
+		this.deleteUpload();
+	},
+
 	/**
 	 * Abort the upload
 	 */
 	abort: function() {
-		if (this.data.isChunked) {
-			this._deleteChunkFolder();
+		var self = this;
+		if (this.aborted) {
+			return
 		}
-		this.data.abort();
-		this.deleteUpload();
 		this.aborted = true;
+		this._delete();
 	},
 
 	/**
 	 * Fail the upload
 	 */
 	fail: function() {
-		this.deleteUpload();
-		if (this.data.isChunked) {
-			this._deleteChunkFolder();
+		if (this.aborted) {
+			return
 		}
+		this._delete();
 	},
 
 	/**
@@ -679,7 +687,13 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 
-		delete this._uploads[upload.data.uploadId];
+		// defer as some calls/chunks might still be busy failing, so we need
+		// the upload info there still
+		var self = this;
+		var uploadId = upload.data.uploadId;
+		window.setTimeout(function() {
+			delete self._uploads[uploadId];
+		}, 5000)
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
@@ -905,6 +919,7 @@ OC.Uploader.prototype = _.extend({
 		if ($uploadEl.exists()) {
 			this.progressBar.on('cancel', function() {
 				self.cancelUploads();
+				self.showUploadCancelMessage();
 			});
 
 			this.fileUploadParam = {
@@ -1075,6 +1090,10 @@ OC.Uploader.prototype = _.extend({
 					var upload = self.getUpload(data);
 					var status = null;
 					if (upload) {
+						if (upload.aborted) {
+							// uploads might fail with errors from the server when aborted
+							return
+						}
 						status = upload.getResponseStatus();
 					}
 					self.log('fail', e, upload);
@@ -1082,7 +1101,7 @@ OC.Uploader.prototype = _.extend({
 					self.removeUpload(upload);
 
 					if (data.textStatus === 'abort' || data.errorThrown === 'abort') {
-						self.showUploadCancelMessage();
+						return
 					} else if (status === 412) {
 						// file already exists
 						self.showConflict(upload);
@@ -1283,6 +1302,10 @@ OC.Uploader.prototype = _.extend({
 				fileupload.on('fileuploadchunksend', function(e, data) {
 					// modify the request to adjust it to our own chunking
 					var upload = self.getUpload(data);
+					if (!upload) {
+						// likely cancelled
+						return
+					}
 					var range = data.contentRange.split(' ')[1];
 					var chunkId = range.split('/')[0].split('-')[0];
 					data.url = OC.getRootPath() +
@@ -1317,6 +1340,10 @@ OC.Uploader.prototype = _.extend({
 
 						self.trigger('done', e, upload);
 					}).fail(function(status, response) {
+						if (upload.aborted) {
+							return
+						}
+
 						var message = response.message;
 						if (status === 507) {
 							// not enough space
