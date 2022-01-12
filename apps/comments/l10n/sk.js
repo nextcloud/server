@@ -10,6 +10,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s komentoval %2$s",
     "{author} commented on {file}" : "{author} komentoval {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Boli ste spomenutý v \"{file}\", v komentári používateľom ktorý bol už vymazaný",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} vás spomenul v komentári k “{file}”",
     "Files app plugin to add comments to files" : "Zásuvný modul aplikácie súborov, ktorý umožňuje súborom pridávať komentáre",
     "Edit comment" : "Upraviť komentár",
     "Delete comment" : "Zmazať komentár",
