@@ -109,7 +109,7 @@ class RateLimitingMiddleware extends Middleware {
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof RateLimitExceededException) {
-			if (stripos($this->request->getHeader('Accept'),'html') === false) {
+			if (stripos($this->request->getHeader('Accept'), 'html') === false) {
 				$response = new DataResponse([], $exception->getCode());
 			} else {
 				$response = new TemplateResponse(

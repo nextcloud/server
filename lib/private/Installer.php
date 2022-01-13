@@ -308,91 +308,80 @@ class Installer {
 					$extractDir = $this->tempManager->getTemporaryFolder();
 					$archive = new TAR($tempFile);
 
-					if ($archive) {
-						if (!$archive->extract($extractDir)) {
-							$errorMessage = 'Could not extract app ' . $appId;
+					if (!$archive->extract($extractDir)) {
+						$errorMessage = 'Could not extract app ' . $appId;
 
-							$archiveError = $archive->getError();
-							if ($archiveError instanceof \PEAR_Error) {
-								$errorMessage .= ': ' . $archiveError->getMessage();
-							}
-
-							throw new \Exception($errorMessage);
-						}
-						$allFiles = scandir($extractDir);
-						$folders = array_diff($allFiles, ['.', '..']);
-						$folders = array_values($folders);
-
-						if (count($folders) > 1) {
-							throw new \Exception(
-								sprintf(
-									'Extracted app %s has more than 1 folder',
-									$appId
-								)
-							);
+						$archiveError = $archive->getError();
+						if ($archiveError instanceof \PEAR_Error) {
+							$errorMessage .= ': ' . $archiveError->getMessage();
 						}
 
-						// Check if appinfo/info.xml has the same app ID as well
-						if ((PHP_VERSION_ID < 80000)) {
-							$loadEntities = libxml_disable_entity_loader(false);
-							$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
-							libxml_disable_entity_loader($loadEntities);
-						} else {
-							$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
-						}
-						if ((string)$xml->id !== $appId) {
-							throw new \Exception(
-								sprintf(
-									'App for id %s has a wrong app ID in info.xml: %s',
-									$appId,
-									(string)$xml->id
-								)
-							);
-						}
+						throw new \Exception($errorMessage);
+					}
+					$allFiles = scandir($extractDir);
+					$folders = array_diff($allFiles, ['.', '..']);
+					$folders = array_values($folders);
 
-						// Check if the version is lower than before
-						$currentVersion = OC_App::getAppVersion($appId);
-						$newVersion = (string)$xml->version;
-						if (version_compare($currentVersion, $newVersion) === 1) {
-							throw new \Exception(
-								sprintf(
-									'App for id %s has version %s and tried to update to lower version %s',
-									$appId,
-									$currentVersion,
-									$newVersion
-								)
-							);
-						}
-
-						$baseDir = OC_App::getInstallPath() . '/' . $appId;
-						// Remove old app with the ID if existent
-						OC_Helper::rmdirr($baseDir);
-						// Move to app folder
-						if (@mkdir($baseDir)) {
-							$extractDir .= '/' . $folders[0];
-							OC_Helper::copyr($extractDir, $baseDir);
-						}
-						OC_Helper::copyr($extractDir, $baseDir);
-						OC_Helper::rmdirr($extractDir);
-						return;
-					} else {
+					if (count($folders) > 1) {
 						throw new \Exception(
 							sprintf(
-								'Could not extract app with ID %s to %s',
-								$appId,
-								$extractDir
+								'Extracted app %s has more than 1 folder',
+								$appId
 							)
 						);
 					}
-				} else {
-					// Signature does not match
-					throw new \Exception(
-						sprintf(
-							'App with id %s has invalid signature',
-							$appId
-						)
-					);
+
+					// Check if appinfo/info.xml has the same app ID as well
+					if ((PHP_VERSION_ID < 80000)) {
+						$loadEntities = libxml_disable_entity_loader(false);
+						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						libxml_disable_entity_loader($loadEntities);
+					} else {
+						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+					}
+					if ((string)$xml->id !== $appId) {
+						throw new \Exception(
+							sprintf(
+								'App for id %s has a wrong app ID in info.xml: %s',
+								$appId,
+								(string)$xml->id
+							)
+						);
+					}
+
+					// Check if the version is lower than before
+					$currentVersion = OC_App::getAppVersion($appId);
+					$newVersion = (string)$xml->version;
+					if (version_compare($currentVersion, $newVersion) === 1) {
+						throw new \Exception(
+							sprintf(
+								'App for id %s has version %s and tried to update to lower version %s',
+								$appId,
+								$currentVersion,
+								$newVersion
+							)
+						);
+					}
+
+					$baseDir = OC_App::getInstallPath() . '/' . $appId;
+					// Remove old app with the ID if existent
+					OC_Helper::rmdirr($baseDir);
+					// Move to app folder
+					if (@mkdir($baseDir)) {
+						$extractDir .= '/' . $folders[0];
+						OC_Helper::copyr($extractDir, $baseDir);
+					}
+					OC_Helper::copyr($extractDir, $baseDir);
+					OC_Helper::rmdirr($extractDir);
+					return;
 				}
+				// Signature does not match
+				throw new \Exception(
+					sprintf(
+						'App with id %s has invalid signature',
+						$appId
+					)
+				);
 			}
 		}
 

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-require_once './lib/composer/autoload.php';
+require_once './vendor-bin/cs-fixer/vendor/autoload.php';
 
 use Nextcloud\CodingStandard\Config;
 
 $config = new Config();
 $config
 	->getFinder()
+	->ignoreVCSIgnored(true)
 	->exclude('config')
 	->exclude('data')
 	->notPath('3rdparty')

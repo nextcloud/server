@@ -136,7 +136,7 @@ class Adapter {
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function insertIgnoreConflict(string $table,array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values) : int {
 		try {
 			$builder = $this->conn->getQueryBuilder();
 			$builder->insert($table);

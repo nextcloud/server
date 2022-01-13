@@ -16,6 +16,10 @@
 			<directory name="lib/composer/bin"/>
 		</ignoreFiles>
 	</projectFiles>
+	<stubs>
+		<file name="build/stubs/gd.php"/>
+		<file name="build/stubs/ldap.php"/>
+	</stubs>
 	<extraFiles>
 		<directory name="3rdparty"/>
 	</extraFiles>

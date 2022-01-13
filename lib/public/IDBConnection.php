@@ -188,7 +188,7 @@ interface IDBConnection {
 	 * @return int number of inserted rows
 	 * @since 16.0.0
 	 */
-	public function insertIgnoreConflict(string $table,array $values) : int;
+	public function insertIgnoreConflict(string $table, array $values) : int;
 
 	/**
 	 * Insert or update a row value

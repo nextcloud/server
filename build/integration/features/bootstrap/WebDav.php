@@ -625,7 +625,7 @@ trait WebDav {
 		$body .= $content3."\r\n";
 		$body .= '--'.$boundary."--\r\n";
 
-		$stream = fopen('php://temp','r+');
+		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);
 		rewind($stream);
 

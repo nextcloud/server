@@ -237,7 +237,7 @@ class Crypt {
 		$encryptedContent = openssl_encrypt($plainContent,
 			$cipher,
 			$passPhrase,
-			false,
+			0,
 			$iv);
 
 		if (!$encryptedContent) {
@@ -617,7 +617,7 @@ class Crypt {
 		$plainContent = openssl_decrypt($encryptedContent,
 			$cipher,
 			$passPhrase,
-			false,
+			0,
 			$iv);
 
 		if ($plainContent) {
