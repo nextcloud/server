@@ -102,7 +102,9 @@ class Manager implements ICommentsManager {
 		}
 		$data['children_count'] = (int)$data['children_count'];
 		$data['reference_id'] = $data['reference_id'] ?? null;
-		$data['reactions'] = json_decode($data['reactions'], true);
+		if ($this->supportReactions()) {
+			$data['reactions'] = json_decode($data['reactions'], true);
+		}
 		return $data;
 	}
 
@@ -910,6 +912,9 @@ class Manager implements ICommentsManager {
 	}
 
 	private function deleteReaction(IComment $reaction): void {
+		if (!$this->supportReactions()) {
+			return;
+		}
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('reactions')
 			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($reaction->getParentId())))
@@ -930,6 +935,9 @@ class Manager implements ICommentsManager {
 	 * @since 24.0.0
 	 */
 	public function getReactionComment(int $parentId, string $actorType, string $actorId, string $reaction): IComment {
+		if (!$this->supportReactions()) {
+			throw new NotFoundException('The database does not support reactions');
+		}
 		$qb = $this->dbConn->getQueryBuilder();
 		$messageId = $qb
 			->select('message_id')
@@ -955,6 +963,7 @@ class Manager implements ICommentsManager {
 	 * @since 24.0.0
 	 */
 	public function retrieveAllReactionsWithSpecificReaction(int $parentId, string $reaction): ?array {
+		$this->throwIfNotSupportReactions();
 		$qb = $this->dbConn->getQueryBuilder();
 		$result = $qb
 			->select('message_id')
@@ -975,6 +984,10 @@ class Manager implements ICommentsManager {
 		return $comments;
 	}
 
+	public function supportReactions(): bool {
+		return $this->dbConn->supports4ByteText();
+	}
+
 	/**
 	 * Retrieve all reactions of a message
 	 *
@@ -984,6 +997,9 @@ class Manager implements ICommentsManager {
 	 * @since 24.0.0
 	 */
 	public function retrieveAllReactions(int $parentId): array {
+		if (!$this->supportReactions()) {
+			return [];
+		}
 		$qb = $this->dbConn->getQueryBuilder();
 		$result = $qb
 			->select('message_id')
@@ -1124,6 +1140,9 @@ class Manager implements ICommentsManager {
 	}
 
 	private function addReaction(IComment $reaction): void {
+		if (!$this->supportReactions()) {
+			return;
+		}
 		// Prevent violate constraint
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select($qb->func()->count('*'))

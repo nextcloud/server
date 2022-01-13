@@ -2,7 +2,6 @@
 
 namespace Test\Comments;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\Comments\Comment;
 use OC\Comments\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -876,9 +875,7 @@ class ManagerTest extends TestCase {
 	}
 
 	private function skipIfNotSupport4ByteUTF() {
-		// 4 byte UTF doesn't work on mysql
-		$params = \OC::$server->get(\OC\DB\Connection::class)->getParams();
-		if (\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySQLPlatform && $params['charset'] !== 'utf8mb4') {
+		if (!$this->getManager()->supportReactions()) {
 			$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
 		}
 	}
