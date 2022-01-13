@@ -114,8 +114,6 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					'length' => 64,
 				]);
 				$table2->setPrimaryKey(['owncloud_name'], 'lgm_backup_primary');
-				$table2->addUniqueIndex(['ldap_dn_hash'], 'ldap_group_dn_hashes');
-				$table2->addUniqueIndex(['directory_uuid'], 'ldap_group_directory_uuid');
 				$changeSchema = true;
 			}
 		}
