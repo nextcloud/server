@@ -360,7 +360,7 @@ class ShareController extends AuthPublicShareController {
 		$shareTmpl['protected'] = $share->getPassword() !== null ? 'true' : 'false';
 		$shareTmpl['dir'] = '';
 		$shareTmpl['nonHumanFileSize'] = $shareNode->getSize();
-		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($shareNode->getSize());
+		$shareTmpl['fileSize'] = str_replace(' ', '&nbsp;', \OCP\Util::humanFileSize($shareNode->getSize()));
 		$shareTmpl['hideDownload'] = $share->getHideDownload();
 
 		$hideFileList = false;
