@@ -144,7 +144,10 @@ class FileSystemTags implements ICheck, IFileCheck {
 			if ($groupFolderStorage === null) {
 				throw new \LogicException('Should not happen: Storage is instance of GroupFolderStorage but no group folder storage found while unwrapping.');
 			}
-			/** @psalm-suppress UndefinedMethod */
+			/**
+			 * @psalm-suppress UndefinedDocblockClass
+			 * @psalm-suppress UndefinedInterfaceMethod
+			 */
 			$cacheId = $cache->getNumericStorageId() . '/' . $groupFolderStorage->getFolderId();
 		} else {
 			$cacheId = $cache->getNumericStorageId();
