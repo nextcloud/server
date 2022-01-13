@@ -38,6 +38,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use OCP\Mail\IMailer;
 
 class MailPlugin implements ISearchPlugin {
 	/* @var bool */
@@ -64,19 +65,23 @@ class MailPlugin implements ISearchPlugin {
 	private $knownUserService;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var IMailer */
+	private $mailer;
 
 	public function __construct(IManager $contactsManager,
 								ICloudIdManager $cloudIdManager,
 								IConfig $config,
 								IGroupManager $groupManager,
 								KnownUserService $knownUserService,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								IMailer $mailer) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
 		$this->groupManager = $groupManager;
 		$this->knownUserService = $knownUserService;
 		$this->userSession = $userSession;
+		$this->mailer = $mailer;
 
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
@@ -247,8 +252,7 @@ class MailPlugin implements ISearchPlugin {
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
 
-
-		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
+		if (!$searchResult->hasExactIdMatch($emailType) && $this->mailer->validateMailAddress($search)) {
 			$result['exact'][] = [
 				'label' => $search,
 				'uuid' => $search,
