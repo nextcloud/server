@@ -156,7 +156,7 @@ class ViewController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 * @throws NotFoundException
 	 */
-	public function showFile(string $fileid = null): Response {
+	public function showFile(string $fileid = null, int $openfile = 1): Response {
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
 			return $this->redirectToFile($fileid);
