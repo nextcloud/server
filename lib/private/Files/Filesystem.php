@@ -924,4 +924,8 @@ class Filesystem {
 	public static function getHiddenFolderName(): string {
 		return '.hidden_' . \OC_Util::getInstanceId();
 	}
+
+	public static function isPathHidden($path): string {
+		return strpos($path, self::getHiddenFolderName()) !== false;
+	}
 }
