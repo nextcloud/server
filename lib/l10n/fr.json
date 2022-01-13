@@ -220,6 +220,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "La raison est probablement l'utilisation d'un cache / accélérateur tel que Zend OPcache ou eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Les modules PHP ont été installés mais sont toujours indiqués comme manquants ?",
     "Please ask your server administrator to restart the web server." : "Veuillez demander à votre administrateur serveur de redémarrer le serveur web.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 requis.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Veuillez changer les permissions du répertoire en mode 0770 afin que son contenu ne puisse pas être listé par les autres utilisateurs.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assurez-vous que le répertoire de données contient un fichier \".ocdata\" à sa racine.",
     "Action \"%s\" not supported or implemented." : "Action \"%s\" non supportée ou implémentée.",
