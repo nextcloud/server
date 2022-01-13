@@ -497,19 +497,19 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	}
 
 	/**
-	 * @template T of IStorage
-	 * @param class-string<T> $class
-	 * @return ?T
+	 * @psalm-template T of IStorage
+	 * @psalm-param class-string<T> $class
+	 * @psalm-return T|null
 	 */
-	public function getInstanceOfStorage(string $class): ?IStorage {
+	public function getInstanceOfStorage(string $class) {
 		$storage = $this;
-		while ($storage->instanceOfStorage(Wrapper::class)) {
+		while ($storage instanceof Wrapper) {
 			if ($storage instanceof $class) {
 				break;
 			}
 			$storage = $storage->getWrapperStorage();
 		}
-		if (!is_a($storage, $class)) {
+		if (!($storage instanceof $class)) {
 			return null;
 		}
 		return $storage;

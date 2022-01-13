@@ -128,13 +128,25 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return int[]
 	 */
 	protected function getFileIds(ICache $cache, $path, $isExternalStorage) {
-		// TODO: Fix caching inside group folders
-		// Do not cache file ids inside group folders because multiple file ids might be mapped to
-		// the same combination of cache id + path.
-		$shouldCacheFileIds = !$this->storage
-			->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
-		$cacheId = $cache->getNumericStorageId();
-		if ($shouldCacheFileIds && isset($this->fileIds[$cacheId][$path])) {
+		if ($this->storage->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class)) {
+			// Special implementation for groupfolder since all groupfolders share the same storage
+			// id so add the group folder id in the cache key too.
+			$groupFolderStorage = $this->storage;
+			if ($this->storage instanceof Wrapper) {
+				$groupFolderStorage = $this->storage->getInstanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
+			}
+			if ($groupFolderStorage === null) {
+				throw new \LogicException('Should not happen: Storage is instance of GroupFolderStorage but no group folder storage found while unwrapping.');
+			}
+			/**
+			 * @psalm-suppress UndefinedDocblockClass
+			 * @psalm-suppress UndefinedInterfaceMethod
+			 */
+			$cacheId = $cache->getNumericStorageId() . '/' . $groupFolderStorage->getFolderId();
+		} else {
+			$cacheId = $cache->getNumericStorageId();
+		}
+		if (isset($this->fileIds[$cacheId][$path])) {
 			return $this->fileIds[$cacheId][$path];
 		}
 
