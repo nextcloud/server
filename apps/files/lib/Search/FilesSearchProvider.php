@@ -118,13 +118,12 @@ class FilesSearchProvider implements IProvider {
 				// Generate thumbnail url
 				$thumbnailUrl = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->getId()]);
 				$path = $userFolder->getRelativePath($result->getPath());
+
+				// Use shortened link to centralize the various
+				// files/folder url redirection in files.View.showFile
 				$link = $this->urlGenerator->linkToRoute(
-					'files.view.index',
-					[
-						'dir' => dirname($path),
-						'scrollto' => $result->getName(),
-						'openfile' => $result->getId(),
-					]
+					'files.View.showFile',
+					['fileid' => $result->getId()]
 				);
 
 				$searchResultEntry = new SearchResultEntry(
