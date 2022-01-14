@@ -1967,10 +1967,8 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="2">
       <code>$share-&gt;getId()</code>
-      <code>$shareId</code>
-      <code>$shareId</code>
       <code>(int)$data['id']</code>
     </InvalidScalarArgument>
   </file>
