@@ -78,7 +78,7 @@ class SetupController {
 				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
 			} else {
-				$this->finishSetup(isset($post['install-recommended-apps']));
+				$this->finishSetup();
 			}
 		} else {
 			$options = array_merge($opts, $post);
@@ -106,7 +106,7 @@ class SetupController {
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
-	private function finishSetup(bool $installRecommended) {
+	private function finishSetup() {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
@@ -118,13 +118,8 @@ class SetupController {
 			}
 		}
 
-		if ($installRecommended) {
-			header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
-			exit();
-		} else {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
-			exit();
-		}
+		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
+		exit();
 	}
 
 	public function loadAutoConfig($post) {
