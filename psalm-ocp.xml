@@ -12,6 +12,9 @@
 	</plugins>
 	<projectFiles>
 		<directory name="lib/public"/>
+		<ignoreFiles>
+			<directory name="lib/composer/bin" />
+		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
