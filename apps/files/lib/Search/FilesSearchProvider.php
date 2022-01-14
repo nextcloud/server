@@ -122,11 +122,8 @@ class FilesSearchProvider implements IProvider {
 				// Use shortened link to centralize the various
 				// files/folder url redirection in files.View.showFile
 				$link = $this->urlGenerator->linkToRoute(
-					'files.view.index',
-					[
-						'dir' => dirname($path),
-						'scrollto' => $result->getName(),
-					]
+					'files.View.showFile',
+					['fileid' => $result->getId()]
 				);
 
 				$searchResultEntry = new SearchResultEntry(
