@@ -37,7 +37,7 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
-	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
 		$castedExpression = $this->queryBuilder->expr()->castColumn($expr, IQueryBuilder::PARAM_STR);
 
 		if (is_null($separator)) {

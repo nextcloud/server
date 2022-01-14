@@ -1210,20 +1210,21 @@ class Manager implements ICommentsManager {
 					$totalQuery->expr()->literal('":'),
 					$totalQuery->func()->count('id')
 				),
-				'total'
+				'colonseparatedvalue'
 			)
+			->selectAlias($totalQuery->func()->count('id'), 'total')
 			->from('reactions', 'r')
 			->where($totalQuery->expr()->eq('r.parent_id', $qb->createNamedParameter($parentId)))
 			->groupBy('r.reaction')
-			->orderBy($totalQuery->func()->count('id'), 'DESC')
+			->orderBy('total', 'DESC')
 			->setMaxResults(200);
 
 		$jsonQuery = $this->dbConn->getQueryBuilder();
 		$jsonQuery
 			->selectAlias(
-				$totalQuery->func()->concat(
+				$jsonQuery->func()->concat(
 					$jsonQuery->expr()->literal('{'),
-					$jsonQuery->func()->groupConcat('total'),
+					$jsonQuery->func()->groupConcat('colonseparatedvalue', ',', $jsonQuery->getColumnName('total') . ' DESC'),
 					$jsonQuery->expr()->literal('}')
 				),
 				'json'

@@ -36,7 +36,7 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
-	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
 		$separator = $this->connection->quote($separator);
 		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')');
 	}
