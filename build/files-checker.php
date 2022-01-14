@@ -39,6 +39,7 @@ $expectedFiles = [
 	'.mailmap',
 	'.npmignore',
 	'.php_cs.dist',
+	'.php-cs-fixer.dist.php',
 	'.scrutinizer.yml',
 	'.tag',
 	'.tx',
