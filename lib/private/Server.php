@@ -982,7 +982,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(ITrustedDomainHelper::class, TrustedDomainHelper::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Throttler', Throttler::class);
-		$this->registerService('IntegrityCodeChecker', function (ContainerInterface $c) {
+
+		/** @deprecated 24.0.0 */
+		$this->registerDeprecatedAlias('IntegrityCodeChecker', Checker::class);
+		$this->registerService(Checker::class, function (ContainerInterface $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
@@ -1156,8 +1159,10 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('CommentsManager', ICommentsManager::class);
 
-		$this->registerAlias(\OC_Defaults::class, 'ThemingDefaults');
-		$this->registerService('ThemingDefaults', function (Server $c) {
+		$this->registerAlias(\OC_Defaults::class, ThemingDefaults::class);
+		/** @deprecated 24.0.0 */
+		$this->registerDeprecatedAlias('ThemingDefaults', ThemingDefaults::class);
+		$this->registerService(ThemingDefaults::class, function (Server $c) {
 			/*
 			 * Dark magic for autoloader.
 			 * If we do a class_exists it will try to load the class which will
@@ -1206,7 +1211,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('EventDispatcher', \OC\EventDispatcher\SymfonyAdapter::class);
 		$this->registerAlias(EventDispatcherInterface::class, \OC\EventDispatcher\SymfonyAdapter::class);
 
-		$this->registerService('CryptoWrapper', function (ContainerInterface $c) {
+		/** @deprecated 24.0.0 */
+		$this->registerDeprecatedAlias('CryptoWrapper', CryptoWrapper::class);
+		$this->registerService(CryptoWrapper::class, function (ContainerInterface $c) {
 			// FIXME: Instantiiated here due to cyclic dependency
 			$request = new Request(
 				[
@@ -1261,7 +1268,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(SymfonyAdapter::class),
 				$c->get(IMailer::class),
 				$c->get(IURLGenerator::class),
-				$c->get('ThemingDefaults'),
+				$c->get(ThemingDefaults::class),
 				$c->get(IEventDispatcher::class),
 				$c->get(IUserSession::class),
 				$c->get(KnownUserService::class)
@@ -1302,7 +1309,9 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService('LockdownManager', function (ContainerInterface $c) {
+		/** @deprecated 24.0.0 */
+		$this->registerDeprecatedAlias('LockdownManager', LockdownManager::class);
+		$this->registerService(LockdownManager::class, function (ContainerInterface $c): LockdownManager {
 			return new LockdownManager(function () use ($c) {
 				return $c->get(ISession::class);
 			});
@@ -1645,6 +1654,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getSession() {
+		/** @psalm-suppress UndefinedInterfaceMethod */
 		return $this->get(IUserSession::class)->getSession();
 	}
 
@@ -1653,6 +1663,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function setSession(\OCP\ISession $session) {
 		$this->get(SessionStorage::class)->setSession($session);
+		/** @psalm-suppress UndefinedInterfaceMethod */
 		$this->get(IUserSession::class)->setSession($session);
 		$this->get(Store::class)->setSession($session);
 	}
@@ -1763,7 +1774,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getGetRedisFactory() {
-		return $this->get('RedisFactory');
+		return $this->get(RedisFactory::class);
 	}
 
 
@@ -1974,6 +1985,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getOcsClient() {
+		/** @psalm-suppress UndefinedClass */
 		return $this->get('OcsClient');
 	}
 
@@ -2117,11 +2129,11 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return \OCA\Theming\ThemingDefaults
+	 * @return ThemingDefaults
 	 * @deprecated 20.0.0
 	 */
 	public function getThemingDefaults() {
-		return $this->get('ThemingDefaults');
+		return $this->get(ThemingDefaults::class);
 	}
 
 	/**
@@ -2129,15 +2141,15 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getIntegrityCodeChecker() {
-		return $this->get('IntegrityCodeChecker');
+		return $this->get(Checker::class);
 	}
 
 	/**
-	 * @return \OC\Session\CryptoWrapper
+	 * @return CryptoWrapper
 	 * @deprecated 20.0.0
 	 */
 	public function getSessionCryptoWrapper() {
-		return $this->get('CryptoWrapper');
+		return $this->get(CryptoWrapper::class);
 	}
 
 	/**
@@ -2243,7 +2255,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getLDAPProvider() {
-		return $this->get('LDAPProvider');
+		return $this->get(ILDAPProvider::class);
 	}
 
 	/**
@@ -2269,7 +2281,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getLockdownManager() {
-		return $this->get('LockdownManager');
+		return $this->get(LockdownManager::class);
 	}
 
 	/**

@@ -1301,11 +1301,6 @@
       <code>$i</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/files/lib/Listener/LegacyLoadAdditionalScriptsAdapter.php">
-    <InvalidArgument occurrences="1">
-      <code>$legacyEvent</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/files/lib/Service/DirectEditingService.php">
     <UndefinedInterfaceMethod occurrences="1">
       <code>getEditors</code>
@@ -1639,8 +1634,7 @@
     <InvalidArgument occurrences="1">
       <code>$files_list</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="3">
-      <code>$freeSpace</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$maxUploadFilesize</code>
       <code>$maxUploadFilesize</code>
     </InvalidScalarArgument>
@@ -1680,11 +1674,6 @@
     <InvalidReturnType occurrences="1">
       <code>isSharable</code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/LegacyBeforeTemplateRenderedListener.php">
-    <InvalidArgument occurrences="1">
-      <code>$legacyEvent</code>
-    </InvalidArgument>
   </file>
   <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
     <InvalidArgument occurrences="1">
@@ -1967,10 +1956,8 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="2">
       <code>$share-&gt;getId()</code>
-      <code>$shareId</code>
-      <code>$shareId</code>
       <code>(int)$data['id']</code>
     </InvalidScalarArgument>
   </file>
