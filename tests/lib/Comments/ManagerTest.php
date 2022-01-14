@@ -1139,4 +1139,88 @@ class ManagerTest extends TestCase {
 			],
 		];
 	}
+
+	/**
+	 * @dataProvider providerTestReactionMessageSize
+	 */
+	public function testReactionMessageSize($reactionString, $valid) {
+		if (!$valid) {
+			$this->expectException(\UnexpectedValueException::class);
+		}
+
+		$manager = $this->getManager();
+		$comment = new Comment();
+		$comment->setMessage($reactionString)
+			->setVerb('reaction')
+			->setActor('users', 'alice')
+			->setObject('files', 'file64');
+		$status = $manager->save($comment);
+		$this->assertTrue($status);
+	}
+
+	public function providerTestReactionMessageSize(): array {
+		return [
+			['a', true],
+			['1', true],
+			['12345678', true],
+			['123456789', false],
+			['👍', true],
+			['👍👍', true],
+			['👍🏽', true],
+			['👍🏽👍', false],
+			['👍🏽👍🏽', false],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestReactionsSummarizeOrdered
+	 */
+	public function testReactionsSummarizeOrdered(array $comments, $expected) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$buffer = [];
+		foreach ($comments as $comment) {
+			[$message, $actorId, $verb, $parentText] = $comment;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $buffer[$parentText]->getId();
+			}
+			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
+			if (!$parentId) {
+				$buffer[$comment->getMessage()] = $comment;
+			}
+		}
+		$actual = $manager->get($comment->getParentId());
+		$this->assertSame($expected, $actual->getReactions());
+	}
+
+	public function providerTestReactionsSummarizeOrdered(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message'],
+				],
+				['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👎', 'John', 'reaction', 'message'],
+					['👍', 'Paul', 'reaction', 'message'],
+					['👍', 'Peter', 'reaction', 'message'],
+					['💜', 'Matthew', 'reaction', 'message'],
+					['💜', 'Mark', 'reaction', 'message'],
+					['💜', 'Luke', 'reaction', 'message'],
+				],
+				[
+
+					'💜' => 3,
+					'👍' => 2,
+					'👎' => 1,
+				],
+			],
+		];
+	}
 }

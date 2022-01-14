@@ -41,6 +41,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IInitialStateService;
+use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -134,6 +135,10 @@ class Manager implements ICommentsManager {
 			|| !$comment->getVerb()
 		) {
 			throw new \UnexpectedValueException('Actor, Object and Verb information must be provided for saving');
+		}
+
+		if ($comment->getVerb() === 'reaction' && strlen($comment->getMessage()) > 8) {
+			throw new \UnexpectedValueException('Reactions cannot be longer than 8 bytes');
 		}
 
 		if ($comment->getId() === '') {
@@ -912,9 +917,6 @@ class Manager implements ICommentsManager {
 	}
 
 	private function deleteReaction(IComment $reaction): void {
-		if (!$this->supportReactions()) {
-			return;
-		}
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('reactions')
 			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($reaction->getParentId())))
@@ -926,18 +928,20 @@ class Manager implements ICommentsManager {
 	/**
 	 * Get comment related with user reaction
 	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
 	 * @param integer $parentId
 	 * @param string $actorType
 	 * @param string $actorId
 	 * @param string $reaction
 	 * @return IComment
 	 * @throws NotFoundException
+	 * @throws PreConditionNotMetException
 	 * @since 24.0.0
 	 */
 	public function getReactionComment(int $parentId, string $actorType, string $actorId, string $reaction): IComment {
-		if (!$this->supportReactions()) {
-			throw new NotFoundException('The database does not support reactions');
-		}
+		$this->throwIfNotSupportReactions();
 		$qb = $this->dbConn->getQueryBuilder();
 		$messageId = $qb
 			->select('message_id')
@@ -984,22 +988,40 @@ class Manager implements ICommentsManager {
 		return $comments;
 	}
 
+	/**
+	 * Support reactions
+	 *
+	 * @return boolean
+	 * @since 24.0.0
+	 */
 	public function supportReactions(): bool {
 		return $this->dbConn->supports4ByteText();
 	}
 
 	/**
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	private function throwIfNotSupportReactions() {
+		if (!$this->supportReactions()) {
+			throw new PreConditionNotMetException('The database does not support reactions');
+		}
+	}
+
+	/**
 	 * Retrieve all reactions of a message
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
 	 *
 	 * @param integer $parentId
 	 * @param string $reaction
+	 * @throws PreConditionNotMetException
 	 * @return IComment[]
 	 * @since 24.0.0
 	 */
 	public function retrieveAllReactions(int $parentId): array {
-		if (!$this->supportReactions()) {
-			return [];
-		}
+		$this->throwIfNotSupportReactions();
 		$qb = $this->dbConn->getQueryBuilder();
 		$result = $qb
 			->select('message_id')
@@ -1058,9 +1080,13 @@ class Manager implements ICommentsManager {
 	 * Throws NotFoundException when a comment that is to be updated does not
 	 * exist anymore at this point of time.
 	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
 	 * @param IComment $comment
 	 * @return bool
 	 * @throws NotFoundException
+	 * @throws PreConditionNotMetException
 	 * @since 9.0.0
 	 */
 	public function save(IComment $comment) {
@@ -1140,9 +1166,6 @@ class Manager implements ICommentsManager {
 	}
 
 	private function addReaction(IComment $reaction): void {
-		if (!$this->supportReactions()) {
-			return;
-		}
 		// Prevent violate constraint
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select($qb->func()->count('*'))
@@ -1191,7 +1214,9 @@ class Manager implements ICommentsManager {
 			)
 			->from('reactions', 'r')
 			->where($totalQuery->expr()->eq('r.parent_id', $qb->createNamedParameter($parentId)))
-			->groupBy('r.reaction');
+			->groupBy('r.reaction')
+			->orderBy($totalQuery->func()->count('id'), 'DESC')
+			->setMaxResults(200);
 
 		$jsonQuery = $this->dbConn->getQueryBuilder();
 		$jsonQuery
