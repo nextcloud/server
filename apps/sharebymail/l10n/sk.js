@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Sprístupniť e-mailom",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Zdieľanie %1$s zlyhalo, táto položka už je zdieľaná s užívateľom %2$s ",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vygenerované heslo Vám nemôže byť zaslané. Zadajte správnu mailovú adresu vo Vašich osobných nastaveniach a skúste znovu.",
+    "Failed to send share by email. Got an invalid email address" : "Odoslanie zdieľania e-mailom zlyhalo. Máte neplatnú e-mailovú adresu",
     "Failed to send share by email" : "Zaslanie sprístupnenia cez e-mail zlyhalo",
     "%1$s shared »%2$s« with you" : "%1$s vám sprístupnil »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s vám sprístupnil »%2$s«.",
