@@ -25,6 +25,7 @@
     "Share by mail" : "Geteilt über eine E-Mail",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element schon mit dem Benutzer %2$s geteilt wird.",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte geben Sie in Ihren persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche Sie es erneut.",
+    "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Habe eine ungültige E-Mail-Adresse erhalten.",
     "Failed to send share by email" : "Fehler beim Senden der Freigabe per E-Mail",
     "%1$s shared »%2$s« with you" : "%1$s hat »%2$s« mit Ihnen geteilt",
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit Ihnen geteilt.",
