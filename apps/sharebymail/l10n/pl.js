@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Udostępnij e-mailem",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Udostępnianie %1$s nie powiodło się, ponieważ ten element jest już udostępniony użytkownikowi %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
+    "Failed to send share by email. Got an invalid email address" : "Nie udało się wysłać udostępnienia pocztą e-mail. Masz nieprawidłowy adres e-mail",
     "Failed to send share by email" : "Nie udało się wysłać linku udostępnienia e-mailem",
     "%1$s shared »%2$s« with you" : "%1$s udostępnił »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s udostępnił »%2$s«.",
