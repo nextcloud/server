@@ -71,7 +71,7 @@
 		"@nextcloud/stylelint-config": "^2.1.1",
 		"@nextcloud/webpack-vue-config": "^4.3.0",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
-		"cypress": "^9.2.0",
+		"cypress": "^9.2.1",
 		"cypress-image-snapshot": "^4.0.1",
 		"eslint-plugin-cypress": "^2.12.1",
 		"jest": "^27.4.7",
