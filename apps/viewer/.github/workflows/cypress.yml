@@ -94,7 +94,7 @@ jobs:
 
   summary:
     runs-on: ubuntu-latest
-    needs: cypress
+    needs: [init, cypress]
 
     if: always()
 
