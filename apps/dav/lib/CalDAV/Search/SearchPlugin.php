@@ -145,10 +145,10 @@ class SearchPlugin extends ServerPlugin {
 			$nodePaths = $node->calendarSearch($report->filters, $report->limit, $report->offset);
 
 			foreach ($nodePaths as $path) {
-				[$properties] = $this->server->getPropertiesForPath(
+				$properties = $this->server->getPropertiesIteratorForPath(
 					$this->server->getRequestUri() . '/' . $path,
 					$report->properties);
-				$result[] = $properties;
+				$result[] = $properties->current();
 			}
 		}
 

@@ -381,7 +381,7 @@ class FilesReportPlugin extends ServerPlugin {
 			$propFind = new PropFind($filesUri . $node->getPath(), $requestedProps);
 
 			$this->server->getPropertiesByNode($propFind, $node);
-			// copied from Sabre Server's getPropertiesForPath
+			// copied from Sabre Server's getPropertiesIteratorForPath
 			$result = $propFind->getResultForMultiStatus();
 			$result['href'] = $propFind->getPath();
 

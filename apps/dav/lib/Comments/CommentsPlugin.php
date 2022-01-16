@@ -184,11 +184,11 @@ class CommentsPlugin extends ServerPlugin {
 		$responses = [];
 		foreach ($results as $node) {
 			$nodePath = $this->server->getRequestUri() . '/' . $node->comment->getId();
-			$resultSet = $this->server->getPropertiesForPath($nodePath, CommentNode::getPropertyNames());
-			if (isset($resultSet[0]) && isset($resultSet[0][200])) {
+			$resultSet = $this->server->getPropertiesIteratorForPath($nodePath, CommentNode::getPropertyNames());
+			if ($resultSet->valid() && isset($resultSet->current()[200])) {
 				$responses[] = new Response(
 					$this->server->getBaseUri() . $nodePath,
-					[200 => $resultSet[0][200]],
+					[200 => $resultSet->current()[200]],
 					200
 				);
 			}

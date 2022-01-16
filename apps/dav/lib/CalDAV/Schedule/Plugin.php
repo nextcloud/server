@@ -321,12 +321,12 @@ EOF;
 					]);
 				}
 
-				$result = $this->server->getPropertiesForPath($calendarHomePath . '/' . $uri, [], 1);
-				if (empty($result)) {
+				$result = $this->server->getPropertiesIteratorForPath($calendarHomePath . '/' . $uri, [], 1);
+				if (!$result->valid()) {
 					return null;
 				}
 
-				return new LocalHref($result[0]['href']);
+				return new LocalHref($result->current()['href']);
 			});
 		}
 	}

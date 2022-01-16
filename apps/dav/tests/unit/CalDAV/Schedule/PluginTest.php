@@ -32,6 +32,7 @@ use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
@@ -330,9 +331,9 @@ class PluginTest extends TestCase {
 		] : [];
 
 		$this->server->expects($this->once())
-			->method('getPropertiesForPath')
+			->method('getPropertiesIteratorForPath')
 			->with($calendarHome .'/' . $calendarUri, [], 1)
-			->willReturn($properties);
+			->willReturn($this->generate($properties));
 
 		$this->plugin->propFindDefaultCalendarUrl($propFind, $node);
 
@@ -344,5 +345,14 @@ class PluginTest extends TestCase {
 		/** @var LocalHref $result */
 		$result = $propFind->get(Plugin::SCHEDULE_DEFAULT_CALENDAR_URL);
 		$this->assertEquals('/remote.php/dav/'. $calendarHome . '/' . $calendarUri, $result->getHref());
+	}
+
+	// https://stackoverflow.com/a/56763373/10204399
+	protected function generate(array $yield_values): ReturnCallback {
+		return $this->returnCallback(function() use ($yield_values) {
+			foreach ($yield_values as $value) {
+				yield $value;
+			}
+		});
 	}
 }
