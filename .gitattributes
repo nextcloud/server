@@ -1,2 +1,3 @@
 /dist/* binary
-/package-lock.json
+/package-lock.json binary
+/build/package-lock.json binary
