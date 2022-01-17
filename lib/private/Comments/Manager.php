@@ -108,7 +108,7 @@ class Manager implements ICommentsManager {
 			// Ordering does not work on the database with group concat and Oracle,
 			// So we simply sort on the output.
 			if (is_array($list)) {
-				uasort($list, static function($a, $b) {
+				uasort($list, static function ($a, $b) {
 					if ($a === $b) {
 						return 0;
 					}
