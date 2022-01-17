@@ -1340,7 +1340,7 @@ class View {
 
 		try {
 			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
-			if (!$data || $data['size'] === -1) {
+			if (!$data || (isset($data['size']) && $data['size'] === -1)) {
 				if (!$storage->file_exists($internalPath)) {
 					return false;
 				}
