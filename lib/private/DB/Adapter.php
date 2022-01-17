@@ -3,11 +3,13 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jonny007-MKD <1-23-4-5@web.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
+ * @author Ole Ostergaard <ole.ostergaard@knime.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -21,12 +23,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
@@ -46,10 +48,12 @@ class Adapter {
 
 	/**
 	 * @param string $table name
+	 *
 	 * @return int id of last insert statement
+	 * @throws Exception
 	 */
 	public function lastInsertId($table) {
-		return $this->conn->realLastInsertId($table);
+		return (int) $this->conn->realLastInsertId($table);
 	}
 
 	/**
@@ -64,6 +68,7 @@ class Adapter {
 	 * Create an exclusive read+write lock on a table
 	 *
 	 * @param string $tableName
+	 * @throws Exception
 	 * @since 9.1.0
 	 */
 	public function lockTable($tableName) {
@@ -74,6 +79,7 @@ class Adapter {
 	/**
 	 * Release a previous acquired lock again
 	 *
+	 * @throws Exception
 	 * @since 9.1.0
 	 */
 	public function unlockTable() {
@@ -91,7 +97,7 @@ class Adapter {
 	 *				If this is null or an empty array, all keys of $input will be compared
 	 *				Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
-	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
@@ -100,11 +106,11 @@ class Adapter {
 		}
 		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
-			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
+			. str_repeat('?,', count($input) - 1).'? ' // Is there a prettier alternative?
 			. 'FROM `' . $table . '` WHERE ';
 
 		$inserts = array_values($input);
-		foreach($compare as $key) {
+		foreach ($compare as $key) {
 			$query .= '`' . $key . '`';
 			if (is_null($input[$key])) {
 				$query .= ' IS NULL AND ';
@@ -128,17 +134,17 @@ class Adapter {
 	}
 
 	/**
-	 * @suppress SqlInjectionChecker
+	 * @throws \OCP\DB\Exception
 	 */
-	public function insertIgnoreConflict(string $table,array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values) : int {
 		try {
 			$builder = $this->conn->getQueryBuilder();
 			$builder->insert($table);
-			foreach($values as $key => $value) {
+			foreach ($values as $key => $value) {
 				$builder->setValue($key, $builder->createNamedParameter($value));
 			}
 			return $builder->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			return 0;
 		}
 	}

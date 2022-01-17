@@ -1,9 +1,10 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,19 +17,22 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import $ from 'jquery'
 import moment from 'moment'
 
 import History from './util-history'
 import OC from './index'
-import humanFileSize from '../Util/human-file-size'
+import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
+/**
+ * @param {any} t -
+ */
 function chunkify(t) {
 	// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
-	let tz = []
+	const tz = []
 	let x = 0
 	let y = -1
 	let n = 0
@@ -37,7 +41,7 @@ function chunkify(t) {
 	while (x < t.length) {
 		c = t.charAt(x)
 		// only include the dot in strings
-		var m = ((!n && c === '.') || (c >= '0' && c <= '9'))
+		const m = ((!n && c === '.') || (c >= '0' && c <= '9'))
 		if (m !== n) {
 			// next chunk
 			y++
@@ -52,47 +56,51 @@ function chunkify(t) {
 
 /**
  * Utility functions
+ *
  * @namespace OC.Util
  */
 export default {
 
 	History,
 
-	// TODO: remove original functions from global namespace
+	/**
+	 * @deprecated use https://nextcloud.github.io/nextcloud-files/modules/_humanfilesize_.html#formatfilesize
+	 */
 	humanFileSize,
 
 	/**
 	 * Returns a file size in bytes from a humanly readable string
 	 * Makes 2kB to 2048.
 	 * Inspired by computerFileSize in helper.php
+	 *
 	 * @param  {string} string file size in human readable format
-	 * @returns {number} or null if string could not be parsed
+	 * @return {number} or null if string could not be parsed
 	 *
 	 *
 	 */
-	computerFileSize: function(string) {
+	computerFileSize(string) {
 		if (typeof string !== 'string') {
 			return null
 		}
 
-		var s = string.toLowerCase().trim()
-		var bytes = null
+		const s = string.toLowerCase().trim()
+		let bytes = null
 
-		var bytesArray = {
-			'b': 1,
-			'k': 1024,
-			'kb': 1024,
-			'mb': 1024 * 1024,
-			'm': 1024 * 1024,
-			'gb': 1024 * 1024 * 1024,
-			'g': 1024 * 1024 * 1024,
-			'tb': 1024 * 1024 * 1024 * 1024,
-			't': 1024 * 1024 * 1024 * 1024,
-			'pb': 1024 * 1024 * 1024 * 1024 * 1024,
-			'p': 1024 * 1024 * 1024 * 1024 * 1024
+		const bytesArray = {
+			b: 1,
+			k: 1024,
+			kb: 1024,
+			mb: 1024 * 1024,
+			m: 1024 * 1024,
+			gb: 1024 * 1024 * 1024,
+			g: 1024 * 1024 * 1024,
+			tb: 1024 * 1024 * 1024 * 1024,
+			t: 1024 * 1024 * 1024 * 1024,
+			pb: 1024 * 1024 * 1024 * 1024 * 1024,
+			p: 1024 * 1024 * 1024 * 1024 * 1024,
 		}
 
-		var matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i)
+		const matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i)
 		if (matches !== null) {
 			bytes = parseFloat(s)
 			if (!isFinite(bytes)) {
@@ -112,19 +120,25 @@ export default {
 	/**
 	 * @param {string|number} timestamp timestamp
 	 * @param {string} format date format, see momentjs docs
-	 * @returns {string} timestamp formatted as requested
+	 * @return {string} timestamp formatted as requested
 	 */
-	formatDate: function(timestamp, format) {
+	formatDate(timestamp, format) {
+		if (window.TESTING === undefined) {
+			console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+		}
 		format = format || 'LLL'
 		return moment(timestamp).format(format)
 	},
 
 	/**
 	 * @param {string|number} timestamp timestamp
-	 * @returns {string} human readable difference from now
+	 * @return {string} human readable difference from now
 	 */
-	relativeModifiedDate: function(timestamp) {
-		var diff = moment().diff(moment(timestamp))
+	relativeModifiedDate(timestamp) {
+		if (window.TESTING === undefined) {
+			console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+		}
+		const diff = moment().diff(moment(timestamp))
 		if (diff >= 0 && diff < 45000) {
 			return t('core', 'seconds ago')
 		}
@@ -132,29 +146,20 @@ export default {
 	},
 
 	/**
-	 * Returns whether this is IE
-	 *
-	 * @returns {bool} true if this is IE, false otherwise
-	 */
-	isIE: function() {
-		return $('html').hasClass('ie')
-	},
-
-	/**
 	 * Returns the width of a generic browser scrollbar
 	 *
-	 * @returns {int} width of scrollbar
+	 * @return {number} width of scrollbar
 	 */
-	getScrollBarWidth: function() {
+	getScrollBarWidth() {
 		if (this._scrollBarWidth) {
 			return this._scrollBarWidth
 		}
 
-		var inner = document.createElement('p')
+		const inner = document.createElement('p')
 		inner.style.width = '100%'
 		inner.style.height = '200px'
 
-		var outer = document.createElement('div')
+		const outer = document.createElement('div')
 		outer.style.position = 'absolute'
 		outer.style.top = '0px'
 		outer.style.left = '0px'
@@ -165,9 +170,9 @@ export default {
 		outer.appendChild(inner)
 
 		document.body.appendChild(outer)
-		var w1 = inner.offsetWidth
+		const w1 = inner.offsetWidth
 		outer.style.overflow = 'scroll'
-		var w2 = inner.offsetWidth
+		let w2 = inner.offsetWidth
 		if (w1 === w2) {
 			w2 = outer.clientWidth
 		}
@@ -183,9 +188,9 @@ export default {
 	 * Remove the time component from a given date
 	 *
 	 * @param {Date} date date
-	 * @returns {Date} date with stripped time
+	 * @return {Date} date with stripped time
 	 */
-	stripTime: function(date) {
+	stripTime(date) {
 		// FIXME: likely to break when crossing DST
 		// would be better to use a library like momentJS
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate())
@@ -193,19 +198,20 @@ export default {
 
 	/**
 	 * Compare two strings to provide a natural sort
+	 *
 	 * @param {string} a first string to compare
 	 * @param {string} b second string to compare
-	 * @returns {number} -1 if b comes before a, 1 if a comes before b
+	 * @return {number} -1 if b comes before a, 1 if a comes before b
 	 * or 0 if the strings are identical
 	 */
-	naturalSortCompare: function(a, b) {
-		var x
-		var aa = chunkify(a)
-		var bb = chunkify(b)
+	naturalSortCompare(a, b) {
+		let x
+		const aa = chunkify(a)
+		const bb = chunkify(b)
 
 		for (x = 0; aa[x] && bb[x]; x++) {
 			if (aa[x] !== bb[x]) {
-				var aNum = Number(aa[x]); var bNum = Number(bb[x])
+				const aNum = Number(aa[x]); const bNum = Number(bb[x])
 				// note: == is correct here
 				/* eslint-disable-next-line */
 				if (aNum == aa[x] && bNum == bb[x]) {
@@ -222,11 +228,12 @@ export default {
 
 	/**
 	 * Calls the callback in a given interval until it returns true
-	 * @param {function} callback function to call on success
-	 * @param {integer} interval in milliseconds
+	 *
+	 * @param {Function} callback function to call on success
+	 * @param {number} interval in milliseconds
 	 */
-	waitFor: function(callback, interval) {
-		var internalCallback = function() {
+	waitFor(callback, interval) {
+		const internalCallback = function() {
 			if (callback() !== true) {
 				setTimeout(internalCallback, interval)
 			}
@@ -237,18 +244,19 @@ export default {
 
 	/**
 	 * Checks if a cookie with the given name is present and is set to the provided value.
+	 *
 	 * @param {string} name name of the cookie
 	 * @param {string} value value of the cookie
-	 * @returns {boolean} true if the cookie with the given name has the given value
+	 * @return {boolean} true if the cookie with the given name has the given value
 	 */
-	isCookieSetToValue: function(name, value) {
-		var cookies = document.cookie.split(';')
-		for (var i = 0; i < cookies.length; i++) {
-			var cookie = cookies[i].split('=')
+	isCookieSetToValue(name, value) {
+		const cookies = document.cookie.split(';')
+		for (let i = 0; i < cookies.length; i++) {
+			const cookie = cookies[i].split('=')
 			if (cookie[0].trim() === name && cookie[1].trim() === value) {
 				return true
 			}
 		}
 		return false
-	}
+	},
 }

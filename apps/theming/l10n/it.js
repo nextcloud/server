@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Impossibile scrivere il file su disco",
     "A PHP extension stopped the file upload" : "Un'estensione PHP ha fermato il caricamento del file",
     "No file uploaded" : "Nessun file caricato",
-    "Unsupported image type" : "Tipo di immagine non supportato",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Stai già utilizzando un tema personalizzato. Le impostazioni dell'applicazione dei temi potrebbero essere sovrascritte.",
     "Theming" : "Tema",
     "Legal notice" : "Avviso legale",
@@ -45,11 +44,11 @@ OC.L10N.register(
     "Remove background image" : "Rimuovi immagine di sfondo",
     "Advanced options" : "Opzioni avanzate",
     "Legal notice link" : "Collegamento avviso legale",
-    "Privacy policy link" : "Collegamento criterii di riservatezza",
+    "Privacy policy link" : "Collegamento criteri di riservatezza",
     "Header logo" : "Logo dell'intestazione",
     "Upload new header logo" : "Carica nuovo logo dell'intestazione",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Carica nuova favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemacick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore."
 },
 "nplurals=2; plural=(n != 1);");

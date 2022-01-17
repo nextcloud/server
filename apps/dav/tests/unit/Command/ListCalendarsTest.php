@@ -1,33 +1,37 @@
 <?php
 /**
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @copyright Copyright (c) 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license AGPL-3.0
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Command;
 
-use InvalidArgumentException;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Command\ListCalendars;
 use OCP\IUserManager;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
-
 
 /**
  * Class ListCalendarsTest
@@ -45,9 +49,9 @@ class ListCalendarsTest extends TestCase {
 	/** @var ListCalendars */
 	private $command;
 
-	const USERNAME = 'username';
+	public const USERNAME = 'username';
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -59,11 +63,9 @@ class ListCalendarsTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testWithBadUser()
-	{
+	public function testWithBadUser() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->userManager->expects($this->once())
 			->method('userExists')
 			->with(self::USERNAME)
@@ -73,11 +75,10 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
+		$this->assertStringContainsString("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
 	}
 
-	public function testWithCorrectUserWithNoCalendars()
-	{
+	public function testWithCorrectUserWithNoCalendars() {
 		$this->userManager->expects($this->once())
 			->method('userExists')
 			->with(self::USERNAME)
@@ -92,11 +93,10 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
+		$this->assertStringContainsString("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
-	public function dataExecute()
-	{
+	public function dataExecute() {
 		return [
 			[false, '✓'],
 			[true, 'x']
@@ -106,8 +106,7 @@ class ListCalendarsTest extends TestCase {
 	/**
 	 * @dataProvider dataExecute
 	 */
-	public function testWithCorrectUser(bool $readOnly, string $output)
-	{
+	public function testWithCorrectUser(bool $readOnly, string $output) {
 		$this->userManager->expects($this->once())
 			->method('userExists')
 			->with(self::USERNAME)
@@ -133,7 +132,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains($output, $commandTester->getDisplay());
-		$this->assertNotContains(BirthdayService::BIRTHDAY_CALENDAR_URI, $commandTester->getDisplay());
+		$this->assertStringContainsString($output, $commandTester->getDisplay());
+		$this->assertStringNotContainsString(BirthdayService::BIRTHDAY_CALENDAR_URI, $commandTester->getDisplay());
 	}
 }

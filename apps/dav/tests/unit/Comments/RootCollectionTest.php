@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OC\EventDispatcher\EventDispatcher;
@@ -34,26 +34,27 @@ use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RootCollectionTest extends \Test\TestCase {
 
-	/** @var \OCP\Comments\ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Comments\ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var \OCA\DAV\Comments\RootCollection */
 	protected $collection;
-	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 	/** @var EventDispatcherInterface */
 	protected $dispatcher;
-	/** @var \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->getMockBuilder(IUser::class)
@@ -76,7 +77,7 @@ class RootCollectionTest extends \Test\TestCase {
 			new EventDispatcher(
 				new \Symfony\Component\EventDispatcher\EventDispatcher(),
 				\OC::$server,
-				$this->logger
+				$this->createMock(LoggerInterface::class)
 			),
 			$this->logger
 		);
@@ -93,30 +94,30 @@ class RootCollectionTest extends \Test\TestCase {
 	protected function prepareForInitCollections() {
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('alice'));
+			->willReturn('alice');
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
-		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
-			$event->addEntityCollection('files', function() {
+		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event) {
+			$event->addEntityCollection('files', function () {
 				return true;
 			});
 		});
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+
 	public function testCreateFile() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->createFile('foo');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+
 	public function testCreateDirectory() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->createDirectory('foo');
 	}
 
@@ -126,18 +127,18 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertTrue($etc instanceof EntityTypeCollectionImplementation);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+
 	public function testGetChildInvalid() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->prepareForInitCollections();
 		$this->collection->getChild('robots');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 */
+
 	public function testGetChildNoAuth() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+
 		$this->collection->getChild('files');
 	}
 
@@ -145,15 +146,15 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->prepareForInitCollections();
 		$children = $this->collection->getChildren();
 		$this->assertFalse(empty($children));
-		foreach($children as $child) {
+		foreach ($children as $child) {
 			$this->assertTrue($child instanceof EntityTypeCollectionImplementation);
 		}
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 */
+
 	public function testGetChildrenNoAuth() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+
 		$this->collection->getChildren();
 	}
 
@@ -167,17 +168,17 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->collection->childExists('robots'));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 */
+
 	public function testChildExistsNoAuth() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+
 		$this->collection->childExists('files');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+
 	public function testDelete() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->delete();
 	}
 
@@ -185,10 +186,10 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertSame('comments', $this->collection->getName());
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+
 	public function testSetName() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->setName('foobar');
 	}
 

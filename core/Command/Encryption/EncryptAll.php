@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Evgeny Golyshev <eugulixes@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Matthew Setter <matthew@matthewsetter.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -19,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OCP\App\IAppManager;
@@ -104,14 +105,14 @@ class EncryptAll extends Command {
 		);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		if ( !$input->isInteractive() ) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		if (!$input->isInteractive()) {
 			$output->writeln('Invalid TTY.');
 			$output->writeln('If you are trying to execute the command in a Docker ');
 			$output->writeln("container, do not forget to execute 'docker exec' with");
 			$output->writeln("the '-i' and '-t' options.");
 			$output->writeln('');
-			return;
+			return 1;
 		}
 
 		if ($this->encryptionManager->isEnabled() === false) {
@@ -139,7 +140,8 @@ class EncryptAll extends Command {
 			$this->resetMaintenanceAndTrashbin();
 		} else {
 			$output->writeln('aborted');
+			return 1;
 		}
+		return 0;
 	}
-
 }

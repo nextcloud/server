@@ -4,6 +4,7 @@
  *
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCP\Files;
@@ -39,5 +40,4 @@ class StorageBadConfigException extends StorageNotAvailableException {
 		$l = \OC::$server->getL10N('core');
 		parent::__construct($l->t('Storage incomplete configuration. %s', [$message]), self::STATUS_INCOMPLETE_CONF, $previous);
 	}
-
 }

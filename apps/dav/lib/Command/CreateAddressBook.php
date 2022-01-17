@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -17,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\Command;
@@ -41,7 +43,7 @@ class CreateAddressBook extends Command {
 	 * @param IUserManager $userManager
 	 * @param CardDavBackend $cardDavBackend
 	 */
-	function __construct(IUserManager $userManager,
+	public function __construct(IUserManager $userManager,
 						 CardDavBackend $cardDavBackend
 	) {
 		parent::__construct();
@@ -61,7 +63,7 @@ class CreateAddressBook extends Command {
 						'Name of the addressbook');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('user');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
@@ -69,5 +71,6 @@ class CreateAddressBook extends Command {
 
 		$name = $input->getArgument('name');
 		$this->cardDavBackend->createAddressBook("principals/users/$user", $name, []);
+		return 0;
 	}
 }

@@ -1,10 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "태그",
+    "Tag name is empty" : "태그 이름이 비었습니다",
     "Update" : "업데이트",
     "Create" : "만들기",
-    "Select tag…" : "태그 선택…",
+    "Select tag …" : "태그 선택 …",
     "System tag %1$s added by the system" : "시스템에서 시스템 태그 %1$s을(를) 추가함",
     "Added system tag {systemtag}" : "시스템 태그 {systemtag}을(를) 추가함",
     "Added system tag %1$s" : "시스템 태그 %1$s을(를) 추가함",
@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s(제한됨)",
     "%s (invisible)" : "%s(숨겨짐)",
     "<strong>System tags</strong> for a file have been modified" : "파일의 <strong>시스템 태그</strong>가 수정됨",
+    "Tags" : "태그",
     "Collaborative tags" : "협업 태그",
     "Collaborative tagging functionality which shares tags among users." : "사용자간 태그를 공유하는 협업 태그 기능입니다.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "사용자간 태그를 공유하는 협업 태그 기능입니다. 팀에 유용합니다.\n\t(여러 사람이 공유하도록 시스템을 설치한 공급자라면 태그가 공유되기 때문에 이 앱을 비활성화하는 것을 추천합니다.)",
@@ -51,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "필터링할 태그를 선택하십시오",
     "No files found for the selected tags" : "선택한 태그가 붙은 파일을 찾을 수 없음",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "모든 사용자가 사용할 수 있는 협업 태그입니다. 제한된 태그는 사용자에게 표시되지만 할당할 수는 없습니다. 숨겨진 태그는 내부용으로 사용되며, 사용자는 보거나 할당할 수 없습니다.",
-    "Select tag …" : "태그 선택 …",
     "Create a new tag" : "새 태그 만들기",
     "Name" : "이름",
     "Public" : "공개",

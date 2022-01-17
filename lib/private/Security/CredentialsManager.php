@@ -1,8 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,15 +23,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
-use OCP\Security\ICrypto;
 use OCP\IDBConnection;
 use OCP\Security\ICredentialsManager;
+use OCP\Security\ICrypto;
 
 /**
  * Store and retrieve credentials for external services
@@ -32,8 +38,7 @@ use OCP\Security\ICredentialsManager;
  * @package OC\Security
  */
 class CredentialsManager implements ICredentialsManager {
-
-	const DB_TABLE = 'credentials';
+	public const DB_TABLE = 'storages_credentials';
 
 	/** @var ICrypto */
 	protected $crypto;
@@ -53,11 +58,11 @@ class CredentialsManager implements ICredentialsManager {
 	/**
 	 * Store a set of credentials
 	 *
-	 * @param string|null $userId Null for system-wide credentials
+	 * @param string $userId empty string for system-wide credentials
 	 * @param string $identifier
 	 * @param mixed $credentials
 	 */
-	public function store($userId, $identifier, $credentials) {
+	public function store(string $userId, string $identifier, $credentials): void {
 		$value = $this->crypto->encrypt(json_encode($credentials));
 
 		$this->dbConnection->setValues(self::DB_TABLE, [
@@ -71,18 +76,25 @@ class CredentialsManager implements ICredentialsManager {
 	/**
 	 * Retrieve a set of credentials
 	 *
-	 * @param string|null $userId Null for system-wide credentials
+	 * @param string $userId empty string for system-wide credentials
 	 * @param string $identifier
 	 * @return mixed
 	 */
-	public function retrieve($userId, $identifier) {
+	public function retrieve(string $userId, string $identifier) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('credentials')
 			->from(self::DB_TABLE)
-			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-		;
-		$result = $qb->execute()->fetch();
+			->where($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
+
+		if ($userId === '') {
+			$qb->andWhere($qb->expr()->emptyString('user'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($userId)));
+		}
+
+		$qResult = $qb->execute();
+		$result = $qResult->fetch();
+		$qResult->closeCursor();
 
 		if (!$result) {
 			return null;
@@ -95,16 +107,21 @@ class CredentialsManager implements ICredentialsManager {
 	/**
 	 * Delete a set of credentials
 	 *
-	 * @param string|null $userId Null for system-wide credentials
+	 * @param string $userId empty string for system-wide credentials
 	 * @param string $identifier
 	 * @return int rows removed
 	 */
-	public function delete($userId, $identifier) {
+	public function delete(string $userId, string $identifier): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
-			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-		;
+			->where($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
+
+		if ($userId === '') {
+			$qb->andWhere($qb->expr()->emptyString('user'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($userId)));
+		}
+
 		return $qb->execute();
 	}
 
@@ -114,12 +131,11 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param string $userId
 	 * @return int rows removed
 	 */
-	public function erase($userId) {
+	public function erase(string $userId): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))
 		;
 		return $qb->execute();
 	}
-
 }

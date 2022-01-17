@@ -1,9 +1,11 @@
-/*
+/**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,13 +24,14 @@
 
 import api from './api'
 import Vue from 'vue'
+import { generateUrl } from '@nextcloud/router'
 
 const state = {
 	apps: [],
 	categories: [],
 	updateCount: 0,
 	loading: {},
-	loadingList: false
+	loadingList: false,
 }
 
 const mutations = {
@@ -65,24 +68,24 @@ const mutations = {
 			appId = [appId]
 		}
 		appId.forEach((_id) => {
-			let app = state.apps.find(app => app.id === _id)
+			const app = state.apps.find(app => app.id === _id)
 			app.error = error
 		})
 	},
 
 	clearError(state, { appId, error }) {
-		let app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find(app => app.id === appId)
 		app.error = null
 	},
 
 	enableApp(state, { appId, groups }) {
-		let app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
 	},
 
 	disableApp(state, appId) {
-		let app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find(app => app.id === appId)
 		app.active = false
 		app.groups = []
 		if (app.removable) {
@@ -100,8 +103,8 @@ const mutations = {
 	},
 
 	updateApp(state, appId) {
-		let app = state.apps.find(app => app.id === appId)
-		let version = app.update
+		const app = state.apps.find(app => app.id === appId)
+		const version = app.update
 		app.update = null
 		app.version = version
 		state.updateCount--
@@ -133,7 +136,7 @@ const mutations = {
 		} else {
 			Vue.set(state.loading, id, false)
 		}
-	}
+	},
 }
 
 const getters = {
@@ -150,7 +153,7 @@ const getters = {
 	},
 	getUpdateCount(state) {
 		return state.updateCount
-	}
+	},
 }
 
 const actions = {
@@ -165,16 +168,16 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
-			return api.post(OC.generateUrl(`settings/apps/enable`), { appIds: apps, groups: groups })
+			return api.post(generateUrl('settings/apps/enable'), { appIds: apps, groups })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					context.commit('stopLoading', 'install')
 					apps.forEach(_appId => {
-						context.commit('enableApp', { appId: _appId, groups: groups })
+						context.commit('enableApp', { appId: _appId, groups })
 					})
 
 					// check for server health
-					return api.get(OC.generateUrl('apps/files'))
+					return api.get(generateUrl('apps/files'))
 						.then(() => {
 							if (response.data.update_required) {
 								OC.dialogs.info(
@@ -197,7 +200,7 @@ const actions = {
 							if (!Array.isArray(appId)) {
 								context.commit('setError', {
 									appId: apps,
-									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable')
+									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 								})
 							}
 						})
@@ -207,7 +210,7 @@ const actions = {
 					context.commit('stopLoading', 'install')
 					context.commit('setError', {
 						appId: apps,
-						error: error.response.data.data.message
+						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
@@ -223,7 +226,7 @@ const actions = {
 		return api.requireAdmin().then(() => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
-			return api.post(OC.generateUrl(`settings/apps/force`), { appId })
+			return api.post(generateUrl('settings/apps/force'), { appId })
 				.then((response) => {
 					// TODO: find a cleaner solution
 					location.reload()
@@ -233,7 +236,7 @@ const actions = {
 					context.commit('stopLoading', 'install')
 					context.commit('setError', {
 						appId: apps,
-						error: error.response.data.data.message
+						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
@@ -248,7 +251,7 @@ const actions = {
 		}
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', apps)
-			return api.post(OC.generateUrl(`settings/apps/disable`), { appIds: apps })
+			return api.post(generateUrl('settings/apps/disable'), { appIds: apps })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					apps.forEach(_appId => {
@@ -265,7 +268,7 @@ const actions = {
 	uninstallApp(context, { appId }) {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', appId)
-			return api.get(OC.generateUrl(`settings/apps/uninstall/${appId}`))
+			return api.get(generateUrl(`settings/apps/uninstall/${appId}`))
 				.then((response) => {
 					context.commit('stopLoading', appId)
 					context.commit('uninstallApp', appId)
@@ -282,7 +285,7 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', appId)
 			context.commit('startLoading', 'install')
-			return api.get(OC.generateUrl(`settings/apps/update/${appId}`))
+			return api.get(generateUrl(`settings/apps/update/${appId}`))
 				.then((response) => {
 					context.commit('stopLoading', 'install')
 					context.commit('stopLoading', appId)
@@ -299,7 +302,7 @@ const actions = {
 
 	getAllApps(context) {
 		context.commit('startLoading', 'list')
-		return api.get(OC.generateUrl(`settings/apps/list`))
+		return api.get(generateUrl('settings/apps/list'))
 			.then((response) => {
 				context.commit('setAllApps', response.data.apps)
 				context.commit('stopLoading', 'list')
@@ -310,7 +313,7 @@ const actions = {
 
 	getCategories(context) {
 		context.commit('startLoading', 'categories')
-		return api.get(OC.generateUrl('settings/apps/categories'))
+		return api.get(generateUrl('settings/apps/categories'))
 			.then((response) => {
 				if (response.data.length > 0) {
 					context.commit('appendCategories', response.data)
@@ -320,7 +323,7 @@ const actions = {
 				return false
 			})
 			.catch((error) => context.commit('API_FAILURE', error))
-	}
+	},
 
 }
 

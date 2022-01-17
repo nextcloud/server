@@ -1,11 +1,10 @@
-/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
- This file is licensed under the Affero General Public License version 3 or later.
- See the COPYING-README file. */
-
-/* SETTINGS */
-#files-setting-showhidden {
-	padding-bottom: 8px;
-}
+/**
+ * Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ * @copyright Copyright (c) 2019, Fabian Dreßler <nudelsalat@clouz.de>
+ *
+ * This file is licensed under the Affero General Public License version 3 or later.
+ * See the COPYING-README file.
+ */
 
 /* FILE MENU */
 .actions {
@@ -17,9 +16,11 @@
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 .actions .button a { color: #555; }
 .actions .button a:hover,
-.actions .button a:focus,
+.actions .button a:focus {
+	background-color: var(--color-background-hover);
+}
 .actions .button a:active {
-	color: #333;
+	background-color: var(--color-primary-light);
 }
 
 .actions.creatable {
@@ -55,46 +56,61 @@
 	position: relative;
 	width: 100%;
 	min-width: 250px;
-	display: flex;
+	display: block;
 	flex-direction: column;
 	// hide table if emptycontent is not hidden
 	#emptycontent:not(.hidden) ~ & {
 		display: none;
 	}
-}
+	// floating header
+	thead {
+		position: -webkit-sticky;
+		position: sticky;
+		@include position('sticky');
+		// header + breadcrumbs
+		top: $header-height;
+		// under breadcrumbs, over file list
+		z-index: 60;
+		display: block;
+		background-color: var(--color-main-background-translucent);
+	}
 
-@media only screen and (min-width: $breakpoint-mobile + 1) {
-	#filestable {
-		// floating header
-		thead {
-			position: -webkit-sticky;
-			position: sticky;
-			// header + breadcrumbs
-			top: $header-height;
-			padding-top: 40px;
-			// under breadcrumbs, over file list
-			z-index: 55;
-			display: block;
-			background-color: var(--color-main-background-translucent);
+	/**
+	 * This is a dirty hack as the sticky header requires us to use a different display type on the table element
+	 */
+	tbody {
+		display: table;
+		width: 100%;
+
+		tr[data-permissions="0"],
+		tr[data-permissions="16"] {
+			background-color: var(--color-background-dark);
+
+			td.filename .nametext .innernametext {
+				color: var(--color-text-maxcontrast);
+			}
 		}
 	}
 }
 
+#filestable.hidden {
+	display: none;
+}
+
 /* fit app list view heights */
-.app-files #app-content>.viewcontainer {
+.app-files #app-content > .viewcontainer {
 	min-height: 0%;
+	width: 100%;
 }
 
 .app-files #app-content {
-	transition: background-color 0.3s ease;
 	// force  the width to be the full width to not go bigger than the screen
 	// flex will grow for the mobile view if necessary
 	width: calc(100% - 300px);
 }
 
 .file-drag, .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover {
-	transition: background-color 0.3s ease!important;
-	background-color: rgb(179, 230, 255) !important;
+	background-color: var(--color-primary-light) !important;
 }
 
 .app-files #app-content.dir-drop {
@@ -106,7 +122,7 @@
 }
 
 .app-files #app-content.dir-drop #filestable tbody tr.dropping-to-dir{
-	background-color: rgb(179, 230, 255) !important;
+	background-color: var(--color-primary-light) !important;
 }
 
 /* icons for sidebar */
@@ -121,6 +137,7 @@
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout,
+.nav-icon-pendingshares,
 .nav-icon-shareoverview {
 	@include icon-color('share', 'files', $color-black);
 }
@@ -164,22 +181,23 @@
 }
 
 #filestable tbody tr {
-	transition: background-color 0.3s ease;
 	height: 51px;
 }
 #filestable tbody tr:hover,
 #filestable tbody tr:focus,
 #filestable tbody .name:focus,
+#filestable tbody tr:hover .filename form,
+table tr.mouseOver td {
+	background-color: var(--color-background-hover);
+}
 #filestable tbody tr:active,
 #filestable tbody tr.highlighted,
 #filestable tbody tr.highlighted .name:focus,
 #filestable tbody tr.selected,
-#filestable tbody tr.searchresult,
-#filestable tbody tr:hover .filename form,
-table tr.mouseOver td {
-	transition: background-color 0.3s ease;
-	background-color: var(--color-background-dark);
+#filestable tbody tr.searchresult {
+	background-color: var(--color-primary-light);
 }
+
 tbody a { color: var(--color-main-text); }
 
 span.conflict-path, span.extension, span.uploading, td.date {
@@ -215,11 +233,16 @@ table th .columntitle {
 	vertical-align: middle;
 }
 table.multiselect th .columntitle {
-    display: inline-block;
+	display: inline-block;
+	margin-right: -20px;
 }
 table th .columntitle.name {
 	padding-left: 0;
-	margin-left: 50px;
+	margin-left: 44px;
+}
+
+table.multiselect th .columntitle.name {
+	margin-left: 0;
 }
 
 table th .sort-indicator {
@@ -267,6 +290,9 @@ table th#headerName {
 	height: 50px;
 }
 
+table th#headerSelection {
+	padding-top: 2px;
+}
 table th#headerSize, table td.filesize {
 	text-align: right;
 }
@@ -280,14 +306,20 @@ table th.column-last, table td.column-last {
 	max-width: 130px;
 }
 
-/* Multiselect bar */
-table.multiselect thead {
-	@include position('sticky');
+#app-content-files thead,
+#app-content-trashbin thead {
 	top: 94px;
-	z-index: 55;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	left: $navigation-width;
+}
+
+#app-content-recent, 
+#app-content-favorites, 
+#app-content-shareoverview, 
+#app-content-sharingout,
+#app-content-sharingin,
+#app-content-sharinglinks,
+#app-content-deletedshares,
+#app-content-pendingshares {
+	margin-top: 22px;
 }
 
 table.multiselect thead th {
@@ -313,7 +345,8 @@ table td.fileaction {
 	width: 32px;
 	text-align: center;
 }
-table td.filename a.name {
+table td.filename a.name,
+table td.filename p.name {
 	display: flex;
 	position:relative; /* Firefox needs to explicitly have this default set … */
 	-moz-box-sizing: border-box;
@@ -348,6 +381,9 @@ table td.filename .thumbnail {
 	cursor: pointer;
 	position: absolute;
 	z-index: 4;
+}
+table td.filename p.name .thumbnail {
+	cursor: default;
 }
 
 // Show slight border around previews for images, txt, etc.
@@ -384,19 +420,13 @@ table {
 			width: 0;
 			flex-grow: 1;
 			display: flex;
-			padding: 0;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			height: 100%;
 			z-index: 10;
-			padding-right: 20px;
+			padding: 0 20px 0 0;
 		}
-	}
-
-	.uploadtext {
-		position: absolute;
-		left: 55px;
 	}
 }
 
@@ -425,13 +455,22 @@ table td.filename .nametext .innernametext {
 /* for smaller resolutions - see mobile.css */
 
 table td.filename .uploadtext {
+	position: absolute;
 	font-weight: normal;
-	margin-left: 55px;
-	margin-top: 5px;
+	// checkbox width
+	margin-left: 50px;
+	left: 0;
+	bottom: 0;
 	height: 20px;
-	padding: 10px 0;
+	padding: 0 4px;
+	// align with file name
+	padding-left: 1px;
 	font-size: 11px;
-	opacity: .5;
+	// double the font size
+	line-height: 22px;
+	color: var(--color-text-maxcontrast);
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 table td.selection {
@@ -458,9 +497,21 @@ table td.selection {
 }
 
 /* Use label to have bigger clickable size for checkbox */
-#fileList tr td.selection>.selectCheckBox + label,
-.select-all + label {
-	padding: 16px;
+#fileList tr td.selection>.selectCheckBox,
+.select-all {
+	& + label {
+		padding: 16px;
+	}
+
+	&:focus + label {
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-pill);
+	}
+}
+
+#fileList tr td.selection>.selectCheckBox:focus-visible + label,
+.select-all:focus-visible + label {
+	outline-offset: 0px;
 }
 
 #fileList tr td.filename {
@@ -471,7 +522,8 @@ table td.selection {
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
-#fileList tr td.filename a.name label {
+#fileList tr td.filename a.name label,
+#fileList tr td.filename p.name label {
 	position: absolute;
 	width: 80%;
 	height: 50px;
@@ -516,6 +568,23 @@ table td.selection {
 
 #fileList .action.action-share-notification span, #fileList a.name {
 	cursor: default !important;
+}
+
+/*
+ * Make the disabled link look not like a link in file list rows
+ */
+#fileList a.name.disabled {
+	* {
+		cursor: default;
+	}
+
+	a, a * {
+		cursor: pointer;
+	}
+
+	&:focus {
+		background: none;
+	}
 }
 
 a.action > img {
@@ -599,11 +668,18 @@ a.action > img {
 			}
 		}
 		&:hover, &:focus {
-			opacity: .7;
+			opacity: 1;
+		}
+		&:focus {
+			background-color: var(--color-background-hover);
+			border-radius: var(--border-radius-pill);
 		}
 	}
 	.fileActionsMenu a.action, a.action.action-share.shared-style {
 		opacity: .7;
+	}
+	.fileActionsMenu .action.permanent {
+		opacity: 1;
 	}
 }
 
@@ -647,9 +723,15 @@ a.action > img {
 }
 
 .summary {
-	opacity: .3;
+	color: var(--color-text-maxcontrast);
 	/* add whitespace to bottom of files list to correctly show dropdowns */
-	height: 250px;
+	$action-menu-items-count: 7; // list view has currently max 7 items in its action menu 
+	height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
+}
+#filestable .filesummary {
+	width: 100%;
+	/* Width of checkbox and file preview */
+	padding-left: 101px;
 }
 /* Less whitespace needed on link share page
  * as there is a footer and action menus have fewer entries.
@@ -668,8 +750,11 @@ table tr.summary td {
 	vertical-align: top;
 	padding-top: 20px;
 }
-.summary .info {
-	margin-left: 35px; /* td has padding of 15, col width is 50 */
+.summary td:first-child {
+	padding: 0;
+}
+.hiddeninfo {
+	white-space: pre-line;
 }
 
 table.dragshadow {
@@ -711,15 +796,14 @@ table.dragshadow td.size {
 .newFileMenu {
 	font-weight: 300;
 	top: 100%;
+	left: -48px !important;
 	margin-top: 4px;
 	min-width: 100px;
-	margin-left: 22px; /* Align left edge below center of + button … */
-	transform: translateX(-50%); /* … then center it below button */
 	z-index: 1001;
 
 	/* Center triangle */
 	&::after {
-		left: calc(50% - 8px) !important;
+		left: 57px !important;
 	}
 }
 
@@ -771,6 +855,25 @@ table.dragshadow td.size {
 	}
 }
 
+.notCreatable {
+	margin-left: 12px;
+	margin-right: 44px;
+	margin-top: 12px;
+	color: var(--color-main-text);
+	overflow: auto;
+	min-width: 160px;
+	height: 54px;
+	
+	&:not(.hidden) {
+		display: flex;
+	}
+
+	.icon-alert-outline {
+		top: -15px;
+		position: relative;
+		margin-right: 4px;
+	}
+}
 
 #quota {
 	margin: 0 !important;
@@ -847,8 +950,7 @@ table.dragshadow td.size {
 				.thumbnail-wrapper,
 				.nametext,
 				.fileactions {
-					transition: background-color 0.3s ease;
-					background-color: var(--color-background-dark);
+					background-color: var(--color-background-hover);
 				}
 			}
 		}
@@ -888,6 +990,18 @@ table.dragshadow td.size {
 							right: -22px; // center in corner of thumbnail
 						}
 					}
+				}
+
+				.uploadtext {
+					width: 100%;
+					margin: 0;
+					top: 0;
+					bottom: auto;
+					// checkbox align
+					height: 28px;
+					padding-top: 4px;
+					// checkbox margins
+					padding-left: calc(44px - 16px);
 				}
 
 				.name {
@@ -1046,6 +1160,8 @@ table.dragshadow td.size {
 		.summary:not(.hidden) {
 			display: inline-block;
 			margin: 0 auto;
+			$action-menu-items-count: 9; // grid view has currently max 9 items in its action menu
+			height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 
 			td {
 				padding-top: 50px;
@@ -1116,3 +1232,25 @@ table.dragshadow td.size {
 #gallery-button {
 	display: none;
 }
+
+#tag_multiple_files_container {
+	overflow: hidden;
+	background-color: #fff;
+	border-radius: 3px;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+
+	h3 {
+		width: 100%;
+		padding: 0 18px;
+	}
+
+	.systemTagsInputFieldContainer {
+		flex: 1 1 80%;
+		min-width: 0;
+		margin: 0 12px;
+	}
+}
+

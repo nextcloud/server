@@ -1,11 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Tunnisteet",
     "Tag name is empty" : "Tunnisteen nimi on tyhjä",
     "Update" : "Päivitys",
     "Create" : "Luo",
-    "Select tag…" : "Valitse tunniste…",
+    "Select tag …" : "Valitse tunniste ...",
     "System tag %1$s added by the system" : "Järjestelmätunniste %1$s lisätty järjestelmän toimesta",
     "Added system tag {systemtag}" : "Järjestelmätunniste {systemtag} lisättiin",
     "Added system tag %1$s" : "Järjestelmätunniste %1$s lisättiin",
@@ -39,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (rajoitettu)",
     "%s (invisible)" : "%s (näkymätön)",
     "<strong>System tags</strong> for a file have been modified" : "Tiedoston <strong>järjestelmätunnisteita</strong> on muokattu",
+    "Tags" : "Tunnisteet",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
     "Collaborative tagging functionality which shares tags among users." : "Yhteisöllistä tunnistetoiminnallisuutta, lopputuloksena tunnisteet jaetaan käyttäjien kesken.",
     "Tagged files" : "Tunnisteella merkityt tiedostot",
@@ -46,7 +46,6 @@ OC.L10N.register(
     "No tags found" : "Tunnisteita ei löytynyt",
     "Please select tags to filter by" : "Valitse suodatettavat tunnisteet",
     "No files found for the selected tags" : "Tiedostoja ei löytynyt valituilla tunnisteilla",
-    "Select tag …" : "Valitse tunniste ...",
     "Create a new tag" : "Luo uusi tunniste",
     "Name" : "Nimi",
     "Public" : "Julkinen",

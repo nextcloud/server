@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -16,16 +17,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Command;
 
 use OCP\IUser;
 
 trait FileAccess {
-	protected function setupFS(IUser $user){
+	protected function setupFS(IUser $user) {
 		\OC_Util::setupFS($user->getUID());
 	}
 

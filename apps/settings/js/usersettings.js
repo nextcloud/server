@@ -10,6 +10,8 @@
 (function() {
 	'use strict';
 
+	var errorNotification;
+
 	/**
 	 * Model for storing and saving user settings
 	 *
@@ -24,6 +26,15 @@
 			if (_.isUndefined(data)) {
 				return null;
 			}
+
+			if (errorNotification) {
+				errorNotification.hide();
+			}
+
+			if (data.status && data.status === 'error') {
+				errorNotification = OC.Notification.show(data.data.message, { type: 'error' });
+			}
+
 			if (_.isUndefined(data.data)) {
 				return null;
 			}

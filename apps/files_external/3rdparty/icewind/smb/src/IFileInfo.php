@@ -21,48 +21,26 @@ interface IFileInfo {
 	const MODE_ARCHIVE = 0x20;
 	const MODE_NORMAL = 0x80;
 
-	/**
-	 * @return string
-	 */
-	public function getPath();
+	public function getPath(): string;
+
+	public function getName(): string;
+
+	public function getSize(): int;
+
+	public function getMTime(): int;
+
+	public function isDirectory(): bool;
+
+	public function isReadOnly(): bool;
+
+	public function isHidden(): bool;
+
+	public function isSystem(): bool;
+
+	public function isArchived(): bool;
 
 	/**
-	 * @return string
+	 * @return ACL[]
 	 */
-	public function getName();
-
-	/**
-	 * @return int
-	 */
-	public function getSize();
-
-	/**
-	 * @return int
-	 */
-	public function getMTime();
-
-	/**
-	 * @return bool
-	 */
-	public function isDirectory();
-
-	/**
-	 * @return bool
-	 */
-	public function isReadOnly();
-
-	/**
-	 * @return bool
-	 */
-	public function isHidden();
-
-	/**
-	 * @return bool
-	 */
-	public function isSystem();
-
-	/**
-	 * @return bool
-	 */
-	public function isArchived();
+	public function getAcls(): array;
 }

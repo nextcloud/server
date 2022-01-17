@@ -10,6 +10,16 @@
 (function(_, $, OC) {
 	'use strict';
 
+	/**
+	 * Construct a new FederationScopeMenu instance
+	 * @constructs FederationScopeMenu
+	 * @memberof OC.Settings
+	 * @param {object} options
+	 * @param {boolean} [options.showFederatedScope=false] whether show the
+	 *        "v2-federated" scope or not
+	 * @param {boolean} [options.showPublishedScope=false] whether show the
+	 *        "v2-published" scope or not
+	 */
 	var FederationSettingsView = OC.Backbone.View.extend({
 		_inputFields: undefined,
 
@@ -24,6 +34,8 @@
 			} else {
 				this._config = new OC.Settings.UserSettings();
 			}
+			this.showFederatedScope = !!options.showFederatedScope;
+			this.showPublishedScope = !!options.showPublishedScope;
 
 			this._inputFields = [
 				'displayname',
@@ -61,9 +73,34 @@
 
 		render: function() {
 			var self = this;
+			var fieldsWithV2Private = [
+				'avatar',
+				'phone',
+				'twitter',
+				'website',
+				'address',
+			];
+
 			_.each(this._inputFields, function(field) {
 				var $icon = self.$('#' + field + 'form h3 > .federation-menu');
-				var scopeMenu = new OC.Settings.FederationScopeMenu({field: field});
+				var excludedScopes = []
+
+				if (fieldsWithV2Private.indexOf(field) === -1) {
+					excludedScopes.push('v2-private');
+				}
+
+				if (!self.showFederatedScope) {
+					excludedScopes.push('v2-federated');
+				}
+
+				if (!self.showPublishedScope) {
+					excludedScopes.push('v2-published');
+				}
+
+				var scopeMenu = new OC.Settings.FederationScopeMenu({
+					field: field,
+					excludedScopes: excludedScopes,
+				});
 
 				self.listenTo(scopeMenu, 'select:scope', function(scope) {
 					self._onScopeChanged(field, scope);
@@ -89,7 +126,10 @@
 		_registerEvents: function() {
 			var self = this;
 			_.each(this._inputFields, function(field) {
-				if (field === 'avatar') {
+				if (
+					field === 'avatar' ||
+					field === 'email'
+				) {
 					return;
 				}
 				self.$('#' + field).keyUpDelayedOrEnter(_.bind(self._onInputChanged, self), true);
@@ -177,13 +217,13 @@
 			if (verifyAvailable) {
 				if (field === 'twitter' || field === 'website') {
 					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
-					verifyStatus.attr('data-origin-title', t('core', 'Verify'));
+					verifyStatus.attr('data-origin-title', t('settings', 'Verify'));
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
 					verifyStatus.data('status', '0');
 					verifyStatus.addClass('verify-action');
 				} else if (field === 'email') {
 					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
-					verifyStatus.attr('data-origin-title', t('core', 'Verifying …'));
+					verifyStatus.attr('data-origin-title', t('settings', 'Verifying …'));
 					verifyStatus.data('status', '1');
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 				}
@@ -201,21 +241,26 @@
 		_setFieldScopeIcon: function(field, scope) {
 			var $icon = this.$('#' + field + 'form > h3 .icon-federation-menu');
 
+			$icon.removeClass('icon-phone');
 			$icon.removeClass('icon-password');
 			$icon.removeClass('icon-contacts-dark');
 			$icon.removeClass('icon-link');
 			$icon.addClass('hidden');
 
 			switch (scope) {
-				case 'private':
+				case 'v2-private':
+					$icon.addClass('icon-phone');
+					$icon.removeClass('hidden');
+					break;
+				case 'v2-local':
 					$icon.addClass('icon-password');
 					$icon.removeClass('hidden');
 					break;
-				case 'contacts':
+				case 'v2-federated':
 					$icon.addClass('icon-contacts-dark');
 					$icon.removeClass('hidden');
 					break;
-				case 'public':
+				case 'v2-published':
 					$icon.addClass('icon-link');
 					$icon.removeClass('hidden');
 					break;

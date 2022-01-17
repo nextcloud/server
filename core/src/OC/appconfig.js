@@ -1,8 +1,14 @@
-/* eslint-disable */
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +21,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
+/* eslint-disable */
  import { getValue, setValue, getApps, getKeys, deleteKey } from '../OCP/appconfig'
 
 export const appConfig = window.oc_appconfig || {}

@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
@@ -36,7 +38,7 @@ class LDAPContext implements Context {
 
 	/** @AfterScenario */
 	public function teardown() {
-		if($this->configID === null) {
+		if ($this->configID === null) {
 			return;
 		}
 		$this->disableLDAPConfiguration(); # via occ in case of big config issues
@@ -138,7 +140,7 @@ class LDAPContext implements Context {
 		$originalAsAn = $this->currentUser;
 		$this->asAn('admin');
 		$configData = $table->getRows();
-		foreach($configData as &$row) {
+		foreach ($configData as &$row) {
 			$row[0] = 'configData[' . $row[0] . ']';
 		}
 		$this->settingTheLDAPConfigurationTo(new TableNode($configData));
@@ -151,8 +153,8 @@ class LDAPContext implements Context {
 	public function theGroupResultShouldMatch(string $type, TableNode $expectations) {
 		$listReturnedElements = simplexml_load_string($this->response->getBody())->data[0]->$type[0]->element;
 		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
-		foreach($expectations->getRows() as $expectation) {
-			if((int)$expectation[1] === 1) {
+		foreach ($expectations->getRows() as $expectation) {
+			if ((int)$expectation[1] === 1) {
 				Assert::assertContains($expectation[0], $extractedIDsArray);
 			} else {
 				Assert::assertNotContains($expectation[0], $extractedIDsArray);
@@ -180,8 +182,8 @@ class LDAPContext implements Context {
 		$listReturnedElements = simplexml_load_string($this->response->getBody())->data[0]->$type[0]->element;
 		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
 		$uidsFound = 0;
-		foreach($expectations->getRows() as $expectation) {
-			if(in_array($expectation[0], $extractedIDsArray)) {
+		foreach ($expectations->getRows() as $expectation) {
+			if (in_array($expectation[0], $extractedIDsArray)) {
 				$uidsFound++;
 			}
 		}
@@ -192,7 +194,7 @@ class LDAPContext implements Context {
 	 * @Given /^the record's fields should match$/
 	 */
 	public function theRecordFieldsShouldMatch(TableNode $expectations) {
-		foreach($expectations->getRowsHash() as $k => $v) {
+		foreach ($expectations->getRowsHash() as $k => $v) {
 			$value = (string)simplexml_load_string($this->response->getBody())->data[0]->$k;
 			Assert::assertEquals($v, $value, "got $value");
 		}

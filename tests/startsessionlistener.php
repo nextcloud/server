@@ -15,10 +15,9 @@ use PHPUnit\Framework\TestListenerDefaultImplementation;
  * Starts a new session before each test execution
  */
 class StartSessionListener implements TestListener {
-
 	use TestListenerDefaultImplementation;
 
-	public function endTest(Test $test, $time) {
+	public function endTest(Test $test, float $time): void {
 		// reopen the session - only allowed for memory session
 		if (\OC::$server->getSession() instanceof Memory) {
 			/** @var $session Memory */
@@ -26,5 +25,4 @@ class StartSessionListener implements TestListener {
 			$session->reopen();
 		}
 	}
-
 }

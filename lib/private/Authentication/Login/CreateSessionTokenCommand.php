@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,15 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
-declare(strict_types=1);
-
 namespace OC\Authentication\Login;
 
 use OC\Authentication\Token\IToken;
@@ -45,22 +47,36 @@ class CreateSessionTokenCommand extends ALoginCommand {
 
 	public function process(LoginData $loginData): LoginResult {
 		$tokenType = IToken::REMEMBER;
-		if ((int)$this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) === 0) {
+		if ($this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) === 0) {
 			$loginData->setRememberLogin(false);
 			$tokenType = IToken::DO_NOT_REMEMBER;
 		}
 
-		$this->userSession->createSessionToken(
-			$loginData->getRequest(),
-			$loginData->getUser()->getUID(),
-			$loginData->getUsername(),
-			$loginData->getPassword(),
-			$tokenType
-		);
-		$this->userSession->updateTokens(
-			$loginData->getUser()->getUID(),
-			$loginData->getPassword()
-		);
+		if ($loginData->getPassword() === '') {
+			$this->userSession->createSessionToken(
+				$loginData->getRequest(),
+				$loginData->getUser()->getUID(),
+				$loginData->getUsername(),
+				null,
+				$tokenType
+			);
+			$this->userSession->updateTokens(
+				$loginData->getUser()->getUID(),
+				''
+			);
+		} else {
+			$this->userSession->createSessionToken(
+				$loginData->getRequest(),
+				$loginData->getUser()->getUID(),
+				$loginData->getUsername(),
+				$loginData->getPassword(),
+				$tokenType
+			);
+			$this->userSession->updateTokens(
+				$loginData->getUser()->getUID(),
+				$loginData->getPassword()
+			);
+		}
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}

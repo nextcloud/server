@@ -1,20 +1,48 @@
 {
-    "config" : {
-        "vendor-dir": "lib/composer",
-        "optimize-autoloader": true
-    },
-    "autoload" : {
-        "psr-0": {
-            "": "lib/private/legacy"
-        },
-        "psr-4": {
-            "OC\\": "lib/private",
-            "OC\\Core\\": "core/",
-            "OCP\\": "lib/public"
-        }
-    },
-    "require-dev": {
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
-        "jakub-onderka/php-console-highlighter": "^0.3.2"
-    }
+	"config": {
+		"vendor-dir": "lib/composer",
+		"optimize-autoloader": true,
+		"sort-packages": true,
+		"platform": {
+			"php": "7.3"
+		},
+		"allow-plugins": {
+			"bamarni/composer-bin-plugin": true
+		}
+	},
+	"autoload": {
+		"psr-4": {
+			"": "lib/private/legacy",
+			"OC\\": "lib/private",
+			"OC\\Core\\": "core/",
+			"OCP\\": "lib/public"
+		}
+	},
+	"require": {
+		"ext-json": "*",
+		"ext-libxml": "*",
+		"ext-mbstring": "*",
+		"ext-pdo": "*",
+		"ext-simplexml": "*",
+		"ext-xmlreader": "*",
+		"ext-zip": "*"
+	},
+	"require-dev": {
+		"bamarni/composer-bin-plugin": "^1.4"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all install",
+			"composer dump-autoload"
+		],
+		"post-update-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all update --ansi",
+			"composer dump-autoload"
+		],
+		"cs:fix": "php-cs-fixer fix",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
+		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
+		"psalm": "psalm --threads=1",
+		"psalm:update-baseline": "psalm --threads=1 --update-baseline --set-baseline=build/psalm-baseline.xml"
+	}
 }

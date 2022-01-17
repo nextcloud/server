@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,26 +16,30 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-namespace OCA\Settings\Admin;
+namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Overview implements ISettings {
+class Overview implements IDelegatedSettings {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IConfig $config) {
+	/** @var IL10N $l*/
+	private $l;
+
+	public function __construct(IConfig $config, IL10N $l) {
 		$this->config = $config;
+		$this->l = $l;
 	}
 
 	/**
@@ -40,7 +47,7 @@ class Overview implements ISettings {
 	 */
 	public function getForm() {
 		$parameters = [
-			'checkForWorkingWellKnownSetup'    => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
+			'checkForWorkingWellKnownSetup' => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
 		];
 
 		return new TemplateResponse('settings', 'settings/admin/overview', $parameters, '');
@@ -62,5 +69,13 @@ class Overview implements ISettings {
 	 */
 	public function getPriority() {
 		return 10;
+	}
+
+	public function getName(): ?string {
+		return $this->l->t('Security & setup warnings');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [];
 	}
 }

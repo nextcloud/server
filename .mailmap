@@ -63,8 +63,8 @@ Christian Berendt <berendt@b1-systems.de>
 Christian Kampka <christian@kampka.net>
 Christian Koch <koch.chris@gmail.com>
 Christian Reiner <github@christian-reiner.info> Christian Reiner <arkascha@balder.site>
-Christoph Wurst <christoph@owncloud.com> Christoph Wurst <ChristophWurst@users.noreply.github.com>
-Christoph Wurst <christoph@owncloud.com> Christoph Wurst <christoph@winzerhof-wurst.at>
+Christoph Wurst <christoph@winzerhof-wurst.at> Christoph Wurst <ChristophWurst@users.noreply.github.com>
+Christoph Wurst <christoph@winzerhof-wurst.at> Christoph Wurst <christoph@owncloud.com>
 Christopher Bunn <b11.chris@gmail.com>
 Christopher Schäpers <kondou@ts.unde.re> Christopher <kondou@ts.unde.re>
 Christopher Schäpers <kondou@ts.unde.re> kondou <kondou@ts.unde.re>
@@ -82,6 +82,7 @@ Dan Callahan <dan.callahan@gmail.com>
 Dan Jones <dan@danneh.org>
 Daniel <daniel@mars.(none)>
 Daniel Hansson <enoch85@gmail.com>
+Daniel Kesselberg <mail@danielkesselberg.de> kesselb <mail@danielkesselberg.de>
 Daniel Köb <daniel.koeb@peony.at>
 Daniel Molkentin <daniel@molkentin.de>
 Daniele E. Domenichelli <daniele.domenichelli@gmail.com>
@@ -164,6 +165,7 @@ ideaship <ideaship@users.noreply.github.com>
 Ignacio Daniel Rostagno <ignaciorostagno@vijona.com.ar>
 infoneo <infoneo@yahoo.pl>
 Insanemal <insanemal@gmail.com>
+Tobias Perschon <tobias@perschon.at> Tobias Perschon <tofuSCHNITZEL@users.noreply.github.com>
 Tobias Ramforth <tobias@ramforth.com> Tobias Ramforth <tobias.ramforth@udo.edu>
 Tobias Ramforth <tobias@ramforth.com> irgsmirx <tobias.ramforth@udo.edu>
 Isaac Rosenberg <irosenb7@gmail.com>
@@ -185,6 +187,7 @@ Jesús Macias <jmacias@solidgear.es> Jesus Macias <jmacias@full-on-net.com>
 jknockaert <jasper@knockaert.nl>
 Joan <aseques@gmail.com>
 Joar Wandborg <git@wandborg.com>
+Joas Schilling <coding@schilljs.com> Joas Schilling <213943+nickvergessen@users.noreply.github.com>
 Joas Schilling <coding@schilljs.com> Joas Schilling <nickvergessen@gmx.de>
 Joas Schilling <coding@schilljs.com> Joas Schilling <nickvergessen@owncloud.com>
 joel hansson <joel.hansson@gmail.com>
@@ -212,6 +215,7 @@ Lennart Rosam <lennart.rosam@medien-systempartner.de>
 Sebastian Döll <sebastian.doell@libasys.de> libasys <sebastian.doell@libasys.de>
 Lode Hoste <zillode@zillode.be>
 lolozere <laurent@chedanne.pro>
+Louis Chemineau <louis@chmn.me> Louis Chemineau <6653109+artonge@users.noreply.github.com>
 Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
 Lukas Reschke <lukas@statuscode.ch> Lukas Reschke <lukas@owncloud.com>
 Lukas Reschke <lukas@statuscode.ch> Lukas Reschke <lukas@owncloud.org>
@@ -317,6 +321,7 @@ Robin McCorkell <robin@mccorkell.me.uk> Robin McCorkell <rmccorkell@owncloud.com
 Rodrigo Hjort <rodrigo.hjort@gmail.com>
 Roeland Jago Douma <roeland@famdouma.nl> Roeland Jago Douma <rullzer@owncloud.com>
 Roeland Jago Douma <roeland@famdouma.nl> Roeland Douma <rullzer@users.noreply.github.com>
+Roeland Jago Douma <roeland@famdouma.nl> Roeland Jago Douma <rullzer@users.noreply.github.com>
 Roger Szabo <roger.szabo@web.de> root <roger.szabo@web.de>
 rok <brejktru@gmail.com>
 Roland Hager <roland.hager@tu-berlin.de>
@@ -336,6 +341,7 @@ Sander <brantje@gmail.com>
 Sandro Knauß <bugs@sandroknauss.de> Sandro <hefee@taurin.(none)>
 Sascha Schmidt <realriot@realriot.de>
 Sascha Schneider <development@suntsu.org>
+Sascha Wiswedel <sascha.wiswedel@nextcloud.com> Sascha Wiswedel <wiswedel@users.noreply.github.com>
 scambra <sergio@entrecables.com>
 scolebrook <scolebrook@mac.com>
 Scott Arciszewski <scott@arciszewski.me>
@@ -354,6 +360,8 @@ Simon Birnbach <simon@simon-birnbach.de>
 Simon Könnecke <simonkoennecke@gmail.com>
 Simon Whittaker <simon@swbh.net>
 Sjors van der Pluijm <sjors@desjors.nl> Sjors van der Pluijm <sjors@youngguns.nl>
+John Molakvoæ <skjnldsv@protonmail.com> John Molakvoæ <skjnldsv@users.noreply.github.com>
+John Molakvoæ <skjnldsv@protonmail.com> John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 st3so <st3so@server.fake>
 Stefan <mu.stefan@googlemail.com>
 Stefan Göckeritz <admin@s-goecker.de>
@@ -376,6 +384,8 @@ tbelau666 <thomas.belau@gmx.de>
 TheSFReader <TheSFReader@gmail.com>
 Thibaut GRIDEL <tgridel@free.fr>
 thomas <thomas@thomas-VirtualBox.(none)>
+Thomas Citharel <nextcloud@tcit.fr> Thomas Citharel <tcit@tcit.fr>
+Thomas Citharel <nextcloud@tcit.fr> Thomas Citharel <github@tcit.fr>
 Thomas Müller <thomas.mueller@tmit.eu> Thomas Mueller <thomas.mueller@tmit.eu>
 Thomas Müller <thomas.mueller@tmit.eu> Thomas Müller <DeepDiver1975@users.noreply.github.com>
 Thomas Olsen <tol@tanghus>
@@ -401,8 +411,9 @@ Victor Dubiniuk <dubiniuk@owncloud.com> Victor Dubiniuk <victor.dubiniuk@gmail.c
 Victor Dubiniuk <dubiniuk@owncloud.com> VicDeo <dubiniuk@owncloud.com>
 Victor Dubiniuk <dubiniuk@owncloud.com> VicDeo <victor.dubiniuk@gmail.com>
 Vincent Cloutier <vincent1cloutier@gmail.com>
-Vincent Petry <pvince81@owncloud.com> Vincent Petry <PVince81@yahoo.fr>
-Vincent Petry <pvince81@owncloud.com> Vincent Petry <vincent@vvortex.site>
+Vincent Petry <vincent@nextcloud.com> Vincent Petry <PVince81@yahoo.fr>
+Vincent Petry <vincent@nextcloud.com> Vincent Petry <vincent@vvortex.site>
+Vincent Petry <vincent@nextcloud.com> Vincent Petry <pvince81@owncloud.com>
 Vinicius Cubas Brand <vinicius@eita.org.br> Vinicius Cubas Brand <viniciuscb@gmail.com>
 Vitaly Kuznetsov <vitty@altlinux.ru>
 Vladimir Sapronov <vladimir.sapronov@gmail.com>

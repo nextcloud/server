@@ -5,7 +5,7 @@
 	<name>Theming</name>
 	<summary>Adjust the Nextcloud theme</summary>
 	<description>Adjust the Nextcloud theme</description>
-	<version>1.9.0</version>
+	<version>1.15.0</version>
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>Theming</namespace>
@@ -18,11 +18,14 @@
 	<category>customization</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="18" max-version="18"/>
+		<nextcloud min-version="24" max-version="24"/>
 	</dependencies>
 
 	<settings>
 		<admin>OCA\Theming\Settings\Admin</admin>
 		<admin-section>OCA\Theming\Settings\Section</admin-section>
 	</settings>
+	<commands>
+		<command>OCA\Theming\Command\UpdateConfig</command>
+	</commands>
 </info>

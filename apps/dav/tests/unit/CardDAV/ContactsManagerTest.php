@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -19,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -34,15 +34,15 @@ use Test\TestCase;
 
 class ContactsManagerTest extends TestCase {
 	public function test() {
-		/** @var IManager | \PHPUnit_Framework_MockObject_MockObject $cm */
+		/** @var IManager | \PHPUnit\Framework\MockObject\MockObject $cm */
 		$cm = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
 		$cm->expects($this->exactly(2))->method('registerAddressBook');
 		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)->disableOriginalConstructor()->getMock();
-		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backEnd */
+		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backEnd */
 		$backEnd = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backEnd->method('getAddressBooksForUser')->willReturn([
-				['{DAV:}displayname' => 'Test address book', 'uri' => 'default'],
-			]);
+			['{DAV:}displayname' => 'Test address book', 'uri' => 'default'],
+		]);
 
 		$l = $this->createMock(IL10N::class);
 		$app = new ContactsManager($backEnd, $l);

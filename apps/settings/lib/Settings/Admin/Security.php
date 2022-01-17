@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,20 +17,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-namespace OCA\Settings\Admin;
+namespace OCA\Settings\Settings\Admin;
 
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
-use OCP\IInitialStateService;
 use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
@@ -43,13 +44,13 @@ class Security implements ISettings {
 	/** @var MandatoryTwoFactor */
 	private $mandatoryTwoFactor;
 
-	/** @var IInitialStateService */
+	/** @var IInitialState */
 	private $initialState;
 
 	public function __construct(IManager $manager,
 								IUserManager $userManager,
 								MandatoryTwoFactor $mandatoryTwoFactor,
-								IInitialStateService $initialState) {
+								IInitialState $initialState) {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -59,7 +60,7 @@ class Security implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$encryptionModules = $this->manager->getEncryptionModules();
 		$defaultEncryptionModuleId = $this->manager->getDefaultEncryptionModuleId();
 		$encryptionModuleList = [];
@@ -72,18 +73,17 @@ class Security implements ISettings {
 		}
 
 		$this->initialState->provideInitialState(
-			'settings',
 			'mandatory2FAState',
 			$this->mandatoryTwoFactor->getState()
 		);
 
 		$parameters = [
 			// Encryption API
-			'encryptionEnabled'       => $this->manager->isEnabled(),
-			'encryptionReady'         => $this->manager->isReady(),
+			'encryptionEnabled' => $this->manager->isEnabled(),
+			'encryptionReady' => $this->manager->isReady(),
 			'externalBackendsEnabled' => count($this->userManager->getBackends()) > 1,
 			// Modules
-			'encryptionModules'       => $encryptionModuleList,
+			'encryptionModules' => $encryptionModuleList,
 		];
 
 		return new TemplateResponse('settings', 'settings/admin/security', $parameters, '');
@@ -92,7 +92,7 @@ class Security implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'security';
 	}
 
@@ -103,7 +103,7 @@ class Security implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 10;
 	}
 }

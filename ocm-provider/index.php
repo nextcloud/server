@@ -29,6 +29,8 @@ $server = \OC::$server;
 $isEnabled = $server->getAppManager()->isEnabledForUser('cloud_federation_api');
 
 if ($isEnabled) {
+	// Make sure the routes are loaded
+	\OC_App::loadApp('cloud_federation_api');
 	$capabilities = new OCA\CloudFederationAPI\Capabilities($server->getURLGenerator());
 	header('Content-Type: application/json');
 	echo json_encode($capabilities->getCapabilities()['ocm']);
@@ -36,4 +38,3 @@ if ($isEnabled) {
 	header($_SERVER["SERVER_PROTOCOL"]." 501 Not Implemented", true, 501);
 	exit("501 Not Implemented");
 }
-

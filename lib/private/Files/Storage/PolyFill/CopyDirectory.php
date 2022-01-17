@@ -18,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage\PolyFill;
 
 trait CopyDirectory {
@@ -65,15 +64,15 @@ trait CopyDirectory {
 	 */
 	abstract public function mkdir($path);
 
-	public function copy($source, $target) {
-		if ($this->is_dir($source)) {
-			if ($this->file_exists($target)) {
-				$this->unlink($target);
+	public function copy($path1, $path2) {
+		if ($this->is_dir($path1)) {
+			if ($this->file_exists($path2)) {
+				$this->unlink($path2);
 			}
-			$this->mkdir($target);
-			return $this->copyRecursive($source, $target);
+			$this->mkdir($path2);
+			return $this->copyRecursive($path1, $path2);
 		} else {
-			return parent::copy($source, $target);
+			return parent::copy($path1, $path2);
 		}
 	}
 

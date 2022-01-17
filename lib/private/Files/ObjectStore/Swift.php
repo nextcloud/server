@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Adrian Brzezinski <adrian.brzezinski@eo.pl>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author William Pain <pain.william@gmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,18 +20,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\ObjectStore;
 
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Psr7\Utils;
 use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
-use OpenStack\Common\Error\BadResponseError;
+
+const SWIFT_SEGMENT_SIZE = 1073741824; // 1GB
 
 class Swift implements IObjectStore {
 	/**
@@ -70,49 +73,56 @@ class Swift implements IObjectStore {
 		return $this->params['container'];
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception from openstack lib when something goes wrong
-	 */
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
 
-		$this->getContainer()->createObject([
-			'name' => $urn,
-			'stream' => stream_for($handle)
-		]);
+		if (filesize($tmpFile) < SWIFT_SEGMENT_SIZE) {
+			$this->getContainer()->createObject([
+				'name' => $urn,
+				'stream' => Utils::streamFor($handle),
+				'contentType' => $mimetype,
+			]);
+		} else {
+			$this->getContainer()->createLargeObject([
+				'name' => $urn,
+				'stream' => Utils::streamFor($handle),
+				'segmentSize' => SWIFT_SEGMENT_SIZE,
+				'contentType' => $mimetype,
+			]);
+		}
 	}
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
-	 * @throws \Exception from openstack lib when something goes wrong
+	 * @throws \Exception from openstack or GuzzleHttp libs when something goes wrong
 	 * @throws NotFoundException if file does not exist
 	 */
 	public function readObject($urn) {
 		try {
-			$object = $this->getContainer()->getObject($urn);
+			$publicUri = $this->getContainer()->getObject($urn)->getPublicUri();
+			$tokenId = $this->swiftFactory->getCachedTokenId();
 
-			// we need to keep a reference to objectContent or
-			// the stream will be closed before we can do anything with it
-			$objectContent = $object->download();
-		} catch (BadResponseError $e) {
-			if ($e->getResponse()->getStatusCode() === 404) {
+			$response = (new Client())->request('GET', $publicUri,
+				[
+					'stream' => true,
+					'headers' => [
+						'X-Auth-Token' => $tokenId,
+						'Cache-Control' => 'no-cache',
+					],
+				]
+			);
+		} catch (BadResponseException $e) {
+			if ($e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
 				throw new NotFoundException("object $urn not found in object store");
 			} else {
 				throw $e;
 			}
 		}
-		$objectContent->rewind();
 
-		$stream = $objectContent->detach();
-		// save the object content in the context of the stream to prevent it being gc'd until the stream is closed
-		stream_context_set_option($stream, 'swift', 'content', $objectContent);
-
-		return RetryWrapper::wrap($stream);
+		return RetryWrapper::wrap($response->getBody()->detach());
 	}
 
 	/**
@@ -134,5 +144,11 @@ class Swift implements IObjectStore {
 
 	public function objectExists($urn) {
 		return $this->getContainer()->objectExists($urn);
+	}
+
+	public function copyObject($from, $to) {
+		$this->getContainer()->getObject($from)->copy([
+			'destination' => $this->getContainer()->name . '/' . $to
+		]);
 	}
 }

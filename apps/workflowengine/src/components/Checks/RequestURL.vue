@@ -51,16 +51,16 @@
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import valueMixin from '../../mixins/valueMixin'
 
 export default {
 	name: 'RequestURL',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	mixins: [
-		valueMixin
+		valueMixin,
 	],
 	data() {
 		return {
@@ -69,10 +69,10 @@ export default {
 				{
 					label: t('workflowengine', 'Predefined URLs'),
 					children: [
-						{ pattern: 'webdav', label: t('workflowengine', 'Files WebDAV') }
-					]
-				}
-			]
+						{ pattern: 'webdav', label: t('workflowengine', 'Files WebDAV') },
+					],
+				},
+			],
 		}
 	},
 	computed: {
@@ -101,9 +101,9 @@ export default {
 					{
 						icon: 'icon-settings-dark',
 						label: t('workflowengine', 'Custom URL'),
-						pattern: ''
-					}
-				]
+						pattern: '',
+					},
+				],
 			}
 		},
 		currentValue() {
@@ -113,14 +113,14 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom URL'),
-				pattern: this.newValue
+				pattern: this.newValue,
 			}
-		}
+		},
 	},
 	methods: {
 		validateRegex(string) {
-			var regexRegex = /^\/(.*)\/([gui]{0,3})$/
-			var result = regexRegex.exec(string)
+			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
+			const result = regexRegex.exec(string)
 			return result !== null
 		},
 		setValue(value) {
@@ -133,7 +133,12 @@ export default {
 		updateCustom(event) {
 			this.newValue = event.target.value
 			this.$emit('input', this.newValue)
-		}
-	}
+		},
+	},
 }
 </script>
+<style scoped>
+	.multiselect, input[type='text'] {
+		width: 100%;
+	}
+</style>

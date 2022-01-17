@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Michael Weimann <mail@michael-weimann.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair;
 
 use OC\Avatar\AvatarManager;
@@ -37,7 +38,7 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	private $config;
 
 	public function __construct(IConfig $config, AvatarManager $avatarManager) {
-		$this->config        = $config;
+		$this->config = $config;
 		$this->avatarManager = $avatarManager;
 	}
 
@@ -65,7 +66,6 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 			} catch (\Exception $e) {
 				$output->warning('Unable to clear the avatar cache');
 			}
-
 		}
 	}
 }

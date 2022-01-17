@@ -23,9 +23,8 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
-use OC\Authentication\Login\UidCheckCommand;
 use OC\Authentication\Login\UidLoginCommand;
 use OC\User\Manager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,7 +34,7 @@ class UidLoginCommandTest extends ALoginCommandTest {
 	/** @var Manager|MockObject */
 	private $userManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
@@ -76,5 +75,4 @@ class UidLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 		$this->assertEquals($this->user, $data->getUser());
 	}
-
 }

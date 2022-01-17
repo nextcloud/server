@@ -1,8 +1,13 @@
 <?php
 /**
+ * @copyright Copyright (c) 2017, ownCloud GmbH
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2017, ownCloud GmbH
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -15,14 +20,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\DAV\Upload;
 
+use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
@@ -36,7 +43,7 @@ class ChunkingPlugin extends ServerPlugin {
 	/**
 	 * @inheritdoc
 	 */
-	function initialize(Server $server) {
+	public function initialize(Server $server) {
 		$server->on('beforeMove', [$this, 'beforeMove']);
 		$this->server = $server;
 	}
@@ -44,12 +51,25 @@ class ChunkingPlugin extends ServerPlugin {
 	/**
 	 * @param string $sourcePath source path
 	 * @param string $destination destination path
+	 * @return bool|void
+	 * @throws BadRequest
+	 * @throws NotFound
 	 */
-	function beforeMove($sourcePath, $destination) {
+	public function beforeMove($sourcePath, $destination) {
 		$this->sourceNode = $this->server->tree->getNodeForPath($sourcePath);
 		if (!$this->sourceNode instanceof FutureFile) {
 			// skip handling as the source is not a chunked FutureFile
 			return;
+		}
+
+		try {
+			/** @var INode $destinationNode */
+			$destinationNode = $this->server->tree->getNodeForPath($destination);
+			if ($destinationNode instanceof Directory) {
+				throw new BadRequest("The given destination $destination is a directory.");
+			}
+		} catch (NotFound $e) {
+			// If the destination does not exist yet it's not a directory either ;)
 		}
 
 		$this->verifySize();
@@ -68,13 +88,17 @@ class ChunkingPlugin extends ServerPlugin {
 	 * @return bool|void false to stop handling, void to skip this handler
 	 */
 	public function performMove($path, $destination) {
-		if (!$this->server->tree->nodeExists($destination)) {
-			// skip and let the default handler do its work
-			return;
-		}
-
+		$fileExists = $this->server->tree->nodeExists($destination);
 		// do a move manually, skipping Sabre's default "delete" for existing nodes
-		$this->server->tree->move($path, $destination);
+		try {
+			$this->server->tree->move($path, $destination);
+		} catch (Forbidden $e) {
+			$sourceNode = $this->server->tree->getNodeForPath($path);
+			if ($sourceNode instanceof FutureFile) {
+				$sourceNode->delete();
+			}
+			throw $e;
+		}
 
 		// trigger all default events (copied from CorePlugin::move)
 		$this->server->emit('afterMove', [$path, $destination]);
@@ -83,7 +107,7 @@ class ChunkingPlugin extends ServerPlugin {
 
 		$response = $this->server->httpResponse;
 		$response->setHeader('Content-Length', '0');
-		$response->setStatus(204);
+		$response->setStatus($fileExists ? 204 : 201);
 
 		return false;
 	}

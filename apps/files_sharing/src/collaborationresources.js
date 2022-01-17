@@ -1,9 +1,10 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,7 +23,8 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Tooltip, PopoverMenu } from 'nextcloud-vue'
+import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import ClickOutside from 'vue-click-outside'
 
 import View from './views/CollaborationView'
@@ -38,5 +40,5 @@ Vue.use(Vuex)
 
 export {
 	Vue,
-	View
+	View,
 }

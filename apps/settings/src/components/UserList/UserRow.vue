@@ -1,7 +1,9 @@
 <!--
   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Gary Kim <gary@garykim.dev>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -22,14 +24,15 @@
 
 <template>
 	<!-- Obfuscated user: Logged in user does not have permissions to see all of the data -->
-	<div v-if="Object.keys(user).length ===1" class="row" :data-id="user.id">
-		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
+	<div v-if="Object.keys(user).length ===1" :data-id="user.id" class="row">
+		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
+			class="avatar">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				alt=""
-				width="32"
-				height="32"
 				:src="generateAvatar(user.id, 32)"
-				:srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'">
+				:srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
+				alt=""
+				height="32"
+				width="32">
 		</div>
 		<div class="name">
 			{{ user.id }}
@@ -40,163 +43,195 @@
 	</div>
 
 	<!-- User full data -->
+	<UserRowSimple
+		v-else-if="!editing"
+		:editing.sync="editing"
+		:feedback-message="feedbackMessage"
+		:groups="groups"
+		:languages="languages"
+		:loading="loading"
+		:opened-menu.sync="openedMenu"
+		:settings="settings"
+		:show-config="showConfig"
+		:sub-admins-groups="subAdminsGroups"
+		:user-actions="userActions"
+		:user="user"
+		:class="{'row--menu-opened': openedMenu}" />
 	<div v-else
-		class="row"
-		:class="{'disabled': loading.delete || loading.disable}"
-		:data-id="user.id">
-		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
+		:class="{
+			'disabled': loading.delete || loading.disable,
+			'row--menu-opened': openedMenu
+		}"
+		:data-id="user.id"
+		class="row row--editable">
+		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
+			class="avatar">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				alt=""
-				width="32"
-				height="32"
 				:src="generateAvatar(user.id, 32)"
-				:srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'">
+				:srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
+				alt=""
+				height="32"
+				width="32">
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
-		<div class="name">
-			{{ user.id }}
-		</div>
-		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" @submit.prevent="updateDisplayName">
-			<template v-if="user.backendCapabilities.setDisplayName">
-				<input v-if="user.backendCapabilities.setDisplayName"
+		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
+			<form
+				:class="{'icon-loading-small': loading.displayName}"
+				class="displayName"
+				@submit.prevent="updateDisplayName">
+				<input
 					:id="'displayName'+user.id+rand"
 					ref="displayName"
-					type="text"
 					:disabled="loading.displayName||loading.all"
 					:value="user.displayname"
-					autocomplete="new-password"
-					autocorrect="off"
 					autocapitalize="off"
-					spellcheck="false">
-				<input v-if="user.backendCapabilities.setDisplayName"
-					type="submit"
+					autocomplete="off"
+					autocorrect="off"
+					spellcheck="false"
+					type="text">
+				<input
 					class="icon-confirm"
+					type="submit"
 					value="">
-			</template>
-			<div v-else v-tooltip.auto="t('settings', 'The backend does not support changing the display name')" class="name">
-				{{ user.displayname }}
+			</form>
+		</div>
+		<div v-else class="name">
+			{{ user.id }}
+			<div class="displayName subtitle">
+				<div v-tooltip="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
+					{{ user.displayname }}
+				</div>
 			</div>
-		</form>
+		</div>
 		<form v-if="settings.canChangePassword && user.backendCapabilities.setPassword"
-			class="password"
 			:class="{'icon-loading-small': loading.password}"
+			class="password"
 			@submit.prevent="updatePassword">
 			<input :id="'password'+user.id+rand"
 				ref="password"
-				type="password"
-				required
-				:disabled="loading.password||loading.all"
+				:disabled="loading.password || loading.all"
 				:minlength="minPasswordLength"
-				value=""
-				:placeholder="t('settings', 'New password')"
+				:placeholder="t('settings', 'Add new password')"
+				autocapitalize="off"
 				autocomplete="new-password"
 				autocorrect="off"
-				autocapitalize="off"
-				spellcheck="false">
-			<input type="submit" class="icon-confirm" value="">
+				required
+				spellcheck="false"
+				type="password"
+				value="">
+			<input class="icon-confirm" type="submit" value="">
 		</form>
 		<div v-else />
-		<form class="mailAddress" :class="{'icon-loading-small': loading.mailAddress}" @submit.prevent="updateEmail">
+		<form :class="{'icon-loading-small': loading.mailAddress}"
+			class="mailAddress"
+			@submit.prevent="updateEmail">
 			<input :id="'mailAddress'+user.id+rand"
 				ref="mailAddress"
-				type="email"
 				:disabled="loading.mailAddress||loading.all"
+				:placeholder="t('settings', 'Add new email address')"
 				:value="user.email"
+				autocapitalize="off"
 				autocomplete="new-password"
 				autocorrect="off"
-				autocapitalize="off"
-				spellcheck="false">
-			<input type="submit" class="icon-confirm" value="">
+				spellcheck="false"
+				type="email">
+			<input class="icon-confirm" type="submit" value="">
 		</form>
-		<div class="groups" :class="{'icon-loading-small': loading.groups}">
-			<Multiselect :value="userGroups"
-				:options="availableGroups"
+		<div :class="{'icon-loading-small': loading.groups}" class="groups">
+			<Multiselect :close-on-select="false"
 				:disabled="loading.groups||loading.all"
-				tag-placeholder="create"
-				:placeholder="t('settings', 'Add user in group')"
-				label="name"
-				track-by="id"
-				class="multiselect-vue"
 				:limit="2"
 				:multiple="true"
+				:options="availableGroups"
+				:placeholder="t('settings', 'Add user to group')"
+				:tag-width="60"
 				:taggable="settings.isAdmin"
-				:close-on-select="false"
-				:tag-width="60"
-				@tag="createGroup"
+				:value="userGroups"
+				class="multiselect-vue"
+				label="name"
+				tag-placeholder="create"
+				track-by="id"
+				@remove="removeUserGroup"
 				@select="addUserGroup"
-				@remove="removeUserGroup">
-				<span slot="limit" v-tooltip.auto="formatGroupsTitle(userGroups)" class="multiselect__limit">+{{ userGroups.length-2 }}</span>
+				@tag="createGroup">
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
 			</Multiselect>
 		</div>
-		<div v-if="subAdminsGroups.length>0 && settings.isAdmin" class="subadmins" :class="{'icon-loading-small': loading.subadmins}">
-			<Multiselect :value="userSubAdminsGroups"
-				:options="subAdminsGroups"
+		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
+			:class="{'icon-loading-small': loading.subadmins}"
+			class="subadmins">
+			<Multiselect :close-on-select="false"
 				:disabled="loading.subadmins||loading.all"
-				:placeholder="t('settings', 'Set user as admin for')"
-				label="name"
-				track-by="id"
-				class="multiselect-vue"
 				:limit="2"
 				:multiple="true"
-				:close-on-select="false"
+				:options="subAdminsGroups"
+				:placeholder="t('settings', 'Set user as admin for')"
 				:tag-width="60"
-				@select="addUserSubAdmin"
-				@remove="removeUserSubAdmin">
-				<span slot="limit" v-tooltip.auto="formatGroupsTitle(userSubAdminsGroups)" class="multiselect__limit">+{{ userSubAdminsGroups.length-2 }}</span>
+				:value="userSubAdminsGroups"
+				class="multiselect-vue"
+				label="name"
+				track-by="id"
+				@remove="removeUserSubAdmin"
+				@select="addUserSubAdmin">
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
 			</Multiselect>
 		</div>
-		<div v-tooltip.auto="usedSpace" class="quota" :class="{'icon-loading-small': loading.quota}">
-			<Multiselect :value="userQuota"
-				:options="quotaOptions"
+		<div v-tooltip.auto="usedSpace"
+			:class="{'icon-loading-small': loading.quota}"
+			class="quota">
+			<Multiselect :allow-empty="false"
 				:disabled="loading.quota||loading.all"
-				tag-placeholder="create"
+				:options="quotaOptions"
 				:placeholder="t('settings', 'Select user quota')"
-				label="label"
-				track-by="id"
-				class="multiselect-vue"
-				:allow-empty="false"
 				:taggable="true"
-				@tag="validateQuota"
-				@input="setUserQuota" />
-			<progress class="quota-user-progress"
-				:class="{'warn':usedQuota>80}"
-				:value="usedQuota"
-				max="100" />
+				:value="userQuota"
+				class="multiselect-vue"
+				label="label"
+				tag-placeholder="create"
+				track-by="id"
+				@input="setUserQuota"
+				@tag="validateQuota" />
 		</div>
 		<div v-if="showConfig.showLanguages"
-			class="languages"
-			:class="{'icon-loading-small': loading.languages}">
-			<Multiselect :value="userLanguage"
-				:options="languages"
+			:class="{'icon-loading-small': loading.languages}"
+			class="languages">
+			<Multiselect :allow-empty="false"
 				:disabled="loading.languages||loading.all"
+				:options="languages"
 				:placeholder="t('settings', 'No language set')"
+				:value="userLanguage"
+				class="multiselect-vue"
+				group-label="label"
+				group-values="languages"
 				label="name"
 				track-by="code"
-				class="multiselect-vue"
-				:allow-empty="false"
-				group-values="languages"
-				group-label="label"
 				@input="setUserLanguage" />
 		</div>
-		<div v-if="showConfig.showStoragePath" class="storageLocation">
-			{{ user.storageLocation }}
-		</div>
-		<div v-if="showConfig.showUserBackend" class="userBackend">
-			{{ user.backend }}
-		</div>
-		<div v-if="showConfig.showLastLogin" v-tooltip.auto="user.lastLogin>0 ? OC.Util.formatDate(user.lastLogin) : ''" class="lastLogin">
-			{{ user.lastLogin>0 ? OC.Util.relativeModifiedDate(user.lastLogin) : t('settings','Never') }}
-		</div>
+
+		<!-- don't show this on edit mode -->
+		<div v-if="showConfig.showStoragePath || showConfig.showUserBackend"
+			class="storageLocation" />
+		<div v-if="showConfig.showLastLogin" />
+
 		<div class="userActions">
-			<div v-if="OC.currentUser !== user.id && user.id !== 'admin' && !loading.all" class="toggleUserActions">
-				<div v-click-outside="hideMenu" class="icon-more" @click="toggleMenu" />
-				<div class="popovermenu" :class="{ 'open': openedMenu }">
-					<PopoverMenu :menu="userActions" />
+			<div v-if="!loading.all"
+				class="toggleUserActions">
+				<Actions>
+					<ActionButton icon="icon-checkmark"
+						@click="editing = false">
+						{{ t('settings', 'Done') }}
+					</ActionButton>
+				</Actions>
+				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
+					<div class="icon-more"
+						@click="toggleMenu" />
+					<div :class="{ 'open': openedMenu }" class="popovermenu">
+						<PopoverMenu :menu="userActions" />
+					</div>
 				</div>
 			</div>
-			<div class="feedback" :style="{opacity: feedbackMessage !== '' ? 1 : 0}">
+			<div :style="{opacity: feedbackMessage !== '' ? 1 : 0}"
+				class="feedback">
 				<div class="icon-checkmark" />
 				{{ feedbackMessage }}
 			</div>
@@ -208,58 +243,70 @@
 import ClickOutside from 'vue-click-outside'
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
-import { PopoverMenu, Multiselect } from 'nextcloud-vue'
+import {
+	PopoverMenu,
+	Multiselect,
+	Actions,
+	ActionButton,
+} from '@nextcloud/vue'
+import UserRowSimple from './UserRowSimple'
+import UserRowMixin from '../../mixins/UserRowMixin'
 
 Vue.use(VTooltip)
 
 export default {
 	name: 'UserRow',
 	components: {
+		UserRowSimple,
 		PopoverMenu,
-		Multiselect
+		Actions,
+		ActionButton,
+		Multiselect,
 	},
 	directives: {
-		ClickOutside
+		ClickOutside,
 	},
+	mixins: [UserRowMixin],
 	props: {
 		user: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		settings: {
 			type: Object,
-			default: () => ({})
+			default: () => ({}),
 		},
 		groups: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		subAdminsGroups: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		quotaOptions: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		showConfig: {
 			type: Object,
-			default: () => ({})
+			default: () => ({}),
 		},
 		languages: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		externalActions: {
 			type: Array,
-			default: () => []
-		}
+			default: () => [],
+		},
 	},
 	data() {
 		return {
 			rand: parseInt(Math.random() * 1000),
 			openedMenu: false,
 			feedbackMessage: '',
+			editing: false,
 			loading: {
 				all: false,
 				displayName: false,
@@ -271,124 +318,41 @@ export default {
 				delete: false,
 				disable: false,
 				languages: false,
-				wipe: false
-			}
+				wipe: false,
+			},
 		}
 	},
 	computed: {
 		/* USER POPOVERMENU ACTIONS */
 		userActions() {
-			let actions = [
+			const actions = [
 				{
 					icon: 'icon-delete',
 					text: t('settings', 'Delete user'),
-					action: this.deleteUser
+					action: this.deleteUser,
 				},
 				{
 					icon: 'icon-delete',
 					text: t('settings', 'Wipe all devices'),
-					action: this.wipeUserDevices
+					action: this.wipeUserDevices,
 				},
 				{
 					icon: this.user.enabled ? 'icon-close' : 'icon-add',
 					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
-					action: this.enableDisableUser
-				}
+					action: this.enableDisableUser,
+				},
 			]
 			if (this.user.email !== null && this.user.email !== '') {
 				actions.push({
 					icon: 'icon-mail',
 					text: t('settings', 'Resend welcome email'),
-					action: this.sendWelcomeMail
+					action: this.sendWelcomeMail,
 				})
 			}
 			return actions.concat(this.externalActions)
 		},
-
-		/* GROUPS MANAGEMENT */
-		userGroups() {
-			let userGroups = this.groups.filter(group => this.user.groups.includes(group.id))
-			return userGroups
-		},
-		userSubAdminsGroups() {
-			let userSubAdminsGroups = this.subAdminsGroups.filter(group => this.user.subadmin.includes(group.id))
-			return userSubAdminsGroups
-		},
-		availableGroups() {
-			return this.groups.map((group) => {
-				// clone object because we don't want
-				// to edit the original groups
-				let groupClone = Object.assign({}, group)
-
-				// two settings here:
-				// 1. user NOT in group but no permission to add
-				// 2. user is in group but no permission to remove
-				groupClone.$isDisabled
-					= (group.canAdd === false
-						&& !this.user.groups.includes(group.id))
-					|| (group.canRemove === false
-						&& this.user.groups.includes(group.id))
-				return groupClone
-			})
-		},
-
-		/* QUOTA MANAGEMENT */
-		usedSpace() {
-			if (this.user.quota.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota.used) })
-			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
-		},
-		usedQuota() {
-			let quota = this.user.quota.quota
-			if (quota > 0) {
-				quota = Math.min(100, Math.round(this.user.quota.used / quota * 100))
-			} else {
-				var usedInGB = this.user.quota.used / (10 * Math.pow(2, 30))
-				// asymptotic curve approaching 50% at 10GB to visualize used stace with infinite quota
-				quota = 95 * (1 - (1 / (usedInGB + 1)))
-			}
-			return isNaN(quota) ? 0 : quota
-		},
-		// Mapping saved values to objects
-		userQuota() {
-			if (this.user.quota.quota >= 0) {
-				// if value is valid, let's map the quotaOptions or return custom quota
-				let humanQuota = OC.Util.humanFileSize(this.user.quota.quota)
-				let userQuota = this.quotaOptions.find(quota => quota.id === humanQuota)
-				return userQuota || { id: humanQuota, label: humanQuota }
-			} else if (this.user.quota.quota === 'default') {
-				// default quota is replaced by the proper value on load
-				return this.quotaOptions[0]
-			}
-			return this.quotaOptions[1] // unlimited
-		},
-
-		/* PASSWORD POLICY? */
-		minPasswordLength() {
-			return this.$store.getters.getPasswordPolicyMinLength
-		},
-
-		/* LANGUAGE */
-		userLanguage() {
-			let availableLanguages = this.languages[0].languages.concat(this.languages[1].languages)
-			let userLang = availableLanguages.find(lang => lang.code === this.user.language)
-			if (typeof userLang !== 'object' && this.user.language !== '') {
-				return {
-					code: this.user.language,
-					name: this.user.language
-				}
-			} else if (this.user.language === '') {
-				return false
-			}
-			return userLang
-		}
 	},
-	mounted() {
-		// required if popup needs to stay opened after menu click
-		// since we only have disable/delete actions, let's close it directly
-		// this.popupItem = this.$el;
-	},
+
 	methods: {
 		/* MENU HANDLING */
 		toggleMenu() {
@@ -398,63 +362,67 @@ export default {
 			this.openedMenu = false
 		},
 
-		/**
-		 * Generate avatar url
-		 *
-		 * @param {string} user The user name
-		 * @param {int} size Size integer, default 32
-		 * @returns {string}
-		 */
-		generateAvatar(user, size = 32) {
-			return OC.generateUrl(
-				'/avatar/{user}/{size}?v={version}',
+		wipeUserDevices() {
+			const userid = this.user.id
+			OC.dialogs.confirmDestructive(
+				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
+				t('settings', 'Remote wipe of devices'),
 				{
-					user: user,
-					size: size,
-					version: oc_userconfig.avatar.version
-				}
+					type: OC.dialogs.YES_NO_BUTTONS,
+					confirm: t('settings', 'Wipe {userid}\'s devices', { userid }),
+					confirmClasses: 'error',
+					cancel: t('settings', 'Cancel'),
+				},
+				(result) => {
+					if (result) {
+						this.loading.wipe = true
+						this.loading.all = true
+						this.$store.dispatch('wipeUserDevices', userid)
+							.then(() => {
+								this.loading.wipe = false
+								this.loading.all = false
+							})
+					}
+				},
+				true
 			)
 		},
 
-		/**
-		 * Format array of groups objects to a string for the popup
-		 *
-		 * @param {array} groups The groups
-		 * @returns {string}
-		 */
-		formatGroupsTitle(groups) {
-			let names = groups.map(group => group.name)
-			return names.slice(2).join(', ')
-		},
-
-		wipeUserDevices() {
-			this.loading.wipe = true
-			this.loading.all = true
-			let userid = this.user.id
-			return this.$store.dispatch('wipeUserDevices', userid)
-				.then(() => {
-					this.loading.wipe = false
-					this.loading.all = false
-				})
-		},
-
 		deleteUser() {
-			this.loading.delete = true
-			this.loading.all = true
-			let userid = this.user.id
-			return this.$store.dispatch('deleteUser', userid)
-				.then(() => {
-					this.loading.delete = false
-					this.loading.all = false
-				})
+			const userid = this.user.id
+			OC.dialogs.confirmDestructive(
+				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
+				t('settings', 'Account deletion'),
+				{
+					type: OC.dialogs.YES_NO_BUTTONS,
+					confirm: t('settings', 'Delete {userid}\'s account', { userid }),
+					confirmClasses: 'error',
+					cancel: t('settings', 'Cancel'),
+				},
+				(result) => {
+					if (result) {
+						this.loading.delete = true
+						this.loading.all = true
+						return this.$store.dispatch('deleteUser', userid)
+							.then(() => {
+								this.loading.delete = false
+								this.loading.all = false
+							})
+					}
+				},
+				true
+			)
 		},
 
 		enableDisableUser() {
 			this.loading.delete = true
 			this.loading.all = true
-			let userid = this.user.id
-			let enabled = !this.user.enabled
-			return this.$store.dispatch('enableDisableUser', { userid, enabled })
+			const userid = this.user.id
+			const enabled = !this.user.enabled
+			return this.$store.dispatch('enableDisableUser', {
+				userid,
+				enabled,
+			})
 				.then(() => {
 					this.loading.delete = false
 					this.loading.all = false
@@ -467,12 +435,12 @@ export default {
 		 * @param {string} displayName The display name
 		 */
 		updateDisplayName() {
-			let displayName = this.$refs.displayName.value
+			const displayName = this.$refs.displayName.value
 			this.loading.displayName = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'displayname',
-				value: displayName
+				value: displayName,
 			}).then(() => {
 				this.loading.displayName = false
 				this.$refs.displayName.value = displayName
@@ -485,12 +453,12 @@ export default {
 		 * @param {string} password The email adress
 		 */
 		updatePassword() {
-			let password = this.$refs.password.value
+			const password = this.$refs.password.value
 			this.loading.password = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'password',
-				value: password
+				value: password,
 			}).then(() => {
 				this.loading.password = false
 				this.$refs.password.value = '' // empty & show placeholder
@@ -503,12 +471,12 @@ export default {
 		 * @param {string} mailAddress The email adress
 		 */
 		updateEmail() {
-			let mailAddress = this.$refs.mailAddress.value
+			const mailAddress = this.$refs.mailAddress.value
 			this.loading.mailAddress = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'email',
-				value: mailAddress
+				value: mailAddress,
 			}).then(() => {
 				this.loading.mailAddress = false
 				this.$refs.mailAddress.value = mailAddress
@@ -524,7 +492,7 @@ export default {
 			this.loading = { groups: true, subadmins: true }
 			try {
 				await this.$store.dispatch('addGroup', gid)
-				let userid = this.user.id
+				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 			} catch (error) {
 				console.error(error)
@@ -544,8 +512,8 @@ export default {
 				return false
 			}
 			this.loading.groups = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 			try {
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 			} catch (error) {
@@ -566,11 +534,14 @@ export default {
 			}
 
 			this.loading.groups = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 
 			try {
-				await this.$store.dispatch('removeUserGroup', { userid, gid })
+				await this.$store.dispatch('removeUserGroup', {
+					userid,
+					gid,
+				})
 				this.loading.groups = false
 				// remove user from current list if current list is the removed group
 				if (this.$route.params.selectedGroup === gid) {
@@ -588,11 +559,14 @@ export default {
 		 */
 		async addUserSubAdmin(group) {
 			this.loading.subadmins = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 
 			try {
-				await this.$store.dispatch('addUserSubAdmin', { userid, gid })
+				await this.$store.dispatch('addUserSubAdmin', {
+					userid,
+					gid,
+				})
 				this.loading.subadmins = false
 			} catch (error) {
 				console.error(error)
@@ -606,11 +580,14 @@ export default {
 		 */
 		async removeUserSubAdmin(group) {
 			this.loading.subadmins = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 
 			try {
-				await this.$store.dispatch('removeUserSubAdmin', { userid, gid })
+				await this.$store.dispatch('removeUserSubAdmin', {
+					userid,
+					gid,
+				})
 			} catch (error) {
 				console.error(error)
 			} finally {
@@ -621,8 +598,8 @@ export default {
 		/**
 		 * Dispatch quota set request
 		 *
-		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
-		 * @returns {string}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {string}
 		 */
 		async setUserQuota(quota = 'none') {
 			this.loading.quota = true
@@ -633,7 +610,7 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota
+					value: quota,
 				})
 			} catch (error) {
 				console.error(error)
@@ -647,11 +624,11 @@ export default {
 		 * Validate quota string to make sure it's a valid human file size
 		 *
 		 * @param {string} quota Quota in readable format '5 GB'
-		 * @returns {Promise|boolean}
+		 * @return {Promise|boolean}
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			let validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
@@ -663,8 +640,8 @@ export default {
 		/**
 		 * Dispatch language set request
 		 *
-		 * @param {Object} lang language object {code:'en', name:'English'}
-		 * @returns {Object}
+		 * @param {object} lang language object {code:'en', name:'English'}
+		 * @return {object}
 		 */
 		async setUserLanguage(lang) {
 			this.loading.languages = true
@@ -673,7 +650,7 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'language',
-					value: lang.code
+					value: lang.code,
 				})
 			} catch (error) {
 				console.error(error)
@@ -699,8 +676,17 @@ export default {
 					}
 					this.loading.all = false
 				})
-		}
+		},
 
-	}
+	},
 }
 </script>
+<style scoped lang="scss">
+	// Force menu to be above other rows
+	.row--menu-opened {
+		z-index: 1 !important;
+	}
+	.row::v-deep .multiselect__single {
+		z-index: auto !important;
+	}
+</style>

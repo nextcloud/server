@@ -1,9 +1,11 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +18,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -29,6 +32,26 @@ import OC from '../OC'
  * If the screen is bigger, the main menu is not a toggle any more.
  */
 export const setUp = () => {
+
+	Object.assign(OC, {
+		setNavigationCounter(id, counter) {
+			const appmenuElement = document.getElementById('appmenu').querySelector('[data-id="' + id + '"] svg')
+			const appsElement = document.getElementById('apps').querySelector('[data-id="' + id + '"] svg')
+			if (counter === 0) {
+				appmenuElement.classList.remove('has-unread')
+				appsElement.classList.remove('has-unread')
+				appmenuElement.getElementsByTagName('image')[0].style.mask = ''
+				appsElement.getElementsByTagName('image')[0].style.mask = ''
+			} else {
+				appmenuElement.classList.add('has-unread')
+				appsElement.classList.add('has-unread')
+				appmenuElement.getElementsByTagName('image')[0].style.mask = 'url(#hole)'
+				appsElement.getElementsByTagName('image')[0].style.mask = 'url(#hole)'
+			}
+			document.getElementById('appmenu').querySelector('[data-id="' + id + '"] .unread-counter').textContent = counter
+			document.getElementById('apps').querySelector('[data-id="' + id + '"] .unread-counter').textContent = counter
+		},
+	})
 	// init the more-apps menu
 	OC.registerMenu($('#more-apps > a'), $('#navigation'))
 

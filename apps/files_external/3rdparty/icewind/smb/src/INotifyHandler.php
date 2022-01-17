@@ -25,21 +25,21 @@ interface INotifyHandler {
 	 *
 	 * @return Change[]
 	 */
-	public function getChanges();
+	public function getChanges(): array;
 
 	/**
 	 * Listen actively to all incoming changes
 	 *
 	 * Note that this is a blocking process and will cause the process to block forever if not explicitly terminated
 	 *
-	 * @param callable $callback
+	 * @param callable(Change):?bool $callback
 	 */
-	public function listen($callback);
+	public function listen(callable $callback): void;
 
 	/**
 	 * Stop listening for changes
 	 *
 	 * Note that any pending changes will be discarded
 	 */
-	public function stop();
+	public function stop(): void;
 }

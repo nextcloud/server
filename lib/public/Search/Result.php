@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andrew Brown <andrew@casabrown.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -19,15 +20,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Search;
 
 /**
  * The generic result of a search
  * @since 7.0.0
+ * @deprecated 20.0.0
  */
 class Result {
 
@@ -36,6 +37,7 @@ class Result {
 	 * corresponding application.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $id;
 
@@ -44,6 +46,7 @@ class Result {
 	 * results.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $name;
 
@@ -51,14 +54,16 @@ class Result {
 	 * URL to the application item.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $link;
 
 	/**
 	 * The type of search result returned; for consistency, name this the same
-	 * as the class name (e.g. \OC\Search\File -> 'file') in lowercase. 
+	 * as the class name (e.g. \OC\Search\File -> 'file') in lowercase.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $type = 'generic';
 
@@ -68,6 +73,7 @@ class Result {
 	 * @param string $name displayed text of result
 	 * @param string $link URL to the result within its app
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function __construct($id = null, $name = null, $link = null) {
 		$this->id = $id;

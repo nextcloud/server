@@ -2,8 +2,12 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,60 +18,65 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
-use OCA\Theming\ThemingDefaults;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
-use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
 
 class ImageManagerTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|MockObject */
 	protected $appData;
 	/** @var ImageManager */
 	protected $imageManager;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|MockObject */
 	private $cacheFactory;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|MockObject */
 	private $logger;
+	/** @var ITempManager|MockObject */
+	private $tempManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(ILogger::class);
+		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->imageManager = new ImageManager(
 			$this->config,
 			$this->appData,
 			$this->urlGenerator,
 			$this->cacheFactory,
-			$this->logger
+			$this->logger,
+			$this->tempManager
 		);
 	}
 
 	private function checkImagick() {
-		if(!extension_loaded('imagick')) {
+		if (!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
 		$checkImagick = new \Imagick();
@@ -80,7 +89,7 @@ class ImageManagerTest extends TestCase {
 	}
 
 	public function mockGetImage($key, $file) {
-		/** @var \PHPUnit_Framework_MockObject_MockObject $folder */
+		/** @var MockObject $folder */
 		$folder = $this->createMock(ISimpleFolder::class);
 		if ($file === null) {
 			$folder->expects($this->once())
@@ -170,7 +179,6 @@ class ImageManagerTest extends TestCase {
 			->method('getAbsoluteUrl')
 			->willReturn('url-to-image-absolute?v=0');
 		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo', false));
-
 	}
 
 	public function testGetImage() {
@@ -183,10 +191,10 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($file, $this->imageManager->getImage('logo', false));
 	}
 
-	/**
-	 * @expectedException OCP\Files\NotFoundException
-	 */
+
 	public function testGetImageUnset() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		$this->config->expects($this->once())
 			->method('getAppValue')->with('theming', 'logoMime', false)
 			->willReturn(false);
@@ -238,10 +246,10 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
+
 	public function testGetCachedImageNotFound() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		$folder = $this->setupCacheFolder();
 		$folder->expects($this->once())
 			->method('getFile')
@@ -302,8 +310,8 @@ class ImageManagerTest extends TestCase {
 			$this->createMock(ISimpleFolder::class),
 			$this->createMock(ISimpleFolder::class),
 			$this->createMock(ISimpleFolder::class)
-			];
-		foreach ($folders as $index=>$folder) {
+		];
+		foreach ($folders as $index => $folder) {
 			$folder->expects($this->any())
 				->method('getName')
 				->willReturn($index);
@@ -325,4 +333,55 @@ class ImageManagerTest extends TestCase {
 		$this->imageManager->cleanup();
 	}
 
+
+	public function dataUpdateImage() {
+		return [
+			['background', __DIR__ . '/../../../tests/data/testimage.png', true, true],
+			['background', __DIR__ . '/../../../tests/data/testimage.png', false, true],
+			['background', __DIR__ . '/../../../tests/data/testimage.jpg', true, true],
+			['logo', __DIR__ . '/../../../tests/data/testimagelarge.svg', true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataUpdateImage
+	 */
+	public function testUpdateImage($key, $tmpFile, $folderExists, $shouldConvert) {
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$oldFile = $this->createMock(ISimpleFile::class);
+		$folder->expects($this->any())
+			->method('getFile')
+			->willReturn($oldFile);
+		if ($folderExists) {
+			$this->appData
+				->expects($this->any())
+				->method('getFolder')
+				->with('images')
+				->willReturn($folder);
+		} else {
+			$this->appData
+				->expects($this->any())
+				->method('getFolder')
+				->with('images')
+				->willThrowException(new NotFoundException());
+			$this->appData
+				->expects($this->any())
+				->method('newFolder')
+				->with('images')
+				->willReturn($folder);
+		}
+		$folder->expects($this->once())
+			->method('newFile')
+			->with($key)
+			->willReturn($file);
+
+		if ($shouldConvert) {
+			$this->tempManager->expects($this->once())
+				->method('getTemporaryFile')
+				->willReturn('/tmp/randomtempfile-theming');
+		}
+
+		$this->imageManager->updateImage($key, $tmpFile);
+	}
 }

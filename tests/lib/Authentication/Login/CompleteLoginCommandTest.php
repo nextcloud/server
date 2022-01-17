@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\CompleteLoginCommand;
 use OC\User\Session;
@@ -34,7 +34,7 @@ class CompleteLoginCommandTest extends ALoginCommandTest {
 	/** @var Session|MockObject */
 	private $session;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->session = $this->createMock(Session::class);
@@ -62,6 +62,4 @@ class CompleteLoginCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
-
 }

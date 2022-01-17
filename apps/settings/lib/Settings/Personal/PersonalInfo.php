@@ -1,10 +1,21 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,20 +26,23 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-namespace OCA\Settings\Personal;
+namespace OCA\Settings\Settings\Personal;
 
-use OC\Accounts\AccountManager;
-use OCA\FederatedFileSharing\AppInfo\Application;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -37,67 +51,83 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OC\Profile\ProfileManager;
+use OCP\Notification\IManager;
 use OCP\Settings\ISettings;
 
 class PersonalInfo implements ISettings {
+	use \OC\Profile\TProfileHelper;
 
 	/** @var IConfig */
 	private $config;
+
 	/** @var IUserManager */
 	private $userManager;
-	/** @var AccountManager */
+
+	/** @var IAccountManager */
 	private $accountManager;
+
+	/** @var ProfileManager */
+	private $profileManager;
+
 	/** @var IGroupManager */
 	private $groupManager;
+
 	/** @var IAppManager */
 	private $appManager;
+
 	/** @var IFactory */
 	private $l10nFactory;
+
 	/** @var IL10N */
 	private $l;
 
-	/**
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param AccountManager $accountManager
-	 * @param IFactory $l10nFactory
-	 * @param IL10N $l
-	 */
+	/** @var IInitialState */
+	private $initialStateService;
+
+	/** @var IManager */
+	private $manager;
+
 	public function __construct(
 		IConfig $config,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
-		AccountManager $accountManager,
+		IAccountManager $accountManager,
+		ProfileManager $profileManager,
 		IAppManager $appManager,
 		IFactory $l10nFactory,
-		IL10N $l
+		IL10N $l,
+		IInitialState $initialStateService,
+		IManager $manager
 	) {
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;
+		$this->profileManager = $profileManager;
 		$this->groupManager = $groupManager;
 		$this->appManager = $appManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->l = $l;
+		$this->initialStateService = $initialStateService;
+		$this->manager = $manager;
 	}
 
-	/**
-	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
-	 * @since 9.1
-	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
+		$federationEnabled = $this->appManager->isEnabledForUser('federation');
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
 		$lookupServerUploadEnabled = false;
-		if($federatedFileSharingEnabled) {
-			$federatedFileSharing = new Application();
-			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+		if ($federatedFileSharingEnabled) {
+			/** @var FederatedShareProvider $shareProvider */
+			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 
 		$uid = \OC_User::getUser();
 		$user = $this->userManager->get($uid);
-		$userData = $this->accountManager->getUser($user);
+		$account = $this->accountManager->getAccount($user);
+
+		// make sure FS is setup before querying storage related stuff...
+		\OC_Util::setupFS($user->getUID());
 
 		$storageInfo = \OC_Helper::getStorageInfo('/');
 		if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
@@ -106,9 +136,9 @@ class PersonalInfo implements ISettings {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
 
-		$languageParameters = $this->getLanguages($user);
+		$languageParameters = $this->getLanguageMap($user);
 		$localeParameters = $this->getLocales($user);
-		$messageParameters = $this->getMessageParameters($userData);
+		$messageParameters = $this->getMessageParameters($account);
 
 		$parameters = [
 			'total_space' => $totalSpace,
@@ -116,36 +146,142 @@ class PersonalInfo implements ISettings {
 			'usage_relative' => round($storageInfo['relative']),
 			'quota' => $storageInfo['quota'],
 			'avatarChangeSupported' => $user->canChangeAvatar(),
+			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
-			'avatarScope' => $userData[AccountManager::PROPERTY_AVATAR]['scope'],
+			'avatarScope' => $account->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
-			'displayName' => $userData[AccountManager::PROPERTY_DISPLAYNAME]['value'],
-			'displayNameScope' => $userData[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
-			'email' => $userData[AccountManager::PROPERTY_EMAIL]['value'],
-			'emailScope' => $userData[AccountManager::PROPERTY_EMAIL]['scope'],
-			'emailVerification' => $userData[AccountManager::PROPERTY_EMAIL]['verified'],
-			'phone' => $userData[AccountManager::PROPERTY_PHONE]['value'],
-			'phoneScope' => $userData[AccountManager::PROPERTY_PHONE]['scope'],
-			'address' => $userData[AccountManager::PROPERTY_ADDRESS]['value'],
-			'addressScope' => $userData[AccountManager::PROPERTY_ADDRESS]['scope'],
-			'website' =>  $userData[AccountManager::PROPERTY_WEBSITE]['value'],
-			'websiteScope' =>  $userData[AccountManager::PROPERTY_WEBSITE]['scope'],
-			'websiteVerification' => $userData[AccountManager::PROPERTY_WEBSITE]['verified'],
-			'twitter' => $userData[AccountManager::PROPERTY_TWITTER]['value'],
-			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
-			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
+			'displayName' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
+			'displayNameScope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
+			'email' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
+			'emailScope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
+			'emailVerification' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
+			'phone' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getValue(),
+			'phoneScope' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getScope(),
+			'address' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getValue(),
+			'addressScope' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
+			'website' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getValue(),
+			'websiteScope' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getScope(),
+			'websiteVerification' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getVerified(),
+			'twitter' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
+			'twitterScope' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+			'twitterVerification' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getVerified(),
 			'groups' => $this->getGroups($user),
+			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService()
 		] + $messageParameters + $languageParameters + $localeParameters;
 
+		$personalInfoParameters = [
+			'userId' => $uid,
+			'displayNameMap' => $this->getDisplayNameMap($account),
+			'emailMap' => $this->getEmailMap($account),
+			'languageMap' => $this->getLanguageMap($user),
+			'profileEnabled' => $this->isProfileEnabled($account),
+			'organisationMap' => $this->getOrganisationMap($account),
+			'roleMap' => $this->getRoleMap($account),
+			'headlineMap' => $this->getHeadlineMap($account),
+			'biographyMap' => $this->getBiographyMap($account),
+		];
+
+		$accountParameters = [
+			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
+		];
+
+		$profileParameters = [
+			'profileConfig' => $this->profileManager->getProfileConfigWithMetadata($user, $user),
+		];
+
+		$this->initialStateService->provideInitialState('personalInfoParameters', $personalInfoParameters);
+		$this->initialStateService->provideInitialState('accountParameters', $accountParameters);
+		$this->initialStateService->provideInitialState('profileParameters', $profileParameters);
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
 	}
 
 	/**
-	 * @return string the section ID, e.g. 'sharing'
+	 * Check if is fair use of free push service
+	 * @return boolean
+	 */
+	private function isFairUseOfFreePushService(): bool {
+		return $this->manager->isFairUseOfFreePushService();
+	}
+
+	/**
+	 * returns the primary biography in an
+	 * associative array
+	 */
+	private function getBiographyMap(IAccount $account): array {
+		$primaryBiography = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getVerified(),
+		];
+
+		$biographyMap = [
+			'primaryBiography' => $primaryBiography,
+		];
+
+		return $biographyMap;
+	}
+
+	/**
+	 * returns the primary organisation in an
+	 * associative array
+	 */
+	private function getOrganisationMap(IAccount $account): array {
+		$primaryOrganisation = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getVerified(),
+		];
+
+		$organisationMap = [
+			'primaryOrganisation' => $primaryOrganisation,
+		];
+
+		return $organisationMap;
+	}
+
+	/**
+	 * returns the primary headline in an
+	 * associative array
+	 */
+	private function getHeadlineMap(IAccount $account): array {
+		$primaryHeadline = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getVerified(),
+		];
+
+		$headlineMap = [
+			'primaryHeadline' => $primaryHeadline,
+		];
+
+		return $headlineMap;
+	}
+
+	/**
+	 * returns the primary role in an
+	 * associative array
+	 */
+	private function getRoleMap(IAccount $account): array {
+		$primaryRole = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getVerified(),
+		];
+
+		$roleMap = [
+			'primaryRole' => $primaryRole,
+		];
+
+		return $roleMap;
+	}
+
+	/**
+	 * returns the section ID string, e.g. 'sharing'
 	 * @since 9.1
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'personal-info';
 	}
 
@@ -157,19 +293,16 @@ class PersonalInfo implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 10;
 	}
 
 	/**
 	 * returns a sorted list of the user's group GIDs
-	 *
-	 * @param IUser $user
-	 * @return array
 	 */
-	private function getGroups(IUser $user) {
+	private function getGroups(IUser $user): array {
 		$groups = array_map(
-			function(IGroup $group) {
+			static function (IGroup $group) {
 				return $group->getDisplayName();
 			},
 			$this->groupManager->getUserGroups($user)
@@ -180,15 +313,64 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * returns the user language, common language and other languages in an
+	 * returns the primary display name in an
 	 * associative array
 	 *
-	 * @param IUser $user
-	 * @return array
+	 * NOTE may be extended to provide additional display names (i.e. aliases) in the future
 	 */
-	private function getLanguages(IUser $user) {
+	private function getDisplayNameMap(IAccount $account): array {
+		$primaryDisplayName = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getVerified(),
+		];
+
+		$displayNameMap = [
+			'primaryDisplayName' => $primaryDisplayName,
+		];
+
+		return $displayNameMap;
+	}
+
+	/**
+	 * returns the primary email and additional emails in an
+	 * associative array
+	 */
+	private function getEmailMap(IAccount $account): array {
+		$systemEmail = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
+		];
+
+		$additionalEmails = array_map(
+			function (IAccountProperty $property) {
+				return [
+					'value' => $property->getValue(),
+					'scope' => $property->getScope(),
+					'verified' => $property->getVerified(),
+					'locallyVerified' => $property->getLocallyVerified(),
+				];
+			},
+			$account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties(),
+		);
+
+		$emailMap = [
+			'primaryEmail' => $systemEmail,
+			'additionalEmails' => $additionalEmails,
+			'notificationEmail' => (string)$account->getUser()->getPrimaryEMailAddress(),
+		];
+
+		return $emailMap;
+	}
+
+	/**
+	 * returns the user's active language, common languages, and other languages in an
+	 * associative array
+	 */
+	private function getLanguageMap(IUser $user): array {
 		$forceLanguage = $this->config->getSystemValue('force_language', false);
-		if($forceLanguage !== false) {
+		if ($forceLanguage !== false) {
 			return [];
 		}
 
@@ -198,12 +380,12 @@ class PersonalInfo implements ISettings {
 		$languages = $this->l10nFactory->getLanguages();
 
 		// associate the user language with the proper array
-		$userLangIndex = array_search($userConfLang, array_column($languages['commonlanguages'], 'code'));
-		$userLang = $languages['commonlanguages'][$userLangIndex];
+		$userLangIndex = array_search($userConfLang, array_column($languages['commonLanguages'], 'code'));
+		$userLang = $languages['commonLanguages'][$userLangIndex];
 		// search in the other languages
 		if ($userLangIndex === false) {
-			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));
-			$userLang = $languages['languages'][$userLangIndex];
+			$userLangIndex = array_search($userConfLang, array_column($languages['otherLanguages'], 'code'));
+			$userLang = $languages['otherLanguages'][$userLangIndex];
 		}
 		// if user language is not available but set somehow: show the actual code as name
 		if (!is_array($userLang)) {
@@ -214,14 +396,14 @@ class PersonalInfo implements ISettings {
 		}
 
 		return array_merge(
-			array('activelanguage' => $userLang),
+			['activeLanguage' => $userLang],
 			$languages
 		);
 	}
 
-	private function getLocales(IUser $user) {
+	private function getLocales(IUser $user): array {
 		$forceLanguage = $this->config->getSystemValue('force_locale', false);
-		if($forceLanguage !== false) {
+		if ($forceLanguage !== false) {
 			return [];
 		}
 
@@ -233,18 +415,24 @@ class PersonalInfo implements ISettings {
 
 		$localeCodes = $this->l10nFactory->findAvailableLocales();
 
-		$userLocale = array_filter($localeCodes, function($value) use ($userLocaleString) {
+		$userLocale = array_filter($localeCodes, function ($value) use ($userLocaleString) {
 			return $userLocaleString === $value['code'];
 		});
 
-		if (!empty($userLocale))
-		{
+		if (!empty($userLocale)) {
 			$userLocale = reset($userLocale);
 		}
 
-		$localesForLanguage = array_filter($localeCodes, function($localeCode) use ($userLang) {
+		$localesForLanguage = array_filter($localeCodes, function ($localeCode) use ($userLang) {
 			return 0 === strpos($localeCode['code'], $userLang);
 		});
+
+		if (!$userLocale) {
+			$userLocale = [
+				'code' => 'en',
+				'name' => 'English'
+			];
+		}
 
 		return [
 			'activelocaleLang' => $userLocaleString,
@@ -255,18 +443,17 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * @param array $userData
-	 * @return array
+	 * returns the message parameters
 	 */
-	private function getMessageParameters(array $userData) {
-		$needVerifyMessage = [AccountManager::PROPERTY_EMAIL, AccountManager::PROPERTY_WEBSITE, AccountManager::PROPERTY_TWITTER];
+	private function getMessageParameters(IAccount $account): array {
+		$needVerifyMessage = [IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_WEBSITE, IAccountManager::PROPERTY_TWITTER];
 		$messageParameters = [];
 		foreach ($needVerifyMessage as $property) {
-			switch ($userData[$property]['verified']) {
-				case AccountManager::VERIFIED:
+			switch ($account->getProperty($property)->getVerified()) {
+				case IAccountManager::VERIFIED:
 					$message = $this->l->t('Verifying');
 					break;
-				case AccountManager::VERIFICATION_IN_PROGRESS:
+				case IAccountManager::VERIFICATION_IN_PROGRESS:
 					$message = $this->l->t('Verifying …');
 					break;
 				default:
@@ -276,5 +463,4 @@ class PersonalInfo implements ISettings {
 		}
 		return $messageParameters;
 	}
-
 }

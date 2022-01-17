@@ -1,8 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,18 +18,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Direct;
 
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Direct\DirectFile;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -37,19 +41,22 @@ class DirectFileTest extends TestCase {
 	/** @var Direct */
 	private $direct;
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $userFolder;
 
-	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
 	private $file;
 
 	/** @var DirectFile */
 	private $directFile;
 
-	public function setUp() {
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->direct = Direct::fromParams([
@@ -70,7 +77,9 @@ class DirectFileTest extends TestCase {
 			->with(42)
 			->willReturn([$this->file]);
 
-		$this->directFile = new DirectFile($this->direct, $this->rootFolder);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+
+		$this->directFile = new DirectFile($this->direct, $this->rootFolder, $this->eventDispatcher);
 	}
 
 	public function testPut() {

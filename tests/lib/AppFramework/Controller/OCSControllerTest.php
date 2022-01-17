@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
@@ -31,8 +30,8 @@ use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 
-
-class ChildOCSController extends OCSController {}
+class ChildOCSController extends OCSController {
+}
 
 
 class OCSControllerTest extends \Test\TestCase {
@@ -110,7 +109,7 @@ class OCSControllerTest extends \Test\TestCase {
 		));
 		$controller->setOCSVersion(1);
 		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK",' .
-		            '"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
+					'"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
 		$params = new DataResponse(['test' => 'hi']);
 
 		$response = $controller->buildResponse($params, 'json');

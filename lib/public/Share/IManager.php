@@ -3,8 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -20,22 +24,21 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Share;
 
 use OCP\Files\Folder;
 use OCP\Files\Node;
 
+use OCP\IUser;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * Interface IManager
  *
- * @package OCP\Share
  * @since 9.0.0
  */
 interface IManager {
@@ -54,6 +57,7 @@ interface IManager {
 	 * Update a share.
 	 * The target of the share can't be changed this way: use moveShare
 	 * The share can't be removed this way (permission 0): use deleteShare
+	 * The state can't be changed this way: use acceptShare
 	 *
 	 * @param IShare $share
 	 * @return IShare The share object
@@ -61,6 +65,17 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function updateShare(IShare $share);
+
+	/**
+	 * Accept a share.
+	 *
+	 * @param IShare $share
+	 * @param string $recipientId
+	 * @return IShare The share object
+	 * @throws \InvalidArgumentException
+	 * @since 18.0.0
+	 */
+	public function acceptShare(IShare $share, string $recipientId): IShare;
 
 	/**
 	 * Delete a share
@@ -332,6 +347,54 @@ interface IManager {
 	public function shareApiLinkDefaultExpireDays();
 
 	/**
+	 * Is default internal expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDate(): bool;
+
+	/**
+	 * Is default remote expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDate(): bool;
+
+	/**
+	 * Is default expire date enforced
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Is default expire date enforced for remote shares
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Number of default expire days
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDays(): int;
+
+	/**
+	 * Number of default expire days for remote shares
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDays(): int;
+
+	/**
 	 * Allow public upload on link shares
 	 *
 	 * @return bool
@@ -352,6 +415,48 @@ interface IManager {
 	 * @since 9.0.1
 	 */
 	public function allowGroupSharing();
+
+	/**
+	 * Check if user enumeration is allowed
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function allowEnumeration(): bool;
+
+	/**
+	 * Check if user enumeration is limited to the users groups
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function limitEnumerationToGroups(): bool;
+
+	/**
+	 * Check if user enumeration is limited to the phonebook matches
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function limitEnumerationToPhone(): bool;
+
+	/**
+	 * Check if user enumeration is allowed to return on full match
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function allowEnumerationFullMatch(): bool;
+
+	/**
+	 * Check if the current user can enumerate the target user
+	 *
+	 * @param IUser|null $currentUser
+	 * @param IUser $targetUser
+	 * @return bool
+	 * @since 23.0.0
+	 */
+	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool;
 
 	/**
 	 * Check if sharing is disabled for the given user
@@ -385,4 +490,21 @@ interface IManager {
 	 */
 	public function shareProviderExists($shareType);
 
+	/**
+	 * @param string $shareProviderClass
+	 * @since 21.0.0
+	 */
+	public function registerShareProvider(string $shareProviderClass): void;
+
+	/**
+	 * @Internal
+	 *
+	 * Get all the shares as iterable to reduce memory overhead
+	 * Note, since this opens up database cursors the iterable should
+	 * be fully itterated.
+	 *
+	 * @return iterable
+	 * @since 18.0.0
+	 */
+	public function getAllShares(): iterable;
 }

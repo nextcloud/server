@@ -24,15 +24,14 @@ use Test\TestCase;
 /**
  * Class FileTest
  */
-class FileTest extends TestCase
-{
+class FileTest extends TestCase {
 	private $restore_logfile;
 	private $restore_logdateformat;
 
 	/** @var File */
 	protected $logFile;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$config = \OC::$server->getSystemConfig();
 		$this->restore_logfile = $config->getValue("logfile");
@@ -41,13 +40,13 @@ class FileTest extends TestCase
 		$config->setValue("logfile", $config->getValue('datadirectory') . "/logtest.log");
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$config = \OC::$server->getSystemConfig();
 		if (isset($this->restore_logfile)) {
 			$config->getValue("logfile", $this->restore_logfile);
 		} else {
 			$config->deleteValue("logfile");
-		}		
+		}
 		if (isset($this->restore_logdateformat)) {
 			$config->getValue("logdateformat", $this->restore_logdateformat);
 		} else {
@@ -75,8 +74,5 @@ class FileTest extends TestCase
 		$values = (array) json_decode($line);
 		$microseconds = $values['time'];
 		$this->assertNotEquals(0, $microseconds);
-		
 	}
-
-
 }

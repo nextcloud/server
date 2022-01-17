@@ -1,9 +1,13 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +16,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,23 +25,24 @@
  */
 
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store } from 'vuex'
 import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
 import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+const store = new Store({
 	state: {
 		rules: [],
 		scope: loadState('workflowengine', 'scope'),
+		appstoreEnabled: loadState('workflowengine', 'appstoreenabled'),
 		operations: loadState('workflowengine', 'operators'),
 
 		plugins: Vue.observable({
 			checks: {},
-			operators: {}
+			operators: {},
 		}),
 
 		entities: loadState('workflowengine', 'entities'),
@@ -46,10 +51,10 @@ const store = new Vuex.Store({
 				return {
 					id: `${entity.id}::${event.eventName}`,
 					entity,
-					...event
+					...event,
 				}
 			})).flat(),
-		checks: loadState('workflowengine', 'checks')
+		checks: loadState('workflowengine', 'checks'),
 	},
 	mutations: {
 		addRule(state, rule) {
@@ -71,8 +76,10 @@ const store = new Vuex.Store({
 			plugin = Object.assign(
 				{ color: 'var(--color-primary-element)' },
 				plugin, state.operations[plugin.id] || {})
-			Vue.set(state.operations, plugin.id, plugin)
-		}
+			if (typeof state.operations[plugin.id] !== 'undefined') {
+				Vue.set(state.operations, plugin.id, plugin)
+			}
+		},
 	},
 	actions: {
 		async fetchRules(context) {
@@ -96,21 +103,25 @@ const store = new Vuex.Store({
 				entity: entity ? entity.id : rule.fixedEntity,
 				events,
 				name: '', // unused in the new ui, there for legacy reasons
-				checks: [],
-				operation: rule.operation || ''
+				checks: [
+					{ class: null, operator: null, value: '' },
+				],
+				operation: rule.operation || '',
 			})
 		},
 		updateRule(context, rule) {
 			context.commit('updateRule', {
 				...rule,
-				events: typeof rule.events === 'string' ? JSON.parse(rule.events) : rule.events
+				events: typeof rule.events === 'string' ? JSON.parse(rule.events) : rule.events,
 			})
 		},
 		removeRule(context, rule) {
 			context.commit('removeRule', rule)
 		},
 		async pushUpdateRule(context, rule) {
-			await confirmPassword()
+			if (context.state.scope === 0) {
+				await confirmPassword()
+			}
 			let result
 			if (rule.id < 0) {
 				result = await axios.post(getApiUrl(''), rule)
@@ -128,11 +139,11 @@ const store = new Vuex.Store({
 		setValid(context, { rule, valid }) {
 			rule.valid = valid
 			context.commit('updateRule', rule)
-		}
+		},
 	},
 	getters: {
 		getRules(state) {
-			return state.rules.sort((rule1, rule2) => {
+			return state.rules.filter((rule) => typeof state.operations[rule.class] !== 'undefined').sort((rule1, rule2) => {
 				return rule1.id - rule2.id || rule2.class - rule1.class
 			})
 		},
@@ -148,9 +159,9 @@ const store = new Vuex.Store({
 
 		/**
 		 * Return all available checker plugins for a given entity class
-		 * @param {Object} state the store state
-		 * @param {Object} entity the entity class
-		 * @returns {Array} the available plugins
+		 *
+		 * @param {object} state the store state
+		 * @return {Function} the available plugins
 		 */
 		getChecksForEntity(state) {
 			return (entity) => {
@@ -162,8 +173,8 @@ const store = new Vuex.Store({
 						return obj
 					}, {})
 			}
-		}
-	}
+		},
+	},
 })
 
 export default store

@@ -26,7 +26,7 @@ use OCP\IL10N;
 use Test\TestCase;
 
 abstract class BundleBase extends TestCase {
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	protected $l10n;
 	/** @var Bundle */
 	protected $bundle;
@@ -37,13 +37,13 @@ abstract class BundleBase extends TestCase {
 	/** @var array */
 	protected $bundleAppIds;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->method('t')
-			->will($this->returnCallback(function ($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 	}
 
 	public function testGetIdentifier() {

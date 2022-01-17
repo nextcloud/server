@@ -2,9 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Phil Davis <phil.davis@inf.org>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 use GuzzleHttp\Client;
@@ -67,9 +69,13 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 						'admin',
 						'admin',
 					],
+					'headers' => [
+						'X-NC-CalDAV-No-Trashbin' => '1',
+					]
 				]
 			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {}
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		}
 	}
 
 	/**
@@ -78,7 +84,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @param string $calendar
 	 * @param string $endpoint
 	 */
-	public function requestsCalendar($user, $calendar, $endpoint)  {
+	public function requestsCalendar($user, $calendar, $endpoint) {
 		$davUrl = $this->baseUrl . $endpoint . $calendar;
 
 		$password = ($user === 'admin') ? 'admin' : '123456';
@@ -104,7 +110,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theCaldavHttpStatusCodeShouldBe($code) {
-		if((int)$code !== $this->response->getStatusCode()) {
+		if ((int)$code !== $this->response->getStatusCode()) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -115,7 +121,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		}
 
 		$body = $this->response->getBody()->getContents();
-		if($body && substr($body, 0, 1) === '<') {
+		if ($body && substr($body, 0, 1) === '<') {
 			$reader = new Sabre\Xml\Reader();
 			$reader->xml($body);
 			$this->responseXml = $reader->parse();
@@ -130,7 +136,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	public function theExceptionIs($message) {
 		$result = $this->responseXml['value'][0]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -149,7 +155,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	public function theErrorMessageIs($message) {
 		$result = $this->responseXml['value'][1]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -217,7 +223,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$jsonEncoded = json_encode($this->responseXml);
 		$arrayElement = json_decode($jsonEncoded, true);
 		$actual = count($arrayElement['value']) - 1;
-		if($actual !== (int)$amount) {
+		if ($actual !== (int)$amount) {
 			throw new InvalidArgumentException(
 				sprintf(
 					'Expected %s got %s',

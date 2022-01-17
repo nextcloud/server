@@ -14,7 +14,7 @@
 		/** @type {Function} **/
 		_template: undefined,
 
-		/** @type {bool} */
+		/** @type {boolean} */
 		_uploading: false,
 
 		addFileToUpload: function(e, data) {
@@ -95,6 +95,7 @@
 				},
 				add: function(e, data) {
 					Drop.addFileToUpload(e, data);
+					$('#drop-upload-status').text(t('files_sharing', 'Waiting…'));
 					//we return true to keep trying to upload next file even
 					//if addFileToUpload did not like the privious one
 					return true;
@@ -111,6 +112,7 @@
 							'Could not upload "{filename}"',
 							{filename: data.files[0].name}
 							));
+					$('#drop-upload-status').text(t('files_sharing', 'error'));
 					var errorIconSrc = OC.imagePath('core', 'actions/error.svg');
 					var fileItem = output({isUploading: false, iconSrc: errorIconSrc, name: data.files[0].name});
 					Drop.updateFileItem(data.files[0].name, fileItem);
@@ -124,7 +126,17 @@
 						$('#drop-upload-done-indicator').addClass('hidden');
 						$('#drop-upload-progress-indicator').removeClass('hidden');
 					}
-				}
+				},
+				progress: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					if(progress === 100) {
+						$('#drop-upload-progress-bar').val(100);
+						$('#drop-upload-status').text(t('files_sharing', 'finished'));
+					} else {
+						$('#drop-upload-progress-bar').val(progress);
+						$('#drop-upload-status').text(progress + '%');
+					}
+				},
 			});
 			$('#public-upload .button.icon-upload').click(function(e) {
 				e.preventDefault();
@@ -152,7 +164,7 @@
 
 	OCA.FilesSharingDrop = Drop;
 
-	$(document).ready(function() {
+	window.addEventListener('DOMContentLoaded', function() {
 		if($('#upload-only-interface').val() === "1") {
 			$('.avatardiv').avatar($('#sharingUserId').val(), 128, true);
 		}

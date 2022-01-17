@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -19,16 +21,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use Imagick;
+use OCP\Files\File;
 use OCP\IImage;
 use OCP\ILogger;
-use OCP\Files\File;
 
 /**
  * Creates a PNG preview using ImageMagick via the PECL extension
@@ -41,7 +42,6 @@ abstract class Bitmap extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-
 		$tmpPath = $this->getLocalFile($file);
 
 		// Creates \Imagick object from bitmap or vector file
@@ -60,7 +60,7 @@ abstract class Bitmap extends ProviderV2 {
 
 		//new bitmap image object
 		$image = new \OC_Image();
-		$image->loadFromData($bp);
+		$image->loadFromData((string) $bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;
 	}
@@ -105,7 +105,7 @@ abstract class Bitmap extends ProviderV2 {
 	 * @return \Imagick
 	 */
 	private function resize($bp, $maxX, $maxY) {
-		list($previewWidth, $previewHeight) = array_values($bp->getImageGeometry());
+		[$previewWidth, $previewHeight] = array_values($bp->getImageGeometry());
 
 		// We only need to resize a preview which doesn't fit in the maximum dimensions
 		if ($previewWidth > $maxX || $previewHeight > $maxY) {
@@ -115,5 +115,4 @@ abstract class Bitmap extends ProviderV2 {
 
 		return $bp;
 	}
-
 }

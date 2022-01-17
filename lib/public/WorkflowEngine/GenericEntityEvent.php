@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,20 +18,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\WorkflowEngine;
 
 /**
  * Class GenericEntityEvent
  *
- * @package OCP\WorkflowEngine
  *
  * @since 18.0.0
  */
@@ -44,10 +46,10 @@ class GenericEntityEvent implements IEntityEvent {
 	 * @since 18.0.0
 	 */
 	public function __construct(string $displayName, string $eventName) {
-		if(trim($displayName) === '') {
+		if (trim($displayName) === '') {
 			throw new \InvalidArgumentException('DisplayName must not be empty');
 		}
-		if(trim($eventName) === '') {
+		if (trim($eventName) === '') {
 			throw new \InvalidArgumentException('EventName must not be empty');
 		}
 

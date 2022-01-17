@@ -3,12 +3,13 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,16 +23,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
-use OCA\Files_Sharing\SharedStorage;
-use OCP\Share\IShare;
 use OC\Files\View;
+use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Trashbin\AppInfo\Application;
+use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Files\NotFoundException;
+use OCP\Share\IShare;
 
 /**
  * Class SharedStorageTest
@@ -39,10 +41,11 @@ use OCP\Files\NotFoundException;
  * @group DB
  */
 class SharedStorageTest extends TestCase {
-
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
-		\OCA\Files_Trashbin\Trashbin::registerHooks();
+		// register trashbin hooks
+		$trashbinApp = new Application();
+		$trashbinApp->boot($this->createMock(IBootContext::class));
 		$this->folder = '/folder_share_storage_test';
 
 		$this->filename = '/share-api-storage.txt';
@@ -55,7 +58,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->view) {
 			if ($this->view->file_exists($this->folder)) {
 				$this->view->unlink($this->folder);
@@ -79,7 +82,7 @@ class SharedStorageTest extends TestCase {
 
 		// share to user
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -103,7 +106,7 @@ class SharedStorageTest extends TestCase {
 
 		// delete the local folder
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPath)  = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
+		[$storage, $internalPath] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
 		$storage->rmdir($internalPath);
 
 		//enforce reload of the mount points
@@ -124,7 +127,7 @@ class SharedStorageTest extends TestCase {
 
 		// share to user
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -164,7 +167,7 @@ class SharedStorageTest extends TestCase {
 		$file2Size = $this->view->filesize($this->filename);
 
 		$share1 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -172,7 +175,7 @@ class SharedStorageTest extends TestCase {
 		);
 
 		$share2 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -194,7 +197,7 @@ class SharedStorageTest extends TestCase {
 
 	public function testGetPermissions() {
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -226,7 +229,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -259,7 +262,7 @@ class SharedStorageTest extends TestCase {
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -283,7 +286,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertFalse($user2View->rename($this->folder . '/test-create.txt', $this->folder . '/newtarget.txt'));
 		$this->assertFalse($user2View->file_exists($this->folder . '/newtarget.txt'));
 
-		// rename file not allowed if target exists 
+		// rename file not allowed if target exists
 		$this->assertFalse($user2View->rename($this->folder . '/newtarget.txt', $this->folder . '/existing.txt'));
 
 		// overwriting file not allowed
@@ -298,16 +301,14 @@ class SharedStorageTest extends TestCase {
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OC\Share\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testFopenWithUpdateOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -353,7 +354,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -387,14 +388,14 @@ class SharedStorageTest extends TestCase {
 
 		// share 2 different files with 2 different users
 		$share1 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
 			\OCP\Constants::PERMISSION_ALL
 		);
 		$share2 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER3,
@@ -406,7 +407,7 @@ class SharedStorageTest extends TestCase {
 
 		$mountConfigManager = \OC::$server->getMountProviderCollection();
 		$mounts = $mountConfigManager->getMountsForUser(\OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3));
-		array_walk($mounts, array(\OC\Files\Filesystem::getMountManager(), 'addMount'));
+		array_walk($mounts, [\OC\Files\Filesystem::getMountManager(), 'addMount']);
 
 		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER3 . '/files/' . $this->filename));
 
@@ -426,7 +427,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -440,10 +441,10 @@ class SharedStorageTest extends TestCase {
 		/**
 		 * @var \OCP\Files\Storage $sharedStorage
 		 */
-		list($sharedStorage,) = $view->resolvePath($this->folder);
+		[$sharedStorage,] = $view->resolvePath($this->folder);
 		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
 
-		$sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$sourceStorage->file_put_contents('foo.txt', 'asd');
 
 		$sharedStorage->copyFromStorage($sourceStorage, 'foo.txt', 'bar.txt');
@@ -459,7 +460,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -473,10 +474,10 @@ class SharedStorageTest extends TestCase {
 		/**
 		 * @var \OCP\Files\Storage $sharedStorage
 		 */
-		list($sharedStorage,) = $view->resolvePath($this->folder);
+		[$sharedStorage,] = $view->resolvePath($this->folder);
 		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
 
-		$sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$sourceStorage->file_put_contents('foo.txt', 'asd');
 
 		$sharedStorage->moveFromStorage($sourceStorage, 'foo.txt', 'bar.txt');
@@ -501,24 +502,26 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share1 = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'foo',
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_GROUP1,
 			\OCP\Constants::PERMISSION_ALL
 		);
+		$this->shareManager->acceptShare($share1, self::TEST_FILES_SHARING_API_USER2);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 
 		$share2 = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'foo',
 			self::TEST_FILES_SHARING_API_USER3,
 			self::TEST_FILES_SHARING_API_GROUP1,
 			\OCP\Constants::PERMISSION_ALL
 		);
+		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$view2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -541,7 +544,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -562,7 +565,6 @@ class SharedStorageTest extends TestCase {
 
 		$this->view->unlink($this->folder);
 		$this->shareManager->deleteShare($share);
-
 	}
 
 	public function testInitWithNonExistingUser() {

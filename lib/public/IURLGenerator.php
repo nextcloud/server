@@ -1,12 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,10 +25,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -39,7 +42,7 @@ interface IURLGenerator {
 	 * @return string the url
 	 * @since 6.0.0
 	 */
-	public function linkToRoute(string $routeName, array $arguments = array()): string;
+	public function linkToRoute(string $routeName, array $arguments = []): string;
 
 	/**
 	 * Returns the absolute URL for a route
@@ -48,7 +51,7 @@ interface IURLGenerator {
 	 * @return string the absolute url
 	 * @since 8.0.0
 	 */
-	public function linkToRouteAbsolute(string $routeName, array $arguments = array()): string;
+	public function linkToRouteAbsolute(string $routeName, array $arguments = []): string;
 
 	/**
 	 * @param string $routeName
@@ -67,7 +70,7 @@ interface IURLGenerator {
 	 * @return string the url
 	 * @since 6.0.0
 	 */
-	public function linkTo(string $appName, string $file, array $args = array()): string;
+	public function linkTo(string $appName, string $file, array $args = []): string;
 
 	/**
 	 * Returns the link to an image, like linkTo but only with prepending img/
@@ -95,8 +98,22 @@ interface IURLGenerator {
 	public function linkToDocs(string $key): string;
 
 	/**
+	 * Returns the URL of the default page based on the system configuration
+	 * and the apps visible for the current user
+	 * @return string
+	 * @since 23.0.0
+	 */
+	public function linkToDefaultPageUrl(): string;
+
+	/**
 	 * @return string base url of the current request
 	 * @since 13.0.0
 	 */
 	public function getBaseUrl(): string;
+
+	/**
+	 * @return string webroot part of the base url
+	 * @since 23.0.0
+	 */
+	public function getWebroot(): string;
 }

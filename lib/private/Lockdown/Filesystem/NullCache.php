@@ -13,20 +13,23 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Lockdown\Filesystem;
 
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Search\SearchComparison;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 class NullCache implements ICache {
@@ -123,4 +126,15 @@ class NullCache implements ICache {
 		return $path;
 	}
 
+	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
+		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+	}
+
+	public function getQueryFilterForStorage(): ISearchOperator {
+		return new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', -1);
+	}
+
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
+		return null;
+	}
 }

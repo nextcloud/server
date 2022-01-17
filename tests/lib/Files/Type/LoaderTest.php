@@ -21,8 +21,8 @@
 
 namespace Test\Files\Type;
 
-use \OC\Files\Type\Loader;
-use \OCP\IDBConnection;
+use OC\Files\Type\Loader;
+use OCP\IDBConnection;
 
 class LoaderTest extends \Test\TestCase {
 	/** @var IDBConnection */
@@ -30,12 +30,12 @@ class LoaderTest extends \Test\TestCase {
 	/** @var Loader */
 	protected $loader;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->db = \OC::$server->getDatabaseConnection();
 		$this->loader = new Loader($this->db);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$deleteMimetypes = $this->db->getQueryBuilder();
 		$deleteMimetypes->delete('mimetypes')
 			->where($deleteMimetypes->expr()->like(
@@ -76,7 +76,9 @@ class LoaderTest extends \Test\TestCase {
 			->from('mimetypes')
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($mimetypeId)));
 
-		$mimetype = $qb->execute()->fetch();
+		$result = $qb->execute();
+		$mimetype = $result->fetch();
+		$result->closeCursor();
 		$this->assertEquals('testing/mymimetype', $mimetype['mimetype']);
 
 		$this->assertEquals('testing/mymimetype', $this->loader->getMimetypeById($mimetypeId));
@@ -89,5 +91,4 @@ class LoaderTest extends \Test\TestCase {
 
 		$this->assertEquals($mimetypeId, $mimetypeId2);
 	}
-
 }

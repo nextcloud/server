@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,17 +15,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OCA\Encryption\Command;
-
 
 use OCA\Encryption\Util;
 use OCP\IConfig;
@@ -52,7 +51,6 @@ class DisableMasterKey extends Command {
 	public function __construct(Util $util,
 								IConfig $config,
 								QuestionHelper $questionHelper) {
-
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;
@@ -65,11 +63,10 @@ class DisableMasterKey extends Command {
 			->setDescription('Disable the master key and use per-user keys instead. Only available for fresh installations with no existing encrypted data! There is no way to enable it again.');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMasterKeyEnabled = $this->util->isMasterKeyEnabled();
 
-		if(!$isMasterKeyEnabled) {
+		if (!$isMasterKeyEnabled) {
 			$output->writeln('Master key already disabled');
 		} else {
 			$question = new ConfirmationQuestion(
@@ -83,9 +80,9 @@ class DisableMasterKey extends Command {
 				$output->writeln('Master key successfully disabled.');
 			} else {
 				$output->writeln('aborted.');
+				return 1;
 			}
 		}
-
+		return 0;
 	}
-
 }

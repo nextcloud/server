@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,15 +18,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
+use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
-use OCP\IDBConnection;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -34,13 +35,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class StatusCommand extends Command implements CompletionAwareInterface {
 
-	/** @var IDBConnection */
+	/** @var Connection */
 	private $connection;
 
-	/**
-	 * @param IDBConnection $connection
-	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(Connection $connection) {
 		$this->connection = $connection;
 		parent::__construct();
 	}
@@ -52,7 +50,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 			->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on');
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
 
@@ -67,6 +65,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 				$output->writeln("    <comment>>></comment> $key: " . str_repeat(' ', 50 - strlen($key)) . $value);
 			}
 		}
+		return 0;
 	}
 
 	/**
@@ -96,7 +95,6 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	 * @return array associative array of human readable info name as key and the actual information as value
 	 */
 	public function getMigrationsInfos(MigrationService $ms) {
-
 		$executedMigrations = $ms->getMigratedVersions();
 		$availableMigrations = $ms->getAvailableVersions();
 		$executedUnavailableMigrations = array_diff($executedMigrations, array_keys($availableMigrations));
@@ -106,19 +104,19 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		$pending = $ms->describeMigrationStep('lastest');
 
 		$infos = [
-			'App'								=> $ms->getApp(),
-			'Version Table Name'				=> $ms->getMigrationsTableName(),
-			'Migrations Namespace'				=> $ms->getMigrationsNamespace(),
-			'Migrations Directory'				=> $ms->getMigrationsDirectory(),
-			'Previous Version'					=> $this->getFormattedVersionAlias($ms, 'prev'),
-			'Current Version'					=> $this->getFormattedVersionAlias($ms, 'current'),
-			'Next Version'						=> $this->getFormattedVersionAlias($ms, 'next'),
-			'Latest Version'					=> $this->getFormattedVersionAlias($ms, 'latest'),
-			'Executed Migrations'				=> count($executedMigrations),
-			'Executed Unavailable Migrations'	=> $numExecutedUnavailableMigrations,
-			'Available Migrations'				=> count($availableMigrations),
-			'New Migrations'					=> $numNewMigrations,
-			'Pending Migrations'				=> count($pending) ? $pending : 'None'
+			'App' => $ms->getApp(),
+			'Version Table Name' => $ms->getMigrationsTableName(),
+			'Migrations Namespace' => $ms->getMigrationsNamespace(),
+			'Migrations Directory' => $ms->getMigrationsDirectory(),
+			'Previous Version' => $this->getFormattedVersionAlias($ms, 'prev'),
+			'Current Version' => $this->getFormattedVersionAlias($ms, 'current'),
+			'Next Version' => $this->getFormattedVersionAlias($ms, 'next'),
+			'Latest Version' => $this->getFormattedVersionAlias($ms, 'latest'),
+			'Executed Migrations' => count($executedMigrations),
+			'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations,
+			'Available Migrations' => count($availableMigrations),
+			'New Migrations' => $numNewMigrations,
+			'Pending Migrations' => count($pending) ? $pending : 'None'
 		];
 
 		return $infos;
@@ -144,6 +142,4 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 
 		return $migration;
 	}
-
-
 }

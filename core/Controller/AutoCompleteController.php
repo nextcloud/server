@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,40 +20,39 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
-use OCP\AppFramework\OCSController as Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController as Controller;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
-use OCP\Share;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OCP\Share\IShare;
 
 class AutoCompleteController extends Controller {
 	/** @var ISearch */
 	private $collaboratorSearch;
+
 	/** @var IManager */
 	private $autoCompleteManager;
-	/** @var EventDispatcherInterface */
+
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
-	public function __construct(
-		string $appName,
-		IRequest $request,
-		ISearch $collaboratorSearch,
-		IManager $autoCompleteManager,
-		EventDispatcherInterface $dispatcher
-	) {
+	public function __construct(string $appName,
+								IRequest $request,
+								ISearch $collaboratorSearch,
+								IManager $autoCompleteManager,
+								IEventDispatcher $dispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->collaboratorSearch = $collaboratorSearch;
@@ -66,7 +71,7 @@ class AutoCompleteController extends Controller {
 	 * @param int $limit
 	 * @return DataResponse
 	 */
-	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [Share::SHARE_TYPE_USER], $limit = 10): DataResponse {
+	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [IShare::TYPE_USER], $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
 		[$results,] = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
@@ -87,7 +92,7 @@ class AutoCompleteController extends Controller {
 		unset($results['exact']);
 		$results = array_merge_recursive($exactMatches, $results);
 
-		if($sorter !== null) {
+		if ($sorter !== null) {
 			$sorters = array_reverse(explode('|', $sorter));
 			$this->autoCompleteManager->runSorters($sorters, $results, [
 				'itemType' => $itemType,
@@ -107,9 +112,12 @@ class AutoCompleteController extends Controller {
 		foreach ($results as $type => $subResult) {
 			foreach ($subResult as $result) {
 				$output[] = [
-					'id' => $result['value']['shareWith'],
+					'id' => (string) $result['value']['shareWith'],
 					'label' => $result['label'],
+					'icon' => $result['icon'] ?? '',
 					'source' => $type,
+					'status' => $result['status'] ?? '',
+					'subline' => $result['subline'] ?? '',
 				];
 			}
 		}

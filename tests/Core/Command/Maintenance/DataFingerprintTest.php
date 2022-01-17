@@ -29,19 +29,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DataFingerprintTest extends TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
 
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();

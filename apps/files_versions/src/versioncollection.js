@@ -1,10 +1,24 @@
-/*
+/**
  * Copyright (c) 2015
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -12,12 +26,12 @@
 	/**
 	 * @memberof OCA.Versions
 	 */
-	var VersionCollection = OC.Backbone.Collection.extend({
+	const VersionCollection = OC.Backbone.Collection.extend({
 		model: OCA.Versions.VersionModel,
 		sync: OC.Backbone.davSync,
 
 		/**
-		 * @var OCA.Files.FileInfoModel
+		 * @member OCA.Files.FileInfoModel
 		 */
 		_fileInfo: null,
 
@@ -25,44 +39,44 @@
 
 		_client: null,
 
-		setFileInfo: function(fileInfo) {
+		setFileInfo(fileInfo) {
 			this._fileInfo = fileInfo
 		},
 
-		getFileInfo: function() {
+		getFileInfo() {
 			return this._fileInfo
 		},
 
-		setCurrentUser: function(user) {
+		setCurrentUser(user) {
 			this._currentUser = user
 		},
 
-		getCurrentUser: function() {
+		getCurrentUser() {
 			return this._currentUser || OC.getCurrentUser().uid
 		},
 
-		setClient: function(client) {
+		setClient(client) {
 			this._client = client
 		},
 
-		getClient: function() {
+		getClient() {
 			return this._client || new OC.Files.Client({
 				host: OC.getHost(),
 				root: OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser(),
-				useHTTPS: OC.getProtocol() === 'https'
+				useHTTPS: OC.getProtocol() === 'https',
 			})
 		},
 
-		url: function() {
+		url() {
 			return OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser() + '/versions/' + this._fileInfo.get('id')
 		},
 
-		parse: function(result) {
-			var fullPath = this._fileInfo.getFullPath()
-			var fileId = this._fileInfo.get('id')
-			var name = this._fileInfo.get('name')
-			var user = this.getCurrentUser()
-			var client = this.getClient()
+		parse(result) {
+			const fullPath = this._fileInfo.getFullPath()
+			const fileId = this._fileInfo.get('id')
+			const name = this._fileInfo.get('name')
+			const user = this.getCurrentUser()
+			const client = this.getClient()
 			return _.map(result, function(version) {
 				version.fullPath = fullPath
 				version.fileId = fileId
@@ -74,7 +88,7 @@
 				version.client = client
 				return version
 			})
-		}
+		},
 	})
 
 	OCA.Versions = OCA.Versions || {}

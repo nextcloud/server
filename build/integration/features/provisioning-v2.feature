@@ -19,3 +19,17 @@ Feature: provisioning
     Then the OCS status code should be "998"
     And the HTTP status code should be "404"
 
+  Scenario: Searching by displayname in groups
+    Given As an "admin"
+    And user "user-in-group" with displayname "specific-name" exists
+    And user "user-in-group2" with displayname "another-name" exists
+    And user "user-not-in-group" with displayname "specific-name" exists
+    And user "user-not-in-group2" with displayname "another-name" exists
+    And group "group-search" exists
+    And user "user-in-group" belongs to group "group-search"
+    And user "user-in-group2" belongs to group "group-search"
+    When sending "GET" to "/cloud/groups/group-search/users/details?offset=0&limit=25&search=ifi"
+    Then the OCS status code should be "200"
+    And the HTTP status code should be "200"
+    And detailed users returned are
+      | user-in-group |

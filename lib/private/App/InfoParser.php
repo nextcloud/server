@@ -5,10 +5,10 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -24,13 +24,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\App;
 
 use OCP\ICache;
+use function libxml_disable_entity_loader;
+use function simplexml_load_file;
 
 class InfoParser {
 	/** @var \OCP\ICache|null */
@@ -60,10 +61,14 @@ class InfoParser {
 		}
 
 		libxml_use_internal_errors(true);
-		$loadEntities = libxml_disable_entity_loader(false);
-		$xml = simplexml_load_file($file);
+		if ((PHP_VERSION_ID < 80000)) {
+			$loadEntities = libxml_disable_entity_loader(false);
+			$xml = simplexml_load_file($file);
+			libxml_disable_entity_loader($loadEntities);
+		} else {
+			$xml = simplexml_load_file($file);
+		}
 
-		libxml_disable_entity_loader($loadEntities);
 		if ($xml === false) {
 			libxml_clear_errors();
 			return null;
@@ -245,10 +250,10 @@ class InfoParser {
 				$data = [
 					'@attributes' => [],
 				];
-				if (!count($node->children())){
+				if (!count($node->children())) {
 					$value = (string)$node;
 					if (!empty($value)) {
-						$data['@value'] = (string)$node;
+						$data['@value'] = $value;
 					}
 				} else {
 					$data = array_merge($data, $this->xmlToArray($node));

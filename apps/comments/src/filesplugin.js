@@ -1,17 +1,33 @@
-/*
+/**
  * Copyright (c) 2016 Vincent Petry <pvince81@owncloud.com>
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Michael Jobst <mjobst+github@tecratech.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 (function() {
 
 	_.extend(OC.Files.Client, {
-		PROPERTY_COMMENTS_UNREAD:	'{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread'
+		PROPERTY_COMMENTS_UNREAD: '{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread',
 	})
 
 	OCA.Comments = _.extend({}, OCA.Comments)
@@ -28,36 +44,34 @@
 	OCA.Comments.FilesPlugin = {
 		ignoreLists: [
 			'trashbin',
-			'files.public'
+			'files.public',
 		],
 
-		_formatCommentCount: function(count) {
-			return OCA.Comments.Templates['filesplugin']({
-				count: count,
+		_formatCommentCount(count) {
+			return OCA.Comments.Templates.filesplugin({
+				count,
 				countMessage: n('comments', '%n unread comment', '%n unread comments', count),
-				iconUrl: OC.imagePath('core', 'actions/comment')
+				iconUrl: OC.imagePath('core', 'actions/comment'),
 			})
 		},
 
-		attach: function(fileList) {
-			var self = this
+		attach(fileList) {
+			const self = this
 			if (this.ignoreLists.indexOf(fileList.id) >= 0) {
 				return
 			}
 
-			fileList.registerTabView(new OCA.Comments.CommentsTabView('commentsTabView'))
-
-			var oldGetWebdavProperties = fileList._getWebdavProperties
+			const oldGetWebdavProperties = fileList._getWebdavProperties
 			fileList._getWebdavProperties = function() {
-				var props = oldGetWebdavProperties.apply(this, arguments)
+				const props = oldGetWebdavProperties.apply(this, arguments)
 				props.push(OC.Files.Client.PROPERTY_COMMENTS_UNREAD)
 				return props
 			}
 
 			fileList.filesClient.addFileInfoParser(function(response) {
-				var data = {}
-				var props = response.propStat[0].properties
-				var commentsUnread = props[OC.Files.Client.PROPERTY_COMMENTS_UNREAD]
+				const data = {}
+				const props = response.propStat[0].properties
+				const commentsUnread = props[OC.Files.Client.PROPERTY_COMMENTS_UNREAD]
 				if (!_.isUndefined(commentsUnread) && commentsUnread !== '') {
 					data.commentsUnread = parseInt(commentsUnread, 10)
 				}
@@ -65,9 +79,9 @@
 			})
 
 			fileList.$el.addClass('has-comments')
-			var oldCreateRow = fileList._createRow
+			const oldCreateRow = fileList._createRow
 			fileList._createRow = function(fileData) {
-				var $tr = oldCreateRow.apply(this, arguments)
+				const $tr = oldCreateRow.apply(this, arguments)
 				if (fileData.commentsUnread) {
 					$tr.attr('data-comments-unread', fileData.commentsUnread)
 				}
@@ -77,11 +91,11 @@
 			// register "comment" action for reading comments
 			fileList.fileActions.registerAction({
 				name: 'Comment',
-				displayName: function(context) {
+				displayName(context) {
 					if (context && context.$file) {
-						var unread = parseInt(context.$file.data('comments-unread'), 10)
+						const unread = parseInt(context.$file.data('comments-unread'), 10)
 						if (unread >= 0) {
-							return n('comments', '1 new comment', '{unread} new comments', unread, { unread: unread })
+							return n('comments', '1 new comment', '{unread} new comments', unread, { unread })
 						}
 					}
 					return t('comments', 'Comment')
@@ -91,34 +105,35 @@
 				iconClass: 'icon-comment',
 				permissions: OC.PERMISSION_READ,
 				type: OCA.Files.FileActions.TYPE_INLINE,
-				render: function(actionSpec, isDefault, context) {
-					var $file = context.$file
-					var unreadComments = $file.data('comments-unread')
+				render(actionSpec, isDefault, context) {
+					const $file = context.$file
+					const unreadComments = $file.data('comments-unread')
 					if (unreadComments) {
-						var $actionLink = $(self._formatCommentCount(unreadComments))
+						const $actionLink = $(self._formatCommentCount(unreadComments))
 						context.$file.find('a.name>span.fileactions').append($actionLink)
 						return $actionLink
 					}
 					return ''
 				},
-				actionHandler: function(fileName, context) {
+				actionHandler(fileName, context) {
 					context.$file.find('.action-comment').tooltip('hide')
 					// open sidebar in comments section
-					context.fileList.showDetailsView(fileName, 'commentsTabView')
-				}
+					OCA.Files.Sidebar.setActiveTab('comments')
+					OCA.Files.Sidebar.open(context.dir + '/' + fileName)
+				},
 			})
 
 			// add attribute to "elementToFile"
-			var oldElementToFile = fileList.elementToFile
+			const oldElementToFile = fileList.elementToFile
 			fileList.elementToFile = function($el) {
-				var fileInfo = oldElementToFile.apply(this, arguments)
-				var commentsUnread = $el.data('comments-unread')
+				const fileInfo = oldElementToFile.apply(this, arguments)
+				const commentsUnread = $el.data('comments-unread')
 				if (commentsUnread) {
 					fileInfo.commentsUnread = commentsUnread
 				}
 				return fileInfo
 			}
-		}
+		},
 	}
 
 })()

@@ -1,9 +1,12 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +19,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -27,15 +31,16 @@ $.widget('oc.ocdialog', {
 		height: 'auto',
 		closeButton: true,
 		closeOnEscape: true,
-		modal: false
+		closeCallback: null,
+		modal: false,
 	},
-	_create: function() {
-		var self = this
+	_create() {
+		const self = this
 
 		this.originalCss = {
 			display: this.element[0].style.display,
 			width: this.element[0].style.width,
-			height: this.element[0].style.height
+			height: this.element[0].style.height,
 		}
 
 		this.originalTitle = this.element.attr('title')
@@ -45,7 +50,7 @@ $.widget('oc.ocdialog', {
 			.attr({
 				// Setting tabIndex makes the div focusable
 				tabIndex: -1,
-				role: 'dialog'
+				role: 'dialog',
 			})
 			.insertBefore(this.element)
 		this.$dialog.append(this.element.detach())
@@ -53,7 +58,7 @@ $.widget('oc.ocdialog', {
 
 		this.$dialog.css({
 			display: 'inline-block',
-			position: 'fixed'
+			position: 'fixed',
 		})
 
 		this.enterCallback = null
@@ -92,7 +97,7 @@ $.widget('oc.ocdialog', {
 					self.$buttonrow
 					&& self.$buttonrow.find($(event.target)).length === 0
 				) {
-					var $button = self.$buttonrow.find('button.primary')
+					const $button = self.$buttonrow.find('button.primary')
 					if ($button && !$button.prop('disabled')) {
 						$button.trigger('click')
 					}
@@ -106,18 +111,18 @@ $.widget('oc.ocdialog', {
 		this._setOptions(this.options)
 		this._createOverlay()
 	},
-	_init: function() {
+	_init() {
 		this.$dialog.focus()
 		this._trigger('open')
 	},
-	_setOption: function(key, value) {
-		var self = this
+	_setOption(key, value) {
+		const self = this
 		switch (key) {
 		case 'title':
 			if (this.$title) {
 				this.$title.text(value)
 			} else {
-				var $title = $('<h2 class="oc-dialog-title">'
+				const $title = $('<h2 class="oc-dialog-title">'
 						+ value
 						+ '</h2>')
 				this.$title = $title.prependTo(this.$dialog)
@@ -128,7 +133,7 @@ $.widget('oc.ocdialog', {
 			if (this.$buttonrow) {
 				this.$buttonrow.empty()
 			} else {
-				var $buttonrow = $('<div class="oc-dialog-buttonrow" />')
+				const $buttonrow = $('<div class="oc-dialog-buttonrow" />')
 				this.$buttonrow = $buttonrow.appendTo(this.$dialog)
 			}
 			if (value.length === 1) {
@@ -139,7 +144,7 @@ $.widget('oc.ocdialog', {
 				this.$buttonrow.addClass('threebuttons')
 			}
 			$.each(value, function(idx, val) {
-				var $button = $('<button>').text(val.text)
+				const $button = $('<button>').text(val.text)
 				if (val.classes) {
 					$button.addClass(val.classes)
 				}
@@ -166,9 +171,10 @@ $.widget('oc.ocdialog', {
 			break
 		case 'closeButton':
 			if (value) {
-				var $closeButton = $('<a class="oc-dialog-close"></a>')
+				const $closeButton = $('<a class="oc-dialog-close"></a>')
 				this.$dialog.prepend($closeButton)
 				$closeButton.on('click', function() {
+					self.options.closeCallback && self.options.closeCallback()
 					self.close()
 				})
 			} else {
@@ -188,12 +194,12 @@ $.widget('oc.ocdialog', {
 		// this._super(key, value);
 		$.Widget.prototype._setOption.apply(this, arguments)
 	},
-	_setOptions: function(options) {
+	_setOptions(options) {
 		// this._super(options);
 		$.Widget.prototype._setOptions.apply(this, arguments)
 	},
-	_setSizes: function() {
-		var lessHeight = 0
+	_setSizes() {
+		let lessHeight = 0
 		if (this.$title) {
 			lessHeight += this.$title.outerHeight(true)
 		}
@@ -201,18 +207,23 @@ $.widget('oc.ocdialog', {
 			lessHeight += this.$buttonrow.outerHeight(true)
 		}
 		this.element.css({
-			'height': 'calc(100% - ' + lessHeight + 'px)'
+			height: 'calc(100% - ' + lessHeight + 'px)',
 		})
 	},
-	_createOverlay: function() {
+	_createOverlay() {
 		if (!this.options.modal) {
 			return
 		}
 
-		var self = this
+		const self = this
+		let contentDiv = $('#content')
+		if (contentDiv.length === 0) {
+			// nextcloud-vue compatibility
+			contentDiv = $('.content')
+		}
 		this.overlay = $('<div>')
 			.addClass('oc-dialog-dim')
-			.appendTo($('#content'))
+			.appendTo(contentDiv)
 		this.overlay.on('click keydown keyup', function(event) {
 			if (event.target !== self.$dialog.get(0) && self.$dialog.find($(event.target)).length === 0) {
 				event.preventDefault()
@@ -221,7 +232,7 @@ $.widget('oc.ocdialog', {
 			}
 		})
 	},
-	_destroyOverlay: function() {
+	_destroyOverlay() {
 		if (!this.options.modal) {
 			return
 		}
@@ -232,18 +243,18 @@ $.widget('oc.ocdialog', {
 			this.overlay = null
 		}
 	},
-	widget: function() {
+	widget() {
 		return this.$dialog
 	},
-	setEnterCallback: function(callback) {
+	setEnterCallback(callback) {
 		this.enterCallback = callback
 	},
-	unsetEnterCallback: function() {
+	unsetEnterCallback() {
 		this.enterCallback = null
 	},
-	close: function() {
+	close() {
 		this._destroyOverlay()
-		var self = this
+		const self = this
 		// Ugly hack to catch remaining keyup events.
 		setTimeout(function() {
 			self._trigger('close', self)
@@ -252,7 +263,7 @@ $.widget('oc.ocdialog', {
 		self.$dialog.remove()
 		this.destroy()
 	},
-	destroy: function() {
+	destroy() {
 		if (this.$title) {
 			this.$title.remove()
 		}
@@ -266,5 +277,5 @@ $.widget('oc.ocdialog', {
 		this.element.removeClass('oc-dialog-content')
 			.css(this.originalCss).detach().insertBefore(this.$dialog)
 		this.$dialog.remove()
-	}
+	},
 })

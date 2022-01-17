@@ -5,6 +5,8 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -97,7 +98,7 @@ interface IImage {
 	public function save($filePath = null, $mimeType = null);
 
 	/**
-	 * @return resource Returns the image resource in any.
+	 * @return false|resource|\GdImage Returns the image resource if any
 	 * @since 8.1.0
 	 */
 	public function resource();
@@ -189,4 +190,43 @@ interface IImage {
 	 * @since 8.1.0
 	 */
 	public function scaleDownToFit($maxWidth, $maxHeight);
+
+	/**
+	 * create a copy of this image
+	 *
+	 * @return IImage
+	 * @since 19.0.0
+	 */
+	public function copy(): IImage;
+
+	/**
+	 * create a new cropped copy of this image
+	 *
+	 * @param int $x Horizontal position
+	 * @param int $y Vertical position
+	 * @param int $w Width
+	 * @param int $h Height
+	 * @return IImage
+	 * @since 19.0.0
+	 */
+	public function cropCopy(int $x, int $y, int $w, int $h): IImage;
+
+	/**
+	 * create a new resized copy of this image
+	 *
+	 * @param int $width
+	 * @param int $height
+	 * @return IImage
+	 * @since 19.0.0
+	 */
+	public function preciseResizeCopy(int $width, int $height): IImage;
+
+	/**
+	 * create a new resized copy of this image
+	 *
+	 * @param integer $maxSize The maximum size of either the width or height.
+	 * @return IImage
+	 * @since 19.0.0
+	 */
+	public function resizeCopy(int $maxSize): IImage;
 }

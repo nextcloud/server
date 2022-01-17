@@ -1,10 +1,24 @@
-/*
+/**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -58,15 +72,16 @@ describe('OCA.Files_External.FileList tests', function() {
 		alertStub.restore();
 	});
 
-	describe('loading file list for external storages', function() {
+	describe('loading file list for external storage', function() {
 		var ocsResponse;
+		var reloading;
 
 		beforeEach(function() {
 			fileList = new OCA.Files_External.FileList(
 				$('#app-content-container')
 			);
 
-			fileList.reload();
+			reloading = fileList.reload();
 
 			/* jshint camelcase: false */
 			ocsResponse = {
@@ -94,7 +109,7 @@ describe('OCA.Files_External.FileList tests', function() {
 				}
 			};
 		});
-		it('render storage list', function() {
+		it('render storage list', function(done) {
 			var request;
 			var $rows;
 			var $tr;
@@ -102,8 +117,7 @@ describe('OCA.Files_External.FileList tests', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			request = fakeServer.requests[0];
 			expect(request.url).toEqual(
-				OC.linkToOCS('apps/files_external/api/v1') +
-				'mounts?format=json'
+				OC.linkToOCS('apps/files_external/api/v1') + 'mounts?format=json'
 			);
 
 			fakeServer.requests[0].respond(
@@ -112,41 +126,42 @@ describe('OCA.Files_External.FileList tests', function() {
 				JSON.stringify(ocsResponse)
 			);
 
-			$rows = fileList.$el.find('tbody tr');
-			expect($rows.length).toEqual(2);
+			return reloading.then(function() {
+				$rows = fileList.$el.find('tbody tr');
+				expect($rows.length).toEqual(2);
 
-			$tr = $rows.eq(0);
-			expect($tr.attr('data-id')).not.toBeDefined();
-			expect($tr.attr('data-type')).toEqual('dir');
-			expect($tr.attr('data-file')).toEqual('sftp mount');
-			expect($tr.attr('data-path')).toEqual('/another mount points');
-			expect($tr.attr('data-size')).not.toBeDefined();
-			expect($tr.attr('data-permissions')).toEqual('1'); // read only 
-			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.getRootPath() +
-				'/index.php/apps/files' +
-				'?dir=/another%20mount%20points/sftp%20mount'
-			);
-			expect($tr.find('.nametext').text().trim()).toEqual('sftp mount');
-			expect($tr.find('.column-scope > span').text().trim()).toEqual('System');
-			expect($tr.find('.column-backend').text().trim()).toEqual('SFTP');
+				$tr = $rows.eq(0);
+				expect($tr.attr('data-id')).not.toBeDefined();
+				expect($tr.attr('data-type')).toEqual('dir');
+				expect($tr.attr('data-file')).toEqual('sftp mount');
+				expect($tr.attr('data-path')).toEqual('/another mount points');
+				expect($tr.attr('data-size')).not.toBeDefined();
+				expect($tr.attr('data-permissions')).toEqual('1'); // read only
+				expect($tr.find('a.name').attr('href')).toEqual(
+					OC.getRootPath() +
+					'/index.php/apps/files' +
+					'?dir=/another%20mount%20points/sftp%20mount'
+				);
+				expect($tr.find('.nametext').text().trim()).toEqual('sftp mount');
+				expect($tr.find('.column-scope > span').text().trim()).toEqual('System');
+				expect($tr.find('.column-backend').text().trim()).toEqual('SFTP');
 
-			$tr = $rows.eq(1);
-			expect($tr.attr('data-id')).not.toBeDefined();
-			expect($tr.attr('data-type')).toEqual('dir');
-			expect($tr.attr('data-file')).toEqual('smb mount');
-			expect($tr.attr('data-path')).toEqual('/mount points');
-			expect($tr.attr('data-size')).not.toBeDefined();
-			expect($tr.attr('data-permissions')).toEqual('9'); // read and delete
-			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.getRootPath() +
-				'/index.php/apps/files' +
-				'?dir=/mount%20points/smb%20mount'
-			);
-			expect($tr.find('.nametext').text().trim()).toEqual('smb mount');
-			expect($tr.find('.column-scope > span').text().trim()).toEqual('Personal');
-			expect($tr.find('.column-backend').text().trim()).toEqual('SMB');
-
+				$tr = $rows.eq(1);
+				expect($tr.attr('data-id')).not.toBeDefined();
+				expect($tr.attr('data-type')).toEqual('dir');
+				expect($tr.attr('data-file')).toEqual('smb mount');
+				expect($tr.attr('data-path')).toEqual('/mount points');
+				expect($tr.attr('data-size')).not.toBeDefined();
+				expect($tr.attr('data-permissions')).toEqual('9'); // read and delete
+				expect($tr.find('a.name').attr('href')).toEqual(
+					OC.getRootPath() +
+					'/index.php/apps/files' +
+					'?dir=/mount%20points/smb%20mount'
+				);
+				expect($tr.find('.nametext').text().trim()).toEqual('smb mount');
+				expect($tr.find('.column-scope > span').text().trim()).toEqual('Personal');
+				expect($tr.find('.column-backend').text().trim()).toEqual('SMB');
+			}).then(done, done);
 		});
 	});
 });

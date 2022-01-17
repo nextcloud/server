@@ -29,21 +29,20 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\ILinkAction;
 use OCP\IURLGenerator;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class EMailproviderTest extends TestCase {
 
-	/** @var IActionFactory|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IActionFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $actionFactory;
 
-	/** @var IURLGenerator|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	/** @var EMailProvider */
 	private $provider;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->actionFactory = $this->createMock(IActionFactory::class);
@@ -67,7 +66,7 @@ class EMailproviderTest extends TestCase {
 			->method('getEMailAddresses')
 			->willReturn([
 				'user@example.com',
-		]);
+			]);
 		$this->actionFactory->expects($this->once())
 			->method('newEMailAction')
 			->with($this->equalTo($iconUrl), $this->equalTo('user@example.com'), $this->equalTo('user@example.com'))
@@ -94,7 +93,7 @@ class EMailproviderTest extends TestCase {
 			->method('getEMailAddresses')
 			->willReturn([
 				'',
-		]);
+			]);
 		$this->actionFactory->expects($this->never())
 			->method('newEMailAction');
 		$entry->expects($this->never())
@@ -102,5 +101,4 @@ class EMailproviderTest extends TestCase {
 
 		$this->provider->process($entry);
 	}
-
 }

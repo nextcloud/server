@@ -1,0 +1,24 @@
+{ "translations": {
+    "Dashboard" : "Майстерня",
+    "Show something" : "Показати щось",
+    "Customize" : "Редагувати",
+    "Edit widgets" : "Редагувати віджети",
+    "Get more widgets from the App Store" : "Більше віджетів у магазині додатків",
+    "Change background image" : "Змінити фонову світлину",
+    "Weather service" : "Погода",
+    "Weather data from Met.no" : "Дані про погоду з Met.no",
+    "Weather" : "Погода",
+    "Status" : "Статус",
+    "Good morning" : "Доброго ранку",
+    "Good morning, {name}" : "Доброго ранку, {name}",
+    "Good afternoon" : "Добрий день",
+    "Good afternoon, {name}" : "Добрий день, {name}",
+    "Good evening" : "Добрий вечір",
+    "Good evening, {name}" : "Добрий вечір, {name}",
+    "Hello" : "Привіт",
+    "Hello, {name}" : "Привіт, {name}",
+    "Get more widgets from the app store" : "Більше віджетів у магазині додатків",
+    "Good night, {name}" : "Добраніч, {name}",
+    "Good night" : "Надобраніч"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
+}

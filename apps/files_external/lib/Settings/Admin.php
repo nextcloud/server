@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
@@ -61,14 +61,14 @@ class Admin implements ISettings {
 	 */
 	public function getForm() {
 		$parameters = [
-			'encryptionEnabled'    => $this->encryptionManager->isEnabled(),
-			'visibilityType'       => BackendService::VISIBILITY_ADMIN,
-			'storages'             => $this->globalStoragesService->getStorages(),
-			'backends'             => $this->backendService->getAvailableBackends(),
-			'authMechanisms'       => $this->backendService->getAuthMechanisms(),
-			'dependencies'         => \OC_Mount_Config::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting'    => $this->backendService->isUserMountingAllowed(),
-			'globalCredentials'    => $this->globalAuth->getAuth(''),
+			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
+			'visibilityType' => BackendService::VISIBILITY_ADMIN,
+			'storages' => $this->globalStoragesService->getStorages(),
+			'backends' => $this->backendService->getAvailableBackends(),
+			'authMechanisms' => $this->backendService->getAuthMechanisms(),
+			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
+			'globalCredentials' => $this->globalAuth->getAuth(''),
 			'globalCredentialsUid' => '',
 		];
 
@@ -92,5 +92,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 40;
 	}
-
 }

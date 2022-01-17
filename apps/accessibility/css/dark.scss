@@ -2,8 +2,12 @@
 $color-main-text: #d8d8d8;
 $color-main-background: #181818;
 
-$color-background-dark: lighten($color-main-background, 4%);
-$color-background-darker: lighten($color-main-background, 8%);
+$color-background-hover: lighten($color-main-background, 4%);
+$color-background-dark: lighten($color-main-background, 7%);
+$color-background-darker: lighten($color-main-background, 14%);
+
+$color-placeholder-light: lighten($color-main-background, 10%);
+$color-placeholder-dark: lighten($color-main-background, 20%);
 
 $color-text-maxcontrast: darken($color-main-text, 30%);
 $color-text-light: darken($color-main-text, 10%);
@@ -12,24 +16,28 @@ $color-text-lighter: darken($color-main-text, 20%);
 $color-loading-light: #777;
 $color-loading-dark: #ccc;
 
-$color-box-shadow: rgba(darken($color-main-background, 70%), 0.5);
+$color-box-shadow: transparentize(darken($color-main-background, 70%), 0.5);
 
 $color-border: lighten($color-main-background, 7%);
 $color-border-dark: lighten($color-main-background, 14%);
+
+$image-logo: url('../../../core/img/logo/logo.svg?v=1');
+$image-logoheader: url('../../../core/img/logo/logo.svg?v=1');
 
 #app-navigation > ul > li > a:first-child,
 #app-navigation > ul > li > ul > li > a:first-child,
 #contactsmenu-menu a,
 #expanddiv a,
 .activity-section .activity-icon.monochrome {
-	img {
+	& > img,
+	:not(.avatardiv) > img {
 		filter: invert(100%);
 	}
 }
 
 #navigation #apps li a,
-#body-settings #content.app-settings .app-image-icon,
-#body-settings #content.app-settings #app-sidebar #app-details-view h2 {
+#body-settings #content-vue.app-settings .app-image-icon,
+#body-settings #content-vue.app-settings #app-sidebar #app-details-view h2 {
 	svg {
 		filter: invert(100%);
 	}
@@ -49,11 +57,12 @@ $color-border-dark: lighten($color-main-background, 14%);
 
 .bubble,
 .app-navigation-entry-menu,
-.popovermenu {
+.popovermenu,
+.popover__menu {
 	li {
 		> button,
 		> a,
-		> .menuitem {
+		> .menuitem, > .popover__menuitem {
 			> img {
 				filter: invert(100%);
 			}
@@ -64,6 +73,22 @@ $color-border-dark: lighten($color-main-background, 14%);
 .app-navigation-entry-menu,
 .popovermenu,
 #header .menu {
+	border: 1px solid var(--color-border);
+}
+
+.popover[x-placement^='top'] .popover__arrow {
+	border-top-color: var(--color-border);
+}
+.popover[x-placement^='bottom'] .popover__arrow {
+	border-bottom-color: var(--color-border);
+}
+.popover[x-placement^='left'] .popover__arrow {
+	border-left-color: var(--color-border);
+}
+.popover[x-placement^='right'] .popover__arrow {
+	border-right-color: var(--color-border);
+}
+.popover .popover__inner {
 	border: 1px solid var(--color-border);
 }
 

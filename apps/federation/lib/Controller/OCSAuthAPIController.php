@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -22,11 +23,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Federation\Controller;
 
 use OCA\Federation\DbHandler;
@@ -47,7 +46,7 @@ use OCP\Security\ISecureRandom;
  *
  * @package OCA\Federation\Controller
  */
-class OCSAuthAPIController extends OCSController{
+class OCSAuthAPIController extends OCSController {
 
 	/** @var ISecureRandom  */
 	private $secureRandom;
@@ -182,7 +181,6 @@ class OCSAuthAPIController extends OCSController{
 	 * @throws OCSForbiddenException
 	 */
 	public function getSharedSecret($url, $token) {
-
 		if ($this->trustedServers->isTrustedServer($url) === false) {
 			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
 			throw new OCSForbiddenException();

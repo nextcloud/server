@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,31 +22,17 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
  * Interface ICacheFactory
  *
- * @package OCP
  * @since 7.0.0
  */
-interface ICacheFactory{
-	/**
-	 * Get a distributed memory cache instance
-	 *
-	 * All entries added trough the cache instance will be namespaced by $prefix to prevent collisions between apps
-	 *
-	 * @param string $prefix
-	 * @return ICache
-	 * @since 7.0.0
-	 * @deprecated 13.0.0 Use either createLocking, createDistributed or createLocal
-	 */
-	public function create(string $prefix = ''): ICache;
-
+interface ICacheFactory {
 	/**
 	 * Check if any memory cache backend is available
 	 *

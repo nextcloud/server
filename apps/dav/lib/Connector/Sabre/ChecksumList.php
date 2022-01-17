@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -16,13 +17,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use Sabre\Xml\XmlSerializable;
 use Sabre\Xml\Writer;
+use Sabre\Xml\XmlSerializable;
 
 /**
  * Checksumlist property
@@ -31,7 +32,7 @@ use Sabre\Xml\Writer;
  * checksum name.
  */
 class ChecksumList implements XmlSerializable {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/** @var string[] of TYPE:CHECKSUM */
 	private $checksums;
@@ -62,8 +63,7 @@ class ChecksumList implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
-
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->checksums as $checksum) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}checksum', $checksum);
 		}

@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Lib\Notify;
 
 use OC\Files\Notify\Change;
@@ -49,13 +50,13 @@ class SMBNotifyHandler implements INotifyHandler {
 	 */
 	public function __construct(\Icewind\SMB\INotifyHandler $shareNotifyHandler, $root) {
 		$this->shareNotifyHandler = $shareNotifyHandler;
-		$this->root = $root;
+		$this->root = str_replace('\\', '/', $root);
 	}
 
 	private function relativePath($fullPath) {
 		if ($fullPath === $this->root) {
 			return '';
-		} else if (substr($fullPath, 0, strlen($this->root)) === $this->root) {
+		} elseif (substr($fullPath, 0, strlen($this->root)) === $this->root) {
 			return substr($fullPath, strlen($this->root));
 		} else {
 			return null;

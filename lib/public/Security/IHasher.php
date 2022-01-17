@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +21,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
 
 /**
@@ -41,7 +43,6 @@ namespace OCP\Security;
  * var_dump(\OC::$server->getHasher()->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
  * var_dump($newHash);
  *
- * @package OCP\Security
  * @since 8.0.0
  */
 interface IHasher {

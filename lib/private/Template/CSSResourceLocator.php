@@ -4,8 +4,10 @@
  *
  * @author Axel Helmert <axel.helmert@luka.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Kyle Fazzari <kyrofa@ubuntu.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,10 +26,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
 use OCP\ILogger;
@@ -64,7 +65,7 @@ class CSSResourceLocator extends ResourceLocator {
 		) {
 			return;
 		}
-		$style = substr($style, strpos($style, '/')+1);
+		$style = substr($style, strpos($style, '/') + 1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
 
@@ -81,7 +82,7 @@ class CSSResourceLocator extends ResourceLocator {
 		// turned into cwd.
 		$app_path = realpath($app_path);
 
-		if(!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
+		if (!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
 			$this->append($app_path, $style.'.css', $app_url);
 		}
 	}
@@ -105,10 +106,9 @@ class CSSResourceLocator extends ResourceLocator {
 	 */
 	protected function cacheAndAppendScssIfExist($root, $file, $app = 'core') {
 		if (is_file($root.'/'.$file)) {
-			if($this->scssCacher !== null) {
-				if($this->scssCacher->process($root, $file, $app)) {
-
-					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), \OC::$WEBROOT, true, true);
+			if ($this->scssCacher !== null) {
+				if ($this->scssCacher->process($root, $file, $app)) {
+					$this->append($this->serverroot, $this->scssCacher->getCachedSCSS($app, $file), \OC::$WEBROOT, true, true);
 					return true;
 				} else {
 					$this->logger->warning('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
@@ -144,7 +144,7 @@ class CSSResourceLocator extends ResourceLocator {
 				}
 			}
 
-			$this->resources[] = array($webRoot? : \OC::$WEBROOT, $webRoot, $file);
+			$this->resources[] = [$webRoot ?: \OC::$WEBROOT, $webRoot, $file];
 		}
 	}
 }

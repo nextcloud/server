@@ -23,145 +23,80 @@
 
 namespace OCA\Settings\Tests\AppInfo;
 
-use OCA\Settings\Admin\Sharing;
+use OC\Settings\AuthorizedGroupMapper;
 use OC\Settings\Manager;
-use OCA\Settings\Personal\Security;
-use OC\Settings\Section;
+use OCP\Group\ISubAdmin;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nFactory;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $url;
-	/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $container;
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $groupManager;
+	/** @var ISubAdmin|\PHPUnit\Framework\MockObject\MockObject */
+	private $subAdmin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->url = $this->createMock(IURLGenerator::class);
 		$this->container = $this->createMock(IServerContainer::class);
+		$this->mapper = $this->createMock(AuthorizedGroupMapper::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->subAdmin = $this->createMock(ISubAdmin::class);
 
 		$this->manager = new Manager(
 			$this->logger,
 			$this->l10nFactory,
 			$this->url,
-			$this->container
+			$this->container,
+			$this->mapper,
+			$this->groupManager,
+			$this->subAdmin,
 		);
 	}
 
 	public function testGetAdminSections() {
-		$this->l10nFactory
-			->expects($this->once())
-			->method('get')
-			->with('lib')
-			->willReturn($this->l10n);
-		$this->l10n
-			->expects($this->any())
-			->method('t')
-			->will($this->returnArgument(0));
-
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$this->url->expects($this->exactly(6))
-			->method('imagePath')
-			->willReturnMap([
-				['settings', 'admin.svg', '0'],
-				['core', 'actions/settings-dark.svg', '1'],
-				['core', 'actions/share.svg', '2'],
-				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts.svg', '5'],
-				['settings', 'help.svg', '4'],
-			]);
-
 		$this->assertEquals([
-			0 => [new Section('overview', 'Overview', 0, '0')],
-			1 => [new Section('server', 'Basic settings', 0, '1')],
-			5 => [new Section('sharing', 'Sharing', 0, '2')],
-			10 => [new Section('security', 'Security', 0, '3')],
-			50 => [new Section('groupware', 'Groupware', 0, '5')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
-			98 => [new Section('additional', 'Additional settings', 0, '1')],
 		], $this->manager->getAdminSections());
 	}
 
 	public function testGetPersonalSections() {
-		$this->l10nFactory
-			->expects($this->once())
-			->method('get')
-			->with('lib')
-			->willReturn($this->l10n);
-		$this->l10n
-			->expects($this->any())
-			->method('t')
-			->will($this->returnArgument(0));
-
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$this->url->expects($this->exactly(3))
-			->method('imagePath')
-			->willReturnMap([
-				['core', 'actions/info.svg', '1'],
-				['settings', 'password.svg', '2'],
-				['core', 'clients/phone.svg', '3'],
-			]);
-
 		$this->assertEquals([
-			0 => [new Section('personal-info', 'Personal info', 0, '1')],
-			5 => [new Section('security', 'Security', 0, '2')],
-			15 => [new Section('sync-clients', 'Mobile & desktop', 0, '3')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getPersonalSections());
 	}
 
 	public function testGetAdminSectionsEmptySection() {
-		$this->l10nFactory
-			->expects($this->once())
-			->method('get')
-			->with('lib')
-			->willReturn($this->l10n);
-		$this->l10n
-			->expects($this->any())
-			->method('t')
-			->will($this->returnArgument(0));
-
-		$this->url->expects($this->exactly(6))
-			->method('imagePath')
-			->willReturnMap([
-				['settings', 'admin.svg', '0'],
-				['core', 'actions/settings-dark.svg', '1'],
-				['core', 'actions/share.svg', '2'],
-				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts.svg', '5'],
-				['settings', 'help.svg', '4'],
-			]);
-
-		$this->assertEquals([
-			0 => [new Section('overview', 'Overview', 0, '0')],
-			1 => [new Section('server', 'Basic settings', 0, '1')],
-			5 => [new Section('sharing', 'Sharing', 0, '2')],
-			10 => [new Section('security', 'Security', 0, '3')],
-			50 => [new Section('groupware', 'Groupware', 0, '5')],
-			98 => [new Section('additional', 'Additional settings', 0, '1')],
-		], $this->manager->getAdminSections());
+		$this->assertEquals([], $this->manager->getAdminSections());
 	}
 
 	public function testGetPersonalSectionsEmptySection() {
@@ -173,33 +108,22 @@ class ManagerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
-		$this->url->expects($this->exactly(3))
-			->method('imagePath')
-			->willReturnMap([
-				['core', 'actions/info.svg', '1'],
-				['settings', 'password.svg', '2'],
-				['core', 'clients/phone.svg', '3'],
-			]);
-
-		$this->assertArraySubset([
-			0 => [new Section('personal-info', 'Personal info', 0, '1')],
-			5 => [new Section('security', 'Security', 0, '2')],
-			15 => [new Section('sync-clients', 'Mobile & desktop', 0, '3')],
-		], $this->manager->getPersonalSections());
+		$this->assertEquals([], $this->manager->getPersonalSections());
 	}
 
 	public function testGetAdminSettings() {
-		$section = $this->createMock(Sharing::class);
-		$section->expects($this->once())
-			->method('getPriority')
+		$section = $this->createMock(ISettings::class);
+		$section->method('getPriority')
 			->willReturn(13);
-		$this->container->expects($this->once())
-			->method('query')
-			->with(Sharing::class)
+		$section->method('getSection')
+			->willReturn('sharing');
+		$this->container->method('get')
+			->with('myAdminClass')
 			->willReturn($section);
 
+		$this->manager->registerSetting('admin', 'myAdminClass');
 		$settings = $this->manager->getAdminSettings('sharing');
 
 		$this->assertEquals([
@@ -208,12 +132,16 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSettingsAsSubAdmin() {
-		$section = $this->createMock(Sharing::class);
-		$this->container->expects($this->once())
-			->method('query')
-			->with(Sharing::class)
+		$section = $this->createMock(ISettings::class);
+		$section->method('getPriority')
+			->willReturn(13);
+		$section->method('getSection')
+			->willReturn('sharing');
+		$this->container->method('get')
+			->with('myAdminClass')
 			->willReturn($section);
 
+		$this->manager->registerSetting('admin', 'myAdminClass');
 		$settings = $this->manager->getAdminSettings('sharing', true);
 
 		$this->assertEquals([], $settings);
@@ -221,14 +149,16 @@ class ManagerTest extends TestCase {
 
 	public function testGetSubAdminSettingsAsSubAdmin() {
 		$section = $this->createMock(ISubAdminSettings::class);
-		$section->expects($this->once())
-			->method('getPriority')
+		$section->method('getPriority')
 			->willReturn(13);
+		$section->method('getSection')
+			->willReturn('sharing');
 		$this->container->expects($this->once())
-			->method('query')
-			->with(Sharing::class)
+			->method('get')
+			->with('mySubAdminClass')
 			->willReturn($section);
 
+		$this->manager->registerSetting('admin', 'mySubAdminClass');
 		$settings = $this->manager->getAdminSettings('sharing', true);
 
 		$this->assertEquals([
@@ -237,21 +167,27 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetPersonalSettings() {
-		$section = $this->createMock(Security::class);
-		$section->expects($this->once())
-			->method('getPriority')
+		$section = $this->createMock(ISettings::class);
+		$section->method('getPriority')
 			->willReturn(16);
-		$section2 = $this->createMock(Security\Authtokens::class);
-		$section2->expects($this->once())
-			->method('getPriority')
+		$section->method('getSection')
+			->willReturn('security');
+		$section2 = $this->createMock(ISettings::class);
+		$section2->method('getPriority')
 			->willReturn(100);
+		$section2->method('getSection')
+			->willReturn('security');
+
+		$this->manager->registerSetting('personal', 'section1');
+		$this->manager->registerSetting('personal', 'section2');
+
 		$this->container->expects($this->at(0))
-			->method('query')
-			->with(Security::class)
+			->method('get')
+			->with('section1')
 			->willReturn($section);
 		$this->container->expects($this->at(1))
-			->method('query')
-			->with(Security\Authtokens::class)
+			->method('get')
+			->with('section2')
 			->willReturn($section2);
 
 		$settings = $this->manager->getPersonalSettings('security');
@@ -271,40 +207,17 @@ class ManagerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$this->url->expects($this->exactly(9))
-			->method('imagePath')
-			->willReturnMap([
-				['core', 'actions/info.svg', '1'],
-				['settings', 'password.svg', '2'],
-				['core', 'clients/phone.svg', '3'],
-				['settings', 'admin.svg', '0'],
-				['core', 'actions/settings-dark.svg', '1'],
-				['core', 'actions/share.svg', '2'],
-				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts.svg', '5'],
-				['settings', 'help.svg', '4'],
-			]);
-
 		$this->assertEquals([
-			0 => [new Section('personal-info', 'Personal info', 0, '1')],
-			5 => [new Section('security', 'Security', 0, '2')],
-			15 => [new Section('sync-clients', 'Mobile & desktop', 0, '3')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getPersonalSections());
 
 		$this->assertEquals([
-			0 => [new Section('overview', 'Overview', 0, '0')],
-			1 => [new Section('server', 'Basic settings', 0, '1')],
-			5 => [new Section('sharing', 'Sharing', 0, '2')],
-			10 => [new Section('security', 'Security', 0, '3')],
-			50 => [new Section('groupware', 'Groupware', 0, '5')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
-			98 => [new Section('additional', 'Additional settings', 0, '1')],
 		], $this->manager->getAdminSections());
 	}
 }

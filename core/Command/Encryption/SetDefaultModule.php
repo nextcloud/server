@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Ruben Homs <ruben@homs.codes>
  *
  * @license AGPL-3.0
  *
@@ -16,12 +18,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
-
 
 use OCP\Encryption\IManager;
 use OCP\IConfig;
@@ -64,22 +64,24 @@ class SetDefaultModule extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 		if ($isMaintenanceModeEnabled) {
 			$output->writeln("Maintenance mode must be disabled when setting default module,");
 			$output->writeln("in order to load the relevant encryption modules correctly.");
-			return;
+			return 1;
 		}
 
 		$moduleId = $input->getArgument('module');
 
 		if ($moduleId === $this->encryptionManager->getDefaultEncryptionModuleId()) {
 			$output->writeln('"' . $moduleId . '"" is already the default module');
-		} else if ($this->encryptionManager->setDefaultEncryptionModule($moduleId)) {
+		} elseif ($this->encryptionManager->setDefaultEncryptionModule($moduleId)) {
 			$output->writeln('<info>Set default module to "' . $moduleId . '"</info>');
 		} else {
 			$output->writeln('<error>The specified module "' . $moduleId . '" does not exist</error>');
+			return 1;
 		}
+		return 0;
 	}
 }

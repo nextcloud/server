@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,24 +16,23 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\App;
 
 use InvalidArgumentException;
+use function explode;
 
 class CompareVersion {
-
-	const REGEX_MAJOR = '/^\d+$/';
-	const REGEX_MAJOR_MINOR = '/^\d+.\d+$/';
-	const REGEX_MAJOR_MINOR_PATCH = '/^\d+.\d+.\d+$/';
-	const REGEX_SERVER = '/^\d+.\d+.\d+(.\d+)?$/';
+	private const REGEX_MAJOR = '/^\d+$/';
+	private const REGEX_MAJOR_MINOR = '/^\d+\.\d+$/';
+	private const REGEX_MAJOR_MINOR_PATCH = '/^\d+\.\d+\.\d+(?!\.\d+)/';
+	private const REGEX_ACTUAL = '/^\d+(\.\d+){1,2}/';
 
 	/**
 	 * Checks if the given server version fulfills the given (app) version requirements.
@@ -47,19 +48,19 @@ class CompareVersion {
 	 */
 	public function isCompatible(string $actual, string $required,
 		string $comparator = '>='): bool {
-
-		if (!preg_match(self::REGEX_SERVER, $actual)) {
-			throw new InvalidArgumentException('server version is invalid');
+		if (!preg_match(self::REGEX_ACTUAL, $actual, $matches)) {
+			throw new InvalidArgumentException("version specification $actual is invalid");
 		}
+		$cleanActual = $matches[0];
 
 		if (preg_match(self::REGEX_MAJOR, $required) === 1) {
-			return $this->compareMajor($actual, $required, $comparator);
-		} else if (preg_match(self::REGEX_MAJOR_MINOR, $required) === 1) {
-			return $this->compareMajorMinor($actual, $required, $comparator);
-		} else if (preg_match(self::REGEX_MAJOR_MINOR_PATCH, $required) === 1) {
-			return $this->compareMajorMinorPatch($actual, $required, $comparator);
+			return $this->compareMajor($cleanActual, $required, $comparator);
+		} elseif (preg_match(self::REGEX_MAJOR_MINOR, $required) === 1) {
+			return $this->compareMajorMinor($cleanActual, $required, $comparator);
+		} elseif (preg_match(self::REGEX_MAJOR_MINOR_PATCH, $required) === 1) {
+			return $this->compareMajorMinorPatch($cleanActual, $required, $comparator);
 		} else {
-			throw new InvalidArgumentException('required version is invalid');
+			throw new InvalidArgumentException("required version $required is invalid");
 		}
 	}
 
@@ -93,5 +94,4 @@ class CompareVersion {
 		return version_compare("$actualMajor.$actualMinor.$actualPatch",
 			"$requiredMajor.$requiredMinor.$requiredPatch", $comparator);
 	}
-
 }

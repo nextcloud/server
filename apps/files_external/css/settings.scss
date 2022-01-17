@@ -4,6 +4,10 @@
 
 #externalStorage {
 	margin: 15px 0 20px 0;
+
+	tr.externalStorageLoading > td {
+		text-align: center;
+	}
 }
 
 #externalStorage td {
@@ -129,6 +133,16 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+#externalStorage .select2-container .select2-search-choice {
+	display: flex;
+	.select2-search-choice-close {
+		display: block;
+		left: auto;
+		position: relative;
+		width: 20px;
+	}
 }
 
 #externalStorage .mountOptionsToggle .dropdown {

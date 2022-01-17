@@ -1,0 +1,169 @@
+/**
+ * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+import $ from 'jquery'
+import { translate as t } from '@nextcloud/l10n'
+import { getToken } from './OC/requesttoken'
+import getURLParameter from './Util/get-url-parameter'
+
+import './jquery/showpassword'
+
+import 'jquery-ui/ui/widgets/button'
+import 'jquery-ui/themes/base/theme.css'
+import 'jquery-ui/themes/base/button.css'
+
+import 'bootstrap/js/dist/tooltip'
+import './Polyfill/tooltip'
+
+import 'strengthify'
+import 'strengthify/strengthify.css'
+
+window.addEventListener('DOMContentLoaded', function() {
+	const dbtypes = {
+		sqlite: !!$('#hasSQLite').val(),
+		mysql: !!$('#hasMySQL').val(),
+		postgresql: !!$('#hasPostgreSQL').val(),
+		oracle: !!$('#hasOracle').val(),
+	}
+
+	$('#selectDbType').buttonset()
+	// change links inside an info box back to their default appearance
+	$('#selectDbType p.info a').button('destroy')
+
+	if ($('#hasSQLite').val()) {
+		$('#use_other_db').hide()
+		$('#use_oracle_db').hide()
+	} else {
+		$('#sqliteInformation').hide()
+	}
+	$('#adminlogin').change(function() {
+		$('#adminlogin').val($.trim($('#adminlogin').val()))
+	})
+	$('#sqlite').click(function() {
+		$('#use_other_db').slideUp(250)
+		$('#use_oracle_db').slideUp(250)
+		$('#sqliteInformation').show()
+		$('#dbname').attr('pattern', '[0-9a-zA-Z$_-]+')
+	})
+
+	$('#mysql,#pgsql').click(function() {
+		$('#use_other_db').slideDown(250)
+		$('#use_oracle_db').slideUp(250)
+		$('#sqliteInformation').hide()
+		$('#dbname').attr('pattern', '[0-9a-zA-Z$_-]+')
+	})
+
+	$('#oci').click(function() {
+		$('#use_other_db').slideDown(250)
+		$('#use_oracle_db').show(250)
+		$('#sqliteInformation').hide()
+		$('#dbname').attr('pattern', '[0-9a-zA-Z$_-.]+')
+	})
+
+	$('#showAdvanced').click(function(e) {
+		e.preventDefault()
+		$('#datadirContent').slideToggle(250)
+		$('#databaseBackend').slideToggle(250)
+		$('#databaseField').slideToggle(250)
+	})
+	$('form').submit(function() {
+		// Save form parameters
+		const post = $(this).serializeArray()
+
+		// Show spinner while finishing setup
+		$('.float-spinner').show(250)
+
+		// Disable inputs
+		$(':submit', this).attr('disabled', 'disabled').val($(':submit', this).data('finishing'))
+		$('input', this).addClass('ui-state-disabled').attr('disabled', 'disabled')
+		// only disable buttons if they are present
+		if ($('#selectDbType').find('.ui-button').length > 0) {
+			$('#selectDbType').buttonset('disable')
+		}
+		$('.strengthify-wrapper, .tipsy')
+			.css('-ms-filter', '"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"')
+			.css('filter', 'alpha(opacity=30)')
+			.css('opacity', 0.3)
+
+		// Create the form
+		const form = $('<form>')
+		form.attr('action', $(this).attr('action'))
+		form.attr('method', 'POST')
+
+		for (let i = 0; i < post.length; i++) {
+			const input = $('<input type="hidden">')
+			input.attr(post[i])
+			form.append(input)
+		}
+
+		// Add redirect_url
+		const redirectURL = getURLParameter('redirect_url')
+		if (redirectURL) {
+			const redirectURLInput = $('<input type="hidden">')
+			redirectURLInput.attr({
+				name: 'redirect_url',
+				value: redirectURL,
+			})
+			form.append(redirectURLInput)
+		}
+
+		// Submit the form
+		form.appendTo(document.body)
+		form.submit()
+		return false
+	})
+
+	// Expand latest db settings if page was reloaded on error
+	const currentDbType = $('input[type="radio"]:checked').val()
+
+	if (currentDbType === undefined) {
+		$('input[type="radio"]').first().click()
+	}
+
+	if (
+		currentDbType === 'sqlite'
+		|| (dbtypes.sqlite && currentDbType === undefined)
+	) {
+		$('#datadirContent').hide(250)
+		$('#databaseBackend').hide(250)
+		$('#databaseField').hide(250)
+		$('.float-spinner').hide(250)
+	}
+
+	$('#adminpass').strengthify({
+		zxcvbn: OC.linkTo('core', 'vendor/zxcvbn/dist/zxcvbn.js'),
+		titles: [
+			t('core', 'Very weak password'),
+			t('core', 'Weak password'),
+			t('core', 'So-so password'),
+			t('core', 'Good password'),
+			t('core', 'Strong password'),
+		],
+		drawTitles: true,
+		nonce: btoa(getToken()),
+	})
+
+	$('#dbpass').showPassword().keyup()
+	$('#adminpass').showPassword().keyup()
+})

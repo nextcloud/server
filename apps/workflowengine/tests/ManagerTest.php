@@ -2,6 +2,12 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,30 +17,33 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Tests;
-
 
 use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\SystemTag\ISystemTagManager;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
+use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -56,15 +65,19 @@ class ManagerTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
 	protected $logger;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface */
-	protected $eventDispatcher;
+	protected $legacyDispatcher;
 	/** @var MockObject|IServerContainer */
 	protected $container;
 	/** @var MockObject|IUserSession */
 	protected $session;
 	/** @var MockObject|L10N */
 	protected $l;
+	/** @var MockObject|IEventDispatcher */
+	protected $dispatcher;
+	/** @var MockObject|IConfig */
+	protected $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = \OC::$server->getDatabaseConnection();
@@ -72,26 +85,30 @@ class ManagerTest extends TestCase {
 		/** @var IL10N|MockObject $l */
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->session = $this->createMock(IUserSession::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			$this->container,
 			$this->l,
-			$this->eventDispatcher,
+			$this->legacyDispatcher,
 			$this->logger,
-			$this->session
+			$this->session,
+			$this->dispatcher,
+			$this->config
 		);
 		$this->clearTables();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->clearTables();
 		parent::tearDown();
 	}
@@ -116,7 +133,7 @@ class ManagerTest extends TestCase {
 
 	public function clearTables() {
 		$query = $this->db->getQueryBuilder();
-		foreach(['flow_checks', 'flow_operations', 'flow_operations_scope'] as $table) {
+		foreach (['flow_checks', 'flow_operations', 'flow_operations_scope'] as $table) {
 			$query->delete($table)
 				->execute();
 		}
@@ -264,7 +281,6 @@ class ManagerTest extends TestCase {
 		array_walk($userOps, function ($op) {
 			$this->assertTrue($op['class'] === 'OCA\WFE\TestOp');
 		});
-
 	}
 
 	public function testUpdateOperation() {
@@ -275,11 +291,20 @@ class ManagerTest extends TestCase {
 		$this->container->expects($this->any())
 			->method('query')
 			->willReturnCallback(function ($class) {
-				if(substr($class, -2) === 'Op') {
+				if (substr($class, -2) === 'Op') {
 					return $this->createMock(IOperation::class);
-				} else if($class === File::class) {
+				} elseif ($class === File::class) {
 					return $this->getMockBuilder(File::class)
-						->setConstructorArgs([$this->l, $this->createMock(IURLGenerator::class), $this->createMock(IRootFolder::class)])
+						->setConstructorArgs([
+							$this->l,
+							$this->createMock(IURLGenerator::class),
+							$this->createMock(IRootFolder::class),
+							$this->createMock(ILogger::class),
+							$this->createMock(\OCP\Share\IManager::class),
+							$this->createMock(IUserSession::class),
+							$this->createMock(ISystemTagManager::class),
+							$this->createMock(IUserManager::class),
+						])
 						->setMethodsExcept(['getEvents'])
 						->getMock();
 				}
@@ -313,7 +338,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame('Test02a', $op['name']);
 		$this->assertSame('barfoo', $op['operation']);
 
-		foreach([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
+		foreach ([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
 			try {
 				/** @noinspection PhpUnhandledExceptionInspection */
 				$this->manager->updateOperation($run[1], 'Evil', [$check2], 'hackx0r', $run[0], $entity, []);
@@ -343,7 +368,7 @@ class ManagerTest extends TestCase {
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId2, $userScope]);
 
-		foreach([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
+		foreach ([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
 			try {
 				/** @noinspection PhpUnhandledExceptionInspection */
 				$this->manager->deleteOperation($run[1], $run[0]);
@@ -358,11 +383,11 @@ class ManagerTest extends TestCase {
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->manager->deleteOperation($opId2, $userScope);
 
-		foreach([$opId1, $opId2] as $opId) {
+		foreach ([$opId1, $opId2] as $opId) {
 			try {
 				$this->invokePrivate($this->manager, 'getOperation', [$opId]);
 				$this->assertTrue(false, 'UnexpectedValueException not thrown');
-			} catch(\Exception $e) {
+			} catch (\Exception $e) {
 				$this->assertInstanceOf(\UnexpectedValueException::class, $e);
 			}
 		}
@@ -393,10 +418,10 @@ class ManagerTest extends TestCase {
 		/** @var MockObject|IEntity $extraEntity */
 		$extraEntity = $this->createMock(IEntity::class);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->legacyDispatcher->expects($this->once())
 			->method('dispatch')
 			->with('OCP\WorkflowEngine::registerEntities', $this->anything())
-			->willReturnCallback(function() use ($extraEntity) {
+			->willReturnCallback(function () use ($extraEntity) {
 				$this->manager->registerEntity($extraEntity);
 			});
 
@@ -405,8 +430,11 @@ class ManagerTest extends TestCase {
 		$this->assertCount(2, $entities);
 
 		$entityTypeCounts = array_reduce($entities, function (array $carry, IEntity $entity) {
-			if($entity instanceof File) $carry[0]++;
-			else if($entity instanceof IEntity) $carry[1]++;
+			if ($entity instanceof File) {
+				$carry[0]++;
+			} elseif ($entity instanceof IEntity) {
+				$carry[1]++;
+			}
 			return $carry;
 		}, [0, 0]);
 
@@ -414,4 +442,161 @@ class ManagerTest extends TestCase {
 		$this->assertSame(1, $entityTypeCounts[1]);
 	}
 
+	public function testValidateOperationOK() {
+		$check = [
+			'class' => ICheck::class,
+			'operator' => 'is',
+			'value' => 'barfoo',
+		];
+
+		$operationMock = $this->createMock(IOperation::class);
+		$entityMock = $this->createMock(IEntity::class);
+		$eventEntityMock = $this->createMock(IEntityEvent::class);
+		$checkMock = $this->createMock(ICheck::class);
+
+		$operationMock->expects($this->once())
+			->method('validateOperation')
+			->with('test', [$check], 'operationData');
+
+		$entityMock->expects($this->any())
+			->method('getEvents')
+			->willReturn([$eventEntityMock]);
+
+		$eventEntityMock->expects($this->any())
+			->method('getEventName')
+			->willReturn('MyEvent');
+
+		$checkMock->expects($this->any())
+			->method('supportedEntities')
+			->willReturn([IEntity::class]);
+		$checkMock->expects($this->atLeastOnce())
+			->method('validateCheck');
+
+		$this->container->expects($this->any())
+			->method('query')
+			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
+				switch ($className) {
+					case IOperation::class:
+						return $operationMock;
+					case IEntity::class:
+						return $entityMock;
+					case IEntityEvent::class:
+						return $eventEntityMock;
+					case ICheck::class:
+						return $checkMock;
+					default:
+						return $this->createMock($className);
+				}
+			});
+
+		$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', IEntity::class, ['MyEvent']);
+	}
+
+	public function testValidateOperationCheckInputLengthError() {
+		$check = [
+			'class' => ICheck::class,
+			'operator' => 'is',
+			'value' => str_pad('', IManager::MAX_CHECK_VALUE_BYTES + 1, 'FooBar'),
+		];
+
+		$operationMock = $this->createMock(IOperation::class);
+		$entityMock = $this->createMock(IEntity::class);
+		$eventEntityMock = $this->createMock(IEntityEvent::class);
+		$checkMock = $this->createMock(ICheck::class);
+
+		$operationMock->expects($this->once())
+			->method('validateOperation')
+			->with('test', [$check], 'operationData');
+
+		$entityMock->expects($this->any())
+			->method('getEvents')
+			->willReturn([$eventEntityMock]);
+
+		$eventEntityMock->expects($this->any())
+			->method('getEventName')
+			->willReturn('MyEvent');
+
+		$checkMock->expects($this->any())
+			->method('supportedEntities')
+			->willReturn([IEntity::class]);
+		$checkMock->expects($this->never())
+			->method('validateCheck');
+
+		$this->container->expects($this->any())
+			->method('query')
+			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
+				switch ($className) {
+					case IOperation::class:
+						return $operationMock;
+					case IEntity::class:
+						return $entityMock;
+					case IEntityEvent::class:
+						return $eventEntityMock;
+					case ICheck::class:
+						return $checkMock;
+					default:
+						return $this->createMock($className);
+				}
+			});
+
+		try {
+			$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', IEntity::class, ['MyEvent']);
+		} catch (\UnexpectedValueException $e) {
+			$this->assertSame('The provided check value is too long', $e->getMessage());
+		}
+	}
+
+	public function testValidateOperationDataLengthError() {
+		$check = [
+			'class' => ICheck::class,
+			'operator' => 'is',
+			'value' => 'barfoo',
+		];
+		$operationData = str_pad('', IManager::MAX_OPERATION_VALUE_BYTES + 1, 'FooBar');
+
+		$operationMock = $this->createMock(IOperation::class);
+		$entityMock = $this->createMock(IEntity::class);
+		$eventEntityMock = $this->createMock(IEntityEvent::class);
+		$checkMock = $this->createMock(ICheck::class);
+
+		$operationMock->expects($this->never())
+			->method('validateOperation');
+
+		$entityMock->expects($this->any())
+			->method('getEvents')
+			->willReturn([$eventEntityMock]);
+
+		$eventEntityMock->expects($this->any())
+			->method('getEventName')
+			->willReturn('MyEvent');
+
+		$checkMock->expects($this->any())
+			->method('supportedEntities')
+			->willReturn([IEntity::class]);
+		$checkMock->expects($this->never())
+			->method('validateCheck');
+
+		$this->container->expects($this->any())
+			->method('query')
+			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
+				switch ($className) {
+					case IOperation::class:
+						return $operationMock;
+					case IEntity::class:
+						return $entityMock;
+					case IEntityEvent::class:
+						return $eventEntityMock;
+					case ICheck::class:
+						return $checkMock;
+					default:
+						return $this->createMock($className);
+				}
+			});
+
+		try {
+			$this->manager->validateOperation(IOperation::class, 'test', [$check], $operationData, IEntity::class, ['MyEvent']);
+		} catch (\UnexpectedValueException $e) {
+			$this->assertSame('The provided operation data is too long', $e->getMessage());
+		}
+	}
 }

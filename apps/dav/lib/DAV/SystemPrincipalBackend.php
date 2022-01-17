@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -17,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\DAV;
 
 use Sabre\DAVACL\PrincipalBackend\AbstractBackend;
@@ -43,7 +42,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $prefixPath
 	 * @return array
 	 */
-	function getPrincipalsByPrefix($prefixPath) {
+	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
 		if ($prefixPath === 'principals/system') {
@@ -68,8 +67,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $path
 	 * @return array
 	 */
-	function getPrincipalByPath($path) {
-
+	public function getPrincipalByPath($path) {
 		if ($path === 'principals/system/system') {
 			$principal = [
 				'uri' => 'principals/system/system',
@@ -104,7 +102,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param \Sabre\DAV\PropPatch $propPatch
 	 * @return void
 	 */
-	function updatePrincipal($path, \Sabre\DAV\PropPatch $propPatch) {
+	public function updatePrincipal($path, \Sabre\DAV\PropPatch $propPatch) {
 	}
 
 	/**
@@ -136,7 +134,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $test
 	 * @return array
 	 */
-	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		return [];
 	}
 
@@ -146,7 +144,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $principal
 	 * @return array
 	 */
-	function getGroupMemberSet($principal) {
+	public function getGroupMemberSet($principal) {
 		// TODO: for now the group principal has only one member, the user itself
 		$principal = $this->getPrincipalByPath($principal);
 		if (!$principal) {
@@ -162,8 +160,8 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $principal
 	 * @return array
 	 */
-	function getGroupMembership($principal) {
-		list($prefix, ) = \Sabre\Uri\split($principal);
+	public function getGroupMembership($principal) {
+		[$prefix, ] = \Sabre\Uri\split($principal);
 
 		if ($prefix === 'principals/system') {
 			$principal = $this->getPrincipalByPath($principal);
@@ -185,7 +183,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param array $members
 	 * @return void
 	 */
-	function setGroupMemberSet($principal, array $members) {
+	public function setGroupMemberSet($principal, array $members) {
 		throw new \Sabre\DAV\Exception('Setting members of the group is not supported yet');
 	}
 }

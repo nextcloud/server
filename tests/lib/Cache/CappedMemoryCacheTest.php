@@ -28,7 +28,7 @@ namespace Test\Cache;
  * @package Test\Cache
  */
 class CappedMemoryCacheTest extends TestCache {
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new \OC\Cache\CappedMemoryCache();
 	}
@@ -49,7 +49,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->assertTrue($instance->hasKey('5'));
 	}
 
-	function testClear() {
+	public function testClear() {
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value);
 		$this->instance->set('1_value2', $value);
@@ -63,7 +63,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->assertFalse($this->instance->hasKey('3_value1'));
 	}
 
-	function testIndirectSet() {
+	public function testIndirectSet() {
 		$this->instance->set('array', []);
 
 		$this->instance['array'][] = 'foo';

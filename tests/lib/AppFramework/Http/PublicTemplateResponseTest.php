@@ -22,15 +22,13 @@
  *
  */
 
-
 namespace Test\AppFramework\Http;
 
-use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use Test\TestCase;
 
 class PublicTemplateResponseTest extends TestCase {
-
 	public function testSetParamsConstructor() {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
 		$this->assertContains('core/js/public/publicpage', \OC_Util::$scripts);
@@ -80,5 +78,4 @@ class PublicTemplateResponseTest extends TestCase {
 		$this->assertEquals(['key' => 'value'], $template->getParams());
 		$this->assertEquals('public', $template->getRenderAs());
 	}
-
 }

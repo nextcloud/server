@@ -1,9 +1,11 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +18,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import { subscribe } from '@nextcloud/event-bus'
@@ -25,7 +28,7 @@ import { addScript, addStyle } from './legacy-loader'
 import {
 	ajaxConnectionLostHandler,
 	processAjaxError,
-	registerXHRForErrorProcessing
+	registerXHRForErrorProcessing,
 } from './xhr-error'
 import Apps from './apps'
 import { AppConfig, appConfig } from './appconfig'
@@ -37,11 +40,11 @@ import {
 	dirname,
 	encodePath,
 	isSamePath,
-	joinPaths
+	joinPaths,
 } from '@nextcloud/paths'
 import {
 	build as buildQueryString,
-	parse as parseQueryString
+	parse as parseQueryString,
 } from './query-string'
 import Config from './config'
 import {
@@ -54,7 +57,7 @@ import {
 	PERMISSION_READ,
 	PERMISSION_SHARE,
 	PERMISSION_UPDATE,
-	TAG_FAVORITE
+	TAG_FAVORITE,
 } from './constants'
 import ContactsMenu from './contactsmenu'
 import { currentUser, getCurrentUser } from './currentuser'
@@ -66,39 +69,43 @@ import {
 	getHost,
 	getHostName,
 	getPort,
-	getProtocol
+	getProtocol,
 } from './host'
 import {
-	getToken as getRequestToken
+	getToken as getRequestToken,
 } from './requesttoken'
 import {
 	hideMenus,
 	registerMenu,
 	showMenu,
-	unregisterMenu
+	unregisterMenu,
 } from './menu'
 import { isUserAdmin } from './admin'
 import L10N, {
-	getCanonicalLocale,
 	getLanguage,
-	getLocale
+	getLocale,
 } from './l10n'
+import {
+	getCanonicalLocale,
+} from '@nextcloud/l10n'
 
 import {
-	filePath,
 	generateUrl,
-	getRootPath,
+	generateFilePath,
+	generateOcsUrl,
+	generateRemoteUrl,
+	getRootUrl,
 	imagePath,
 	linkTo,
-	linkToOCS,
-	linkToRemote,
-	linkToRemoteBase
+} from '@nextcloud/router'
+
+import {
+	linkToRemoteBase,
 } from './routing'
 import msg from './msg'
 import Notification from './notification'
 import PasswordConfirmation from './password-confirmation'
 import Plugins from './plugins'
-import search from './search'
 import { theme } from './theme'
 import Util from './util'
 import { debug } from './debug'
@@ -126,8 +133,9 @@ export default {
 	 */
 	/**
 	 * Check if a user file is allowed to be handled.
+	 *
 	 * @param {string} file to check
-	 * @returns {Boolean}
+	 * @return {boolean}
 	 * @deprecated 17.0.0
 	 */
 	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
@@ -145,8 +153,8 @@ export default {
 	/**
 	 * Currently logged in user or null if none
 	 *
-	 * @type String
-	 * @deprecated use {@link OC.getCurrentUser} instead
+	 * @type {string}
+	 * @deprecated use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
 	 */
 	currentUser,
 	dialogs: Dialogs,
@@ -156,6 +164,7 @@ export default {
 	 * user (public page mode)
 	 *
 	 * @since 9.0.0
+	 * @deprecated 19.0.0 use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
 	 */
 	getCurrentUser,
 	isUserAdmin,
@@ -163,6 +172,7 @@ export default {
 
 	/**
 	 * Ajax error handlers
+	 *
 	 * @todo remove from here and keep internally -> requires new tests
 	 */
 	_ajaxConnectionLostHandler: ajaxConnectionLostHandler,
@@ -173,9 +183,8 @@ export default {
 	 * Capabilities
 	 *
 	 * @type {Array}
-	 * @deprecated 17.0.0 use OC.getCapabilities() instead
+	 * @deprecated 20.0.0 use @nextcloud/capabilities instead
 	 */
-	_capabilities: getCapabilities(),
 	getCapabilities,
 
 	/*
@@ -219,7 +228,7 @@ export default {
 	getProtocol,
 
 	/**
-	 * L10n
+	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
 	getCanonicalLocale,
 	getLocale,
@@ -227,7 +236,7 @@ export default {
 	/**
 	 * Loads translations for the given app asynchronously.
 	 *
-	 * @param {String} app app name
+	 * @param {string} app app name
 	 * @param {Function} callback callback to call after loading
 	 * @return {Promise}
 	 * @deprecated 17.0.0 use OC.L10N.load instead
@@ -244,33 +253,66 @@ export default {
 	Notification,
 	PasswordConfirmation,
 	Plugins,
-	search,
 	theme,
 	Util,
 	debug,
-	filePath,
+	/**
+	 * @deprecated 19.0.0 use `generateFilePath` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	filePath: generateFilePath,
+	/**
+	 * @deprecated 19.0.0 use `generateUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
 	generateUrl,
+	/**
+	 * @deprecated 19.0.0 use https://lodash.com/docs#get
+	 */
 	get: get(window),
+	/**
+	 * @deprecated 19.0.0 use https://lodash.com/docs#set
+	 */
 	set: set(window),
-	getRootPath,
+	/**
+	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	getRootPath: getRootUrl,
+	/**
+	 * @deprecated 19.0.0 use `imagePath` from https://www.npmjs.com/package/@nextcloud/router
+	 */
 	imagePath,
 	redirect,
 	reload,
 	requestToken: getRequestToken(),
+	/**
+	 * @deprecated 19.0.0 use `linkTo` from https://www.npmjs.com/package/@nextcloud/router
+	 */
 	linkTo,
-	linkToOCS,
-	linkToRemote,
+	/**
+	 * @param {string} service service name
+	 * @param {number} version OCS API version
+	 * @return {string} OCS API base path
+	 * @deprecated 19.0.0 use `generateOcsUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	linkToOCS: (service, version) => {
+		return generateOcsUrl(service, {}, {
+			ocsVersion: version || 1,
+		}) + '/'
+	},
+	/**
+	 * @deprecated 19.0.0 use `generateRemoteUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	linkToRemote: generateRemoteUrl,
 	linkToRemoteBase,
 	/**
 	 * Relative path to Nextcloud root.
 	 * For example: "/nextcloud"
 	 *
-	 * @type string
+	 * @type {string}
 	 *
-	 * @deprecated since 8.2, use OC.getRootPath() instead
+	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 * @see OC#getRootPath
 	 */
-	webroot
+	webroot,
 }
 
 // Keep the request token prop in sync

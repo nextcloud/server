@@ -7,41 +7,55 @@
  */
 
 namespace Test;
+
+use OC\Route\Router;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 
 /**
  * Class UrlGeneratorTest
+ *
+ * @package Test
  */
 class UrlGeneratorTest extends \Test\TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ICacheFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserSession */
+	private $userSession;
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ICacheFactory */
 	private $cacheFactory;
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
+	/** @var \PHPUnit\Framework\MockObject\MockObject|Router */
+	private $router;
 	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var string */
 	private $originalWebRoot;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->router = $this->createMock(Router::class);
 		$this->urlGenerator = new \OC\URLGenerator(
 			$this->config,
+			$this->userSession,
 			$this->cacheFactory,
-			$this->request
+			$this->request,
+			$this->router
 		);
 		$this->originalWebRoot = \OC::$WEBROOT;
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		// Reset webRoot
 		\OC::$WEBROOT = $this->originalWebRoot;
 	}
@@ -83,14 +97,23 @@ class UrlGeneratorTest extends \Test\TestCase {
 	public function testLinkToRouteAbsolute($route, $expected) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
+		$this->router->expects($this->once())
+			->method('generate')
+			->willReturnCallback(function ($routeName, $parameters) {
+				if ($routeName === 'core.Preview.getPreview') {
+					return '/index.php/core/preview.png';
+				} elseif ($routeName === 'cloud_federation_api.requesthandlercontroller.addShare') {
+					return '/index.php/ocm/shares';
+				}
+			});
 		$result = $this->urlGenerator->linkToRouteAbsolute($route);
 		$this->assertEquals($expected, $result);
 	}
 
 	public function provideRoutes() {
 		return [
-			['files_ajax_list', 'http://localhost/nextcloud/index.php/apps/files/ajax/list.php'],
 			['core.Preview.getPreview', 'http://localhost/nextcloud/index.php/core/preview.png'],
+			['cloud_federation_api.requesthandlercontroller.addShare', 'http://localhost/nextcloud/index.php/ocm/shares'],
 		];
 	}
 
@@ -115,7 +138,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test absolute URL construction
 	 * @dataProvider provideDocRootURLs
 	 */
-	function testGetAbsoluteURLDocRoot($url, $expectedResult) {
+	public function testGetAbsoluteURLDocRoot($url, $expectedResult) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '';
 		$result = $this->urlGenerator->getAbsoluteURL($url);
@@ -127,7 +150,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test absolute URL construction
 	 * @dataProvider provideSubDirURLs
 	 */
-	function testGetAbsoluteURLSubDir($url, $expectedResult) {
+	public function testGetAbsoluteURLSubDir($url, $expectedResult) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
 		$result = $this->urlGenerator->getAbsoluteURL($url);
@@ -162,12 +185,27 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testGetWebroot() {
+		\OC::$WEBROOT = '/nextcloud';
+		$actual = $this->urlGenerator->getWebroot();
+		$this->assertEquals(\OC::$WEBROOT, $actual);
+	}
+
 	/**
 	 * @dataProvider provideOCSRoutes
 	 */
 	public function testLinkToOCSRouteAbsolute(string $route, string $expected) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
+		$this->router->expects($this->once())
+			->method('generate')
+			->willReturnCallback(function ($routeName, $parameters) {
+				if ($routeName === 'ocs.core.OCS.getCapabilities') {
+					return '/index.php/ocsapp/cloud/capabilities';
+				} elseif ($routeName === 'ocs.core.WhatsNew.dismiss') {
+					return '/index.php/ocsapp/core/whatsnew';
+				}
+			});
 		$result = $this->urlGenerator->linkToOCSRouteAbsolute($route);
 		$this->assertEquals($expected, $result);
 	}
@@ -179,5 +217,108 @@ class UrlGeneratorTest extends \Test\TestCase {
 		];
 	}
 
+	private function mockLinkToDefaultPageUrl(string $defaultAppConfig = '', bool $ignoreFrontControllerConfig = false) {
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValue')
+			->withConsecutive(
+				['defaultapp', $this->anything()],
+				['htaccess.IgnoreFrontController', $this->anything()],
+			)
+			->will($this->onConsecutiveCalls(
+				$defaultAppConfig,
+				$ignoreFrontControllerConfig
+			));
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'defaultpage')
+			->willReturn('');
+	}
 
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithoutFrontController() {
+		$this->mockBaseUrl();
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/myRedirectUrl.com', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl();
+		putenv('front_controller_active=false');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/index.php/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl();
+		putenv('front_controller_active=true');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl('', true);
+		putenv('front_controller_active=false');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	/**
+	 * @dataProvider provideDefaultApps
+	 */
+	public function testLinkToDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath) {
+		$userId = $this->getUniqueID();
+
+		/** @var \PHPUnit\Framework\MockObject\MockObject|IUser $userMock */
+		$userMock = $this->createMock(IUser::class);
+		$userMock->expects($this->once())
+			->method('getUID')
+			->willReturn($userId);
+
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl($defaultAppConfig);
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($userId, 'core', 'defaultapp')
+			->willReturn('');
+		$this->userSession->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($userMock);
+
+		$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function provideDefaultApps() {
+		return [
+			// none specified, default to files
+			[
+				'',
+				'/index.php/apps/files/',
+			],
+			// unexisting or inaccessible app specified, default to files
+			[
+				'unexist',
+				'/index.php/apps/files/',
+			],
+			// non-standard app
+			[
+				'settings',
+				'/index.php/apps/settings/',
+			],
+			// non-standard app with fallback
+			[
+				'unexist,settings',
+				'/index.php/apps/settings/',
+			],
+		];
+	}
 }

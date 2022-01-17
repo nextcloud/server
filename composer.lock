@@ -1,0 +1,80 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "eb074699155bba86b710218a07fe659b",
+    "packages": [],
+    "packages-dev": [
+        {
+            "name": "bamarni/composer-bin-plugin",
+            "version": "1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bamarni/composer-bin-plugin.git",
+                "reference": "9329fb0fbe29e0e1b2db8f4639a193e4f5406225"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bamarni/composer-bin-plugin/zipball/9329fb0fbe29e0e1b2db8f4639a193e4f5406225",
+                "reference": "9329fb0fbe29e0e1b2db8f4639a193e4f5406225",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": "^5.5.9 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0 || ^2.0",
+                "symfony/console": "^2.5 || ^3.0 || ^4.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Bamarni\\Composer\\Bin\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bamarni\\Composer\\Bin\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "No conflicts for your bin dependencies",
+            "keywords": [
+                "composer",
+                "conflict",
+                "dependency",
+                "executable",
+                "isolation",
+                "tool"
+            ],
+            "support": {
+                "issues": "https://github.com/bamarni/composer-bin-plugin/issues",
+                "source": "https://github.com/bamarni/composer-bin-plugin/tree/master"
+            },
+            "time": "2020-05-03T08:27:20+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "ext-simplexml": "*",
+        "ext-xmlreader": "*",
+        "ext-zip": "*"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.3"
+    },
+    "plugin-api-version": "2.1.0"
+}

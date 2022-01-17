@@ -1,8 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,16 +18,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
@@ -41,9 +45,8 @@ use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 class ClientFlowLoginV2Controller extends Controller {
-
-	private const tokenName = 'client.flow.v2.login.token';
-	private const stateName = 'client.flow.v2.state.token';
+	public const TOKEN_NAME = 'client.flow.v2.login.token';
+	public const STATE_NAME = 'client.flow.v2.state.token';
 
 	/** @var LoginFlowV2Service */
 	private $loginFlowV2Service;
@@ -98,15 +101,15 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @PublicPage
 	 * @UseSession
 	 */
-	public function landing(string $token): Response {
+	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
 			return $this->loginTokenForbiddenResponse();
 		}
 
-		$this->session->set(self::tokenName, $token);
+		$this->session->set(self::TOKEN_NAME, $token);
 
 		return new RedirectResponse(
-			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage')
+			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage', ['user' => $user])
 		);
 	}
 
@@ -115,7 +118,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @PublicPage
 	 * @UseSession
 	 */
-	public function showAuthPickerPage(): StandaloneTemplateResponse {
+	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
@@ -126,7 +129,7 @@ class ClientFlowLoginV2Controller extends Controller {
 			64,
 			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
 		);
-		$this->session->set(self::stateName, $stateToken);
+		$this->session->set(self::STATE_NAME, $stateToken);
 
 		return new StandaloneTemplateResponse(
 			$this->appName,
@@ -136,6 +139,7 @@ class ClientFlowLoginV2Controller extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
+				'user' => $user,
 			],
 			'guest'
 		);
@@ -148,7 +152,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoSameSiteCookieRequired
 	 */
 	public function grantPage(string $stateToken): StandaloneTemplateResponse {
-		if(!$this->isValidStateToken($stateToken)) {
+		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
 
@@ -172,11 +176,10 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @UseSession
+	 * @PublicPage
 	 */
-	public function generateAppPassword(string $stateToken): Response {
-		if(!$this->isValidStateToken($stateToken)) {
+	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
 
@@ -186,15 +189,61 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $this->loginTokenForbiddenResponse();
 		}
 
-		$loginToken = $this->session->get(self::tokenName);
+		$loginToken = $this->session->get(self::TOKEN_NAME);
 
 		// Clear session variables
-		$this->session->remove(self::tokenName);
-		$this->session->remove(self::stateName);
+		$this->session->remove(self::TOKEN_NAME);
+		$this->session->remove(self::STATE_NAME);
+
+		try {
+			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
+			if ($token->getLoginName() !== $user) {
+				throw new InvalidTokenException('login name does not match');
+			}
+		} catch (InvalidTokenException $e) {
+			$response = new StandaloneTemplateResponse(
+				$this->appName,
+				'403',
+				[
+					'message' => $this->l10n->t('Invalid app password'),
+				],
+				'guest'
+			);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
+			return $response;
+		}
+
+		$result = $this->loginFlowV2Service->flowDoneWithAppPassword($loginToken, $this->getServerPath(), $this->userId, $password);
+		return $this->handleFlowDone($result);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @UseSession
+	 */
+	public function generateAppPassword(string $stateToken): Response {
+		if (!$this->isValidStateToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		try {
+			$this->getFlowByLoginToken();
+		} catch (LoginFlowV2NotFoundException $e) {
+			return $this->loginTokenForbiddenResponse();
+		}
+
+		$loginToken = $this->session->get(self::TOKEN_NAME);
+
+		// Clear session variables
+		$this->session->remove(self::TOKEN_NAME);
+		$this->session->remove(self::STATE_NAME);
 		$sessionId = $this->session->getId();
 
 		$result = $this->loginFlowV2Service->flowDone($loginToken, $sessionId, $this->getServerPath(), $this->userId);
+		return $this->handleFlowDone($result);
+	}
 
+	private function handleFlowDone(bool $result): StandaloneTemplateResponse {
 		if ($result) {
 			return new StandaloneTemplateResponse(
 				$this->appName,
@@ -238,8 +287,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	private function isValidStateToken(string $stateToken): bool {
-		$currentToken = $this->session->get(self::stateName);
-		if(!is_string($stateToken) || !is_string($currentToken)) {
+		$currentToken = $this->session->get(self::STATE_NAME);
+		if (!is_string($stateToken) || !is_string($currentToken)) {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
@@ -263,8 +312,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @throws LoginFlowV2NotFoundException
 	 */
 	private function getFlowByLoginToken(): LoginFlowV2 {
-		$currentToken = $this->session->get(self::tokenName);
-		if(!is_string($currentToken)) {
+		$currentToken = $this->session->get(self::TOKEN_NAME);
+		if (!is_string($currentToken)) {
 			throw new LoginFlowV2NotFoundException('Login token not set in session');
 		}
 
@@ -289,7 +338,7 @@ class ClientFlowLoginV2Controller extends Controller {
 
 		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-		} else if (strpos($this->request->getRequestUri(), '/login/v2') !== false) {
+		} elseif (strpos($this->request->getRequestUri(), '/login/v2') !== false) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/v2'));
 		}
 

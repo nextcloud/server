@@ -2,16 +2,17 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,10 +26,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 use OCP\ICache;
@@ -37,7 +37,7 @@ use OCP\ILogger;
 use OCP\IMemcache;
 
 class Factory implements ICacheFactory {
-	const NULL_CACHE = NullCache::class;
+	public const NULL_CACHE = NullCache::class;
 
 	/**
 	 * @var string $globalPrefix
@@ -64,17 +64,21 @@ class Factory implements ICacheFactory {
 	 */
 	private $lockingCacheClass;
 
+	/** @var string */
+	private $logFile;
+
 	/**
 	 * @param string $globalPrefix
 	 * @param ILogger $logger
 	 * @param string|null $localCacheClass
 	 * @param string|null $distributedCacheClass
 	 * @param string|null $lockingCacheClass
+	 * @param string $logFile
 	 */
 	public function __construct(string $globalPrefix, ILogger $logger,
-		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null)
-	{
+		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null, string $logFile = '') {
 		$this->logger = $logger;
+		$this->logFile = $logFile;
 		$this->globalPrefix = $globalPrefix;
 
 		if (!$localCacheClass) {
@@ -87,36 +91,16 @@ class Factory implements ICacheFactory {
 		$missingCacheMessage = 'Memcache {class} not available for {use} cache';
 		$missingCacheHint = 'Is the matching PHP module installed and enabled?';
 		if (!class_exists($localCacheClass) || !$localCacheClass::isAvailable()) {
-			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
-				// CLI should not hard-fail on broken memcache
-				$this->logger->info($missingCacheMessage, [
-					'class' => $localCacheClass,
-					'use' => 'local',
-					'app' => 'cli'
-				]);
-				$localCacheClass = self::NULL_CACHE;
-			} else {
-				throw new \OC\HintException(strtr($missingCacheMessage, [
-					'{class}' => $localCacheClass, '{use}' => 'local'
-				]), $missingCacheHint);
-			}
+			throw new \OCP\HintException(strtr($missingCacheMessage, [
+				'{class}' => $localCacheClass, '{use}' => 'local'
+			]), $missingCacheHint);
 		}
 		if (!class_exists($distributedCacheClass) || !$distributedCacheClass::isAvailable()) {
-			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
-				// CLI should not hard-fail on broken memcache
-				$this->logger->info($missingCacheMessage, [
-					'class' => $distributedCacheClass,
-					'use' => 'distributed',
-					'app' => 'cli'
-				]);
-				$distributedCacheClass = self::NULL_CACHE;
-			} else {
-				throw new \OC\HintException(strtr($missingCacheMessage, [
-					'{class}' => $distributedCacheClass, '{use}' => 'distributed'
-				]), $missingCacheHint);
-			}
+			throw new \OCP\HintException(strtr($missingCacheMessage, [
+				'{class}' => $distributedCacheClass, '{use}' => 'distributed'
+			]), $missingCacheHint);
 		}
-		if (!($lockingCacheClass && class_exists($distributedCacheClass) && $lockingCacheClass::isAvailable())) {
+		if (!($lockingCacheClass && class_exists($lockingCacheClass) && $lockingCacheClass::isAvailable())) {
 			// don't fallback since the fallback might not be suitable for storing lock
 			$lockingCacheClass = self::NULL_CACHE;
 		}
@@ -133,7 +117,7 @@ class Factory implements ICacheFactory {
 	 * @return IMemcache
 	 */
 	public function createLocking(string $prefix = ''): IMemcache {
-		return new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix);
+		return new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix, $this->logFile);
 	}
 
 	/**
@@ -143,7 +127,7 @@ class Factory implements ICacheFactory {
 	 * @return ICache
 	 */
 	public function createDistributed(string $prefix = ''): ICache {
-		return new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix);
+		return new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix, $this->logFile);
 	}
 
 	/**
@@ -153,17 +137,7 @@ class Factory implements ICacheFactory {
 	 * @return ICache
 	 */
 	public function createLocal(string $prefix = ''): ICache {
-		return new $this->localCacheClass($this->globalPrefix . '/' . $prefix);
-	}
-
-	/**
-	 * @see \OC\Memcache\Factory::createDistributed()
-	 * @param string $prefix
-	 * @return ICache
-	 * @deprecated 13.0.0 Use either createLocking, createDistributed or createLocal
-	 */
-	public function create(string $prefix = ''): ICache {
-		return $this->createDistributed($prefix);
+		return new $this->localCacheClass($this->globalPrefix . '/' . $prefix, $this->logFile);
 	}
 
 	/**

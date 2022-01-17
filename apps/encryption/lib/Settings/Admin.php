@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Encryption\Settings;
 
 use OC\Files\View;
@@ -28,13 +30,13 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
-use OCP\IConfig;
 
 class Admin implements ISettings {
 
@@ -97,10 +99,10 @@ class Admin implements ISettings {
 		$encryptHomeStorage = $util->shouldEncryptHomeStorage();
 
 		$parameters = [
-			'recoveryEnabled'    => $recoveryAdminEnabled,
-			'initStatus'         => $session->getStatus(),
+			'recoveryEnabled' => $recoveryAdminEnabled,
+			'initStatus' => $session->getStatus(),
 			'encryptHomeStorage' => $encryptHomeStorage,
-			'masterKeyEnabled'   => $util->isMasterKeyEnabled(),
+			'masterKeyEnabled' => $util->isMasterKeyEnabled(),
 		];
 
 		return new TemplateResponse('encryption', 'settings-admin', $parameters, '');
@@ -123,5 +125,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 11;
 	}
-
 }

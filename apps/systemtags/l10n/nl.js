@@ -1,10 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Markering",
+    "Tag name is empty" : "Markeringsnaam is niet ingevuld",
     "Update" : "Update",
     "Create" : "Opslaan",
-    "Select tag…" : "Selecteren markering…",
+    "Select tag …" : "Selecteer tag …",
     "System tag %1$s added by the system" : "Systeemtag %1$s toegevoegd door het systeem",
     "Added system tag {systemtag}" : "Voegde systeemtag {systemtag} toe",
     "Added system tag %1$s" : "Systeemtag %1$s toegevoegd",
@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (beperkt)",
     "%s (invisible)" : "%s (onzichtbaar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systeemmarkeringen</strong> voor een bestand zijn gewijzigd",
+    "Tags" : "Markering",
     "Collaborative tags" : "Systeemtags",
     "Collaborative tagging functionality which shares tags among users." : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers. Perfect voor teams\n(als je een provider met een multi-tenancy installatie bent, adviseren we om deze app uit te schakelen omdat tags worden gedeeld.)",
@@ -51,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Selecteer markeringen om op te filteren",
     "No files found for the selected tags" : "Geen bestanden gevonden voor de geselecteerde markeringen",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samenwerkingstags zijn beschikbaar voor alle gebruikers. Beperkte tags zijn zichtbaar voor gebruikers, maar kunnen niet door hen worden toegewezen. Onzichtbare tags zijn er alleen voor intern gebruik, aangezien gebruikers ze niet kunnen zien of toewijzen.",
-    "Select tag …" : "Selecteer tag …",
     "Create a new tag" : "Creëren nieuw tag",
     "Name" : "Tag",
     "Public" : "Standaard",

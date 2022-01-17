@@ -29,7 +29,7 @@
 		<button class="button"
 			:disabled="loading"
 			@click="submit">
-			{{ t('settings', 'Create new app password')	}}
+			{{ t('settings', 'Create new app password') }}
 		</button>
 	</div>
 	<div v-else>
@@ -78,18 +78,19 @@
 
 <script>
 import QR from '@chenfengyuan/vue-qrcode'
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
+import { getRootUrl } from '@nextcloud/router'
 
 export default {
 	name: 'AuthTokenSetupDialogue',
 	components: {
-		QR
+		QR,
 	},
 	props: {
 		add: {
 			type: Function,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -101,36 +102,36 @@ export default {
 			passwordCopied: false,
 			showQR: false,
 			qrUrl: '',
-			hoveringCopyButton: false
+			hoveringCopyButton: false,
 		}
 	},
 	computed: {
 		copyTooltipOptions() {
 			const base = {
 				hideOnTargetClick: false,
-				trigger: 'manual'
+				trigger: 'manual',
 			}
 
 			if (this.passwordCopied) {
 				return {
 					...base,
 					content: t('core', 'Copied!'),
-					show: true
+					show: true,
 				}
 			} else {
 				return {
 					...base,
 					content: t('core', 'Copy'),
-					show: this.hoveringCopyButton
+					show: this.hoveringCopyButton,
 				}
 			}
-		}
+		},
 	},
 	methods: {
 		selectInput(e) {
 			e.currentTarget.select()
 		},
-		submit: function() {
+		submit() {
 			confirmPassword()
 				.then(() => {
 					this.loading = true
@@ -141,7 +142,7 @@ export default {
 					this.loginName = token.loginName
 					this.appPassword = token.token
 
-					const server = window.location.protocol + '//' + window.location.host + OC.getRootPath()
+					const server = window.location.protocol + '//' + window.location.host + getRootUrl()
 					this.qrUrl = `nc://login/user:${token.loginName}&password:${token.token}&server:${server}`
 
 					this.$nextTick(() => {
@@ -171,8 +172,8 @@ export default {
 			this.deviceName = ''
 			this.appPassword = ''
 			this.loginName = ''
-		}
-	}
+		},
+	},
 }
 </script>
 

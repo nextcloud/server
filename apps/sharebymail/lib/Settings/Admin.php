@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Nicolas SIMIDE <2083596+dems54@users.noreply.github.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,37 +14,39 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OCA\ShareByMail\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
 	/** @var SettingsManager */
 	private $settingsManager;
 
-	public function __construct(SettingsManager $settingsManager) {
+	/** @var IL10N */
+	private $l;
+
+	public function __construct(SettingsManager $settingsManager, IL10N $l) {
 		$this->settingsManager = $settingsManager;
+		$this->l = $l;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-
 		$parameters = [
 			'sendPasswordMail' => $this->settingsManager->sendPasswordByMail(),
-			'enforcePasswordProtection' => $this->settingsManager->enforcePasswordProtection()
+			'replyToInitiator' => $this->settingsManager->replyToInitiator()
 		];
 
 		return new TemplateResponse('sharebymail', 'settings-admin', $parameters, '');
@@ -65,4 +70,13 @@ class Admin implements ISettings {
 		return 40;
 	}
 
+	public function getName(): ?string {
+		return $this->l->t('Share by mail');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'sharebymail' => ['s/(sendpasswordmail|replyToInitiator)/'],
+		];
+	}
 }

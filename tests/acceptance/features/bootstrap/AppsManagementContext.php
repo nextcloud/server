@@ -24,18 +24,35 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class AppsManagementContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
+
+	/**
+	 * @return Locator
+	 */
+	public static function appsList() {
+		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@id='apps-list']")->
+				describedAs("Apps list in Apps Management");
+	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function enableButtonForApp($app) {
 		return Locator::forThe()->button("Enable")->
-			descendantOf(self::rowForApp($app))->
-			describedAs("Enable button in the app list for $app");
+				descendantOf(self::rowForApp($app))->
+				describedAs("Enable button in the app list for $app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function enableButtonForAnyApp() {
+		return Locator::forThe()->button("Enable")->
+				descendantOf(self::appsList())->
+				describedAs("Enable button in the app list for any app");
 	}
 
 	/**
@@ -43,8 +60,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function downloadAndEnableButtonForApp($app) {
 		return Locator::forThe()->button("Download and enable")->
-		descendantOf(self::rowForApp($app))->
-		describedAs("Download & enable button in the app list for $app");
+				descendantOf(self::rowForApp($app))->
+				describedAs("Download & enable button in the app list for $app");
 	}
 
 	/**
@@ -52,23 +69,34 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function disableButtonForApp($app) {
 		return Locator::forThe()->button("Disable")->
-		descendantOf(self::rowForApp($app))->
-		describedAs("Disable button in the app list for $app");
+				descendantOf(self::rowForApp($app))->
+				describedAs("Disable button in the app list for $app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function bundleButton($bundle) {
-		return Locator::forThe()->xpath("//div[@id='app-content']//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input")->
-		describedAs("Button to enable / disable bundles");
+	public static function disableButtonForAnyApp() {
+		return Locator::forThe()->button("Disable")->
+				descendantOf(self::appsList())->
+				describedAs("Disable button in the app list for any app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function enableAllBundleButton($bundle) {
+		return Locator::forThe()->xpath("//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input[@value='Enable all']")->
+				descendantOf(self::appsList())->
+				describedAs("Button to enable bundles");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function rowForApp($app) {
-		return Locator::forThe()->xpath("//div[@id='app-content']//div[@class='app-name'][normalize-space() = '$app']/..")->
+		return Locator::forThe()->xpath("//div[@class='app-name'][normalize-space() = '$app']/..")->
+				descendantOf(self::appsList())->
 				describedAs("Row for app $app in Apps Management");
 	}
 
@@ -76,16 +104,18 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function emptyAppList() {
-		return Locator::forThe()->xpath("//div[@id='app-content']//div[@id='apps-list-empty']")->
-			describedAs("Empty apps list view");
+		return Locator::forThe()->xpath("//div[@id='apps-list-empty']")->
+				descendantOf(self::appsList())->
+				describedAs("Empty apps list view");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function appEntries() {
-		return Locator::forThe()->xpath("//div[@id='app-content']//div[@class='section']")->
-			describedAs("Entries in apps list");
+		return Locator::forThe()->xpath("//div[@class='section']")->
+				descendantOf(self::appsList())->
+				describedAs("Entries in apps list");
 	}
 
 	/**
@@ -93,8 +123,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function disabledAppEntries() {
 		return Locator::forThe()->button("Disable")->
-		descendantOf(self::appEntries())->
-		describedAs("Disable button in the app list");
+				descendantOf(self::appEntries())->
+				describedAs("Disable button in the app list");
 	}
 
 	/**
@@ -102,16 +132,16 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function enabledAppEntries() {
 		return Locator::forThe()->button("Enable")->
-		descendantOf(self::appEntries())->
-		describedAs("Enable button in the app list");
+				descendantOf(self::appEntries())->
+				describedAs("Enable button in the app list");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function sidebar() {
-		return Locator::forThe()->id("app-sidebar")->
-		describedAs("Sidebar in apps management");
+		return Locator::forThe()->xpath("//*[@id=\"app-sidebar\" or contains(@class, 'app-sidebar')]")->
+				describedAs("Sidebar in apps management");
 	}
 
 
@@ -141,7 +171,9 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheAppHasBeenEnabled($app) {
 		// TODO: Find a way to check if the enable button is removed
-		$this->actor->find(self::disableButtonForApp($app), 10);
+		Assert::assertTrue(
+			$this->actor->find(self::disableButtonForApp($app), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -149,14 +181,16 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheAppHasBeenDisabled($app) {
 		// TODO: Find a way to check if the disable button is removed
-		$this->actor->find(self::enableButtonForApp($app), 10);
+		Assert::assertTrue(
+			$this->actor->find(self::enableButtonForApp($app), 10)->isVisible()
+		);
 	}
 
 	/**
 	 * @Then /^I see that there are no available updates$/
 	 */
 	public function iSeeThatThereAreNoAvailableUpdates() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::emptyAppList(), 10)->isVisible()
 		);
 	}
@@ -165,7 +199,12 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Then /^I see that there some apps listed from the app store$/
 	 */
 	public function iSeeThatThereSomeAppsListedFromTheAppStore() {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::appEntries(), 10);
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::appEntries(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			Assert::fail("The apps from the app store were not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
@@ -179,38 +218,52 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Given /^I see that there are only disabled apps$/
 	 */
 	public function iSeeThatThereAreOnlyDisabledApps() {
-		$buttons = $this->actor->getSession()->getDriver()->find("//input[@value = 'Disable']");
-		PHPUnit\Framework\Assert::assertEmpty($buttons, 'Found disabled apps');
+		try {
+			$this->actor->find(self::disableButtonForAnyApp(), 2);
+
+			Assert::fail("Found enabled apps");
+		} catch (NoSuchElementException $exception) {
+		}
 	}
 
 	/**
 	 * @Given /^I see that there are only enabled apps$/
 	 */
 	public function iSeeThatThereAreOnlyEnabledApps() {
-		$buttons = $this->actor->getSession()->getDriver()->find("//input[@value = 'Enable']");
-		PHPUnit\Framework\Assert::assertEmpty($buttons, 'Found disabled apps');
+		try {
+			$this->actor->find(self::enableButtonForAnyApp(), 2);
+
+			Assert::fail("Found disabled apps");
+		} catch (NoSuchElementException $exception) {
+		}
 	}
 
 	/**
 	 * @Given /^I see the app bundles$/
 	 */
 	public function iSeeTheAppBundles() {
-		$this->actor->find(self::rowForApp('Auditing / Logging'), 2);
-		$this->actor->find(self::rowForApp('LDAP user and group backend'), 2);
+		Assert::assertTrue(
+			$this->actor->find(self::rowForApp('Auditing / Logging'), 2)->isVisible()
+		);
+		Assert::assertTrue(
+			$this->actor->find(self::rowForApp('LDAP user and group backend'), 2)->isVisible()
+		);
 	}
 
 	/**
 	 * @When /^I enable all apps from the "([^"]*)"$/
 	 */
 	public function iEnableAllAppsFromThe($bundle) {
-		$this->actor->find(self::bundleButton($bundle), 2)->click();
+		$this->actor->find(self::enableAllBundleButton($bundle), 2)->click();
 	}
 
 	/**
 	 * @Given /^I see that the "([^"]*)" is disabled$/
 	 */
 	public function iSeeThatTheIsDisabled($bundle) {
-		PHPUnit\Framework\Assert::assertEquals('Enable all', $this->actor->find(self::bundleButton($bundle))->getValue());
+		Assert::assertTrue(
+			$this->actor->find(self::enableAllBundleButton($bundle), 2)->isVisible()
+		);
 	}
 
 	/**
@@ -224,9 +277,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 			$this->actor,
 			self::sidebar(),
 			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The sidebar was not shown yet after $timeout seconds");
+			Assert::fail("The sidebar was not shown yet after $timeout seconds");
 		}
 	}
-
-
 }

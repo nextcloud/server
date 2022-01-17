@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
@@ -20,10 +22,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 return [
 	'ocs' => [
 		// Apps
@@ -46,11 +47,14 @@ return [
 		// Users
 		['root' => '/cloud', 'name' => 'Users#getUsers', 'url' => '/users', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getUsersDetails', 'url' => '/users/details', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Users#searchByPhoneNumbers', 'url' => '/users/search/by-phone', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#addUser', 'url' => '/users', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#getUser', 'url' => '/users/{userId}', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getCurrentUser', 'url' => '/user', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getEditableFields', 'url' => '/user/fields', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Users#getEditableFieldsForUser', 'url' => '/user/fields/{userId}', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#editUser', 'url' => '/users/{userId}', 'verb' => 'PUT'],
+		['root' => '/cloud', 'name' => 'Users#editUserMultiValue', 'url' => '/users/{userId}/{collectionName}', 'verb' => 'PUT', 'requirements' => ['collectionName' => '^(?!enable$|disable$)[a-zA-Z0-9_]*$']],
 		['root' => '/cloud', 'name' => 'Users#wipeUserDevices', 'url' => '/users/{userId}/wipe', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#deleteUser', 'url' => '/users/{userId}', 'verb' => 'DELETE'],
 		['root' => '/cloud', 'name' => 'Users#enableUser', 'url' => '/users/{userId}/enable', 'verb' => 'PUT'],
@@ -70,4 +74,9 @@ return [
 		['name' => 'AppConfig#setValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'POST'],
 		['name' => 'AppConfig#deleteKey', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'DELETE'],
 	],
+	'routes' => [
+		// Verification
+		['name' => 'Verification#showVerifyMail', 'url' => '/mailVerification/{key}/{token}/{userId}', 'verb' => 'GET'],
+		['name' => 'Verification#verifyMail', 'url' => '/mailVerification/{key}/{token}/{userId}', 'verb' => 'POST'],
+	]
 ];

@@ -18,19 +18,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Controller;
 
-use OC\HintException;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\HintException;
 use OCP\IL10N;
 use OCP\IRequest;
-
 
 class SettingsController extends Controller {
 
@@ -58,8 +56,9 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * add server to the list of trusted Nextclouds
+	 * Add server to the list of trusted Nextclouds.
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @param string $url
 	 * @return DataResponse
 	 * @throws HintException
@@ -72,14 +71,15 @@ class SettingsController extends Controller {
 			[
 				'url' => $url,
 				'id' => $id,
-				'message' => (string) $this->l->t('Added to the list of trusted servers')
+				'message' => $this->l->t('Added to the list of trusted servers')
 			]
 		);
 	}
 
 	/**
-	 * add server to the list of trusted Nextclouds
+	 * Add server to the list of trusted Nextclouds.
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @param int $id
 	 * @return DataResponse
 	 */
@@ -89,18 +89,9 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * enable/disable to automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
+	 * Check if the server should be added to the list of trusted servers or not.
 	 *
-	 * @param bool $autoAddServers
-	 */
-	public function autoAddServers($autoAddServers) {
-		$this->trustedServers->setAutoAddServers($autoAddServers);
-	}
-
-	/**
-	 * check if the server should be added to the list of trusted servers or not
-	 *
+	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @param string $url
 	 * @return bool
 	 * @throws HintException
@@ -120,5 +111,4 @@ class SettingsController extends Controller {
 
 		return true;
 	}
-
 }

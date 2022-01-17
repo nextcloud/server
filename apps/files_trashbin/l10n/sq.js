@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
     "Select all" : "Përzgjidhi krejt",
     "Name" : "Emër",
+    "Actions" : "Veprimet",
     "Deleted" : "U fshi",
     "Delete" : "Fshije"
 },

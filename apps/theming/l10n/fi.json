@@ -15,13 +15,14 @@
     "The given color is invalid" : "Väri on virheellinen",
     "The file was uploaded" : "Tiedosto lähetettiin",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Lähetetty tiedosto ylittää php.ini-tiedoston upload_max_filesize-tietueen arvon",
+    "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Lähetettävän tiedoston enimmäiskoko ylittää HTML-lomakkeessa määritellyn MAX_FILE_SIZE-säännön",
     "The file was only partially uploaded" : "Tiedosto lähetettiin vain osittain",
     "No file was uploaded" : "Tiedostoa ei lähetetty",
     "Missing a temporary folder" : "Väliaikaiskansio puuttuu",
     "Could not write file to disk" : "Tiedostoa ei voitu kirjoittaa levylle",
     "A PHP extension stopped the file upload" : "PHP-laajennus pysäytti tiedoston lähettämisen",
     "No file uploaded" : "Ei tiedostoa lähetetty",
-    "Unsupported image type" : "Ei-tuettu kuvatiedostomuoto",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Käytät jo mukautettua teemaa. Teemoitussovelluksen asetukset saatetaan ohittaa.",
     "Theming" : "Teema",
     "Legal notice" : "Lainopillinen huomautus",
     "Privacy policy" : "Yksityisyyskäytäntö",
@@ -45,6 +46,7 @@
     "Header logo" : "Otsakelogo",
     "Upload new header logo" : "Lähetä uusi otsakelogo",
     "Favicon" : "Favicon",
-    "Upload new favicon" : "Lähetä uusi favicon"
+    "Upload new favicon" : "Lähetä uusi favicon",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

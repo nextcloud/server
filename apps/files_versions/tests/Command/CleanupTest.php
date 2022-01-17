@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -18,18 +20,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Files_Versions\Tests\Command;
 
-
-use OCA\Files_Versions\Command\CleanUp;
-use Test\TestCase;
 use OC\User\Manager;
+use OCA\Files_Versions\Command\CleanUp;
 use OCP\Files\IRootFolder;
+use Test\TestCase;
 
 /**
  * Class CleanupTest
@@ -43,13 +42,13 @@ class CleanupTest extends TestCase {
 	/** @var  CleanUp */
 	protected $cleanup;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | Manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
 	protected $userManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IRootFolder */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
 	protected $rootFolder;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
@@ -66,14 +65,13 @@ class CleanupTest extends TestCase {
 	 * @param boolean $nodeExists
 	 */
 	public function testDeleteVersions($nodeExists) {
-
 		$this->rootFolder->expects($this->once())
 			->method('nodeExists')
 			->with('/testUser/files_versions')
 			->willReturn($nodeExists);
 
 
-		if($nodeExists) {
+		if ($nodeExists) {
 			$this->rootFolder->expects($this->once())
 				->method('get')
 				->with('/testUser/files_versions')
@@ -91,10 +89,10 @@ class CleanupTest extends TestCase {
 	}
 
 	public function dataTestDeleteVersions() {
-		return array(
-			array(true),
-			array(false)
-		);
+		return [
+			[true],
+			[false]
+		];
 	}
 
 
@@ -168,5 +166,4 @@ class CleanupTest extends TestCase {
 
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}
-
 }

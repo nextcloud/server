@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Share20;
 
 use OC\Share20\ShareHelper;
@@ -30,13 +31,13 @@ use Test\TestCase;
 
 class ShareHelperTest extends TestCase {
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
 
 	/** @var ShareHelper */
 	private $helper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->manager = $this->createMock(IManager::class);
@@ -76,9 +77,9 @@ class ShareHelperTest extends TestCase {
 				'remote' => $remoteList,
 			]);
 
-		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createMock(Node::class);
-		/** @var ShareHelper|\PHPUnit_Framework_MockObject_MockObject $helper */
+		/** @var ShareHelper|\PHPUnit\Framework\MockObject\MockObject $helper */
 		$helper = $this->getMockBuilder(ShareHelper::class)
 			->setConstructorArgs([$this->manager])
 			->setMethods(['getPathsForUsers', 'getPathsForRemotes'])
@@ -127,7 +128,7 @@ class ShareHelperTest extends TestCase {
 	public function testGetPathsForUsers(array $users, array $nodes, array $expected) {
 		$lastNode = null;
 		foreach ($nodes as $nodeId => $nodeName) {
-			/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
+			/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
 			$node = $this->createMock(Node::class);
 			$node->expects($this->any())
 				->method('getId')
@@ -184,7 +185,7 @@ class ShareHelperTest extends TestCase {
 	public function testGetPathsForRemotes(array $remotes, array $nodes, array $expected) {
 		$lastNode = null;
 		foreach ($nodes as $nodeId => $nodePath) {
-			/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
+			/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
 			$node = $this->createMock(Node::class);
 			$node->expects($this->any())
 				->method('getId')
@@ -220,7 +221,7 @@ class ShareHelperTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testGetMountedPath($path, $expected) {
-		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getPath')

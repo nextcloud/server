@@ -19,9 +19,7 @@
  *
  */
 
-
 namespace Tests\Core\Command\Encryption;
-
 
 use OC\Core\Command\Encryption\DecryptAll;
 use OCP\App\IAppManager;
@@ -34,28 +32,28 @@ use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\Encryption\IManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager  */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\App\IAppManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager  */
 	protected $appManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject  | \Symfony\Component\Console\Input\InputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject  | \Symfony\Component\Console\Input\InputInterface */
 	protected $consoleInput;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Output\OutputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
 	protected $consoleOutput;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
 	protected $questionHelper;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OC\Encryption\DecryptAll */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\DecryptAll */
 	protected $decryptAll;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)
@@ -85,7 +83,6 @@ class DecryptAllTest extends TestCase {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->with('files_trashbin')->willReturn(true);
-
 	}
 
 	public function testMaintenanceAndTrashbin() {
@@ -129,7 +126,6 @@ class DecryptAllTest extends TestCase {
 	 * @dataProvider dataTestExecute
 	 */
 	public function testExecute($encryptionEnabled, $continue) {
-
 		$instance = new DecryptAll(
 			$this->encryptionManager,
 			$this->appManager,
@@ -182,10 +178,10 @@ class DecryptAllTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+
 	public function testExecuteFailure() {
+		$this->expectException(\Exception::class);
+
 		$instance = new DecryptAll(
 			$this->encryptionManager,
 			$this->appManager,
@@ -219,9 +215,10 @@ class DecryptAllTest extends TestCase {
 		$this->decryptAll->expects($this->once())
 			->method('decryptAll')
 			->with($this->consoleInput, $this->consoleOutput, 'user1')
-			->willReturnCallback(function() { throw new \Exception(); });
+			->willReturnCallback(function () {
+				throw new \Exception();
+			});
 
 		$this->invokePrivate($instance, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
-
 }

@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,35 +17,37 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OC\Authentication\Listeners;
 
 use BadMethodCallException;
-use OC\Authentication\Events\ARemoteWipeEvent;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Token\IToken;
 use OCP\Activity\IManager as IActvityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
+ */
 class RemoteWipeActivityListener implements IEventListener {
 
 	/** @var IActvityManager */
 	private $activityManager;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(IActvityManager $activityManager,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->activityManager = $activityManager;
 		$this->logger = $logger;
 	}
@@ -52,7 +55,7 @@ class RemoteWipeActivityListener implements IEventListener {
 	public function handle(Event $event): void {
 		if ($event instanceof RemoteWipeStarted) {
 			$this->publishActivity('remote_wipe_start', $event->getToken());
-		} else if ($event instanceof RemoteWipeFinished) {
+		} elseif ($event instanceof RemoteWipeFinished) {
 			$this->publishActivity('remote_wipe_finish', $event->getToken());
 		}
 	}
@@ -69,12 +72,10 @@ class RemoteWipeActivityListener implements IEventListener {
 		try {
 			$this->activityManager->publish($activity);
 		} catch (BadMethodCallException $e) {
-			$this->logger->logException($e, [
+			$this->logger->warning('could not publish activity', [
 				'app' => 'core',
-				'level' => ILogger::WARN,
-				'message' => 'could not publish activity',
+				'exception' => $e,
 			]);
 		}
 	}
-
 }

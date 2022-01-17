@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Niciun element găsit în acest director",
     "Select all" : "Selectează tot",
     "Name" : "Nume",
+    "Actions" : "Acțiuni",
     "Deleted" : "A fost șters.",
     "Delete" : "Șterge"
 },

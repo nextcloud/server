@@ -24,7 +24,7 @@ $default-height: 34px;
 
 /* Simple selector to allow easy overriding */
 select,
-button,
+button:not(.button-vue),
 input,
 textarea,
 div[contenteditable=true],
@@ -43,7 +43,7 @@ div[contenteditable=false] {
 /* Default global values */
 div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2
 select,
-button, .button,
+button:not(.button-vue), .button,
 input:not([type='range']),
 textarea,
 div[contenteditable=true],
@@ -126,7 +126,6 @@ div[contenteditable=false] {
 	border: 1px solid var(--color-background-darker);
 	outline: none;
 	border-radius: var(--border-radius);
-	cursor: text;
 
 	background-color: var(--color-background-dark);
 	color: var(--color-text-lighter);
@@ -169,20 +168,36 @@ input {
 
 /* 'Click' inputs */
 select,
-button, .button,
+button:not(.button-vue), .button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
-	padding: 6px 12px;
+	padding: 6px 16px;
 	width: auto;
 	min-height: $default-height;
 	cursor: pointer;
 	box-sizing: border-box;
 	background-color: var(--color-background-dark);
+
+	&:disabled {
+		cursor: default;
+	}
+}
+select,
+button:not(.button-vue), .button {
+	* {
+		cursor: pointer;
+	}
+
+	&:disabled {
+		* {
+			cursor: default;
+		}
+	}
 }
 
 /* Buttons */
-button, .button,
+button:not(.button-vue), .button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
@@ -193,8 +208,14 @@ input[type='reset'] {
 	&::-moz-focus-inner {
 		border: 0;
 	}
+
+	&.error {
+		background-color: var(--color-error) !important;
+		border-color: var(--color-error) !important;
+		color: #fff !important;
+	}
 }
-button, .button {
+button:not(.button-vue):not(.action-button), .button {
 	> span {
 		/* icon position inside buttons */
 		&[class^='icon-'],
@@ -223,7 +244,6 @@ textarea, div[contenteditable=true] {
 
 div[contenteditable=false] {
 	color: var(--color-text-lighter);
-	cursor: text;
 	font-family: inherit;
 	height: auto;
 }
@@ -346,6 +366,12 @@ input {
 			&:focus + label:before {
 				border-color: var(--color-primary-element);
 			}
+			&:focus-visible + label {
+				outline-style: solid;
+				outline-color: var(--color-main-text);
+				outline-width: 1px;
+				outline-offset: 2px;
+			}
 			&:checked + label:before,
 			&.checkbox:indeterminate + label:before {
 			/* ^ :indeterminate have a strange behavior on radio,
@@ -459,6 +485,10 @@ div.select2-drop {
 			text-overflow: ellipsis;
 			span {
 				cursor: pointer;
+				em {
+					cursor: inherit;
+					background: unset;
+				}
 			}
 		}
 		.select2-result,
@@ -865,7 +895,7 @@ div.select2-container {
 }
 
 /* Progressbar */
-progress {
+progress:not(.vue) {
 	display: block;
 	width: 100%;
 	padding: 0;
@@ -928,8 +958,8 @@ progress {
 // Same as .hidden-visually
 label.infield {
 	position: absolute;
-	left:-10000px;
-	top: auto;
+	left: -10000px;
+	top: -10000px;
 	width: 1px;
 	height: 1px;
 	overflow: hidden;

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Deleted files" : "קבצים שנמחקו",
     "restored" : "שוחזר",
+    "This application enables users to restore files that were deleted from the system." : "יישומון זה מאפשר למשתמשים לשחזר קבצים שנמחקו מהמערכת.",
     "Restore" : "שחזור",
     "Delete permanently" : "מחיקה לצמיתות",
     "This operation is forbidden" : "פעולה זו אסורה",
@@ -14,6 +15,11 @@ OC.L10N.register(
     "Name" : "שם",
     "Actions" : "פעולולת",
     "Deleted" : "נמחק",
-    "Delete" : "מחיקה"
+    "Delete" : "מחיקה",
+    "Error while restoring file from trashbin" : "שגיאה בעת שחזור קובץ מסל האשפה",
+    "Error while removing file from trashbin" : "שגיאה בעת הסרת קובץ מסל האשפה",
+    "Error while restoring files from trashbin" : "שגיאה בעת שחזור קבצים מסל האשפה",
+    "Error while emptying trashbin" : "שגיאה בעת פינוי סל האשפה",
+    "Error while removing files from trashbin" : "שגיאה בעת הסרתים קבצים מסל האשפה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

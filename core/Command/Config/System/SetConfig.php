@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @license AGPL-3.0
@@ -17,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -75,7 +76,7 @@ class SetConfig extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = $configNames[0];
 		$configValue = $this->castValue($input->getOption('value'), $input->getOption('type'));
@@ -149,6 +150,7 @@ class SetConfig extends Base {
 						throw new \InvalidArgumentException('Unable to parse value as boolean');
 				}
 
+				// no break
 			case 'null':
 				return [
 					'value' => null,

@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\BackgroundJob;
 
 use OC\BackgroundJob\JobList;
@@ -40,10 +42,12 @@ abstract class TimedJob extends Job {
 	/**
 	 * set the interval for the job
 	 *
+	 * @param int $seconds the time to pass between two runs of the same job in seconds
+	 *
 	 * @since 15.0.0
 	 */
-	public function setInterval(int $interval) {
-		$this->interval = $interval;
+	public function setInterval(int $seconds) {
+		$this->interval = $seconds;
 	}
 
 	/**

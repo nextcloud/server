@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +21,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Lock;
 
 use OCP\Lock\ILockingProvider;
@@ -43,7 +45,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function acquireLock(string $path, int $type) {
+	public function acquireLock(string $path, int $type, string $readablePath = null) {
 		// do nothing
 	}
 

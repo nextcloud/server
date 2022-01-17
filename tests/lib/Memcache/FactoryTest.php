@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace Test\Memcache;
 
 use OC\Memcache\NullCache;
@@ -60,10 +61,10 @@ class Test_Factory_Unavailable_Cache2 extends NullCache {
 }
 
 class FactoryTest extends \Test\TestCase {
-	const AVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Available_Cache1';
-	const AVAILABLE2 = '\\Test\\Memcache\\Test_Factory_Available_Cache2';
-	const UNAVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Unavailable_Cache1';
-	const UNAVAILABLE2 = '\\Test\\Memcache\\Test_Factory_Unavailable_Cache2';
+	public const AVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Available_Cache1';
+	public const AVAILABLE2 = '\\Test\\Memcache\\Test_Factory_Available_Cache2';
+	public const UNAVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Unavailable_Cache1';
+	public const UNAVAILABLE2 = '\\Test\\Memcache\\Test_Factory_Unavailable_Cache2';
 
 	public function cacheAvailabilityProvider() {
 		return [
@@ -126,9 +127,10 @@ class FactoryTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider cacheUnavailableProvider
-	 * @expectedException \OC\HintException
 	 */
 	public function testCacheNotAvailableException($localCache, $distributedCache) {
+		$this->expectException(\OCP\HintException::class);
+
 		$logger = $this->getMockBuilder(ILogger::class)->getMock();
 		new \OC\Memcache\Factory('abc', $logger, $localCache, $distributedCache);
 	}

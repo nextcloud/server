@@ -9,9 +9,6 @@
 namespace Test;
 
 use OC_Util;
-use OCP\App\IAppManager;
-use OCP\IConfig;
-use OCP\IUser;
 
 /**
  * Class UtilTest
@@ -38,7 +35,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertTrue(is_string($edition));
 	}
 
-	function testSanitizeHTML() {
+	public function testSanitizeHTML() {
 		$badArray = [
 			'While it is unusual to pass an array',
 			'this function actually <blink>supports</blink> it.',
@@ -71,10 +68,22 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals('This is a good string without HTML.', $result);
 	}
 
-	function testEncodePath() {
+	public function testEncodePath() {
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);
 		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+	}
+
+	public function testIsNonUTF8Locale() {
+		// OC_Util::isNonUTF8Locale() assumes escapeshellcmd('§') returns '' with non-UTF-8 locale.
+		$locale = setlocale(LC_CTYPE, 0);
+		setlocale(LC_CTYPE, 'C');
+		$this->assertEquals('', escapeshellcmd('§'));
+		$this->assertEquals('\'\'', escapeshellarg('§'));
+		setlocale(LC_CTYPE, 'C.UTF-8');
+		$this->assertEquals('§', escapeshellcmd('§'));
+		$this->assertEquals('\'§\'', escapeshellarg('§'));
+		setlocale(LC_CTYPE, $locale);
 	}
 
 	public function testFileInfoLoaded() {
@@ -82,12 +91,12 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
 	}
 
-	function testGetDefaultEmailAddress() {
+	public function testGetDefaultEmailAddress() {
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('no-reply@localhost', $email);
 	}
 
-	function testGetDefaultEmailAddressFromConfig() {
+	public function testGetDefaultEmailAddressFromConfig() {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
@@ -95,7 +104,7 @@ class UtilTest extends \Test\TestCase {
 		$config->deleteSystemValue('mail_domain');
 	}
 
-	function testGetConfiguredEmailAddressFromConfig() {
+	public function testGetConfiguredEmailAddressFromConfig() {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
 		$config->setSystemValue('mail_from_address', 'owncloud');
@@ -105,7 +114,7 @@ class UtilTest extends \Test\TestCase {
 		$config->deleteSystemValue('mail_from_address');
 	}
 
-	function testGetInstanceIdGeneratesValidId() {
+	public function testGetInstanceIdGeneratesValidId() {
 		\OC::$server->getConfig()->deleteSystemValue('instanceid');
 		$instanceId = OC_Util::getInstanceId();
 		$this->assertStringStartsWith('oc', $instanceId);
@@ -172,143 +181,6 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataProviderForTestIsSharingDisabledForUser
-	 * @param array $groups existing groups
-	 * @param array $membership groups the user belong to
-	 * @param array $excludedGroups groups which should be excluded from sharing
-	 * @param bool $expected expected result
-	 */
-	function testIsSharingDisabledForUser($groups, $membership, $excludedGroups, $expected) {
-		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
-		$groupManager = $this->getMockBuilder('OCP\IGroupManager')->disableOriginalConstructor()->getMock();
-		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-
-		$config
-				->expects($this->at(0))
-				->method('getAppValue')
-				->with('core', 'shareapi_exclude_groups', 'no')
-				->will($this->returnValue('yes'));
-		$config
-				->expects($this->at(1))
-				->method('getAppValue')
-				->with('core', 'shareapi_exclude_groups_list')
-				->will($this->returnValue(json_encode($excludedGroups)));
-
-		$groupManager
-				->expects($this->at(0))
-				->method('getUserGroupIds')
-				->with($user)
-				->will($this->returnValue($membership));
-
-		$result = \OC_Util::isSharingDisabledForUser($config, $groupManager, $user);
-
-		$this->assertSame($expected, $result);
-	}
-
-	public function dataProviderForTestIsSharingDisabledForUser() {
-		return array(
-			// existing groups, groups the user belong to, groups excluded from sharing, expected result
-			array(array('g1', 'g2', 'g3'), array(), array('g1'), false),
-			array(array('g1', 'g2', 'g3'), array(), array(), false),
-			array(array('g1', 'g2', 'g3'), array('g2'), array('g1'), false),
-			array(array('g1', 'g2', 'g3'), array('g2'), array(), false),
-			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1'), false),
-			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2'), true),
-			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2', 'g3'), true),
-		);
-	}
-
-	/**
-	 * Test default apps
-	 *
-	 * @dataProvider defaultAppsProvider
-	 * @group DB
-	 */
-	function testDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
-		$oldDefaultApps = \OC::$server->getConfig()->getSystemValue('defaultapp', '');
-		// CLI is doing messy stuff with the webroot, so need to work it around
-		$oldWebRoot = \OC::$WEBROOT;
-		\OC::$WEBROOT = '';
-
-		$appManager = $this->createMock(IAppManager::class);
-		$appManager->expects($this->any())
-			->method('isEnabledForUser')
-			->will($this->returnCallback(function($appId) use ($enabledApps){
-				return in_array($appId, $enabledApps);
-		}));
-		Dummy_OC_Util::$appManager = $appManager;
-
-		// need to set a user id to make sure enabled apps are read from cache
-		\OC_User::setUserId($this->getUniqueID());
-		\OC::$server->getConfig()->setSystemValue('defaultapp', $defaultAppConfig);
-		$this->assertEquals('http://localhost/' . $expectedPath, Dummy_OC_Util::getDefaultPageUrl());
-
-		// restore old state
-		\OC::$WEBROOT = $oldWebRoot;
-		\OC::$server->getConfig()->setSystemValue('defaultapp', $oldDefaultApps);
-		\OC_User::setUserId(null);
-	}
-
-	function defaultAppsProvider() {
-		return array(
-			// none specified, default to files
-			array(
-				'',
-				'index.php/apps/files/',
-				array('files'),
-			),
-			// unexisting or inaccessible app specified, default to files
-			array(
-				'unexist',
-				'index.php/apps/files/',
-				array('files'),
-			),
-			// non-standard app
-			array(
-				'calendar',
-				'index.php/apps/calendar/',
-				array('files', 'calendar'),
-			),
-			// non-standard app with fallback
-			array(
-				'contacts,calendar',
-				'index.php/apps/calendar/',
-				array('files', 'calendar'),
-			),
-		);
-	}
-
-	public function testGetDefaultPageUrlWithRedirectUrlWithoutFrontController() {
-		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
-
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/myRedirectUrl.com', OC_Util::getDefaultPageUrl());
-	}
-
-	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
-		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
-
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/index.php/apps/files/', OC_Util::getDefaultPageUrl());
-	}
-
-	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
-		putenv('front_controller_active=true');
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', OC_Util::getDefaultPageUrl());
-	}
-
-	public function testGetDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
-		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->setSystemValue('htaccess.IgnoreFrontController', true);
-
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', OC_Util::getDefaultPageUrl());
-	}
-
-	/**
 	 * Test needUpgrade() when the core version is increased
 	 */
 	public function testNeedUpgradeCore() {
@@ -319,14 +191,14 @@ class UtilTest extends \Test\TestCase {
 		$this->assertFalse(\OCP\Util::needUpgrade());
 
 		$config->setSystemValue('version', '7.0.0.0');
-		\OC::$server->getSession()->set('OC_Version', array(7, 0, 0, 1));
-		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
+		\OC::$server->getSession()->set('OC_Version', [7, 0, 0, 1]);
+		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
 
 		$this->assertTrue(\OCP\Util::needUpgrade());
 
 		$config->setSystemValue('version', $oldConfigVersion);
 		\OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
-		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
+		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
 
 		$this->assertFalse(\OCP\Util::needUpgrade());
 	}
@@ -348,35 +220,102 @@ class UtilTest extends \Test\TestCase {
 		$this->assertNotEmpty($errors);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
+		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
 	}
-	protected function tearDown() {
+	protected function tearDown(): void {
 		parent::tearDown();
 
 		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
+		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
 	}
 
 	public function testAddScript() {
-		\OC_Util::addScript('core', 'myFancyJSFile1');
-		\OC_Util::addScript('myApp', 'myFancyJSFile2');
-		\OC_Util::addScript('core', 'myFancyJSFile0', true);
-		\OC_Util::addScript('core', 'myFancyJSFile10', true);
+		\OCP\Util::addScript('first', 'myFirstJSFile');
+		\OCP\Util::addScript('core', 'myFancyJSFile1');
+		\OCP\Util::addScript('files', 'myFancyJSFile2', 'core');
+		\OCP\Util::addScript('myApp5', 'myApp5JSFile', 'myApp2');
+		\OCP\Util::addScript('myApp', 'myFancyJSFile3');
+		\OCP\Util::addScript('core', 'myFancyJSFile4');
+		// after itself
+		\OCP\Util::addScript('core', 'myFancyJSFile5', 'core');
 		// add duplicate
-		\OC_Util::addScript('core', 'myFancyJSFile1');
+		\OCP\Util::addScript('core', 'myFancyJSFile1');
+		// dependency chain
+		\OCP\Util::addScript('myApp4', 'myApp4JSFile', 'myApp3');
+		\OCP\Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
+		\OCP\Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
 
-		$this->assertEquals([
-			'core/js/myFancyJSFile10',
-			'core/js/myFancyJSFile0',
+		$scripts = \OCP\Util::getScripts();
+
+		// Core should appear first
+		$this->assertEquals(
+			0,
+			array_search('core/js/myFancyJSFile1', $scripts, true)
+		);
+		$this->assertEquals(
+			1,
+			array_search('core/js/myFancyJSFile4', $scripts, true)
+		);
+
+		// Dependencies should appear before their children
+		$this->assertLessThan(
+			array_search('files/js/myFancyJSFile2', $scripts, true),
+			array_search('core/js/myFancyJSFile3', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp2/js/myApp2JSFile', $scripts, true),
+			array_search('myApp/js/myFancyJSFile3', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp3/js/myApp3JSFile', $scripts, true),
+			array_search('myApp2/js/myApp2JSFile', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp4/js/myApp4JSFile', $scripts, true),
+			array_search('myApp3/js/myApp3JSFile', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp5/js/myApp5JSFile', $scripts, true),
+			array_search('myApp2/js/myApp2JSFile', $scripts, true)
+		);
+
+		// No duplicates
+		$this->assertEquals(
+			$scripts,
+			array_unique($scripts)
+		);
+
+		// All scripts still there
+		$scripts = [
 			'core/js/myFancyJSFile1',
-			'myApp/l10n/en',
-			'myApp/js/myFancyJSFile2',
-		], \OC_Util::$scripts);
-		$this->assertEquals([], \OC_Util::$styles);
+			'core/js/myFancyJSFile4',
+			'files/js/myFancyJSFile2',
+			'core/js/myFancyJSFile5',
+			'myApp/js/myFancyJSFile3',
+			'myApp2/js/myApp2JSFile',
+			'myApp3/js/myApp3JSFile',
+			'myApp4/js/myApp4JSFile',
+		];
+		foreach ($scripts as $script) {
+			$this->assertContains($script, $scripts);
+		}
+	}
+
+	public function testAddScriptCircularDependency() {
+		\OCP\Util::addScript('circular', 'file1', 'dependency');
+		\OCP\Util::addScript('dependency', 'file2', 'circular');
+
+		$scripts = \OCP\Util::getScripts();
+		$this->assertContains('circular/js/file1', $scripts);
+		$this->assertContains('dependency/js/file2', $scripts);
 	}
 
 	public function testAddVendorScript() {
@@ -438,18 +377,11 @@ class UtilTest extends \Test\TestCase {
 			'myApp/vendor/myFancyCSSFile2',
 		], \OC_Util::$styles);
 	}
-}
 
-/**
- * Dummy OC Util class to make it possible to override the app manager
- */
-class Dummy_OC_Util extends OC_Util {
-	/**
-	 * @var \OCP\App\IAppManager
-	 */
-	public static $appManager;
-
-	protected static function getAppManager() {
-		return self::$appManager;
+	public function testShortenMultibyteString() {
+		$this->assertEquals('Short nuff', \OCP\Util::shortenMultibyteString('Short nuff', 255));
+		$this->assertEquals('ABC', \OCP\Util::shortenMultibyteString('ABCDEF', 3));
+		// each of the characters is 12 bytes
+		$this->assertEquals('🙈', \OCP\Util::shortenMultibyteString('🙈🙊🙉', 16, 2));
 	}
 }

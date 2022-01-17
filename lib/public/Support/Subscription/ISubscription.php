@@ -1,7 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Support\Subscription;
 
 /**
@@ -41,4 +44,11 @@ interface ISubscription {
 	 * @since 17.0.0
 	 */
 	public function hasExtendedSupport(): bool;
+
+	/**
+	 * Indicates if a hard user limit is reached and no new users should be created
+	 *
+	 * @since 21.0.0
+	 */
+	public function isHardUserLimitReached(): bool;
 }

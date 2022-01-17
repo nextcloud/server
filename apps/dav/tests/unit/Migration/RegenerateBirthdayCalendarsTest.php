@@ -2,24 +2,28 @@
 /**
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author François Freitag <mail@franek.fr>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
@@ -31,16 +35,16 @@ use Test\TestCase;
 
 class RegenerateBirthdayCalendarsTest extends TestCase {
 
-	/** @var IJobList | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var RegenerateBirthdayCalendars */
 	private $migration;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = $this->createMock(IJobList::class);
@@ -58,7 +62,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 	}
 
 	public function testRun() {
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix')
 			->willReturn(null);
@@ -68,11 +72,11 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			->method('info')
 			->with('Adding background jobs to regenerate birthday calendar');
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->once())
 			->method('add')
 			->with(RegisterRegenerateBirthdayCalendars::class);
 
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
 
@@ -95,6 +99,4 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 
 		$this->migration->run($output);
 	}
-
-
 }

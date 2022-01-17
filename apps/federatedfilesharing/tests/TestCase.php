@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
@@ -35,11 +36,10 @@ use OC\Group\Database;
  * Base class for sharing tests.
  */
 abstract class TestCase extends \Test\TestCase {
+	public const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
+	public const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
 
-	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
-	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
-
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
 		// reset backend
@@ -53,14 +53,14 @@ abstract class TestCase extends \Test\TestCase {
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		//login as user1
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		// cleanup users
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
 		if ($user !== null) {
@@ -90,7 +90,6 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-
 		if ($password === false) {
 			$password = $user;
 		}
@@ -128,5 +127,4 @@ abstract class TestCase extends \Test\TestCase {
 		$isInitialized->setValue($storage, false);
 		$isInitialized->setAccessible(false);
 	}
-
 }

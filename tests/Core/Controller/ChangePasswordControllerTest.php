@@ -19,13 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Tests\Core\Controller;
 
-use OC\HintException;
-use OCA\Settings\Controller\ChangePasswordController;
 use OC\User\Session;
+use OCA\Settings\Controller\ChangePasswordController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\HintException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -35,20 +36,22 @@ use OCP\IUserManager;
 class ChangePasswordControllerTest extends \Test\TestCase {
 	/** @var string */
 	private $userId = 'currentUser';
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var string */
+	private $loginName = 'ua1337';
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 	/** @var ChangePasswordController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(\OC\User\Manager::class);
@@ -56,9 +59,9 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(\OC\Group\Manager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->l = $this->createMock(IL10N::class);
-		$this->l->method('t')->will($this->returnArgument(0));
+		$this->l->method('t')->willReturnArgument(0);
 
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
 
 		$this->controller = new ChangePasswordController(
@@ -74,9 +77,13 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordWrongPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn(false);
 
 		$expects = new JSONResponse([
@@ -92,10 +99,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordCommonPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$user->expects($this->once())
@@ -115,10 +126,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordNoNewPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$expects = [
@@ -131,10 +146,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordCantSetPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$user->expects($this->once())
@@ -151,10 +170,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$user->expects($this->once())

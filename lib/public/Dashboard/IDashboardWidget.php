@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
-
 /**
- * Nextcloud - Dashboard App
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
  * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxence Lange <maxence@artificial-owl.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,22 +18,19 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OCP\Dashboard;
 
-
-use OCP\Dashboard\Model\WidgetSetup;
-use OCP\Dashboard\Model\WidgetTemplate;
 use OCP\Dashboard\Model\IWidgetConfig;
 use OCP\Dashboard\Model\IWidgetRequest;
+use OCP\Dashboard\Model\WidgetSetup;
+use OCP\Dashboard\Model\WidgetTemplate;
 
 /**
  * Interface IDashboardWidget
@@ -49,8 +45,8 @@ use OCP\Dashboard\Model\IWidgetRequest;
  * Multiple widget can be defined in the same appinfo/info.xml.
  *
  * @since 15.0.0
+ * @deprecated 20.0.0
  *
- * @package OCP\Dashboard
  */
 interface IDashboardWidget {
 
@@ -58,6 +54,7 @@ interface IDashboardWidget {
 	 * Should returns the (unique) Id of the widget.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -68,6 +65,7 @@ interface IDashboardWidget {
 	 * Should returns the [display] name of the widget.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -79,6 +77,7 @@ interface IDashboardWidget {
 	 * This description is displayed in the listing of the available widgets.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -92,6 +91,7 @@ interface IDashboardWidget {
 	 * @see WidgetTemplate
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return WidgetTemplate
 	 */
@@ -105,6 +105,7 @@ interface IDashboardWidget {
 	 * @see WidgetSetup
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return WidgetSetup
 	 */
@@ -123,6 +124,7 @@ interface IDashboardWidget {
 	 * @see IWidgetConfig
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param IWidgetConfig $settings
 	 */
@@ -138,10 +140,9 @@ interface IDashboardWidget {
 	 * @see IWidgetRequest
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param IWidgetRequest $request
 	 */
 	public function requestWidget(IWidgetRequest $request);
-
 }
-

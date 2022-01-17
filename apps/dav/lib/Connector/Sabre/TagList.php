@@ -2,9 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\Xml\Element;
@@ -34,7 +33,7 @@ use Sabre\Xml\Writer;
  * This property contains multiple "tag" elements, each containing a tag name.
  */
 class TagList implements Element {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
 	 * tags
@@ -56,9 +55,7 @@ class TagList implements Element {
 	 * @return array
 	 */
 	public function getTags() {
-
 		return $this->tags;
-
 	}
 
 	/**
@@ -82,7 +79,7 @@ class TagList implements Element {
 	 * @param Reader $reader
 	 * @return mixed
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$tags = [];
 
 		$tree = $reader->parseInnerTree();
@@ -116,8 +113,7 @@ class TagList implements Element {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
-
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->tags as $tag) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}tag', $tag);
 		}

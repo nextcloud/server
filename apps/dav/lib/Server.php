@@ -4,16 +4,18 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Brandon Kirsch <brandonkirsch@github.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Leon Klingele <leon@struktur.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,17 +29,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV;
 
+use Psr\Log\LoggerInterface;
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
-use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\Comments\CommentsPlugin;
+use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
@@ -49,24 +54,26 @@ use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin;
-use OCA\DAV\Connector\Sabre\SharesPlugin;
-use OCA\DAV\DAV\PublicAuth;
-use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
+use OCA\DAV\Connector\Sabre\SharesPlugin;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
+use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\DAV\PublicAuth;
+use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
-use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Files\LazySearchBackend;
+use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\SabrePluginEvent;
 use Sabre\CardDAV\VCFExportPlugin;
 use Sabre\DAV\Auth\Plugin;
-use OCA\DAV\Connector\Sabre\TagsPlugin;
 use Sabre\DAV\UUIDUtil;
 use SearchDAV\DAV\SearchPlugin;
-use OCA\DAV\AppInfo\PluginManager;
 
 class Server {
 
@@ -84,12 +91,14 @@ class Server {
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->getLogger();
 		$dispatcher = \OC::$server->getEventDispatcher();
+		/** @var IEventDispatcher $newDispatcher */
+		$newDispatcher = \OC::$server->query(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
 
 		// Backends
 		$authBackend = new Auth(
@@ -114,6 +123,9 @@ class Server {
 		$event = new SabrePluginEvent($this->server);
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
 
+		$newAuthEvent = new SabrePluginAuthInitEvent($this->server);
+		$newDispatcher->dispatchTyped($newAuthEvent);
+
 		$bearerAuthBackend = new BearerAuth(
 			\OC::$server->getUserSession(),
 			\OC::$server->getSession(),
@@ -124,7 +136,7 @@ class Server {
 		$authPlugin->addBackend($authBackend);
 
 		// debugging
-		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
 		} else {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
@@ -148,17 +160,18 @@ class Server {
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
-			$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), \OC::$server->getLogger()));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
 			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
 
-			$this->server->addPlugin(new CalDAV\WebcalCaching\Plugin($request));
+			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
 			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
 				\OC::$server->getConfig(),
 				\OC::$server->getURLGenerator()
@@ -167,7 +180,7 @@ class Server {
 
 		// addressbook plugins
 		if ($this->requestIsForSubtree(['addressbooks', 'principals'])) {
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
 			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
@@ -199,7 +212,7 @@ class Server {
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
-		if($request->isUserAgent([
+		if ($request->isUserAgent([
 			'/WebDAVFS/',
 			'/OneNote/',
 			'/^Microsoft-WebDAV/',// Microsoft-WebDAV-MiniRedir/6.1.7601
@@ -215,7 +228,7 @@ class Server {
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod', function () use ($root, $lazySearchBackend) {
+		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend) {
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
@@ -227,6 +240,7 @@ class Server {
 						\OC::$server->getConfig(),
 						$this->request,
 						\OC::$server->getPreviewManager(),
+						\OC::$server->getUserSession(),
 						false,
 						!\OC::$server->getConfig()->getSystemValue('debug', false)
 					)
@@ -243,7 +257,7 @@ class Server {
 				);
 				if ($view !== null) {
 					$this->server->addPlugin(
-						new QuotaPlugin($view, false));
+						new QuotaPlugin($view));
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(
@@ -282,6 +296,10 @@ class Server {
 						\OC::$server->getShareManager(),
 						$view
 					));
+					$logger = \OC::$server->get(LoggerInterface::class);
+					$this->server->addPlugin(
+						new BulkUploadPlugin($userFolder, $logger)
+					);
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
@@ -293,7 +311,7 @@ class Server {
 					\OC::$server->getThemingDefaults(),
 					\OC::$server->getRequest(),
 					\OC::$server->getL10N('dav'),
-					function() {
+					function () {
 						return UUIDUtil::getUUID();
 					}
 				));
@@ -311,6 +329,10 @@ class Server {
 				$root->addChild($appCollection);
 			}
 		});
+
+		$this->server->addPlugin(
+			new PropfindCompressionPlugin()
+		);
 	}
 
 	public function exec() {

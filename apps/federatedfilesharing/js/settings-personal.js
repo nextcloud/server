@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 
 	$('#fileSharingSettings button.pop-up').click(function() {
 		var url = $(this).data('url');
@@ -31,13 +31,13 @@ $(document).ready(function() {
 		var $input = $(e.trigger);
 		$input.tooltip('hide')
 			.attr('data-original-title', t('core', 'Copied!'))
-			.tooltip('fixTitle')
+			.tooltip('_fixTitle')
 			.tooltip({placement: 'bottom', trigger: 'manual'})
 			.tooltip('show');
 		_.delay(function() {
 			$input.tooltip('hide')
 				.attr('data-original-title', t('core', 'Copy'))
-				.tooltip('fixTitle');
+				.tooltip('_fixTitle');
 		}, 3000);
 	});
 	clipboard.on('error', function (e) {
@@ -53,13 +53,13 @@ $(document).ready(function() {
 
 		$input.tooltip('hide')
 			.attr('data-original-title', actionMsg)
-			.tooltip('fixTitle')
+			.tooltip('_fixTitle')
 			.tooltip({placement: 'bottom', trigger: 'manual'})
 			.tooltip('show');
 		_.delay(function () {
 			$input.tooltip('hide')
 				.attr('data-original-title', t('core', 'Copy'))
-				.tooltip('fixTitle');
+				.tooltip('_fixTitle');
 		}, 3000);
 	});
 

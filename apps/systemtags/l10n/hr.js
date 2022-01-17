@@ -1,10 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Oznake",
+    "Tag name is empty" : "Nema naziva oznake",
     "Update" : "Ažuriraj",
     "Create" : "Stvori",
-    "Select tag…" : "Odaberite oznaku…",
+    "Select tag …" : "Odaberite oznaku…",
     "System tag %1$s added by the system" : "Sustav je dodao oznaku sustava %1$s",
     "Added system tag {systemtag}" : "Dodana oznaka sustava {systemtag}",
     "Added system tag %1$s" : "Dodana oznaka sustava %1$s",
@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ograničeno)",
     "%s (invisible)" : "%s (nevidljivo)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Oznake sustava</strong> za datoteku su izmijenjene",
+    "Tags" : "Oznake",
     "Collaborative tags" : "Oznake za suradnju",
     "Collaborative tagging functionality which shares tags among users." : "Funkcija kolaborativnog označavanja dijeli oznake među korisnicima.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkcija kolaborativnog označavanja dijeli oznake među korisnicima. Izvrsna ideja za timove.\n\t(Ako ste davatelj usluga s instalacijom za više stanara, deaktivirajte ovu aplikaciju jer se dijele oznake.)",
@@ -51,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Odaberite oznake za filtriranje prema",
     "No files found for the selected tags" : "Nije pronađena nijedna datoteka za odabrane oznake",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Oznake za suradnju dostupne su svim korisnicima. Ograničene oznake vidljive su korisnicima, ali ih ne mogu dodijeliti. Nevidljive oznake služe za internu uporabu jer ih korisnici ne mogu vidjeti niti dodijeliti.",
-    "Select tag …" : "Odaberite oznaku…",
     "Create a new tag" : "Stvori novu oznaku",
     "Name" : "Naziv",
     "Public" : "Javna",

@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jacob Neplokh <me@jacobneplokh.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -17,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\NotFoundException;
@@ -65,7 +66,6 @@ class ImageExportPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
-
 		$queryParams = $request->getQueryParameters();
 		// TODO: in addition to photo we should also add logo some point in time
 		if (!array_key_exists('photo', $queryParams)) {
@@ -97,13 +97,14 @@ class ImageExportPlugin extends ServerPlugin {
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
 		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
-		$response->setHeader('Etag', $node->getETag() );
+		$response->setHeader('Etag', $node->getETag());
 		$response->setHeader('Pragma', 'public');
 
 		try {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
 			$response->setHeader('Content-Type', $file->getMimeType());
-			$response->setHeader('Content-Disposition', 'attachment');
+			$fileName = $node->getName() . '.' . PhotoCache::ALLOWED_CONTENT_TYPES[$file->getMimeType()];
+			$response->setHeader('Content-Disposition', "attachment; filename=$fileName");
 			$response->setStatus(200);
 
 			$response->setBody($file->getContent());

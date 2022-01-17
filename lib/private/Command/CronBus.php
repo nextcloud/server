@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,18 +16,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Command;
 
 use OCP\Command\ICommand;
-use SuperClosure\Serializer;
 
 class CronBus extends AsyncBus {
 	/**
@@ -52,9 +52,9 @@ class CronBus extends AsyncBus {
 	private function getJobClass($command) {
 		if ($command instanceof \Closure) {
 			return ClosureJob::class;
-		} else if (is_callable($command)) {
+		} elseif (is_callable($command)) {
 			return CallableJob::class;
-		} else if ($command instanceof ICommand) {
+		} elseif ($command instanceof ICommand) {
 			return CommandJob::class;
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
@@ -67,10 +67,9 @@ class CronBus extends AsyncBus {
 	 */
 	private function serializeCommand($command) {
 		if ($command instanceof \Closure) {
-			$serializer = new Serializer();
-			return $serializer->serialize($command);
-		} else if (is_callable($command) or $command instanceof ICommand) {
-			return serialize($command);
+			return \Opis\Closure\serialize($command);
+		} elseif (is_callable($command) or $command instanceof ICommand) {
+			return \Opis\Closure\serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
 		}

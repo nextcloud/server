@@ -6,6 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
@@ -34,7 +34,7 @@ $url = $request->getServerProtocol() . '://' . substr($request->getServerHost() 
 
 $writer = new XMLWriter();
 $writer->openURI('php://output');
-$writer->startDocument('1.0','UTF-8');
+$writer->startDocument('1.0', 'UTF-8');
 $writer->setIndent(true);
 $writer->startElement('providers');
 $writer->startElement('provider');

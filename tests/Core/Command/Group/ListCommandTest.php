@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Core\Command\Group;
 
 use OC\Core\Command\Group\ListCommand;
@@ -32,19 +33,19 @@ use Test\TestCase;
 
 class ListCommandTest extends TestCase {
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 
-	/** @var ListCommand|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ListCommand|\PHPUnit\Framework\MockObject\MockObject */
 	private $command;
 
-	/** @var InputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var InputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $input;
 
-	/** @var OutputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $output;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -54,17 +55,6 @@ class ListCommandTest extends TestCase {
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
-		$this->input->method('getOption')
-			->willReturnCallback(function($arg) {
-				if ($arg === 'limit') {
-					return '100';
-				} else if ($arg === 'offset') {
-					return '42';
-				}
-				throw new \Exception();
-			});
-
-
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
@@ -82,7 +72,7 @@ class ListCommandTest extends TestCase {
 			->with(
 				'',
 				100,
-				42
+				42,
 			)->willReturn([$group1, $group2, $group3]);
 
 		$group1->method('getUsers')
@@ -100,6 +90,18 @@ class ListCommandTest extends TestCase {
 				'user1' => $user,
 				'user3' => $user,
 			]);
+
+		$this->input->method('getOption')
+			->willReturnCallback(function ($arg) {
+				if ($arg === 'limit') {
+					return '100';
+				} elseif ($arg === 'offset') {
+					return '42';
+				} elseif ($arg === 'info') {
+					return null;
+				}
+				throw new \Exception();
+			});
 
 		$this->command->expects($this->once())
 			->method('writeArrayInOutputFormat')
@@ -123,5 +125,87 @@ class ListCommandTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
+	public function testInfo() {
+		$group1 = $this->createMock(IGroup::class);
+		$group1->method('getGID')->willReturn('group1');
+		$group2 = $this->createMock(IGroup::class);
+		$group2->method('getGID')->willReturn('group2');
+		$group3 = $this->createMock(IGroup::class);
+		$group3->method('getGID')->willReturn('group3');
 
+		$user = $this->createMock(IUser::class);
+
+		$this->groupManager->method('search')
+			->with(
+				'',
+				100,
+				42,
+			)->willReturn([$group1, $group2, $group3]);
+
+		$group1->method('getUsers')
+			->willReturn([
+				'user1' => $user,
+				'user2' => $user,
+			]);
+
+		$group1->method('getBackendNames')
+			->willReturn(['Database']);
+
+		$group2->method('getUsers')
+			->willReturn([
+			]);
+
+		$group2->method('getBackendNames')
+			->willReturn(['Database']);
+
+		$group3->method('getUsers')
+			->willReturn([
+				'user1' => $user,
+				'user3' => $user,
+			]);
+
+		$group3->method('getBackendNames')
+			->willReturn(['LDAP']);
+
+		$this->input->method('getOption')
+			->willReturnCallback(function ($arg) {
+				if ($arg === 'limit') {
+					return '100';
+				} elseif ($arg === 'offset') {
+					return '42';
+				} elseif ($arg === 'info') {
+					return true;
+				}
+				throw new \Exception();
+			});
+
+		$this->command->expects($this->once())
+			->method('writeArrayInOutputFormat')
+			->with(
+				$this->equalTo($this->input),
+				$this->equalTo($this->output),
+				[
+					'group1' => [
+						'backends' => ['Database'],
+						'users' => [
+							'user1',
+							'user2',
+						],
+					],
+					'group2' => [
+						'backends' => ['Database'],
+						'users' => [],
+					],
+					'group3' => [
+						'backends' => ['LDAP'],
+						'users' => [
+							'user1',
+							'user3',
+						],
+					]
+				]
+			);
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
 }

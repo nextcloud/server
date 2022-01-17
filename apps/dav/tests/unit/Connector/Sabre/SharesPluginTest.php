@@ -2,12 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
@@ -29,6 +32,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -37,8 +41,7 @@ use OCP\Share\IShare;
 use Sabre\DAV\Tree;
 
 class SharesPluginTest extends \Test\TestCase {
-
-	const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
+	public const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -65,7 +68,7 @@ class SharesPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->createMock(Tree::class);
@@ -73,11 +76,11 @@ class SharesPluginTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('user1'));
+			->willReturn('user1');
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->userFolder = $this->createMock(Folder::class);
 
 		$this->plugin = new \OCA\DAV\Connector\Sabre\SharesPlugin(
@@ -98,10 +101,10 @@ class SharesPluginTest extends \Test\TestCase {
 			->getMock();
 		$sabreNode->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 		$sabreNode->expects($this->any())
 			->method('getPath')
-			->will($this->returnValue('/subdir'));
+			->willReturn('/subdir');
 
 		// node API nodes
 		$node = $this->getMockBuilder(Folder::class)
@@ -111,7 +114,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('get')
 			->with('/subdir')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$this->shareManager->expects($this->any())
 			->method('getSharesBy')
@@ -122,7 +125,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes){
+			->willReturnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes) {
 				if (in_array($requestedShareType, $shareTypes)) {
 					$share = $this->createMock(IShare::class);
 					$share->method('getShareType')
@@ -130,7 +133,7 @@ class SharesPluginTest extends \Test\TestCase {
 					return [$share];
 				}
 				return [];
-			}));
+			});
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -171,7 +174,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->method('getChildren');
 		$sabreNode->expects($this->any())
 			->method('getPath')
-			->will($this->returnValue('/subdir'));
+			->willReturn('/subdir');
 
 		// node API nodes
 		$node = $this->createMock(Folder::class);
@@ -187,12 +190,12 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->userFolder->method('get')
 			->with('/subdir')
 			->willReturn($node);
-		
-		$dummyShares = array_map(function($type) {
+
+		$dummyShares = array_map(function ($type) {
 			$share = $this->getMockBuilder(IShare::class)->getMock();
 			$share->expects($this->any())
 				->method('getShareType')
-				->will($this->returnValue($type));
+				->willReturn($type);
 			return $share;
 		}, $shareTypes);
 
@@ -205,7 +208,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares){
+			->willReturnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares) {
 				if ($node->getId() === 111 && in_array($requestedShareType, $shareTypes)) {
 					foreach ($dummyShares as $dummyShare) {
 						if ($dummyShare->getShareType() === $requestedShareType) {
@@ -215,7 +218,7 @@ class SharesPluginTest extends \Test\TestCase {
 				}
 
 				return [];
-			}));
+			});
 
 		$this->shareManager->expects($this->any())
 			->method('getSharesInFolder')
@@ -224,9 +227,9 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->anything(),
 				$this->equalTo(true)
 			)
-			->will($this->returnCallback(function ($userId, $node, $flag) use ($shareTypes, $dummyShares) {
+			->willReturnCallback(function ($userId, $node, $flag) use ($shareTypes, $dummyShares) {
 				return [111 => $dummyShares];
-			}));
+			});
 
 		// simulate sabre recursive PROPFIND traversal
 		$propFindRoot = new \Sabre\DAV\PropFind(
@@ -265,19 +268,40 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
-	function sharesGetPropertiesDataProvider() {
+	public function sharesGetPropertiesDataProvider() {
 		return [
 			[[]],
-			[[\OCP\Share::SHARE_TYPE_USER]],
-			[[\OCP\Share::SHARE_TYPE_GROUP]],
-			[[\OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_REMOTE]],
-			[[\OCP\Share::SHARE_TYPE_ROOM]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_REMOTE]],
+			[[IShare::TYPE_USER]],
+			[[IShare::TYPE_GROUP]],
+			[[IShare::TYPE_LINK]],
+			[[IShare::TYPE_REMOTE]],
+			[[IShare::TYPE_ROOM]],
+			[[IShare::TYPE_DECK]],
+			[[IShare::TYPE_USER, IShare::TYPE_GROUP]],
+			[[IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK]],
+			[[IShare::TYPE_USER, IShare::TYPE_LINK]],
+			[[IShare::TYPE_GROUP, IShare::TYPE_LINK]],
+			[[IShare::TYPE_USER, IShare::TYPE_REMOTE]],
 		];
+	}
+
+	public function testGetPropertiesSkipChunks(): void {
+		$sabreNode = $this->getMockBuilder(UploadFile::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			[self::SHARETYPES_PROPERTYNAME],
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$sabreNode
+		);
+
+		$result = $propFind->getResultForMultiStatus();
+		$this->assertCount(1, $result[404]);
 	}
 }

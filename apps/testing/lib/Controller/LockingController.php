@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -16,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Testing\Controller;
 
 use OC\Lock\DBLockingProvider;
@@ -233,7 +233,7 @@ class LockingController extends OCSController {
 
 				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
 					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));
-				} else if ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
+				} elseif ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
 					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));
 				} else {
 					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));

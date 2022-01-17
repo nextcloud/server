@@ -4,6 +4,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -22,17 +23,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * test implementation for \OC\Files\Storage\Common with \OC\Files\Storage\Local
- */
-
 namespace OC\Files\Storage;
 
-class CommonTest extends \OC\Files\Storage\Common{
+class CommonTest extends \OC\Files\Storage\Common {
 	/**
 	 * underlying local storage used for missing functions
 	 * @var \OC\Files\Storage\Local
@@ -40,10 +36,10 @@ class CommonTest extends \OC\Files\Storage\Common{
 	private $storage;
 
 	public function __construct($params) {
-		$this->storage=new \OC\Files\Storage\Local($params);
+		$this->storage = new \OC\Files\Storage\Local($params);
 	}
 
-	public function getId(){
+	public function getId() {
 		return 'test::'.$this->storage->getId();
 	}
 	public function mkdir($path) {
@@ -79,7 +75,7 @@ class CommonTest extends \OC\Files\Storage\Common{
 	public function free_space($path) {
 		return $this->storage->free_space($path);
 	}
-	public function touch($path, $mtime=null) {
+	public function touch($path, $mtime = null) {
 		return $this->storage->touch($path, $mtime);
 	}
 }

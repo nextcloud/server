@@ -1,8 +1,18 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,22 +23,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\LookupServerConnector\BackgroundJobs;
-
 
 use OC\Security\IdentityProof\Signer;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\Job;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -87,7 +95,7 @@ class RetryJob extends Job {
 	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
-	public function execute($jobList, ILogger $logger = null): void {
+	public function execute(IJobList $jobList, ILogger $logger = null): void {
 		if (!isset($this->argument['userId'])) {
 			// Old background job without user id, just drop it.
 			$jobList->remove($this, $this->argument);
@@ -144,7 +152,14 @@ class RetryJob extends Job {
 
 		try {
 			if (count($data) === 1) {
-				// No public data, just the federation Id
+				$dataOnLookupServer = $this->config->getUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '0') === '1';
+
+				if (!$dataOnLookupServer) {
+					// We never send data to the lookupserver so no need to delete it
+					return;
+				}
+
+				// There is data on the lookup server so we must delete it
 				$client->delete($this->lookupServer,
 					[
 						'body' => json_encode($signedData),
@@ -152,6 +167,8 @@ class RetryJob extends Job {
 						'connect_timeout' => 3,
 					]
 				);
+
+				$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '0');
 			} else {
 				$client->post($this->lookupServer,
 					[
@@ -160,6 +177,7 @@ class RetryJob extends Job {
 						'connect_timeout' => 3,
 					]
 				);
+				$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '1');
 			}
 
 			// Reset retry counter
@@ -168,7 +186,6 @@ class RetryJob extends Job {
 				'lookup_server_connector',
 				'update_retries'
 			);
-
 		} catch (\Exception $e) {
 			// An error occurred, retry later
 			$this->retainJob = true;
@@ -186,7 +203,7 @@ class RetryJob extends Job {
 
 		$publicData = [];
 		foreach ($account->getProperties() as $property) {
-			if ($property->getScope() === IAccountManager::VISIBILITY_PUBLIC) {
+			if ($property->getScope() === IAccountManager::SCOPE_PUBLISHED) {
 				$publicData[$property->getName()] = $property->getValue();
 			}
 		}

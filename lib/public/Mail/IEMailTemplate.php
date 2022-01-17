@@ -1,12 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2017, Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Brad Rubenstein <brad@wbr.tech>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Leon Klingele <leon@struktur.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Mail;
 
 /**
@@ -104,9 +106,10 @@ interface IEMailTemplate {
 	 *   if empty the $text is used, if false none will be used
 	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
 	 *   if empty the $metaInfo is used, if false none will be used
+	 * @param integer plainIndent If > 0, Indent plainText by this amount.
 	 * @since 12.0.0
 	 */
-	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '');
+	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '', $plainIndent = 0);
 
 	/**
 	 * Adds a button group of two buttons to the body of the email
@@ -127,7 +130,7 @@ interface IEMailTemplate {
 	 *
 	 * @param string $text Text of button; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $url URL of button
-	 * @param string $plainText Text of button in plain text version
+	 * @param string|false $plainText Text of button in plain text version
 	 * 		if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
@@ -138,10 +141,11 @@ interface IEMailTemplate {
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
+	 * @param string $lang Optional language to set the default footer in
 	 *
 	 * @since 12.0.0
 	 */
-	public function addFooter(string $text = '');
+	public function addFooter(string $text = '', ?string $lang = null);
 
 	/**
 	 * Returns the rendered email subject as string

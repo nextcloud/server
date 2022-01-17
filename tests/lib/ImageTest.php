@@ -12,7 +12,7 @@ use OC;
 use OCP\IConfig;
 
 class ImageTest extends \Test\TestCase {
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.png');
 		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
 
@@ -142,6 +142,10 @@ class ImageTest extends \Test\TestCase {
 			->method('getAppValue')
 			->with('preview', 'jpeg_quality', 90)
 			->willReturn(null);
+		$config->expects($this->once())
+			->method('getSystemValueInt')
+			->with('preview_max_memory', 128)
+			->willReturn(128);
 		$img = new \OC_Image(null, null, $config);
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.jpg');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
@@ -344,12 +348,12 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals($expected[1], $img->height());
 	}
 
-	function convertDataProvider() {
-		return array(
-			array( 'image/gif'),
-			array( 'image/jpeg'),
-			array( 'image/png'),
-		);
+	public function convertDataProvider() {
+		return [
+			[ 'image/gif'],
+			[ 'image/jpeg'],
+			[ 'image/png'],
+		];
 	}
 
 	/**
@@ -362,5 +366,18 @@ class ImageTest extends \Test\TestCase {
 
 		$img->save($tempFile, $mimeType);
 		$this->assertEquals($mimeType, image_type_to_mime_type(exif_imagetype($tempFile)));
+	}
+
+	public function testMemoryLimitFromFile() {
+		$img = new \OC_Image();
+		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage-badheader.jpg');
+		$this->assertFalse($img->valid());
+	}
+
+	public function testMemoryLimitFromData() {
+		$data = file_get_contents(OC::$SERVERROOT.'/tests/data/testimage-badheader.jpg');
+		$img = new \OC_Image();
+		$img->loadFromData($data);
+		$this->assertFalse($img->valid());
 	}
 }

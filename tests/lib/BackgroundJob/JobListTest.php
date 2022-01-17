@@ -27,13 +27,13 @@ class JobListTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -64,16 +64,16 @@ class JobListTest extends TestCase {
 	}
 
 	public function argumentProvider() {
-		return array(
-			array(null),
-			array(false),
-			array('foobar'),
-			array(12),
-			array(array(
+		return [
+			[null],
+			[false],
+			['foobar'],
+			[12],
+			[[
 				'asd' => 5,
 				'foo' => 'bar'
-			))
-		);
+			]]
+		];
 	}
 
 	/**
@@ -144,15 +144,6 @@ class JobListTest extends TestCase {
 		$this->instance->add($job, $argument);
 
 		$this->assertFalse($this->instance->has($job, 10));
-	}
-
-	public function testGetLastJob() {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('backgroundjob', 'lastjob', 0)
-			->will($this->returnValue(15));
-
-		$this->assertEquals(15, $this->instance->getLastJob());
 	}
 
 	protected function createTempJob($class, $argument, $reservedTime = 0, $lastChecked = 0) {

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files\Activity;
 
 use OCP\Activity\IEvent;
@@ -32,9 +32,8 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 class FavoriteProvider implements IProvider {
-
-	const SUBJECT_ADDED = 'added_favorite';
-	const SUBJECT_REMOVED = 'removed_favorite';
+	public const SUBJECT_ADDED = 'added_favorite';
+	public const SUBJECT_REMOVED = 'removed_favorite';
 
 	/** @var IFactory */
 	protected $languageFactory;
@@ -97,7 +96,6 @@ class FavoriteProvider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseShortVersion(IEvent $event) {
-
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$event->setParsedSubject($this->l->t('Added to favorites'));
 			if ($this->activityManager->getRequirePNG()) {
@@ -105,7 +103,7 @@ class FavoriteProvider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
 			}
-		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOVED) {
 			$event->setType('unfavorite');
 			$event->setParsedSubject($this->l->t('Removed from favorites'));
 			if ($this->activityManager->getRequirePNG()) {
@@ -128,7 +126,6 @@ class FavoriteProvider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
-
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$subject = $this->l->t('You added {file} to your favorites');
 			if ($this->activityManager->getRequirePNG()) {
@@ -136,7 +133,7 @@ class FavoriteProvider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
 			}
-		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOVED) {
 			$event->setType('unfavorite');
 			$subject = $this->l->t('You removed {file} from your favorites');
 			if ($this->activityManager->getRequirePNG()) {

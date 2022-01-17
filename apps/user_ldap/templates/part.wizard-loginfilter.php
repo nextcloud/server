@@ -5,16 +5,16 @@
 		</p>
 		<p>
 			<label for="ldap_loginfilter_username">
-				<?php p($l->t('LDAP / AD Username:'));?>
+				<?php p($l->t('LDAP/AD Username:'));?>
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_username"
-				   title="<?php p($l->t('Allows login against the LDAP / AD username, which is either "uid" or "sAMAccountName" and will be detected.'));?>"
+				   title="<?php p($l->t('Allows login against the LDAP/AD username, which is either "uid" or "sAMAccountName" and will be detected.'));?>"
 				   name="ldap_loginfilter_username" value="1" />
 		</p>
 		<p>
 			<label for="ldap_loginfilter_email">
-				<?php p($l->t('LDAP / AD Email Address:'));?>
+				<?php p($l->t('LDAP/AD Email Address:'));?>
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_email"

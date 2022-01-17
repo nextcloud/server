@@ -21,13 +21,11 @@
 
 namespace Test\RichObjectStrings;
 
-
 use OC\RichObjectStrings\Validator;
 use OCP\RichObjectStrings\Definitions;
 use Test\TestCase;
 
 class ValidatorTest extends TestCase {
-
 	public function test() {
 		$v = new Validator(new Definitions());
 		$v->validate('test', []);
@@ -51,5 +49,4 @@ class ValidatorTest extends TestCase {
 		]);
 		$this->addToAssertionCount(2);
 	}
-
 }

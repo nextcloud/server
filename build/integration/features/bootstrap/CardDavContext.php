@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Phil Davis <phil.davis@inf.org>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 use GuzzleHttp\Client;
@@ -70,7 +71,8 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {}
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		}
 	}
 
 	/**
@@ -100,7 +102,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			$this->response = $e->getResponse();
 		}
 
-		if((int)$statusCode !== $this->response->getStatusCode()) {
+		if ((int)$statusCode !== $this->response->getStatusCode()) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -111,7 +113,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		}
 
 		$body = $this->response->getBody()->getContents();
-		if(substr($body, 0, 1) === '<') {
+		if (substr($body, 0, 1) === '<') {
 			$reader = new Sabre\Xml\Reader();
 			$reader->xml($body);
 			$this->responseXml = $reader->parse();
@@ -153,7 +155,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			]
 		);
 
-		if($this->response->getStatusCode() !== (int)$statusCode) {
+		if ($this->response->getStatusCode() !== (int)$statusCode) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -172,7 +174,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	public function theCarddavExceptionIs($message) {
 		$result = $this->responseXml['value'][0]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -191,7 +193,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	public function theCarddavErrorMessageIs($message) {
 		$result = $this->responseXml['value'][1]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -205,7 +207,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @Given :user uploads the contact :fileName to the addressbook :addressbook
 	 */
-	public function uploadsTheContactToTheAddressbook($user, $fileName, $addressBook)  {
+	public function uploadsTheContactToTheAddressbook($user, $fileName, $addressBook) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
@@ -224,7 +226,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			]
 		);
 
-		if($this->response->getStatusCode() !== 201) {
+		if ($this->response->getStatusCode() !== 201) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -238,7 +240,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @When Exporting the picture of contact :fileName from addressbook :addressBook as user :user
 	 */
-	public function whenExportingThePictureOfContactFromAddressbookAsUser($fileName, $addressBook, $user)  {
+	public function whenExportingThePictureOfContactFromAddressbookAsUser($fileName, $addressBook, $user) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName . '?photo=true';
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
@@ -264,7 +266,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @When Downloading the contact :fileName from addressbook :addressBook as user :user
 	 */
-	public function whenDownloadingTheContactFromAddressbookAsUser($fileName, $addressBook, $user)  {
+	public function whenDownloadingTheContactFromAddressbookAsUser($fileName, $addressBook, $user) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
@@ -283,7 +285,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 				]
 			);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
-				$this->response = $e->getResponse();
+			$this->response = $e->getResponse();
 		}
 	}
 
@@ -293,11 +295,11 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theFollowingHttpHeadersShouldBeSet(\Behat\Gherkin\Node\TableNode $table) {
-		foreach($table->getTable() as $header) {
+		foreach ($table->getTable() as $header) {
 			$headerName = $header[0];
 			$expectedHeaderValue = $header[1];
 			$returnedHeader = $this->response->getHeader($headerName)[0];
-			if($returnedHeader !== $expectedHeaderValue) {
+			if ($returnedHeader !== $expectedHeaderValue) {
 				throw new \Exception(
 					sprintf(
 						"Expected value '%s' for header '%s', got '%s'",

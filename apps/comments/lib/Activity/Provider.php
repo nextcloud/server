@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Activity;
 
 use OCP\Activity\IEvent;
@@ -146,17 +147,17 @@ class Provider implements IProvider {
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
 				$event->setParsedSubject($this->l->t('You commented on %1$s', [
-						$subjectParameters['filePath'],
-					]))
+					$subjectParameters['filePath'],
+				]))
 					->setRichSubject($this->l->t('You commented on {file}'), [
 						'file' => $this->generateFileParameter($subjectParameters['fileId'], $subjectParameters['filePath']),
 					]);
 			} else {
 				$author = $this->generateUserParameter($subjectParameters['actor']);
 				$event->setParsedSubject($this->l->t('%1$s commented on %2$s', [
-						$author['name'],
-						$subjectParameters['filePath'],
-					]))
+					$author['name'],
+					$subjectParameters['filePath'],
+				]))
 					->setRichSubject($this->l->t('{author} commented on {file}'), [
 						'author' => $author,
 						'file' => $this->generateFileParameter($subjectParameters['fileId'], $subjectParameters['filePath']),
@@ -184,7 +185,7 @@ class Provider implements IProvider {
 		// they will get the dead entries in their stream.
 		return [
 			'actor' => $subjectParameters[0],
-			'fileId' => (int) $event->getObjectId(),
+			'fileId' => $event->getObjectId(),
 			'filePath' => trim($subjectParameters[1], '/'),
 		];
 	}
@@ -212,17 +213,11 @@ class Provider implements IProvider {
 					continue;
 				}
 
-				$pattern = '/(^|\s)(' . '@' . $mention['id'] . ')(\b)/';
-				if (strpos($mention['id'], ' ') !== false) {
-					$pattern = '/(^|\s)(' . '@"' . $mention['id'] . '"' . ')(\b)?/';
+				$message = str_replace('@"' . $mention['id'] . '"', '{mention' . $mentionCount . '}', $message);
+				if (strpos($mention['id'], ' ') === false && strpos($mention['id'], 'guest/') !== 0) {
+					$message = str_replace('@' . $mention['id'], '{mention' . $mentionCount . '}', $message);
 				}
 
-				$message = preg_replace(
-					$pattern,
-					//'${1}' . $this->regexSafeUser($mention['id'], $displayName) . '${3}',
-					'${1}' . '{mention' . $mentionCount . '}' . '${3}',
-					$message
-				);
 				$mentions['mention' . $mentionCount] = $this->generateUserParameter($mention['id']);
 				$mentionCount++;
 			}

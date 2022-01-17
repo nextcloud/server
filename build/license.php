@@ -15,11 +15,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-class Licenses
-{
+
+class Licenses {
 	protected $paths = [];
 	protected $mailMap = [];
 	protected $checkFiles = [];
@@ -41,11 +41,11 @@ class Licenses
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 EOD;
@@ -67,7 +67,7 @@ EOD;
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 EOD;
@@ -78,10 +78,9 @@ EOD;
 	 * @param string|string[] $folder
 	 * @param string|bool $gitRoot
 	 */
-	function exec($folder, $gitRoot = false) {
-
+	public function exec($folder, $gitRoot = false) {
 		if (is_array($folder)) {
-			foreach($folder as $f) {
+			foreach ($folder as $f) {
 				$this->exec($f, $gitRoot);
 			}
 			return;
@@ -97,14 +96,14 @@ EOD;
 			return;
 		}
 
-		$excludes = array_map(function($item) use ($folder) {
+		$excludes = array_map(function ($item) use ($folder) {
 			return $folder . '/' . $item;
-		}, ['vendor', '3rdparty', '.git', 'l10n', 'templates', 'composer']);
+		}, ['vendor', '3rdparty', '.git', 'l10n', 'templates', 'composer', 'js', 'node_modules']);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
-		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
+		$iterator = new RecursiveCallbackFilterIterator($iterator, function ($item) use ($folder, $excludes) {
 			/** @var SplFileInfo $item */
-			foreach($excludes as $exclude) {
+			foreach ($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {
 					return false;
 				}
@@ -112,7 +111,7 @@ EOD;
 			return true;
 		});
 		$iterator = new RecursiveIteratorIterator($iterator);
-		$iterator = new RegexIterator($iterator, '/^.+\.php$/i');
+		$iterator = new RegexIterator($iterator, '/^.+\.(js|php)$/i');
 
 		foreach ($iterator as $file) {
 			/** @var SplFileInfo $file */
@@ -122,7 +121,7 @@ EOD;
 		$this->printFilesToCheck();
 	}
 
-	function writeAuthorsFile() {
+	public function writeAuthorsFile() {
 		ksort($this->authors);
 		$template = "Nextcloud is written by:
 @AUTHORS@
@@ -133,14 +132,16 @@ With help from many libraries and frameworks including:
 	jQuery
 	…
 ";
-		$authors = implode(PHP_EOL, array_map(function($author){
+		$authors = implode(PHP_EOL, array_map(function ($author) {
 			return " - ".$author;
 		}, $this->authors));
 		$template = str_replace('@AUTHORS@', $authors, $template);
 		file_put_contents(__DIR__.'/../AUTHORS', $template);
 	}
 
-	function handleFile($path, $gitRoot) {
+	public function handleFile($path, $gitRoot) {
+		$isPhp = preg_match('/^.+\.php$/i', $path);
+
 		$source = file_get_contents($path);
 		if ($this->isMITLicensed($source)) {
 			echo "MIT licensed file: $path" . PHP_EOL;
@@ -156,14 +157,25 @@ With help from many libraries and frameworks including:
 		}
 
 		if ($copyrightNotices === '') {
-			$license = str_replace('@COPYRIGHT@', ' *', $license);
+			$creator = $this->getCreatorCopyright($path, $gitRoot);
+			$license = str_replace('@COPYRIGHT@', $creator, $license);
 		} else {
 			$license = str_replace('@COPYRIGHT@', $copyrightNotices, $license);
 		}
 
-		$source = $this->eatOldLicense($source);
-		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
-		file_put_contents($path,$source);
+		[$source, $isStrict] = $this->eatOldLicense($source);
+
+		if ($isPhp) {
+			if ($isStrict) {
+				$source = "<?php" . PHP_EOL . PHP_EOL . 'declare(strict_types=1);' . PHP_EOL . PHP_EOL . $license . PHP_EOL . $source;
+			} else {
+				$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
+			}
+		} else {
+			$source = $license . PHP_EOL . PHP_EOL . $source;
+		}
+
+		file_put_contents($path, $source);
 		echo "License updated: $path" . PHP_EOL;
 	}
 
@@ -173,7 +185,7 @@ With help from many libraries and frameworks including:
 	 */
 	private function isMITLicensed($source) {
 		$lines = explode(PHP_EOL, $source);
-		while(!empty($lines)) {
+		while (!empty($lines)) {
 			$line = $lines[0];
 			array_shift($lines);
 			if (strpos($line, 'The MIT License') !== false) {
@@ -184,18 +196,18 @@ With help from many libraries and frameworks including:
 		return false;
 	}
 
-        private function isOwnCloudLicensed($source) {
-			$lines = explode(PHP_EOL, $source);
-			while(!empty($lines)) {
-				$line = $lines[0];
-				array_shift($lines);
-				if (strpos($line, 'ownCloud, Inc') !== false || strpos($line, 'ownCloud GmbH') !== false) {
-					return true;
-				}
+	private function isOwnCloudLicensed($source) {
+		$lines = explode(PHP_EOL, $source);
+		while (!empty($lines)) {
+			$line = $lines[0];
+			array_shift($lines);
+			if (strpos($line, 'ownCloud, Inc') !== false || strpos($line, 'ownCloud GmbH') !== false) {
+				return true;
 			}
+		}
 
-			return false;
-        }
+		return false;
+	}
 
 	/**
 	 * @param string $source
@@ -203,43 +215,73 @@ With help from many libraries and frameworks including:
 	 */
 	private function eatOldLicense($source) {
 		$lines = explode(PHP_EOL, $source);
-		while(!empty($lines)) {
-			$line = $lines[0];
-			if (strpos($line, '<?php') !== false) {
-				array_shift($lines);
+		$isStrict = false;
+
+		$index = 0;
+		while (!empty($lines) && array_key_exists($index, $lines)) {
+			$line = $lines[$index];
+
+			if (trim($line) === '<?php') {
+				array_splice($lines, $index, 1);
+				continue;
+			}
+
+			// Skipping if the line contains important js keywords
+			if (strpos($line, 'eslint-') !== false
+				|| strpos($line, 'globals') !== false
+				|| strpos($line, 'const') !== false
+				|| strpos($line, 'import') !== false) {
+				$index++;
+				continue;
+			}
+	
+			if (strpos($line, '<?php declare(strict_types') !== false) {
+				$isStrict = true;
+				array_splice($lines, $index, 1);
+				continue;
+			}
+			if (strpos($line, 'declare (strict_types') !== false) {
+				$isStrict = true;
+				array_splice($lines, $index, 1);
+				continue;
+			}
+			if (strpos($line, 'declare(strict_types') !== false) {
+				$isStrict = true;
+				array_splice($lines, $index, 1);
 				continue;
 			}
 			if (strpos($line, '/**') !== false) {
-				array_shift($lines);
+				array_splice($lines, $index, 1);
 				continue;
 			}
-			if (strpos($line, '*/') !== false ) {
-				array_shift($lines);
+			// If we reach the end of the copyright header (and it's not a one-line comment /* xxx */)
+			if (strpos($line, '*/') !== false && strpos($line, '/*') !== false) {
+				array_splice($lines, $index, 1);
 				break;
 			}
 			if (strpos($line, '*') !== false) {
-				array_shift($lines);
+				array_splice($lines, $index, 1);
 				continue;
 			}
 			if (trim($line) === '') {
-				array_shift($lines);
+				array_splice($lines, $index, 1);
 				continue;
 			}
 			break;
 		}
 
-		return implode(PHP_EOL, $lines);
+		return [implode(PHP_EOL, $lines), $isStrict];
 	}
 
 	private function getCopyrightNotices($path, $file) {
-		$licenseHeaderEndsAtLine = (int)trim(shell_exec("grep -n '*/' $path | head -n 1 | cut -d ':' -f 1"));
-		$lineByLine = explode(PHP_EOL, $file, $licenseHeaderEndsAtLine + 1);
+		$licenseHeaderCopyrightAtLines = trim(shell_exec("grep -ni 'copyright' $path | cut -d ':' -f 1"));
+		$lineByLine = explode(PHP_EOL, $file);
+		
 		$copyrightNotice = [];
-		$licensePart = array_slice($lineByLine, 0, $licenseHeaderEndsAtLine);
-		foreach ($licensePart as $line) {
-			if (strpos($line, '@copyright') !== false) {
-				$copyrightNotice[] = $line;
-			}
+		if (trim($licenseHeaderCopyrightAtLines !== '')) {
+			$copyrightNotice = array_map(function ($line) use ($lineByLine) {
+				return $lineByLine[(int)$line - 1];
+			}, explode(PHP_EOL, $licenseHeaderCopyrightAtLines));
 		}
 
 		return implode(PHP_EOL, $copyrightNotice);
@@ -268,7 +310,7 @@ With help from many libraries and frameworks including:
 			chdir($buildDir);
 		}
 		$timestampChanges = explode(PHP_EOL, $out);
-		$timestampChanges = array_slice($timestampChanges, 0, count($timestampChanges)-1);
+		$timestampChanges = array_slice($timestampChanges, 0, count($timestampChanges) - 1);
 		foreach ($timestampChanges as $timestamp) {
 			if ((int)$timestamp < $deadlineTimestamp) {
 				return;
@@ -277,7 +319,6 @@ With help from many libraries and frameworks including:
 
 		//all changes after the deadline
 		$this->checkFiles[] = $path;
-
 	}
 
 	private function printFilesToCheck() {
@@ -293,21 +334,8 @@ With help from many libraries and frameworks including:
 		}
 	}
 
-	private function getAuthors($file, $gitRoot) {
-		// only add authors that changed code and not the license header
-		$licenseHeaderEndsAtLine = trim(shell_exec("grep -n '*/' $file | head -n 1 | cut -d ':' -f 1"));
-		$buildDir = getcwd();
-		if ($gitRoot) {
-			chdir($gitRoot);
-			$file = substr($file, strlen($gitRoot));
-		}
-		$out = shell_exec("git blame --line-porcelain -L $licenseHeaderEndsAtLine, $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /' | sort -f | uniq");
-		if ($gitRoot) {
-			chdir($buildDir);
-		}
-		$authors = explode(PHP_EOL, $out);
-
-		$authors = array_filter($authors, function($author) {
+	private function filterAuthors($authors = []) {
+		$authors = array_filter($authors, function ($author) {
 			return !in_array($author, [
 				'',
 				'Not Committed Yet <not.committed.yet>',
@@ -316,12 +344,67 @@ With help from many libraries and frameworks including:
 			]);
 		});
 
+		// Strip out dependabot
+		$authors = array_filter($authors, function ($author) {
+			return strpos($author, 'dependabot') === false;
+		});
+
+		return $authors;
+	}
+
+	private function getCreatorCopyright($file, $gitRoot) {
+		$buildDir = getcwd();
+
+		if ($gitRoot) {
+			chdir($gitRoot);
+			$file = substr($file, strlen($gitRoot));
+		}
+
+		$year = trim(shell_exec('date +%Y -d "$(git log --format=%aD ../apps/files/lib/Controller/ViewController.php | tail -1)"'));
+		$blame = shell_exec("git blame --line-porcelain $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /'");
+		$authors = explode(PHP_EOL, $blame);
+
+		if ($gitRoot) {
+			chdir($buildDir);
+		}
+
+		$authors = $this->filterAuthors($authors);
+		
 		if ($gitRoot) {
 			$authors = array_map([$this, 'checkCoreMailMap'], $authors);
 			$authors = array_unique($authors);
 		}
 
-		$authors = array_map(function($author){
+		$creator = array_key_exists(0, $authors)
+			? $this->fixInvalidEmail($authors[0])
+			: '';
+		return " * @copyright Copyright (c) $year $creator";
+	}
+
+	private function getAuthors($file, $gitRoot) {
+		// only add authors that changed code and not the license header
+		$licenseHeaderEndsAtLine = trim(shell_exec("grep -n '*/' $file | head -n 1 | cut -d ':' -f 1"));
+		$buildDir = getcwd();
+
+		if ($gitRoot) {
+			chdir($gitRoot);
+			$file = substr($file, strlen($gitRoot));
+		}
+		$out = shell_exec("git blame --line-porcelain -L $licenseHeaderEndsAtLine, $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /' | sort -f | uniq");
+
+		if ($gitRoot) {
+			chdir($buildDir);
+		}
+
+		$authors = explode(PHP_EOL, $out);
+		$authors = $this->filterAuthors($authors);
+
+		if ($gitRoot) {
+			$authors = array_map([$this, 'checkCoreMailMap'], $authors);
+			$authors = array_unique($authors);
+		}
+
+		$authors = array_map(function ($author) {
 			$author = $this->fixInvalidEmail($author);
 			$this->authors[$author] = $author;
 			return " * @author $author";
@@ -338,7 +421,7 @@ With help from many libraries and frameworks including:
 				if (strpos($entry, '> ') === false) {
 					$this->mailMap[$entry] = $entry;
 				} else {
-					list($use, $actual) = explode('> ', $entry);
+					[$use, $actual] = explode('> ', $entry);
 					$this->mailMap[$actual] = $use . '>';
 				}
 			}
@@ -364,8 +447,12 @@ if (isset($argv[1])) {
 	$licenses->exec($argv[1], isset($argv[2]) ? $argv[1] : false);
 } else {
 	$licenses->exec([
+		'../apps/accessibility',
 		'../apps/admin_audit',
+		'../apps/cloud_federation_api',
 		'../apps/comments',
+		'../apps/contactsinteraction',
+		'../apps/dashboard',
 		'../apps/dav',
 		'../apps/encryption',
 		'../apps/federatedfilesharing',
@@ -375,17 +462,24 @@ if (isset($argv[1])) {
 		'../apps/files_sharing',
 		'../apps/files_trashbin',
 		'../apps/files_versions',
+		'../apps/lookup_server_connector',
+		'../apps/oauth2',
 		'../apps/provisioning_api',
+		'../apps/settings',
+		'../apps/sharebymail',
 		'../apps/systemtags',
 		'../apps/testing',
 		'../apps/theming',
+		'../apps/twofactor_backupcodes',
 		'../apps/updatenotification',
 		'../apps/user_ldap',
+		'../apps/user_status',
+		'../apps/weather_status',
+		'../apps/workflowengine',
 		'../build/integration/features/bootstrap',
 		'../core',
 		'../lib',
 		'../ocs',
-		'../settings',
 		'../console.php',
 		'../cron.php',
 		'../index.php',

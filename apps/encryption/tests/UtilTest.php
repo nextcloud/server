@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -21,13 +22,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Encryption\Tests;
-
 
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
@@ -45,16 +43,16 @@ use Test\TestCase;
 class UtilTest extends TestCase {
 	private static $tempStorage = [];
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
 
-	/** @var \OC\Files\View|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\View|\PHPUnit\Framework\MockObject\MockObject */
 	private $filesMock;
 
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManagerMock;
 
-	/** @var \OCP\Files\Mount\IMountPoint|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Files\Mount\IMountPoint|\PHPUnit\Framework\MockObject\MockObject */
 	private $mountMock;
 
 	/** @var Util */
@@ -76,12 +74,12 @@ class UtilTest extends TestCase {
 	public function testUserHasFiles() {
 		$this->filesMock->expects($this->once())
 			->method('file_exists')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->assertTrue($this->instance->userHasFiles('admin'));
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->mountMock = $this->createMock(IMountPoint::class);
 		$this->filesMock = $this->createMock(View::class);
@@ -112,11 +110,11 @@ class UtilTest extends TestCase {
 
 		$this->configMock->expects($this->any())
 			->method('getUserValue')
-			->will($this->returnCallback([$this, 'getValueTester']));
+			->willReturnCallback([$this, 'getValueTester']);
 
 		$this->configMock->expects($this->any())
 			->method('setUserValue')
-			->will($this->returnCallback([$this, 'setValueTester']));
+			->willReturnCallback([$this, 'setValueTester']);
 
 		$this->instance = new Util($this->filesMock, $cryptMock, $loggerMock, $userSessionMock, $this->configMock, $this->userManagerMock);
 	}
@@ -217,5 +215,4 @@ class UtilTest extends TestCase {
 
 		$this->assertEquals($return, $this->instance->getStorage($path));
 	}
-
 }

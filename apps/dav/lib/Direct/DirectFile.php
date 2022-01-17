@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,17 +17,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Direct;
 
 use OCA\DAV\Db\Direct;
+use OCA\DAV\Events\BeforeFileDirectDownloadedEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Sabre\DAV\Exception\Forbidden;
@@ -41,9 +45,12 @@ class DirectFile implements IFile {
 	/** @var File */
 	private $file;
 
-	public function __construct(Direct $direct, IRootFolder $rootFolder) {
+	private $eventDispatcher;
+
+	public function __construct(Direct $direct, IRootFolder $rootFolder, IEventDispatcher $eventDispatcher) {
 		$this->direct = $direct;
 		$this->rootFolder = $rootFolder;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	public function put($data) {
@@ -52,6 +59,8 @@ class DirectFile implements IFile {
 
 	public function get() {
 		$this->getFile();
+
+		$this->eventDispatcher->dispatchTyped(new BeforeFileDirectDownloadedEvent($this->file));
 
 		return $this->file->fopen('rb');
 	}
@@ -106,5 +115,4 @@ class DirectFile implements IFile {
 
 		return $this->file;
 	}
-
 }

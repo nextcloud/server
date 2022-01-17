@@ -30,10 +30,10 @@ class RawConnection {
 	 * $pipes[4] holds the stream for writing files
 	 * $pipes[5] holds the stream for reading files
 	 */
-	private $pipes;
+	private $pipes = [];
 
 	/**
-	 * @var resource $process
+	 * @var resource|null $process
 	 */
 	private $process;
 
@@ -42,17 +42,20 @@ class RawConnection {
 	 */
 	private $authStream = null;
 
-	private $connected = false;
-
-	public function __construct($command, array $env = []) {
+	/**
+	 * @param string $command
+	 * @param array<string, string> $env
+	 */
+	public function __construct(string $command, array $env = []) {
 		$this->command = $command;
 		$this->env = $env;
 	}
 
 	/**
 	 * @throws ConnectException
+	 * @psalm-assert resource $this->process
 	 */
-	public function connect() {
+	public function connect(): void {
 		if (is_null($this->getAuthStream())) {
 			throw new ConnectException('Authentication not set before connecting');
 		}
@@ -77,18 +80,18 @@ class RawConnection {
 		if (!$this->isValid()) {
 			throw new ConnectionException();
 		}
-		$this->connected = true;
 	}
 
 	/**
 	 * check if the connection is still active
 	 *
 	 * @return bool
+	 * @psalm-assert-if-true resource $this->process
 	 */
-	public function isValid() {
+	public function isValid(): bool {
 		if (is_resource($this->process)) {
 			$status = proc_get_status($this->process);
-			return $status['running'];
+			return (bool)$status['running'];
 		} else {
 			return false;
 		}
@@ -98,10 +101,12 @@ class RawConnection {
 	 * send input to the process
 	 *
 	 * @param string $input
+	 * @return int|bool
 	 */
-	public function write($input) {
-		fwrite($this->getInputStream(), $input);
+	public function write(string $input) {
+		$result = @fwrite($this->getInputStream(), $input);
 		fflush($this->getInputStream());
+		return $result;
 	}
 
 	/**
@@ -116,18 +121,19 @@ class RawConnection {
 	/**
 	 * read a line of output
 	 *
-	 * @return string
+	 * @return string|false
 	 */
 	public function readError() {
-		return trim(stream_get_line($this->getErrorStream(), 4086));
+		$line = stream_get_line($this->getErrorStream(), 4086);
+		return $line !== false ? trim($line) : false;
 	}
 
 	/**
 	 * get all output until the process closes
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	public function readAll() {
+	public function readAll(): array {
 		$output = [];
 		while ($line = $this->readLine()) {
 			$output[] = $line;
@@ -135,62 +141,78 @@ class RawConnection {
 		return $output;
 	}
 
+	/**
+	 * @return resource
+	 */
 	public function getInputStream() {
 		return $this->pipes[0];
 	}
 
+	/**
+	 * @return resource
+	 */
 	public function getOutputStream() {
 		return $this->pipes[1];
 	}
 
+	/**
+	 * @return resource
+	 */
 	public function getErrorStream() {
 		return $this->pipes[2];
 	}
 
+	/**
+	 * @return resource|null
+	 */
 	public function getAuthStream() {
 		return $this->authStream;
 	}
 
+	/**
+	 * @return resource
+	 */
 	public function getFileInputStream() {
 		return $this->pipes[4];
 	}
 
+	/**
+	 * @return resource
+	 */
 	public function getFileOutputStream() {
 		return $this->pipes[5];
 	}
 
-	public function writeAuthentication($user, $password) {
-		$auth = ($password === false)
+	/**
+	 * @param string|null $user
+	 * @param string|null $password
+	 * @psalm-assert resource $this->authStream
+	 */
+	public function writeAuthentication(?string $user, ?string $password): void {
+		$auth = ($password === null)
 			? "username=$user"
 			: "username=$user\npassword=$password\n";
 
 		$this->authStream = fopen('php://temp', 'w+');
-		fwrite($this->getAuthStream(), $auth);
+		fwrite($this->authStream, $auth);
 	}
 
-	public function close($terminate = true) {
+	/**
+	 * @param bool $terminate
+	 * @psalm-assert null $this->process
+	 */
+	public function close(bool $terminate = true): void {
 		if (!is_resource($this->process)) {
 			return;
 		}
 		if ($terminate) {
-			// if for case that posix_ functions are not available
-			if (function_exists('posix_kill')) {
-				$status = proc_get_status($this->process);
-				$ppid = $status['pid'];
-				$pids = preg_split('/\s+/', `ps -o pid --no-heading --ppid $ppid`);
-				foreach ($pids as $pid) {
-					if (is_numeric($pid)) {
-						//9 is the SIGKILL signal
-						posix_kill($pid, 9);
-					}
-				}
-			}
 			proc_terminate($this->process);
 		}
 		proc_close($this->process);
+		$this->process = null;
 	}
 
-	public function reconnect() {
+	public function reconnect(): void {
 		$this->close();
 		$this->connect();
 	}

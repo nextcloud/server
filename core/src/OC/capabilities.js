@@ -1,9 +1,11 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,16 +18,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-const capabilities = window._oc_capabilities || {}
+import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
 
 /**
  * Returns the capabilities
  *
- * @returns {Array} capabilities
+ * @return {Array} capabilities
  *
- * @since 14.0
+ * @since 14.0.0
  */
-export const getCapabilities = () => capabilities
+export const getCapabilities = () => {
+	console.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')
+	return realGetCapabilities()
+}

@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\PreviewController;
@@ -36,19 +37,19 @@ use OCP\IRequest;
 
 class PreviewControllerTest extends \Test\TestCase {
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
 	/** @var string */
 	private $userId;
 
-	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
 	private $previewManager;
 
-	/** @var PreviewController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PreviewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
@@ -211,6 +212,8 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('my name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->previewManager->method('getPreview')
 			->with($this->equalTo($file), 10, 10, false, $this->equalTo('myMode'))
 			->willReturn($preview);

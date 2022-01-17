@@ -1,12 +1,17 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,41 +26,45 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
  * Interface ILogger
- * @package OCP
  * @since 7.0.0
  *
  * This logger interface follows the design guidelines of PSR-3
  * https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#3-psrlogloggerinterface
+ * @deprecated 20.0.0 use the PSR-3 logger \Psr\Log\LoggerInterface
  */
 interface ILogger {
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
-	const DEBUG=0;
+	public const DEBUG = 0;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
-	const INFO=1;
+	public const INFO = 1;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
-	const WARN=2;
+	public const WARN = 2;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
-	const ERROR=3;
+	public const ERROR = 3;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
-	const FATAL=4;
+	public const FATAL = 4;
 
 	/**
 	 * System is unusable.
@@ -64,6 +73,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::emergency
 	 */
 	public function emergency(string $message, array $context = []);
 
@@ -74,6 +84,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::alert
 	 */
 	public function alert(string $message, array $context = []);
 
@@ -84,6 +95,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::critical
 	 */
 	public function critical(string $message, array $context = []);
 
@@ -95,6 +107,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::error
 	 */
 	public function error(string $message, array $context = []);
 
@@ -105,6 +118,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::warning
 	 */
 	public function warning(string $message, array $context = []);
 
@@ -115,6 +129,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::notice
 	 */
 	public function notice(string $message, array $context = []);
 
@@ -125,6 +140,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::info
 	 */
 	public function info(string $message, array $context = []);
 
@@ -135,6 +151,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::debug
 	 */
 	public function debug(string $message, array $context = []);
 
@@ -146,6 +163,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return mixed
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::log
 	 */
 	public function log(int $level, string $message, array $context = []);
 
@@ -164,6 +182,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 use the `exception` entry in the context of any method in \Psr\Log\LoggerInterface
 	 */
 	public function logException(\Throwable $exception, array $context = []);
 }

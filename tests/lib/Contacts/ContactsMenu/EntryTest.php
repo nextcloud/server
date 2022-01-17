@@ -33,7 +33,7 @@ class EntryTest extends TestCase {
 	/** @var Entry */
 	private $entry;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->entry = new Entry();
@@ -96,19 +96,22 @@ class EntryTest extends TestCase {
 
 	public function testJsonSerialize() {
 		$expectedJson = [
-			'id' => 123,
+			'id' => '123',
 			'fullName' => 'Guadalupe Frisbey',
 			'topAction' => null,
 			'actions' => [],
 			'lastMessage' => '',
 			'avatar' => null,
+			'emailAddresses' => ['user@example.com'],
+			'profileTitle' => null,
+			'profileUrl' => null,
 		];
 
 		$this->entry->setId(123);
 		$this->entry->setFullName('Guadalupe Frisbey');
+		$this->entry->addEMailAddress('user@example.com');
 		$json = $this->entry->jsonSerialize();
 
 		$this->assertEquals($expectedJson, $json);
 	}
-
 }

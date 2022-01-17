@@ -18,20 +18,16 @@
     "File is already shared with %s" : "ფაილი უკვე გაზიარებულია მომხმარებელთან %s ",
     "Could not find share" : "გაზიარება ვერ იქნა ნაპოვნი",
     "Federated sharing" : "ფედერალური გაზიარება",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s (სახელით %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "თქვენ მიიღეთ გაზიარება {share} როგორც დისტანციური გაზიარება მომხმარებლისგან {user} (სახელით {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s",
     "You received {share} as a remote share from {user}" : "თქვენ მიიღეთ {share} როგორც დისტანციური გაზიარება მომხმარებლისგან {user}",
     "Accept" : "მიღება",
     "Decline" : "უარყოფა",
+    "Federated Cloud Sharing" : "ფედერალური ქლაუდ გაზიარება",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით, იხილეთ %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით",
     "Sharing" : "გაზიარება",
     "Federated file sharing" : "ფედერალური ფაილების გაზიარება",
-    "Federated Cloud Sharing" : "ფედერალური ქლაუდ გაზიარება",
     "Open documentation" : "ღია დოკუმენტაცია",
-    "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება.",
-    "Allow users on this server to send shares to other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე გააგზავნონ გაზიარებები სხვა სერვერებთან",
     "Allow users on this server to receive shares from other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე მიიღონ გაზიარებები სხვა სერვერებიდან",
     "Search global and public address book for users" : "მოძებნეთ გლობალური და ღია მომხმარებლების მისამართების წიგნები",
     "Allow users to publish their data to a global and public address book" : "დართეთ ნება მომხმარებლებს გამოაქყვეყნონ მათი მონაცემები გლობალურ და საზოგადო მისამართების წიგნებში",
@@ -40,6 +36,7 @@
     "Share it so your friends can share files with you:" : "გააზიარეთ, რომ თქვენმა მეგობრებმაც შეძლონ ფაილების გაზიარება თქვენთან:",
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
-    "HTML Code:" : "HTML კოდი:"
+    "HTML Code:" : "HTML კოდი:",
+    "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

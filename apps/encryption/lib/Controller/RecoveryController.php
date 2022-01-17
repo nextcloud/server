@@ -3,8 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,20 +21,18 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Controller;
-
 
 use OCA\Encryption\Recovery;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
 
 class RecoveryController extends Controller {
 	/**
@@ -74,36 +75,36 @@ class RecoveryController extends Controller {
 	public function adminRecovery($recoveryPassword, $confirmPassword, $adminEnableRecovery) {
 		// Check if both passwords are the same
 		if (empty($recoveryPassword)) {
-			$errorMessage = (string)$this->l->t('Missing recovery key password');
+			$errorMessage = $this->l->t('Missing recovery key password');
 			return new DataResponse(['data' => ['message' => $errorMessage]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (empty($confirmPassword)) {
-			$errorMessage = (string)$this->l->t('Please repeat the recovery key password');
+			$errorMessage = $this->l->t('Please repeat the recovery key password');
 			return new DataResponse(['data' => ['message' => $errorMessage]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($recoveryPassword !== $confirmPassword) {
-			$errorMessage = (string)$this->l->t('Repeated recovery key password does not match the provided recovery key password');
+			$errorMessage = $this->l->t('Repeated recovery key password does not match the provided recovery key password');
 			return new DataResponse(['data' => ['message' => $errorMessage]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (isset($adminEnableRecovery) && $adminEnableRecovery === '1') {
 			if ($this->recovery->enableAdminRecovery($recoveryPassword)) {
-				return new DataResponse(['data' => ['message' => (string)$this->l->t('Recovery key successfully enabled')]]);
+				return new DataResponse(['data' => ['message' => $this->l->t('Recovery key successfully enabled')]]);
 			}
-			return new DataResponse(['data' => ['message' => (string)$this->l->t('Could not enable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['data' => ['message' => $this->l->t('Could not enable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
 		} elseif (isset($adminEnableRecovery) && $adminEnableRecovery === '0') {
 			if ($this->recovery->disableAdminRecovery($recoveryPassword)) {
-				return new DataResponse(['data' => ['message' => (string)$this->l->t('Recovery key successfully disabled')]]);
+				return new DataResponse(['data' => ['message' => $this->l->t('Recovery key successfully disabled')]]);
 			}
-			return new DataResponse(['data' => ['message' => (string)$this->l->t('Could not disable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['data' => ['message' => $this->l->t('Could not disable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
 		}
 		// this response should never be sent but just in case.
-		return new DataResponse(['data' => ['message' => (string)$this->l->t('Missing parameters')]], Http::STATUS_BAD_REQUEST);
+		return new DataResponse(['data' => ['message' => $this->l->t('Missing parameters')]], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -115,22 +116,22 @@ class RecoveryController extends Controller {
 	public function changeRecoveryPassword($newPassword, $oldPassword, $confirmPassword) {
 		//check if both passwords are the same
 		if (empty($oldPassword)) {
-			$errorMessage = (string)$this->l->t('Please provide the old recovery password');
+			$errorMessage = $this->l->t('Please provide the old recovery password');
 			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		if (empty($newPassword)) {
-			$errorMessage = (string)$this->l->t('Please provide a new recovery password');
-			return new DataResponse (['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
+			$errorMessage = $this->l->t('Please provide a new recovery password');
+			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		if (empty($confirmPassword)) {
-			$errorMessage = (string)$this->l->t('Please repeat the new recovery password');
+			$errorMessage = $this->l->t('Please repeat the new recovery password');
 			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($newPassword !== $confirmPassword) {
-			$errorMessage = (string)$this->l->t('Repeated recovery key password does not match the provided recovery key password');
+			$errorMessage = $this->l->t('Repeated recovery key password does not match the provided recovery key password');
 			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -141,14 +142,14 @@ class RecoveryController extends Controller {
 			return new DataResponse(
 				[
 					'data' => [
-						'message' => (string)$this->l->t('Password successfully changed.')]
+						'message' => $this->l->t('Password successfully changed.')]
 				]
 			);
 		}
 		return new DataResponse(
 			[
 				'data' => [
-					'message' => (string)$this->l->t('Could not change the password. Maybe the old password was not correct.')
+					'message' => $this->l->t('Could not change the password. Maybe the old password was not correct.')
 				]
 			], Http::STATUS_BAD_REQUEST);
 	}
@@ -161,7 +162,6 @@ class RecoveryController extends Controller {
 	 */
 	public function userSetRecovery($userEnableRecovery) {
 		if ($userEnableRecovery === '0' || $userEnableRecovery === '1') {
-
 			$result = $this->recovery->setRecoveryForUser($userEnableRecovery);
 
 			if ($result) {
@@ -169,25 +169,23 @@ class RecoveryController extends Controller {
 					return new DataResponse(
 						[
 							'data' => [
-								'message' => (string)$this->l->t('Recovery Key disabled')]
+								'message' => $this->l->t('Recovery Key disabled')]
 						]
 					);
 				}
 				return new DataResponse(
 					[
 						'data' => [
-							'message' => (string)$this->l->t('Recovery Key enabled')]
+							'message' => $this->l->t('Recovery Key enabled')]
 					]
 				);
 			}
-
 		}
 		return new DataResponse(
 			[
 				'data' => [
-					'message' => (string)$this->l->t('Could not enable the recovery key, please try again or contact your administrator')
+					'message' => $this->l->t('Could not enable the recovery key, please try again or contact your administrator')
 				]
 			], Http::STATUS_BAD_REQUEST);
 	}
-
 }

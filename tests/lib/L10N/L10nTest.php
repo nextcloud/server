@@ -8,7 +8,6 @@
 
 namespace Test\L10N;
 
-
 use DateTime;
 use OC\L10N\Factory;
 use OC\L10N\L10N;
@@ -46,7 +45,7 @@ class L10nTest extends TestCase {
 
 	public function testRussianPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
-		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA',[$transFile]);
+		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA', [$transFile]);
 
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
 		$this->assertEquals('2 файла', (string)$l->n('%n file', '%n files', 2));
@@ -77,40 +76,61 @@ class L10nTest extends TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
+	public function dataPlaceholders(): array {
+		return [
+			['Ordered placeholders one %s two %s', 'Placeholder one 1 two 2'],
+			['Reordered placeholders one %s two %s', 'Placeholder two 2 one 1'],
+			['Reordered placeholders one %1$s two %2$s', 'Placeholder two 2 one 1'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataPlaceholders
+	 *
+	 * @param $string
+	 * @param $expected
+	 */
+	public function testPlaceholders($string, $expected): void {
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
+
+		$this->assertEquals($expected, $l->t($string, ['1', '2']));
+	}
+
 	public function localizationData() {
-		return array(
+		return [
 			// timestamp as string
-			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', '1234567890'),
-			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', '1234567890'),
-			array('February 13, 2009', 'en', 'en_US', 'date', '1234567890'),
-			array('13. Februar 2009', 'de', 'de_DE', 'date', '1234567890'),
-			array('11:31:30 PM GMT+0', 'en', 'en_US', 'time', '1234567890'),
-			array('23:31:30 GMT+0', 'de', 'de_DE', 'time', '1234567890'),
+			['February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', '1234567890'],
+			['13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', '1234567890'],
+			['February 13, 2009', 'en', 'en_US', 'date', '1234567890'],
+			['13. Februar 2009', 'de', 'de_DE', 'date', '1234567890'],
+			['11:31:30 PM GMT+0', 'en', 'en_US', 'time', '1234567890'],
+			['23:31:30 GMT+0', 'de', 'de_DE', 'time', '1234567890'],
 
 			// timestamp as int
-			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', 1234567890),
-			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', 1234567890),
-			array('February 13, 2009', 'en', 'en_US', 'date', 1234567890),
-			array('13. Februar 2009', 'de', 'de_DE', 'date', 1234567890),
-			array('11:31:30 PM GMT+0', 'en', 'en_US', 'time', 1234567890),
-			array('23:31:30 GMT+0', 'de', 'de_DE', 'time', 1234567890),
+			['February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', 1234567890],
+			['13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', 1234567890],
+			['February 13, 2009', 'en', 'en_US', 'date', 1234567890],
+			['13. Februar 2009', 'de', 'de_DE', 'date', 1234567890],
+			['11:31:30 PM GMT+0', 'en', 'en_US', 'time', 1234567890],
+			['23:31:30 GMT+0', 'de', 'de_DE', 'time', 1234567890],
 
 			// DateTime object
-			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', new DateTime('@1234567890')),
-			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', new DateTime('@1234567890')),
-			array('February 13, 2009', 'en', 'en_US', 'date', new DateTime('@1234567890')),
-			array('13. Februar 2009', 'de', 'de_DE', 'date', new DateTime('@1234567890')),
-			array('11:31:30 PM GMT+0', 'en', 'en_US', 'time', new DateTime('@1234567890')),
-			array('23:31:30 GMT+0', 'de', 'de_DE', 'time', new DateTime('@1234567890')),
+			['February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', new DateTime('@1234567890')],
+			['13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', new DateTime('@1234567890')],
+			['February 13, 2009', 'en', 'en_US', 'date', new DateTime('@1234567890')],
+			['13. Februar 2009', 'de', 'de_DE', 'date', new DateTime('@1234567890')],
+			['11:31:30 PM GMT+0', 'en', 'en_US', 'time', new DateTime('@1234567890')],
+			['23:31:30 GMT+0', 'de', 'de_DE', 'time', new DateTime('@1234567890')],
 
 			// en_GB
-			array('13 February 2009 at 23:31:30 GMT+0', 'en_GB', 'en_GB', 'datetime', new DateTime('@1234567890')),
-			array('13 February 2009', 'en_GB', 'en_GB', 'date', new DateTime('@1234567890')),
-			array('23:31:30 GMT+0', 'en_GB', 'en_GB', 'time', new DateTime('@1234567890')),
-			array('13 February 2009 at 23:31:30 GMT+0', 'en-GB', 'en_GB', 'datetime', new DateTime('@1234567890')),
-			array('13 February 2009', 'en-GB', 'en_GB', 'date', new DateTime('@1234567890')),
-			array('23:31:30 GMT+0', 'en-GB', 'en_GB', 'time', new DateTime('@1234567890')),
-		);
+			['13 February 2009 at 23:31:30 GMT+0', 'en_GB', 'en_GB', 'datetime', new DateTime('@1234567890')],
+			['13 February 2009', 'en_GB', 'en_GB', 'date', new DateTime('@1234567890')],
+			['23:31:30 GMT+0', 'en_GB', 'en_GB', 'time', new DateTime('@1234567890')],
+			['13 February 2009 at 23:31:30 GMT+0', 'en-GB', 'en_GB', 'datetime', new DateTime('@1234567890')],
+			['13 February 2009', 'en-GB', 'en_GB', 'date', new DateTime('@1234567890')],
+			['23:31:30 GMT+0', 'en-GB', 'en_GB', 'time', new DateTime('@1234567890')],
+		];
 	}
 
 	/**
@@ -122,10 +142,10 @@ class L10nTest extends TestCase {
 	}
 
 	public function firstDayData() {
-		return array(
-			array(1, 'de', 'de_DE'),
-			array(0, 'en', 'en_US'),
-		);
+		return [
+			[1, 'de', 'de_DE'],
+			[0, 'en', 'en_US'],
+		];
 	}
 
 	/**
@@ -140,10 +160,10 @@ class L10nTest extends TestCase {
 	}
 
 	public function jsDateData() {
-		return array(
-			array('dd.MM.yy', 'de', 'de_DE'),
-			array('M/d/yy', 'en', 'en_US'),
-		);
+		return [
+			['dd.MM.yy', 'de', 'de_DE'],
+			['M/d/yy', 'en', 'en_US'],
+		];
 	}
 
 	/**

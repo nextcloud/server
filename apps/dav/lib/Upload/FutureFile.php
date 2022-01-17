@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\Upload;
@@ -45,7 +46,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	 * @param Directory $root
 	 * @param string $name
 	 */
-	function __construct(Directory $root, $name) {
+	public function __construct(Directory $root, $name) {
 		$this->root = $root;
 		$this->name = $name;
 	}
@@ -53,14 +54,14 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
-	function put($data) {
+	public function put($data) {
 		throw new Forbidden('Permission denied to put into this file');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function get() {
+	public function get() {
 		$nodes = $this->root->getChildren();
 		return AssemblyStream::wrap($nodes);
 	}
@@ -68,23 +69,23 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
-	function getContentType() {
+	public function getContentType() {
 		return 'application/octet-stream';
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getETag() {
+	public function getETag() {
 		return $this->root->getETag();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getSize() {
+	public function getSize() {
 		$children = $this->root->getChildren();
-		$sizes = array_map(function($node) {
+		$sizes = array_map(function ($node) {
 			/** @var IFile $node */
 			return $node->getSize();
 		}, $children);
@@ -95,28 +96,28 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
-	function delete() {
+	public function delete() {
 		$this->root->delete();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getName() {
+	public function getName() {
 		return $this->name;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this file');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return $this->root->getLastModified();
 	}
 }

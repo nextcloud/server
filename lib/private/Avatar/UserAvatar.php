@@ -1,26 +1,32 @@
 <?php
+
 declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2018, Michael Weimann <mail@michael-weimann.eu>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OC\Avatar;
 
 use OC\NotSquareException;
@@ -33,7 +39,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class represents a registered user's avatar.
@@ -58,13 +64,13 @@ class UserAvatar extends Avatar {
 	 * @param ISimpleFolder $folder The avatar files folder
 	 * @param IL10N $l The localization helper
 	 * @param User $user The user this class manages the avatar for
-	 * @param ILogger $logger The logger
+	 * @param LoggerInterface $logger The logger
 	 */
 	public function __construct(
 		ISimpleFolder $folder,
 		IL10N $l,
 		$user,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IConfig $config) {
 		parent::__construct($logger);
 		$this->folder = $folder;
@@ -104,19 +110,19 @@ class UserAvatar extends Avatar {
 
 		try {
 			$generated = $this->folder->getFile('generated');
-			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'false');
 			$generated->delete();
 		} catch (NotFoundException $e) {
 			//
 		}
 
+		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'false');
 		$this->user->triggerChange('avatar', $file);
 	}
 
 	/**
 	 * Returns an image from several sources.
 	 *
-	 * @param IImage|resource|string $data An image object, imagedata or path to the avatar
+	 * @param IImage|resource|string|\GdImage $data An image object, imagedata or path to the avatar
 	 * @return IImage
 	 */
 	private function getAvatarImage($data) {
@@ -125,7 +131,10 @@ class UserAvatar extends Avatar {
 		}
 
 		$img = new OC_Image();
-		if (is_resource($data) && get_resource_type($data) === 'gd') {
+		if (
+			(is_resource($data) && get_resource_type($data) === 'gd') ||
+			(is_object($data) && get_class($data) === \GdImage::class)
+			) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {
 			$img->loadFromFileHandle($data);
@@ -203,7 +212,7 @@ class UserAvatar extends Avatar {
 			$avatar->delete();
 		}
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
-		if(!$silent) {
+		if (!$silent) {
 			$this->user->triggerChange('avatar', '');
 		}
 	}
@@ -247,7 +256,7 @@ class UserAvatar extends Avatar {
 			$avatar->putContent($data);
 			$ext = 'png';
 
-			$this->folder->newFile('generated');
+			$this->folder->newFile('generated', '');
 			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
 		}
 
@@ -264,11 +273,11 @@ class UserAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
+			// TODO: rework to integrate with the PlaceholderAvatar in a compatible way
 			if ($this->folder->fileExists('generated')) {
 				if (!$data = $this->generateAvatarFromSvg($size)) {
 					$data = $this->generateAvatar($this->getDisplayName(), $size);
 				}
-
 			} else {
 				$avatar = new OC_Image();
 				$file = $this->folder->getFile('avatar.' . $ext);
@@ -284,7 +293,6 @@ class UserAvatar extends Avatar {
 				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
 				throw new NotFoundException();
 			}
-
 		}
 
 		if ($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {

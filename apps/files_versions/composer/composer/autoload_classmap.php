@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Files_Versions\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Files_Versions\\BackgroundJob\\ExpireVersions' => $baseDir . '/../lib/BackgroundJob/ExpireVersions.php',
     'OCA\\Files_Versions\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
@@ -16,6 +17,8 @@ return array(
     'OCA\\Files_Versions\\Events\\CreateVersionEvent' => $baseDir . '/../lib/Events/CreateVersionEvent.php',
     'OCA\\Files_Versions\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Versions\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
+    'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files_Versions\\Sabre\\Plugin' => $baseDir . '/../lib/Sabre/Plugin.php',
     'OCA\\Files_Versions\\Sabre\\RestoreFolder' => $baseDir . '/../lib/Sabre/RestoreFolder.php',
     'OCA\\Files_Versions\\Sabre\\RootCollection' => $baseDir . '/../lib/Sabre/RootCollection.php',

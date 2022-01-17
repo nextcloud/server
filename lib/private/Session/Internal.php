@@ -1,14 +1,18 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author cetra3 <peter@parashift.com.au>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author MartB <mart.b@outlook.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -24,16 +28,13 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
-use OC\SystemConfig;
-use OCP\IConfig;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**
@@ -52,7 +53,7 @@ class Internal extends Session {
 		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
 		try {
-			$this->invoke('session_start');
+			$this->startSession();
 		} catch (\Exception $e) {
 			setcookie($this->invoke('session_name'), '', -1, \OC::$WEBROOT ?: '/');
 		}
@@ -102,7 +103,7 @@ class Internal extends Session {
 	public function clear() {
 		$this->invoke('session_unset');
 		$this->regenerateId();
-		$this->invoke('session_start', [], true);
+		$this->startSession(true);
 		$_SESSION = [];
 	}
 
@@ -180,7 +181,9 @@ class Internal extends Session {
 	 * @throws \ErrorException
 	 */
 	public function trapError(int $errorNumber, string $errorString) {
-		throw new \ErrorException($errorString);
+		if ($errorNumber & E_ERROR) {
+			throw new \ErrorException($errorString);
+		}
 	}
 
 	/**
@@ -201,13 +204,17 @@ class Internal extends Session {
 	 */
 	private function invoke(string $functionName, array $parameters = [], bool $silence = false) {
 		try {
-			if($silence) {
+			if ($silence) {
 				return @call_user_func_array($functionName, $parameters);
 			} else {
 				return call_user_func_array($functionName, $parameters);
 			}
-		} catch(\Error $e) {
+		} catch (\Error $e) {
 			$this->trapError($e->getCode(), $e->getMessage());
 		}
+	}
+
+	private function startSession(bool $silence = false) {
+		$this->invoke('session_start', [['cookie_samesite' => 'Lax']], $silence);
 	}
 }

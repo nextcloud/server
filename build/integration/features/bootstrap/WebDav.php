@@ -1,16 +1,19 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author David Toledo <dtoledo@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,14 +24,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
@@ -86,8 +88,10 @@ trait WebDav {
 	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = "files") {
 		if ($type === "files") {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . "$path";
-		} else if ($type === "uploads") {
+		} elseif ($type === "uploads") {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
+		} else {
+			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . '/' . $type .  "$path";
 		}
 		$client = new GClient();
 		$options = [
@@ -201,6 +205,19 @@ trait WebDav {
 	 */
 	public function downloadedContentShouldBe($content) {
 		Assert::assertEquals($content, (string)$this->response->getBody());
+	}
+
+	/**
+	 * @Then /^File "([^"]*)" should have prop "([^"]*):([^"]*)" equal to "([^"]*)"$/
+	 * @param string $file
+	 * @param string $prefix
+	 * @param string $prop
+	 * @param string $value
+	 */
+	public function checkPropForFile($file, $prefix, $prop, $value) {
+		$elementList = $this->propfindFile($this->currentUser, $file, "<$prefix:$prop/>");
+		$property = $elementList['/'.$this->getDavFilesPath($this->currentUser).$file][200]["{DAV:}$prop"];
+		Assert::assertEquals($property, $value);
 	}
 
 	/**
@@ -382,6 +399,30 @@ trait WebDav {
 	 * @param string $properties properties which needs to be included in the report
 	 * @param string $filterRules filter-rules to choose what needs to appear in the report
 	 */
+	public function propfindFile($user, $path, $properties = '') {
+		$client = $this->getSabreClient($user);
+
+		$body = '<?xml version="1.0" encoding="utf-8" ?>
+					<d:propfind  xmlns:d="DAV:"
+						xmlns:oc="http://owncloud.org/ns"
+						xmlns:nc="http://nextcloud.org/ns"
+						xmlns:ocs="http://open-collaboration-services.org/ns">
+						<d:prop>
+							' . $properties . '
+						</d:prop>
+					</d:propfind>';
+
+		$response = $client->request('PROPFIND', $this->makeSabrePath($user, $path), $body);
+		$parsedResponse = $client->parseMultistatus($response['body']);
+		return $parsedResponse;
+	}
+
+	/* Returns the elements of a report command
+	 * @param string $user
+	 * @param string $path
+	 * @param string $properties properties which needs to be included in the report
+	 * @param string $filterRules filter-rules to choose what needs to appear in the report
+	 */
 	public function reportFolder($user, $path, $properties, $filterRules) {
 		$client = $this->getSabreClient($user);
 
@@ -456,7 +497,10 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -485,7 +529,10 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -500,7 +547,10 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, 'DELETE', $file, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -515,7 +565,10 @@ trait WebDav {
 			$destination = '/' . ltrim($destination, '/');
 			$this->response = $this->makeDavRequest($user, "MKCOL", $destination, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -533,6 +586,60 @@ trait WebDav {
 		$data = \GuzzleHttp\Psr7\stream_for($data);
 		$file = $destination . '-chunking-42-' . $total . '-' . $num;
 		$this->makeDavRequest($user, 'PUT', $file, ['OC-Chunked' => '1'], $data, "uploads");
+	}
+
+	/**
+	 * @Given user :user uploads bulked files :name1 with :content1 and :name2 with :content2 and :name3 with :content3
+	 * @param string $user
+	 * @param string $name1
+	 * @param string $content1
+	 * @param string $name2
+	 * @param string $content2
+	 * @param string $name3
+	 * @param string $content3
+	 */
+	public function userUploadsBulkedFiles($user, $name1, $content1, $name2, $content2, $name3, $content3) {
+		$boundary = "boundary_azertyuiop";
+
+		$body = "";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name1."\r\n";
+		$body .= "X-File-MD5: f6a6263167c92de8644ac998b3c4e4d1\r\n";
+		$body .= "X-OC-Mtime: 1111111111\r\n";
+		$body .= "Content-Length: ".strlen($content1)."\r\n";
+		$body .= "\r\n";
+		$body .= $content1."\r\n";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name2."\r\n";
+		$body .= "X-File-MD5: 87c7d4068be07d390a1fffd21bf1e944\r\n";
+		$body .= "X-OC-Mtime: 2222222222\r\n";
+		$body .= "Content-Length: ".strlen($content2)."\r\n";
+		$body .= "\r\n";
+		$body .= $content2."\r\n";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name3."\r\n";
+		$body .= "X-File-MD5: e86a1cf0678099986a901c79086f5617\r\n";
+		$body .= "X-File-Mtime: 3333333333\r\n";
+		$body .= "Content-Length: ".strlen($content3)."\r\n";
+		$body .= "\r\n";
+		$body .= $content3."\r\n";
+		$body .= '--'.$boundary."--\r\n";
+
+		$stream = fopen('php://temp', 'r+');
+		fwrite($stream, $body);
+		rewind($stream);
+
+		$client = new GClient();
+		$options = [
+			'auth' => [$user, $this->regularUser],
+			'headers' => [
+				'Content-Type' => 'multipart/related; boundary='.$boundary,
+				'Content-Length' => (string)strlen($body),
+			],
+			'body' => $body
+		];
+
+		return $client->request("POST", substr($this->baseUrl, 0, -4) . "remote.php/dav/bulk", $options);
 	}
 
 	/**
@@ -586,8 +693,12 @@ trait WebDav {
 	public function downloadingFileAs($fileName, $user) {
 		try {
 			$this->response = $this->makeDavRequest($user, 'GET', $fileName, []);
-		} catch (\GuzzleHttp\Exception\ServerException $ex) {
-			$this->response = $ex->getResponse();
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
 		}
 	}
 

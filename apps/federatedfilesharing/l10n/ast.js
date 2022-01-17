@@ -22,6 +22,8 @@ OC.L10N.register(
     "Accept" : "Aceutar",
     "Decline" : "Refugar",
     "Federated Cloud Sharing" : "Compartición de ñube federada",
+    "Sharing" : "Compartiendo",
+    "Federated file sharing" : "Compartición federada de ficheros",
     "Open documentation" : "Abrir documentación",
     "Federated Cloud" : "Ñube federada",
     "Your Federated Cloud ID:" : "La to ID de ñube federada:",

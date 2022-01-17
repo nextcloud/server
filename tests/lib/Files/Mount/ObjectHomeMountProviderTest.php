@@ -12,16 +12,16 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	/** @var ObjectHomeMountProvider */
 	protected $provider;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
-	/** @var IStorageFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IStorageFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $loader;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -54,7 +54,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucket() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
 			->with($this->equalTo('objectstore_multibucket'), '')
 			->willReturn([
@@ -98,9 +98,9 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucketWithPrefix() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'), '')
+			->with('objectstore_multibucket')
 			->willReturn([
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 				'arguments' => [
@@ -147,7 +147,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	public function testMultiBucketBucketAlreadySet() {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'), '')
+			->with('objectstore_multibucket')
 			->willReturn([
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 				'arguments' => [
@@ -185,9 +185,9 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucketConfigFirst() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'))
+			->with('objectstore_multibucket')
 			->willReturn([
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 			]);
@@ -216,7 +216,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
-		
+
 		$mount = $this->provider->getHomeMountForUser($this->user, $this->loader);
 		$this->assertInstanceOf('OC\Files\Mount\MountPoint', $mount);
 	}

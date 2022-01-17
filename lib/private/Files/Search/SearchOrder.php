@@ -13,17 +13,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Search;
 
-
+use OCP\Files\FileInfo;
 use OCP\Files\Search\ISearchOrder;
 
 class SearchOrder implements ISearchOrder {
@@ -55,5 +54,29 @@ class SearchOrder implements ISearchOrder {
 	 */
 	public function getField() {
 		return $this->field;
+	}
+
+	public function sortFileInfo(FileInfo $a, FileInfo $b): int {
+		$cmp = $this->sortFileInfoNoDirection($a, $b);
+		return $cmp * ($this->direction === ISearchOrder::DIRECTION_ASCENDING ? 1 : -1);
+	}
+
+	private function sortFileInfoNoDirection(FileInfo $a, FileInfo $b): int {
+		switch ($this->field) {
+			case 'name':
+				return $a->getName() <=> $b->getName();
+			case 'mimetype':
+				return $a->getMimetype() <=> $b->getMimetype();
+			case 'mtime':
+				return $a->getMtime() <=> $b->getMtime();
+			case 'size':
+				return $a->getSize() <=> $b->getSize();
+			case 'fileid':
+				return $a->getId() <=> $b->getId();
+			case 'permissions':
+				return $a->getPermissions() <=> $b->getPermissions();
+			default:
+				return 0;
+		}
 	}
 }

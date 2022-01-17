@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
@@ -21,7 +23,6 @@
 
 namespace Test\Files\ObjectStore;
 
-
 use OCP\Files\ObjectStore\IObjectStore;
 
 class FailDeleteObjectStore implements IObjectStore {
@@ -39,8 +40,8 @@ class FailDeleteObjectStore implements IObjectStore {
 		return $this->objectStore->readObject($urn);
 	}
 
-	public function writeObject($urn, $stream) {
-		return $this->objectStore->writeObject($urn, $stream);
+	public function writeObject($urn, $stream, string $mimetype = null) {
+		return $this->objectStore->writeObject($urn, $stream, $mimetype);
 	}
 
 	public function deleteObject($urn) {
@@ -50,5 +51,8 @@ class FailDeleteObjectStore implements IObjectStore {
 	public function objectExists($urn) {
 		return $this->objectStore->objectExists($urn);
 	}
-}
 
+	public function copyObject($from, $to) {
+		$this->objectStore->copyObject($from, $to);
+	}
+}

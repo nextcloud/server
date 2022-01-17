@@ -2,8 +2,10 @@
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,17 +16,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu;
 
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IConfig;
 use OCP\IUser;
@@ -61,11 +63,11 @@ class Manager {
 	 * @return array
 	 */
 	public function getEntries(IUser $user, $filter) {
-		$maxAutocompleteResults = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', 25);
+		$maxAutocompleteResults = max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT));
 		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		$topEntries = [];
 		if (strlen($filter) >= $minSearchStringLength) {
-			$entries = $this->store->getContacts($user, $filter);
+			$entries = $this->store->getContacts($user, $filter, $maxAutocompleteResults);
 
 			$sortedEntries = $this->sortEntries($entries);
 			$topEntries = array_slice($sortedEntries, 0, $maxAutocompleteResults);
@@ -99,7 +101,7 @@ class Manager {
 	 * @return IEntry[]
 	 */
 	private function sortEntries(array $entries) {
-		usort($entries, function(IEntry $entryA, IEntry $entryB) {
+		usort($entries, function (IEntry $entryA, IEntry $entryB) {
 			return strcasecmp($entryA->getFullName(), $entryB->getFullName());
 		});
 		return $entries;
@@ -117,5 +119,4 @@ class Manager {
 			}
 		}
 	}
-
 }

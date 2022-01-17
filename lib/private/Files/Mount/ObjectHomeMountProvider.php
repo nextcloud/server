@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vlastimil Pecinka <pecinka@email.cz>
  *
  * @license AGPL-3.0
  *
@@ -17,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IHomeMountProvider;
@@ -55,7 +56,6 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
-
 		$config = $this->getMultiBucketObjectStoreConfig($user);
 		if ($config === null) {
 			$config = $this->getSingleBucketObjectStoreConfig($user);
@@ -121,7 +121,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 			if (!isset($config['arguments']['bucket'])) {
 				$config['arguments']['bucket'] = '';
 			}
-			$mapper = new \OC\Files\ObjectStore\Mapper($user);
+			$mapper = new \OC\Files\ObjectStore\Mapper($user, $this->config);
 			$numBuckets = isset($config['arguments']['num_buckets']) ? $config['arguments']['num_buckets'] : 64;
 			$config['arguments']['bucket'] .= $mapper->getBucket($numBuckets);
 

@@ -1,7 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,21 +19,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version16000Date20190207141427 extends SimpleMigrationStep {
 
@@ -44,11 +50,11 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 		if (!$schema->hasTable('collres_collections')) {
 			$table = $schema->createTable('collres_collections');
 
-			$table->addColumn('id', Type::BIGINT, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 			]);
-			$table->addColumn('name', Type::STRING, [
+			$table->addColumn('name', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
@@ -59,53 +65,54 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 		if (!$schema->hasTable('collres_resources')) {
 			$table = $schema->createTable('collres_resources');
 
-			$table->addColumn('collection_id', Type::BIGINT, [
+			$table->addColumn('collection_id', Types::BIGINT, [
 				'notnull' => true,
 			]);
-			$table->addColumn('resource_type', Type::STRING, [
+			$table->addColumn('resource_type', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('resource_id', Type::STRING, [
+			$table->addColumn('resource_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
 
-			$table->addUniqueIndex(['collection_id', 'resource_type', 'resource_id'], 'collres_unique_res');
+			$table->setPrimaryKey(['collection_id', 'resource_type', 'resource_id'], 'crr_pk');
+//			$table->addUniqueIndex(['collection_id', 'resource_type', 'resource_id'], 'collres_unique_res');
 		}
 
 		if (!$schema->hasTable('collres_accesscache')) {
 			$table = $schema->createTable('collres_accesscache');
 
-			$table->addColumn('user_id', Type::STRING, [
+			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('collection_id', Type::BIGINT, [
+			$table->addColumn('collection_id', Types::BIGINT, [
 				'notnull' => false,
 				'default' => 0,
 			]);
-			$table->addColumn('resource_type', Type::STRING, [
+			$table->addColumn('resource_type', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 				'default' => '',
 			]);
-			$table->addColumn('resource_id', Type::STRING, [
+			$table->addColumn('resource_id', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 				'default' => '',
 			]);
-			$table->addColumn('access', Type::SMALLINT, [
-				'notnull' => true,
+			$table->addColumn('access', Types::SMALLINT, [
+				'notnull' => false,
 				'default' => 0,
 			]);
 
-			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'collres_unique_user');
+			$table->setPrimaryKey(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'cra_pk');
+//			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'collres_unique_user');
 			$table->addIndex(['user_id', 'resource_type', 'resource_id'], 'collres_user_res');
 			$table->addIndex(['user_id', 'collection_id'], 'collres_user_coll');
 		}
 
 		return $schema;
 	}
-
 }

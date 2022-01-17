@@ -1,8 +1,3 @@
-#filestable tbody tr.externalDisabledRow {
-	background-color: #CCC;
-}
-
-
 #filestable tbody tr.externalErroredRow {
 	background-color: #F2DEDE;
 }

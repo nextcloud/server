@@ -2,6 +2,10 @@
 /**
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,21 +17,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OC\AppFramework\OCS;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 
-abstract class BaseResponse extends Response   {
+abstract class BaseResponse extends Response {
 	/** @var array */
 	protected $data;
 
@@ -46,7 +49,7 @@ abstract class BaseResponse extends Response   {
 	/**
 	 * BaseResponse constructor.
 	 *
-	 * @param DataResponse|null $dataResponse
+	 * @param DataResponse $dataResponse
 	 * @param string $format
 	 * @param string|null $statusMessage
 	 * @param int|null $itemsCount
@@ -71,6 +74,11 @@ abstract class BaseResponse extends Response   {
 		$this->setETag($dataResponse->getETag());
 		$this->setLastModified($dataResponse->getLastModified());
 		$this->setCookies($dataResponse->getCookies());
+
+		if ($dataResponse->isThrottled()) {
+			$throttleMetadata = $dataResponse->getThrottleMetadata();
+			$this->throttle($throttleMetadata);
+		}
 
 		if ($format === 'json') {
 			$this->addHeader(
@@ -115,7 +123,6 @@ abstract class BaseResponse extends Response   {
 		$this->toXML($response, $writer);
 		$writer->endDocument();
 		return $writer->outputMemory(true);
-
 	}
 
 	/**
@@ -124,7 +131,7 @@ abstract class BaseResponse extends Response   {
 	 */
 	protected function toXML(array $array, \XMLWriter $writer) {
 		foreach ($array as $k => $v) {
-			if ($k[0] === '@') {
+			if (\is_string($k) && strpos($k, '@') === 0) {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;
 			}

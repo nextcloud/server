@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  *
@@ -29,7 +32,7 @@ class SessionStorageTest extends \Test\TestCase {
 	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
 	private $sessionStorage;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()->getMock();
@@ -54,10 +57,11 @@ class SessionStorageTest extends \Test\TestCase {
 	 * @param string $token
 	 * @dataProvider getTokenDataProvider
 	 *
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Session does not contain a requesttoken
 	 */
 	public function testGetTokenWithEmptyToken($token) {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Session does not contain a requesttoken');
+
 		$this->session
 			->expects($this->once())
 			->method('get')

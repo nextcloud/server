@@ -1,0 +1,29 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: Dependabot
+
+on:
+  pull_request_target:
+    branches:
+      - master
+      - stable*
+
+jobs:
+  auto-approve-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      # Github actions bot approve
+      - uses: hmarr/auto-approve-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Nextcloud bot approve and merge request
+      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          target: minor
+          github-token: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}

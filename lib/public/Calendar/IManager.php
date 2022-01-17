@@ -1,8 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Calendar;
 
 /**
@@ -67,14 +71,16 @@ interface IManager {
 	 * @param integer|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
 	 * @since 13.0.0
+	 * @deprecated 23.0.0 use \OCP\Calendar\IManager::searchForPrincipal
 	 */
-	public function search($pattern, array $searchProperties=[], array $options=[], $limit=null, $offset=null);
+	public function search($pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null);
 
 	/**
 	 * Check if calendars are available
 	 *
 	 * @return bool true if enabled, false if not
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function isEnabled();
 
@@ -84,6 +90,7 @@ interface IManager {
 	 * @param ICalendar $calendar
 	 * @return void
 	 * @since 13.0.0
+	 * @deprecated 23.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerCalendarProvider
 	 */
 	public function registerCalendar(ICalendar $calendar);
 
@@ -93,6 +100,7 @@ interface IManager {
 	 * @param ICalendar $calendar
 	 * @return void
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function unregisterCalendar(ICalendar $calendar);
 
@@ -103,19 +111,49 @@ interface IManager {
 	 * @param \Closure $callable
 	 * @return void
 	 * @since 13.0.0
+	 * @deprecated 23.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerCalendarProvider
 	 */
 	public function register(\Closure $callable);
 
 	/**
 	 * @return ICalendar[]
 	 * @since 13.0.0
+	 * @deprecated 23.0.0 use \OCP\Calendar\IManager::getCalendarsForPrincipal
 	 */
 	public function getCalendars();
 
 	/**
 	 * removes all registered calendar instances
+	 *
 	 * @return void
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function clear();
+
+	/**
+	 * @param string $principalUri URI of the principal
+	 * @param string[] $calendarUris optionally specify which calendars to load, or all if this array is empty
+	 *
+	 * @return ICalendar[]
+	 * @since 23.0.0
+	 */
+	public function getCalendarsForPrincipal(string $principalUri, array $calendarUris = []): array;
+
+	/**
+	 * Query a principals calendar(s)
+	 *
+	 * @param ICalendarQuery $query
+	 * @return array[]
+	 * @since 23.0.0
+	 */
+	public function searchForPrincipal(ICalendarQuery $query): array;
+
+	/**
+	 * Build a new query for searchForPrincipal
+	 *
+	 * @return ICalendarQuery
+	 * @since 23.0.0
+	 */
+	public function newQuery(string $principalUri) : ICalendarQuery;
 }

@@ -16,7 +16,7 @@ OC.Settings = OC.Settings || {};
  * The callback will be fired as soon as enter is pressed by the
  * user or 1 second after the last data entry
  *
- * @param callback
+ * @param {any} callback -
  * @param allowEmptyValue if this is set to true the callback is also called when the value is empty
  */
 jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
@@ -134,6 +134,7 @@ function avatarResponseHandler (data) {
 		oc_userconfig.avatar.generated = false;
 		updateAvatar();
 	} else if (data.data === "notsquare") {
+		cleanCropper();
 		showAvatarCropper();
 	} else {
 		$warning.show();
@@ -141,7 +142,7 @@ function avatarResponseHandler (data) {
 	}
 }
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 	if($('#pass2').length) {
 		$('#pass2').showPassword().keyup();
 	}
@@ -198,10 +199,13 @@ $(document).ready(function () {
 	});
 
 
+	var settingsEl = $('#personal-settings')
 	var userSettings = new OC.Settings.UserSettings();
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
-		el: '#personal-settings',
-		config: userSettings
+		el: settingsEl,
+		config: userSettings,
+		showFederatedScope: !!settingsEl.data('federation-enabled'),
+		showPublishedScope: !!settingsEl.data('lookup-server-upload-enabled'),
 	});
 
 	userSettings.on("sync", function() {
@@ -245,7 +249,7 @@ $(document).ready(function () {
 			user = OC.getCurrentUser();
 
 		$.ajax({
-			url: OC.linkToOCS('cloud/users', 2) + user['uid'],
+			url: OC.linkToOCS('cloud/users', 2) + user.uid,
 			method: 'PUT',
 			data: {
 				key: 'locale',
@@ -303,7 +307,17 @@ $(document).ready(function () {
 
 	$('#uploadavatar').fileupload(uploadparms);
 
-	$('#selectavatar').click(function () {
+	// Trigger upload action also with keyboard navigation on enter
+	$('#uploadavatarbutton').on('keyup', function(event) {
+		if (event.key === ' ' || event.key === 'Enter') {
+			$('#uploadavatar').trigger('click');
+		}
+	});
+
+	$('#selectavatar').click(function (event) {
+		event.stopPropagation();
+		event.preventDefault();
+
 		OC.dialogs.filepicker(
 			t('settings', "Select a profile picture"),
 			function (path) {
@@ -335,7 +349,10 @@ $(document).ready(function () {
 		);
 	});
 
-	$('#removeavatar').click(function () {
+	$('#removeavatar').click(function (event) {
+		event.stopPropagation();
+		event.preventDefault();
+
 		$.ajax({
 			type: 'DELETE',
 			url: OC.generateUrl('/avatar/'),

@@ -1,16 +1,19 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
- *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,14 +24,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
@@ -39,10 +41,10 @@ use Psr\Http\Message\ResponseInterface;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait BasicStructure {
-
 	use Auth;
+	use Avatar;
 	use Download;
-	use Trashbin;
+	use Mail;
 
 	/** @var string */
 	private $currentUser = '';
@@ -174,7 +176,7 @@ trait BasicStructure {
 		$options = [];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
-		} else {
+		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		$options['headers'] = [
@@ -200,6 +202,40 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @param string $verb
+	 * @param string $url
+	 * @param TableNode|array|null $body
+	 * @param array $headers
+	 */
+	protected function sendRequestForJSON(string $verb, string $url, $body = null, array $headers = []): void {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = ['admin', 'admin'];
+		} elseif (strpos($this->currentUser, 'guest') !== 0) {
+			$options['auth'] = [$this->currentUser, self::TEST_PASSWORD];
+		}
+		if ($body instanceof TableNode) {
+			$fd = $body->getRowsHash();
+			$options['form_params'] = $fd;
+		} elseif (is_array($body)) {
+			$options['form_params'] = $body;
+		}
+
+		$options['headers'] = array_merge($headers, [
+			'OCS-ApiRequest' => 'true',
+			'Accept' => 'application/json',
+		]);
+
+		try {
+			$this->response = $client->{$verb}($fullUrl, $options);
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
 	 * @When /^sending "([^"]*)" with exact url to "([^"]*)"$/
 	 * @param string $verb
 	 * @param string $url
@@ -214,7 +250,7 @@ trait BasicStructure {
 		$options = [];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
-		} else {
+		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		if ($body instanceof TableNode) {
@@ -303,21 +339,31 @@ trait BasicStructure {
 	 * @When Sending a :method to :url with requesttoken
 	 * @param string $method
 	 * @param string $url
+	 * @param TableNode|array|null $body
 	 */
-	public function sendingAToWithRequesttoken($method, $url) {
+	public function sendingAToWithRequesttoken($method, $url, $body = null) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
+
+		$options = [
+			'cookies' => $this->cookieJar,
+			'headers' => [
+				'requesttoken' => $this->requestToken
+			],
+		];
+
+		if ($body instanceof TableNode) {
+			$fd = $body->getRowsHash();
+			$options['form_params'] = $fd;
+		} elseif ($body) {
+			$options = array_merge($options, $body);
+		}
 
 		$client = new Client();
 		try {
 			$this->response = $client->request(
 				$method,
 				$baseUrl . $url,
-				[
-					'cookies' => $this->cookieJar,
-					'headers' => [
-						'requesttoken' => $this->requestToken
-					]
-				]
+				$options
 			);
 		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
@@ -366,7 +412,7 @@ trait BasicStructure {
 	private function getDataDirectory() {
 		// Based on "runOcc" from CommandLine trait
 		$args = ['config:system:get', 'datadirectory'];
-		$args = array_map(function($arg) {
+		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);
 		$args[] = '--no-ansi --no-warnings';
@@ -512,11 +558,11 @@ trait BasicStructure {
 	 * @throws \Exception
 	 */
 	public function theFollowingHeadersShouldBeSet(TableNode $table) {
-		foreach($table->getTable() as $header) {
+		foreach ($table->getTable() as $header) {
 			$headerName = $header[0];
 			$expectedHeaderValue = $header[1];
 			$returnedHeader = $this->response->getHeader($headerName)[0];
-			if($returnedHeader !== $expectedHeaderValue) {
+			if ($returnedHeader !== $expectedHeaderValue) {
 				throw new \Exception(
 					sprintf(
 						"Expected value '%s' for header '%s', got '%s'",

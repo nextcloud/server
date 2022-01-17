@@ -1,9 +1,10 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +17,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 // This var is global because it's shared across webpack bundles
@@ -24,8 +26,8 @@ window._oc_l10n_registry_translations = window._oc_l10n_registry_translations ||
 window._oc_l10n_registry_plural_functions = window._oc_l10n_registry_plural_functions || {}
 
 /**
- * @param {String} appId the app id
- * @param {Object} translations the translations list
+ * @param {string} appId the app id
+ * @param {object} translations the translations list
  * @param {Function} pluralFunction the translations list
  */
 const register = (appId, translations, pluralFunction) => {
@@ -34,8 +36,8 @@ const register = (appId, translations, pluralFunction) => {
 }
 
 /**
- * @param {String} appId the app id
- * @param {Object} translations the translations list
+ * @param {string} appId the app id
+ * @param {object} translations the translations list
  * @param {Function} pluralFunction the translations list
  */
 const extend = (appId, translations, pluralFunction) => {
@@ -47,8 +49,8 @@ const extend = (appId, translations, pluralFunction) => {
 }
 
 /**
- * @param {String} appId the app id
- * @param {Object} translations the translations list
+ * @param {string} appId the app id
+ * @param {object} translations the translations list
  * @param {Function} pluralFunction the translations list
  */
 export const registerAppTranslations = (appId, translations, pluralFunction) => {
@@ -60,7 +62,7 @@ export const registerAppTranslations = (appId, translations, pluralFunction) => 
 }
 
 /**
- * @param {String} appId the app id
+ * @param {string} appId the app id
  */
 export const unregisterAppTranslations = appId => {
 	delete window._oc_l10n_registry_translations[appId]
@@ -68,8 +70,8 @@ export const unregisterAppTranslations = appId => {
 }
 
 /**
- * @param {String} appId the app id
- * @returns {Boolean}
+ * @param {string} appId the app id
+ * @return {boolean}
  */
 export const hasAppTranslations = appId => {
 	return window._oc_l10n_registry_translations[appId] !== undefined
@@ -77,12 +79,12 @@ export const hasAppTranslations = appId => {
 }
 
 /**
- * @param {String} appId the app id
- * @returns {Object}
+ * @param {string} appId the app id
+ * @return {object}
  */
 export const getAppTranslations = appId => {
 	return {
 		translations: window._oc_l10n_registry_translations[appId] || {},
-		pluralFunction: window._oc_l10n_registry_plural_functions[appId]
+		pluralFunction: window._oc_l10n_registry_plural_functions[appId],
 	}
 }

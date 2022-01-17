@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>accessibility</id>
-    <name>Accessibility</name>
-    <summary>Accessibility options for nextcloud</summary>
-    <description><![CDATA[Provides multiple accessibilities options to ease your use of Nextcloud]]></description>
-    <version>1.4.0</version>
-    <licence>agpl</licence>
-    <author>John Molakvoæ</author>
-    <namespace>Accessibility</namespace>
-    <default_enable/>
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>accessibility</id>
+	<name>Accessibility</name>
+	<summary>Accessibility options for nextcloud</summary>
+	<description><![CDATA[Provides multiple accessibilities options to ease your use of Nextcloud]]></description>
+	<version>1.10.0</version>
+	<licence>agpl</licence>
+	<author>John Molakvoæ</author>
+	<namespace>Accessibility</namespace>
+	<default_enable/>
 
-    <category>customization</category>
+	<category>customization</category>
 
-    <bugs>https://github.com/nextcloud/server/issues</bugs>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
-    <dependencies>
-        <nextcloud min-version="18" max-version="18"/>
-    </dependencies>
+	<dependencies>
+		<nextcloud min-version="24" max-version="24"/>
+	</dependencies>
 
 	<repair-steps>
 		<pre-migration>
@@ -25,8 +25,8 @@
 		</pre-migration>
 	</repair-steps>
 
-    <settings>
-        <personal>OCA\Accessibility\Settings\Personal</personal>
-        <personal-section>OCA\Accessibility\Settings\PersonalSection</personal-section>
-    </settings>
+	<settings>
+		<personal>OCA\Accessibility\Settings\Personal</personal>
+		<personal-section>OCA\Accessibility\Settings\PersonalSection</personal-section>
+	</settings>
 </info>

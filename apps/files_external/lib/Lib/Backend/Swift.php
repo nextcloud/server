@@ -2,7 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julien Lutran <julien.lutran@corp.ovh.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,22 +21,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
-use \OCP\IL10N;
-use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
-use \OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
-use \OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
-use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
+use OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCP\IL10N;
 
 class Swift extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, OpenStackV2 $openstackAuth, Rackspace $rackspaceAuth) {
@@ -43,14 +45,13 @@ class Swift extends Backend {
 			->addParameters([
 				(new DefinitionParameter('service_name', $l->t('Service name')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
-				(new DefinitionParameter('region', $l->t('Region')))
-					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				new DefinitionParameter('region', $l->t('Region')),
 				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('timeout', $l->t('Request timeout (seconds)')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_OPENSTACK)
-			->setLegacyAuthMechanismCallback(function(array $params) use ($openstackAuth, $rackspaceAuth) {
+			->setLegacyAuthMechanismCallback(function (array $params) use ($openstackAuth, $rackspaceAuth) {
 				if (isset($params['options']['key']) && $params['options']['key']) {
 					return $rackspaceAuth;
 				}
@@ -58,5 +59,4 @@ class Swift extends Backend {
 			})
 		;
 	}
-
 }

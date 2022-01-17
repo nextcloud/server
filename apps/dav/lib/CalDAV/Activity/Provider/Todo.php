@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OCP\Activity\IEvent;
@@ -50,24 +51,23 @@ class Todo extends Event {
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo') {
 			$subject = $this->l->t('{actor} created todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo_self') {
 			$subject = $this->l->t('You created todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo') {
 			$subject = $this->l->t('{actor} deleted todo {todo} from list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo_self') {
 			$subject = $this->l->t('You deleted todo {todo} from list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo') {
 			$subject = $this->l->t('{actor} updated todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_self') {
 			$subject = $this->l->t('You updated todo {todo} in list {calendar}');
-
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed') {
 			$subject = $this->l->t('{actor} solved todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self') {
 			$subject = $this->l->t('You solved todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action') {
 			$subject = $this->l->t('{actor} reopened todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self') {
 			$subject = $this->l->t('You reopened todo {todo} in list {calendar}');
 		} else {
 			throw new \InvalidArgumentException();
@@ -127,7 +127,7 @@ class Todo extends Event {
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action':
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateLegacyCalendarParameter((int)$event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
 					'todo' => $this->generateObjectParameter($parameters[2]),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_todo_self':
@@ -136,7 +136,7 @@ class Todo extends Event {
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self':
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
 				return [
-					'calendar' => $this->generateLegacyCalendarParameter((int)$event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
 					'todo' => $this->generateObjectParameter($parameters[2]),
 				];
 		}

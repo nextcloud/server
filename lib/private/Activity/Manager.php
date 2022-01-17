@@ -3,8 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
- * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -20,12 +23,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Activity;
 
-
+use OCP\Activity\ActivitySettings;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;
@@ -33,6 +36,7 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Activity\ISetting;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -63,21 +67,27 @@ class Manager implements IManager {
 	/** @var string */
 	protected $currentUserId;
 
-	public function __construct(IRequest $request,
-								IUserSession $session,
-								IConfig $config,
-								IValidator $validator) {
+	protected $l10n;
+
+	public function __construct(
+			IRequest $request,
+			IUserSession $session,
+			IConfig $config,
+			IValidator $validator,
+			IL10N $l10n
+	) {
 		$this->request = $request;
 		$this->session = $session;
 		$this->config = $config;
 		$this->validator = $validator;
+		$this->l10n = $l10n;
 	}
 
 	/** @var \Closure[] */
-	private $consumersClosures = array();
+	private $consumersClosures = [];
 
 	/** @var IConsumer[] */
-	private $consumers = array();
+	private $consumers = [];
 
 	/**
 	 * @return \OCP\Activity\IConsumer[]
@@ -88,7 +98,7 @@ class Manager implements IManager {
 		}
 
 		$this->consumers = [];
-		foreach($this->consumersClosures as $consumer) {
+		foreach ($this->consumersClosures as $consumer) {
 			$c = $consumer();
 			if ($c instanceof IConsumer) {
 				$this->consumers[] = $c;
@@ -260,7 +270,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return ISetting[]
+	 * @return ActivitySettings[]
 	 * @throws \InvalidArgumentException
 	 */
 	public function getSettings(): array {
@@ -268,7 +278,11 @@ class Manager implements IManager {
 			/** @var ISetting $setting */
 			$setting = \OC::$server->query($class);
 
-			if (!$setting instanceof ISetting) {
+			if ($setting instanceof ISetting) {
+				if (!$setting instanceof ActivitySettings) {
+					$setting = new ActivitySettingsAdapter($setting, $this->l10n);
+				}
+			} else {
 				throw new \InvalidArgumentException('Invalid activity filter registered');
 			}
 
@@ -281,11 +295,11 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $id
-	 * @return ISetting
+	 * @return ActivitySettings
 	 * @throws \InvalidArgumentException when the setting was not found
 	 * @since 11.0.0
 	 */
-	public function getSettingById(string $id): ISetting {
+	public function getSettingById(string $id): ActivitySettings {
 		$settings = $this->getSettings();
 
 		if (isset($settings[$id])) {
@@ -383,5 +397,4 @@ class Manager implements IManager {
 		// Token found login as that user
 		return array_shift($users);
 	}
-
 }

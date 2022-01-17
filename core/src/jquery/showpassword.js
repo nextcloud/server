@@ -1,9 +1,10 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,49 +17,49 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
 
-/*
-*	@name							Show Password
-*	@description
-*	@version						1.3
-*	@requires						Jquery 1.5
-*
-*	@author							Jan Jarfalk
-*	@author-email					jan.jarfalk@unwrongest.com
-*	@author-website					http://www.unwrongest.com
-*
-*	@special-thanks					Michel Gratton
-*
-*	@licens							MIT License - http://www.opensource.org/licenses/mit-license.php
-*/
+/**
+ * @name Show Password
+ * @description
+ * @version 1.3.0
+ * @requires Jquery 1.5
+ *
+ * @author Jan Jarfalk <jan.jarfalk@unwrongest.com>
+ * author-website http://www.unwrongest.com
+ *
+ * special-thanks Michel Gratton
+ *
+ * @license MIT
+ */
 $.fn.extend({
-	showPassword: function(c) {
+	showPassword(c) {
 
 		// Setup callback object
-		var callback = { 'fn': null, 'args': {} }
+		const callback = { fn: null, args: {} }
 		callback.fn = c
 
 		// Clones passwords and turn the clones into text inputs
-		var cloneElement = function(element) {
+		const cloneElement = function(element) {
 
-			var $element = $(element)
+			const $element = $(element)
 
-			var $clone = $('<input />')
+			const $clone = $('<input />')
 
 			// Name added for JQuery Validation compatibility
 			// Element name is required to avoid script warning.
 			$clone.attr({
-				'type': 'text',
-				'class': $element.attr('class'),
-				'style': $element.attr('style'),
-				'size': $element.attr('size'),
-				'name': $element.attr('name') + '-clone',
-				'tabindex': $element.attr('tabindex'),
-				'autocomplete': 'off'
+				type: 'text',
+				class: $element.attr('class'),
+				style: $element.attr('style'),
+				size: $element.attr('size'),
+				name: $element.attr('name') + '-clone',
+				tabindex: $element.attr('tabindex'),
+				autocomplete: 'off',
 			})
 
 			if ($element.attr('placeholder') !== undefined) {
@@ -70,12 +71,12 @@ $.fn.extend({
 		}
 
 		// Transfers values between two elements
-		var update = function(a, b) {
+		const update = function(a, b) {
 			b.val(a.val())
 		}
 
 		// Shows a or b depending on checkbox
-		var setState = function(checkbox, a, b) {
+		const setState = function(checkbox, a, b) {
 
 			if (checkbox.is(':checked')) {
 				update(a, b)
@@ -91,11 +92,11 @@ $.fn.extend({
 
 		return this.each(function() {
 
-			var $input = $(this)
-			var $checkbox = $($input.data('typetoggle'))
+			const $input = $(this)
+			const $checkbox = $($input.data('typetoggle'))
 
 			// Create clone
-			var $clone = cloneElement($input)
+			const $clone = cloneElement($input)
 			$clone.insertAfter($input)
 
 			// Set callback arguments
@@ -144,5 +145,5 @@ $.fn.extend({
 			}
 
 		})
-	}
+	},
 })

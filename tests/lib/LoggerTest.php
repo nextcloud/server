@@ -14,10 +14,10 @@ use OCP\Log\IWriter;
 
 class LoggerTest extends TestCase implements IWriter {
 
-	/** @var \OC\SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var \OCP\Support\CrashReport\IRegistry|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Support\CrashReport\IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $registry;
 
 	/** @var \OCP\ILogger */
@@ -26,7 +26,7 @@ class LoggerTest extends TestCase implements IWriter {
 	/** @var array */
 	private $logs = [];
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logs = [];
@@ -37,9 +37,9 @@ class LoggerTest extends TestCase implements IWriter {
 
 	public function testInterpolation() {
 		$logger = $this->logger;
-		$logger->warning('{Message {nothing} {user} {foo.bar} a}', array('user' => 'Bob', 'foo.bar' => 'Bar'));
+		$logger->warning('{Message {nothing} {user} {foo.bar} a}', ['user' => 'Bob', 'foo.bar' => 'Bar']);
 
-		$expected = array('2 {Message {nothing} Bob Bar a}');
+		$expected = ['2 {Message {nothing} Bob Bar a}'];
 		$this->assertEquals($expected, $this->getLogs());
 	}
 
@@ -68,12 +68,11 @@ class LoggerTest extends TestCase implements IWriter {
 	}
 
 	public function write(string $app, $message, int $level) {
-		$this->logs[]= "$level $message";
+		$this->logs[] = "$level $message";
 	}
 
-	public function userAndPasswordData() {
+	public function userAndPasswordData(): array {
 		return [
-			['abc', 'def'],
 			['mySpecialUsername', 'MySuperSecretPassword'],
 			['my-user', '324324()#ä234'],
 			['my-user', ')qwer'],
@@ -88,7 +87,7 @@ class LoggerTest extends TestCase implements IWriter {
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectlogin($user, $password) {
+	public function testDetectlogin(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -97,20 +96,20 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectcheckPassword($user, $password) {
+	public function testDetectcheckPassword(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -119,20 +118,20 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectvalidateUserPass($user, $password) {
+	public function testDetectvalidateUserPass(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -141,20 +140,20 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetecttryLogin($user, $password) {
+	public function testDetecttryLogin(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -163,21 +162,21 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectclosure($user, $password) {
-		$a = function($user, $password) {
+	public function testDetectclosure(string $user, string $password): void {
+		$a = function ($user, $password) {
 			throw new \Exception('test');
 		};
 		$this->registry->expects($this->once())
@@ -190,7 +189,7 @@ class LoggerTest extends TestCase implements IWriter {
 		}
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -198,9 +197,9 @@ class LoggerTest extends TestCase implements IWriter {
 			unset($log[1]); // Remove `testDetectclosure(` because we are not testing this here, but the closure on stack trace 0
 			$logLine = implode('\n', $log);
 
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 }

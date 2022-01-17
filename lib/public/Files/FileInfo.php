@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Heidecke <felix@heidecke.me>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -22,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCP\Files;
@@ -30,45 +31,44 @@ namespace OCP\Files;
 /**
  * Interface FileInfo
  *
- * @package OCP\Files
  * @since 7.0.0
  */
 interface FileInfo {
 	/**
 	 * @since 7.0.0
 	 */
-	const TYPE_FILE = 'file';
+	public const TYPE_FILE = 'file';
 	/**
 	 * @since 7.0.0
 	 */
-	const TYPE_FOLDER = 'dir';
+	public const TYPE_FOLDER = 'dir';
 
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_NOT_COMPUTED Return value for a not computed space value
 	 * @since 8.0.0
 	 */
-	const SPACE_NOT_COMPUTED = -1;
+	public const SPACE_NOT_COMPUTED = -1;
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_UNKNOWN Return value for unknown space value
 	 * @since 8.0.0
 	 */
-	const SPACE_UNKNOWN = -2;
+	public const SPACE_UNKNOWN = -2;
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_UNLIMITED Return value for unlimited space
 	 * @since 8.0.0
 	 */
-	const SPACE_UNLIMITED = -3;
+	public const SPACE_UNLIMITED = -3;
 
 	/**
 	 * @since 9.1.0
 	 */
-	const MIMETYPE_FOLDER = 'httpd/unix-directory';
+	public const MIMETYPE_FOLDER = 'httpd/unix-directory';
 
 	/**
 	 * @const \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX Return regular expression to test filenames against (blacklisting)
 	 * @since 12.0.0
 	 */
-	const BLACKLIST_FILES_REGEX = '\.(part|filepart)$';
+	public const BLACKLIST_FILES_REGEX = '\.(part|filepart)$';
 
 	/**
 	 * Get the Etag of the file or folder
@@ -268,4 +268,30 @@ interface FileInfo {
 	 * @since 15.0.0
 	 */
 	public function getExtension(): string;
+
+	/**
+	 * Get the creation date as unix timestamp
+	 *
+	 * If the creation time is not known, 0 will be returned
+	 *
+	 * creation time is not set automatically by the server and is generally only available
+	 * for files uploaded by the sync clients
+	 *
+	 * @return int
+	 * @since 18.0.0
+	 */
+	public function getCreationTime(): int;
+
+	/**
+	 * Get the upload date as unix timestamp
+	 *
+	 * If the upload time is not known, 0 will be returned
+	 *
+	 * Upload time will be set automatically by the server for files uploaded over DAV
+	 * files created by Nextcloud apps generally do not have an the upload time set
+	 *
+	 * @return int
+	 * @since 18.0.0
+	 */
+	public function getUploadTime(): int;
 }

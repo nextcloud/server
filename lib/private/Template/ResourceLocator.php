@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -23,10 +24,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
 abstract class ResourceLocator {
@@ -37,7 +37,7 @@ abstract class ResourceLocator {
 	protected $thirdpartyroot;
 	protected $webroot;
 
-	protected $resources = array();
+	protected $resources = [];
 
 	/** @var \OCP\ILogger */
 	protected $logger;
@@ -102,7 +102,7 @@ abstract class ResourceLocator {
 	 * @return bool True if the resource was found, false otherwise
 	 */
 	protected function appendIfExist($root, $file, $webRoot = null) {
-		if (is_file($root.'/'.$file)) {
+		if ($root !== false && is_file($root.'/'.$file)) {
 			$this->append($root, $file, $webRoot, false);
 			return true;
 		}
@@ -163,7 +163,6 @@ abstract class ResourceLocator {
 	 * @throws ResourceNotFoundException Only thrown when $throw is true and the resource is missing
 	 */
 	protected function append($root, $file, $webRoot = null, $throw = true) {
-
 		if (!is_string($root)) {
 			if ($throw) {
 				throw new ResourceNotFoundException($file, $webRoot);
@@ -185,7 +184,7 @@ abstract class ResourceLocator {
 				]);
 			}
 		}
-		$this->resources[] = array($root, $webRoot, $file);
+		$this->resources[] = [$root, $webRoot, $file];
 
 		if ($throw && !is_file($root . '/' . $file)) {
 			throw new ResourceNotFoundException($file, $webRoot);

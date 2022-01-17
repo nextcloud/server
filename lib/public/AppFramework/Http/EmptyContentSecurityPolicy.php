@@ -2,10 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Pavel Krasikov <klonishe@gmail.com>
  * @author Pierre Rudloff <contact@rudloff.pro>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -19,21 +21,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 /**
  * Class EmptyContentSecurityPolicy is a simple helper which allows applications
- * to modify the Content-Security-Policy sent by ownCloud. Per default the policy
+ * to modify the Content-Security-Policy sent by Nexcloud. Per default the policy
  * is forbidding everything.
  *
  * As alternative with sane exemptions look at ContentSecurityPolicy
  *
  * @see \OCP\AppFramework\Http\ContentSecurityPolicy
- * @package OCP\AppFramework\Http
  * @since 9.0.0
  */
 class EmptyContentSecurityPolicy {
@@ -95,6 +95,7 @@ class EmptyContentSecurityPolicy {
 
 	/**
 	 * Use the according JS nonce
+	 * This method is only for CSPMiddleware, custom values are ignored in mergePolicies of ContentSecurityPolicyManager
 	 *
 	 * @param string $nonce
 	 * @return $this
@@ -434,79 +435,81 @@ class EmptyContentSecurityPolicy {
 		$policy .= "base-uri 'none';";
 		$policy .= "manifest-src 'self';";
 
-		if(!empty($this->allowedScriptDomains) || $this->inlineScriptAllowed || $this->evalScriptAllowed) {
+		if (!empty($this->allowedScriptDomains) || $this->inlineScriptAllowed || $this->evalScriptAllowed) {
 			$policy .= 'script-src ';
-			if(is_string($this->useJsNonce)) {
+			if (is_string($this->useJsNonce)) {
 				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);
-				if(count($allowedScriptDomains) !== 0) {
+				if (count($allowedScriptDomains) !== 0) {
 					$policy .= ' ';
 				}
 			}
-			if(is_array($this->allowedScriptDomains)) {
+			if (is_array($this->allowedScriptDomains)) {
 				$policy .= implode(' ', $this->allowedScriptDomains);
 			}
-			if($this->inlineScriptAllowed) {
+			if ($this->inlineScriptAllowed) {
 				$policy .= ' \'unsafe-inline\'';
 			}
-			if($this->evalScriptAllowed) {
+			if ($this->evalScriptAllowed) {
 				$policy .= ' \'unsafe-eval\'';
 			}
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedStyleDomains) || $this->inlineStyleAllowed) {
+		if (!empty($this->allowedStyleDomains) || $this->inlineStyleAllowed) {
 			$policy .= 'style-src ';
-			if(is_array($this->allowedStyleDomains)) {
+			if (is_array($this->allowedStyleDomains)) {
 				$policy .= implode(' ', $this->allowedStyleDomains);
 			}
-			if($this->inlineStyleAllowed) {
+			if ($this->inlineStyleAllowed) {
 				$policy .= ' \'unsafe-inline\'';
 			}
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedImageDomains)) {
+		if (!empty($this->allowedImageDomains)) {
 			$policy .= 'img-src ' . implode(' ', $this->allowedImageDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedFontDomains)) {
+		if (!empty($this->allowedFontDomains)) {
 			$policy .= 'font-src ' . implode(' ', $this->allowedFontDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedConnectDomains)) {
+		if (!empty($this->allowedConnectDomains)) {
 			$policy .= 'connect-src ' . implode(' ', $this->allowedConnectDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedMediaDomains)) {
+		if (!empty($this->allowedMediaDomains)) {
 			$policy .= 'media-src ' . implode(' ', $this->allowedMediaDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedObjectDomains)) {
+		if (!empty($this->allowedObjectDomains)) {
 			$policy .= 'object-src ' . implode(' ', $this->allowedObjectDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedFrameDomains)) {
+		if (!empty($this->allowedFrameDomains)) {
 			$policy .= 'frame-src ';
 			$policy .= implode(' ', $this->allowedFrameDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedChildSrcDomains)) {
+		if (!empty($this->allowedChildSrcDomains)) {
 			$policy .= 'child-src ' . implode(' ', $this->allowedChildSrcDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedFrameAncestors)) {
+		if (!empty($this->allowedFrameAncestors)) {
 			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestors);
 			$policy .= ';';
+		} else {
+			$policy .= 'frame-ancestors \'none\';';
 		}
 
 		if (!empty($this->allowedWorkerSrcDomains)) {

@@ -40,7 +40,7 @@ class CleanupTest extends TestCase {
 	/** @var CommandTester */
 	private $cmd;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->registry = $this->createMock(IRegistry::class);
@@ -60,7 +60,6 @@ class CleanupTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$output = $this->cmd->getDisplay();
-		$this->assertContains("All user-provider associations for provider u2f have been removed", $output);
+		$this->assertStringContainsString("All user-provider associations for provider u2f have been removed", $output);
 	}
-
 }

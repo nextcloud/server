@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Tests\Unit\Activity;
 
 use OCA\Comments\Activity\Listener;
@@ -45,25 +46,25 @@ class ListenerTest extends TestCase {
 	/** @var Listener */
 	protected $listener;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $activityManager;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appManager;
 
-	/** @var IMountProviderCollection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMountProviderCollection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mountProviderCollection;
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	protected $rootFolder;
 
-	/** @var IShareHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IShareHelper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $shareHelper;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->activityManager = $this->createMock(IManager::class);
@@ -94,7 +95,7 @@ class ListenerTest extends TestCase {
 			->method('getObjectType')
 			->willReturn('files');
 
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
 		$event = $this->createMock(CommentsEvent::class);
 		$event->expects($this->any())
 			->method('getComment')
@@ -103,13 +104,13 @@ class ListenerTest extends TestCase {
 			->method('getEvent')
 			->willReturn(CommentsEvent::EVENT_ADD);
 
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $ownerUser */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $ownerUser */
 		$ownerUser = $this->createMock(IUser::class);
 		$ownerUser->expects($this->any())
 			->method('getUID')
 			->willReturn('937393');
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject $mount */
+		/** @var \PHPUnit\Framework\MockObject\MockObject $mount */
 		$mount = $this->createMock(ICachedMountFileInfo::class);
 		$mount->expects($this->any())
 			->method('getUser')
@@ -151,7 +152,7 @@ class ListenerTest extends TestCase {
 			->method('getUser')
 			->willReturn($ownerUser);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject $activity */
+		/** @var \PHPUnit\Framework\MockObject\MockObject $activity */
 		$activity = $this->createMock(IEvent::class);
 		$activity->expects($this->exactly(count($al['users'])))
 			->method('setAffectedUser');

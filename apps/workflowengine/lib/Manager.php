@@ -2,6 +2,15 @@
 /**
  * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author blizzz <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,18 +20,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use OC\Cache\CappedMemoryCache;
+use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;
 use OCA\WorkflowEngine\Check\FileSize;
@@ -34,15 +43,21 @@ use OCA\WorkflowEngine\Check\RequestUserAgent;
 use OCA\WorkflowEngine\Check\UserGroupMembership;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
+use OCA\WorkflowEngine\Service\Logger;
 use OCA\WorkflowEngine\Service\RuleMatcher;
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUserSession;
+use OCP\WorkflowEngine\Events\RegisterChecksEvent;
+use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
+use OCP\WorkflowEngine\Events\RegisterOperationsEvent;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IComplexOperation;
 use OCP\WorkflowEngine\IEntity;
@@ -50,7 +65,7 @@ use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface as LegacyDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager implements IManager {
@@ -79,8 +94,8 @@ class Manager implements IManager {
 	/** @var IL10N */
 	protected $l;
 
-	/** @var EventDispatcherInterface */
-	protected $eventDispatcher;
+	/** @var LegacyDispatcher */
+	protected $legacyEventDispatcher;
 
 	/** @var IEntity[] */
 	protected $registeredEntities = [];
@@ -100,71 +115,115 @@ class Manager implements IManager {
 	/** @var IUserSession */
 	protected $session;
 
-	/**
-	 * @param IDBConnection $connection
-	 * @param IServerContainer $container
-	 * @param IL10N $l
-	 */
+	/** @var IEventDispatcher */
+	private $dispatcher;
+
+	/** @var IConfig */
+	private $config;
+
 	public function __construct(
 		IDBConnection $connection,
 		IServerContainer $container,
 		IL10N $l,
-		EventDispatcherInterface $eventDispatcher,
+		LegacyDispatcher $eventDispatcher,
 		ILogger $logger,
-		IUserSession $session
+		IUserSession $session,
+		IEventDispatcher $dispatcher,
+		IConfig $config
 	) {
 		$this->connection = $connection;
 		$this->container = $container;
 		$this->l = $l;
-		$this->eventDispatcher = $eventDispatcher;
+		$this->legacyEventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
 		$this->operationsByScope = new CappedMemoryCache(64);
 		$this->session = $session;
+		$this->dispatcher = $dispatcher;
+		$this->config = $config;
 	}
 
 	public function getRuleMatcher(): IRuleMatcher {
-		return new RuleMatcher($this->session, $this->container, $this->l, $this);
+		return new RuleMatcher(
+			$this->session,
+			$this->container,
+			$this->l,
+			$this,
+			$this->container->query(Logger::class)
+		);
 	}
 
 	public function getAllConfiguredEvents() {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->selectDistinct('class')
-			->addSelect('entity', 'events')
+		$query->select('class', 'entity')
+			->selectAlias($query->expr()->castColumn('events', IQueryBuilder::PARAM_STR), 'events')
 			->from('flow_operations')
-			->where($query->expr()->neq('events', $query->createNamedParameter('[]'), IQueryBuilder::PARAM_STR));
+			->where($query->expr()->neq('events', $query->createNamedParameter('[]'), IQueryBuilder::PARAM_STR))
+			->groupBy('class', 'entity', $query->expr()->castColumn('events', IQueryBuilder::PARAM_STR));
 
 		$result = $query->execute();
 		$operations = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$eventNames = \json_decode($row['events']);
 
 			$operation = $row['class'];
-			$entity =  $row['entity'];
+			$entity = $row['entity'];
 
 			$operations[$operation] = $operations[$row['class']] ?? [];
 			$operations[$operation][$entity] = $operations[$operation][$entity] ?? [];
 
-			$operations[$operation][$entity] = array_unique(array_merge($operations[$operation][$entity], $eventNames));
+			$operations[$operation][$entity] = array_unique(array_merge($operations[$operation][$entity], $eventNames ?? []));
 		}
 		$result->closeCursor();
 
 		return $operations;
 	}
 
+	/**
+	 * @param string $operationClass
+	 * @return ScopeContext[]
+	 */
+	public function getAllConfiguredScopesForOperation(string $operationClass): array {
+		static $scopesByOperation = [];
+		if (isset($scopesByOperation[$operationClass])) {
+			return $scopesByOperation[$operationClass];
+		}
+
+		$query = $this->connection->getQueryBuilder();
+
+		$query->selectDistinct('s.type')
+			->addSelect('s.value')
+			->from('flow_operations', 'o')
+			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
+			->where($query->expr()->eq('o.class', $query->createParameter('operationClass')));
+
+		$query->setParameters(['operationClass' => $operationClass]);
+		$result = $query->execute();
+
+		$scopesByOperation[$operationClass] = [];
+		while ($row = $result->fetch()) {
+			$scope = new ScopeContext($row['type'], $row['value']);
+			$scopesByOperation[$operationClass][$scope->getHash()] = $scope;
+		}
+
+		return $scopesByOperation[$operationClass];
+	}
+
 	public function getAllOperations(ScopeContext $scopeContext): array {
-		if(isset($this->operations[$scopeContext->getHash()])) {
+		if (isset($this->operations[$scopeContext->getHash()])) {
 			return $this->operations[$scopeContext->getHash()];
 		}
 
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('o.*')
+			->selectAlias('s.type', 'scope_type')
+			->selectAlias('s.value', 'scope_actor_id')
 			->from('flow_operations', 'o')
 			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
 			->where($query->expr()->eq('s.type', $query->createParameter('scope')));
 
-		if($scopeContext->getScope() === IManager::SCOPE_USER) {
+		if ($scopeContext->getScope() === IManager::SCOPE_USER) {
 			$query->andWhere($query->expr()->eq('s.value', $query->createParameter('scopeId')));
 		}
 
@@ -173,7 +232,7 @@ class Manager implements IManager {
 
 		$this->operations[$scopeContext->getHash()] = [];
 		while ($row = $result->fetch()) {
-			if(!isset($this->operations[$scopeContext->getHash()][$row['class']])) {
+			if (!isset($this->operations[$scopeContext->getHash()][$row['class']])) {
 				$this->operations[$scopeContext->getHash()][$row['class']] = [];
 			}
 			$this->operations[$scopeContext->getHash()][$row['class']][] = $row;
@@ -240,7 +299,7 @@ class Manager implements IManager {
 	 * @param string $operation
 	 * @return array The added operation
 	 * @throws \UnexpectedValueException
-	 * @throws DBALException
+	 * @throw Exception
 	 */
 	public function addOperation(
 		string $class,
@@ -265,7 +324,7 @@ class Manager implements IManager {
 			$this->addScope($id, $scope);
 
 			$this->connection->commit();
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			$this->connection->rollBack();
 			throw $e;
 		}
@@ -274,7 +333,7 @@ class Manager implements IManager {
 	}
 
 	protected function canModify(int $id, ScopeContext $scopeContext):bool {
-		if(isset($this->operationsByScope[$scopeContext->getHash()])) {
+		if (isset($this->operationsByScope[$scopeContext->getHash()])) {
 			return in_array($id, $this->operationsByScope[$scopeContext->getHash()], true);
 		}
 
@@ -284,7 +343,7 @@ class Manager implements IManager {
 			->leftJoin('o', 'flow_operations_scope', 's', $qb->expr()->eq('o.id', 's.operation_id'))
 			->where($qb->expr()->eq('s.type', $qb->createParameter('scope')));
 
-		if($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
+		if ($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
 			$qb->where($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
 		}
 
@@ -292,7 +351,7 @@ class Manager implements IManager {
 		$result = $qb->execute();
 
 		$this->operationsByScope[$scopeContext->getHash()] = [];
-		while($opId = $result->fetchColumn(0)) {
+		while ($opId = $result->fetchOne()) {
 			$this->operationsByScope[$scopeContext->getHash()][] = (int)$opId;
 		}
 		$result->closeCursor();
@@ -308,7 +367,7 @@ class Manager implements IManager {
 	 * @return array The updated operation
 	 * @throws \UnexpectedValueException
 	 * @throws \DomainException
-	 * @throws DBALException
+	 * @throws Exception
 	 */
 	public function updateOperation(
 		int $id,
@@ -319,7 +378,7 @@ class Manager implements IManager {
 		string $entity,
 		array $events
 	): array {
-		if(!$this->canModify($id, $scopeContext)) {
+		if (!$this->canModify($id, $scopeContext)) {
 			throw new \DomainException('Target operation not within scope');
 		};
 		$row = $this->getOperation($id);
@@ -342,7 +401,7 @@ class Manager implements IManager {
 				->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 			$query->execute();
 			$this->connection->commit();
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			$this->connection->rollBack();
 			throw $e;
 		}
@@ -355,11 +414,11 @@ class Manager implements IManager {
 	 * @param int $id
 	 * @return bool
 	 * @throws \UnexpectedValueException
-	 * @throws DBALException
+	 * @throws Exception
 	 * @throws \DomainException
 	 */
 	public function deleteOperation($id, ScopeContext $scopeContext) {
-		if(!$this->canModify($id, $scopeContext)) {
+		if (!$this->canModify($id, $scopeContext)) {
 			throw new \DomainException('Target operation not within scope');
 		};
 		$query = $this->connection->getQueryBuilder();
@@ -368,19 +427,19 @@ class Manager implements IManager {
 			$result = (bool)$query->delete('flow_operations')
 				->where($query->expr()->eq('id', $query->createNamedParameter($id)))
 				->execute();
-			if($result) {
+			if ($result) {
 				$qb = $this->connection->getQueryBuilder();
 				$result &= (bool)$qb->delete('flow_operations_scope')
 					->where($qb->expr()->eq('operation_id', $qb->createNamedParameter($id)))
 					->execute();
 			}
 			$this->connection->commit();
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			$this->connection->rollBack();
 			throw $e;
 		}
 
-		if(isset($this->operations[$scopeContext->getHash()])) {
+		if (isset($this->operations[$scopeContext->getHash()])) {
 			unset($this->operations[$scopeContext->getHash()]);
 		}
 
@@ -395,12 +454,12 @@ class Manager implements IManager {
 			throw new \UnexpectedValueException($this->l->t('Entity %s does not exist', [$entity]));
 		}
 
-		if(!$instance instanceof IEntity) {
+		if (!$instance instanceof IEntity) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s is invalid', [$entity]));
 		}
 
-		if(empty($events)) {
-			if(!$operation instanceof IComplexOperation) {
+		if (empty($events)) {
+			if (!$operation instanceof IComplexOperation) {
 				throw new \UnexpectedValueException($this->l->t('No events are chosen.'));
 			}
 			return;
@@ -413,7 +472,7 @@ class Manager implements IManager {
 		}
 
 		$diff = array_diff($events, $availableEvents);
-		if(!empty($diff)) {
+		if (!empty($diff)) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s has no event %s', [$entity, array_shift($diff)]));
 		}
 	}
@@ -439,9 +498,21 @@ class Manager implements IManager {
 
 		$this->validateEvents($entity, $events, $instance);
 
+		if (count($checks) === 0) {
+			throw new \UnexpectedValueException($this->l->t('At least one check needs to be provided'));
+		}
+
+		if (strlen((string)$operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
+			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
+		}
+
 		$instance->validateOperation($name, $checks, $operation);
 
 		foreach ($checks as $check) {
+			if (!is_string($check['class'])) {
+				throw new \UnexpectedValueException($this->l->t('Invalid check provided'));
+			}
+
 			try {
 				/** @var ICheck $instance */
 				$instance = $this->container->query($check['class']);
@@ -457,6 +528,10 @@ class Manager implements IManager {
 				&& !in_array($entity, $instance->supportedEntities())
 			) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
+			}
+
+			if (strlen((string)$check['value']) > IManager::MAX_CHECK_VALUE_BYTES) {
+				throw new \UnexpectedValueException($this->l->t('The provided check value is too long'));
 			}
 
 			$instance->validateCheck($check['operator'], $check['value']);
@@ -561,6 +636,8 @@ class Manager implements IManager {
 
 			$operation['checks'][] = $check;
 		}
+		$operation['events'] = json_decode($operation['events'], true) ?? [];
+
 
 		return $operation;
 	}
@@ -569,16 +646,18 @@ class Manager implements IManager {
 	 * @return IEntity[]
 	 */
 	public function getEntitiesList(): array {
-		$this->eventDispatcher->dispatch(IManager::EVENT_NAME_REG_ENTITY, new GenericEvent($this));
+		$this->dispatcher->dispatchTyped(new RegisterEntitiesEvent($this));
+		$this->legacyEventDispatcher->dispatch(IManager::EVENT_NAME_REG_ENTITY, new GenericEvent($this));
 
-		return array_merge($this->getBuildInEntities(), $this->registeredEntities);
+		return array_values(array_merge($this->getBuildInEntities(), $this->registeredEntities));
 	}
 
 	/**
 	 * @return IOperation[]
 	 */
 	public function getOperatorList(): array {
-		$this->eventDispatcher->dispatch(IManager::EVENT_NAME_REG_OPERATION, new GenericEvent($this));
+		$this->dispatcher->dispatchTyped(new RegisterOperationsEvent($this));
+		$this->legacyEventDispatcher->dispatch(IManager::EVENT_NAME_REG_OPERATION, new GenericEvent($this));
 
 		return array_merge($this->getBuildInOperators(), $this->registeredOperators);
 	}
@@ -587,7 +666,8 @@ class Manager implements IManager {
 	 * @return ICheck[]
 	 */
 	public function getCheckList(): array {
-		$this->eventDispatcher->dispatch(IManager::EVENT_NAME_REG_CHECK, new GenericEvent($this));
+		$this->dispatcher->dispatchTyped(new RegisterChecksEvent($this));
+		$this->legacyEventDispatcher->dispatch(IManager::EVENT_NAME_REG_CHECK, new GenericEvent($this));
 
 		return array_merge($this->getBuildInChecks(), $this->registeredChecks);
 	}
@@ -610,7 +690,7 @@ class Manager implements IManager {
 	protected function getBuildInEntities(): array {
 		try {
 			return [
-				$this->container->query(File::class),
+				File::class => $this->container->query(File::class),
 			];
 		} catch (QueryException $e) {
 			$this->logger->logException($e);
@@ -633,7 +713,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return IEntity[]
+	 * @return ICheck[]
 	 */
 	protected function getBuildInChecks(): array {
 		try {
@@ -652,5 +732,9 @@ class Manager implements IManager {
 			$this->logger->logException($e);
 			return [];
 		}
+	}
+
+	public function isUserScopeEnabled(): bool {
+		return $this->config->getAppValue(Application::APP_ID, 'user_scope_disabled', 'no') === 'no';
 	}
 }

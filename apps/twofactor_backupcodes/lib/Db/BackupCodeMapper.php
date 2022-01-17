@@ -1,6 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -11,24 +19,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Db;
 
-use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 
+/**
+ * @template-extends QBMapper<BackupCode>
+ */
 class BackupCodeMapper extends QBMapper {
-
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'twofactor_backupcodes');
 	}
@@ -37,7 +45,7 @@ class BackupCodeMapper extends QBMapper {
 	 * @param IUser $user
 	 * @return BackupCode[]
 	 */
-	public function getBackupCodes(IUser $user) {
+	public function getBackupCodes(IUser $user): array {
 		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
@@ -51,14 +59,14 @@ class BackupCodeMapper extends QBMapper {
 	/**
 	 * @param IUser $user
 	 */
-	public function deleteCodes(IUser $user) {
+	public function deleteCodes(IUser $user): void {
 		$this->deleteCodesByUserId($user->getUID());
 	}
 
 	/**
 	 * @param string $uid
 	 */
-	public function deleteCodesByUserId($uid) {
+	public function deleteCodesByUserId(string $uid): void {
 		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
@@ -66,5 +74,4 @@ class BackupCodeMapper extends QBMapper {
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
 		$qb->execute();
 	}
-
 }

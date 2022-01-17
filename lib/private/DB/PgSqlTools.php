@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author tbelau666 <thomas.belau@gmx.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -19,16 +19,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
+
+use Doctrine\DBAL\Schema\AbstractAsset;
 use OCP\IConfig;
+use function preg_match;
+use function preg_quote;
 
 /**
-* Various PostgreSQL specific helper functions.
-*/
+ * Various PostgreSQL specific helper functions.
+ */
 class PgSqlTools {
 
 	/** @var \OCP\IConfig */
@@ -42,26 +45,36 @@ class PgSqlTools {
 	}
 
 	/**
-	* @brief Resynchronizes all sequences of a database after using INSERTs
-	*        without leaving out the auto-incremented column.
-	* @param \OC\DB\Connection $conn
-	* @return null
-	*/
+	 * @brief Resynchronizes all sequences of a database after using INSERTs
+	 *        without leaving out the auto-incremented column.
+	 * @param \OC\DB\Connection $conn
+	 * @return null
+	 */
 	public function resynchronizeDatabaseSequences(Connection $conn) {
-		$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
 		$databaseName = $conn->getDatabase();
-		$conn->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
+		$conn->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
+			/** @var string|AbstractAsset $asset */
+			$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+			if ($asset instanceof AbstractAsset) {
+				return preg_match($filterExpression, $asset->getName()) !== false;
+			}
+			return preg_match($filterExpression, $asset) !== false;
+		});
 
 		foreach ($conn->getSchemaManager()->listSequences() as $sequence) {
 			$sequenceName = $sequence->getName();
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
 				FROM information_schema.columns
 				WHERE column_default = ? AND table_catalog = ?';
-			$sequenceInfo = $conn->fetchAssoc($sqlInfo, array(
+			$result = $conn->executeQuery($sqlInfo, [
 				"nextval('$sequenceName'::regclass)",
 				$databaseName
-			));
+			]);
+			$sequenceInfo = $result->fetchAssociative();
+			$result->free();
+			/** @var string $tableName */
 			$tableName = $sequenceInfo['table_name'];
+			/** @var string $columnName */
 			$columnName = $sequenceInfo['column_name'];
 			$sqlMaxId = "SELECT MAX($columnName) FROM $tableName";
 			$sqlSetval = "SELECT setval('$sequenceName', ($sqlMaxId))";

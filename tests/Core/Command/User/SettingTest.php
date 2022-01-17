@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\User;
 
-
 use OC\Core\Command\User\Setting;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -31,18 +30,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var \OCP\IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
-	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->getMockBuilder(IUserManager::class)
@@ -76,7 +75,6 @@ class SettingTest extends TestCase {
 				->getMock();
 			return $mock;
 		}
-
 	}
 
 	public function dataCheckInput() {
@@ -93,7 +91,7 @@ class SettingTest extends TestCase {
 				[['ignore-missing-user', false]],
 				[],
 				null,
-				'The user "username" does not exists.',
+				'The user "username" does not exist.',
 			],
 
 			[
@@ -293,7 +291,6 @@ class SettingTest extends TestCase {
 			$this->config->expects($this->once())
 				->method('deleteUserValue')
 				->with('username', 'appname', 'configkey');
-
 		} else {
 			$this->consoleOutput->expects($this->once())
 				->method('writeln')

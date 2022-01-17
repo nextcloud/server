@@ -1,4 +1,5 @@
 { "translations": {
+    "External storage" : "จัดเก็บข้อมูลภายนอก",
     "Personal" : "ส่วนตัว",
     "System" : "ระบบ",
     "Grant access" : "อนุญาตให้เข้าถึงได้",
@@ -8,7 +9,6 @@
     "Generate keys" : "สร้างคีย์",
     "Error generating key pair" : "ข้อผิดพลาดในการสร้างคีย์แบบเป็นคู่",
     "All users. Type to select user or group." : "ผู้ใช้ทุกคน พิมพ์เพื่อเลือกผู้ใช้หรือกลุ่ม",
-    "(group)" : "(กลุ่ม)",
     "Enable encryption" : "เปิดใช้งานการเข้ารหัส",
     "Enable previews" : "เปิดใช้งานการแสดงตัวอย่าง",
     "Enable sharing" : "เปิดให้สามารถแชร์ได้",
@@ -29,7 +29,7 @@
     "Password" : "รหัสผ่าน",
     "Credentials saved" : "ข้อมูลประจำตัวได้ถูกบันทึก",
     "Credentials saving failed" : "บันทึกข้อมูลประจำตัวล้มเหลว",
-    "Credentials required" : "จำเป็นต้องระบบข้อมูลประจำตัว",
+    "Credentials required" : "จำเป็นต้องระบุข้อมูลประจำตัว",
     "Invalid backend or authentication mechanism class" : "แบ็กเอนด์ไม่ถูกต้องหรือระดับการรับรองความถูกต้องไม่เพียงพอ",
     "Invalid mount point" : "จุดเชื่อมต่อที่ไม่ถูกต้อง",
     "Objectstore forbidden" : "เก็บวัตถุต้องห้าม",
@@ -78,9 +78,8 @@
     "SFTP" : "SFTP",
     "Root" : "รูท",
     "SFTP with secret key login" : "SFTP กับคีย์ลับสำหรับเข้าสู่ระบบ",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "แชร์",
-    "SMB / CIFS using OC login" : "SMB/CIFS กำลังใช้ OC เข้าสู่ระบบ",
+    "Show hidden files" : "แสดงไฟล์ที่ซ่อนอยู่",
     "Username as share" : "ชื่อผู้ใช้ที่แชร์",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "ชื่อบริการ",
@@ -88,13 +87,16 @@
     "Name" : "ชื่อ",
     "Storage type" : "ชนิดการจัดเก็บข้อมูล",
     "Scope" : "ขอบเขต",
+    "Open documentation" : "เปิดเอกสาร",
     "Folder name" : "ชื่อโฟลเดอร์",
-    "External storage" : "จัดเก็บข้อมูลภายนอก",
     "Authentication" : "รับรองความถูกต้อง",
     "Configuration" : "การกำหนดค่า",
     "Available for" : "สามารถใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
-    "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก"
+    "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
+    "(group)" : "(กลุ่ม)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB/CIFS กำลังใช้ OC เข้าสู่ระบบ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

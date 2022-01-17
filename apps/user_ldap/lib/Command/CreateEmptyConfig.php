@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Martin Konrad <konrad@frib.msu.edu>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -19,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Configuration;
@@ -57,15 +56,16 @@ class CreateEmptyConfig extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $this->helper->getNextServerConfigurationPrefix();
 		$configHolder = new Configuration($configPrefix);
 		$configHolder->saveConfiguration();
 
 		$prose = '';
-		if(!$input->getOption('only-print-prefix')) {
+		if (!$input->getOption('only-print-prefix')) {
 			$prose = 'Created new configuration with configID ';
 		}
 		$output->writeln($prose . "{$configPrefix}");
+		return 0;
 	}
 }

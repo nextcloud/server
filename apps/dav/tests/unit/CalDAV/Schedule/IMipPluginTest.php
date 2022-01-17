@@ -3,9 +3,13 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke
  *
+ * @author brad2014 <brad2014@users.noreply.github.com>
+ * @author Brad Rubenstein <brad@wbr.tech>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -20,13 +24,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
-use OC\Mail\Mailer;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -36,19 +38,49 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
 class IMipPluginTest extends TestCase {
 
-        public function setUp() {
+		/** @var IMessage|MockObject */
+	private $mailMessage;
+
+	/** @var IMailer|MockObject */
+	private $mailer;
+
+	/** @var IEMailTemplate|MockObject */
+	private $emailTemplate;
+
+	/** @var IAttachment|MockObject */
+	private $emailAttachment;
+
+	/** @var ITimeFactory|MockObject */
+	private $timeFactory;
+
+	/** @var IConfig|MockObject */
+	private $config;
+
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
+	/** @var IQueryBuilder|MockObject */
+	private $queryBuilder;
+
+	/** @var IMipPlugin */
+	private $plugin;
+
+	protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
 		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
 		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);
@@ -63,6 +95,7 @@ class IMipPluginTest extends TestCase {
 		$this->emailAttachment = $this->createMock(IAttachment::class);
 		$this->mailer->method('createAttachment')->willReturn($this->emailAttachment);
 
+		/** @var ILogger|MockObject $logger */
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 
 		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
@@ -70,7 +103,13 @@ class IMipPluginTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 
+		$this->userManager = $this->createMock(IUserManager::class);
+
 		$l10n = $this->createMock(IL10N::class);
+		$l10n->method('t')
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->method('get')->willReturn($l10n);
 
@@ -80,25 +119,27 @@ class IMipPluginTest extends TestCase {
 		$db = $this->createMock(IDBConnection::class);
 		$db->method('getQueryBuilder')
 			->with()
-			->will($this->returnValue($this->queryBuilder));
+			->willReturn($this->queryBuilder);
 
 		$random = $this->createMock(ISecureRandom::class);
 		$random->method('generate')
 			->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
-			->will($this->returnValue('random_token'));
+			->willReturn('random_token');
 
 		$defaults = $this->createMock(Defaults::class);
 		$defaults->method('getName')
-			->will($this->returnValue('Instance Name 123'));
+			->willReturn('Instance Name 123');
 
-		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
+		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, $this->userManager, 'user123');
 	}
 
 	public function testDelivery() {
 		$this->config
+	  ->expects($this->at(1))
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
 		$this->_expectSend();
@@ -108,9 +149,11 @@ class IMipPluginTest extends TestCase {
 
 	public function testFailedDelivery() {
 		$this->config
+	  ->expects($this->at(1))
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
 		$this->mailer
@@ -121,17 +164,48 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
-	/**
-	 * @dataProvider dataNoMessageSendForPastEvents
-	 */
-	public function testNoMessageSendForPastEvents($veventParams, $expectsMail) {
+	public function testInvalidEmailDelivery() {
+		$this->mailer->method('validateMailAddress')->willReturn(false);
 
+		$message = $this->_testMessage();
+		$this->plugin->schedule($message);
+		$this->assertEquals('5.0', $message->getScheduleStatus());
+	}
+
+	public function testDeliveryWithNoCommonName() {
 		$this->config
+	  ->expects($this->at(1))
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
-		$message = $this->_testMessage( $veventParams );
+		$message = $this->_testMessage();
+		$message->senderName = null;
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getDisplayName')->willReturn('Mr. Wizard');
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user123')
+			->willReturn($user);
+
+		$this->_expectSend();
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	/**
+	 * @dataProvider dataNoMessageSendForPastEvents
+	 */
+	public function testNoMessageSendForPastEvents(array $veventParams, bool $expectsMail) {
+		$this->config
+	  ->method('getAppValue')
+	  ->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
+
+		$message = $this->_testMessage($veventParams);
 
 		$this->_expectSend('frodo@hobb.it', $expectsMail, $expectsMail);
 
@@ -139,7 +213,7 @@ class IMipPluginTest extends TestCase {
 
 		if ($expectsMail) {
 			$this->assertEquals('1.1', $message->getScheduleStatus());
- 		} else {
+		} else {
 			$this->assertEquals(false, $message->getScheduleStatus());
 		}
 	}
@@ -160,13 +234,15 @@ class IMipPluginTest extends TestCase {
 	}
 
 	/**
-	* @dataProvider dataIncludeResponseButtons
-	*/
-	public function testIncludeResponseButtons( $config_setting, $recipient, $has_buttons ) {
+	 * @dataProvider dataIncludeResponseButtons
+	 */
+	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons) {
 		$message = $this->_testMessage([],$recipient);
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$this->_expectSend($recipient, true, $has_buttons);
 		$this->config
+	  ->expects($this->at(1))
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn($config_setting);
@@ -188,7 +264,22 @@ class IMipPluginTest extends TestCase {
 		];
 	}
 
-	private function _testMessage($attrs = [], $recipient = 'frodo@hobb.it' ) {
+	public function testMessageSendWhenEventWithoutName() {
+		$this->config
+			->method('getAppValue')
+			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
+
+		$message = $this->_testMessage(['SUMMARY' => '']);
+		$this->_expectSend('frodo@hobb.it', true, true,'Invitation: Untitled event');
+		$this->emailTemplate->expects($this->once())
+			->method('addHeading')
+			->with('Invitation');
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	private function _testMessage(array $attrs = [], string $recipient = 'frodo@hobb.it') {
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -198,15 +289,16 @@ class IMipPluginTest extends TestCase {
 			'SUMMARY' => 'Fellowship meeting',
 			'DTSTART' => new \DateTime('2018-01-01 00:00:00')
 		], $attrs));
-		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
-		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ] );
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ]);
 		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
 		$message->recipient = 'mailto:'.$recipient;
 		return $message;
 	}
 
 
-        private function _expectSend( $recipient = 'frodo@hobb.it', $expectSend = true, $expectButtons = true ) {
+	private function _expectSend(string $recipient = 'frodo@hobb.it', bool $expectSend = true, bool $expectButtons = true, string $subject = 'Invitation: Fellowship meeting') {
 
 		// if the event is in the past, we skip out
 		if (!$expectSend) {
@@ -218,13 +310,16 @@ class IMipPluginTest extends TestCase {
 
 		$this->emailTemplate->expects($this->once())
 			->method('setSubject')
-			->with('Invitation: Fellowship meeting');
+			->with($subject);
 		$this->mailMessage->expects($this->once())
 			->method('setTo')
 			->with([$recipient => null]);
 		$this->mailMessage->expects($this->once())
 			->method('setReplyTo')
-			->with(['gandalf@wiz.ard' => null]);
+			->with(['gandalf@wiz.ard' => 'Mr. Wizard']);
+		$this->mailMessage->expects($this->once())
+			->method('setFrom')
+			->with(['invitations-noreply@localhost' => 'Mr. Wizard via Instance Name 123']);
 		$this->mailer
 			->expects($this->once())
 			->method('send');
@@ -233,14 +328,13 @@ class IMipPluginTest extends TestCase {
 			$this->queryBuilder->expects($this->at(0))
 				->method('insert')
 				->with('calendar_invitations')
-				->will($this->returnValue($this->queryBuilder));
+				->willReturn($this->queryBuilder);
 			$this->queryBuilder->expects($this->at(8))
 				->method('values')
-				->will($this->returnValue($this->queryBuilder));
+				->willReturn($this->queryBuilder);
 			$this->queryBuilder->expects($this->at(9))
 				->method('execute');
-		}
-		else {
+		} else {
 			$this->queryBuilder->expects($this->never())
 				->method('insert')
 				->with('calendar_invitations');

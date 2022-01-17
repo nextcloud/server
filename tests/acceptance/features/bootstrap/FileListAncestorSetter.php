@@ -21,7 +21,6 @@
  *
  */
 
-use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 /**
@@ -63,5 +62,4 @@ trait FileListAncestorSetter {
 	private function setFileListAncestorForActor($fileListAncestor, Actor $actor) {
 		$this->fileListContext->setFileListAncestorForActor($fileListAncestor, $actor);
 	}
-
 }

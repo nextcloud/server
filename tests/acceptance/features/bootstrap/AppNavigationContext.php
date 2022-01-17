@@ -1,10 +1,10 @@
 <?php
 
 /**
- * 
+ *
  * @copyright Copyright (c) 2017, Daniel Calviño Sánchez (danxuliu@gmail.com)
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * 
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,16 +23,16 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class AppNavigationContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
 	 * @return Locator
 	 */
 	public static function appNavigation() {
-		return Locator::forThe()->id("app-navigation")->
+		return Locator::forThe()->xpath("//*[@id=\"app-navigation\" or contains(@class, 'app-navigation')]")->
 			describedAs("App navigation");
 	}
 
@@ -106,28 +106,38 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 * @Then I see that the current section is :section
 	 */
 	public function iSeeThatTheCurrentSectionIs($section) {
-		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::appNavigationCurrentSectionItem(), 10)->getText(), $section);
+		Assert::assertEquals($this->actor->find(self::appNavigationCurrentSectionItem(), 10)->getText(), $section);
 	}
 
 	/**
 	 * @Then I see that the section :section is shown
 	 */
 	public function iSeeThatTheSectionIsShown($section) {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::appNavigationSectionItemFor($section));
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::appNavigationSectionItemFor($section),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			Assert::fail("The section $section in the app navigation is not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
 	 * @Then I see that the section :section is not shown
 	 */
 	public function iSeeThatTheSectionIsNotShown($section) {
-		WaitFor::elementToBeEventuallyNotShown($this->actor, self::appNavigationSectionItemFor($section));
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::appNavigationSectionItemFor($section),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			Assert::fail("The section $section in the app navigation is still shown after $timeout seconds");
+		}
 	}
 
 	/**
 	 * @Then I see that the section :section has a count of :count
 	 */
 	public function iSeeThatTheSectionHasACountOf($section, $count) {
-		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::counterForTheSection($section), 10)->getText(), $count);
+		Assert::assertEquals($this->actor->find(self::counterForTheSection($section), 10)->getText(), $count);
 	}
 
 	/**
@@ -138,8 +148,7 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::counterForTheSection($section),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The counter for section $section is still shown after $timeout seconds");
+			Assert::fail("The counter for section $section is still shown after $timeout seconds");
 		}
 	}
-
 }

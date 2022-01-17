@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -20,13 +21,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Encryption\Tests\Controller;
-
 
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Session;
@@ -37,23 +35,22 @@ use Test\TestCase;
 
 class StatusControllerTest extends TestCase {
 
-	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
 
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var  \OCA\Encryption\Session | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\Encryption\Session | \PHPUnit\Framework\MockObject\MockObject */
 	protected $sessionMock;
 
-	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $encryptionManagerMock;
 
 	/** @var StatusController */
 	protected $controller;
 
-	protected function setUp() {
-
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->sessionMock = $this->getMockBuilder(Session::class)
@@ -64,9 +61,9 @@ class StatusControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($message) {
+			->willReturnCallback(function ($message) {
 				return $message;
-			}));
+			});
 		$this->encryptionManagerMock = $this->createMock(IManager::class);
 
 		$this->controller = new StatusController('encryptionTest',
@@ -74,7 +71,6 @@ class StatusControllerTest extends TestCase {
 			$this->l10nMock,
 			$this->sessionMock,
 			$this->encryptionManagerMock);
-
 	}
 
 	/**

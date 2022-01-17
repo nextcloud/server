@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,16 +16,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Settings;
 
+use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
@@ -53,7 +56,7 @@ class Section implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getName() {
-		return $this->l->t('Workflows');
+		return $this->l->t('Flow');
 	}
 
 	/**
@@ -67,6 +70,6 @@ class Section implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getIcon() {
-		return $this->url->imagePath('core', 'actions/tag.svg');
+		return $this->url->imagePath(Application::APP_ID, 'app-dark.svg');
 	}
 }

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Johannes Ernst <jernst@indiecomputing.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,22 +15,21 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Log;
 
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Interface ILogFactory
  *
- * @package OCP\Log
  * @since 14.0.0
  */
 interface ILogFactory {
@@ -44,6 +44,15 @@ interface ILogFactory {
 	 * @param string $path
 	 * @return ILogger
 	 * @since 14.0.0
+	 * @deprecated use \OCP\Log\ILogFactory::getCustomPsrLogger
+	 * @see \OCP\Log\ILogFactory::getCustomPsrLogger
 	 */
 	public function getCustomLogger(string $path): ILogger;
+
+	/**
+	 * @param string $path
+	 * @return LoggerInterface
+	 * @since 22.0.0
+	 */
+	public function getCustomPsrLogger(string $path): LoggerInterface;
 }

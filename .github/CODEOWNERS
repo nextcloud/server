@@ -1,2 +1,10 @@
 */Activity/*                        @nickvergessen
 */Notifications/*                   @nickvergessen
+/apps/dav/lib/CalDAV                @ChristophWurst @miaulalala @tcitworld
+/apps/dav/lib/CardDAV               @ChristophWurst @miaulalala @tcitworld
+
+# Two-Factor Authentication
+# https://github.com/nextcloud/wg-two-factor-authentication#members
+/apps/twofactor_backupcodes        @ChristophWurst @miaulalala @nickvergessen
+*/TwoFactorAuth/*                  @ChristophWurst @miaulalala @nickvergessen
+/core/templates/twofactor*         @ChristophWurst @miaulalala @nickvergessen

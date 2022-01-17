@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpunit bootstrap="bootstrap.php"
-		 strict="true"
 		 verbose="true"
 		 backupGlobals="false"
 		 timeoutForSmallTests="900"
@@ -9,9 +8,8 @@
 >
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
-		<directory suffix='.php'>Settings/</directory>
 		<directory suffix='.php'>Core/</directory>
-		<directory suffix='.php'>ocs-provider/</directory>
+		<directory suffix='.php'>Test/</directory>
 		<file>apps.php</file>
 	</testsuite>
 	<!-- filters for code coverage -->
@@ -21,29 +19,12 @@
 			<directory suffix=".php">..</directory>
 			<exclude>
 				<directory suffix=".php">../3rdparty</directory>
-				<directory suffix=".php">../apps/admin_audit/tests</directory>
-				<directory suffix=".php">../apps/dav/tests</directory>
-				<directory suffix=".php">../apps/encryption/tests</directory>
-				<directory suffix=".php">../apps/federatedfilesharing/tests</directory>
-				<directory suffix=".php">../apps/federation/tests</directory>
-				<directory suffix=".php">../apps/files/tests</directory>
-				<directory suffix=".php">../apps/files_external</directory>
-				<directory suffix=".php">../apps/files_sharing/tests</directory>
-				<directory suffix=".php">../apps/files_trashbin/tests</directory>
-				<directory suffix=".php">../apps/files_versions/tests</directory>
-				<directory suffix=".php">../apps/oauth2/tests</directory>
-				<directory suffix=".php">../apps/provisioning_api/tests</directory>
-				<directory suffix=".php">../apps/systemtags/tests</directory>
-				<directory suffix=".php">../apps/theming/tests</directory>
-				<directory suffix=".php">../apps/settings/tests</directory>
-				<directory suffix=".php">../apps/twofactor_backupcodes/tests</directory>
-				<directory suffix=".php">../apps/updatenotification/tests</directory>
-				<directory suffix=".php">../apps/user_ldap/tests</directory>
-				<directory suffix=".php">../apps/workflowengine/tests</directory>
-				<directory suffix=".php">../tests</directory>
+				<directory suffix=".php">../apps/*/composer</directory>
+				<directory suffix=".php">../apps/*/tests</directory>
+				<directory suffix=".php">../apps/files_external/3rdparty</directory>
 				<directory suffix=".php">../build</directory>
 				<directory suffix=".php">../lib/composer</directory>
-				<directory suffix=".php">../apps/*/composer</directory>
+				<directory suffix=".php">../tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>
@@ -51,4 +32,3 @@
 		<listener class="StartSessionListener" file="startsessionlistener.php" />
 	</listeners>
 </phpunit>
-

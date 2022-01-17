@@ -3,9 +3,12 @@ OC.L10N.register(
     {
     "Added to the list of trusted servers" : "Сервер додано до списку довірених серверів",
     "Server is already in the list of trusted servers." : "Сервер вже знаходиться в переліку довірених серверів",
+    "No server to federate with found" : "Не знайдено жодного сервера для об'єднання",
     "Could not add server" : "Не вдалося додати сервер",
-    "Federation" : "Об'єднання",
     "Trusted servers" : "Довірені сервера",
+    "Federation" : "Об'єднання",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Об'єднання дає вам можливість встановити зв'язок з іншими довіреними серверами для обміну користувацькими каталогами.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Об'єднання дає вам можливість встановити зв'язок з іншими довіреними серверами для обміну користувацькими каталогами. Наприклад це може бути використане для авто-доповнення зовнішнім користувачам для об'єднаних поширень.",
     "+ Add trusted server" : "Додати довірений сервер",
     "Trusted server" : "Довірений сервер",
     "Add" : "Додати"

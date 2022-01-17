@@ -1,61 +1,30 @@
-/* eslint-disable */
-/*
+/**
  * Copyright (c) 2015
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
- * See the COPYING-README file.
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-/**
- * Webdav transport for Backbone.
- *
- * This makes it possible to use Webdav endpoints when
- * working with Backbone models and collections.
- *
- * Requires the davclient.js library.
- *
- * Usage example:
- *
- *     var PersonModel = OC.Backbone.Model.extend({
- *         // make it use the DAV transport
- *         sync: OC.Backbone.davSync,
- *
- *         // DAV properties mapping
- *         davProperties: {
- *             'id': '{http://example.com/ns}id',
- *             'firstName': '{http://example.com/ns}first-name',
- *             'lastName': '{http://example.com/ns}last-name',
- *             'age': '{http://example.com/ns}age'
- *         },
- *
- *         // additional parsing, if needed
- *         parse: function(props) {
- *             // additional parsing (DAV property values are always strings)
- *             props.age = parseInt(props.age, 10);
- *             return props;
- *         }
- *     });
- *
- *     var PersonCollection = OC.Backbone.Collection.extend({
- *         // make it use the DAV transport
- *         sync: OC.Backbone.davSync,
- *
- *         // use person model
- *         // note that davProperties will be inherited
- *         model: PersonModel,
- *
- *         // DAV collection URL
- *         url: function() {
- *             return OC.linkToRemote('dav') + '/person/';
- *         },
- *     });
- */
-
+/* eslint-disable */
 import _ from 'underscore'
-import dav from 'davclient.js'
+import { dav } from 'davclient.js'
 
 const methodMap = {
 	create: 'POST',

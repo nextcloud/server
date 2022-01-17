@@ -2,27 +2,30 @@
 /**
  * @copyright Copyright (c) 2018, Patrik Kernstock <info@pkern.at>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Patrik Kernstock <info@pkern.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\App;
 
-use Throwable;
 use OC\Installer;
 use OCP\App\IAppManager;
 use OCP\ILogger;
@@ -30,9 +33,10 @@ use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareI
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class Remove extends Command implements CompletionAwareInterface {
 
@@ -72,7 +76,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 
 		// Check if the app is installed
@@ -94,7 +98,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			try {
 				$this->manager->disableApp($appId);
 				$output->writeln($appId . ' disabled');
-			} catch(Throwable $e) {
+			} catch (Throwable $e) {
 				$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
 				$this->logger->logException($e, [
 					'app' => 'CLI',
@@ -107,7 +111,7 @@ class Remove extends Command implements CompletionAwareInterface {
 		// Let's try to remove the app...
 		try {
 			$result = $this->installer->removeApp($appId);
-		} catch(Throwable $e) {
+		} catch (Throwable $e) {
 			$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
 			$this->logger->logException($e, [
 				'app' => 'CLI',
@@ -116,12 +120,13 @@ class Remove extends Command implements CompletionAwareInterface {
 			return 1;
 		}
 
-		if($result === false) {
+		if ($result === false) {
 			$output->writeln($appId . ' could not be removed');
 			return 1;
 		}
 
-		$output->writeln($appId . ' removed');
+		$appVersion = \OC_App::getAppVersion($appId);
+		$output->writeln($appId . ' ' . $appVersion . ' removed');
 
 		return 0;
 	}

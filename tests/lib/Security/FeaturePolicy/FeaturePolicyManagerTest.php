@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,14 +25,10 @@ declare(strict_types=1);
 
 namespace Test\Security\CSP;
 
-use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\FeaturePolicy\FeaturePolicyManager;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
-use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -42,7 +39,7 @@ class FeaturePolicyManagerTest extends TestCase {
 	/** @var FeaturePolicyManager */
 	private $manager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
 		$this->manager = new FeaturePolicyManager($this->dispatcher);
@@ -54,7 +51,7 @@ class FeaturePolicyManagerTest extends TestCase {
 	}
 
 	public function testGetDefaultPolicyWithPoliciesViaEvent() {
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedMicrophoneDomain('mydomain.com');
 			$policy->addAllowedPaymentDomain('mypaymentdomain.com');
@@ -62,7 +59,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedPaymentDomain('mydomainother.com');
 			$policy->addAllowedGeoLocationDomain('mylocation.here');
@@ -70,7 +67,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedAutoplayDomain('youtube.com');
 
@@ -89,5 +86,4 @@ class FeaturePolicyManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getDefaultPolicy());
 		$this->assertSame($expectedStringPolicy, $this->manager->getDefaultPolicy()->buildPolicy());
 	}
-
 }

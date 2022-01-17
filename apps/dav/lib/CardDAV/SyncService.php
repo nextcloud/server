@@ -2,9 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,15 +23,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http;
-use OCP\ICertificateManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -51,8 +53,8 @@ class SyncService {
 	/** @var array */
 	private $localSystemAddressBook;
 
-	/** @var AccountManager */
-	private $accountManager;
+	/** @var Converter */
+	private $converter;
 
 	/** @var string */
 	protected $certPath;
@@ -65,11 +67,11 @@ class SyncService {
 	 * @param ILogger $logger
 	 * @param AccountManager $accountManager
 	 */
-	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger, AccountManager $accountManager) {
+	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger, Converter $converter) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
-		$this->accountManager = $accountManager;
+		$this->converter = $converter;
 		$this->certPath = '';
 	}
 
@@ -151,8 +153,7 @@ class SyncService {
 			return $this->certPath;
 		}
 
-		/** @var ICertificateManager $certManager */
-		$certManager = \OC::$server->getCertificateManager(null);
+		$certManager = \OC::$server->getCertificateManager();
 		$certPath = $certManager->getAbsoluteBundlePath();
 		if (file_exists($certPath)) {
 			$this->certPath = $certPath;
@@ -193,17 +194,17 @@ class SyncService {
 	 * @param string $syncToken
 	 * @return array
 	 */
-	 protected function requestSyncReport($url, $userName, $addressBookUrl, $sharedSecret, $syncToken) {
-		 $client = $this->getClient($url, $userName, $sharedSecret);
+	protected function requestSyncReport($url, $userName, $addressBookUrl, $sharedSecret, $syncToken) {
+		$client = $this->getClient($url, $userName, $sharedSecret);
 
-		 $body = $this->buildSyncCollectionRequestBody($syncToken);
+		$body = $this->buildSyncCollectionRequestBody($syncToken);
 
-		 $response = $client->request('REPORT', $addressBookUrl, $body, [
-			 'Content-Type' => 'application/xml'
-		 ]);
+		$response = $client->request('REPORT', $addressBookUrl, $body, [
+			'Content-Type' => 'application/xml'
+		]);
 
-		 return $this->parseMultiStatus($response['body']);
-	 }
+		return $this->parseMultiStatus($response['body']);
+	}
 
 	/**
 	 * @param string $url
@@ -222,7 +223,6 @@ class SyncService {
 	 * @return string
 	 */
 	private function buildSyncCollectionRequestBody($syncToken) {
-
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
 		$root = $dom->createElementNS('DAV:', 'd:sync-collection');
@@ -264,7 +264,6 @@ class SyncService {
 	public function updateUser(IUser $user) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
-		$converter = new Converter($this->accountManager);
 		$name = $user->getBackendClassName();
 		$userId = $user->getUID();
 
@@ -272,12 +271,12 @@ class SyncService {
 		$card = $this->backend->getCard($addressBookId, $cardId);
 		if ($user->isEnabled()) {
 			if ($card === false) {
-				$vCard = $converter->createCardFromUser($user);
+				$vCard = $this->converter->createCardFromUser($user);
 				if ($vCard !== null) {
 					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
 				}
 			} else {
-				$vCard = $converter->createCardFromUser($user);
+				$vCard = $this->converter->createCardFromUser($user);
 				if (is_null($vCard)) {
 					$this->backend->deleteCard($addressBookId, $cardId);
 				} else {
@@ -294,7 +293,7 @@ class SyncService {
 	 */
 	public function deleteUser($userOrCardId) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
-		if ($userOrCardId instanceof IUser){
+		if ($userOrCardId instanceof IUser) {
 			$name = $userOrCardId->getBackendClassName();
 			$userId = $userOrCardId->getUID();
 
@@ -319,7 +318,7 @@ class SyncService {
 
 	public function syncInstance(\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
-		$this->userManager->callForSeenUsers(function($user) use ($systemAddressBook, $progressCallback) {
+		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);
 			if (!is_null($progressCallback)) {
 				$progressCallback();
@@ -328,7 +327,7 @@ class SyncService {
 
 		// remove no longer existing
 		$allCards = $this->backend->getCards($systemAddressBook['id']);
-		foreach($allCards as $card) {
+		foreach ($allCards as $card) {
 			$vCard = Reader::read($card['carddata']);
 			$uid = $vCard->UID->getValue();
 			// load backend and see if user exists
@@ -337,6 +336,4 @@ class SyncService {
 			}
 		}
 	}
-
-
 }

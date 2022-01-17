@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license AGPL-3.0
  *
@@ -17,24 +17,23 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Mapping;
 
 /**
-* Class UserMapping
-* @package OCA\User_LDAP\Mapping
-*/
+ * Class UserMapping
+ * @package OCA\User_LDAP\Mapping
+ */
 class UserMapping extends AbstractMapping {
 
 	/**
 	 * returns the DB table name which holds the mappings
 	 * @return string
 	 */
-	protected function getTableName() {
-		return '*PREFIX*ldap_user_mapping';
+	protected function getTableName(bool $includePrefix = true) {
+		$p = $includePrefix ? '*PREFIX*' : '';
+		return $p . 'ldap_user_mapping';
 	}
-
 }

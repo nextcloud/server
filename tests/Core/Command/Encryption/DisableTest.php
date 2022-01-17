@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Encryption;
 
-
 use OC\Core\Command\Encryption\Disable;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,17 +28,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DisableTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$config = $this->config = $this->getMockBuilder(IConfig::class)

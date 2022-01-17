@@ -2,13 +2,16 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +25,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Core\Controller;
@@ -37,8 +40,8 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IAvatarManager;
 use OCP\ICache;
-use OCP\ILogger;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -77,18 +80,6 @@ class AvatarController extends Controller {
 	/** @var TimeFactory */
 	protected $timeFactory;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IAvatarManager $avatarManager
-	 * @param ICache $cache
-	 * @param IL10N $l10n
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param ILogger $logger
-	 * @param string $userId
-	 * @param TimeFactory $timeFactory
-	 */
 	public function __construct($appName,
 								IRequest $request,
 								IAvatarManager $avatarManager,
@@ -133,20 +124,18 @@ class AvatarController extends Controller {
 		try {
 			$avatar = $this->avatarManager->getAvatar($userId);
 			$avatarFile = $avatar->getFile($size);
-			$resp = new FileDisplayResponse(
+			$response = new FileDisplayResponse(
 				$avatarFile,
-				$avatar->isCustomAvatar() ? Http::STATUS_OK : Http::STATUS_CREATED,
-				['Content-Type' => $avatarFile->getMimeType()]
+				Http::STATUS_OK,
+				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
-			$resp = new Http\Response();
-			$resp->setStatus(Http::STATUS_NOT_FOUND);
-			return $resp;
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		// Cache for 30 minutes
-		$resp->cacheFor(1800);
-		return $resp;
+		// Cache for 1 day
+		$response->cacheFor(60 * 60 * 24);
+		return $response;
 	}
 
 	/**
@@ -166,7 +155,7 @@ class AvatarController extends Controller {
 			if (!($node instanceof File)) {
 				return new JSONResponse(['data' => ['message' => $this->l->t('Please select a file.')]]);
 			}
-			if ($node->getSize() > 20*1024*1024) {
+			if ($node->getSize() > 20 * 1024 * 1024) {
 				return new JSONResponse(
 					['data' => ['message' => $this->l->t('File is too big')]],
 					Http::STATUS_BAD_REQUEST
@@ -194,7 +183,7 @@ class AvatarController extends Controller {
 				 is_uploaded_file($files['tmp_name'][0]) &&
 				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
 			) {
-				if ($files['size'][0] > 20*1024*1024) {
+				if ($files['size'][0] > 20 * 1024 * 1024) {
 					return new JSONResponse(
 						['data' => ['message' => $this->l->t('File is too big')]],
 						Http::STATUS_BAD_REQUEST
@@ -204,8 +193,20 @@ class AvatarController extends Controller {
 				$content = $this->cache->get('avatar_upload');
 				unlink($files['tmp_name'][0]);
 			} else {
+				$phpFileUploadErrors = [
+					UPLOAD_ERR_OK => $this->l->t('The file was uploaded'),
+					UPLOAD_ERR_INI_SIZE => $this->l->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
+					UPLOAD_ERR_FORM_SIZE => $this->l->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
+					UPLOAD_ERR_PARTIAL => $this->l->t('The file was only partially uploaded'),
+					UPLOAD_ERR_NO_FILE => $this->l->t('No file was uploaded'),
+					UPLOAD_ERR_NO_TMP_DIR => $this->l->t('Missing a temporary folder'),
+					UPLOAD_ERR_CANT_WRITE => $this->l->t('Could not write file to disk'),
+					UPLOAD_ERR_EXTENSION => $this->l->t('A PHP extension stopped the file upload'),
+				];
+				$message = $phpFileUploadErrors[$files['error'][0]] ?? $this->l->t('Invalid file provided');
+				$this->logger->warning($message, ['app' => 'core']);
 				return new JSONResponse(
-					['data' => ['message' => $this->l->t('Invalid file provided')]],
+					['data' => ['message' => $message]],
 					Http::STATUS_BAD_REQUEST
 				);
 			}
@@ -251,7 +252,7 @@ class AvatarController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-     *
+	 *
 	 * @return JSONResponse
 	 */
 	public function deleteAvatar() {
@@ -274,19 +275,20 @@ class AvatarController extends Controller {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-										'message' => $this->l->t("No temporary profile picture available, try again")
-									]],
+				'message' => $this->l->t("No temporary profile picture available, try again")
+			]],
 									Http::STATUS_NOT_FOUND);
 		}
 
 		$image = new \OC_Image();
 		$image->loadFromData($tmpAvatar);
 
-		$resp = new DataDisplayResponse($image->data(),
+		$resp = new DataDisplayResponse(
+				$image->data() ?? '',
 				Http::STATUS_OK,
 				['Content-Type' => $image->mimeType()]);
 
-		$resp->setETag((string)crc32($image->data()));
+		$resp->setETag((string)crc32($image->data() ?? ''));
 		$resp->cacheFor(0);
 		$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		return $resp;
@@ -312,8 +314,8 @@ class AvatarController extends Controller {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-										'message' => $this->l->t("No temporary profile picture available, try again")
-									]],
+				'message' => $this->l->t("No temporary profile picture available, try again")
+			]],
 									Http::STATUS_BAD_REQUEST);
 		}
 

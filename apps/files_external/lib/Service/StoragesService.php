@@ -2,13 +2,18 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author szaimen <szaimen@e.mail.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,25 +27,25 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
-use \OC\Files\Filesystem;
+use OC\Files\Filesystem;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
+use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCP\Files\Config\IUserMountCache;
-use \OCP\Files\StorageNotAvailableException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 
 /**
- * Service class to manage external storages
+ * Service class to manage external storage
  */
 abstract class StoragesService {
 
@@ -120,7 +125,7 @@ abstract class StoragesService {
 	}
 
 	/**
-	 * Read the external storages config
+	 * Read the external storage config
 	 *
 	 * @return array map of storage id to storage config
 	 */
@@ -416,7 +421,7 @@ abstract class StoragesService {
 
 		if ($wasGlobal && !$isGlobal) {
 			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
-		} else if (!$wasGlobal && $isGlobal) {
+		} elseif (!$wasGlobal && $isGlobal) {
 			$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 		}
 
@@ -424,7 +429,9 @@ abstract class StoragesService {
 		$changedOptions = array_diff_assoc($updatedStorage->getMountOptions(), $oldStorage->getMountOptions());
 
 		foreach ($changedConfig as $key => $value) {
-			$this->dbConfig->setConfig($id, $key, $value);
+			if ($value !== DefinitionParameter::UNMODIFIED_PLACEHOLDER) {
+				$this->dbConfig->setConfig($id, $key, $value);
+			}
 		}
 		foreach ($changedOptions as $key => $value) {
 			$this->dbConfig->setOption($id, $key, $value);
@@ -472,44 +479,7 @@ abstract class StoragesService {
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache
-		try {
-			$rustyStorageId = $this->getRustyStorageIdFromConfig($deletedStorage);
-			\OC\Files\Cache\Storage::remove($rustyStorageId);
-		} catch (\Exception $e) {
-			// can happen either for invalid configs where the storage could not
-			// be instantiated or whenever $user vars where used, in which case
-			// the storage id could not be computed
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
-				'app' => 'files_external',
-			]);
-		}
-	}
-
-	/**
-	 * Returns the rusty storage id from oc_storages from the given storage config.
-	 *
-	 * @param StorageConfig $storageConfig
-	 * @return string rusty storage id
-	 */
-	private function getRustyStorageIdFromConfig(StorageConfig $storageConfig) {
-		// if any of the storage options contains $user, it is not possible
-		// to compute the possible storage id as we don't know which users
-		// mounted it already (and we certainly don't want to iterate over ALL users)
-		foreach ($storageConfig->getBackendOptions() as $value) {
-			if (strpos($value, '$user') !== false) {
-				throw new \Exception('Cannot compute storage id for deletion due to $user vars in the configuration');
-			}
-		}
-
-		// note: similar to ConfigAdapter->prepateStorageConfig()
-		$storageConfig->getAuthMechanism()->manipulateStorageConfig($storageConfig);
-		$storageConfig->getBackend()->manipulateStorageConfig($storageConfig);
-
-		$class = $storageConfig->getBackend()->getStorageClass();
-		$storageImpl = new $class($storageConfig->getBackendOptions());
-
-		return $storageImpl->getId();
+		\OC\Files\Cache\Storage::cleanByMountId($id);
 	}
 
 	/**

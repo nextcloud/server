@@ -3,7 +3,7 @@
  *
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -20,28 +20,28 @@
  *
  */
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 
 	$('#body-public').find('.header-right .menutoggle').click(function() {
 		$(this).next('.popovermenu').toggleClass('open');
 	});
 
-	$('#save-external-share').find('label').click(function () {
-		$(this).toggleClass('hidden');
-		$('.save-form').toggleClass('hidden')
+	$('#save-external-share').click(function () {
+		$('#external-share-menu-item').toggleClass('hidden')
 		$('#remote_address').focus();
 	});
 
-});
 
-$(document).mouseup(function(e) {
-	var toggle = $('#body-public').find('.header-right .menutoggle');
-	var container = toggle.next('.popovermenu');
+	$(document).mouseup(function(e) {
+		var toggle = $('#body-public').find('.header-right .menutoggle');
+		var container = toggle.next('.popovermenu');
 
-	// if the target of the click isn't the menu toggle, nor a descendant of the
-	// menu toggle, nor the container nor a descendant of the container
-	if (!toggle.is(e.target) && toggle.has(e.target).length === 0 &&
-		!container.is(e.target) && container.has(e.target).length === 0) {
-		container.removeClass('open');
-	}
+		// if the target of the click isn't the menu toggle, nor a descendant of the
+		// menu toggle, nor the container nor a descendant of the container
+		if (!toggle.is(e.target) && toggle.has(e.target).length === 0 &&
+			!container.is(e.target) && container.has(e.target).length === 0) {
+			container.removeClass('open');
+		}
+	});
+
 });

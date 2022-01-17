@@ -12,6 +12,7 @@ Feature: external-storage
     And User "user0" moved file "/textfile0.txt" to "/local_storage/foo/textfile0.txt"
     And folder "/local_storage/foo" of user "user0" is shared with user "user1"
     And As an "user1"
+    And accepting last share
     When creating a share with
       | path | foo |
       | shareType | 3 |
@@ -23,7 +24,7 @@ Feature: external-storage
       | token | A_TOKEN |
       | mimetype | httpd/unix-directory |
 
-  Scenario: Shares dont overwrite external storages
+  Scenario: Shares don't overwrite external storage
     Given user "user0" exists
     And user "user1" exists
     And As an "user0"

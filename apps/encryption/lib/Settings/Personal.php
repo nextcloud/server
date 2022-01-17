@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,16 +14,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Encryption\Settings;
-
 
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
@@ -31,7 +30,7 @@ use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
-class Personal implements  ISettings {
+class Personal implements ISettings {
 
 	/** @var IConfig */
 	private $config;

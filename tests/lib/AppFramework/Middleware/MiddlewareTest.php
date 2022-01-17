@@ -21,15 +21,15 @@
  *
  */
 
-
 namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Http\Request;
-use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Middleware;
 use OCP\IConfig;
 
-class ChildMiddleware extends Middleware {};
+class ChildMiddleware extends Middleware {
+};
 
 
 class MiddlewareTest extends \Test\TestCase {
@@ -44,7 +44,7 @@ class MiddlewareTest extends \Test\TestCase {
 	/** @var Response */
 	private $response;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->middleware = new ChildMiddleware();
@@ -92,6 +92,4 @@ class MiddlewareTest extends \Test\TestCase {
 
 		$this->assertEquals('test', $output);
 	}
-
-
 }

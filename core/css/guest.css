@@ -25,9 +25,10 @@ body {
 	text-align: center;
 	background-color: #0082c9;
 	background-image: url('../img/background.png?v=2');
+	background-image: url('../img/background.png?v=2'), linear-gradient(40deg, #0082c9 0%, rgba(28,175,255,1) 100%);
 	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-size: cover;
+	background-repeat: repeat;
+	background-size: 275px, contain;
 	background-attachment: fixed; /* fix background gradient */
 	min-height: 100%; /* fix sticky footer */
 	height: auto;
@@ -98,7 +99,8 @@ body {
 }
 
 .wrapper {
-	max-width: 100%;
+	width: 100%;
+	max-width: 700px;
 	margin-top: 10vh;
 }
 
@@ -145,24 +147,25 @@ form #datadirField legend {
 /* Buttons and input */
 #submit-wrapper,
 #reset-password-wrapper,
-#alternative-logins {
+.alternative-logins {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 10px 5px;
 	position: relative; /* Make the wrapper the containing block of its
 						   absolutely positioned descendant icons */
 }
 
-#alternative-logins {
-	margin: 30px 15px 20px;
+.alternative-logins {
+	margin: auto;
 	display: block;
 	min-width: 260px;
 	max-width: 400px;
 	overflow: hidden;
 }
 
-#alternative-logins a {
-	margin: 10px 5px;
+.alternative-logins a.button {
+	margin: 0;
 	display: block;
 	font-size: 15px;
 	white-space: nowrap;
@@ -170,7 +173,7 @@ form #datadirField legend {
 	text-overflow: ellipsis;
 }
 
-#alternative-logins a.button::before {
+.alternative-logins a.button::before {
 	content: "";
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -181,17 +184,23 @@ form #datadirField legend {
 	vertical-align: bottom;
 }
 
-#alternative-logins .button {
-	color: #0082c9;
+.alternative-logins .button {
+	color: #ffffff;
 	padding: 12px 20px;
 }
+
+
+.alternative-logins .button.single-alt-login-option {
+	 width: 260px;
+	 margin: 0 auto;
+ }
 
 @media only screen and (max-width: 1024px) {
 	.wrapper {
 		margin-top: 0;
 	}
-	#alternative-logins {
-		margin: 30px 15px 10px;
+	.alternative-logins {
+		margin: auto;
 	}
 }
 
@@ -199,7 +208,6 @@ form #datadirField legend {
 #submit-wrapper .submit-icon,
 #reset-password-wrapper .submit-icon {
 	position: absolute;
-	top: 22px;
 	right: 24px;
 	transition: right 100ms ease-in-out;
 	pointer-events: none; /* The submit icon is positioned on the submit button.
@@ -283,8 +291,14 @@ input[type='password'].password-with-toggle, input[type='text'].password-with-to
 }
 .toggle-password {
 	position: absolute;
-	top: 17px;
-	right: 20px;
+	top: 1px;
+	right: 5px;
+	padding: 14px;
+	height: 16px;
+}
+.toggle-password:hover,
+.toggle-password:focus {
+	opacity: .6;
 }
 input.login {
 	width: 260px;
@@ -332,7 +346,9 @@ button.primary:not(:disabled):hover,
 button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
 a.primary:not(:disabled):focus {
-	color: rgba(255, 255, 255, .8);
+	color: rgba(255, 255, 255, 1);
+	background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+	background-position: initial;
 }
 
 /* Checkboxes - white only for login */
@@ -392,7 +408,6 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 .strengthify-wrapper {
 	display: inline-block;
 	position: relative;
-	left: 5px;
 	top: -20px;
 	width: 269px;
 	border-radius: 0 0 3px 3px;
@@ -469,6 +484,10 @@ form .warning input[type='checkbox']+label {
 	color: #fff !important;
 }
 
+.body-login-container.two-factor {
+	max-width: 290px;
+	margin: 15px auto 0;
+}
 .two-factor-provider {
 	display: flex;
 	border-radius: 3px; /* --border-radius */
@@ -524,22 +543,24 @@ form .warning input[type='checkbox']+label {
 #remember_login {
 	margin: 18px 5px 0 16px !important;
 }
-.remember-login-container,
 .lost-password-container {
 	display: inline-block;
 	margin: 10px 0;
 	text-align: center;
 	width: 100%;
-	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
 }
-.lost-password-container #lost-password,
-.lost-password-container #lost-password-back {
+#lost-password,
+#lost-password-back,
+#reset-password-wrapper + a {
 	display: inline-block;
-	font-weight: normal;
+	font-weight: normal !important;
 	padding: 12px;
-	margin-top: -6px;
 	color: #fff;
 	cursor: pointer;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
+}
+#lost-password {
+	margin-top: -6px;
 }
 #forgot-password {
 	padding: 11px;
@@ -548,15 +569,16 @@ form .warning input[type='checkbox']+label {
 }
 
 /* Alternative Logins */
-#alternative-logins legend {
+.alternative-logins legend {
 	margin-bottom: 10px;
 }
-#alternative-logins li {
+.alternative-logins li {
 	height: 40px;
 	white-space: nowrap;
 	padding: 05px;
 }
-#alternative-logins li a {
+.alternative-logins a.button,
+.alternative-logins li a {
 	width: 100%;
 	display: inline-block;
 	text-align: center;
@@ -639,6 +661,15 @@ form #selectDbType label span {
 }
 .groupbottom input[type=submit] {
 	box-shadow: none !important;
+}
+.grouptop.groupbottom input {
+	border-radius: 3px !important;
+	margin: 5px 0 !important;
+}
+
+#install-recommended-apps + label span {
+	display: inline-block;
+	opacity: .7;
 }
 
 /* Errors */
@@ -897,8 +928,8 @@ footer .info .entity-name {
 label.infield,
 .hidden-visually {
 	position: absolute;
-	left:-10000px;
-	top: auto;
+	left: -10000px;
+	top: -10000px;
 	width: 1px;
 	height: 1px;
 	overflow: hidden;

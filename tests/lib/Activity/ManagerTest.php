@@ -19,11 +19,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
-*/
+ */
 
 namespace Test\Activity;
 
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -35,16 +36,16 @@ class ManagerTest extends TestCase {
 	/** @var \OC\Activity\Manager */
 	private $activityManager;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var IValidator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IValidator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $validator;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -56,12 +57,13 @@ class ManagerTest extends TestCase {
 			$this->request,
 			$this->session,
 			$this->config,
-			$this->validator
+			$this->validator,
+			$this->createMock(IL10N::class)
 		);
 
 		$this->assertSame([], self::invokePrivate($this->activityManager, 'getConsumers'));
 
-		$this->activityManager->registerConsumer(function() {
+		$this->activityManager->registerConsumer(function () {
 			return new NoOpConsumer();
 		});
 
@@ -75,11 +77,11 @@ class ManagerTest extends TestCase {
 		$this->assertNotEmpty($consumers);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+
 	public function testGetConsumersInvalidConsumer() {
-		$this->activityManager->registerConsumer(function() {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->activityManager->registerConsumer(function () {
 			return new \stdClass();
 		});
 
@@ -98,13 +100,14 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \UnexpectedValueException
 	 * @dataProvider getUserFromTokenThrowInvalidTokenData
 	 *
 	 * @param string $token
 	 * @param array $users
 	 */
 	public function testGetUserFromTokenThrowInvalidToken($token, $users) {
+		$this->expectException(\UnexpectedValueException::class);
+
 		$this->mockRSSToken($token, $token, $users);
 		self::invokePrivate($this->activityManager, 'getUserFromToken');
 	}
@@ -163,37 +166,37 @@ class ManagerTest extends TestCase {
 			->willReturn($mockUser);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+
 	public function testPublishExceptionNoApp() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$this->activityManager->publish($event);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+
 	public function testPublishExceptionNoType() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test');
 		$this->activityManager->publish($event);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+
 	public function testPublishExceptionNoAffectedUser() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type');
 		$this->activityManager->publish($event);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+
 	public function testPublishExceptionNoSubject() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type')
@@ -239,7 +242,7 @@ class ManagerTest extends TestCase {
 		$consumer->expects($this->once())
 			->method('receive')
 			->with($event)
-			->willReturnCallback(function(\OCP\Activity\IEvent $event) use ($expected) {
+			->willReturnCallback(function (\OCP\Activity\IEvent $event) use ($expected) {
 				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertSame($expected, $event->getAuthor(), 'Author name not set correctly');
@@ -269,7 +272,7 @@ class ManagerTest extends TestCase {
 			->getMock();
 		$consumer->expects($this->once())
 			->method('receive')
-			->willReturnCallback(function(\OCP\Activity\IEvent $event) {
+			->willReturnCallback(function (\OCP\Activity\IEvent $event) {
 				$this->assertSame('test_app', $event->getApp(), 'App not set correctly');
 				$this->assertSame('test_type', $event->getType(), 'Type not set correctly');
 				$this->assertSame('test_affected', $event->getAffectedUser(), 'Affected user not set correctly');
@@ -293,8 +296,6 @@ class ManagerTest extends TestCase {
 }
 
 class NoOpConsumer implements \OCP\Activity\IConsumer {
-
 	public function receive(\OCP\Activity\IEvent $event) {
-
 	}
 }

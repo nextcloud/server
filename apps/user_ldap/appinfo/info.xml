@@ -9,7 +9,7 @@
 A user logs into Nextcloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. Nextcloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then Nextcloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation.
 
 	</description>
-	<version>1.8.0</version>
+	<version>1.14.1</version>
 	<licence>agpl</licence>
 	<author>Dominik Schmidt</author>
 	<author>Arthur Schiwon</author>
@@ -24,7 +24,7 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<lib>ldap</lib>
-		<nextcloud min-version="18" max-version="18"/>
+		<nextcloud min-version="24" max-version="24"/>
 	</dependencies>
 
 	<background-jobs>
@@ -34,10 +34,29 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 	</background-jobs>
 
 	<repair-steps>
+		<install>
+			<step>OCA\User_LDAP\Migration\SetDefaultProvider</step>
+		</install>
+		<uninstall>
+			<step>OCA\User_LDAP\Migration\UnsetDefaultProvider</step>
+		</uninstall>
 		<post-migration>
 			<step>OCA\User_LDAP\Migration\UUIDFixInsert</step>
+			<step>OCA\User_LDAP\Migration\RemoveRefreshTime</step>
 		</post-migration>
 	</repair-steps>
+
+	<commands>
+		<command>OCA\User_LDAP\Command\CheckUser</command>
+		<command>OCA\User_LDAP\Command\CreateEmptyConfig</command>
+		<command>OCA\User_LDAP\Command\DeleteConfig</command>
+		<command>OCA\User_LDAP\Command\ResetUser</command>
+		<command>OCA\User_LDAP\Command\Search</command>
+		<command>OCA\User_LDAP\Command\SetConfig</command>
+		<command>OCA\User_LDAP\Command\ShowConfig</command>
+		<command>OCA\User_LDAP\Command\ShowRemnants</command>
+		<command>OCA\User_LDAP\Command\TestConfig</command>
+	</commands>
 
 	<settings>
 		<admin>OCA\User_LDAP\Settings\Admin</admin>

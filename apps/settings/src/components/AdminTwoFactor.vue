@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<p class="settings-hint">
-			{{ t('settings', 'Two-factor authentication can be enforced for all	users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.') }}
+			{{ t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.') }}
 		</p>
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
@@ -18,7 +18,7 @@
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
 			<p>
-				{{ t('settings', 'Two-factor authentication is enforced for all	members of the following groups.') }}
+				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
 				<Multiselect v-model="enforcedGroups"
@@ -33,7 +33,7 @@
 					@search-change="searchGroup" />
 			</p>
 			<p>
-				{{ t('settings', 'Two-factor authentication is not enforced for	members of the following groups.') }}
+				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
 				<Multiselect v-model="excludedGroups"
@@ -67,50 +67,51 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { Multiselect } from 'nextcloud-vue'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import _ from 'lodash'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'AdminTwoFactor',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	data() {
 		return {
 			loading: false,
 			dirty: false,
 			groups: [],
-			loadingGroups: false
+			loadingGroups: false,
 		}
 	},
 	computed: {
 		enforced: {
-			get: function() {
+			get() {
 				return this.$store.state.enforced
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforced', val)
-			}
+			},
 		},
 		enforcedGroups: {
-			get: function() {
+			get() {
 				return this.$store.state.enforcedGroups
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforcedGroups', val)
-			}
+			},
 		},
 		excludedGroups: {
-			get: function() {
+			get() {
 				return this.$store.state.excludedGroups
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setExcludedGroups', val)
-			}
-		}
+			},
+		},
 	},
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
@@ -124,7 +125,7 @@ export default {
 	methods: {
 		searchGroup: _.debounce(function(query) {
 			this.loadingGroups = true
-			axios.get(OC.linkToOCS(`cloud/groups?offset=0&search=${encodeURIComponent(query)}&limit=20`, 2))
+			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
 				.then(res => res.data.ocs)
 				.then(ocs => ocs.data.groups)
 				.then(groups => { this.groups = _.sortedUniq(_.uniq(this.groups.concat(groups))) })
@@ -138,9 +139,9 @@ export default {
 			const data = {
 				enforced: this.enforced,
 				enforcedGroups: this.enforcedGroups,
-				excludedGroups: this.excludedGroups
+				excludedGroups: this.excludedGroups,
 			}
-			axios.put(OC.generateUrl('/settings/api/admin/twofactorauth'), data)
+			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data)
 				.then(resp => resp.data)
 				.then(state => {
 					this.state = state
@@ -150,8 +151,8 @@ export default {
 					console.error('could not save changes', err)
 				})
 				.then(() => { this.loading = false })
-		}
-	}
+		},
+	},
 }
 </script>
 

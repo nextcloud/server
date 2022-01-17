@@ -23,7 +23,7 @@
 <template>
 	<MultiselectTag v-model="newValue"
 		:multiple="false"
-		label="Select a tag"
+		:label="t('workflowengine', 'Select a tag')"
 		@input="update" />
 </template>
 
@@ -33,23 +33,23 @@ import { MultiselectTag } from './MultiselectTag'
 export default {
 	name: 'FileSystemTag',
 	components: {
-		MultiselectTag
+		MultiselectTag,
 	},
 	props: {
 		value: {
 			type: String,
-			default: ''
-		}
+			default: '',
+		},
 	},
 	data() {
 		return {
-			newValue: []
+			newValue: [],
 		}
 	},
 	watch: {
 		value() {
 			this.updateValue()
-		}
+		},
 	},
 	beforeMount() {
 		this.updateValue()
@@ -64,8 +64,8 @@ export default {
 		},
 		update() {
 			this.$emit('input', this.newValue || '')
-		}
-	}
+		},
+	},
 }
 </script>
 

@@ -21,19 +21,24 @@ class ComposerStaticInitComments
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Comments\\Activity\\Filter' => __DIR__ . '/..' . '/../lib/Activity/Filter.php',
         'OCA\\Comments\\Activity\\Listener' => __DIR__ . '/..' . '/../lib/Activity/Listener.php',
         'OCA\\Comments\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',
         'OCA\\Comments\\Activity\\Setting' => __DIR__ . '/..' . '/../lib/Activity/Setting.php',
         'OCA\\Comments\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Comments\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Comments\\Collaboration\\CommentersSorter' => __DIR__ . '/..' . '/../lib/Collaboration/CommentersSorter.php',
         'OCA\\Comments\\Controller\\Notifications' => __DIR__ . '/..' . '/../lib/Controller/Notifications.php',
         'OCA\\Comments\\EventHandler' => __DIR__ . '/..' . '/../lib/EventHandler.php',
-        'OCA\\Comments\\JSSettingsHelper' => __DIR__ . '/..' . '/../lib/JSSettingsHelper.php',
+        'OCA\\Comments\\Listener\\CommentsEntityEventListener' => __DIR__ . '/..' . '/../lib/Listener/CommentsEntityEventListener.php',
         'OCA\\Comments\\Listener\\LoadAdditionalScripts' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalScripts.php',
+        'OCA\\Comments\\Listener\\LoadSidebarScripts' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarScripts.php',
+        'OCA\\Comments\\MaxAutoCompleteResultsInitialState' => __DIR__ . '/..' . '/../lib/MaxAutoCompleteResultsInitialState.php',
         'OCA\\Comments\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
         'OCA\\Comments\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
-        'OCA\\Comments\\Search\\Provider' => __DIR__ . '/..' . '/../lib/Search/Provider.php',
+        'OCA\\Comments\\Search\\CommentsSearchProvider' => __DIR__ . '/..' . '/../lib/Search/CommentsSearchProvider.php',
+        'OCA\\Comments\\Search\\LegacyProvider' => __DIR__ . '/..' . '/../lib/Search/LegacyProvider.php',
         'OCA\\Comments\\Search\\Result' => __DIR__ . '/..' . '/../lib/Search/Result.php',
     );
 

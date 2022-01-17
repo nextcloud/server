@@ -56,7 +56,13 @@ OC.MimeTypeList={
     "application/vnd.oasis.opendocument.text": "x-office/document",
     "application/vnd.oasis.opendocument.text-master": "x-office/document",
     "application/vnd.oasis.opendocument.text-template": "x-office/document",
+    "application/vnd.oasis.opendocument.graphics": "x-office/drawing",
+    "application/vnd.oasis.opendocument.graphics-template": "x-office/drawing",
     "application/vnd.oasis.opendocument.text-web": "x-office/document",
+    "application/vnd.oasis.opendocument.text-flat-xml": "x-office/document",
+    "application/vnd.oasis.opendocument.spreadsheet-flat-xml": "x-office/spreadsheet",
+    "application/vnd.oasis.opendocument.graphics-flat-xml": "x-office/drawing",
+    "application/vnd.oasis.opendocument.presentation-flat-xml": "x-office/presentation",
     "application/vnd.openxmlformats-officedocument.presentationml.presentation": "x-office/presentation",
     "application/vnd.openxmlformats-officedocument.presentationml.slideshow": "x-office/presentation",
     "application/vnd.openxmlformats-officedocument.presentationml.template": "x-office/presentation",
@@ -102,7 +108,10 @@ OC.MimeTypeList={
     "text/x-python": "text/code",
     "text/x-shellscript": "text/code",
     "web": "text/code",
-    "application/internet-shortcut": "link"
+    "application/internet-shortcut": "link",
+    "application/km": "mindmap",
+    "application/x-freemind": "mindmap",
+    "application/vnd.xmind.workbook": "mindmap"
 },
 	files: [
     "application",
@@ -119,6 +128,7 @@ OC.MimeTypeList={
     "image",
     "link",
     "location",
+    "mindmap",
     "package-x-generic",
     "text",
     "text-calendar",
@@ -126,6 +136,7 @@ OC.MimeTypeList={
     "text-vcard",
     "video",
     "x-office-document",
+    "x-office-drawing",
     "x-office-presentation",
     "x-office-spreadsheet"
 ],

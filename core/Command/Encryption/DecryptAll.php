@@ -3,12 +3,15 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author davitol <dtoledo@solidgear.es>
+ * @author Evgeny Golyshev <eugulixes@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Marius Blüm <marius@lineone.io>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Ruben Homs <ruben@homs.codes>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,10 +25,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OCP\App\IAppManager;
@@ -122,14 +124,14 @@ class DecryptAll extends Command {
 		);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		if ( !$input->isInteractive() ) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		if (!$input->isInteractive()) {
 			$output->writeln('Invalid TTY.');
 			$output->writeln('If you are trying to execute the command in a Docker ');
 			$output->writeln("container, do not forget to execute 'docker exec' with");
 			$output->writeln("the '-i' and '-t' options.");
 			$output->writeln('');
-			return;
+			return 1;
 		}
 
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
@@ -138,7 +140,7 @@ class DecryptAll extends Command {
 			$output->writeln("in order to load the relevant encryption modules correctly.");
 			$output->writeln("Your instance will automatically be put to maintenance mode");
 			$output->writeln("during the actual decryption of the files.");
-			return;
+			return 1;
 		}
 
 		try {
@@ -148,7 +150,7 @@ class DecryptAll extends Command {
 				$output->writeln('done.');
 			} else {
 				$output->writeln('Server side encryption not enabled. Nothing to do.');
-				return;
+				return 0;
 			}
 
 			$uid = $input->getArgument('user');
@@ -173,16 +175,18 @@ class DecryptAll extends Command {
 					$output->writeln(' aborted.');
 					$output->writeln('Server side encryption remains enabled');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
-				} else if ($uid !== '') {
+				} elseif ($uid !== '') {
 					$output->writeln('Server side encryption remains enabled');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}
 				$this->resetMaintenanceAndTrashbin();
+				return 0;
 			} else {
 				$output->write('Enable server side encryption... ');
 				$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				$output->writeln('done.');
 				$output->writeln('aborted');
+				return 1;
 			}
 		} catch (\Exception $e) {
 			// enable server side encryption again if something went wrong
@@ -190,6 +194,5 @@ class DecryptAll extends Command {
 			$this->resetMaintenanceAndTrashbin();
 			throw $e;
 		}
-
 	}
 }

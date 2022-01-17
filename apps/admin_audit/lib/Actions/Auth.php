@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
 
 /**
@@ -31,7 +33,7 @@ namespace OCA\AdminAudit\Actions;
  * @package OCA\AdminAudit\Actions
  */
 class Auth extends Action {
-	public function loginAttempt(array $params) {
+	public function loginAttempt(array $params): void {
 		$this->log(
 			'Login attempt: "%s"',
 			$params,
@@ -42,7 +44,7 @@ class Auth extends Action {
 		);
 	}
 
-	public function loginSuccessful(array $params) {
+	public function loginSuccessful(array $params): void {
 		$this->log(
 			'Login successful: "%s"',
 			$params,
@@ -53,7 +55,7 @@ class Auth extends Action {
 		);
 	}
 
-	public function logout(array $params) {
+	public function logout(array $params): void {
 		$this->log(
 			'Logout occurred',
 			[],

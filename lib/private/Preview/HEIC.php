@@ -1,10 +1,17 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
  * @copyright Copyright (c) 2018, ownCloud GmbH
  * @copyright Copyright (c) 2018, Sebastian Steinmetz (me@sebastiansteinmetz.ch)
+ *
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sebastian Steinmetz <462714+steiny2k@users.noreply.github.com>
+ * @author Sebastian Steinmetz <me@sebastiansteinmetz.ch>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -17,15 +24,15 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
+use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\IImage;
 use OCP\ILogger;
-use OCP\Files\File;
 
 /**
  * Creates a JPG preview using ImageMagick via the PECL extension
@@ -43,7 +50,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file): bool {
+	public function isAvailable(FileInfo $file): bool {
 		return in_array('HEIC', \Imagick::queryFormats("HEI*"));
 	}
 
@@ -51,6 +58,10 @@ class HEIC extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		if (!$this->isAvailable($file)) {
+			return null;
+		}
+
 		$tmpPath = $this->getLocalFile($file);
 
 		// Creates \Imagick object from the heic file
@@ -70,7 +81,7 @@ class HEIC extends ProviderV2 {
 
 		//new bitmap image object
 		$image = new \OC_Image();
-		$image->loadFromData($bp);
+		$image->loadFromData((string) $bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;
 	}
@@ -115,7 +126,7 @@ class HEIC extends ProviderV2 {
 	 * @return \Imagick
 	 */
 	private function resize($bp, $maxX, $maxY) {
-		list($previewWidth, $previewHeight) = array_values($bp->getImageGeometry());
+		[$previewWidth, $previewHeight] = array_values($bp->getImageGeometry());
 
 		// We only need to resize a preview which doesn't fit in the maximum dimensions
 		if ($previewWidth > $maxX || $previewHeight > $maxY) {
@@ -127,7 +138,7 @@ class HEIC extends ProviderV2 {
 				// A bigger image calls for some better resizing algorithm
 				// According to http://www.imagemagick.org/Usage/filter/#lanczos
 				// the catrom filter is almost identical to Lanczos2, but according
-				// to http://php.net/manual/en/imagick.resizeimage.php it is
+				// to https://www.php.net/manual/en/imagick.resizeimage.php it is
 				// significantly faster
 				$bp->resizeImage($maxX, $maxY, \Imagick::FILTER_CATROM, 1, true);
 			}
@@ -135,5 +146,4 @@ class HEIC extends ProviderV2 {
 
 		return $bp;
 	}
-
 }

@@ -29,14 +29,14 @@ use OCP\IUser;
 use Test\TestCase;
 
 class LanguageIteratorTest extends TestCase {
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 	/** @var LanguageIterator */
 	protected $iterator;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);

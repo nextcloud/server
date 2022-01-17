@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Settings;
 
 use OCP\IL10N;
@@ -55,13 +55,13 @@ class Section implements IIconSection {
 	}
 
 	/**
-	 * returns the translated name as it should be displayed, e.g. 'LDAP / AD
+	 * returns the translated name as it should be displayed, e.g. 'LDAP/AD
 	 * integration'. Use the L10N service to translate it.
 	 *
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('LDAP / AD integration');
+		return $this->l->t('LDAP/AD integration');
 	}
 
 	/**

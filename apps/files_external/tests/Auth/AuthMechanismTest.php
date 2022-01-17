@@ -17,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Auth;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -28,7 +27,6 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 
 class AuthMechanismTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$mechanism = $this->getMockBuilder(AuthMechanism::class)
 			->setMethods(['jsonSerializeDefinition'])
@@ -82,5 +80,4 @@ class AuthMechanismTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedSuccess, $mechanism->validateStorage($storageConfig));
 	}
-
 }

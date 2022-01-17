@@ -38,7 +38,7 @@ class Path {
 	 * @param string $class
 	 * @param array $contextOptions
 	 */
-	public function __construct($class, $contextOptions = array()) {
+	public function __construct($class, $contextOptions = []) {
 		$this->class = $class;
 		$this->contextOptions = $contextOptions;
 	}
@@ -75,7 +75,7 @@ class Path {
 	 */
 	protected function appendDefaultContent($values) {
 		if (!is_array(current($values))) {
-			$values = array($this->getProtocol() => $values);
+			$values = [$this->getProtocol() => $values];
 		}
 		$context = stream_context_get_default();
 		$defaults = stream_context_get_options($context);

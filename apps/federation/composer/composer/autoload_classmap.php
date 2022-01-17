@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Federation\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Federation\\BackgroundJob\\GetSharedSecret' => $baseDir . '/../lib/BackgroundJob/GetSharedSecret.php',
     'OCA\\Federation\\BackgroundJob\\RequestSharedSecret' => $baseDir . '/../lib/BackgroundJob/RequestSharedSecret.php',
@@ -14,8 +15,9 @@ return array(
     'OCA\\Federation\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Federation\\DAV\\FedAuth' => $baseDir . '/../lib/DAV/FedAuth.php',
     'OCA\\Federation\\DbHandler' => $baseDir . '/../lib/DbHandler.php',
-    'OCA\\Federation\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Federation\\Listener\\SabrePluginAuthInitListener' => $baseDir . '/../lib/Listener/SabrePluginAuthInitListener.php',
     'OCA\\Federation\\Middleware\\AddServerMiddleware' => $baseDir . '/../lib/Middleware/AddServerMiddleware.php',
+    'OCA\\Federation\\Migration\\Version1010Date20200630191302' => $baseDir . '/../lib/Migration/Version1010Date20200630191302.php',
     'OCA\\Federation\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\Federation\\SyncFederationAddressBooks' => $baseDir . '/../lib/SyncFederationAddressBooks.php',
     'OCA\\Federation\\SyncJob' => $baseDir . '/../lib/SyncJob.php',

@@ -2,7 +2,10 @@
 /**
  * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,11 +16,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Tests\Unit\DAV\Migration;
@@ -35,15 +38,15 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Unit\DAV\Migration
  * @group DB
  */
-class CalDAVRemoveEmptyValueTest extends TestCase  {
+class CalDAVRemoveEmptyValueTest extends TestCase {
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	/** @var CalDavBackend|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
-	/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject */
 	private $output;
 
 	/** @var string */
@@ -60,7 +63,7 @@ UID:1234567890@example.com
 DTSTAMP:20151214T091032Z
 STATUS:CONFIRMED
 SEQUENCE:0
-SUMMARY:Ein Geburtstag 
+SUMMARY:Ein Geburtstag
 DTSTART;VALUE=:20151223T173000Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 CREATED;VALUE=:20151214T091032Z
@@ -81,14 +84,14 @@ UID:1234567890@example.com
 DTSTAMP:20151214T091032Z
 STATUS:CONFIRMED
 SEQUENCE:0
-SUMMARY:Ein Geburtstag 
+SUMMARY:Ein Geburtstag
 DTSTART:20151223T173000Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 CREATED:20151214T091032Z
 END:VEVENT
 END:VCALENDAR';
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);
@@ -97,7 +100,7 @@ END:VCALENDAR';
 	}
 
 	public function testRunAllValid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit_Framework_MockObject_MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
 				\OC::$server->getDatabaseConnection(),
@@ -121,7 +124,7 @@ END:VCALENDAR';
 	}
 
 	public function testRunInvalid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit_Framework_MockObject_MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
 				\OC::$server->getDatabaseConnection(),
@@ -164,7 +167,7 @@ END:VCALENDAR';
 	}
 
 	public function testRunValid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit_Framework_MockObject_MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
 				\OC::$server->getDatabaseConnection(),
@@ -206,7 +209,7 @@ END:VCALENDAR';
 	}
 
 	public function testRunStillInvalid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit_Framework_MockObject_MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
 				\OC::$server->getDatabaseConnection(),

@@ -22,7 +22,7 @@ interface Url {
 	 * @param string $path
 	 * @param string $mode
 	 * @param int $options
-	 * @param string &$opened_path
+	 * @param string $opened_path
 	 * @return bool
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path);
@@ -50,7 +50,7 @@ interface Url {
 	public function rmdir($path, $options);
 
 	/**
-	 * @param string
+	 * @param string $path
 	 * @return bool
 	 */
 	public function unlink($path);
@@ -58,7 +58,7 @@ interface Url {
 	/**
 	 * @param string $path
 	 * @param int $flags
-	 * @return array
+	 * @return array|false
 	 */
 	public function url_stat($path, $flags);
 }

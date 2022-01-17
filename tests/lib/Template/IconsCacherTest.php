@@ -1,5 +1,6 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types = 1);
 /**
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
  *
@@ -27,35 +28,29 @@ namespace Test\Template;
 use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\IconsCacher;
-use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ICache;
-use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OC_App;
 
 class IconsCacherTest extends \Test\TestCase {
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->appData = $this->createMock(AppData::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
-		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$factory->method('get')->with('css')->willReturn($this->appData);
 
@@ -90,9 +85,9 @@ class IconsCacherTest extends \Test\TestCase {
 			}
 		";
 		$actual = self::invokePrivate($this->iconsCacher, 'getIconsFromCss', [$css]);
-		$expected = array(
+		$expected = [
 			'icon-test' => '/svg/core/actions/add/000?v=1'
-		);
+		];
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -153,5 +148,4 @@ class IconsCacherTest extends \Test\TestCase {
 		$actual = $this->iconsCacher->setIconsCss($actual);
 		$this->assertEquals($expected, $actual);
 	}
-
 }

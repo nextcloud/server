@@ -41,7 +41,7 @@ class CredentialsTest extends TestCase {
 	/** @var Credentials */
 	private $credentials;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->uid = 'user123';
@@ -62,5 +62,4 @@ class CredentialsTest extends TestCase {
 	public function testGetPassword() {
 		$this->assertEquals($this->password, $this->credentials->getPassword());
 	}
-
 }

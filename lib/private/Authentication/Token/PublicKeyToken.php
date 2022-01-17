@@ -1,9 +1,12 @@
 <?php
-/** @noinspection ALL */
+
 declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -15,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\Entity;
@@ -45,8 +47,7 @@ use OCP\AppFramework\Db\Entity;
  * @method bool getPasswordInvalid()
  */
 class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
-
-	const VERSION = 2;
+	public const VERSION = 2;
 
 	/** @var string user UID */
 	protected $uid;
@@ -137,7 +138,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return parent::getPassword();
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
 			'name' => $this->name,
@@ -178,7 +179,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
 			return [
-				'filesystem'=> true
+				'filesystem' => true
 			];
 		}
 		return $scope;

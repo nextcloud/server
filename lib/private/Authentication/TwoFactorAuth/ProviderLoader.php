@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\TwoFactorAuth;
 
 use Exception;
@@ -34,14 +35,17 @@ use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
 
 class ProviderLoader {
-
-	const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
+	public const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
 
 	/** @var IAppManager */
 	private $appManager;
 
-	public function __construct(IAppManager $appManager) {
+	/** @var OC\AppFramework\Bootstrap\Coordinator */
+	private $coordinator;
+
+	public function __construct(IAppManager $appManager, OC\AppFramework\Bootstrap\Coordinator $coordinator) {
 		$this->appManager = $appManager;
+		$this->coordinator = $coordinator;
 	}
 
 	/**
@@ -72,6 +76,18 @@ class ProviderLoader {
 			}
 		}
 
+		$registeredProviders = $this->coordinator->getRegistrationContext()->getTwoFactorProviders();
+		foreach ($registeredProviders as $provider) {
+			try {
+				$this->loadTwoFactorApp($provider->getAppId());
+				$provider = OC::$server->query($provider->getService());
+				$providers[$provider->getId()] = $provider;
+			} catch (QueryException $exc) {
+				// Provider class can not be resolved
+				throw new Exception('Could not load two-factor auth provider ' . $provider->getService());
+			}
+		}
+
 		return $providers;
 	}
 
@@ -85,5 +101,4 @@ class ProviderLoader {
 			OC_App::loadApp($appId);
 		}
 	}
-
 }

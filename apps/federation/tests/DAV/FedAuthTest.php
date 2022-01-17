@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -16,11 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Federation\Tests\DAV;
 
 use OCA\Federation\DAV\FedAuth;
@@ -37,7 +36,7 @@ class FedAuthTest extends TestCase {
 	 * @param string $password
 	 */
 	public function testFedAuth($expected, $user, $password) {
-		/** @var DbHandler | \PHPUnit_Framework_MockObject_MockObject $db */
+		/** @var DbHandler | \PHPUnit\Framework\MockObject\MockObject $db */
 		$db = $this->getMockBuilder('OCA\Federation\DbHandler')->disableOriginalConstructor()->getMock();
 		$db->method('auth')->willReturn(true);
 		$auth = new FedAuth($db);

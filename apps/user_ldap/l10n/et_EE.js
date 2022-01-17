@@ -43,7 +43,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Su parool aegub homme.",
     "Your password will expire today." : "Su parool aegub täna.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Su parool aegub %n päeva jooksul.","Su parool aegub %n päeva jooksul."],
-    "LDAP / AD integration" : "LDAP / AD integratsioon",
     "_%s group found_::_%s groups found_" : ["%s grupp leitud","%s gruppi leitud"],
     "_%s user found_::_%s users found_" : ["%s kasutaja leitud","%s kasutajat leitud"],
     "Could not find the desired feature" : "Ei suuda leida soovitud funktsioonaalsust",
@@ -59,8 +58,6 @@ OC.L10N.register(
     "Edit LDAP Query" : "Muuda LDAP päringut",
     "LDAP Filter:" : "LDAP filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filter määrab millised LDAP grupid saavad ligipääsu sellele %s instantsile.",
-    "LDAP / AD Username:" : "LDAP / AD kasutajanimi:",
-    "LDAP / AD Email Address:" : "LDAP / AD e-posti aadress:",
     "Other Attributes:" : "Muud atribuudid:",
     "Test Loginname" : "Testi kasutajanime",
     "Verify settings" : "Kontrolli seadeid",
@@ -87,6 +84,7 @@ OC.L10N.register(
     "Back" : "Tagasi",
     "Continue" : "Jätka",
     "Please renew your password." : "Palun uuenda oma parool.",
+    "An internal error occurred." : "Tekkis sisemine tõrge.",
     "Please try again or contact your administrator." : "Proovi uuesti või võta ühendust administraatoriga.",
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",
@@ -135,7 +133,6 @@ OC.L10N.register(
     "Quota Default" : "Vaikimisi mahupiirang",
     "Email Field" : "E-posti väli",
     "User Home Folder Naming Rule" : "Kasutaja kodukataloogi nimetamise reegel",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Kasutajanime (vaikeväärtus) kasutamiseks jäta tühjaks. Vastasel juhul määra LDAP/AD omadus.",
     "Internal Username" : "Sisemine kasutajanimi",
     "Internal Username Attribute:" : "Sisemise kasutajatunnuse atribuut:",
     "Override UUID detection" : "Tühista UUID tuvastus",
@@ -144,6 +141,9 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID atribuut gruppidele:",
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
-    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus"
+    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
+    "LDAP / AD integration" : "LDAP / AD integratsioon",
+    "LDAP / AD Username:" : "LDAP / AD kasutajanimi:",
+    "LDAP / AD Email Address:" : "LDAP / AD e-posti aadress:"
 },
 "nplurals=2; plural=(n != 1);");

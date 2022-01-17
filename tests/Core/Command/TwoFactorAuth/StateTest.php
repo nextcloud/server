@@ -45,7 +45,7 @@ class StateTest extends TestCase {
 	/** @var CommandTester|MockObject */
 	private $cmd;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->registry = $this->createMock(IRegistry::class);
@@ -61,7 +61,7 @@ class StateTest extends TestCase {
 		]);
 
 		$output = $this->cmd->getDisplay();
-		$this->assertContains("Invalid UID", $output);
+		$this->assertStringContainsString("Invalid UID", $output);
 	}
 
 	public function testStateNoProvidersActive() {
@@ -84,7 +84,7 @@ class StateTest extends TestCase {
 		]);
 
 		$output = $this->cmd->getDisplay();
-		$this->assertContains("Two-factor authentication is not enabled for user eldora", $output);
+		$this->assertStringContainsString("Two-factor authentication is not enabled for user eldora", $output);
 	}
 
 	public function testStateOneProviderActive() {
@@ -107,7 +107,6 @@ class StateTest extends TestCase {
 		]);
 
 		$output = $this->cmd->getDisplay();
-		$this->assertContains("Two-factor authentication is enabled for user mohamed", $output);
+		$this->assertStringContainsString("Two-factor authentication is enabled for user mohamed", $output);
 	}
-
 }

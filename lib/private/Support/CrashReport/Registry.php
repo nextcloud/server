@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,27 +17,43 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Support\CrashReport;
 
 use Exception;
+use OCP\AppFramework\QueryException;
+use OCP\ILogger;
+use OCP\IServerContainer;
 use OCP\Support\CrashReport\ICollectBreadcrumbs;
 use OCP\Support\CrashReport\IMessageReporter;
 use OCP\Support\CrashReport\IRegistry;
 use OCP\Support\CrashReport\IReporter;
 use Throwable;
+use function array_shift;
 
 class Registry implements IRegistry {
 
+	/** @var string[] */
+	private $lazyReporters = [];
+
 	/** @var IReporter[] */
 	private $reporters = [];
+
+	/** @var IServerContainer */
+	private $serverContainer;
+
+	/** @var ILogger */
+	private $logger;
+
+	public function __construct(IServerContainer $serverContainer) {
+		$this->serverContainer = $serverContainer;
+	}
 
 	/**
 	 * Register a reporter instance
@@ -41,6 +62,10 @@ class Registry implements IRegistry {
 	 */
 	public function register(IReporter $reporter): void {
 		$this->reporters[] = $reporter;
+	}
+
+	public function registerLazy(string $class): void {
+		$this->lazyReporters[] = $class;
 	}
 
 	/**
@@ -53,6 +78,8 @@ class Registry implements IRegistry {
 	 * @since 15.0.0
 	 */
 	public function delegateBreadcrumb(string $message, string $category, array $context = []): void {
+		$this->loadLazyProviders();
+
 		foreach ($this->reporters as $reporter) {
 			if ($reporter instanceof ICollectBreadcrumbs) {
 				$reporter->collect($message, $category, $context);
@@ -67,7 +94,8 @@ class Registry implements IRegistry {
 	 * @param array $context
 	 */
 	public function delegateReport($exception, array $context = []): void {
-		/** @var IReporter $reporter */
+		$this->loadLazyProviders();
+
 		foreach ($this->reporters as $reporter) {
 			$reporter->report($exception, $context);
 		}
@@ -82,6 +110,8 @@ class Registry implements IRegistry {
 	 * @return void
 	 */
 	public function delegateMessage(string $message, array $context = []): void {
+		$this->loadLazyProviders();
+
 		foreach ($this->reporters as $reporter) {
 			if ($reporter instanceof IMessageReporter) {
 				$reporter->reportMessage($message, $context);
@@ -89,4 +119,37 @@ class Registry implements IRegistry {
 		}
 	}
 
+	private function loadLazyProviders(): void {
+		while (($class = array_shift($this->lazyReporters)) !== null) {
+			try {
+				/** @var IReporter $reporter */
+				$reporter = $this->serverContainer->query($class);
+			} catch (QueryException $e) {
+				/*
+				 * There is a circular dependency between the logger and the registry, so
+				 * we can not inject it. Thus the static call.
+				 */
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Could not load lazy crash reporter: ' . $e->getMessage(),
+					'level' => ILogger::FATAL,
+				]);
+			}
+			/**
+			 * Try to register the loaded reporter. Theoretically it could be of a wrong
+			 * type, so we might get a TypeError here that we should catch.
+			 */
+			try {
+				$this->register($reporter);
+			} catch (Throwable $e) {
+				/*
+				 * There is a circular dependency between the logger and the registry, so
+				 * we can not inject it. Thus the static call.
+				 */
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Could not register lazy crash reporter: ' . $e->getMessage(),
+					'level' => ILogger::FATAL,
+				]);
+			}
+		}
+	}
 }

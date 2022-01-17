@@ -1,9 +1,10 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,19 +17,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-/**
- * Get a variable by name
- * @param {string} context context
- * @returns {Function} getter
- */
 export const get = context => name => {
 	const namespaces = name.split('.')
 	const tail = namespaces.pop()
 
-	for (var i = 0; i < namespaces.length; i++) {
+	for (let i = 0; i < namespaces.length; i++) {
 		context = context[namespaces[i]]
 		if (!context) {
 			return false
@@ -39,8 +36,10 @@ export const get = context => name => {
 
 /**
  * Set a variable by name
+ *
  * @param {string} context context
- * @returns {Function} setter
+ * @return {Function} setter
+ * @deprecated 19.0.0 use https://lodash.com/docs#set
  */
 export const set = context => (name, value) => {
 	const namespaces = name.split('.')

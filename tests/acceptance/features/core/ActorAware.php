@@ -34,5 +34,4 @@ trait ActorAware {
 	public function setCurrentActor(Actor $actor) {
 		$this->actor = $actor;
 	}
-
 }

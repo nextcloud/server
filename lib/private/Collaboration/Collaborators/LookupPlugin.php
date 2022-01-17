@@ -3,6 +3,11 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,16 +18,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
-
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
@@ -30,9 +33,9 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserSession;
-use OCP\Share;
+use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class LookupPlugin implements ISearchPlugin {
 
@@ -44,14 +47,14 @@ class LookupPlugin implements ISearchPlugin {
 	private $currentUserRemote;
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(IConfig $config,
 								IClientService $clientService,
 								IUserSession $userSession,
 								ICloudIdManager $cloudIdManager,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->config = $config;
 		$this->clientService = $clientService;
 		$this->cloudIdManager = $cloudIdManager;
@@ -63,7 +66,7 @@ class LookupPlugin implements ISearchPlugin {
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$isGlobalScaleEnabled = $this->config->getSystemValue('gs.enabled', false);
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
-		$hasInternetConnection = (bool)$this->config->getSystemValue('has_internet_connection', true);
+		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 
 		// if case of Global Scale we always search the lookup server
 		if (!$isGlobalScaleEnabled && (!$isLookupServerEnabled || !$hasInternetConnection)) {
@@ -71,7 +74,7 @@ class LookupPlugin implements ISearchPlugin {
 		}
 
 		$lookupServerUrl = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
-		if(empty($lookupServerUrl)) {
+		if (empty($lookupServerUrl)) {
 			return false;
 		}
 		$lookupServerUrl = rtrim($lookupServerUrl, '/');
@@ -93,8 +96,9 @@ class LookupPlugin implements ISearchPlugin {
 				try {
 					$remote = $this->cloudIdManager->resolveCloudId($lookup['federationId'])->getRemote();
 				} catch (\Exception $e) {
-					$this->logger->error('Can not parse federated cloud ID "' .  $lookup['federationId'] . '"');
-					$this->logger->error($e->getMessage());
+					$this->logger->error('Can not parse federated cloud ID "' .  $lookup['federationId'] . '"', [
+						'exception' => $e,
+					]);
 					continue;
 				}
 				if ($this->currentUserRemote === $remote) {
@@ -105,7 +109,7 @@ class LookupPlugin implements ISearchPlugin {
 				$result[] = [
 					'label' => $label,
 					'value' => [
-						'shareType' => Share::SHARE_TYPE_REMOTE,
+						'shareType' => IShare::TYPE_REMOTE,
 						'shareWith' => $lookup['federationId'],
 					],
 					'extra' => $lookup,

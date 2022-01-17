@@ -16,10 +16,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICache;
@@ -40,6 +39,8 @@ trait MoveFromCacheTrait {
 	 */
 	abstract public function put($file, array $data);
 
+	abstract public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int;
+
 	/**
 	 * Move a file or folder in the cache
 	 *
@@ -53,36 +54,5 @@ trait MoveFromCacheTrait {
 		$this->copyFromCache($sourceCache, $sourceEntry, $targetPath);
 
 		$sourceCache->remove($sourcePath);
-	}
-
-	/**
-	 * Copy a file or folder in the cache
-	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
-	 * @param ICacheEntry $sourceEntry
-	 * @param string $targetPath
-	 */
-	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, $targetPath) {
-		$this->put($targetPath, $this->cacheEntryToArray($sourceEntry));
-		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
-			$folderContent = $sourceCache->getFolderContentsById($sourceEntry->getId());
-			foreach ($folderContent as $subEntry) {
-				$subTargetPath = $targetPath . '/' . $subEntry->getName();
-				$this->copyFromCache($sourceCache, $subEntry, $subTargetPath);
-			}
-		}
-	}
-
-	private function cacheEntryToArray(ICacheEntry $entry) {
-		return [
-			'size' => $entry->getSize(),
-			'mtime' => $entry->getMTime(),
-			'storage_mtime' => $entry->getStorageMTime(),
-			'mimetype' => $entry->getMimeType(),
-			'mimepart' => $entry->getMimePart(),
-			'etag' => $entry->getEtag(),
-			'permissions' => $entry->getPermissions(),
-			'encrypted' => $entry->isEncrypted()
-		];
 	}
 }

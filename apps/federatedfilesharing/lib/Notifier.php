@@ -2,9 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,17 +22,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
 
-
-use OC\HintException;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\HintException;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
@@ -86,7 +88,7 @@ class Notifier implements INotifier {
 	 * @throws \InvalidArgumentException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== 'files_sharing') {
+		if ($notification->getApp() !== 'files_sharing' || $notification->getObjectType() !== 'remote_share') {
 			// Not my app => throw
 			throw new \InvalidArgumentException();
 		}
@@ -101,9 +103,15 @@ class Notifier implements INotifier {
 
 				$params = $notification->getSubjectParameters();
 				if ($params[0] !== $params[1] && $params[1] !== null) {
+					$remoteInitiator = $this->createRemoteUser($params[0]);
+					$remoteOwner = $this->createRemoteUser($params[1]);
+					$params[3] = $remoteInitiator['name'] . '@' . $remoteInitiator['server'];
+					$params[4] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
+
 					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %1$s (on behalf of %2$s)', $params)
+						$l->t('You received "%3$s" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))', $params)
 					);
+
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user} (on behalf of {behalf})'),
 						[
@@ -112,14 +120,19 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($params[0]),
-							'behalf' => $this->createRemoteUser($params[1]),
+							'user' => $remoteInitiator,
+							'behalf' => $remoteOwner,
 						]
 					);
 				} else {
+					$remoteOwner = $this->createRemoteUser($params[0]);
+					$params[3] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
+
 					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %1$s', $params)
+						$l->t('You received "%3$s" as a remote share from %4$s (%1$s)', $params)
 					);
+
+
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user}'),
 						[
@@ -128,7 +141,7 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($params[0]),
+							'user' => $remoteOwner,
 						]
 					);
 				}
@@ -138,14 +151,14 @@ class Notifier implements INotifier {
 					switch ($action->getLabel()) {
 						case 'accept':
 							$action->setParsedLabel(
-								(string) $l->t('Accept')
+								$l->t('Accept')
 							)
-							->setPrimary(true);
+								->setPrimary(true);
 							break;
 
 						case 'decline':
 							$action->setParsedLabel(
-								(string) $l->t('Decline')
+								$l->t('Decline')
 							);
 							break;
 					}
@@ -164,15 +177,17 @@ class Notifier implements INotifier {
 	 * @param string $cloudId
 	 * @return array
 	 */
-	protected function createRemoteUser($cloudId) {
-		$displayName = $cloudId;
+	protected function createRemoteUser($cloudId, $displayName = null) {
 		try {
 			$resolvedId = $this->cloudIdManager->resolveCloudId($cloudId);
-			$displayName = $this->getDisplayName($resolvedId);
+			if ($displayName === null) {
+				$displayName = $this->getDisplayName($resolvedId);
+			}
 			$user = $resolvedId->getUser();
 			$server = $resolvedId->getRemote();
 		} catch (HintException $e) {
 			$user = $cloudId;
+			$displayName = $cloudId;
 			$server = '';
 		}
 
@@ -190,27 +205,34 @@ class Notifier implements INotifier {
 	 * @param ICloudId $cloudId
 	 * @return string
 	 */
-	protected function getDisplayName(ICloudId $cloudId) {
+	protected function getDisplayName(ICloudId $cloudId): string {
 		$server = $cloudId->getRemote();
 		$user = $cloudId->getUser();
 		if (strpos($server, 'http://') === 0) {
 			$server = substr($server, strlen('http://'));
-		} else if (strpos($server, 'https://') === 0) {
+		} elseif (strpos($server, 'https://') === 0) {
 			$server = substr($server, strlen('https://'));
 		}
 
 		try {
+			// contains protocol in the  ID
 			return $this->getDisplayNameFromContact($cloudId->getId());
 		} catch (\OutOfBoundsException $e) {
 		}
 
 		try {
-			$this->getDisplayNameFromContact($user . '@http://' . $server);
+			// does not include protocol, as stored in addressbooks
+			return $this->getDisplayNameFromContact($cloudId->getDisplayId());
 		} catch (\OutOfBoundsException $e) {
 		}
 
 		try {
-			$this->getDisplayNameFromContact($user . '@https://' . $server);
+			return $this->getDisplayNameFromContact($user . '@http://' . $server);
+		} catch (\OutOfBoundsException $e) {
+		}
+
+		try {
+			return $this->getDisplayNameFromContact($user . '@https://' . $server);
 		} catch (\OutOfBoundsException $e) {
 		}
 
@@ -233,7 +255,12 @@ class Notifier implements INotifier {
 			}
 		}
 
-		$addressBookEntries = $this->contactsManager->search($federatedCloudId, ['CLOUD']);
+		$addressBookEntries = $this->contactsManager->search($federatedCloudId, ['CLOUD'], [
+			'limit' => 1,
+			'enumeration' => false,
+			'fullmatch' => false,
+			'strict_search' => true,
+		]);
 		foreach ($addressBookEntries as $entry) {
 			if (isset($entry['CLOUD'])) {
 				foreach ($entry['CLOUD'] as $cloudID) {

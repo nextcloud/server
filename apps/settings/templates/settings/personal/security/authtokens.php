@@ -22,9 +22,7 @@ declare(strict_types=1);
  *
  */
 
-script('settings', [
-	'vue-settings-personal-security',
-]);
+script('settings', 'vue-settings-personal-security');
 
 ?>
 

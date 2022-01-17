@@ -1,7 +1,10 @@
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -14,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -23,17 +26,17 @@ import Root from './components/UpdateNotification'
 
 Vue.mixin({
 	methods: {
-		t: function(app, text, vars, count, options) {
+		t(app, text, vars, count, options) {
 			return OC.L10N.translate(app, text, vars, count, options)
 		},
-		n: function(app, textSingular, textPlural, count, vars, options) {
+		n(app, textSingular, textPlural, count, vars, options) {
 			return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options)
-		}
-	}
+		},
+	},
 })
 
 // eslint-disable-next-line no-new
 new Vue({
 	el: '#updatenotification',
-	render: h => h(Root)
+	render: h => h(Root),
 })

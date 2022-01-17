@@ -2,7 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
+ * @author Kim Brose <kim.brose@rwth-aachen.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
@@ -27,10 +30,10 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class Setting extends Base {
 	/** @var IUserManager */
@@ -124,7 +127,7 @@ class Setting extends Base {
 	protected function checkInput(InputInterface $input) {
 		$uid = $input->getArgument('uid');
 		if (!$input->getOption('ignore-missing-user') && !$this->userManager->userExists($uid)) {
-			throw new \InvalidArgumentException('The user "' . $uid . '" does not exists.');
+			throw new \InvalidArgumentException('The user "' . $uid . '" does not exist.');
 		}
 
 		if ($input->getArgument('key') === '' && $input->hasParameterOption('--default-value')) {
@@ -155,7 +158,7 @@ class Setting extends Base {
 		}
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->checkInput($input);
 		} catch (\InvalidArgumentException $e) {
@@ -175,45 +178,66 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && $key === 'email') {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
-						$user->setEMailAddress($input->getArgument('value'));
+						if ($key === 'email') {
+							$user->setEMailAddress($input->getArgument('value'));
+						} elseif ($key === 'display_name') {
+							if (!$user->setDisplayName($input->getArgument('value'))) {
+								if ($user->getDisplayName() === $input->getArgument('value')) {
+									$output->writeln('<error>New and old display name are the same</error>');
+								} elseif ($input->getArgument('value') === '') {
+									$output->writeln('<error>New display name can\'t be empty</error>');
+								} else {
+									$output->writeln('<error>Could not set display name</error>');
+								}
+								return 1;
+							}
+						}
+						// setEmailAddress and setDisplayName both internally set the value
 						return 0;
 					}
 				}
 
 				$this->config->setUserValue($uid, $app, $key, $input->getArgument('value'));
 				return 0;
-
-			} else if ($input->hasParameterOption('--delete')) {
+			} elseif ($input->hasParameterOption('--delete')) {
 				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 					return 1;
 				}
 
-				if ($app === 'settings' && $key === 'email') {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
-						$user->setEMailAddress('');
-						return 0;
+						if ($key === 'email') {
+							$user->setEMailAddress('');
+							// setEmailAddress already deletes the value
+							return 0;
+						} elseif ($key === 'display_name') {
+							$output->writeln('<error>Display name can\'t be deleted.</error>');
+							return 1;
+						}
 					}
 				}
 
 				$this->config->deleteUserValue($uid, $app, $key);
 				return 0;
-
-			} else if ($value !== null) {
+			} elseif ($value !== null) {
 				$output->writeln($value);
 				return 0;
+			} elseif ($input->hasParameterOption('--default-value')) {
+				$output->writeln($input->getOption('default-value'));
+				return 0;
 			} else {
-				if ($input->hasParameterOption('--default-value')) {
-					$output->writeln($input->getOption('default-value'));
+				if ($app === 'settings' && $key === 'display_name') {
+					$user = $this->userManager->get($uid);
+					$output->writeln($user->getDisplayName());
 					return 0;
-				} else {
-					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
-					return 1;
 				}
+				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
+				return 1;
 			}
 		} else {
 			$settings = $this->getUserSettings($uid, $app);
@@ -237,6 +261,10 @@ class Setting extends Base {
 		while ($row = $result->fetch()) {
 			$settings[$row['appid']][$row['configkey']] = $row['configvalue'];
 		}
+
+		$user = $this->userManager->get($uid);
+		$settings['settings']['display_name'] = $user->getDisplayName();
+
 		$result->closeCursor();
 
 		return $settings;

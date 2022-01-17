@@ -3,10 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Knut Ahlers <knut@ahlers.me>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -20,24 +22,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Group Class.
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP;
 
 /**
  * TODO actually this is a IGroupBackend
  *
- * @package OCP
  * @since 4.5.0
  */
 interface GroupInterface {
@@ -45,18 +40,18 @@ interface GroupInterface {
 	/**
 	 * actions that user backends can define
 	 */
-	const CREATE_GROUP		= 0x00000001;
-	const DELETE_GROUP		= 0x00000010;
-	const ADD_TO_GROUP		= 0x00000100;
-	const REMOVE_FROM_GOUP	= 0x00001000; // oops
-	const REMOVE_FROM_GROUP	= 0x00001000;
+	public const CREATE_GROUP = 0x00000001;
+	public const DELETE_GROUP = 0x00000010;
+	public const ADD_TO_GROUP = 0x00000100;
+	public const REMOVE_FROM_GOUP = 0x00001000; // oops
+	public const REMOVE_FROM_GROUP = 0x00001000;
 	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
-	const COUNT_USERS		= 0x00100000;
-	const GROUP_DETAILS		= 0x01000000;
+	public const COUNT_USERS = 0x00100000;
+	public const GROUP_DETAILS = 0x01000000;
 	/**
 	 * @since 13.0.0
 	 */
-	const IS_ADMIN  = 0x10000000;
+	public const IS_ADMIN = 0x10000000;
 
 	/**
 	 * Check if backend implements actions
@@ -121,5 +116,4 @@ interface GroupInterface {
 	 * @since 4.5.0
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
-
 }

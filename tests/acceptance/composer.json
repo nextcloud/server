@@ -1,10 +1,10 @@
 {
   "require-dev": {
-    "behat/behat": "^3.0",
-    "behat/mink": "^1.5",
-    "behat/mink-extension": "*",
-    "behat/mink-selenium2-driver": "*",
-    "phpunit/phpunit": "~4.6"
+    "behat/behat": "3.8.1",
+    "behat/mink": "1.8.1",
+    "behat/mink-extension": "2.3.1",
+    "behat/mink-selenium2-driver": "1.4.0",
+    "phpunit/phpunit": "6.5.14"
   },
   "autoload": {
     "psr-4": {

@@ -4,11 +4,14 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -23,10 +26,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\App\AppManager;
@@ -47,6 +49,8 @@ class NavigationManager implements INavigationManager {
 	protected $entries = [];
 	protected $closureEntries = [];
 	protected $activeEntry;
+	protected $unreadCounters = [];
+
 	/** @var bool */
 	protected $init = false;
 	/** @var IAppManager|AppManager */
@@ -77,12 +81,7 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Creates a new navigation entry
-	 *
-	 * @param array|\Closure $entry Array containing: id, name, order, icon and href key
-	 *					The use of a closure is preferred, because it will avoid
-	 * 					loading the routing of your app, unless required.
-	 * @return void
+	 * @inheritDoc
 	 */
 	public function add($entry) {
 		if ($entry instanceof \Closure) {
@@ -91,34 +90,35 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$entry['active'] = false;
-		if(!isset($entry['icon'])) {
+		if (!isset($entry['icon'])) {
 			$entry['icon'] = '';
 		}
-		if(!isset($entry['classes'])) {
+		if (!isset($entry['classes'])) {
 			$entry['classes'] = '';
 		}
-		if(!isset($entry['type'])) {
+		if (!isset($entry['type'])) {
 			$entry['type'] = 'link';
 		}
-		$this->entries[$entry['id']] = $entry;
+
+		$id = $entry['id'];
+		$entry['unread'] = isset($this->unreadCounters[$id]) ? $this->unreadCounters[$id] : 0;
+
+		$this->entries[$id] = $entry;
 	}
 
 	/**
-	 * Get a list of navigation entries
-	 *
-	 * @param string $type type of the navigation entries
-	 * @return array
+	 * @inheritDoc
 	 */
 	public function getAll(string $type = 'link'): array {
 		$this->init();
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());
 		}
-		$this->closureEntries = array();
+		$this->closureEntries = [];
 
 		$result = $this->entries;
 		if ($type !== 'all') {
-			$result = array_filter($this->entries, function($entry) use ($type) {
+			$result = array_filter($this->entries, function ($entry) use ($type) {
 				return $entry['type'] === $type;
 			});
 		}
@@ -133,10 +133,10 @@ class NavigationManager implements INavigationManager {
 	 * @return array
 	 */
 	private function proceedNavigation(array $list): array {
-		uasort($list, function($a, $b) {
+		uasort($list, function ($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
-			} else if (isset($a['order']) || isset($b['order'])) {
+			} elseif (isset($a['order']) || isset($b['order'])) {
 				return isset($a['order']) ? -1 : 1;
 			} else {
 				return ($a['name'] < $b['name']) ? -1 : 1;
@@ -169,19 +169,14 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Sets the current navigation entry of the currently running app
-	 * @param string $id of the app entry to activate (from added $entry)
+	 * @inheritDoc
 	 */
 	public function setActiveEntry($id) {
 		$this->activeEntry = $id;
 	}
 
 	/**
-	 * gets the active Menu entry
-	 * @return string id or empty string
-	 *
-	 * This function returns the id of the active navigation entry (set by
-	 * setActiveEntry
+	 * @inheritDoc
 	 */
 	public function getActiveEntry() {
 		return $this->activeEntry;
@@ -198,7 +193,7 @@ class NavigationManager implements INavigationManager {
 			$this->add([
 				'type' => 'settings',
 				'id' => 'help',
-				'order' => 5,
+				'order' => 6,
 				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
 				'name' => $l->t('Help'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
@@ -211,7 +206,7 @@ class NavigationManager implements INavigationManager {
 				$this->add([
 					'type' => 'settings',
 					'id' => 'core_apps',
-					'order' => 3,
+					'order' => 4,
 					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
 					'name' => $l->t('Apps'),
@@ -222,14 +217,14 @@ class NavigationManager implements INavigationManager {
 			$this->add([
 				'type' => 'settings',
 				'id' => 'settings',
-				'order' => 1,
+				'order' => 2,
 				'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
 				'name' => $l->t('Settings'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
 			]);
 
 			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
-			if($logoutUrl !== '') {
+			if ($logoutUrl !== '') {
 				// Logout
 				$this->add([
 					'type' => 'settings',
@@ -246,7 +241,7 @@ class NavigationManager implements INavigationManager {
 				$this->add([
 					'type' => 'settings',
 					'id' => 'core_users',
-					'order' => 4,
+					'order' => 5,
 					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
 					'name' => $l->t('Users'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
@@ -329,5 +324,9 @@ class NavigationManager implements INavigationManager {
 			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
 		}
 		return false;
+	}
+
+	public function setUnreadCounter(string $id, int $unreadCounter): void {
+		$this->unreadCounters[$id] = $unreadCounter;
 	}
 }

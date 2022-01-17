@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 
 	$('#fileSharingSettings input').change(function() {
 		var value = 'no';

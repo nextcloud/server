@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,22 +15,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\AppInfo;
-
 
 use OCA\Settings\AppInfo\Application;
 use OCA\Settings\Controller\AdminSettingsController;
 use OCA\Settings\Controller\AppSettingsController;
 use OCA\Settings\Controller\AuthSettingsController;
-use OCA\Settings\Controller\CertificateController;
 use OCA\Settings\Controller\CheckSetupController;
 use OCA\Settings\Controller\LogSettingsController;
 use OCA\Settings\Controller\MailSettingsController;
@@ -37,8 +36,6 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Middleware;
-use OCP\IUser;
-use OCP\IUserSession;
 use Test\TestCase;
 
 /**
@@ -54,7 +51,7 @@ class ApplicationTest extends TestCase {
 	/** @var IAppContainer */
 	protected $container;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->app = new Application();
 		$this->container = $this->app->getContainer();
@@ -70,7 +67,6 @@ class ApplicationTest extends TestCase {
 			[AdminSettingsController::class, Controller::class],
 			[AppSettingsController::class, Controller::class],
 			[AuthSettingsController::class, Controller::class],
-			// Needs session: [CertificateController::class, Controller::class],
 			[CheckSetupController::class, Controller::class],
 			[LogSettingsController::class, Controller::class],
 			[MailSettingsController::class, Controller::class],
@@ -87,32 +83,5 @@ class ApplicationTest extends TestCase {
 	 */
 	public function testContainerQuery($service, $expected) {
 		$this->assertTrue($this->container->query($service) instanceof $expected);
-	}
-
-	public function dataContainerQueryRequiresSession() {
-		return [
-			[CertificateController::class, Controller::class],
-		];
-	}
-
-	/**
-	 * @dataProvider dataContainerQueryRequiresSession
-	 * @param string $service
-	 * @param string $expected
-	 */
-	public function testContainerQueryRequiresSession($service, $expected) {
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
-			->willReturn('test');
-
-		$session = $this->createMock(IUserSession::class);
-		$session->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
-
-		$this->overwriteService('UserSession', $session);
-		$this->assertTrue($this->container->query($service) instanceof $expected);
-		$this->restoreService('UserSession');
 	}
 }

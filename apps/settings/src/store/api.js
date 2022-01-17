@@ -1,9 +1,13 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sujith Haridasan <sujith.h@gmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,7 +25,7 @@
  */
 
 import axios from '@nextcloud/axios'
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
 
 const sanitize = function(url) {
 	return url.replace(/\/$/, '') // Remove last url slash
@@ -35,15 +39,15 @@ export default {
 	 * you'll need to be careful when using it.
 	 * e.g
 	 * // store
-	 * 	action(context) {
-	 *		return api.requireAdmin().then((response) => {
-	 *			return api.get('url')
-	 *				.then((response) => {API success})
-	 *				.catch((error) => {API failure});
-	 *		}).catch((error) => {requireAdmin failure});
-	 *	}
+	 * action(context) {
+	 *   return api.requireAdmin().then((response) => {
+	 *     return api.get('url')
+	 *       .then((response) => {API success})
+	 *       .catch((error) => {API failure});
+	 *   }).catch((error) => {requireAdmin failure});
+	 * }
 	 * // vue
-	 *	this.$store.dispatch('action').then(() => {always executed})
+	 * this.$store.dispatch('action').then(() => {always executed})
 	 *
 	 * Since Promise.then().catch().then() will always execute the last then
 	 * this.$store.dispatch('action').then will always be executed
@@ -52,19 +56,19 @@ export default {
 	 * you will need to throw a new error in the api.get.catch()
 	 *
 	 * e.g
-	 *	api.requireAdmin().then((response) => {
-	 *		api.get('url')
-	 *			.then((response) => {API success})
-	 *			.catch((error) => {throw error;});
-	 *	}).catch((error) => {requireAdmin OR API failure});
+	 * api.requireAdmin().then((response) => {
+	 *   api.get('url')
+	 *     .then((response) => {API success})
+	 *     .catch((error) => {throw error;});
+	 * }).catch((error) => {requireAdmin OR API failure});
 	 *
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	requireAdmin() {
 		return confirmPassword()
 	},
-	get(url) {
-		return axios.get(sanitize(url))
+	get(url, options) {
+		return axios.get(sanitize(url), options)
 	},
 	post(url, data) {
 		return axios.post(sanitize(url), data)
@@ -76,6 +80,6 @@ export default {
 		return axios.put(sanitize(url), data)
 	},
 	delete(url, data) {
-		return axios.delete(sanitize(url), { data: data })
-	}
+		return axios.delete(sanitize(url), { params: data })
+	},
 }

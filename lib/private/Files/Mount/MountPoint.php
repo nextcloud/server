@@ -2,14 +2,16 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,21 +25,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
 
-use \OC\Files\Filesystem;
-use OC\Files\Storage\StorageFactory;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
+use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ILogger;
 
 class MountPoint implements IMountPoint {
 	/**
-	 * @var \OC\Files\Storage\Storage $storage
+	 * @var \OC\Files\Storage\Storage|null $storage
 	 */
 	protected $storage = null;
 	protected $class;
@@ -49,7 +50,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @var array
 	 */
-	protected $arguments = array();
+	protected $arguments = [];
 	protected $mountPoint;
 
 	/**
@@ -57,7 +58,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @var array
 	 */
-	protected $mountOptions = array();
+	protected $mountOptions = [];
 
 	/**
 	 * @var \OC\Files\Storage\StorageFactory $loader
@@ -86,7 +87,7 @@ class MountPoint implements IMountPoint {
 	 */
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null, $mountId = null) {
 		if (is_null($arguments)) {
-			$arguments = array();
+			$arguments = [];
 		}
 		if (is_null($loader)) {
 			$this->loader = new StorageFactory();
@@ -100,6 +101,7 @@ class MountPoint implements IMountPoint {
 
 		$mountpoint = $this->formatPath($mountpoint);
 		$this->mountPoint = $mountpoint;
+		$this->mountId = $mountId;
 		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
 			$this->storage = $this->loader->wrap($this, $storage);
@@ -111,7 +113,6 @@ class MountPoint implements IMountPoint {
 			$this->class = $storage;
 			$this->arguments = $arguments;
 		}
-		$this->mountId = $mountId;
 	}
 
 	/**
@@ -165,7 +166,7 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {
@@ -266,8 +267,14 @@ class MountPoint implements IMountPoint {
 	 * @return int
 	 */
 	public function getStorageRootId() {
-		if (is_null($this->rootId)) {
-			$this->rootId = (int)$this->getStorage()->getCache()->getId('');
+		if (is_null($this->rootId) || $this->rootId === -1) {
+			$storage = $this->getStorage();
+			// if we can't create the storage return -1 as root id, this is then handled the same as if the root isn't scanned yet
+			if ($storage === null) {
+				$this->rootId = -1;
+			} else {
+				$this->rootId = (int)$storage->getCache()->getId('');
+			}
 		}
 		return $this->rootId;
 	}

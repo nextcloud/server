@@ -1,9 +1,10 @@
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +17,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -26,7 +28,7 @@ import $ from 'jquery'
  *
  * @param {string} attrName attribute name
  * @param {string} attrValue attribute value
- * @returns {Void}
+ * @return {void}
  */
 $.fn.filterAttr = function(attrName, attrValue) {
 	return this.filter(function() {

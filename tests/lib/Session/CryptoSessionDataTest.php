@@ -22,21 +22,20 @@
 namespace Test\Session;
 
 use OC\Session\CryptoSessionData;
+use OCP\Security\ICrypto;
 
 class CryptoSessionDataTest extends Session {
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\OCP\Security\ICrypto */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Security\ICrypto */
 	protected $crypto;
 
 	/** @var \OCP\ISession */
 	protected $wrappedSession;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->wrappedSession = new \OC\Session\Memory($this->getUniqueID());
-		$this->crypto = $this->getMockBuilder('OCP\Security\ICrypto')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->crypto = $this->createMock(ICrypto::class);
 		$this->crypto->expects($this->any())
 			->method('encrypt')
 			->willReturnCallback(function ($input) {
@@ -45,6 +44,9 @@ class CryptoSessionDataTest extends Session {
 		$this->crypto->expects($this->any())
 			->method('decrypt')
 			->willReturnCallback(function ($input) {
+				if ($input === '') {
+					return '';
+				}
 				return substr($input, 1, -1);
 			});
 

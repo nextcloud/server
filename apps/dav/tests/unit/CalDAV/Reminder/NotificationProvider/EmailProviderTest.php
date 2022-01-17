@@ -1,25 +1,32 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019, Thomas Citharel
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
@@ -29,38 +36,36 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OCP\L10N\IFactory as L10NFactory;
 use OCP\IUser;
+use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\Mail\IAttachment;
 use OCP\Mail\IMessage;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
-use Test\TestCase;
 
 class EmailProviderTest extends AbstractNotificationProviderTest {
+	public const USER_EMAIL = 'frodo@hobb.it';
 
-	const USER_EMAIL = 'frodo@hobb.it';
-
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ILogger|MockObject */
 	protected $logger;
 
-	/** @var L10NFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var L10NFactory|MockObject */
 	protected $l10nFactory;
 
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	protected $l10n;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
 
-	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMailer|MockObject */
 	private $mailer;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->mailer = $this->createMock(IMailer::class);
@@ -75,78 +80,46 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	}
 
 	public function testSendWithoutAttendees():void {
-		$user1 = $this->createMock(IUser::class);
-		$user1->method('getUID')
-			->willReturn('uid1');
-		$user1->method('getEMailAddress')
-			->willReturn('uid1@example.com');
-		$user2 = $this->createMock(IUser::class);
-		$user2->method('getUID')
-			->willReturn('uid2');
-		$user2->method('getEMailAddress')
-			->willReturn('uid2@example.com');
-		$user3 = $this->createMock(IUser::class);
-		$user3->method('getUID')
-			->willReturn('uid3');
-		$user3->method('getEMailAddress')
-			->willReturn('uid3@example.com');
-		$user4 = $this->createMock(IUser::class);
-		$user4->method('getUID')
-			->willReturn('uid4');
-		$user4->method('getEMailAddress')
-			->willReturn(null);
-
-		$users = [$user1, $user2, $user3, $user4];
-
-		$this->config->expects($this->at(0))
-			->method('getUserValue')
-			->with('uid1', 'core', 'lang', null)
-			->willReturn(null);
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with('uid2', 'core', 'lang', null)
-			->willReturn('de');
-		$this->config->expects($this->at(2))
-			->method('getUserValue')
-			->with('uid3', 'core', 'lang', null)
-			->willReturn('de');
+		[$user1, $user2, $user3, , $user5] = $users = $this->getUsers();
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$enL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$deL10N = $this->createMock(IL10N::class);
 		$deL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$deL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
-		$this->l10nFactory->expects($this->at(0))
-			->method('findLanguage')
-			->with()
+		$this->l10nFactory
+			->method('getUserLanguage')
+			->willReturnMap([
+				[$user1, 'en'],
+				[$user2, 'de'],
+				[$user3, 'de'],
+				[$user5, 'de'],
+			]);
+
+		$this->l10nFactory
+			->method('findGenericLanguage')
 			->willReturn('en');
 
-		$this->l10nFactory->expects($this->at(1))
+		$this->l10nFactory
 			->method('languageExists')
-			->with('dav', 'en')
-			->willReturn(true);
+			->willReturnMap([
+				['dav', 'en', true],
+				['dav', 'de', true],
+			]);
 
-		$this->l10nFactory->expects($this->at(2))
+		$this->l10nFactory
 			->method('get')
-			->with('dav', 'en')
-			->willReturn($enL10N);
-
-		$this->l10nFactory->expects($this->at(3))
-			->method('languageExists')
-			->with('dav', 'de')
-			->willReturn(true);
-
-		$this->l10nFactory->expects($this->at(4))
-			->method('get')
-			->with('dav', 'de')
-			->willReturn($deL10N);
+			->willReturnMap([
+				['dav', 'en', null, $enL10N],
+				['dav', 'de', null, $deL10N],
+			]);
 
 		$template1 = $this->getTemplateMock();
 		$message11 = $this->getMessageMock('uid1@example.com', $template1);
@@ -160,35 +133,55 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			->willReturn($template1);
 
 		$this->mailer->expects($this->at(1))
+			->method('validateMailAddress')
+			->with('uid1@example.com')
+			->willReturn(true);
+
+		$this->mailer->expects($this->at(2))
 			->method('createMessage')
 			->with()
 			->willReturn($message11);
-		$this->mailer->expects($this->at(2))
+		$this->mailer->expects($this->at(3))
 			->method('send')
 			->with($message11)
 			->willReturn([]);
 
-		$this->mailer->expects($this->at(3))
+		$this->mailer->expects($this->at(4))
 			->method('createEMailTemplate')
 			->with('dav.calendarReminder')
 			->willReturn($template2);
 
-		$this->mailer->expects($this->at(4))
-			->method('createMessage')
-			->with()
-			->willReturn($message21);
 		$this->mailer->expects($this->at(5))
-			->method('send')
-			->with($message21)
-			->willReturn([]);
+			->method('validateMailAddress')
+			->with('uid2@example.com')
+			->willReturn(true);
+
 		$this->mailer->expects($this->at(6))
 			->method('createMessage')
 			->with()
-			->willReturn($message22);
+			->willReturn($message21);
 		$this->mailer->expects($this->at(7))
+			->method('send')
+			->with($message21)
+			->willReturn([]);
+		$this->mailer->expects($this->at(8))
+			->method('validateMailAddress')
+			->with('uid3@example.com')
+			->willReturn(true);
+
+		$this->mailer->expects($this->at(9))
+			->method('createMessage')
+			->with()
+			->willReturn($message22);
+		$this->mailer->expects($this->at(10))
 			->method('send')
 			->with($message22)
 			->willReturn([]);
+
+		$this->mailer->expects($this->at(11))
+			->method('validateMailAddress')
+			->with('invalid')
+			->willReturn(false);
 
 		$this->setupURLGeneratorMock(2);
 
@@ -197,78 +190,46 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	}
 
 	public function testSendWithAttendees(): void {
-		$user1 = $this->createMock(IUser::class);
-		$user1->method('getUID')
-			->willReturn('uid1');
-		$user1->method('getEMailAddress')
-			->willReturn('uid1@example.com');
-		$user2 = $this->createMock(IUser::class);
-		$user2->method('getUID')
-			->willReturn('uid2');
-		$user2->method('getEMailAddress')
-			->willReturn('uid2@example.com');
-		$user3 = $this->createMock(IUser::class);
-		$user3->method('getUID')
-			->willReturn('uid3');
-		$user3->method('getEMailAddress')
-			->willReturn('uid3@example.com');
-		$user4 = $this->createMock(IUser::class);
-		$user4->method('getUID')
-			->willReturn('uid4');
-		$user4->method('getEMailAddress')
-			->willReturn(null);
-
-		$users = [$user1, $user2, $user3, $user4];
-
-		$this->config->expects($this->at(0))
-			->method('getUserValue')
-			->with('uid1', 'core', 'lang', null)
-			->willReturn(null);
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with('uid2', 'core', 'lang', null)
-			->willReturn('de');
-		$this->config->expects($this->at(2))
-			->method('getUserValue')
-			->with('uid3', 'core', 'lang', null)
-			->willReturn('de');
+		[$user1, $user2, $user3, , $user5] = $users = $this->getUsers();
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$enL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$deL10N = $this->createMock(IL10N::class);
 		$deL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$deL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
-		$this->l10nFactory->expects($this->at(0))
-			->method('findLanguage')
-			->with()
+		$this->l10nFactory
+			->method('getUserLanguage')
+			->willReturnMap([
+				[$user1, 'en'],
+				[$user2, 'de'],
+				[$user3, 'de'],
+				[$user5, 'de'],
+			]);
+
+		$this->l10nFactory
+			->method('findGenericLanguage')
 			->willReturn('en');
 
-		$this->l10nFactory->expects($this->at(1))
+		$this->l10nFactory
 			->method('languageExists')
-			->with('dav', 'de')
-			->willReturn(true);
+			->willReturnMap([
+				['dav', 'en', true],
+				['dav', 'de', true],
+			]);
 
-		$this->l10nFactory->expects($this->at(2))
+		$this->l10nFactory
 			->method('get')
-			->with('dav', 'de')
-			->willReturn($enL10N);
-
-		$this->l10nFactory->expects($this->at(3))
-			->method('languageExists')
-			->with('dav', 'en')
-			->willReturn(true);
-
-		$this->l10nFactory->expects($this->at(4))
-			->method('get')
-			->with('dav', 'en')
-			->willReturn($deL10N);
+			->willReturnMap([
+				['dav', 'en', null, $enL10N],
+				['dav', 'de', null, $deL10N],
+			]);
 
 		$template1 = $this->getTemplateMock();
 		$message11 = $this->getMessageMock('foo1@example.org', $template1);
@@ -285,56 +246,89 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			->willReturn($template1);
 
 		$this->mailer->expects($this->at(1))
+			->method('validateMailAddress')
+			->with('foo1@example.org')
+			->willReturn(true);
+
+		$this->mailer->expects($this->at(2))
 			->method('createMessage')
 			->with()
 			->willReturn($message11);
-		$this->mailer->expects($this->at(2))
+		$this->mailer->expects($this->at(3))
 			->method('send')
 			->with($message11)
 			->willReturn([]);
-		$this->mailer->expects($this->at(3))
-			->method('createMessage')
-			->with()
-			->willReturn($message12);
 		$this->mailer->expects($this->at(4))
-			->method('send')
-			->with($message12)
-			->willReturn([]);
+			->method('validateMailAddress')
+			->with('uid2@example.com')
+			->willReturn(true);
 		$this->mailer->expects($this->at(5))
 			->method('createMessage')
 			->with()
-			->willReturn($message13);
+			->willReturn($message12);
 		$this->mailer->expects($this->at(6))
 			->method('send')
-			->with($message13)
+			->with($message12)
 			->willReturn([]);
 
 		$this->mailer->expects($this->at(7))
-			->method('createEMailTemplate')
-			->with('dav.calendarReminder')
-			->willReturn($template2);
+			->method('validateMailAddress')
+			->with('uid3@example.com')
+			->willReturn(true);
 
 		$this->mailer->expects($this->at(8))
 			->method('createMessage')
 			->with()
-			->willReturn($message21);
+			->willReturn($message13);
 		$this->mailer->expects($this->at(9))
+			->method('send')
+			->with($message13)
+			->willReturn([]);
+
+		$this->mailer->expects($this->at(10))
+			->method('validateMailAddress')
+			->with('invalid')
+			->willReturn(false);
+
+		$this->mailer->expects($this->at(11))
+			->method('createEMailTemplate')
+			->with('dav.calendarReminder')
+			->willReturn($template2);
+
+		$this->mailer->expects($this->at(12))
+			->method('validateMailAddress')
+			->with('foo3@example.org')
+			->willReturn(true);
+
+		$this->mailer->expects($this->at(13))
+			->method('createMessage')
+			->with()
+			->willReturn($message21);
+		$this->mailer->expects($this->at(14))
 			->method('send')
 			->with($message21)
 			->willReturn([]);
-		$this->mailer->expects($this->at(10))
+		$this->mailer->expects($this->at(15))
+			->method('validateMailAddress')
+			->with('foo4@example.org')
+			->willReturn(true);
+		$this->mailer->expects($this->at(16))
 			->method('createMessage')
 			->with()
 			->willReturn($message22);
-		$this->mailer->expects($this->at(11))
+		$this->mailer->expects($this->at(17))
 			->method('send')
 			->with($message22)
 			->willReturn([]);
-		$this->mailer->expects($this->at(12))
+		$this->mailer->expects($this->at(18))
+			->method('validateMailAddress')
+			->with('uid1@example.com')
+			->willReturn(true);
+		$this->mailer->expects($this->at(19))
 			->method('createMessage')
 			->with()
 			->willReturn($message23);
-		$this->mailer->expects($this->at(13))
+		$this->mailer->expects($this->at(20))
 			->method('send')
 			->with($message23)
 			->willReturn([]);
@@ -395,12 +389,12 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	}
 
 	/**
-	 * @param array $toMail
+	 * @param string $toMail
 	 * @param IEMailTemplate $templateMock
-	 * @param array $replyTo
+	 * @param array|null $replyTo
 	 * @return IMessage
 	 */
-	private function getMessageMock(string $toMail, IEMailTemplate $templateMock, array $replyTo=null):IMessage {
+	private function getMessageMock(string $toMail, IEMailTemplate $templateMock, array $replyTo = null):IMessage {
 		$message = $this->createMock(IMessage::class);
 		$i = 0;
 
@@ -492,12 +486,12 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		return $vcalendar;
 	}
 
-	private function setupURLGeneratorMock(int $times=1):void {
+	private function setupURLGeneratorMock(int $times = 1):void {
 		for ($i = 0; $i < $times; $i++) {
 			$this->urlGenerator
 				->expects($this->at(8 * $i))
 				->method('imagePath')
-				->with('core', 'actions/info.svg')
+				->with('core', 'actions/info.png')
 				->willReturn('imagePath1');
 
 			$this->urlGenerator
@@ -509,7 +503,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			$this->urlGenerator
 				->expects($this->at(8 * $i + 2))
 				->method('imagePath')
-				->with('core', 'places/calendar.svg')
+				->with('core', 'places/calendar.png')
 				->willReturn('imagePath2');
 
 			$this->urlGenerator
@@ -521,7 +515,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			$this->urlGenerator
 				->expects($this->at(8 * $i + 4))
 				->method('imagePath')
-				->with('core', 'actions/address.svg')
+				->with('core', 'actions/address.png')
 				->willReturn('imagePath3');
 
 			$this->urlGenerator
@@ -533,7 +527,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			$this->urlGenerator
 				->expects($this->at(8 * $i + 6))
 				->method('imagePath')
-				->with('core', 'actions/more.svg')
+				->with('core', 'actions/more.png')
 				->willReturn('imagePath4');
 
 			$this->urlGenerator
@@ -542,5 +536,35 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 				->with('imagePath4')
 				->willReturn('AbsURL4');
 		}
+	}
+
+	private function getUsers(): array {
+		$user1 = $this->createMock(IUser::class);
+		$user1->method('getUID')
+			->willReturn('uid1');
+		$user1->method('getEMailAddress')
+			->willReturn('uid1@example.com');
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')
+			->willReturn('uid2');
+		$user2->method('getEMailAddress')
+			->willReturn('uid2@example.com');
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')
+			->willReturn('uid3');
+		$user3->method('getEMailAddress')
+			->willReturn('uid3@example.com');
+		$user4 = $this->createMock(IUser::class);
+		$user4->method('getUID')
+			->willReturn('uid4');
+		$user4->method('getEMailAddress')
+			->willReturn(null);
+		$user5 = $this->createMock(IUser::class);
+		$user5->method('getUID')
+			->willReturn('uid5');
+		$user5->method('getEMailAddress')
+			->willReturn('invalid');
+
+		return [$user1, $user2, $user3, $user4, $user5];
 	}
 }

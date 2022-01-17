@@ -17,7 +17,7 @@ class APITest extends \Test\TestCase {
 	/**
 	 * @param string $message
 	 */
-	function buildResponse($shipped, $data, $code, $message=null) {
+	public function buildResponse($shipped, $data, $code, $message = null) {
 		$resp = new \OC\OCS\Result($data, $code, $message);
 		$resp->addHeader('KEY', 'VALUE');
 		return [
@@ -32,7 +32,7 @@ class APITest extends \Test\TestCase {
 	/**
 	 * @param \OC\OCS\Result $result
 	 */
-	function checkResult($result, $success) {
+	public function checkResult($result, $success) {
 		// Check response is of correct type
 		$this->assertInstanceOf(\OC\OCS\Result::class, $result);
 		// Check if it succeeded
@@ -79,7 +79,7 @@ class APITest extends \Test\TestCase {
 		$request
 			->expects($this->once())
 			->method('getScriptName')
-			->will($this->returnValue($scriptName));
+			->willReturn($scriptName);
 
 		$this->assertEquals($expected, $this->invokePrivate(new \OC_API, 'isV2', [$request]));
 	}

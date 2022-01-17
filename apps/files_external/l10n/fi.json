@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "Erilliset tallennustilat",
+    "External storage" : "Erillinen tallennustila",
     "Personal" : "Henkilökohtainen",
     "System" : "Järjestelmä",
     "Grant access" : "Salli pääsy",
@@ -9,7 +9,7 @@
     "Generate keys" : "Luo avaimet",
     "Error generating key pair" : "Virhe luotaessa avainparia",
     "All users. Type to select user or group." : "Kaikki käyttäjät. Kirjoita valitaksesi käyttäjän tai ryhmän.",
-    "(group)" : "(ryhmä)",
+    "(Group)" : "(Ryhmä)",
     "Compatibility with Mac NFD encoding (slow)" : "Yhteensopivuus Mac NFD -enkoodauksen kanssa (hidas)",
     "Enable encryption" : "Käytä salausta",
     "Enable previews" : "Käytä esikatseluja",
@@ -23,7 +23,7 @@
     "Are you sure you want to delete this external storage?" : "Haluatko varmasti poistaa tämän erillisen tallennustilan?",
     "Delete storage?" : "Poistetaanko tallennustila?",
     "Saved" : "Tallennettu",
-    "Saving..." : "Tallennetaan...",
+    "Saving …" : "Tallennetaan…",
     "Save" : "Tallenna",
     "Empty response from the server" : "Tyhjä vastaus palvelimelta",
     "Couldn't access. Please log out and in again to activate this mount point" : "Käyttö ei onnistunut. Kirjaudu ulos ja takaisin sisään aktivoidaksesi tämän liitoskohdan",
@@ -100,11 +100,11 @@
     "SFTP" : "SFTP",
     "Root" : "Juurihakemisto",
     "SFTP with secret key login" : "SFTP salaisen avaimen kirjautumisella",
-    "SMB / CIFS" : "SMB / CIFS",
+    "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Jaa",
     "Show hidden files" : "Näytä piilotiedostot",
+    "Verify ACL access when listing files" : "Vahvista ACL-pääsy tiedostoja listatessa",
     "Timeout" : "Aikakatkaisu",
-    "SMB / CIFS using OC login" : "SMB / CIFS käyttäen OC-kirjautumista",
     "Username as share" : "Käyttäjänimi jakona",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Palvelun nimi",
@@ -120,7 +120,6 @@
     "Scope" : "Näkyvyysalue",
     "Open documentation" : "Avaa dokumentaatio",
     "Folder name" : "Kansion nimi",
-    "External storage" : "Erillinen tallennustila",
     "Authentication" : "Tunnistautuminen",
     "Configuration" : "Asetukset",
     "Available for" : "Saatavuus",
@@ -128,6 +127,10 @@
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja.",
+    "External storages" : "Erilliset tallennustilat",
+    "(group)" : "(ryhmä)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS käyttäen OC-kirjautumista"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

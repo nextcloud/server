@@ -1,11 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,16 +20,14 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
-
 
 use OCP\IGroup;
 use OCP\IUser;
@@ -44,7 +45,7 @@ class GroupManagement extends Action {
 	 * @param IGroup $group
 	 * @param IUser $user
 	 */
-	public function addUser(IGroup $group, IUser $user) {
+	public function addUser(IGroup $group, IUser $user): void {
 		$this->log('User "%s" added to group "%s"',
 			[
 				'group' => $group->getGID(),
@@ -62,7 +63,7 @@ class GroupManagement extends Action {
 	 * @param IGroup $group
 	 * @param IUser $user
 	 */
-	public function removeUser(IGroup $group, IUser $user) {
+	public function removeUser(IGroup $group, IUser $user): void {
 		$this->log('User "%s" removed from group "%s"',
 			[
 				'group' => $group->getGID(),
@@ -73,13 +74,13 @@ class GroupManagement extends Action {
 			]
 		);
 	}
-	
+
 	/**
 	 * log create group to group event
 	 *
 	 * @param IGroup $group
 	 */
-	public function createGroup(IGroup $group) {
+	public function createGroup(IGroup $group): void {
 		$this->log('Group created: "%s"',
 			[
 				'group' => $group->getGID()
@@ -95,7 +96,7 @@ class GroupManagement extends Action {
 	 *
 	 * @param IGroup $group
 	 */
-	public function deleteGroup(IGroup $group) {
+	public function deleteGroup(IGroup $group): void {
 		$this->log('Group deleted: "%s"',
 			[
 				'group' => $group->getGID()

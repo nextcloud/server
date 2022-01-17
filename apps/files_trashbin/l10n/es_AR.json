@@ -1,6 +1,8 @@
 { "translations": {
-    "Deleted files" : "Archivos borrados",
+    "Deleted files" : "Archivos eliminados",
     "restored" : "recuperado",
+    "This application enables users to restore files that were deleted from the system." : "Esta aplicación permite a los usuarios restaurar archivos que fueron eliminados del sistema.",
+    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Esta aplicación permite a los usuarios restaurar archivos que fueron eliminados del sistema. Muestra una lista de los archivos eliminados en la interfaz web y tiene opciones para restaurar esos archivos eliminados a las carpetas del usuario o eliminarlos permanentemente del sistema. Restaurando un archivo también se restauran las versiones del archivo relacionadas, si la aplicación de versiones está habilitada. Cuando un archivo compartido es eliminado, éste puede ser restaurado de la misma manera, aunque ya no estará compartido. Por defecto, estos archivos permanecen en la papelera por 30 días.\nPara prevenir que un usuario se quede sin espacio en el disco, la aplicación de Archivos eliminados no utilizará mas del 50% de la cuota de espacio libre para archivos eliminados. Si los archivos eliminados exceden este límite, la aplicación elimina los archivos mas antiguos hasta permanecer debajo de ese límite. Más información está disponible en la documentación de Archivos Eliminados.",
     "Restore" : "Recuperar",
     "Delete permanently" : "Borrar permanentemente",
     "This operation is forbidden" : "Esta operación está prohibida",
@@ -10,7 +12,13 @@
     "No entries found in this folder" : "No se encontraron entradas en esta carpeta",
     "Select all" : "Seleccionar todo",
     "Name" : "Nombre",
-    "Deleted" : "Borrado",
-    "Delete" : "Borrar"
+    "Actions" : "Acciones",
+    "Deleted" : "Eliminado",
+    "Delete" : "Eliminar",
+    "Error while restoring file from trashbin" : "Error al restaurar un archivo de la papelera",
+    "Error while removing file from trashbin" : "Error al eliminar un archivo de la papelera",
+    "Error while restoring files from trashbin" : "Error al restaurar archivos de la papelera",
+    "Error while emptying trashbin" : "Error al vaciar la papelera",
+    "Error while removing files from trashbin" : "Error al eliminar archivos de la papelera"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

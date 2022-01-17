@@ -4,13 +4,15 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,10 +26,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\External;
 
 use GuzzleHttp\Exception\ClientException;
@@ -36,6 +37,7 @@ use GuzzleHttp\Exception\RequestException;
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
 use OCA\Files_Sharing\ISharedStorage;
+use OCA\Files_Sharing\External\Manager as ExternalShareManager;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Federation\ICloudId;
@@ -43,6 +45,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Http\Client\LocalServerException;
+use OCP\Http\Client\IClientService;
 
 class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	/** @var ICloudId */
@@ -58,11 +62,12 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	/** @var bool */
 	private $updateChecked = false;
 
-	/**
-	 * @var \OCA\Files_Sharing\External\Manager
-	 */
+	/** @var ExternalShareManager */
 	private $manager;
 
+	/**
+	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
+	 */
 	public function __construct($options) {
 		$this->memcacheFactory = \OC::$server->getMemCacheFactory();
 		$this->httpClient = $options['HttpClientService'];
@@ -71,9 +76,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		$this->cloudId = $options['cloudId'];
 		$discoveryService = \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
 
-		list($protocol, $remote) = explode('://', $this->cloudId->getRemote());
+		[$protocol, $remote] = explode('://', $this->cloudId->getRemote());
 		if (strpos($remote, '/')) {
-			list($host, $root) = explode('/', $remote, 2);
+			[$host, $root] = explode('/', $remote, 2);
 		} else {
 			$host = $remote;
 			$root = '';
@@ -85,13 +90,13 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		$this->mountPoint = $options['mountpoint'];
 		$this->token = $options['token'];
 
-		parent::__construct(array(
+		parent::__construct([
 			'secure' => $secure,
 			'host' => $host,
 			'root' => $root,
 			'user' => $options['token'],
 			'password' => (string)$options['password']
-		));
+		]);
 	}
 
 	public function getWatcher($path = '', $storage = null) {
@@ -105,28 +110,28 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		return $this->watcher;
 	}
 
-	public function getRemoteUser() {
+	public function getRemoteUser(): string {
 		return $this->cloudId->getUser();
 	}
 
-	public function getRemote() {
+	public function getRemote(): string {
 		return $this->cloudId->getRemote();
 	}
 
-	public function getMountPoint() {
+	public function getMountPoint(): string {
 		return $this->mountPoint;
 	}
 
-	public function getToken() {
+	public function getToken(): string {
 		return $this->token;
 	}
 
-	public function getPassword() {
+	public function getPassword(): ?string {
 		return $this->password;
 	}
 
 	/**
-	 * @brief get id of the mount point
+	 * Get id of the mount point.
 	 * @return string
 	 */
 	public function getId() {
@@ -156,7 +161,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	}
 
 	/**
-	 * check if a file or folder has been updated since $time
+	 * Check if a file or folder has been updated since $time
 	 *
 	 * @param string $path
 	 * @param int $time
@@ -245,11 +250,11 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	}
 
 	/**
-	 * check if the configured remote is a valid federated share provider
+	 * Check if the configured remote is a valid federated share provider
 	 *
 	 * @return bool
 	 */
-	protected function testRemote() {
+	protected function testRemote(): bool {
 		try {
 			return $this->testRemoteUrl($this->getRemote() . '/ocs-provider/index.php')
 				|| $this->testRemoteUrl($this->getRemote() . '/ocs-provider/')
@@ -259,13 +264,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		}
 	}
 
-	/**
-	 * @param string $url
-	 * @return bool
-	 */
-	private function testRemoteUrl($url) {
+	private function testRemoteUrl(string $url): bool {
 		$cache = $this->memcacheFactory->createDistributed('files_sharing_remote_url');
-		if($cache->hasKey($url)) {
+		if ($cache->hasKey($url)) {
 			return (bool)$cache->get($url);
 		}
 
@@ -285,18 +286,18 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 			$returnValue = false;
 		}
 
-		$cache->set($url, $returnValue, 60*60*24);
+		$cache->set($url, $returnValue, 60 * 60 * 24);
 		return $returnValue;
 	}
 
 	/**
-	 * Whether the remote is an ownCloud/Nextcloud, used since some sharing features are not
-	 * standardized. Let's use this to detect whether to use it.
+	 * Check whether the remote is an ownCloud/Nextcloud. This is needed since some sharing
+	 * features are not standardized.
 	 *
-	 * @return bool
+	 * @throws LocalServerException
 	 */
-	public function remoteIsOwnCloud() {
-		if(defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
+	public function remoteIsOwnCloud(): bool {
+		if (defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
 			return false;
 		}
 		return true;
@@ -313,9 +314,16 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		$token = $this->getToken();
 		$password = $this->getPassword();
 
-		// If remote is not an ownCloud do not try to get any share info
-		if(!$this->remoteIsOwnCloud()) {
-			return ['status' => 'unsupported'];
+		try {
+			// If remote is not an ownCloud do not try to get any share info
+			if (!$this->remoteIsOwnCloud()) {
+				return ['status' => 'unsupported'];
+			}
+		} catch (LocalServerException $e) {
+			// throw this to be on the safe side: the share will still be visible
+			// in the UI in case the failure is intermittent, and the user will
+			// be able to decide whether to remove it if it's really gone
+			throw new StorageNotAvailableException();
 		}
 
 		$url = rtrim($remote, '/') . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
@@ -360,9 +368,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		// old federated sharing permissions
 		if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 			$permissions = $response['{http://open-collaboration-services.org/ns}share-permissions'];
-		} else if (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
+		} elseif (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
 			// permissions provided by the OCM API
-			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions']);
+			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions'], $path);
 		} else {
 			// use default permission if remote server doesn't provide the share permissions
 			$permissions = $this->getDefaultPermissions($path);
@@ -376,17 +384,17 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	}
 
 	/**
-	 * translate OCM Permissions to Nextcloud permissions
+	 * Translate OCM Permissions to Nextcloud permissions
 	 *
 	 * @param string $ocmPermissions json encoded OCM permissions
 	 * @param string $path path to file
 	 * @return int
 	 */
-	protected function ocmPermissions2ncPermissions($ocmPermissions, $path) {
+	protected function ocmPermissions2ncPermissions(string $ocmPermissions, string $path): int {
 		try {
 			$ocmPermissions = json_decode($ocmPermissions);
 			$ncPermissions = 0;
-			foreach($ocmPermissions as $permission) {
+			foreach ($ocmPermissions as $permission) {
 				switch (strtolower($permission)) {
 					case 'read':
 						$ncPermissions += Constants::PERMISSION_READ;
@@ -409,12 +417,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	}
 
 	/**
-	 * calculate default permissions in case no permissions are provided
-	 *
-	 * @param $path
-	 * @return int
+	 * Calculate the default permissions in case no permissions are provided
 	 */
-	protected function getDefaultPermissions($path) {
+	protected function getDefaultPermissions(string $path): int {
 		if ($this->is_dir($path)) {
 			$permissions = Constants::PERMISSION_ALL;
 		} else {

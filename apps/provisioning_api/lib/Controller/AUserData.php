@@ -1,71 +1,87 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Provisioning_API\Controller;
 
-use OC\Accounts\AccountManager;
+use OC\Group\Manager;
 use OC\User\Backend;
 use OC\User\NoUserException;
+use OC_Helper;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\NotFoundException;
-use OC_Helper;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
 abstract class AUserData extends OCSController {
+	public const SCOPE_SUFFIX = 'Scope';
+
+	public const USER_FIELD_DISPLAYNAME = 'display';
+	public const USER_FIELD_LANGUAGE = 'language';
+	public const USER_FIELD_LOCALE = 'locale';
+	public const USER_FIELD_PASSWORD = 'password';
+	public const USER_FIELD_QUOTA = 'quota';
+	public const USER_FIELD_NOTIFICATION_EMAIL = 'notify_email';
 
 	/** @var IUserManager */
 	protected $userManager;
 	/** @var IConfig */
 	protected $config;
-	/** @var IGroupManager|\OC\Group\Manager */ // FIXME Requires a method that is not on the interface
+	/** @var IGroupManager|Manager */ // FIXME Requires a method that is not on the interface
 	protected $groupManager;
 	/** @var IUserSession */
 	protected $userSession;
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	protected $accountManager;
+	/** @var IFactory */
+	protected $l10nFactory;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 * @param AccountManager $accountManager
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
 								IConfig $config,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
-								AccountManager $accountManager) {
+								IAccountManager $accountManager,
+								IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -73,32 +89,34 @@ abstract class AUserData extends OCSController {
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->accountManager = $accountManager;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
 	 * creates a array with all user data
 	 *
 	 * @param string $userId
+	 * @param bool $includeScopes
 	 * @return array
 	 * @throws NotFoundException
 	 * @throws OCSException
 	 * @throws OCSNotFoundException
 	 */
-	protected function getUserData(string $userId): array {
+	protected function getUserData(string $userId, bool $includeScopes = false): array {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
 
 		// Check if the target user exists
 		$targetUserObject = $this->userManager->get($userId);
-		if($targetUserObject === null) {
+		if ($targetUserObject === null) {
 			throw new OCSNotFoundException('User does not exist');
 		}
 
 		// Should be at least Admin Or SubAdmin!
 		if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-				$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true') === 'true';
+			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true') === 'true';
 		} else {
 			// Check they are looking up themselves
 			if ($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
@@ -107,7 +125,7 @@ abstract class AUserData extends OCSController {
 		}
 
 		// Get groups data
-		$userAccount = $this->accountManager->getUser($targetUserObject);
+		$userAccount = $this->accountManager->getAccount($targetUserObject);
 		$groups = $this->groupManager->getUserGroups($targetUserObject);
 		$gids = [];
 		foreach ($groups as $group) {
@@ -128,16 +146,62 @@ abstract class AUserData extends OCSController {
 		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
-		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
-		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
-		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
-		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];
-		$data[AccountManager::PROPERTY_ADDRESS] = $userAccount[AccountManager::PROPERTY_ADDRESS]['value'];
-		$data[AccountManager::PROPERTY_WEBSITE] = $userAccount[AccountManager::PROPERTY_WEBSITE]['value'];
-		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
+		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject->getUID());
+
+		try {
+			if ($includeScopes) {
+				$data[IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
+			}
+
+			$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getSystemEMailAddress();
+			if ($includeScopes) {
+				$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
+			}
+
+			$additionalEmails = $additionalEmailScopes = [];
+			$emailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+			foreach ($emailCollection->getProperties() as $property) {
+				$additionalEmails[] = $property->getValue();
+				if ($includeScopes) {
+					$additionalEmailScopes[] = $property->getScope();
+				}
+			}
+			$data[IAccountManager::COLLECTION_EMAIL] = $additionalEmails;
+			if ($includeScopes) {
+				$data[IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX] = $additionalEmailScopes;
+			}
+
+			$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
+			if ($includeScopes) {
+				$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();
+			}
+
+			foreach ([
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
+			] as $propertyName) {
+				$property = $userAccount->getProperty($propertyName);
+				$data[$propertyName] = $property->getValue();
+				if ($includeScopes) {
+					$data[$propertyName . self::SCOPE_SUFFIX] = $property->getScope();
+				}
+			}
+		} catch (PropertyDoesNotExistException $e) {
+			// hard coded properties should exist
+			throw new OCSException($e->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR, $e);
+		}
+
 		$data['groups'] = $gids;
-		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
-		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
+		$data[self::USER_FIELD_LANGUAGE] = $this->l10nFactory->getUserLanguage($targetUserObject);
+		$data[self::USER_FIELD_LOCALE] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
+		$data[self::USER_FIELD_NOTIFICATION_EMAIL] = $targetUserObject->getPrimaryEMailAddress();
 
 		$backend = $targetUserObject->getBackend();
 		$data['backendCapabilities'] = [
@@ -146,7 +210,7 @@ abstract class AUserData extends OCSController {
 		];
 
 		return $data;
-    }
+	}
 
 	/**
 	 * Get the groups a user is a subadmin of
@@ -158,7 +222,7 @@ abstract class AUserData extends OCSController {
 	protected function getUserSubAdminGroupsData(string $userId): array {
 		$user = $this->userManager->get($userId);
 		// Check if the user exists
-		if($user === null) {
+		if ($user === null) {
 			throw new OCSNotFoundException('User does not exist');
 		}
 
@@ -175,7 +239,7 @@ abstract class AUserData extends OCSController {
 	/**
 	 * @param string $userId
 	 * @return array
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {
 		try {
@@ -187,7 +251,7 @@ abstract class AUserData extends OCSController {
 				'used' => $storage['used'],
 				'total' => $storage['total'],
 				'relative' => $storage['relative'],
-				'quota' => $storage['quota'],
+				self::USER_FIELD_QUOTA => $storage['quota'],
 			];
 		} catch (NotFoundException $ex) {
 			// User fs is not setup yet
@@ -200,11 +264,10 @@ abstract class AUserData extends OCSController {
 				$quota = OC_Helper::computerFileSize($quota);
 			}
 			$data = [
-				'quota' => $quota !== false ? $quota : 'none',
+				self::USER_FIELD_QUOTA => $quota !== false ? $quota : 'none',
 				'used' => 0
 			];
 		}
 		return $data;
 	}
-
 }

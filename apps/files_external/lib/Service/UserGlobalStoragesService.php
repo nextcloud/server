@@ -4,6 +4,7 @@
  *
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,23 +18,22 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
+use OCA\Files_External\Lib\StorageConfig;
 use OCP\Files\Config\IUserMountCache;
-use \OCP\IUserSession;
-use \OCP\IGroupManager;
-use \OCA\Files_External\Lib\StorageConfig;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserSession;
 
 /**
  * Service class to read global storages applicable to the user
  * Read-only access available, attempting to write will throw DomainException
  */
 class UserGlobalStoragesService extends GlobalStoragesService {
-
 	use UserTrait;
 
 	/** @var IGroupManager */
@@ -75,7 +75,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		$userMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 		$globalMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 		$groups = $this->groupManager->getUserGroupIds($this->getUser());
-		if (is_array($groups) && count($groups) !== 0) {
+		if (count($groups) !== 0) {
 			$groupMounts = $this->dbConfig->getAdminMountsForMultiple(DBConfigService::APPLICABLE_TYPE_GROUP, $groups);
 		} else {
 			$groupMounts = [];
@@ -177,14 +177,18 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	/**
 	 * Gets all storages for the user, admin, personal, global, etc
 	 *
+	 * @param IUser|null $user user to get the storages for, if not set the currently logged in user will be used
 	 * @return StorageConfig[] array of storage configs
 	 */
-	public function getAllStoragesForUser() {
-		if (is_null($this->getUser())) {
+	public function getAllStoragesForUser(IUser $user = null) {
+		if (is_null($user)) {
+			$user = $this->getUser();
+		}
+		if (is_null($user)) {
 			return [];
 		}
-		$groupIds = $this->groupManager->getUserGroupIds($this->getUser());
-		$mounts = $this->dbConfig->getMountsForUser($this->getUser()->getUID(), $groupIds);
+		$groupIds = $this->groupManager->getUserGroupIds($user);
+		$mounts = $this->dbConfig->getMountsForUser($user->getUID(), $groupIds);
 		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
 		$configs = array_filter($configs, function ($config) {
 			return $config instanceof StorageConfig;

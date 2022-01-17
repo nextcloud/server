@@ -2,6 +2,7 @@
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -30,8 +30,7 @@ use Sabre\DAV\IProperties;
 use Sabre\DAV\PropPatch;
 
 class AppleProvisioningNode implements INode, IProperties {
-
-	const FILENAME = 'apple-provisioning.mobileconfig';
+	public const FILENAME = 'apple-provisioning.mobileconfig';
 
 	protected $timeFactory;
 
@@ -77,7 +76,7 @@ class AppleProvisioningNode implements INode, IProperties {
 
 		return [
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => $datetime->format(\DateTime::RFC2822),
+			'{DAV:}getlastmodified' => $datetime->format(\DateTimeInterface::RFC2822),
 		];
 	}
 

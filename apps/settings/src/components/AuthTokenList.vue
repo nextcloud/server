@@ -47,27 +47,27 @@ import AuthToken from './AuthToken'
 export default {
 	name: 'AuthTokenList',
 	components: {
-		AuthToken
+		AuthToken,
 	},
 	props: {
 		tokens: {
 			type: Array,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		sortedTokens() {
 			return this.tokens.slice().sort((t1, t2) => {
-				var ts1 = parseInt(t1.lastActivity, 10)
-				var ts2 = parseInt(t2.lastActivity, 10)
+				const ts1 = parseInt(t1.lastActivity, 10)
+				const ts2 = parseInt(t2.lastActivity, 10)
 				return ts2 - ts1
 			})
-		}
+		},
 	},
 	methods: {
 		toggleScope(token, scope, value) {
 			// Just pass it on
-			this.$emit('toggleScope', token, scope, value)
+			this.$emit('toggle-scope', token, scope, value)
 		},
 		rename(token, newName) {
 			// Just pass it on
@@ -80,8 +80,8 @@ export default {
 		onWipe(token) {
 			// Just pass it on
 			this.$emit('wipe', token)
-		}
-	}
+		},
+	},
 }
 </script>
 
@@ -94,7 +94,7 @@ export default {
 
 		th {
 			opacity: .5;
-			padding: 10px 10px 10px 0;
+			padding: 10px 0;
 		}
 	}
 

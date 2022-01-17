@@ -4,8 +4,11 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -20,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\Federation\Tests;
@@ -34,10 +37,10 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 	/** @var array */
 	private $callBacks = [];
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | DiscoveryService */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | DiscoveryService */
 	private $discoveryService;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->discoveryService = $this->getMockBuilder(DiscoveryService::class)
@@ -46,19 +49,19 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 	}
 
 	public function testSync() {
-		/** @var DbHandler | \PHPUnit_Framework_MockObject_MockObject $dbHandler */
+		/** @var DbHandler | \PHPUnit\Framework\MockObject\MockObject $dbHandler */
 		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')->
 			disableOriginalConstructor()->
 			getMock();
 		$dbHandler->method('getAllServer')->
 			willReturn([
-			[
-				'url' => 'https://cloud.drop.box',
-				'url_hash' => 'sha1',
-				'shared_secret' => 'iloveowncloud',
-				'sync_token' => '0'
-			]
-		]);
+				[
+					'url' => 'https://cloud.drop.box',
+					'url_hash' => 'sha1',
+					'shared_secret' => 'iloveowncloud',
+					'sync_token' => '0'
+				]
+			]);
 		$dbHandler->expects($this->once())->method('setServerStatus')->
 			with('https://cloud.drop.box', 1, '1');
 		$syncService = $this->getMockBuilder('OCA\DAV\CardDAV\SyncService')
@@ -69,14 +72,14 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 
 		/** @var \OCA\DAV\CardDAV\SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService);
-		$s->syncThemAll(function($url, $ex) {
+		$s->syncThemAll(function ($url, $ex) {
 			$this->callBacks[] = [$url, $ex];
 		});
 		$this->assertEquals(1, count($this->callBacks));
 	}
 
 	public function testException() {
-		/** @var DbHandler | \PHPUnit_Framework_MockObject_MockObject $dbHandler */
+		/** @var DbHandler | \PHPUnit\Framework\MockObject\MockObject $dbHandler */
 		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')->
 		disableOriginalConstructor()->
 		getMock();
@@ -97,7 +100,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 
 		/** @var \OCA\DAV\CardDAV\SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService);
-		$s->syncThemAll(function($url, $ex) {
+		$s->syncThemAll(function ($url, $ex) {
 			$this->callBacks[] = [$url, $ex];
 		});
 		$this->assertEquals(2, count($this->callBacks));

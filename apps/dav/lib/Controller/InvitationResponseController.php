@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,11 +18,11 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Controller;
@@ -167,7 +171,7 @@ class InvitationResponseController extends Controller {
 		$stmt = $query->execute();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-		if(!$row) {
+		if (!$row) {
 			return null;
 		}
 
@@ -186,15 +190,20 @@ class InvitationResponseController extends Controller {
 	 * @param string|null $comment
 	 * @return Message
 	 */
-	private function buildITipResponse(array $row, string $partStat, int $guests=null,
-									   string $comment=null):Message {
+	private function buildITipResponse(array $row, string $partStat, int $guests = null,
+									   string $comment = null):Message {
 		$iTipMessage = new Message();
 		$iTipMessage->uid = $row['uid'];
 		$iTipMessage->component = 'VEVENT';
 		$iTipMessage->method = 'REPLY';
 		$iTipMessage->sequence = $row['sequence'];
 		$iTipMessage->sender = $row['attendee'];
-		$iTipMessage->recipient = $row['organizer'];
+
+		if ($this->responseServer->isExternalAttendee($row['attendee'])) {
+			$iTipMessage->recipient = $row['organizer'];
+		} else {
+			$iTipMessage->recipient = $row['attendee'];
+		}
 
 		$message = <<<EOF
 BEGIN:VCALENDAR

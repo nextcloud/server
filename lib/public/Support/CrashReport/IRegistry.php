@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,21 +16,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Support\CrashReport;
 
 use Exception;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use Throwable;
 
 /**
  * @since 13.0.0
+ * @deprecated used internally only
  */
 interface IRegistry {
 
@@ -38,6 +41,8 @@ interface IRegistry {
 	 * @param IReporter $reporter
 	 *
 	 * @since 13.0.0
+	 * @deprecated 20.0.0 use IRegistrationContext::registerCrashReporter
+	 * @see IRegistrationContext::registerCrashReporter()
 	 */
 	public function register(IReporter $reporter): void;
 
@@ -48,6 +53,7 @@ interface IRegistry {
 	 * @param string $category
 	 * @param array $context
 	 *
+	 * @deprecated used internally only
 	 * @since 15.0.0
 	 */
 	public function delegateBreadcrumb(string $message, string $category, array $context = []): void;
@@ -58,6 +64,7 @@ interface IRegistry {
 	 * @param Exception|Throwable $exception
 	 * @param array $context
 	 *
+	 * @deprecated used internally only
 	 * @since 13.0.0
 	 */
 	public function delegateReport($exception, array $context = []);
@@ -70,6 +77,7 @@ interface IRegistry {
 	 *
 	 * @return void
 	 *
+	 * @deprecated used internally only
 	 * @since 17.0.0
 	 */
 	public function delegateMessage(string $message, array $context = []): void;

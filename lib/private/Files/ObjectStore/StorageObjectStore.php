@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,18 +14,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\Storage\IStorage;
+use function is_resource;
 
 /**
  * Object store that wraps a storage backend, mostly for testing purposes
@@ -44,7 +45,7 @@ class StorageObjectStore implements IObjectStore {
 	 * @return string the container or bucket name where objects are stored
 	 * @since 7.0.0
 	 */
-	function getStorageId() {
+	public function getStorageId() {
 		$this->storage->getId();
 	}
 
@@ -54,22 +55,16 @@ class StorageObjectStore implements IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function readObject($urn) {
+	public function readObject($urn) {
 		$handle = $this->storage->fopen($urn, 'r');
-		if ($handle) {
+		if (is_resource($handle)) {
 			return $handle;
-		} else {
-			throw new \Exception();
 		}
+
+		throw new \Exception();
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
-	function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$handle = $this->storage->fopen($urn, 'w');
 		if ($handle) {
 			stream_copy_to_stream($stream, $handle);
@@ -85,11 +80,15 @@ class StorageObjectStore implements IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function deleteObject($urn) {
+	public function deleteObject($urn) {
 		$this->storage->unlink($urn);
 	}
 
 	public function objectExists($urn) {
 		return $this->storage->file_exists($urn);
+	}
+
+	public function copyObject($from, $to) {
+		$this->storage->copy($from, $to);
 	}
 }

@@ -81,17 +81,17 @@
 }
 
 /* Css replaced elements don't have ::after nor ::before */
-img, object, video, button, textarea, input, select, div[contenteditable='true'] {
-	.icon-loading {
+audio, canvas, embed, iframe, img, input, object, video {
+	&.icon-loading {
 		background-image: url('../img/loading.gif');
 	}
-	.icon-loading-dark {
+	&.icon-loading-dark {
 		background-image: url('../img/loading-dark.gif');
 	}
-	.icon-loading-small {
+	&.icon-loading-small {
 		background-image: url('../img/loading-small.gif');
 	}
-	.icon-loading-small-dark {
+	&.icon-loading-small-dark {
 		background-image: url('../img/loading-small-dark.gif');
 	}
 }
@@ -229,6 +229,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 @include icon-black-white('quota', 'actions', 1, true);
 @include icon-black-white('rename', 'actions', 1, true);
 @include icon-black-white('screen', 'actions', 1, true);
+@include icon-black-white('template-add', 'actions', 1, true);
 
 .icon-screen-white {
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
@@ -295,7 +296,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	}
 }
 
-@include icon-black-white('tag', 'actions', 1, true);
+@include icon-black-white('tag', 'actions', 2, true);
 @include icon-black-white('timezone', 'actions', 1, true);
 @include icon-black-white('toggle', 'actions', 1, true);
 @include icon-black-white('toggle-background', 'actions', 1, true);
@@ -307,6 +308,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 @include icon-black-white('upload', 'actions', 1, true);
 @include icon-black-white('user', 'actions', 1, true);
 @include icon-black-white('group', 'actions', 1, true);
+@include icon-black-white('filter', 'actions', 1, true);
 
 @include icon-black-white('video', 'actions', 2, true);
 .icon-video-white {
@@ -357,6 +359,8 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 @include icon-black-white('disabled-users', 'actions', 1, true);
 @include icon-black-white('user-admin', 'actions', 1, true);
 
+@include icon-black-white('alert-outline', 'actions', 1, true);
+
 /* PLACES ------------------------------------------------------------------- */
 .icon-calendar {
 	@include icon-color('calendar', 'places', $color-white, 1, true);
@@ -384,20 +388,20 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 
 .icon-file,
 .icon-filetype-text {
-	@include icon-color('text', 'filetypes', $color-black, 1, true);
+	@include icon-color('text', 'filetypes', #969696, 1, true);
 }
 
 .icon-filetype-file {
-	@include icon-color('file', 'filetypes', $color-black, 1, true);
+	@include icon-color('file', 'filetypes', #969696, 1, true);
 }
 
 @include icon-black-white('folder', 'filetypes', 1, true);
 .icon-filetype-folder {
-	@include icon-color('folder', 'filetypes', $color-black, 1, true);
+	@include icon-color('folder', 'filetypes', $color-primary, 1, true);
 }
 
 .icon-filetype-folder-drag-accept {
-	@include icon-color('folder-drag-accept', 'filetypes', $color-black, 1, true);
+	@include icon-color('folder-drag-accept', 'filetypes', $color-primary, 1, true);
 }
 
 
@@ -484,6 +488,14 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 
 .icon-category-search {
 	@include icon-color('search', 'actions', $color-black, 1, true);
+}
+
+.icon-category-workflow {
+	@include icon-color('workflow', 'categories', $color-black, 1, true);
+}
+
+.icon-category-dashboard {
+	@include icon-color('dashboard', 'categories', $color-black, 1, true);
 }
 
 .icon-talk {

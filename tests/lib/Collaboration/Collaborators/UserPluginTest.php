@@ -25,27 +25,36 @@ namespace Test\Collaboration\Collaborators;
 
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Collaboration\Collaborators\UserPlugin;
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share;
+use OCP\Share\IShare;
+use OCP\UserStatus\IManager as IUserStatusManager;
 use Test\TestCase;
 
 class UserPluginTest extends TestCase {
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 
-	/** @var  IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var  IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
+
+	/** @var  KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
+	protected $knownUserService;
+
+	/** @var IUserStatusManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $userStatusManager;
 
 	/** @var  UserPlugin */
 	protected $plugin;
@@ -59,10 +68,10 @@ class UserPluginTest extends TestCase {
 	/** @var int */
 	protected $offset = 0;
 
-	/** @var  IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -72,6 +81,10 @@ class UserPluginTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 
 		$this->session = $this->createMock(IUserSession::class);
+
+		$this->knownUserService = $this->createMock(KnownUserService::class);
+
+		$this->userStatusManager = $this->createMock(IUserStatusManager::class);
 
 		$this->searchResult = new SearchResult();
 
@@ -85,11 +98,32 @@ class UserPluginTest extends TestCase {
 			$this->config,
 			$this->userManager,
 			$this->groupManager,
-			$this->session
+			$this->session,
+			$this->knownUserService,
+			$this->userStatusManager
 		);
 	}
 
-	public function getUserMock($uid, $displayName, $enabled = true) {
+	public function mockConfig($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup, $shareeEnumerationPhone = false) {
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(
+				function ($appName, $key, $default) use ($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup, $shareeEnumerationPhone) {
+					if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
+						return $shareWithGroupOnly ? 'yes' : 'no';
+					} elseif ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
+						return $shareeEnumeration ? 'yes' : 'no';
+					} elseif ($appName === 'core' && $key === 'shareapi_restrict_user_enumeration_to_group') {
+						return $shareeEnumerationLimitToGroup ? 'yes' : 'no';
+					} elseif ($appName === 'core' && $key === 'shareapi_restrict_user_enumeration_to_phone') {
+						return $shareeEnumerationPhone ? 'yes' : 'no';
+					}
+					return $default;
+				}
+			);
+	}
+
+	public function getUserMock($uid, $displayName, $enabled = true, $groups = []) {
 		$user = $this->createMock(IUser::class);
 
 		$user->expects($this->any())
@@ -107,6 +141,16 @@ class UserPluginTest extends TestCase {
 		return $user;
 	}
 
+	public function getGroupMock($gid) {
+		$group = $this->createMock(IGroup::class);
+
+		$group->expects($this->any())
+			->method('getGID')
+			->willReturn($gid);
+
+		return $group;
+	}
+
 	public function dataGetUsers() {
 		return [
 			['test', false, true, [], [], [], [], true, false],
@@ -116,34 +160,34 @@ class UserPluginTest extends TestCase {
 			[
 				'test', false, true, [], [],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
-				], [], true, $this->getUserMock('test', 'Test')
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
+				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test', false, false, [], [],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
-				], [], true, $this->getUserMock('test', 'Test')
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
+				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test', true, true, [], [],
-				[], [], true, $this->getUserMock('test', 'Test')
+				[], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test', true, false, [], [],
-				[], [], true, $this->getUserMock('test', 'Test')
+				[], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test', true, true, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
-				], [], true, $this->getUserMock('test', 'Test')
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
+				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test', true, false, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
-				], [], true, $this->getUserMock('test', 'Test')
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
+				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test',
@@ -155,7 +199,7 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
 				],
 				true,
 				false,
@@ -184,8 +228,8 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				false,
 				false,
@@ -215,14 +259,36 @@ class UserPluginTest extends TestCase {
 					$this->getUserMock('test2', 'Test Two'),
 				],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0']],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				false,
 				false,
+			],
+			[
+				'test',
+				false,
+				true,
+				[],
+				[
+					$this->getUserMock('test0', 'Test'),
+					$this->getUserMock('test1', 'Test One'),
+					$this->getUserMock('test2', 'Test Two'),
+				],
+				[
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
+				],
+				false,
+				false,
+				[],
+				true,
 			],
 			[
 				'test',
@@ -235,7 +301,7 @@ class UserPluginTest extends TestCase {
 					$this->getUserMock('test2', 'Test Two'),
 				],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0']],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
 				],
 				[],
 				true,
@@ -252,10 +318,11 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
 				],
 				true,
 				false,
+				[['test1', $this->getUserMock('test1', 'Test One')]],
 			],
 			[
 				'test',
@@ -270,6 +337,7 @@ class UserPluginTest extends TestCase {
 				[],
 				true,
 				false,
+				[['test1', $this->getUserMock('test1', 'Test One')]],
 			],
 			[
 				'test',
@@ -288,11 +356,15 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
+				true,
 				false,
-				false,
+				[
+					['test1', $this->getUserMock('test1', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 			[
 				'test',
@@ -313,6 +385,10 @@ class UserPluginTest extends TestCase {
 				[],
 				true,
 				false,
+				[
+					['test1', $this->getUserMock('test1', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 			[
 				'test',
@@ -328,13 +404,17 @@ class UserPluginTest extends TestCase {
 					]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				],
 				[
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				false,
 				false,
+				[
+					['test', $this->getUserMock('test', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 			[
 				'test',
@@ -350,11 +430,15 @@ class UserPluginTest extends TestCase {
 					]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				],
 				[],
 				true,
 				false,
+				[
+					['test', $this->getUserMock('test', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 		];
 	}
@@ -371,6 +455,7 @@ class UserPluginTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $reachedEnd
 	 * @param bool|IUser $singleUser
+	 * @param array $users
 	 */
 	public function testSearch(
 		$searchTerm,
@@ -381,63 +466,60 @@ class UserPluginTest extends TestCase {
 		array $exactExpected,
 		array $expected,
 		$reachedEnd,
-		$singleUser
+		$singleUser,
+		array $users = [],
+		$shareeEnumerationPhone = false
 	) {
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->willReturnCallback(
-				function($appName, $key, $default)
-				use ($shareWithGroupOnly, $shareeEnumeration)
-				{
-					if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
-						return $shareWithGroupOnly ? 'yes' : 'no';
-					} else if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
-						return $shareeEnumeration ? 'yes' : 'no';
-					}
-					return $default;
-				}
-			);
-
+		$this->mockConfig($shareWithGroupOnly, $shareeEnumeration, false, $shareeEnumerationPhone);
 		$this->instantiatePlugin();
 
 		$this->session->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
 
-		if(!$shareWithGroupOnly) {
-			$this->userManager->expects($this->once())
-				->method('searchDisplayName')
-				->with($searchTerm, $this->limit, $this->offset)
-				->willReturn($userResponse);
-		} else {
-			if ($singleUser !== false) {
-				$this->groupManager->expects($this->exactly(2))
-					->method('getUserGroupIds')
-					->withConsecutive(
-						$this->user,
-						$singleUser
-					)
-					->willReturn($groupResponse);
+		if (!$shareWithGroupOnly) {
+			if ($shareeEnumerationPhone) {
+				$this->userManager->expects($this->once())
+					->method('searchKnownUsersByDisplayName')
+					->with($this->user->getUID(), $searchTerm, $this->limit, $this->offset)
+					->willReturn($userResponse);
+
+				$this->knownUserService->method('isKnownToUser')
+					->willReturnMap([
+						[$this->user->getUID(), 'test0', true],
+						[$this->user->getUID(), 'test1', true],
+						[$this->user->getUID(), 'test2', true],
+					]);
 			} else {
-				$this->groupManager->expects($this->once())
-					->method('getUserGroupIds')
-					->with($this->user)
+				$this->userManager->expects($this->once())
+					->method('searchDisplayName')
+					->with($searchTerm, $this->limit, $this->offset)
+					->willReturn($userResponse);
+			}
+		} else {
+			$this->groupManager->method('getUserGroupIds')
+				->with($this->user)
+				->willReturn($groupResponse);
+
+			if ($singleUser !== false) {
+				$this->groupManager->method('getUserGroupIds')
+					->with($singleUser)
 					->willReturn($groupResponse);
 			}
 
-			$this->groupManager->expects($this->exactly(sizeof($groupResponse)))
-				->method('displayNamesInGroup')
-				->with($this->anything(), $searchTerm, $this->limit, $this->offset)
+			$this->groupManager->method('displayNamesInGroup')
 				->willReturnMap($userResponse);
 		}
 
 		if ($singleUser !== false) {
-			$this->userManager->expects($this->once())
-				->method('get')
-				->with($searchTerm)
-				->willReturn($singleUser);
+			$users[] = [$searchTerm, $singleUser];
 		}
 
+		if (!empty($users)) {
+			$this->userManager->expects($this->atLeastOnce())
+				->method('get')
+				->willReturnMap($users);
+		}
 
 		$moreResults = $this->plugin->search($searchTerm, $this->limit, $this->offset, $this->searchResult);
 		$result = $this->searchResult->asArray();
@@ -451,24 +533,24 @@ class UserPluginTest extends TestCase {
 		$inputUsers = [
 			'alice' => 'Alice',
 			'bob' => 'Bob',
-			'carol' => 'Carol'
+			'carol' => 'Carol',
 		];
 		return [
 			[
 				$inputUsers,
 				['alice', 'carol'],
-				'bob'
+				'bob',
 			],
 			[
 				$inputUsers,
 				['alice', 'bob', 'carol'],
-				'dave'
+				'dave',
 			],
 			[
 				$inputUsers,
 				['alice', 'bob', 'carol'],
-				null
-			]
+				null,
+			],
 		];
 	}
 
@@ -483,8 +565,8 @@ class UserPluginTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('getUser')
-			->willReturnCallback(function() use ($currentUserId) {
-				if($currentUserId !== null) {
+			->willReturnCallback(function () use ($currentUserId) {
+				if ($currentUserId !== null) {
 					return $this->getUserMock($currentUserId, $currentUserId);
 				}
 				return null;
@@ -492,5 +574,143 @@ class UserPluginTest extends TestCase {
 
 		$this->plugin->takeOutCurrentUser($users);
 		$this->assertSame($expectedUIDs, array_keys($users));
+	}
+
+	public function dataSearchEnumeration() {
+		return [
+			[
+				'test',
+				['groupA'],
+				[
+					['uid' => 'test1', 'groups' => ['groupA']],
+					['uid' => 'test2', 'groups' => ['groupB']],
+				],
+				['exact' => [], 'wide' => ['test1']],
+			],
+			[
+				'test1',
+				['groupA'],
+				[
+					['uid' => 'test1', 'groups' => ['groupA']],
+					['uid' => 'test2', 'groups' => ['groupB']],
+				],
+				['exact' => ['test1'], 'wide' => []],
+			],
+			[
+				'test',
+				['groupA'],
+				[
+					['uid' => 'test1', 'groups' => ['groupA']],
+					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
+				],
+				['exact' => [], 'wide' => ['test1', 'test2']],
+			],
+			[
+				'test',
+				['groupA'],
+				[
+					['uid' => 'test1', 'groups' => ['groupA', 'groupC']],
+					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
+				],
+				['exact' => [], 'wide' => ['test1', 'test2']],
+			],
+			[
+				'test',
+				['groupC', 'groupB'],
+				[
+					['uid' => 'test1', 'groups' => ['groupA', 'groupC']],
+					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
+				],
+				['exact' => [], 'wide' => ['test1', 'test2']],
+			],
+			[
+				'test',
+				[],
+				[
+					['uid' => 'test1', 'groups' => ['groupA']],
+					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
+				],
+				['exact' => [], 'wide' => []],
+			],
+			[
+				'test',
+				['groupC', 'groupB'],
+				[
+					['uid' => 'test1', 'groups' => []],
+					['uid' => 'test2', 'groups' => []],
+				],
+				['exact' => [], 'wide' => []],
+			],
+			[
+				'test',
+				['groupC', 'groupB'],
+				[
+					['uid' => 'test1', 'groups' => []],
+					['uid' => 'test2', 'groups' => []],
+				],
+				['exact' => [], 'wide' => []],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSearchEnumeration
+	 */
+	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result) {
+		$this->mockConfig(false, true, true);
+
+		$userResults = [];
+		foreach ($matchingUsers as $user) {
+			$userResults[$user['uid']] = $user['uid'];
+		}
+
+		$mappedResultExact = array_map(function ($user) {
+			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => $user];
+		}, $result['exact']);
+		$mappedResultWide = array_map(function ($user) {
+			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => $user];
+		}, $result['wide']);
+
+		$this->userManager
+			->method('get')
+			->willReturnCallback(function ($userId) use ($userResults) {
+				if (isset($userResults[$userId])) {
+					return $this->getUserMock($userId, $userId);
+				}
+				return null;
+			});
+
+		$this->groupManager->method('displayNamesInGroup')
+			->willReturn($userResults);
+
+
+		$this->session->expects($this->any())
+			->method('getUser')
+			->willReturn($this->getUserMock('test', 'foo'));
+		// current user
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->willReturn($userGroups);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturnCallback(function ($user) use ($matchingUsers) {
+				$neededObject = array_filter(
+					$matchingUsers,
+					function ($e) use ($user) {
+						return $user->getUID() === $e['uid'];
+					}
+				);
+				if (count($neededObject) > 0) {
+					return array_shift($neededObject)['groups'];
+				}
+				return [];
+			});
+
+		$this->instantiatePlugin();
+		$this->plugin->search($search, $this->limit, $this->offset, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$this->assertEquals($mappedResultExact, $result['exact']['users']);
+		$this->assertEquals($mappedResultWide, $result['users']);
 	}
 }

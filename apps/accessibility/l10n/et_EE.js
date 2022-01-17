@@ -1,0 +1,14 @@
+OC.L10N.register(
+    "accessibility",
+    {
+    "Dark theme" : "Tume teema",
+    "Enable dark theme" : "Luba tume teema",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tume teema vähedab koormust sinu silmadele, vähendades ekraani eredust. See funktsionaalsus on hetkel arendamisel, palun andke sellega seotud probleemidest meile teada.",
+    "High contrast mode" : "Kõrge kontrastsusega režiim",
+    "Enable high contrast mode" : "Lubage kõrge kontrastsusega režiim.",
+    "Dyslexia font" : "Düsleksia font",
+    "Enable dyslexia font" : "Luba düsleksia font",
+    "Accessibility" : "Ligipääsetavus",
+    "Accessibility options for nextcloud" : "Ligipääsetavuse valikud Nextcloudis"
+},
+"nplurals=2; plural=(n != 1);");

@@ -5,7 +5,8 @@ Feature: header
     Given I am logged in as the admin
     When I open the Settings menu
     Then I see that the Settings menu is shown
-    And I see that the Settings menu has only 5 items
+    And I see that the Settings menu has only 7 items
+    And I see that the "Set status" item in the Settings menu is shown
     And I see that the "Settings" item in the Settings menu is shown
     And I see that the "Apps" item in the Settings menu is shown
     And I see that the "Users" item in the Settings menu is shown
@@ -16,7 +17,8 @@ Feature: header
     Given I am logged in
     When I open the Settings menu
     Then I see that the Settings menu is shown
-    And I see that the Settings menu has only 3 items
+    And I see that the Settings menu has only 5 items
+    And I see that the "Set status" item in the Settings menu is shown
     And I see that the "Settings" item in the Settings menu is shown
     And I see that the "Help" item in the Settings menu is shown
     And I see that the "Log out" item in the Settings menu is shown
@@ -28,26 +30,33 @@ Feature: header
     And I see that the contact "user0" in the Contacts menu is shown
     And I see that the contact "admin" in the Contacts menu is not shown
 
+  Scenario: users from other groups are not seen in the contacts menu when autocompletion is restricted within the same group
+    Given I am logged in as the admin
+    And I visit the settings page
+    And I open the "Sharing" section of the "Administration" group
+    And I enable restricting username autocompletion to groups
+    And I see that username autocompletion is restricted to groups
+    When I open the Contacts menu
+    Then I see that the Contacts menu is shown
+    And I see that the contact "user0" in the Contacts menu is not shown
+    And I see that the contact "admin" in the Contacts menu is not shown
+
   Scenario: just added users are seen in the contacts menu
     Given I am logged in as the admin
     And I open the User settings
     And I click the New user button
     And I see that the new user form is shown
-    And I create user user1 with password 123456acb
-    And I see that the list of users contains the user user1
+    And I create user user2 with password 123456acb
+    And I see that the list of users contains the user user2
     When I open the Contacts menu
     Then I see that the Contacts menu is shown
     And I see that the contact "user0" in the Contacts menu is shown
     And I see that the contact "user1" in the Contacts menu is shown
+    And I see that the contact "user2" in the Contacts menu is shown
     And I see that the contact "admin" in the Contacts menu is not shown
 
   Scenario: search for other users in the contacts menu
     Given I am logged in as the admin
-    And I open the User settings
-    And I click the New user button
-    And I see that the new user form is shown
-    And I create user user1 with password 123456acb
-    And I see that the list of users contains the user user1
     And I open the Contacts menu
     And I see that the Contacts menu is shown
     And I see that the contact "user0" in the Contacts menu is shown

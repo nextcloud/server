@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,20 +16,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Share\IManager;
 
 /**
  * Class DeletedUsersIndexTest
@@ -45,10 +48,12 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $db;
 
-	/** @var UserMapping|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapping;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $shareManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		// no mocks for those as tests go against DB
@@ -59,13 +64,14 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		$this->config->deleteAppFromAllUsers('user_ldap');
 
 		$this->mapping = $this->createMock(UserMapping::class);
+		$this->shareManager = $this->createMock(IManager::class);
 
-		$this->dui = new DeletedUsersIndex($this->config, $this->db, $this->mapping);
+		$this->dui = new DeletedUsersIndex($this->config, $this->mapping, $this->shareManager);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$this->config->deleteAppFromAllUsers('user_ldap');
-		return parent::tearDown();
+		parent::tearDown();
 	}
 
 	public function testMarkAndFetchUser() {
@@ -87,7 +93,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		$this->assertSame(2, count($deletedUsers));
 
 		// ensure the different uids were used
-		foreach($deletedUsers as $deletedUser) {
+		foreach ($deletedUsers as $deletedUser) {
 			$this->assertTrue(in_array($deletedUser->getOCName(), $uids));
 			$i = array_search($deletedUser->getOCName(), $uids);
 			$this->assertNotFalse($i);
@@ -116,6 +122,4 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 			$this->assertNotSame($testUser->getOCName(), $deletedUser->getOCName());
 		}
 	}
-
-
 }

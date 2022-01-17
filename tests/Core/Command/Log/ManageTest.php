@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Log;
 
-
 use OC\Core\Command\Log\Manage;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,17 +28,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class ManageTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$config = $this->config = $this->getMockBuilder(IConfig::class)
@@ -53,9 +52,9 @@ class ManageTest extends TestCase {
 
 	public function testChangeBackend() {
 		$this->consoleInput->method('getOption')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['backend', 'syslog']
-			]));
+			]);
 		$this->config->expects($this->once())
 			->method('setSystemValue')
 			->with('log_type', 'syslog');
@@ -65,9 +64,9 @@ class ManageTest extends TestCase {
 
 	public function testChangeLevel() {
 		$this->consoleInput->method('getOption')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['level', 'debug']
-			]));
+			]);
 		$this->config->expects($this->once())
 			->method('setSystemValue')
 			->with('loglevel', 0);
@@ -77,9 +76,9 @@ class ManageTest extends TestCase {
 
 	public function testChangeTimezone() {
 		$this->consoleInput->method('getOption')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['timezone', 'UTC']
-			]));
+			]);
 		$this->config->expects($this->once())
 			->method('setSystemValue')
 			->with('logtimezone', 'UTC');
@@ -87,17 +86,17 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+
 	public function testValidateBackend() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		self::invokePrivate($this->command, 'validateBackend', ['notabackend']);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+
 	public function testValidateTimezone() {
+		$this->expectException(\Exception::class);
+
 		// this might need to be changed when humanity colonises Mars
 		self::invokePrivate($this->command, 'validateTimezone', ['Mars/OlympusMons']);
 	}
@@ -123,10 +122,10 @@ class ManageTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+
 	public function testConvertLevelStringInvalid() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		self::invokePrivate($this->command, 'convertLevelString', ['abc']);
 	}
 
@@ -149,10 +148,10 @@ class ManageTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+
 	public function testConvertLevelNumberInvalid() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		self::invokePrivate($this->command, 'convertLevelNumber', [11]);
 	}
 
@@ -182,5 +181,4 @@ class ManageTest extends TestCase {
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
-
 }

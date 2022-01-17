@@ -2,12 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,11 +22,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
+
 use OC\Federation\CloudId;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -37,39 +38,38 @@ use OCP\Http\Client\IResponse;
  * @group DB
  */
 class ExternalStorageTest extends \Test\TestCase {
-
-	function optionsProvider() {
-		return array(
-			array(
+	public function optionsProvider() {
+		return [
+			[
 				'http://remoteserver:8080/owncloud',
 				'http://remoteserver:8080/owncloud/public.php/webdav/',
-			),
+			],
 			// extra slash
-			array(
+			[
 				'http://remoteserver:8080/owncloud/',
 				'http://remoteserver:8080/owncloud/public.php/webdav/',
-			),
+			],
 			// extra path
-			array(
+			[
 				'http://remoteserver:8080/myservices/owncloud/',
 				'http://remoteserver:8080/myservices/owncloud/public.php/webdav/',
-			),
+			],
 			// root path
-			array(
+			[
 				'http://remoteserver:8080/',
 				'http://remoteserver:8080/public.php/webdav/',
-			),
+			],
 			// without port
-			array(
+			[
 				'http://remoteserver/oc.test',
 				'http://remoteserver/oc.test/public.php/webdav/',
-			),
+			],
 			// https
-			array(
+			[
 				'https://remoteserver/',
 				'https://remoteserver/public.php/webdav/',
-			),
-		);
+			],
+		];
 	}
 
 	private function getTestStorage($uri) {
@@ -91,7 +91,7 @@ class ExternalStorageTest extends \Test\TestCase {
 			->willReturn($client);
 
 		return new TestSharingExternalStorage(
-			array(
+			[
 				'cloudId' => new CloudId('testOwner@' . $uri, 'testOwner', $uri),
 				'remote' => $uri,
 				'owner' => 'testOwner',
@@ -101,7 +101,7 @@ class ExternalStorageTest extends \Test\TestCase {
 				'manager' => null,
 				'certificateManager' => $certificateManager,
 				'HttpClientService' => $httpClientService,
-			)
+			]
 		);
 	}
 
@@ -123,7 +123,6 @@ class ExternalStorageTest extends \Test\TestCase {
  * Dummy subclass to make it possible to access private members
  */
 class TestSharingExternalStorage extends \OCA\Files_Sharing\External\Storage {
-
 	public function getBaseUri() {
 		return $this->createBaseUri();
 	}

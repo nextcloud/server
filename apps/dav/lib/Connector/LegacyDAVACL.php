@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector;
 
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
@@ -38,7 +38,9 @@ class LegacyDAVACL extends DavAclPlugin {
 	public function getCurrentUserPrincipals() {
 		$principalV2 = $this->getCurrentUserPrincipal();
 
-		if (is_null($principalV2)) return [];
+		if (is_null($principalV2)) {
+			return [];
+		}
 
 		$principalV1 = $this->convertPrincipal($principalV2, false);
 		return array_merge(
@@ -51,7 +53,7 @@ class LegacyDAVACL extends DavAclPlugin {
 	}
 
 	private function convertPrincipal($principal, $toV2) {
-		list(, $name) = \Sabre\Uri\split($principal);
+		[, $name] = \Sabre\Uri\split($principal);
 		if ($toV2) {
 			return "principals/users/$name";
 		}

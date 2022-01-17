@@ -1,10 +1,28 @@
-/*
+/**
  * Copyright (c) 2015
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Michael Jobst <mjobst+github@tecratech.de>
+ * @author noveens <noveen.sachdeva@research.iiit.ac.in>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -12,10 +30,14 @@ import ItemTemplate from './templates/item.handlebars'
 import Template from './templates/template.handlebars';
 
 (function() {
+	if (!OCA.Files.DetailTabView) {
+		// Only register the versions tab within the files app
+		return
+	}
 	/**
 	 * @memberof OCA.Versions
 	 */
-	var VersionsTabView = OCA.Files.DetailTabView.extend(/** @lends OCA.Versions.VersionsTabView.prototype */{
+	const VersionsTabView = OCA.Files.DetailTabView.extend(/** @lends OCA.Versions.VersionsTabView.prototype */{
 		id: 'versionsTabView',
 		className: 'tab versionsTabView',
 
@@ -24,10 +46,10 @@ import Template from './templates/template.handlebars';
 		$versionsContainer: null,
 
 		events: {
-			'click .revertVersion': '_onClickRevertVersion'
+			'click .revertVersion': '_onClickRevertVersion',
 		},
 
-		initialize: function() {
+		initialize() {
 			OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments)
 			this.collection = new OCA.Versions.VersionCollection()
 			this.collection.on('request', this._onRequest, this)
@@ -37,15 +59,15 @@ import Template from './templates/template.handlebars';
 			this.collection.on('add', this._onAddModel, this)
 		},
 
-		getLabel: function() {
+		getLabel() {
 			return t('files_versions', 'Versions')
 		},
 
-		getIcon: function() {
+		getIcon() {
 			return 'icon-history'
 		},
 
-		nextPage: function() {
+		nextPage() {
 			if (this._loading) {
 				return
 			}
@@ -56,21 +78,20 @@ import Template from './templates/template.handlebars';
 			this.collection.fetch()
 		},
 
-		_onClickRevertVersion: function(ev) {
-			var self = this
-			var $target = $(ev.target)
-			var fileInfoModel = this.collection.getFileInfo()
-			var revision
+		_onClickRevertVersion(ev) {
+			const self = this
+			let $target = $(ev.target)
+			const fileInfoModel = this.collection.getFileInfo()
 			if (!$target.is('li')) {
 				$target = $target.closest('li')
 			}
 
 			ev.preventDefault()
-			revision = $target.attr('data-revision')
+			const revision = $target.attr('data-revision')
 
-			var versionModel = this.collection.get(revision)
+			const versionModel = this.collection.get(revision)
 			versionModel.revert({
-				success: function() {
+				success() {
 					// reset and re-fetch the updated collection
 					self.$versionsContainer.empty()
 					self.collection.setFileInfo(fileInfoModel)
@@ -85,24 +106,24 @@ import Template from './templates/template.handlebars';
 						size: versionModel.get('size'),
 						mtime: versionModel.get('timestamp') * 1000,
 						// temp dummy, until we can do a PROPFIND
-						etag: versionModel.get('id') + versionModel.get('timestamp')
+						etag: versionModel.get('id') + versionModel.get('timestamp'),
 					})
 				},
 
-				error: function() {
+				error() {
 					fileInfoModel.trigger('busy', fileInfoModel, false)
 					self.$el.find('.versions').removeClass('hidden')
 					self._toggleLoading(false)
 					OC.Notification.show(t('files_version', 'Failed to revert {file} to revision {timestamp}.',
 						{
 							file: versionModel.getFullPath(),
-							timestamp: OC.Util.formatDate(versionModel.get('timestamp') * 1000)
+							timestamp: OC.Util.formatDate(versionModel.get('timestamp') * 1000),
 						}),
 					{
-						type: 'error'
+						type: 'error',
 					}
 					)
-				}
+				},
 			})
 
 			// spinner
@@ -110,35 +131,35 @@ import Template from './templates/template.handlebars';
 			fileInfoModel.trigger('busy', fileInfoModel, true)
 		},
 
-		_toggleLoading: function(state) {
+		_toggleLoading(state) {
 			this._loading = state
 			this.$el.find('.loading').toggleClass('hidden', !state)
 		},
 
-		_onRequest: function() {
+		_onRequest() {
 			this._toggleLoading(true)
 		},
 
-		_onEndRequest: function() {
+		_onEndRequest() {
 			this._toggleLoading(false)
 			this.$el.find('.empty').toggleClass('hidden', !!this.collection.length)
 		},
 
-		_onAddModel: function(model) {
-			var $el = $(this.itemTemplate(this._formatItem(model)))
+		_onAddModel(model) {
+			const $el = $(this.itemTemplate(this._formatItem(model)))
 			this.$versionsContainer.append($el)
 			$el.find('.has-tooltip').tooltip()
 		},
 
-		template: function(data) {
+		template(data) {
 			return Template(data)
 		},
 
-		itemTemplate: function(data) {
+		itemTemplate(data) {
 			return ItemTemplate(data)
 		},
 
-		setFileInfo: function(fileInfo) {
+		setFileInfo(fileInfo) {
 			if (fileInfo) {
 				this.render()
 				this.collection.setFileInfo(fileInfo)
@@ -150,11 +171,11 @@ import Template from './templates/template.handlebars';
 			}
 		},
 
-		_formatItem: function(version) {
-			var timestamp = version.get('timestamp') * 1000
-			var size = version.has('size') ? version.get('size') : 0
-			var preview = OC.MimeType.getIconUrl(version.get('mimetype'))
-			var img = new Image()
+		_formatItem(version) {
+			const timestamp = version.get('timestamp') * 1000
+			const size = version.has('size') ? version.get('size') : 0
+			const preview = OC.MimeType.getIconUrl(version.get('mimetype'))
+			const img = new Image()
 			img.onload = function() {
 				$('li[data-revision=' + version.get('id') + '] .preview').attr('src', version.getPreviewUrl())
 			}
@@ -174,16 +195,16 @@ import Template from './templates/template.handlebars';
 				revertIconUrl: OC.imagePath('core', 'actions/history'),
 				previewUrl: preview,
 				revertLabel: t('files_versions', 'Restore'),
-				canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0
+				canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0,
 			}, version.attributes)
 		},
 
 		/**
 		 * Renders this details view
 		 */
-		render: function() {
+		render() {
 			this.$el.html(this.template({
-				emptyResultLabel: t('files_versions', 'No other versions available')
+				emptyResultLabel: t('files_versions', 'No other versions available'),
 			}))
 			this.$el.find('.has-tooltip').tooltip()
 			this.$versionsContainer = this.$el.find('ul.versions')
@@ -192,15 +213,16 @@ import Template from './templates/template.handlebars';
 
 		/**
 		 * Returns true for files, false for folders.
+		 *
 		 * @param {FileInfo} fileInfo fileInfo
-		 * @returns {bool} true for files, false for folders
+		 * @return {boolean} true for files, false for folders
 		 */
-		canDisplay: function(fileInfo) {
+		canDisplay(fileInfo) {
 			if (!fileInfo) {
 				return false
 			}
 			return !fileInfo.isDirectory()
-		}
+		},
 	})
 
 	OCA.Versions = OCA.Versions || {}

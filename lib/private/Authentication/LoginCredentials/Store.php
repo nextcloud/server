@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\LoginCredentials;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -29,28 +32,25 @@ use OC\Authentication\Token\IProvider;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
-use OCP\ILogger;
 use OCP\ISession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
 
 	/** @var ISession */
 	private $session;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IProvider|null */
 	private $tokenProvider;
 
-	/**
-	 * @param ISession $session
-	 * @param ILogger $logger
-	 * @param IProvider $tokenProvider
-	 */
-	public function __construct(ISession $session, ILogger $logger, IProvider $tokenProvider = null) {
+	public function __construct(ISession $session,
+								LoggerInterface $logger,
+								IProvider $tokenProvider = null) {
 		$this->session = $session;
 		$this->logger = $logger;
 		$this->tokenProvider = $tokenProvider;
@@ -82,8 +82,8 @@ class Store implements IStore {
 	 * @return ICredentials the login credentials of the current user
 	 * @throws CredentialsUnavailableException
 	 */
-	public function getLoginCredentials() {
-		if (is_null($this->tokenProvider)) {
+	public function getLoginCredentials(): ICredentials {
+		if ($this->tokenProvider === null) {
 			throw new CredentialsUnavailableException();
 		}
 
@@ -108,12 +108,16 @@ class Store implements IStore {
 		}
 
 		if ($trySession && $this->session->exists('login_credentials')) {
-			$creds = json_decode($this->session->get('login_credentials'));
-			return new Credentials($creds->uid, $creds->uid, $creds->password);
+			/** @var array $creds */
+			$creds = json_decode($this->session->get('login_credentials'), true);
+			return new Credentials(
+				$creds['uid'],
+				$creds['loginName'] ?? $this->session->get('loginname') ?? $creds['uid'], // Pre 20 didn't have a loginName property, hence fall back to the session value and then to the UID
+				$creds['password']
+			);
 		}
 
 		// If we reach this line, an exception was thrown.
 		throw new CredentialsUnavailableException();
 	}
-
 }

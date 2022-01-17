@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config\App;
 
-
 use OC\Core\Command\Config\App\GetConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,18 +28,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class GetConfigTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$config = $this->config = $this->getMockBuilder(IConfig::class)
@@ -148,7 +147,7 @@ class GetConfigTest extends TestCase {
 			$output = '';
 			$this->consoleOutput->expects($this->any())
 				->method('writeln')
-				->willReturnCallback(function($value) {
+				->willReturnCallback(function ($value) {
 					global $output;
 					$output .= $value . "\n";
 					return $output;

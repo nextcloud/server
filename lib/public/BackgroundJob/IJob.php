@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -19,40 +21,37 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\BackgroundJob;
+
 use OCP\ILogger;
 
 /**
  * Interface IJob
  *
- * @package OCP\BackgroundJob
  * @since 7.0.0
  */
 interface IJob {
 	/**
 	 * Run the background job with the registered argument
 	 *
-	 * @param \OCP\BackgroundJob\IJobList $jobList The job list that manages the state of this job
+	 * @param IJobList $jobList The job list that manages the state of this job
 	 * @param ILogger|null $logger
 	 * @since 7.0.0
 	 */
-	public function execute($jobList, ILogger $logger = null);
+	public function execute(IJobList $jobList, ILogger $logger = null);
 
 	/**
-	 * @param int $id
 	 * @since 7.0.0
 	 */
-	public function setId($id);
+	public function setId(int $id);
 
 	/**
-	 * @param int $lastRun
 	 * @since 7.0.0
 	 */
-	public function setLastRun($lastRun);
+	public function setLastRun(int $lastRun);
 
 	/**
 	 * @param mixed $argument

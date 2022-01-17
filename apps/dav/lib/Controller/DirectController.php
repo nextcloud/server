@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Iscle <albertiscle9@gmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\Db\Direct;
@@ -79,13 +81,17 @@ class DirectController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function getUrl(int $fileId): DataResponse {
+	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		$files = $userFolder->getById($fileId);
 
 		if ($files === []) {
 			throw new OCSNotFoundException();
+		}
+
+		if ($expirationTime <= 0 || $expirationTime > (60 * 60 * 24)) {
+			throw new OCSBadRequestException('Expiration time should be greater than 0 and less than or equal to ' . (60 * 60 * 24));
 		}
 
 		$file = array_shift($files);
@@ -98,9 +104,9 @@ class DirectController extends OCSController {
 		$direct->setUserId($this->userId);
 		$direct->setFileId($fileId);
 
-		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		$token = $this->random->generate(60, ISecureRandom::CHAR_ALPHANUMERIC);
 		$direct->setToken($token);
-		$direct->setExpiration($this->timeFactory->getTime() + 60 * 60 * 8);
+		$direct->setExpiration($this->timeFactory->getTime() + $expirationTime);
 
 		$this->mapper->insert($direct);
 

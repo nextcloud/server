@@ -4,6 +4,7 @@
  *
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -18,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCP\Files\ObjectStore;
@@ -28,7 +29,6 @@ use OCP\Files\NotFoundException;
 /**
  * Interface IObjectStore
  *
- * @package OCP\Files\ObjectStore
  * @since 7.0.0
  */
 interface IObjectStore {
@@ -51,10 +51,11 @@ interface IObjectStore {
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @param resource $stream stream with the data to write
+	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream);
+	public function writeObject($urn, $stream, string $mimetype = null);
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
@@ -72,4 +73,12 @@ interface IObjectStore {
 	 * @since 16.0.0
 	 */
 	public function objectExists($urn);
+
+	/**
+	 * @param string $from the unified resource name used to identify the source object
+	 * @param string $to the unified resource name used to identify the target object
+	 * @return void
+	 * @since 21.0.0
+	 */
+	public function copyObject($from, $to);
 }

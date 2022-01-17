@@ -23,23 +23,22 @@
 
 namespace Test\Collaboration\Collaborators;
 
-
 use OC\Collaboration\Collaborators\Search;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IContainer;
-use OCP\Share;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 class SearchTest extends TestCase {
-	/** @var  IContainer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IContainer|\PHPUnit\Framework\MockObject\MockObject */
 	protected $container;
 	/** @var  ISearch */
 	protected $search;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->container = $this->createMock(IContainer::class);
@@ -49,34 +48,25 @@ class SearchTest extends TestCase {
 
 	/**
 	 * @dataProvider dataSearchSharees
-	 *
-	 * @param string $searchTerm
-	 * @param array $shareTypes
-	 * @param int $page
-	 * @param int $perPage
-	 * @param array $mockedUserResult
-	 * @param array $mockedGroupsResult
-	 * @param array $mockedRemotesResult
-	 * @param array $expected
-	 * @param bool $expectedMoreResults
 	 */
 	public function testSearch(
-		$searchTerm,
+		string $searchTerm,
 		array $shareTypes,
-		$page,
-		$perPage,
+		int $page,
+		int $perPage,
 		array $mockedUserResult,
 		array $mockedGroupsResult,
 		array $mockedRemotesResult,
+		array $mockedMailResult,
 		array $expected,
-		$expectedMoreResults
+		bool $expectedMoreResults
 	) {
 		$searchResult = new SearchResult();
 
 		$userPlugin = $this->createMock(ISearchPlugin::class);
 		$userPlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function() use ($searchResult, $mockedUserResult, $expectedMoreResults) {
+			->willReturnCallback(function () use ($searchResult, $mockedUserResult, $expectedMoreResults) {
 				$type = new SearchResultType('users');
 				$searchResult->addResultSet($type, $mockedUserResult);
 				return $expectedMoreResults;
@@ -85,7 +75,7 @@ class SearchTest extends TestCase {
 		$groupPlugin = $this->createMock(ISearchPlugin::class);
 		$groupPlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function() use ($searchResult, $mockedGroupsResult, $expectedMoreResults) {
+			->willReturnCallback(function () use ($searchResult, $mockedGroupsResult, $expectedMoreResults) {
 				$type = new SearchResultType('groups');
 				$searchResult->addResultSet($type, $mockedGroupsResult);
 				return $expectedMoreResults;
@@ -94,21 +84,30 @@ class SearchTest extends TestCase {
 		$remotePlugin = $this->createMock(ISearchPlugin::class);
 		$remotePlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function() use ($searchResult, $mockedRemotesResult, $expectedMoreResults) {
-				if($mockedRemotesResult !== null) {
+			->willReturnCallback(function () use ($searchResult, $mockedRemotesResult, $expectedMoreResults) {
+				if ($mockedRemotesResult !== null) {
 					$type = new SearchResultType('remotes');
 					$searchResult->addResultSet($type, $mockedRemotesResult['results'], $mockedRemotesResult['exact']);
-					if($mockedRemotesResult['exactIdMatch'] === true) {
+					if ($mockedRemotesResult['exactIdMatch'] === true) {
 						$searchResult->markExactIdMatch($type);
 					}
 				}
 				return $expectedMoreResults;
 			});
 
+		$mailPlugin = $this->createMock(ISearchPlugin::class);
+		$mailPlugin->expects($this->any())
+			->method('search')
+			->willReturnCallback(function () use ($searchResult, $mockedMailResult, $expectedMoreResults) {
+				$type = new SearchResultType('emails');
+				$searchResult->addResultSet($type, $mockedMailResult);
+				return $expectedMoreResults;
+			});
+
 		$this->container->expects($this->any())
 			->method('resolve')
-			->willReturnCallback(function($class) use ($searchResult, $userPlugin, $groupPlugin, $remotePlugin) {
-				if($class === SearchResult::class) {
+			->willReturnCallback(function ($class) use ($searchResult, $userPlugin, $groupPlugin, $remotePlugin, $mailPlugin) {
+				if ($class === SearchResult::class) {
 					return $searchResult;
 				} elseif ($class === $userPlugin) {
 					return $userPlugin;
@@ -116,6 +115,8 @@ class SearchTest extends TestCase {
 					return $groupPlugin;
 				} elseif ($class === $remotePlugin) {
 					return $remotePlugin;
+				} elseif ($class === $mailPlugin) {
+					return $mailPlugin;
 				}
 				return null;
 			});
@@ -123,8 +124,9 @@ class SearchTest extends TestCase {
 		$this->search->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => $userPlugin]);
 		$this->search->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => $groupPlugin]);
 		$this->search->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => $remotePlugin]);
+		$this->search->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => $mailPlugin]);
 
-		list($results, $moreResults) = $this->search->search($searchTerm, $shareTypes, false, $perPage, $perPage * ($page - 1));
+		[$results, $moreResults] = $this->search->search($searchTerm, $shareTypes, false, $perPage, $perPage * ($page - 1));
 
 		$this->assertEquals($expected, $results);
 		$this->assertSame($expectedMoreResults, $moreResults);
@@ -132,87 +134,137 @@ class SearchTest extends TestCase {
 
 	public function dataSearchSharees() {
 		return [
+			// #0
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
+				'test', [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
+				[],
 				[
 					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
 					'users' => [],
 					'groups' => [],
 					'remotes' => [],
-				], false
+				],
+				false
 			],
+			// #1
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
+				'test', [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
+				[],
 				[
 					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
 					'users' => [],
 					'groups' => [],
 					'remotes' => [],
-				], false
+				],
+				false
 			],
+			// #2
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, [
-				['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-			], [
-				['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
-			], [
-				'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false,
-			],
+				'test', [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE], 1, 2, [
+					['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+				], [
+					['label' => 'testgroup1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'testgroup1']],
+				], [
+					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false,
+				],
+				[],
 				[
 					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
 					'users' => [
-						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 					],
 					'groups' => [
-						['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+						['label' => 'testgroup1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'testgroup1']],
 					],
 					'remotes' => [
-						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+						['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 				], true,
 			],
-			// No groups requested
+			// #3 No groups requested
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_REMOTE], 1, 2, [
-				['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-			], [], [
-				'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false
-			],
+				'test', [IShare::TYPE_USER, IShare::TYPE_REMOTE], 1, 2, [
+					['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+				], [], [
+					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false
+				],
+				[],
 				[
 					'exact' => ['users' => [], 'remotes' => []],
 					'users' => [
-						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 					],
 					'remotes' => [
-						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+						['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 				], false,
 			],
-			// Share type restricted to user - Only one user
+			// #4 Share type restricted to user - Only one user
 			[
-				'test', [Share::SHARE_TYPE_USER], 1, 2, [
-				['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-			], [], [],
+				'test', [IShare::TYPE_USER], 1, 2, [
+					['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+				], [], [], [],
 				[
 					'exact' => ['users' => []],
 					'users' => [
-						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 					],
 				], false,
 			],
-			// Share type restricted to user - Multipage result
+			// #5 Share type restricted to user - Multipage result
 			[
-				'test', [Share::SHARE_TYPE_USER], 1, 2, [
-				['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-			], [], [],
+				'test', [IShare::TYPE_USER], 1, 2, [
+					['label' => 'test 1', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'test 2', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2']],
+				], [], [], [],
 				[
 					'exact' => ['users' => []],
 					'users' => [
-						['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-						['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+						['label' => 'test 1', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test 2', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2']],
 					],
 				], true,
+			],
+			// #6 Mail shares filtered out in favor of remote shares
+			[
+				'test', // search term
+				[IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_EMAIL], // plugins
+				1, // page
+				10, // per page
+				[  // user result
+					['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+				],
+				[  // group result
+					['label' => 'testgroup1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'testgroup1']],
+				],
+				[  // remote result
+					'results' => [
+						['label' => 'testz@remote.tld', 'uuid' => 'f3d78140-abcc-46df-b58d-c7cc1176aadf','value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote.tld']]
+					],
+					'exact' => [],
+					'exactIdMatch' => false,
+				],
+				[  //  mail result
+					['label' => 'test Two', 'uuid' => 'b2321e9e-31af-43ac-a406-583fb26d1964', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'test2@remote.tld']],
+					['label' => 'test One', 'uuid' => 'f3d78140-abcc-46df-b58d-c7cc1176aadf', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'testz@remote.tld']],
+				],
+				[  // expected result
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
+					'users' => [
+						['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+					],
+					'groups' => [
+						['label' => 'testgroup1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'testgroup1']],
+					],
+					'remotes' => [
+						['label' => 'testz@remote.tld', 'uuid' => 'f3d78140-abcc-46df-b58d-c7cc1176aadf', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote.tld']],
+					],
+					'emails' => [
+						//  one passes, another is filtered out
+						['label' => 'test Two', 'uuid' => 'b2321e9e-31af-43ac-a406-583fb26d1964', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'test2@remote.tld']]
+					]
+				],
+				false, // expected more results indicator
 			],
 		];
 	}

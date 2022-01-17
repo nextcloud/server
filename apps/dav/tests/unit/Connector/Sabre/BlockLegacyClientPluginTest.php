@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -20,16 +21,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
-use PHPUnit_Framework_MockObject_MockObject;
-use Test\TestCase;
 use OCP\IConfig;
+use Test\TestCase;
 
 /**
  * Class BlockLegacyClientPluginTest
@@ -37,12 +36,12 @@ use OCP\IConfig;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class BlockLegacyClientPluginTest extends TestCase {
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var BlockLegacyClientPlugin */
 	private $blockLegacyClientVersionPlugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)
@@ -67,23 +66,24 @@ class BlockLegacyClientPluginTest extends TestCase {
 	/**
 	 * @dataProvider oldDesktopClientProvider
 	 * @param string $userAgent
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 * @expectedExceptionMessage Unsupported client version.
 	 */
 	public function testBeforeHandlerException($userAgent) {
-		/** @var \Sabre\HTTP\RequestInterface | PHPUnit_Framework_MockObject_MockObject $request */
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectExceptionMessage('Unsupported client version.');
+
+		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request
 			->expects($this->once())
 			->method('getHeader')
 			->with('User-Agent')
-			->will($this->returnValue($userAgent));
+			->willReturn($userAgent);
 
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('minimum.supported.desktop.version', '2.0.0')
-			->will($this->returnValue('1.7.0'));
+			->willReturn('1.7.0');
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
@@ -106,32 +106,31 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 * @param string $userAgent
 	 */
 	public function testBeforeHandlerSuccess($userAgent) {
-		/** @var \Sabre\HTTP\RequestInterface | PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request
 			->expects($this->once())
 			->method('getHeader')
 			->with('User-Agent')
-			->will($this->returnValue($userAgent));
+			->willReturn($userAgent);
 
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('minimum.supported.desktop.version', '2.0.0')
-			->will($this->returnValue('1.7.0'));
+			->willReturn('1.7.0');
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 
 	public function testBeforeHandlerNoUserAgent() {
-		/** @var \Sabre\HTTP\RequestInterface | PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request
 			->expects($this->once())
 			->method('getHeader')
 			->with('User-Agent')
-			->will($this->returnValue(null));
+			->willReturn(null);
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
-
 }

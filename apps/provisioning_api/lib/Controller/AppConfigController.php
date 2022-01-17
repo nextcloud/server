@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,23 +17,28 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Provisioning_API\Controller;
 
-
+use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Settings\IDelegatedSettings;
+use OCP\Settings\IManager;
 
 class AppConfigController extends OCSController {
 
@@ -39,6 +47,18 @@ class AppConfigController extends OCSController {
 
 	/** @var IAppConfig */
 	protected $appConfig;
+
+	/** @var IUserSession */
+	private $userSession;
+
+	/** @var IL10N */
+	private $l10n;
+
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var IManager */
+	private $settingManager;
 
 	/**
 	 * @param string $appName
@@ -49,10 +69,18 @@ class AppConfigController extends OCSController {
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
-								IAppConfig $appConfig) {
+								IAppConfig $appConfig,
+								IUserSession $userSession,
+								IL10N $l10n,
+								IGroupManager $groupManager,
+								IManager $settingManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->appConfig = $appConfig;
+		$this->userSession = $userSession;
+		$this->l10n = $l10n;
+		$this->groupManager = $groupManager;
+		$this->settingManager = $settingManager;
 	}
 
 	/**
@@ -98,12 +126,23 @@ class AppConfigController extends OCSController {
 
 	/**
 	 * @PasswordConfirmationRequired
+	 * @NoSubAdminRequired
+	 * @NoAdminRequired
 	 * @param string $app
 	 * @param string $key
 	 * @param string $value
 	 * @return DataResponse
 	 */
 	public function setValue(string $app, string $key, string $value): DataResponse {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			throw new \Exception("User is not logged in."); // Should not happen, since method is guarded by middleware
+		}
+
+		if (!$this->isAllowedToChangedKey($user, $app, $key)) {
+			throw new NotAdminException($this->l10n->t('Logged in user must be an administrator or have authorization to edit this setting.'));
+		}
+
 		try {
 			$this->verifyAppId($app);
 			$this->verifyConfigKey($app, $key, $value);
@@ -161,5 +200,38 @@ class AppConfigController extends OCSController {
 		if ($app === 'core' && (strpos($key, 'public_') === 0 || strpos($key, 'remote_') === 0)) {
 			throw new \InvalidArgumentException('The given key can not be set');
 		}
+
+		if ($app === 'files'
+			&& $key === 'default_quota'
+			&& $value === 'none'
+			&& $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '0') {
+			throw new \InvalidArgumentException('The given key can not be set, unlimited quota is forbidden on this instance');
+		}
+	}
+
+	private function isAllowedToChangedKey(IUser $user, string $app, string $key): bool {
+		// Admin right verification
+		$isAdmin = $this->groupManager->isAdmin($user->getUID());
+		if ($isAdmin) {
+			return true;
+		}
+
+		$settings = $this->settingManager->getAllAllowedAdminSettings($user);
+		foreach ($settings as $setting) {
+			if (!($setting instanceof IDelegatedSettings)) {
+				continue;
+			}
+			$allowedKeys = $setting->getAuthorizedAppConfig();
+			if (!array_key_exists($app, $allowedKeys)) {
+				continue;
+			}
+			foreach ($allowedKeys[$app] as $regex) {
+				if ($regex === $key
+					|| (str_starts_with($regex, '/') && preg_match($regex, $key) === 1)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

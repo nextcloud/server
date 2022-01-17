@@ -1,10 +1,20 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carlos Ferreira <carlos@reendex.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Mohammed Abdellatif <m.latief@gmail.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Scott Shambarger <devel@shambarger.net>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +28,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -30,6 +39,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ILogger;
 
 /**
  * Class Client
@@ -41,30 +51,56 @@ class Client implements IClient {
 	private $client;
 	/** @var IConfig */
 	private $config;
+	/** @var ILogger */
+	private $logger;
 	/** @var ICertificateManager */
 	private $certificateManager;
+	/** @var LocalAddressChecker */
+	private $localAddressChecker;
 
-	/**
-	 * @param IConfig $config
-	 * @param ICertificateManager $certificateManager
-	 * @param GuzzleClient $client
-	 */
 	public function __construct(
 		IConfig $config,
+		ILogger $logger,
 		ICertificateManager $certificateManager,
-		GuzzleClient $client
+		GuzzleClient $client,
+		LocalAddressChecker $localAddressChecker
 	) {
 		$this->config = $config;
+		$this->logger = $logger;
 		$this->client = $client;
 		$this->certificateManager = $certificateManager;
+		$this->localAddressChecker = $localAddressChecker;
 	}
 
 	private function buildRequestOptions(array $options): array {
+		$proxy = $this->getProxyUri();
+
 		$defaults = [
-			RequestOptions::PROXY => $this->getProxyUri(),
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => 30,
 		];
+
+		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
+		if ($options['nextcloud']['allow_local_address'] === false) {
+			$onRedirectFunction = function (
+				\Psr\Http\Message\RequestInterface $request,
+				\Psr\Http\Message\ResponseInterface $response,
+				\Psr\Http\Message\UriInterface $uri
+			) use ($options) {
+				$this->preventLocalAddress($uri->__toString(), $options);
+			};
+
+			$defaults[RequestOptions::ALLOW_REDIRECTS] = [
+				'on_redirect' => $onRedirectFunction
+			];
+		}
+
+		// Only add RequestOptions::PROXY if Nextcloud is explicitly
+		// configured to use a proxy. This is needed in order not to override
+		// Guzzle default values.
+		if ($proxy !== null) {
+			$defaults[RequestOptions::PROXY] = $proxy;
+		}
 
 		$options = array_merge($defaults, $options);
 
@@ -72,30 +108,46 @@ class Client implements IClient {
 			$options[RequestOptions::HEADERS]['User-Agent'] = 'Nextcloud Server Crawler';
 		}
 
+		if (!isset($options[RequestOptions::HEADERS]['Accept-Encoding'])) {
+			$options[RequestOptions::HEADERS]['Accept-Encoding'] = 'gzip';
+		}
+
+		// Fallback for save_to
+		if (isset($options['save_to'])) {
+			$options['sink'] = $options['save_to'];
+			unset($options['save_to']);
+		}
+
 		return $options;
 	}
 
 	private function getCertBundle(): string {
-		if ($this->certificateManager->listCertificates() !== []) {
-			return $this->certificateManager->getAbsoluteBundlePath();
-		}
-
 		// If the instance is not yet setup we need to use the static path as
-		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
+		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiate
 		// a view
-		if ($this->config->getSystemValue('installed', false)) {
-			return $this->certificateManager->getAbsoluteBundlePath(null);
+		if ($this->config->getSystemValue('installed', false) === false) {
+			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 
-		return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+		return $this->certificateManager->getAbsoluteBundlePath();
 	}
 
 	/**
-	 * Get the proxy URI
+	 * Returns a null or an associative array specifiying the proxy URI for
+	 * 'http' and 'https' schemes, in addition to a 'no' key value pair
+	 * providing a list of host names that should not be proxied to.
 	 *
-	 * @return string|null
+	 * @return array|null
+	 *
+	 * The return array looks like:
+	 * [
+	 *   'http' => 'username:password@proxy.example.com',
+	 *   'https' => 'username:password@proxy.example.com',
+	 *   'no' => ['foo.com', 'bar.com']
+	 * ]
+	 *
 	 */
-	private function getProxyUri(): ?string {
+	private function getProxyUri(): ?array {
 		$proxyHost = $this->config->getSystemValue('proxy', '');
 
 		if ($proxyHost === '' || $proxyHost === null) {
@@ -103,12 +155,38 @@ class Client implements IClient {
 		}
 
 		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', '');
-
-		if ($proxyUserPwd === '' || $proxyUserPwd === null) {
-			return $proxyHost;
+		if ($proxyUserPwd !== '' && $proxyUserPwd !== null) {
+			$proxyHost = $proxyUserPwd . '@' . $proxyHost;
 		}
 
-		return $proxyUserPwd . '@' . $proxyHost;
+		$proxy = [
+			'http' => $proxyHost,
+			'https' => $proxyHost,
+		];
+
+		$proxyExclude = $this->config->getSystemValue('proxyexclude', []);
+		if ($proxyExclude !== [] && $proxyExclude !== null) {
+			$proxy['no'] = $proxyExclude;
+		}
+
+		return $proxy;
+	}
+
+	private function isLocalAddressAllowed(array $options) : bool {
+		if (($options['nextcloud']['allow_local_address'] ?? false) ||
+			$this->config->getSystemValueBool('allow_local_remote_servers', false)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function preventLocalAddress(string $uri, array $options): void {
+		if ($this->isLocalAddressAllowed($options)) {
+			return;
+		}
+
+		$this->localAddressChecker->ThrowIfLocalAddress($uri);
 	}
 
 	/**
@@ -133,7 +211,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -141,6 +219,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function get(string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('get', $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];
 		return new Response($response, $isStream);
@@ -163,7 +242,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -171,6 +250,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function head(string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('head', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
@@ -197,7 +277,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -205,6 +285,8 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function post(string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
+
 		if (isset($options['body']) && is_array($options['body'])) {
 			$options['form_params'] = $options['body'];
 			unset($options['body']);
@@ -235,7 +317,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -243,6 +325,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function put(string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('put', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
@@ -269,7 +352,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -277,6 +360,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function delete(string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('delete', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
@@ -303,7 +387,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -311,6 +395,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function options(string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}

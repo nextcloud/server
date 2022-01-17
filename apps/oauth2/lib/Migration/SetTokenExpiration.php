@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Migration;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -62,7 +64,7 @@ class SetTokenExpiration implements IRepairStep {
 
 		$cursor = $qb->execute();
 
-		while($row = $cursor->fetch()) {
+		while ($row = $cursor->fetch()) {
 			$token = AccessToken::fromRow($row);
 			try {
 				$appToken = $this->tokenProvider->getTokenById($token->getTokenId());
@@ -74,5 +76,4 @@ class SetTokenExpiration implements IRepairStep {
 		}
 		$cursor->closeCursor();
 	}
-
 }

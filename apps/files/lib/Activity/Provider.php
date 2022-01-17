@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,20 +16,21 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files\Activity;
 
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
+use OCP\Contacts\IManager as IContactsManager;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -64,25 +67,32 @@ class Provider implements IProvider {
 	/** @var IEventMerger */
 	protected $eventMerger;
 
-	/** @var string[] cached displayNames - key is the UID and value the displayname */
+	/** @var ICloudIdManager */
+	protected $cloudIdManager;
+
+	/** @var IContactsManager */
+	protected $contactsManager;
+
+	/** @var string[] cached displayNames - key is the cloud id and value the displayname */
 	protected $displayNames = [];
 
 	protected $fileIsEncrypted = false;
 
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IManager $activityManager
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param IEventMerger $eventMerger
-	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IRootFolder $rootFolder, IEventMerger $eventMerger) {
+	public function __construct(IFactory $languageFactory,
+								IURLGenerator $url,
+								IManager $activityManager,
+								IUserManager $userManager,
+								IRootFolder $rootFolder,
+								ICloudIdManager $cloudIdManager,
+								IContactsManager $contactsManager,
+								IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
+		$this->cloudIdManager = $cloudIdManager;
+		$this->contactsManager = $contactsManager;
 		$this->eventMerger = $eventMerger;
 	}
 
@@ -134,19 +144,19 @@ class Provider implements IProvider {
 		if ($event->getSubject() === 'created_by') {
 			$subject = $this->l->t('Created by {user}');
 			$this->setIcon($event, 'add-color');
-		} else if ($event->getSubject() === 'changed_by') {
+		} elseif ($event->getSubject() === 'changed_by') {
 			$subject = $this->l->t('Changed by {user}');
 			$this->setIcon($event, 'change');
-		} else if ($event->getSubject() === 'deleted_by') {
+		} elseif ($event->getSubject() === 'deleted_by') {
 			$subject = $this->l->t('Deleted by {user}');
 			$this->setIcon($event, 'delete-color');
-		} else if ($event->getSubject() === 'restored_by') {
+		} elseif ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('Restored by {user}');
 			$this->setIcon($event, 'actions/history', 'core');
-		} else if ($event->getSubject() === 'renamed_by') {
+		} elseif ($event->getSubject() === 'renamed_by') {
 			$subject = $this->l->t('Renamed by {user}');
 			$this->setIcon($event, 'change');
-		} else if ($event->getSubject() === 'moved_by') {
+		} elseif ($event->getSubject() === 'moved_by') {
 			$subject = $this->l->t('Moved by {user}');
 			$this->setIcon($event, 'change');
 		} else {
@@ -180,55 +190,87 @@ class Provider implements IProvider {
 				$subject = $this->l->t('You created an encrypted file in {file}');
 			}
 			$this->setIcon($event, 'add-color');
-		} else if ($event->getSubject() === 'created_by') {
+		} elseif ($event->getSubject() === 'created_by') {
 			$subject = $this->l->t('{user} created {file}');
 			if ($this->fileIsEncrypted) {
 				$subject = $this->l->t('{user} created an encrypted file in {file}');
 			}
 			$this->setIcon($event, 'add-color');
-		} else if ($event->getSubject() === 'created_public') {
+		} elseif ($event->getSubject() === 'created_public') {
 			$subject = $this->l->t('{file} was created in a public folder');
 			$this->setIcon($event, 'add-color');
-		} else if ($event->getSubject() === 'changed_self') {
+		} elseif ($event->getSubject() === 'changed_self') {
 			$subject = $this->l->t('You changed {file}');
 			if ($this->fileIsEncrypted) {
 				$subject = $this->l->t('You changed an encrypted file in {file}');
 			}
 			$this->setIcon($event, 'change');
-		} else if ($event->getSubject() === 'changed_by') {
+		} elseif ($event->getSubject() === 'changed_by') {
 			$subject = $this->l->t('{user} changed {file}');
 			if ($this->fileIsEncrypted) {
 				$subject = $this->l->t('{user} changed an encrypted file in {file}');
 			}
 			$this->setIcon($event, 'change');
-		} else if ($event->getSubject() === 'deleted_self') {
+		} elseif ($event->getSubject() === 'deleted_self') {
 			$subject = $this->l->t('You deleted {file}');
 			if ($this->fileIsEncrypted) {
 				$subject = $this->l->t('You deleted an encrypted file in {file}');
 			}
 			$this->setIcon($event, 'delete-color');
-		} else if ($event->getSubject() === 'deleted_by') {
+		} elseif ($event->getSubject() === 'deleted_by') {
 			$subject = $this->l->t('{user} deleted {file}');
 			if ($this->fileIsEncrypted) {
 				$subject = $this->l->t('{user} deleted an encrypted file in {file}');
 			}
 			$this->setIcon($event, 'delete-color');
-		} else if ($event->getSubject() === 'restored_self') {
+		} elseif ($event->getSubject() === 'restored_self') {
 			$subject = $this->l->t('You restored {file}');
 			$this->setIcon($event, 'actions/history', 'core');
-		} else if ($event->getSubject() === 'restored_by') {
+		} elseif ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('{user} restored {file}');
 			$this->setIcon($event, 'actions/history', 'core');
-		} else if ($event->getSubject() === 'renamed_self') {
-			$subject = $this->l->t('You renamed {oldfile} to {newfile}');
+		} elseif ($event->getSubject() === 'renamed_self') {
+			$oldFileName = $parsedParameters['oldfile']['name'];
+			$newFileName = $parsedParameters['newfile']['name'];
+
+			if ($this->isHiddenFile($oldFileName)) {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('You renamed {oldfile} (hidden) to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('You renamed {oldfile} (hidden) to {newfile}');
+				}
+			} else {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('You renamed {oldfile} to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('You renamed {oldfile} to {newfile}');
+				}
+			}
+
 			$this->setIcon($event, 'change');
-		} else if ($event->getSubject() === 'renamed_by') {
-			$subject = $this->l->t('{user} renamed {oldfile} to {newfile}');
+		} elseif ($event->getSubject() === 'renamed_by') {
+			$oldFileName = $parsedParameters['oldfile']['name'];
+			$newFileName = $parsedParameters['newfile']['name'];
+
+			if ($this->isHiddenFile($oldFileName)) {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('{user} renamed {oldfile} (hidden) to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('{user} renamed {oldfile} (hidden) to {newfile}');
+				}
+			} else {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('{user} renamed {oldfile} to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('{user} renamed {oldfile} to {newfile}');
+				}
+			}
+
 			$this->setIcon($event, 'change');
-		} else if ($event->getSubject() === 'moved_self') {
+		} elseif ($event->getSubject() === 'moved_self') {
 			$subject = $this->l->t('You moved {oldfile} to {newfile}');
 			$this->setIcon($event, 'change');
-		} else if ($event->getSubject() === 'moved_by') {
+		} elseif ($event->getSubject() === 'moved_by') {
 			$subject = $this->l->t('{user} moved {oldfile} to {newfile}');
 			$this->setIcon($event, 'change');
 		} else {
@@ -246,7 +288,11 @@ class Provider implements IProvider {
 
 		$this->setSubjects($event, $subject, $parsedParameters);
 
-		$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
+		if ($event->getSubject() === 'moved_self' || $event->getSubject() === 'moved_by') {
+			$event = $this->eventMerger->mergeEvents('oldfile', $event, $previousEvent);
+		} else {
+			$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
+		}
 
 		if ($event->getChildEvent() === null) {
 			// Couldn't group by file, maybe we can group by user
@@ -254,6 +300,10 @@ class Provider implements IProvider {
 		}
 
 		return $event;
+	}
+
+	private function isHiddenFile(string $filename): bool {
+		return strlen($filename) > 0 && $filename[0] === '.';
 	}
 
 	protected function setSubjects(IEvent $event, $subject, array $parameters) {
@@ -335,7 +385,7 @@ class Provider implements IProvider {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
 			$id = (string) key($parameter);
-		} else if ($event !== null) {
+		} elseif ($event !== null) {
 			// Legacy from before ownCloud 8.2
 			$path = $parameter;
 			$id = $event->getObjectId();
@@ -349,7 +399,7 @@ class Provider implements IProvider {
 			try {
 				$fullPath = rtrim($encryptionContainer->getPath(), '/');
 				// Remove /user/files/...
-				list(,,, $path) = explode('/', $fullPath, 4);
+				[,,, $path] = explode('/', $fullPath, 4);
 				if (!$path) {
 					throw new InvalidPathException('Path could not be split correctly');
 				}
@@ -476,27 +526,67 @@ class Provider implements IProvider {
 	 * @return array
 	 */
 	protected function getUser($uid) {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
+		// First try local user
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			return [
+				'type' => 'user',
+				'id' => $user->getUID(),
+				'name' => $user->getDisplayName(),
+			];
 		}
 
+		// Then a contact from the addressbook
+		if ($this->cloudIdManager->isValidCloudId($uid)) {
+			$cloudId = $this->cloudIdManager->resolveCloudId($uid);
+			return [
+				'type' => 'user',
+				'id' => $cloudId->getUser(),
+				'name' => $this->getDisplayNameFromAddressBook($cloudId->getDisplayId()),
+				'server' => $cloudId->getRemote(),
+			];
+		}
+
+		// Fallback to empty dummy data
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $uid,
 		];
 	}
 
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		} else {
-			return $uid;
+	protected function getDisplayNameFromAddressBook(string $search): string {
+		if (isset($this->displayNames[$search])) {
+			return $this->displayNames[$search];
 		}
+
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD'], [
+			'limit' => 1,
+			'enumeration' => false,
+			'fullmatch' => false,
+			'strict_search' => true,
+		]);
+		foreach ($addressBookContacts as $contact) {
+			if (isset($contact['isLocalSystemBook'])) {
+				continue;
+			}
+
+			if (isset($contact['CLOUD'])) {
+				$cloudIds = $contact['CLOUD'];
+				if (is_string($cloudIds)) {
+					$cloudIds = [$cloudIds];
+				}
+
+				$lowerSearch = strtolower($search);
+				foreach ($cloudIds as $cloudId) {
+					if (strtolower($cloudId) === $lowerSearch) {
+						$this->displayNames[$search] = $contact['FN'] . " ($cloudId)";
+						return $this->displayNames[$search];
+					}
+				}
+			}
+		}
+
+		return $search;
 	}
 }

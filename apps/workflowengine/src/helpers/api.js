@@ -1,9 +1,11 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,12 +23,14 @@
  */
 
 import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
+
+const scopeValue = loadState('workflowengine', 'scope') === 0 ? 'global' : 'user'
 
 const getApiUrl = (url) => {
-	const scopeValue = loadState('workflowengine', 'scope') === 0 ? 'global' : 'user'
-	return OC.linkToOCS('apps/workflowengine/api/v1/workflows', 2) + scopeValue + url + '?format=json'
+	return generateOcsUrl('apps/workflowengine/api/v1/workflows/{scopeValue}', { scopeValue }) + url + '?format=json'
 }
 
 export {
-	getApiUrl
+	getApiUrl,
 }

@@ -26,12 +26,28 @@ use Test\TestCase;
 
 abstract class ObjectStoreTest extends TestCase {
 
+	/** @var string[] */
+	private $cleanup = [];
+
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore
 	 */
 	abstract protected function getInstance();
 
-	private function stringToStream($data) {
+	protected function cleanupAfter(string $urn) {
+		$this->cleanup[] = $urn;
+	}
+
+	public function tearDown(): void {
+		parent::tearDown();
+
+		$instance = $this->getInstance();
+		foreach ($this->cleanup as $urn) {
+			$instance->deleteObject($urn);
+		}
+	}
+
+	protected function stringToStream($data) {
 		$stream = fopen('php://temp', 'w+');
 		fwrite($stream, $data);
 		rewind($stream);
@@ -49,7 +65,6 @@ abstract class ObjectStoreTest extends TestCase {
 		$instance->deleteObject('1');
 
 		$this->assertEquals('foobar', stream_get_contents($result));
-
 	}
 
 	public function testDelete() {
@@ -108,5 +123,24 @@ abstract class ObjectStoreTest extends TestCase {
 		$instance->deleteObject('2');
 
 		$this->assertFalse($instance->objectExists('2'));
+	}
+
+	public function testCopy() {
+		$this->cleanupAfter('source');
+		$this->cleanupAfter('target');
+
+		$stream = $this->stringToStream('foobar');
+
+		$instance = $this->getInstance();
+
+		$instance->writeObject('source', $stream);
+
+		$this->assertFalse($instance->objectExists('target'));
+
+		$instance->copyObject('source', 'target');
+
+		$this->assertTrue($instance->objectExists('target'));
+
+		$this->assertEquals('foobar', stream_get_contents($instance->readObject('target')));
 	}
 }

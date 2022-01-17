@@ -27,8 +27,6 @@ OC.L10N.register(
     "Encryption app is enabled and ready" : "Aplicația de criptare este activată",
     "Bad Signature" : "Semnătură greșită",
     "Missing Signature" : "Semnătură lipsă",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Acest fișier nu poate fi decriptat, probabil este partajat. Cere posesorului fișierului să îl repartajeze cu tine.",
-    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Acest fișier nu poate fi citit, probabil este partajat. Cere posesorului fișierului să îl repartajeze cu tine.",
     "Default encryption module" : "Modulul implicit de criptare",
     "Default encryption module for server-side encryption" : "Modulul implicit de criptare pentru criptarea pe server",
     "The share will expire on %s." : "Partajarea va expira în data de %s.",
@@ -49,6 +47,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Activează recuperarea parolei:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activarea acestei opțiuni îți va permite să redobândești accesul la fișierele tale criptate în cazul pierderii parolei",
     "Enabled" : "Activat",
-    "Disabled" : "Dezactivat"
+    "Disabled" : "Dezactivat",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Acest fișier nu poate fi decriptat, probabil este partajat. Cere posesorului fișierului să îl repartajeze cu tine.",
+    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Acest fișier nu poate fi citit, probabil este partajat. Cere posesorului fișierului să îl repartajeze cu tine."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -2,7 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -16,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\Xml\Element;
@@ -32,7 +32,7 @@ use Sabre\Xml\Writer;
  * This property contains multiple "share-type" elements, each containing a share type.
  */
 class ShareTypeList implements Element {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
 	 * Share types
@@ -63,7 +63,7 @@ class ShareTypeList implements Element {
 	 * @param Reader $reader
 	 * @return mixed
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$shareTypes = [];
 
 		$tree = $reader->parseInnerTree();
@@ -84,7 +84,7 @@ class ShareTypeList implements Element {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->shareTypes as $shareType) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}share-type', $shareType);
 		}

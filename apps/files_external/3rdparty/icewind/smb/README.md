@@ -1,9 +1,8 @@
 SMB
 ===
 
-[![Code Coverage](https://scrutinizer-ci.com/g/icewind1991/SMB/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/icewind1991/SMB/?branch=master)
-[![Build Status](https://travis-ci.org/icewind1991/SMB.svg?branch=master)](https://travis-ci.org/icewind1991/SMB)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/icewind1991/SMB/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/icewind1991/SMB/?branch=master)
+[![CI](https://github.com/icewind1991/SMB/actions/workflows/ci.yaml/badge.svg)](https://github.com/icewind1991/SMB/actions/workflows/ci.yaml)
+[![codecov](https://codecov.io/gh/icewind1991/SMB/branch/master/graph/badge.svg?token=eTg0P466k6)](https://codecov.io/gh/icewind1991/SMB)
 
 PHP wrapper for `smbclient` and [`libsmbclient-php`](https://github.com/eduardok/libsmbclient-php)
 
@@ -26,7 +25,7 @@ use Icewind\SMB\BasicAuth;
 require('vendor/autoload.php');
 
 $serverFactory = new ServerFactory();
-$auth = new BasicAuth('test', 'workgroup', 'test');
+$auth = new BasicAuth('user', 'workgroup', 'password');
 $server = $serverFactory->createServer('localhost', $auth);
 
 $share = $server->getShare('test');
@@ -103,7 +102,7 @@ fclose($fh);
 ```
 
 **Note**: write() will truncate your file to 0bytes. You may open a writeable stream with append() which will point
-the cursor to the end of the file or create it if it does not exists yet. (append() is only compatible with libsmbclient-php)
+the cursor to the end of the file or create it if it does not exist yet. (append() is only compatible with libsmbclient-php)
 ```php
 $fh = $share->append('test.txt');
 fwrite($fh, 'bar');
@@ -127,11 +126,22 @@ $options->setTimeout(5);
 $serverFactory = new ServerFactory($options);
 ```
 
+### Setting protocol version
+
+```php
+$options = new Options();
+$options->setMinProtocol(IOptions::PROTOCOL_SMB2);
+$options->setMaxProtocol(IOptions::PROTOCOL_SMB3);
+$serverFactory = new ServerFactory($options);
+```
+
+Note, setting the protocol version is not supported with php-smbclient version 1.0.1 or lower.
+
 ### Customizing system integration
 
 The `smbclient` backend needs to get various information about the system it's running on to function
 such as the paths of various binaries or the system timezone.
-While the default logic for getting this information should work on most systems, it possible to customize this behaviour.
+While the default logic for getting this information should work on most systems, it is possible to customize this behaviour.
 
 In order to customize the integration you provide a custom implementation of `ITimezoneProvider` and/or `ISystem` and pass them as arguments to the `ServerFactory`. 
 

@@ -1,10 +1,13 @@
-/* globals Snap */
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author nacho <nacho@ownyourbits.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,9 +20,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
+/* globals Snap */
 import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
@@ -39,8 +44,8 @@ const resizeMenu = () => {
 	const appList = $('#appmenu li')
 	const rightHeaderWidth = $('.header-right').outerWidth()
 	const headerWidth = $('header').outerWidth()
-	const usePercentualAppMenuLimit = 0.33
-	const minAppsDesktop = 8
+	const usePercentualAppMenuLimit = 0.67
+	const minAppsDesktop = 12
 	let availableWidth = headerWidth - $('#nextcloud').outerWidth() - (rightHeaderWidth > 210 ? rightHeaderWidth : 210)
 	const isMobile = $(window).width() < breakpointMobileWidth
 	if (!isMobile) {
@@ -93,41 +98,52 @@ const initLiveTimestamps = () => {
 	// Update live timestamps every 30 seconds
 	setInterval(() => {
 		$('.live-relative-timestamp').each(function() {
-			$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)))
+			const timestamp = parseInt($(this).attr('data-timestamp'), 10)
+			$(this).text(moment(timestamp).fromNow())
 		})
 	}, 30 * 1000)
 }
 
 /**
+ * Moment doesn't have aliases for every locale and doesn't parse some locale IDs correctly so we need to alias them
+ */
+const localeAliases = {
+	zh: 'zh-cn',
+	zh_Hans: 'zh-cn',
+	zh_Hans_CN: 'zh-cn',
+	zh_Hans_HK: 'zh-cn',
+	zh_Hans_MO: 'zh-cn',
+	zh_Hans_SG: 'zh-cn',
+	zh_Hant: 'zh-hk',
+	zh_Hant_HK: 'zh-hk',
+	zh_Hant_MO: 'zh-mo',
+	zh_Hant_TW: 'zh-tw',
+}
+let locale = OC.getLocale()
+if (Object.prototype.hasOwnProperty.call(localeAliases, locale)) {
+	locale = localeAliases[locale]
+}
+
+/**
+ * Set users locale to moment.js as soon as possible
+ */
+moment.locale(locale)
+
+/**
  * Initializes core
  */
 export const initCore = () => {
-	/**
-	 * Set users locale to moment.js as soon as possible
-	 */
-	moment.locale(OC.getLocale())
-
 	const userAgent = window.navigator.userAgent
-	const msie = userAgent.indexOf('MSIE ')
-	const trident = userAgent.indexOf('Trident/')
 	const edge = userAgent.indexOf('Edge/')
 
-	if (msie > 0 || trident > 0) {
-		// (IE 10 or older) || IE 11
-		$('html').addClass('ie')
-	} else if (edge > 0) {
-		// for edge
+	if (edge > 0) {
 		$('html').addClass('edge')
-	}
-
-	// css variables fallback for IE
-	if (msie > 0 || trident > 0 || edge > 0) {
 		console.info('Legacy browser detected, applying css vars polyfill')
 		cssVars({
 			watch: true,
 			//  set edge < 16 as incompatible
 			onlyLegacy: !(/Edge\/([0-9]{2})\./i.test(navigator.userAgent)
-				&& parseInt(/Edge\/([0-9]{2})\./i.exec(navigator.userAgent)[1]) < 16)
+				&& parseInt(/Edge\/([0-9]{2})\./i.exec(navigator.userAgent)[1]) < 16),
 		})
 	}
 
@@ -212,23 +228,79 @@ export const initCore = () => {
 			element: document.getElementById('app-content'),
 			disable: 'right',
 			maxPosition: 300, // $navigation-width
-			minDragDistance: 100
+			minDragDistance: 100,
 		})
 
 		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none" tabindex="0"></div>')
 
-		const toggleSnapperOnButton = () => {
-			if (snapper.state().state === 'left') {
-				snapper.close()
-			} else {
-				snapper.open('left')
+		// keep track whether snapper is currently animating, and
+		// prevent to call open or close while that is the case
+		// to avoid duplicating events (snap.js doesn't check this)
+		let animating = false
+		snapper.on('animating', () => {
+			// we need this because the trigger button
+			// is also implicitly wired to close by snapper
+			animating = true
+		})
+		snapper.on('animated', () => {
+			animating = false
+		})
+		snapper.on('start', () => {
+			// we need this because dragging triggers that
+			animating = true
+		})
+		snapper.on('end', () => {
+			// we need this because dragging stop triggers that
+			animating = false
+		})
+
+		// These are necessary because calling open or close
+		// on snapper during an animation makes it trigger an
+		// unfinishable animation, which itself will continue
+		// triggering animating events and cause high CPU load,
+		//
+		// Ref https://github.com/jakiestfu/Snap.js/issues/216
+		const oldSnapperOpen = snapper.open
+		const oldSnapperClose = snapper.close
+		const _snapperOpen = () => {
+			if (animating || snapper.state().state !== 'closed') {
+				return
+			}
+			oldSnapperOpen('left')
+		}
+
+		const _snapperClose = () => {
+			if (animating || snapper.state().state === 'closed') {
+				return
+			}
+			oldSnapperClose()
+		}
+
+		// Needs to be deferred to properly catch in-between
+		// events that snap.js is triggering after dragging.
+		//
+		// Skipped when running unit tests as we are not testing
+		// the snap.js workarounds...
+		if (!window.TESTING) {
+			snapper.open = () => {
+				_.defer(_snapperOpen)
+			}
+			snapper.close = () => {
+				_.defer(_snapperClose)
 			}
 		}
 
-		$('#app-navigation-toggle').click(toggleSnapperOnButton)
+		$('#app-navigation-toggle').click((e) => {
+			// close is implicit in the button by snap.js
+			if (snapper.state().state !== 'left') {
+				snapper.open()
+			}
+		})
 		$('#app-navigation-toggle').keypress(e => {
-			if (e.which === 13) {
-				toggleSnapperOnButton()
+			if (snapper.state().state === 'left') {
+				snapper.close()
+			} else {
+				snapper.open()
 			}
 		})
 

@@ -6,6 +6,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -13,7 +14,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,23 +28,22 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\ShareBackend;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\Share\IShare;
 
 class File implements \OCP\Share_Backend_File_Dependent {
-
-	const FORMAT_SHARED_STORAGE = 0;
-	const FORMAT_GET_FOLDER_CONTENTS = 1;
-	const FORMAT_FILE_APP_ROOT = 2;
-	const FORMAT_OPENDIR = 3;
-	const FORMAT_GET_ALL = 4;
-	const FORMAT_PERMISSIONS = 5;
-	const FORMAT_TARGET_NAMES = 6;
+	public const FORMAT_SHARED_STORAGE = 0;
+	public const FORMAT_GET_FOLDER_CONTENTS = 1;
+	public const FORMAT_FILE_APP_ROOT = 2;
+	public const FORMAT_OPENDIR = 3;
+	public const FORMAT_GET_ALL = 4;
+	public const FORMAT_PERMISSIONS = 5;
+	public const FORMAT_TARGET_NAMES = 6;
 
 	private $path;
 
@@ -54,8 +54,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {
-			$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application();
-			$this->federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
+			$this->federatedShareProvider = \OC::$server->query(FederatedShareProvider::class);
 		}
 	}
 
@@ -89,14 +88,15 @@ class File implements \OCP\Share_Backend_File_Dependent {
 
 	/**
 	 * create unique target
-	 * @param string $filePath
+	 *
+	 * @param string $itemSource
 	 * @param string $shareWith
 	 * @param array $exclude (optional)
 	 * @return string
 	 */
-	public function generateTarget($filePath, $shareWith, $exclude = null) {
+	public function generateTarget($itemSource, $shareWith, $exclude = null) {
 		$shareFolder = \OCA\Files_Sharing\Helper::getShareFolder();
-		$target = \OC\Files\Filesystem::normalizePath($shareFolder . '/' . basename($filePath));
+		$target = \OC\Files\Filesystem::normalizePath($shareFolder . '/' . basename($itemSource));
 
 		// for group shares we return the target right away
 		if ($shareWith === false) {
@@ -117,7 +117,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		$excludeList = is_array($exclude) ? $exclude : array();
+		$excludeList = is_array($exclude) ? $exclude : [];
 
 		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
@@ -126,17 +126,17 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if ($format === self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
 			$item = array_shift($items);
-			return array(
+			return [
 				'parent' => $item['parent'],
 				'path' => $item['path'],
 				'storage' => $item['storage'],
 				'permissions' => $item['permissions'],
 				'uid_owner' => $item['uid_owner'],
-			);
-		} else if ($format === self::FORMAT_GET_FOLDER_CONTENTS) {
-			$files = array();
+			];
+		} elseif ($format === self::FORMAT_GET_FOLDER_CONTENTS) {
+			$files = [];
 			foreach ($items as $item) {
-				$file = array();
+				$file = [];
 				$file['fileid'] = $item['file_source'];
 				$file['storage'] = $item['storage'];
 				$file['path'] = $item['file_target'];
@@ -156,32 +156,32 @@ class File implements \OCP\Share_Backend_File_Dependent {
 				$files[] = $file;
 			}
 			return $files;
-		} else if ($format === self::FORMAT_OPENDIR) {
-			$files = array();
+		} elseif ($format === self::FORMAT_OPENDIR) {
+			$files = [];
 			foreach ($items as $item) {
 				$files[] = basename($item['file_target']);
 			}
 			return $files;
-		} else if ($format === self::FORMAT_GET_ALL) {
-			$ids = array();
+		} elseif ($format === self::FORMAT_GET_ALL) {
+			$ids = [];
 			foreach ($items as $item) {
 				$ids[] = $item['file_source'];
 			}
 			return $ids;
-		} else if ($format === self::FORMAT_PERMISSIONS) {
-			$filePermissions = array();
+		} elseif ($format === self::FORMAT_PERMISSIONS) {
+			$filePermissions = [];
 			foreach ($items as $item) {
 				$filePermissions[$item['file_source']] = $item['permissions'];
 			}
 			return $filePermissions;
-		} else if ($format === self::FORMAT_TARGET_NAMES) {
-			$targets = array();
+		} elseif ($format === self::FORMAT_TARGET_NAMES) {
+			$targets = [];
 			foreach ($items as $item) {
 				$targets[] = $item['file_target'];
 			}
 			return $targets;
 		}
-		return array();
+		return [];
 	}
 
 	/**
@@ -191,11 +191,11 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	 * @return boolean
 	 */
 	public function isShareTypeAllowed($shareType) {
-		if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+		if ($shareType === IShare::TYPE_REMOTE) {
 			return $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		}
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		if ($shareType === IShare::TYPE_REMOTE_GROUP) {
 			return $this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled();
 		}
 

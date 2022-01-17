@@ -22,10 +22,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CachePermissionsMask;
@@ -80,13 +79,9 @@ class PermissionsMask extends Wrapper {
 	}
 
 	public function rename($path1, $path2) {
-		$p = strpos($path1, $path2);
-		if ($p === 0) {
-			$part = substr($path1, strlen($path2));
-			//This is a rename of the transfer file to the original file
-			if (strpos($part, '.ocTransferId') === 0) {
-				return $this->checkMask(Constants::PERMISSION_CREATE) and parent::rename($path1, $path2);
-			}
+		//This is a rename of the transfer file to the original file
+		if (dirname($path1) === dirname($path2) && strpos($path1, '.ocTransferId') > 0) {
+			return $this->checkMask(Constants::PERMISSION_CREATE) and parent::rename($path1, $path2);
 		}
 		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::rename($path1, $path2);
 	}
@@ -156,5 +151,14 @@ class PermissionsMask extends Wrapper {
 			$storage = $this->storage;
 		}
 		return parent::getScanner($path, $storage);
+	}
+
+	public function getDirectoryContent($directory): \Traversable {
+		foreach ($this->getWrapperStorage()->getDirectoryContent($directory) as $data) {
+			$data['scan_permissions'] = isset($data['scan_permissions']) ? $data['scan_permissions'] : $data['permissions'];
+			$data['permissions'] &= $this->mask;
+
+			yield $data;
+		}
 	}
 }

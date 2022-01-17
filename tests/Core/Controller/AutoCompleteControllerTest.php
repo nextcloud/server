@@ -26,9 +26,9 @@ namespace Tests\Core\Controller;
 use OC\Core\Controller\AutoCompleteController;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class AutoCompleteControllerTest extends TestCase {
@@ -36,19 +36,19 @@ class AutoCompleteControllerTest extends TestCase {
 	protected $collaboratorSearch;
 	/** @var  IManager|MockObject */
 	protected $autoCompleteManager;
-	/** @var  EventDispatcherInterface|MockObject */
+	/** @var  IEventDispatcher|MockObject */
 	protected $dispatcher;
 	/** @var  AutoCompleteController */
 	protected $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		/** @var IRequest $request */
 		$request = $this->createMock(IRequest::class);
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
 		$this->autoCompleteManager = $this->createMock(IManager::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new AutoCompleteController(
 			'core',
@@ -75,8 +75,8 @@ class AutoCompleteControllerTest extends TestCase {
 				],
 				// expected
 				[
-					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'',
 				'files',
@@ -96,8 +96,8 @@ class AutoCompleteControllerTest extends TestCase {
 				],
 				// expected
 				[
-					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'',
 				null,
@@ -117,8 +117,8 @@ class AutoCompleteControllerTest extends TestCase {
 				],
 				// expected
 				[
-					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'',
 				'files',
@@ -138,8 +138,8 @@ class AutoCompleteControllerTest extends TestCase {
 					],
 				],
 				[
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
-					[ 'id' => 'bobby', 'label' => 'Robert R.', 'source' => 'users'],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bobby', 'label' => 'Robert R.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'bob',
 				'files',

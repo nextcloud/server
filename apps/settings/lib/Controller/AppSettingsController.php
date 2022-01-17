@@ -3,10 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Christoph Wurst <christoph@owncloud.com>
- * @author Felix A. Epp <work@felixepp.de>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -25,10 +26,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -40,18 +40,18 @@ use OC\App\Platform;
 use OC\Installer;
 use OC_App;
 use OCP\App\IAppManager;
-use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\ILogger;
+use OCP\IConfig;
+use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\IL10N;
-use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 
 class AppSettingsController extends Controller {
 
@@ -75,7 +75,7 @@ class AppSettingsController extends Controller {
 	private $installer;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var array */
@@ -94,7 +94,7 @@ class AppSettingsController extends Controller {
 	 * @param BundleFetcher $bundleFetcher
 	 * @param Installer $installer
 	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -108,7 +108,7 @@ class AppSettingsController extends Controller {
 								BundleFetcher $bundleFetcher,
 								Installer $installer,
 								IURLGenerator $urlGenerator,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -131,7 +131,7 @@ class AppSettingsController extends Controller {
 	public function viewApps(): TemplateResponse {
 		\OC_Util::addScript('settings', 'apps');
 		$params = [];
-		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
+		$params['appstoreEnabled'] = $this->config->getSystemValueBool('appstoreenabled', true);
 		$params['updateCount'] = count($this->getAppsWithUpdates());
 		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
 		$params['bundles'] = $this->getBundles();
@@ -148,9 +148,9 @@ class AppSettingsController extends Controller {
 	private function getAppsWithUpdates() {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
-		foreach($apps as $key => $app) {
+		foreach ($apps as $key => $app) {
 			$newVersion = $this->installer->isUpdateAvailable($app['id']);
-			if($newVersion === false) {
+			if ($newVersion === false) {
 				unset($apps[$key]);
 			}
 		}
@@ -168,7 +168,6 @@ class AppSettingsController extends Controller {
 			];
 		}
 		return $result;
-
 	}
 
 	/**
@@ -185,7 +184,7 @@ class AppSettingsController extends Controller {
 
 		$formattedCategories = [];
 		$categories = $this->categoryFetcher->get();
-		foreach($categories as $category) {
+		foreach ($categories as $category) {
 			$formattedCategories[] = [
 				'id' => $category['id'],
 				'ident' => $category['id'],
@@ -205,6 +204,7 @@ class AppSettingsController extends Controller {
 		}
 
 		$apps = $this->getAppsForCategory('');
+		$supportedApps = $appClass->getSupportedApps();
 		foreach ($apps as $app) {
 			$app['appstore'] = true;
 			if (!array_key_exists($app['id'], $this->allApps)) {
@@ -212,15 +212,19 @@ class AppSettingsController extends Controller {
 			} else {
 				$this->allApps[$app['id']] = array_merge($app, $this->allApps[$app['id']]);
 			}
+
+			if (in_array($app['id'], $supportedApps)) {
+				$this->allApps[$app['id']]['level'] = \OC_App::supportedApp;
+			}
 		}
 
 		// add bundle information
 		$bundles = $this->bundleFetcher->getBundles();
-		foreach($bundles as $bundle) {
-			foreach($bundle->getAppIdentifiers() as $identifier) {
-				foreach($this->allApps as &$app) {
-					if($app['id'] === $identifier) {
-						$app['bundleId'] = $bundle->getIdentifier();
+		foreach ($bundles as $bundle) {
+			foreach ($bundle->getAppIdentifiers() as $identifier) {
+				foreach ($this->allApps as &$app) {
+					if ($app['id'] === $identifier) {
+						$app['bundleIds'][] = $bundle->getIdentifier();
 						continue;
 					}
 				}
@@ -239,27 +243,27 @@ class AppSettingsController extends Controller {
 	 * @throws \Exception
 	 */
 	public function listApps(): JSONResponse {
-
 		$this->fetchApps();
 		$apps = $this->getAllApps();
 
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 
 		// Extend existing app details
-		$apps = array_map(function($appData) use ($dependencyAnalyzer) {
+		$apps = array_map(function ($appData) use ($dependencyAnalyzer) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
 				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
 				$appData['category'] = $appstoreData['categories'];
+				$appData['releases'] = $appstoreData['releases'];
 			}
 
 			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
-			if($newVersion) {
+			if ($newVersion) {
 				$appData['update'] = $newVersion;
 			}
 
 			// fix groups to be an array
-			$groups = array();
+			$groups = [];
 			if (is_string($appData['groups'])) {
 				$groups = json_decode($appData['groups']);
 			}
@@ -272,6 +276,10 @@ class AppSettingsController extends Controller {
 			}
 
 			$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+			if (!is_array($ignoreMaxApps)) {
+				$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
+				$ignoreMaxApps = [];
+			}
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 
 			// analyse dependencies
@@ -302,16 +310,16 @@ class AppSettingsController extends Controller {
 		$versionParser = new VersionParser();
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			// Skip all apps not in the requested category
 			if ($requestedCategory !== '') {
 				$isInCategory = false;
-				foreach($app['categories'] as $category) {
-					if($category === $requestedCategory) {
+				foreach ($app['categories'] as $category) {
+					if ($category === $requestedCategory) {
 						$isInCategory = true;
 					}
 				}
-				if(!$isInCategory) {
+				if (!$isInCategory) {
 					continue;
 				}
 			}
@@ -321,28 +329,28 @@ class AppSettingsController extends Controller {
 			}
 			$nextCloudVersion = $versionParser->getVersion($app['releases'][0]['rawPlatformVersionSpec']);
 			$nextCloudVersionDependencies = [];
-			if($nextCloudVersion->getMinimumVersion() !== '') {
+			if ($nextCloudVersion->getMinimumVersion() !== '') {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['min-version'] = $nextCloudVersion->getMinimumVersion();
 			}
-			if($nextCloudVersion->getMaximumVersion() !== '') {
+			if ($nextCloudVersion->getMaximumVersion() !== '') {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
 			$existsLocally = \OC_App::getAppPath($app['id']) !== false;
 			$phpDependencies = [];
-			if($phpVersion->getMinimumVersion() !== '') {
+			if ($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();
 			}
-			if($phpVersion->getMaximumVersion() !== '') {
+			if ($phpVersion->getMaximumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['max-version'] = $phpVersion->getMaximumVersion();
 			}
-			if(isset($app['releases'][0]['minIntSize'])) {
+			if (isset($app['releases'][0]['minIntSize'])) {
 				$phpDependencies['php']['@attributes']['min-int-size'] = $app['releases'][0]['minIntSize'];
 			}
 			$authors = '';
-			foreach($app['authors'] as $key => $author) {
+			foreach ($app['authors'] as $key => $author) {
 				$authors .= $author['name'];
-				if($key !== count($app['authors']) - 1) {
+				if ($key !== count($app['authors']) - 1) {
 					$authors .= ', ';
 				}
 			}
@@ -350,12 +358,12 @@ class AppSettingsController extends Controller {
 			$currentLanguage = substr(\OC::$server->getL10NFactory()->findLanguage(), 0, 2);
 			$enabledValue = $this->config->getAppValue($app['id'], 'enabled', 'no');
 			$groups = null;
-			if($enabledValue !== 'no' && $enabledValue !== 'yes') {
+			if ($enabledValue !== 'no' && $enabledValue !== 'yes') {
 				$groups = $enabledValue;
 			}
 
 			$currentVersion = '';
-			if($this->appManager->isInstalled($app['id'])) {
+			if ($this->appManager->isInstalled($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
 				$currentLanguage = $app['releases'][0]['version'];
@@ -437,7 +445,7 @@ class AppSettingsController extends Controller {
 				$installer = \OC::$server->query(Installer::class);
 				$isDownloaded = $installer->isDownloaded($appId);
 
-				if(!$isDownloaded) {
+				if (!$isDownloaded) {
 					$installer->downloadApp($appId);
 				}
 
@@ -453,9 +461,8 @@ class AppSettingsController extends Controller {
 				}
 			}
 			return new JSONResponse(['data' => ['update_required' => $updateRequired]]);
-
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error('could not enable apps', ['exception' => $e]);
 			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -496,7 +503,7 @@ class AppSettingsController extends Controller {
 			}
 			return new JSONResponse([]);
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error('could not disable app', ['exception' => $e]);
 			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -510,7 +517,7 @@ class AppSettingsController extends Controller {
 	public function uninstallApp(string $appId): JSONResponse {
 		$appId = OC_App::cleanAppId($appId);
 		$result = $this->installer->removeApp($appId);
-		if($result !== false) {
+		if ($result !== false) {
 			$this->appManager->clearAppsCache();
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
@@ -550,14 +557,7 @@ class AppSettingsController extends Controller {
 
 	public function force(string $appId): JSONResponse {
 		$appId = OC_App::cleanAppId($appId);
-
-		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
-		if (!in_array($appId, $ignoreMaxApps, true)) {
-			$ignoreMaxApps[] = $appId;
-			$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
-		}
-
+		$this->appManager->ignoreNextcloudRequirementForApp($appId);
 		return new JSONResponse();
 	}
-
 }

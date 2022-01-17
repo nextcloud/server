@@ -9,24 +9,14 @@
 
 namespace Test;
 
-use OC\Log;
+use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\IConfig;
-
-class NullLogger extends Log {
-	public function __construct($logger = null) {
-		//disable original constructor
-	}
-
-	public function log(int $level, string $message, array $context = array()) {
-		//noop
-	}
-}
+use Psr\Log\LoggerInterface;
 
 class TempManagerTest extends \Test\TestCase {
-
 	protected $baseDir = null;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->baseDir = $this->getManager()->getTempBaseDir() . $this->getUniqueID('/oc_tmp_test');
@@ -35,8 +25,10 @@ class TempManagerTest extends \Test\TestCase {
 		}
 	}
 
-	protected function tearDown() {
-		\OC_Helper::rmdirr($this->baseDir);
+	protected function tearDown(): void {
+		if ($this->baseDir !== null) {
+			\OC_Helper::rmdirr($this->baseDir);
+		}
 		$this->baseDir = null;
 		parent::tearDown();
 	}
@@ -48,7 +40,7 @@ class TempManagerTest extends \Test\TestCase {
 	 */
 	protected function getManager($logger = null, $config = null) {
 		if (!$logger) {
-			$logger = new NullLogger();
+			$logger = $this->createMock(LoggerInterface::class);
 		}
 		if (!$config) {
 			$config = $this->createMock(IConfig::class);
@@ -56,7 +48,8 @@ class TempManagerTest extends \Test\TestCase {
 				->with('tempdirectory', null)
 				->willReturn('/tmp');
 		}
-		$manager = new \OC\TempManager($logger, $config);
+		$iniGetWrapper = $this->createMock(IniGetWrapper::class);
+		$manager = new \OC\TempManager($logger, $config, $iniGetWrapper);
 		if ($this->baseDir) {
 			$manager->overrideTempBaseDir($this->baseDir);
 		}
@@ -141,7 +134,7 @@ class TempManagerTest extends \Test\TestCase {
 	public function testLogCantCreateFile() {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
-		$logger = $this->createMock(NullLogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);
 		$logger->expects($this->once())
@@ -153,7 +146,7 @@ class TempManagerTest extends \Test\TestCase {
 	public function testLogCantCreateFolder() {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
-		$logger = $this->createMock(NullLogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);
 		$logger->expects($this->once())
@@ -163,7 +156,7 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testBuildFileNameWithPostfix() {
-		$logger = $this->createMock(NullLogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
 			'buildFileNameWithSuffix',
@@ -174,7 +167,7 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testBuildFileNameWithoutPostfix() {
-		$logger = $this->createMock(NullLogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
 					'buildFileNameWithSuffix',
@@ -185,7 +178,7 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testBuildFileNameWithSuffixPathTraversal() {
-		$logger = $this->createMock(NullLogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
 			'buildFileNameWithSuffix',

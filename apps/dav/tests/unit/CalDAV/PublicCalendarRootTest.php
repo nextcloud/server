@@ -1,13 +1,16 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,23 +21,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\PublicCalendar;
+use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -49,19 +53,18 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit\CalDAV
  */
 class PublicCalendarRootTest extends TestCase {
-
-	const UNIT_TEST_USER = '';
+	public const UNIT_TEST_USER = '';
 	/** @var CalDavBackend */
 	private $backend;
 	/** @var PublicCalendarRoot */
 	private $publicCalendarRoot;
 	/** @var IL10N */
 	private $l10n;
-	/** @var Principal|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Principal|\PHPUnit\Framework\MockObject\MockObject */
 	private $principal;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 	/** @var IConfig */
 	protected $config;
@@ -71,7 +74,7 @@ class PublicCalendarRootTest extends TestCase {
 	/** @var ILogger */
 	private $logger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$db = \OC::$server->getDatabaseConnection();
@@ -80,7 +83,9 @@ class PublicCalendarRootTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = \OC::$server->getSecureRandom();
 		$this->logger = $this->createMock(ILogger::class);
-		$dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$config = $this->createMock(IConfig::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
@@ -97,7 +102,9 @@ class PublicCalendarRootTest extends TestCase {
 			$this->groupManager,
 			$this->random,
 			$this->logger,
-			$dispatcher
+			$dispatcher,
+			$legacyDispatcher,
+			$config
 		);
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
@@ -107,7 +114,7 @@ class PublicCalendarRootTest extends TestCase {
 			$this->l10n, $this->config);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		parent::tearDown();
 
 		if (is_null($this->backend)) {
@@ -123,7 +130,7 @@ class PublicCalendarRootTest extends TestCase {
 
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		foreach ($books as $book) {
-			$this->backend->deleteCalendar($book['id']);
+			$this->backend->deleteCalendar($book['id'], true);
 		}
 	}
 
@@ -133,7 +140,6 @@ class PublicCalendarRootTest extends TestCase {
 	}
 
 	public function testGetChild() {
-
 		$calendar = $this->createPublicCalendar();
 
 		$publicCalendars = $this->backend->getPublicCalendars();
@@ -167,5 +173,4 @@ class PublicCalendarRootTest extends TestCase {
 
 		return $calendar;
 	}
-
 }

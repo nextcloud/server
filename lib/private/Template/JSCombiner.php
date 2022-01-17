@@ -2,6 +2,8 @@
 /**
  * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -15,21 +17,21 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OC\Template;
 
 use OC\SystemConfig;
-use OCP\ICache;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -92,12 +94,12 @@ class JSCombiner {
 
 		try {
 			$folder = $this->appData->getFolder($app);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// creating css appdata folder
 			$folder = $this->appData->newFolder($app);
 		}
 
-		if($this->isCached($fileName, $folder)) {
+		if ($this->isCached($fileName, $folder)) {
 			return true;
 		}
 		return $this->cache($path, $fileName, $folder);
@@ -118,7 +120,9 @@ class JSCombiner {
 		$fileName = $fileName . '.deps';
 		try {
 			$deps = $this->depsCache->get($folder->getName() . '-' . $fileName);
+			$fromCache = true;
 			if ($deps === null || $deps === '') {
+				$fromCache = false;
 				$depFile = $folder->getFile($fileName);
 				$deps = $depFile->getContent();
 			}
@@ -131,18 +135,22 @@ class JSCombiner {
 
 			$deps = json_decode($deps, true);
 
-			if ($deps === NULL) {
+			if ($deps === null) {
 				return false;
 			}
 
-			foreach ($deps as $file=>$mtime) {
+			foreach ($deps as $file => $mtime) {
 				if (!file_exists($file) || filemtime($file) > $mtime) {
 					return false;
 				}
 			}
 
+			if ($fromCache === false) {
+				$this->depsCache->set($folder->getName() . '-' . $fileName, json_encode($deps));
+			}
+
 			return true;
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return false;
 		}
 	}
@@ -173,7 +181,7 @@ class JSCombiner {
 		$fileName = str_replace('.json', '.js', $fileName);
 		try {
 			$cachedfile = $folder->getFile($fileName);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			$cachedfile = $folder->newFile($fileName);
 		}
 
@@ -214,7 +222,7 @@ class JSCombiner {
 		$fileName = array_pop($tmpfileLoc);
 		$fileName = str_replace('.json', '.js', $fileName);
 
-		return substr($this->urlGenerator->linkToRoute('core.Js.getJs', array('fileName' => $fileName, 'appName' => $appName)), strlen(\OC::$WEBROOT) + 1);
+		return substr($this->urlGenerator->linkToRoute('core.Js.getJs', ['fileName' => $fileName, 'appName' => $appName]), strlen(\OC::$WEBROOT) + 1);
 	}
 
 	/**
@@ -225,7 +233,7 @@ class JSCombiner {
 	public function getContent($root, $file) {
 		/** @var array $data */
 		$data = json_decode(file_get_contents($root . '/' . $file));
-		if(!is_array($data)) {
+		if (!is_array($data)) {
 			return [];
 		}
 

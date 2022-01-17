@@ -1,13 +1,14 @@
 { "translations": {
-    "Server added to the list of trusted ownClouds" : "השרת נוסף לרשימת ה- ownCloud המהימנים",
+    "Added to the list of trusted servers" : "נוסף לרשימת השרתים המהימנים",
     "Server is already in the list of trusted servers." : "השרת כבר נמצא ברשימת השרתים המהימנים.",
-    "No ownCloud server found" : "לא אותר שרת ownCloud",
+    "No server to federate with found" : "לא נמצאו שרתים להתאגד מולם",
     "Could not add server" : "לא ניתן היה להוסיף שרת",
+    "Trusted servers" : "שרתים מהימנים",
     "Federation" : "איגוד",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "איגוד ownCloud מאפשר לך להתחבר לשרתי ownCloud מהימנים אחרים למטרת החלפת תיקיות משתמש. לדוגמא ניתן יהיה להשתמש בזה כדי להשלים באופן אוטומטי משתמשים חיצוניים לשיתוף מאוגד.",
-    "Add server automatically once a federated share was created successfully" : "הוספת שרת באופן אוטומטי לאחר יצירת שרת מאוגד",
-    "Trusted ownCloud Servers" : "שרתי ownCloud אמינים",
-    "+ Add ownCloud server" : "+ הוספת שרת ownCloud",
-    "ownCloud Server" : "שרת ownCloud"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "איגוד מאפשר לך להתחבר לשרתים מהימנים אחרים כדי להחליף ביניהם את ספריית המשתמש.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "איגוד מאפשר לך להתחבר לשרתים מהימנים אחרים כדי להחליף ביניהם את ספריית המשתמש. למשל: ייעשה שימוש באיגוד לטובת השלמה אוטומטית של משתמשים חיצוניים לשיתוף מאוגד.",
+    "+ Add trusted server" : "+ הוספת שרת מהימן",
+    "Trusted server" : "שרת מהימן",
+    "Add" : "הוספה"
+},"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

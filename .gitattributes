@@ -1,22 +1,2 @@
-/core/js/dist/*.js binary
-/core/js/dist/*.js.map binary
-
-/apps/accessibility/js/accessibility.js binary
-/apps/accessibility/js/accessibility.js.map binary
-/apps/comments/js/*.js binary
-/apps/comments/js/*.js.map binary
-/apps/files_sharing/js/dist/*.js binary
-/apps/files_sharing/js/dist/*.js.map binary
-/apps/files_versions/js/files_versions.js binary
-/apps/files_versions/js/files_versions.js.map binary
-/apps/oauth2/js/oauth2.js binary
-/apps/oauth2/js/oauth2.js.map binary
-/apps/settings/js/vue* binary
-/apps/systemtags/js/systemtags.js binary
-/apps/systemtags/js/systemtags.js.map binary
-/apps/twofactor_backupcodes/js/*.js binary
-/apps/twofactor_backupcodes/js/*.js.map binary
-/apps/updatenotification/js/updatenotification.js binary
-/apps/updatenotification/js/updatenotification.js.map binary
-/apps/workflowengine/js/*.js binary
-/apps/workflowengine/js/*.js.map binary
+/dist/* binary
+/package-lock.json

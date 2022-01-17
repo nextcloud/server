@@ -32,40 +32,47 @@ interface ISystem {
 	 * @param int $num the file descriptor id
 	 * @return string
 	 */
-	public function getFD($num);
+	public function getFD(int $num): string;
 
 	/**
-	 * Get the full path to the `smbclient` binary of false if the binary is not available
+	 * Get the full path to the `smbclient` binary of null if the binary is not available
 	 *
-	 * @return string|bool
+	 * @return string|null
 	 */
-	public function getSmbclientPath();
+	public function getSmbclientPath(): ?string;
 
 	/**
-	 * Get the full path to the `net` binary of false if the binary is not available
+	 * Get the full path to the `net` binary of null if the binary is not available
 	 *
-	 * @return string|bool
+	 * @return string|null
 	 */
-	public function getNetPath();
+	public function getNetPath(): ?string;
 
 	/**
-	 * Get the full path to the `stdbuf` binary of false if the binary is not available
+	 * Get the full path to the `smbcacls` binary of null if the binary is not available
 	 *
-	 * @return string|bool
+	 * @return string|null
 	 */
-	public function getStdBufPath();
+	public function getSmbcAclsPath(): ?string;
 
 	/**
-	 * Get the full path to the `date` binary of false if the binary is not available
+	 * Get the full path to the `stdbuf` binary of null if the binary is not available
 	 *
-	 * @return string|bool
+	 * @return string|null
 	 */
-	public function getDatePath();
+	public function getStdBufPath(): ?string;
+
+	/**
+	 * Get the full path to the `date` binary of null if the binary is not available
+	 *
+	 * @return string|null
+	 */
+	public function getDatePath(): ?string;
 
 	/**
 	 * Whether or not the smbclient php extension is enabled
 	 *
 	 * @return bool
 	 */
-	public function libSmbclientAvailable();
+	public function libSmbclientAvailable(): bool;
 }

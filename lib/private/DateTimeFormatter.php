@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author dartcafe <github@dartcafe.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 class DateTimeFormatter implements \OCP\IDateTimeFormatter {
@@ -80,7 +80,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	protected function getDateTime($timestamp, \DateTimeZone $timeZone = null) {
 		if ($timestamp === null) {
 			return new \DateTime('now', $timeZone);
-		} else if (!$timestamp instanceof \DateTime) {
+		} elseif (!$timestamp instanceof \DateTime) {
 			$dateTime = new \DateTime('now', $timeZone);
 			$dateTime->setTimestamp($timestamp);
 			return $dateTime;
@@ -159,31 +159,31 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 
 		if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 0) {
 			return $l->t('today');
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('tomorrow');
 			} else {
 				return $l->t('yesterday');
 			}
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 0) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n day', 'in %n days', $dateInterval->d);
 			} else {
 				return $l->n('%n day ago', '%n days ago', $dateInterval->d);
 			}
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 1) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('next month');
 			} else {
 				return $l->t('last month');
 			}
-		} else if ($dateInterval->y == 0) {
+		} elseif ($dateInterval->y == 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n month', 'in %n months', $dateInterval->m);
 			} else {
 				return $l->n('%n month ago', '%n months ago', $dateInterval->m);
 			}
-		} else if ($dateInterval->y == 1) {
+		} elseif ($dateInterval->y == 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('next year');
 			} else {
@@ -249,7 +249,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 			} else {
 				return $l->n('%n hour ago', '%n hours ago', $diff->h);
 			}
-		} else if ($diff->i > 0) {
+		} elseif ($diff->i > 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n minute', 'in %n minutes', $diff->i);
 			} else {
@@ -311,8 +311,8 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$timeZone = $this->getTimeZone($timeZone);
 		$timestamp = $this->getDateTime($timestamp, $timeZone);
 
-		return $l->l($type, $timestamp, array(
+		return $l->l($type, $timestamp, [
 			'width' => $format,
-		));
+		]);
 	}
 }

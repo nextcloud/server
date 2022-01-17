@@ -42,15 +42,18 @@
     "Where:" : "Kus:",
     "Description:" : "Kirjeldus:",
     "Invitation canceled" : "Kutse on tühistatud",
-    "Hello %s," : "Tere %s,",
     "Invitation updated" : "Kutse uuendatud",
-    "When:" : "Millal:",
+    "Location:" : "Asukoht:",
     "Link:" : "Link:",
+    "Accept" : "Nõustu",
+    "Decline" : "Keeldu",
     "Contacts" : "Kontaktid",
-    "Technical details" : "Tehnilised detailid",
-    "Remote Address: %s" : "Kaugaadress: %s",
-    "Request ID: %s" : "Päringu ID: %s",
+    "Tasks" : "Ülesanded",
+    "WebDAV" : "WebDAV",
+    "Tentative" : "Esialgne",
+    "Save" : "Salvesta",
     "Send invitations to attendees" : "Saada osalejatele kutsed",
-    "Please make sure to properly set up the email settings above." : "Veendu, et e-posti seaded oleksid eespool õigesti seadistatud."
+    "Hello %s," : "Tere %s,",
+    "When:" : "Millal:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

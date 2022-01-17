@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\OCS;
 
 class Provider extends \OCP\AppFramework\Controller {
@@ -55,7 +55,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			],
 		];
 
-		if($this->appManager->isEnabledForUser('files_sharing')) {
+		if ($this->appManager->isEnabledForUser('files_sharing')) {
 			$services['SHARING'] = [
 				'version' => 1,
 				'endpoints' => [
@@ -88,7 +88,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			}
 		}
 
-		if($this->appManager->isEnabledForUser('activity')) {
+		if ($this->appManager->isEnabledForUser('activity')) {
 			$services['ACTIVITY'] = [
 				'version' => 1,
 				'endpoints' => [
@@ -97,7 +97,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			];
 		}
 
-		if($this->appManager->isEnabledForUser('provisioning_api')) {
+		if ($this->appManager->isEnabledForUser('provisioning_api')) {
 			$services['PROVISIONING'] = [
 				'version' => 1,
 				'endpoints' => [

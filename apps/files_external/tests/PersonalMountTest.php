@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -17,18 +19,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests;
 
 use OC\Files\Mount\Manager;
 use OCA\Files_External\Lib\PersonalMount;
+use OCA\Files_External\Lib\StorageConfig;
 use Test\TestCase;
 
 class PersonalMountTest extends TestCase {
 	public function testFindByStorageId() {
+		$storageConfig = $this->createMock(StorageConfig::class);
 		/** @var \OCA\Files_External\Service\UserStoragesService $storageService */
 		$storageService = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
 			->disableOriginalConstructor()
@@ -40,9 +43,9 @@ class PersonalMountTest extends TestCase {
 
 		$storage->expects($this->any())
 			->method('getId')
-			->will($this->returnValue('dummy'));
+			->willReturn('dummy');
 
-		$mount = new PersonalMount($storageService, 10, $storage, '/foo');
+		$mount = new PersonalMount($storageService, $storageConfig, 10, $storage, '/foo');
 
 		$mountManager = new Manager();
 		$mountManager->addMount($mount);

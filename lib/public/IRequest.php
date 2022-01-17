@@ -1,14 +1,17 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -24,18 +27,12 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Request interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP;
 
 /**
@@ -68,40 +65,42 @@ interface IRequest {
 	/**
 	 * @since 9.1.0
 	 */
-	const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/';
+	public const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/';
 
 	/**
 	 * @since 13.0.0
 	 */
-	const USER_AGENT_TALK_ANDROID = '/^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk v.*$/';
+	public const USER_AGENT_TALK_ANDROID = '/^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk v.*$/';
 
 	/**
 	 * @since 9.1.0
 	 */
-	const USER_AGENT_CLIENT_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
+	public const USER_AGENT_CLIENT_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
 
 	/**
 	 * @since 9.1.0
 	 */
-	const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
+	public const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
 
 	/**
 	 * @since 13.0.0
 	 */
-	const USER_AGENT_TALK_IOS = '/^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk v.*$/';
+	public const USER_AGENT_TALK_IOS = '/^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk v.*$/';
 
 	/**
 	 * @since 13.0.1
 	 */
-	const USER_AGENT_OUTLOOK_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Outlook v.*$/';
+	public const USER_AGENT_OUTLOOK_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Outlook v.*$/';
 
 	/**
 	 * @since 13.0.1
 	 */
-	const USER_AGENT_THUNDERBIRD_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Thunderbird v.*$/';
+	public const USER_AGENT_THUNDERBIRD_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Thunderbird v.*$/';
 
 	/**
 	 * @param string $name
+	 *
+	 * @psalm-taint-source input
 	 *
 	 * @return string
 	 * @since 6.0.0
@@ -111,6 +110,8 @@ interface IRequest {
 	/**
 	 * Lets you access post and get parameters by the index
 	 * In case of json requests the encoded json body is accessed
+	 *
+	 * @psalm-taint-source input
 	 *
 	 * @param string $key the key which you want to access in the URL Parameter
 	 *                     placeholder, $_POST or $_GET array.
@@ -129,6 +130,8 @@ interface IRequest {
 	 * Returns all params that were received, be it from the request
 	 *
 	 * (as GET or POST) or through the URL by the route
+	 *
+	 * @psalm-taint-source input
 	 *
 	 * @return array the array with all parameters
 	 * @since 6.0.0
@@ -165,6 +168,8 @@ interface IRequest {
 
 	/**
 	 * Shortcut for getting cookie variables
+	 *
+	 * @psalm-taint-source input
 	 *
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return string|null the value in the $_COOKIE element
@@ -240,6 +245,8 @@ interface IRequest {
 	 * Returns the request uri, even if the website uses one or more
 	 * reverse proxies
 	 *
+	 * @psalm-taint-source input
+	 *
 	 * @return string
 	 * @since 8.1.0
 	 */
@@ -247,6 +254,8 @@ interface IRequest {
 
 	/**
 	 * Get raw PathInfo from request (not urldecoded)
+	 *
+	 * @psalm-taint-source input
 	 *
 	 * @throws \Exception
 	 * @return string Path info
@@ -256,6 +265,8 @@ interface IRequest {
 
 	/**
 	 * Get PathInfo from request
+	 *
+	 * @psalm-taint-source input
 	 *
 	 * @throws \Exception
 	 * @return string|false Path info or false when not found
@@ -284,6 +295,8 @@ interface IRequest {
 	/**
 	 * Returns the unverified server host from the headers without checking
 	 * whether it is a trusted domain
+	 *
+	 * @psalm-taint-source input
 	 *
 	 * @return string Server host
 	 * @since 8.1.0

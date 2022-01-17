@@ -13,27 +13,37 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Federation\Settings;
 
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
 	/** @var TrustedServers */
 	private $trustedServers;
 
-	public function __construct(TrustedServers $trustedServers) {
+	/** @var IL10N */
+	private $l;
+
+	/**
+	 * Admin constructor.
+	 *
+	 * @param TrustedServers $trustedServers
+	 * @param IL10N $l
+	 */
+	public function __construct(TrustedServers $trustedServers, IL10N $l) {
 		$this->trustedServers = $trustedServers;
+		$this->l = $l;
 	}
 
 	/**
@@ -42,7 +52,6 @@ class Admin implements ISettings {
 	public function getForm() {
 		$parameters = [
 			'trustedServers' => $this->trustedServers->getServers(),
-			'autoAddServers' => $this->trustedServers->getAutoAddServers(),
 		];
 
 		return new TemplateResponse('federation', 'settings-admin', $parameters, '');
@@ -66,4 +75,11 @@ class Admin implements ISettings {
 		return 30;
 	}
 
+	public function getName(): ?string {
+		return $this->l->t("Trusted servers");
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return []; // Handled by custom controller
+	}
 }

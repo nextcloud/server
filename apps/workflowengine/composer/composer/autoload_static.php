@@ -21,7 +21,9 @@ class ComposerStaticInitWorkflowEngine
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\WorkflowEngine\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\WorkflowEngine\\BackgroundJobs\\Rotate' => __DIR__ . '/..' . '/../lib/BackgroundJobs/Rotate.php',
         'OCA\\WorkflowEngine\\Check\\AbstractStringCheck' => __DIR__ . '/..' . '/../lib/Check/AbstractStringCheck.php',
         'OCA\\WorkflowEngine\\Check\\FileMimeType' => __DIR__ . '/..' . '/../lib/Check/FileMimeType.php',
         'OCA\\WorkflowEngine\\Check\\FileName' => __DIR__ . '/..' . '/../lib/Check/FileName.php',
@@ -39,10 +41,14 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Controller\\RequestTime' => __DIR__ . '/..' . '/../lib/Controller/RequestTime.php',
         'OCA\\WorkflowEngine\\Controller\\UserWorkflowsController' => __DIR__ . '/..' . '/../lib/Controller/UserWorkflowsController.php',
         'OCA\\WorkflowEngine\\Entity\\File' => __DIR__ . '/..' . '/../lib/Entity/File.php',
+        'OCA\\WorkflowEngine\\Helper\\LogContext' => __DIR__ . '/..' . '/../lib/Helper/LogContext.php',
         'OCA\\WorkflowEngine\\Helper\\ScopeContext' => __DIR__ . '/..' . '/../lib/Helper/ScopeContext.php',
+        'OCA\\WorkflowEngine\\Listener\\LoadAdditionalSettingsScriptsListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalSettingsScriptsListener.php',
         'OCA\\WorkflowEngine\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
         'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => __DIR__ . '/..' . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',
         'OCA\\WorkflowEngine\\Migration\\Version2000Date20190808074233' => __DIR__ . '/..' . '/../lib/Migration/Version2000Date20190808074233.php',
+        'OCA\\WorkflowEngine\\Migration\\Version2200Date20210805101925' => __DIR__ . '/..' . '/../lib/Migration/Version2200Date20210805101925.php',
+        'OCA\\WorkflowEngine\\Service\\Logger' => __DIR__ . '/..' . '/../lib/Service/Logger.php',
         'OCA\\WorkflowEngine\\Service\\RuleMatcher' => __DIR__ . '/..' . '/../lib/Service/RuleMatcher.php',
         'OCA\\WorkflowEngine\\Settings\\ASettings' => __DIR__ . '/..' . '/../lib/Settings/ASettings.php',
         'OCA\\WorkflowEngine\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',

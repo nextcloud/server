@@ -33,7 +33,6 @@ use OC\Authentication\TwoFactorAuth\EnforcementState;
 use Test\TestCase;
 
 class EnforcementStateTest extends TestCase {
-
 	public function testIsEnforced() {
 		$state = new EnforcementState(true);
 

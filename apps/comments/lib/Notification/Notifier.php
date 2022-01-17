@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Notification;
 
 use OCP\Comments\IComment;
@@ -96,12 +96,12 @@ class Notifier implements INotifier {
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if($notification->getApp() !== 'comments') {
+		if ($notification->getApp() !== 'comments') {
 			throw new \InvalidArgumentException();
 		}
 		try {
 			$comment = $this->commentsManager->get($notification->getObjectId());
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// needs to be converted to InvalidArgumentException, otherwise none Notifications will be shown at all
 			throw new \InvalidArgumentException('Comment not found', 0, $e);
 		}
@@ -118,12 +118,12 @@ class Notifier implements INotifier {
 		switch ($notification->getSubject()) {
 			case 'mention':
 				$parameters = $notification->getSubjectParameters();
-				if($parameters[0] !== 'files') {
+				if ($parameters[0] !== 'files') {
 					throw new \InvalidArgumentException('Unsupported comment object');
 				}
 				$userFolder = $this->rootFolder->getUserFolder($notification->getUser());
 				$nodes = $userFolder->getById((int)$parameters[1]);
-				if(empty($nodes)) {
+				if (empty($nodes)) {
 					throw new AlreadyProcessedException();
 				}
 				$node = $nodes[0];
@@ -132,7 +132,7 @@ class Notifier implements INotifier {
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
 					// Remove /user/files/...
 					$fullPath = $path;
-					list(,,, $path) = explode('/', $fullPath, 4);
+					[,,, $path] = explode('/', $fullPath, 4);
 				}
 				$subjectParameters = [
 					'file' => [
@@ -145,16 +145,16 @@ class Notifier implements INotifier {
 				];
 
 				if ($isDeletedActor) {
-					$subject = $l->t('You were mentioned on “{file}”, in a comment by a user that has since been deleted');
+					$subject = $l->t('You were mentioned on "{file}", in a comment by a user that has since been deleted');
 				} else {
-					$subject = $l->t('{user} mentioned you in a comment on “{file}”');
+					$subject = $l->t('{user} mentioned you in a comment on "{file}"');
 					$subjectParameters['user'] = [
 						'type' => 'user',
 						'id' => $comment->getActorId(),
 						'name' => $displayName,
 					];
 				}
-				list($message, $messageParameters) = $this->commentToRichMessage($comment);
+				[$message, $messageParameters] = $this->commentToRichMessage($comment);
 				$notification->setRichSubject($subject, $subjectParameters)
 					->setParsedSubject($this->richToParsed($subject, $subjectParameters))
 					->setRichMessage($message, $messageParameters)
@@ -194,7 +194,11 @@ class Notifier implements INotifier {
 			// could contain characters like '@' for user IDs) but a one-based
 			// index of the mentions of that type.
 			$mentionParameterId = 'mention-' . $mention['type'] . $mentionTypeCount[$mention['type']];
-			$message = str_replace('@' . $mention['id'], '{' . $mentionParameterId . '}', $message);
+			$message = str_replace('@"' . $mention['id'] . '"', '{' . $mentionParameterId . '}', $message);
+			if (strpos($mention['id'], ' ') === false && strpos($mention['id'], 'guest/') !== 0) {
+				$message = str_replace('@' . $mention['id'], '{' . $mentionParameterId . '}', $message);
+			}
+
 			try {
 				$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);
 			} catch (\OutOfBoundsException $e) {
@@ -217,7 +221,7 @@ class Notifier implements INotifier {
 			$placeholders[] = '{' . $placeholder . '}';
 			if ($parameter['type'] === 'user') {
 				$replacements[] = '@' . $parameter['name'];
-			} else if ($parameter['type'] === 'file') {
+			} elseif ($parameter['type'] === 'file') {
 				$replacements[] = $parameter['path'];
 			} else {
 				$replacements[] = $parameter['name'];

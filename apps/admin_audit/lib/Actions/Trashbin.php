@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,29 +18,25 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
 
-
 class Trashbin extends Action {
-
-	public function delete(array $params) {
+	public function delete(array $params): void {
 		$this->log('File "%s" deleted from trash bin.',
 			['path' => $params['path']], ['path']
 		);
 	}
 
-	public function restore(array $params) {
+	public function restore(array $params): void {
 		$this->log('File "%s" restored from trash bin.',
 			['path' => $params['filePath']], ['path']
 		);
 	}
-
 }

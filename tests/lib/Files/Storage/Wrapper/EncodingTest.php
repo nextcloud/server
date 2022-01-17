@@ -9,16 +9,15 @@
 namespace Test\Files\Storage\Wrapper;
 
 class EncodingTest extends \Test\Files\Storage\Storage {
-
-	const NFD_NAME = 'ümlaut';
-	const NFC_NAME = 'ümlaut';
+	public const NFD_NAME = 'ümlaut';
+	public const NFC_NAME = 'ümlaut';
 
 	/**
 	 * @var \OC\Files\Storage\Temporary
 	 */
 	private $sourceStorage;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$this->instance = new \OC\Files\Storage\Wrapper\Encoding([
@@ -26,14 +25,14 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		]);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$this->sourceStorage->cleanUp();
 		parent::tearDown();
 	}
 
 	public function directoryProvider() {
 		$a = parent::directoryProvider();
-		$a[] = [self::NFD_NAME];
+		$a[] = [self::NFC_NAME];
 		return $a;
 	}
 
@@ -199,5 +198,47 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->file_exists(self::NFC_NAME . '2/test2.txt'));
 
 		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME . '2/test2.txt'));
+	}
+
+	public function testNormalizedDirectoryEntriesOpenDir() {
+		$this->sourceStorage->mkdir('/test');
+		$this->sourceStorage->mkdir('/test/' . self::NFD_NAME);
+
+		$this->assertTrue($this->instance->file_exists('/test/' . self::NFC_NAME));
+		$this->assertTrue($this->instance->file_exists('/test/' . self::NFD_NAME));
+
+		$dh = $this->instance->opendir('/test');
+		$content = [];
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$content[] = $file;
+			}
+		}
+
+		$this->assertCount(1, $content);
+		$this->assertEquals(self::NFC_NAME, $content[0]);
+	}
+
+	public function testNormalizedDirectoryEntriesGetDirectoryContent() {
+		$this->sourceStorage->mkdir('/test');
+		$this->sourceStorage->mkdir('/test/' . self::NFD_NAME);
+
+		$this->assertTrue($this->instance->file_exists('/test/' . self::NFC_NAME));
+		$this->assertTrue($this->instance->file_exists('/test/' . self::NFD_NAME));
+
+		$content = iterator_to_array($this->instance->getDirectoryContent('/test'));
+		$this->assertCount(1, $content);
+		$this->assertEquals(self::NFC_NAME, $content[0]['name']);
+	}
+
+	public function testNormalizedGetMetaData() {
+		$this->sourceStorage->mkdir('/test');
+		$this->sourceStorage->mkdir('/test/' . self::NFD_NAME);
+
+		$entry = $this->instance->getMetaData('/test/' . self::NFC_NAME);
+		$this->assertEquals(self::NFC_NAME, $entry['name']);
+
+		$entry = $this->instance->getMetaData('/test/' . self::NFD_NAME);
+		$this->assertEquals(self::NFC_NAME, $entry['name']);
 	}
 }

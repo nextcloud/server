@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license AGPL-3.0
@@ -17,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\App;
 
 use OCP\EventDispatcher\Event;
@@ -28,19 +28,29 @@ use OCP\EventDispatcher\Event;
 /**
  * Class ManagerEvent
  *
- * @package OCP\APP
  * @since 9.0.0
  */
 class ManagerEvent extends Event {
+	/**
+	 * @deprecated 22.0.0
+	 */
+	public const EVENT_APP_ENABLE = 'OCP\App\IAppManager::enableApp';
 
-	const EVENT_APP_ENABLE = 'OCP\App\IAppManager::enableApp';
-	const EVENT_APP_ENABLE_FOR_GROUPS = 'OCP\App\IAppManager::enableAppForGroups';
-	const EVENT_APP_DISABLE = 'OCP\App\IAppManager::disableApp';
+	/**
+	 * @deprecated 22.0.0
+	 */
+	public const EVENT_APP_ENABLE_FOR_GROUPS = 'OCP\App\IAppManager::enableAppForGroups';
+
+	/**
+	 * @deprecated 22.0.0
+	 */
+	public const EVENT_APP_DISABLE = 'OCP\App\IAppManager::disableApp';
 
 	/**
 	 * @since 9.1.0
+	 * @deprecated 22.0.0
 	 */
-	const EVENT_APP_UPDATE = 'OCP\App\IAppManager::updateApp';
+	public const EVENT_APP_UPDATE = 'OCP\App\IAppManager::updateApp';
 
 	/** @var string */
 	protected $event;

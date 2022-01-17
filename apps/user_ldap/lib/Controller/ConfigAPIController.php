@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Controller;
 
 use OC\CapabilitiesManager;
@@ -76,7 +76,7 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * creates a new (empty) configuration and returns the resulting prefix
+	 * Creates a new (empty) configuration and returns the resulting prefix
 	 *
 	 * Example: curl -X POST -H "OCS-APIREQUEST: true"  -u $admin:$password \
 	 *   https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config
@@ -110,6 +110,7 @@ class ConfigAPIController extends OCSController {
 	 *
 	 * For JSON output provide the format=json parameter
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
@@ -142,6 +143,7 @@ class ConfigAPIController extends OCSController {
 	 *   <data/>
 	 * </ocs>
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
@@ -150,12 +152,12 @@ class ConfigAPIController extends OCSController {
 	public function delete($configID) {
 		try {
 			$this->ensureConfigIDExists($configID);
-			if(!$this->ldapHelper->deleteServerConfiguration($configID)) {
+			if (!$this->ldapHelper->deleteServerConfiguration($configID)) {
 				throw new OCSException('Could not delete configuration');
 			}
-		} catch(OCSException $e) {
+		} catch (OCSException $e) {
 			throw $e;
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			throw new OCSException('An issue occurred when deleting the config.');
 		}
@@ -164,7 +166,7 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * modifies a configuration
+	 * Modifies a configuration
 	 *
 	 * Example:
 	 *   curl -X PUT -d "configData[ldapHost]=ldaps://my.ldap.server&configData[ldapPort]=636" \
@@ -181,6 +183,7 @@ class ConfigAPIController extends OCSController {
 	 *   <data/>
 	 * </ocs>
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @param array $configData
 	 * @return DataResponse
@@ -190,7 +193,7 @@ class ConfigAPIController extends OCSController {
 		try {
 			$this->ensureConfigIDExists($configID);
 
-			if(!is_array($configData)) {
+			if (!is_array($configData)) {
 				throw new OCSBadRequestException('configData is not properly set');
 			}
 
@@ -198,14 +201,14 @@ class ConfigAPIController extends OCSController {
 			$configKeys = $configuration->getConfigTranslationArray();
 
 			foreach ($configKeys as $i => $key) {
-				if(isset($configData[$key])) {
+				if (isset($configData[$key])) {
 					$configuration->$key = $configData[$key];
 				}
 			}
 
 			$configuration->saveConfiguration();
 			$this->connectionFactory->get($configID)->clearCache();
-		} catch(OCSException $e) {
+		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
@@ -216,7 +219,7 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * retrieves a configuration
+	 * Retrieves a configuration
 	 *
 	 * <?xml version="1.0"?>
 	 * <ocs>
@@ -280,6 +283,7 @@ class ConfigAPIController extends OCSController {
 	 *   </data>
 	 * </ocs>
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @param bool|string $showPassword
 	 * @return DataResponse
@@ -291,16 +295,16 @@ class ConfigAPIController extends OCSController {
 
 			$config = new Configuration($configID);
 			$data = $config->getConfiguration();
-			if(!(int)$showPassword) {
+			if (!(int)$showPassword) {
 				$data['ldapAgentPassword'] = '***';
 			}
 			foreach ($data as $key => $value) {
-				if(is_array($value)) {
+				if (is_array($value)) {
 					$value = implode(';', $value);
 					$data[$key] = $value;
 				}
 			}
-		} catch(OCSException $e) {
+		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
@@ -311,14 +315,15 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * if the given config ID is not available, an exception is thrown
+	 * If the given config ID is not available, an exception is thrown
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @throws OCSNotFoundException
 	 */
 	private function ensureConfigIDExists($configID) {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
-		if(!in_array($configID, $prefixes, true)) {
+		if (!in_array($configID, $prefixes, true)) {
 			throw new OCSNotFoundException('Config ID not found');
 		}
 	}

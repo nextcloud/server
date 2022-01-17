@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -15,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Security\IdentityProof;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -81,7 +83,7 @@ class Signer {
 	 * @return bool
 	 */
 	public function verify(array $data): bool {
-		if(isset($data['message'])
+		if (isset($data['message'])
 			&& isset($data['signature'])
 			&& isset($data['message']['signer'])
 		) {
@@ -89,7 +91,7 @@ class Signer {
 			$userId = substr($data['message']['signer'], 0, $location);
 
 			$user = $this->userManager->get($userId);
-			if($user !== null) {
+			if ($user !== null) {
 				$key = $this->keyManager->getKey($user);
 				return (bool)openssl_verify(
 					json_encode($data['message']),

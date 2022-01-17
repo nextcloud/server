@@ -2,6 +2,12 @@
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author rakekniven <mark.ziegler@rakekniven.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,17 +17,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Tests\Controller;
 
-use OC\Authentication\Token\DefaultTokenMapper;
 use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
@@ -34,27 +38,24 @@ use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ClientMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ClientMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientMapper;
-	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
-	/** @var AccessTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccessTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $accessTokenMapper;
-	/** @var DefaultTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
-	private $defaultTokenMapper;
 	/** @var SettingsController */
 	private $settingsController;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->clientMapper = $this->createMock(ClientMapper::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
-		$this->defaultTokenMapper = $this->createMock(DefaultTokenMapper::class);
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')
 			->willReturnArgument(0);
@@ -65,7 +66,6 @@ class SettingsControllerTest extends TestCase {
 			$this->clientMapper,
 			$this->secureRandom,
 			$this->accessTokenMapper,
-			$this->defaultTokenMapper,
 			$l
 		);
 	}
@@ -96,10 +96,10 @@ class SettingsControllerTest extends TestCase {
 					$c->getRedirectUri() === 'https://example.com/' &&
 					$c->getSecret() === 'MySecret' &&
 					$c->getClientIdentifier() === 'MyClientIdentifier';
-			}))->will($this->returnCallback(function (Client $c) {
+			}))->willReturnCallback(function (Client $c) {
 				$c->setId(42);
 				return $c;
-			}));
+			});
 
 		$result = $this->settingsController->addClient('My Client Name', 'https://example.com/');
 		$this->assertInstanceOf(JSONResponse::class, $result);
@@ -131,10 +131,6 @@ class SettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('deleteByClientId')
 			->with(123);
-		$this->defaultTokenMapper
-			->expects($this->once())
-			->method('deleteByName')
-			->with('My Client Name');
 		$this->clientMapper
 			->method('delete')
 			->with($client);

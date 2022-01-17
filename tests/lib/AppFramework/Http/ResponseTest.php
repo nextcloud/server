@@ -21,14 +21,11 @@
  *
  */
 
-
 namespace Test\AppFramework\Http;
 
-
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
-
 
 class ResponseTest extends \Test\TestCase {
 
@@ -37,13 +34,13 @@ class ResponseTest extends \Test\TestCase {
 	 */
 	private $childResponse;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 		$this->childResponse = new Response();
 	}
 
 
-	public function testAddHeader(){
+	public function testAddHeader() {
 		$this->childResponse->addHeader(' hello ', 'world');
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('world', $headers['hello']);
@@ -51,15 +48,16 @@ class ResponseTest extends \Test\TestCase {
 
 
 	public function testSetHeaders() {
-		$expected = array(
+		$expected = [
 			'Last-Modified' => 1,
 			'ETag' => 3,
-			'Something-Else' => 'hi'
-		);
+			'Something-Else' => 'hi',
+			'X-Robots-Tag' => 'none',
+		];
 
 		$this->childResponse->setHeaders($expected);
 		$headers = $this->childResponse->getHeaders();
-		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self'";
+		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 		$expected['Feature-Policy'] = "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'";
 
 		$this->assertEquals($expected, $headers);
@@ -90,14 +88,14 @@ class ResponseTest extends \Test\TestCase {
 		$this->assertEquals(new Http\EmptyContentSecurityPolicy(), $this->childResponse->getContentSecurityPolicy());
 	}
 
-	public function testAddHeaderValueNullDeletesIt(){
+	public function testAddHeaderValueNullDeletesIt() {
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
-		$this->assertEquals(3, count($this->childResponse->getHeaders()));
+		$this->assertEquals(4, count($this->childResponse->getHeaders()));
 	}
 
 
-	public function testCacheHeadersAreDisabledByDefault(){
+	public function testCacheHeadersAreDisabledByDefault() {
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('no-cache, no-store, must-revalidate', $headers['Cache-Control']);
 	}
@@ -107,31 +105,33 @@ class ResponseTest extends \Test\TestCase {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->addCookie('bar', 'foo', new \DateTime('1970-01-01'));
 
-		$expectedResponse = array(
-			'foo' => array(
+		$expectedResponse = [
+			'foo' => [
 				'value' => 'bar',
 				'expireDate' => null,
-			),
-			'bar' => array(
+				'sameSite' => 'Lax',
+			],
+			'bar' => [
 				'value' => 'foo',
-				'expireDate' => new \DateTime('1970-01-01')
-			)
-		);
+				'expireDate' => new \DateTime('1970-01-01'),
+				'sameSite' => 'Lax',
+			]
+		];
 		$this->assertEquals($expectedResponse, $this->childResponse->getCookies());
 	}
 
 
-	function testSetCookies() {
-		$expected = array(
-			'foo' => array(
+	public function testSetCookies() {
+		$expected = [
+			'foo' => [
 				'value' => 'bar',
 				'expireDate' => null,
-			),
-			'bar' => array(
+			],
+			'bar' => [
 				'value' => 'foo',
 				'expireDate' => new \DateTime('1970-01-01')
-			)
-		);
+			]
+		];
 
 		$this->childResponse->setCookies($expected);
 		$cookies = $this->childResponse->getCookies();
@@ -140,15 +140,16 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	function testInvalidateCookie() {
+	public function testInvalidateCookie() {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->invalidateCookie('foo');
-		$expected = array(
-			'foo' => array(
+		$expected = [
+			'foo' => [
 				'value' => 'expired',
-				'expireDate' => new \DateTime('1971-01-01')
-			)
-		);
+				'expireDate' => new \DateTime('1971-01-01'),
+				'sameSite' => 'Lax',
+			]
+		];
 
 		$cookies = $this->childResponse->getCookies();
 
@@ -156,40 +157,44 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	function testInvalidateCookies() {
+	public function testInvalidateCookies() {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->addCookie('bar', 'foo');
-		$expected = array(
-			'foo' => array(
+		$expected = [
+			'foo' => [
 				'value' => 'bar',
-				'expireDate' => null
-			),
-			'bar' => array(
+				'expireDate' => null,
+				'sameSite' => 'Lax',
+			],
+			'bar' => [
 				'value' => 'foo',
-				'expireDate' => null
-			)
-		);
+				'expireDate' => null,
+				'sameSite' => 'Lax',
+			]
+		];
 		$cookies = $this->childResponse->getCookies();
 		$this->assertEquals($expected, $cookies);
 
-		$this->childResponse->invalidateCookies(array('foo', 'bar'));
-		$expected = array(
-			'foo' => array(
+		$this->childResponse->invalidateCookies(['foo', 'bar']);
+		$expected = [
+			'foo' => [
 				'value' => 'expired',
-				'expireDate' => new \DateTime('1971-01-01')
-			),
-			'bar' => array(
+				'expireDate' => new \DateTime('1971-01-01'),
+				'sameSite' => 'Lax',
+			],
+			'bar' => [
 				'value' => 'expired',
-				'expireDate' => new \DateTime('1971-01-01')
-			)
-		);
+				'expireDate' => new \DateTime('1971-01-01'),
+				'sameSite' => 'Lax',
+			]
+		];
 
 		$cookies = $this->childResponse->getCookies();
 		$this->assertEquals($expected, $cookies);
 	}
 
 
-	public function testRenderReturnNullByDefault(){
+	public function testRenderReturnNullByDefault() {
 		$this->assertEquals(null, $this->childResponse->render());
 	}
 
@@ -211,7 +216,7 @@ class ResponseTest extends \Test\TestCase {
 
 
 	public function testGetLastModified() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$this->assertEquals($lastModified, $this->childResponse->getLastModified());
@@ -232,22 +237,22 @@ class ResponseTest extends \Test\TestCase {
 	public function testCacheSeconds() {
 		$time = $this->createMock(ITimeFactory::class);
 		$time->method('getTime')
-			->willReturn('1234567');
+			->willReturn(1234567);
 
 		$this->overwriteService(ITimeFactory::class, $time);
 
 		$this->childResponse->cacheFor(33);
 
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('max-age=33, must-revalidate', $headers['Cache-Control']);
-		$this->assertEquals('public', $headers['Pragma']);
+		$this->assertEquals('private, max-age=33, must-revalidate', $headers['Cache-Control']);
+		$this->assertEquals('private', $headers['Pragma']);
 		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
 	}
 
 
 
 	public function testEtagLastModifiedHeaders() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$headers = $this->childResponse->getHeaders();
@@ -255,7 +260,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 	public function testChainability() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 
 		$this->childResponse->setEtag('hi')
@@ -270,9 +275,8 @@ class ResponseTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->childResponse->getStatus());
 		$this->assertEquals('hi', $this->childResponse->getEtag());
 		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 +0000', $headers['Last-Modified']);
-		$this->assertEquals('max-age=33, must-revalidate',
+		$this->assertEquals('private, max-age=33, must-revalidate',
 			$headers['Cache-Control']);
-
 	}
 
 	public function testThrottle() {

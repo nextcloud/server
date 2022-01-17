@@ -94,7 +94,8 @@ OCA.Files_External.StatusManager = {
 							id: mountData.id,
 							error: statusMessage,
 							userProvided: response.userProvided,
-							authMechanism: response.authMechanism
+							authMechanism: response.authMechanism,
+							canEdit: response.can_edit,
 						};
 					}
 					afterCallback(mountData, self.mountStatus[mountData.mount_point]);
@@ -158,7 +159,7 @@ OCA.Files_External.StatusManager = {
 				},
 				error: function (jqxhr, state, error) {
 					self.mountPointList = [];
-					OC.Notification.show(t('files_external', 'Couldn\'t get the list of external mount points: {type}', 
+					OC.Notification.show(t('files_external', 'Couldn\'t get the list of external mount points: {type}',
 						{type: error}), {type: 'error'}
 					);
 				},
@@ -182,12 +183,14 @@ OCA.Files_External.StatusManager = {
 					if (mountData.userProvided || mountData.authMechanism === 'password::global::user') {
 						// personal mount whit credentials problems
 						this.showCredentialsDialog(name, mountData);
-					} else {
+					} else if (mountData.canEdit) {
 						OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in admin settings page?', t('files_external', 'External mount error'), function (e) {
 							if (e === true) {
 								OC.redirect(OC.generateUrl('/settings/admin/externalstorages'));
 							}
 						});
+					} else {
+						OC.dialogs.info(t('files_external', 'There was an error with message: ') + mountData.error + '. Please contact your system administrator.', t('files_external', 'External mount error'), () => {});
 					}
 				} else {
 					OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in personal settings page?', t('files_external', 'External mount error'), function (e) {
@@ -251,8 +254,6 @@ OCA.Files_External.StatusManager = {
 				OCA.Files_External.StatusManager.Utils.changeFolderIcon(elementList);
 				// Save default view
 				OCA.Files_External.StatusManager.Utils.storeDefaultFolderIconAndBgcolor(elementList);
-				// Disable row until check status
-				elementList.addClass('externalDisabledRow');
 				OCA.Files_External.StatusManager.Utils.toggleLink(elementList.find('a.name'), false, false);
 			}
 		}
@@ -268,7 +269,7 @@ OCA.Files_External.StatusManager = {
 			// check if we have a list first
 			if (list === undefined && !self.emptyWarningShown) {
 				self.emptyWarningShown = true;
-				OC.Notification.show(t('files_external', 'Couldn\'t fetch list of Windows network drive mount points: Empty response from server'), 
+				OC.Notification.show(t('files_external', 'Couldn\'t fetch list of Windows network drive mount points: Empty response from server'),
 					{type: 'error'}
 				);
 				return;
@@ -382,8 +383,8 @@ OCA.Files_External.StatusManager = {
 
 	/**
 	 * Function to display custom dialog to enter credentials
-	 * @param mountPoint
-	 * @param mountData
+	 * @param {any} mountPoint -
+	 * @param {any} mountData -
 	 */
 	showCredentialsDialog: function (mountPoint, mountData) {
 		var dialog = $(OCA.Files_External.Templates.credentialsDialog({
@@ -413,7 +414,7 @@ OCA.Files_External.StatusManager = {
 					}
 				},
 				success: function (data) {
-					OC.Notification.show(t('files_external', 'Credentials saved'), {type: 'error'});
+					OC.Notification.show(t('files_external', 'Credentials saved'), {type: 'success'});
 					dialog.ocdialog('close');
 					/* Trigger status check again */
 					OCA.Files_External.StatusManager.recheckConnectivityForMount([OC.basename(data.mountPoint)], true);
@@ -502,7 +503,6 @@ OCA.Files_External.StatusManager.Utils = {
 			// can't use here FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(folder)); return incorrect instance of filelist
 			trFolder = $('#fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
-		trFolder.removeClass('externalErroredRow').removeClass('externalDisabledRow');
 		var tdChilds = trFolder.find("td.filename div.thumbnail");
 		tdChilds.each(function () {
 			var thisElement = $(this);

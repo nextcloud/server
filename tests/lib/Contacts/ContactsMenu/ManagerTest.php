@@ -28,31 +28,31 @@ use OC\Contacts\ContactsMenu\ActionProviderStore;
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\Contacts\ContactsMenu\Manager;
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IConfig;
 use OCP\IUser;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var ContactsStore|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ContactsStore|\PHPUnit\Framework\MockObject\MockObject */
 	private $contactsStore;
 
-	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var ActionProviderStore|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ActionProviderStore|\PHPUnit\Framework\MockObject\MockObject */
 	private $actionProviderStore;
 
 	/** @var Manager */
 	private $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->contactsStore = $this->createMock(ContactsStore::class);
@@ -83,7 +83,7 @@ class ManagerTest extends TestCase {
 
 		$this->config->expects($this->at(0))
 			->method('getSystemValueInt')
-			->with('sharing.maxAutocompleteResults', 25)
+			->with('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)
 			->willReturn(25);
 		$this->config->expects($this->at(1))
 			->method('getSystemValueInt')
@@ -121,7 +121,7 @@ class ManagerTest extends TestCase {
 
 		$this->config->expects($this->at(0))
 			->method('getSystemValueInt')
-			->with('sharing.maxAutocompleteResults', 25)
+			->with('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)
 			->willReturn(3);
 		$this->config->expects($this->at(1))
 			->method('getSystemValueInt')
@@ -158,7 +158,7 @@ class ManagerTest extends TestCase {
 
 		$this->config->expects($this->at(0))
 			->method('getSystemValueInt')
-			->with('sharing.maxAutocompleteResults', 25)
+			->with('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)
 			->willReturn(3);
 		$this->config->expects($this->at(1))
 			->method('getSystemValueInt')
@@ -222,5 +222,4 @@ class ManagerTest extends TestCase {
 
 		$this->assertEquals(null, $data);
 	}
-
 }

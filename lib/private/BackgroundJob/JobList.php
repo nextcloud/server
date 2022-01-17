@@ -2,13 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -22,17 +24,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\BackgroundJob;
 
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\AutoloadNotAllowedException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -64,28 +65,34 @@ class JobList implements IJobList {
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null) {
+		if ($job instanceof IJob) {
+			$class = get_class($job);
+		} else {
+			$class = $job;
+		}
+
+		$argumentJson = json_encode($argument);
+		if (strlen($argumentJson) > 4000) {
+			throw new \InvalidArgumentException('Background job arguments can\'t exceed 4000 characters (json encoded)');
+		}
+
+		$query = $this->connection->getQueryBuilder();
 		if (!$this->has($job, $argument)) {
-			if ($job instanceof IJob) {
-				$class = get_class($job);
-			} else {
-				$class = $job;
-			}
-
-			$argument = json_encode($argument);
-			if (strlen($argument) > 4000) {
-				throw new \InvalidArgumentException('Background job arguments can\'t exceed 4000 characters (json encoded)');
-			}
-
-			$query = $this->connection->getQueryBuilder();
 			$query->insert('jobs')
 				->values([
 					'class' => $query->createNamedParameter($class),
-					'argument' => $query->createNamedParameter($argument),
+					'argument' => $query->createNamedParameter($argumentJson),
 					'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
 					'last_checked' => $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT),
 				]);
-			$query->execute();
+		} else {
+			$query->update('jobs')
+				->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
+				->set('last_checked', $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT))
+				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
+				->andWhere($query->expr()->eq('argument', $query->createNamedParameter($argumentJson)));
 		}
+		$query->executeStatement();
 	}
 
 	/**
@@ -177,7 +184,6 @@ class JobList implements IJobList {
 	 * get the next job in the list
 	 *
 	 * @return IJob|null
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getNext() {
 		$query = $this->connection->getQueryBuilder();
@@ -236,19 +242,29 @@ class JobList implements IJobList {
 	 * @return IJob|null
 	 */
 	public function getById($id) {
+		$row = $this->getDetailsById($id);
+
+		if ($row) {
+			return $this->buildJob($row);
+		}
+
+		return null;
+	}
+
+	public function getDetailsById(int $id): ?array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
 		if ($row) {
-			return $this->buildJob($row);
-		} else {
-			return null;
+			return $row;
 		}
+
+		return null;
 	}
 
 	/**
@@ -274,7 +290,7 @@ class JobList implements IJobList {
 			}
 
 			$job->setId((int) $row['id']);
-			$job->setLastRun($row['last_run']);
+			$job->setLastRun((int) $row['last_run']);
 			$job->setArgument(json_decode($row['argument'], true));
 			return $job;
 		} catch (AutoloadNotAllowedException $e) {
@@ -297,7 +313,6 @@ class JobList implements IJobList {
 	 * Remove the reservation for a job
 	 *
 	 * @param IJob $job
-	 * @suppress SqlInjectionChecker
 	 */
 	public function unlockJob(IJob $job) {
 		$query = $this->connection->getQueryBuilder();
@@ -305,18 +320,6 @@ class JobList implements IJobList {
 			->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
 		$query->execute();
-	}
-
-	/**
-	 * get the id of the last ran job
-	 *
-	 * @return int
-	 * @deprecated 9.1.0 - The functionality behind the value is deprecated, it
-	 *    only tells you which job finished last, but since we now allow multiple
-	 *    executors to run in parallel, it's not used to calculate the next job.
-	 */
-	public function getLastJob() {
-		return (int) $this->config->getAppValue('backgroundjob', 'lastjob', 0);
 	}
 
 	/**
@@ -342,5 +345,20 @@ class JobList implements IJobList {
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
 		$query->execute();
+	}
+
+	/**
+	 * Reset the $job so it executes on the next trigger
+	 *
+	 * @param IJob $job
+	 * @since 23.0.0
+	 */
+	public function resetBackgroundJob(IJob $job): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->update('jobs')
+			->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId()), IQueryBuilder::PARAM_INT));
+		$query->executeStatement();
 	}
 }

@@ -103,7 +103,7 @@ function hideUndoButton(setting, value) {
 	}
 }
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 	$('#theming [data-toggle="tooltip"]').tooltip();
 
 	// manually instantiate jscolor to work around new Function call which violates strict CSP
@@ -163,7 +163,7 @@ $(document).ready(function () {
 		} catch (error) {
 			$('#theming-name').attr('title', error);
 			$('#theming-name').tooltip({placement: 'top', trigger: 'manual'});
-			$('#theming-name').tooltip('fixTitle');
+			$('#theming-name').tooltip('_fixTitle');
 			$('#theming-name').tooltip('show');
 			$('#theming-name').addClass('error');
 		}

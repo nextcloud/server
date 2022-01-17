@@ -2,11 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -20,10 +23,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use Sabre\DAV\IFile;
@@ -71,14 +73,14 @@ class AssemblyStream implements \Icewind\Streams\File {
 		$this->loadContext('assembly');
 
 		$nodes = $this->nodes;
-		// http://stackoverflow.com/a/10985500
-		@usort($nodes, function (IFile $a, IFile $b) {
+		usort($nodes, function (IFile $a, IFile $b) {
 			return strnatcmp($a->getName(), $b->getName());
 		});
 		$this->nodes = array_values($nodes);
 		$this->size = array_reduce($this->nodes, function ($size, IFile $file) {
 			return $size + $file->getSize();
 		}, 0);
+
 		return true;
 	}
 
@@ -90,7 +92,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		if ($whence === SEEK_CUR) {
 			$offset = $this->stream_tell() + $offset;
-		} else if ($whence === SEEK_END) {
+		} elseif ($whence === SEEK_END) {
 			$offset = $this->size + $offset;
 		}
 
@@ -114,7 +116,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 
 		$stream = $this->getStream($this->nodes[$nodeIndex]);
 		$nodeOffset = $offset - $nodeStart;
-		if(fseek($stream, $nodeOffset) === -1) {
+		if (fseek($stream, $nodeOffset) === -1) {
 			return false;
 		}
 		$this->currentNode = $nodeIndex;
@@ -275,7 +277,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 		]);
 		stream_wrapper_register('assembly', self::class);
 		try {
-			$wrapped = fopen('assembly://', 'r', null, $context);
+			$wrapped = fopen('assembly://', 'r', false, $context);
 		} catch (\BadMethodCallException $e) {
 			stream_wrapper_unregister('assembly');
 			throw $e;

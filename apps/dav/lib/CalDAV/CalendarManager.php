@@ -2,7 +2,9 @@
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\IManager;
@@ -65,7 +66,7 @@ class CalendarManager {
 	 * @param array $calendars
 	 */
 	private function register(IManager $cm, array $calendars) {
-		foreach($calendars as $calendarInfo) {
+		foreach ($calendars as $calendarInfo) {
 			$calendar = new Calendar($this->backend, $calendarInfo, $this->l10n, $this->config);
 			$cm->registerCalendar(new CalendarImpl(
 				$calendar,

@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
@@ -18,9 +20,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+namespace OCA\Files_Trashbin\Tests;
 
 use OCA\Files_Trashbin\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -28,19 +31,19 @@ use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ExpirationTest extends \Test\TestCase {
-	const SECONDS_PER_DAY = 86400; //60*60*24
+	public const SECONDS_PER_DAY = 86400; //60*60*24
 
-	const FAKE_TIME_NOW = 1000000;
+	public const FAKE_TIME_NOW = 1000000;
 
-	public function expirationData(){
-		$today = 100*self::SECONDS_PER_DAY;
-		$back10Days = (100-10)*self::SECONDS_PER_DAY;
-		$back20Days = (100-20)*self::SECONDS_PER_DAY;
-		$back30Days = (100-30)*self::SECONDS_PER_DAY;
-		$back35Days = (100-35)*self::SECONDS_PER_DAY;
+	public function expirationData() {
+		$today = 100 * self::SECONDS_PER_DAY;
+		$back10Days = (100 - 10) * self::SECONDS_PER_DAY;
+		$back20Days = (100 - 20) * self::SECONDS_PER_DAY;
+		$back30Days = (100 - 30) * self::SECONDS_PER_DAY;
+		$back35Days = (100 - 35) * self::SECONDS_PER_DAY;
 
 		// it should never happen, but who knows :/
-		$ahead100Days = (100+100)*self::SECONDS_PER_DAY;
+		$ahead100Days = (100 + 100) * self::SECONDS_PER_DAY;
 
 		return [
 			// Expiration is disabled - always should return false
@@ -105,62 +108,27 @@ class ExpirationTest extends \Test\TestCase {
 	 * @param bool $quotaExceeded
 	 * @param string $expectedResult
 	 */
-	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult){
+	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult) {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
 
 		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
 		$actualResult = $expiration->isExpired($timestamp, $quotaExceeded);
-		
+
 		$this->assertEquals($expectedResult, $actualResult);
 	}
 
 
-	public function configData(){
-		return [
-			[ 'disabled', null, null, null],
-			[ 'auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto,auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto, auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto, 3', Expiration::NO_OBLIGATION, 3, true ],
-			[ '5, auto', 5, Expiration::NO_OBLIGATION, true ],
-			[ '3, 5', 3, 5, false ],
-			[ '10, 3', 10, 10, false ],
-		];
-	}
-
-
-	/**
-	 * @dataProvider configData
-	 *
-	 * @param string $configValue
-	 * @param int $expectedMinAge
-	 * @param int $expectedMaxAge
-	 * @param bool $expectedCanPurgeToSaveSpace
-	 */
-	public function testParseRetentionObligation($configValue, $expectedMinAge, $expectedMaxAge, $expectedCanPurgeToSaveSpace){
-		$mockedConfig = $this->getMockedConfig($configValue);
-		$mockedTimeFactory = $this->getMockedTimeFactory(
-				time()
-		);
-
-		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
-		$this->assertAttributeEquals($expectedMinAge, 'minAge', $expiration);
-		$this->assertAttributeEquals($expectedMaxAge, 'maxAge', $expiration);
-		$this->assertAttributeEquals($expectedCanPurgeToSaveSpace, 'canPurgeToSaveSpace', $expiration);
-	}
-
-
-	public function timestampTestData(){
+	public function timestampTestData(): array {
 		return [
 			[ 'disabled', false],
 			[ 'auto', false ],
 			[ 'auto,auto', false ],
 			[ 'auto, auto', false ],
-			[ 'auto, 3',  self::FAKE_TIME_NOW - (3*self::SECONDS_PER_DAY) ],
+			[ 'auto, 3',  self::FAKE_TIME_NOW - (3 * self::SECONDS_PER_DAY) ],
 			[ '5, auto', false ],
-			[ '3, 5', self::FAKE_TIME_NOW - (5*self::SECONDS_PER_DAY) ],
-			[ '10, 3', self::FAKE_TIME_NOW - (10*self::SECONDS_PER_DAY) ],
+			[ '3, 5', self::FAKE_TIME_NOW - (5 * self::SECONDS_PER_DAY) ],
+			[ '10, 3', self::FAKE_TIME_NOW - (10 * self::SECONDS_PER_DAY) ],
 		];
 	}
 
@@ -171,7 +139,7 @@ class ExpirationTest extends \Test\TestCase {
 	 * @param string $configValue
 	 * @param int $expectedMaxAgeTimestamp
 	 */
-	public function testGetMaxAgeAsTimestamp($configValue, $expectedMaxAgeTimestamp){
+	public function testGetMaxAgeAsTimestamp($configValue, $expectedMaxAgeTimestamp) {
 		$mockedConfig = $this->getMockedConfig($configValue);
 		$mockedTimeFactory = $this->getMockedTimeFactory(
 				self::FAKE_TIME_NOW
@@ -186,7 +154,7 @@ class ExpirationTest extends \Test\TestCase {
 	 * @param int $time
 	 * @return ITimeFactory|MockObject
 	 */
-	private function getMockedTimeFactory($time){
+	private function getMockedTimeFactory($time) {
 		$mockedTimeFactory = $this->createMock(ITimeFactory::class);
 		$mockedTimeFactory->expects($this->any())
 			->method('getTime')
@@ -199,7 +167,7 @@ class ExpirationTest extends \Test\TestCase {
 	 * @param string $returnValue
 	 * @return IConfig|MockObject
 	 */
-	private function getMockedConfig($returnValue){
+	private function getMockedConfig($returnValue) {
 		$mockedConfig = $this->createMock(IConfig::class);
 		$mockedConfig->expects($this->any())
 			->method('getSystemValue')

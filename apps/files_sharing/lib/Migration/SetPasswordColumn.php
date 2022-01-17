@@ -13,21 +13,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Migration;
 
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OCP\Share;
+use OCP\Share\IShare;
 
 /**
  * Class SetPasswordColumn
@@ -70,7 +69,7 @@ class SetPasswordColumn implements IRepairStep {
 		$query
 			->update('share')
 			->set('password', 'share_with')
-			->where($query->expr()->eq('share_type', $query->createNamedParameter(Share::SHARE_TYPE_LINK)))
+			->where($query->expr()->eq('share_type', $query->createNamedParameter(IShare::TYPE_LINK)))
 			->andWhere($query->expr()->isNotNull('share_with'));
 		$result = $query->execute();
 
@@ -83,15 +82,13 @@ class SetPasswordColumn implements IRepairStep {
 		$clearQuery
 			->update('share')
 			->set('share_with', $clearQuery->createNamedParameter(null))
-			->where($clearQuery->expr()->eq('share_type', $clearQuery->createNamedParameter(Share::SHARE_TYPE_LINK)));
+			->where($clearQuery->expr()->eq('share_type', $clearQuery->createNamedParameter(IShare::TYPE_LINK)));
 
 		$clearQuery->execute();
-
 	}
 
 	protected function shouldRun() {
 		$appVersion = $this->config->getAppValue('files_sharing', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '1.4.0', '<');
 	}
-
 }

@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -19,18 +20,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 /**
  * local storage backend in temporary folder for testing purpose
  */
-class Temporary extends Local{
+class Temporary extends Local {
 	public function __construct($arguments = null) {
-		parent::__construct(array('datadir' => \OC::$server->getTempManager()->getTemporaryFolder()));
+		parent::__construct(['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]);
 	}
 
 	public function cleanUp() {

@@ -23,13 +23,13 @@
  */
 
 namespace Test\Log;
+
 use OC\Log\Errorlog;
 use OC\Log\File;
 use OC\Log\LogFactory;
 use OC\Log\Syslog;
 use OC\Log\Systemdlog;
 use OC\SystemConfig;
-use OCP\IConfig;
 use OCP\IServerContainer;
 use Test\TestCase;
 
@@ -39,16 +39,16 @@ use Test\TestCase;
  * @package Test\Log
  */
 class LogFactoryTest extends TestCase {
-	/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	protected $c;
 
 	/** @var LogFactory */
 	protected $factory;
 
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $systemConfig;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->c = $this->createMock(IServerContainer::class);

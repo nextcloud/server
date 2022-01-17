@@ -1,24 +1,29 @@
 <?php
 /**
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @copyright Copyright (c) 2018 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nils Wittenbrink <nilswittenbrink@web.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\Provisioning\Apple;
 
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
@@ -32,34 +37,34 @@ use Test\TestCase;
 
 class AppleProvisioningPluginTest extends TestCase {
 
-	/** @var \Sabre\DAV\Server|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
 	protected $server;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
 
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	protected $themingDefaults;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	protected $l10n;
 
-	/** @var \Sabre\HTTP\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\HTTP\RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $sabreRequest;
 
-	/** @var \Sabre\HTTP\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\HTTP\ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $sabreResponse;
 
 	/** @var AppleProvisioningPlugin */
 	protected $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = $this->createMock(\Sabre\DAV\Server::class);
@@ -74,7 +79,7 @@ class AppleProvisioningPluginTest extends TestCase {
 			$this->themingDefaults,
 			$this->request,
 			$this->l10n,
-			function() {
+			function () {
 				return 'generated-uuid';
 			}
 		);
@@ -88,7 +93,8 @@ class AppleProvisioningPluginTest extends TestCase {
 
 		$plugin = new AppleProvisioningPlugin($this->userSession,
 			$this->urlGenerator, $this->themingDefaults, $this->request, $this->l10n,
-			function() {});
+			function () {
+			});
 
 		$server->expects($this->at(0))
 			->method('on')
@@ -155,10 +161,9 @@ class AppleProvisioningPluginTest extends TestCase {
 			->method('getServerProtocol')
 			->wilLReturn('https');
 
-		$this->sabreRequest->expects($this->at(1))
-			->method('getAbsoluteUrl')
-			->with()
-			->willReturn('https://nextcloud.tld/nextcloud/remote.php/dav/provisioning/apple-provisioning.mobileconfig');
+		$this->urlGenerator->expects($this->once())
+			->method('getBaseUrl')
+			->willReturn('https://nextcloud.tld/nextcloud');
 
 		$this->themingDefaults->expects($this->at(0))
 			->method('getName')
@@ -263,5 +268,4 @@ EOF
 
 		$this->assertFalse($returnValue);
 	}
-
 }

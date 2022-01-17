@@ -2,13 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,13 +24,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Handle the mapping between the string and numeric storage ids
@@ -76,7 +79,7 @@ class Storage {
 			$connection = \OC::$server->getDatabaseConnection();
 			$available = $isAvailable ? 1 : 0;
 			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = (int)$connection->lastInsertId('*PREFIX*storages');
+				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
 			} else {
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
@@ -124,10 +127,14 @@ class Storage {
 	 * @return string|null either the storage id string or null if the numeric id is not known
 	 */
 	public static function getStorageId($numericId) {
-
-		$sql = 'SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?';
-		$result = \OC_DB::executeAudited($sql, array($numericId));
-		if ($row = $result->fetchRow()) {
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->select('id')
+			->from('storages')
+			->where($query->expr()->eq('numeric_id', $query->createNamedParameter($numericId)));
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+		if ($row) {
 			return $row['id'];
 		} else {
 			return null;
@@ -169,9 +176,17 @@ class Storage {
 	 * @param int $delay amount of seconds to delay reconsidering that storage further
 	 */
 	public function setAvailability($isAvailable, int $delay = 0) {
-		$sql = 'UPDATE `*PREFIX*storages` SET `available` = ?, `last_checked` = ? WHERE `id` = ?';
 		$available = $isAvailable ? 1 : 0;
-		\OC_DB::executeAudited($sql, [$available, time() + $delay, $this->storageId]);
+		if (!$isAvailable) {
+			\OC::$server->get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
+		}
+
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->update('storages')
+			->set('available', $query->createNamedParameter($available))
+			->set('last_checked', $query->createNamedParameter(time() + $delay))
+			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
+		$query->execute();
 	}
 
 	/**
@@ -192,12 +207,56 @@ class Storage {
 	public static function remove($storageId) {
 		$storageId = self::adjustStorageId($storageId);
 		$numericId = self::getNumericStorageId($storageId);
-		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
-		\OC_DB::executeAudited($sql, array($storageId));
+
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->delete('storages')
+			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
+		$query->execute();
 
 		if (!is_null($numericId)) {
-			$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?';
-			\OC_DB::executeAudited($sql, array($numericId));
+			$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$query->delete('filecache')
+				->where($query->expr()->eq('storage', $query->createNamedParameter($numericId)));
+			$query->execute();
+		}
+	}
+
+	/**
+	 * remove the entry for the storage by the mount id
+	 *
+	 * @param int $mountId
+	 */
+	public static function cleanByMountId(int $mountId) {
+		$db = \OC::$server->getDatabaseConnection();
+
+		try {
+			$db->beginTransaction();
+
+			$query = $db->getQueryBuilder();
+			$query->select('storage_id')
+				->from('mounts')
+				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
+			$storageIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+
+			$query = $db->getQueryBuilder();
+			$query->delete('filecache')
+				->where($query->expr()->in('storage', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query->executeStatement();
+
+			$query = $db->getQueryBuilder();
+			$query->delete('storages')
+				->where($query->expr()->eq('numeric_id', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query->executeStatement();
+
+			$query = $db->getQueryBuilder();
+			$query->delete('mounts')
+				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
+			$query->executeStatement();
+
+			$db->commit();
+		} catch (\Exception $e) {
+			$db->rollBack();
+			throw $e;
 		}
 	}
 }

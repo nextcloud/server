@@ -2,12 +2,17 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Fabrizio Steiner <fabrizio.steiner@gmail.com>
+ * @author Greta Doci <gretadoci@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Marcel Waldvogel <marcel.waldvogel@uni-konstanz.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sergej Nikolaev <kinolaev@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -21,33 +26,31 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\ExpiredTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
-use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
 
@@ -58,7 +61,7 @@ class AuthSettingsController extends Controller {
 	private $session;
 
 	/** IUserSession */
-	private  $userSession;
+	private $userSession;
 
 	/** @var string */
 	private $uid;
@@ -72,7 +75,7 @@ class AuthSettingsController extends Controller {
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/**
@@ -85,7 +88,7 @@ class AuthSettingsController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IManager $activityManager
 	 * @param RemoteWipe $remoteWipe
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -96,7 +99,7 @@ class AuthSettingsController extends Controller {
 								IUserSession $userSession,
 								IManager $activityManager,
 								RemoteWipe $remoteWipe,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->uid = $userId;
@@ -110,20 +113,23 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $name
 	 * @return JSONResponse
 	 */
 	public function create($name) {
+		if ($this->checkAppToken()) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $ex) {
 			return $this->getServiceNotAvailableResponse();
 		}
-		if ($this->userSession->getImpersonatingUserID() !== null)
-		{
+		if ($this->userSession->getImpersonatingUserID() !== null) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
@@ -178,14 +184,22 @@ class AuthSettingsController extends Controller {
 		return implode('-', $groups);
 	}
 
+	private function checkAppToken(): bool {
+		return $this->session->exists('app_password');
+	}
+
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @return array|JSONResponse
 	 */
 	public function destroy($id) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (WipeTokenException $e) {
@@ -202,7 +216,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @param array $scope
@@ -210,6 +224,10 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	public function update($id, array $scope, string $name) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
@@ -249,8 +267,7 @@ class AuthSettingsController extends Controller {
 		try {
 			$this->activityManager->publish($event);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity');
-			$this->logger->logException($e);
+			$this->logger->warning('could not publish activity', ['exception' => $e]);
 		}
 	}
 
@@ -275,7 +292,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param int $id
@@ -284,7 +301,17 @@ class AuthSettingsController extends Controller {
 	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
 	 */
 	public function wipe(int $id): JSONResponse {
-		if (!$this->remoteWipe->markTokenForWipe($id)) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		try {
+			$token = $this->findTokenByIdAndUser($id);
+		} catch (InvalidTokenException $e) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		if (!$this->remoteWipe->markTokenForWipe($token)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

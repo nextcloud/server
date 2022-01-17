@@ -20,50 +20,60 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\AppFramework\Controller;
 
-use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
-use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
-use OCP\AppFramework\AuthPublicShareController;
-use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\PublicShareController;
-use OCP\Files\NotFoundException;
-use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
-use OCP\IURLGenerator;
 
+class TestController extends PublicShareController {
+
+	/** @var string */
+	private $hash;
+
+	/** @var bool */
+	private $isProtected;
+
+	public function __construct(string $appName, IRequest $request, ISession $session, string $hash, bool $isProtected) {
+		parent::__construct($appName, $request, $session);
+
+		$this->hash = $hash;
+		$this->isProtected = $isProtected;
+	}
+
+	protected function getPasswordHash(): string {
+		return $this->hash;
+	}
+
+	public function isValidToken(): bool {
+		return false;
+	}
+
+	protected function isPasswordProtected(): bool {
+		return $this->isProtected;
+	}
+}
 
 class PublicShareControllerTest extends \Test\TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 
-	/** @var PublicShareController|\PHPUnit_Framework_MockObject_MockObject */
-	private $controller;
-
-
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->session = $this->createMock(ISession::class);
-
-		$this->controller = $this->getMockBuilder(PublicShareController::class)
-			->setConstructorArgs([
-				'app',
-				$this->request,
-				$this->session
-			])->getMock();
 	}
 
 	public function testGetToken() {
-		$this->controller->setToken('test');
-		$this->assertEquals('test', $this->controller->getToken());
+		$controller = new TestController('app', $this->request, $this->session, 'hash', false);
+
+		$controller->setToken('test');
+		$this->assertEquals('test', $controller->getToken());
 	}
 
 	public function dataIsAuthenticated() {
@@ -83,8 +93,7 @@ class PublicShareControllerTest extends \Test\TestCase {
 	 * @dataProvider dataIsAuthenticated
 	 */
 	public function testIsAuthenticatedNotPasswordProtected(bool $protected, string $token1, string $token2, string $hash1, string $hash2, bool $expected) {
-		$this->controller->method('isPasswordProtected')
-			->willReturn($protected);
+		$controller = new TestController('app', $this->request, $this->session, $hash2, $protected);
 
 		$this->session->method('get')
 			->willReturnMap([
@@ -92,11 +101,8 @@ class PublicShareControllerTest extends \Test\TestCase {
 				['public_link_authenticated_password_hash', $hash1],
 			]);
 
-		$this->controller->setToken($token2);
-		$this->controller->method('getPasswordHash')
-			->willReturn($hash2);
+		$controller->setToken($token2);
 
-		$this->assertEquals($expected, $this->controller->isAuthenticated());
+		$this->assertEquals($expected, $controller->isAuthenticated());
 	}
-
 }

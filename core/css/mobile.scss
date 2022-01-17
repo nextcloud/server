@@ -32,6 +32,10 @@
 		margin-left: 0;
 	}
 
+	.skip-navigation.skip-content {
+		left: 3px;
+		margin-left: 0;
+	}
 
 	/* full width for message list on mobile */
 	.app-content-list {
@@ -117,6 +121,8 @@
 	}
 
 	/* do not show dates in filepicker */
+	#oc-dialog-filepicker-content .filelist #headerSize,
+	#oc-dialog-filepicker-content .filelist #headerDate,
 	#oc-dialog-filepicker-content .filelist .filesize,
 	#oc-dialog-filepicker-content .filelist .date {
 		display: none;

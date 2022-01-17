@@ -4,7 +4,9 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -19,137 +21,43 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\FederatedFileSharing\AppInfo;
 
-
-use OC\AppFramework\Utility\SimpleContainer;
-use OCA\FederatedFileSharing\AddressHandler;
-use OCA\FederatedFileSharing\Controller\RequestHandlerController;
-use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\FederatedFileSharing\Notifications;
-use OCA\FederatedFileSharing\OCM\CloudFederationProvider;
+use Closure;
+use OCA\FederatedFileSharing\Listeners\LoadAdditionalScriptsListener;
+use OCA\FederatedFileSharing\Notifier;
 use OCA\FederatedFileSharing\OCM\CloudFederationProviderFiles;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCP\AppFramework\App;
-use OCP\GlobalScale\IConfig;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
+use OCP\Federation\ICloudFederationProviderManager;
 
-class Application extends App {
-
-	/** @var FederatedShareProvider */
-	protected $federatedShareProvider;
-
+class Application extends App implements IBootstrap {
 	public function __construct() {
 		parent::__construct('federatedfilesharing');
+	}
 
-		$container = $this->getContainer();
-		$server = $container->getServer();
+	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScriptsListener::class);
+		$context->registerNotifierService(Notifier::class);
+	}
 
-		$cloudFederationManager = $server->getCloudFederationProviderManager();
-		$cloudFederationManager->addCloudFederationProvider('file',
+	public function boot(IBootContext $context): void {
+		$context->injectFn(Closure::fromCallable([$this, 'registerCloudFederationProvider']));
+	}
+
+	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
+													 IAppContainer $appContainer): void {
+		$manager->addCloudFederationProvider('file',
 			'Federated Files Sharing',
-			function() use ($container) {
-				$server = $container->getServer();
-				return new CloudFederationProviderFiles(
-					$server->getAppManager(),
-					$server->query(FederatedShareProvider::class),
-					$server->query(AddressHandler::class),
-					$server->getLogger(),
-					$server->getUserManager(),
-					$server->getCloudIdManager(),
-					$server->getActivityManager(),
-					$server->getNotificationManager(),
-					$server->getURLGenerator(),
-					$server->getCloudFederationFactory(),
-					$server->getCloudFederationProviderManager(),
-					$server->getDatabaseConnection(),
-					$server->getGroupManager()
-				);
+			function () use ($appContainer): CloudFederationProviderFiles {
+				return $appContainer->get(CloudFederationProviderFiles::class);
 			});
-
-		$container->registerService('RequestHandlerController', function(SimpleContainer $c) use ($server) {
-			$addressHandler = new AddressHandler(
-				$server->getURLGenerator(),
-				$server->getL10N('federatedfilesharing'),
-				$server->getCloudIdManager()
-			);
-			$notification = new Notifications(
-				$addressHandler,
-				$server->getHTTPClientService(),
-				$server->query(\OCP\OCS\IDiscoveryService::class),
-				\OC::$server->getJobList(),
-				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->getCloudFederationFactory()
-			);
-			return new RequestHandlerController(
-				$c->query('AppName'),
-				$server->getRequest(),
-				$this->getFederatedShareProvider(),
-				$server->getDatabaseConnection(),
-				$server->getShareManager(),
-				$notification,
-				$addressHandler,
-				$server->getUserManager(),
-				$server->getCloudIdManager(),
-				$server->getLogger(),
-				$server->getCloudFederationFactory(),
-				$server->getCloudFederationProviderManager()
-			);
-		});
 	}
-
-	/**
-	 * get instance of federated share provider
-	 *
-	 * @return FederatedShareProvider
-	 */
-	public function getFederatedShareProvider() {
-		if ($this->federatedShareProvider === null) {
-			$this->initFederatedShareProvider();
-		}
-		return $this->federatedShareProvider;
-	}
-
-	/**
-	 * initialize federated share provider
-	 */
-	protected function initFederatedShareProvider() {
-		$c = $this->getContainer();
-		$addressHandler = new \OCA\FederatedFileSharing\AddressHandler(
-			\OC::$server->getURLGenerator(),
-			\OC::$server->getL10N('federatedfilesharing'),
-			\OC::$server->getCloudIdManager()
-		);
-		$notifications = new \OCA\FederatedFileSharing\Notifications(
-			$addressHandler,
-			\OC::$server->getHTTPClientService(),
-			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-			\OC::$server->getJobList(),
-			\OC::$server->getCloudFederationProviderManager(),
-			\OC::$server->getCloudFederationFactory()
-		);
-		$tokenHandler = new \OCA\FederatedFileSharing\TokenHandler(
-			\OC::$server->getSecureRandom()
-		);
-
-		$this->federatedShareProvider = new \OCA\FederatedFileSharing\FederatedShareProvider(
-			\OC::$server->getDatabaseConnection(),
-			$addressHandler,
-			$notifications,
-			$tokenHandler,
-			\OC::$server->getL10N('federatedfilesharing'),
-			\OC::$server->getLogger(),
-			\OC::$server->getLazyRootFolder(),
-			\OC::$server->getConfig(),
-			\OC::$server->getUserManager(),
-			\OC::$server->getCloudIdManager(),
-			$c->query(IConfig::class),
-			\OC::$server->getCloudFederationProviderManager()
-
-		);
-	}
-
 }

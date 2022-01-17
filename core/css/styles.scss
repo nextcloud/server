@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
  * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @copyright Copyright (c) 2019, Gary Kim <gary@garykim.dev>
+ * @copyright Copyright (c) 2019-2020, Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -88,9 +88,9 @@ ul {
 body {
 	background-color: var(--color-main-background);
 	font-weight: normal;
-	/* bring the default font size up to 14px */
-	font-size: .875em;
-	line-height: 1.6em;
+	/* bring the default font size up to 15px */
+	font-size: var(--default-font-size);
+	line-height: var(--default-line-height);
 	font-family: var(--font-face);
 	color: var(--color-main-text);
 }
@@ -123,6 +123,7 @@ body {
 	position: fixed;
 	top: 0;
 	bottom: 0;
+	left: 0;
 	height: 100%;
 	width: 100%;
 	z-index: 9000;
@@ -150,8 +151,8 @@ body {
 /* SCROLLING */
 
 ::-webkit-scrollbar {
-	width: 6px;
-	height: 5px;
+	width: 12px;
+	height: 12px
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -160,7 +161,9 @@ body {
 
 ::-webkit-scrollbar-thumb {
 	background: var(--color-border-dark);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius-large);
+	border: 2px solid transparent;
+	background-clip: content-box;
 }
 
 
@@ -181,7 +184,7 @@ body {
 	padding: 0;
 	margin: 0;
 	background-color: var(--color-main-background-translucent);
-	z-index: 60;
+	z-index: 62; /* must be above the filelist sticky header and texteditor menubar */
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -349,9 +352,9 @@ body {
 	}
 }
 
-.error {
+.error:not(.toastify) {
 	a {
-		color: var(--color-primary-text) !important;
+		color: white !important;
 		font-weight: bold !important;
 		&.button {
 			color: var(--color-text-lighter) !important;
@@ -406,7 +409,7 @@ body {
 .avatar, .avatardiv {
 	border-radius: 50%;
 	flex-shrink: 0;
-	img {
+	&> img {
 		border-radius: 50%;
 		flex-shrink: 0;
 	}
@@ -461,18 +464,26 @@ td.avatar {
 	}
 }
 
-tr .action:not(.permanent), .selectedActions a {
+tr .action:not(.permanent), .selectedActions > a {
 	opacity: 0;
 }
 
 tr {
-	&:hover .action, &:focus .action, .action.permanent {
+	&:hover .action:not(.menuitem),
+	&:focus .action:not(.menuitem),
+	.action.permanent:not(.menuitem) {
 		opacity: .5;
 	}
 }
 
-.selectedActions a {
+.selectedActions > a {
 	opacity: .5;
+	position: relative;
+	top: 2px;
+
+	&:hover, &:focus {
+		opacity: 1;
+	}
 }
 
 tr .action {
@@ -717,6 +728,8 @@ code {
 /* ---- DIALOGS ---- */
 #oc-dialog-filepicker-content {
 	position: relative;
+	display: flex;
+	flex-direction:column;
 
 	.dirtree {
 		flex-wrap: wrap;
@@ -777,7 +790,9 @@ code {
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
 		position: relative;
-		top: -5px;
+		left: 15px;
+		top:3px;
+		order:1;
 
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
@@ -810,7 +825,8 @@ code {
 		box-sizing: border-box;
 		display: inline-block;
 		overflow-y: auto;
-		height: 100%;
+		flex: 1;
+		/*height: 100%;*/
 		/* overflow under the button row */
 		width: 100%;
 		overflow-x: hidden;
@@ -896,6 +912,9 @@ code {
 					white-space: pre;
 					text-overflow: ellipsis;
 				}
+				&__last {
+					white-space: pre;
+				}
 			}
 		}
 		.filesize, .date {
@@ -974,7 +993,7 @@ span.ui-icon {
 
 #contactsmenu {
 	.menutoggle {
-		background-size: 16px 16px;
+		background-size: 20px 20px;
 		padding: 14px;
 		cursor: pointer;
 
@@ -986,16 +1005,12 @@ span.ui-icon {
 	}
 }
 
-#contactsmenu > .menu {
-	/* show ~4.5 entries */
-	height: 278px;
+#header .header-right > div#contactsmenu > .menu {
+	/* show 2.5 to 4.5 entries depending on the screen height */
+	height: calc(100vh - 50px * 3);
+	max-height: calc(50px * 4.5 + 50px);
+	min-height: calc(50px * 3.5);
 	width: 350px;
-	max-width: 90%;
-	right: 13px;
-
-	&::after {
-		right: 61px;
-	}
 
 	.emptycontent {
 		margin-top: 5vh !important;
@@ -1007,8 +1022,10 @@ span.ui-icon {
 	}
 
 	.content {
-		max-height: calc(100% - #{$header-height});
-		height: 100%;
+		/* fixed max height of the parent container without the search input */
+		height: calc(100vh - 50px * 3 - 50px);
+		max-height: calc(50px * 4.5);
+		min-height: calc(50px * 3.5 - 50px);
 		overflow-y: auto;
 
 		.footer {

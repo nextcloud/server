@@ -25,19 +25,19 @@ use OC\CapabilitiesManager;
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IPublicCapability;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CapabilitiesManagerTest extends TestCase {
 
 	/** @var CapabilitiesManager */
 	private $manager;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->manager = new CapabilitiesManager($this->logger);
 	}
 
@@ -53,7 +53,7 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a valid capabilitie
 	 */
 	public function testValidCapability() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
 
@@ -65,13 +65,13 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a public capabilitie
 	 */
 	public function testPublicCapability() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new PublicSimpleCapability1();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability2();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability3();
 		});
 
@@ -81,11 +81,12 @@ class CapabilitiesManagerTest extends TestCase {
 
 	/**
 	 * Test that we need something that implents ICapability
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage The given Capability (Test\NoCapability) does not implement the ICapability interface
 	 */
 	public function testNoICapability() {
-		$this->manager->registerCapability(function() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('The given Capability (Test\\NoCapability) does not implement the ICapability interface');
+
+		$this->manager->registerCapability(function () {
 			return new NoCapability();
 		});
 
@@ -97,13 +98,13 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a bunch of merged Capabilities
 	 */
 	public function testMergedCapabilities() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability2();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability3();
 		});
 
@@ -123,10 +124,10 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test deep identical capabilities
 	 */
 	public function testDeepIdenticalCapabilities() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new DeepCapability();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new DeepCapability();
 		});
 
@@ -138,7 +139,7 @@ class CapabilitiesManagerTest extends TestCase {
 				]
 			]
 		];
-		
+
 		$this->assertEquals($expected, $res);
 	}
 
@@ -148,7 +149,7 @@ class CapabilitiesManagerTest extends TestCase {
 		});
 
 		$this->logger->expects($this->once())
-			->method('logException');
+			->method('error');
 
 		$res = $this->manager->getCapabilities();
 

@@ -22,9 +22,9 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class ContactsMenuContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -66,7 +66,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function menuItemFor($contactName) {
-		return Locator::forThe()->xpath("//*[@class = 'contact' and normalize-space() = '$contactName']")->
+		return Locator::forThe()->xpath("//*[@class = 'full-name' and normalize-space() = '$contactName']")->
 				descendantOf(self::contactsMenu())->
 				describedAs($contactName . " contact in Contacts menu");
 	}
@@ -82,14 +82,14 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @When I search for the user :user
 	 */
 	public function iSearchForTheUser($user) {
-		$this->actor->find(self::contactsMenuSearchInput(), 10)->setValue($user . "\r");
+		$this->actor->find(self::contactsMenuSearchInput(), 10)->setValue($user);
 	}
 
 	/**
 	 * @Then I see that the Contacts menu is shown
 	 */
 	public function iSeeThatTheContactsMenuIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::contactsMenu(), 10)->isVisible());
 	}
 
@@ -97,7 +97,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @Then I see that the Contacts menu search input is shown
 	 */
 	public function iSeeThatTheContactsMenuSearchInputIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::contactsMenuSearchInput(), 10)->isVisible());
 	}
 
@@ -105,7 +105,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @Then I see that the no results message in the Contacts menu is shown
 	 */
 	public function iSeeThatTheNoResultsMessageInTheContactsMenuIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::noResultsMessage(), 10)->isVisible());
 	}
 
@@ -113,7 +113,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @Then I see that the contact :contactName in the Contacts menu is shown
 	 */
 	public function iSeeThatTheContactInTheContactsMenuIsShown($contactName) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::menuItemFor($contactName), 10)->isVisible());
 	}
 
@@ -124,7 +124,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 		$this->iSeeThatThecontactsMenuIsShown();
 
 		try {
-			PHPUnit_Framework_Assert::assertFalse(
+			Assert::assertFalse(
 					$this->actor->find(self::menuItemFor($contactName))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
@@ -140,8 +140,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::menuItemFor($contactName),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The $contactName contact in Contacts menu is still shown after $timeout seconds");
+			Assert::fail("The $contactName contact in Contacts menu is still shown after $timeout seconds");
 		}
 	}
-
 }

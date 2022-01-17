@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -19,36 +20,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\App;
 
-use OC\App\CodeChecker\CodeChecker;
-use OC\App\CodeChecker\DatabaseSchemaChecker;
-use OC\App\CodeChecker\EmptyCheck;
-use OC\App\CodeChecker\InfoChecker;
-use OC\App\CodeChecker\LanguageParseChecker;
-use OC\App\InfoParser;
-use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
-use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use OC\App\CodeChecker\StrongComparisonCheck;
-use OC\App\CodeChecker\DeprecationCheck;
-use OC\App\CodeChecker\PrivateCheck;
 
-class CheckCode extends Command implements CompletionAwareInterface  {
-
-	protected $checkers = [
-		'private' => PrivateCheck::class,
-		'deprecation' => DeprecationCheck::class,
-		'strong-comparison' => StrongComparisonCheck::class,
-	];
+class CheckCode extends Command {
+	protected $checkers = [];
 
 	protected function configure() {
 		$this
@@ -80,131 +64,9 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$appId = $input->getArgument('app-id');
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$output->writeln('<error>The app code checker doesn\t check anything and this command will be removed in Nextcloud 23</error>');
 
-		$checkList = new EmptyCheck();
-		foreach ($input->getOption('checker') as $checker) {
-			if (!isset($this->checkers[$checker])) {
-				throw new \InvalidArgumentException('Invalid checker: '.$checker);
-			}
-			$checkerClass = $this->checkers[$checker];
-			$checkList = new $checkerClass($checkList);
-		}
-
-		$codeChecker = new CodeChecker($checkList, !$input->getOption('skip-validate-info'));
-
-		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
-			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-				$output->writeln("<info>Analysing {$params}</info>");
-			}
-		});
-		$codeChecker->listen('CodeChecker', 'analyseFileFinished', function($filename, $errors) use ($output) {
-			$count = count($errors);
-
-			// show filename if the verbosity is low, but there are errors in a file
-			if($count > 0 && OutputInterface::VERBOSITY_VERBOSE > $output->getVerbosity()) {
-				$output->writeln("<info>Analysing {$filename}</info>");
-			}
-
-			// show error count if there are errors present or the verbosity is high
-			if($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-				$output->writeln(" {$count} errors");
-			}
-			usort($errors, function($a, $b) {
-				return $a['line'] >$b['line'];
-			});
-
-			foreach($errors as $p) {
-				$line = sprintf("%' 4d", $p['line']);
-				$output->writeln("    <error>line $line: {$p['disallowedToken']} - {$p['reason']}</error>");
-			}
-		});
-		$errors = [];
-		if(!$input->getOption('skip-checkers')) {
-			$errors = $codeChecker->analyse($appId);
-		}
-
-		if(!$input->getOption('skip-validate-info')) {
-			$infoChecker = new InfoChecker();
-			$infoChecker->listen('InfoChecker', 'parseError', function($error) use ($output) {
-				$output->writeln("<error>Invalid appinfo.xml file found: $error</error>");
-			});
-
-			$infoErrors = $infoChecker->analyse($appId);
-
-			$errors = array_merge($errors, $infoErrors);
-
-			$languageParser = new LanguageParseChecker();
-			$languageErrors = $languageParser->analyse($appId);
-
-			foreach ($languageErrors as $languageError) {
-				$output->writeln("<error>$languageError</error>");
-			}
-
-			$errors = array_merge($errors, $languageErrors);
-
-			$databaseSchema = new DatabaseSchemaChecker();
-			$schemaErrors = $databaseSchema->analyse($appId);
-
-			foreach ($schemaErrors['errors'] as $schemaError) {
-				$output->writeln("<error>$schemaError</error>");
-			}
-			foreach ($schemaErrors['warnings'] as $schemaWarning) {
-				$output->writeln("<comment>$schemaWarning</comment>");
-			}
-
-			$errors = array_merge($errors, $schemaErrors['errors']);
-		}
-
-		$this->analyseUpdateFile($appId, $output);
-
-		if (empty($errors)) {
-			$output->writeln('<info>App is compliant - awesome job!</info>');
-			return 0;
-		} else {
-			$output->writeln('<error>App is not compliant</error>');
-			return 101;
-		}
-	}
-
-	/**
-	 * @param string $appId
-	 * @param $output
-	 */
-	private function analyseUpdateFile($appId, OutputInterface $output) {
-		$appPath = \OC_App::getAppPath($appId);
-		if ($appPath === false) {
-			throw new \RuntimeException("No app with given id <$appId> known.");
-		}
-
-		$updatePhp = $appPath . '/appinfo/update.php';
-		if (file_exists($updatePhp)) {
-			$output->writeln("<info>Deprecated file found: $updatePhp - please use repair steps</info>");
-		}
-	}
-
-	/**
-	 * @param string $optionName
-	 * @param CompletionContext $context
-	 * @return string[]
-	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
-		if ($optionName === 'checker') {
-			return ['private', 'deprecation', 'strong-comparison'];
-		}
-		return [];
-	}
-
-	/**
-	 * @param string $argumentName
-	 * @param CompletionContext $context
-	 * @return string[]
-	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
-		if ($argumentName === 'app-id') {
-			return \OC_App::getAllApps();
-		}
-		return [];
+		return 0;
 	}
 }

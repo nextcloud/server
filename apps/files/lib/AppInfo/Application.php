@@ -1,13 +1,20 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,43 +28,65 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\Files\AppInfo;
 
-use OCA\Files\Activity\Helper;
+use Closure;
+use OC\Search\Provider\File;
+use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
+use OCA\Files\Listener\LoadSidebarListener;
+use OCA\Files\Notification\Notifier;
+use OCA\Files\Search\FilesSearchProvider;
+use OCA\Files\Service\TagService;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
-use \OCA\Files\Service\TagService;
-use OCP\Collaboration\Resources\IManager;
-use OCP\EventDispatcher\IEventDispatcher;
-use \OCP\IContainer;
-use OCA\Files\Controller\ViewController;
-use OCA\Files\Capabilities;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Collaboration\Resources\IProviderManager;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IPreview;
+use OCP\ISearch;
+use OCP\IRequest;
+use OCP\IServerContainer;
+use OCP\ITagManager;
+use OCP\IUserSession;
+use OCP\Share\IManager as IShareManager;
+use OCP\Util;
+use Psr\Container\ContainerInterface;
 
-class Application extends App {
-	public function __construct(array $urlParams=array()) {
-		parent::__construct('files', $urlParams);
-		$container = $this->getContainer();
-		$server = $container->getServer();
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'files';
 
+	public function __construct(array $urlParams = []) {
+		parent::__construct(self::APP_ID, $urlParams);
+	}
+
+	public function register(IRegistrationContext $context): void {
 		/**
 		 * Controllers
 		 */
-		$container->registerService('APIController', function (IContainer $c) use ($server) {
+		$context->registerService('APIController', function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+
 			return new ApiController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$server->getUserSession(),
-				$c->query('TagService'),
-				$server->getPreviewManager(),
-				$server->getShareManager(),
-				$server->getConfig(),
+				$c->get('AppName'),
+				$c->get(IRequest::class),
+				$c->get(IUserSession::class),
+				$c->get(TagService::class),
+				$c->get(IPreview::class),
+				$c->get(IShareManager::class),
+				$c->get(IConfig::class),
 				$server->getUserFolder()
 			);
 		});
@@ -65,13 +94,15 @@ class Application extends App {
 		/**
 		 * Services
 		 */
-		$container->registerService('TagService', function(IContainer $c) use ($server) {
-			$homeFolder = $c->query('ServerContainer')->getUserFolder();
+		$context->registerService(TagService::class, function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+
 			return new TagService(
-				$c->query('ServerContainer')->getUserSession(),
-				$c->query('ServerContainer')->getActivityManager(),
-				$c->query('ServerContainer')->getTagManager()->load('files'),
-				$homeFolder,
+				$c->get(IUserSession::class),
+				$c->get(IActivityManager::class),
+				$c->get(ITagManager::class)->load(self::APP_ID),
+				$server->getUserFolder(),
 				$server->getEventDispatcher()
 			);
 		});
@@ -79,18 +110,72 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$container->registerCapability(Capabilities::class);
+		$context->registerCapability(Capabilities::class);
 
-		/**
-		 * Register Collaboration ResourceProvider
-		 */
-		/** @var IManager $resourceManager */
-		$resourceManager = $container->query(IManager::class);
-		$resourceManager->registerResourceProvider(ResourceProvider::class);
-		Listener::register($server->getEventDispatcher());
+		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
+		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 
-		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = $container->query(IEventDispatcher::class);
-		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
+		$context->registerSearchProvider(FilesSearchProvider::class);
+
+		$context->registerNotifierService(Notifier::class);
+	}
+
+	public function boot(IBootContext $context): void {
+		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
+		$context->injectFn([Listener::class, 'register']);
+		$context->injectFn(Closure::fromCallable([$this, 'registerSearchProvider']));
+		$this->registerTemplates();
+		$context->injectFn(Closure::fromCallable([$this, 'registerNavigation']));
+		$this->registerHooks();
+	}
+
+	private function registerCollaboration(IProviderManager $providerManager): void {
+		$providerManager->registerResourceProvider(ResourceProvider::class);
+	}
+
+	private function registerSearchProvider(ISearch $search): void {
+		$search->registerProvider(File::class, ['apps' => ['files']]);
+	}
+
+	private function registerTemplates(): void {
+		$templateManager = \OC_Helper::getFileTemplateManager();
+		$templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');
+		$templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
+		$templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
+	}
+
+	private function registerNavigation(IL10N $l10n): void {
+		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+			return [
+				'id' => 'files',
+				'appname' => 'files',
+				'script' => 'list.php',
+				'order' => 0,
+				'name' => $l10n->t('All files')
+			];
+		});
+		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+			return [
+				'id' => 'recent',
+				'appname' => 'files',
+				'script' => 'recentlist.php',
+				'order' => 2,
+				'name' => $l10n->t('Recent')
+			];
+		});
+		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+			return [
+				'id' => 'favorites',
+				'appname' => 'files',
+				'script' => 'simplelist.php',
+				'order' => 5,
+				'name' => $l10n->t('Favorites'),
+				'expandedState' => 'show_Quick_Access'
+			];
+		});
+	}
+
+	private function registerHooks(): void {
+		Util::connectHook('\OCP\Config', 'js', '\OCA\Files\App', 'extendJsConfig');
 	}
 }

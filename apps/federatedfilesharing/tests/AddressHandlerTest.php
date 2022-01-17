@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -20,34 +22,35 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\FederatedFileSharing\Tests;
-
 
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
+use OCP\Contacts\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 
 class AddressHandlerTest extends \Test\TestCase {
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $contactsManager;
 
 	/** @var  AddressHandler */
 	private $addressHandler;
 
-	/** @var  IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $il10n;
 
 	/** @var CloudIdManager */
 	private $cloudIdManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
@@ -55,7 +58,9 @@ class AddressHandlerTest extends \Test\TestCase {
 		$this->il10n = $this->getMockBuilder(IL10N::class)
 			->getMock();
 
-		$this->cloudIdManager = new CloudIdManager();
+		$this->contactsManager = $this->createMock(IManager::class);
+
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager, $this->urlGenerator, $this->createMock(IUserManager::class));
 
 		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager);
 	}
@@ -99,36 +104,41 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $expectedUrl
 	 */
 	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
-		list($remoteUser, $remoteUrl) = $this->addressHandler->splitUserRemote($remote);
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
+		[$remoteUser, $remoteUrl] = $this->addressHandler->splitUserRemote($remote);
 		$this->assertSame($expectedUser, $remoteUser);
 		$this->assertSame($expectedUrl, $remoteUrl);
 	}
 
 	public function dataTestSplitUserRemoteError() {
-		return array(
+		return [
 			// Invalid path
-			array('user@'),
+			['user@'],
 
 			// Invalid user
-			array('@server'),
-			array('us/er@server'),
-			array('us:er@server'),
+			['@server'],
+			['us/er@server'],
+			['us:er@server'],
 
 			// Invalid splitting
-			array('user'),
-			array(''),
-			array('us/erserver'),
-			array('us:erserver'),
-		);
+			['user'],
+			[''],
+			['us/erserver'],
+			['us:erserver'],
+		];
 	}
 
 	/**
 	 * @dataProvider dataTestSplitUserRemoteError
 	 *
 	 * @param string $id
-	 * @expectedException \OC\HintException
 	 */
 	public function testSplitUserRemoteError($id) {
+		$this->expectException(\OCP\HintException::class);
+
 		$this->addressHandler->splitUserRemote($id);
 	}
 

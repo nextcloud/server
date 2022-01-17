@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -17,26 +18,29 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\CardDAV;
 
-use OCP\IL10N;
+use OCA\DAV\AppInfo\PluginManager;
 
 class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 
-	/** @var IL10N */
-	protected $l10n;
+	/** @var PluginManager */
+	private $pluginManager;
 
 	/**
 	 * @param \Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend
 	 * @param \Sabre\CardDAV\Backend\BackendInterface $carddavBackend
 	 * @param string $principalPrefix
 	 */
-	public function __construct(\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend, \Sabre\CardDAV\Backend\BackendInterface $carddavBackend, $principalPrefix = 'principals') {
+	public function __construct(\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend,
+								\Sabre\CardDAV\Backend\BackendInterface $carddavBackend,
+								PluginManager $pluginManager,
+								$principalPrefix = 'principals') {
 		parent::__construct($principalBackend, $carddavBackend, $principalPrefix);
-		$this->l10n = \OC::$server->getL10N('dav');
+		$this->pluginManager = $pluginManager;
 	}
 
 	/**
@@ -47,16 +51,14 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 * supplied by the authentication backend.
 	 *
 	 * @param array $principal
+	 *
 	 * @return \Sabre\DAV\INode
 	 */
-	function getChildForPrincipal(array $principal) {
-
-		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->l10n);
-
+	public function getChildForPrincipal(array $principal) {
+		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->pluginManager);
 	}
 
-	function getName() {
-
+	public function getName() {
 		if ($this->principalPrefix === 'principals') {
 			return parent::getName();
 		}
@@ -65,7 +67,5 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 
 		// We are only interested in the second part.
 		return $parts[1];
-
 	}
-
 }

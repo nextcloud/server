@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -17,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Integrity;
 
 use OC\IntegrityCheck\Checker;
@@ -66,26 +67,26 @@ class SignCore extends Command {
 	/**
 	 * {@inheritdoc }
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$privateKeyPath = $input->getOption('privateKey');
 		$keyBundlePath = $input->getOption('certificate');
 		$path = $input->getOption('path');
-		if(is_null($privateKeyPath) || is_null($keyBundlePath) || is_null($path)) {
+		if (is_null($privateKeyPath) || is_null($keyBundlePath) || is_null($path)) {
 			$output->writeln('--privateKey, --certificate and --path are required.');
-			return null;
+			return 1;
 		}
 
 		$privateKey = $this->fileAccessHelper->file_get_contents($privateKeyPath);
 		$keyBundle = $this->fileAccessHelper->file_get_contents($keyBundlePath);
 
-		if($privateKey === false) {
+		if ($privateKey === false) {
 			$output->writeln(sprintf('Private key "%s" does not exists.', $privateKeyPath));
-			return null;
+			return 1;
 		}
 
-		if($keyBundle === false) {
+		if ($keyBundle === false) {
 			$output->writeln(sprintf('Certificate "%s" does not exists.', $keyBundlePath));
-			return null;
+			return 1;
 		}
 
 		$rsa = new RSA();
@@ -97,7 +98,7 @@ class SignCore extends Command {
 		try {
 			$this->checker->writeCoreSignature($x509, $rsa, $path);
 			$output->writeln('Successfully signed "core"');
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			return 1;
 		}

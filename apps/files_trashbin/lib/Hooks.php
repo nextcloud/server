@@ -3,9 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -19,14 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * This class contains all hooks.
- */
-
 namespace OCA\Files_Trashbin;
 
 class Hooks {
@@ -44,7 +40,7 @@ class Hooks {
 	}
 
 	public static function post_write_hook($params) {
-		$user = \OCP\User::getUser();
+		$user = \OC_User::getUser();
 		if (!empty($user)) {
 			Trashbin::resizeTrash($user);
 		}

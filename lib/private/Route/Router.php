@@ -4,16 +4,16 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Felix Epp <work@felixepp.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,22 +27,22 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Route;
 
+use OC\AppFramework\Routing\RouteParser;
+use OCP\AppFramework\App;
 use OCP\ILogger;
 use OCP\Route\IRouter;
-use OCP\AppFramework\App;
 use OCP\Util;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Router implements IRouter {
 	/** @var RouteCollection[] */
@@ -55,7 +55,7 @@ class Router implements IRouter {
 	protected $root = null;
 	/** @var null|UrlGenerator */
 	protected $generator = null;
-	/** @var string[] */
+	/** @var string[]|null */
 	protected $routingFiles;
 	/** @var bool */
 	protected $loaded = false;
@@ -72,8 +72,8 @@ class Router implements IRouter {
 	public function __construct(ILogger $logger) {
 		$this->logger = $logger;
 		$baseUrl = \OC::$WEBROOT;
-		if(!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
-			$baseUrl = \OC::$server->getURLGenerator()->linkTo('', 'index.php');
+		if (!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+			$baseUrl .= '/index.php';
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
 			$method = $_SERVER['REQUEST_METHOD'];
@@ -94,11 +94,11 @@ class Router implements IRouter {
 	 * @return string[]
 	 */
 	public function getRoutingFiles() {
-		if (!isset($this->routingFiles)) {
+		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
 				$appPath = \OC_App::getAppPath($app);
-				if($appPath !== false) {
+				if ($appPath !== false) {
 					$file = $appPath . '/appinfo/routes.php';
 					if (file_exists($file)) {
 						$this->routingFiles[$app] = $file;
@@ -115,7 +115,7 @@ class Router implements IRouter {
 	 * @param null|string $app
 	 */
 	public function loadRoutes($app = null) {
-		if(is_string($app)) {
+		if (is_string($app)) {
 			$app = \OC_App::cleanAppId($app);
 		}
 
@@ -130,8 +130,9 @@ class Router implements IRouter {
 			if (isset($this->loadedApps[$app])) {
 				return;
 			}
-			$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
-			if ($file !== false && file_exists($file)) {
+			$appPath = \OC_App::getAppPath($app);
+			$file = $appPath . '/appinfo/routes.php';
+			if ($appPath !== false && file_exists($file)) {
 				$routingFiles = [$app => $file];
 			} else {
 				$routingFiles = [];
@@ -150,7 +151,6 @@ class Router implements IRouter {
 				$this->useCollection($app);
 				$this->requireRouteFile($file, $app);
 				$collection = $this->getCollection($app);
-				$collection->addPrefix('/apps/' . $app);
 				$this->root->addCollection($collection);
 
 				// Also add the OCS collection
@@ -175,14 +175,6 @@ class Router implements IRouter {
 			$this->root->addCollection($collection);
 		}
 		\OC::$server->getEventLogger()->end('loadroutes' . $requestedApp);
-	}
-
-	/**
-	 * @return string
-	 * @deprecated
-	 */
-	public function getCacheKey() {
-		return '';
 	}
 
 	/**
@@ -240,26 +232,26 @@ class Router implements IRouter {
 	 *
 	 * @param string $url The url to find
 	 * @throws \Exception
-	 * @return void
+	 * @return array
 	 */
-	public function match($url) {
+	public function findMatchingRoute(string $url): array {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
-			list(, , $app,) = explode('/', $url, 4);
+			[, , $app,] = explode('/', $url, 4);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 13) === '/ocsapp/apps/') {
+		} elseif (substr($url, 0, 13) === '/ocsapp/apps/') {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
-			list(, , , $app,) = explode('/', $url, 5);
+			[, , , $app,] = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 10) === '/settings/') {
+		} elseif (substr($url, 0, 10) === '/settings/') {
 			$this->loadRoutes('settings');
-		} else if (substr($url, 0, 6) === '/core/') {
+		} elseif (substr($url, 0, 6) === '/core/') {
 			\OC::$REQUESTEDAPP = $url;
 			if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
 				\OC_App::loadApps();
@@ -288,13 +280,33 @@ class Router implements IRouter {
 			}
 		}
 
+		return $parameters;
+	}
+
+	/**
+	 * Find and execute the route matching $url
+	 *
+	 * @param string $url The url to find
+	 * @throws \Exception
+	 * @return void
+	 */
+	public function match($url) {
+		$parameters = $this->findMatchingRoute($url);
+
 		\OC::$server->getEventLogger()->start('run_route', 'Run route');
-		if (isset($parameters['action'])) {
+		if (isset($parameters['caller'])) {
+			$caller = $parameters['caller'];
+			unset($parameters['caller']);
+			unset($parameters['action']);
+			$application = $this->getApplicationClass($caller[0]);
+			\OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
+		} elseif (isset($parameters['action'])) {
 			$action = $parameters['action'];
 			if (!is_callable($action)) {
 				throw new \Exception('not a callable action');
 			}
 			unset($parameters['action']);
+			unset($parameters['caller']);
 			call_user_func($action, $parameters);
 		} elseif (isset($parameters['file'])) {
 			include $parameters['file'];
@@ -329,17 +341,60 @@ class Router implements IRouter {
 	public function generate($name,
 							 $parameters = [],
 							 $absolute = false) {
+		$referenceType = UrlGenerator::ABSOLUTE_URL;
+		if ($absolute === false) {
+			$referenceType = UrlGenerator::ABSOLUTE_PATH;
+		}
+		$name = $this->fixLegacyRootName($name);
+		if (strpos($name, '.') !== false) {
+			[$appName, $other] = explode('.', $name, 3);
+			// OCS routes are prefixed with "ocs."
+			if ($appName === 'ocs') {
+				$appName = $other;
+			}
+			$this->loadRoutes($appName);
+			try {
+				return $this->getGenerator()->generate($name, $parameters, $referenceType);
+			} catch (RouteNotFoundException $e) {
+			}
+		}
+
+		// Fallback load all routes
 		$this->loadRoutes();
 		try {
-			$referenceType = UrlGenerator::ABSOLUTE_URL;
-			if ($absolute === false) {
-				$referenceType = UrlGenerator::ABSOLUTE_PATH;
-			}
 			return $this->getGenerator()->generate($name, $parameters, $referenceType);
 		} catch (RouteNotFoundException $e) {
-			$this->logger->logException($e);
+			$this->logger->logException($e, ['level' => ILogger::INFO]);
 			return '';
 		}
+	}
+
+	protected function fixLegacyRootName(string $routeName): string {
+		if ($routeName === 'files.viewcontroller.showFile') {
+			return 'files.View.showFile';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.showShare') {
+			return 'files_sharing.Share.showShare';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.showAuthenticate') {
+			return 'files_sharing.Share.showAuthenticate';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.authenticate') {
+			return 'files_sharing.Share.authenticate';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.downloadShare') {
+			return 'files_sharing.Share.downloadShare';
+		}
+		if ($routeName === 'files_sharing.publicpreview.directLink') {
+			return 'files_sharing.PublicPreview.directLink';
+		}
+		if ($routeName === 'cloud_federation_api.requesthandlercontroller.addShare') {
+			return 'cloud_federation_api.RequestHandler.addShare';
+		}
+		if ($routeName === 'cloud_federation_api.requesthandlercontroller.receiveNotification') {
+			return 'cloud_federation_api.RequestHandler.receiveNotification';
+		}
+		return $routeName;
 	}
 
 	/**
@@ -366,17 +421,28 @@ class Router implements IRouter {
 	 */
 	private function setupRoutes($routes, $appName) {
 		if (is_array($routes)) {
-			$appNameSpace = App::buildAppNamespace($appName);
+			$routeParser = new RouteParser();
 
-			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
+			$defaultRoutes = $routeParser->parseDefaultRoutes($routes, $appName);
+			$ocsRoutes = $routeParser->parseOCSRoutes($routes, $appName);
 
-			if (class_exists($applicationClassName)) {
-				$application = new $applicationClassName();
-			} else {
-				$application = new App($appName);
-			}
-
-			$application->registerRoutes($this, $routes);
+			$this->root->addCollection($defaultRoutes);
+			$ocsRoutes->addPrefix('/ocsapp');
+			$this->root->addCollection($ocsRoutes);
 		}
+	}
+
+	private function getApplicationClass(string $appName) {
+		$appNameSpace = App::buildAppNamespace($appName);
+
+		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
+
+		if (class_exists($applicationClassName)) {
+			$application = \OC::$server->query($applicationClassName);
+		} else {
+			$application = new App($appName);
+		}
+
+		return $application;
 	}
 }

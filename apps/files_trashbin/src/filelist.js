@@ -1,13 +1,31 @@
-/* eslint-disable */
-/*
+/**
  * Copyright (c) 2014
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Azul <azul@riseup.net>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Jan C. Borchardt <hey@jancborchardt.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/* eslint-disable */
 (function() {
 	var DELETED_REGEXP = new RegExp(/^(.+)\.d[0-9]+$/)
 	var FILENAME_PROP = '{http://nextcloud.org/ns}trashbin-filename'
@@ -71,7 +89,9 @@
 			var result = OCA.Files.FileList.prototype.initialize.apply(this, arguments)
 			this.$el.find('.undelete').click('click', _.bind(this._onClickRestoreSelected, this))
 
+			// Sort by most recently deleted first
 			this.setSort('mtime', 'desc')
+
 			/**
 			 * Override crumb making to add "Deleted Files" entry
 			 * and convert files with ".d" extensions to a more
@@ -177,7 +197,7 @@
 						self.fileMultiSelectMenu.toggleLoading('restore', false)
 					},
 					function() {
-						OC.Notification.show(t('files_trashbin', 'Error while restoring files from trashbin'))
+						OC.Notification.show(t('files_trashbin', 'Error while restoring files from trash bin'))
 					}
 				)
 			},
@@ -200,7 +220,7 @@
 								self.setFiles([])
 							},
 							function() {
-								OC.Notification.show(t('files_trashbin', 'Error while emptying trashbin'))
+								OC.Notification.show(t('files_trashbin', 'Error while emptying trash bin'))
 							}
 						)
 				} else {
@@ -218,7 +238,7 @@
 							self.fileMultiSelectMenu.toggleLoading('delete', false)
 						},
 						function() {
-							OC.Notification.show(t('files_trashbin', 'Error while removing files from trashbin'))
+							OC.Notification.show(t('files_trashbin', 'Error while removing files from trash bin'))
 						}
 					)
 				}
@@ -238,6 +258,11 @@
 
 			getDownloadUrl: function() {
 			// no downloads
+				return '#'
+			},
+
+			getDefaultActionUrl: function() {
+			// no default action
 				return '#'
 			},
 

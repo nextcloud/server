@@ -1,7 +1,9 @@
 <?php
-
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
+ *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,22 +14,21 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Tests\Settings;
 
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IInitialStateService;
-use Test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
 class AdminTest extends TestCase {
 
@@ -40,7 +41,7 @@ class AdminTest extends TestCase {
 	/** @var ClientMapper|MockObject */
 	private $clientMapper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->initialStateService = $this->createMock(IInitialStateService::class);

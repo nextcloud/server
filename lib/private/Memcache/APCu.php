@@ -4,7 +4,8 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -21,12 +22,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\IMemcache;
 
 class APCu extends Cache implements IMemcache {
@@ -59,7 +60,7 @@ class APCu extends Cache implements IMemcache {
 	public function clear($prefix = '') {
 		$ns = $this->getPrefix() . $prefix;
 		$ns = preg_quote($ns, '/');
-		if(class_exists('\APCIterator')) {
+		if (class_exists('\APCIterator')) {
 			$iter = new \APCIterator('user', '/^' . $ns . '/', APC_ITER_KEY);
 		} else {
 			$iter = new \APCUIterator('/^' . $ns . '/', APC_ITER_KEY);
@@ -150,12 +151,12 @@ class APCu extends Cache implements IMemcache {
 	/**
 	 * @return bool
 	 */
-	static public function isAvailable() {
+	public static function isAvailable() {
 		if (!extension_loaded('apcu')) {
 			return false;
-		} elseif (!\OC::$server->getIniWrapper()->getBool('apc.enabled')) {
+		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enabled')) {
 			return false;
-		} elseif (!\OC::$server->getIniWrapper()->getBool('apc.enable_cli') && \OC::$CLI) {
+		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enable_cli') && \OC::$CLI) {
 			return false;
 		} elseif (
 				version_compare(phpversion('apc') ?: '0.0.0', '4.0.6') === -1 &&

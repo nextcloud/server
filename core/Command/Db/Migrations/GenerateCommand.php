@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,17 +19,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
-
+use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
 use OCP\App\IAppManager;
-use OCP\IDBConnection;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -37,7 +37,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
-
 	protected static $_templateSimple =
 		'<?php
 
@@ -47,8 +46,8 @@ namespace {{namespace}};
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
@@ -60,7 +59,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
-	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 	}
 
 	/**
@@ -69,7 +68,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 {{schemabody}}
 	}
 
@@ -78,22 +77,22 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 	}
 }
 ';
 
-	/** @var IDBConnection */
+	/** @var Connection */
 	protected $connection;
 
 	/** @var IAppManager */
 	protected $appManager;
 
 	/**
-	 * @param IDBConnection $connection
+	 * @param Connection $connection
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(IDBConnection $connection, IAppManager $appManager) {
+	public function __construct(Connection $connection, IAppManager $appManager) {
 		$this->connection = $connection;
 		$this->appManager = $appManager;
 
@@ -110,11 +109,11 @@ class {{classname}} extends SimpleMigrationStep {
 		parent::configure();
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$version = $input->getArgument('version');
 
-		if (!preg_match('/^\d{1,16}$/',$version)) {
+		if (!preg_match('/^\d{1,16}$/', $version)) {
 			$output->writeln('<error>The given version is invalid. Only 0-9 are allowed (max. 16 digits)</error>');
 			return 1;
 		}

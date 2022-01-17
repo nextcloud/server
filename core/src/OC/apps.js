@@ -1,30 +1,43 @@
 /**
- * ownCloud - core
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @copyright Bernhard Posselt 2014
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
 
-var dynamicSlideToggleEnabled = false
+let dynamicSlideToggleEnabled = false
 
 const Apps = {
-	enableDynamicSlideToggle: function() {
+	enableDynamicSlideToggle() {
 		dynamicSlideToggleEnabled = true
-	}
+	},
 }
 
 /**
  * Shows the #app-sidebar and add .with-app-sidebar to subsequent siblings
  *
- * @param {Object} [$el] sidebar element to show, defaults to $('#app-sidebar')
+ * @param {object} [$el] sidebar element to show, defaults to $('#app-sidebar')
  */
 Apps.showAppSidebar = function($el) {
-	var $appSidebar = $el || $('#app-sidebar')
+	const $appSidebar = $el || $('#app-sidebar')
 	$appSidebar.removeClass('disappear').show()
 	$('#app-content').trigger(new $.Event('appresized'))
 }
@@ -33,10 +46,10 @@ Apps.showAppSidebar = function($el) {
  * Shows the #app-sidebar and removes .with-app-sidebar from subsequent
  * siblings
  *
- * @param {Object} [$el] sidebar element to hide, defaults to $('#app-sidebar')
+ * @param {object} [$el] sidebar element to hide, defaults to $('#app-sidebar')
  */
 Apps.hideAppSidebar = function($el) {
-	var $appSidebar = $el || $('#app-sidebar')
+	const $appSidebar = $el || $('#app-sidebar')
 	$appSidebar.hide().addClass('disappear')
 	$('#app-content').trigger(new $.Event('appresized'))
 }
@@ -51,7 +64,7 @@ Apps.hideAppSidebar = function($el) {
  * <div class=".slide-area" class="hidden">I'm sliding up</div>
  */
 export const registerAppsSlideToggle = () => {
-	var buttons = $('[data-apps-slide-toggle]')
+	let buttons = $('[data-apps-slide-toggle]')
 
 	if (buttons.length === 0) {
 		$('#app-navigation').addClass('without-app-settings')
@@ -65,9 +78,12 @@ export const registerAppsSlideToggle = () => {
 
 		buttons.each(function(index, button) {
 
-			var areaSelector = $(button).data('apps-slide-toggle')
-			var area = $(areaSelector)
+			const areaSelector = $(button).data('apps-slide-toggle')
+			const area = $(areaSelector)
 
+			/**
+			 *
+			 */
 			function hideArea() {
 				area.slideUp(OC.menuSpeed * 4, function() {
 					area.trigger(new $.Event('hide'))
@@ -76,13 +92,16 @@ export const registerAppsSlideToggle = () => {
 				$(button).removeClass('opened')
 			}
 
+			/**
+			 *
+			 */
 			function showArea() {
 				area.slideDown(OC.menuSpeed * 4, function() {
 					area.trigger(new $.Event('show'))
 				})
 				area.addClass('opened')
 				$(button).addClass('opened')
-				var input = $(areaSelector + ' [autofocus]')
+				const input = $(areaSelector + ' [autofocus]')
 				if (input.length === 1) {
 					input.focus()
 				}
@@ -102,7 +121,7 @@ export const registerAppsSlideToggle = () => {
 					// all other areas that have not been clicked but are open
 					// should be slid up
 				} else {
-					var closest = $(event.target).closest(areaSelector)
+					const closest = $(event.target).closest(areaSelector)
 					if (area.is(':visible') && closest[0] !== area[0]) {
 						hideArea()
 					}

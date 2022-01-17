@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH.
  *
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -16,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -28,7 +30,8 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Trashbin functions
  */
 trait Trashbin {
-	use WebDav;
+
+	// WebDav trait is expected to be used in the class that uses this trait.
 
 	/**
 	 * @When User :user empties trashbin
@@ -165,4 +168,3 @@ trait Trashbin {
 		return;
 	}
 }
-

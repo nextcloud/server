@@ -1,20 +1,21 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Schlichenmaier <johannes@schlichenmaier.info>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
@@ -29,20 +30,20 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
+use Nextcloud\LogNormalizer\Normalizer;
+use OCP\Log\IDataLogger;
 use function array_merge;
-use InterfaSys\LogNormalizer\Normalizer;
-
 use OC\Log\ExceptionSerializer;
+use OCP\ILogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
-use OCP\ILogger;
 use OCP\Support\CrashReport\IRegistry;
+use function strtr;
 
 /**
  * logging utilities
@@ -53,7 +54,7 @@ use OCP\Support\CrashReport\IRegistry;
  *
  * MonoLog is an example implementing this interface.
  */
-class Log implements ILogger {
+class Log implements ILogger, IDataLogger {
 
 	/** @var IWriter */
 	private $logger;
@@ -206,13 +207,7 @@ class Log implements ILogger {
 		array_walk($context, [$this->normalizer, 'format']);
 
 		$app = $context['app'] ?? 'no app in context';
-
-		// interpolate $message as defined in PSR-3
-		$replace = [];
-		foreach ($context as $key => $val) {
-			$replace['{' . $key . '}'] = $val;
-		}
-		$message = strtr($message, $replace);
+		$message = $this->interpolateMessage($context, $message);
 
 		try {
 			if ($level >= $minLevel) {
@@ -313,9 +308,9 @@ class Log implements ILogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
-		$serializer = new ExceptionSerializer();
+		$serializer = new ExceptionSerializer($this->config);
 		$data = $serializer->serializeException($exception);
-		$data['CustomMessage'] = $context['message'] ?? '--';
+		$data['CustomMessage'] = $this->interpolateMessage($context, $context['message'] ?? '--');
 
 		$minLevel = $this->getLogLevel($context);
 
@@ -338,6 +333,29 @@ class Log implements ILogger {
 		}
 	}
 
+	public function logData(string $message, array $data, array $context = []): void {
+		$app = $context['app'] ?? 'no app in context';
+		$level = $context['level'] ?? ILogger::ERROR;
+
+		$minLevel = $this->getLogLevel($context);
+
+		array_walk($context, [$this->normalizer, 'format']);
+
+		try {
+			if ($level >= $minLevel) {
+				$data['message'] = $message;
+				if (!$this->logger instanceof IFileBased) {
+					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);
+				}
+				$this->writeLog($app, $data, $level);
+			}
+
+			$context['level'] = $level;
+		} catch (\Throwable $e) {
+			// make sure we dont hard crash if logging fails
+		}
+	}
+
 	/**
 	 * @param string $app
 	 * @param string|array $entry
@@ -348,9 +366,25 @@ class Log implements ILogger {
 	}
 
 	public function getLogPath():string {
-		if($this->logger instanceof IFileBased) {
+		if ($this->logger instanceof IFileBased) {
 			return $this->logger->getLogFilePath();
 		}
 		throw new \RuntimeException('Log implementation has no path');
+	}
+
+	/**
+	 * Interpolate $message as defined in PSR-3
+	 *
+	 * @param array $context
+	 * @param string $message
+	 *
+	 * @return string
+	 */
+	private function interpolateMessage(array $context, string $message): string {
+		$replace = [];
+		foreach ($context as $key => $val) {
+			$replace['{' . $key . '}'] = $val;
+		}
+		return strtr($message, $replace);
 	}
 }

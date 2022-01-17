@@ -21,6 +21,7 @@ class ComposerStaticInitFiles_Versions
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Files_Versions\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Files_Versions\\BackgroundJob\\ExpireVersions' => __DIR__ . '/..' . '/../lib/BackgroundJob/ExpireVersions.php',
         'OCA\\Files_Versions\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
@@ -31,6 +32,8 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Events\\CreateVersionEvent' => __DIR__ . '/..' . '/../lib/Events/CreateVersionEvent.php',
         'OCA\\Files_Versions\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Versions\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
+        'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
         'OCA\\Files_Versions\\Sabre\\Plugin' => __DIR__ . '/..' . '/../lib/Sabre/Plugin.php',
         'OCA\\Files_Versions\\Sabre\\RestoreFolder' => __DIR__ . '/..' . '/../lib/Sabre/RestoreFolder.php',
         'OCA\\Files_Versions\\Sabre\\RootCollection' => __DIR__ . '/..' . '/../lib/Sabre/RootCollection.php',

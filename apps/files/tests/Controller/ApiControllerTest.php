@@ -2,12 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,27 +22,26 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Controller;
 
+use OCA\Files\Service\TagService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\IPreview;
+use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use Test\TestCase;
-use OCP\IRequest;
-use OCA\Files\Service\TagService;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\IPreview;
 
 /**
  * Class ApiController
@@ -57,7 +57,7 @@ class ApiControllerTest extends TestCase {
 	private $request;
 	/** @var TagService */
 	private $tagService;
-	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
 	private $preview;
 	/** @var ApiController */
 	private $apiController;
@@ -65,10 +65,10 @@ class ApiControllerTest extends TestCase {
 	private $shareManager;
 	/** @var \OCP\IConfig */
 	private $config;
-	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $userFolder;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)
@@ -77,11 +77,11 @@ class ApiControllerTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('user1'));
+			->willReturn('user1');
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 		$this->tagService = $this->getMockBuilder(TagService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -165,7 +165,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(0, 0, ''));
 	}
 
-	public function testGetThumbnailInvaidImage() {
+	public function testGetThumbnailInvalidImage() {
 		$file = $this->createMock(File::class);
 		$this->userFolder->method('get')
 			->with($this->equalTo('unknown.jpg'))
@@ -184,6 +184,8 @@ class ApiControllerTest extends TestCase {
 			->with($this->equalTo('known.jpg'))
 			->willReturn($file);
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('my name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->preview->expects($this->once())
 			->method('getPreview')
 			->with($this->equalTo($file), 10, 10, true)
@@ -239,7 +241,7 @@ class ApiControllerTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'show_hidden', $show);
+			->with($this->user->getUID(), 'files', 'show_hidden', '0');
 
 		$expected = new Http\Response();
 		$actual = $this->apiController->showHiddenFiles($show);
@@ -247,4 +249,16 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testCropImagePreviews() {
+		$crop = true;
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->user->getUID(), 'files', 'crop_image_previews', '1');
+
+		$expected = new Http\Response();
+		$actual = $this->apiController->cropImagePreviews($crop);
+
+		$this->assertEquals($expected, $actual);
+	}
 }

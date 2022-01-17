@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\L10N;
 
 /**
@@ -38,7 +37,6 @@ namespace OCP\L10N;
  * if settings are not present or truncating is not applicable, the iterator
  * skips to the next valid item itself
  *
- * @package OCP\L10N
  *
  * @since 14.0.0
  */
@@ -55,7 +53,9 @@ interface ILanguageIterator extends \Iterator {
 	 * Move forward to next element
 	 *
 	 * @since 14.0.0
+	 * @return void
 	 */
+	#[\ReturnTypeWillChange]
 	public function next();
 
 	/**

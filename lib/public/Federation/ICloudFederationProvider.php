@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,21 +14,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Federation;
 
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
-use \OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * Interface ICloudFederationProvider
@@ -34,7 +36,6 @@ use \OCP\Share\Exceptions\ShareNotFound;
  *
  * @since 14.0.0
  *
- * @package OCP\Federation
  */
 
 interface ICloudFederationProvider {
@@ -85,5 +86,4 @@ interface ICloudFederationProvider {
 	 * @since 14.0.0
 	 */
 	public function getSupportedShareTypes();
-
 }

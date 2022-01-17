@@ -22,9 +22,9 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class FilesAppContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 	use FileListAncestorSetter;
 
@@ -33,13 +33,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public static function sections() {
 		return [ "All files" => "files",
-				 "Recent" => "recent",
-				 "Favorites" => "favorites",
-				 "Shared with you" => "sharingin",
-				 "Shared with others" => "sharingout",
-				 "Shared by link" => "sharinglinks",
-				 "Tags" => "systemtagsfilter",
-				 "Deleted files" => "trashbin" ];
+			"Recent" => "recent",
+			"Favorites" => "favorites",
+			"Shared with you" => "sharingin",
+			"Shared with others" => "sharingout",
+			"Shared by link" => "sharinglinks",
+			"Tags" => "systemtagsfilter",
+			"Deleted files" => "trashbin" ];
 	}
 
 	/**
@@ -81,7 +81,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function detailsView() {
-		return Locator::forThe()->id("app-sidebar")->
+		return Locator::forThe()->xpath("//*[@id=\"app-sidebar\" or contains(@class, 'app-sidebar')]")->
 				describedAs("Details view in Files app");
 	}
 
@@ -89,7 +89,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function closeDetailsViewButton() {
-		return Locator::forThe()->css(".icon-close")->
+		return Locator::forThe()->css(".app-sidebar__close")->
 				descendantOf(self::detailsView())->
 				describedAs("Close details view in Files app");
 	}
@@ -98,7 +98,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function fileNameInDetailsView() {
-		return Locator::forThe()->css(".fileName")->
+		return Locator::forThe()->css(".app-sidebar-header__title")->
 				descendantOf(self::detailsView())->
 				describedAs("File name in details view in Files app");
 	}
@@ -107,7 +107,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoriteActionInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".action-favorite")->
+		return Locator::forThe()->css(".app-sidebar-header__star")->
 				descendantOf(self::fileDetailsInDetailsView())->
 				describedAs("Favorite action in file details in details view in Files app");
 	}
@@ -116,7 +116,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function notFavoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".icon-star")->
+		return Locator::forThe()->css(".star--star")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Not favorited state icon in file details in details view in Files app");
 	}
@@ -125,7 +125,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".icon-starred")->
+		return Locator::forThe()->css(".star--starred")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Favorited state icon in file details in details view in Files app");
 	}
@@ -143,7 +143,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function fileDetailsInDetailsView() {
-		return Locator::forThe()->css(".file-details")->
+		return Locator::forThe()->css(".app-sidebar-header__desc")->
 				descendantOf(self::detailsView())->
 				describedAs("File details in details view in Files app");
 	}
@@ -205,7 +205,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function tabHeadersInDetailsView() {
-		return Locator::forThe()->css(".tabHeaders")->
+		return Locator::forThe()->css(".app-sidebar-tabs__nav")->
 				descendantOf(self::detailsView())->
 				describedAs("Tab headers in details view in Files app");
 	}
@@ -214,7 +214,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function tabInDetailsViewNamed($tabName) {
-		return Locator::forThe()->xpath("//div[@id=//*[contains(concat(' ', normalize-space(@class), ' '), ' tabHeader ') and normalize-space() = '$tabName']/@data-tabid]")->
+		return Locator::forThe()->xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' app-sidebar-tabs__content ')]/section[@aria-labelledby = '$tabName' and @role = 'tabpanel']")->
 				descendantOf(self::detailsView())->
 				describedAs("Tab named $tabName in details view in Files app");
 	}
@@ -223,7 +223,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function loadingIconForTabInDetailsViewNamed($tabName) {
-		return Locator::forThe()->css(".loading")->
+		return Locator::forThe()->css(".icon-loading")->
 				descendantOf(self::tabInDetailsViewNamed($tabName))->
 				describedAs("Loading icon for tab named $tabName in details view in Files app");
 	}
@@ -296,7 +296,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the current page is the Files app
 	 */
 	public function iSeeThatTheCurrentPageIsTheFilesApp() {
-		PHPUnit_Framework_Assert::assertStringStartsWith(
+		Assert::assertStringStartsWith(
 				$this->actor->locatePath("/apps/files/"),
 				$this->actor->getSession()->getCurrentUrl());
 
@@ -314,7 +314,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::detailsView(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The details view is not open yet after $timeout seconds");
+			Assert::fail("The details view is not open yet after $timeout seconds");
 		}
 	}
 
@@ -326,7 +326,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::detailsView(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The details view is not closed yet after $timeout seconds");
+			Assert::fail("The details view is not closed yet after $timeout seconds");
 		}
 	}
 
@@ -334,7 +334,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file name shown in the details view is :fileName
 	 */
 	public function iSeeThatTheFileNameShownInTheDetailsViewIs($fileName) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$this->actor->find(self::fileNameInDetailsView(), 10)->getText(), $fileName);
 	}
 
@@ -342,7 +342,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file is marked as favorite in the details view
 	 */
 	public function iSeeThatTheFileIsMarkedAsFavoriteInTheDetailsView() {
-		PHPUnit_Framework_Assert::assertNotNull(
+		Assert::assertNotNull(
 				$this->actor->find(self::favoritedStateIconInFileDetailsInDetailsView(), 10));
 	}
 
@@ -350,7 +350,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file is not marked as favorite in the details view
 	 */
 	public function iSeeThatTheFileIsNotMarkedAsFavoriteInTheDetailsView() {
-		PHPUnit_Framework_Assert::assertNotNull(
+		Assert::assertNotNull(
 				$this->actor->find(self::notFavoritedStateIconInFileDetailsInDetailsView(), 10));
 	}
 
@@ -358,7 +358,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the input field for tags in the details view is shown
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::inputFieldForTagsInDetailsView(), 10)->isVisible());
 	}
 
@@ -366,7 +366,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the input field for tags in the details view contains the tag :tag
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewContainsTheTag($tag) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag), 10)->isVisible());
 	}
 
@@ -377,7 +377,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown();
 
 		try {
-			PHPUnit_Framework_Assert::assertFalse(
+			Assert::assertFalse(
 					$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
@@ -387,7 +387,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the tag :tag in the dropdown for tags in the details view is checked
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible());
 	}
 
@@ -395,10 +395,10 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the tag :tag in the dropdown for tags in the details view is not checked
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible());
 
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible());
 	}
 
@@ -410,7 +410,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::loadingIconForTabInDetailsViewNamed($tabName),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
+			Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
 	}
 }

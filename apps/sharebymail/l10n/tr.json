@@ -22,13 +22,14 @@
     "Password to access {file} was sent to {email}" : "{file} dosyasına erişim parolası {email} adresine gönderildi",
     "Password to access %1$s was sent to you" : "%1$s dosyasına erişim parolası size gönderildi",
     "Password to access {file} was sent to you" : "{file} dosyasına erişim parolası size gönderildi",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "%1$s paylaşılamadı, bu öge zaten %2$s ile paylaşılmış",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
+    "Share by mail" : "E-posta ile paylaş",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%1$s shared »%2$s« with you" : "%1$s, sizinle »%2$s« ögesini paylaştı",
     "%1$s shared »%2$s« with you." : "%1$s, sizinle »%2$s« ögesini paylaştı.",
     "Click the button below to open it." : "Açmak için aşağıdaki düğmeye tıklayın.",
-    "Open »%s«" : "»%s« Aç",
+    "Open »%s«" : "»%s« aç",
     "%1$s via %2$s" : "%1$s, %2$s aracılığıyla",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s sizinle »%2$s« ögesini paylaştı.\nErişim bağlantısını içeren başka bir e-posta daha almış olmalısınız.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s sizinle »%2$s« ögesini paylaştı. Erişim bağlantısını içeren başka bir e-posta daha almış olmalısınız.",
@@ -43,11 +44,11 @@
     "This is the password:" : "Parola:",
     "You can choose a different password at any time in the share dialog." : "İstediğiniz zaman paylaşım bölümünden farklı bir parola belirtebilirsiniz.",
     "Could not find share" : "Paylaşım bulunamadı",
-    "Share by mail" : "E-posta ile paylaş",
     "Share provider which allows you to share files by mail" : "Dosyaların e-posta ile paylaşılması için kullanılacak paylaşım hizmeti sağlayıcısı",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
-    "Enforce password protection" : "Parola koruması dayatılsın",
-    "Password to access »%1$s« shared with %2$s" : "»%1$s« için %2$s üzerinden paylaşılan erişim parolası"
+    "Reply to initiator" : "Başlatanı yanıtla",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
+    "Enforce password protection" : "Parola koruması dayatılsın"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

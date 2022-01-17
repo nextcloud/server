@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,29 +16,41 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-namespace OCA\Settings\Admin;
+namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\Settings\ISettings;
+use OCP\IDBConnection;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Server implements ISettings {
+class Server implements IDelegatedSettings {
+
+	/** @var IDBConnection */
+	private $connection;
+	/** @var ITimeFactory */
+	private $timeFactory;
 	/** @var IConfig */
 	private $config;
+	/** @var IL10N $l */
+	private $l;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IDBConnection $connection,
+								ITimeFactory $timeFactory,
+								IConfig $config,
+								IL10N $l) {
+		$this->connection = $connection;
+		$this->timeFactory = $timeFactory;
 		$this->config = $config;
+		$this->l = $l;
 	}
 
 	/**
@@ -48,13 +60,32 @@ class Server implements ISettings {
 		$parameters = [
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
-			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
-			'cronErrors'		  => $this->config->getAppValue('core', 'cronErrors'),
+			'lastcron' => $this->config->getAppValue('core', 'lastcron', false),
+			'cronMaxAge' => $this->cronMaxAge(),
+			'cronErrors' => $this->config->getAppValue('core', 'cronErrors'),
 			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
 			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
 		];
 
 		return new TemplateResponse('settings', 'settings/admin/server', $parameters, '');
+	}
+
+	protected function cronMaxAge(): int {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('last_checked')
+			->from('jobs')
+			->orderBy('last_checked', 'ASC')
+			->setMaxResults(1);
+
+		$result = $query->execute();
+		if ($row = $result->fetch()) {
+			$maxAge = (int) $row['last_checked'];
+		} else {
+			$maxAge = $this->timeFactory->getTime();
+		}
+		$result->closeCursor();
+
+		return $maxAge;
 	}
 
 	/**
@@ -73,5 +104,17 @@ class Server implements ISettings {
 	 */
 	public function getPriority(): int {
 		return 0;
+	}
+
+	public function getName(): ?string {
+		return $this->l->t('Background jobs');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'core' => [
+				'/mail_general_settings/',
+			],
+		];
 	}
 }

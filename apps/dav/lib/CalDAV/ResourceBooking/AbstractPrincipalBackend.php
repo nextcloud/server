@@ -2,7 +2,10 @@
 /**
  * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,24 +16,32 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
+use OCP\Calendar\Resource\IResourceMetadata;
+use OCP\Calendar\Room\IRoomMetadata;
+use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserSession;
+use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
-use Sabre\DAV\Exception;
-use \Sabre\DAV\PropPatch;
+use function array_intersect;
+use function array_map;
+use function array_merge;
+use function array_unique;
+use function array_values;
 
 abstract class AbstractPrincipalBackend implements BackendInterface {
 
@@ -108,7 +119,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param string $prefixPath
 	 * @return string[]
 	 */
-	public function getPrincipalsByPrefix($prefixPath) {
+	public function getPrincipalsByPrefix($prefixPath): array {
 		$principals = [];
 
 		if ($prefixPath === $this->principalPrefix) {
@@ -124,7 +135,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 
 			$metaDataById = [];
-			foreach($metaDataRows as $metaDataRow) {
+			foreach ($metaDataRows as $metaDataRow) {
 				if (!isset($metaDataById[$metaDataRow[$this->dbForeignKeyName]])) {
 					$metaDataById[$metaDataRow[$this->dbForeignKeyName]] = [];
 				}
@@ -133,7 +144,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					$metaDataRow['value'];
 			}
 
-			while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 				$id = $row['id'];
 
 				if (isset($metaDataById[$id])) {
@@ -141,7 +152,6 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				} else {
 					$principals[] = $this->rowToPrincipal($row);
 				}
-
 			}
 
 			$stmt->closeCursor();
@@ -151,20 +161,21 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	}
 
 	/**
-	 * Returns a specific principal, specified by it's path.
+	 * Returns a specific principal, specified by its path.
 	 * The returned structure should be the exact same as from
 	 * getPrincipalsByPrefix.
 	 *
-	 * @param string $path
+	 * @param string $prefixPath
+	 *
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
 		if (strpos($path, $this->principalPrefix) !== 0) {
 			return null;
 		}
-		list(, $name) = \Sabre\Uri\split($path);
+		[, $name] = \Sabre\Uri\split($path);
 
-		list($backendId, $resourceId) = explode('-',  $name, 2);
+		[$backendId, $resourceId] = explode('-',  $name, 2);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
@@ -174,7 +185,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$stmt = $query->execute();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-		if(!$row) {
+		if (!$row) {
 			return null;
 		}
 
@@ -186,7 +197,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 		$metadata = [];
 
-		foreach($metaDataRows as $metaDataRow) {
+		foreach ($metaDataRows as $metaDataRow) {
 			$metadata[$metaDataRow['key']] = $metaDataRow['value'];
 		}
 
@@ -195,9 +206,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 	/**
 	 * @param int $id
-	 * @return array|null
+	 * @return string[]|null
 	 */
-	public function getPrincipalById($id):?array {
+	public function getPrincipalById($id): ?array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 			->from($this->dbTableName)
@@ -205,7 +216,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$stmt = $query->execute();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-		if(!$row) {
+		if (!$row) {
 			return null;
 		}
 
@@ -217,7 +228,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 		$metadata = [];
 
-		foreach($metaDataRows as $metaDataRow) {
+		foreach ($metaDataRows as $metaDataRow) {
 			$metadata[$metaDataRow['key']] = $metaDataRow['value'];
 		}
 
@@ -229,17 +240,17 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
-	function updatePrincipal($path, PropPatch $propPatch) {
+	public function updatePrincipal($path, PropPatch $propPatch): int {
 		return 0;
 	}
 
 	/**
 	 * @param string $prefixPath
-	 * @param array $searchProperties
 	 * @param string $test
+	 *
 	 * @return array
 	 */
-	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		$results = [];
 		if (\count($searchProperties) === 0) {
 			return [];
@@ -264,7 +275,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 					$stmt = $query->execute();
 					$principals = [];
-					while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
 							continue;
 						}
@@ -283,7 +294,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 					$stmt = $query->execute();
 					$principals = [];
-					while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
 							continue;
 						}
@@ -302,16 +313,17 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					], 'anyof');
 					break;
 
+				case IRoomMetadata::FEATURES:
+					$results[] = $this->searchPrincipalsByRoomFeature($prop, $value);
+					break;
+
+				case IRoomMetadata::CAPACITY:
+				case IResourceMetadata::VEHICLE_SEATING_CAPACITY:
+					$results[] = $this->searchPrincipalsByCapacity($prop,$value);
+					break;
+
 				default:
-					$rowsByMetadata = $this->searchPrincipalsByMetadataKey($prop, $value);
-					$filteredRows = array_filter($rowsByMetadata, function($row) use ($usersGroups) {
-						return $this->isAllowedToAccessResource($row, $usersGroups);
-					});
-
-					$results[] = array_map(function($row) {
-						return $row['uri'];
-					}, $filteredRows);
-
+					$results[] = $this->searchPrincipalsByMetadataKey($prop, $value, $usersGroups);
 					break;
 			}
 		}
@@ -333,28 +345,83 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	}
 
 	/**
+	 * @param string $key
+	 * @return IQueryBuilder
+	 */
+	private function getMetadataQuery(string $key): IQueryBuilder {
+		$query = $this->db->getQueryBuilder();
+		$query->select([$this->dbForeignKeyName])
+			->from($this->dbMetaDataTableName)
+			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
+		return $query;
+	}
+
+	/**
 	 * Searches principals based on their metadata keys.
 	 * This allows to search for all principals with a specific key.
 	 * e.g.:
 	 * '{http://nextcloud.com/ns}room-building-address' => 'ABC Street 123, ...'
 	 *
-	 * @param $key
-	 * @param $value
-	 * @return array
+	 * @param string $key
+	 * @param string $value
+	 * @param string[] $usersGroups
+	 * @return string[]
 	 */
-	private function searchPrincipalsByMetadataKey($key, $value):array {
-		$query = $this->db->getQueryBuilder();
-		$query->select([$this->dbForeignKeyName])
-			->from($this->dbMetaDataTableName)
-			->where($query->expr()->eq('key', $query->createNamedParameter($key)))
-			->andWhere($query->expr()->iLike('value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
-		$stmt = $query->execute();
+	private function searchPrincipalsByMetadataKey(string $key, string $value, array $usersGroups = []): array {
+		$query = $this->getMetadataQuery($key);
+		$query->andWhere($query->expr()->iLike('value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
+		return $this->getRows($query, $usersGroups);
+	}
+
+	/**
+	 * Searches principals based on room features
+	 * e.g.:
+	 * '{http://nextcloud.com/ns}room-features' => 'TV,PROJECTOR'
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @param string[] $usersGroups
+	 * @return string[]
+	 */
+	private function searchPrincipalsByRoomFeature(string $key, string $value, array $usersGroups = []): array {
+		$query = $this->getMetadataQuery($key);
+		foreach (explode(',', $value) as $v) {
+			$query->andWhere($query->expr()->iLike('value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($v) . '%')));
+		}
+		return $this->getRows($query, $usersGroups);
+	}
+
+	/**
+	 * Searches principals based on room seating capacity or vehicle capacity
+	 * e.g.:
+	 * '{http://nextcloud.com/ns}room-seating-capacity' => '100'
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @param string[] $usersGroups
+	 * @return string[]
+	 */
+	private function searchPrincipalsByCapacity(string $key, string $value, array $usersGroups = []): array {
+		$query = $this->getMetadataQuery($key);
+		$query->andWhere($query->expr()->gte('value', $query->createNamedParameter($value)));
+		return $this->getRows($query, $usersGroups);
+	}
+
+	/**
+	 * @param IQueryBuilder $query
+	 * @param string[] $usersGroups
+	 * @return string[]
+	 */
+	private function getRows(IQueryBuilder $query, array $usersGroups): array {
+		try {
+			$stmt = $query->executeQuery();
+		} catch (Exception $e) {
+			$this->logger->error("Could not search resources: " . $e->getMessage(), ['exception' => $e]);
+		}
 
 		$rows = [];
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-			$id = $row[$this->dbForeignKeyName];
-
-			$principalRow = $this->getPrincipalById($id);
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			$principalRow = $this->getPrincipalById($row[$this->dbForeignKeyName]);
 			if (!$principalRow) {
 				continue;
 			}
@@ -362,15 +429,24 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$rows[] = $principalRow;
 		}
 
-		return $rows;
+		$stmt->closeCursor();
+
+		$filteredRows = array_filter($rows, function ($row) use ($usersGroups) {
+			return $this->isAllowedToAccessResource($row, $usersGroups);
+		});
+
+		return array_map(static function ($row): string {
+			return $row['uri'];
+		}, $filteredRows);
 	}
 
 	/**
 	 * @param string $uri
 	 * @param string $principalPrefix
 	 * @return null|string
+	 * @throws Exception
 	 */
-	function findByUri($uri, $principalPrefix) {
+	public function findByUri($uri, $principalPrefix): ?string {
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			return null;
@@ -387,7 +463,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$stmt = $query->execute();
 			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-			if(!$row) {
+			if (!$row) {
 				return null;
 			}
 			if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
@@ -403,8 +479,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				return null;
 			}
 
-			list(, $name) = \Sabre\Uri\split($path);
-			list($backendId, $resourceId) = explode('-',  $name, 2);
+			[, $name] = \Sabre\Uri\split($path);
+			[$backendId, $resourceId] = explode('-',  $name, 2);
 
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
@@ -414,7 +490,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$stmt = $query->execute();
 			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-			if(!$row) {
+			if (!$row) {
 				return null;
 			}
 			if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
@@ -430,11 +506,11 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	/**
 	 * convert database row to principal
 	 *
-	 * @param String[] $row
-	 * @param String[] $metadata
-	 * @return Array
+	 * @param string[] $row
+	 * @param string[] $metadata
+	 * @return string[]
 	 */
-	private function rowToPrincipal(array $row, array $metadata=[]):array {
+	private function rowToPrincipal(array $row, array $metadata = []): array {
 		return array_merge([
 			'uri' => $this->principalPrefix . '/' . $row['backend_id'] . '-' . $row['resource_id'],
 			'{DAV:}displayname' => $row['displayname'],
@@ -444,11 +520,11 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	}
 
 	/**
-	 * @param $row
-	 * @param $userGroups
+	 * @param array $row
+	 * @param array $userGroups
 	 * @return bool
 	 */
-	private function isAllowedToAccessResource(array $row, array $userGroups):bool {
+	private function isAllowedToAccessResource(array $row, array $userGroups): bool {
 		if (!isset($row['group_restrictions']) ||
 			$row['group_restrictions'] === null ||
 			$row['group_restrictions'] === '') {

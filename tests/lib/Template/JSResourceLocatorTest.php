@@ -23,27 +23,27 @@
 
 namespace Test\Template;
 
+use OC\SystemConfig;
 use OC\Template\JSCombiner;
+use OC\Template\JSResourceLocator;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
-use OCP\IURLGenerator;
-use OC\SystemConfig;
 use OCP\ILogger;
-use OC\Template\JSResourceLocator;
+use OCP\IURLGenerator;
 
 class JSResourceLocatorTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->appData = $this->createMock(IAppData::class);
@@ -64,14 +64,14 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		return new JSResourceLocator(
 			$this->logger,
 			'theme',
-			array('core'=>'map'),
-			array('3rd'=>'party'),
+			['core' => 'map'],
+			['3rd' => 'party'],
 			$jsCombiner
 		);
 	}
 
 	private function rrmdir($directory) {
-		$files = array_diff(scandir($directory), array('.','..'));
+		$files = array_diff(scandir($directory), ['.','..']);
 		foreach ($files as $file) {
 			if (is_dir($directory . '/' . $file)) {
 				$this->rrmdir($directory . '/' . $file);
@@ -84,17 +84,6 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 	private function randomString() {
 		return sha1(uniqid(mt_rand(), true));
-	}
-
-
-	public function testConstructor() {
-		$locator = $this->jsResourceLocator();
-		$this->assertAttributeEquals('theme', 'theme', $locator);
-		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(array('core'=>'map','3rd'=>'party'), 'mapping', $locator);
-		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
-		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals(array(), 'resources', $locator);
 	}
 
 	public function testFindWithAppPathSymlink() {
@@ -110,13 +99,13 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 		// Use the symlink as the app path
 		\OC::$APPSROOTS[] = [
-                        'path' => $new_apps_path_symlink,
-                        'url' => '/js-apps-test',
-                        'writable' => false,
-                ];
+			'path' => $new_apps_path_symlink,
+			'url' => '/js-apps-test',
+			'writable' => false,
+		];
 
 		$locator = $this->jsResourceLocator();
-		$locator->find(array('test-js-app/test-file'));
+		$locator->find(['test-js-app/test-file']);
 
 		$resources = $locator->getResources();
 		$this->assertCount(1, $resources);

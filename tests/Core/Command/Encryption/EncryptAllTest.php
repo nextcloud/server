@@ -19,9 +19,7 @@
  *
  */
 
-
 namespace Tests\Core\Command\Encryption;
-
 
 use OC\Core\Command\Encryption\EncryptAll;
 use OCP\App\IAppManager;
@@ -35,31 +33,31 @@ use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\Encryption\IManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager  */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\App\IAppManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager  */
 	protected $appManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject  | \Symfony\Component\Console\Input\InputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject  | \Symfony\Component\Console\Input\InputInterface */
 	protected $consoleInput;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Output\OutputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
 	protected $consoleOutput;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
 	protected $questionHelper;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\Encryption\IEncryptionModule */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IEncryptionModule */
 	protected $encryptionModule;
 
 	/** @var  EncryptAll */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)
@@ -82,7 +80,6 @@ class EncryptAllTest extends TestCase {
 			->method('isInteractive')
 			->willReturn(true);
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
-
 	}
 
 	public function testEncryptAll() {
@@ -104,7 +101,6 @@ class EncryptAllTest extends TestCase {
 	 * @dataProvider dataTestExecute
 	 */
 	public function testExecute($answer, $askResult) {
-
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 
 		$this->encryptionManager->expects($this->once())->method('isEnabled')->willReturn(true);
@@ -129,15 +125,14 @@ class EncryptAllTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+
 	public function testExecuteException() {
+		$this->expectException(\Exception::class);
+
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 		$this->encryptionManager->expects($this->once())->method('isEnabled')->willReturn(false);
 		$this->encryptionManager->expects($this->never())->method('getEncryptionModule');
 		$this->encryptionModule->expects($this->never())->method('encryptAll');
 		$this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
-
 }

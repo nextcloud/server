@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -29,6 +31,7 @@ use OC\Authentication\TwoFactorAuth\Registry;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderDisabled;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,7 +48,7 @@ class RegistryTest extends TestCase {
 	/** @var Registry */
 	private $registry;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->dao = $this->createMock(ProviderUserAssignmentDao::class);
@@ -79,7 +82,7 @@ class RegistryTest extends TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IRegistry::EVENT_PROVIDER_ENABLED),
-				$this->callback(function(RegistryEvent $e) use ($user, $provider) {
+				$this->callback(function (RegistryEvent $e) use ($user, $provider) {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);
@@ -100,12 +103,30 @@ class RegistryTest extends TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IRegistry::EVENT_PROVIDER_DISABLED),
-				$this->callback(function(RegistryEvent $e) use ($user, $provider) {
+				$this->callback(function (RegistryEvent $e) use ($user, $provider) {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);
 
 		$this->registry->disableProviderFor($provider, $user);
+	}
+
+	public function testDeleteUserData() {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->once())->method('getUID')->willReturn('user123');
+		$this->dao->expects($this->once())
+			->method('deleteByUser')
+			->with('user123')
+			->willReturn([
+				[
+					'provider_id' => 'twofactor_u2f',
+				]
+			]);
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new TwoFactorProviderDisabled('twofactor_u2f'));
+
+		$this->registry->deleteUserData($user);
 	}
 
 	public function testCleanUp() {
@@ -115,5 +136,4 @@ class RegistryTest extends TestCase {
 
 		$this->registry->cleanUp('twofactor_u2f');
 	}
-
 }

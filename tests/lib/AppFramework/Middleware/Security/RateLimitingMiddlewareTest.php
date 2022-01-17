@@ -26,26 +26,29 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class RateLimitingMiddlewareTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var ControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
-	/** @var Limiter|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Limiter|\PHPUnit\Framework\MockObject\MockObject */
 	private $limiter;
 	/** @var RateLimitingMiddleware */
 	private $rateLimitingMiddleware;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -90,13 +93,13 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->expects($this->never())
 			->method('registerAnonRequest');
 
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethod');
 	}
 
 	public function testBeforeControllerForAnon() {
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->request
 			->expects($this->once())
@@ -137,9 +140,9 @@ class RateLimitingMiddlewareTest extends TestCase {
 	}
 
 	public function testBeforeControllerForLoggedIn() {
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 
 		$this->userSession
@@ -185,7 +188,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 	}
 
 	public function testBeforeControllerAnonWithFallback() {
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->request
 			->expects($this->once())
@@ -229,19 +232,19 @@ class RateLimitingMiddlewareTest extends TestCase {
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethod');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage My test exception
-	 */
+
 	public function testAfterExceptionWithOtherException() {
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('My test exception');
+
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 
 		$this->rateLimitingMiddleware->afterException($controller, 'testMethod', new \Exception('My test exception'));
 	}
 
 	public function testAfterExceptionWithJsonBody() {
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->request
 			->expects($this->once())
@@ -250,17 +253,13 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->willReturn('JSON');
 
 		$result = $this->rateLimitingMiddleware->afterException($controller, 'testMethod', new RateLimitExceededException());
-		$expected = new JSONResponse(
-			[
-				'message' => 'Rate limit exceeded',
-			],
-			429
+		$expected = new DataResponse([], 429
 		);
 		$this->assertEquals($expected, $result);
 	}
 
 	public function testAfterExceptionWithHtmlBody() {
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->request
 			->expects($this->once())
@@ -271,13 +270,12 @@ class RateLimitingMiddlewareTest extends TestCase {
 		$result = $this->rateLimitingMiddleware->afterException($controller, 'testMethod', new RateLimitExceededException());
 		$expected = new TemplateResponse(
 			'core',
-			'403',
-			[
-				'file' => 'Rate limit exceeded',
-			],
-			'guest'
+			'429',
+			[],
+			TemplateResponse::RENDER_AS_GUEST
 		);
 		$expected->setStatus(429);
 		$this->assertEquals($expected, $result);
+		$this->assertIsString($result->render());
 	}
 }

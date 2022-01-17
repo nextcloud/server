@@ -3,17 +3,14 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Brice Maron <brice@bmaron.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -27,30 +24,37 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
+use OC\Cache\CappedMemoryCache;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use OCP\IDBConnection;
 
 class Helper {
 
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * Helper constructor.
-	 *
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
+	/** @var IDBConnection */
+	private $connection;
+
+	/** @var CappedMemoryCache */
+	protected $sanitizeDnCache;
+
+	public function __construct(IConfig $config,
+								IDBConnection $connection) {
 		$this->config = $config;
+		$this->connection = $connection;
+		$this->sanitizeDnCache = new CappedMemoryCache(10000);
 	}
 
 	/**
 	 * returns prefixes for each saved LDAP/AD server configuration.
+	 *
 	 * @param bool $activeConfigurations optional, whether only active configuration shall be
 	 * retrieved, defaults to false
 	 * @return array with a list of the available prefixes
@@ -69,7 +73,7 @@ class Helper {
 	 * except the default (first) server shall be connected to.
 	 *
 	 */
-	public function getServerConfigurationPrefixes($activeConfigurations = false) {
+	public function getServerConfigurationPrefixes($activeConfigurations = false): array {
 		$referenceConfigkey = 'ldap_configuration_active';
 
 		$keys = $this->getServersConfig($referenceConfigkey);
@@ -83,6 +87,7 @@ class Helper {
 			$len = strlen($key) - strlen($referenceConfigkey);
 			$prefixes[] = substr($key, 0, $len);
 		}
+		asort($prefixes);
 
 		return $prefixes;
 	}
@@ -90,6 +95,7 @@ class Helper {
 	/**
 	 *
 	 * determines the host for every configured connection
+	 *
 	 * @return array an array with configprefix as keys
 	 *
 	 */
@@ -98,8 +104,8 @@ class Helper {
 
 		$keys = $this->getServersConfig($referenceConfigkey);
 
-		$result = array();
-		foreach($keys as $key) {
+		$result = [];
+		foreach ($keys as $key) {
 			$len = strlen($key) - strlen($referenceConfigkey);
 			$prefix = substr($key, 0, $len);
 			$result[$prefix] = $this->config->getAppValue('user_ldap', $key);
@@ -116,7 +122,7 @@ class Helper {
 	public function getNextServerConfigurationPrefix() {
 		$serverConnections = $this->getServerConfigurationPrefixes();
 
-		if(count($serverConnections) === 0) {
+		if (count($serverConnections) === 0) {
 			return 's01';
 		}
 
@@ -142,115 +148,101 @@ class Helper {
 
 	/**
 	 * deletes a given saved LDAP/AD server configuration.
+	 *
 	 * @param string $prefix the configuration prefix of the config to delete
 	 * @return bool true on success, false otherwise
 	 */
 	public function deleteServerConfiguration($prefix) {
-		if(!in_array($prefix, self::getServerConfigurationPrefixes())) {
+		if (!in_array($prefix, self::getServerConfigurationPrefixes())) {
 			return false;
 		}
 
-		$saveOtherConfigurations = '';
-		if(empty($prefix)) {
-			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('user_ldap')))
+			->andWhere($query->expr()->like('configkey', $query->createNamedParameter((string)$prefix . '%')))
+			->andWhere($query->expr()->notIn('configkey', $query->createNamedParameter([
+				'enabled',
+				'installed_version',
+				'types',
+				'bgjUpdateGroupsLastRun',
+			], IQueryBuilder::PARAM_STR_ARRAY)));
+
+		if (empty($prefix)) {
+			$query->andWhere($query->expr()->notLike('configkey', $query->createNamedParameter('s%')));
 		}
 
-		$query = \OC_DB::prepare('
-			DELETE
-			FROM `*PREFIX*appconfig`
-			WHERE `configkey` LIKE ?
-				'.$saveOtherConfigurations.'
-				AND `appid` = \'user_ldap\'
-				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
-		');
-		$delRows = $query->execute(array($prefix.'%'));
-
-		if($delRows === null) {
-			return false;
-		}
-
-		if($delRows === 0) {
-			return false;
-		}
-
-		return true;
+		$deletedRows = $query->execute();
+		return $deletedRows !== 0;
 	}
 
 	/**
 	 * checks whether there is one or more disabled LDAP configurations
-	 * @throws \Exception
-	 * @return bool
 	 */
-	public function haveDisabledConfigurations() {
+	public function haveDisabledConfigurations(): bool {
 		$all = $this->getServerConfigurationPrefixes(false);
 		$active = $this->getServerConfigurationPrefixes(true);
-
-		if(!is_array($all) || !is_array($active)) {
-			throw new \Exception('Unexpected Return Value');
-		}
 
 		return count($all) !== count($active) || count($all) === 0;
 	}
 
 	/**
 	 * extracts the domain from a given URL
+	 *
 	 * @param string $url the URL
 	 * @return string|false domain as string on success, false otherwise
 	 */
 	public function getDomainFromURL($url) {
 		$uinfo = parse_url($url);
-		if(!is_array($uinfo)) {
+		if (!is_array($uinfo)) {
 			return false;
 		}
 
 		$domain = false;
-		if(isset($uinfo['host'])) {
+		if (isset($uinfo['host'])) {
 			$domain = $uinfo['host'];
-		} else if(isset($uinfo['path'])) {
+		} elseif (isset($uinfo['path'])) {
 			$domain = $uinfo['path'];
 		}
 
 		return $domain;
 	}
-	
-	/**
-	 *
-	 * Set the LDAPProvider in the config
-	 *
-	 */
-	public function setLDAPProvider() {
-		$current = \OC::$server->getConfig()->getSystemValue('ldapProviderFactory', null);
-		if(is_null($current)) {
-			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', LDAPProviderFactory::class);
-		}
-	}
-	
+
 	/**
 	 * sanitizes a DN received from the LDAP server
+	 *
 	 * @param array $dn the DN in question
 	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
 		//treating multiple base DNs
-		if(is_array($dn)) {
-			$result = array();
-			foreach($dn as $singleDN) {
+		if (is_array($dn)) {
+			$result = [];
+			foreach ($dn as $singleDN) {
 				$result[] = $this->sanitizeDN($singleDN);
 			}
 			return $result;
 		}
 
+		if (!is_string($dn)) {
+			throw new \LogicException('String expected ' . \gettype($dn) . ' given');
+		}
+
+		if (($sanitizedDn = $this->sanitizeDnCache->get($dn)) !== null) {
+			return $sanitizedDn;
+		}
+
 		//OID sometimes gives back DNs with whitespace after the comma
 		// a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
+		$sanitizedDn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
 
 		//make comparisons and everything work
-		$dn = mb_strtolower($dn, 'UTF-8');
+		$sanitizedDn = mb_strtolower($sanitizedDn, 'UTF-8');
 
 		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
 		//to use the DN in search filters, \ needs to be escaped to \5c additionally
 		//to use them in bases, we convert them back to simple backslashes in readAttribute()
-		$replacements = array(
+		$replacements = [
 			'\,' => '\5c2C',
 			'\=' => '\5c3D',
 			'\+' => '\5c2B',
@@ -259,17 +251,19 @@ class Helper {
 			'\;' => '\5c3B',
 			'\"' => '\5c22',
 			'\#' => '\5c23',
-			'('  => '\28',
-			')'  => '\29',
-			'*'  => '\2A',
-		);
-		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
+			'(' => '\28',
+			')' => '\29',
+			'*' => '\2A',
+		];
+		$sanitizedDn = str_replace(array_keys($replacements), array_values($replacements), $sanitizedDn);
+		$this->sanitizeDnCache->set($dn, $sanitizedDn);
 
-		return $dn;
+		return $sanitizedDn;
 	}
-	
+
 	/**
 	 * converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
+	 *
 	 * @param string $dn the DN
 	 * @return string
 	 */
@@ -285,26 +279,13 @@ class Helper {
 	 * @throws \Exception
 	 */
 	public static function loginName2UserName($param) {
-		if(!isset($param['uid'])) {
+		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		//ain't it ironic?
-		$helper = new Helper(\OC::$server->getConfig());
-
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
-		$ldapWrapper = new LDAP();
-		$ocConfig = \OC::$server->getConfig();
-		$notificationManager = \OC::$server->getNotificationManager();
-
-		$userSession = \OC::$server->getUserSession();
-		$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
-
-		$userBackend  = new User_Proxy(
-			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
-		);
-		$uid = $userBackend->loginName2UserName($param['uid'] );
-		if($uid !== false) {
+		$userBackend = \OC::$server->get(User_Proxy::class);
+		$uid = $userBackend->loginName2UserName($param['uid']);
+		if ($uid !== false) {
 			$param['uid'] = $uid;
 		}
 	}

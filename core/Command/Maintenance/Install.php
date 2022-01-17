@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christian Kampka <christian@kampka.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Hansson <daniel@techandme.se>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -24,33 +25,38 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Core\Command\Maintenance;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use InvalidArgumentException;
 use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Throwable;
+use function get_class;
 
 class Install extends Command {
 
-	/**
-	 * @var SystemConfig
-	 */
+	/** @var SystemConfig */
 	private $config;
+	/** @var IniGetWrapper  */
+	private $iniGetWrapper;
 
-	public function __construct(SystemConfig $config) {
+	public function __construct(SystemConfig $config, IniGetWrapper $iniGetWrapper) {
 		parent::__construct();
 		$this->config = $config;
+		$this->iniGetWrapper = $iniGetWrapper;
 	}
 
 	protected function configure() {
@@ -63,7 +69,6 @@ class Install extends Command {
 			->addOption('database-port', null, InputOption::VALUE_REQUIRED, 'Port the database is listening on')
 			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'User name to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
-			->addOption('database-table-prefix', null, InputOption::VALUE_OPTIONAL, 'Prefix for all tables (default: oc_)', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'User name of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
@@ -71,16 +76,16 @@ class Install extends Command {
 			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT."/data");
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 
 		// validate the environment
 		$server = \OC::$server;
 		$setupHelper = new Setup(
 			$this->config,
-			$server->getIniWrapper(),
+			$this->iniGetWrapper,
 			$server->getL10N('lib'),
 			$server->query(Defaults::class),
-			$server->getLogger(),
+			$server->get(LoggerInterface::class),
 			$server->getSecureRandom(),
 			\OC::$server->query(Installer::class)
 		);
@@ -90,7 +95,7 @@ class Install extends Command {
 			$this->printErrors($output, $errors);
 
 			// ignore the OS X setup warning
-			if(count($errors) !== 1 ||
+			if (count($errors) !== 1 ||
 				(string)$errors[0]['error'] !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk! ') {
 				return 1;
 			}
@@ -132,10 +137,9 @@ class Install extends Command {
 		} else {
 			$dbHost = $input->getOption('database-host');
 		}
-		$dbTablePrefix = 'oc_';
-		if ($input->hasParameterOption('--database-table-prefix')) {
-			$dbTablePrefix = (string) $input->getOption('database-table-prefix');
-			$dbTablePrefix = trim($dbTablePrefix);
+		if ($dbPort) {
+			// Append the port to the host so it is the same as in the config (there is no dbport config)
+			$dbHost .= ':' . $dbPort;
 		}
 		if ($input->hasParameterOption('--database-pass')) {
 			$dbPass = (string) $input->getOption('database-pass');
@@ -181,8 +185,6 @@ class Install extends Command {
 			'dbpass' => $dbPass,
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
-			'dbport' => $dbPort,
-			'dbtableprefix' => $dbTablePrefix,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
 			'adminemail' => $adminEmail,
@@ -201,11 +203,26 @@ class Install extends Command {
 	protected function printErrors(OutputInterface $output, $errors) {
 		foreach ($errors as $error) {
 			if (is_array($error)) {
-				$output->writeln('<error>' . (string)$error['error'] . '</error>');
-				$output->writeln('<info> -> ' . (string)$error['hint'] . '</info>');
+				$output->writeln('<error>' . $error['error'] . '</error>');
+				if (isset($error['hint']) && !empty($error['hint'])) {
+					$output->writeln('<info> -> ' . $error['hint'] . '</info>');
+				}
+				if (isset($error['exception']) && $error['exception'] instanceof Throwable) {
+					$this->printThrowable($output, $error['exception']);
+				}
 			} else {
-				$output->writeln('<error>' . (string)$error . '</error>');
+				$output->writeln('<error>' . $error . '</error>');
 			}
+		}
+	}
+
+	private function printThrowable(OutputInterface $output, Throwable $t): void {
+		$output->write('<info>Trace: ' . $t->getTraceAsString() . '</info>');
+		$output->writeln('');
+		if ($t->getPrevious() !== null) {
+			$output->writeln('');
+			$output->writeln('<info>Previous: ' . get_class($t->getPrevious()) . ': ' . $t->getPrevious()->getMessage() . '</info>');
+			$this->printThrowable($output, $t->getPrevious());
 		}
 	}
 }

@@ -30,24 +30,23 @@ use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ContactsMenuControllerTest extends TestCase {
 
-	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $contactsManager;
 
 	/** @var ContactsMenuController */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

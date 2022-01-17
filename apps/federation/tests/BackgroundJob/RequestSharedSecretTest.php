@@ -5,6 +5,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -19,16 +20,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Federation\Tests\BackgroundJob;
 
-
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Ring\Exception\RingException;
 use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
@@ -44,37 +41,37 @@ use Test\TestCase;
 
 class RequestSharedSecretTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IClientService */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IClientService */
 	private $httpClientService;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IClient */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IClient */
 	private $httpClient;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IJobList */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IJobList */
 	private $jobList;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IURLGenerator */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IURLGenerator */
 	private $urlGenerator;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
 	private $trustedServers;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IResponse */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IResponse */
 	private $response;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IDiscoveryService */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IDiscoveryService */
 	private $discoveryService;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ILogger */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
 	private $logger;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ITimeFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
 	private $timeFactory;
 
 	/** @var  RequestSharedSecret */
 	private $requestSharedSecret;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->httpClientService = $this->createMock(IClientService::class);
@@ -109,7 +106,7 @@ class RequestSharedSecretTest extends TestCase {
 	 * @param bool $retainBackgroundJob
 	 */
 	public function testExecute($isTrustedServer, $retainBackgroundJob) {
-		/** @var RequestSharedSecret |\PHPUnit_Framework_MockObject_MockObject $requestSharedSecret */
+		/** @var RequestSharedSecret |\PHPUnit\Framework\MockObject\MockObject $requestSharedSecret */
 		$requestSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\RequestSharedSecret')
 			->setConstructorArgs(
 				[
@@ -152,7 +149,6 @@ class RequestSharedSecretTest extends TestCase {
 		}
 
 		$requestSharedSecret->execute($this->jobList);
-
 	}
 
 	public function dataTestExecute() {
@@ -169,7 +165,6 @@ class RequestSharedSecretTest extends TestCase {
 	 * @param int $statusCode
 	 */
 	public function testRun($statusCode) {
-
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -278,42 +273,6 @@ class RequestSharedSecretTest extends TestCase {
 					'connect_timeout' => 3,
 				]
 			)->willThrowException($this->createMock(ConnectException::class));
-
-		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
-		$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
-	}
-
-	public function testRunRingException() {
-		$target = 'targetURL';
-		$source = 'sourceURL';
-		$token = 'token';
-
-		$argument = ['url' => $target, 'token' => $token];
-
-		$this->timeFactory->method('getTime')->willReturn(42);
-
-		$this->urlGenerator
-			->expects($this->once())
-			->method('getAbsoluteURL')
-			->with('/')
-			->willReturn($source);
-
-		$this->httpClient
-			->expects($this->once())
-			->method('post')
-			->with(
-				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
-				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
-					'timeout' => 3,
-					'connect_timeout' => 3,
-				]
-			)->willThrowException($this->createMock(RingException::class));
 
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 		$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));

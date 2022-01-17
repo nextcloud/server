@@ -2,9 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -19,14 +22,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Preview;
 
+use OCP\Files\File;
 use OCP\IImage;
 use OCP\ILogger;
-use OCP\Files\File;
 
 class SVG extends ProviderV2 {
 	/**
@@ -66,7 +69,7 @@ class SVG extends ProviderV2 {
 
 		//new image object
 		$image = new \OC_Image();
-		$image->loadFromData($svg);
+		$image->loadFromData((string) $svg);
 		//check if image object is valid
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);

@@ -1,9 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Activity;
 
 use OCP\Activity\IEvent;
@@ -34,10 +38,10 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	public const PASSWORD_CHANGED_BY = 'password_changed_by';
 	public const PASSWORD_CHANGED_SELF = 'password_changed_self';
 	public const PASSWORD_RESET = 'password_changed';
+	public const PASSWORD_RESET_SELF = 'password_reset_self';
 	public const EMAIL_CHANGED_BY = 'email_changed_by';
 	public const EMAIL_CHANGED_SELF = 'email_changed_self';
 	public const EMAIL_CHANGED = 'email_changed';
@@ -98,29 +102,28 @@ class Provider implements IProvider {
 
 		if ($event->getSubject() === self::PASSWORD_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your password');
-		} else if ($event->getSubject() === self::PASSWORD_CHANGED_SELF) {
+		} elseif ($event->getSubject() === self::PASSWORD_CHANGED_SELF) {
 			$subject = $this->l->t('You changed your password');
-		} else if ($event->getSubject() === self::PASSWORD_RESET) {
+		} elseif ($event->getSubject() === self::PASSWORD_RESET) {
 			$subject = $this->l->t('Your password was reset by an administrator');
-
-		} else if ($event->getSubject() === self::EMAIL_CHANGED_BY) {
+		} elseif ($event->getSubject() === self::PASSWORD_RESET_SELF) {
+			$subject = $this->l->t('Your password was reset');
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your email address');
-		} else if ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
 			$subject = $this->l->t('You changed your email address');
-		} else if ($event->getSubject() === self::EMAIL_CHANGED) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED) {
 			$subject = $this->l->t('Your email address was changed by an administrator');
-
-		} else if ($event->getSubject() === self::APP_TOKEN_CREATED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_CREATED) {
 			$subject = $this->l->t('You created app password "{token}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_DELETED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_RENAMED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_RENAMED) {
 			$subject = $this->l->t('You renamed app password "{token}" to "{newToken}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
 			$subject = $this->l->t('You granted filesystem access to app password "{token}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
 			$subject = $this->l->t('You revoked filesystem access from app password "{token}"');
-
 		} else {
 			throw new \InvalidArgumentException('Unknown subject');
 		}
@@ -143,6 +146,7 @@ class Provider implements IProvider {
 		switch ($subject) {
 			case self::PASSWORD_CHANGED_SELF:
 			case self::PASSWORD_RESET:
+			case self::PASSWORD_RESET_SELF:
 			case self::EMAIL_CHANGED_SELF:
 			case self::EMAIL_CHANGED:
 				return [];

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  *
@@ -29,7 +32,7 @@ class CsrfTokenManagerTest extends \Test\TestCase {
 	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
 	private $storageInterface;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->tokenGenerator = $this->getMockBuilder('\OC\Security\CSRF\CsrfTokenGenerator')
 			->disableOriginalConstructor()->getMock();

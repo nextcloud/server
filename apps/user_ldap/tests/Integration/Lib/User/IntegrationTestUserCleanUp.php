@@ -3,7 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -17,17 +18,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
-use OC\User\NoUserException;
 use OCA\User_LDAP\Jobs\CleanUp;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User_LDAP;
+use OCA\User_LDAP\UserPluginManager;
 
 require_once __DIR__ . '/../../Bootstrap.php';
 
@@ -46,7 +46,7 @@ class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
 
-		$userBackend  = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query('LDAPUserPluginManager'));
+		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query(UserPluginManager::class));
 		\OC_User::useBackend($userBackend);
 	}
 
@@ -85,7 +85,7 @@ class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
 		// it is deleted from the LDAP server. The instance will be returned
 		// from cache and may false-positively confirm the correctness.
 		$user = \OC::$server->getUserManager()->get($username);
-		if($user === null) {
+		if ($user === null) {
 			return false;
 		}
 		$user->delete();

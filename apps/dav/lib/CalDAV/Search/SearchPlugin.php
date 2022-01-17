@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,22 +17,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\CalDAV\Search;
 
+use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
-use OCA\DAV\CalDAV\CalendarHome;
 
 class SearchPlugin extends ServerPlugin {
-	const NS_Nextcloud = 'http://nextcloud.com/ns';
+	public const NS_Nextcloud = 'http://nextcloud.com/ns';
 
 	/**
 	 * Reference to SabreDAV server object.
@@ -139,11 +142,10 @@ class SearchPlugin extends ServerPlugin {
 		// If we're dealing with the calendar home, the calendar home itself is
 		// responsible for the calendar-query
 		if ($node instanceof CalendarHome && $depth === 2) {
-
 			$nodePaths = $node->calendarSearch($report->filters, $report->limit, $report->offset);
 
 			foreach ($nodePaths as $path) {
-				list($properties) = $this->server->getPropertiesForPath(
+				[$properties] = $this->server->getPropertiesForPath(
 					$this->server->getRequestUri() . '/' . $path,
 					$report->properties);
 				$result[] = $properties;

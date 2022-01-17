@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Jacob Neplokh <me@jacobneplokh.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -18,13 +20,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\DAV\Tests\unit\CardDAV;
-
 
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\ImageExportPlugin;
@@ -41,20 +40,20 @@ use Test\TestCase;
 
 class ImageExportPluginTest extends TestCase {
 
-	/** @var ResponseInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $response;
-	/** @var RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ImageExportPlugin|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ImageExportPlugin|\PHPUnit\Framework\MockObject\MockObject */
 	private $plugin;
 	/** @var Server */
 	private $server;
-	/** @var Tree|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Tree|\PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
-	/** @var PhotoCache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PhotoCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
 
-	function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(RequestInterface::class);
@@ -142,10 +141,10 @@ class ImageExportPluginTest extends TestCase {
 			->willReturn(1);
 
 		$this->tree->method('getNodeForPath')
-			->willReturnCallback(function($path) use ($card, $book) {
+			->willReturnCallback(function ($path) use ($card, $book) {
 				if ($path === 'user/book/card') {
 					return $card;
-				} else if ($path === 'user/book') {
+				} elseif ($path === 'user/book') {
 					return $book;
 				}
 				$this->fail();
@@ -166,7 +165,7 @@ class ImageExportPluginTest extends TestCase {
 		if ($photo) {
 			$file = $this->createMock(ISimpleFile::class);
 			$file->method('getMimeType')
-				->willReturn('imgtype');
+				->willReturn('image/jpeg');
 			$file->method('getContent')
 				->willReturn('imgdata');
 
@@ -176,10 +175,10 @@ class ImageExportPluginTest extends TestCase {
 
 			$this->response->expects($this->at(3))
 				->method('setHeader')
-				->with('Content-Type', 'imgtype');
+				->with('Content-Type', 'image/jpeg');
 			$this->response->expects($this->at(4))
 				->method('setHeader')
-				->with('Content-Disposition', 'attachment');
+				->with('Content-Disposition', 'attachment; filename=card.jpg');
 
 			$this->response->expects($this->once())
 				->method('setStatus')
@@ -187,7 +186,6 @@ class ImageExportPluginTest extends TestCase {
 			$this->response->expects($this->once())
 				->method('setBody')
 				->with('imgdata');
-
 		} else {
 			$this->cache->method('get')
 				->with(1, 'card', $size, $card)

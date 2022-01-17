@@ -21,7 +21,6 @@
 
 $directories = [
 	__DIR__ . '/../core/l10n',
-	__DIR__ . '/../settings/l10n',
 ];
 
 $apps = new \DirectoryIterator(__DIR__ . '/../apps');
@@ -34,6 +33,7 @@ foreach ($apps as $app) {
 }
 
 $errors = [];
+$valid = 0;
 foreach ($directories as $dir) {
 	if (!file_exists($dir)) {
 		continue;
@@ -48,22 +48,24 @@ foreach ($directories as $dir) {
 		$content = file_get_contents($file->getPathname());
 		$json = json_decode($content, true);
 
+		$translations = json_encode($json['translations']);
+		if (strpos($translations, '|') !== false) {
+			$errors[] = $file->getPathname() . "\n" . '  ' . 'Contains a | in the translations' . "\n";
+		}
+
 		if (json_last_error() !== JSON_ERROR_NONE) {
-			echo '[Error] Could not parse: ' . $file->getPathname() . "\n";
-			echo '  ' . json_last_error_msg() . "\n";
 			$errors[] = $file->getPathname() . "\n" . '  ' . json_last_error_msg() . "\n";
 		} else {
-			echo '[OK]   ' . $file->getPathname() . "\n";
+			$valid++;
 		}
 	}
 }
 
-echo "\n\n";
 if (count($errors) > 0) {
-	echo sprintf('ERROR: There were %d errors:', count($errors)) . "\n";
-	echo implode("\n", $errors) . "\n";
+	echo sprintf('ERROR: There were %d errors:', count($errors)) . "\n\n";
+	echo implode("\n", $errors);
 	exit(1);
 }
 
-echo 'OK: all files parse' . "\n";
+echo 'OK: ' . $valid . ' files parse' . "\n";
 exit(0);

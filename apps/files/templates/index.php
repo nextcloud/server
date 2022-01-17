@@ -1,13 +1,12 @@
-<?php /** @var $l \OCP\IL10N */ ?>
+<?php /** @var \OCP\IL10N $l */ ?>
 <?php $_['appNavigation']->printPage(); ?>
 <div id="app-content">
 
-	<?php if (!$_['isIE']) { ?>
-		<input type="checkbox" class="hidden-visually" id="showgridview"
-			<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
-		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
-			title="<?php p($l->t('Toggle grid view'))?>"></label>
-	<?php } ?>
+	<input type="checkbox" class="hidden-visually" id="showgridview"
+		aria-label="<?php p($l->t('Toggle grid view'))?>"
+		<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
+	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
+		title="<?php p($l->t('Toggle grid view'))?>"></label>
 
 	<?php foreach ($_['appContents'] as $content) { ?>
 	<div id="app-content-<?php p($content['id']) ?>" class="hidden viewcontainer">
@@ -28,6 +27,7 @@
 <input type="hidden" name="defaultFileSorting" id="defaultFileSorting" value="<?php p($_['defaultFileSorting']) ?>" />
 <input type="hidden" name="defaultFileSortingDirection" id="defaultFileSortingDirection" value="<?php p($_['defaultFileSortingDirection']) ?>" />
 <input type="hidden" name="showHiddenFiles" id="showHiddenFiles" value="<?php p($_['showHiddenFiles']); ?>" />
+<input type="hidden" name="cropImagePreviews" id="cropImagePreviews" value="<?php p($_['cropImagePreviews']); ?>" />
 <?php endif;
 
 foreach ($_['hiddenFields'] as $name => $value) {?>

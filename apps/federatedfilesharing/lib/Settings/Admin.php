@@ -15,22 +15,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\FederatedFileSharing\Settings;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\GlobalScale\IConfig;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
 	/** @var FederatedShareProvider */
 	private $fedShareProvider;
@@ -38,22 +38,25 @@ class Admin implements ISettings {
 	/** @var IConfig */
 	private $gsConfig;
 
+	/** @var IL10N */
+	private $l;
+
 	/**
 	 * Admin constructor.
 	 *
 	 * @param FederatedShareProvider $fedShareProvider
 	 * @param IConfig $globalScaleConfig
 	 */
-	public function __construct(FederatedShareProvider $fedShareProvider, IConfig $globalScaleConfig) {
+	public function __construct(FederatedShareProvider $fedShareProvider, IConfig $globalScaleConfig, IL10N $l) {
 		$this->fedShareProvider = $fedShareProvider;
 		$this->gsConfig = $globalScaleConfig;
+		$this->l = $l;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-
 		$parameters = [
 			'internalOnly' => $this->gsConfig->onlyInternalFederation(),
 			'outgoingServer2serverShareEnabled' => $this->fedShareProvider->isOutgoingServer2serverShareEnabled(),
@@ -86,4 +89,21 @@ class Admin implements ISettings {
 		return 20;
 	}
 
+	public function getName(): ?string {
+		return $this->l->t('Federated Cloud Sharing');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'files_sharing' => [
+				'outgoing_server2server_share_enabled',
+				'incoming_server2server_share_enabled',
+				'federatedGroupSharingSupported',
+				'outgoingServer2serverGroupShareEnabled',
+				'incomingServer2serverGroupShareEnabled',
+				'lookupServerEnabled',
+				'lookupServerUploadEnabled',
+			],
+		];
+	}
 }

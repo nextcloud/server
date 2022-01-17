@@ -24,8 +24,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Palavra-chave de acesso a {file} enviada para {email}",
     "Password to access %1$s was sent to you" : "Palavra-chave de acesso a %1$s enviada para si",
     "Password to access {file} was sent to you" : "Palavra-chave de acesso a {file} enviada para si",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Partilhando %1$s falhou, este item já está partilhado com %2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não foi possível enviar-lhe a palavra-chave automáticamente gerada. Por favor defina um endereço de email válido nas suas definições pessoais e tente novamente.",
+    "Share by mail" : "Partilhado por e-mail",
     "Failed to send share by email" : "Falhou o envio da partilha por email.",
     "%1$s shared »%2$s« with you" : "%1$s partilhado »%2$s« contigo",
     "%1$s shared »%2$s« with you." : "%1$s partilhado »%2$s« contigo.",
@@ -45,10 +44,9 @@ OC.L10N.register(
     "This is the password:" : "Esta é a palavra passe: ",
     "You can choose a different password at any time in the share dialog." : "Pode escolher uma palavra-chave diferente a qualquer altura utilizando a caixa de diálogo \"partilha\".",
     "Could not find share" : "Não foi possível encontrar a partilha",
-    "Share by mail" : "Partilhado por e-mail",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir aos utilizadores a partilha de uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de email.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir que os utilizadores partilhem uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de ''e-mail''.",
     "Send password by mail" : "Enviar palavra-chave por e-mail",
-    "Enforce password protection" : "Forçar proteção por palavra-passe",
-    "Password to access »%1$s« shared with %2$s" : "Palavra-chave para aceder a » %1$s« partilhado com %2$s"
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não foi possível enviar-lhe a palavra-chave automáticamente gerada. Por favor defina um endereço de email válido nas suas definições pessoais e tente novamente.",
+    "Enforce password protection" : "Forçar proteção por palavra-passe"
 },
 "nplurals=2; plural=(n != 1);");

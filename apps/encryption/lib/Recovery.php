@@ -3,8 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,22 +21,18 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption;
 
-
+use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
-use OCP\Encryption\Keys\IStorage;
+use OCP\Encryption\IFile;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
-use OCP\Security\ISecureRandom;
-use OC\Files\View;
-use OCP\Encryption\IFile;
 
 class Recovery {
 
@@ -77,7 +76,7 @@ class Recovery {
 								IConfig $config,
 								IFile $file,
 								View $view) {
-		$this->user = ($userSession && $userSession->isLoggedIn()) ? $userSession->getUser() : false;
+		$this->user = ($userSession->isLoggedIn()) ? $userSession->getUser() : null;
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 		$this->config = $config;
@@ -95,7 +94,7 @@ class Recovery {
 
 		if (!$keyManager->recoveryKeyExists()) {
 			$keyPair = $this->crypt->createKeyPair();
-			if(!is_array($keyPair)) {
+			if (!is_array($keyPair)) {
 				return false;
 			}
 
@@ -120,7 +119,7 @@ class Recovery {
 	public function changeRecoveryKeyPassword($newPassword, $oldPassword) {
 		$recoveryKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $oldPassword);
-		if($decryptedRecoveryKey === false) {
+		if ($decryptedRecoveryKey === false) {
 			return false;
 		}
 		$encryptedRecoveryKey = $this->crypt->encryptPrivateKey($decryptedRecoveryKey, $newPassword);
@@ -180,7 +179,6 @@ class Recovery {
 	 * @return bool
 	 */
 	public function setRecoveryForUser($value) {
-
 		try {
 			$this->config->setUserValue($this->user->getUID(),
 				'encryption',
@@ -213,7 +211,7 @@ class Recovery {
 				$fileKey = $this->keyManager->getFileKey($filePath, $this->user->getUID());
 				if (!empty($fileKey)) {
 					$accessList = $this->file->getAccessList($filePath);
-					$publicKeys = array();
+					$publicKeys = [];
 					foreach ($accessList['users'] as $uid) {
 						$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
 					}
@@ -253,7 +251,7 @@ class Recovery {
 		$encryptedKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey, $recoveryPassword);
-		if($privateKey !== false) {
+		if ($privateKey !== false) {
 			$this->recoverAllFiles('/' . $user . '/files/', $privateKey, $user);
 		}
 	}
@@ -277,7 +275,6 @@ class Recovery {
 				$this->recoverFile($filePath, $privateKey, $uid);
 			}
 		}
-
 	}
 
 	/**
@@ -299,7 +296,7 @@ class Recovery {
 
 		if (!empty($fileKey)) {
 			$accessList = $this->file->getAccessList($path);
-			$publicKeys = array();
+			$publicKeys = [];
 			foreach ($accessList['users'] as $user) {
 				$publicKeys[$user] = $this->keyManager->getPublicKey($user);
 			}
@@ -309,8 +306,5 @@ class Recovery {
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($path, $encryptedKeyfiles);
 		}
-
 	}
-
-
 }

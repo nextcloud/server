@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
  * @copyright Copyright (c) 2018, ownCloud GmbH
+ *
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -15,16 +17,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\DAV\Tests\Unit\Command;
 
-
-use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\Command\RemoveInvalidShares;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Migration\IOutput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,8 +36,7 @@ use Test\TestCase;
  * @group DB
  */
 class RemoveInvalidSharesTest extends TestCase {
-
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$db = \OC::$server->getDatabaseConnection();
 
@@ -52,10 +50,10 @@ class RemoveInvalidSharesTest extends TestCase {
 
 	public function test() {
 		$db = \OC::$server->getDatabaseConnection();
-		/** @var Principal | \PHPUnit_Framework_MockObject_MockObject $principal */
+		/** @var Principal | \PHPUnit\Framework\MockObject\MockObject $principal */
 		$principal = $this->createMock(Principal::class);
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $output */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $output */
 		$output = $this->createMock(IOutput::class);
 
 		$repair = new RemoveInvalidShares($db, $principal);

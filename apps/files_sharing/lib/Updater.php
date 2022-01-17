@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,18 +21,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
+
+use OCP\Constants;
+use OCP\Share\IShare;
 
 class Updater {
 
 	/**
 	 * @param array $params
 	 */
-	static public function renameHook($params) {
+	public static function renameHook($params) {
 		self::renameChildren($params['oldpath'], $params['newpath']);
 		self::moveShareToShare($params['newpath']);
 	}
@@ -45,7 +49,7 @@ class Updater {
 	 *
 	 * @param string $path
 	 */
-	static private function moveShareToShare($path) {
+	private static function moveShareToShare($path) {
 		$userFolder = \OC::$server->getUserFolder();
 
 		// If the user folder can't be constructed (e.g. link share) just return.
@@ -57,9 +61,9 @@ class Updater {
 
 		$shareManager = \OC::$server->getShareManager();
 
-		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_USER, $src, false, -1);
-		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $src, false, -1));
-		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_ROOM, $src, false, -1));
+		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_USER, $src, false, -1);
+		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_GROUP, $src, false, -1));
+		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_ROOM, $src, false, -1));
 
 		// If the path we move is not a share we don't care
 		if (empty($shares)) {
@@ -77,8 +81,13 @@ class Updater {
 
 		//Ownership is moved over
 		foreach ($shares as $share) {
-			/** @var \OCP\Share\IShare $share */
+			/** @var IShare $share */
+			if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
+				$shareManager->deleteShare($share);
+				continue;
+			}
 			$share->setShareOwner($newOwner);
+			$share->setPermissions($share->getPermissions() & $dstMount->getShare()->getPermissions());
 			$shareManager->updateShare($share);
 		}
 	}
@@ -89,13 +98,12 @@ class Updater {
 	 * @param string $oldPath old path relative to data/user/files
 	 * @param string $newPath new path relative to data/user/files
 	 */
-	static private function renameChildren($oldPath, $newPath) {
-
-		$absNewPath =  \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $newPath);
-		$absOldPath =  \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $oldPath);
+	private static function renameChildren($oldPath, $newPath) {
+		$absNewPath = \OC\Files\Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
+		$absOldPath = \OC\Files\Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
 
 		$mountManager = \OC\Files\Filesystem::getMountManager();
-		$mountedShares = $mountManager->findIn('/' . \OCP\User::getUser() . '/files/' . $oldPath);
+		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {
 				$mountPoint = $mount->getMountPoint();
@@ -104,5 +112,4 @@ class Updater {
 			}
 		}
 	}
-
 }

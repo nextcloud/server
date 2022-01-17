@@ -29,7 +29,7 @@ class EventLoggerTest extends TestCase {
 	/** @var \OC\Diagnostics\EventLogger */
 	private $logger;
 	
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = new EventLogger();
@@ -61,6 +61,5 @@ class EventLoggerTest extends TestCase {
 		$this->assertSame("test3", $events['test3']->getId());
 		$this->assertSame("testevent3", $events['test3']->getDescription());
 		$this->assertSame(2, sizeof($events));
-
 	}
 }

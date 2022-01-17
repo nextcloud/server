@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -18,20 +20,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\SystemTag;
 
+use OCP\IGroupManager;
+use OCP\IUserSession;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
-use OCP\SystemTag\ISystemTagManager;
-use OCP\SystemTag\ISystemTagObjectMapper;
-use OCP\IUserSession;
-use OCP\IGroupManager;
 
 /**
  * Collection containing object ids by object type
@@ -79,7 +80,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param \Closure $childExistsFunction
 	 */
 	public function __construct(
-		$objectType, 
+		$objectType,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,
@@ -100,7 +101,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @return null|string
 	 * @throws Forbidden
 	 */
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create nodes');
 	}
 
@@ -108,22 +109,23 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 * @throws Forbidden
 	 */
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
 	/**
-	 * @param string $objectId
+	 * @param string $objectName
+	 *
 	 * @return SystemTagsObjectMappingCollection
 	 * @throws NotFound
 	 */
-	function getChild($objectId) {
+	public function getChild($objectName) {
 		// make sure the object exists and is reachable
-		if(!$this->childExists($objectId)) {
+		if (!$this->childExists($objectName)) {
 			throw new NotFound('Entity does not exist or is not available');
 		}
 		return new SystemTagsObjectMappingCollection(
-			$objectId,
+			$objectName,
 			$this->objectType,
 			$this->userSession->getUser(),
 			$this->tagManager,
@@ -131,7 +133,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		);
 	}
 
-	function getChildren() {
+	public function getChildren() {
 		// do not list object ids
 		throw new MethodNotAllowed();
 	}
@@ -142,15 +144,15 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		return call_user_func($this->childExistsFunction, $name);
 	}
 
-	function delete() {
+	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
 
-	function getName() {
+	public function getName() {
 		return $this->objectType;
 	}
 
@@ -158,7 +160,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 * @throws Forbidden
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
@@ -167,7 +169,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 }

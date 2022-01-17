@@ -5,9 +5,11 @@
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,26 +23,28 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Controller;
 
-
-use OCP\ILogger;
-use \OCP\IRequest;
-use \OCP\IL10N;
-use \OCP\AppFramework\Http\DataResponse;
-use \OCP\AppFramework\Controller;
-use \OCP\AppFramework\Http;
-use OCA\Files_External\Service\StoragesService;
-use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCP\Files\StorageNotAvailableException;
-use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\StoragesService;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IRequest;
+use OCP\IUserSession;
 
 /**
  * Base class for storages controllers
@@ -67,6 +71,21 @@ abstract class StoragesController extends Controller {
 	protected $logger;
 
 	/**
+	 * @var IUserSession
+	 */
+	protected $userSession;
+
+	/**
+	 * @var IGroupManager
+	 */
+	protected $groupManager;
+
+	/**
+	 * @var IConfig
+	 */
+	protected $config;
+
+	/**
 	 * Creates a new storages controller.
 	 *
 	 * @param string $AppName application name
@@ -80,12 +99,18 @@ abstract class StoragesController extends Controller {
 		IRequest $request,
 		IL10N $l10n,
 		StoragesService $storagesService,
-		ILogger $logger
+		ILogger $logger,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		IConfig $config
 	) {
 		parent::__construct($AppName, $request);
 		$this->l10n = $l10n;
 		$this->service = $storagesService;
 		$this->logger = $logger;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -112,6 +137,16 @@ abstract class StoragesController extends Controller {
 		$applicableGroups = null,
 		$priority = null
 	) {
+		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
+		if (!$canCreateNewLocalStorage && $backend === 'local') {
+			return new DataResponse(
+				[
+					'message' => $this->l10n->t('Forbidden to manage local mounts')
+				],
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
 		try {
 			return $this->service->createStorage(
 				$mountPoint,
@@ -127,7 +162,7 @@ abstract class StoragesController extends Controller {
 			$this->logger->logException($e);
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Invalid backend or authentication mechanism class')
+					'message' => $this->l10n->t('Invalid backend or authentication mechanism class')
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
@@ -145,9 +180,9 @@ abstract class StoragesController extends Controller {
 		$mountPoint = $storage->getMountPoint();
 		if ($mountPoint === '') {
 			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Invalid mount point')
-				),
+				[
+					'message' => $this->l10n->t('Invalid mount point'),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -155,9 +190,9 @@ abstract class StoragesController extends Controller {
 		if ($storage->getBackendOption('objectstore')) {
 			// objectstore must not be sent from client side
 			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Objectstore forbidden')
-				),
+				[
+					'message' => $this->l10n->t('Objectstore forbidden'),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -169,11 +204,11 @@ abstract class StoragesController extends Controller {
 		if ($backend->checkDependencies()) {
 			// invalid backend
 			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Invalid storage backend "%s"', [
-						$backend->getIdentifier()
-					])
-				),
+				[
+					'message' => $this->l10n->t('Invalid storage backend "%s"', [
+						$backend->getIdentifier(),
+					]),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -181,22 +216,22 @@ abstract class StoragesController extends Controller {
 		if (!$backend->isVisibleFor($this->service->getVisibilityType())) {
 			// not permitted to use backend
 			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Not permitted to use backend "%s"', [
-						$backend->getIdentifier()
-					])
-				),
+				[
+					'message' => $this->l10n->t('Not permitted to use backend "%s"', [
+						$backend->getIdentifier(),
+					]),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
 		if (!$authMechanism->isVisibleFor($this->service->getVisibilityType())) {
 			// not permitted to use auth mechanism
 			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Not permitted to use authentication mechanism "%s"', [
-						$authMechanism->getIdentifier()
-					])
-				),
+				[
+					'message' => $this->l10n->t('Not permitted to use authentication mechanism "%s"', [
+						$authMechanism->getIdentifier(),
+					]),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -204,9 +239,9 @@ abstract class StoragesController extends Controller {
 		if (!$backend->validateStorage($storage)) {
 			// unsatisfied parameters
 			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Unsatisfied backend parameters')
-				),
+				[
+					'message' => $this->l10n->t('Unsatisfied backend parameters'),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -214,7 +249,7 @@ abstract class StoragesController extends Controller {
 			// unsatisfied parameters
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Unsatisfied authentication mechanism parameters')
+					'message' => $this->l10n->t('Unsatisfied authentication mechanism parameters'),
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
@@ -249,7 +284,7 @@ abstract class StoragesController extends Controller {
 			$backend = $storage->getBackend();
 			// update status (can be time-consuming)
 			$storage->setStatus(
-				\OC_Mount_Config::getBackendStatus(
+				\OCA\Files_External\MountConfig::getBackendStatus(
 					$backend->getStorageClass(),
 					$storage->getBackendOptions(),
 					false,
@@ -271,7 +306,7 @@ abstract class StoragesController extends Controller {
 			// FIXME: convert storage exceptions to StorageNotAvailableException
 			$storage->setStatus(
 				StorageNotAvailableException::STATUS_ERROR,
-				get_class($e).': '.$e->getMessage()
+				get_class($e) . ': ' . $e->getMessage()
 			);
 		}
 	}
@@ -282,12 +317,35 @@ abstract class StoragesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function index() {
-		$storages = $this->service->getStorages();
+		$storages = $this->formatStoragesForUI($this->service->getStorages());
 
 		return new DataResponse(
 			$storages,
 			Http::STATUS_OK
 		);
+	}
+
+	protected function formatStoragesForUI(array $storages): array {
+		return array_map(function ($storage) {
+			return $this->formatStorageForUI($storage);
+		}, $storages);
+	}
+
+	protected function formatStorageForUI(StorageConfig $storage): StorageConfig {
+		/** @var DefinitionParameter[] $parameters */
+		$parameters = array_merge($storage->getBackend()->getParameters(), $storage->getAuthMechanism()->getParameters());
+
+		$options = $storage->getBackendOptions();
+		foreach ($options as $key => $value) {
+			foreach ($parameters as $parameter) {
+				if ($parameter->getName() === $key && $parameter->getType() === DefinitionParameter::VALUE_PASSWORD) {
+					$storage->setBackendOption($key, DefinitionParameter::UNMODIFIED_PLACEHOLDER);
+					break;
+				}
+			}
+		}
+
+		return $storage;
 	}
 
 	/**
@@ -306,14 +364,18 @@ abstract class StoragesController extends Controller {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => $this->l10n->t('Storage with ID "%d" not found', [$id]),
 				],
 				Http::STATUS_NOT_FOUND
 			);
 		}
 
+		$data = $this->formatStorageForUI($storage)->jsonSerialize();
+		$isAdmin = $this->groupManager->isAdmin($this->userSession->getUser()->getUID());
+		$data['can_edit'] = $storage->getType() === StorageConfig::MOUNT_TYPE_PERSONAl || $isAdmin;
+
 		return new DataResponse(
-			$storage,
+			$data,
 			Http::STATUS_OK
 		);
 	}
@@ -331,7 +393,7 @@ abstract class StoragesController extends Controller {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => $this->l10n->t('Storage with ID "%d" not found', [$id]),
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -339,6 +401,4 @@ abstract class StoragesController extends Controller {
 
 		return new DataResponse([], Http::STATUS_NO_CONTENT);
 	}
-
 }
-

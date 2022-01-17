@@ -32,52 +32,61 @@
 			:tagging="false"
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon" />
+				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
+				<img v-else :src="props.option.iconUrl">
 				<span class="option__title option__title_single">{{ props.option.label }}</span>
 			</template>
 			<template slot="option" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon" />
+				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
+				<img v-else :src="props.option.iconUrl">
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
 		</Multiselect>
 		<input v-if="!isPredefined"
 			type="text"
 			:value="currentValue.pattern"
+			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
 	</div>
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import valueMixin from './../../mixins/valueMixin'
+import { imagePath } from '@nextcloud/router'
 
 export default {
 	name: 'FileMimeType',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	mixins: [
-		valueMixin
+		valueMixin,
 	],
 	data() {
 		return {
 			predefinedTypes: [
 				{
+					icon: 'icon-folder',
+					label: t('workflowengine', 'Folder'),
+					pattern: 'httpd/unix-directory',
+				},
+				{
 					icon: 'icon-picture',
 					label: t('workflowengine', 'Images'),
-					pattern: '/image\\/.*/'
+					pattern: '/image\\/.*/',
 				},
 				{
-					icon: 'icon-category-office',
+					iconUrl: imagePath('core', 'filetypes/x-office-document'),
 					label: t('workflowengine', 'Office documents'),
-					pattern: '/(vnd\\.(ms-|openxmlformats-).*))$/'
+					pattern: '/(vnd\\.(ms-|openxmlformats-|oasis\\.opendocument).*)$/',
 				},
 				{
-					icon: 'icon-filetype-file',
+					iconUrl: imagePath('core', 'filetypes/application-pdf'),
 					label: t('workflowengine', 'PDF documents'),
-					pattern: 'application/pdf'
-				}
-			]
+					pattern: 'application/pdf',
+				},
+			],
 		}
 	},
 	computed: {
@@ -95,7 +104,7 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom mimetype'),
-				pattern: ''
+				pattern: '',
 			}
 		},
 		currentValue() {
@@ -106,18 +115,17 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom mimetype'),
-				pattern: this.newValue
+				pattern: this.newValue,
 			}
-		}
+		},
 	},
 	methods: {
 		validateRegex(string) {
-			var regexRegex = /^\/(.*)\/([gui]{0,3})$/
-			var result = regexRegex.exec(string)
+			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
+			const result = regexRegex.exec(string)
 			return result !== null
 		},
 		setValue(value) {
-			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
 				this.newValue = value.pattern
 				this.$emit('input', this.newValue)
@@ -126,7 +134,19 @@ export default {
 		updateCustom(event) {
 			this.newValue = event.target.value
 			this.$emit('input', this.newValue)
-		}
-	}
+		},
+	},
 }
 </script>
+<style scoped>
+	.multiselect, input[type='text'] {
+		width: 100%;
+	}
+	.multiselect >>> .multiselect__content-wrapper li>span,
+	.multiselect >>> .multiselect__single {
+		display: flex;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+</style>

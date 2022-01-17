@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -41,7 +42,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 	/** @var ProviderUserAssignmentDao */
 	private $dao;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->dbConn = OC::$server->getDatabaseConnection();
@@ -131,6 +132,35 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertCount(1, $data);
 	}
 
+	public function testDeleteByUser() {
+		$this->dao->persist('twofactor_fail', 'user1', 1);
+		$this->dao->persist('twofactor_u2f', 'user1', 1);
+		$this->dao->persist('twofactor_fail', 'user2', 0);
+		$this->dao->persist('twofactor_u2f', 'user2', 0);
+
+		$deleted = $this->dao->deleteByUser('user1');
+
+		$this->assertEquals(
+			[
+				[
+					'uid' => 'user1',
+					'provider_id' => 'twofactor_fail',
+					'enabled' => true,
+				],
+				[
+					'uid' => 'user1',
+					'provider_id' => 'twofactor_u2f',
+					'enabled' => true,
+				],
+			],
+			$deleted
+		);
+		$statesUser1 = $this->dao->getState('user1');
+		$statesUser2 = $this->dao->getState('user2');
+		$this->assertCount(0, $statesUser1);
+		$this->assertCount(2, $statesUser2);
+	}
+
 	public function testDeleteAll() {
 		$this->dao->persist('twofactor_fail', 'user1', 1);
 		$this->dao->persist('twofactor_u2f', 'user1', 1);
@@ -144,5 +174,4 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertCount(1, $statesUser1);
 		$this->assertCount(0, $statesUser2);
 	}
-
 }

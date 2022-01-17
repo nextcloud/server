@@ -26,7 +26,7 @@ export default {
 	methods: {
 		prefix(prefix, content) {
 			return prefix + '_' + content
-		}
-	}
+		},
+	},
 }
 </script>

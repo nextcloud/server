@@ -1,9 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,29 +21,30 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Settings;
 
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
+use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IComplexOperation;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\ISpecificOperation;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class ASettings implements ISettings {
 	/** @var IL10N */
@@ -45,67 +53,73 @@ abstract class ASettings implements ISettings {
 	/** @var string */
 	private $appName;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	/** @var Manager */
-	private $manager;
+	protected $manager;
 
-	/** @var IInitialStateService */
+	/** @var IInitialState */
 	private $initialStateService;
 
-	/**
-	 * @param string $appName
-	 * @param IL10N $l
-	 * @param EventDispatcherInterface $eventDispatcher
-	 */
+	/** @var IConfig */
+	private $config;
+
 	public function __construct(
-		$appName,
+		string $appName,
 		IL10N $l,
-		EventDispatcherInterface $eventDispatcher,
+		IEventDispatcher $eventDispatcher,
 		Manager $manager,
-		IInitialStateService $initialStateService
+		IInitialState $initialStateService,
+		IConfig $config
 	) {
 		$this->appName = $appName;
 		$this->l10n = $l;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->manager = $manager;
 		$this->initialStateService = $initialStateService;
+		$this->config = $config;
 	}
 
-	abstract function getScope(): int;
+	abstract public function getScope(): int;
 
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
-		$this->eventDispatcher->dispatch('OCP\WorkflowEngine::loadAdditionalSettingScripts');
+	public function getForm(): TemplateResponse {
+		// @deprecated in 20.0.0: retire this one in favor of the typed event
+		$this->eventDispatcher->dispatch(
+			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
+			new LoadSettingsScriptsEvent()
+		);
+		$this->eventDispatcher->dispatchTyped(new LoadSettingsScriptsEvent());
 
 		$entities = $this->manager->getEntitiesList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'entities',
 			$this->entitiesToArray($entities)
 		);
 
 		$operators = $this->manager->getOperatorList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'operators',
 			$this->operatorsToArray($operators)
 		);
 
 		$checks = $this->manager->getCheckList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'checks',
 			$this->checksToArray($checks)
 		);
 
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'scope',
 			$this->getScope()
+		);
+
+		$this->initialStateService->provideInitialState(
+			'appstoreenabled',
+			$this->config->getSystemValueBool('appstoreenabled', true)
 		);
 
 		return new TemplateResponse(Application::APP_ID, 'settings', [], 'blank');
@@ -114,7 +128,7 @@ abstract class ASettings implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): ?string {
 		return 'workflow';
 	}
 
@@ -125,13 +139,13 @@ abstract class ASettings implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 0;
 	}
 
 	private function entitiesToArray(array $entities) {
 		return array_map(function (IEntity $entity) {
-			$events = array_map(function(IEntityEvent $entityEvent) {
+			$events = array_map(function (IEntityEvent $entityEvent) {
 				return [
 					'eventName' => $entityEvent->getEventName(),
 					'displayName' => $entityEvent->getDisplayName()
@@ -148,7 +162,7 @@ abstract class ASettings implements ISettings {
 	}
 
 	private function operatorsToArray(array $operators) {
-		$operators = array_filter($operators, function(IOperation $operator) {
+		$operators = array_filter($operators, function (IOperation $operator) {
 			return $operator->isAvailableForScope($this->getScope());
 		});
 
@@ -166,7 +180,7 @@ abstract class ASettings implements ISettings {
 	}
 
 	private function checksToArray(array $checks) {
-		$checks = array_filter($checks, function(ICheck $check) {
+		$checks = array_filter($checks, function (ICheck $check) {
 			return $check->isAvailableForScope($this->getScope());
 		});
 

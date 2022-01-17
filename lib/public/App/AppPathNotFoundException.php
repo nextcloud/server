@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Haertl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,20 +14,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\App;
 
 /**
  * Class AppPathNotFoundException
  *
- * @package OCP\App
  * @since 11.0.0
  */
-class AppPathNotFoundException extends \Exception {}
+class AppPathNotFoundException extends \Exception {
+}

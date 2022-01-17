@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -16,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OCP\Encryption\IManager;
@@ -53,7 +53,7 @@ class Enable extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->config->getAppValue('core', 'encryption_enabled', 'no') === 'yes') {
 			$output->writeln('Encryption is already enabled');
 		} else {
@@ -65,15 +65,19 @@ class Enable extends Command {
 		$modules = $this->encryptionManager->getEncryptionModules();
 		if (empty($modules)) {
 			$output->writeln('<error>No encryption module is loaded</error>');
+			return 1;
 		} else {
 			$defaultModule = $this->config->getAppValue('core', 'default_encryption_module', null);
 			if ($defaultModule === null) {
 				$output->writeln('<error>No default module is set</error>');
-			} else if (!isset($modules[$defaultModule])) {
+				return 1;
+			} elseif (!isset($modules[$defaultModule])) {
 				$output->writeln('<error>The current default module does not exist: ' . $defaultModule . '</error>');
+				return 1;
 			} else {
 				$output->writeln('Default module: ' . $defaultModule);
 			}
 		}
+		return 0;
 	}
 }

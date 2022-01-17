@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,21 +21,23 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager as ShareManager;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
@@ -53,31 +57,34 @@ abstract class AbstractCalDavBackend extends TestCase {
 	/** @var CalDavBackend */
 	protected $backend;
 
-	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Principal | \PHPUnit\Framework\MockObject\MockObject */
 	protected $principal;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
-	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	protected $dispatcher;
+	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+	protected $legacyDispatcher;
 
 	/** @var ISecureRandom */
 	private $random;
 	/** @var ILogger */
 	private $logger;
 
-	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
-	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
-	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
-	const UNIT_TEST_GROUP2 = 'principals/groups/caldav-unit-test-group2';
+	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
+	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
+	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
+	public const UNIT_TEST_GROUP2 = 'principals/groups/caldav-unit-test-group2';
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->principal = $this->getMockBuilder(Principal::class)
 			->setConstructorArgs([
 				$this->userManager,
@@ -86,6 +93,9 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),
 				$this->createMock(ProxyMapper::class),
+				$this->createMock(KnownUserService::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IFactory::class)
 			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
@@ -101,12 +111,23 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
 		$this->logger = $this->createMock(ILogger::class);
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->logger, $this->dispatcher);
+		$this->config = $this->createMock(IConfig::class);
+		$this->backend = new CalDavBackend(
+			$db,
+			$this->principal,
+			$this->userManager,
+			$this->groupManager,
+			$this->random,
+			$this->logger,
+			$this->dispatcher,
+			$this->legacyDispatcher,
+			$this->config
+		);
 
 		$this->cleanUpBackend();
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$this->cleanUpBackend();
 		parent::tearDown();
 	}
@@ -118,24 +139,28 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
-		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		foreach ($calendars as $calendar) {
-			$this->dispatcher->expects($this->at(0))
-				->method('dispatch')
-				->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
+		$this->cleanupForPrincipal(self::UNIT_TEST_USER);
+		$this->cleanupForPrincipal(self::UNIT_TEST_USER1);
+	}
 
-			$this->backend->deleteCalendar($calendar['id']);
+	private function cleanupForPrincipal($principal): void {
+		$calendars = $this->backend->getCalendarsForUser($principal);
+		$this->dispatcher->expects(self::any())
+			->method('dispatchTyped');
+		$this->legacyDispatcher->expects(self::any())
+			->method('dispatch');
+		foreach ($calendars as $calendar) {
+			$this->backend->deleteCalendar($calendar['id'], true);
 		}
-		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
+		$subscriptions = $this->backend->getSubscriptionsForUser($principal);
 		foreach ($subscriptions as $subscription) {
 			$this->backend->deleteSubscription($subscription['id']);
 		}
 	}
 
 	protected function createTestCalendar() {
-		$this->dispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendar');
+		$this->dispatcher->expects(self::any())
+			->method('dispatchTyped');
 
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', [
 			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF'
@@ -170,7 +195,6 @@ abstract class AbstractCalDavBackend extends TestCase {
 	}
 
 	protected function createEvent($calendarId, $start = '20130912T130000Z', $end = '20130912T140000Z') {
-
 		$randomPart = self::getUniqueID();
 
 		$calData = <<<EOD
@@ -191,9 +215,8 @@ END:VCALENDAR
 EOD;
 		$uri0 = $this->getUniqueID('event');
 
-		$this->dispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::atLeastOnce())
+			->method('dispatchTyped');
 
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
 
@@ -201,7 +224,7 @@ EOD;
 	}
 
 	protected function assertAcl($principal, $privilege, $acl) {
-		foreach($acl as $a) {
+		foreach ($acl as $a) {
 			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
 				$this->addToAssertionCount(1);
 				return;
@@ -211,7 +234,7 @@ EOD;
 	}
 
 	protected function assertNotAcl($principal, $privilege, $acl) {
-		foreach($acl as $a) {
+		foreach ($acl as $a) {
 			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
 				$this->fail("ACL contains $principal / $privilege");
 				return;

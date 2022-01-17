@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use Sabre\DAV\Auth\Backend\BackendInterface;
@@ -78,7 +78,7 @@ class Auth implements BackendInterface {
 	 * @param ResponseInterface $response
 	 * @return array
 	 */
-	function check(RequestInterface $request, ResponseInterface $response) {
+	public function check(RequestInterface $request, ResponseInterface $response) {
 		$userSession = \OC::$server->getUserSession();
 		$result = $userSession->login($this->user, $this->password);
 		if ($result) {
@@ -113,7 +113,7 @@ class Auth implements BackendInterface {
 	 * @param ResponseInterface $response
 	 * @return void
 	 */
-	function challenge(RequestInterface $request, ResponseInterface $response) {
+	public function challenge(RequestInterface $request, ResponseInterface $response) {
 		// TODO: Implement challenge() method.
 	}
 }

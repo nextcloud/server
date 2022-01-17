@@ -19,7 +19,6 @@
  *
  */
 
-
 namespace Test\Files\Stream;
 
 class DummyEncryptionWrapper extends \OC\Files\Stream\Encryption {
@@ -33,5 +32,4 @@ class DummyEncryptionWrapper extends \OC\Files\Stream\Encryption {
 	protected function parentStreamSeek($position) {
 		return false;
 	}
-
 }

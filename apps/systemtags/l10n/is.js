@@ -1,10 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Merki",
+    "Tag name is empty" : "Nafn merkis vantar",
     "Update" : "Uppfæra",
     "Create" : "Búa til",
-    "Select tag…" : "Veldu merki...",
+    "Select tag …" : "Veldu merki ...",
     "System tag %1$s added by the system" : "Kerfismerkinu %1$s var bætt við af kerfinu",
     "Added system tag {systemtag}" : "Bætti við kerfismerkinu {systemtag}",
     "Added system tag %1$s" : "Bætti við kerfismerkinu %1$s",
@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (takmarkaður aðgangur)",
     "%s (invisible)" : "%s (ósýnilegt)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Kerfismerkjum</strong> á skrá hefur verið breytt",
+    "Tags" : "Merki",
     "Collaborative tags" : "Samstarfsmerkingar",
     "Collaborative tagging functionality which shares tags among users." : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda. Frábært fyrir hópvinnu.\n\t(Ef þú ert þjónustuaðili með margar uppsetningar á sömu þjónum, þá er ráðlagt að gera þetta óvirkt því merkin eru sameiginleg.)",
@@ -51,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Veldu merki til að sía eftir",
     "No files found for the selected tags" : "Engar skrár fundust með völdum merkjum",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samstarfsmerkingar eru tiltækar öllum notendum. Takmörkuð merki sjá allir notendur en þeir geta ekki úthlutað þeim. Ósýnileg merki eru fyrir notkun innan kerfis, þar sem notendur munu ekki sjá þau eða getað úthlutað þeim.",
-    "Select tag …" : "Veldu merki ...",
     "Create a new tag" : "Búa til nýtt merki",
     "Name" : "Heiti",
     "Public" : "Opinbert",

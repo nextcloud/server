@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
- *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -16,17 +19,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\Provisioning_API\Middleware;
 
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
@@ -66,7 +70,8 @@ class ProvisioningApiMiddleware extends Middleware {
 	 * @throws NotSubAdminException
 	 */
 	public function beforeController($controller, $methodName) {
-		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin) {
+		// If AuthorizedAdminSetting, the check will be done in the SecurityMiddleware
+		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin && !$this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
 			throw new NotSubAdminException();
 		}
 	}
@@ -80,7 +85,7 @@ class ProvisioningApiMiddleware extends Middleware {
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof NotSubAdminException) {
-			throw new OCSException($exception->getMessage(), \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException($exception->getMessage(), Http::STATUS_FORBIDDEN);
 		}
 
 		throw $exception;

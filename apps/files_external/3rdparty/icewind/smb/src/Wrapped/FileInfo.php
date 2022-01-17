@@ -7,33 +7,22 @@
 
 namespace Icewind\SMB\Wrapped;
 
+use Icewind\SMB\ACL;
 use Icewind\SMB\IFileInfo;
 
 class FileInfo implements IFileInfo {
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $path;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $name;
-
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $size;
-
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $time;
-
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $mode;
+	/** @var callable(): ACL[] */
+	protected $aclCallback;
 
 	/**
 	 * @param string $path
@@ -41,75 +30,60 @@ class FileInfo implements IFileInfo {
 	 * @param int $size
 	 * @param int $time
 	 * @param int $mode
+	 * @param callable(): ACL[] $aclCallback
 	 */
-	public function __construct($path, $name, $size, $time, $mode) {
+	public function __construct(string $path, string $name, int $size, int $time, int $mode, callable $aclCallback) {
 		$this->path = $path;
 		$this->name = $name;
 		$this->size = $size;
 		$this->time = $time;
 		$this->mode = $mode;
+		$this->aclCallback = $aclCallback;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPath() {
+	public function getPath(): string {
 		return $this->path;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getSize() {
+	public function getSize(): int {
 		return $this->size;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getMTime() {
+	public function getMTime(): int {
 		return $this->time;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isDirectory() {
+	public function isDirectory(): bool {
 		return (bool)($this->mode & IFileInfo::MODE_DIRECTORY);
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isReadOnly() {
+	public function isReadOnly(): bool {
 		return (bool)($this->mode & IFileInfo::MODE_READONLY);
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isHidden() {
+	public function isHidden(): bool {
 		return (bool)($this->mode & IFileInfo::MODE_HIDDEN);
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isSystem() {
+	public function isSystem(): bool {
 		return (bool)($this->mode & IFileInfo::MODE_SYSTEM);
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isArchived() {
+	public function isArchived(): bool {
 		return (bool)($this->mode & IFileInfo::MODE_ARCHIVE);
+	}
+
+	/**
+	 * @return ACL[]
+	 */
+	public function getAcls(): array {
+		return ($this->aclCallback)();
 	}
 }

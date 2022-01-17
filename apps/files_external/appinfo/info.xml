@@ -9,7 +9,7 @@ This application enables administrators to configure connections to external sto
 
 External storage can be configured using the GUI or at the command line. This second option provides the advanced user with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation.
 	</description>
-	<version>1.9.0</version>
+	<version>1.16.0</version>
 	<licence>agpl</licence>
 	<author>Robin Appelman</author>
 	<author>Michael Gapczynski</author>
@@ -28,8 +28,12 @@ External storage can be configured using the GUI or at the command line. This se
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="18" max-version="18"/>
+		<nextcloud min-version="24" max-version="24"/>
 	</dependencies>
+
+	<background-jobs>
+		<job>OCA\Files_External\BackgroundJob\CredentialsCleanup</job>
+	</background-jobs>
 
 	<commands>
 		<command>OCA\Files_External\Command\ListCommand</command>

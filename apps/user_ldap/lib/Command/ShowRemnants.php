@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author scolebrook <scolebrook@mac.com>
  *
  * @license AGPL-3.0
@@ -19,20 +21,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Command;
-
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IDateTimeFormatter;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputInterface;
+
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowRemnants extends Command {
 	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
@@ -74,7 +75,7 @@ class ShowRemnants extends Command {
 	 *
 	 * {@inheritdoc}
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = new Table($output);
 		$table->setHeaders([
@@ -100,7 +101,8 @@ class ShowRemnants extends Command {
 			$output->writeln(json_encode($rows));
 		} else {
 			$table->setRows($rows);
-			$table->render($output);
+			$table->render();
 		}
+		return 0;
 	}
 }

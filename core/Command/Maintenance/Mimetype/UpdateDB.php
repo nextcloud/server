@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,23 +19,21 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance\Mimetype;
-
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateDB extends Command {
-
-	const DEFAULT_MIMETYPE = 'application/octet-stream';
+	public const DEFAULT_MIMETYPE = 'application/octet-stream';
 
 	/** @var IMimeTypeDetector */
 	protected $mimetypeDetector;
@@ -62,7 +63,7 @@ class UpdateDB extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mappings = $this->mimetypeDetector->getAllMappings();
 
 		$totalFilecacheUpdates = 0;
@@ -94,5 +95,6 @@ class UpdateDB extends Command {
 
 		$output->writeln('Added '.$totalNewMimetypes.' new mimetypes');
 		$output->writeln('Updated '.$totalFilecacheUpdates.' filecache rows');
+		return 0;
 	}
 }

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Eksteraj konservejoj",
+    "External storage" : "Ekstera konservejo",
     "Personal" : "Persona",
     "System" : "Sistemo",
     "Grant access" : "Doni alirpermeson",
@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Generi ŝlosilojn",
     "Error generating key pair" : "Eraro dum generado de ŝlosila paro",
     "All users. Type to select user or group." : "Ĉiuj uzantoj. Entajpu por elekti uzanton aŭ grupon.",
-    "(group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Kongrueco kun Makintoŝa „NFD“ signara kodoprezento (malrapide)",
     "Enable encryption" : "Ŝalti ĉifradon",
     "Enable previews" : "Ŝalti antaŭrigardojn",
@@ -25,7 +24,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?",
     "Delete storage?" : "Ĉu forigi konservejon?",
     "Saved" : "Konservita",
-    "Saving..." : "Konservado...",
+    "Saving …" : "Konservado...",
     "Save" : "Konservi",
     "Empty response from the server" : "Malplena respondo el la servilo",
     "Couldn't access. Please log out and in again to activate this mount point" : "Aliro ne eblis. Bv. elsaluti kaj re-ensaluti por aktivigi tiun surmetingon",
@@ -102,11 +101,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Radiko",
     "SFTP with secret key login" : "SFTP kun sekretoŝlosila ensaluto",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Kunhavigi",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "Timeout" : "Eltempiĝo",
-    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto",
     "Username as share" : "Uzantonmo kiel kunhavo",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Servonomo",
@@ -124,7 +121,6 @@ OC.L10N.register(
     "Open documentation" : "Malfermi la dokumentaron",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Ekstera konservejo ebligas al vi surmeti servojn de ekstera konservejo kaj aparatojn, kiel kromajn konservejojn. Vi povas ankaŭ permesi al uzantoj surmeti ilian proprajn eksterajn konservejojn.",
     "Folder name" : "Dosierujnomo",
-    "External storage" : "Ekstera konservejo",
     "Authentication" : "Aŭtentigo",
     "Configuration" : "Agordo",
     "Available for" : "Disponebla por",
@@ -132,6 +128,10 @@ OC.L10N.register(
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
+    "External storages" : "Eksteraj konservejoj",
+    "(group)" : "(grupo)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto"
 },
 "nplurals=2; plural=(n != 1);");

@@ -2,6 +2,13 @@
 /**
  * @copyright Copyright (c) 2018, michag86 (michag86@arcor.de)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author michag86 <micha_g@arcor.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,23 +18,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\App;
 
-use OCP\App\IAppManager;
 use OC\Installer;
+use OCP\App\IAppManager;
 use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Update extends Command {
@@ -71,23 +77,27 @@ class Update extends Command {
 				InputOption::VALUE_NONE,
 				'show update(s) without updating'
 			)
-
+			->addOption(
+				'allow-unstable',
+				null,
+				InputOption::VALUE_NONE,
+				'allow updating to unstable releases'
+			)
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleAppId = $input->getArgument('app-id');
 
 		if ($singleAppId) {
-			$apps = array($singleAppId);
+			$apps = [$singleAppId];
 			try {
 				$this->manager->getAppPath($singleAppId);
 			} catch (\OCP\App\AppPathNotFoundException $e) {
 				$output->writeln($singleAppId . ' not installed');
 				return 1;
 			}
-
-		} else if ($input->getOption('all') || $input->getOption('showonly')) {
+		} elseif ($input->getOption('all') || $input->getOption('showonly')) {
 			$apps = \OC_App::getAllApps();
 		} else {
 			$output->writeln("<error>Please specify an app to update or \"--all\" to update all updatable apps\"</error>");
@@ -96,14 +106,14 @@ class Update extends Command {
 
 		$return = 0;
 		foreach ($apps as $appId) {
-			$newVersion = $this->installer->isUpdateAvailable($appId);
+			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
 			if ($newVersion) {
 				$output->writeln($appId . ' new version available: ' . $newVersion);
 
 				if (!$input->getOption('showonly')) {
 					try {
-						$result = $this->installer->updateAppstoreApp($appId);
-					} catch(\Exception $e) {
+						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
+					} catch (\Exception $e) {
 						$this->logger->logException($e, ['message' => 'Failure during update of app "' . $appId . '"','app' => 'app:update']);
 						$output->writeln('Error: ' . $e->getMessage());
 						$return = 1;
@@ -112,7 +122,7 @@ class Update extends Command {
 					if ($result === false) {
 						$output->writeln($appId . ' couldn\'t be updated');
 						$return = 1;
-					} else if($result === true) {
+					} elseif ($result === true) {
 						$output->writeln($appId . ' updated');
 					}
 				}
@@ -122,4 +132,3 @@ class Update extends Command {
 		return $return;
 	}
 }
-

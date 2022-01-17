@@ -2,8 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -23,17 +24,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OC\AppFramework;
 
 use OCP\AppFramework\Http as BaseHttp;
 
 class Http extends BaseHttp {
-
 	private $server;
 	private $protocolVersion;
 	protected $headers;
@@ -42,11 +40,11 @@ class Http extends BaseHttp {
 	 * @param array $server $_SERVER
 	 * @param string $protocolVersion the http version to use defaults to HTTP/1.1
 	 */
-	public function __construct($server, $protocolVersion='HTTP/1.1') {
+	public function __construct($server, $protocolVersion = 'HTTP/1.1') {
 		$this->server = $server;
 		$this->protocolVersion = $protocolVersion;
 
-		$this->headers = array(
+		$this->headers = [
 			self::STATUS_CONTINUE => 'Continue',
 			self::STATUS_SWITCHING_PROTOCOLS => 'Switching Protocols',
 			self::STATUS_PROCESSING => 'Processing',
@@ -106,7 +104,7 @@ class Http extends BaseHttp {
 			self::STATUS_BANDWIDTH_LIMIT_EXCEEDED => 'Bandwidth Limit Exceeded', // non-standard
 			self::STATUS_NOT_EXTENDED => 'Not extended',
 			self::STATUS_NETWORK_AUTHENTICATION_REQUIRED => 'Network Authentication Required', // draft-nottingham-http-new-status
-		);
+		];
 	}
 
 
@@ -117,40 +115,16 @@ class Http extends BaseHttp {
 	 * @param string $ETag the etag
 	 * @return string
 	 */
-	public function getStatusHeader($status, \DateTime $lastModified=null, 
-	                                $ETag=null) {
-
-		if(!is_null($lastModified)) {
-			$lastModified = $lastModified->format(\DateTime::RFC2822);
-		}
-
-		// if etag or lastmodified have not changed, return a not modified
-		if ((isset($this->server['HTTP_IF_NONE_MATCH'])
-			&& trim(trim($this->server['HTTP_IF_NONE_MATCH']), '"') === (string)$ETag)
-
-			||
-
-			(isset($this->server['HTTP_IF_MODIFIED_SINCE'])
-			&& trim($this->server['HTTP_IF_MODIFIED_SINCE']) === 
-				$lastModified)) {
-
-			$status = self::STATUS_NOT_MODIFIED;
-		}
-
+	public function getStatusHeader($status) {
 		// we have one change currently for the http 1.0 header that differs
 		// from 1.1: STATUS_TEMPORARY_REDIRECT should be STATUS_FOUND
 		// if this differs any more, we want to create childclasses for this
-		if($status === self::STATUS_TEMPORARY_REDIRECT 
+		if ($status === self::STATUS_TEMPORARY_REDIRECT
 			&& $this->protocolVersion === 'HTTP/1.0') {
-
 			$status = self::STATUS_FOUND;
 		}
 
-		return $this->protocolVersion . ' ' . $status . ' ' . 
+		return $this->protocolVersion . ' ' . $status . ' ' .
 			$this->headers[$status];
 	}
-
-
 }
-
-

@@ -42,7 +42,9 @@
 	button {
 	    white-space: nowrap;
 	    overflow: hidden;
-	    text-overflow: ellipsis;
+		text-overflow: ellipsis;
+		height: 44px;
+		min-width: 44px;
 	}
 }
 
@@ -72,8 +74,13 @@
 	height: 100%;
 }
 
+body.theme--dark .oc-dialog-dim {
+	opacity: .8;
+}
+
 .oc-dialog-content {
 	width: 100%;
+	max-width: 550px;
 }
 
 .oc-dialog.password-confirmation {

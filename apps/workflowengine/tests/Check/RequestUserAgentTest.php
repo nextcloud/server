@@ -2,6 +2,11 @@
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCA\WorkflowEngine\Check\RequestUserAgent;
@@ -28,23 +32,23 @@ use Test\TestCase;
 
 class RequestUserAgentTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 
 	/** @var RequestUserAgent */
 	protected $check;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l */
+		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l */
 		$l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				return sprintf($string, $args);
 			});
 

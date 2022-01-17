@@ -22,56 +22,91 @@
 
 <template>
 	<div>
-		<Multiselect v-model="newValue"
-			:class="{'icon-loading-small': groups.length === 0}"
+		<Multiselect :value="currentValue"
+			:loading="status.isLoading && groups.length === 0"
 			:options="groups"
 			:multiple="false"
 			label="displayname"
 			track-by="id"
-			@input="setValue" />
+			@search-change="searchAsync"
+			@input="(value) => $emit('input', value.id)" />
 	</div>
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
-import valueMixin from '../../mixins/valueMixin'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
+
+const groups = []
+const status = {
+	isLoading: false,
+}
+
 export default {
 	name: 'RequestUserGroup',
 	components: {
-		Multiselect
+		Multiselect,
 	},
-	mixins: [
-		valueMixin
-	],
+	props: {
+		value: {
+			type: String,
+			default: '',
+		},
+		check: {
+			type: Object,
+			default: () => { return {} },
+		},
+	},
 	data() {
 		return {
-			groups: []
+			groups,
+			status,
 		}
 	},
-	beforeMount() {
-		axios.get(OC.linkToOCS('cloud', 2) + 'groups').then((response) => {
-			this.groups = response.data.ocs.data.groups.reduce((obj, item) => {
-				obj.push({
-					id: item,
-					displayname: item
-				})
-				return obj
-			}, [])
-			this.updateInternalValue(this.value)
-		}, (error) => {
-			console.error('Error while loading group list', error.response)
-		})
+	computed: {
+		currentValue() {
+			return this.groups.find(group => group.id === this.value) || null
+		},
+	},
+	async mounted() {
+		if (this.groups.length === 0) {
+			await this.searchAsync('')
+		}
+		if (this.currentValue === null) {
+			await this.searchAsync(this.value)
+		}
 	},
 	methods: {
-		updateInternalValue() {
-			this.newValue = this.groups.find(group => group.id === this.value) || null
-		},
-		setValue(value) {
-			if (value !== null) {
-				this.$emit('input', this.newValue.id)
+		searchAsync(searchQuery) {
+			if (this.status.isLoading) {
+				return
 			}
-		}
-	}
+
+			this.status.isLoading = true
+			return axios.get(generateOcsUrl('cloud/groups/details?limit=20&search={searchQuery}', { searchQuery })).then((response) => {
+				response.data.ocs.data.groups.forEach((group) => {
+					this.addGroup({
+						id: group.id,
+						displayname: group.displayname,
+					})
+				})
+				this.status.isLoading = false
+			}, (error) => {
+				console.error('Error while loading group list', error.response)
+			})
+		},
+		addGroup(group) {
+			const index = this.groups.findIndex((item) => item.id === group.id)
+			if (index === -1) {
+				this.groups.push(group)
+			}
+		},
+	},
 }
 </script>
+<style scoped>
+	.multiselect {
+		width: 100%;
+	}
+</style>

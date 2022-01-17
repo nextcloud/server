@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -89,5 +90,4 @@ class ProviderSetTest extends TestCase {
 
 		$this->assertTrue($set->isProviderMissing());
 	}
-
 }

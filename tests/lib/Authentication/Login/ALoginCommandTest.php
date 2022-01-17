@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\ALoginCommand;
 use OC\Authentication\Login\LoginData;
@@ -56,7 +56,7 @@ abstract class ALoginCommandTest extends TestCase {
 	/** @var ALoginCommand */
 	protected $cmd;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -118,5 +118,4 @@ abstract class ALoginCommandTest extends TestCase {
 		$data->setUser($this->user);
 		return $data;
 	}
-
 }

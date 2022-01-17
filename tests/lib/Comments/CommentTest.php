@@ -51,10 +51,10 @@ class CommentTest extends TestCase {
 		$this->assertSame($object['id'], $comment->getObjectId());
 	}
 
-	/**
-	 * @expectedException \OCP\Comments\IllegalIDChangeException
-	 */
+
 	public function testSetIdIllegalInput() {
+		$this->expectException(\OCP\Comments\IllegalIDChangeException::class);
+
 		$comment = new Comment();
 
 		$comment->setId('c23');
@@ -86,9 +86,10 @@ class CommentTest extends TestCase {
 
 	/**
 	 * @dataProvider simpleSetterProvider
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSimpleSetterInvalidInput($field, $input) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$comment = new Comment();
 		$setter = 'set' . $field;
 
@@ -110,18 +111,19 @@ class CommentTest extends TestCase {
 
 	/**
 	 * @dataProvider roleSetterProvider
-	 * @expectedException \InvalidArgumentException
 	 */
-	public function testSetRoleInvalidInput($role, $type, $id){
+	public function testSetRoleInvalidInput($role, $type, $id) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$comment = new Comment();
 		$setter = 'set' . $role;
 		$comment->$setter($type, $id);
 	}
 
-	/**
-	 * @expectedException \OCP\Comments\MessageTooLongException
-	 */
+
 	public function testSetUberlongMessage() {
+		$this->expectException(\OCP\Comments\MessageTooLongException::class);
+
 		$comment = new Comment();
 		$msg = str_pad('', IComment::MAX_MESSAGE_LENGTH + 1, 'x');
 		$comment->setMessage($msg);
@@ -147,7 +149,7 @@ class CommentTest extends TestCase {
 					' cc @23452-4333-54353-2342 @yolo!' .
 					' however the most important thing to know is that www.croissant.com/@oil is not valid' .
 					' and won\'t match anything at all',
-				['foobar', 'barfoo', 'foo@bar.com', 'bar@foo.org@foobar.io', '23452-4333-54353-2342', 'yolo']
+				['bar@foo.org@foobar.io', '23452-4333-54353-2342', 'foo@bar.com', 'foobar', 'barfoo', 'yolo']
 			],
 			[
 				'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
@@ -157,6 +159,9 @@ class CommentTest extends TestCase {
 			],
 			[
 				'Also @"guest/0123456789abcdef" are now supported', [], null, ['guest/0123456789abcdef']
+			],
+			[
+				'Also @"group/My Group ID 321" are now supported', [], null, [], ['My Group ID 321']
 			],
 		];
 	}
@@ -169,18 +174,20 @@ class CommentTest extends TestCase {
 	 * @param string|null $author
 	 * @param array $expectedGuests
 	 */
-	public function testMentions(string $message, array $expectedUids, ?string $author = null, array $expectedGuests = []): void {
+	public function testMentions(string $message, array $expectedUids, ?string $author = null, array $expectedGuests = [], array $expectedGroups = []): void {
 		$comment = new Comment();
 		$comment->setMessage($message);
-		if(!is_null($author)) {
+		if (!is_null($author)) {
 			$comment->setActor('user', $author);
 		}
 		$mentions = $comment->getMentions();
-		while($mention = array_shift($mentions)) {
+		while ($mention = array_shift($mentions)) {
 			if ($mention['type'] === 'user') {
 				$id = array_shift($expectedUids);
-			} else if ($mention['type'] === 'guest') {
+			} elseif ($mention['type'] === 'guest') {
 				$id = array_shift($expectedGuests);
+			} elseif ($mention['type'] === 'group') {
+				$id = array_shift($expectedGroups);
 			} else {
 				$this->fail('Unexpected mention type');
 				continue;
@@ -190,7 +197,4 @@ class CommentTest extends TestCase {
 		$this->assertEmpty($mentions);
 		$this->assertEmpty($expectedUids);
 	}
-
-
-
 }

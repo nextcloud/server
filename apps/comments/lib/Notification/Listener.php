@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -17,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Notification;
 
 use OCP\Comments\CommentsEvent;
@@ -45,7 +45,6 @@ class Listener {
 		IManager $notificationManager,
 		IUserManager $userManager
 	) {
-
 		$this->notificationManager = $notificationManager;
 		$this->userManager = $userManager;
 	}
@@ -57,15 +56,15 @@ class Listener {
 		$comment = $event->getComment();
 
 		$mentions = $this->extractMentions($comment->getMentions());
-		if(empty($mentions)) {
+		if (empty($mentions)) {
 			// no one to notify
 			return;
 		}
 
 		$notification = $this->instantiateNotification($comment);
 
-		foreach($mentions as $uid) {
-			if( ($comment->getActorType() === 'users' && $uid === $comment->getActorId())
+		foreach ($mentions as $uid) {
+			if (($comment->getActorType() === 'users' && $uid === $comment->getActorId())
 				|| !$this->userManager->userExists($uid)
 			) {
 				// do not notify unknown users or yourself
@@ -73,9 +72,8 @@ class Listener {
 			}
 
 			$notification->setUser($uid);
-			if(    $event->getEvent() === CommentsEvent::EVENT_DELETE
-				|| $event->getEvent() === CommentsEvent::EVENT_PRE_UPDATE)
-			{
+			if ($event->getEvent() === CommentsEvent::EVENT_DELETE
+				|| $event->getEvent() === CommentsEvent::EVENT_PRE_UPDATE) {
 				$this->notificationManager->markProcessed($notification);
 			} else {
 				$this->notificationManager->notify($notification);
@@ -107,12 +105,12 @@ class Listener {
 	 * @return string[] containing the mentions, e.g. ['alice', 'bob']
 	 */
 	public function extractMentions(array $mentions) {
-		if(empty($mentions)) {
+		if (empty($mentions)) {
 			return [];
 		}
 		$uids = [];
-		foreach($mentions as $mention) {
-			if($mention['type'] === 'user') {
+		foreach ($mentions as $mention) {
+			if ($mention['type'] === 'user') {
 				$uids[] = $mention['id'];
 			}
 		}

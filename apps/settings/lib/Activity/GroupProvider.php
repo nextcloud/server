@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Activity;
 
 use InvalidArgumentException;
@@ -36,7 +35,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory as L10nFactory;
 
 class GroupProvider implements IProvider {
-
 	public const ADDED_TO_GROUP = 'group_added';
 	public const REMOVED_FROM_GROUP = 'group_removed';
 
@@ -96,7 +94,7 @@ class GroupProvider implements IProvider {
 					} else {
 						$subject = $l->t('{actor} added {user} to group {group}');
 					}
-				} else if ($this->activityManager->getCurrentUserId() === $params['user']) {
+				} elseif ($this->activityManager->getCurrentUserId() === $params['user']) {
 					$subject = $l->t('An administrator added you to group {group}');
 				} else {
 					$subject = $l->t('An administrator added {user} to group {group}');
@@ -111,7 +109,7 @@ class GroupProvider implements IProvider {
 					} else {
 						$subject = $l->t('{actor} removed {user} from group {group}');
 					}
-				} else if ($this->activityManager->getCurrentUserId() === $params['user']) {
+				} elseif ($this->activityManager->getCurrentUserId() === $params['user']) {
 					$subject = $l->t('An administrator removed you from group {group}');
 				} else {
 					$subject = $l->t('An administrator removed {user} from group {group}');

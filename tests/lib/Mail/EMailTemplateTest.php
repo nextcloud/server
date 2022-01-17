@@ -27,24 +27,29 @@ use OC\Mail\EMailTemplate;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use Test\TestCase;
 
 class EMailTemplateTest extends TestCase {
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var EMailTemplate */
 	private $emailTemplate;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n = $this->createMock(IFactory::class);
+
+		$this->l10n->method('get')
+			->with('lib', '')
+			->willReturn($this->createMock(IL10N::class));
 
 		$this->emailTemplate = new EMailTemplate(
 			$this->defaults,
@@ -227,6 +232,4 @@ class EMailTemplateTest extends TestCase {
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom-text-alternative.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
-
-
 }

@@ -3,13 +3,13 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,11 +23,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
+
+use OCP\Share\IShare;
 
 /**
  * Class WatcherTest
@@ -51,7 +52,7 @@ class WatcherTest extends TestCase {
 	/** @var \OCP\Share\IShare */
 	private $_share;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -61,29 +62,32 @@ class WatcherTest extends TestCase {
 		$this->view->mkdir('container/shareddir');
 		$this->view->mkdir('container/shareddir/subdir');
 
-		list($this->ownerStorage, $internalPath) = $this->view->resolvePath('');
+		[$this->ownerStorage, $internalPath] = $this->view->resolvePath('');
 		$this->ownerCache = $this->ownerStorage->getCache();
 		$this->ownerStorage->getScanner()->scan('');
 
 		// share "shareddir" with user2
 		$this->_share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'container/shareddir',
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
 			\OCP\Constants::PERMISSION_ALL
 		);
 
+		$this->_share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($this->_share);
+
 		// login as user2
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// retrieve the shared storage
 		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		list($this->sharedStorage, $internalPath) = $secondView->resolvePath('files/shareddir');
+		[$this->sharedStorage, $internalPath] = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->sharedCache) {
 			$this->sharedCache->clear();
 		}
@@ -105,14 +109,14 @@ class WatcherTest extends TestCase {
 	 * Tests that writing a file using the shared storage will propagate the file
 	 * size to the owner's parent folders.
 	 */
-	function testFolderSizePropagationToOwnerStorage() {
+	public function testFolderSizePropagationToOwnerStorage() {
 		$initialSizes = self::getOwnerDirSizes('files/container/shareddir');
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$dataLen = strlen($textData);
-		$this->sharedCache->put('bar.txt', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedCache->put('bar.txt', ['mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain']);
 		$this->sharedStorage->file_put_contents('bar.txt', $textData);
-		$this->sharedCache->put('', array('mtime' => 10, 'storage_mtime' => 10, 'size' => '-1', 'mimetype' => 'httpd/unix-directory'));
+		$this->sharedCache->put('', ['mtime' => 10, 'storage_mtime' => 10, 'size' => '-1', 'mimetype' => 'httpd/unix-directory']);
 
 		// run the propagation code
 		$this->sharedStorage->getWatcher()->checkUpdate('');
@@ -135,14 +139,14 @@ class WatcherTest extends TestCase {
 	 * Tests that writing a file using the shared storage will propagate the file
 	 * size to the owner's parent folders.
 	 */
-	function testSubFolderSizePropagationToOwnerStorage() {
+	public function testSubFolderSizePropagationToOwnerStorage() {
 		$initialSizes = self::getOwnerDirSizes('files/container/shareddir/subdir');
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$dataLen = strlen($textData);
-		$this->sharedCache->put('subdir/bar.txt', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedCache->put('subdir/bar.txt', ['mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain']);
 		$this->sharedStorage->file_put_contents('subdir/bar.txt', $textData);
-		$this->sharedCache->put('subdir', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedCache->put('subdir', ['mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain']);
 
 		// run the propagation code
 		$this->sharedStorage->getWatcher()->checkUpdate('subdir');
@@ -167,8 +171,8 @@ class WatcherTest extends TestCase {
 	 * where the key is the path and the value is the size.
 	 * @param string $path
 	 */
-	function getOwnerDirSizes($path) {
-		$result = array();
+	public function getOwnerDirSizes($path) {
+		$result = [];
 
 		while ($path != '' && $path != '' && $path != '.') {
 			$cachedData = $this->ownerCache->get($path);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,9 +26,9 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC;
+use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
-use OC\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -47,7 +48,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	/** @var int */
 	private $time;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->dbConnection = OC::$server->getDatabaseConnection();
@@ -81,7 +82,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'token' => $qb->createNamedParameter('1504445f1524fc801035448a95681a9378ba2e83930c814546c56e5d6ebde221198792fd900c88ed5ead0555780dad1ebce3370d7e154941cd5de87eb419899b'),
 			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
 			'last_activity' => $qb->createNamedParameter($this->time - 60 * 60 * 24 * 3, IQueryBuilder::PARAM_INT), // Three days ago
-			'last_check' => $this->time -  10, // 10secs ago
+			'last_check' => $this->time - 10, // 10secs ago
 			'public_key' => $qb->createNamedParameter('public key'),
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
@@ -171,10 +172,10 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
-	 */
+
 	public function testGetInvalidToken() {
+		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+
 		$token = 'thisisaninvalidtokenthatisnotinthedatabase';
 
 		$this->mapper->getToken($token);
@@ -203,17 +204,17 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
-	 */
+
 	public function testGetTokenByIdNotFound() {
+		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+
 		$this->mapper->getTokenById(-1);
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
-	 */
+
 	public function testGetInvalidTokenById() {
+		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+
 		$id = '42';
 
 		$this->mapper->getToken($id);
@@ -228,7 +229,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	}
 
 	public function testDeleteById() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('id')
@@ -242,7 +243,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	}
 
 	public function testDeleteByIdWrongUser() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$id = 33;
 
@@ -265,5 +266,4 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertFalse($this->mapper->hasExpiredTokens('user1'));
 		$this->assertTrue($this->mapper->hasExpiredTokens('user3'));
 	}
-
 }

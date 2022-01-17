@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Updater;
 
 use OCP\Http\Client\IClientService;
@@ -33,7 +34,7 @@ class VersionCheck {
 
 	/** @var IClientService */
 	private $clientService;
-	
+
 	/** @var IConfig */
 	private $config;
 
@@ -54,6 +55,11 @@ class VersionCheck {
 	 * @return array|bool
 	 */
 	public function check() {
+		// If this server is set to have no internet connection this is all not needed
+		if (!$this->config->getSystemValueBool('has_internet_connection', true)) {
+			return false;
+		}
+
 		// Look up the cache - it is invalidated all 30 minutes
 		if (((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
@@ -89,9 +95,13 @@ class VersionCheck {
 		}
 
 		if ($xml) {
-			$loadEntities = libxml_disable_entity_loader(true);
-			$data = @simplexml_load_string($xml);
-			libxml_disable_entity_loader($loadEntities);
+			if (\LIBXML_VERSION < 20900) {
+				$loadEntities = libxml_disable_entity_loader(true);
+				$data = @simplexml_load_string($xml);
+				libxml_disable_entity_loader($loadEntities);
+			} else {
+				$data = @simplexml_load_string($xml);
+			}
 			if ($data !== false) {
 				$tmp['version'] = (string)$data->version;
 				$tmp['versionstring'] = (string)$data->versionstring;
@@ -122,4 +132,3 @@ class VersionCheck {
 		return $response->getBody();
 	}
 }
-

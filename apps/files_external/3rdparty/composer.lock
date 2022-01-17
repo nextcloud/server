@@ -4,35 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5639a09feff2318b1b69e11a10a81e7d",
+    "content-hash": "0ffc772b2aaaaffe52decb8d13361976",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v3.1.1",
+            "version": "v3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "26b7b8780342d0e61313b464b880d50a2ea898e2"
+                "reference": "9dba42ab2a3990de29e18cc62b0a8270aceb74e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/26b7b8780342d0e61313b464b880d50a2ea898e2",
-                "reference": "26b7b8780342d0e61313b464b880d50a2ea898e2",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/9dba42ab2a3990de29e18cc62b0a8270aceb74e3",
+                "reference": "9dba42ab2a3990de29e18cc62b0a8270aceb74e3",
                 "shasum": ""
             },
             "require": {
-                "icewind/streams": ">=0.2.0",
-                "php": ">=5.6"
+                "icewind/streams": ">=0.7.3",
+                "php": ">=7.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.13",
-                "phpunit/phpunit": "^5.7"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.57",
+                "phpunit/phpunit": "^8.5|^9.3.8",
+                "psalm/phar": "^4.3"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Icewind\\SMB\\": "src/",
-                    "Icewind\\SMB\\Test\\": "tests/"
+                    "Icewind\\SMB\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -46,33 +47,37 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2019-03-04T15:02:42+00:00"
+            "support": {
+                "issues": "https://github.com/icewind1991/SMB/issues",
+                "source": "https://github.com/icewind1991/SMB/tree/v3.4.1"
+            },
+            "time": "2021-04-19T13:53:08+00:00"
         },
         {
             "name": "icewind/streams",
-            "version": "v0.7.1",
+            "version": "v0.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/Streams.git",
-                "reference": "4db3ed6c366e90b958d00e1d4c6360a9b39b2121"
+                "reference": "93bce472202d36d9808c30eaa52a1dc72b39e04c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/4db3ed6c366e90b958d00e1d4c6360a9b39b2121",
-                "reference": "4db3ed6c366e90b958d00e1d4c6360a9b39b2121",
+                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/93bce472202d36d9808c30eaa52a1dc72b39e04c",
+                "reference": "93bce472202d36d9808c30eaa52a1dc72b39e04c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "satooshi/php-coveralls": "v1.0.0"
+                "friendsofphp/php-cs-fixer": "^2",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^9"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Icewind\\Streams\\Tests\\": "tests/",
                     "Icewind\\Streams\\": "src/"
                 }
             },
@@ -87,7 +92,11 @@
                 }
             ],
             "description": "A set of generic stream wrappers",
-            "time": "2019-02-15T12:57:29+00:00"
+            "support": {
+                "issues": "https://github.com/icewind1991/Streams/issues",
+                "source": "https://github.com/icewind1991/Streams/tree/v0.7.4"
+            },
+            "time": "2021-03-12T15:48:22+00:00"
         }
     ],
     "packages-dev": [],
@@ -97,5 +106,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }

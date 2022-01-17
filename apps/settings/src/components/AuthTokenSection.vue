@@ -21,7 +21,7 @@
 
 <template>
 	<div id="security" class="section">
-		<h2>{{ t('settings', 'Devices & sessions') }}</h2>
+		<h2>{{ t('settings', 'Devices & sessions', {}, undefined, {sanitize: false}) }}</h2>
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}
 		</p>
@@ -36,7 +36,8 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
 
 import AuthTokenList from './AuthTokenList'
 import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'
@@ -44,8 +45,8 @@ import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'
 const confirm = () => {
 	return new Promise(resolve => {
 		OC.dialogs.confirm(
-			t('core', 'Do you really want to wipe your data from this device?'),
-			t('core', 'Confirm wipe'),
+			t('settings', 'Do you really want to wipe your data from this device?'),
+			t('settings', 'Confirm wipe'),
 			resolve,
 			true
 		)
@@ -54,8 +55,9 @@ const confirm = () => {
 
 /**
  * Tap into a promise without losing the value
+ *
  * @param {Function} cb the callback
- * @returns {any} val the value
+ * @return {any} val the value
  */
 const tap = cb => val => {
 	cb(val)
@@ -66,21 +68,21 @@ export default {
 	name: 'AuthTokenSection',
 	components: {
 		AuthTokenSetupDialogue,
-		AuthTokenList
+		AuthTokenList,
 	},
 	props: {
 		tokens: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		canCreateToken: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
-			baseUrl: OC.generateUrl('/settings/personal/authtokens')
+			baseUrl: generateUrl('/settings/personal/authtokens'),
 		}
 	},
 	methods: {
@@ -88,11 +90,12 @@ export default {
 			console.debug('creating a new app token', name)
 
 			const data = {
-				name
+				name,
 			}
 			return axios.post(this.baseUrl, data)
 				.then(resp => resp.data)
 				.then(tap(() => console.debug('app token created')))
+				// eslint-disable-next-line vue/no-mutating-props
 				.then(tap(data => this.tokens.push(data.deviceToken)))
 				.catch(err => {
 					console.error.bind('could not create app password', err)
@@ -141,6 +144,7 @@ export default {
 		deleteToken(token) {
 			console.debug('deleting app token', token)
 
+			// eslint-disable-next-line vue/no-mutating-props
 			this.tokens = this.tokens.filter(t => t !== token)
 
 			return axios.delete(this.baseUrl + '/' + token.id)
@@ -151,6 +155,7 @@ export default {
 					OC.Notification.showTemporary(t('core', 'Error while deleting the token'))
 
 					// Restore
+					// eslint-disable-next-line vue/no-mutating-props
 					this.tokens.push(token)
 				})
 		},
@@ -172,8 +177,8 @@ export default {
 				console.error('could not wipe app token', err)
 				OC.Notification.showTemporary(t('core', 'Error while wiping the device with the token'))
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

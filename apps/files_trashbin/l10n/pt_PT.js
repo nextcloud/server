@@ -12,7 +12,9 @@ OC.L10N.register(
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Select all" : "Selecionar tudo",
     "Name" : "Nome",
+    "Actions" : "Ações",
     "Deleted" : "Eliminado",
-    "Delete" : "Eliminar"
+    "Delete" : "Eliminar",
+    "Error while removing file from trashbin" : "Erro ao remover arquivo da lixeira"
 },
 "nplurals=2; plural=(n != 1);");

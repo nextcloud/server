@@ -22,64 +22,184 @@
 
 <template>
 	<Content app-name="settings"
-		:class="{ 'with-app-sidebar': currentApp}"
+		:class="{ 'with-app-sidebar': app}"
 		:content-class="{ 'icon-loading': loadingList }"
 		:navigation-class="{ 'icon-loading': loading }">
+		<!-- Categories & filters -->
 		<AppNavigation>
-			<ul id="appscategories">
-				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
-			</ul>
+			<template #list>
+				<AppNavigationItem
+					id="app-category-your-apps"
+					:to="{ name: 'apps' }"
+					:exact="true"
+					icon="icon-category-installed"
+					:title="t('settings', 'Your apps')" />
+				<AppNavigationItem
+					id="app-category-enabled"
+					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
+					icon="icon-category-enabled"
+					:title="t('settings', 'Active apps')" />
+				<AppNavigationItem
+					id="app-category-disabled"
+					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
+					icon="icon-category-disabled"
+					:title="t('settings', 'Disabled apps')" />
+				<AppNavigationItem
+					v-if="updateCount > 0"
+					id="app-category-updates"
+					:to="{ name: 'apps-category', params: { category: 'updates' } }"
+					icon="icon-download"
+					:title="t('settings', 'Updates')">
+					<AppNavigationCounter slot="counter">
+						{{ updateCount }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+				<AppNavigationItem
+					id="app-category-your-bundles"
+					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
+					icon="icon-category-app-bundles"
+					:title="t('settings', 'App bundles')" />
+
+				<AppNavigationSpacer />
+
+				<!-- App store categories -->
+				<template v-if="settings.appstoreEnabled">
+					<AppNavigationItem
+						id="app-category-featured"
+						:to="{ name: 'apps-category', params: { category: 'featured' } }"
+						icon="icon-favorite"
+						:title="t('settings', 'Featured apps')" />
+
+					<AppNavigationItem
+						v-for="cat in categories"
+						:key="'icon-category-' + cat.ident"
+						:icon="'icon-category-' + cat.ident"
+						:to="{
+							name: 'apps-category',
+							params: { category: cat.ident },
+						}"
+						:title="cat.displayName" />
+				</template>
+
+				<AppNavigationItem
+					id="app-developer-docs"
+					href="settings.developerDocumentation"
+					:title="t('settings', 'Developer documentation') + ' ↗'" />
+			</template>
 		</AppNavigation>
+
+		<!-- Apps list -->
 		<AppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
-			<AppList :category="category" :app="currentApp" :search="searchQuery" />
+			<AppList :category="category" :app="app" :search="searchQuery" />
 		</AppContent>
-		<AppSidebar v-if="id && currentApp" @close="hideAppDetails">
-			<AppDetails :category="category" :app="currentApp" />
+
+		<!-- Selected app details -->
+		<AppSidebar
+			v-if="id && app"
+			v-bind="appSidebar"
+			:class="{'app-sidebar--without-background': !appSidebar.background}"
+			@close="hideAppDetails">
+			<template v-if="!appSidebar.background" #header>
+				<div class="app-sidebar-header__figure--default-app-icon icon-settings-dark" />
+			</template>
+
+			<template #description>
+				<!-- Featured/Supported badges -->
+				<div v-if="app.level === 300 || app.level === 200 || hasRating" class="app-level">
+					<span v-if="app.level === 300"
+						v-tooltip.auto="t('settings', 'This app is supported via your current Nextcloud subscription.')"
+						class="supported icon-checkmark-color">
+						{{ t('settings', 'Supported') }}</span>
+					<span v-if="app.level === 200"
+						v-tooltip.auto="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
+						class="official icon-checkmark">
+						{{ t('settings', 'Featured') }}</span>
+					<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
+				</div>
+			</template>
+
+			<!-- Tab content -->
+
+			<AppSidebarTab id="desc"
+				icon="icon-category-office"
+				:name="t('settings', 'Details')"
+				:order="0">
+				<AppDetails :app="app" />
+			</AppSidebarTab>
+			<AppSidebarTab v-if="app.appstoreData && app.releases[0].translations.en.changelog"
+				id="desca"
+				icon="icon-category-organization"
+				:name="t('settings', 'Changelog')"
+				:order="1">
+				<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
+					<h2>{{ release.version }}</h2>
+					<Markdown v-if="changelog(release)" :text="changelog(release)" />
+				</div>
+			</AppSidebarTab>
 		</AppSidebar>
 	</Content>
 </template>
 
 <script>
-import {
-	AppContent,
-	AppNavigation,
-	AppNavigationItem,
-	AppSidebar,
-	Content
-} from 'nextcloud-vue'
-import AppList from '../components/AppList'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
+
+import AppContent from '@nextcloud/vue/dist/Components/AppContent'
+import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
+import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
+import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
+import Content from '@nextcloud/vue/dist/Components/Content'
+
+import AppList from '../components/AppList'
 import AppDetails from '../components/AppDetails'
+import AppManagement from '../mixins/AppManagement'
+import AppScore from '../components/AppList/AppScore'
+import Markdown from '../components/Markdown'
 
 Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Apps',
+
 	components: {
 		AppContent,
-		AppNavigation,
-		AppNavigationItem,
-		AppSidebar,
-		Content,
 		AppDetails,
-		AppList
+		AppList,
+		AppNavigation,
+		AppNavigationCounter,
+		AppNavigationItem,
+		AppNavigationSpacer,
+		AppScore,
+		AppSidebar,
+		AppSidebarTab,
+		Content,
+		Markdown,
 	},
+
+	mixins: [AppManagement],
+
 	props: {
 		category: {
 			type: String,
-			default: 'installed'
+			default: 'installed',
 		},
 		id: {
 			type: String,
-			default: ''
-		}
+			default: '',
+		},
 	},
+
 	data() {
 		return {
-			searchQuery: ''
+			searchQuery: '',
+			screenshotLoaded: false,
 		}
 	},
+
 	computed: {
 		loading() {
 			return this.$store.getters.loading('categories')
@@ -87,7 +207,7 @@ export default {
 		loadingList() {
 			return this.$store.getters.loading('list')
 		},
-		currentApp() {
+		app() {
 			return this.apps.find(app => app.id === this.id)
 		},
 		categories() {
@@ -103,125 +223,157 @@ export default {
 			return this.$store.getters.getServerData
 		},
 
-		// BUILD APP NAVIGATION MENU OBJECT
-		menu() {
-			// Data provided php side
-			let categories = this.$store.getters.getCategories
-			categories = Array.isArray(categories) ? categories : []
+		hasRating() {
+			return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5
+		},
 
-			// Map groups
-			categories = categories.map(category => {
-				let item = {}
-				item.id = 'app-category-' + category.ident
-				item.icon = 'icon-category-' + category.ident
-				item.classes = []							// empty classes, active will be set later
-				item.router = {								// router link to
-					name: 'apps-category',
-					params: { category: category.ident }
+		// sidebar app binding
+		appSidebar() {
+			const authorName = (xmlNode) => {
+				if (xmlNode['@value']) {
+					// Complex node (with email or homepage attribute)
+					return xmlNode['@value']
 				}
-				item.text = category.displayName
 
-				return item
-			})
-
-			// Add everyone group
-			let defaultCategories = [
-				{
-					id: 'app-category-your-apps',
-					classes: [],
-					router: { name: 'apps' },
-					icon: 'icon-category-installed',
-					text: t('settings', 'Your apps')
-				},
-				{
-					id: 'app-category-enabled',
-					classes: [],
-					icon: 'icon-category-enabled',
-					router: { name: 'apps-category', params: { category: 'enabled' } },
-					text: t('settings', 'Active apps')
-				}, {
-					id: 'app-category-disabled',
-					classes: [],
-					icon: 'icon-category-disabled',
-					router: { name: 'apps-category', params: { category: 'disabled' } },
-					text: t('settings', 'Disabled apps')
-				}
-			]
-
-			if (!this.settings.appstoreEnabled) {
-				return defaultCategories
+				// Simple text node
+				return xmlNode
 			}
 
-			if (this.$store.getters.getUpdateCount > 0) {
-				defaultCategories.push({
-					id: 'app-category-updates',
-					classes: [],
-					icon: 'icon-download',
-					router: { name: 'apps-category', params: { category: 'updates' } },
-					text: t('settings', 'Updates'),
-					utils: { counter: this.$store.getters.getUpdateCount }
-				})
+			const author = Array.isArray(this.app.author)
+				? this.app.author.map(authorName).join(', ')
+				: authorName(this.app.author)
+			const license = t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
+
+			const subtitle = t('settings', 'by {author}\n{license}', { author, license })
+
+			return {
+				subtitle,
+				background: this.app.screenshot && this.screenshotLoaded
+					? this.app.screenshot
+					: this.app.preview,
+				compact: !(this.app.screenshot && this.screenshotLoaded),
+				title: this.app.name,
+
 			}
-
-			defaultCategories.push({
-				id: 'app-category-app-bundles',
-				classes: [],
-				icon: 'icon-category-app-bundles',
-				router: { name: 'apps-category', params: { category: 'app-bundles' } },
-				text: t('settings', 'App bundles')
-			})
-
-			categories = defaultCategories.concat(categories)
-
-			// Set current group as active
-			let activeGroup = categories.findIndex(group => group.id === 'app-category-' + this.category)
-			if (activeGroup >= 0) {
-				categories[activeGroup].classes.push('active')
-			} else {
-				categories[0].classes.push('active')
-			}
-
-			categories.push({
-				id: 'app-developer-docs',
-				classes: [],
-				href: this.settings.developerDocumentation,
-				text: t('settings', 'Developer documentation') + ' ↗'
-			})
-
-			// Return
-			return categories
-		}
+		},
+		changelog() {
+			return (release) => release.translations.en.changelog
+		},
 	},
+
 	watch: {
-		category: function(val, old) {
-			this.setSearch('')
-		}
+		category() {
+			this.searchQuery = ''
+		},
+
+		app() {
+			this.screenshotLoaded = false
+			if (this.app?.releases && this.app?.screenshot) {
+				const image = new Image()
+				image.onload = (e) => {
+					this.screenshotLoaded = true
+				}
+				image.src = this.app.screenshot
+			}
+		},
 	},
+
 	beforeMount() {
 		this.$store.dispatch('getCategories')
 		this.$store.dispatch('getAllApps')
 		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
+
 	mounted() {
-		/**
-		 * Register search
-		 */
-		this.appSearch = new OCA.Search(this.setSearch, this.resetSearch)
+		subscribe('nextcloud:unified-search.search', this.setSearch)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search.search', this.setSearch)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
 	methods: {
-		setSearch(query) {
+		setSearch({ query }) {
 			this.searchQuery = query
 		},
 		resetSearch() {
-			this.setSearch('')
+			this.searchQuery = ''
 		},
+
 		hideAppDetails() {
 			this.$router.push({
 				name: 'apps-category',
-				params: { category: this.category }
+				params: { category: this.category },
 			})
+		},
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+.app-sidebar::v-deep {
+	&:not(.app-sidebar--without-background) {
+		// with full screenshot, let's fill the figure
+		:not(.app-sidebar-header--compact) .app-sidebar-header__figure {
+			background-size: cover;
+		}
+		// revert sidebar app icon so it is black
+		.app-sidebar-header--compact .app-sidebar-header__figure {
+			background-size: 32px;
+
+			filter: invert(1);
+		}
+	}
+
+	// default icon slot styling
+	&.app-sidebar--without-background {
+		.app-sidebar-header__figure {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			&--default-app-icon {
+				width: 32px;
+				height: 32px;
+				background-size: 32px;
+			}
+		}
+	}
+
+	// TODO: migrate to components
+	.app-sidebar-header__desc {
+		// allow multi line subtitle for the license
+		.app-sidebar-header__subtitle {
+			overflow: visible !important;
+			height: auto;
+			white-space: normal !important;
+			line-height: 16px;
+		}
+	}
+
+	.app-sidebar-header__action {
+		// align with tab content
+		margin: 0 20px;
+		input {
+			margin: 3px;
 		}
 	}
 }
-</script>
+
+	.app-sidebar-tabs__release {
+		h2 {
+			border-bottom: 1px solid var(--color-border);
+		}
+
+		// Overwrite changelog heading styles
+		::v-deep {
+			h3 {
+				font-size: 20px;
+			}
+			h4 {
+				font-size: 17px;
+			}
+		}
+	}
+</style>

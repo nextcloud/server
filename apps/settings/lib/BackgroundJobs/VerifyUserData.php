@@ -2,9 +2,14 @@
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Patrik Kernstock <info@pkern.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,23 +20,21 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OCA\Settings\BackgroundJobs;
 
-
-use OC\Accounts\AccountManager;
-use OC\BackgroundJob\Job;
-use OC\BackgroundJob\JobList;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -48,7 +51,7 @@ class VerifyUserData extends Job {
 	/** @var int how much time should be between two tries (1 hour) */
 	private $interval = 3600;
 
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	private $accountManager;
 
 	/** @var IUserManager */
@@ -66,21 +69,14 @@ class VerifyUserData extends Job {
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * VerifyUserData constructor.
-	 *
-	 * @param AccountManager $accountManager
-	 * @param IUserManager $userManager
-	 * @param IClientService $clientService
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 */
-	public function __construct(AccountManager $accountManager,
+	public function __construct(IAccountManager $accountManager,
 								IUserManager $userManager,
 								IClientService $clientService,
 								ILogger $logger,
+								ITimeFactory $timeFactory,
 								IConfig $config
 	) {
+		parent::__construct($timeFactory);
 		$this->accountManager = $accountManager;
 		$this->userManager = $userManager;
 		$this->httpClientService = $clientService;
@@ -94,11 +90,10 @@ class VerifyUserData extends Job {
 	/**
 	 * run the job, then remove it from the jobList
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
-	public function execute($jobList, ILogger $logger = null) {
-
+	public function execute(IJobList $jobList, ILogger $logger = null) {
 		if ($this->shouldRun($this->argument)) {
 			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);
@@ -108,19 +103,17 @@ class VerifyUserData extends Job {
 				$this->resetVerificationState();
 			}
 		}
-
 	}
 
 	protected function run($argument) {
-
 		$try = (int)$argument['try'] + 1;
 
-		switch($argument['type']) {
-			case AccountManager::PROPERTY_WEBSITE:
+		switch ($argument['type']) {
+			case IAccountManager::PROPERTY_WEBSITE:
 				$result = $this->verifyWebsite($argument);
 				break;
-			case AccountManager::PROPERTY_TWITTER:
-			case AccountManager::PROPERTY_EMAIL:
+			case IAccountManager::PROPERTY_TWITTER:
+			case IAccountManager::PROPERTY_EMAIL:
 				$result = $this->verifyViaLookupServer($argument, $argument['type']);
 				break;
 			default:
@@ -141,7 +134,6 @@ class VerifyUserData extends Job {
 	 * @return bool true if we could check the verification code, otherwise false
 	 */
 	protected function verifyWebsite(array $argument) {
-
 		$result = false;
 
 		$url = rtrim($argument['data'], '/') . '/.well-known/' . 'CloudIdVerificationCode.txt';
@@ -164,32 +156,23 @@ class VerifyUserData extends Job {
 				$this->logger->error($argument['uid'] . ' doesn\'t exist, can\'t verify user data.');
 				return $result;
 			}
-			$userData = $this->accountManager->getUser($user);
-
-			if ($publishedCodeSanitized === $argument['verificationCode']) {
-				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFIED;
-			} else {
-				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::NOT_VERIFIED;
-			}
-
-			$this->accountManager->updateUser($user, $userData);
+			$userAccount = $this->accountManager->getAccount($user);
+			$websiteProp = $userAccount->getProperty(IAccountManager::PROPERTY_WEBSITE);
+			$websiteProp->setVerified($publishedCodeSanitized === $argument['verificationCode']
+				? IAccountManager::VERIFIED
+				: IAccountManager::NOT_VERIFIED
+			);
+			$this->accountManager->updateAccount($userAccount);
 		}
 
 		return $result;
 	}
 
-	/**
-	 * verify email address
-	 *
-	 * @param array $argument
-	 * @param string $dataType
-	 * @return bool true if we could check the verification code, otherwise false
-	 */
-	protected function verifyViaLookupServer(array $argument, $dataType) {
-		if(empty($this->lookupServerUrl) ||
+	protected function verifyViaLookupServer(array $argument, string $dataType): bool {
+		if (empty($this->lookupServerUrl) ||
 			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
 			$this->config->getSystemValue('has_internet_connection', true) === false) {
-			return false;
+			return true;
 		}
 
 		$user = $this->userManager->get($argument['uid']);
@@ -200,10 +183,7 @@ class VerifyUserData extends Job {
 			return true;
 		}
 
-		$localUserData = $this->accountManager->getUser($user);
 		$cloudId = $user->getCloudId();
-
-		// ask lookup-server for user data
 		$lookupServerData = $this->queryLookupServer($cloudId);
 
 		// for some reasons we couldn't read any data from the lookup server, try again later
@@ -217,12 +197,18 @@ class VerifyUserData extends Job {
 		}
 
 		// lookup server hasn't verified the email address so far, try again later
-		if ($lookupServerData[$dataType]['verified'] === AccountManager::NOT_VERIFIED) {
+		if ($lookupServerData[$dataType]['verified'] === IAccountManager::NOT_VERIFIED) {
 			return false;
 		}
 
-		$localUserData[$dataType]['verified'] = AccountManager::VERIFIED;
-		$this->accountManager->updateUser($user, $localUserData);
+		try {
+			$userAccount = $this->accountManager->getAccount($user);
+			$property = $userAccount->getProperty($dataType);
+			$property->setVerified(IAccountManager::VERIFIED);
+			$this->accountManager->updateAccount($userAccount);
+		} catch (PropertyDoesNotExistException $e) {
+			return false;
+		}
 
 		return true;
 	}
@@ -247,7 +233,6 @@ class VerifyUserData extends Job {
 			if (is_array($body) && isset($body['federationId']) && $body['federationId'] === $cloudId) {
 				return $body;
 			}
-
 		} catch (\Exception $e) {
 			// do nothing, we will just re-try later
 		}
@@ -289,13 +274,17 @@ class VerifyUserData extends Job {
 	/**
 	 * reset verification state after max tries are reached
 	 */
-	protected function resetVerificationState() {
+	protected function resetVerificationState(): void {
 		$user = $this->userManager->get($this->argument['uid']);
 		if ($user !== null) {
-			$accountData = $this->accountManager->getUser($user);
-			$accountData[$this->argument['type']]['verified'] = AccountManager::NOT_VERIFIED;
-			$this->accountManager->updateUser($user, $accountData);
+			$userAccount = $this->accountManager->getAccount($user);
+			try {
+				$property = $userAccount->getProperty($this->argument['type']);
+				$property->setVerified(IAccountManager::NOT_VERIFIED);
+				$this->accountManager->updateAccount($userAccount);
+			} catch (PropertyDoesNotExistException $e) {
+				return;
+			}
 		}
 	}
-
 }

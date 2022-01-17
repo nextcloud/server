@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -19,11 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OC\DB;
 
 class AdapterOCI8 extends Adapter {
@@ -38,7 +36,7 @@ class AdapterOCI8 extends Adapter {
 		return $this->conn->realLastInsertId($table);
 	}
 
-	const UNIX_TIMESTAMP_REPLACEMENT = "(cast(sys_extract_utc(systimestamp) as date) - date'1970-01-01') * 86400";
+	public const UNIX_TIMESTAMP_REPLACEMENT = "(cast(sys_extract_utc(systimestamp) as date) - date'1970-01-01') * 86400";
 
 	public function fixupStatement($statement) {
 		$statement = preg_replace('/`(\w+)` ILIKE \?/', 'REGEXP_LIKE(`$1`, \'^\' || REPLACE(?, \'%\', \'.*\') || \'$\', \'i\')', $statement);

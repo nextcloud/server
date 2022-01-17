@@ -19,11 +19,7 @@
  *
  */
 
-script('core', [
-	'systemtags/systemtags',
-	'systemtags/systemtagmodel',
-	'systemtags/systemtagscollection',
-]);
+script('core', 'systemtags');
 
 script('systemtags', 'admin');
 style('systemtags', 'settings');

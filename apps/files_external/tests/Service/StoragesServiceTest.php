@@ -2,12 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,25 +22,28 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Service;
 
-use \OC\Files\Filesystem;
+use OC\Files\Filesystem;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
-use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
 use OCP\AppFramework\IAppContainer;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
+use OCP\IUser;
 
 class CleaningDBConfig extends DBConfigService {
 	private $mountIds = [];
@@ -88,20 +92,20 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	protected static $hookCalls;
 
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject|\OCP\Files\Config\IUserMountCache
+	 * @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Files\Config\IUserMountCache
 	 */
 	protected $mountCache;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
-		self::$hookCalls = array();
+		self::$hookCalls = [];
 		$config = \OC::$server->getConfig();
 		$this->dataDir = $config->getSystemValue(
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
 		);
-		\OC_Mount_Config::$skipTest = true;
+		\OCA\Files_External\MountConfig::$skipTest = true;
 
 		$this->mountCache = $this->createMock(IUserMountCache::class);
 
@@ -117,20 +121,20 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			'identifier:\OCA\Files_External\Lib\Auth\NullMechanism' => $this->getAuthMechMock(),
 		];
 		$this->backendService->method('getAuthMechanism')
-			->will($this->returnCallback(function ($class) use ($authMechanisms) {
+			->willReturnCallback(function ($class) use ($authMechanisms) {
 				if (isset($authMechanisms[$class])) {
 					return $authMechanisms[$class];
 				}
 				return null;
-			}));
+			});
 		$this->backendService->method('getAuthMechanismsByScheme')
-			->will($this->returnCallback(function ($schemes) use ($authMechanisms) {
+			->willReturnCallback(function ($schemes) use ($authMechanisms) {
 				return array_filter($authMechanisms, function ($authMech) use ($schemes) {
 					return in_array($authMech->getScheme(), $schemes, true);
 				});
-			}));
+			});
 		$this->backendService->method('getAuthMechanisms')
-			->will($this->returnValue($authMechanisms));
+			->willReturn($authMechanisms);
 
 		$sftpBackend = $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OCA\Files_External\Lib\Storage\SFTP');
 		$backends = [
@@ -142,14 +146,15 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$backends['identifier:\OCA\Files_External\Lib\Backend\SFTP']->method('getLegacyAuthMechanism')
 			->willReturn($authMechanisms['identifier:\Other\Auth\Mechanism']);
 		$this->backendService->method('getBackend')
-			->will($this->returnCallback(function ($backendClass) use ($backends) {
+			->willReturnCallback(function ($backendClass) use ($backends) {
 				if (isset($backends[$backendClass])) {
 					return $backends[$backendClass];
 				}
 				return null;
-			}));
+			});
 		$this->backendService->method('getBackends')
-			->will($this->returnValue($backends));
+			->willReturn($backends);
+		$this->overwriteService(BackendService::class, $this->backendService);
 
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
@@ -162,22 +167,16 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		$containerMock = $this->createMock(IAppContainer::class);
 		$containerMock->method('query')
-			->will($this->returnCallback(function ($name) {
+			->willReturnCallback(function ($name) {
 				if ($name === 'OCA\Files_External\Service\BackendService') {
 					return $this->backendService;
 				}
-			}));
-
-		\OC_Mount_Config::$app = $this->getMockBuilder('\OCA\Files_External\Appinfo\Application')
-			->disableOriginalConstructor()
-			->getMock();
-		\OC_Mount_Config::$app->method('getContainer')
-			->willReturn($containerMock);
+			});
 	}
 
-	public function tearDown() {
-		\OC_Mount_Config::$skipTest = false;
-		self::$hookCalls = array();
+	protected function tearDown(): void {
+		\OCA\Files_External\MountConfig::$skipTest = false;
+		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
 		}
@@ -252,10 +251,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @expectedException \OCA\Files_External\NotFoundException
-	 */
-	public function testNonExistingStorage() {
+	protected function ActualNonExistingStorageTest() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
@@ -263,6 +259,12 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$storage->setBackend($backend);
 		$storage->setAuthMechanism($authMechanism);
 		$this->service->updateStorage($storage);
+	}
+
+	public function testNonExistingStorage() {
+		$this->expectException(\OCA\Files_External\NotFoundException::class);
+
+		$this->ActualNonExistingStorageTest();
 	}
 
 	public function deleteStorageDataProvider() {
@@ -275,10 +277,8 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 					'password' => 'testPassword',
 					'root' => 'someroot',
 				],
-				'webdav::test@example.com//someroot/',
-				0
+				'webdav::test@example.com//someroot/'
 			],
-			// special case with $user vars, cannot auto-remove the oc_storages entry
 			[
 				[
 					'host' => 'example.com',
@@ -286,8 +286,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 					'password' => 'testPassword',
 					'root' => 'someroot',
 				],
-				'webdav::someone@example.com//someroot/',
-				1
+				'webdav::someone@example.com//someroot/'
 			],
 		];
 	}
@@ -295,7 +294,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
+	public function testDeleteStorage($backendOptions, $rustyStorageId) {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\DAV');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
@@ -310,6 +309,31 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		// manually trigger storage entry because normally it happens on first
 		// access, which isn't possible within this test
 		$storageCache = new \OC\Files\Cache\Storage($rustyStorageId);
+
+		/** @var IUserMountCache $mountCache */
+		$mountCache = \OC::$server->get(IUserMountCache::class);
+		$mountCache->clear();
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('test');
+		$cache = $this->createMock(ICache::class);
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('getCache')->willReturn($cache);
+		$mount = $this->createMock(IMountPoint::class);
+		$mount->method('getStorage')
+			->willReturn($storage);
+		$mount->method('getStorageId')
+			->willReturn($rustyStorageId);
+		$mount->method('getNumericStorageId')
+			->willReturn($storageCache->getNumericId());
+		$mount->method('getStorageRootId')
+			->willReturn(1);
+		$mount->method('getMountPoint')
+			->willReturn('dummy');
+		$mount->method('getMountId')
+			->willReturn($id);
+		$mountCache->registerMounts($user, [
+			$mount
+		]);
 
 		// get numeric id for later check
 		$numericId = $storageCache->getNumericId();
@@ -330,15 +354,21 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$storageCheckQuery = $qb->select('*')
 			->from('storages')
 			->where($qb->expr()->eq('numeric_id', $qb->expr()->literal($numericId)));
-		$storages = $storageCheckQuery->execute()->fetchAll();
-		$this->assertCount($expectedCountAfterDeletion, $storages, "expected $expectedCountAfterDeletion storages, got " . json_encode($storages));
+
+		$result = $storageCheckQuery->execute();
+		$storages = $result->fetchAll();
+		$result->closeCursor();
+		$this->assertCount(0, $storages, "expected 0 storages, got " . json_encode($storages));
 	}
 
-	/**
-	 * @expectedException \OCA\Files_External\NotFoundException
-	 */
-	public function testDeleteUnexistingStorage() {
+	protected function actualDeletedUnexistingStorageTest() {
 		$this->service->removeStorage(255);
+	}
+
+	public function testDeleteUnexistingStorage() {
+		$this->expectException(\OCA\Files_External\NotFoundException::class);
+
+		$this->actualDeletedUnexistingStorageTest();
 	}
 
 	public function testCreateStorage() {
@@ -442,17 +472,17 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	public static function createHookCallback($params) {
-		self::$hookCalls[] = array(
+		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_create_mount,
 			'params' => $params
-		);
+		];
 	}
 
 	public static function deleteHookCallback($params) {
-		self::$hookCalls[] = array(
+		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_delete_mount,
 			'params' => $params
-		);
+		];
 	}
 
 	/**

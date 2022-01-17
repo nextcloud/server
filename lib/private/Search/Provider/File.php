@@ -4,10 +4,11 @@
  *
  * @author Andrew Brown <andrew@casabrown.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -21,50 +22,73 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Search\Provider;
-use OC\Files\Filesystem;
+
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
+use OC\Files\Search\SearchQuery;
+use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOrder;
+use OCP\IUserSession;
+use OCP\Search\PagedProvider;
 
 /**
  * Provide search results from the 'files' app
+ * @deprecated 20.0.0
  */
-class File extends \OCP\Search\Provider {
+class File extends PagedProvider {
 
 	/**
 	 * Search for files and folders matching the given query
+	 *
 	 * @param string $query
-	 * @return \OCP\Search\Result
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return \OCP\Search\Result[]
+	 * @deprecated 20.0.0
 	 */
-	public function search($query) {
-		$files = Filesystem::search($query);
-		$results = array();
+	public function search($query, int $limit = null, int $offset = null) {
+		/** @var IRootFolder $rootFolder */
+		$rootFolder = \OC::$server->query(IRootFolder::class);
+		/** @var IUserSession $userSession */
+		$userSession = \OC::$server->query(IUserSession::class);
+		$user = $userSession->getUser();
+		if (!$user) {
+			return [];
+		}
+		$userFolder = $rootFolder->getUserFolder($user->getUID());
+		$fileQuery = new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'),
+			(int)$limit,
+			(int)$offset,
+			[
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
+			],
+			$user
+		);
+		$files = $userFolder->search($fileQuery);
+		$results = [];
 		// edit results
 		foreach ($files as $fileData) {
-			// skip versions
-			if (strpos($fileData['path'], '_versions') === 0) {
-				continue;
-			}
-			// skip top-level folder
-			if ($fileData['name'] === 'files' && $fileData['parent'] === -1) {
-				continue;
-			}
 			// create audio result
-			if($fileData['mimepart'] === 'audio'){
+			if ($fileData->getMimePart() === 'audio') {
 				$result = new \OC\Search\Result\Audio($fileData);
 			}
 			// create image result
-			elseif($fileData['mimepart'] === 'image'){
+			elseif ($fileData->getMimePart() === 'image') {
 				$result = new \OC\Search\Result\Image($fileData);
 			}
 			// create folder result
-			elseif($fileData['mimetype'] === 'httpd/unix-directory'){
+			elseif ($fileData->getMimetype() === FileInfo::MIMETYPE_FOLDER) {
 				$result = new \OC\Search\Result\Folder($fileData);
 			}
 			// or create file result
-			else{
+			else {
 				$result = new \OC\Search\Result\File($fileData);
 			}
 			// add to results
@@ -73,5 +97,12 @@ class File extends \OCP\Search\Provider {
 		// return
 		return $results;
 	}
-	
+
+	public function searchPaged($query, $page, $size) {
+		if ($size === 0) {
+			return $this->search($query);
+		} else {
+			return $this->search($query, $size, ($page - 1) * $size);
+		}
+	}
 }

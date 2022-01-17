@@ -4,6 +4,7 @@
  *
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,29 +18,29 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests;
 
-use \OCA\Files_External\Lib\DefinitionParameter as Param;
+use OCA\Files_External\Lib\DefinitionParameter as Param;
 
 class DefinitionParameterTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$param = new Param('foo', 'bar');
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => 0,
-			'type' => 0
+			'type' => 0,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_BOOLEAN);
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => 0,
-			'type' => Param::VALUE_BOOLEAN
+			'type' => Param::VALUE_BOOLEAN,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_PASSWORD);
@@ -47,7 +48,8 @@ class DefinitionParameterTest extends \Test\TestCase {
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => Param::FLAG_OPTIONAL,
-			'type' => Param::VALUE_PASSWORD
+			'type' => Param::VALUE_PASSWORD,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_HIDDEN);
@@ -55,7 +57,8 @@ class DefinitionParameterTest extends \Test\TestCase {
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => Param::FLAG_NONE,
-			'type' => Param::VALUE_HIDDEN
+			'type' => Param::VALUE_HIDDEN,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 	}
 

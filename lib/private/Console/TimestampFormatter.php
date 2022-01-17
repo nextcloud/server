@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,12 +17,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Console;
-
 
 use OCP\IConfig;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
@@ -100,12 +99,11 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * log timezone and dateformat, e.g. "2015-06-23T17:24:37+02:00"
 	 */
 	public function format($message) {
-
 		$timeZone = $this->config->getSystemValue('logtimezone', 'UTC');
 		$timeZone = $timeZone !== null ? new \DateTimeZone($timeZone) : null;
 
 		$time = new \DateTime('now', $timeZone);
-		$timestampInfo = $time->format($this->config->getSystemValue('logdateformat', \DateTime::ATOM));
+		$timestampInfo = $time->format($this->config->getSystemValue('logdateformat', \DateTimeInterface::ATOM));
 
 		return $timestampInfo . ' ' . $this->formatter->format($message);
 	}

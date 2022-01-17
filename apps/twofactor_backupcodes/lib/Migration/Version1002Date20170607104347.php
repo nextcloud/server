@@ -1,8 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,20 +18,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Migration;
 
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
-use Doctrine\DBAL\Types\Type;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version1002Date20170607104347 extends SimpleMigrationStep {
 	/**
@@ -43,20 +47,20 @@ class Version1002Date20170607104347 extends SimpleMigrationStep {
 		if (!$schema->hasTable('twofactor_backupcodes')) {
 			$table = $schema->createTable('twofactor_backupcodes');
 
-			$table->addColumn('id', Type::INTEGER, [
+			$table->addColumn('id', Types::INTEGER, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 20,
 			]);
-			$table->addColumn('user_id', Type::STRING, [
+			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('code', Type::STRING, [
+			$table->addColumn('code', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('used', Type::INTEGER, [
+			$table->addColumn('used', Types::INTEGER, [
 				'notnull' => true,
 				'length' => 1,
 				'default' => 0,

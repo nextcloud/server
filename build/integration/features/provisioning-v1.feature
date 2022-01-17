@@ -56,6 +56,50 @@ Feature: provisioning
 			| brand-new-user |
 			| admin |
 
+  Scenario: Get editable fields
+    Given As an "admin"
+    And user "brand-new-user" exists
+    Then user "brand-new-user" has editable fields
+      | displayname |
+      | email |
+      | additional_mail |
+      | phone |
+      | address |
+      | website |
+      | twitter |
+      | organisation |
+      | role |
+      | headline |
+      | biography |
+      | profile_enabled |
+    Given As an "brand-new-user"
+    Then user "brand-new-user" has editable fields
+      | displayname |
+      | email |
+      | additional_mail |
+      | phone |
+      | address |
+      | website |
+      | twitter |
+      | organisation |
+      | role |
+      | headline |
+      | biography |
+      | profile_enabled |
+    Then user "self" has editable fields
+      | displayname |
+      | email |
+      | additional_mail |
+      | phone |
+      | address |
+      | website |
+      | twitter |
+      | organisation |
+      | role |
+      | headline |
+      | biography |
+      | profile_enabled |
+
 	Scenario: Edit a user
 		Given As an "admin"
 		And user "brand-new-user" exists
@@ -71,12 +115,22 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 		And sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | email |
-			| value | brand-new-user@gmail.com |
+			| value | no-reply@nextcloud.com |
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | noreply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
 		And sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | phone |
-			| value | 0123 456 789 |
+			| value | +49 711 / 25 24 28-90 |
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And sending "PUT" to "/cloud/users/brand-new-user" with
@@ -97,11 +151,169 @@ Feature: provisioning
 		Then user "brand-new-user" has
 			| id | brand-new-user |
 			| displayname | Brand New User |
-			| email | brand-new-user@gmail.com |
-			| phone | 0123 456 789 |
+			| email | no-reply@nextcloud.com |
+      | additional_mail | no.reply@nextcloud.com;noreply@nextcloud.com |
+			| phone | +4971125242890 |
 			| address | Foo Bar Town |
 			| website | https://nextcloud.com |
 			| twitter | Nextcloud |
+
+	Scenario: Edit a user account properties scopes
+		Given user "brand-new-user" exists
+    And As an "brand-new-user"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | phoneScope |
+			| value | v2-private |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | twitterScope |
+			| value | v2-local |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | addressScope |
+			| value | v2-federated |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | emailScope |
+			| value | v2-published |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | websiteScope |
+			| value | public |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | displaynameScope |
+			| value | contacts |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | avatarScope |
+			| value | private |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		Then user "brand-new-user" has
+			| id | brand-new-user |
+			| phoneScope | v2-private |
+			| twitterScope | v2-local |
+			| addressScope | v2-federated |
+			| emailScope | v2-published |
+			| websiteScope | v2-published |
+			| displaynameScope | v2-federated |
+			| avatarScope | v2-local |
+
+  Scenario: Edit a user account multivalue property scopes
+    Given user "brand-new-user" exists
+    And As an "brand-new-user"
+    When sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | noreply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
+      | key | no.reply@nextcloud.com |
+      | value | v2-federated |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
+      | key | noreply@nextcloud.com |
+      | value | v2-published |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | id | brand-new-user |
+      | additional_mailScope | v2-federated;v2-published |
+
+	Scenario: Edit a user account properties scopes with invalid or unsupported value
+		Given user "brand-new-user" exists
+    And As an "brand-new-user"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | phoneScope |
+			| value | invalid |
+		Then the OCS status code should be "102"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | displaynameScope |
+			| value | v2-private |
+		Then the OCS status code should be "102"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | emailScope |
+			| value | v2-private |
+		Then the OCS status code should be "102"
+		And the HTTP status code should be "200"
+
+  Scenario: Edit a user account multi-value property scopes with invalid or unsupported value
+    Given user "brand-new-user" exists
+    And As an "brand-new-user"
+    When sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
+      | key | no.reply@nextcloud.com |
+      | value | invalid |
+    Then the OCS status code should be "102"
+    And the HTTP status code should be "200"
+
+  Scenario: Delete a user account multi-value property value
+    Given user "brand-new-user" exists
+    And As an "brand-new-user"
+    When sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | noreply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mail" with
+      | key | no.reply@nextcloud.com |
+      | value | |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | additional_mail | noreply@nextcloud.com |
+    Then user "brand-new-user" has not
+      | additional_mail | no.reply@nextcloud.com |
+
+	Scenario: An admin cannot edit user account property scopes
+    Given As an "admin"
+		And user "brand-new-user" exists
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | phoneScope |
+			| value | v2-private |
+		Then the OCS status code should be "103"
+		And the HTTP status code should be "200"
+
+	Scenario: Search by phone number
+		Given As an "admin"
+		And user "phone-user" exists
+		And sending "PUT" to "/cloud/users/phone-user" with
+			| key | phone |
+			| value | +49 711 / 25 24 28-90 |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		Then search users by phone for region "DE" with
+			| random-string1 | 0711 / 123 456 78 |
+			| random-string1 | 0711 / 252 428-90 |
+			| random-string2 | 0711 / 90-824 252 |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		Then phone matches returned are
+			| random-string1 | phone-user@localhost:8080 |
 
 	Scenario: Create a group
 		Given As an "admin"
@@ -112,6 +324,21 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And group "new-group" exists
+		And group "new-group" has
+			| displayname | new-group |
+
+	Scenario: Create a group with custom display name
+		Given As an "admin"
+		And group "new-group" does not exist
+		When sending "POST" to "/cloud/groups" with
+			| groupid | new-group |
+			| password | 123456 |
+			| displayname | new-group-displayname |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And group "new-group" exists
+		And group "new-group" has
+			| displayname | new-group-displayname |
 
 	Scenario: Create a group with special characters
 		Given As an "admin"
@@ -122,6 +349,8 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And group "España" exists
+		And group "España" has
+			| displayname | España |
 
 	Scenario: adding user to a group without sending the group
 		Given As an "admin"
@@ -141,11 +370,12 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 
 	Scenario: adding user to a group without privileges
-		Given As an "brand-new-user"
+		Given user "brand-new-user" exists
+		And As an "brand-new-user"
 		When sending "POST" to "/cloud/users/brand-new-user/groups" with
 			| groupid | new-group |
-		Then the OCS status code should be "997"
-		And the HTTP status code should be "401"
+		Then the OCS status code should be "403"
+		And the HTTP status code should be "200"
 
 	Scenario: adding user to a group
 		Given As an "admin"
@@ -328,6 +558,8 @@ Feature: provisioning
 			| accessibility |
 			| cloud_federation_api |
 			| comments |
+			| contactsinteraction |
+			| dashboard |
 			| dav |
 			| federatedfilesharing |
 			| federation |
@@ -344,7 +576,10 @@ Feature: provisioning
 			| twofactor_backupcodes |
 			| updatenotification |
 			| user_ldap |
+			| user_status |
+			| viewer |
 			| workflowengine |
+			| weather_status |
 			| files_external |
 			| oauth2 |
 
@@ -425,8 +660,8 @@ Feature: provisioning
 		And Assure user "subadmin" is subadmin of group "new-group"
 		And As an "subadmin"
 		When sending "PUT" to "/cloud/users/user1/disable"
-		Then the OCS status code should be "997"
-		Then the HTTP status code should be "401"
+		Then the OCS status code should be "998"
+		Then the HTTP status code should be "200"
 		And As an "admin"
 		And user "user1" is enabled
 
@@ -441,8 +676,8 @@ Feature: provisioning
 		And Assure user "subadmin" is subadmin of group "new-group"
 		And As an "subadmin"
 		When sending "PUT" to "/cloud/users/another-admin/disable"
-		Then the OCS status code should be "997"
-		Then the HTTP status code should be "401"
+		Then the OCS status code should be "998"
+		Then the HTTP status code should be "200"
 		And As an "admin"
 		And user "another-admin" is enabled
 
@@ -517,8 +752,8 @@ Feature: provisioning
 		And user "user2" exists
 		And As an "user1"
 		When sending "PUT" to "/cloud/users/user2/disable"
-		Then the OCS status code should be "997"
-		And the HTTP status code should be "401"
+		Then the OCS status code should be "403"
+		And the HTTP status code should be "200"
 		And As an "admin"
 		And user "user2" is enabled
 
@@ -529,8 +764,8 @@ Feature: provisioning
 		And assure user "user2" is disabled
 		And As an "user1"
 		When sending "PUT" to "/cloud/users/user2/enable"
-		Then the OCS status code should be "997"
-		And the HTTP status code should be "401"
+		Then the OCS status code should be "403"
+		And the HTTP status code should be "200"
 		And As an "admin"
 		And user "user2" is disabled
 
@@ -589,5 +824,4 @@ Feature: provisioning
 		And assure user "user0" is disabled
 		And As an "user0"
 		When sending "GET" with exact url to "/index.php/apps/files"
-		And the HTTP status code should be "403"
-
+		And the HTTP status code should be "401"

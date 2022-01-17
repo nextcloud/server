@@ -18,21 +18,17 @@
     "File is already shared with %s" : "O ficheiro já foi partilhado com %s",
     "Could not find share" : "Não foi possível encontrar partilha",
     "Federated sharing" : "Partilha Federada",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Recebeu \"%3$s\" como uma partilha remota de %1$s (em nome de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Recebeu {partilha} como uma partilha remota de {utilizador} (em nome de {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Recebeu \"%3$s\" como uma partilha remota de %1$s",
     "You received {share} as a remote share from {user}" : "Recebeu {partilha} como uma partilha remota de {utilizador}",
     "Accept" : "Aceitar",
     "Decline" : "Recusar",
+    "Federated Cloud Sharing" : "Partilha de Nuvem Federada",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud, veja %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud",
     "Sharing" : "Partilha",
     "Federated file sharing" : "Partilha federada de ficheiros",
     "Provide federated file sharing across servers" : "Permita a partilha federada de ficheiros entre servidores",
-    "Federated Cloud Sharing" : "Partilha de Nuvem Federada",
     "Open documentation" : "Abrir documentação",
-    "Adjust how people can share between servers." : "Ajustar como as pessoas podem partilhar entre servidores.",
-    "Allow users on this server to send shares to other servers" : "Permitir que os utilizadores neste servidor enviem as partilhas para outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
     "Search global and public address book for users" : "Pesquisar lista global e pública de contactos de utilizadores  ",
     "Allow users to publish their data to a global and public address book" : "Permitir que  os utilizadores publiquem os seus dados para uma lista de contactos global e pública",
@@ -41,6 +37,7 @@
     "Share it so your friends can share files with you:" : "Partilhe para que os seus amigos possam partilhar ficheiros consigo:",
     "Add to your website" : "Adicione ao seu site da Web",
     "Share with me via Nextcloud" : "Partilhe comigo via Nextcloud",
-    "HTML Code:" : "Código HTML:"
+    "HTML Code:" : "Código HTML:",
+    "Adjust how people can share between servers." : "Ajustar como as pessoas podem partilhar entre servidores."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

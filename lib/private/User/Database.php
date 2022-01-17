@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -9,6 +11,8 @@ declare(strict_types=1);
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author fabian <fabian@web2.0-apps.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
@@ -16,15 +20,13 @@ declare(strict_types=1);
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Loki3000 <github@labcms.ru>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author nishiki <nishiki@yaegashi.fr>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -38,27 +40,15 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/*
- *
- * The following SQL statement is just a help for developers and will not be
- * executed!
- *
- * CREATE TABLE `users` (
- *   `uid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
- *   PRIMARY KEY (`uid`)
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- */
-
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
@@ -66,27 +56,27 @@ use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends ABackend
-	implements ICreateUserBackend,
-	           ISetPasswordBackend,
-	           ISetDisplayNameBackend,
-	           IGetDisplayNameBackend,
-	           ICheckPasswordBackend,
-	           IGetHomeBackend,
-	           ICountUsersBackend,
-	           IGetRealUIDBackend {
+class Database extends ABackend implements
+	ICreateUserBackend,
+			   ISetPasswordBackend,
+			   ISetDisplayNameBackend,
+			   IGetDisplayNameBackend,
+			   ICheckPasswordBackend,
+			   IGetHomeBackend,
+			   ICountUsersBackend,
+			   ISearchKnownUsersBackend,
+			   IGetRealUIDBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	/** @var IDBConnection */
@@ -98,13 +88,13 @@ class Database extends ABackend
 	/**
 	 * \OC\User\Database constructor.
 	 *
-	 * @param EventDispatcherInterface $eventDispatcher
+	 * @param IEventDispatcher $eventDispatcher
 	 * @param string $table
 	 */
 	public function __construct($eventDispatcher = null, $table = 'users') {
 		$this->cache = new CappedMemoryCache();
 		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
+		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->query(IEventDispatcher::class);
 	}
 
 	/**
@@ -130,8 +120,7 @@ class Database extends ABackend
 		$this->fixDI();
 
 		if (!$this->userExists($uid)) {
-			$event = new GenericEvent($password);
-			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
+			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->insert($this->table)
@@ -199,8 +188,7 @@ class Database extends ABackend
 		$this->fixDI();
 
 		if ($this->userExists($uid)) {
-			$event = new GenericEvent($password);
-			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
+			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
 			$hasher = \OC::$server->getHasher();
 			$hashedPassword = $hasher->hash($password);
@@ -254,11 +242,13 @@ class Database extends ABackend
 	 * Get a list of all display names and user ids.
 	 *
 	 * @param string $search
-	 * @param string|null $limit
-	 * @param string|null $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$limit = $this->fixLimit($limit);
+
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -275,7 +265,47 @@ class Database extends ABackend
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orderBy($query->func()->lower('displayname'), 'ASC')
-			->orderBy('uid_lower', 'ASC')
+			->addOrderBy('uid_lower', 'ASC')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+
+		$result = $query->execute();
+		$displayNames = [];
+		while ($row = $result->fetch()) {
+			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
+		}
+
+		return $displayNames;
+	}
+
+	/**
+	 * @param string $searcher
+	 * @param string $pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 * @since 21.0.1
+	 */
+	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
+		$limit = $this->fixLimit($limit);
+
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+
+		$query->select('u.uid', 'u.displayname')
+			->from($this->table, 'u')
+			->leftJoin('u', 'known_users', 'k', $query->expr()->andX(
+				$query->expr()->eq('k.known_user', 'u.uid'),
+				$query->expr()->eq('k.known_to', $query->createNamedParameter($searcher))
+			))
+			->where($query->expr()->eq('k.known_to', $query->createNamedParameter($searcher)))
+			->andWhere($query->expr()->orX(
+				$query->expr()->iLike('u.uid', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($pattern) . '%')),
+				$query->expr()->iLike('u.displayname', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($pattern) . '%'))
+			))
+			->orderBy('u.displayname', 'ASC')
+			->addOrderBy('u.uid_lower', 'ASC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
@@ -291,14 +321,14 @@ class Database extends ABackend
 	/**
 	 * Check if the password is correct
 	 *
-	 * @param string $uid The username
+	 * @param string $loginName The loginname
 	 * @param string $password The password
 	 * @return string
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
 	 */
-	public function checkPassword(string $uid, string $password) {
+	public function checkPassword(string $loginName, string $password) {
 		$this->fixDI();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -306,7 +336,7 @@ class Database extends ABackend
 			->from($this->table)
 			->where(
 				$qb->expr()->eq(
-					'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
+					'uid_lower', $qb->createNamedParameter(mb_strtolower($loginName))
 				)
 			);
 		$result = $qb->execute();
@@ -318,11 +348,10 @@ class Database extends ABackend
 			$newHash = '';
 			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
-					$this->updatePassword($uid, $newHash);
+					$this->updatePassword($loginName, $newHash);
 				}
 				return (string)$row['uid'];
 			}
-
 		}
 
 		return false;
@@ -357,13 +386,14 @@ class Database extends ABackend
 			$row = $result->fetch();
 			$result->closeCursor();
 
-			$this->cache[$uid] = false;
-
 			// "uid" is primary key, so there can only be a single result
 			if ($row !== false) {
-				$this->cache[$uid]['uid'] = (string)$row['uid'];
-				$this->cache[$uid]['displayname'] = (string)$row['displayname'];
+				$this->cache[$uid] = [
+					'uid' => (string)$row['uid'],
+					'displayname' => (string)$row['displayname'],
+				];
 			} else {
+				$this->cache[$uid] = false;
 				return false;
 			}
 		}
@@ -380,6 +410,8 @@ class Database extends ABackend
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
+		$limit = $this->fixLimit($limit);
+
 		$users = $this->getDisplayNames($search, $limit, $offset);
 		$userIds = array_map(function ($uid) {
 			return (string)$uid;
@@ -433,7 +465,7 @@ class Database extends ABackend
 			->from($this->table);
 		$result = $query->execute();
 
-		return $result->fetchColumn();
+		return $result->fetchOne();
 	}
 
 	/**
@@ -485,5 +517,11 @@ class Database extends ABackend
 		return $this->cache[$uid]['uid'];
 	}
 
+	private function fixLimit($limit) {
+		if (is_int($limit) && $limit >= 0) {
+			return $limit;
+		}
 
+		return null;
+	}
 }

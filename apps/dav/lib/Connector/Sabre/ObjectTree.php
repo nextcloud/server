@@ -9,7 +9,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,17 +23,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\FileInfo;
 use OC\Files\Storage\FailedStorage;
+use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
-use OCA\DAV\Connector\Sabre\Exception\FileLocked;
-use OC\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
@@ -80,7 +79,7 @@ class ObjectTree extends CachingTree {
 	private function resolveChunkFile($path) {
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			// resolve to real file name to find the proper node
-			list($dir, $name) = \Sabre\Uri\split($path);
+			[$dir, $name] = \Sabre\Uri\split($path);
 			if ($dir === '/' || $dir === '.') {
 				$dir = '';
 			}
@@ -181,7 +180,6 @@ class ObjectTree extends CachingTree {
 
 		$this->cache[$path] = $node;
 		return $node;
-
 	}
 
 	/**
@@ -190,8 +188,8 @@ class ObjectTree extends CachingTree {
 	 * This method must work recursively and delete the destination
 	 * if it exists
 	 *
-	 * @param string $source
-	 * @param string $destination
+	 * @param string $sourcePath
+	 * @param string $destinationPath
 	 * @throws FileLocked
 	 * @throws Forbidden
 	 * @throws InvalidPath
@@ -202,14 +200,14 @@ class ObjectTree extends CachingTree {
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 * @return void
 	 */
-	public function copy($source, $destination) {
+	public function copy($sourcePath, $destinationPath) {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
 
-		$info = $this->fileView->getFileInfo(dirname($destination));
-		if ($this->fileView->file_exists($destination)) {
+		$info = $this->fileView->getFileInfo(dirname($destinationPath));
+		if ($this->fileView->file_exists($destinationPath)) {
 			$destinationPermission = $info && $info->isUpdateable();
 		} else {
 			$destinationPermission = $info && $info->isCreatable();
@@ -219,9 +217,9 @@ class ObjectTree extends CachingTree {
 		}
 
 		// this will trigger existence check
-		$this->getNodeForPath($source);
+		$this->getNodeForPath($sourcePath);
 
-		list($destinationDir, $destinationName) = \Sabre\Uri\split($destination);
+		[$destinationDir, $destinationName] = \Sabre\Uri\split($destinationPath);
 		try {
 			$this->fileView->verifyPath($destinationDir, $destinationName);
 		} catch (\OCP\Files\InvalidPathException $ex) {
@@ -229,7 +227,7 @@ class ObjectTree extends CachingTree {
 		}
 
 		try {
-			$this->fileView->copy($source, $destination);
+			$this->fileView->copy($sourcePath, $destinationPath);
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		} catch (ForbiddenException $ex) {
@@ -238,7 +236,7 @@ class ObjectTree extends CachingTree {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
-		list($destinationDir,) = \Sabre\Uri\split($destination);
+		[$destinationDir,] = \Sabre\Uri\split($destinationPath);
 		$this->markDirty($destinationDir);
 	}
 }

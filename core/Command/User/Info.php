@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,18 +15,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -64,7 +66,7 @@ class Info extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $this->userManager->get($input->getArgument('user'));
 		if (is_null($user)) {
 			$output->writeln('<error>user not found</error>');
@@ -74,15 +76,34 @@ class Info extends Base {
 		$data = [
 			'user_id' => $user->getUID(),
 			'display_name' => $user->getDisplayName(),
-			'email' => $user->getEMailAddress() ? $user->getEMailAddress() : '',
+			'email' => (string)$user->getSystemEMailAddress(),
 			'cloud_id' => $user->getCloudId(),
 			'enabled' => $user->isEnabled(),
 			'groups' => $groups,
 			'quota' => $user->getQuota(),
-			'last_seen' => date(\DateTime::ATOM, $user->getLastLogin()), // ISO-8601
+			'storage' => $this->getStorageInfo($user),
+			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
 		];
 		$this->writeArrayInOutputFormat($input, $output, $data);
+		return 0;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return array
+	 */
+	protected function getStorageInfo(IUser $user): array {
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($user->getUID());
+		$storage = \OC_Helper::getStorageInfo('/');
+		return [
+			'free' => $storage['free'],
+			'used' => $storage['used'],
+			'total' => $storage['total'],
+			'relative' => $storage['relative'],
+			'quota' => $storage['quota'],
+		];
 	}
 }

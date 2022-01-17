@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,10 +22,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OCP\ISession;
@@ -53,6 +55,7 @@ abstract class Session implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
 	}
@@ -61,14 +64,14 @@ abstract class Session implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @param mixed $value
 	 */
-	public function offsetSet($offset, $value) {
+	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
 
 	/**
 	 * @param mixed $offset
 	 */
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
 

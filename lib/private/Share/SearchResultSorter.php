@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
@@ -18,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Share;
@@ -48,13 +50,13 @@ class SearchResultSorter {
 	/**
 	 * User and Group names matching the search term at the beginning shall appear
 	 * on top of the share dialog. Following entries in alphabetical order.
-	 * Callback function for usort. http://php.net/usort
+	 * Callback function for usort. https://www.php.net/usort
 	 */
 	public function sort($a, $b) {
-		if(!isset($a[$this->key]) || !isset($b[$this->key])) {
-			if(!is_null($this->log)) {
+		if (!isset($a[$this->key]) || !isset($b[$this->key])) {
+			if (!is_null($this->log)) {
 				$this->log->error('Sharing dialogue: cannot sort due to ' .
-								  'missing array key', array('app' => 'core'));
+								  'missing array key', ['app' => 'core']);
 			}
 			return 0;
 		}
@@ -63,7 +65,7 @@ class SearchResultSorter {
 		$i = mb_strpos($nameA, $this->search, 0, $this->encoding);
 		$j = mb_strpos($nameB, $this->search, 0, $this->encoding);
 
-		if($i === $j || $i > 0 && $j > 0) {
+		if ($i === $j || $i > 0 && $j > 0) {
 			return strcmp(mb_strtolower($nameA, $this->encoding),
 						  mb_strtolower($nameB, $this->encoding));
 		} elseif ($i === 0) {
@@ -73,4 +75,3 @@ class SearchResultSorter {
 		}
 	}
 }
-

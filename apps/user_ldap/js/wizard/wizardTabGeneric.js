@@ -29,7 +29,7 @@ OCA = OCA || {};
 		bjQuiButtonClass: 'ui-button',
 
 		/**
-		 * @property {bool} - indicates whether a filter mode toggle operation
+		 * @property {boolean} - indicates whether a filter mode toggle operation
 		 * is still in progress
 		 */
 		isToggling: false,
@@ -147,8 +147,8 @@ OCA = OCA || {};
 		/**
 		 * displays server error messages.
 		 *
-		 * @param view
-		 * @param payload
+		 * @param {any} view -
+		 * @param {any} payload -
 		 */
 		onServerError: function(view, payload) {
 			if (   !_.isUndefined(view.managedItems[payload.relatedKey])) {
@@ -456,7 +456,7 @@ OCA = OCA || {};
 		 * sets the filter mode initially and resets the "isToggling" marker.
 		 * This method is called after a save operation against the mode key.
 		 *
-		 * @param mode
+		 * @param {any} mode -
 		 */
 		setFilterModeOnce: function(mode) {
 			this.isToggling = false;
@@ -553,7 +553,7 @@ OCA = OCA || {};
 			) {
 				toggleFnc(true);
 			} else {
-				OCdialogs.confirm(
+				OC.dialogs.confirm(
 					t('user_ldap', 'Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?'),
 					t('user_ldap', 'Mode switch'),
 					toggleFnc

@@ -17,22 +17,22 @@ class UtilTest extends TestCase {
 	 */
 	protected $headerSize = 8192;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $view;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var  \OC\Encryption\Util */
 	private $util;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
@@ -56,7 +56,6 @@ class UtilTest extends TestCase {
 			$this->groupManager,
 			$this->config
 		);
-
 	}
 
 	/**
@@ -79,7 +78,6 @@ class UtilTest extends TestCase {
 	 * @dataProvider providesHeaders
 	 */
 	public function testCreateHeader($expected, $header, $moduleId) {
-
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn($moduleId);
 
@@ -96,12 +94,12 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @expectedException \OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException
-	 */
-	public function testCreateHeaderFailed() {
 
-		$header = array('header1' => 1, 'header2' => 2, 'oc_encryption_module' => 'foo');
+	public function testCreateHeaderFailed() {
+		$this->expectException(\OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException::class);
+
+
+		$header = ['header1' => 1, 'header2' => 2, 'oc_encryption_module' => 'foo'];
 
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn('moduleId');
@@ -120,7 +118,7 @@ class UtilTest extends TestCase {
 		$this->userManager
 			->expects($this->any())
 			->method('userExists')
-			->will($this->returnCallback(array($this, 'isExcludedCallback')));
+			->willReturnCallback([$this, 'isExcludedCallback']);
 
 		$this->assertSame($expected,
 			$this->util->isExcluded($path)
@@ -128,17 +126,17 @@ class UtilTest extends TestCase {
 	}
 
 	public function providePathsForTestIsExcluded() {
-		return array(
-			array('/files_encryption', '', true),
-			array('files_encryption/foo.txt', '', true),
-			array('test/foo.txt', '', false),
-			array('/user1/files_encryption/foo.txt', '', true),
-			array('/user1/files/foo.txt', '', false),
-			array('/keyStorage/user1/files/foo.txt', 'keyStorage', true),
-			array('/keyStorage/files_encryption', '/keyStorage', true),
-			array('keyStorage/user1/files_encryption', '/keyStorage/', true),
+		return [
+			['/files_encryption', '', true],
+			['files_encryption/foo.txt', '', true],
+			['test/foo.txt', '', false],
+			['/user1/files_encryption/foo.txt', '', true],
+			['/user1/files/foo.txt', '', false],
+			['/keyStorage/user1/files/foo.txt', 'keyStorage', true],
+			['/keyStorage/files_encryption', '/keyStorage', true],
+			['keyStorage/user1/files_encryption', '/keyStorage/', true],
 
-		);
+		];
 	}
 
 	public function isExcludedCallback() {
@@ -160,15 +158,15 @@ class UtilTest extends TestCase {
 	}
 
 	public function dataTestIsFile() {
-		return array(
-			array('/user/files/test.txt', true),
-			array('/user/files', true),
-			array('/user/files_versions/test.txt', false),
-			array('/user/foo/files/test.txt', false),
-			array('/files/foo/files/test.txt', false),
-			array('/user', false),
-			array('/user/test.txt', false),
-		);
+		return [
+			['/user/files/test.txt', true],
+			['/user/files', true],
+			['/user/files_versions/test.txt', false],
+			['/user/foo/files/test.txt', false],
+			['/files/foo/files/test.txt', false],
+			['/user', false],
+			['/user/test.txt', false],
+		];
 	}
 
 	/**
@@ -183,12 +181,11 @@ class UtilTest extends TestCase {
 	}
 
 	public function dataTestStripPartialFileExtension() {
-		return array(
-			array('/foo/test.txt', '/foo/test.txt'),
-			array('/foo/test.txt.part', '/foo/test.txt'),
-			array('/foo/test.txt.ocTransferId7567846853.part', '/foo/test.txt'),
-			array('/foo/test.txt.ocTransferId7567.part', '/foo/test.txt'),
-		);
+		return [
+			['/foo/test.txt', '/foo/test.txt'],
+			['/foo/test.txt.part', '/foo/test.txt'],
+			['/foo/test.txt.ocTransferId7567846853.part', '/foo/test.txt'],
+			['/foo/test.txt.ocTransferId7567.part', '/foo/test.txt'],
+		];
 	}
-
 }

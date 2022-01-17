@@ -3,8 +3,11 @@
     "accessibility",
     "activity",
     "admin_audit",
+    "circles",
     "cloud_federation_api",
     "comments",
+    "contactsinteraction",
+    "dashboard",
     "dav",
     "encryption",
     "federatedfilesharing",
@@ -18,13 +21,13 @@
     "files_versions",
     "files_videoplayer",
     "firstrunwizard",
-    "gallery",
     "logreader",
     "lookup_server_connector",
     "nextcloud_announcements",
     "notifications",
     "oauth2",
     "password_policy",
+    "photos",
     "privacy",
     "provisioning_api",
     "recommendations",
@@ -39,7 +42,9 @@
     "twofactor_backupcodes",
     "updatenotification",
     "user_ldap",
+    "user_status",
     "viewer",
+    "weather_status",
     "workflowengine"
   ],
   "alwaysEnabled": [
@@ -52,6 +57,7 @@
     "oauth2",
     "settings",
     "twofactor_backupcodes",
+    "viewer",
     "workflowengine"
   ]
 }

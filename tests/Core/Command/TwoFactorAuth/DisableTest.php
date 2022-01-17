@@ -45,7 +45,7 @@ class DisableTest extends TestCase {
 	/** @var CommandTester */
 	private $command;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->providerManager = $this->createMock(ProviderManager::class);
@@ -67,7 +67,7 @@ class DisableTest extends TestCase {
 		]);
 
 		$this->assertEquals(1, $rc);
-		$this->assertContains("Invalid UID", $this->command->getDisplay());
+		$this->assertStringContainsString("Invalid UID", $this->command->getDisplay());
 	}
 
 	public function testEnableNotSupported() {
@@ -87,7 +87,7 @@ class DisableTest extends TestCase {
 		]);
 
 		$this->assertEquals(2, $rc);
-		$this->assertContains("The provider does not support this operation", $this->command->getDisplay());
+		$this->assertStringContainsString("The provider does not support this operation", $this->command->getDisplay());
 	}
 
 	public function testEnabled() {
@@ -107,6 +107,6 @@ class DisableTest extends TestCase {
 		]);
 
 		$this->assertEquals(0, $rc);
-		$this->assertContains("Two-factor provider totp disabled for user ricky", $this->command->getDisplay());
+		$this->assertStringContainsString("Two-factor provider totp disabled for user ricky", $this->command->getDisplay());
 	}
 }

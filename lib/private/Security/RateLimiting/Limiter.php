@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,36 +17,29 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Security\RateLimiting;
 
 use OC\Security\Normalizer\IpAddress;
 use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 
 class Limiter {
 	/** @var IBackend */
 	private $backend;
-	/** @var ITimeFactory */
-	private $timeFactory;
 
 	/**
-	 * @param ITimeFactory $timeFactory
 	 * @param IBackend $backend
 	 */
-	public function __construct(ITimeFactory $timeFactory,
-								IBackend $backend) {
+	public function __construct(IBackend $backend) {
 		$this->backend = $backend;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -57,12 +53,12 @@ class Limiter {
 							  string $userIdentifier,
 							  int $period,
 							  int $limit): void {
-		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier, $period);
+		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier);
 		if ($existingAttempts >= $limit) {
 			throw new RateLimitExceededException();
 		}
 
-		$this->backend->registerAttempt($methodIdentifier, $userIdentifier, $this->timeFactory->getTime());
+		$this->backend->registerAttempt($methodIdentifier, $userIdentifier, $period);
 	}
 
 	/**

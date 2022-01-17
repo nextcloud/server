@@ -1,12 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,16 +23,14 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Activity;
 
 /**
  * Interface IManager
  *
- * @package OCP\Activity
  * @since 6.0.0
  */
 interface IManager {
@@ -43,6 +43,7 @@ interface IManager {
 	 *  - setType()
 	 *  - setAffectedUser()
 	 *  - setSubject()
+	 *  - setObject()
 	 *
 	 * @return IEvent
 	 * @since 8.2.0
@@ -57,6 +58,7 @@ interface IManager {
 	 *  - setType()
 	 *  - setAffectedUser()
 	 *  - setSubject()
+	 *  - setObject()
 	 *
 	 * @param IEvent $event
 	 * @throws \BadMethodCallException if required values have not been set
@@ -102,7 +104,7 @@ interface IManager {
 	public function registerSetting(string $setting): void;
 
 	/**
-	 * @return ISetting[]
+	 * @return ActivitySettings[]
 	 * @since 11.0.0
 	 */
 	public function getSettings(): array;
@@ -121,11 +123,11 @@ interface IManager {
 
 	/**
 	 * @param string $id
-	 * @return ISetting
+	 * @return ActivitySettings
 	 * @throws \InvalidArgumentException when the setting was not found
 	 * @since 11.0.0
 	 */
-	public function getSettingById(string $id): ISetting;
+	public function getSettingById(string $id): ActivitySettings;
 
 	/**
 	 * @param string $type

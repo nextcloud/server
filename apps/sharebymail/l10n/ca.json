@@ -22,14 +22,13 @@
     "Password to access {file} was sent to {email}" : "S'ha enviat a {email} la contrasenya per accedir a {file}",
     "Password to access %1$s was sent to you" : "Se us ha enviat la contrasenya per accedir a %1$s",
     "Password to access {file} was sent to you" : "Se us ha enviat la contrasenya per accedir a {file}",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "No s'ha pogut compartir %1$s, aquest element ja està compartit amb %2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No podem enviar-vos la contrasenya generada automàticament. Si us plau, establiu una adreça de correu electrònic vàlida a la vostra configuració personal i torneu-ho a provar.",
+    "Share by mail" : "Comparteix per correu electrònic",
     "Failed to send share by email" : "No s'ha pogut enviar la compartició per correu electrònic",
     "%1$s shared »%2$s« with you" : "%1$s us ha compartit »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s us ha compartit »%2$s«.",
     "Click the button below to open it." : "Feu clic al botó de sota per obrir-lo.",
     "Open »%s«" : "Obre «%s»",
-    "%1$s via %2$s" : "%1$s via %2$s",
+    "%1$s via %2$s" : "%1$s mitjançant %2$s",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s us ha compartit »%2$s«.\nHauríeu d'haver rebut un correu electrònic separat amb un enllaç per accedir-hi.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s us ha compartit »%2$s«. Hauríeu d'haver rebut un correu electrònic separat amb un enllaç per accedir-hi.",
     "Password to access »%1$s« shared to you by %2$s" : "%2$s us ha compartit la contrasenya per accedir a «%1$s»",
@@ -43,11 +42,10 @@
     "This is the password:" : "La contrasenya és la següent:",
     "You can choose a different password at any time in the share dialog." : "Podeu triar una contrasenya diferent en qualsevol moment al diàleg de compartició.",
     "Could not find share" : "No s'ha pogut trobar la compartició",
-    "Share by mail" : "Comparteix per correu electrònic",
     "Share provider which allows you to share files by mail" : "Proveïdor de compartició que us permet compartir fitxers per correu electrònic",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet als usuaris compartir un enllaç personalitzat a un fitxer o carpeta introduïnt una adreça de correu electrònic.",
     "Send password by mail" : "Envia la contrasenya per correu electrònic",
-    "Enforce password protection" : "Força la protecció amb contrasenya",
-    "Password to access »%1$s« shared with %2$s" : "S'ha compartit la contrasenya per accedir a «%1$s» amb %2$s"
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No podem enviar-vos la contrasenya generada automàticament. Si us plau, establiu una adreça de correu electrònic vàlida a la vostra configuració personal i torneu-ho a provar.",
+    "Enforce password protection" : "Força la protecció amb contrasenya"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

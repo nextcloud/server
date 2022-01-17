@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -18,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -39,20 +41,20 @@ class BirthdayServiceTest extends TestCase {
 
 	/** @var BirthdayService */
 	private $service;
-	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $calDav;
-	/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $cardDav;
-	/** @var GroupPrincipalBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var GroupPrincipalBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $groupPrincipalBackend;
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
 	private $dbConnection;
-	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->calDav = $this->createMock(CalDavBackend::class);
@@ -64,7 +66,7 @@ class BirthdayServiceTest extends TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				return vsprintf($string, $args);
 			});
 
@@ -90,6 +92,7 @@ class BirthdayServiceTest extends TestCase {
 			$this->assertNull($cal);
 		} else {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCalendar', $cal);
+			$this->assertEquals('-//IDN nextcloud.com//Birthday calendar//EN', $cal->PRODID->getValue());
 			$this->assertTrue(isset($cal->VEVENT));
 			$this->assertEquals('FREQ=YEARLY', $cal->VEVENT->RRULE->getValue());
 			$this->assertEquals($expectedSummary, $cal->VEVENT->SUMMARY->getValue());
@@ -109,7 +112,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->never())->method('getAddressBookById');
 
@@ -120,12 +123,12 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
@@ -144,24 +147,24 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
 			->willReturn([
-			'principaluri' => 'principals/users/user01',
-			'uri' => 'default'
-		]);
+				'principaluri' => 'principals/users/user01',
+				'uri' => 'default'
+			]);
 		$this->calDav->expects($this->once())->method('getCalendarByUri')
 			->with('principals/users/user01', 'contact_birthdays')
 			->willReturn([
-			'id' => 1234
-		]);
+				'id' => 1234
+			]);
 		$this->calDav->expects($this->at(1))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf.ics');
 		$this->calDav->expects($this->at(2))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-death.ics');
 		$this->calDav->expects($this->at(3))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-anniversary.ics');
@@ -174,7 +177,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->never())->method('getAddressBookById');
 
@@ -190,12 +193,12 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
@@ -206,7 +209,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 		$this->calDav->expects($this->never())->method('getCalendarByUri');
 
-		/** @var BirthdayService | \PHPUnit_Framework_MockObject_MockObject $service */
+		/** @var BirthdayService | \PHPUnit\Framework\MockObject\MockObject $service */
 		$service = $this->getMockBuilder(BirthdayService::class)
 			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
 			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config, $this->dbConnection, $this->l10n])
@@ -222,12 +225,12 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
@@ -242,7 +245,7 @@ class BirthdayServiceTest extends TestCase {
 			]);
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
-		/** @var BirthdayService | \PHPUnit_Framework_MockObject_MockObject $service */
+		/** @var BirthdayService | \PHPUnit\Framework\MockObject\MockObject $service */
 		$service = $this->getMockBuilder(BirthdayService::class)
 			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
 			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config, $this->dbConnection, $this->l10n])
@@ -258,21 +261,27 @@ class BirthdayServiceTest extends TestCase {
 			);
 		}
 		if ($expectedOp === 'create') {
-			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn(new VCalendar());
+			$vCal = new VCalendar();
+			$vCal->PRODID = '-//Nextcloud testing//mocked object//';
+
+			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn($vCal);
 			$this->calDav->expects($this->exactly(3))->method('createCalendarObject')->withConsecutive(
-				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"]
+				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
 				);
 		}
 		if ($expectedOp === 'update') {
-			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn(new VCalendar());
+			$vCal = new VCalendar();
+			$vCal->PRODID = '-//Nextcloud testing//mocked object//';
+
+			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn($vCal);
 			$service->expects($this->exactly(3))->method('birthdayEvenChanged')->willReturn(true);
 			$this->calDav->expects($this->exactly(3))->method('getCalendarObject')->willReturn(['calendardata' => '']);
 			$this->calDav->expects($this->exactly(3))->method('updateCalendarObject')->withConsecutive(
-				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"]
+				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
 				);
 		}
 
@@ -334,8 +343,8 @@ class BirthdayServiceTest extends TestCase {
 			->method('createCalendar')
 			->with('principal001', 'contact_birthdays', [
 				'{DAV:}displayname' => 'Contact birthdays',
-				'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
-				'components'   => 'VEVENT',
+				'{http://apple.com/ns/ical/}calendar-color' => '#E9D859',
+				'components' => 'VEVENT',
 			]);
 		$this->service->ensureCalendarExists('principal001');
 	}
@@ -383,7 +392,7 @@ class BirthdayServiceTest extends TestCase {
 		];
 	}
 
-	public function providesCardChanges(){
+	public function providesCardChanges() {
 		return[
 			['delete'],
 			['create'],

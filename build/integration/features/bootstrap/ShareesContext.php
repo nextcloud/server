@@ -1,9 +1,10 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
- *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,17 +15,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use PHPUnit\Framework\Assert;
-use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -37,8 +36,8 @@ class ShareesContext implements Context, SnippetAcceptingContext {
 	use AppConfiguration;
 
 	protected function resetAppConfigs() {
-		$this->modifyServerConfig('core', 'shareapi_only_share_with_group_members', 'no');
-		$this->modifyServerConfig('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_group_sharing', 'yes');
+		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');
+		$this->deleteServerConfig('core', 'shareapi_allow_share_dialog_user_enumeration');
+		$this->deleteServerConfig('core', 'shareapi_allow_group_sharing');
 	}
 }

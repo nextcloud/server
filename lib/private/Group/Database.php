@@ -2,10 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Aaron Wood <aaronjwood@gmail.com>
- * @author Loki3000 <github@labcms.ru>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Loki3000 <github@labcms.ru>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author tgrant <tom.grant760@gmail.com>
+ * @author Tom Grant <TomG736@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -19,26 +24,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-/*
- *
- * The following SQL statement is just a help for developers and will not be
- * executed!
- *
- * CREATE TABLE `groups` (
- *   `gid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   PRIMARY KEY (`gid`)
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- * CREATE TABLE `group_user` (
- *   `gid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   `uid` varchar(64) COLLATE utf8_unicode_ci NOT NULL
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- */
-
 namespace OC\Group;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -53,21 +41,23 @@ use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
+use OCP\Group\Backend\INamedBackend;
 use OCP\IDBConnection;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends ABackend
-	implements IAddToGroupBackend,
-	           ICountDisabledInGroup,
-	           ICountUsersBackend,
-	           ICreateGroupBackend,
-	           IDeleteGroupBackend,
-	           IGetDisplayNameBackend,
-	           IGroupDetailsBackend,
-	           IRemoveFromGroupBackend,
-	           ISetDisplayNameBackend {
+class Database extends ABackend implements
+	IAddToGroupBackend,
+			   ICountDisabledInGroup,
+			   ICountUsersBackend,
+			   ICreateGroupBackend,
+			   IDeleteGroupBackend,
+			   IGetDisplayNameBackend,
+			   IGroupDetailsBackend,
+			   IRemoveFromGroupBackend,
+			   ISetDisplayNameBackend,
+			   INamedBackend {
 
 	/** @var string[] */
 	private $groupCache = [];
@@ -111,12 +101,15 @@ class Database extends ABackend
 				->setValue('gid', $builder->createNamedParameter($gid))
 				->setValue('displayname', $builder->createNamedParameter($gid))
 				->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			$result = 0;
 		}
 
 		// Add to cache
-		$this->groupCache[$gid] = $gid;
+		$this->groupCache[$gid] = [
+			'gid' => $gid,
+			'displayname' => $gid
+		];
 
 		return $result === 1;
 	}
@@ -163,7 +156,7 @@ class Database extends ABackend
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup( $uid, $gid ) {
+	public function inGroup($uid, $gid) {
 		$this->fixDI();
 
 		// check
@@ -192,14 +185,14 @@ class Database extends ABackend
 		$this->fixDI();
 
 		// No duplicate entries!
-		if( !$this->inGroup( $uid, $gid )) {
+		if (!$this->inGroup($uid, $gid)) {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->insert('group_user')
 				->setValue('uid', $qb->createNamedParameter($uid))
 				->setValue('gid', $qb->createNamedParameter($gid))
 				->execute();
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -232,7 +225,7 @@ class Database extends ABackend
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups( $uid ) {
+	public function getUserGroups($uid) {
 		//guests has empty or null $uid
 		if ($uid === null || $uid === '') {
 			return [];
@@ -242,15 +235,19 @@ class Database extends ABackend
 
 		// No magic!
 		$qb = $this->dbConn->getQueryBuilder();
-		$cursor = $qb->select('gid')
-			->from('group_user')
+		$cursor = $qb->select('gu.gid', 'g.displayname')
+			->from('group_user', 'gu')
+			->leftJoin('gu', 'groups', 'g', $qb->expr()->eq('gu.gid', 'g.gid'))
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->execute();
 
 		$groups = [];
-		while( $row = $cursor->fetch()) {
+		while ($row = $cursor->fetch()) {
 			$groups[] = $row['gid'];
-			$this->groupCache[$row['gid']] = $row['gid'];
+			$this->groupCache[$row['gid']] = [
+				'gid' => $row['gid'],
+				'displayname' => $row['displayname'],
+			];
 		}
 		$cursor->closeCursor();
 
@@ -276,6 +273,9 @@ class Database extends ABackend
 
 		if ($search !== '') {
 			$query->where($query->expr()->iLike('gid', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
+			$query->orWhere($query->expr()->iLike('displayname', $query->createNamedParameter(
 				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
 			)));
 		}
@@ -307,7 +307,7 @@ class Database extends ABackend
 		}
 
 		$qb = $this->dbConn->getQueryBuilder();
-		$cursor = $qb->select('gid')
+		$cursor = $qb->select('gid', 'displayname')
 			->from('groups')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
 			->execute();
@@ -315,7 +315,10 @@ class Database extends ABackend
 		$cursor->closeCursor();
 
 		if ($result !== false) {
-			$this->groupCache[$gid] = $gid;
+			$this->groupCache[$gid] = [
+				'gid' => $gid,
+				'displayname' => $result['displayname'],
+			];
 			return true;
 		}
 		return false;
@@ -333,15 +336,27 @@ class Database extends ABackend
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('uid')
-			->from('group_user')
+		$query->select('g.uid')
+			->from('group_user', 'g')
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
-			->orderBy('uid', 'ASC');
+			->orderBy('g.uid', 'ASC');
 
 		if ($search !== '') {
-			$query->andWhere($query->expr()->like('uid', $query->createNamedParameter(
-				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
-			)));
+			$query->leftJoin('g', 'users', 'u', $query->expr()->eq('g.uid', 'u.uid'))
+				->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
+					$query->expr()->eq('p.userid', 'u.uid'),
+					$query->expr()->eq('p.appid', $query->expr()->literal('settings')),
+					$query->expr()->eq('p.configkey', $query->expr()->literal('email')))
+				)
+				// sqlite doesn't like re-using a single named parameter here
+				->andWhere(
+					$query->expr()->orX(
+						$query->expr()->ilike('g.uid', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
+						$query->expr()->ilike('u.displayname', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
+						$query->expr()->ilike('p.configvalue', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%'))
+					)
+				)
+				->orderBy('u.uid_lower', 'ASC');
 		}
 
 		if ($limit !== -1) {
@@ -383,7 +398,7 @@ class Database extends ABackend
 		}
 
 		$result = $query->execute();
-		$count = $result->fetchColumn();
+		$count = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($count !== false) {
@@ -399,7 +414,8 @@ class Database extends ABackend
 	 * get the number of disabled users in a group
 	 *
 	 * @param string $search
-	 * @return int|bool
+	 *
+	 * @return int
 	 */
 	public function countDisabledInGroup(string $gid): int {
 		$this->fixDI();
@@ -414,7 +430,7 @@ class Database extends ABackend
 			->andWhere($query->expr()->eq('gid', $query->createNamedParameter($gid), IQueryBuilder::PARAM_STR));
 
 		$result = $query->execute();
-		$count = $result->fetchColumn();
+		$count = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($count !== false) {
@@ -427,6 +443,14 @@ class Database extends ABackend
 	}
 
 	public function getDisplayName(string $gid): string {
+		if (isset($this->groupCache[$gid])) {
+			$displayName = $this->groupCache[$gid]['displayname'];
+
+			if (isset($displayName) && trim($displayName) !== '') {
+				return $displayName;
+			}
+		}
+
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -435,7 +459,7 @@ class Database extends ABackend
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
 
 		$result = $query->execute();
-		$displayName = $result->fetchColumn();
+		$displayName = $result->fetchOne();
 		$result->closeCursor();
 
 		return (string) $displayName;
@@ -471,4 +495,12 @@ class Database extends ABackend
 		return true;
 	}
 
+	/**
+	 * Backend name to be shown in group management
+	 * @return string the name of the backend to be shown
+	 * @since 21.0.0
+	 */
+	public function getBackendName(): string {
+		return 'Database';
+	}
 }

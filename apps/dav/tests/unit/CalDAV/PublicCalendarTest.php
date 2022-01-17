@@ -4,6 +4,8 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,18 +16,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\PublicCalendar;
 use OCP\IConfig;
 use Sabre\VObject\Reader;
 
@@ -37,12 +38,11 @@ class PublicCalendarTest extends CalendarTest {
 	 * @param bool $isShared
 	 */
 	public function testPrivateClassification($expectedChildren, $isShared) {
-
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
@@ -62,7 +62,7 @@ class PublicCalendarTest extends CalendarTest {
 			'id' => 666,
 			'uri' => 'cal',
 		];
-		/** @var \PHPUnit_Framework_MockObject_MockObject | IConfig $config */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | IConfig $config */
 		$config = $this->createMock(IConfig::class);
 
 		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config);
@@ -129,7 +129,7 @@ EOD;
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL, 'calendardata' => $calData];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
@@ -149,7 +149,7 @@ EOD;
 			'id' => 666,
 			'uri' => 'cal',
 		];
-		/** @var \PHPUnit_Framework_MockObject_MockObject | IConfig $config */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | IConfig $config */
 		$config = $this->createMock(IConfig::class);
 		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config);
 

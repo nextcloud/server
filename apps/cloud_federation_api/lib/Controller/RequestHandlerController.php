@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\CloudFederationAPI\Controller;
 
 use OCA\CloudFederationAPI\Config;
@@ -31,17 +32,16 @@ use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
+use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
-use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudIdManager;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
-
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RequestHandlerController
@@ -52,7 +52,7 @@ use OCP\Share\Exceptions\ShareNotFound;
  */
 class RequestHandlerController extends Controller {
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IUserManager */
@@ -78,7 +78,7 @@ class RequestHandlerController extends Controller {
 
 	public function __construct($appName,
 								IRequest $request,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IURLGenerator $urlGenerator,
@@ -132,7 +132,7 @@ class RequestHandlerController extends Controller {
 			$shareType === null ||
 			!is_array($protocol) ||
 			!isset($protocol['name']) ||
-			!isset ($protocol['options']) ||
+			!isset($protocol['options']) ||
 			!is_array($protocol['options']) ||
 			!isset($protocol['options']['sharedSecret'])
 		) {
@@ -165,7 +165,7 @@ class RequestHandlerController extends Controller {
 		}
 
 		if ($shareType === 'group') {
-			if(!$this->groupManager->groupExists($shareWith)) {
+			if (!$this->groupManager->groupExists($shareWith)) {
 				return new JSONResponse(
 					['message' => 'Group "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
 					Http::STATUS_BAD_REQUEST
@@ -207,14 +207,13 @@ class RequestHandlerController extends Controller {
 
 		$user = $this->userManager->get($shareWith);
 		$recipientDisplayName = '';
-		if($user) {
+		if ($user) {
 			$recipientDisplayName = $user->getDisplayName();
 		}
 
 		return new JSONResponse(
 			['recipientDisplayName' => $recipientDisplayName],
 			Http::STATUS_CREATED);
-
 	}
 
 	/**
@@ -266,8 +265,7 @@ class RequestHandlerController extends Controller {
 			return new JSONResponse($e->getReturnMessage(), Http::STATUS_BAD_REQUEST);
 		} catch (AuthenticationFailedException $e) {
 			return new JSONResponse(["message" => "RESOURCE_NOT_FOUND"], Http::STATUS_FORBIDDEN);
-		}
-		catch (\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse(
 				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
 				Http::STATUS_BAD_REQUEST
@@ -275,7 +273,6 @@ class RequestHandlerController extends Controller {
 		}
 
 		return new JSONResponse($result,Http::STATUS_CREATED);
-
 	}
 
 	/**
@@ -290,11 +287,10 @@ class RequestHandlerController extends Controller {
 		\OCP\Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			array('uid' => &$uid)
+			['uid' => &$uid]
 		);
 		$this->logger->debug('shareWith after, ' . $uid, ['app' => $this->appName]);
 
 		return $uid;
 	}
-
 }

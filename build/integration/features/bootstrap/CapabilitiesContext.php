@@ -1,8 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  *
@@ -15,19 +19,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Hook\Scope\AfterScenarioScope;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use GuzzleHttp\Client;
-use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -36,7 +36,6 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Capabilities context.
  */
 class CapabilitiesContext implements Context, SnippetAcceptingContext {
-
 	use BasicStructure;
 	use AppConfiguration;
 
@@ -44,36 +43,35 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	 * @Then /^fields of capabilities match with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
-	public function checkCapabilitiesResponse(\Behat\Gherkin\Node\TableNode $formData){
+	public function checkCapabilitiesResponse(\Behat\Gherkin\Node\TableNode $formData) {
 		$capabilitiesXML = simplexml_load_string($this->response->getBody())->data->capabilities;
 
 		foreach ($formData->getHash() as $row) {
 			$path_to_element = explode('@@@', $row['path_to_element']);
 			$answeredValue = $capabilitiesXML->{$row['capability']};
-			for ($i = 0; $i < count($path_to_element); $i++){
+			for ($i = 0; $i < count($path_to_element); $i++) {
 				$answeredValue = $answeredValue->{$path_to_element[$i]};
 			}
 			$answeredValue = (string)$answeredValue;
 			Assert::assertEquals(
-				$row['value']==="EMPTY" ? '' : $row['value'],
+				$row['value'] === "EMPTY" ? '' : $row['value'],
 				$answeredValue,
 				"Failed field " . $row['capability'] . " " . $row['path_to_element']
 			);
-
 		}
 	}
 
 	protected function resetAppConfigs() {
-		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
-		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
-		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
-		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
-		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
-		$this->modifyServerConfig('core', 'shareapi_allow_group_sharing', 'yes');
+		$this->deleteServerConfig('core', 'shareapi_enabled');
+		$this->deleteServerConfig('core', 'shareapi_allow_links');
+		$this->deleteServerConfig('core', 'shareapi_allow_public_upload');
+		$this->deleteServerConfig('core', 'shareapi_allow_resharing');
+		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
+		$this->deleteServerConfig('files_sharing', 'incoming_server2server_share_enabled');
+		$this->deleteServerConfig('core', 'shareapi_enforce_links_password');
+		$this->deleteServerConfig('core', 'shareapi_allow_public_notification');
+		$this->deleteServerConfig('core', 'shareapi_default_expire_date');
+		$this->deleteServerConfig('core', 'shareapi_enforce_expire_date');
+		$this->deleteServerConfig('core', 'shareapi_allow_group_sharing');
 	}
 }

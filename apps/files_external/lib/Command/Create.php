@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -64,7 +64,7 @@ class Create extends Base {
 	/** @var IUserSession */
 	private $userSession;
 
-	function __construct(GlobalStoragesService $globalService,
+	public function __construct(GlobalStoragesService $globalService,
 						 UserStoragesService $userService,
 						 IUserManager $userManager,
 						 IUserSession $userSession,
@@ -118,8 +118,8 @@ class Create extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$user = $input->getOption('user');
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$user = (string) $input->getOption('user');
 		$mountPoint = $input->getArgument('mount_point');
 		$storageIdentifier = $input->getArgument('storage_backend');
 		$authIdentifier = $input->getArgument('authentication_backend');
@@ -152,7 +152,7 @@ class Create extends Base {
 				$output->writeln('<error>Invalid mount configuration option "' . $configOption . '"</error>');
 				return 1;
 			}
-			list($key, $value) = explode('=', $configOption, 2);
+			[$key, $value] = explode('=', $configOption, 2);
 			if (!$this->validateParam($key, $value, $storageBackend, $authBackend)) {
 				$output->writeln('<error>Unknown configuration for backends "' . $key . '"</error>');
 				return 1;

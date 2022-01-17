@@ -9,8 +9,8 @@
 namespace Test\Repair;
 
 use OC\Repair\OldGroupMembershipShares;
-use OC\Share\Constants;
 use OCP\Migration\IOutput;
+use OCP\Share\IShare;
 
 /**
  * Class OldGroupMembershipSharesTest
@@ -27,13 +27,13 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 
-	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
-		/** \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+		/** \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -42,7 +42,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$this->deleteAllShares();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->deleteAllShares();
 
 		parent::tearDown();
@@ -66,9 +66,9 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 				['not-a-member', 'group', false],
 			]);
 
-		$parent = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group', null);
-		$group2 = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group2', $parent);
-		$user1 = $this->createShare(Constants::SHARE_TYPE_USER, 'user1', $parent);
+		$parent = $this->createShare(IShare::TYPE_GROUP, 'group', null);
+		$group2 = $this->createShare(IShare::TYPE_GROUP, 'group2', $parent);
+		$user1 = $this->createShare(IShare::TYPE_USER, 'user1', $parent);
 
 		// \OC\Share\Constant::$shareTypeGroupUserUnique === 2
 		$member = $this->createShare(2, 'member', $parent);
@@ -83,7 +83,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
 		$result->closeCursor();
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
 			->disableOriginalConstructor()
 			->getMock();

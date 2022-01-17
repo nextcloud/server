@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\L10n;
 
 use DirectoryIterator;
@@ -35,7 +35,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use UnexpectedValueException;
 
 class CreateJs extends Command implements CompletionAwareInterface {
-
 	protected function configure() {
 		$this
 			->setName('l10n:createjs')
@@ -52,45 +51,46 @@ class CreateJs extends Command implements CompletionAwareInterface {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$app = $input->getArgument('app');
 		$lang = $input->getArgument('lang');
 
 		$path = \OC_App::getAppPath($app);
 		if ($path === false) {
 			$output->writeln("The app <$app> is unknown.");
-			return;
+			return 1;
 		}
 		$languages = $lang;
 		if (empty($lang)) {
-			$languages= $this->getAllLanguages($path);
+			$languages = $this->getAllLanguages($path);
 		}
 
-		foreach($languages as $lang) {
+		foreach ($languages as $lang) {
 			$this->writeFiles($app, $path, $lang, $output);
 		}
+		return 0;
 	}
 
 	private function getAllLanguages($path) {
-		$result = array();
+		$result = [];
 		foreach (new DirectoryIterator("$path/l10n") as $fileInfo) {
-			if($fileInfo->isDot()) {
+			if ($fileInfo->isDot()) {
 				continue;
 			}
-			if($fileInfo->isDir()) {
+			if ($fileInfo->isDir()) {
 				continue;
 			}
-			if($fileInfo->getExtension() !== 'php') {
+			if ($fileInfo->getExtension() !== 'php') {
 				continue;
 			}
-			$result[]= substr($fileInfo->getBasename(), 0, -4);
+			$result[] = substr($fileInfo->getBasename(), 0, -4);
 		}
 
 		return $result;
 	}
 
 	private function writeFiles($app, $path, $lang, OutputInterface $output) {
-		list($translations, $plurals) = $this->loadTranslations($path, $lang);
+		[$translations, $plurals] = $this->loadTranslations($path, $lang);
 		$this->writeJsFile($app, $path, $lang, $output, $translations, $plurals);
 		$this->writeJsonFile($path, $lang, $output, $translations, $plurals);
 	}
@@ -102,7 +102,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 			return;
 		}
 		$content = "OC.L10N.register(\n    \"$app\",\n    {\n    ";
-		$jsTrans = array();
+		$jsTrans = [];
 		foreach ($translations as $id => $val) {
 			if (is_array($val)) {
 				$val = '[ ' . implode(',', $val) . ']';
@@ -122,21 +122,21 @@ class CreateJs extends Command implements CompletionAwareInterface {
 			$output->writeln("File already exists: $jsFile");
 			return;
 		}
-		$content = array('translations' => $translations, 'pluralForm' => $plurals);
+		$content = ['translations' => $translations, 'pluralForm' => $plurals];
 		file_put_contents($jsFile, json_encode($content));
 		$output->writeln("Json translation file generated: $jsFile");
 	}
 
 	private function loadTranslations($path, $lang) {
 		$phpFile = "$path/l10n/$lang.php";
-		$TRANSLATIONS = array();
+		$TRANSLATIONS = [];
 		$PLURAL_FORMS = '';
 		if (!file_exists($phpFile)) {
 			throw new UnexpectedValueException("PHP translation file <$phpFile> does not exist.");
 		}
 		require $phpFile;
 
-		return array($TRANSLATIONS, $PLURAL_FORMS);
+		return [$TRANSLATIONS, $PLURAL_FORMS];
 	}
 
 	/**
@@ -160,7 +160,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
 			return \OC_App::getAllApps();
-		} else if ($argumentName === 'lang') {
+		} elseif ($argumentName === 'lang') {
 			$appName = $context->getWordAtIndex($context->getWordIndex() - 1);
 			return $this->getAllLanguages(\OC_App::getAppPath($appName));
 		}

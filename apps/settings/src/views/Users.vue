@@ -26,76 +26,156 @@
 			<AppNavigationNew button-id="new-user-button"
 				:text="t('settings','New user')"
 				button-class="icon-add"
-				@click="toggleNewUserMenu" />
-			<ul id="usergrouplist">
-				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
-			</ul>
-			<AppNavigationSettings>
-				<div>
-					<p>{{ t('settings', 'Default quota:') }}</p>
-					<Multiselect :value="defaultQuota"
-						:options="quotaOptions"
-						tag-placeholder="create"
-						:placeholder="t('settings', 'Select default quota')"
-						label="label"
-						track-by="id"
-						:allow-empty="false"
-						:taggable="true"
-						@tag="validateQuota"
-						@input="setDefaultQuota" />
-				</div>
-				<div>
-					<input id="showLanguages"
-						v-model="showLanguages"
-						type="checkbox"
-						class="checkbox">
-					<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
-				</div>
-				<div>
-					<input id="showLastLogin"
-						v-model="showLastLogin"
-						type="checkbox"
-						class="checkbox">
-					<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
-				</div>
-				<div>
-					<input id="showUserBackend"
-						v-model="showUserBackend"
-						type="checkbox"
-						class="checkbox">
-					<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
-				</div>
-				<div>
-					<input id="showStoragePath"
-						v-model="showStoragePath"
-						type="checkbox"
-						class="checkbox">
-					<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
-				</div>
-			</AppNavigationSettings>
+				@click="showNewUserMenu"
+				@keyup.enter="showNewUserMenu"
+				@keyup.space="showNewUserMenu" />
+			<template #list>
+				<AppNavigationItem
+					id="addgroup"
+					ref="addGroup"
+					:edit-placeholder="t('settings', 'Enter group name')"
+					:editable="true"
+					:loading="loadingAddGroup"
+					:title="t('settings', 'Add group')"
+					icon="icon-add"
+					@click="showAddGroupForm"
+					@update:title="createGroup" />
+				<AppNavigationItem
+					id="everyone"
+					:exact="true"
+					:title="t('settings', 'Active users')"
+					:to="{ name: 'users' }"
+					icon="icon-contacts-dark">
+					<AppNavigationCounter v-if="userCount > 0" slot="counter">
+						{{ userCount }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+				<AppNavigationItem
+					v-if="settings.isAdmin"
+					id="admin"
+					:exact="true"
+					:title="t('settings', 'Admins')"
+					:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
+					icon="icon-user-admin">
+					<AppNavigationCounter v-if="adminGroupMenu.count" slot="counter">
+						{{ adminGroupMenu.count }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+
+				<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
+				<AppNavigationItem
+					v-if="disabledGroupMenu.usercount > 0 || disabledGroupMenu.usercount === -1"
+					id="disabled"
+					:exact="true"
+					:title="t('settings', 'Disabled users')"
+					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
+					icon="icon-disabled-users">
+					<AppNavigationCounter v-if="disabledGroupMenu.usercount > 0" slot="counter">
+						{{ disabledGroupMenu.usercount }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+
+				<AppNavigationCaption v-if="groupList.length > 0" :title="t('settings', 'Groups')" />
+				<AppNavigationItem
+					v-for="group in groupList"
+					:key="group.id"
+					:exact="true"
+					:title="group.title"
+					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }"
+					icon="icon-group">
+					<AppNavigationCounter v-if="group.count" slot="counter">
+						{{ group.count }}
+					</AppNavigationCounter>
+					<template slot="actions">
+						<ActionButton
+							v-if="group.id !== 'admin' && group.id !== 'disabled' && settings.isAdmin"
+							icon="icon-delete"
+							@click="removeGroup(group.id)">
+							{{ t('settings', 'Remove group') }}
+						</ActionButton>
+					</template>
+				</AppNavigationItem>
+			</template>
+			<template #footer>
+				<AppNavigationSettings>
+					<div>
+						<p>{{ t('settings', 'Default quota:') }}</p>
+						<Multiselect :value="defaultQuota"
+							:options="quotaOptions"
+							tag-placeholder="create"
+							:placeholder="t('settings', 'Select default quota')"
+							label="label"
+							track-by="id"
+							:allow-empty="false"
+							:taggable="true"
+							@tag="validateQuota"
+							@input="setDefaultQuota" />
+					</div>
+					<div>
+						<input id="showLanguages"
+							v-model="showLanguages"
+							type="checkbox"
+							class="checkbox">
+						<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
+					</div>
+					<div>
+						<input id="showLastLogin"
+							v-model="showLastLogin"
+							type="checkbox"
+							class="checkbox">
+						<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
+					</div>
+					<div>
+						<input id="showUserBackend"
+							v-model="showUserBackend"
+							type="checkbox"
+							class="checkbox">
+						<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
+					</div>
+					<div>
+						<input id="showStoragePath"
+							v-model="showStoragePath"
+							type="checkbox"
+							class="checkbox">
+						<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
+					</div>
+					<div>
+						<input id="sendWelcomeMail"
+							v-model="sendWelcomeMail"
+							:disabled="loadingSendMail"
+							type="checkbox"
+							class="checkbox">
+						<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
+					</div>
+				</AppNavigationSettings>
+			</template>
 		</AppNavigation>
 		<AppContent>
-			<UserList #content
+			<UserList
 				:users="users"
 				:show-config="showConfig"
-				:selected-group="selectedGroup"
+				:selected-group="selectedGroupDecoded"
 				:external-actions="externalActions" />
 		</AppContent>
 	</Content>
 </template>
 
 <script>
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AppContent from '@nextcloud/vue/dist/Components/AppContent'
+import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationCaption from '@nextcloud/vue/dist/Components/AppNavigationCaption'
+import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import AppNavigationNew from '@nextcloud/vue/dist/Components/AppNavigationNew'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
+import axios from '@nextcloud/axios'
+import Content from '@nextcloud/vue/dist/Components/Content'
+import { generateUrl } from '@nextcloud/router'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
-import {
-	AppContent,
-	AppNavigation,
-	AppNavigationItem,
-	AppNavigationNew,
-	AppNavigationSettings,
-	Content,
-	Multiselect
-} from 'nextcloud-vue'
+
 import UserList from '../components/UserList'
 
 Vue.use(VueLocalStorage)
@@ -103,20 +183,23 @@ Vue.use(VueLocalStorage)
 export default {
 	name: 'Users',
 	components: {
+		ActionButton,
 		AppContent,
 		AppNavigation,
+		AppNavigationCaption,
+		AppNavigationCounter,
 		AppNavigationItem,
 		AppNavigationNew,
 		AppNavigationSettings,
 		Content,
+		Multiselect,
 		UserList,
-		Multiselect
 	},
 	props: {
 		selectedGroup: {
 			type: String,
-			default: null
-		}
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -125,20 +208,26 @@ export default {
 			// temporary value used for multiselect change
 			selectedQuota: false,
 			externalActions: [],
-			showAddGroupEntry: false,
 			loadingAddGroup: false,
+			loadingSendMail: false,
 			showConfig: {
 				showStoragePath: false,
 				showUserBackend: false,
 				showLastLogin: false,
 				showNewUserForm: false,
-				showLanguages: false
-			}
+				showLanguages: false,
+			},
 		}
 	},
 	computed: {
+		selectedGroupDecoded() {
+			return this.selectedGroup ? decodeURIComponent(this.selectedGroup) : null
+		},
 		users() {
 			return this.$store.getters.getUsers
+		},
+		groups() {
+			return this.$store.getters.getGroups
 		},
 		usersOffset() {
 			return this.$store.getters.getUsersOffset
@@ -149,28 +238,28 @@ export default {
 
 		// Local settings
 		showLanguages: {
-			get: function() { return this.getLocalstorage('showLanguages') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showLanguages') },
+			set(status) {
 				this.setLocalStorage('showLanguages', status)
-			}
+			},
 		},
 		showLastLogin: {
-			get: function() { return this.getLocalstorage('showLastLogin') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showLastLogin') },
+			set(status) {
 				this.setLocalStorage('showLastLogin', status)
-			}
+			},
 		},
 		showUserBackend: {
-			get: function() { return this.getLocalstorage('showUserBackend') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showUserBackend') },
+			set(status) {
 				this.setLocalStorage('showUserBackend', status)
-			}
+			},
 		},
 		showStoragePath: {
-			get: function() { return this.getLocalstorage('showStoragePath') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showStoragePath') },
+			set(status) {
 				this.setLocalStorage('showStoragePath', status)
-			}
+			},
 		},
 
 		userCount() {
@@ -183,14 +272,16 @@ export default {
 		// default quota
 		quotaOptions() {
 			// convert the preset array into objects
-			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
+			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
 			// add default presets
-			quotaPreset.unshift(this.unlimitedQuota)
+			if (this.settings.allowUnlimitedQuota) {
+				quotaPreset.unshift(this.unlimitedQuota)
+			}
 			return quotaPreset
 		},
 		// mapping saved values to objects
 		defaultQuota: {
-			get: function() {
+			get() {
 				if (this.selectedQuota !== false) {
 					return this.selectedQuota
 				}
@@ -200,147 +291,53 @@ export default {
 				}
 				return this.unlimitedQuota // unlimited
 			},
-			set: function(quota) {
+			set(quota) {
 				this.selectedQuota = quota
-			}
+			},
 
 		},
 
-		// BUILD APP NAVIGATION MENU OBJECT
-		menu() {
-			// Data provided php side
-			let self = this
-			let groups = this.$store.getters.getGroups
-			groups = Array.isArray(groups) ? groups : []
-
-			// Map groups
-			groups = groups.map(group => {
-				let item = {}
-				item.id = group.id.replace(' ', '_')
-				item.key = item.id
-				item.utils = {}
-
-				// router link to
-				item.router = {
-					name: 'group',
-					params: { selectedGroup: group.id }
-				}
-
-				// group name
-				item.text = group.name
-				item.title = group.name
-
-				// users count for all groups
-				if (group.usercount - group.disabled > 0 || group.usercount === -1) {
-					item.utils.counter = group.usercount - group.disabled
-				}
-
-				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin) {
-					// add delete button on real groups
-					item.utils.actions = [{
-						icon: 'icon-delete',
-						text: t('settings', 'Remove group'),
-						action: function() {
-							self.removeGroup(group.id)
-						}
-					}]
-				}
-				return item
-			})
-
-			// Every item is added on top of the array, so we're going backward
-			// Groups, separator, disabled, admin, everyone
-
-			// Add separator
-			let realGroups = groups.find((group) => { return group.id !== 'disabled' && group.id !== 'admin' })
-			realGroups = typeof realGroups === 'undefined' ? [] : realGroups
-			realGroups = Array.isArray(realGroups) ? realGroups : [realGroups]
-			if (realGroups.length > 0) {
-				let separator = {
-					caption: true,
-					text: t('settings', 'Groups')
-				}
-				groups.unshift(separator)
-			}
-
-			// Adjust admin and disabled groups
-			let adminGroup = groups.find(group => group.id === 'admin')
-			let disabledGroup = groups.find(group => group.id === 'disabled')
-
-			// filter out admin and disabled
-			groups = groups.filter(group => ['admin', 'disabled'].indexOf(group.id) === -1)
-
-			if (adminGroup && adminGroup.text) {
-				adminGroup.text = t('settings', 'Admins')	// rename admin group
-				adminGroup.icon = 'icon-user-admin'			// set icon
-				groups.unshift(adminGroup)					// add admin group if present
-			}
-			if (disabledGroup && disabledGroup.text) {
-				disabledGroup.text = t('settings', 'Disabled users')	// rename disabled group
-				disabledGroup.icon = 'icon-disabled-users'				// set icon
-				if (disabledGroup.utils && (
-					disabledGroup.utils.counter > 0						// add disabled if not empty
-					|| disabledGroup.utils.counter === -1)				// add disabled if ldap enabled
-				) {
-					groups.unshift(disabledGroup)
-					if (disabledGroup.utils.counter === -1) {
-						// hides the counter instead of showing -1
-						delete disabledGroup.utils.counter
-					}
-				}
-			}
-
-			// Add everyone group
-			let everyoneGroup = {
-				id: 'everyone',
-				key: 'everyone',
-				icon: 'icon-contacts-dark',
-				router: { name: 'users' },
-				text: t('settings', 'Everyone')
-			}
-			// users count
-			if (this.userCount > 0) {
-				Vue.set(everyoneGroup, 'utils', {
-					counter: this.userCount
-				})
-			}
-			groups.unshift(everyoneGroup)
-
-			let addGroup = {
-				id: 'addgroup',
-				key: 'addgroup',
-				icon: 'icon-add',
-				text: t('settings', 'Add group'),
-				classes: this.loadingAddGroup ? 'icon-loading-small' : ''
-			}
-			if (this.showAddGroupEntry) {
-				Vue.set(addGroup, 'edit', {
-					text: t('settings', 'Add group'),
-					action: this.createGroup,
-					reset: function() {
-						self.showAddGroupEntry = false
-					}
-				})
-				addGroup.classes = 'editing'
-			} else {
-				Vue.set(addGroup, 'action', function() {
-					self.showAddGroupEntry = true
-					// focus input
-					Vue.nextTick(() => {
-						window.addgroup.querySelector('form > input[type="text"]').focus()
+		sendWelcomeMail: {
+			get() {
+				return this.settings.newUserSendEmail
+			},
+			async set(value) {
+				try {
+					this.loadingSendMail = true
+					this.$store.commit('setServerData', {
+						...this.settings,
+						newUserSendEmail: value,
 					})
-				})
-			}
-			groups.unshift(addGroup)
+					await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
+				} catch (e) {
+					console.error('could not update newUser.sendEmail preference: ' + e.message, e)
+				} finally {
+					this.loadingSendMail = false
+				}
+			},
+		},
+
+		groupList() {
+			const groups = Array.isArray(this.groups) ? this.groups : []
 
 			return groups
-		}
+				// filter out disabled and admin
+				.filter(group => group.id !== 'disabled' && group.id !== 'admin')
+				.map(group => this.formatGroupMenu(group))
+		},
+
+		adminGroupMenu() {
+			return this.formatGroupMenu(this.groups.find(group => group.id === 'admin'))
+		},
+		disabledGroupMenu() {
+			return this.formatGroupMenu(this.groups.find(group => group.id === 'disabled'))
+		},
 	},
 	beforeMount() {
 		this.$store.commit('initGroups', {
 			groups: this.$store.getters.getServerData.groups,
 			orderBy: this.$store.getters.getServerData.sortGroups,
-			userCount: this.$store.getters.getServerData.userCount
+			userCount: this.$store.getters.getServerData.userCount,
 		})
 		this.$store.dispatch('getPasswordPolicyMinLength')
 	},
@@ -350,14 +347,14 @@ export default {
 		Object.assign(OCA, {
 			Settings: {
 				UserList: {
-					registerAction: this.registerAction
-				}
-			}
+					registerAction: this.registerAction,
+				},
+			},
 		})
 	},
 	methods: {
-		toggleNewUserMenu() {
-			this.showConfig.showNewUserForm = !this.showConfig.showNewUserForm
+		showNewUserMenu() {
+			this.showConfig.showNewUserForm = true
 			if (this.showConfig.showNewUserForm) {
 				Vue.nextTick(() => {
 					window.newusername.focus()
@@ -366,7 +363,7 @@ export default {
 		},
 		getLocalstorage(key) {
 			// force initialization
-			let localConfig = this.$localStorage.get(key)
+			const localConfig = this.$localStorage.get(key)
 			// if localstorage is null, fallback to original values
 			this.showConfig[key] = localConfig !== null ? localConfig === 'true' : this.showConfig[key]
 			return this.showConfig[key]
@@ -377,7 +374,7 @@ export default {
 			return status
 		},
 		removeGroup(groupid) {
-			let self = this
+			const self = this
 			// TODO migrate to a vue js confirm dialog component
 			OC.dialogs.confirm(
 				t('settings', 'You are about to remove the group {group}. The users will NOT be deleted.', { group: groupid }),
@@ -393,14 +390,14 @@ export default {
 		/**
 		 * Dispatch default quota set request
 		 *
-		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
 		 */
 		setDefaultQuota(quota = 'none') {
 			this.$store.dispatch('setAppConfig', {
 				app: 'files',
 				key: 'default_quota',
 				// ensure we only send the preset id
-				value: quota.id ? quota.id : quota
+				value: quota.id ? quota.id : quota,
 			}).then(() => {
 				if (typeof quota !== 'object') {
 					quota = { id: quota, label: quota }
@@ -413,11 +410,11 @@ export default {
 		 * Validate quota string to make sure it's a valid human file size
 		 *
 		 * @param {string} quota Quota in readable format '5 GB'
-		 * @returns {Promise|boolean}
+		 * @return {Promise|boolean}
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			let validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota === null) {
 				return this.setDefaultQuota('none')
 			} else {
@@ -432,13 +429,13 @@ export default {
 		 * @param {string} icon the icon class
 		 * @param {string} text the text to display
 		 * @param {Function} action the function to run
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		registerAction(icon, text, action) {
 			this.externalActions.push({
-				icon: icon,
-				text: text,
-				action: action
+				icon,
+				text,
+				action,
 			})
 			return this.externalActions
 		},
@@ -446,26 +443,75 @@ export default {
 		/**
 		 * Create a new group
 		 *
-		 * @param {Object} event The form submit event
+		 * @param {string} gid The group id
 		 */
-		createGroup(event) {
-			let gid = event.target[0].value
-			this.loadingAddGroup = true
-			this.$store.dispatch('addGroup', gid)
-				.then(() => {
-					this.showAddGroupEntry = false
-					this.loadingAddGroup = false
-					this.$router.push({
-						name: 'group',
-						params: {
-							selectedGroup: gid
-						}
-					})
+		async createGroup(gid) {
+			// group is not valid
+			if (gid.trim() === '') {
+				return
+			}
+
+			try {
+				this.loadingAddGroup = true
+				await this.$store.dispatch('addGroup', gid.trim())
+
+				this.hideAddGroupForm()
+				await this.$router.push({
+					name: 'group',
+					params: {
+						selectedGroup: encodeURIComponent(gid.trim()),
+					},
 				})
-				.catch(() => {
-					this.loadingAddGroup = false
-				})
-		}
-	}
+			} catch {
+				this.showAddGroupForm()
+			} finally {
+				this.loadingAddGroup = false
+			}
+		},
+
+		showAddGroupForm() {
+			this.$refs.addGroup.editingActive = true
+			this.$refs.addGroup.onMenuToggle(false)
+			this.$nextTick(() => {
+				this.$refs.addGroup.$refs.editingInput.focusInput()
+			})
+		},
+
+		hideAddGroupForm() {
+			this.$refs.addGroup.editingActive = false
+			this.$refs.addGroup.editingValue = ''
+		},
+
+		/**
+		 * Format a group to a menu entry
+		 *
+		 * @param {object} group the group
+		 * @return {object}
+		 */
+		formatGroupMenu(group) {
+			const item = {}
+			if (typeof group === 'undefined') {
+				return {}
+			}
+
+			item.id = group.id
+			item.title = group.name
+			item.usercount = group.usercount
+
+			// users count for all groups
+			if (group.usercount - group.disabled > 0) {
+				item.count = group.usercount - group.disabled
+			}
+
+			return item
+		},
+	},
 }
 </script>
+
+<style lang="scss" scoped>
+// force hiding the editing action for the add group entry
+.app-navigation__list #addgroup::v-deep .app-navigation-entry__utils {
+	display: none;
+}
+</style>

@@ -72,6 +72,23 @@ Feature: sharees
     And "exact remotes" sharees returned is empty
     And "remotes" sharees returned is empty
 
+  Scenario: Search only with group members - allowed with exact match
+    Given As an "test"
+    And parameter "shareapi_only_share_with_group_members" of app "core" is set to "yes"
+    And user "Sharee1" belongs to group "ShareeGroup"
+    When getting sharees for
+      | search | Sharee1 |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned are
+      | Sharee1 | 0 | Sharee1 |
+    And "users" sharees returned is empty
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
   Scenario: Search only with group members - no group as non-member
     Given As an "Sharee1"
     And parameter "shareapi_only_share_with_group_members" of app "core" is set to "yes"
@@ -206,7 +223,7 @@ Feature: sharees
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
     Then "exact remotes" sharees returned are
-      | test@localhost | 6 | test@localhost |
+      | test (localhost) | 6 | test@localhost |
     Then "remotes" sharees returned is empty
 
   Scenario: Remote sharee for calendars not allowed

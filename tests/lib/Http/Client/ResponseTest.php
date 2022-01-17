@@ -8,8 +8,8 @@
 
 namespace Test\Http\Client;
 
-use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use GuzzleHttp\Psr7\Utils;
 use OC\Http\Client\Response;
 
 /**
@@ -19,19 +19,19 @@ class ResponseTest extends \Test\TestCase {
 	/** @var GuzzleResponse */
 	private $guzzleResponse;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
-		$this->guzzleResponse = new GuzzleResponse(1337);
+		$this->guzzleResponse = new GuzzleResponse(418);
 	}
 
 	public function testGetBody() {
-		$response = new Response($this->guzzleResponse->withBody(stream_for('MyResponse')));
+		$response = new Response($this->guzzleResponse->withBody(Utils::streamFor('MyResponse')));
 		$this->assertSame('MyResponse', $response->getBody());
 	}
 
 	public function testGetStatusCode() {
 		$response = new Response($this->guzzleResponse);
-		$this->assertSame(1337, $response->getStatusCode());
+		$this->assertSame(418, $response->getStatusCode());
 	}
 
 	public function testGetHeader() {

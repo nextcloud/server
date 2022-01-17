@@ -1,8 +1,12 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016, Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,73 +17,75 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\AppInfo;
 
+use Closure;
+use OCA\Comments\Capabilities;
 use OCA\Comments\Controller\Notifications;
 use OCA\Comments\EventHandler;
-use OCA\Comments\JSSettingsHelper;
+use OCA\Comments\Listener\CommentsEntityEventListener;
 use OCA\Comments\Listener\LoadAdditionalScripts;
+use OCA\Comments\Listener\LoadSidebarScripts;
+use OCA\Comments\MaxAutoCompleteResultsInitialState;
 use OCA\Comments\Notification\Notifier;
-use OCA\Comments\Search\Provider;
+use OCA\Comments\Search\LegacyProvider;
+use OCA\Comments\Search\CommentsSearchProvider;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OCP\ISearch;
+use OCP\IServerContainer;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'comments';
 
-	public function __construct (array $urlParams = array()) {
-		parent::__construct('comments', $urlParams);
-		$container = $this->getContainer();
-
-		$container->registerAlias('NotificationsController', Notifications::class);
-
-		$jsSettingsHelper = new JSSettingsHelper($container->getServer());
-		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
+	public function __construct(array $urlParams = []) {
+		parent::__construct(self::APP_ID, $urlParams);
 	}
 
-	public function register() {
-		$server = $this->getContainer()->getServer();
+	public function register(IRegistrationContext $context): void {
+		$context->registerCapability(Capabilities::class);
 
-		/** @var IEventDispatcher $newDispatcher */
-		$dispatcher = $server->query(IEventDispatcher::class);
-		$this->registerSidebarScripts($dispatcher);
-		$this->registerDavEntity($dispatcher);
-		$this->registerNotifier();
-		$this->registerCommentsEventHandler();
+		$context->registerServiceAlias('NotificationsController', Notifications::class);
 
-		$server->getSearch()->registerProvider(Provider::class, ['apps' => ['files']]);
+		$context->registerEventListener(
+			LoadAdditionalScriptsEvent::class,
+			LoadAdditionalScripts::class
+		);
+		$context->registerEventListener(
+			LoadSidebar::class,
+			LoadSidebarScripts::class
+		);
+		$context->registerEventListener(
+			CommentsEntityEvent::EVENT_ENTITY,
+			CommentsEntityEventListener::class
+		);
+		$context->registerSearchProvider(CommentsSearchProvider::class);
+
+		$context->registerInitialStateProvider(MaxAutoCompleteResultsInitialState::class);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
-	protected function registerSidebarScripts(IEventDispatcher $dispatcher) {
-		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScripts::class);
+	public function boot(IBootContext $context): void {
+		$context->injectFn(Closure::fromCallable([$this, 'registerCommentsEventHandler']));
+
+		$context->getServerContainer()->get(ISearch::class)->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
 	}
 
-	protected function registerDavEntity(IEventDispatcher $dispatcher) {
-		$dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
-			$event->addEntityCollection('files', function($name) {
-				$nodes = \OC::$server->getUserFolder()->getById((int)$name);
-				return !empty($nodes);
-			});
-		});
-	}
-
-	protected function registerNotifier() {
-		$this->getContainer()->getServer()->getNotificationManager()->registerNotifierService(Notifier::class);
-	}
-
-	protected function registerCommentsEventHandler() {
-		$this->getContainer()->getServer()->getCommentsManager()->registerEventHandler(function () {
+	protected function registerCommentsEventHandler(IServerContainer $container) {
+		$container->getCommentsManager()->registerEventHandler(function () {
 			return $this->getContainer()->query(EventHandler::class);
 		});
 	}

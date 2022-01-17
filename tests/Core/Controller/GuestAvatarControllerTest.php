@@ -21,34 +21,34 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 	private $guestAvatarController;
 
 	/**
-	 * @var IRequest|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IRequest|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $request;
 
 	/**
-	 * @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $avatarManager;
 
 	/**
-	 * @var IAvatar|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IAvatar|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $avatar;
 
 	/**
-	 * @var \OCP\Files\File|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\Files\File|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $file;
 
 	/**
-	 * @var ILogger|\PHPUnit_Framework_MockObject_MockObject
+	 * @var ILogger|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $logger;
 
 	/**
 	 * Sets up the test environment.
 	 */
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
@@ -56,6 +56,8 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 		$this->avatar = $this->getMockBuilder(IAvatar::class)->getMock();
 		$this->avatarManager = $this->getMockBuilder(IAvatarManager::class)->getMock();
 		$this->file = $this->getMockBuilder(ISimpleFile::class)->getMock();
+		$this->file->method('getName')->willReturn('my name');
+		$this->file->method('getMTime')->willReturn(42);
 		$this->guestAvatarController = new GuestAvatarController(
 			'core',
 			$this->request,

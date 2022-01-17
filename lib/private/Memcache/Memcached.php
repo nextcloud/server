@@ -4,6 +4,7 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -25,13 +26,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
-use OC\HintException;
+use OCP\HintException;
 use OCP\IMemcache;
 
 class Memcached extends Cache implements IMemcache {
@@ -51,13 +51,13 @@ class Memcached extends Cache implements IMemcache {
 
 			$defaultOptions = [
 				\Memcached::OPT_CONNECT_TIMEOUT => 50,
-				\Memcached::OPT_RETRY_TIMEOUT =>   50,
-				\Memcached::OPT_SEND_TIMEOUT =>    50,
-				\Memcached::OPT_RECV_TIMEOUT =>    50,
-				\Memcached::OPT_POLL_TIMEOUT =>    50,
+				\Memcached::OPT_RETRY_TIMEOUT => 50,
+				\Memcached::OPT_SEND_TIMEOUT => 50,
+				\Memcached::OPT_RECV_TIMEOUT => 50,
+				\Memcached::OPT_POLL_TIMEOUT => 50,
 
 				// Enable compression
-				\Memcached::OPT_COMPRESSION =>          true,
+				\Memcached::OPT_COMPRESSION => true,
 
 				// Turn on consistent hashing
 				\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
@@ -66,6 +66,7 @@ class Memcached extends Cache implements IMemcache {
 				//\Memcached::OPT_BINARY_PROTOCOL =>      true,
 			];
 			// by default enable igbinary serializer if available
+			/** @psalm-suppress RedundantCondition */
 			if (\Memcached::HAVE_IGBINARY) {
 				$defaultOptions[\Memcached::OPT_SERIALIZER] =
 					\Memcached::SERIALIZER_IGBINARY;
@@ -109,7 +110,7 @@ class Memcached extends Cache implements IMemcache {
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			$result =  self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
+			$result = self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
 		} else {
 			$result = self::$cache->set($this->getNameSpace() . $key, $value);
 		}
@@ -125,7 +126,7 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	public function remove($key) {
-		$result= self::$cache->delete($this->getNameSpace() . $key);
+		$result = self::$cache->delete($this->getNameSpace() . $key);
 		if (self::$cache->getResultCode() !== \Memcached::RES_NOTFOUND) {
 			$this->verifyReturnCode();
 		}
@@ -140,7 +141,7 @@ class Memcached extends Cache implements IMemcache {
 			self::$cache->flush();
 			return true;
 		}
-		$keys = array();
+		$keys = [];
 		$prefixLength = strlen($prefix);
 		foreach ($allKeys as $key) {
 			if (substr($key, 0, $prefixLength) === $prefix) {
@@ -209,7 +210,7 @@ class Memcached extends Cache implements IMemcache {
 		return $result;
 	}
 
-	static public function isAvailable() {
+	public static function isAvailable() {
 		return extension_loaded('memcached');
 	}
 

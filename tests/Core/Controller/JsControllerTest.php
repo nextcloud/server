@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\JsController;
@@ -38,19 +39,19 @@ use Test\TestCase;
 
 class JsControllerTest extends TestCase {
 
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
 
 	/** @var JsController */
 	private $controller;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(AppData::class);
 		$factory->expects($this->once())
@@ -58,7 +59,7 @@ class JsControllerTest extends TestCase {
 			->with('js')
 			->willReturn($this->appData);
 
-		/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject $timeFactory */
+		/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject $timeFactory */
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('getTime')
 			->willReturn(1337);
@@ -101,6 +102,8 @@ class JsControllerTest extends TestCase {
 	public function testGetFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('my name');
+		$file->method('getMTime')->willReturn(42);
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willReturn($folder);
@@ -124,6 +127,8 @@ class JsControllerTest extends TestCase {
 	public function testGetGzipFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$gzipFile = $this->createMock(ISimpleFile::class);
+		$gzipFile->method('getName')->willReturn('my name');
+		$gzipFile->method('getMTime')->willReturn(42);
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willReturn($folder);
@@ -152,18 +157,20 @@ class JsControllerTest extends TestCase {
 	public function testGetGzipFileNotFound() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('my name');
+		$file->method('getMTime')->willReturn(42);
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willReturn($folder);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(
-				function($fileName) use ($file) {
+			->willReturnCallback(
+				function ($fileName) use ($file) {
 					if ($fileName === 'file.js') {
 						return $file;
 					}
 					throw new NotFoundException();
-				})
+				}
 			);
 
 		$this->request->method('getHeader')
@@ -181,5 +188,4 @@ class JsControllerTest extends TestCase {
 		$result = $this->controller->getJs('file.js', 'myapp');
 		$this->assertEquals($expected, $result);
 	}
-
 }

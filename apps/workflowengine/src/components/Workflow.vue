@@ -1,13 +1,28 @@
 <template>
 	<div id="workflowengine">
 		<div class="section">
-			<h2>{{ t('workflowengine', 'Workflows') }}</h2>
+			<h2>{{ t('workflowengine', 'Available flows') }}</h2>
+
+			<p v-if="scope === 0" class="settings-hint">
+				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
+			</p>
 
 			<transition-group name="slide" tag="div" class="actions">
 				<Operation v-for="operation in getMainOperations"
 					:key="operation.id"
 					:operation="operation"
 					@click.native="createNewRule(operation)" />
+
+				<a v-if="showAppStoreHint"
+					:key="'add'"
+					:href="appstoreUrl"
+					class="actions__item colored more">
+					<div class="icon icon-add" />
+					<div class="actions__item__description">
+						<h3>{{ t('workflowengine', 'More flows') }}</h3>
+						<small>{{ t('workflowengine', 'Browse the App Store') }}</small>
+					</div>
+				</a>
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
@@ -17,6 +32,13 @@
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
 				</button>
 			</div>
+
+			<h2 v-if="scope === 0" class="configured-flows">
+				{{ t('workflowengine', 'Configured flows') }}
+			</h2>
+			<h2 v-else class="configured-flows">
+				{{ t('workflowengine', 'Your flows') }}
+			</h2>
 		</div>
 
 		<transition-group v-if="rules.length > 0" name="slide">
@@ -29,6 +51,7 @@
 import Rule from './Rule'
 import Operation from './Operation'
 import { mapGetters, mapState } from 'vuex'
+import { generateUrl } from '@nextcloud/router'
 
 const ACTION_LIMIT = 3
 
@@ -36,19 +59,22 @@ export default {
 	name: 'Workflow',
 	components: {
 		Operation,
-		Rule
+		Rule,
 	},
 	data() {
 		return {
-			showMoreOperations: false
+			showMoreOperations: false,
+			appstoreUrl: generateUrl('settings/apps/workflow'),
 		}
 	},
 	computed: {
 		...mapGetters({
-			rules: 'getRules'
+			rules: 'getRules',
 		}),
 		...mapState({
-			operations: 'operations'
+			appstoreEnabled: 'appstoreEnabled',
+			scope: 'scope',
+			operations: 'operations',
 		}),
 		hasMoreOperations() {
 			return Object.keys(this.operations).length > ACTION_LIMIT
@@ -58,7 +84,10 @@ export default {
 				return Object.values(this.operations)
 			}
 			return Object.values(this.operations).slice(0, ACTION_LIMIT)
-		}
+		},
+		showAppStoreHint() {
+			return this.scope === 0 && this.appstoreEnabled && OC.isUserAdmin()
+		},
 	},
 	mounted() {
 		this.$store.dispatch('fetchRules')
@@ -66,8 +95,8 @@ export default {
 	methods: {
 		createNewRule(operation) {
 			this.$store.dispatch('createNewRule', operation)
-		}
-	}
+		},
+	},
 }
 </script>
 
@@ -77,11 +106,16 @@ export default {
 	}
 	.section {
 		max-width: 100vw;
+
+		h2.configured-flows {
+			margin-top: 50px;
+			margin-bottom: 0;
+		}
 	}
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
-		max-width: 900px;
+		max-width: 1200px;
 		.actions__item {
 			max-width: 280px;
 			flex-basis: 250px;
@@ -125,5 +159,11 @@ export default {
 		max-height: 0;
 		padding-top: 0;
 		padding-bottom: 0;
+	}
+
+	@import "./../styles/operation";
+
+	.actions__item.more {
+		background-color: var(--color-background-dark);
 	}
 </style>

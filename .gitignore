@@ -16,6 +16,8 @@
 !/apps/accessibility
 !/apps/cloud_federation_api
 !/apps/comments
+!/apps/contactsinteraction
+!/apps/dashboard
 !/apps/dav
 !/apps/files
 !/apps/federation
@@ -37,6 +39,8 @@
 !/apps/updatenotification
 !/apps/theming
 !/apps/twofactor_backupcodes
+!/apps/user_status
+!/apps/weather_status
 !/apps/workflowengine
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
@@ -69,6 +73,7 @@ CVS/*
 .svn/*
 RCS/*
 *.backup*
+.php_cs.cache
 
 # kdevelop
 .kdev
@@ -135,6 +140,7 @@ Vagrantfile
 
 # Tests - auto-generated files
 /data-autotest
+/tests/.phpunit.result.cache
 /tests/coverage*
 /tests/css
 /tests/karma-coverage
@@ -150,5 +156,8 @@ Vagrantfile
 clover.xml
 
 # Tests - dependencies
-tests/acceptance/composer.lock
 tests/acceptance/vendor/
+
+composer.phar
+/lib/composer/bin
+/vendor-bin/**/vendor

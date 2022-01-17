@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -19,27 +21,43 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Notification;
 
-
-use OCP\AppFramework\QueryException;
-use OCP\ILogger;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\IUserManager;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IApp;
+use OCP\Notification\IDeferrableApp;
+use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\RichObjectStrings\IValidator;
+use OCP\Support\Subscription\IRegistry;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
 	/** @var IValidator */
 	protected $validator;
-	/** @var ILogger */
+	/** @var IUserManager */
+	private $userManager;
+	/** @var ICache */
+	protected $cache;
+	/** @var ITimeFactory */
+	protected $timeFactory;
+	/** @var IRegistry */
+	protected $subscription;
+	/** @var LoggerInterface */
 	protected $logger;
+	/** @var Coordinator */
+	private $coordinator;
 
 	/** @var IApp[] */
 	protected $apps;
@@ -53,16 +71,33 @@ class Manager implements IManager {
 
 	/** @var bool */
 	protected $preparingPushNotification;
+	/** @var bool */
+	protected $deferPushing;
+	/** @var bool */
+	private $parsedRegistrationContext;
 
 	public function __construct(IValidator $validator,
-								ILogger $logger) {
+								IUserManager $userManager,
+								ICacheFactory $cacheFactory,
+								ITimeFactory $timeFactory,
+								IRegistry $subscription,
+								LoggerInterface $logger,
+								Coordinator $coordinator) {
 		$this->validator = $validator;
+		$this->userManager = $userManager;
+		$this->cache = $cacheFactory->createDistributed('notifications');
+		$this->timeFactory = $timeFactory;
+		$this->subscription = $subscription;
 		$this->logger = $logger;
+		$this->coordinator = $coordinator;
+
 		$this->apps = [];
 		$this->notifiers = [];
 		$this->appClasses = [];
 		$this->notifierClasses = [];
 		$this->preparingPushNotification = false;
+		$this->deferPushing = false;
+		$this->parsedRegistrationContext = false;
 	}
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a
@@ -83,9 +118,10 @@ class Manager implements IManager {
 	 */
 	public function registerNotifier(\Closure $service, \Closure $info) {
 		$infoData = $info();
-		$this->logger->logException(new \InvalidArgumentException(
+		$exception = new \InvalidArgumentException(
 			'Notifier ' . $infoData['name'] . ' (id: ' . $infoData['id'] . ') is not considered because it is using the old way to register.'
-		));
+		);
+		$this->logger->error($exception->getMessage(), ['exception' => $exception]);
 	}
 
 	/**
@@ -107,10 +143,10 @@ class Manager implements IManager {
 
 		foreach ($this->appClasses as $appClass) {
 			try {
-				$app = \OC::$server->query($appClass);
-			} catch (QueryException $e) {
-				$this->logger->logException($e, [
-					'message' => 'Failed to load notification app class: ' . $appClass,
+				$app = \OC::$server->get($appClass);
+			} catch (ContainerExceptionInterface $e) {
+				$this->logger->error('Failed to load notification app class: ' . $appClass, [
+					'exception' => $e,
 					'app' => 'notifications',
 				]);
 				continue;
@@ -135,16 +171,42 @@ class Manager implements IManager {
 	 * @return INotifier[]
 	 */
 	public function getNotifiers(): array {
+		if (!$this->parsedRegistrationContext) {
+			$notifierServices = $this->coordinator->getRegistrationContext()->getNotifierServices();
+			foreach ($notifierServices as $notifierService) {
+				try {
+					$notifier = \OC::$server->get($notifierService->getService());
+				} catch (ContainerExceptionInterface $e) {
+					$this->logger->error('Failed to load notification notifier class: ' . $notifierService->getService(), [
+						'exception' => $e,
+						'app' => 'notifications',
+					]);
+					continue;
+				}
+
+				if (!($notifier instanceof INotifier)) {
+					$this->logger->error('Notification notifier class ' . $notifierService->getService() . ' is not implementing ' . INotifier::class, [
+						'app' => 'notifications',
+					]);
+					continue;
+				}
+
+				$this->notifiers[] = $notifier;
+			}
+
+			$this->parsedRegistrationContext = true;
+		}
+
 		if (empty($this->notifierClasses)) {
 			return $this->notifiers;
 		}
 
 		foreach ($this->notifierClasses as $notifierClass) {
 			try {
-				$notifier = \OC::$server->query($notifierClass);
-			} catch (QueryException $e) {
-				$this->logger->logException($e, [
-					'message' => 'Failed to load notification notifier class: ' . $notifierClass,
+				$notifier = \OC::$server->get($notifierClass);
+			} catch (ContainerExceptionInterface $e) {
+				$this->logger->error('Failed to load notification notifier class: ' . $notifierClass, [
+					'exception' => $e,
 					'app' => 'notifications',
 				]);
 				continue;
@@ -195,6 +257,67 @@ class Manager implements IManager {
 	 */
 	public function isPreparingPushNotification(): bool {
 		return $this->preparingPushNotification;
+	}
+
+	/**
+	 * The calling app should only "flush" when it got returned true on the defer call
+	 * @return bool
+	 * @since 20.0.0
+	 */
+	public function defer(): bool {
+		$alreadyDeferring = $this->deferPushing;
+		$this->deferPushing = true;
+
+		$apps = $this->getApps();
+
+		foreach ($apps as $app) {
+			if ($app instanceof IDeferrableApp) {
+				$app->defer();
+			}
+		}
+
+		return !$alreadyDeferring;
+	}
+
+	/**
+	 * @since 20.0.0
+	 */
+	public function flush(): void {
+		$apps = $this->getApps();
+
+		foreach ($apps as $app) {
+			if (!$app instanceof IDeferrableApp) {
+				continue;
+			}
+
+			try {
+				$app->flush();
+			} catch (\InvalidArgumentException $e) {
+			}
+		}
+
+		$this->deferPushing = false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isFairUseOfFreePushService(): bool {
+		$pushAllowed = $this->cache->get('push_fair_use');
+		if ($pushAllowed === null) {
+			/**
+			 * We want to keep offering our push notification service for free, but large
+			 * users overload our infrastructure. For this reason we have to rate-limit the
+			 * use of push notifications. If you need this feature, consider using Nextcloud Enterprise.
+			 */
+			// TODO Remove time check after 1st March 2022
+			$isFairUse = $this->timeFactory->getTime() < 1646089200
+				|| $this->subscription->delegateHasValidSubscription()
+				|| $this->userManager->countSeenUsers() < 5000;
+			$pushAllowed = $isFairUse ? 'yes' : 'no';
+			$this->cache->set('push_fair_use', $pushAllowed, 3600);
+		}
+		return $pushAllowed === 'yes';
 	}
 
 	/**
@@ -258,12 +381,12 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('The given notification has been processed');
 			}
 
-			if (!($notification instanceof INotification) || !$notification->isValidParsed()) {
+			if (!$notification->isValidParsed()) {
 				throw new \InvalidArgumentException('The given notification has not been handled');
 			}
 		}
 
-		if (!($notification instanceof INotification) || !$notification->isValidParsed()) {
+		if (!$notification->isValidParsed()) {
 			throw new \InvalidArgumentException('The given notification has not been handled');
 		}
 
@@ -294,5 +417,19 @@ class Manager implements IManager {
 		}
 
 		return $count;
+	}
+
+	public function dismissNotification(INotification $notification): void {
+		$notifiers = $this->getNotifiers();
+
+		foreach ($notifiers as $notifier) {
+			if ($notifier instanceof IDismissableNotifier) {
+				try {
+					$notifier->dismissNotification($notification);
+				} catch (\InvalidArgumentException $e) {
+					continue;
+				}
+			}
+		}
 	}
 }

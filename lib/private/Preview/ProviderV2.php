@@ -1,6 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
+ *
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -11,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -27,8 +31,10 @@ use OCP\IImage;
 use OCP\Preview\IProviderV2;
 
 abstract class ProviderV2 implements IProviderV2 {
-	private $options;
+	/** @var array */
+	protected $options;
 
+	/** @var array */
 	private $tmpFiles = [];
 
 	/**
@@ -66,6 +72,10 @@ abstract class ProviderV2 implements IProviderV2 {
 	 */
 	abstract public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;
 
+	protected function useTempFile(File $file) {
+		return $file->isEncrypted() || !$file->getStorage()->isLocal();
+	}
+
 	/**
 	 * Get a path to either the local file or temporary file
 	 *
@@ -74,8 +84,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * @return string
 	 */
 	protected function getLocalFile(File $file, int $maxSize = null): string {
-		$useTempFile = $file->isEncrypted() || !$file->getStorage()->isLocal();
-		if ($useTempFile) {
+		if ($this->useTempFile($file)) {
 			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 			$content = $file->fopen('r');

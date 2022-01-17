@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -17,13 +18,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Federation\Tests\Controller;
-
 
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\TrustedServers;
@@ -37,16 +35,16 @@ class SettingsControllerTest extends TestCase {
 	/** @var SettingsController  */
 	private $controller;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IRequest */
 	private $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\IL10N */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
 	private $l10n;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCA\Federation\TrustedServers */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Federation\TrustedServers */
 	private $trustedServers;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
@@ -85,12 +83,13 @@ class SettingsControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider checkServerFails
-	 * @expectedException \OC\HintException
 	 *
 	 * @param bool $isTrustedServer
 	 * @param bool $isOwnCloud
 	 */
 	public function testAddServerFail($isTrustedServer, $isOwnCloud) {
+		$this->expectException(\OCP\HintException::class);
+
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')
@@ -128,17 +127,17 @@ class SettingsControllerTest extends TestCase {
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
-
 	}
 
 	/**
 	 * @dataProvider checkServerFails
-	 * @expectedException \OC\HintException
 	 *
 	 * @param bool $isTrustedServer
 	 * @param bool $isOwnCloud
 	 */
 	public function testCheckServerFail($isTrustedServer, $isOwnCloud) {
+		$this->expectException(\OCP\HintException::class);
+
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')
@@ -153,7 +152,6 @@ class SettingsControllerTest extends TestCase {
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
-
 	}
 
 	/**
@@ -167,5 +165,4 @@ class SettingsControllerTest extends TestCase {
 			[false, false]
 		];
 	}
-
 }

@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config;
 
-
 use OC\Core\Command\Config\ListConfigs;
 use OC\SystemConfig;
 use OCP\IAppConfig;
@@ -31,20 +30,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class ListConfigsTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $appConfig;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $systemConfig;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$systemConfig = $this->systemConfig = $this->getMockBuilder(SystemConfig::class)
@@ -321,7 +320,7 @@ class ListConfigsTest extends TestCase {
 		$output = '';
 		$this->consoleOutput->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function($value) {
+			->willReturnCallback(function ($value) {
 				global $output;
 				$output .= $value . "\n";
 				return $output;

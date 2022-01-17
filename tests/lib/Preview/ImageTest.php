@@ -29,8 +29,7 @@ namespace Test\Preview;
  * @package Test\Preview
  */
 class ImageTest extends Provider {
-
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$fileName = 'testimage.jpg';
@@ -39,5 +38,4 @@ class ImageTest extends Provider {
 		$this->height = 1050;
 		$this->provider = new \OC\Preview\JPEG();
 	}
-
 }

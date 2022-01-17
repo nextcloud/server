@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
  *
@@ -19,11 +19,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
- 
-namespace OCA\Files_Versions; 
+namespace OCA\Files_Versions;
 
 use OCP\Capabilities\ICapability;
 

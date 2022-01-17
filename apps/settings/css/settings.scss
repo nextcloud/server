@@ -38,9 +38,11 @@ input {
 	.avatardiv {
 		margin: 10px auto;
 	}
+
 	.warning {
 		width: 100%;
 	}
+
 	.jcrop-keymgr {
 		display: none !important;
 	}
@@ -52,6 +54,9 @@ input {
 
 #uploadavatarbutton, #selectavatar, #removeavatar {
 	padding: 21px;
+}
+#selectavatar, #removeavatar {
+	vertical-align: top;
 }
 
 .jcrop-holder {
@@ -69,6 +74,7 @@ input {
 	left: 0;
 	width: 100%;
 	height: calc(100% - 45px);
+
 	.inner-container {
 		z-index: 2001;
 		/* above the top bar if needed */
@@ -81,15 +87,17 @@ input {
 		border-radius: var(--border-radius-large);
 		box-shadow: 0 0 10px var(--color-box-shadow);
 		padding: 15px;
+
 		.jcrop-holder,
 		.jcrop-holder img,
-		img.jcrop-preview  {
+		img.jcrop-preview {
 			border-radius: var(--border-radius);
 		}
 
 		.button {
 			margin-top: 15px;
 		}
+
 		.primary {
 			float: right;
 		}
@@ -99,23 +107,39 @@ input {
 #personal-settings-avatar-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 2fr 1fr;
+	grid-template-rows: 2fr 1fr 2fr;
 	vertical-align: top;
 }
 
 .profile-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 2fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 2fr;
+
+	#locale {
+		h3 {
+			height: 32px;
+		}
+	}
 }
 
 .personal-show-container {
 	width: 100%;
 }
 
-.personal-settings-setting-box input {
-	&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
-		width: 100%;
+.personal-settings-setting-box {
+	.section {
+		padding: 10px 30px;
+
+		h3 {
+			margin-bottom: 0;
+		}
+
+		input {
+			&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
+				width: 100%;
+			}
+		}
 	}
 }
 
@@ -131,19 +155,23 @@ select {
 	display: grid;
 	padding: 20px;
 	max-width: 1500px;
-	grid-template-columns:1fr 2fr 1fr;
+	grid-template-columns: 1fr 2fr 1fr;
+
 	.section {
 		padding: 10px 10px;
 		border: 0;
+
 		h2 {
 			margin-bottom: 12px;
 		}
 	}
+
 	.personal-info {
 		margin-right: 10%;
 		margin-bottom: 12px;
 		margin-top: 12px;
 	}
+
 	.personal-info[class^='icon-'], .personal-info[class*=' icon-'] {
 		background-position: 0px 2px;
 		padding-left: 30px;
@@ -152,18 +180,52 @@ select {
 }
 
 
+// Button for 'Reasons to use Nextcloud in your organization'
+.development-notice {
+	text-align: center;
+}
+
+.link-button {
+	display: inline-block;
+	margin: 16px;
+	padding: 14px 20px;
+	background-color: var(--color-primary);
+	color: #fff;
+	border-radius: var(--border-radius-pill);
+	border: 1px solid var(--color-primary);
+	box-shadow: 0 2px 9px var(--color-box-shadow);
+
+	&:active,
+	&:hover,
+	&:focus {
+		color: var(--color-primary);
+		background-color: var(--color-primary-text);
+		border-color: var(--color-primary) !important;
+	}
+
+	&.icon-file {
+		padding-left: 48px;
+		background-position: 24px;
+	}
+}
+
+
+
 @media (min-width: 1200px) and (max-width: 1400px) {
 	#personal-settings {
 		display: grid;
 		grid-template-columns: 1fr 2fr;
+
 		#personal-settings-avatar-container {
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr;
 		}
+
 		.personal-settings-container {
 			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr 1fr;
 		}
+
 		.profile-settings-container {
 			grid-template-columns: 1fr 1fr;
 			grid-template-rows: 1fr;
@@ -176,13 +238,16 @@ select {
 	#personal-settings {
 		display: grid;
 		grid-template-columns: 1fr;
+
 		#personal-settings-avatar-container {
 			grid-template-rows: 1fr;
 		}
+
 		.personal-settings-container {
 			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr 1fr;
 		}
+
 		.profile-settings-container {
 			grid-template-columns: 1fr 1fr;
 			grid-template-rows: 1fr;
@@ -194,13 +259,16 @@ select {
 	#personal-settings {
 		display: grid;
 		grid-template-columns: 1fr;
+
 		#personal-settings-avatar-container {
 			grid-template-rows: 1fr;
 		}
+
 		.personal-settings-container {
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 		}
+
 		.profile-settings-container {
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr 1fr;
@@ -211,10 +279,12 @@ select {
 .personal-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 2fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+
 	&:after {
 		clear: both;
 	}
+
 	> div {
 		h3 {
 			position: relative;
@@ -229,6 +299,7 @@ select {
 				overflow: hidden;
 			}
 		}
+
 		> form span {
 			&[class^='icon-checkmark'], &[class^='icon-error'] {
 				position: relative;
@@ -239,18 +310,22 @@ select {
 			}
 		}
 	}
+
 	.verify {
 		position: relative;
 		left: 100%;
 		top: 0;
 		height: 0;
+
 		img {
 			padding: 12px 7px 6px;
 		}
 	}
+
 	.verify-action {
 		cursor: pointer;
 	}
+
 	input:disabled {
 		background-color: white;
 		color: black;
@@ -263,15 +338,19 @@ select {
 #body-settings #quota {
 	cursor: default;
 	position: relative;
+
 	progress {
 		height: 6px;
+
 		&::-moz-progress-bar {
 			border-radius: 3px 0 0 3px;
 		}
+
 		&::-webkit-progress-value {
 			border-radius: 3px 0 0 3px;
 		}
 	}
+
 	div {
 		font-weight: normal;
 		white-space: nowrap;
@@ -286,9 +365,11 @@ select {
 	right: -9px;
 	top: 40px;
 	width: 275px;
+
 	p {
 		padding: 10px;
 	}
+
 	.verificationCode {
 		font-family: monospace;
 		display: block;
@@ -299,38 +380,65 @@ select {
 .federation-menu {
 	position: relative;
 	cursor: pointer;
-	margin-left: 10px;
+	width: 44px;
+	height: 44px;
+	padding: 10px;
+	margin: -12px 0 0 8px;
+	background: none;
+	border: none;
+
+	&:hover,
 	&:focus {
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-pill);
+
 		.icon-federation-menu {
-			opacity: 0.7;
+			opacity: 0.8;
 		}
 	}
+
 	.icon-federation-menu {
 		padding-left: 16px;
 		background-size: 16px;
 		background-position: left center;
 		opacity: .3;
 		cursor: inherit;
+
 		.icon-triangle-s {
 			display: inline-block;
 			vertical-align: middle;
 			cursor: inherit;
 		}
 	}
+
 	.federationScopeMenu {
 		top: 44px;
+
 		&.popovermenu {
 			.menuitem {
 				// override h3 heading font size
 				font-size: 12.8px;
 				line-height: 1.6em;
+
 				.menuitem-text-detail {
 					opacity: .75;
 				}
+
 				&.active {
 					box-shadow: inset 2px 0 var(--color-primary);
+
 					.menuitem-text {
 						font-weight: bold;
+					}
+				}
+
+				&.disabled {
+					opacity: .5;
+
+					cursor: default;
+
+					* {
+						cursor: default;
 					}
 				}
 			}
@@ -350,6 +458,7 @@ select {
 	tr.expired {
 		background-color: rgba(255, 0, 0, 0.5);
 	}
+
 	td {
 		padding: 5px;
 	}
@@ -374,6 +483,7 @@ input#identity {
 		background-color: #47a447;
 		padding: 3px;
 	}
+
 	&.error {
 		color: #fff;
 		background-color: #d2322d;
@@ -382,11 +492,11 @@ input#identity {
 }
 
 
-
 table.nostyle {
 	label {
 		margin-right: 2em;
 	}
+
 	td {
 		padding: 0.2em 0;
 	}
@@ -396,17 +506,21 @@ table.nostyle {
 	#passwordform {
 		display: flex;
 		flex-wrap: wrap;
+
 		#pass1, .personal-show-container, #passwordbutton {
 			flex-shrink: 1;
 			width: 200px;
 			min-width: 150px;
 		}
+
 		#pass2 {
 			width: 100%;
 		}
+
 		.password-state {
 			display: inline-block;
 		}
+
 		.strengthify-wrapper {
 			position: absolute;
 			left: 0;
@@ -427,7 +541,7 @@ table.nostyle {
 	}
 
 	li > div {
-    	margin-left: 20px;
+		margin-left: 20px;
 	}
 
 	.two-factor-provider-settings-icon {
@@ -440,6 +554,7 @@ table.nostyle {
 .social-button {
 	padding-left: 0 !important;
 	margin-left: -10px;
+
 	img {
 		padding: 10px;
 	}
@@ -454,6 +569,7 @@ table.nostyle {
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+
 	&.active .groupname {
 		width: 65%;
 	}
@@ -477,9 +593,11 @@ li.active {
 	position: absolute;
 	top: 2px;
 	right: 0;
+
 	input {
 		width: 150px;
 	}
+
 	label {
 		font-weight: bold;
 	}
@@ -488,6 +606,7 @@ li.active {
 /* display table at full width */
 table.grid {
 	width: 100%;
+
 	th {
 		height: 2em;
 		color: #999;
@@ -497,6 +616,7 @@ table.grid {
 		text-align: left;
 		font-weight: normal;
 	}
+
 	td {
 		border-bottom: 1px solid var(--color-border);
 		padding: 0 .5em;
@@ -514,21 +634,25 @@ td, th {
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
+
 	&.password {
 		padding-left: .8em;
+
 		> img {
 			visibility: hidden;
 		}
 	}
+
 	&.displayName > img {
 		visibility: hidden;
 	}
+
 	&.password,
-	&.displayName,
 	&.mailAddress {
 		min-width: 5em;
 		max-width: 12em;
 		cursor: pointer;
+
 		span {
 			width: 90%;
 			display: inline-block;
@@ -536,9 +660,11 @@ td, th {
 			overflow: hidden;
 		}
 	}
+
 	&.mailAddress {
 		cursor: pointer;
 	}
+
 	&.password > span {
 		margin-right: 1.2em;
 		color: #C7C7C7;
@@ -547,73 +673,6 @@ td, th {
 
 span.usersLastLoginTooltip {
 	white-space: nowrap;
-}
-
-/* dropdowns will be relative to this element */
-#userlist {
-	position: relative;
-	.storageLocation, .userBackend, .lastLogin {
-		display: none;
-	}
-	th.name {
-		color: #000;
-	}
-	tr {
-		height: 50px;
-	}
-	.mailAddress .loading-small {
-		width: 16px;
-		height: 16px;
-		margin-left: -26px;
-		position: relative;
-		top: 3px;
-	}
-	.groupsListContainer.hidden {
-		display: none;
-	}
-	thead th,
-	thead tr {
-		z-index: 100;
-		background-color: var(--color-main-background);
-		@include position('sticky');
-		// positional attribute is required for position to take affect.
-		top: 0;
-	}
-}
-
-#newuser {
-	.groupsListContainer.hidden {
-		display: none;
-	}
-	.multiselect {
-		min-width: 150px !important;
-		position: relative;
-		top: -1px;
-	}
-	input {
-		&:not([type='submit']),
-		&:not([type='reset']) {
-			width: 100%;
-		}
-	}
-	.userActions input {
-		width: 44px;
-		height: 44px;
-		&.icon-close {
-			border: none;
-			background-color: initial;
-			opacity: .5;
-		}
-		&:hover {
-			opacity: 1;
-		}
-	}
-}
-
-/* used to highlight a user row in red */
-
-#userlist tr.row-warning {
-	background-color: #FDD;
 }
 
 /* APPS */
@@ -638,20 +697,25 @@ span.usersLastLoginTooltip {
 		margin-right: 6px;
 		width: 16px;
 	}
+
 	li span.no-icon {
 		padding-left: 32px;
 	}
+
 	ul li.active > span.utils {
 		.delete, .rename {
 			display: block;
 		}
 	}
+
 	.appwarning {
 		background: #fcc;
 	}
+
 	&.appwarning:hover {
 		background: #fbb;
 	}
+
 	.app-external {
 		color: var(--color-text-maxcontrast);
 	}
@@ -668,7 +732,6 @@ span.version {
 }
 
 .app-level {
-	margin-top: 8px;
 	span {
 		color: var(--color-text-maxcontrast);
 		background-color: transparent;
@@ -676,22 +739,25 @@ span.version {
 		border-radius: var(--border-radius);
 		padding: 3px 6px;
 	}
+
 	a {
 		padding: 10px;
 		margin: -6px;
 		white-space: nowrap;
 	}
+
 	.official {
 		background-position: left center;
 		background-position: 5px center;
 		padding-left: 25px;
 	}
+
 	.supported {
 		border-color: var(--color-success);
 		background-position: left center;
 		background-position: 5px center;
 		padding-left: 25px;
-		color: var(--color-success) ;
+		color: var(--color-success);
 	}
 }
 
@@ -705,30 +771,38 @@ span.version {
 	#searchresults {
 		display: none;
 	}
+
 }
+
 #apps-list.store {
 	.section {
 		border: 0;
 	}
+
 	.app-name {
 		display: block;
 		margin: 5px 0;
 	}
+
 	.app-name, .app-image * {
 		cursor: pointer;
 	}
+
 	.app-summary {
 		opacity: .7;
 	}
+
 	.app-image-icon .icon-settings-dark {
 		width: 100%;
 		height: 150px;
 		background-size: 45px;
 		opacity: 0.5;
 	}
+
 	.app-score-image {
 		height: 14px;
 	}
+
 	.actions {
 		margin-top: 10px;
 	}
@@ -745,26 +819,33 @@ span.version {
 			opacity: .7;
 		}
 	}
+
 	.app-level {
 		clear: right;
 		width: 100%;
+
 		.supported,
 		.official {
 			vertical-align: top;
 		}
+
 		.app-score-image {
 			float: right;
 		}
 	}
+
 	.app-author, .app-licence {
 		color: var(--color-text-maxcontrast);
 	}
+
 	.app-dependencies {
 		margin: 10px 0;
 	}
+
 	.app-description p {
 		margin: 10px 0;
 	}
+
 	.close {
 		position: absolute;
 		top: 0;
@@ -775,18 +856,21 @@ span.version {
 		width: 44px;
 		height: 44px;
 	}
+
 	.actions {
 		display: flex;
 		align-items: center;
 
-		.app-groups{
+		.app-groups {
 			padding: 5px;
 		}
 	}
+
 	.appslink {
 		text-decoration: underline;
 		margin-right: 5px;
 	}
+
 	.app-level,
 	.actions,
 	.documentation,
@@ -871,18 +955,15 @@ span.version {
 	}
 
 	/* correctly display help icons next to headings */
-	h2  {
+	h2 {
 		margin-bottom: 22px;
+
 		.icon-info {
 			padding: 6px 20px;
 			vertical-align: text-bottom;
 			display: inline-block;
 		}
 	}
-}
-
-.personal-settings-setting-box .section {
-	padding: 10px 30px;
 }
 
 .followupsection {
@@ -943,20 +1024,34 @@ span.version {
 	.section {
 		cursor: pointer;
 	}
+
 	.app-list-move {
 		transition: transform 1s;
 	}
+
+	#app-list-update-all {
+		margin-left: 10px;
+	}
+
+	.counter {
+		padding-left: $header-height - 10px;
+		margin: 10px;
+	}
+
 	&.installed {
 		.apps-list-container {
 			display: table;
 			width: 100%;
 			height: auto;
 		}
+
 		margin-bottom: 100px;
+
 		.section {
 			display: table-row;
 			padding: 0;
 			margin: 0;
+
 			> * {
 				display: table-cell;
 				height: initial;
@@ -966,21 +1061,27 @@ span.version {
 				padding: 6px;
 				box-sizing: border-box;
 			}
+
 			&.selected {
 				background-color: var(--color-background-dark);
 			}
+
 		}
+
 		.groups-enable {
 			margin-top: 0;
+
 			label {
 				margin-right: 3px;
 			}
 		}
+
 		.app-image {
 			width: 44px;
 			height: auto;
 			text-align: right;
 		}
+
 		.app-image-icon svg,
 		.app-image-icon .icon-settings-dark {
 			margin-top: 5px;
@@ -990,8 +1091,10 @@ span.version {
 			background-size: cover;
 			display: inline-block;
 		}
+
 		.actions {
 			text-align: right;
+
 			.icon-loading-small {
 				display: inline-block;
 				top: 4px;
@@ -999,6 +1102,7 @@ span.version {
 			}
 		}
 	}
+
 	&:not(.installed) .app-image-icon svg {
 		position: absolute;
 		bottom: 43px;
@@ -1007,12 +1111,15 @@ span.version {
 		height: 64px;
 		opacity: .1;
 	}
+
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
+
 	&.hidden {
 		display: none;
 	}
+
 	.section {
 		position: relative;
 		flex: 0 0 auto;
@@ -1021,42 +1128,52 @@ span.version {
 			display: block;
 			margin: 8px 0;
 		}
+
 		&:hover {
 			background-color: var(--color-background-dark);
 		}
 	}
+
 	.app-description {
 		p {
 			margin: 10px 0;
 		}
+
 		ul {
 			list-style: disc;
 		}
+
 		ol {
 			list-style: decimal;
+
 			ol, ul {
 				padding-left: 15px;
 			}
 		}
+
 		> {
 			ul, ol {
 				margin-left: 19px;
 			}
 		}
+
 		ul {
 			ol, ul {
 				padding-left: 15px;
 			}
 		}
 	}
+
 	/* Bundle header */
 	.apps-header {
 		display: table-row;
 		position: relative;
+
 		div {
 			display: table-cell;
 			height: 70px;
 		}
+
 		h2 {
 			display: table-cell;
 			position: absolute;
@@ -1068,6 +1185,7 @@ span.version {
 				top: -1px;
 				margin-left: 12px;
 			}
+
 			+ .section {
 				margin-top: 50px;
 			}
@@ -1111,6 +1229,7 @@ table.grid td.date {
 		&.message {
 			padding: 12px;
 		}
+
 		&.icon {
 			width: 32px;
 			height: 32px;
@@ -1118,12 +1237,15 @@ table.grid td.date {
 			display: inline-block;
 			border-radius: 50%;
 		}
+
 		&.icon-checkmark-white {
 			background-color: var(--color-success);
 		}
+
 		&.icon-error-white {
 			background-color: var(--color-warning);
 		}
+
 		&.icon-close-white {
 			background-color: var(--color-error);
 		}
@@ -1134,15 +1256,19 @@ table.grid td.date {
 	p {
 		padding-bottom: 0.8em;
 	}
+
 	input#shareapiExpireAfterNDays {
 		width: 40px;
 	}
+
 	.indent {
 		padding-left: 28px;
 	}
+
 	.double-indent {
 		padding-left: 56px;
 	}
+
 	.nocheckbox {
 		padding-left: 20px;
 	}
@@ -1192,6 +1318,7 @@ table.grid td.date {
 		width: 300px;
 		text-align: right;
 	}
+
 	select:nth-child(2),
 	input:not([type='button']) {
 		width: 143px;
@@ -1211,6 +1338,7 @@ table.grid td.date {
 	height: 16px;
 	width: 16px;
 	vertical-align: text-bottom;
+
 	&.success {
 		border-radius: 50%;
 	}
@@ -1233,15 +1361,16 @@ span {
 		background-color: var(--color-success);
 		border-radius: var(--border-radius);
 	}
+
 	&.error {
 		background-color: var(--color-error);
 	}
+
 	&.indeterminate {
 		background-color: var(--color-warning);
 		border-radius: 40% 0;
 	}
 }
-
 
 
 /* OPERA hack for strengthify*/
@@ -1256,20 +1385,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	background: #ce3702;
 	border-radius: 5px;
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-}
-
-/* HELP */
-.help-includes {
-	overflow: hidden !important;
-}
-
-.help-iframe {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	overflow: auto;
 }
 
 #postsetupchecks {
@@ -1290,9 +1405,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		height: 50px;
 		background-position: left center;
 	}
+
 	.errors, .errors a {
 		color: var(--color-error);
 	}
+
 	.warnings, .warnings a {
 		color: var(--color-warning);
 	}
@@ -1314,6 +1431,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 #admin-tips li {
 	list-style: initial;
+
 	a {
 		display: inline-block;
 		padding: 3px 0;
@@ -1342,32 +1460,44 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
-	$grid-row-height: 46px;
-	$grid-col-min-width: 120px;
+	$grid-row-height: 60px;
+	$grid-col-min-width: 160px;
+	overflow-x: scroll;
+	min-height: 100%;
+	height: auto;
+
 	#app-content.user-list-grid {
 		display: grid;
-		grid-auto-columns: 1fr;
-		grid-auto-rows: $grid-row-height;
 		grid-column-gap: 20px;
+		grid-auto-rows: minmax(60px, max-content);
+
 		.row {
 			// TODO replace with css4 subgrid when available
 			// fallback for ie11 no grid
 			display: flex;
 			display: grid;
+			min-height: $grid-row-height;
 			grid-row-start: span 1;
 			grid-gap: 3px;
 			align-items: center;
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
-			grid-template-columns: 44px minmax($grid-col-min-width + 30px, 1fr) repeat(auto-fit, minmax($grid-col-min-width, 1fr));
+			grid-template-columns:
+					44px
+					minmax($grid-col-min-width + 30px, 1fr) // username, displayname
+					minmax($grid-col-min-width, 1fr) // password
+					minmax($grid-col-min-width, 1fr) // email
+					minmax(1.5*$grid-col-min-width, 1fr) // groups
+					minmax(1.5*$grid-col-min-width, 1fr) // group admins
+					repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
+
 			&.disabled {
 				opacity: .5;
 			}
 
 			/* grid col width */
 			.name,
-			.displayName,
 			.password,
 			.mailAddress,
 			.languages,
@@ -1375,105 +1505,147 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.userBackend,
 			.lastLogin {
 				min-width: $grid-col-min-width;
+
+				doesnotexist:-o-prefocus, .strengthify-wrapper {
+					color: var(--color-text-dark);
+					vertical-align: baseline;
+					text-overflow: ellipsis;
+				}
 			}
+			&:not(.row--editable) {
+				&.name,
+				&.password,
+				&.displayName,
+				&.mailAddress,
+				&.userBackend,
+				&.languages {
+					overflow: hidden;
+				}
+			}
+
 			.groups,
 			.subadmins,
 			.quota {
+				min-width: $grid-col-min-width;
+
 				.multiselect {
-					min-width: $grid-col-min-width;
+					width: 100%;
+					color: var(--color-text-dark);
+					vertical-align: baseline;
 				}
 			}
+
 			.obfuscated {
 				width: 400px;
 				opacity: .7;
 			}
+
 			.userActions {
-				min-width: 44px;
+				display: flex;
+				justify-content: flex-end;
+				position: sticky;
+				right: 0px;
+				min-width: 88px;
+				background-color: var(--color-main-background);
+			}
+
+			.subtitle {
+				color: var(--color-text-maxcontrast);
+				vertical-align: baseline;
 			}
 
 			/* various */
-			&#grid-header,
-			&#new-user {
+			&#grid-header {
 				@include position('sticky');
 				align-self: normal;
 				background-color: var(--color-main-background);
-				z-index: 55; /* above multiselect */
+				z-index: 100; /* above multiselect */
 				top: $header-height;
+
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
 				}
-				/* fake input for groups validation */
-				input#newgroups {
-					position: absolute;
-					opacity: 0;
-					width: 80% !important;
-					margin: 0 10%;
-					z-index: 0;
-				}
 			}
-			// separate prop to set initial value to top: 50px
-			&#new-user {
-				top: $header-height + $grid-row-height;
-			}
+
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
-				z-index: 60; /* above new-user */
+				border-bottom-width: thin;
 
 				#headerDisplayName,
 				#headerPassword,
 				#headerAddress,
 				#headerGroups,
 				#headerSubAdmins,
+				#theHeaderUserBackend,
+				#theHeaderLastLogin,
 				#headerQuota,
+				#theHeaderStorageLocation,
 				#headerLanguages {
 					/* Line up header text with column content for when there’s inputs */
 					padding-left: 7px;
+					text-transform: none;
+					color: var(--color-text-maxcontrast);
+					vertical-align: baseline;
 				}
 			}
+
 			&:hover {
 				input:not([type='submit']):not(:focus):not(:active) {
 					border-color: var(--color-border) !important;
 				}
+
 				&:not(#grid-header) {
 					box-shadow: 5px 0 0 var(--color-primary-element) inset;
 				}
 			}
+
+			> form {
+				width: 100%;
+			}
+
 			> div,
+			> .displayName > form,
 			> form {
 				grid-row: 1;
 				display: inline-flex;
-				align-items: center;
-				color: var(--color-text);
-				position: relative;
+				color: var(--color-text-lighter);
+				flex-grow: 1;
+
 				> input:not(:focus):not(:active) {
 					border-color: transparent;
 					cursor: pointer;
 				}
-				> input:focus, >input:active {
+
+				> input:focus, > input:active {
 					+ .icon-confirm {
 						display: block !important;
 					}
 				}
+
 				/* inputs like mail, username, password */
 				&:not(.userActions) > input:not([type='submit']) {
 					width: 100%;
 					min-width: 0;
 				}
+
 				&.name {
 					word-break: break-all;
 				}
+
 				&.displayName,
 				&.mailAddress {
 					> input {
 						text-overflow: ellipsis;
+						flex-grow: 1;
 					}
 				}
+
 				&.name,
-				&.storageLocation {
+				&.userBackend {
 					/* better multi-line visual */
 					line-height: 1.3em;
 					max-height: 100%;
-					overflow : hidden;
+					overflow: hidden;
 					/* not supported by all browsers
 					   so we keep the overflow hidden
 					   as a fallback */
@@ -1482,73 +1654,95 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					-webkit-line-clamp: 2;
 					-webkit-box-orient: vertical;
 				}
+
 				&.quota {
-                    .multiselect--active + progress {
-                        display: none;
-                    }
+					display: flex;;
+					justify-content: left;
+					white-space: nowrap;
+					position: relative;
+
 					progress {
-						position: absolute;
-						width: calc(100% - 4px); /* minus left and right */
-						left: 2px;
-						bottom: 2px;
+						width: 150px;
+						margin-top: 35px;
 						height: 3px;
-						z-index: 5; /* above multiselect */
 					}
 				}
+
 				.icon-confirm {
 					flex: 0 0 auto;
 					cursor: pointer;
+
 					&:not(:active) {
 						display: none;
 					}
 				}
+
 				&.avatar {
 					height: 32px;
 					width: 32px;
 					margin: 6px;
+
 					img {
 						display: block;
 					}
 				}
+
 				&.userActions {
+					display: flex;
+					justify-content: flex-end;
+
 					#newsubmit {
 						width: 100%;
 					}
+
 					.toggleUserActions {
 						position: relative;
+						display: flex;
+						align-items: center;
+						background-color: var(--color-main-background);
+
 						.icon-more {
 							width: 44px;
 							height: 44px;
 							opacity: .5;
 							cursor: pointer;
-							&:hover {
+
+							&:focus,
+							&:hover,
+							&:active {
 								opacity: .7;
+								background-color: var(--color-background-dark)
 							}
 						}
 					}
+
 					.feedback {
 						display: flex;
 						align-items: center;
 						white-space: nowrap;
 						transition: opacity 200ms ease-in-out;
+
 						.icon-checkmark {
 							opacity: .5;
 							margin-right: 5px;
 						}
 					}
 				}
+
 				/* Fill the grid cell */
 				.multiselect.multiselect-vue {
 					width: 100%;
 				}
 			}
 		}
+
 		.infinite-loading-container {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			grid-row-start: span 4;
 		}
+
 		.users-list-end {
 			opacity: .5;
 			user-select: none;

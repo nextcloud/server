@@ -1,9 +1,11 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +18,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -38,14 +41,14 @@ const entryTemplate = require('./contactsmenu/jquery_entry.handlebars')
 
 $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 	// 0 - user, 4 - email, 6 - remote
-	var allowedTypes = [0, 4, 6]
+	const allowedTypes = [0, 4, 6]
 	if (allowedTypes.indexOf(shareType) === -1) {
 		return
 	}
 
-	var $div = this
+	const $div = this
 	appendTo.append(LIST)
-	var $list = appendTo.find('div.contactsmenu-popover')
+	const $list = appendTo.find('div.contactsmenu-popover')
 
 	$div.click(function() {
 		if (!$list.hasClass('hidden')) {
@@ -65,47 +68,49 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 		$.ajax(OC.generateUrl('/contactsmenu/findOne'), {
 			method: 'POST',
 			data: {
-				shareType: shareType,
-				shareWith: shareWith
-			}
+				shareType,
+				shareWith,
+			},
 		}).then(function(data) {
 			$list.find('ul').find('li').addClass('hidden')
 
-			var actions
+			let actions
 			if (!data.topAction) {
 				actions = [{
 					hyperlink: '#',
-					title: t('core', 'No action available')
+					title: t('core', 'No action available'),
 				}]
 			} else {
 				actions = [data.topAction].concat(data.actions)
 			}
 
 			actions.forEach(function(action) {
-				var template = entryTemplate
-				$list.find('ul').append(template(action))
+				$list.find('ul').append(entryTemplate(action))
 			})
+
+			$div.trigger('load')
 		}, function(jqXHR) {
 			$list.find('ul').find('li').addClass('hidden')
 
-			var title
+			let title
 			if (jqXHR.status === 404) {
 				title = t('core', 'No action available')
 			} else {
 				title = t('core', 'Error fetching contact actions')
 			}
 
-			var template = entryTemplate
-			$list.find('ul').append(template({
+			$list.find('ul').append(entryTemplate({
 				hyperlink: '#',
-				title: title
+				title,
 			}))
+
+			$div.trigger('loaderror', jqXHR)
 		})
 	})
 
 	$(document).click(function(event) {
-		var clickedList = ($list.has(event.target).length > 0)
-		var clickedTarget = ($div.has(event.target).length > 0)
+		const clickedList = ($list.has(event.target).length > 0)
+		let clickedTarget = ($div.has(event.target).length > 0)
 
 		$div.each(function() {
 			if ($(this).is(event.target)) {

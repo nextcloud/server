@@ -1,28 +1,32 @@
-/* eslint-disable */
 /**
- * ownCloud
- *
- * @author John Molakvoæ
  * @copyright 2016-2018 John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke
  * @copyright 2013 Morris Jobke <morris.jobke@gmail.com>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Sergey Shliakhov <husband.sergey@gmail.com>
  *
- * This library is distributed in the hope that it will be useful,
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
+/* eslint-disable */
 import $ from 'jquery'
+import md5 from 'blueimp-md5'
 
 /*
  * Adds a background color to the element called on and adds the first character
@@ -62,9 +66,9 @@ import $ from 'jquery'
 *
 */
 
-String.prototype.toRgb = function() {
+const toRgb = (s) => {
 	// Normalize hash
-	var hash = this.toLowerCase()
+	var hash = s.toLowerCase()
 
 	// Already a md5 hash?
 	if (hash.match(/^([0-9a-f]{4}-?){8}$/) === null) {
@@ -88,8 +92,7 @@ String.prototype.toRgb = function() {
 	}
 
 	function mixPalette(steps, color1, color2) {
-		var count = steps + 1
-		var palette = new Array()
+		var palette = []
 		palette.push(color1)
 		var step = stepCalc(steps, [color1, color2])
 		for (var i = 1; i < steps; i++) {
@@ -101,23 +104,23 @@ String.prototype.toRgb = function() {
 		return palette
 	}
 
-	var red = new Color(182, 70, 157)
-	var yellow = new Color(221, 203, 85)
-	var blue = new Color(0, 130, 201) // Nextcloud blue
+	const red = new Color(182, 70, 157);
+	const yellow = new Color(221, 203, 85);
+	const blue = new Color(0, 130, 201); // Nextcloud blue
 	// Number of steps to go from a color to another
 	// 3 colors * 6 will result in 18 generated colors
-	var steps = 6
+	const steps = 6;
 
-	var palette1 = mixPalette(steps, red, yellow)
-	var palette2 = mixPalette(steps, yellow, blue)
-	var palette3 = mixPalette(steps, blue, red)
+	const palette1 = mixPalette(steps, red, yellow);
+	const palette2 = mixPalette(steps, yellow, blue);
+	const palette3 = mixPalette(steps, blue, red);
 
-	var finalPalette = palette1.concat(palette2).concat(palette3)
+	const finalPalette = palette1.concat(palette2).concat(palette3);
 
 	// Convert a string to an integer evenly
 	function hashToInt(hash, maximum) {
 		var finalInt = 0
-		var result = Array()
+		var result = []
 
 		// Splitting evenly the string
 		for (var i = 0; i < hash.length; i++) {
@@ -136,11 +139,17 @@ String.prototype.toRgb = function() {
 	return finalPalette[hashToInt(hash, steps * 3)]
 }
 
+String.prototype.toRgb = function() {
+	console.warn('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
+
+	return toRgb(this)
+}
+
 $.fn.imageplaceholder = function(seed, text, size) {
 	text = text || seed
 
 	// Compute the hash
-	var rgb = seed.toRgb()
+	var rgb = toRgb(seed)
 	this.css('background-color', 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')')
 
 	// Placeholders are square
@@ -158,7 +167,8 @@ $.fn.imageplaceholder = function(seed, text, size) {
 	this.css('font-size', (height * 0.55) + 'px')
 
 	if (seed !== null && seed.length) {
-		this.html(text[0].toUpperCase())
+		var placeholderText = text.replace(/\s+/g, ' ').trim().split(' ', 2).map((word) => word[0].toUpperCase()).join('')
+		this.html(placeholderText);
 	}
 }
 

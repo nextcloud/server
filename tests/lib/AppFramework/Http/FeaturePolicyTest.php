@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
@@ -31,7 +32,7 @@ class FeaturePolicyTest extends \Test\TestCase {
 	/** @var EmptyFeaturePolicy */
 	private $policy;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->policy = new FeaturePolicy();
 	}

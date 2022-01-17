@@ -1,12 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -20,31 +24,29 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\SystemTag;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OCP\IGroupManager;
-use OCP\SystemTag\ISystemTag;
-use OCP\IUser;
 
 /**
  * Manager class for system tags
  */
 class SystemTagManager implements ISystemTagManager {
-
-	const TAG_TABLE = 'systemtag';
-	const TAG_GROUP_TABLE = 'systemtag_group';
+	public const TAG_TABLE = 'systemtag';
+	public const TAG_GROUP_TABLE = 'systemtag_group';
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -228,7 +230,7 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function updateTag(string $tagId, string $tagName, bool $userVisible, bool $userAssignable) {
+	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable) {
 		try {
 			$tags = $this->getTagsByIds($tagId);
 		} catch (TagNotFoundException $e) {
@@ -240,7 +242,7 @@ class SystemTagManager implements ISystemTagManager {
 		$beforeUpdate = array_shift($tags);
 		$afterUpdate = new SystemTag(
 			$tagId,
-			$tagName,
+			$newName,
 			$userVisible,
 			$userAssignable
 		);
@@ -251,7 +253,7 @@ class SystemTagManager implements ISystemTagManager {
 			->set('visibility', $query->createParameter('visibility'))
 			->set('editable', $query->createParameter('editable'))
 			->where($query->expr()->eq('id', $query->createParameter('tagid')))
-			->setParameter('name', $tagName)
+			->setParameter('name', $newName)
 			->setParameter('visibility', $userVisible ? 1 : 0)
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->setParameter('tagid', $tagId);
@@ -264,7 +266,7 @@ class SystemTagManager implements ISystemTagManager {
 			}
 		} catch (UniqueConstraintViolationException $e) {
 			throw new TagAlreadyExistsException(
-				'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
+				'Tag ("' . $newName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
 				0,
 				$e
 			);

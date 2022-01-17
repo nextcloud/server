@@ -2,9 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Files\Storage\Wrapper;
@@ -34,7 +37,7 @@ use OCP\IConfig;
  * Throws a StorageNotAvailableException for storages with known failures
  */
 class Availability extends Wrapper {
-	const RECHECK_TTL_SEC = 600; // 10 minutes
+	public const RECHECK_TTL_SEC = 600; // 10 minutes
 
 	/** @var IConfig */
 	protected $config;
@@ -376,11 +379,15 @@ class Availability extends Wrapper {
 
 	/** {@inheritdoc} */
 	public function hasUpdated($path, $time) {
-		$this->checkAvailability();
+		if (!$this->isAvailable()) {
+			return false;
+		}
 		try {
 			return parent::hasUpdated($path, $time);
 		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
+			// set unavailable but don't rethrow
+			$this->setUnavailable(null);
+			return false;
 		}
 	}
 
@@ -446,9 +453,9 @@ class Availability extends Wrapper {
 	/**
 	 * @throws StorageNotAvailableException
 	 */
-	protected function setUnavailable(StorageNotAvailableException $e) {
+	protected function setUnavailable(?StorageNotAvailableException $e): void {
 		$delay = self::RECHECK_TTL_SEC;
-		if($e instanceof StorageAuthException) {
+		if ($e instanceof StorageAuthException) {
 			$delay = max(
 				// 30min
 				$this->config->getSystemValueInt('external_storage.auth_availability_delay', 1800),
@@ -456,6 +463,19 @@ class Availability extends Wrapper {
 			);
 		}
 		$this->getStorageCache()->setAvailability(false, $delay);
-		throw $e;
+		if ($e !== null) {
+			throw $e;
+		}
+	}
+
+
+
+	public function getDirectoryContent($directory): \Traversable {
+		$this->checkAvailability();
+		try {
+			return parent::getDirectoryContent($directory);
+		} catch (StorageNotAvailableException $e) {
+			$this->setUnavailable($e);
+		}
 	}
 }

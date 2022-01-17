@@ -3,9 +3,12 @@
  * @copyright Copyright (c) 2017  Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,18 +22,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IRequest;
-use OCP\IL10N;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 
@@ -70,6 +72,7 @@ class MailSettingsController extends Controller {
 	 * Sets the email settings
 	 *
 	 * @PasswordConfirmationRequired
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 *
 	 * @param string $mail_domain
 	 * @param string $mail_from_address
@@ -90,10 +93,9 @@ class MailSettingsController extends Controller {
 									$mail_smtpauth,
 									$mail_smtpport,
 									$mail_sendmailmode) {
-
 		$params = get_defined_vars();
 		$configs = [];
-		foreach($params as $key => $value) {
+		foreach ($params as $key => $value) {
 			$configs[$key] = empty($value) ? null : $value;
 		}
 
@@ -112,6 +114,7 @@ class MailSettingsController extends Controller {
 	 * Store the credentials used for SMTP in the config
 	 *
 	 * @PasswordConfirmationRequired
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 *
 	 * @param string $mail_smtpname
 	 * @param string $mail_smtppassword
@@ -123,8 +126,8 @@ class MailSettingsController extends Controller {
 		}
 
 		$this->config->setSystemValues([
-			'mail_smtpname'		=> $mail_smtpname,
-			'mail_smtppassword'	=> $mail_smtppassword,
+			'mail_smtpname' => $mail_smtpname,
+			'mail_smtppassword' => $mail_smtppassword,
 		]);
 
 		return new DataResponse();
@@ -132,6 +135,7 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Send a mail to test the settings
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 * @return DataResponse
 	 */
 	public function sendTestMail() {
@@ -165,5 +169,4 @@ class MailSettingsController extends Controller {
 
 		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails.'), Http::STATUS_BAD_REQUEST);
 	}
-
 }

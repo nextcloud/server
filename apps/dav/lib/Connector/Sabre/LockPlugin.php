@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jaakko Salo <jaakkos@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
@@ -19,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
@@ -41,12 +42,20 @@ class LockPlugin extends ServerPlugin {
 	private $server;
 
 	/**
+	 * State of the lock
+	 *
+	 * @var bool
+	 */
+	private $isLocked;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
-		$this->server->on('beforeMethod', [$this, 'getLock'], 50);
-		$this->server->on('afterMethod', [$this, 'releaseLock'], 50);
+		$this->server->on('beforeMethod:*', [$this, 'getLock'], 50);
+		$this->server->on('afterMethod:*', [$this, 'releaseLock'], 50);
+		$this->isLocked = false;
 	}
 
 	public function getLock(RequestInterface $request) {
@@ -66,10 +75,15 @@ class LockPlugin extends ServerPlugin {
 			} catch (LockedException $e) {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
+			$this->isLocked = true;
 		}
 	}
 
 	public function releaseLock(RequestInterface $request) {
+		// don't try to release the lock if we never locked one
+		if ($this->isLocked === false) {
+			return;
+		}
 		if ($request->getMethod() !== 'PUT' || isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			return;
 		}
@@ -80,6 +94,7 @@ class LockPlugin extends ServerPlugin {
 		}
 		if ($node instanceof Node) {
 			$node->releaseLock(ILockingProvider::LOCK_SHARED);
+			$this->isLocked = false;
 		}
 	}
 }

@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Handler;
 
 use OCA\Files_External\Config\IConfigHandler;
@@ -41,22 +42,22 @@ class ExtStorageConfigHandler extends UserContext implements IConfigHandler {
 		$this->placeholder = 'home';
 		$user = $this->getUser();
 
-		if($user === null) {
+		if ($user === null) {
 			return $optionValue;
 		}
 
 		$backend = $user->getBackend();
-		if(!$backend instanceof User_Proxy) {
+		if (!$backend instanceof User_Proxy) {
 			return $optionValue;
 		}
 
 		$access = $backend->getLDAPAccess($user->getUID());
-		if(!$access) {
+		if (!$access) {
 			return $optionValue;
 		}
 
 		$attribute = $access->connection->ldapExtStorageHomeAttribute;
-		if(empty($attribute)) {
+		if (empty($attribute)) {
 			return $optionValue;
 		}
 

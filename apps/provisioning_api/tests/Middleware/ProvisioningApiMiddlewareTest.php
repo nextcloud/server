@@ -2,6 +2,8 @@
 /**
  * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,11 +15,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\Provisioning_API\Tests\Middleware;
@@ -25,16 +27,17 @@ namespace OCA\Provisioning_API\Tests\Middleware;
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use Test\TestCase;
 
 class ProvisioningApiMiddlewareTest extends TestCase {
 
-	/** @var IControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->reflector = $this->createMock(IControllerMethodReflector::class);
@@ -42,13 +45,20 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 
 	public function dataAnnotation() {
 		return [
-			[false, false, false, false],
-			[false, false,  true, false],
-			[false,  true,  true, false],
-			[ true, false, false,  true],
-			[ true, false,  true, false],
-			[ true,  true, false, false],
-			[ true,  true,  true, false],
+			[false, false, false, false, false],
+			[false, false,  true, false, false],
+			[false,  true,  true, false, false],
+			[ true, false, false, false, true],
+			[ true, false,  true, false, false],
+			[ true,  true, false, false, false],
+			[ true,  true,  true, false, false],
+			[false, false, false, true, false],
+			[false, false,  true, true, false],
+			[false,  true,  true, true, false],
+			[ true, false, false, true, false],
+			[ true, false,  true, true, false],
+			[ true,  true, false, true, false],
+			[ true,  true,  true, true, false],
 		];
 	}
 
@@ -60,7 +70,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 	 * @param bool $isSubAdmin
 	 * @param bool $shouldThrowException
 	 */
-	public function testBeforeController($subadminRequired, $isAdmin, $isSubAdmin, $shouldThrowException) {
+	public function testBeforeController($subadminRequired, $isAdmin, $isSubAdmin, $hasSettingAuthorizationAnnotation, $shouldThrowException) {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,
 			$isAdmin,
@@ -68,8 +78,15 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		);
 
 		$this->reflector->method('hasAnnotation')
-			->with('NoSubAdminRequired')
-			->willReturn(!$subadminRequired);
+			->willReturnCallback(function ($annotation) use ($subadminRequired, $hasSettingAuthorizationAnnotation) {
+				if ($annotation === 'NoSubAdminRequired') {
+					return !$subadminRequired;
+				}
+				if ($annotation === 'AuthorizedAdminSetting') {
+					return $hasSettingAuthorizationAnnotation;
+				}
+				return false;
+			});
 
 		try {
 			$middleware->beforeController(
@@ -112,11 +129,10 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		} catch (OCSException $e) {
 			$this->assertFalse($forwared);
 			$this->assertSame($exception->getMessage(), $e->getMessage());
-			$this->assertSame(\OCP\API::RESPOND_UNAUTHORISED, $e->getCode());
+			$this->assertSame(Http::STATUS_FORBIDDEN, $e->getCode());
 		} catch (\Exception $e) {
 			$this->assertTrue($forwared);
 			$this->assertSame($exception, $e);
 		}
-
 	}
 }

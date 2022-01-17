@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -14,11 +14,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\Files_Sharing\Tests\Controller;
@@ -40,11 +40,11 @@ class ShareInfoControllerTest extends TestCase {
 	/** @var ShareInfoController */
 	private $controller;
 
-	/** @var ShareManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ShareManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = $this->createMock(ShareManager::class);
@@ -65,6 +65,7 @@ class ShareInfoControllerTest extends TestCase {
 			->willThrowException(new ShareNotFound());
 
 		$expected = new JSONResponse([], Http::STATUS_NOT_FOUND);
+		$expected->throttle(['token' => 'token']);
 		$this->assertEquals($expected, $this->controller->info('token'));
 	}
 
@@ -81,6 +82,7 @@ class ShareInfoControllerTest extends TestCase {
 			->willReturn(false);
 
 		$expected = new JSONResponse([], Http::STATUS_FORBIDDEN);
+		$expected->throttle(['token' => 'token']);
 		$this->assertEquals($expected, $this->controller->info('token', 'pass'));
 	}
 
@@ -99,6 +101,7 @@ class ShareInfoControllerTest extends TestCase {
 			->willReturn(true);
 
 		$expected = new JSONResponse([], Http::STATUS_FORBIDDEN);
+		$expected->throttle(['token' => 'token']);
 		$this->assertEquals($expected, $this->controller->info('token', 'pass'));
 	}
 
@@ -171,9 +174,6 @@ class ShareInfoControllerTest extends TestCase {
 		$this->shareManager->method('checkPassword')
 			->with($share, 'pass')
 			->willReturn(true);
-
-		$this->controller->expects($this->once())
-			->method('addROWrapper');
 
 		$expected = new JSONResponse([
 			'id' => 42,
@@ -284,7 +284,7 @@ class ShareInfoControllerTest extends TestCase {
 							'parentId' => 43,
 							'mtime' => 1339,
 							'name' => 'file',
-							'permissions' => 9,
+							'permissions' => 1,
 							'mimetype' => 'mime/type',
 							'size' => 3,
 							'type' => 'file',

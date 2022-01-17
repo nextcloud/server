@@ -126,7 +126,7 @@
 		 * the given file info, for example based on mime type.
 		 *
 		 * @param {OCA.Files.FileInfoModel} fileInfo file info model
-		 * @return {bool} whether to display this tab
+		 * @return {boolean} whether to display this tab
 		 */
 		canDisplay: function(fileInfo) {
 			return true;

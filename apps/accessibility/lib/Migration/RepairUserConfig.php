@@ -1,7 +1,12 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,14 +17,13 @@ declare (strict_types = 1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Accessibility\Migration;
 
 use OCA\Accessibility\AppInfo\Application;
@@ -69,18 +73,17 @@ class RepairUserConfig implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		$output->startProgress();
-		$this->userManager->callForSeenUsers(function(IUser $user) use ($output) {
-			$theme = $this->config->getUserValue($user->getUID(), Application::APP_NAME, 'theme', false);
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($output) {
+			$theme = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'theme', false);
 			if ($theme === 'themedark') {
-				$this->config->setUserValue($user->getUID(), Application::APP_NAME, 'theme', 'dark');
+				$this->config->setUserValue($user->getUID(), Application::APP_ID, 'theme', 'dark');
 			}
 			if ($theme === 'themehighcontrast') {
-				$this->config->setUserValue($user->getUID(), Application::APP_NAME, 'highcontrast', 'highcontrast');
-				$this->config->deleteUserValue($user->getUID(), Application::APP_NAME, 'theme');
+				$this->config->setUserValue($user->getUID(), Application::APP_ID, 'highcontrast', 'highcontrast');
+				$this->config->deleteUserValue($user->getUID(), Application::APP_ID, 'theme');
 			}
 			$output->advance();
 		});
 		$output->finishProgress();
 	}
-
 }

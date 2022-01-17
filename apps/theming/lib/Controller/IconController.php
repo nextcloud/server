@@ -2,9 +2,12 @@
 /**
  * @copyright Copyright (c) 2016 Julius Haertl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,11 +18,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\Theming\Controller;
@@ -30,9 +33,9 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
@@ -130,7 +133,7 @@ class IconController extends Controller {
 				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 			}
 		}
-		if($response === null) {
+		if ($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
@@ -166,7 +169,7 @@ class IconController extends Controller {
 				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 			}
 		}
-		if($response === null) {
+		if ($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}

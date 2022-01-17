@@ -4,9 +4,12 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Mikael Hammarin <mikael@try2.se>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -22,19 +25,21 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Hooks\PublicEmitter;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\ISubAdmin;
-use OCP\IUser;
-use OCP\IUserManager;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IDBConnection;
+use OCP\IUser;
+use OCP\IUserManager;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
 
@@ -47,22 +52,27 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	/** @var IDBConnection */
 	private $dbConn;
 
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 * @param IDBConnection $dbConn
 	 */
 	public function __construct(IUserManager $userManager,
-	                            IGroupManager $groupManager,
-								IDBConnection $dbConn) {
+								IGroupManager $groupManager,
+								IDBConnection $dbConn,
+								IEventDispatcher $eventDispatcher) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->dbConn = $dbConn;
+		$this->eventDispatcher = $eventDispatcher;
 
-		$this->userManager->listen('\OC\User', 'postDelete', function($user) {
+		$this->userManager->listen('\OC\User', 'postDelete', function ($user) {
 			$this->post_deleteUser($user);
 		});
-		$this->groupManager->listen('\OC\Group', 'postDelete', function($group) {
+		$this->groupManager->listen('\OC\Group', 'postDelete', function ($group) {
 			$this->post_deleteGroup($group);
 		});
 	}
@@ -82,8 +92,10 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			])
 			->execute();
 
+		/** @deprecated 21.0.0 - use type SubAdminAddedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postCreateSubAdmin', [$user, $group]);
-		\OC_Hook::emit("OC_SubAdmin", "post_createSubAdmin", ["gid" => $group->getGID()]);
+		$event = new SubAdminAddedEvent($group, $user);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	/**
@@ -99,8 +111,10 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
 
+		/** @deprecated 21.0.0 - use type SubAdminRemovedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postDeleteSubAdmin', [$user, $group]);
-		\OC_Hook::emit("OC_SubAdmin", "post_deleteSubAdmin", ["gid" => $group->getGID()]);
+		$event = new SubAdminRemovedEvent($group, $user);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	/**
@@ -109,6 +123,25 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @return IGroup[]
 	 */
 	public function getSubAdminsGroups(IUser $user): array {
+		$groupIds = $this->getSubAdminsGroupIds($user);
+
+		$groups = [];
+		foreach ($groupIds as $groupId) {
+			$group = $this->groupManager->get($groupId);
+			if ($group !== null) {
+				$groups[$group->getGID()] = $group;
+			}
+		}
+
+		return $groups;
+	}
+
+	/**
+	 * Get group ids of a SubAdmin
+	 * @param IUser $user the SubAdmin
+	 * @return string[]
+	 */
+	public function getSubAdminsGroupIds(IUser $user): array {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$result = $qb->select('gid')
@@ -117,11 +150,8 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		$groups = [];
-		while($row = $result->fetch()) {
-			$group = $this->groupManager->get($row['gid']);
-			if(!is_null($group)) {
-				$groups[$group->getGID()] = $group;
-			}
+		while ($row = $result->fetch()) {
+			$groups[] = $row['gid'];
 		}
 		$result->closeCursor();
 
@@ -134,8 +164,8 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @return array ['displayName' => displayname]
 	 */
 	public function getSubAdminsGroupsName(IUser $user): array {
-		return array_map(function($group) {
-			return array('displayName' => $group->getDisplayName());
+		return array_map(function ($group) {
+			return ['displayName' => $group->getDisplayName()];
 		}, $this->getSubAdminsGroups($user));
 	}
 
@@ -153,9 +183,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		$users = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$user = $this->userManager->get($row['uid']);
-			if(!is_null($user)) {
+			if (!is_null($user)) {
 				$users[] = $user;
 			}
 		}
@@ -176,12 +206,12 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		$subadmins = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$user = $this->userManager->get($row['uid']);
 			$group = $this->groupManager->get($row['gid']);
-			if(!is_null($user) && !is_null($group)) {
+			if (!is_null($user) && !is_null($group)) {
 				$subadmins[] = [
-					'user'  => $user,
+					'user' => $user,
 					'group' => $group
 				];
 			}
@@ -209,7 +239,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
 
-		$fetch =  $result->fetch();
+		$fetch = $result->fetch();
 		$result->closeCursor();
 		$result = !empty($fetch) ? true : false;
 
@@ -248,19 +278,17 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @return bool
 	 */
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool {
-		if(!$this->isSubAdmin($subadmin)) {
+		if (!$this->isSubAdmin($subadmin)) {
 			return false;
 		}
-		if($this->groupManager->isAdmin($user->getUID())) {
+		if ($this->groupManager->isAdmin($user->getUID())) {
 			return false;
 		}
-		$accessibleGroups = $this->getSubAdminsGroups($subadmin);
-		foreach($accessibleGroups as $accessibleGroup) {
-			if($accessibleGroup->inGroup($user)) {
-				return true;
-			}
-		}
-		return false;
+
+		$accessibleGroups = $this->getSubAdminsGroupIds($subadmin);
+		$userGroups = $this->groupManager->getUserGroupIds($user);
+
+		return !empty(array_intersect($accessibleGroups, $userGroups));
 	}
 
 	/**

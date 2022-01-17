@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,20 +14,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
-
 
 use OCA\User_LDAP\User\Manager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class AccessFactory {
 	/** @var ILDAPWrapper */
@@ -39,19 +39,22 @@ class AccessFactory {
 	protected $config;
 	/** @var IUserManager */
 	private $ncUserManager;
+	/** @var LoggerInterface */
+	private $logger;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
 		Manager $userManager,
 		Helper $helper,
 		IConfig $config,
-		IUserManager $ncUserManager)
-	{
+		IUserManager $ncUserManager,
+		LoggerInterface $logger) {
 		$this->ldap = $ldap;
 		$this->userManager = $userManager;
 		$this->helper = $helper;
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
+		$this->logger = $logger;
 	}
 
 	public function get(Connection $connection) {
@@ -61,7 +64,8 @@ class AccessFactory {
 			$this->userManager,
 			$this->helper,
 			$this->config,
-			$this->ncUserManager
+			$this->ncUserManager,
+			$this->logger
 		);
 	}
 }

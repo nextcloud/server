@@ -2,8 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
  *
  * @license GNU AGPL version 3 or any later version
@@ -15,48 +16,32 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
-use OCP\LDAP\ILDAPProviderFactory;
 use OCP\IServerContainer;
-use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\LDAP\ILDAPProvider;
+use OCP\LDAP\ILDAPProviderFactory;
 
 class LDAPProviderFactory implements ILDAPProviderFactory {
-	/**
-	 * Server container
-	 *
-	 * @var IServerContainer
-	 */
+	/** * @var IServerContainer */
 	private $serverContainer;
-	
-	/**
-	 * Constructor for the LDAP provider factory
-	 *
-	 * @param IServerContainer $serverContainer server container
-	 */
+
 	public function __construct(IServerContainer $serverContainer) {
 		$this->serverContainer = $serverContainer;
 	}
-	
-	/**
-	 * creates and returns an instance of the ILDAPProvider
-	 *
-	 * @return OCP\LDAP\ILDAPProvider
-	 */
-	public function getLDAPProvider() {
-		$dbConnection = $this->serverContainer->getDatabaseConnection();
-		$userMapping = new UserMapping($dbConnection);
-		return new LDAPProvider($this->serverContainer, new Helper($this->serverContainer->getConfig()),
-					new DeletedUsersIndex($this->serverContainer->getConfig(), 
-					$dbConnection, $userMapping));
+
+	public function getLDAPProvider(): ILDAPProvider {
+		return $this->serverContainer->get(LDAPProvider::class);
+	}
+
+	public function isAvailable(): bool {
+		return true;
 	}
 }

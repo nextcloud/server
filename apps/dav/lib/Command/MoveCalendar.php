@@ -1,33 +1,37 @@
 <?php
 /**
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
- * @license AGPL-3.0
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
-use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -59,7 +63,7 @@ class MoveCalendar extends Command {
 	/** @var CalDavBackend */
 	private $calDav;
 
-	const URI_USERS = 'principals/users/';
+	public const URI_USERS = 'principals/users/';
 
 	/**
 	 * @param IUserManager $userManager
@@ -69,7 +73,7 @@ class MoveCalendar extends Command {
 	 * @param IL10N $l10n
 	 * @param CalDavBackend $calDav
 	 */
-	function __construct(
+	public function __construct(
 		IUserManager $userManager,
 		IGroupManager $groupManager,
 		IShareManager $shareManager,
@@ -99,10 +103,10 @@ class MoveCalendar extends Command {
 			->addArgument('destinationuid',
 				InputArgument::REQUIRED,
 				'User who will receive the calendar')
-			->addOption('force', 'f', InputOption::VALUE_NONE, "Force the migration by removing existing shares");
+			->addOption('force', 'f', InputOption::VALUE_NONE, "Force the migration by removing existing shares and renaming calendars in case of conflicts");
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userOrigin = $input->getArgument('sourceuid');
 		$userDestination = $input->getArgument('destinationuid');
 
@@ -117,6 +121,7 @@ class MoveCalendar extends Command {
 		}
 
 		$name = $input->getArgument('name');
+		$newName = null;
 
 		$calendar = $this->calDav->getCalendarByUri(self::URI_USERS . $userOrigin, $name);
 
@@ -124,15 +129,72 @@ class MoveCalendar extends Command {
 			throw new \InvalidArgumentException("User <$userOrigin> has no calendar named <$name>. You can run occ dav:list-calendars to list calendars URIs for this user.");
 		}
 
-		if (null !== $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name)) {
-			throw new \InvalidArgumentException("User <$userDestination> already has a calendar named <$name>.");
+		// Calendar already exists
+		if ($this->calendarExists($userDestination, $name)) {
+			if ($input->getOption('force')) {
+				// Try to find a suitable name
+				$newName = $this->getNewCalendarName($userDestination, $name);
+
+				// If we didn't find a suitable value after all the iterations, give up
+				if ($this->calendarExists($userDestination, $newName)) {
+					throw new \InvalidArgumentException("Unable to find a suitable calendar name for <$userDestination> with initial name <$name>.");
+				}
+			} else {
+				throw new \InvalidArgumentException("User <$userDestination> already has a calendar named <$name>.");
+			}
 		}
 
-		$this->checkShares($calendar, $userOrigin, $userDestination, $input->getOption('force'));
+		$hadShares = $this->checkShares($calendar, $userOrigin, $userDestination, $input->getOption('force'));
+		if ($hadShares) {
+			/**
+			 * Warn that share links have changed if there are shares
+			 */
+			$this->io->note([
+				"Please note that moving calendar " . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.",
+				"Sharees will need to change \"example.com/remote.php/dav/calendars/uid/" . $calendar['uri'] . "_shared_by_$userOrigin\" to \"example.com/remote.php/dav/calendars/uid/" . $newName ?: $calendar['uri'] . "_shared_by_$userDestination\""
+			]);
+		}
 
-		$this->calDav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination);
+		$this->calDav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination, $newName);
 
-		$this->io->success("Calendar <$name> was moved from user <$userOrigin> to <$userDestination>");
+		$this->io->success("Calendar <$name> was moved from user <$userOrigin> to <$userDestination>" . ($newName ? " as <$newName>" : ''));
+		return 0;
+	}
+
+	/**
+	 * Check if the calendar exists for user
+	 *
+	 * @param string $userDestination
+	 * @param string $name
+	 * @return bool
+	 */
+	protected function calendarExists(string $userDestination, string $name): bool {
+		return null !== $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name);
+	}
+
+	/**
+	 * Try to find a suitable new calendar name that
+	 * doesn't exists for the provided user
+	 *
+	 * @param string $userDestination
+	 * @param string $name
+	 * @return string
+	 */
+	protected function getNewCalendarName(string $userDestination, string $name): string {
+		$increment = 1;
+		$newName = $name . '-' . $increment;
+		while ($increment <= 10) {
+			$this->io->writeln("Trying calendar name <$newName>", OutputInterface::VERBOSITY_VERBOSE);
+			if (!$this->calendarExists($userDestination, $newName)) {
+				// New name is good to go
+				$this->io->writeln("Found proper new calendar name <$newName>", OutputInterface::VERBOSITY_VERBOSE);
+				break;
+			}
+			$newName = $name . '-' . $increment;
+			$increment++;
+		}
+
+		return $newName;
 	}
 
 	/**
@@ -142,12 +204,13 @@ class MoveCalendar extends Command {
 	 * @param string $userOrigin
 	 * @param string $userDestination
 	 * @param bool $force
+	 * @return bool had any shares or not
+	 * @throws \InvalidArgumentException
 	 */
-	private function checkShares(array $calendar, string $userOrigin, string $userDestination, bool $force = false)
-	{
+	private function checkShares(array $calendar, string $userOrigin, string $userDestination, bool $force = false): bool {
 		$shares = $this->calDav->getShares($calendar['id']);
 		foreach ($shares as $share) {
-			list(, $prefix, $userOrGroup) = explode('/', $share['href'], 3);
+			[, $prefix, $userOrGroup] = explode('/', $share['href'], 3);
 
 			/**
 			 * Check that user destination is member of the groups which whom the calendar was shared
@@ -172,14 +235,7 @@ class MoveCalendar extends Command {
 				}
 			}
 		}
-		/**
-		 * Warn that share links have changed if there are shares
-		 */
-		if (count($shares) > 0) {
-			$this->io->note([
-				"Please note that moving calendar " . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.", 
-				"Sharees will need to change \"example.com/remote.php/dav/calendars/uid/" . $calendar['uri'] . "_shared_by_$userOrigin\" to \"example.com/remote.php/dav/calendars/uid/" . $calendar['uri'] . "_shared_by_$userDestination\""
-			]);
-		}
+
+		return count($shares) > 0;
 	}
 }

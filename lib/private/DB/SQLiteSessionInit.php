@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -18,15 +20,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
-use Doctrine\Common\EventSubscriber;
 
 class SQLiteSessionInit implements EventSubscriber {
 	/**
@@ -58,12 +59,13 @@ class SQLiteSessionInit implements EventSubscriber {
 		$sensitive = $this->caseSensitiveLike ? 'true' : 'false';
 		$args->getConnection()->executeUpdate('PRAGMA case_sensitive_like = ' . $sensitive);
 		$args->getConnection()->executeUpdate('PRAGMA journal_mode = ' . $this->journalMode);
-		/** @var \PDO $pdo */
-		$pdo = $args->getConnection()->getWrappedConnection();
+		/** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
+		$connection = $args->getConnection()->getWrappedConnection();
+		$pdo = $connection->getWrappedConnection();
 		$pdo->sqliteCreateFunction('md5', 'md5', 1);
 	}
 
 	public function getSubscribedEvents() {
-		return array(Events::postConnect);
+		return [Events::postConnect];
 	}
 }

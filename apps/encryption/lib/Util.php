@@ -5,7 +5,9 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Phil Davis <phil.davis@inf.org>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,13 +21,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Encryption;
-
 
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
@@ -183,7 +182,6 @@ class Util {
 				throw new \BadMethodCallException('Unknown user: ' .
 				'method expects path to a user folder relative to the data folder');
 			}
-
 		}
 
 		return $owner;
@@ -193,10 +191,9 @@ class Util {
 	 * get storage of path
 	 *
 	 * @param string $path
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public function getStorage($path) {
 		return $this->files->getMount($path)->getStorage();
 	}
-
 }

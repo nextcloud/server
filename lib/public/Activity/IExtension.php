@@ -2,10 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -20,25 +20,24 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Activity;
 
 /**
  * Interface IExtension
  *
- * @package OCP\Activity
  * @since 8.0.0
  */
 interface IExtension {
-	const METHOD_STREAM = 'stream';
-	const METHOD_MAIL = 'email';
+	public const METHOD_STREAM = 'stream';
+	public const METHOD_MAIL = 'email';
+	public const METHOD_NOTIFICATION = 'notification';
 
-	const PRIORITY_VERYLOW 	= 10;
-	const PRIORITY_LOW	= 20;
-	const PRIORITY_MEDIUM	= 30;
-	const PRIORITY_HIGH	= 40;
-	const PRIORITY_VERYHIGH	= 50;
+	public const PRIORITY_VERYLOW = 10;
+	public const PRIORITY_LOW = 20;
+	public const PRIORITY_MEDIUM = 30;
+	public const PRIORITY_HIGH = 40;
+	public const PRIORITY_VERYHIGH = 50;
 }

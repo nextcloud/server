@@ -3,7 +3,11 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
@@ -46,7 +49,7 @@ class ActivityPublisherTest extends TestCase {
 	/** @var ActivityPublisher */
 	private $listener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->activityManager = $this->createMock(IManager::class);
@@ -70,28 +73,26 @@ class ActivityPublisherTest extends TestCase {
 		$activityEvent = $this->createMock(IEvent::class);
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
-			->will($this->returnValue($activityEvent));
+			->willReturn($activityEvent);
 		$activityEvent->expects($this->once())
 			->method('setApp')
 			->with('twofactor_backupcodes')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$activityEvent->expects($this->once())
 			->method('setType')
 			->with('security')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$activityEvent->expects($this->once())
 			->method('setAuthor')
 			->with('fritz')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$activityEvent->expects($this->once())
 			->method('setAffectedUser')
 			->with('fritz')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$this->activityManager->expects($this->once())
-			->method('publish')
-			->will($this->returnValue($activityEvent));
+			->method('publish');
 
 		$this->listener->handle($event);
 	}
-
 }

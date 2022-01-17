@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -17,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Comments;
 
 use OCP\Comments\ICommentsManager;
@@ -69,7 +69,7 @@ class EntityTypeCollection extends RootCollection {
 		\Closure $childExistsFunction
 	) {
 		$name = trim($name);
-		if(empty($name) || !is_string($name)) {
+		if (empty($name) || !is_string($name)) {
 			throw new \InvalidArgumentException('"name" parameter must be non-empty string');
 		}
 		$this->name = $name;
@@ -90,8 +90,8 @@ class EntityTypeCollection extends RootCollection {
 	 * @return \Sabre\DAV\INode
 	 * @throws NotFound
 	 */
-	function getChild($name) {
-		if(!$this->childExists($name)) {
+	public function getChild($name) {
+		if (!$this->childExists($name)) {
 			throw new NotFound('Entity does not exist or is not available');
 		}
 		return new EntityCollection(
@@ -110,7 +110,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @return \Sabre\DAV\INode[]
 	 * @throws MethodNotAllowed
 	 */
-	function getChildren() {
+	public function getChildren() {
 		throw new MethodNotAllowed('No permission to list folder contents');
 	}
 
@@ -120,8 +120,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		return call_user_func($this->childExistsFunction, $name);
 	}
-
 }

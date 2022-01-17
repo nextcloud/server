@@ -1,9 +1,10 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,17 +17,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
 
 /**
  * select a range in an input field
- * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
- * @param {int} start start selection from
- * @param {int} end number of char from start
- * @returns {Void}
+ *
+ * @see {@link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area}
+ * @param {number} start start selection from
+ * @param {number} end number of char from start
+ * @return {void}
  */
 $.fn.selectRange = function(start, end) {
 	return this.each(function() {
@@ -34,7 +37,7 @@ $.fn.selectRange = function(start, end) {
 			this.focus()
 			this.setSelectionRange(start, end)
 		} else if (this.createTextRange) {
-			var range = this.createTextRange()
+			const range = this.createTextRange()
 			range.collapse(true)
 			range.moveEnd('character', end)
 			range.moveStart('character', start)

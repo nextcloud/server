@@ -3,7 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author korelstar <korelstar@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
@@ -20,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
@@ -80,17 +80,16 @@ class CORSMiddleware extends Middleware {
 	 * @throws SecurityException
 	 * @since 6.0.0
 	 */
-	public function beforeController($controller, $methodName){
+	public function beforeController($controller, $methodName) {
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
-		if ($this->reflector->hasAnnotation('CORS') &&
-			!$this->reflector->hasAnnotation('PublicPage'))  {
-			$user = $this->request->server['PHP_AUTH_USER'];
-			$pass = $this->request->server['PHP_AUTH_PW'];
+		if ($this->reflector->hasAnnotation('CORS') && !$this->reflector->hasAnnotation('PublicPage')) {
+			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
+			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
 			$this->session->logout();
 			try {
-				if (!$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
+				if ($user === null || $pass === null || !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
 					throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
 				}
 			} catch (PasswordLoginForbiddenException $ex) {
@@ -110,16 +109,16 @@ class CORSMiddleware extends Middleware {
 	 * @return Response a Response object
 	 * @throws SecurityException
 	 */
-	public function afterController($controller, $methodName, Response $response){
+	public function afterController($controller, $methodName, Response $response) {
 		// only react if its a CORS request and if the request sends origin and
 
-		if(isset($this->request->server['HTTP_ORIGIN']) &&
+		if (isset($this->request->server['HTTP_ORIGIN']) &&
 			$this->reflector->hasAnnotation('CORS')) {
 
 			// allow credentials headers must not be true or CSRF is possible
 			// otherwise
-			foreach($response->getHeaders() as $header => $value) {
-				if(strtolower($header) === 'access-control-allow-credentials' &&
+			foreach ($response->getHeaders() as $header => $value) {
+				if (strtolower($header) === 'access-control-allow-credentials' &&
 				   strtolower(trim($value)) === 'true') {
 					$msg = 'Access-Control-Allow-Credentials must not be '.
 						   'set to true in order to prevent CSRF';
@@ -143,10 +142,10 @@ class CORSMiddleware extends Middleware {
 	 * @throws \Exception the passed in exception if it can't handle it
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
-	public function afterException($controller, $methodName, \Exception $exception){
-		if($exception instanceof SecurityException){
-			$response =  new JSONResponse(['message' => $exception->getMessage()]);
-			if($exception->getCode() !== 0) {
+	public function afterException($controller, $methodName, \Exception $exception) {
+		if ($exception instanceof SecurityException) {
+			$response = new JSONResponse(['message' => $exception->getMessage()]);
+			if ($exception->getCode() !== 0) {
 				$response->setStatus($exception->getCode());
 			} else {
 				$response->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -156,5 +155,4 @@ class CORSMiddleware extends Middleware {
 
 		throw $exception;
 	}
-
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * This file is licensed under the Affero General Public License version 3
@@ -14,6 +14,7 @@ if (!OCA.Sharing) {
 	 */
 	OCA.Sharing = {}
 }
+
 /**
  * @namespace
  */
@@ -22,8 +23,9 @@ OCA.Sharing.App = {
 	_inFileList: null,
 	_outFileList: null,
 	_overviewFileList: null,
+	_pendingFileList: null,
 
-	initSharingIn: function($el) {
+	initSharingIn($el) {
 		if (this._inFileList) {
 			return this._inFileList
 		}
@@ -38,7 +40,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -50,7 +52,7 @@ OCA.Sharing.App = {
 		return this._inFileList
 	},
 
-	initSharingOut: function($el) {
+	initSharingOut($el) {
 		if (this._outFileList) {
 			return this._outFileList
 		}
@@ -64,7 +66,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -76,7 +78,7 @@ OCA.Sharing.App = {
 		return this._outFileList
 	},
 
-	initSharingLinks: function($el) {
+	initSharingLinks($el) {
 		if (this._linkFileList) {
 			return this._linkFileList
 		}
@@ -90,7 +92,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -102,7 +104,7 @@ OCA.Sharing.App = {
 		return this._linkFileList
 	},
 
-	initSharingDeleted: function($el) {
+	initSharingDeleted($el) {
 		if (this._deletedFileList) {
 			return this._deletedFileList
 		}
@@ -110,6 +112,7 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.deleted',
+				defaultFileActionsDisabled: true,
 				showDeleted: true,
 				sharedWithUser: true,
 				fileActions: this._restoreShareAction(),
@@ -117,7 +120,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -129,7 +132,36 @@ OCA.Sharing.App = {
 		return this._deletedFileList
 	},
 
-	initShareingOverview: function($el) {
+	initSharingPening($el) {
+		if (this._pendingFileList) {
+			return this._pendingFileList
+		}
+		this._pendingFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				id: 'shares.pending',
+				showPending: true,
+				detailsViewEnabled: false,
+				defaultFileActionsDisabled: true,
+				sharedWithUser: true,
+				fileActions: this._acceptShareAction(),
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true,
+			}
+		)
+
+		this._extendFileList(this._pendingFileList)
+		this._pendingFileList.appName = t('files_sharing', 'Pending shares')
+		this._pendingFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>'
+			+ '<h2>' + t('files_sharing', 'No pending shares') + '</h2>'
+			+ '<p>' + t('files_sharing', 'Shares you have received but not confirmed will show up here') + '</p>')
+		return this._pendingFileList
+	},
+
+	initShareingOverview($el) {
 		if (this._overviewFileList) {
 			return this._overviewFileList
 		}
@@ -142,7 +174,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -154,31 +186,37 @@ OCA.Sharing.App = {
 		return this._overviewFileList
 	},
 
-	removeSharingIn: function() {
+	removeSharingIn() {
 		if (this._inFileList) {
 			this._inFileList.$fileList.empty()
 		}
 	},
 
-	removeSharingOut: function() {
+	removeSharingOut() {
 		if (this._outFileList) {
 			this._outFileList.$fileList.empty()
 		}
 	},
 
-	removeSharingLinks: function() {
+	removeSharingLinks() {
 		if (this._linkFileList) {
 			this._linkFileList.$fileList.empty()
 		}
 	},
 
-	removeSharingDeleted: function() {
+	removeSharingDeleted() {
 		if (this._deletedFileList) {
 			this._deletedFileList.$fileList.empty()
 		}
 	},
 
-	removeSharingOverview: function() {
+	removeSharingPending() {
+		if (this._pendingFileList) {
+			this._pendingFileList.$fileList.empty()
+		}
+	},
+
+	removeSharingOverview() {
 		if (this._overviewFileList) {
 			this._overviewFileList.$fileList.empty()
 		}
@@ -187,7 +225,7 @@ OCA.Sharing.App = {
 	/**
 	 * Destroy the app
 	 */
-	destroy: function() {
+	destroy() {
 		OCA.Files.fileActions.off('setDefault.app-sharing', this._onActionsUpdated)
 		OCA.Files.fileActions.off('registerAction.app-sharing', this._onActionsUpdated)
 		this.removeSharingIn()
@@ -200,9 +238,9 @@ OCA.Sharing.App = {
 		delete this._globalActionsInitialized
 	},
 
-	_createFileActions: function() {
+	_createFileActions() {
 		// inherit file actions from the files app
-		var fileActions = new OCA.Files.FileActions()
+		const fileActions = new OCA.Files.FileActions()
 		// note: not merging the legacy actions because legacy apps are not
 		// compatible with the sharing overview and need to be adapted first
 		fileActions.registerDefaultActions()
@@ -226,30 +264,88 @@ OCA.Sharing.App = {
 		return fileActions
 	},
 
-	_restoreShareAction: function() {
-		var fileActions = new OCA.Files.FileActions()
+	_restoreShareAction() {
+		const fileActions = new OCA.Files.FileActions()
 		fileActions.registerAction({
 			name: 'Restore',
-			displayName: '',
+			displayName: t('files_sharing', 'Restore'),
 			altText: t('files_sharing', 'Restore share'),
 			mime: 'all',
 			permissions: OC.PERMISSION_ALL,
 			iconClass: 'icon-history',
 			type: OCA.Files.FileActions.TYPE_INLINE,
-			actionHandler: function(fileName, context) {
-				var shareId = context.$file.data('shareId')
+			actionHandler(fileName, context) {
+				const shareId = context.$file.data('shareId')
 				$.post(OC.linkToOCS('apps/files_sharing/api/v1/deletedshares', 2) + shareId)
 					.success(function(result) {
 						context.fileList.remove(context.fileInfoModel.attributes.name)
 					}).fail(function() {
 						OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to restore the share.'))
 					})
-			}
+			},
 		})
 		return fileActions
 	},
 
-	_onActionsUpdated: function(ev) {
+	_acceptShareAction() {
+		const fileActions = new OCA.Files.FileActions()
+		fileActions.registerAction({
+			name: 'Accept share',
+			displayName: t('files_sharing', 'Accept share'),
+			mime: 'all',
+			permissions: OC.PERMISSION_ALL,
+			iconClass: 'icon-checkmark',
+			type: OCA.Files.FileActions.TYPE_INLINE,
+			actionHandler(fileName, context) {
+				const shareId = context.$file.data('shareId')
+				let shareBase = 'shares/pending'
+				if (context.$file.attr('data-remote-id')) {
+					shareBase = 'remote_shares/pending'
+				}
+				$.post(OC.linkToOCS('apps/files_sharing/api/v1/shares/pending', 2) + shareId)
+					.success(function(result) {
+						context.fileList.remove(context.fileInfoModel.attributes.name)
+					}).fail(function() {
+						OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to accept the share.'))
+					})
+			},
+		})
+		fileActions.registerAction({
+			name: 'Reject share',
+			displayName: t('files_sharing', 'Reject share'),
+			mime: 'all',
+			permissions: OC.PERMISSION_ALL,
+			iconClass: 'icon-close',
+			type: OCA.Files.FileActions.TYPE_INLINE,
+			shouldRender(context) {
+				// disable rejecting group shares from the pending list because they anyway
+				// land back into that same list
+				if (context.$file.attr('data-remote-id') && parseInt(context.$file.attr('data-share-type'), 10) === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+					return false
+				}
+				return true
+			},
+			actionHandler(fileName, context) {
+				const shareId = context.$file.data('shareId')
+				let shareBase = 'shares'
+				if (context.$file.attr('data-remote-id')) {
+					shareBase = 'remote_shares/pending'
+				}
+
+				$.ajax({
+					url: OC.linkToOCS('apps/files_sharing/api/v1/shares', 2) + shareId,
+					type: 'DELETE',
+				}).success(function(result) {
+					context.fileList.remove(context.fileInfoModel.attributes.name)
+				}).fail(function() {
+					OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to reject the share.'))
+				})
+			},
+		})
+		return fileActions
+	},
+
+	_onActionsUpdated(ev) {
 		_.each([this._inFileList, this._outFileList, this._linkFileList], function(list) {
 			if (!list) {
 				return
@@ -266,13 +362,13 @@ OCA.Sharing.App = {
 		})
 	},
 
-	_extendFileList: function(fileList) {
+	_extendFileList(fileList) {
 		// remove size column from summary
 		fileList.fileSummary.$el.find('.filesize').remove()
-	}
+	},
 }
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-sharingin').on('show', function(e) {
 		OCA.Sharing.App.initSharingIn($(e.target))
 	})
@@ -296,6 +392,12 @@ $(document).ready(function() {
 	})
 	$('#app-content-deletedshares').on('hide', function() {
 		OCA.Sharing.App.removeSharingDeleted()
+	})
+	$('#app-content-pendingshares').on('show', function(e) {
+		OCA.Sharing.App.initSharingPening($(e.target))
+	})
+	$('#app-content-pendingshares').on('hide', function() {
+		OCA.Sharing.App.removeSharingPending()
 	})
 	$('#app-content-shareoverview').on('show', function(e) {
 		OCA.Sharing.App.initShareingOverview($(e.target))

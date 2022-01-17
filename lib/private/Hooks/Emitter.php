@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Hooks;
 
 /**
@@ -30,6 +30,7 @@ namespace OC\Hooks;
  * interface for all classes that are able to emit events
  *
  * @package OC\Hooks
+ * @deprecated 18.0.0 use events and the \OCP\EventDispatcher\IEventDispatcher service
  */
 interface Emitter {
 	/**
@@ -37,6 +38,7 @@ interface Emitter {
 	 * @param string $method
 	 * @param callable $callback
 	 * @return void
+	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::addListener
 	 */
 	public function listen($scope, $method, callable $callback);
 
@@ -45,6 +47,7 @@ interface Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 * @return void
+	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::removeListener
 	 */
 	public function removeListener($scope = null, $method = null, callable $callback = null);
 }

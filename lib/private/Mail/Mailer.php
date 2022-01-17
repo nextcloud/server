@@ -1,12 +1,22 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
+ * @author Branko Kokanovic <branko@kokanovic.org>
+ * @author Carsten Wiedmann <carsten_sttgt@gmx.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Jared Boone <jared.boone@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author kevin147147 <kevintamool@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Tekhnee <info@tekhnee.org>
  *
  * @license AGPL-3.0
  *
@@ -20,22 +30,24 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Mail;
 
 use Egulias\EmailValidator\EmailValidator;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
+use OCP\Mail\Events\BeforeMessageSent;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\ILogger;
 use OCP\Mail\IMessage;
 
 /**
@@ -47,9 +59,9 @@ use OCP\Mail\IMessage;
  * 	$mailer = \OC::$server->getMailer();
  * 	$message = $mailer->createMessage();
  * 	$message->setSubject('Your Subject');
- * 	$message->setFrom(array('cloud@domain.org' => 'ownCloud Notifier');
- * 	$message->setTo(array('recipient@domain.org' => 'Recipient');
- * 	$message->setBody('The message text');
+ * 	$message->setFrom(array('cloud@domain.org' => 'ownCloud Notifier'));
+ * 	$message->setTo(array('recipient@domain.org' => 'Recipient'));
+ * 	$message->setBody('The message text', 'text/html');
  * 	$mailer->send($message);
  *
  * This message can then be passed to send() of \OC\Mail\Mailer
@@ -69,6 +81,10 @@ class Mailer implements IMailer {
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
+	/** @var IEventDispatcher */
+	private $dispatcher;
+	/** @var IFactory */
+	private $l10nFactory;
 
 	/**
 	 * @param IConfig $config
@@ -76,17 +92,22 @@ class Mailer implements IMailer {
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
+	 * @param IEventDispatcher $dispatcher
 	 */
 	public function __construct(IConfig $config,
 						 ILogger $logger,
 						 Defaults $defaults,
 						 IURLGenerator $urlGenerator,
-						 IL10N $l10n) {
+						 IL10N $l10n,
+						 IEventDispatcher $dispatcher,
+						 IFactory $l10nFactory) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
+		$this->dispatcher = $dispatcher;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
@@ -135,7 +156,7 @@ class Mailer implements IMailer {
 			return new $class(
 				$this->defaults,
 				$this->urlGenerator,
-				$this->l10n,
+				$this->l10nFactory,
 				$emailId,
 				$data
 			);
@@ -144,7 +165,7 @@ class Mailer implements IMailer {
 		return new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n,
+			$this->l10nFactory,
 			$emailId,
 			$data
 		);
@@ -164,7 +185,7 @@ class Mailer implements IMailer {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
 		if (empty($message->getFrom())) {
-			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()]);
+			$message->setFrom([\OCP\Util::getDefaultEmailAddress('no-reply') => $this->defaults->getName()]);
 		}
 
 		$failedRecipients = [];
@@ -172,17 +193,20 @@ class Mailer implements IMailer {
 		$mailer = $this->getInstance();
 
 		// Enable logger if debug mode is enabled
-		if($debugMode) {
+		if ($debugMode) {
 			$mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
 			$mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 		}
+
+
+		$this->dispatcher->dispatchTyped(new BeforeMessageSent($message));
 
 		$mailer->send($message->getSwiftMessage(), $failedRecipients);
 
 		// Debugging logging
 		$logMessage = sprintf('Sent mail to "%s" with subject "%s"', print_r($message->getTo(), true), $message->getSubject());
 		$this->logger->debug($logMessage, ['app' => 'core']);
-		if($debugMode && isset($mailLogger)) {
+		if ($debugMode && isset($mailLogger)) {
 			$this->logger->debug($mailLogger->dump(), ['app' => 'core']);
 		}
 
@@ -196,6 +220,10 @@ class Mailer implements IMailer {
 	 * @return bool True if the mail address is valid, false otherwise
 	 */
 	public function validateMailAddress(string $email): bool {
+		if ($email === '') {
+			// Shortcut: empty addresses are never valid
+			return false;
+		}
 		$validator = new EmailValidator();
 		$validation = new RFCValidation();
 
@@ -215,8 +243,8 @@ class Mailer implements IMailer {
 			return $email;
 		}
 
-		list($name, $domain) = explode('@', $email, 2);
-		$domain = idn_to_ascii($domain, 0,INTL_IDNA_VARIANT_UTS46);
+		[$name, $domain] = explode('@', $email, 2);
+		$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
 		return $name.'@'.$domain;
 	}
 
@@ -262,6 +290,15 @@ class Mailer implements IMailer {
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
 		if (is_array($streamingOptions) && !empty($streamingOptions)) {
 			$transport->setStreamOptions($streamingOptions);
+		}
+
+		$overwriteCliUrl = parse_url(
+			$this->config->getSystemValueString('overwrite.cli.url', ''),
+			PHP_URL_HOST
+		);
+
+		if (!empty($overwriteCliUrl)) {
+			$transport->setLocalDomain($overwriteCliUrl);
 		}
 
 		return $transport;

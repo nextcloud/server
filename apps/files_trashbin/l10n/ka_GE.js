@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "დირექტორიაში ჩანაწერები ვერ მოიძებნა",
     "Select all" : "ყველას მონიშვნა",
     "Name" : "სახელი",
+    "Actions" : "მოქმედებები",
     "Deleted" : "წაშლილი",
     "Delete" : "წაშლა"
 },

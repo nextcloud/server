@@ -1,12 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Marcel Waldvogel <marcel.waldvogel@uni-konstanz.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -20,10 +24,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
@@ -50,7 +53,7 @@ interface IProvider {
 	public function generateToken(string $token,
 								  string $uid,
 								  string $loginName,
-								  $password,
+								  ?string $password,
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken;
@@ -136,13 +139,13 @@ interface IProvider {
 	/**
 	 * Get the (unencrypted) password of the given token
 	 *
-	 * @param IToken $token
+	 * @param IToken $savedToken
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @throws PasswordlessTokenException
 	 * @return string
 	 */
-	public function getPassword(IToken $token, string $tokenId): string;
+	public function getPassword(IToken $savedToken, string $tokenId): string;
 
 	/**
 	 * Encrypt and set the password of the given token

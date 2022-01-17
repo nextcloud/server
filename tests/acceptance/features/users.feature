@@ -28,9 +28,10 @@ Feature: users
     And I open the User settings
     And I see that the list of users contains the user user0
     And I open the actions menu for the user user0
-#    And I see that the "Delete user" action in the user0 actions menu is shown
-#    When I click the "Delete user" action in the user0 actions menu
-#    Then I see that the list of users does not contains the user user0
+    And I see that the "Delete user" action in the user0 actions menu is shown
+    When I click the "Delete user" action in the user0 actions menu
+    And I click the "Delete user0's account" button of the confirmation dialog
+    Then I see that the list of users does not contains the user user0
 
   Scenario: disable a user
     Given I act as Jane
@@ -38,11 +39,11 @@ Feature: users
     And I open the User settings
     And I see that the list of users contains the user user0
     And I open the actions menu for the user user0
-#    And I see that the "Disable user" action in the user0 actions menu is shown
-#    When I click the "Disable user" action in the user0 actions menu
-#    Then I see that the list of users does not contains the user user0
-#    When I open the "Disabled users" section
-#    Then I see that the list of users contains the user user0
+    And I see that the "Disable user" action in the user0 actions menu is shown
+    When I click the "Disable user" action in the user0 actions menu
+    Then I see that the list of users does not contains the user user0
+    When I open the "Disabled users" section
+    Then I see that the list of users contains the user user0
 
   Scenario: users navigation without disabled users
     Given I act as Jane
@@ -51,30 +52,32 @@ Feature: users
     And I open the "Disabled users" section
     And I see that the list of users contains the user disabledUser
     And I open the actions menu for the user disabledUser
-#    And I see that the "Enable user" action in the disabledUser actions menu is shown
-#    When I click the "Enable user" action in the disabledUser actions menu
-#    Then I see that the section "Disabled users" is not shown
+    And I see that the "Enable user" action in the disabledUser actions menu is shown
+    When I click the "Enable user" action in the disabledUser actions menu
+    Then I see that the section "Disabled users" is not shown
     # check again after reloading the settings
-#    When I open the User settings
-#    Then I see that the section "Disabled users" is not shown
+    When I open the User settings
+    Then I see that the section "Disabled users" is not shown
 
   Scenario: assign user to a group
     Given I act as Jane
     And I am logged in as the admin
     And I open the User settings
     And I see that the list of users contains the user user0
-    # disabled because we need the TAB patch: 
+    When I toggle the edit mode for the user user0
+    Then I see that the edit mode is on for user user0
+    # disabled because we need the TAB patch:
     # https://github.com/minkphp/MinkSelenium2Driver/pull/244
     # When I assign the user user0 to the group admin
     # Then I see that the section Admins is shown
     # And I see that the section Admins has a count of 2
-  
+
   Scenario: create and delete a group
     Given I act as Jane
     And I am logged in as the admin
     And I open the User settings
     And I see that the list of users contains the user user0
-    # disabled because we need the TAB patch: 
+    # disabled because we need the TAB patch:
     # https://github.com/minkphp/MinkSelenium2Driver/pull/244
     # And I assign the user user0 to the group Group1
     # And I see that the section Group1 is shown
@@ -112,7 +115,7 @@ Feature: users
     Then I see that the "Storage location" column is shown
     When I toggle the showUserBackend checkbox in the settings
     Then I see that the "User backend" column is shown
-    
+
 #  Scenario: change display name
 #    Given I act as Jane
 #    And I am logged in as the admin
@@ -128,6 +131,8 @@ Feature: users
     And I am logged in as the admin
     And I open the User settings
     And I see that the list of users contains the user user0
+    When I toggle the edit mode for the user user0
+    Then I see that the edit mode is on for user user0
     And I see that the password of user0 is ""
     When I set the password for user0 to 123456
     And I see that the password cell for user user0 is done loading
@@ -149,8 +154,10 @@ Feature: users
     And I am logged in as the admin
     And I open the User settings
     And I see that the list of users contains the user user0
+    When I toggle the edit mode for the user user0
+    Then I see that the edit mode is on for user user0
     And I see that the user quota of user0 is Unlimited
-    # disabled because we need the TAB patch: 
+    # disabled because we need the TAB patch:
     # https://github.com/minkphp/MinkSelenium2Driver/pull/244
     # When I set the user user0 quota to 1GB
     # And I see that the quota cell for user user0 is done loading

@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,22 +16,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\AppFramework\Http\Template;
 
-use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Util;
+
 /**
  * Class LinkMenuAction
  *
- * @package OCP\AppFramework\Http\Template
  * @since 14.0.0
  */
 class ExternalShareMenuAction extends SimpleMenuAction {
@@ -64,14 +65,15 @@ class ExternalShareMenuAction extends SimpleMenuAction {
 	 */
 	public function render(): string {
 		return '<li>' .
-			'<a id="save-external-share" data-protected="false" data-owner-display-name="' . Util::sanitizeHTML($this->displayname) . '" data-owner="' . Util::sanitizeHTML($this->owner) . '" data-name="' . Util::sanitizeHTML($this->shareName) . '">' .
-			'<span class="icon ' . Util::sanitizeHTML($this->getIcon()) . '"></span>' .
-			'<label for="remote_address">' . Util::sanitizeHTML($this->getLabel()) . '</label>' .
-			'<form class="save-form hidden" action="#">' .
-			'<input type="text" id="remote_address" placeholder="user@yourNextcloud.org">' .
-			'<input type="submit" value=" " id="save-button-confirm" class="icon-confirm" disabled="disabled"></button>' .
-			'</form>' .
-			'</a>' .
+			'    <button id="save-external-share" class="icon ' . Util::sanitizeHTML($this->getIcon()) . '" data-protected="false" data-owner-display-name="' . Util::sanitizeHTML($this->displayname) . '" data-owner="' . Util::sanitizeHTML($this->owner) . '" data-name="' . Util::sanitizeHTML($this->shareName) . '">' . Util::sanitizeHTML($this->getLabel()) . '</button>' .
+			'</li>' .
+			'<li id="external-share-menu-item" class="hidden">' .
+			'    <span class="menuitem">' .
+			'        <form class="save-form" action="#">' .
+			'            <input type="text" id="remote_address" placeholder="user@yourNextcloud.org">' .
+			'            <input type="submit" value=" " id="save-button-confirm" class="icon-confirm" disabled="disabled"></button>' .
+			'        </form>' .
+			'    </span>' .
 			'</li>';
 	}
 }

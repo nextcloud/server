@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\files_external\tests\Config;
 
 use OCA\Files_External\Config\UserPlaceholderHandler;
@@ -32,25 +34,25 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 class UserPlaceholderHandlerTest extends \Test\TestCase {
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var UserPlaceholderHandler */
 	protected $handler;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
@@ -96,5 +98,4 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 			->willThrowException(new ShareNotFound());
 		$this->assertSame($option, $this->handler->handle($option));
 	}
-
 }

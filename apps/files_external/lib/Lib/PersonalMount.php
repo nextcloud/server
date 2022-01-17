@@ -2,9 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,15 +19,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 use OC\Files\Mount\MoveableMount;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Person mount points can be moved by the user
@@ -41,7 +42,7 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	/**
 	 * @param UserStoragesService $storagesService
 	 * @param int $storageId
-	 * @param \OCP\Files\Storage $storage
+	 * @param IStorage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
@@ -49,14 +50,16 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	 */
 	public function __construct(
 		UserStoragesService $storagesService,
+		StorageConfig $storageConfig,
 		$storageId,
 		$storage,
 		$mountpoint,
 		$arguments = null,
 		$loader = null,
-		$mountOptions = null
+		$mountOptions = null,
+		$mountId = null
 	) {
-		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions);
+		parent::__construct($storageConfig, $storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId);
 		$this->storagesService = $storagesService;
 		$this->numericStorageId = $storageId;
 	}

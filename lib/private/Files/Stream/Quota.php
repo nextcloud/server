@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -19,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Stream;
 
 use Icewind\Streams\Wrapper;
@@ -41,15 +41,15 @@ class Quota extends Wrapper {
 	/**
 	 * @param resource $stream
 	 * @param int $limit
-	 * @return resource
+	 * @return bool|resource
 	 */
-	static public function wrap($stream, $limit) {
-		$context = stream_context_create(array(
-			'quota' => array(
+	public static function wrap($stream, $limit) {
+		$context = stream_context_create([
+			'quota' => [
 				'source' => $stream,
 				'limit' => $limit
-			)
-		));
+			]
+		]);
 		return Wrapper::wrapSource($stream, $context, 'quota', self::class);
 	}
 
@@ -66,17 +66,16 @@ class Quota extends Wrapper {
 	}
 
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		if ($whence === SEEK_END){
+		if ($whence === SEEK_END) {
 			// go to the end to find out last position's offset
 			$oldOffset = $this->stream_tell();
-			if (fseek($this->source, 0, $whence) !== 0){
+			if (fseek($this->source, 0, $whence) !== 0) {
 				return false;
 			}
 			$whence = SEEK_SET;
 			$offset = $this->stream_tell() + $offset;
 			$this->limit += $oldOffset - $offset;
-		}
-		else if ($whence === SEEK_SET) {
+		} elseif ($whence === SEEK_SET) {
 			$this->limit += $this->stream_tell() - $offset;
 		} else {
 			$this->limit -= $offset;

@@ -21,36 +21,45 @@
  *
  */
 
-
 namespace Test\AppFramework\Http;
-
 
 use OCP\AppFramework\Http\DownloadResponse;
 
 class ChildDownloadResponse extends DownloadResponse {
-
 };
 
 
 class DownloadResponseTest extends \Test\TestCase {
-
-	/**
-	 * @var ChildDownloadResponse
-	 */
-	protected $response;
-
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
-		$this->response = new ChildDownloadResponse('file', 'content');
 	}
-
 
 	public function testHeaders() {
-		$headers = $this->response->getHeaders();
+		$response = new ChildDownloadResponse('file', 'content');
+		$headers = $response->getHeaders();
 
-		$this->assertContains('attachment; filename="file"', $headers['Content-Disposition']);
-		$this->assertContains('content', $headers['Content-Type']);
+		$this->assertEquals('attachment; filename="file"', $headers['Content-Disposition']);
+		$this->assertEquals('content', $headers['Content-Type']);
 	}
 
+	/**
+	 * @dataProvider filenameEncodingProvider
+	 */
+	public function testFilenameEncoding(string $input, string $expected) {
+		$response = new ChildDownloadResponse($input, 'content');
+		$headers = $response->getHeaders();
 
+		$this->assertEquals('attachment; filename="'.$expected.'"', $headers['Content-Disposition']);
+	}
+
+	public function filenameEncodingProvider() : array {
+		return [
+			['TestName.txt', 'TestName.txt'],
+			['A "Quoted" Filename.txt', 'A \\"Quoted\\" Filename.txt'],
+			['A "Quoted" Filename.txt', 'A \\"Quoted\\" Filename.txt'],
+			['A "Quoted" Filename With A Backslash \\.txt', 'A \\"Quoted\\" Filename With A Backslash \\\\.txt'],
+			['A "Very" Weird Filename \ / & <> " >\'""""\.text', 'A \\"Very\\" Weird Filename \\\\ / & <> \\" >\'\\"\\"\\"\\"\\\\.text'],
+			['\\\\\\\\\\\\', '\\\\\\\\\\\\\\\\\\\\\\\\'],
+		];
+	}
 }

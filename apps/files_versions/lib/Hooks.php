@@ -4,14 +4,13 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Sam Tuke <mail@samtuke.com>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,39 +24,35 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * This class contains all hooks.
- */
-
 namespace OCA\Files_Versions;
 
-class Hooks {
+use OC\Files\Filesystem;
+use OC\Files\Mount\MoveableMount;
+use OC\Files\View;
+use OCP\Util;
 
+class Hooks {
 	public static function connectHooks() {
 		// Listen to write signals
-		\OCP\Util::connectHook('OC_Filesystem', 'write', Hooks::class, 'write_hook');
+		Util::connectHook('OC_Filesystem', 'write', Hooks::class, 'write_hook');
 		// Listen to delete and rename signals
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', Hooks::class, 'remove_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'delete', Hooks::class, 'pre_remove_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', Hooks::class, 'rename_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', Hooks::class, 'copy_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'rename', Hooks::class, 'pre_renameOrCopy_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'copy', Hooks::class, 'pre_renameOrCopy_hook');
-
-		$eventDispatcher = \OC::$server->getEventDispatcher();
-		$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', [Hooks::class, 'onLoadFilesAppScripts']);
+		Util::connectHook('OC_Filesystem', 'post_delete', Hooks::class, 'remove_hook');
+		Util::connectHook('OC_Filesystem', 'delete', Hooks::class, 'pre_remove_hook');
+		Util::connectHook('OC_Filesystem', 'post_rename', Hooks::class, 'rename_hook');
+		Util::connectHook('OC_Filesystem', 'post_copy', Hooks::class, 'copy_hook');
+		Util::connectHook('OC_Filesystem', 'rename', Hooks::class, 'pre_renameOrCopy_hook');
+		Util::connectHook('OC_Filesystem', 'copy', Hooks::class, 'pre_renameOrCopy_hook');
 	}
 
 	/**
 	 * listen to write event.
 	 */
-	public static function write_hook( $params ) {
-		$path = $params[\OC\Files\Filesystem::signal_param_path];
-		if($path !== '') {
+	public static function write_hook(array $params): void {
+		$path = $params[Filesystem::signal_param_path];
+		if ($path !== '') {
 			Storage::store($path);
 		}
 	}
@@ -70,9 +65,9 @@ class Hooks {
 	 * This function is connected to the delete signal of OC_Filesystem
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
-	public static function remove_hook($params) {
-		$path = $params[\OC\Files\Filesystem::signal_param_path];
-		if($path !== '') {
+	public static function remove_hook(array $params): void {
+		$path = $params[Filesystem::signal_param_path];
+		if ($path !== '') {
 			Storage::delete($path);
 		}
 	}
@@ -81,11 +76,11 @@ class Hooks {
 	 * mark file as "deleted" so that we can clean up the versions if the file is gone
 	 * @param array $params
 	 */
-	public static function pre_remove_hook($params) {
-		$path = $params[\OC\Files\Filesystem::signal_param_path];
-			if($path !== '') {
-				Storage::markDeletedFile($path);
-			}
+	public static function pre_remove_hook(array $params): void {
+		$path = $params[Filesystem::signal_param_path];
+		if ($path !== '') {
+			Storage::markDeletedFile($path);
+		}
 	}
 
 	/**
@@ -95,10 +90,10 @@ class Hooks {
 	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
 	 * of the stored versions along the actual file
 	 */
-	public static function rename_hook($params) {
+	public static function rename_hook(array $params): void {
 		$oldpath = $params['oldpath'];
 		$newpath = $params['newpath'];
-		if($oldpath !== '' && $newpath !== '') {
+		if ($oldpath !== '' && $newpath !== '') {
 			Storage::renameOrCopy($oldpath, $newpath, 'rename');
 		}
 	}
@@ -110,10 +105,10 @@ class Hooks {
 	 * This function is connected to the copy signal of OC_Filesystem and copies the
 	 * the stored versions to the new location
 	 */
-	public static function copy_hook($params) {
+	public static function copy_hook(array $params): void {
 		$oldpath = $params['oldpath'];
 		$newpath = $params['newpath'];
-		if($oldpath !== '' && $newpath !== '') {
+		if ($oldpath !== '' && $newpath !== '') {
 			Storage::renameOrCopy($oldpath, $newpath, 'copy');
 		}
 	}
@@ -126,29 +121,22 @@ class Hooks {
 	 * @param array $params array with oldpath and newpath
 	 *
 	 */
-	public static function pre_renameOrCopy_hook($params) {
+	public static function pre_renameOrCopy_hook(array $params): void {
 		// if we rename a movable mount point, then the versions don't have
 		// to be renamed
-		$absOldPath = \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files' . $params['oldpath']);
-		$manager = \OC\Files\Filesystem::getMountManager();
+		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $params['oldpath']);
+		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
-		if ($internalPath === '' and $mount instanceof \OC\Files\Mount\MoveableMount) {
+		if ($internalPath === '' and $mount instanceof MoveableMount) {
 			return;
 		}
 
-		$view = new \OC\Files\View(\OCP\User::getUser() . '/files');
+		$view = new View(\OC_User::getUser() . '/files');
 		if ($view->file_exists($params['newpath'])) {
 			Storage::store($params['newpath']);
 		} else {
 			Storage::setSourcePathAndUser($params['oldpath']);
 		}
-	}
-
-	/**
-	 * Load additional scripts when the files app is visible
-	 */
-	public static function onLoadFilesAppScripts() {
-		\OCP\Util::addScript('files_versions', 'files_versions');
 	}
 }

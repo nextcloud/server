@@ -1,7 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,30 +19,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Service;
 
-use BadMethodCallException;
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
-use OCP\Activity\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BackupCodeStorage {
-
 	private static $CODE_LENGTH = 16;
 
 	/** @var BackupCodeMapper */
@@ -62,9 +63,10 @@ class BackupCodeStorage {
 
 	/**
 	 * @param IUser $user
+	 * @param int $number
 	 * @return string[]
 	 */
-	public function createCodes(IUser $user, $number = 10) {
+	public function createCodes(IUser $user, int $number = 10): array {
 		$result = [];
 
 		// Delete existing ones
@@ -83,7 +85,7 @@ class BackupCodeStorage {
 			$result[] = $code;
 		}
 
-		$this->eventDispatcher->dispatch(CodesGenerated::class, new CodesGenerated($user));
+		$this->eventDispatcher->dispatchTyped(new CodesGenerated($user));
 
 		return $result;
 	}
@@ -92,7 +94,7 @@ class BackupCodeStorage {
 	 * @param IUser $user
 	 * @return bool
 	 */
-	public function hasBackupCodes(IUser $user) {
+	public function hasBackupCodes(IUser $user): bool {
 		$codes = $this->mapper->getBackupCodes($user);
 		return count($codes) > 0;
 	}
@@ -101,7 +103,7 @@ class BackupCodeStorage {
 	 * @param IUser $user
 	 * @return array
 	 */
-	public function getBackupCodesState(IUser $user) {
+	public function getBackupCodesState(IUser $user): array {
 		$codes = $this->mapper->getBackupCodes($user);
 		$total = count($codes);
 		$used = 0;
@@ -122,7 +124,7 @@ class BackupCodeStorage {
 	 * @param string $code
 	 * @return bool
 	 */
-	public function validateCode(IUser $user, $code) {
+	public function validateCode(IUser $user, string $code): bool {
 		$dbCodes = $this->mapper->getBackupCodes($user);
 
 		foreach ($dbCodes as $dbCode) {
@@ -135,4 +137,7 @@ class BackupCodeStorage {
 		return false;
 	}
 
+	public function deleteCodes(IUser $user): void {
+		$this->mapper->deleteCodes($user);
+	}
 }

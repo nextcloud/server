@@ -5,6 +5,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,13 +19,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Encryption\Tests\Command;
-
 
 use OCA\Encryption\Command\EnableMasterKey;
 use OCA\Encryption\Util;
@@ -39,22 +37,22 @@ class TestEnableMasterKey extends TestCase {
 	/** @var  EnableMasterKey */
 	protected $enableMasterKey;
 
-	/** @var  Util | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
-	/** @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var \OCP\IConfig | \PHPUnit\Framework\MockObject\MockObject  */
 	protected $config;
 
-	/** @var \Symfony\Component\Console\Helper\QuestionHelper | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Symfony\Component\Console\Helper\QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
 	protected $questionHelper;
 
-	/** @var  \Symfony\Component\Console\Output\OutputInterface | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \Symfony\Component\Console\Output\OutputInterface | \PHPUnit\Framework\MockObject\MockObject */
 	protected $output;
 
-	/** @var  \Symfony\Component\Console\Input\InputInterface | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \Symfony\Component\Console\Input\InputInterface | \PHPUnit\Framework\MockObject\MockObject */
 	protected $input;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->util = $this->getMockBuilder(Util::class)
@@ -78,7 +76,6 @@ class TestEnableMasterKey extends TestCase {
 	 * @param string $answer
 	 */
 	public function testExecute($isAlreadyEnabled, $answer) {
-
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($isAlreadyEnabled);
 
@@ -93,7 +90,6 @@ class TestEnableMasterKey extends TestCase {
 			} else {
 				$this->questionHelper->expects($this->once())->method('ask')->willReturn(false);
 				$this->config->expects($this->never())->method('setAppValue');
-
 			}
 		}
 

@@ -1,12 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Thomas Citharel <tcit@tcit.fr>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -20,16 +23,15 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\L10N;
 
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use Punic\Calendar;
-use Symfony\Component\Translation\PluralizationRules;
+use Symfony\Component\Translation\IdentityTranslator;
 
 class L10N implements IL10N {
 
@@ -45,11 +47,8 @@ class L10N implements IL10N {
 	/** @var string Locale of this object */
 	protected $locale;
 
-	/** @var string Plural forms (string) */
-	private $pluralFormString = 'nplurals=2; plural=(n != 1);';
-
-	/** @var string Plural forms (function) */
-	private $pluralFormFunction = null;
+	/** @var IdentityTranslator */
+	private $identityTranslator;
 
 	/** @var string[] */
 	private $translations = [];
@@ -176,10 +175,10 @@ class L10N implements IL10N {
 		$value = new \DateTime();
 		if ($data instanceof \DateTime) {
 			$value = $data;
-		} else if (\is_string($data) && !is_numeric($data)) {
+		} elseif (\is_string($data) && !is_numeric($data)) {
 			$data = strtotime($data);
 			$value->setTimestamp($data);
-		} else if ($data !== null) {
+		} elseif ($data !== null) {
 			$data = (int)$data;
 			$value->setTimestamp($data);
 		}
@@ -211,20 +210,16 @@ class L10N implements IL10N {
 	}
 
 	/**
-	 * Returnsed function accepts the argument $n
-	 *
-	 * Called by \OC_L10N_String
-	 * @return \Closure the plural form function
+	 * @internal
+	 * @return IdentityTranslator
 	 */
-	public function getPluralFormFunction(): \Closure {
-		if (\is_null($this->pluralFormFunction)) {
-			$lang = $this->getLanguageCode();
-			$this->pluralFormFunction = function($n) use ($lang) {
-				return PluralizationRules::get($n, $lang);
-			};
+	public function getIdentityTranslator(): IdentityTranslator {
+		if (\is_null($this->identityTranslator)) {
+			$this->identityTranslator = new IdentityTranslator();
+			$this->identityTranslator->setLocale($this->getLocaleCode());
 		}
 
-		return $this->pluralFormFunction;
+		return $this->identityTranslator;
 	}
 
 	/**
@@ -239,9 +234,6 @@ class L10N implements IL10N {
 			return false;
 		}
 
-		if (!empty($json['pluralForm'])) {
-			$this->pluralFormString = $json['pluralForm'];
-		}
 		$this->translations = array_merge($this->translations, $json['translations']);
 		return true;
 	}

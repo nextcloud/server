@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,21 +14,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Migration;
 
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OCP\Share;
+use OCP\Share\IShare;
 
 /**
  * Class OwncloudGuestShareType
@@ -68,8 +68,8 @@ class OwncloudGuestShareType implements IRepairStep {
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update('share')
-			->set('share_type',  $query->createNamedParameter(Share::SHARE_TYPE_GUEST))
-			->where($query->expr()->eq('share_type', $query->createNamedParameter(Share::SHARE_TYPE_EMAIL)));
+			->set('share_type',  $query->createNamedParameter(IShare::TYPE_GUEST))
+			->where($query->expr()->eq('share_type', $query->createNamedParameter(IShare::TYPE_EMAIL)));
 		$query->execute();
 	}
 
@@ -78,5 +78,4 @@ class OwncloudGuestShareType implements IRepairStep {
 		return $appVersion === '0.10.0' ||
 			$this->config->getAppValue('core', 'vendor', '') === 'owncloud';
 	}
-
 }

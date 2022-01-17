@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -18,24 +22,23 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
- * Manage trusted certificates for users
+ * Manage trusted certificates
  * @since 8.0.0
  */
 interface ICertificateManager {
 	/**
-	 * Returns all certificates trusted by the user
+	 * Returns all certificates trusted by the system
 	 *
 	 * @return \OCP\ICertificate[]
 	 * @since 8.0.0
 	 */
-	public function listCertificates();
+	public function listCertificates(): array;
 
 	/**
 	 * @param string $certificate the certificate data
@@ -44,29 +47,28 @@ interface ICertificateManager {
 	 * @throws \Exception If the certificate could not get added
 	 * @since 8.0.0 - since 8.1.0 throws exception instead of returning false
 	 */
-	public function addCertificate($certificate, $name);
+	public function addCertificate(string $certificate, string $name): \OCP\ICertificate;
 
 	/**
 	 * @param string $name
+	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function removeCertificate($name);
+	public function removeCertificate(string $name): bool;
 
 	/**
-	 * Get the path to the certificate bundle for this user
+	 * Get the path to the certificate bundle
 	 *
-	 * @param string $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle (since 9.0.0)
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getCertificateBundle($uid = '');
+	public function getCertificateBundle(): string;
 
 	/**
-	 * Get the full local path to the certificate bundle for this user
+	 * Get the full local path to the certificate bundle
 	 *
-	 * @param string $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getAbsoluteBundlePath($uid = '');
+	public function getAbsoluteBundlePath(): string;
 }

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -16,16 +17,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
-
+use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
-use OCP\IDBConnection;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -35,13 +34,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateCommand extends Command implements CompletionAwareInterface {
 
-	/** @var IDBConnection */
+	/** @var Connection */
 	private $connection;
 
 	/**
-	 * @param IDBConnection $connection
+	 * @param Connection $connection
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(Connection $connection) {
 		$this->connection = $connection;
 		parent::__construct();
 	}
@@ -56,12 +55,13 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 		parent::configure();
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
 		$version = $input->getArgument('version');
 
 		$ms->migrate($version);
+		return 0;
 	}
 
 	/**
@@ -96,5 +96,4 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 
 		return [];
 	}
-
 }

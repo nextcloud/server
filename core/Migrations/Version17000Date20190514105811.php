@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,22 +20,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version17000Date20190514105811 extends SimpleMigrationStep {
 
@@ -42,28 +46,29 @@ class Version17000Date20190514105811 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		if(!$schema->hasTable('filecache_extended')) {
+		if (!$schema->hasTable('filecache_extended')) {
 			$table = $schema->createTable('filecache_extended');
-			$table->addColumn('fileid', Type::INTEGER, [
+			$table->addColumn('fileid', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 4,
 				'unsigned' => true,
 			]);
-			$table->addColumn('metadata_etag', Type::STRING, [
+			$table->addColumn('metadata_etag', Types::STRING, [
 				'notnull' => false,
 				'length' => 40,
 			]);
-			$table->addColumn('creation_time', Type::BIGINT, [
+			$table->addColumn('creation_time', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 20,
 				'default' => 0,
 			]);
-			$table->addColumn('upload_time', Type::BIGINT, [
+			$table->addColumn('upload_time', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 20,
 				'default' => 0,
 			]);
-			$table->addUniqueIndex(['fileid'], 'fce_fileid_idx');
+			$table->setPrimaryKey(['fileid'], 'fce_pk');
+//			$table->addUniqueIndex(['fileid'], 'fce_fileid_idx');
 			$table->addIndex(['creation_time'], 'fce_ctime_idx');
 			$table->addIndex(['upload_time'], 'fce_utime_idx');
 		}

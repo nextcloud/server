@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace Test\Command\Integrity;
 
 use OC\Core\Command\Integrity\SignCore;
@@ -28,14 +29,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SignCoreTest extends TestCase {
-	/** @var Checker|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
 	/** @var SignCore */
 	private $signCore;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->checker = $this->createMock(Checker::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
@@ -53,19 +54,19 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue(null));
+			->willReturn(null);
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('Certificate'));
+			->willReturn('Certificate');
 
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
 			->with('--privateKey, --certificate and --path are required.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithMissingCertificate() {
@@ -76,19 +77,19 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
 			->with('--privateKey, --certificate and --path are required.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingPrivateKey() {
@@ -99,30 +100,30 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 		$inputInterface
 				->expects($this->at(2))
 				->method('getOption')
 				->with('path')
-				->will($this->returnValue('certificate'));
+				->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
 			->with('Private key "privateKey" does not exists.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingCertificate() {
@@ -133,35 +134,35 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 		$inputInterface
 				->expects($this->at(2))
 				->method('getOption')
 				->with('path')
-				->will($this->returnValue('certificate'));
+				->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
 			->with('Certificate "certificate" does not exists.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithException() {
@@ -172,28 +173,28 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
 
 		$this->checker
 			->expects($this->once())
@@ -216,28 +217,28 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 		$inputInterface
 				->expects($this->at(2))
 				->method('getOption')
 				->with('path')
-				->will($this->returnValue('certificate'));
+				->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
 
 		$this->checker
 			->expects($this->once())

@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -20,33 +23,37 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework;
 
 use OCP\IContainer;
+use Psr\Container\ContainerInterface;
 
 /**
- * Class IAppContainer
- * @package OCP\AppFramework
+ * This is a tagging interface for a container that belongs to an app
  *
- * This container interface provides short cuts for app developers to access predefined app service.
+ * The interface currently extends IContainer, but this interface is deprecated as of Nextcloud 20,
+ * thus this interface won't extend it anymore once that was removed. So migrate to the ContainerInterface
+ * only.
+ *
  * @since 6.0.0
  */
-interface IAppContainer extends IContainer {
+interface IAppContainer extends ContainerInterface, IContainer {
 
 	/**
 	 * used to return the appname of the set application
 	 * @return string the name of your application
 	 * @since 6.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function getAppName();
 
 	/**
 	 * @return \OCP\IServerContainer
 	 * @since 6.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function getServer();
 
@@ -54,6 +61,7 @@ interface IAppContainer extends IContainer {
 	 * @param string $middleWare
 	 * @return boolean
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerMiddleware
 	 */
 	public function registerMiddleWare($middleWare);
 
@@ -62,6 +70,7 @@ interface IAppContainer extends IContainer {
 	 *
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerCapability
 	 */
-	 public function registerCapability($serviceName);
+	public function registerCapability($serviceName);
 }

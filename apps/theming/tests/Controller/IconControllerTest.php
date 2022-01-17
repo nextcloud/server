@@ -5,7 +5,9 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,52 +18,49 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\Theming\Tests\Controller;
 
-
 use OC\Files\SimpleFS\SimpleFile;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OCA\Theming\Controller\IconController;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use Test\TestCase;
-use OCA\Theming\Util;
-use OCA\Theming\Controller\IconController;
-use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
-
 
 class IconControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $themingDefaults;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
-	/** @var IconController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IconController|\PHPUnit\Framework\MockObject\MockObject */
 	private $iconController;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IconBuilder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IconBuilder|\PHPUnit\Framework\MockObject\MockObject */
 	private $iconBuilder;
-	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
 	/** @var ImageManager */
 	private $imageManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->iconBuilder = $this->createMock(IconBuilder::class);
@@ -92,6 +91,8 @@ class IconControllerTest extends TestCase {
 		$icon->expects($this->any())->method('getContent')->willReturn($data);
 		$icon->expects($this->any())->method('getMimeType')->willReturn('image type');
 		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');
+		$icon->expects($this->any())->method('getName')->willReturn('my name');
+		$icon->expects($this->any())->method('getMTime')->willReturn(42);
 		$icon->method('getName')->willReturn($filename);
 		return new SimpleFile($icon);
 	}
@@ -206,5 +207,4 @@ class IconControllerTest extends TestCase {
 		$expected->cacheFor(86400);
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
-
 }

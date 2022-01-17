@@ -4,6 +4,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -22,10 +23,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\ShareBackend;
 
 class Folder extends File implements \OCP\Share_Backend_Collection {
@@ -39,7 +39,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	 * @return array with shares
 	 */
 	public function getParents($itemSource, $shareWith = null, $owner = null) {
-		$result = array();
+		$result = [];
 		$parent = $this->getParentId($itemSource);
 
 		$userManager = \OC::$server->getUserManager();
@@ -89,8 +89,8 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	}
 
 	public function getChildren($itemSource) {
-		$children = array();
-		$parents = array($itemSource);
+		$children = [];
+		$parents = [$itemSource];
 
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->select('id')
@@ -108,10 +108,9 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 			$mimetype = -1;
 		}
 		while (!empty($parents)) {
-
 			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
-			$parents = array_map(function($parent) use ($qb) {
+			$parents = array_map(function ($parent) use ($qb) {
 				return $qb->createNamedParameter($parent);
 			}, $parents);
 
@@ -123,9 +122,9 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 
 			$result = $qb->execute();
 
-			$parents = array();
+			$parents = [];
 			while ($file = $result->fetch()) {
-				$children[] = array('source' => $file['fileid'], 'file_path' => $file['name']);
+				$children[] = ['source' => $file['fileid'], 'file_path' => $file['name']];
 				// If a child folder is found look inside it
 				if ((int) $file['mimetype'] === $mimetype) {
 					$parents[] = $file['fileid'];
@@ -135,5 +134,4 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		}
 		return $children;
 	}
-
 }

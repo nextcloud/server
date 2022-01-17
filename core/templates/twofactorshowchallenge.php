@@ -1,7 +1,7 @@
 <?php
-/** @var $l \OCP\IL10N */
-/** @var $_ array */
-/* @var $error boolean */
+/** @var \OCP\IL10N $l */
+/** @var array $_*/
+/** @var boolean $error */
 $error = $_['error'];
 /* @var $error_message string */
 $error_message = $_['error_message'];
@@ -11,10 +11,10 @@ $provider = $_['provider'];
 $template = $_['template'];
 ?>
 
-<div class="body-login-container update">
+<div class="body-login-container update two-factor">
 	<h2 class="two-factor-header"><?php p($provider->getDisplayName()); ?></h2>
 	<?php if ($error): ?>
-			<?php if($error_message): ?>
+			<?php if ($error_message): ?>
 				<p><strong><?php p($error_message); ?></strong></p>
 			<?php else: ?>
 				<p><strong><?php p($l->t('Error while validating your second factor')); ?></strong></p>
@@ -34,6 +34,6 @@ $template = $_['template'];
 	</p>
 	<?php endif; ?>
 	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
-		<?php p($l->t('Cancel log in')) ?>
+		<?php p($l->t('Cancel login')) ?>
 	</a></p>
 </div>

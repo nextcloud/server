@@ -56,19 +56,19 @@ class TestRepairStep implements IRepairStep {
 
 class BackgroundRepairTest extends TestCase {
 
-	/** @var \OC\BackgroundJob\JobList|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\BackgroundJob\JobList|\PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
 
-	/** @var BackgroundRepair|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var BackgroundRepair|\PHPUnit\Framework\MockObject\MockObject */
 	private $job;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject $dispatcher  */
+	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject $dispatcher  */
 	private $dispatcher;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = $this->getMockBuilder('OC\BackgroundJob\JobList')

@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -17,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\External;
 
 use OCP\Federation\ICloudIdManager;
@@ -30,7 +31,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class MountProvider implements IMountProvider {
-	const STORAGE = '\OCA\Files_Sharing\External\Storage';
+	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
 	/**
 	 * @var \OCP\IDBConnection
@@ -65,7 +66,7 @@ class MountProvider implements IMountProvider {
 		$mountPoint = '/' . $user->getUID() . '/files/' . ltrim($data['mountpoint'], '/');
 		$data['mountpoint'] = $mountPoint;
 		$data['cloudId'] = $this->cloudIdManager->getCloudId($data['owner'], $data['remote']);
-		$data['certificateManager'] = \OC::$server->getCertificateManager($user->getUID());
+		$data['certificateManager'] = \OC::$server->getCertificateManager();
 		$data['HttpClientService'] = \OC::$server->getHTTPClientService();
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}

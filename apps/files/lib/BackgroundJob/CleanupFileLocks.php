@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Max Kovalenko <mxss1998@yandex.ru>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -16,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\BackgroundJob;
 
 use OC\BackgroundJob\TimedJob;
@@ -52,7 +53,7 @@ class CleanupFileLocks extends TimedJob {
 	 */
 	public function run($argument) {
 		$lockingProvider = \OC::$server->getLockingProvider();
-		if($lockingProvider instanceof DBLockingProvider) {
+		if ($lockingProvider instanceof DBLockingProvider) {
 			$lockingProvider->cleanExpiredLocks();
 		}
 	}

@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,19 +20,19 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
@@ -38,7 +44,7 @@ class Version1012Date20190808122342 extends SimpleMigrationStep {
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
-	 * @since 13.0.0
+	 * @since 17.0.0
 	 */
 	public function changeSchema(IOutput $output,
 								 \Closure $schemaClosure,
@@ -49,59 +55,59 @@ class Version1012Date20190808122342 extends SimpleMigrationStep {
 		if (!$schema->hasTable('calendar_reminders')) {
 			$table = $schema->createTable('calendar_reminders');
 
-			$table->addColumn('id', Type::BIGINT, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 11,
 				'unsigned' => true,
 			]);
-			$table->addColumn('calendar_id', Type::BIGINT, [
+			$table->addColumn('calendar_id', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 11,
 			]);
-			$table->addColumn('object_id', Type::BIGINT, [
+			$table->addColumn('object_id', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 11,
 			]);
-			$table->addColumn('is_recurring', Type::SMALLINT, [
-				'notnull' => true,
+			$table->addColumn('is_recurring', Types::SMALLINT, [
+				'notnull' => false,
 				'length' => 1,
 			]);
-			$table->addColumn('uid', Type::STRING, [
+			$table->addColumn('uid', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('recurrence_id', Type::BIGINT, [
+			$table->addColumn('recurrence_id', Types::BIGINT, [
 				'notnull' => false,
 				'length' => 11,
 				'unsigned' => true,
 			]);
-			$table->addColumn('is_recurrence_exception', Type::SMALLINT, [
+			$table->addColumn('is_recurrence_exception', Types::SMALLINT, [
 				'notnull' => true,
 				'length' => 1,
 			]);
-			$table->addColumn('event_hash', Type::STRING, [
+			$table->addColumn('event_hash', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('alarm_hash', Type::STRING, [
+			$table->addColumn('alarm_hash', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('type', Type::STRING, [
+			$table->addColumn('type', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('is_relative', Type::SMALLINT, [
+			$table->addColumn('is_relative', Types::SMALLINT, [
 				'notnull' => true,
 				'length' => 1,
 			]);
-			$table->addColumn('notification_date', Type::BIGINT, [
+			$table->addColumn('notification_date', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 11,
 				'unsigned' => true,
 			]);
-			$table->addColumn('is_repeat_based', Type::SMALLINT, [
+			$table->addColumn('is_repeat_based', Types::SMALLINT, [
 				'notnull' => true,
 				'length' => 1,
 			]);
@@ -112,5 +118,7 @@ class Version1012Date20190808122342 extends SimpleMigrationStep {
 
 			return $schema;
 		}
+
+		return null;
 	}
 }

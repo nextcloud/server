@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Search;
 
 use OCP\Files\Search\ISearchComparison;
@@ -32,6 +31,7 @@ class SearchComparison implements ISearchComparison {
 	private $field;
 	/** @var string|integer|\DateTime */
 	private $value;
+	private $hints = [];
 
 	/**
 	 * SearchComparison constructor.
@@ -65,5 +65,13 @@ class SearchComparison implements ISearchComparison {
 	 */
 	public function getValue() {
 		return $this->value;
+	}
+
+	public function getQueryHint(string $name, $default) {
+		return $this->hints[$name] ?? $default;
+	}
+
+	public function setQueryHint(string $name, $value): void {
+		$this->hints[$name] = $value;
 	}
 }

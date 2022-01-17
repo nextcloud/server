@@ -4,6 +4,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
@@ -26,18 +27,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Files Class
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP;
 
 /**
@@ -53,8 +48,8 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function rmdirr( $dir ) {
-		return \OC_Helper::rmdirr( $dir );
+	public static function rmdirr($dir) {
+		return \OC_Helper::rmdirr($dir);
 	}
 
 	/**
@@ -65,7 +60,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function getMimeType( $path ) {
+	public static function getMimeType($path) {
 		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
@@ -76,7 +71,7 @@ class Files {
 	 * @since 6.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function searchByMime($mimetype) {
+	public static function searchByMime($mimetype) {
 		return \OC\Files\Filesystem::searchByMime($mimetype);
 	}
 
@@ -88,8 +83,8 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	public static function streamCopy( $source, $target ) {
-		list($count, ) = \OC_Helper::streamCopy( $source, $target );
+	public static function streamCopy($source, $target) {
+		[$count, ] = \OC_Helper::streamCopy($source, $target);
 		return $count;
 	}
 
@@ -114,6 +109,6 @@ class Files {
 	 * @deprecated 14.0.0 use IAppData instead
 	 */
 	public static function getStorage($app) {
-		return \OC_App::getStorage( $app );
+		return \OC_App::getStorage($app);
 	}
 }

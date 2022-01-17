@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -19,21 +21,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Files_Trashbin\Tests\Command;
 
-
+use OC\User\Manager;
 use OCA\Files_Trashbin\Command\CleanUp;
+use OCP\Files\IRootFolder;
+use OCP\IDBConnection;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
-use OC\User\Manager;
-use OCP\Files\IRootFolder;
 
 /**
  * Class CleanUpTest
@@ -47,13 +47,13 @@ class CleanUpTest extends TestCase {
 	/** @var  CleanUp */
 	protected $cleanup;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | Manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
 	protected $userManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IRootFolder */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
 	protected $rootFolder;
 
-	/** @var \OC\DB\Connection */
+	/** @var IDBConnection */
 	protected $dbConnection;
 
 	/** @var  string */
@@ -62,7 +62,7 @@ class CleanUpTest extends TestCase {
 	/** @var string  */
 	protected $user0 = 'user0';
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
 			->disableOriginalConstructor()->getMock();
@@ -82,12 +82,12 @@ class CleanUpTest extends TestCase {
 		$query->delete($this->trashTable)->execute();
 		for ($i = 0; $i < 10; $i++) {
 			$query->insert($this->trashTable)
-				->values(array(
+				->values([
 					'id' => $query->expr()->literal('file'.$i),
 					'timestamp' => $query->expr()->literal($i),
 					'location' => $query->expr()->literal('.'),
-					'user' => $query->expr()->literal('user'.$i%2)
-				))->execute();
+					'user' => $query->expr()->literal('user'.$i % 2)
+				])->execute();
 		}
 		$getAllQuery = $this->dbConnection->getQueryBuilder();
 		$result = $getAllQuery->select('id')
@@ -107,7 +107,7 @@ class CleanUpTest extends TestCase {
 			->method('nodeExists')
 			->with('/' . $this->user0 . '/files_trashbin')
 			->willReturn($nodeExists);
-		if($nodeExists) {
+		if ($nodeExists) {
 			$this->rootFolder->expects($this->once())
 				->method('get')
 				->with('/' . $this->user0 . '/files_trashbin')
@@ -124,9 +124,13 @@ class CleanUpTest extends TestCase {
 			// if the delete operation was execute only files from user1
 			// should be left.
 			$query = $this->dbConnection->getQueryBuilder();
-			$result = $query->select('user')
-				->from($this->trashTable)
-				->execute()->fetchAll();
+			$query->select('user')
+				->from($this->trashTable);
+
+			$qResult = $query->execute();
+			$result = $qResult->fetchAll();
+			$qResult->closeCursor();
+
 			$this->assertSame(5, count($result));
 			foreach ($result as $r) {
 				$this->assertSame('user1', $r['user']);
@@ -141,13 +145,12 @@ class CleanUpTest extends TestCase {
 				->fetchAll();
 			$this->assertSame(10, count($result));
 		}
-
 	}
 	public function dataTestRemoveDeletedFiles() {
-		return array(
-			array(true),
-			array(false)
-		);
+		return [
+			[true],
+			[false]
+		];
 	}
 
 	/**
@@ -240,5 +243,4 @@ class CleanUpTest extends TestCase {
 
 		$this->invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
 	}
-
 }

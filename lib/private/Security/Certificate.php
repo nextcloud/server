@@ -1,9 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -18,10 +22,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OCP\ICertificate;
@@ -48,18 +51,18 @@ class Certificate implements ICertificate {
 	 * @param string $name
 	 * @throws \Exception If the certificate could not get parsed
 	 */
-	public function __construct($data, $name) {
+	public function __construct(string $data, string $name) {
 		$this->name = $name;
 		$gmt = new \DateTimeZone('GMT');
 
 		// If string starts with "file://" ignore the certificate
 		$query = 'file://';
-		if(strtolower(substr($data, 0, strlen($query))) === $query) {
+		if (strtolower(substr($data, 0, strlen($query))) === $query) {
 			throw new \Exception('Certificate could not get parsed.');
 		}
 
 		$info = openssl_x509_parse($data);
-		if(!is_array($info)) {
+		if (!is_array($info)) {
 			throw new \Exception('Certificate could not get parsed.');
 		}
 
@@ -74,42 +77,42 @@ class Certificate implements ICertificate {
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
 	/**
 	 * @return string|null
 	 */
-	public function getCommonName() {
+	public function getCommonName(): ?string {
 		return $this->commonName;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getOrganization() {
+	public function getOrganization(): ?string {
 		return $this->organization;
 	}
 
 	/**
 	 * @return \DateTime
 	 */
-	public function getIssueDate() {
+	public function getIssueDate(): \DateTime {
 		return $this->issueDate;
 	}
 
 	/**
 	 * @return \DateTime
 	 */
-	public function getExpireDate() {
+	public function getExpireDate(): \DateTime {
 		return $this->expireDate;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isExpired() {
+	public function isExpired(): bool {
 		$now = new \DateTime();
 		return $this->issueDate > $now or $now > $this->expireDate;
 	}
@@ -117,14 +120,14 @@ class Certificate implements ICertificate {
 	/**
 	 * @return string|null
 	 */
-	public function getIssuerName() {
+	public function getIssuerName(): ?string {
 		return $this->issuerName;
 	}
 
 	/**
 	 * @return string|null
 	 */
-	public function getIssuerOrganization() {
+	public function getIssuerOrganization(): ?string {
 		return $this->issuerOrganization;
 	}
 }

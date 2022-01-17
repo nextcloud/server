@@ -1,7 +1,9 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,32 +16,34 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\User_LDAP\Tests;
 
-
 use OCA\User_LDAP\Helper;
 use OCP\IConfig;
 
+/**
+ * @group DB
+ */
 class HelperTest extends \Test\TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var Helper */
 	private $helper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->helper = new Helper($this->config);
+		$this->helper = new Helper($this->config, \OC::$server->getDatabaseConnection());
 	}
 
 	public function testGetServerConfigurationPrefixes() {
@@ -66,7 +70,7 @@ class HelperTest extends \Test\TestCase {
 			]);
 
 		$this->config->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) {
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($app !== 'user_ldap') {
 					$this->fail('wrong app');
 				}
@@ -74,7 +78,7 @@ class HelperTest extends \Test\TestCase {
 					return '1';
 				}
 				return $default;
-			}));
+			});
 
 		$result = $this->helper->getServerConfigurationPrefixes(true);
 
@@ -92,7 +96,7 @@ class HelperTest extends \Test\TestCase {
 			]);
 
 		$this->config->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) {
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($app !== 'user_ldap') {
 					$this->fail('wrong app');
 				}
@@ -103,7 +107,7 @@ class HelperTest extends \Test\TestCase {
 					return 'foo.bar.com';
 				}
 				return $default;
-			}));
+			});
 
 		$result = $this->helper->getServerConfigurationHosts();
 

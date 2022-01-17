@@ -2,22 +2,22 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author duritong <peter.meier+github@immerda.ch>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Phiber2000 <phiber2000@gmx.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
+ * @author Roland Tapken <roland@bitarbeiter.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -31,15 +31,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Log;
+
 use OC\SystemConfig;
+use OCP\ILogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
-use OCP\ILogger;
 
 /**
  * logging utilities
@@ -55,11 +55,11 @@ class File extends LogDetails implements IWriter, IFileBased {
 	/** @var SystemConfig */
 	private $config;
 
-	public function __construct(string $path, string $fallbackPath = '', SystemConfig $config) {
+	public function __construct(string $path, string $fallbackPath, SystemConfig $config) {
 		parent::__construct($config);
 		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
-			if(
+			if (
 				(
 					!is_writable(dirname($this->logFile))
 					|| !touch($this->logFile)
@@ -82,7 +82,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	public function write(string $app, $message, int $level) {
 		$entry = $this->logDetailsAsJSON($app, $message, $level);
 		$handle = @fopen($this->logFile, 'a');
-		if ($this->logFileMode > 0 && (fileperms($this->logFile) & 0777) != $this->logFileMode) {
+		if ($this->logFileMode > 0 && is_file($this->logFile) && (fileperms($this->logFile) & 0777) != $this->logFileMode) {
 			@chmod($this->logFile, $this->logFileMode);
 		}
 		if ($handle) {
@@ -106,9 +106,9 @@ class File extends LogDetails implements IWriter, IFileBased {
 	 * @param int $offset
 	 * @return array
 	 */
-	public function getEntries(int $limit=50, int $offset=0):array {
+	public function getEntries(int $limit = 50, int $offset = 0):array {
 		$minLevel = $this->config->getValue("loglevel", ILogger::WARN);
-		$entries = array();
+		$entries = [];
 		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {
 			fseek($handle, 0, SEEK_END);
@@ -117,7 +117,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 			$entriesCount = 0;
 			$lines = 0;
 			// Loop through each character of the file looking for new lines
-			while ($pos >= 0 && ($limit === null ||$entriesCount < $limit)) {
+			while ($pos >= 0 && ($limit === null || $entriesCount < $limit)) {
 				fseek($handle, $pos);
 				$ch = fgetc($handle);
 				if ($ch == "\n" || $pos == 0) {

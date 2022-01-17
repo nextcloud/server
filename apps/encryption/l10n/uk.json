@@ -19,10 +19,13 @@
     "The old password was not correct, please try again." : "Старий пароль введено не вірно, спробуйте ще раз.",
     "The current log-in password was not correct, please try again." : "Невірний пароль входу, будь ласка, спробуйте ще раз.",
     "Private key password successfully updated." : "Пароль секретного ключа оновлено.",
+    "Bad Signature" : "Погана сиґнатура",
     "one-time password for server-side-encryption" : "одноразовий пароль для шифрування на сервері",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не можу розшифрувати цей файл, можливо він опублікований. Будь ласка, попросіть власника опублікувати його заново.",
+    "Default encryption module" : "Типовий модуль шифрування",
+    "Default encryption module for server-side encryption" : "Типовий модуль шифрування для шифрування на стороні сервера",
     "The share will expire on %s." : "Спільний доступ закінчиться %s.",
     "Cheers!" : "Будьмо!",
+    "Encrypt the home storage" : "Зашифрувати домашню теку",
     "Enable recovery key" : "Увімкнути ключ відновлення",
     "Disable recovery key" : "Вимкнути ключ відновлення",
     "Recovery key password" : "Пароль ключа відновлення",
@@ -32,6 +35,7 @@
     "New recovery key password" : "Новий пароль ключа відновлення",
     "Repeat new recovery key password" : "Повторіть новий пароль ключа відновлення",
     "Change Password" : "Змінити Пароль",
+    "Basic encryption module" : "Основний модуль шифрування",
     "Your private key password no longer matches your log-in password." : "Пароль вашого закритого ключа більше не відповідає паролю від вашого облікового запису.",
     "Set your old private key password to your current log-in password:" : "Замініть старий пароль від закритого ключа на новий пароль входу:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Якщо ви не пам'ятаєте ваш старий пароль, ви можете звернутися до адміністратора щоб його відновити.",
@@ -41,6 +45,7 @@
     "Enable password recovery:" : "Ввімкнути відновлення паролю:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю",
     "Enabled" : "Увімкнено",
-    "Disabled" : "Вимкнено"
+    "Disabled" : "Вимкнено",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не можу розшифрувати цей файл, можливо він опублікований. Будь ласка, попросіть власника опублікувати його заново."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

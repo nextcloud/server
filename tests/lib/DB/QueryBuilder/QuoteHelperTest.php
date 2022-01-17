@@ -31,7 +31,7 @@ class QuoteHelperTest extends \Test\TestCase {
 	/** @var QuoteHelper */
 	protected $helper;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->helper = new QuoteHelper();
@@ -136,7 +136,7 @@ class QuoteHelperTest extends \Test\TestCase {
 		}
 
 		if (substr_count($string, '.')) {
-			list($alias, $columnName) = explode('.', $string);
+			[$alias, $columnName] = explode('.', $string);
 			return '`' . $alias . '`.`' . $columnName . '`';
 		}
 

@@ -22,6 +22,7 @@
 namespace Test\DB\QueryBuilder;
 
 use OC\DB\QueryBuilder\Literal;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use Test\TestCase;
 
 /**
@@ -31,7 +32,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
 	protected $connection;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -67,7 +68,10 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('users')
 			->where($query->expr()->like($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
 
-		$this->assertEquals($match, $query->execute()->fetchColumn());
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
 	}
 
 	public function ilikeProvider() {
@@ -101,6 +105,41 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('users')
 			->where($query->expr()->iLike($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
 
-		$this->assertEquals($match, $query->execute()->fetchColumn());
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
+	}
+
+	public function testCastColumn(): void {
+		$appId = $this->getUniqueID('testing');
+		$this->createConfig($appId, '1', '4');
+
+		$query = $this->connection->getQueryBuilder();
+		$query->update('appconfig')
+			->set('configvalue',
+				$query->expr()->castColumn(
+					$query->createFunction(
+						'(' . $query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)
+						. ' + 1)'
+					), IQueryBuilder::PARAM_STR
+				)
+			)
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('1')));
+
+		$result = $query->executeStatement();
+		$this->assertEquals(1, $result);
+	}
+
+	protected function createConfig($appId, $key, $value) {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('appconfig')
+			->values([
+				'appid' => $query->createNamedParameter($appId),
+				'configkey' => $query->createNamedParameter((string) $key),
+				'configvalue' => $query->createNamedParameter((string) $value),
+			])
+			->execute();
 	}
 }

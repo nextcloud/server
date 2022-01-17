@@ -15,11 +15,11 @@ class LegacyHelperTest extends \Test\TestCase {
 	/** @var string */
 	private $originalWebRoot;
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->originalWebRoot = \OC::$WEBROOT;
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		// Reset webRoot
 		\OC::$WEBROOT = $this->originalWebRoot;
 	}
@@ -27,34 +27,32 @@ class LegacyHelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider humanFileSizeProvider
 	 */
-	public function testHumanFileSize($expected, $input)
-	{
+	public function testHumanFileSize($expected, $input) {
 		$result = OC_Helper::humanFileSize($input);
 		$this->assertEquals($expected, $result);
 	}
 
-	public function humanFileSizeProvider()
-	{
-		return array(
-			array('0 B', 0),
-			array('1 KB', 1024),
-			array('9.5 MB', 10000000),
-			array('1.3 GB', 1395864371),
-			array('465.7 GB', 500000000000),
-			array('454.7 TB', 500000000000000),
-			array('444.1 PB', 500000000000000000),
-		);
+	public function humanFileSizeProvider() {
+		return [
+			['0 B', 0],
+			['1 KB', 1024],
+			['9.5 MB', 10000000],
+			['1.3 GB', 1395864371],
+			['465.7 GB', 500000000000],
+			['454.7 TB', 500000000000000],
+			['444.1 PB', 500000000000000000],
+		];
 	}
 
 	/**
 	 * @dataProvider providesComputerFileSize
 	 */
-	function testComputerFileSize($expected, $input) {
+	public function testComputerFileSize($expected, $input) {
 		$result = OC_Helper::computerFileSize($input);
 		$this->assertEquals($expected, $result);
 	}
 
-	function providesComputerFileSize(){
+	public function providesComputerFileSize() {
 		return [
 			[0.0, "0 B"],
 			[1024.0, "1 KB"],
@@ -65,37 +63,37 @@ class LegacyHelperTest extends \Test\TestCase {
 		];
 	}
 
-	function testMb_array_change_key_case() {
-		$arrayStart = array(
+	public function testMb_array_change_key_case() {
+		$arrayStart = [
 			"Foo" => "bar",
 			"Bar" => "foo",
-			);
-		$arrayResult = array(
+		];
+		$arrayResult = [
 			"foo" => "bar",
 			"bar" => "foo",
-			);
+		];
 		$result = OC_Helper::mb_array_change_key_case($arrayStart);
 		$expected = $arrayResult;
 		$this->assertEquals($result, $expected);
 
-		$arrayStart = array(
+		$arrayStart = [
 			"foo" => "bar",
 			"bar" => "foo",
-			);
-		$arrayResult = array(
+		];
+		$arrayResult = [
 			"FOO" => "bar",
 			"BAR" => "foo",
-			);
+		];
 		$result = OC_Helper::mb_array_change_key_case($arrayStart, MB_CASE_UPPER);
 		$expected = $arrayResult;
 		$this->assertEquals($result, $expected);
 	}
 
-	function testRecursiveArraySearch() {
-		$haystack = array(
+	public function testRecursiveArraySearch() {
+		$haystack = [
 			"Foo" => "own",
 			"Bar" => "Cloud",
-			);
+		];
 
 		$result = OC_Helper::recursiveArraySearch($haystack, "own");
 		$expected = "Foo";
@@ -105,63 +103,103 @@ class LegacyHelperTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-	function testBuildNotExistingFileNameForView() {
+	public function testBuildNotExistingFileNameForView() {
 		$viewMock = $this->createMock(View::class);
 		$this->assertEquals('/filename', OC_Helper::buildNotExistingFileNameForView('/', 'filename', $viewMock));
 		$this->assertEquals('dir/filename.ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename.ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   // Conflict on filename.ext
+			   ['dir/filename.ext'],
+			   ['dir/filename (2).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename.ext exists
-		$viewMock->expects($this->at(1))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename (2).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(3))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename.ext'],
+			   ['dir/filename (2).ext'],
+			   ['dir/filename (3).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, true, false));
 		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename (1).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename (1).ext'],
+			   ['dir/filename (2).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (1).ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename (2).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename (2).ext'],
+			   ['dir/filename (3).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename (2).ext exists
-		$viewMock->expects($this->at(1))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename (3).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(3))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename (2).ext'],
+			   ['dir/filename (3).ext'],
+			   ['dir/filename (4).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, true, false));
 		$this->assertEquals('dir/filename (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename(1).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename(1).ext'],
+			   ['dir/filename(2).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename(2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1).ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename(1) (1).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename(1) (1).ext'],
+			   ['dir/filename(1) (2).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename(1) (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename(1) (1).ext exists
-		$viewMock->expects($this->at(1))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename(1) (2).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(3))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename(1) (1).ext'],
+			   ['dir/filename(1) (2).ext'],
+			   ['dir/filename(1) (3).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, true, false));
 		$this->assertEquals('dir/filename(1) (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
 
-		$viewMock->expects($this->at(0))
-			->method('file_exists')
-			->will($this->returnValue(true)); // filename(1) (2) (3).ext exists
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+		   ->method('file_exists')
+		   ->withConsecutive(
+			   ['dir/filename(1) (2) (3).ext'],
+			   ['dir/filename(1) (2) (4).ext'],
+		   )
+		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename(1) (2) (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));
 	}
 
@@ -169,7 +207,6 @@ class LegacyHelperTest extends \Test\TestCase {
 	 * @dataProvider streamCopyDataProvider
 	 */
 	public function testStreamCopy($expectedCount, $expectedResult, $source, $target) {
-
 		if (is_string($source)) {
 			$source = fopen($source, 'r');
 		}
@@ -177,7 +214,7 @@ class LegacyHelperTest extends \Test\TestCase {
 			$target = fopen($target, 'w');
 		}
 
-		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+		[$count, $result] = \OC_Helper::streamCopy($source, $target);
 
 		if (is_resource($source)) {
 			fclose($source);
@@ -191,13 +228,13 @@ class LegacyHelperTest extends \Test\TestCase {
 	}
 
 
-	function streamCopyDataProvider() {
-		return array(
-			array(0, false, false, false),
-			array(0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false),
-			array(filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
-			array(3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'),
-		);
+	public function streamCopyDataProvider() {
+		return [
+			[0, false, false, false],
+			[0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false],
+			[filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'],
+			[3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'],
+		];
 	}
 
 	/**
@@ -234,7 +271,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	 * @return mixed
 	 * @deprecated Please extend \Test\TestCase and use self::invokePrivate() then
 	 */
-	public static function invokePrivate($object, $methodName, array $parameters = array()) {
+	public static function invokePrivate($object, $methodName, array $parameters = []) {
 		return parent::invokePrivate($object, $methodName, $parameters);
 	}
 }

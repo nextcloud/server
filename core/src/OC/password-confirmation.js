@@ -1,9 +1,11 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,12 +18,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
+import { generateUrl } from '@nextcloud/router'
 
 import OC from './index'
 
@@ -33,14 +37,14 @@ export default {
 
 	pageLoadTime: null,
 
-	init: function() {
+	init() {
 		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this))
 		this.pageLoadTime = moment.now()
 	},
 
-	requiresPasswordConfirmation: function() {
-		var serverTimeDiff = this.pageLoadTime - (window.nc_pageLoad * 1000)
-		var timeSinceLogin = moment.now() - (serverTimeDiff + (window.nc_lastLogin * 1000))
+	requiresPasswordConfirmation() {
+		const serverTimeDiff = this.pageLoadTime - (window.nc_pageLoad * 1000)
+		const timeSinceLogin = moment.now() - (serverTimeDiff + (window.nc_lastLogin * 1000))
 
 		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
 		return (window.backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000)
@@ -48,12 +52,12 @@ export default {
 
 	/**
 	 * @param {Function} callback success callback function
-	 * @param {Object} options options
+	 * @param {object} options options
 	 * @param {Function} rejectCallback error callback function
 	 */
-	requirePasswordConfirmation: function(callback, options, rejectCallback) {
+	requirePasswordConfirmation(callback, options, rejectCallback) {
 		options = typeof options !== 'undefined' ? options : {}
-		var defaults = {
+		const defaults = {
 			title: t('core', 'Authentication required'),
 			text: t(
 				'core',
@@ -61,12 +65,12 @@ export default {
 			),
 			confirm: t('core', 'Confirm'),
 			label: t('core', 'Password'),
-			error: ''
+			error: '',
 		}
 
-		var config = _.extend(defaults, options)
+		const config = _.extend(defaults, options)
 
-		var self = this
+		const self = this
 
 		if (this.requiresPasswordConfirmation()) {
 			OC.dialogs.prompt(
@@ -83,16 +87,16 @@ export default {
 				config.label,
 				true
 			).then(function() {
-				var $dialog = $('.oc-dialog:visible')
+				const $dialog = $('.oc-dialog:visible')
 				$dialog.find('.ui-icon').remove()
 				$dialog.addClass('password-confirmation')
 				if (config.error !== '') {
-					var $error = $('<p></p>').addClass('msg warning').text(config.error)
+					const $error = $('<p></p>').addClass('msg warning').text(config.error)
+					$dialog.find('.oc-dialog-content').append($error)
 				}
-				$dialog.find('.oc-dialog-content').append($error)
 				$dialog.find('.oc-dialog-buttonrow').addClass('aside')
 
-				var $buttons = $dialog.find('button')
+				const $buttons = $dialog.find('button')
 				$buttons.eq(0).hide()
 				$buttons.eq(1).text(config.confirm)
 			})
@@ -101,26 +105,26 @@ export default {
 		this.callback = callback
 	},
 
-	_confirmPassword: function(password, config) {
-		var self = this
+	_confirmPassword(password, config) {
+		const self = this
 
 		$.ajax({
-			url: OC.generateUrl('/login/confirm'),
+			url: generateUrl('/login/confirm'),
 			data: {
-				password: password
+				password,
 			},
 			type: 'POST',
-			success: function(response) {
+			success(response) {
 				window.nc_lastLogin = response.lastLogin
 
 				if (_.isFunction(self.callback)) {
 					self.callback()
 				}
 			},
-			error: function() {
+			error() {
 				config.error = t('core', 'Failed to authenticate, try again')
 				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback, config)
-			}
+			},
 		})
-	}
+	},
 }

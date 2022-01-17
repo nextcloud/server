@@ -9,11 +9,12 @@
 namespace Test\Traits;
 
 use OC\Encryption\EncryptionWrapper;
+use OC\Files\Filesystem;
 use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
-use OC\Files\Filesystem;
+use OCP\Encryption\IManager;
 
 /**
  * Enables encryption
@@ -23,8 +24,8 @@ trait EncryptionTrait {
 	abstract protected function registerStorageWrapper($name, $wrapper);
 
 	// from phpunit
-	abstract protected function markTestSkipped($reason = '');
-	abstract protected function assertTrue($condition, $message = '');
+	abstract protected static function markTestSkipped(string $message = ''): void;
+	abstract protected static function assertTrue($condition, string $message = ''): void;
 
 	private $encryptionWasEnabled;
 
@@ -60,11 +61,12 @@ trait EncryptionTrait {
 		\OC_Util::setupFS($name);
 		$container = $this->encryptionApp->getContainer();
 		/** @var KeyManager $keyManager */
-		$keyManager = $container->query('KeyManager');
+		$keyManager = $container->query(KeyManager::class);
 		/** @var Setup $userSetup */
-		$userSetup = $container->query('UserSetup');
+		$userSetup = $container->query(Setup::class);
 		$userSetup->setupUser($name, $password);
-		$this->encryptionApp->setUp();
+		$encryptionManager = $container->query(IManager::class);
+		$this->encryptionApp->setUp($encryptionManager);
 		$keyManager->init($name, $password);
 	}
 
@@ -75,7 +77,7 @@ trait EncryptionTrait {
 			\OC::$server->getLogger()
 		);
 
-		$this->registerStorageWrapper('oc_encryption', array($encryptionWrapper, 'wrapStorage'));
+		$this->registerStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage']);
 	}
 
 	protected function setUpEncryptionTrait() {

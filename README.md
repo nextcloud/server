@@ -2,8 +2,6 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
 [![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
-[![irc](https://img.shields.io/badge/IRC-%23nextcloud%20on%20freenode-orange.svg)](https://webchat.freenode.net/?channels=nextcloud)
-[![irc](https://img.shields.io/badge/IRC-%23nextcloud--dev%20on%20freenode-blue.svg)](https://webchat.freenode.net/?channels=nextcloud-dev)
 
 **A safe home for all your data.**
 
@@ -31,7 +29,7 @@ Enterprise? Public Sector or Education user? You may want to have a look into [*
 ## Get in touch 💬
 
 * [📋 Forum](https://help.nextcloud.com)
-* [👥 Facebook](https://facebook.com/nextclouders)
+* [👥 Facebook](https://www.facebook.com/nextclouders)
 * [🐣 Twitter](https://twitter.com/Nextclouders)
 * [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
@@ -45,7 +43,7 @@ There are many ways to contribute, of which development is only one! Find out [h
 
 ### Development setup 👩‍💻
 
-1. 🚀 [Set up your local development environment](https://docs.nextcloud.com/server/latest/developer_manual/general/devenv.html)
+1. 🚀 [Set up your local development environment](https://docs.nextcloud.com/server/latest/developer_manual/getting_started/devenv.html)
 2. 🐛 [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue)
 3. 👩‍🔧 Create a branch and make your changes. Remember to sign off your commits using `git commit -sm "Your commit message"`
 4. ⬆ Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review
@@ -58,12 +56,13 @@ Several apps that are included by default in regular releases such as [First run
 
 Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
 
+### Working with front-end code 🏗
 
-### Building front-end code 🏗
+#### Building
 
-We move more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
+We are moving more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
 
-``` bash
+```bash
 # install dependencies
 make dev-setup
 
@@ -77,20 +76,45 @@ make watch-js
 make build-js-production
 ```
 
+#### Committing changes
+
 **When making changes, also commit the compiled files!**
 
 We still use Handlebars templates some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime you need to compile them separately.
 
 If you don’t have Handlebars installed yet, you can do it with this terminal command:
-```
+```bash
 sudo npm install -g handlebars
 ```
 
 Then inside the root folder of your local Nextcloud development installation, run this command in the terminal every time you changed a `.handlebars` file to compile it:
-```
+```bash
 ./build/compile-handlebars-templates.sh
 ```
 
+Before checking in JS changes, make sure to also build for production:
+```bash
+make build-js-production
+```
+Then add the compiled files for committing.
+
+To save some time, to only rebuild for a specific app, use the following and replace the module with the app name:
+```bash
+MODULE=user_status make build-js-production
+```
+
+Please note that if you used `make build-js` or `make watch-js` before, you'll notice that a lot of files were marked as changed, so might need to clear the workspace first.
+
+### Working with back-end code 🏗
+
+When changing back-end PHP code, in general no additional steps are needed before checking in.
+
+However, if new files were created, you will need to run the following command to update the autoloader files:
+```bash
+build/autoloaderchecker.sh
+```
+
+After that, please also include the autoloader file changes in your commits.
 
 ### Tools we use 🛠
 

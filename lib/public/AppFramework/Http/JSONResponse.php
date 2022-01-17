@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -20,15 +22,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\JSONResponse class
- */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -52,7 +48,7 @@ class JSONResponse extends Response {
 	 * @param int $statusCode the Http status code, defaults to 200
 	 * @since 6.0.0
 	 */
-	public function __construct($data=array(), $statusCode=Http::STATUS_OK) {
+	public function __construct($data = [], $statusCode = Http::STATUS_OK) {
 		parent::__construct();
 
 		$this->data = $data;
@@ -69,7 +65,7 @@ class JSONResponse extends Response {
 	 */
 	public function render() {
 		$response = json_encode($this->data, JSON_HEX_TAG);
-		if($response === false) {
+		if ($response === false) {
 			throw new \Exception(sprintf('Could not json_encode due to invalid ' .
 				'non UTF-8 characters in the array: %s', var_export($this->data, true)));
 		}
@@ -84,7 +80,7 @@ class JSONResponse extends Response {
 	 * @return JSONResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setData($data){
+	public function setData($data) {
 		$this->data = $data;
 
 		return $this;
@@ -96,8 +92,7 @@ class JSONResponse extends Response {
 	 * @return array the data
 	 * @since 6.0.0
 	 */
-	public function getData(){
+	public function getData() {
 		return $this->data;
 	}
-
 }

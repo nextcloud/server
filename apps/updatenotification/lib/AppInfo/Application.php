@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,63 +20,72 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UpdateNotification\AppInfo;
 
 use OCA\UpdateNotification\Notification\Notifier;
 use OCA\UpdateNotification\UpdateChecker;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Util;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public function __construct() {
 		parent::__construct('updatenotification', []);
 	}
 
-	public function register() {
-		$server = $this->getContainer()->getServer();
+	public function register(IRegistrationContext $context): void {
+		$context->registerNotifierService(Notifier::class);
+	}
 
-		if ($server->getConfig()->getSystemValue('updatechecker', true) !== true) {
-			// Updater check is disabled
-			return;
-		}
-
-		// Always register the notifier, so background jobs (without a user) can send push notifications
-		$this->registerNotifier();
-
-		$user = $server->getUserSession()->getUser();
-		if (!$user instanceof IUser) {
-			// Nothing to do for guests
-			return;
-		}
-
-		if (!$server->getAppManager()->isEnabledForUser('notifications') &&
-			$server->getGroupManager()->isAdmin($user->getUID())) {
-			try {
-				$updateChecker = $this->getContainer()->query(UpdateChecker::class);
-			} catch (QueryException $e) {
-				$server->getLogger()->logException($e);
+	public function boot(IBootContext $context): void {
+		$context->injectFn(function (IConfig $config,
+									 IUserSession $userSession,
+									 IAppManager $appManager,
+									 IGroupManager $groupManager,
+									 IAppContainer $appContainer,
+									 ILogger $logger) {
+			if ($config->getSystemValue('updatechecker', true) !== true) {
+				// Updater check is disabled
 				return;
 			}
 
-			if ($updateChecker->getUpdateState() !== []) {
-				Util::addScript('updatenotification', 'legacy-notification');
-				\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
+			$user = $userSession->getUser();
+			if (!$user instanceof IUser) {
+				// Nothing to do for guests
+				return;
 			}
-		}
-	}
 
-	public function registerNotifier() {
-		$notificationsManager = $this->getContainer()->getServer()->getNotificationManager();
-		$notificationsManager->registerNotifierService(Notifier::class);
+			if (!$appManager->isEnabledForUser('notifications') &&
+				$groupManager->isAdmin($user->getUID())) {
+				try {
+					$updateChecker = $appContainer->get(UpdateChecker::class);
+				} catch (QueryException $e) {
+					$logger->logException($e);
+					return;
+				}
+
+				if ($updateChecker->getUpdateState() !== []) {
+					Util::addScript('updatenotification', 'legacy-notification');
+					\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
+				}
+			}
+		});
 	}
 }

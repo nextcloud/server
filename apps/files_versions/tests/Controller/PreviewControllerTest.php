@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,17 +15,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Tests\Controller;
 
-use OC\User\User;
 use OCA\Files_Versions\Controller\PreviewController;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Http;
@@ -43,28 +43,28 @@ use Test\TestCase;
 
 class PreviewControllerTest extends TestCase {
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
 	/** @var string */
 	private $userId;
 
-	/** @var IMimeTypeDetector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMimeTypeDetector|\PHPUnit\Framework\MockObject\MockObject */
 	private $mimeTypeDetector;
 
-	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
 	private $previewManager;
 
-	/** @var PreviewController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PreviewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var IVersionManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IVersionManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $versionManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
@@ -73,7 +73,6 @@ class PreviewControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->userId);
-		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession->expects($this->any())
@@ -86,7 +85,6 @@ class PreviewControllerTest extends TestCase {
 			$this->createMock(IRequest::class),
 			$this->rootFolder,
 			$this->userSession,
-			$this->mimeTypeDetector,
 			$this->versionManager,
 			$this->previewManager
 		);
@@ -143,6 +141,8 @@ class PreviewControllerTest extends TestCase {
 			->willReturn($file);
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->previewManager->method('getPreview')
 			->with($this->equalTo($file), 10, 10, true, IPreview::MODE_FILL, 'myMime')
 			->willReturn($preview);
@@ -170,10 +170,6 @@ class PreviewControllerTest extends TestCase {
 			->with('file')
 			->willReturn($sourceFile);
 
-		$this->mimeTypeDetector->method('detectPath')
-			->with($this->equalTo('file'))
-			->willReturn('myMime');
-
 		$this->versionManager->method('getVersionFile')
 			->willThrowException(new NotFoundException());
 
@@ -182,5 +178,4 @@ class PreviewControllerTest extends TestCase {
 
 		$this->assertEquals($expected, $res);
 	}
-
 }

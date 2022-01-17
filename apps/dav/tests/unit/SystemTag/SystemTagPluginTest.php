@@ -3,11 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,10 +22,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
@@ -32,23 +32,22 @@ use OCA\DAV\SystemTag\SystemTagNode;
 use OCA\DAV\SystemTag\SystemTagsByIdCollection;
 use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagAlreadyExistsException;
-use OCP\IUser;
-use OCP\SystemTag\ISystemTag;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class SystemTagPluginTest extends \Test\TestCase {
-
-	const ID_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::ID_PROPERTYNAME;
-	const DISPLAYNAME_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::DISPLAYNAME_PROPERTYNAME;
-	const USERVISIBLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERVISIBLE_PROPERTYNAME;
-	const USERASSIGNABLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME;
-	const CANASSIGN_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::CANASSIGN_PROPERTYNAME;
-	const GROUPS_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::GROUPS_PROPERTYNAME;
+	public const ID_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::ID_PROPERTYNAME;
+	public const DISPLAYNAME_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::DISPLAYNAME_PROPERTYNAME;
+	public const USERVISIBLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERVISIBLE_PROPERTYNAME;
+	public const USERASSIGNABLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME;
+	public const CANASSIGN_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::CANASSIGN_PROPERTYNAME;
+	public const GROUPS_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::GROUPS_PROPERTYNAME;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -85,7 +84,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
@@ -202,20 +201,20 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getSystemTag')
-			->will($this->returnValue($systemTag));
+			->willReturn($systemTag);
 
 		$this->tagManager->expects($this->any())
 			->method('canUserAssignTag')
-			->will($this->returnValue($systemTag->isUserAssignable()));
+			->willReturn($systemTag->isUserAssignable());
 
 		$this->tagManager->expects($this->any())
 			->method('getTagGroups')
-			->will($this->returnValue($groups));
+			->willReturn($groups);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtag/1')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/systemtag/1',
@@ -234,10 +233,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result[200]);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testGetPropertiesForbidden() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$systemTag = new SystemTag(1, 'Test', true, false);
 		$requestedProperties = [
 			self::ID_PROPERTYNAME,
@@ -257,12 +256,12 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getSystemTag')
-			->will($this->returnValue($systemTag));
+			->willReturn($systemTag);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtag/1')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/systemtag/1',
@@ -292,12 +291,12 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getSystemTag')
-			->will($this->returnValue($systemTag));
+			->willReturn($systemTag);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtag/1')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$node->expects($this->once())
 			->method('update')
@@ -308,12 +307,12 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with($systemTag, ['group1', 'group2']);
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			self::DISPLAYNAME_PROPERTYNAME => 'Test changed',
 			self::USERVISIBLE_PROPERTYNAME => 'false',
 			self::USERASSIGNABLE_PROPERTYNAME => 'true',
 			self::GROUPS_PROPERTYNAME => 'group1|group2',
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/systemtag/1',
@@ -331,10 +330,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEquals(200, $result[self::USERVISIBLE_PROPERTYNAME]);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testUpdatePropertiesForbidden() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$systemTag = new SystemTag(1, 'Test', true, false);
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -350,12 +349,12 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getSystemTag')
-			->will($this->returnValue($systemTag));
+			->willReturn($systemTag);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtag/1')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$node->expects($this->never())
 			->method('update');
@@ -364,9 +363,9 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->method('setTagGroups');
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			self::GROUPS_PROPERTYNAME => 'group1|group2',
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/systemtag/1',
@@ -385,10 +384,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 	/**
 	 * @dataProvider createTagInsufficientPermissionsProvider
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage Not sufficient permissions
 	 */
 	public function testCreateNotAssignableTagAsRegularUser($userVisible, $userAssignable, $groups) {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('Not sufficient permissions');
+
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -419,7 +419,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtags')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
@@ -430,16 +430,16 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$request->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('/systemtags'));
+			->willReturn('/systemtags');
 
 		$request->expects($this->once())
 			->method('getBodyAsString')
-			->will($this->returnValue($requestData));
+			->willReturn($requestData);
 
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));
+			->willReturn('application/json');
 
 		$this->plugin->httpPost($request, $response);
 	}
@@ -459,12 +459,12 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('createTag')
 			->with('Test', true, true)
-			->will($this->returnValue($systemTag));
+			->willReturn($systemTag);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtags')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
@@ -475,20 +475,20 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$request->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('/systemtags'));
+			->willReturn('/systemtags');
 
 		$request->expects($this->once())
 			->method('getBodyAsString')
-			->will($this->returnValue($requestData));
+			->willReturn($requestData);
 
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));
+			->willReturn('application/json');
 
 		$request->expects($this->once())
 			->method('getUrl')
-			->will($this->returnValue('http://example.com/dav/systemtags'));
+			->willReturn('http://example.com/dav/systemtags');
 
 		$response->expects($this->once())
 			->method('setHeader')
@@ -536,13 +536,13 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('createTag')
 			->with('Test', $userVisible, $userAssignable)
-			->will($this->returnValue($systemTag));
+			->willReturn($systemTag);
 		
 		if (!empty($groups)) {
 			$this->tagManager->expects($this->once())
 				->method('setTagGroups')
 				->with($systemTag, explode('|', $groups))
-				->will($this->returnValue($systemTag));
+				->willReturn($systemTag);
 		} else {
 			$this->tagManager->expects($this->never())
 				->method('setTagGroups');
@@ -551,7 +551,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtags')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$request = $this->getMockBuilder(RequestInterface::class)
 				->disableOriginalConstructor()
@@ -562,20 +562,20 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$request->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('/systemtags'));
+			->willReturn('/systemtags');
 
 		$request->expects($this->once())
 			->method('getBodyAsString')
-			->will($this->returnValue($requestData));
+			->willReturn($requestData);
 
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));	
+			->willReturn('application/json');
 
 		$request->expects($this->once())
 			->method('getUrl')
-			->will($this->returnValue('http://example.com/dav/systemtags'));
+			->willReturn('http://example.com/dav/systemtags');
 
 		$response->expects($this->once())
 			->method('setHeader')
@@ -616,12 +616,12 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('createTag')
 			->with('Test', true, false)
-			->will($this->returnValue($systemTag));
+			->willReturn($systemTag);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtags-relations/files/12')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$node->expects($this->once())
 			->method('createFile')
@@ -636,20 +636,20 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$request->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('/systemtags-relations/files/12'));
+			->willReturn('/systemtags-relations/files/12');
 
 		$request->expects($this->once())
 			->method('getBodyAsString')
-			->will($this->returnValue($requestData));
+			->willReturn($requestData);
 
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));	
+			->willReturn('application/json');
 
 		$request->expects($this->once())
 			->method('getBaseUrl')
-			->will($this->returnValue('http://example.com/dav/'));
+			->willReturn('http://example.com/dav/');
 
 		$response->expects($this->once())
 			->method('setHeader')
@@ -658,10 +658,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testCreateTagToUnknownNode() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$node = $this->getMockBuilder(SystemTagsObjectMappingCollection::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -685,16 +685,17 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$request->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('/systemtags-relations/files/12'));
+			->willReturn('/systemtags-relations/files/12');
 
 		$this->plugin->httpPost($request, $response);
 	}
 
 	/**
 	 * @dataProvider nodeClassProvider
-	 * @expectedException \Sabre\DAV\Exception\Conflict
 	 */
 	public function testCreateTagConflict($nodeClass) {
+		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
+
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -721,7 +722,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtags')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$request = $this->getMockBuilder(RequestInterface::class)
 				->disableOriginalConstructor()
@@ -732,18 +733,17 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$request->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('/systemtags'));
+			->willReturn('/systemtags');
 
 		$request->expects($this->once())
 			->method('getBodyAsString')
-			->will($this->returnValue($requestData));
+			->willReturn($requestData);
 
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));	
+			->willReturn('application/json');
 
 		$this->plugin->httpPost($request, $response);
 	}
-
 }

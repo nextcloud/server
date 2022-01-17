@@ -1,9 +1,10 @@
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,22 +21,25 @@
  *
  */
 
+import escapeHTML from 'escape-html'
+
 /**
  * @typedef TypeDefinition
- * @method {callback} action This action is executed to let the user select a resource
+ * @function {Function} action This action is executed to let the user select a resource
  * @param {string} icon Contains the icon css class for the type
- * @constructor
+ * @function Object() { [native code] }
  */
 
 /**
  * @type {TypeDefinition[]}
- **/
-let types = {}
+ */
+const types = {}
 
 /**
  * Those translations will be used by the vue component but they should be shipped with the server
  * FIXME: Those translations should be added to the library
- * @returns {Array}
+ *
+ * @return {Array}
  */
 export const l10nProjects = () => {
 	return [
@@ -47,7 +51,7 @@ export const l10nProjects = () => {
 		t('core', 'Failed to create a project'),
 		t('core', 'Failed to add the item to the project'),
 		t('core', 'Connect items to a project to make them easier to find'),
-		t('core', 'Type to search for existing projects')
+		t('core', 'Type to search for existing projects'),
 	]
 }
 
@@ -75,5 +79,5 @@ export default {
 	getLink(type, id) {
 		/* TODO: Allow action to be executed instead of href as well */
 		return typeof types[type] !== 'undefined' ? types[type].link(id) : ''
-	}
+	},
 }

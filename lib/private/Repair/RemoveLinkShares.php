@@ -1,8 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,18 +20,17 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair;
 
-use Doctrine\DBAL\Driver\Statement;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -132,10 +137,8 @@ class RemoveLinkShares implements IRepairStep {
 
 	/**
 	 * Get the cursor to fetch all the shares
-	 *
-	 * @return \Doctrine\DBAL\Driver\Statement
 	 */
-	private function getShares(): Statement {
+	private function getShares(): IResult {
 		$subQuery = $this->connection->getQueryBuilder();
 		$subQuery->select('*')
 			->from('share')
@@ -154,7 +157,9 @@ class RemoveLinkShares implements IRepairStep {
 				$query->expr()->eq('s2.share_type', $query->expr()->literal(2, IQueryBuilder::PARAM_INT))
 			))
 			->andWhere($query->expr()->eq('s1.item_source', 's2.item_source'));
-		return $query->execute();
+		/** @var IResult $result */
+		$result = $query->execute();
+		return $result;
 	}
 
 	/**
@@ -204,13 +209,13 @@ class RemoveLinkShares implements IRepairStep {
 	private function repair(IOutput $output, int $total): void {
 		$output->startProgress($total);
 
-		$shareCursor = $this->getShares();
-		while($data = $shareCursor->fetch()) {
+		$shareResult = $this->getShares();
+		while ($data = $shareResult->fetch()) {
 			$this->processShare($data);
 			$output->advance();
 		}
 		$output->finishProgress();
-		$shareCursor->closeCursor();
+		$shareResult->closeCursor();
 
 		// Notifiy all admins
 		$adminGroup = $this->groupManager->get('admin');

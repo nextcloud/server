@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,11 +15,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCP\Files\SimpleFS;
@@ -28,7 +30,6 @@ use OCP\Files\NotPermittedException;
 /**
  * Interface ISimpleFile
  *
- * @package OCP\Files\SimpleFS
  * @since 11.0.0
  */
 interface ISimpleFile {
@@ -113,7 +114,7 @@ interface ISimpleFile {
 	/**
 	 * Open the file as stream for writing, resulting resource can be operated as stream like the result from php's own fopen
 	 *
-	 * @return resource
+	 * @return resource|bool
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 14.0.0
 	 */

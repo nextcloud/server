@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\EntityCollection;
@@ -34,18 +34,18 @@ use OCP\IUserSession;
 
 class EntityCollectionTest extends \Test\TestCase {
 
-	/** @var \OCP\Comments\ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Comments\ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var EntityCollection */
 	protected $collection;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
@@ -79,20 +79,20 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
-			->will($this->returnValue(
+			->willReturn(
 				$this->getMockBuilder(IComment::class)
 					->disableOriginalConstructor()
 					->getMock()
-			));
+			);
 
 		$node = $this->collection->getChild('55');
 		$this->assertTrue($node instanceof \OCA\DAV\Comments\CommentNode);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+
 	public function testGetChildException() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
@@ -105,11 +105,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
 			->with('files', '19')
-			->will($this->returnValue([
+			->willReturn([
 				$this->getMockBuilder(IComment::class)
 					->disableOriginalConstructor()
 					->getMock()
-			]));
+			]);
 
 		$result = $this->collection->getChildren();
 
@@ -122,11 +122,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
 			->with('files', '19', 5, 15, $dt)
-			->will($this->returnValue([
+			->willReturn([
 				$this->getMockBuilder(IComment::class)
 					->disableOriginalConstructor()
 					->getMock()
-			]));
+			]);
 
 		$result = $this->collection->findChildren(5, 15, $dt);
 

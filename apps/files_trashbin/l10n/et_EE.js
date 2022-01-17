@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Select all" : "Vali kõik",
     "Name" : "Nimi",
+    "Actions" : "Tegevused",
     "Deleted" : "Kustutatud",
     "Delete" : "Kustuta"
 },

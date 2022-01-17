@@ -3,6 +3,10 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Tobia De Koninck <tobia@ledfan.be>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,17 +17,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
-
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
@@ -34,11 +37,20 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share;
+use OCP\Share\IShare;
+use OCP\Mail\IMailer;
 
 class MailPlugin implements ISearchPlugin {
-	protected $shareeEnumeration;
+	/* @var bool */
 	protected $shareWithGroupOnly;
+	/* @var bool */
+	protected $shareeEnumeration;
+	/* @var bool */
+	protected $shareeEnumerationInGroupOnly;
+	/* @var bool */
+	protected $shareeEnumerationPhone;
+	/* @var bool */
+	protected $shareeEnumerationFullMatch;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -49,37 +61,56 @@ class MailPlugin implements ISearchPlugin {
 
 	/** @var IGroupManager */
 	private $groupManager;
-
+	/** @var KnownUserService */
+	private $knownUserService;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var IMailer */
+	private $mailer;
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IGroupManager $groupManager, IUserSession $userSession) {
+	public function __construct(IManager $contactsManager,
+								ICloudIdManager $cloudIdManager,
+								IConfig $config,
+								IGroupManager $groupManager,
+								KnownUserService $knownUserService,
+								IUserSession $userSession,
+								IMailer $mailer) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
 		$this->groupManager = $groupManager;
+		$this->knownUserService = $knownUserService;
 		$this->userSession = $userSession;
+		$this->mailer = $mailer;
 
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 	}
 
 	/**
-	 * @param $search
-	 * @param $limit
-	 * @param $offset
-	 * @param ISearchResult $searchResult
-	 * @return bool
-	 * @since 13.0.0
+	 * {@inheritdoc}
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+		$currentUserId = $this->userSession->getUser()->getUID();
+
 		$result = $userResults = ['wide' => [], 'exact' => []];
 		$userType = new SearchResultType('users');
 		$emailType = new SearchResultType('emails');
 
 		// Search in contacts
-		//@todo Pagination missing
-		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN']);
+		$addressBookContacts = $this->contactsManager->search(
+			$search,
+			['EMAIL', 'FN'],
+			[
+				'limit' => $limit,
+				'offset' => $offset,
+				'enumeration' => (bool) $this->shareeEnumeration,
+				'fullmatch' => (bool) $this->shareeEnumerationFullMatch,
+			]
+		);
 		$lowerSearch = strtolower($search);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['EMAIL'])) {
@@ -95,7 +126,7 @@ class MailPlugin implements ISearchPlugin {
 						$emailAddress = $emailAddressData['value'];
 						$emailAddressType = $emailAddressData['type'];
 					}
-					if (isset($contact['FN'])) 	{
+					if (isset($contact['FN'])) {
 						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
 					}
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
@@ -117,7 +148,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 						}
-						if ($exactEmailMatch) {
+						if ($exactEmailMatch && $this->shareeEnumerationFullMatch) {
 							try {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
 							} catch (\InvalidArgumentException $e) {
@@ -130,9 +161,11 @@ class MailPlugin implements ISearchPlugin {
 									'uuid' => $contact['UID'],
 									'name' => $contact['FN'],
 									'value' => [
-										'shareType' => Share::SHARE_TYPE_USER,
+										'shareType' => IShare::TYPE_USER,
 										'shareWith' => $cloud->getUser(),
 									],
+									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
+
 								]];
 								$searchResult->addResultSet($userType, [], $singleResult);
 								$searchResult->markExactIdMatch($emailType);
@@ -147,24 +180,40 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
+							$addToWide = !($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone);
+							if (!$addToWide && $this->shareeEnumerationPhone && $this->knownUserService->isKnownToUser($currentUserId, $contact['UID'])) {
+								$addToWide = true;
+							}
+
+							if (!$addToWide && $this->shareeEnumerationInGroupOnly) {
+								$addToWide = false;
+								$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+								foreach ($userGroups as $userGroup) {
+									if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
+										$addToWide = true;
+										break;
+									}
+								}
+							}
+							if ($addToWide && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$userResults['wide'][] = [
 									'label' => $displayName,
 									'uuid' => $contact['UID'],
 									'name' => $contact['FN'],
 									'value' => [
-										'shareType' => Share::SHARE_TYPE_USER,
+										'shareType' => IShare::TYPE_USER,
 										'shareWith' => $cloud->getUser(),
 									],
+									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
 								];
+								continue;
 							}
 						}
 						continue;
 					}
 
 					if ($exactEmailMatch
-						|| isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)
-					{
+						|| (isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)) {
 						if ($exactEmailMatch) {
 							$searchResult->markExactIdMatch($emailType);
 						}
@@ -174,7 +223,7 @@ class MailPlugin implements ISearchPlugin {
 							'name' => $contact['FN'],
 							'type' => $emailAddressType ?? '',
 							'value' => [
-								'shareType' => Share::SHARE_TYPE_EMAIL,
+								'shareType' => IShare::TYPE_EMAIL,
 								'shareWith' => $emailAddress,
 							],
 						];
@@ -185,7 +234,7 @@ class MailPlugin implements ISearchPlugin {
 							'name' => $contact['FN'],
 							'type' => $emailAddressType ?? '',
 							'value' => [
-								'shareType' => Share::SHARE_TYPE_EMAIL,
+								'shareType' => IShare::TYPE_EMAIL,
 								'shareWith' => $emailAddress,
 							],
 						];
@@ -195,10 +244,7 @@ class MailPlugin implements ISearchPlugin {
 		}
 
 		$reachedEnd = true;
-		if (!$this->shareeEnumeration) {
-			$result['wide'] = [];
-			$userResults['wide'] = [];
-		} else {
+		if ($this->shareeEnumeration) {
 			$reachedEnd = (count($result['wide']) < $offset + $limit) &&
 				(count($userResults['wide']) < $offset + $limit);
 
@@ -206,13 +252,12 @@ class MailPlugin implements ISearchPlugin {
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
 
-
-		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
+		if (!$searchResult->hasExactIdMatch($emailType) && $this->mailer->validateMailAddress($search)) {
 			$result['exact'][] = [
 				'label' => $search,
 				'uuid' => $search,
 				'value' => [
-					'shareType' => Share::SHARE_TYPE_EMAIL,
+					'shareType' => IShare::TYPE_EMAIL,
 					'shareWith' => $search,
 				],
 			];

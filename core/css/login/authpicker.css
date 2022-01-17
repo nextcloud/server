@@ -7,3 +7,8 @@
 	border-radius: 3px;
 	cursor: default;
 }
+
+.apptoken-link {
+	margin: 20px;
+	display: block;
+}

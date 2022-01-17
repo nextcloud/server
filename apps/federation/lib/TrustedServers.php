@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -20,18 +22,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Federation;
 
-use OC\HintException;
 use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -42,13 +42,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class TrustedServers {
 
 	/** after a user list was exchanged at least once successfully */
-	const STATUS_OK = 1;
+	public const STATUS_OK = 1;
 	/** waiting for shared secret or initial user list exchange */
-	const STATUS_PENDING = 2;
+	public const STATUS_PENDING = 2;
 	/** something went wrong, misconfigured server, software bug,... user interaction needed */
-	const STATUS_FAILURE = 3;
+	public const STATUS_FAILURE = 3;
 	/** remote server revoked access */
-	const STATUS_ACCESS_REVOKED = 4;
+	public const STATUS_ACCESS_REVOKED = 4;
 
 	/** @var  dbHandler */
 	private $dbHandler;
@@ -127,28 +127,6 @@ class TrustedServers {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * enable/disable to automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @param bool $status
-	 */
-	public function setAutoAddServers($status) {
-		$value = $status ? '1' : '0';
-		$this->config->setAppValue('federation', 'autoAddServers', $value);
-	}
-
-	/**
-	 * return if we automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @return bool
-	 */
-	public function getAutoAddServers() {
-		$value = $this->config->getAppValue('federation', 'autoAddServers', '0');
-		return $value === '1';
 	}
 
 	/**
@@ -239,7 +217,6 @@ class TrustedServers {
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {
 				$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
-
 			}
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
@@ -282,9 +259,7 @@ class TrustedServers {
 			strpos($url, 'https://') === 0
 			|| strpos($url, 'http://') === 0
 		) {
-
 			return $url;
-
 		}
 
 		return 'https://' . $url;

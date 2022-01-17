@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
@@ -34,11 +35,11 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class AppPasswordControllerTest extends TestCase {
@@ -58,13 +59,13 @@ class AppPasswordControllerTest extends TestCase {
 	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
 	/** @var AppPasswordController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->session = $this->createMock(ISession::class);
@@ -72,7 +73,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->credentialStore = $this->createMock(IStore::class);
 		$this->request = $this->createMock(IRequest::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new AppPasswordController(
 			'core',
@@ -143,7 +144,7 @@ class AppPasswordControllerTest extends TestCase {
 			);
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$this->controller->getAppPassword();
 	}
@@ -184,7 +185,7 @@ class AppPasswordControllerTest extends TestCase {
 			);
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$this->controller->getAppPassword();
 	}

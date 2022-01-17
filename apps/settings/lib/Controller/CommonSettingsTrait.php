@@ -3,7 +3,12 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,27 +19,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
-use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
-use OCP\Settings\IIconSection;
 use OCP\Settings\ISettings;
 
-trait CommonSettingsTrait  {
+trait CommonSettingsTrait {
 
 	/** @var ISettingsManager */
 	private $settingsManager;
@@ -61,79 +63,69 @@ trait CommonSettingsTrait  {
 			'admin' => []
 		];
 
-		/** @var IUser $user */
-		$user = $this->userSession->getUser();
-		$isAdmin = $this->groupManager->isAdmin($user->getUID());
-		$isSubAdmin = $this->subAdmin->isSubAdmin($user);
-		if ($isAdmin || $isSubAdmin) {
-			$templateParameters['admin'] = $this->formatAdminSections(
+		$templateParameters['admin'] = $this->formatAdminSections(
 				$currentType,
-				$currentSection,
-				!$isAdmin && $isSubAdmin
+				$currentSection
 			);
-		}
 
 		return [
 			'forms' => $templateParameters
 		];
 	}
 
-	protected function formatSections($sections, $currentSection, $type, $currentType, bool $subAdminOnly = false) {
+	protected function formatSections(array $sections, string $currentSection, string $type, string $currentType): array {
 		$templateParameters = [];
-		/** @var \OCP\Settings\ISection[] $prioritizedSections */
-		foreach($sections as $prioritizedSections) {
+		/** @var \OCP\Settings\IIconSection[] $prioritizedSections */
+		foreach ($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
-				if($type === 'admin') {
-					$settings = $this->settingsManager->getAdminSettings($section->getID(), $subAdminOnly);
-				} else if($type === 'personal') {
+				if ($type === 'admin') {
+					$settings = $this->settingsManager->getAllowedAdminSettings($section->getID(), $this->userSession->getUser());
+				} elseif ($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
 				if (empty($settings) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {
 					continue;
 				}
 
-				$icon = '';
-				if ($section instanceof IIconSection) {
-					$icon = $section->getIcon();
-				}
+				$icon = $section->getIcon();
 
 				$active = $section->getID() === $currentSection
 					&& $type === $currentType;
 
 				$templateParameters[] = [
-					'anchor'       => $section->getID(),
+					'anchor' => $section->getID(),
 					'section-name' => $section->getName(),
-					'active'       => $active,
-					'icon'         => $icon,
+					'active' => $active,
+					'icon' => $icon,
 				];
 			}
 		}
 		return $templateParameters;
 	}
 
-	protected function formatPersonalSections($currentType, $currentSections) {
+	protected function formatPersonalSections(string $currentType, string $currentSections): array {
 		$sections = $this->settingsManager->getPersonalSections();
 		$templateParameters = $this->formatSections($sections, $currentSections, 'personal', $currentType);
 
 		return $templateParameters;
 	}
 
-	protected function formatAdminSections($currentType, $currentSections, bool $subAdminOnly) {
+	protected function formatAdminSections(string $currentType, string $currentSections): array {
 		$sections = $this->settingsManager->getAdminSections();
-		$templateParameters = $this->formatSections($sections, $currentSections, 'admin', $currentType, $subAdminOnly);
+		$templateParameters = $this->formatSections($sections, $currentSections, 'admin', $currentType);
 
 		return $templateParameters;
 	}
 
 	/**
-	 * @param ISettings[] $settings
+	 * @param array<int, list<\OCP\Settings\ISettings>> $settings
 	 * @return array
 	 */
-	private function formatSettings($settings) {
+	private function formatSettings(array $settings): array {
 		$html = '';
 		foreach ($settings as $prioritizedSettings) {
 			foreach ($prioritizedSettings as $setting) {
-				/** @var \OCP\Settings\ISettings $setting */
+				/** @var ISettings $setting */
 				$form = $setting->getForm();
 				$html .= $form->renderAs('')->render();
 			}

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -16,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
 
 /**
@@ -28,9 +28,9 @@ namespace OCP\Files\Cache;
  * @since 9.0.0
  */
 interface IWatcher {
-	const CHECK_NEVER = 0; // never check the underlying filesystem for updates
-	const CHECK_ONCE = 1; // check the underlying filesystem for updates once every request for each file
-	const CHECK_ALWAYS = 2; // always check the underlying filesystem for updates
+	public const CHECK_NEVER = 0; // never check the underlying filesystem for updates
+	public const CHECK_ONCE = 1; // check the underlying filesystem for updates once every request for each file
+	public const CHECK_ALWAYS = 2; // always check the underlying filesystem for updates
 
 	/**
 	 * @param int $policy either IWatcher::CHECK_NEVER, IWatcher::CHECK_ONCE, IWatcher::CHECK_ALWAYS

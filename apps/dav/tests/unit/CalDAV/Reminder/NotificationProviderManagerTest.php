@@ -1,25 +1,30 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019, Thomas Citharel
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
@@ -40,7 +45,7 @@ class NotificationProviderManagerTest extends TestCase {
 	/**
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->providerManager = new NotificationProviderManager();
@@ -48,42 +53,45 @@ class NotificationProviderManagerTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException
-	 * @expectedExceptionMessage Type NOT EXISTENT is not an accepted type of notification
 	 * @throws ProviderNotAvailableException
 	 * @throws NotificationTypeDoesNotExistException
 	 */
-	public function testGetProviderForUnknownType(): void{
+	public function testGetProviderForUnknownType(): void {
+		$this->expectException(\OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException::class);
+		$this->expectExceptionMessage('Type NOT EXISTENT is not an accepted type of notification');
+
 		$this->providerManager->getProvider('NOT EXISTENT');
 	}
 
 	/**
-	 * @expectedException OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException
-	 * @expectedExceptionMessage No notification provider for type AUDIO available
 	 * @throws NotificationTypeDoesNotExistException
 	 * @throws ProviderNotAvailableException
 	 */
-	public function testGetProviderForUnRegisteredType(): void{
+	public function testGetProviderForUnRegisteredType(): void {
+		$this->expectException(\OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException::class);
+		$this->expectExceptionMessage('No notification provider for type AUDIO available');
+
 		$this->providerManager->getProvider('AUDIO');
 	}
 
-	public function testGetProvider(): void{
+	public function testGetProvider(): void {
 		$provider = $this->providerManager->getProvider('EMAIL');
 		$this->assertInstanceOf(EmailProvider::class, $provider);
 	}
 
-	public function testRegisterProvider(): void{
+	public function testRegisterProvider(): void {
 		$this->providerManager->registerProvider(PushProvider::class);
 		$provider = $this->providerManager->getProvider('DISPLAY');
 		$this->assertInstanceOf(PushProvider::class, $provider);
 	}
 
 	/**
-	 * @expectedExceptionMessage Invalid notification provider registered
-	 * @expectedException \InvalidArgumentException
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function testRegisterBadProvider(): void{
+	public function testRegisterBadProvider(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Invalid notification provider registered');
+
 		$this->providerManager->registerProvider(Capabilities::class);
 	}
 

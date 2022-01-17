@@ -1,5 +1,27 @@
 <?php
-
+/**
+ * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Robin Appelman <robin@icewind.nl>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 namespace OC\Files\ObjectStore;
 
 use Aws\Credentials\CredentialsInterface;
@@ -12,8 +34,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * Legacy Amazon S3 signature implementation
  */
-class S3Signature implements SignatureInterface
-{
+class S3Signature implements SignatureInterface {
 	/** @var array Query string values that must be signed */
 	private $signableQueryString = [
 		'acl', 'cors', 'delete', 'lifecycle', 'location', 'logging',
@@ -31,8 +52,7 @@ class S3Signature implements SignatureInterface
 	/** @var \Aws\S3\S3UriParser S3 URI parser */
 	private $parser;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->parser = new S3UriParser();
 		// Ensure that the signable query string parameters are sorted
 		sort($this->signableQueryString);
@@ -54,7 +74,8 @@ class S3Signature implements SignatureInterface
 	public function presign(
 		RequestInterface $request,
 		CredentialsInterface $credentials,
-		$expires
+		$expires,
+		array $options = []
 	) {
 		$query = [];
 		// URL encoding already occurs in the URI template expansion. Undo that
@@ -108,7 +129,7 @@ class S3Signature implements SignatureInterface
 	) {
 		$modify = [
 			'remove_headers' => ['X-Amz-Date'],
-			'set_headers'    => ['Date' => gmdate(\DateTime::RFC2822)]
+			'set_headers' => ['Date' => gmdate(\DateTimeInterface::RFC2822)]
 		];
 
 		// Add the security token header if one is being used by the credentials
@@ -116,11 +137,10 @@ class S3Signature implements SignatureInterface
 			$modify['set_headers']['X-Amz-Security-Token'] = $token;
 		}
 
-		return Psr7\modify_request($request, $modify);
+		return Psr7\Utils::modifyRequest($request, $modify);
 	}
 
-	private function signString($string, CredentialsInterface $credentials)
-	{
+	private function signString($string, CredentialsInterface $credentials) {
 		return base64_encode(
 			hash_hmac('sha1', $string, $credentials->getSecretKey(), true)
 		);
@@ -145,8 +165,7 @@ class S3Signature implements SignatureInterface
 		return $buffer;
 	}
 
-	private function createCanonicalizedAmzHeaders(RequestInterface $request)
-	{
+	private function createCanonicalizedAmzHeaders(RequestInterface $request) {
 		$headers = [];
 		foreach ($request->getHeaders() as $name => $header) {
 			$name = strtolower($name);
@@ -167,8 +186,7 @@ class S3Signature implements SignatureInterface
 		return implode("\n", $headers) . "\n";
 	}
 
-	private function createCanonicalizedResource(RequestInterface $request)
-	{
+	private function createCanonicalizedResource(RequestInterface $request) {
 		$data = $this->parser->parse($request->getUri());
 		$buffer = '/';
 
@@ -183,7 +201,7 @@ class S3Signature implements SignatureInterface
 		$query = $request->getUri()->getQuery();
 
 		if ($query) {
-			$params = Psr7\parse_query($query);
+			$params = Psr7\Query::parse($query);
 			$first = true;
 			foreach ($this->signableQueryString as $key) {
 				if (array_key_exists($key, $params)) {

@@ -2,13 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Miha Frangez <miha.frangez@gmail.com>
+ * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author noveens <noveen.sachdeva@research.iiit.ac.in>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -24,7 +25,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Console;
@@ -35,8 +36,8 @@ use OC_App;
 use OCP\AppFramework\QueryException;
 use OCP\Console\ConsoleEvent;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,22 +52,15 @@ class Application {
 	private $dispatcher;
 	/** @var IRequest */
 	private $request;
-	/** @var ILogger  */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var MemoryInfo */
 	private $memoryInfo;
 
-	/**
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $dispatcher
-	 * @param IRequest $request
-	 * @param ILogger $logger
-	 * @param MemoryInfo $memoryInfo
-	 */
 	public function __construct(IConfig $config,
 								EventDispatcherInterface $dispatcher,
 								IRequest $request,
-								ILogger $logger,
+								LoggerInterface $logger,
 								MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
@@ -140,18 +134,22 @@ class Application {
 							try {
 								require $file;
 							} catch (\Exception $e) {
-								$this->logger->logException($e);
+								$this->logger->error($e->getMessage(), [
+									'exception' => $e,
+								]);
 							}
 						}
 					}
 				}
-			} else if ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
-				$output->writeln("Nextcloud is not installed - only a limited number of commands are available");
+			} elseif ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
+				$errorOutput = $output->getErrorOutput();
+				$errorOutput->writeln("Nextcloud is not installed - only a limited number of commands are available");
 			}
-		} catch(NeedsUpdateException $e) {
+		} catch (NeedsUpdateException $e) {
 			if ($input->getArgument('command') !== '_completion') {
-				$output->writeln("Nextcloud or one of the apps require upgrade - only a limited number of commands are available");
-				$output->writeln("You may use your browser or the occ upgrade command to do the upgrade");
+				$errorOutput = $output->getErrorOutput();
+				$errorOutput->writeln("Nextcloud or one of the apps require upgrade - only a limited number of commands are available");
+				$errorOutput->writeln("You may use your browser or the occ upgrade command to do the upgrade");
 			}
 		}
 
@@ -184,8 +182,8 @@ class Application {
 			&& $input->getArgument('command') !== 'maintenance:mode') {
 			$errOutput = $output->getErrorOutput();
 			$errOutput->writeln(
-				'<comment>Nextcloud is in maintenance mode - ' .
-				'no apps have been loaded</comment>' . PHP_EOL
+				'<comment>Nextcloud is in maintenance mode, hence the database isn\'t accessible.' . PHP_EOL .
+				'Cannot perform any command except \'maintenance:mode --off\'</comment>' . PHP_EOL
 			);
 		}
 	}
@@ -219,7 +217,11 @@ class Application {
 				$c = \OC::$server->query($command);
 			} catch (QueryException $e) {
 				if (class_exists($command)) {
-					$c = new $command();
+					try {
+						$c = new $command();
+					} catch (\ArgumentCountError $e2) {
+						throw new \Exception("Failed to construct console command '$command': " . $e->getMessage(), 0, $e);
+					}
 				} else {
 					throw new \Exception("Console command '$command' is unknown and could not be loaded");
 				}

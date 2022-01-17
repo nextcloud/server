@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,11 +17,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -40,6 +44,12 @@ class Entry implements IEntry {
 	/** @var string|null */
 	private $avatar;
 
+	/** @var string|null */
+	private $profileTitle;
+
+	/** @var string|null */
+	private $profileUrl;
+
 	/** @var IAction[] */
 	private $actions = [];
 
@@ -49,56 +59,84 @@ class Entry implements IEntry {
 	/**
 	 * @param string $id
 	 */
-	public function setId($id) {
+	public function setId(string $id): void {
 		$this->id = $id;
 	}
 
 	/**
 	 * @param string $displayName
 	 */
-	public function setFullName($displayName) {
+	public function setFullName(string $displayName): void {
 		$this->fullName = $displayName;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFullName() {
+	public function getFullName(): string {
 		return $this->fullName;
 	}
 
 	/**
 	 * @param string $address
 	 */
-	public function addEMailAddress($address) {
+	public function addEMailAddress(string $address): void {
 		$this->emailAddresses[] = $address;
 	}
 
 	/**
-	 * @return string
+	 * @return string[]
 	 */
-	public function getEMailAddresses() {
+	public function getEMailAddresses(): array {
 		return $this->emailAddresses;
 	}
 
 	/**
 	 * @param string $avatar
 	 */
-	public function setAvatar($avatar) {
+	public function setAvatar(string $avatar): void {
 		$this->avatar = $avatar;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAvatar() {
+	public function getAvatar(): ?string {
 		return $this->avatar;
+	}
+
+	/**
+	 * @param string $profileTitle
+	 */
+	public function setProfileTitle(string $profileTitle): void {
+		$this->profileTitle = $profileTitle;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProfileTitle(): ?string {
+		return $this->profileTitle;
+	}
+
+	/**
+	 * @param string $profileUrl
+	 */
+	public function setProfileUrl(string $profileUrl): void {
+		$this->profileUrl = $profileUrl;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProfileUrl(): ?string {
+		return $this->profileUrl;
 	}
 
 	/**
 	 * @param IAction $action
 	 */
-	public function addAction(IAction $action) {
+	public function addAction(IAction $action): void {
 		$this->actions[] = $action;
 		$this->sortActions();
 	}
@@ -106,15 +144,15 @@ class Entry implements IEntry {
 	/**
 	 * @return IAction[]
 	 */
-	public function getActions() {
+	public function getActions(): array {
 		return $this->actions;
 	}
 
 	/**
 	 * sort the actions by priority and name
 	 */
-	private function sortActions() {
-		usort($this->actions, function(IAction $action1, IAction $action2) {
+	private function sortActions(): void {
+		usort($this->actions, function (IAction $action1, IAction $action2) {
 			$prio1 = $action1->getPriority();
 			$prio2 = $action2->getPriority();
 
@@ -131,7 +169,7 @@ class Entry implements IEntry {
 	/**
 	 * @param array $contact key-value array containing additional properties
 	 */
-	public function setProperties(array $contact) {
+	public function setProperties(array $contact): void {
 		$this->properties = $contact;
 	}
 
@@ -139,7 +177,7 @@ class Entry implements IEntry {
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function getProperty($key) {
+	public function getProperty(string $key) {
 		if (!isset($this->properties[$key])) {
 			return null;
 		}
@@ -149,9 +187,9 @@ class Entry implements IEntry {
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
-		$otherActions = array_map(function(IAction $action) {
+		$otherActions = array_map(function (IAction $action) {
 			return $action->jsonSerialize();
 		}, array_slice($this->actions, 1));
 
@@ -162,7 +200,9 @@ class Entry implements IEntry {
 			'topAction' => $topAction,
 			'actions' => $otherActions,
 			'lastMessage' => '',
+			'emailAddresses' => $this->getEMailAddresses(),
+			'profileTitle' => $this->profileTitle,
+			'profileUrl' => $this->profileUrl,
 		];
 	}
-
 }

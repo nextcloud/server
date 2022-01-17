@@ -3,6 +3,9 @@
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author François Freitag <mail@franek.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,46 +16,53 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Settings;
 
+use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\Settings\ISettings;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Settings\IDelegatedSettings;
 
-class CalDAVSettings implements ISettings {
+class CalDAVSettings implements IDelegatedSettings {
 
 	/** @var IConfig */
 	private $config;
+
+	/** @var IInitialState */
+	private $initialState;
+
+	private const defaults = [
+		'sendInvitations' => 'yes',
+		'generateBirthdayCalendar' => 'yes',
+		'sendEventReminders' => 'yes',
+		'sendEventRemindersPush' => 'no',
+	];
 
 	/**
 	 * CalDAVSettings constructor.
 	 *
 	 * @param IConfig $config
+	 * @param IInitialState $initialState
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, IInitialState $initialState) {
 		$this->config = $config;
+		$this->initialState = $initialState;
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
-	public function getForm() {
-		$parameters = [
-			'send_invitations' => $this->config->getAppValue('dav', 'sendInvitations', 'yes'),
-			'generate_birthday_calendar' => $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes'),
-			'send_reminders_notifications' => $this->config->getAppValue('dav', 'sendEventReminders', 'yes'),
-			'send_reminders_notifications_push' => $this->config->getAppValue('dav', 'sendEventRemindersPush', 'no'),
-		];
-
-		return new TemplateResponse('dav', 'settings-admin-caldav', $parameters);
+	public function getForm(): TemplateResponse {
+		foreach (self::defaults as $key => $default) {
+			$value = $this->config->getAppValue(Application::APP_ID, $key, $default);
+			$this->initialState->provideInitialState($key, $value === 'yes');
+		}
+		return new TemplateResponse(Application::APP_ID, 'settings-admin-caldav');
 	}
 
 	/**
@@ -67,5 +77,15 @@ class CalDAVSettings implements ISettings {
 	 */
 	public function getPriority() {
 		return 10;
+	}
+
+	public function getName(): ?string {
+		return null; // Only setting in this section
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'dav' => ['/(' . implode('|', array_keys(self::defaults)) . ')/']
+		];
 	}
 }

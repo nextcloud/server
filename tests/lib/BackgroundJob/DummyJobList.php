@@ -7,6 +7,7 @@
  */
 
 namespace Test\BackgroundJob;
+
 use OCP\BackgroundJob\IJob;
 
 /**
@@ -18,7 +19,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * @var IJob[]
 	 */
-	private $jobs = array();
+	private $jobs = [];
 
 	private $last = 0;
 
@@ -116,13 +117,8 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return null;
 	}
 
-	/**
-	 * get the id of the last ran job
-	 *
-	 * @return int
-	 */
-	public function getLastJob() {
-		return $this->last;
+	public function getDetailsById(int $id): ?array {
+		return null;
 	}
 
 	/**
@@ -135,5 +131,8 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	}
 
 	public function setExecutionTime(IJob $job, $timeTaken) {
+	}
+
+	public function resetBackgroundJob(IJob $job): void {
 	}
 }

@@ -2,9 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *
@@ -18,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
@@ -80,13 +82,13 @@ abstract class LegacyStoragesService {
 			$storageOptions['priority'] = $backend->getPriority();
 		}
 		$storageConfig->setPriority($storageOptions['priority']);
-		if ($mountType === \OC_Mount_Config::MOUNT_TYPE_USER) {
+		if ($mountType === \OCA\Files_External\MountConfig::MOUNT_TYPE_USER) {
 			$applicableUsers = $storageConfig->getApplicableUsers();
 			if ($applicable !== 'all') {
 				$applicableUsers[] = $applicable;
 				$storageConfig->setApplicableUsers($applicableUsers);
 			}
-		} else if ($mountType === \OC_Mount_Config::MOUNT_TYPE_GROUP) {
+		} elseif ($mountType === \OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP) {
 			$applicableGroups = $storageConfig->getApplicableGroups();
 			$applicableGroups[] = $applicable;
 			$storageConfig->setApplicableGroups($applicableGroups);
@@ -95,7 +97,7 @@ abstract class LegacyStoragesService {
 	}
 
 	/**
-	 * Read the external storages config
+	 * Read the external storage config
 	 *
 	 * @return StorageConfig[] map of storage id to storage config
 	 */
@@ -147,7 +149,7 @@ abstract class LegacyStoragesService {
 					$relativeMountPath = rtrim($parts[2], '/');
 					// note: we cannot do this after the loop because the decrypted config
 					// options might be needed for the config hash
-					$storageOptions['options'] = \OC_Mount_Config::decryptPasswords($storageOptions['options']);
+					$storageOptions['options'] = \OCA\Files_External\MountConfig::decryptPasswords($storageOptions['options']);
 					if (!isset($storageOptions['backend'])) {
 						$storageOptions['backend'] = $storageOptions['class']; // legacy compat
 					}
@@ -165,7 +167,7 @@ abstract class LegacyStoragesService {
 						// but at this point we don't know the max-id, so use
 						// first group it by config hash
 						$storageOptions['mountpoint'] = $rootMountPath;
-						$configId = \OC_Mount_Config::makeConfigHash($storageOptions);
+						$configId = \OCA\Files_External\MountConfig::makeConfigHash($storageOptions);
 						if (isset($storagesWithConfigHash[$configId])) {
 							$currentStorage = $storagesWithConfigHash[$configId];
 						}

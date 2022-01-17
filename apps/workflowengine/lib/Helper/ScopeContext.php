@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Helper;
 
 use OCP\WorkflowEngine\IManager;
@@ -40,16 +42,15 @@ class ScopeContext {
 	}
 
 	private function evaluateScope(int $scope): int {
-		if(in_array($scope, [IManager::SCOPE_ADMIN, IManager::SCOPE_USER], true)) {
+		if (in_array($scope, [IManager::SCOPE_ADMIN, IManager::SCOPE_USER], true)) {
 			return $scope;
 		}
 		throw new \InvalidArgumentException('Invalid scope');
 	}
 
 	private function evaluateScopeId(string $scopeId = null): string {
-		if($this->scope === IManager::SCOPE_USER
-			&& trim((string)$scopeId) === '')
-		{
+		if ($this->scope === IManager::SCOPE_USER
+			&& trim((string)$scopeId) === '') {
 			throw new \InvalidArgumentException('user scope requires a user id');
 		}
 		return trim((string)$scopeId);
@@ -70,7 +71,7 @@ class ScopeContext {
 	}
 
 	public function getHash(): string {
-		if($this->hash === null) {
+		if ($this->hash === null) {
 			$this->hash = \hash('sha256', $this->getScope() . '::' . $this->getScopeId());
 		}
 		return $this->hash;

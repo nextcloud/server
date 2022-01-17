@@ -49,14 +49,14 @@ class DBLockingProviderTest extends LockingProvider {
 
 	protected $currentTime;
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->currentTime = time();
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
-			->will($this->returnCallback(function () {
+			->willReturnCallback(function () {
 				return $this->currentTime;
-			}));
+			});
 		parent::setUp();
 	}
 
@@ -68,7 +68,7 @@ class DBLockingProviderTest extends LockingProvider {
 		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->getLogger(), $this->timeFactory, 3600);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$this->connection->executeQuery('DELETE FROM `*PREFIX*file_locks`');
 		parent::tearDown();
 	}
@@ -94,7 +94,7 @@ class DBLockingProviderTest extends LockingProvider {
 	private function getLockEntryCount() {
 		$query = $this->connection->prepare('SELECT count(*) FROM `*PREFIX*file_locks`');
 		$query->execute();
-		return $query->fetchColumn();
+		return $query->fetchOne();
 	}
 
 	protected function getLockValue($key) {
@@ -102,7 +102,12 @@ class DBLockingProviderTest extends LockingProvider {
 		$query->select('lock')
 			->from('file_locks')
 			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
-		return $query->execute()->fetchColumn();
+
+		$result = $query->execute();
+		$rows = $result->fetchOne();
+		$result->closeCursor();
+
+		return $rows;
 	}
 
 	public function testDoubleShared() {

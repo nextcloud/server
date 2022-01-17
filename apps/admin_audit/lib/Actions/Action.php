@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,26 +19,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
 
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Action {
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * @param ILogger $logger
-	 */
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
@@ -49,9 +49,9 @@ class Action {
 	public function log(string $text,
 						array $params,
 						array $elements,
-						bool $obfuscateParameters = false) {
-		foreach($elements as $element) {
-			if(!isset($params[$element])) {
+						bool $obfuscateParameters = false): void {
+		foreach ($elements as $element) {
+			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {
 					$this->logger->critical(
 						'$params["'.$element.'"] was missing.',
@@ -71,8 +71,8 @@ class Action {
 		}
 
 		$replaceArray = [];
-		foreach($elements as $element) {
-			if($params[$element] instanceof \DateTime) {
+		foreach ($elements as $element) {
+			if ($params[$element] instanceof \DateTime) {
 				$params[$element] = $params[$element]->format('Y-m-d H:i:s');
 			}
 			$replaceArray[] = $params[$element];

@@ -21,15 +21,14 @@
  *
  */
 
-
 namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\ApiController;
 use OCP\IConfig;
 
-
-class ChildApiController extends ApiController {};
+class ChildApiController extends ApiController {
+};
 
 
 class ApiControllerTest extends \Test\TestCase {
@@ -59,5 +58,4 @@ class ApiControllerTest extends \Test\TestCase {
 		$this->assertEquals('false', $headers['Access-Control-Allow-Credentials']);
 		$this->assertEquals(100, $headers['Access-Control-Max-Age']);
 	}
-
 }

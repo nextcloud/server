@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -17,10 +21,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\SystemTag;
 
 /**
@@ -29,6 +32,27 @@ namespace OCP\SystemTag;
  * @since 9.0.0
  */
 interface ISystemTag {
+	/**
+	 * @since 22.0.0
+	 */
+	public const ACCESS_LEVEL_PUBLIC = 0;
+	/**
+	 * @since 22.0.0
+	 */
+	public const ACCESS_LEVEL_RESTRICTED = 1;
+	/**
+	 * @since 22.0.0
+	 */
+	public const ACCESS_LEVEL_INVISIBLE = 2;
+
+	/**
+	 * @since 22.0.0
+	 */
+	public const ACCESS_LEVEL_LOOKUP = [
+		ISystemTag::ACCESS_LEVEL_PUBLIC => 'public',
+		ISystemTag::ACCESS_LEVEL_RESTRICTED => 'restricted',
+		ISystemTag::ACCESS_LEVEL_INVISIBLE => 'invisible',
+	];
 
 	/**
 	 * Returns the tag id
@@ -66,5 +90,12 @@ interface ISystemTag {
 	 */
 	public function isUserAssignable(): bool;
 
+	/**
+	 * Returns a term summarizing the access control flags
+	 *
+	 * @return int the level of access control
+	 *
+	 * @since 22.0.0
+	 */
+	public function getAccessLevel(): int;
 }
-

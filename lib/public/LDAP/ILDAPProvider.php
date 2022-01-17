@@ -2,6 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author blizzz <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
@@ -16,20 +20,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\LDAP;
 
 /**
  * Interface ILDAPProvider
  *
- * @package OCP\LDAP
  * @since 11.0.0
  */
 interface ILDAPProvider {
@@ -57,7 +59,7 @@ interface ILDAPProvider {
 	 * @since 11.0.0
 	 */
 	public function getUserName($dn);
-	
+
 	/**
 	 * Convert a stored DN so it can be used as base parameter for LDAP queries.
 	 * @param string $dn the DN
@@ -65,7 +67,7 @@ interface ILDAPProvider {
 	 * @since 11.0.0
 	 */
 	public function DNasBaseParameter($dn);
-	
+
 	/**
 	 * Sanitize a DN received from the LDAP server.
 	 * @param array $dn the DN in question
@@ -73,11 +75,11 @@ interface ILDAPProvider {
 	 * @since 11.0.0
 	 */
 	public function sanitizeDN($dn);
-	
+
 	/**
-	 * Return a new LDAP connection resource for the specified user. 
+	 * Return a new LDAP connection resource for the specified user.
 	 * @param string $uid user id
-	 * @return resource of the LDAP connection
+	 * @return \LDAP\Connection|resource
 	 * @since 11.0.0
 	 */
 	public function getLDAPConnection($uid);
@@ -85,11 +87,11 @@ interface ILDAPProvider {
 	/**
 	 * Return a new LDAP connection resource for the specified group.
 	 * @param string $gid group id
-	 * @return resource of the LDAP connection
+	 * @return \LDAP\Connection|resource
 	 * @since 13.0.0
 	 */
 	public function getGroupLDAPConnection($gid);
-	
+
 	/**
 	 * Get the LDAP base for users.
 	 * @param string $uid user id
@@ -98,7 +100,7 @@ interface ILDAPProvider {
 	 * @since 11.0.0
 	 */
 	public function getLDAPBaseUsers($uid);
-	
+
 	/**
 	 * Get the LDAP base for groups.
 	 * @param string $uid user id
@@ -107,7 +109,7 @@ interface ILDAPProvider {
 	 * @since 11.0.0
 	 */
 	public function getLDAPBaseGroups($uid);
-	
+
 	/**
 	 * Check whether a LDAP DN exists
 	 * @param string $dn LDAP DN
@@ -115,7 +117,7 @@ interface ILDAPProvider {
 	 * @since 11.0.0
 	 */
 	public function dnExists($dn);
-	
+
 	/**
 	 * Clear the cache if a cache is used, otherwise do nothing.
 	 * @param string $uid user id
@@ -157,4 +159,19 @@ interface ILDAPProvider {
 	 */
 	public function getLDAPGroupMemberAssoc($gid);
 
+	/**
+	 * Get an LDAP attribute for a nextcloud user
+	 *
+	 * @throws \Exception if user id was not found in LDAP
+	 * @since 21.0.0
+	 */
+	public function getUserAttribute(string $uid, string $attribute): ?string;
+
+	/**
+	 * Get a multi-value LDAP attribute for a nextcloud user
+	 *
+	 * @throws \Exception if user id was not found in LDAP
+	 * @since 22.0.0
+	 */
+	public function getMultiValueUserAttribute(string $uid, string $attribute): array;
 }

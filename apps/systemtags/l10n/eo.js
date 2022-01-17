@@ -1,11 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Etikedoj",
     "Tag name is empty" : "Etikednomo malplenas",
     "Update" : "Ĝisdatigi",
     "Create" : "Krei",
-    "Select tag…" : "Elekti etikedon…",
+    "Select tag …" : "Elekti etikedon…",
     "System tag %1$s added by the system" : "Sistema etikedo %1$s aldonita de la sistemo",
     "Added system tag {systemtag}" : "Sistema etikedo {systemtag} aldonita",
     "Added system tag %1$s" : "Sistema etikedo %1$s aldonita",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (limigita)",
     "%s (invisible)" : "%s (nevidebla)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistemaj etikedoj</strong> por dosiero modifiĝis",
+    "Tags" : "Etikedoj",
     "Collaborative tags" : "Kunlaboraj etikedoj",
     "Collaborative tagging functionality which shares tags among users." : "Kunlabora etikedado por kunhavigi etikedojn inter uzantoj.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Kunlabora etikedado por kunhavigi etikedojn inter uzantoj. Taŭga por teamoj.\n\n(Se vi estas provizanto kun plurklienta instalado, oni konsilas malŝalti tiun aplikaĵon, alimaniere etikedoj estus kunhavigitaj inter ĉiuj klientoj.)",
@@ -52,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Bonvolu elekti etikedojn, per kiuj filtri",
     "No files found for the selected tags" : "Neniu dosiero troviĝis por la elektitaj etikedoj",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Kunlaboraj etikedoj disponeblas al ĉiuj uzantoj. Limigitaj etikedoj videblas de uzantoj, kiuj tamen ne povas atribui ilin. Nevideblaj etikedoj servas por interna uzo, ĉar uzantoj nek vidas nek povas atribui ilin.",
-    "Select tag …" : "Elekti etikedon…",
     "Create a new tag" : "Krei novan etikedon",
     "Name" : "Nomo",
     "Public" : "Publika",

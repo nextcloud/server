@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,30 +14,28 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OCP\GroupInterface;
 
 class GroupPluginManager {
-
 	private $respondToActions = 0;
 
-	private $which = array(
+	private $which = [
 		GroupInterface::CREATE_GROUP => null,
 		GroupInterface::DELETE_GROUP => null,
 		GroupInterface::ADD_TO_GROUP => null,
 		GroupInterface::REMOVE_FROM_GROUP => null,
 		GroupInterface::COUNT_USERS => null,
 		GroupInterface::GROUP_DETAILS => null
-	);
+	];
 
 	/**
 	 * @return int All implemented actions
@@ -53,7 +52,7 @@ class GroupPluginManager {
 		$respondToActions = $plugin->respondToActions();
 		$this->respondToActions |= $respondToActions;
 
-		foreach($this->which as $action => $v) {
+		foreach ($this->which as $action => $v) {
 			if ((bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
 				\OC::$server->getLogger()->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);

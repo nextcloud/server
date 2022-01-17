@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,27 +22,25 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Lock;
 
 /**
  * Interface ILockingProvider
  *
- * @package OCP\Lock
  * @since 8.1.0
  */
 interface ILockingProvider {
 	/**
 	 * @since 8.1.0
 	 */
-	const LOCK_SHARED = 1;
+	public const LOCK_SHARED = 1;
 	/**
 	 * @since 8.1.0
 	 */
-	const LOCK_EXCLUSIVE = 2;
+	public const LOCK_EXCLUSIVE = 2;
 
 	/**
 	 * @param string $path
@@ -51,10 +53,11 @@ interface ILockingProvider {
 	/**
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
+	 * @param string $readablePath human readable path to use in error messages, since 20.0.0
 	 * @throws \OCP\Lock\LockedException
 	 * @since 8.1.0
 	 */
-	public function acquireLock(string $path, int $type);
+	public function acquireLock(string $path, int $type, string $readablePath = null);
 
 	/**
 	 * @param string $path

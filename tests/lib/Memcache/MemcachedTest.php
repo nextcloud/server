@@ -10,7 +10,7 @@
 namespace Test\Memcache;
 
 class MemcachedTest extends Cache {
-	static public function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
 		if (!\OC\Memcache\Memcached::isAvailable()) {
@@ -22,14 +22,14 @@ class MemcachedTest extends Cache {
 		}
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new \OC\Memcache\Memcached($this->getUniqueID());
 	}
 
 	public function testClear() {
 		// Memcached is sometimes broken with clear(), so we don't test it thoroughly
-		$value='ipsum lorum';
+		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value);
 		$this->instance->set('1_value2', $value);
 		$this->instance->set('2_value1', $value);

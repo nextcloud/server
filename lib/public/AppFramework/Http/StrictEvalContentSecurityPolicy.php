@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 /**
@@ -37,7 +38,6 @@ namespace OCP\AppFramework\Http;
  * This is a temp helper class from the default ContentSecurityPolicy to allow slow
  * migration to a stricter CSP. This does not allow unsafe eval.
  *
- * @package OCP\AppFramework\Http
  * @since 14.0.0
  * @deprecated 17.0.0
  */

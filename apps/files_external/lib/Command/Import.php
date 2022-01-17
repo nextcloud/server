@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -18,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -66,7 +66,7 @@ class Import extends Base {
 	/** @var BackendService */
 	private $backendService;
 
-	function __construct(GlobalStoragesService $globalService,
+	public function __construct(GlobalStoragesService $globalService,
 						 UserStoragesService $userService,
 						 IUserSession $userSession,
 						 IUserManager $userManager,
@@ -106,8 +106,8 @@ class Import extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$user = $input->getOption('user');
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$user = (string) $input->getOption('user');
 		$path = $input->getArgument('path');
 		if ($path === '-') {
 			$json = file_get_contents('php://stdin');

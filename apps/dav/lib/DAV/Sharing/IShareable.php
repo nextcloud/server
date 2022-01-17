@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -16,10 +18,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\DAV\Sharing;
+
 use Sabre\DAV\INode;
 
 /**
@@ -46,7 +49,7 @@ interface IShareable extends INode {
 	 * @param array $remove
 	 * @return void
 	 */
-	function updateShares(array $add, array $remove);
+	public function updateShares(array $add, array $remove);
 
 	/**
 	 * Returns the list of people whom this resource is shared with.
@@ -60,7 +63,7 @@ interface IShareable extends INode {
 	 *
 	 * @return array
 	 */
-	function getShares();
+	public function getShares();
 
 	/**
 	 * @return int
@@ -71,5 +74,4 @@ interface IShareable extends INode {
 	 * @return string
 	 */
 	public function getOwner();
-
 }

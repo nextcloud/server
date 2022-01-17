@@ -3,17 +3,33 @@
  * @copyright 2014 Lukas Reschke lukas@nextcloud.com
  * @copyright Copyright (c) 2017  Joas Schilling <coding@schilljs.com>
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Mail\Message;
+use OC\User\User;
 use OCA\Settings\Controller\MailSettingsController;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
@@ -22,33 +38,32 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OC\User\User;
 
 /**
  * @package Tests\Settings\Controller
  */
 class MailSettingsControllerTest extends \Test\TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IMailer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 
 	/** @var MailSettingsController */
 	private $mailController;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l = $this->createMock(IL10N::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mailer = $this->createMock(IMailer::class);
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
 			'settings',
@@ -118,7 +133,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			null
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
-
 	}
 
 	public function testStoreCredentials() {
@@ -138,20 +152,20 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('Werner'));
+			->willReturn('Werner');
 		$user->expects($this->any())
 			->method('getDisplayName')
-			->will($this->returnValue('Werner Brösel'));
+			->willReturn('Werner Brösel');
 
 		$this->l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 
 		// Ensure that it fails when no mail address has been specified
 		$response = $this->mailController->sendTestMail();
@@ -162,7 +176,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->config
 			->expects($this->any())
 			->method('getUserValue')
-			->will($this->returnValue('mail@example.invalid'));
+			->willReturn('mail@example.invalid');
 		$this->mailer->expects($this->once())
 			->method('createMessage')
 			->willReturn($this->createMock(Message::class));
@@ -172,7 +186,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$response = $this->mailController->sendTestMail();
-		$this->assertSame(Http::STATUS_OK, $response->getStatus(), $response->getData());
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
-
 }

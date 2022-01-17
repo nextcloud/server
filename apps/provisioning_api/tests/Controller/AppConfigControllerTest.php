@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,23 +16,26 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Provisioning_API\Tests\Controller;
-
 
 use OCA\Provisioning_API\Controller\AppConfigController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Settings\IManager;
 use Test\TestCase;
 
 /**
@@ -39,22 +45,33 @@ use Test\TestCase;
  */
 class AppConfigControllerTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IAppConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $appConfig;
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	private $userSession;
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	private $l10n;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $settingManager;
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $groupManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
-
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->settingManager = $this->createMock(IManager::class);
 	}
 
 	/**
 	 * @param string[] $methods
-	 * @return AppConfigController|\PHPUnit_Framework_MockObject_MockObject
+	 * @return AppConfigController|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getInstance(array $methods = []) {
 		$request = $this->createMock(IRequest::class);
@@ -64,7 +81,11 @@ class AppConfigControllerTest extends TestCase {
 				'provisioning_api',
 				$request,
 				$this->config,
-				$this->appConfig
+				$this->appConfig,
+				$this->userSession,
+				$this->l10n,
+				$this->groupManager,
+				$this->settingManager
 			);
 		} else {
 			return $this->getMockBuilder(AppConfigController::class)
@@ -73,6 +94,10 @@ class AppConfigControllerTest extends TestCase {
 					$request,
 					$this->config,
 					$this->appConfig,
+					$this->userSession,
+					$this->l10n,
+					$this->groupManager,
+					$this->settingManager
 				])
 				->setMethods($methods)
 				->getMock();
@@ -105,7 +130,6 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testGetKeys($app, $keys, $throws, $status) {
-
 		$api = $this->getInstance(['verifyAppId']);
 		if ($throws instanceof \Exception) {
 			$api->expects($this->once())
@@ -153,7 +177,6 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testGetValue($app, $key, $default, $return, $throws, $status) {
-
 		$api = $this->getInstance(['verifyAppId']);
 		if ($throws instanceof \Exception) {
 			$api->expects($this->once())
@@ -202,7 +225,18 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status) {
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->expects($this->once())
+			->method('getUid')
+			->willReturn('admin');
 
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($adminUser);
+		$this->groupManager->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
 		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
 		if ($appThrows instanceof \Exception) {
 			$api->expects($this->once())
@@ -214,7 +248,7 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyConfigKey');
 			$this->config->expects($this->never())
 				->method('setAppValue');
-		} else if ($keyThrows instanceof  \Exception) {
+		} elseif ($keyThrows instanceof  \Exception) {
 			$api->expects($this->once())
 				->method('verifyAppId')
 				->with($app);
@@ -243,7 +277,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->assertSame($status, $result->getStatus());
 		if ($appThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $appThrows->getMessage()]], $result->getData());
-		} else if ($keyThrows instanceof \Exception) {
+		} elseif ($keyThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $keyThrows->getMessage()]], $result->getData());
 		} else {
 			$this->assertEquals([], $result->getData());
@@ -267,7 +301,6 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testDeleteValue($app, $key, $appThrows, $keyThrows, $status) {
-
 		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
 		if ($appThrows instanceof \Exception) {
 			$api->expects($this->once())
@@ -279,7 +312,7 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyConfigKey');
 			$this->config->expects($this->never())
 				->method('deleteAppValue');
-		} else if ($keyThrows instanceof  \Exception) {
+		} elseif ($keyThrows instanceof  \Exception) {
 			$api->expects($this->once())
 				->method('verifyAppId')
 				->with($app);
@@ -308,7 +341,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->assertSame($status, $result->getStatus());
 		if ($appThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $appThrows->getMessage()]], $result->getData());
-		} else if ($keyThrows instanceof \Exception) {
+		} elseif ($keyThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $keyThrows->getMessage()]], $result->getData());
 		} else {
 			$this->assertEquals([], $result->getData());
@@ -332,10 +365,11 @@ class AppConfigControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataVerifyAppIdThrows
-	 * @expectedException \InvalidArgumentException
 	 * @param string $app
 	 */
 	public function testVerifyAppIdThrows($app) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyAppId', [$app]);
 	}
@@ -377,12 +411,13 @@ class AppConfigControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataVerifyConfigKeyThrows
-	 * @expectedException \InvalidArgumentException
 	 * @param string $app
 	 * @param string $key
 	 * @param string $value
 	 */
 	public function testVerifyConfigKeyThrows($app, $key, $value) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key, $value]);
 	}

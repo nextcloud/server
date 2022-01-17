@@ -2,11 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Sander Ruitenbeek <s.ruitenbeek@getgoing.nl>
  *
  * @license AGPL-3.0
  *
@@ -20,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\App;
 
 use OC\Installer;
@@ -74,15 +73,22 @@ class Enable extends Command implements CompletionAwareInterface {
 				'g',
 				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
 				'enable the app only for a list of groups'
+			)
+			->addOption(
+				'force',
+				'f',
+				InputOption::VALUE_NONE,
+				'enable the app regardless of the Nextcloud version requirement'
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appIds = $input->getArgument('app-id');
 		$groups = $this->resolveGroupIds($input->getOption('groups'));
+		$forceEnable = (bool) $input->getOption('force');
 
 		foreach ($appIds as $appId) {
-			$this->enableApp($appId, $groups, $output);
+			$this->enableApp($appId, $groups, $forceEnable, $output);
 		}
 
 		return $this->exitCode;
@@ -91,13 +97,18 @@ class Enable extends Command implements CompletionAwareInterface {
 	/**
 	 * @param string $appId
 	 * @param array $groupIds
+	 * @param bool $forceEnable
 	 * @param OutputInterface $output
 	 */
-	private function enableApp(string $appId, array $groupIds, OutputInterface $output): void {
+	private function enableApp(string $appId, array $groupIds, bool $forceEnable, OutputInterface $output): void {
 		$groupNames = array_map(function (IGroup $group) {
 			return $group->getDisplayName();
 		}, $groupIds);
 
+		if ($this->appManager->isInstalled($appId) && $groupIds === []) {
+			$output->writeln($appId . ' already enabled');
+			return;
+		}
 
 		try {
 			/** @var Installer $installer */
@@ -107,14 +118,15 @@ class Enable extends Command implements CompletionAwareInterface {
 				$installer->downloadApp($appId);
 			}
 
-			$installer->installApp($appId);
+			$installer->installApp($appId, $forceEnable);
+			$appVersion = \OC_App::getAppVersion($appId);
 
 			if ($groupIds === []) {
-				$this->appManager->enableApp($appId);
-				$output->writeln($appId . ' enabled');
+				$this->appManager->enableApp($appId, $forceEnable);
+				$output->writeln($appId . ' ' . $appVersion . ' enabled');
 			} else {
-				$this->appManager->enableAppForGroups($appId, $groupIds);
-				$output->writeln($appId . ' enabled for groups: ' . implode(', ', $groupNames));
+				$this->appManager->enableAppForGroups($appId, $groupIds, $forceEnable);
+				$output->writeln($appId . ' ' . $appVersion . ' enabled for groups: ' . implode(', ', $groupNames));
 			}
 		} catch (AppPathNotFoundException $e) {
 			$output->writeln($appId . ' not found');

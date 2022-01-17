@@ -1,9 +1,9 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +16,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import OC from '../OC'
@@ -25,6 +26,10 @@ import $ from 'jquery'
 
 export const setUp = () => {
 	const $menu = $('#header #settings')
+	// Using page terminoogy as below
+	const $excludedPageClasses = [
+		'user-status-menu-item__header',
+	]
 
 	// show loading feedback
 	$menu.delegate('a', 'click', event => {
@@ -33,9 +38,11 @@ export const setUp = () => {
 			$page = $page.closest('a')
 		}
 		if (event.which === 1 && !event.ctrlKey && !event.metaKey) {
-			$page.find('img').remove()
-			$page.find('div').remove() // prevent odd double-clicks
-			$page.prepend($('<div/>').addClass('icon-loading-small'))
+			if (!$excludedPageClasses.includes($page.attr('class'))) {
+				$page.find('img').remove()
+				$page.find('div').remove() // prevent odd double-clicks
+				$page.prepend($('<div/>').addClass('icon-loading-small'))
+			}
 		} else {
 			// Close navigation when opening menu entry in
 			// a new tab

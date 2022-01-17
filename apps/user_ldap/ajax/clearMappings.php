@@ -4,8 +4,9 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 
@@ -34,7 +34,7 @@ use OCA\User_LDAP\Mapping\GroupMapping;
 $subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
 try {
-	if($subject === 'user') {
+	if ($subject === 'user') {
 		$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$result = $mapping->clearCb(
 			function ($uid) {
@@ -44,16 +44,16 @@ try {
 				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
-	} else if($subject === 'group') {
+	} elseif ($subject === 'group') {
 		$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
 		$result = $mapping->clear();
 	}
 
-	if($mapping === null || !$result) {
+	if ($mapping === null || !$result) {
 		$l = \OC::$server->getL10N('user_ldap');
 		throw new \Exception($l->t('Failed to clear the mappings.'));
 	}
 	\OC_JSON::success();
 } catch (\Exception $e) {
-	\OC_JSON::error(array('message' => $e->getMessage()));
+	\OC_JSON::error(['message' => $e->getMessage()]);
 }

@@ -2,11 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Temtaime <temtaime@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -20,10 +23,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance;
 
 use Exception;
@@ -76,7 +78,7 @@ class Repair extends Command {
 				'Use this option when you want to include resource and load expensive tasks');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$repairSteps = $this->repair::getRepairSteps();
 
 		if ($input->getOption('include-expensive')) {
@@ -123,6 +125,7 @@ class Repair extends Command {
 		$this->repair->run();
 
 		$this->config->setSystemValue('maintenance', $maintenanceMode);
+		return 0;
 	}
 
 	public function handleRepairFeedBack($event) {
@@ -150,7 +153,7 @@ class Repair extends Command {
 				$this->output->writeln('     - WARNING: ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::error':
-				$this->output->writeln('     - ERROR: ' . $event->getArgument(0));
+				$this->output->writeln('<error>     - ERROR: ' . $event->getArgument(0) . '</error>');
 				break;
 		}
 	}

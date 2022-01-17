@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 /**
- *
  * @copyright Copyright (c) 2018, Daniel Calviño Sánchez (danxuliu@gmail.com)
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,23 +20,21 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Migrations;
 
-use Doctrine\DBAL\Types\Type;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version14000Date20180710092004 extends SimpleMigrationStep {
-
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -38,8 +42,9 @@ class Version14000Date20180710092004 extends SimpleMigrationStep {
 		$table = $schema->getTable('share');
 
 		if (!$table->hasColumn('password_by_talk')) {
-			$table->addColumn('password_by_talk', Type::BOOLEAN, [
+			$table->addColumn('password_by_talk', Types::BOOLEAN, [
 				'default' => 0,
+				'notnull' => false,
 			]);
 		}
 

@@ -23,7 +23,7 @@ class SimpleCommand implements ICommand {
 class StateFullCommand implements ICommand {
 	private $state;
 
-	function __construct($state) {
+	public function __construct($state) {
 		$this->state = $state;
 	}
 
@@ -89,7 +89,7 @@ abstract class AsyncBusTest extends TestCase {
 	 */
 	abstract protected function createBus();
 
-	public function setUp() {
+	protected function setUp(): void {
 		self::$lastCommand = '';
 	}
 

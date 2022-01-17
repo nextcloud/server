@@ -4,12 +4,17 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@nextcloud.com>
- * @author Maxence Lange <maxence@pontapreta.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -23,23 +28,25 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OC\Share20;
 
-use OC\CapabilitiesManager;
+use OC\Share20\Exception\ProviderException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
-use OCA\FederatedFileSharing\OCM\CloudFederationProvider;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Defaults;
-use OCP\Share\IProviderFactory;
-use OC\Share20\Exception\ProviderException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\Share\IManager;
+use OCP\Share\IProviderFactory;
+use OCP\Share\IShare;
+use OCP\Share\IShareProvider;
 
 /**
  * Class ProviderFactory
@@ -63,6 +70,10 @@ class ProviderFactory implements IProviderFactory {
 	/** @var \OCA\Talk\Share\RoomShareProvider */
 	private $roomShareProvider = null;
 
+	private $registeredShareProviders = [];
+
+	private $shareProviders = [];
+
 	/**
 	 * IProviderFactory constructor.
 	 *
@@ -70,6 +81,10 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	public function __construct(IServerContainer $serverContainer) {
 		$this->serverContainer = $serverContainer;
+	}
+
+	public function registerProvider(string $shareProviderClass): void {
+		$this->registeredShareProviders[] = $shareProviderClass;
 	}
 
 	/**
@@ -86,8 +101,9 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->query(Defaults::class),
-				$this->serverContainer->getL10N('sharing'),
-				$this->serverContainer->getURLGenerator()
+				$this->serverContainer->getL10NFactory(),
+				$this->serverContainer->getURLGenerator(),
+				$this->serverContainer->getConfig()
 			);
 		}
 
@@ -122,9 +138,11 @@ class ProviderFactory implements IProviderFactory {
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
+				$this->serverContainer->getLogger(),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->getCloudFederationFactory()
+				\OC::$server->getCloudFederationFactory(),
+				$this->serverContainer->query(IEventDispatcher::class)
 			);
 			$tokenHandler = new TokenHandler(
 				$this->serverContainer->getSecureRandom()
@@ -179,7 +197,8 @@ class ProviderFactory implements IProviderFactory {
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getHasher(),
-				$this->serverContainer->query(CapabilitiesManager::class)
+				$this->serverContainer->get(IEventDispatcher::class),
+				$this->serverContainer->get(IManager::class)
 			);
 		}
 
@@ -195,7 +214,6 @@ class ProviderFactory implements IProviderFactory {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function getShareByCircleProvider() {
-
 		if ($this->circlesAreNotAvailable) {
 			return null;
 		}
@@ -208,7 +226,6 @@ class ProviderFactory implements IProviderFactory {
 		}
 
 		if ($this->shareByCircleProvider === null) {
-
 			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
@@ -253,16 +270,30 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	public function getProvider($id) {
 		$provider = null;
+		if (isset($this->shareProviders[$id])) {
+			return $this->shareProviders[$id];
+		}
+
 		if ($id === 'ocinternal') {
 			$provider = $this->defaultShareProvider();
-		} else if ($id === 'ocFederatedSharing') {
+		} elseif ($id === 'ocFederatedSharing') {
 			$provider = $this->federatedShareProvider();
-		} else if ($id === 'ocMailShare') {
+		} elseif ($id === 'ocMailShare') {
 			$provider = $this->getShareByMailProvider();
-		} else if ($id === 'ocCircleShare') {
+		} elseif ($id === 'ocCircleShare') {
 			$provider = $this->getShareByCircleProvider();
-		} else if ($id === 'ocRoomShare') {
+		} elseif ($id === 'ocRoomShare') {
 			$provider = $this->getRoomShareProvider();
+		}
+
+		foreach ($this->registeredShareProviders as $shareProvider) {
+			/** @var IShareProvider $instance */
+			$instance = $this->serverContainer->get($shareProvider);
+			$this->shareProviders[$instance->identifier()] = $instance;
+		}
+
+		if (isset($this->shareProviders[$id])) {
+			$provider = $this->shareProviders[$id];
 		}
 
 		if ($provider === null) {
@@ -278,19 +309,21 @@ class ProviderFactory implements IProviderFactory {
 	public function getProviderForType($shareType) {
 		$provider = null;
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER ||
-			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
-			$shareType === \OCP\Share::SHARE_TYPE_LINK
+		if ($shareType === IShare::TYPE_USER ||
+			$shareType === IShare::TYPE_GROUP ||
+			$shareType === IShare::TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE || $shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		} elseif ($shareType === IShare::TYPE_REMOTE || $shareType === IShare::TYPE_REMOTE_GROUP) {
 			$provider = $this->federatedShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($shareType === IShare::TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
+		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			$provider = $this->getShareByCircleProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_ROOM) {
+		} elseif ($shareType === IShare::TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
+		} elseif ($shareType === IShare::TYPE_DECK) {
+			$provider = $this->getProvider('deck');
 		}
 
 
@@ -315,6 +348,17 @@ class ProviderFactory implements IProviderFactory {
 		if ($roomShare !== null) {
 			$shares[] = $roomShare;
 		}
+
+		foreach ($this->registeredShareProviders as $shareProvider) {
+			/** @var IShareProvider $instance */
+			$instance = $this->serverContainer->get($shareProvider);
+			if (!isset($this->shareProviders[$instance->identifier()])) {
+				$this->shareProviders[$instance->identifier()] = $instance;
+			}
+			$shares[] = $this->shareProviders[$instance->identifier()];
+		}
+
+
 
 		return $shares;
 	}

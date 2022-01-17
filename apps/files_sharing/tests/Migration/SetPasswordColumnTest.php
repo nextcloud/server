@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,18 +19,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Migration;
-
 
 use OCA\Files_Sharing\Migration\SetPasswordColumn;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
-use OCP\Share;
+use OCP\Share\IShare;
 
 /**
  * Class SetPasswordColumnTest
@@ -39,7 +40,7 @@ class SetPasswordColumnTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	private $connection;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var SetPasswordColumn */
@@ -47,7 +48,7 @@ class SetPasswordColumnTest extends TestCase {
 
 	private $table = 'share';
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -57,7 +58,7 @@ class SetPasswordColumnTest extends TestCase {
 		$this->cleanDB();
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		parent::tearDown();
 		$this->cleanDB();
 	}
@@ -73,7 +74,7 @@ class SetPasswordColumnTest extends TestCase {
 			->with('files_sharing', 'installed_version', '0.0.0')
 			->willReturn('1.3.0');
 
-		$shareTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE, Share::SHARE_TYPE_EMAIL, Share::SHARE_TYPE_LINK];
+		$shareTypes = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_EMAIL, IShare::TYPE_LINK];
 
 		foreach ($shareTypes as $shareType) {
 			for ($i = 0; $i < 5; $i++) {
@@ -105,11 +106,13 @@ class SetPasswordColumnTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('share');
-		$allShares = $query->execute()->fetchAll();
+		$result = $query->execute();
+		$allShares = $result->fetchAll();
+		$result->closeCursor();
 
 		foreach ($allShares as $share) {
-			if ((int)$share['share_type'] === Share::SHARE_TYPE_LINK) {
-				$this->assertNull( $share['share_with']);
+			if ((int)$share['share_type'] === IShare::TYPE_LINK) {
+				$this->assertNull($share['share_with']);
 				$this->assertSame('shareWith', $share['password']);
 			} else {
 				$this->assertSame('shareWith', $share['share_with']);

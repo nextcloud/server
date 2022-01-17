@@ -7,6 +7,8 @@
  */
 
 namespace Test\Repair;
+
+use OC\DB\Connection;
 use OCP\Migration\IOutput;
 
 /**
@@ -22,7 +24,7 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 	private $repair;
 
 	/**
-	 * @var \Doctrine\DBAL\Connection
+	 * @var Connection
 	 */
 	private $connection;
 
@@ -36,10 +38,10 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 	 */
 	private $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
 		$this->config = \OC::$server->getConfig();
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
 			$this->markTestSkipped("Test only relevant on Sqlite");
@@ -47,12 +49,12 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 
 		$dbPrefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
 		$this->tableName = $this->getUniqueID($dbPrefix . 'autoinc_test');
-		$this->connection->exec('CREATE TABLE ' . $this->tableName . '("someid" INTEGER NOT NULL, "text" VARCHAR(16), PRIMARY KEY("someid"))');
+		$this->connection->prepare('CREATE TABLE ' . $this->tableName . '("someid" INTEGER NOT NULL, "text" VARCHAR(16), PRIMARY KEY("someid"))')->execute();
 
 		$this->repair = new \OC\Repair\SqliteAutoincrement($this->connection);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->connection->getSchemaManager()->dropTable($this->tableName);
 		parent::tearDown();
 	}
@@ -65,7 +67,7 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 	protected function checkAutoincrement() {
 		$this->connection->executeUpdate('INSERT INTO ' . $this->tableName . ' ("text") VALUES ("test")');
 		$insertId = $this->connection->lastInsertId();
-		$this->connection->executeUpdate('DELETE FROM ' . $this->tableName . ' WHERE "someid" = ?', array($insertId));
+		$this->connection->executeUpdate('DELETE FROM ' . $this->tableName . ' WHERE "someid" = ?', [$insertId]);
 
 		// insert again
 		$this->connection->executeUpdate('INSERT INTO ' . $this->tableName . ' ("text") VALUES ("test2")');
@@ -77,7 +79,7 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 	public function testConvertIdColumn() {
 		$this->assertFalse($this->checkAutoincrement());
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
 			->disableOriginalConstructor()
 			->getMock();

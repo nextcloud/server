@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,52 +15,51 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Tests\Migration;
 
-use OCA\User_LDAP\LDAP;
-use Test\TestCase;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\Migration\UUIDFixUser;
-use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Migration\UUIDFixUser;
 use OCA\User_LDAP\User_Proxy;
 use OCP\IConfig;
+use Test\TestCase;
 
 abstract class AbstractUUIDFixTest extends TestCase {
-	/** @var  Helper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $helper;
 
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldap;
 
-	/** @var  UserMapping|GroupMapping|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  UserMapping|GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
 
 	/** @var  UUIDFixUser */
 	protected $job;
 
-	/** @var  User_Proxy|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  User_Proxy|\PHPUnit\Framework\MockObject\MockObject */
 	protected $proxy;
 
-	/** @var  Access|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Access|\PHPUnit\Framework\MockObject\MockObject */
 	protected $access;
 
 	/** @var bool */
 	protected $isUser = true;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->ldap = $this->createMock(LDAP::class);
@@ -72,16 +73,11 @@ abstract class AbstractUUIDFixTest extends TestCase {
 			->willReturn(['s01', 's03']);
 	}
 
-	protected function mockProxy($className) {
-		$this->proxy = $this->createMock($className);
+	protected function instantiateJob($className) {
+		$this->job = new $className($this->mapper, $this->proxy);
 		$this->proxy->expects($this->any())
 			->method('getLDAPAccess')
 			->willReturn($this->access);
-	}
-
-	protected function instantiateJob($className) {
-		$this->job = new $className($this->mapper, $this->ldap, $this->config, $this->helper);
-		$this->job->overrideProxy($this->proxy);
 	}
 
 	public function testRunSingleRecord() {
@@ -193,5 +189,4 @@ abstract class AbstractUUIDFixTest extends TestCase {
 
 		$this->job->run($args);
 	}
-
 }

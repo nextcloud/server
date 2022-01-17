@@ -11,6 +11,7 @@
 (function() {
 	OC.Update = {
 		_started : false,
+		options: {},
 
 		/**
 		 * Start the update process.
@@ -22,6 +23,7 @@
 				return;
 			}
 
+			this.options = options;
 			var hasWarnings = false;
 
 			this.$el = $el;
@@ -72,7 +74,7 @@
 				var updateUnsuccessful = $('<p>');
 				if(message === 'Exception: Updates between multiple major versions and downgrades are unsupported.') {
 					updateUnsuccessful.append(t('core', 'The update was unsuccessful. For more information <a href="{url}">check our forum post</a> covering this issue.', {'url': 'https://help.nextcloud.com/t/updates-between-multiple-major-versions-are-unsupported/7094'}));
-				} else {
+				} else if (OC.Update.options.productName === 'Nextcloud') {
 					updateUnsuccessful.append(t('core', 'The update was unsuccessful. ' +
 						'Please report this issue to the ' +
 						'<a href="https://github.com/nextcloud/server/issues" target="_blank">Nextcloud community</a>.'));
@@ -86,18 +88,15 @@
 
 				$('#update-progress-icon')
 					.addClass('icon-checkmark-white')
-				        .removeClass('icon-loading-dark');
+					.removeClass('icon-loading-dark');
 
 				if (hasWarnings) {
 					$el.find('.update-show-detailed').before(
-						$('<input type="button" class="update-continue" value="'+t('core', 'Continue to Nextcloud')+'">').on('click', function() {
+						$('<input type="button" class="update-continue" value="'+t('core', 'Continue to {productName}', OC.Update.options)+'">').on('click', function() {
 							window.location.reload();
 						})
 					);
 				} else {
-					// FIXME: use product name
-
-
 					$el.find('.update-show-detailed').before(
 						$('<p id="redirect-countdown"></p>')
 					);
@@ -115,7 +114,9 @@
 
 		updateCountdown: function (i, total) {
 			setTimeout(function(){
-				 $("#redirect-countdown").text(n('core', 'The update was successful. Redirecting you to Nextcloud in %n second.', 'The update was successful. Redirecting you to Nextcloud in %n seconds.', i));
+				$("#redirect-countdown").text(
+					n('core', 'The update was successful. Redirecting you to {productName} in %n second.', 'The update was successful. Redirecting you to {productName} in %n seconds.', i, OC.Update.options)
+				);
 			}, (total - i) * 1000);
 		},
 
@@ -145,7 +146,7 @@
 
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('.updateButton').on('click', function() {
 		var $updateEl = $('.update');
 		var $progressEl = $('.update-progress');

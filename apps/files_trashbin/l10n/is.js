@@ -6,11 +6,6 @@ OC.L10N.register(
     "This application enables users to restore files that were deleted from the system." : "Þetta forrit gerir notendum kleift að endurheimta skrár sem eytt hefur verið af kerfinu.",
     "Restore" : "Endurheimta",
     "Delete permanently" : "Eyða varanlega",
-    "Error while restoring file from trashbin" : "Villa við að endurheimta skrá úr ruslafötunni",
-    "Error while removing file from trashbin" : "Villa við að fjarlægja skrá úr ruslafötunni",
-    "Error while restoring files from trashbin" : "Villa við að endurheimta skrár úr ruslafötunni",
-    "Error while emptying trashbin" : "Villa við að tæma ruslafötuna",
-    "Error while removing files from trashbin" : "Villa við að fjarlægja skrár úr ruslafötunni",
     "This operation is forbidden" : "Þessi aðgerð er bönnuð",
     "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu atvikaskrár eða hafðu samband við kerfissjóra",
     "No deleted files" : "Engar eyddar skrár",
@@ -20,6 +15,11 @@ OC.L10N.register(
     "Name" : "Heiti",
     "Actions" : "Aðgerðir",
     "Deleted" : "Eytt",
-    "Delete" : "Eyða"
+    "Delete" : "Eyða",
+    "Error while restoring file from trashbin" : "Villa við að endurheimta skrá úr ruslafötunni",
+    "Error while removing file from trashbin" : "Villa við að fjarlægja skrá úr ruslafötunni",
+    "Error while restoring files from trashbin" : "Villa við að endurheimta skrár úr ruslafötunni",
+    "Error while emptying trashbin" : "Villa við að tæma ruslafötuna",
+    "Error while removing files from trashbin" : "Villa við að fjarlægja skrár úr ruslafötunni"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

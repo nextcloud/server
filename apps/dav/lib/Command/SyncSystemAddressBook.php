@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -16,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\Command;
@@ -35,7 +37,7 @@ class SyncSystemAddressBook extends Command {
 	/**
 	 * @param SyncService $syncService
 	 */
-	function __construct(SyncService $syncService) {
+	public function __construct(SyncService $syncService) {
 		parent::__construct();
 		$this->syncService = $syncService;
 	}
@@ -50,15 +52,16 @@ class SyncSystemAddressBook extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln('Syncing users ...');
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$this->syncService->syncInstance(function() use ($progress) {
+		$this->syncService->syncInstance(function () use ($progress) {
 			$progress->advance();
 		});
 
 		$progress->finish();
 		$output->writeln('');
+		return 0;
 	}
 }

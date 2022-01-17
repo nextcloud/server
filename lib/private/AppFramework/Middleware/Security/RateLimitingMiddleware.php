@@ -2,8 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,20 +15,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
@@ -87,7 +87,7 @@ class RateLimitingMiddleware extends Middleware {
 		$userLimit = $this->reflector->getAnnotationParameter('UserRateThrottle', 'limit');
 		$userPeriod = $this->reflector->getAnnotationParameter('UserRateThrottle', 'period');
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
-		if($userLimit !== '' && $userPeriod !== '' && $this->userSession->isLoggedIn()) {
+		if ($userLimit !== '' && $userPeriod !== '' && $this->userSession->isLoggedIn()) {
 			$this->limiter->registerUserRequest(
 				$rateLimitIdentifier,
 				$userLimit,
@@ -108,24 +108,17 @@ class RateLimitingMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
-		if($exception instanceof RateLimitExceededException) {
-			if (stripos($this->request->getHeader('Accept'),'html') === false) {
-				$response = new JSONResponse(
-					[
-						'message' => $exception->getMessage(),
-					],
-					$exception->getCode()
-				);
+		if ($exception instanceof RateLimitExceededException) {
+			if (stripos($this->request->getHeader('Accept'), 'html') === false) {
+				$response = new DataResponse([], $exception->getCode());
 			} else {
-					$response = new TemplateResponse(
-						'core',
-						'403',
-							[
-								'file' => $exception->getMessage()
-							],
-						'guest'
-					);
-					$response->setStatus($exception->getCode());
+				$response = new TemplateResponse(
+					'core',
+					'429',
+					[],
+					TemplateResponse::RENDER_AS_GUEST
+				);
+				$response->setStatus($exception->getCode());
 			}
 
 			return $response;

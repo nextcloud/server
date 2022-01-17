@@ -50,6 +50,7 @@
 	z-index: 2000;
 	height: $header-height;
 	background-color: var(--color-primary);
+	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
@@ -63,6 +64,7 @@
 	box-sizing: border-box;
 	opacity: 1;
 	align-items: center;
+	display: flex;
 	flex-wrap: wrap;
 	overflow: hidden;
 
@@ -72,6 +74,11 @@
 	&:hover, &:active {
 		opacity: 1;
 	}
+}
+
+@mixin header-menu-height() {
+	min-height: calc(44px * 1.5); // show at least 1.5 entries
+	max-height: calc(100vh - #{$header-height} * 4);
 }
 
 #header {
@@ -87,11 +94,10 @@
 		z-index: 2000;
 		position: absolute;
 		max-width: 350px;
-		max-height: $header-menu-entry-height * 7.5; // half entry
+		@include header-menu-height();
 		right: 5px; // relative to parent
 		top: $header-height;
 		margin: 0;
-		-webkit-overflow-scrolling: touch;
 
 		&:not(.popovermenu) {
 			display: none;
@@ -110,6 +116,14 @@
 			right: 10px;
 		}
 
+		#apps > ul,
+		& > div,
+		& > ul {
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			@include header-menu-height();
+		}
+
 		/* Use by the apps menu and the settings right menu */
 		#apps > ul,
 		&.settings-menu > ul {
@@ -121,16 +135,16 @@
 					color: var(--color-main-text);
 					padding: 10px 12px;
 					box-sizing: border-box;
-					opacity: .7;
 					white-space: nowrap;
 					position: relative;
 					width: 100%;
 					&:hover,
-					&:focus,
+					&:focus {
+						background-color: var(--color-background-hover);
+					}
 					&:active,
 					&.active {
-						opacity: 1;
-						box-shadow: inset 4px 0 var(--color-primary);
+						background-color: var(--color-primary-light);
 					}
 					span {
 						display: inline-block;
@@ -198,9 +212,9 @@
 	}
 
 	#header-left, .header-left {
-		flex: 0 0;
-		flex-grow: 1;
+		flex: 1 0;
 		white-space: nowrap;
+		min-width: 0;
 	}
 
 	#header-right, .header-right {
@@ -256,6 +270,7 @@
 	}
 }
 
+/* TODO: move into minimal css file for public shared template */
 /* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
 	color: var(--color-primary-text);
@@ -264,6 +279,18 @@
 	margin: 0;
 	padding: 0;
 	padding-right: 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	// Take full width to push the header-shared-by bellow (if any)
+	flex: 1 1 100%;
+}
+
+.header-shared-by  {
+	color: var(--color-primary-text);
+	position: relative;
+	font-weight: 300;
+	font-size: 11px;
+	line-height: 11px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -316,13 +343,6 @@ nav[role='navigation'] {
 	.in-header {
 		display: none;
 	}
-}
-
-#apps {
-	max-height: inherit;
-	overflow-x: hidden;
-	overflow-y: auto;
-	-webkit-overflow-scrolling: touch;
 }
 
 /* USER MENU -----------------------------------------------------------------*/
@@ -413,7 +433,7 @@ nav[role='navigation'] {
 	li {
 		position: relative;
 		cursor: pointer;
-		margin: 0 2px;
+		padding: 0 2px;
 		display: flex;
 		justify-content: center;
 
@@ -426,6 +446,9 @@ nav[role='navigation'] {
 			align-items: center;
 			justify-content: center;
 			opacity: .6;
+			// Make sure most app names don’t ellipsize
+			letter-spacing: -0.5px;
+			font-size: 12px;
 		}
 
 		/* focused app visual feedback */
@@ -433,18 +456,25 @@ nav[role='navigation'] {
 		a:focus,
 		a.active {
 			opacity: 1;
+			font-weight: bold;
+		}
+
+		// Text size back to normal for hover/focus
+		&:hover a,
+		a:focus {
+			font-size: 14px;
 		}
 
 		&:hover a + span,
 		a:focus + span,
 		&:hover span,
 		&:focus span,
-		a:focus span {
+		a:focus span,
+		a.active span {
 			display: inline-block;
 			text-overflow: initial;
 			width: auto;
 			overflow: hidden;
-			background-color: var(--color-primary);
 			padding: 0 5px;
 			z-index: 2;
 		}
@@ -463,7 +493,7 @@ nav[role='navigation'] {
 			position: absolute;
 			color: var(--color-primary-text);
 			bottom: 2px;
-			width: calc(100% - 4px);
+			width: 100%;
 			text-align: center;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -581,6 +611,25 @@ nav[role='navigation'] {
 		z-index: 3;
 	}
 }
+
+.unread-counter {
+	display: none;
+}
+#apps .app-icon-notification,
+#appmenu .app-icon-notification {
+	fill: var(--color-error);
+}
+
+#apps svg:not(.has-unread),
+#appmenu svg:not(.has-unread) {
+	.app-icon-notification-mask {
+		display: none;
+	}
+	.app-icon-notification {
+		display: none;
+	}
+}
+
 
 /* Skip navigation links – show only on keyboard focus */
 .skip-navigation {

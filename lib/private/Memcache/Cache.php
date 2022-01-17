@@ -19,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 abstract class Cache implements \ArrayAccess, \OCP\ICache {
@@ -79,19 +78,23 @@ abstract class Cache implements \ArrayAccess, \OCP\ICache {
 
 	//implement the ArrayAccess interface
 
-	public function offsetExists($offset) {
+	public function offsetExists($offset): bool {
 		return $this->hasKey($offset);
 	}
 
-	public function offsetSet($offset, $value) {
+	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
 
+	/**
+	 * @return mixed
+	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
 	}
 
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
 }

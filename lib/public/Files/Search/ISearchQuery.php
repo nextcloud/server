@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Files\Search;
 
 use OCP\IUser;
@@ -62,8 +61,16 @@ interface ISearchQuery {
 	/**
 	 * The user that issued the search
 	 *
-	 * @return IUser
+	 * @return ?IUser
 	 * @since 12.0.0
 	 */
 	public function getUser();
+
+	/**
+	 * Whether or not the search should be limited to the users home storage
+	 *
+	 * @return bool
+	 * @since 18.0.0
+	 */
+	public function limitToHome(): bool;
 }

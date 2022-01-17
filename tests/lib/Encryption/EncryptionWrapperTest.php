@@ -19,9 +19,7 @@
  *
  */
 
-
 namespace Test\Encryption;
-
 
 use OC\Encryption\EncryptionWrapper;
 use OC\Encryption\Manager;
@@ -35,16 +33,16 @@ class EncryptionWrapperTest extends TestCase {
 	/** @var  EncryptionWrapper */
 	private $instance;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OCP\ILogger */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OCP\ILogger */
 	private $logger;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OC\Encryption\Manager */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
 	private $manager;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OC\Memcache\ArrayCache */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OC\Memcache\ArrayCache */
 	private $arrayCache;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->arrayCache = $this->createMock(ArrayCache::class);
@@ -95,5 +93,4 @@ class EncryptionWrapperTest extends TestCase {
 			[false, [Storage\IDisableEncryptionStorage::class]],
 		];
 	}
-
 }

@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -19,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 return ['routes' => [
 	[
 		'name' => 'Theming#updateStylesheet',
@@ -54,33 +54,27 @@ return ['routes' => [
 		'verb' => 'GET',
 	],
 	[
-		'name' => 'Theming#getJavascript',
-		'url' => '/js/theming',
-		'verb' => 'GET',
-	],
-	[
 		'name' => 'Theming#getManifest',
 		'url' => '/manifest/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core')
+		'defaults' => ['app' => 'core']
 	],
 	[
-		'name'	=> 'Icon#getFavicon',
+		'name' => 'Icon#getFavicon',
 		'url' => '/favicon/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core'),
+		'defaults' => ['app' => 'core'],
 	],
 	[
-		'name'	=> 'Icon#getTouchIcon',
+		'name' => 'Icon#getTouchIcon',
 		'url' => '/icon/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core'),
+		'defaults' => ['app' => 'core'],
 	],
 	[
-		'name'	=> 'Icon#getThemedIcon',
+		'name' => 'Icon#getThemedIcon',
 		'url' => '/img/{app}/{image}',
 		'verb' => 'GET',
-		'requirements' => array('image' => '.+')
+		'requirements' => ['image' => '.+']
 	],
 ]];
-

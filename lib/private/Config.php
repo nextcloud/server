@@ -6,16 +6,20 @@
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Schaffrath <github@philipp.schaffrath.email>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -29,28 +33,32 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
+
+use OCP\HintException;
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
  * configuration file of Nextcloud.
  */
 class Config {
-
-	const ENV_PREFIX = 'NC_';
+	public const ENV_PREFIX = 'NC_';
 
 	/** @var array Associative array ($key => $value) */
-	protected $cache = array();
+	protected $cache = [];
+	/** @var array */
+	protected $envCache = [];
 	/** @var string */
 	protected $configDir;
 	/** @var string */
 	protected $configFilePath;
 	/** @var string */
 	protected $configFileName;
+	/** @var bool */
+	protected $isReadOnly;
 
 	/**
 	 * @param string $configDir Path to the config dir, needs to end with '/'
@@ -61,6 +69,7 @@ class Config {
 		$this->configFilePath = $this->configDir.$fileName;
 		$this->configFileName = $fileName;
 		$this->readData();
+		$this->isReadOnly = $this->getValue('config_is_read_only', false);
 	}
 
 	/**
@@ -86,9 +95,9 @@ class Config {
 	 * @return mixed the value or $default
 	 */
 	public function getValue($key, $default = null) {
-		$envValue = getenv(self::ENV_PREFIX . $key);
-		if ($envValue !== false) {
-			return $envValue;
+		$envKey = self::ENV_PREFIX . $key;
+		if (isset($this->envCache[$envKey])) {
+			return $this->envCache[$envKey];
 		}
 
 		if (isset($this->cache[$key])) {
@@ -103,6 +112,7 @@ class Config {
 	 *
 	 * @param array $configs Associative array with `key => value` pairs
 	 *                       If value is null, the config key will be deleted
+	 * @throws HintException
 	 */
 	public function setValues(array $configs) {
 		$needsUpdate = false;
@@ -125,6 +135,7 @@ class Config {
 	 *
 	 * @param string $key key
 	 * @param mixed $value value
+	 * @throws HintException
 	 */
 	public function setValue($key, $value) {
 		if ($this->set($key, $value)) {
@@ -139,8 +150,11 @@ class Config {
 	 * @param string $key key
 	 * @param mixed $value value
 	 * @return bool True if the file needs to be updated, false otherwise
+	 * @throws HintException
 	 */
 	protected function set($key, $value) {
+		$this->checkReadOnly();
+
 		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
 			// Add change
 			$this->cache[$key] = $value;
@@ -152,7 +166,9 @@ class Config {
 
 	/**
 	 * Removes a key from the config and removes it from config.php if required
+	 *
 	 * @param string $key
+	 * @throws HintException
 	 */
 	public function deleteKey($key) {
 		if ($this->delete($key)) {
@@ -166,8 +182,11 @@ class Config {
 	 *
 	 * @param string $key
 	 * @return bool True if the file needs to be updated, false otherwise
+	 * @throws HintException
 	 */
 	protected function delete($key) {
+		$this->checkReadOnly();
+
 		if (isset($this->cache[$key])) {
 			// Delete key from cache
 			unset($this->cache[$key]);
@@ -185,7 +204,7 @@ class Config {
 	 */
 	private function readData() {
 		// Default config should always get loaded
-		$configFiles = array($this->configFilePath);
+		$configFiles = [$this->configFilePath];
 
 		// Add all files in the config dir ending with the same file name
 		$extra = glob($this->configDir.'*.'.$this->configFileName);
@@ -198,7 +217,7 @@ class Config {
 		foreach ($configFiles as $file) {
 			$fileExistsAndIsReadable = file_exists($file) && is_readable($file);
 			$filePointer = $fileExistsAndIsReadable ? fopen($file, 'r') : false;
-			if($file === $this->configFilePath &&
+			if ($file === $this->configFilePath &&
 				$filePointer === false) {
 				// Opening the main config might not be possible, e.g. if the wrong
 				// permissions are set (likely on a new installation)
@@ -206,13 +225,13 @@ class Config {
 			}
 
 			// Try to acquire a file lock
-			if(!flock($filePointer, LOCK_SH)) {
+			if (!flock($filePointer, LOCK_SH)) {
 				throw new \Exception(sprintf('Could not acquire a shared lock on the config file %s', $file));
 			}
 
 			unset($CONFIG);
 			include $file;
-			if(isset($CONFIG) && is_array($CONFIG)) {
+			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
 
@@ -220,6 +239,8 @@ class Config {
 			flock($filePointer, LOCK_UN);
 			fclose($filePointer);
 		}
+
+		$this->envCache = getenv();
 	}
 
 	/**
@@ -231,35 +252,34 @@ class Config {
 	 * @throws \Exception If no file lock can be acquired
 	 */
 	private function writeData() {
+		$this->checkReadOnly();
+
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		touch ($this->configFilePath);
+		touch($this->configFilePath);
 		$filePointer = fopen($this->configFilePath, 'r+');
 
 		// Prevent others not to read the config
 		chmod($this->configFilePath, 0640);
 
 		// File does not exist, this can happen when doing a fresh install
-		if(!is_resource ($filePointer)) {
-			// TODO fix this via DI once it is very clear that this doesn't cause side effects due to initialization order
-			// currently this breaks app routes but also could have other side effects especially during setup and exception handling
-			$url = \OC::$server->getURLGenerator()->linkToDocs('admin-dir_permissions');
+		if (!is_resource($filePointer)) {
 			throw new HintException(
 				"Can't write into config directory!",
-				'This can usually be fixed by giving the webserver write access to the config directory. See ' . $url);
+				'This can usually be fixed by giving the webserver write access to the config directory.');
 		}
 
 		// Try to acquire a file lock
-		if(!flock($filePointer, LOCK_EX)) {
+		if (!flock($filePointer, LOCK_EX)) {
 			throw new \Exception(sprintf('Could not acquire an exclusive lock on the config file %s', $this->configFilePath));
 		}
 
 		// Write the config and release the lock
-		ftruncate ($filePointer, 0);
+		ftruncate($filePointer, 0);
 		fwrite($filePointer, $content);
 		fflush($filePointer);
 		flock($filePointer, LOCK_UN);
@@ -269,5 +289,15 @@ class Config {
 			@opcache_invalidate($this->configFilePath, true);
 		}
 	}
-}
 
+	/**
+	 * @throws HintException
+	 */
+	private function checkReadOnly(): void {
+		if ($this->isReadOnly) {
+			throw new HintException(
+				'Config is set to be read-only via option "config_is_read_only".',
+				'Unset "config_is_read_only" to allow changes to the config file.');
+		}
+	}
+}

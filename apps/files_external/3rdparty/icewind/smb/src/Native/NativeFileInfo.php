@@ -7,148 +7,156 @@
 
 namespace Icewind\SMB\Native;
 
+use Icewind\SMB\ACL;
+use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\IFileInfo;
 
 class NativeFileInfo implements IFileInfo {
-	const MODE_FILE = 0100000;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $path;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $name;
-
-	/**
-	 * @var NativeShare
-	 */
+	/** @var NativeShare */
 	protected $share;
+	/** @var array{"mode": int, "size": int, "write_time": int}|null */
+	protected $attributeCache = null;
 
-	/**
-	 * @var array|null
-	 */
-	protected $statCache = null;
-
-	/** @var callable|null */
-	protected $statCallback = null;
-
-	/**
-	 * @var int
-	 */
-	protected $modeCache;
-
-	/**
-	 * @param NativeShare $share
-	 * @param string $path
-	 * @param string $name
-	 * @param array|callable $stat
-	 */
-	public function __construct($share, $path, $name, $stat) {
+	public function __construct(NativeShare $share, string $path, string $name) {
 		$this->share = $share;
 		$this->path = $path;
 		$this->name = $name;
-
-		if (is_array($stat)) {
-			$this->statCache = $stat;
-		} elseif (is_callable($stat)) {
-			$this->statCallback = $stat;
-		} else {
-			throw new \InvalidArgumentException('$stat needs to be an array or callback');
-		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPath() {
+	public function getPath(): string {
 		return $this->path;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
 	/**
-	 * @return array
+	 * @return array{"mode": int, "size": int, "write_time": int}
 	 */
-	protected function stat() {
-		if (is_null($this->statCache)) {
-			$this->statCache = call_user_func($this->statCallback);
+	protected function stat(): array {
+		if (is_null($this->attributeCache)) {
+			$rawAttributes = explode(',', $this->share->getAttribute($this->path, 'system.dos_attr.*'));
+			$attributes = [];
+			foreach ($rawAttributes as $rawAttribute) {
+				list($name, $value) = explode(':', $rawAttribute);
+				$name = strtolower($name);
+				if ($name == 'mode') {
+					$attributes[$name] = (int)hexdec(substr($value, 2));
+				} else {
+					$attributes[$name] = (int)$value;
+				}
+			}
+			if (!isset($attributes['mode'])) {
+				throw new Exception("Invalid attribute response");
+			}
+			if (!isset($attributes['size'])) {
+				throw new Exception("Invalid attribute response");
+			}
+			if (!isset($attributes['write_time'])) {
+				throw new Exception("Invalid attribute response");
+			}
+			$this->attributeCache = $attributes;
 		}
-		return $this->statCache;
+		return $this->attributeCache;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getSize() {
+	public function getSize(): int {
 		$stat = $this->stat();
 		return $stat['size'];
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getMTime() {
+	public function getMTime(): int {
 		$stat = $this->stat();
-		return $stat['mtime'];
+		return $stat['write_time'];
 	}
 
 	/**
-	 * @return bool
+	 * On "mode":
+	 *
+	 * different smbclient versions seem to return different mode values for 'system.dos_attr.mode'
+	 *
+	 * older versions return the dos permissions mask as defined in `IFileInfo::MODE_*` while
+	 * newer versions return the equivalent unix permission mask.
+	 *
+	 * Since the unix mask doesn't contain the proper hidden/archive/system flags we have to assume them
+	 * as false (except for `hidden` where we use the unix dotfile convention)
 	 */
-	public function isDirectory() {
-		$stat = $this->stat();
-		return !($stat['mode'] & self::MODE_FILE);
+
+	protected function getMode(): int {
+		$mode = $this->stat()['mode'];
+
+		// Let us ignore the ATTR_NOT_CONTENT_INDEXED for now
+		$mode &= ~0x00002000;
+
+		return $mode;
 	}
 
-	/**
-	 * @return int
-	 */
-	protected function getMode() {
-		if (!$this->modeCache) {
-			$attribute = $this->share->getAttribute($this->path, 'system.dos_attr.mode');
-			// parse hex string
-			$this->modeCache = (int)hexdec(substr($attribute, 2));
+	public function isDirectory(): bool {
+		$mode = $this->getMode();
+		if ($mode > 0x1000) {
+			return (bool)($mode & 0x4000); // 0x4000: unix directory flag
+		} else {
+			return (bool)($mode & IFileInfo::MODE_DIRECTORY);
 		}
-		return $this->modeCache;
+	}
+
+	public function isReadOnly(): bool {
+		$mode = $this->getMode();
+		if ($mode > 0x1000) {
+			return !(bool)($mode & 0x80); // 0x80: owner write permissions
+		} else {
+			return (bool)($mode & IFileInfo::MODE_READONLY);
+		}
+	}
+
+	public function isHidden(): bool {
+		$mode = $this->getMode();
+		if ($mode > 0x1000) {
+			return strlen($this->name) > 0 && $this->name[0] === '.';
+		} else {
+			return (bool)($mode & IFileInfo::MODE_HIDDEN);
+		}
+	}
+
+	public function isSystem(): bool {
+		$mode = $this->getMode();
+		if ($mode > 0x1000) {
+			return false;
+		} else {
+			return (bool)($mode & IFileInfo::MODE_SYSTEM);
+		}
+	}
+
+	public function isArchived(): bool {
+		$mode = $this->getMode();
+		if ($mode > 0x1000) {
+			return false;
+		} else {
+			return (bool)($mode & IFileInfo::MODE_ARCHIVE);
+		}
 	}
 
 	/**
-	 * @return bool
+	 * @return ACL[]
 	 */
-	public function isReadOnly() {
-		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_READONLY);
-	}
+	public function getAcls(): array {
+		$acls = [];
+		$attribute = $this->share->getAttribute($this->path, 'system.nt_sec_desc.acl.*+');
 
-	/**
-	 * @return bool
-	 */
-	public function isHidden() {
-		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_HIDDEN);
-	}
+		foreach (explode(',', $attribute) as $acl) {
+			list($user, $permissions) = explode(':', $acl, 2);
+			$user = trim($user, '\\');
+			list($type, $flags, $mask) = explode('/', $permissions);
+			$mask = hexdec($mask);
 
-	/**
-	 * @return bool
-	 */
-	public function isSystem() {
-		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_SYSTEM);
-	}
+			$acls[$user] = new ACL((int)$type, (int)$flags, (int)$mask);
+		}
 
-	/**
-	 * @return bool
-	 */
-	public function isArchived() {
-		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_ARCHIVE);
+		return $acls;
 	}
 }

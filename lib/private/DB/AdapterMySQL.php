@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -18,17 +17,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OC\DB;
 
 class AdapterMySQL extends Adapter {
 
 	/** @var string */
-	protected $charset;
+	protected $collation;
 
 	/**
 	 * @param string $tableName
@@ -42,16 +39,16 @@ class AdapterMySQL extends Adapter {
 	}
 
 	public function fixupStatement($statement) {
-		$statement = str_replace(' ILIKE ', ' COLLATE ' . $this->getCharset() . '_general_ci LIKE ', $statement);
+		$statement = str_replace(' ILIKE ', ' COLLATE ' . $this->getCollation() . ' LIKE ', $statement);
 		return $statement;
 	}
 
-	protected function getCharset() {
-		if (!$this->charset) {
+	protected function getCollation(): string {
+		if (!$this->collation) {
 			$params = $this->conn->getParams();
-			$this->charset = isset($params['charset']) ? $params['charset'] : 'utf8';
+			$this->collation = $params['collation'] ?? (($params['charset'] ?? 'utf8') . '_general_ci');
 		}
 
-		return $this->charset;
+		return $this->collation;
 	}
 }

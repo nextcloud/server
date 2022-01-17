@@ -40,6 +40,8 @@
 		 */
 		fileList: null,
 
+		currentFileList: null,
+
 		/**
 		 * Backbone model for storing files preferences
 		 */
@@ -54,13 +56,18 @@
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
 
+			// crop image previews
+			this.$cropImagePreviews = $('input#cropimagepreviewsToggle');
+			var cropImagePreviews = $('#cropImagePreviews').val() === "1";
+			this.$cropImagePreviews.prop('checked', cropImagePreviews);
 
 			if ($('#fileNotFound').val() === "1") {
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
 			}
 
 			this._filesConfig = new OC.Backbone.Model({
-				showhidden: showHidden
+				showhidden: showHidden,
+				cropimagepreviews: cropImagePreviews,
 			});
 
 			var urlParams = OC.Util.History.parseUrlQuery();
@@ -84,23 +91,33 @@
 					fileActions: fileActions,
 					allowLegacyActions: true,
 					scrollTo: urlParams.scrollto,
+					openFile: urlParams.openfile,
 					filesClient: OC.Files.getClient(),
 					multiSelectMenu: [
 						{
 							name: 'copyMove',
 							displayName:  t('files', 'Move or copy'),
 							iconClass: 'icon-external',
+							order: 10,
 						},
 						{
 							name: 'download',
 							displayName:  t('files', 'Download'),
 							iconClass: 'icon-download',
+							order: 10,
 						},
 						OCA.Files.FileList.MultiSelectMenuActions.ToggleSelectionModeAction,
 						{
 							name: 'delete',
 							displayName: t('files', 'Delete'),
 							iconClass: 'icon-delete',
+							order: 99,
+						},
+						{
+							name: 'tags',
+							displayName:  'Tags',
+							iconClass: 'icon-tag',
+							order: 100,
 						},
 					],
 					sorting: {
@@ -112,6 +129,7 @@
 					maxChunkSize: OC.appConfig.files && OC.appConfig.files.max_chunk_size
 				}
 			);
+			this.updateCurrentFileList(this.fileList)
 			this.files.initialize();
 
 			// for backward compatibility, the global FileList will
@@ -129,6 +147,7 @@
 			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
+			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
 
 			if (sessionStorage.getItem('WhatsNewServerCheck') < (Date.now() - 3600*1000)) {
 				OCP.WhatsNew.query(); // for Nextcloud server
@@ -158,6 +177,28 @@
 					ev.defaultAction.name
 				);
 			}
+		},
+
+		/**
+		 * Set the currently active file list
+		 *
+		 * Due to the file list implementations being registered after clicking the
+		 * navigation item for the first time, OCA.Files.App is not aware of those until
+		 * they have initialized themselves. Therefore the files list needs to call this
+		 * method manually
+		 *
+		 * @param {OCA.Files.FileList} newFileList -
+		 */
+		updateCurrentFileList: function(newFileList) {
+			this.currentFileList = newFileList;
+		},
+
+		/**
+		 * Return the currently active file list
+		 * @return {?OCA.Files.FileList}
+		 */
+		getCurrentFileList: function () {
+			return this.currentFileList;
 		},
 
 		/**
@@ -206,6 +247,7 @@
 
 			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
 			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
+			this.$cropImagePreviews.on('change', _.bind(this._onCropImagePreviewsChange, this));
 		},
 
 		/**
@@ -232,6 +274,29 @@
 		},
 
 		/**
+		 * Toggle cropping image previews according to the settings checkbox
+		 *
+		 * @returns void
+		 */
+		_onCropImagePreviewsChange: function() {
+			var crop = this.$cropImagePreviews.is(':checked');
+			this._filesConfig.set('cropimagepreviews', crop);
+			this._debouncedPersistCropImagePreviewsState();
+		},
+
+		/**
+		 * Persist crop image previews preference on the server
+		 *
+		 * @returns void
+		 */
+		_persistCropImagePreviewsState: function() {
+			var crop = this._filesConfig.get('cropimagepreviews');
+			$.post(OC.generateUrl('/apps/files/api/v1/cropimagepreviews'), {
+				crop: crop
+			});
+		},
+
+		/**
 		 * Event handler for when the current navigation item has changed
 		 */
 		_onNavigationChanged: function(e) {
@@ -251,7 +316,7 @@
 		 * Event handler for when an app notified that its directory changed
 		 */
 		_onDirectoryChanged: function(e) {
-			if (e.dir) {
+			if (e.dir && !e.changedThroughUrl) {
 				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
 			}
 		},
@@ -321,9 +386,11 @@
 				params.fileid = fileId;
 			}
 			var currentParams = OC.Util.History.parseUrlQuery();
-			if (currentParams.dir === params.dir && currentParams.view === params.view && currentParams.fileid !== params.fileid) {
-				// if only fileid changed or was added, replace instead of push
-				OC.Util.History.replaceState(this._makeUrlParams(params));
+			if (currentParams.dir === params.dir && currentParams.view === params.view) {
+				if (currentParams.fileid !== params.fileid) {
+					// if only fileid changed or was added, replace instead of push
+					OC.Util.History.replaceState(this._makeUrlParams(params));
+				}
 			} else {
 				OC.Util.History.pushState(this._makeUrlParams(params));
 			}
@@ -331,7 +398,7 @@
 	};
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	// wait for other apps/extensions to register their event handlers and file actions
 	// in the "ready" clause
 	_.defer(function() {

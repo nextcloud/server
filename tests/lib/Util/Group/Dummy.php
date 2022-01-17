@@ -35,7 +35,7 @@ use OC\Group\Backend;
  * dummy group backend, does not keep state, only for testing use
  */
 class Dummy extends Backend {
-	private $groups=array();
+	private $groups = [];
 	/**
 	 * Try to create a new group
 	 * @param string $gid The name of the group to create
@@ -45,10 +45,10 @@ class Dummy extends Backend {
 	 * be returned.
 	 */
 	public function createGroup($gid) {
-		if(!isset($this->groups[$gid])) {
-			$this->groups[$gid]=array();
+		if (!isset($this->groups[$gid])) {
+			$this->groups[$gid] = [];
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -61,10 +61,10 @@ class Dummy extends Backend {
 	 * Deletes a group and removes it from the group_user-table
 	 */
 	public function deleteGroup($gid) {
-		if(isset($this->groups[$gid])) {
+		if (isset($this->groups[$gid])) {
 			unset($this->groups[$gid]);
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -78,9 +78,9 @@ class Dummy extends Backend {
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
-		if(isset($this->groups[$gid])) {
-			return (array_search($uid, $this->groups[$gid])!==false);
-		}else{
+		if (isset($this->groups[$gid])) {
+			return (array_search($uid, $this->groups[$gid]) !== false);
+		} else {
 			return false;
 		}
 	}
@@ -94,14 +94,14 @@ class Dummy extends Backend {
 	 * Adds a user to a group.
 	 */
 	public function addToGroup($uid, $gid) {
-		if(isset($this->groups[$gid])) {
-			if(array_search($uid, $this->groups[$gid])===false) {
-				$this->groups[$gid][]=$uid;
+		if (isset($this->groups[$gid])) {
+			if (array_search($uid, $this->groups[$gid]) === false) {
+				$this->groups[$gid][] = $uid;
 				return true;
-			}else{
+			} else {
 				return false;
 			}
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -115,14 +115,14 @@ class Dummy extends Backend {
 	 * removes the user from a group.
 	 */
 	public function removeFromGroup($uid, $gid) {
-		if(isset($this->groups[$gid])) {
-			if(($index=array_search($uid, $this->groups[$gid]))!==false) {
+		if (isset($this->groups[$gid])) {
+			if (($index = array_search($uid, $this->groups[$gid])) !== false) {
 				unset($this->groups[$gid][$index]);
 				return true;
-			}else{
+			} else {
 				return false;
 			}
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -136,11 +136,11 @@ class Dummy extends Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
-		$groups=array();
-		$allGroups=array_keys($this->groups);
-		foreach($allGroups as $group) {
-			if($this->inGroup($uid, $group)) {
-				$groups[]=$group;
+		$groups = [];
+		$allGroups = array_keys($this->groups);
+		foreach ($allGroups as $group) {
+			if ($this->inGroup($uid, $group)) {
+				$groups[] = $group;
 			}
 		}
 		return $groups;
@@ -154,12 +154,12 @@ class Dummy extends Backend {
 	 * @return array an array of group names
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
-		if(empty($search)) {
+		if (empty($search)) {
 			return array_keys($this->groups);
 		}
-		$result = array();
-		foreach(array_keys($this->groups) as $group) {
-			if(stripos($group, $search) !== false) {
+		$result = [];
+		foreach (array_keys($this->groups) as $group) {
+			if (stripos($group, $search) !== false) {
 				$result[] = $group;
 			}
 		}
@@ -175,19 +175,20 @@ class Dummy extends Backend {
 	 * @return array an array of user IDs
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		if(isset($this->groups[$gid])) {
-			if(empty($search)) {
-				return $this->groups[$gid];
+		if (isset($this->groups[$gid])) {
+			if (empty($search)) {
+				$length = $limit < 0 ? null : $limit;
+				return array_slice($this->groups[$gid], $offset, $length);
 			}
-			$result = array();
-			foreach($this->groups[$gid] as $user) {
-				if(stripos($user, $search) !== false) {
+			$result = [];
+			foreach ($this->groups[$gid] as $user) {
+				if (stripos($user, $search) !== false) {
 					$result[] = $user;
 				}
 			}
 			return $result;
-		}else{
-			return array();
+		} else {
+			return [];
 		}
 	}
 
@@ -200,18 +201,17 @@ class Dummy extends Backend {
 	 * @return int
 	 */
 	public function countUsersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		if(isset($this->groups[$gid])) {
-			if(empty($search)) {
+		if (isset($this->groups[$gid])) {
+			if (empty($search)) {
 				return count($this->groups[$gid]);
 			}
 			$count = 0;
-			foreach($this->groups[$gid] as $user) {
-				if(stripos($user, $search) !== false) {
+			foreach ($this->groups[$gid] as $user) {
+				if (stripos($user, $search) !== false) {
 					$count++;
 				}
 			}
 			return $count;
 		}
 	}
-
 }

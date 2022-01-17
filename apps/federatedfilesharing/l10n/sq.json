@@ -18,19 +18,16 @@
     "File is already shared with %s" : "Skedari është ndarë tashmë me %s",
     "Could not find share" : "Nuk mund të gjenim ndarjen",
     "Federated sharing" : "Ndarje e federuar",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Ju pranuat \"%3$s\" si një shpërndarje në distancë nga %1$s (në emër të %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Ju ",
-    "You received \"%3$s\" as a remote share from %1$s" : "Ju pranuat \"%3$s\" si një shpërndarje në distancë nga %1$s",
     "You received {share} as a remote share from {user}" : "Ju morët {share} si një ndarje të largët nga {user}",
     "Accept" : "Pranoje",
     "Decline" : "Hidhe poshtë",
+    "Federated Cloud Sharing" : "Ndarje Në Re të Federuar ",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Sharing" : "Ndarje",
-    "Federated Cloud Sharing" : "Ndarje Në Re të Federuar ",
+    "Federated file sharing" : "Shpërndarja e skedarëve të federuar",
     "Open documentation" : "Hap dokumentimin",
-    "Adjust how people can share between servers." : "Përshtatni mënyrën se si njerëzit mund të ndajnë midis serverëve.",
-    "Allow users on this server to send shares to other servers" : "Lejoju përdoruesve në këtë shërbyes të dërgojnë ndarje në shërbyes të tjerë",
     "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
     "Search global and public address book for users" : "Kërko librin e adresave globale dhe publike për përdoruesit",
     "Allow users to publish their data to a global and public address book" : "Lejo përdoruesit të publikojnë të dhënat e tyre në një libër adresash botërore dhe globale",
@@ -39,6 +36,7 @@
     "Share it so your friends can share files with you:" : "Shërndajeni që miqtë tuaj mund të ndajnë skedarë me ju:",
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
-    "HTML Code:" : "Kod HTML:"
+    "HTML Code:" : "Kod HTML:",
+    "Adjust how people can share between servers." : "Përshtatni mënyrën se si njerëzit mund të ndajnë midis serverëve."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

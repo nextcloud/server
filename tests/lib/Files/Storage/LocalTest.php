@@ -35,14 +35,14 @@ class LocalTest extends Storage {
 	 */
 	private $tmpDir;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->instance = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
+		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		\OC_Helper::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
@@ -63,24 +63,24 @@ class LocalTest extends Storage {
 		$this->assertNotEquals($etag1, $etag2);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+
 	public function testInvalidArgumentsEmptyArray() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		new \OC\Files\Storage\Local([]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+
 	public function testInvalidArgumentsNoArray() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		new \OC\Files\Storage\Local(null);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\ForbiddenException
-	 */
+
 	public function testDisallowSymlinksOutsideDatadir() {
+		$this->expectException(\OCP\Files\ForbiddenException::class);
+
 		$subDir1 = $this->tmpDir . 'sub1';
 		$subDir2 = $this->tmpDir . 'sub2';
 		$sym = $this->tmpDir . 'sub1/sym';
@@ -108,5 +108,35 @@ class LocalTest extends Storage {
 		$storage->file_put_contents('sym/foo', 'bar');
 		$this->addToAssertionCount(1);
 	}
-}
 
+	public function testWriteUmaskFilePutContents() {
+		$oldMask = umask(0333);
+		$this->instance->file_put_contents('test.txt', 'sad');
+		umask($oldMask);
+		$this->assertTrue($this->instance->isUpdatable('test.txt'));
+	}
+
+	public function testWriteUmaskMkdir() {
+		$oldMask = umask(0333);
+		$this->instance->mkdir('test.txt');
+		umask($oldMask);
+		$this->assertTrue($this->instance->isUpdatable('test.txt'));
+	}
+
+	public function testWriteUmaskFopen() {
+		$oldMask = umask(0333);
+		$handle = $this->instance->fopen('test.txt', 'w');
+		fwrite($handle, 'foo');
+		fclose($handle);
+		umask($oldMask);
+		$this->assertTrue($this->instance->isUpdatable('test.txt'));
+	}
+
+	public function testWriteUmaskCopy() {
+		$this->instance->file_put_contents('source.txt', 'sad');
+		$oldMask = umask(0333);
+		$this->instance->copy('source.txt', 'test.txt');
+		umask($oldMask);
+		$this->assertTrue($this->instance->isUpdatable('test.txt'));
+	}
+}

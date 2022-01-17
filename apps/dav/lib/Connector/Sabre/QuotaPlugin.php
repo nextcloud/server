@@ -1,14 +1,17 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author scambra <sergio@entrecables.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,12 +25,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\Connector\Sabre;
+
 use OCA\DAV\Upload\FutureFile;
-use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
@@ -71,7 +74,6 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-
 		$this->server = $server;
 
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
@@ -151,8 +153,8 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		if ($length) {
-			list($parentPath, $newName) = \Sabre\Uri\split($path);
-			if(is_null($parentPath)) {
+			[$parentPath, $newName] = \Sabre\Uri\split($path);
+			if (is_null($parentPath)) {
 				$parentPath = '';
 			}
 			$req = $this->server->httpRequest;

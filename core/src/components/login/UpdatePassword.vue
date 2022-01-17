@@ -29,6 +29,9 @@
 					v-model="password"
 					type="password"
 					name="password"
+					autocomplete="new-password"
+					autocapitalize="none"
+					autocorrect="off"
 					required
 					:placeholder="t('core', 'New password')">
 			</p>
@@ -74,16 +77,16 @@ export default {
 	props: {
 		username: {
 			type: String,
-			required: true
+			required: true,
 		},
 		resetPasswordTarget: {
 			type: String,
-			required: true
+			required: true,
 		},
 		invertedColors: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -93,13 +96,13 @@ export default {
 			user: this.username,
 			password: '',
 			encrypted: false,
-			proceed: false
+			proceed: false,
 		}
 	},
 	watch: {
 		username(value) {
 			this.user = value
-		}
+		},
 	},
 	methods: {
 		async submit() {
@@ -110,7 +113,7 @@ export default {
 			try {
 				const { data } = await Axios.post(this.resetPasswordTarget, {
 					password: this.password,
-					proceed: this.proceed
+					proceed: this.proceed,
 				})
 				if (data && data.status === 'success') {
 					this.message = 'send-success'
@@ -125,12 +128,12 @@ export default {
 				}
 			} catch (e) {
 				this.error = true
-				this.message = e.message ? e.message : t('core', 'Password can not be changed. Please contact your administrator.')
+				this.message = e.message ? e.message : t('core', 'Password cannot be changed. Please contact your administrator.')
 			} finally {
 				this.loading = false
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

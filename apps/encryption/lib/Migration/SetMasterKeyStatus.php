@@ -13,17 +13,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OCA\Encryption\Migration;
-
 
 use OCP\IConfig;
 use OCP\Migration\IOutput;
@@ -65,8 +62,8 @@ class SetMasterKeyStatus implements IRepairStep {
 
 		// if no config for the master key is set we set it explicitly to '0' in
 		// order not to break old installations because the default changed to '1'.
-		$configAlreadySet = $this->config->getAppValue('encryption', 'useMasterKey', false);
-		if ($configAlreadySet === false) {
+		$configAlreadySet = $this->config->getAppValue('encryption', 'useMasterKey', 'not-set');
+		if ($configAlreadySet === 'not-set') {
 			$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		}
 	}
@@ -75,5 +72,4 @@ class SetMasterKeyStatus implements IRepairStep {
 		$appVersion = $this->config->getAppValue('encryption', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '2.0.0', '<');
 	}
-
 }

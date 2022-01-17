@@ -1,10 +1,9 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Birkas",
     "Update" : "Atjaunināt",
     "Create" : "Izveidot",
-    "Select tag…" : "Izvēlieties birku...",
+    "Select tag …" : "Izvēlies birku...",
     "System tag %1$s added by the system" : "Sistēma ir pievienojusi sistēmas birku %1$s",
     "Added system tag {systemtag}" : "Pievienota sistēmas birka {systemtag}",
     "Added system tag %1$s" : "Pievienota sistēmas birka %1$s",
@@ -37,6 +36,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ierobežots)",
     "%s (invisible)" : "%s (neredzams)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistēmas birkas</strong> datnei tikušas mainītas",
+    "Tags" : "Birkas",
     "Collaborative tags" : "Sadarbības birkas",
     "Tagged files" : "Atzīmētās datnes",
     "Select tags to filter by" : "Izvēlieties birkas, pēc kurām filtrēt",
@@ -44,7 +44,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Lūdzu, izvēlieties birkas, pēc kurām filtrēt",
     "No files found for the selected tags" : "Datnes ar atlasītajām birkām netika atrastas",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sadarbības birkas ir pieejamas visiem lietotājiem. Ierobežotās birkas ir redzamas lietotājiem, bet viņi tās nevar piešķirt. Neredzamās birkas ir paredzētas iekšējai lietošanai, jo lietotāji nevar tās redzēt vai piešķirt.",
-    "Select tag …" : "Izvēlies birku...",
     "Create a new tag" : "Izveidot jaunu birku",
     "Name" : "Nosaukums",
     "Public" : "Publiska",

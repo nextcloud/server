@@ -15,38 +15,52 @@
 	 * Construct a new FederationScopeMenu instance
 	 * @constructs FederationScopeMenu
 	 * @memberof OC.Settings
+	 * @param {object} options
+	 * @param {array.<string>} [options.excludedScopes] array of excluded scopes
 	 */
 	var FederationScopeMenu = OC.Backbone.View.extend({
 		tagName: 'div',
 		className: 'federationScopeMenu popovermenu bubble menu menu-center',
 		field: undefined,
 		_scopes: undefined,
+		_excludedScopes: [],
 
 		initialize: function(options) {
 			this.field = options.field;
 			this._scopes = [
 				{
-					name: 'private',
-					displayName: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Local') : t('settings', 'Private'),
-					tooltip: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Only visible to local users') : t('settings', 'Only visible to you'),
+					name: 'v2-private',
+					displayName: t('settings', 'Private'),
+					tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
+					iconClass: 'icon-phone',
+					active: false
+				},
+				{
+					name: 'v2-local',
+					displayName: t('settings', 'Local'),
+					tooltip: t('settings', 'Only visible to people on this instance and guests'),
 					iconClass: 'icon-password',
 					active: false
 				},
 				{
-					name: 'contacts',
-					displayName: t('settings', 'Contacts'),
-					tooltip: t('settings', 'Visible to local users and to trusted servers'),
+					name: 'v2-federated',
+					displayName: t('settings', 'Federated'),
+					tooltip: t('settings', 'Only synchronize to trusted servers'),
 					iconClass: 'icon-contacts-dark',
 					active: false
 				},
 				{
-					name: 'public',
-					displayName: t('settings', 'Public'),
-					tooltip: t('settings', 'Will be synced to a global and public address book'),
+					name: 'v2-published',
+					displayName: t('settings', 'Published'),
+					tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
 					iconClass: 'icon-link',
 					active: false
 				}
 			];
+
+			if (options.excludedScopes && options.excludedScopes.length) {
+				this._excludedScopes = options.excludedScopes
+			}
 		},
 
 		/**
@@ -102,19 +116,22 @@
 			var currentlyActiveValue = $('#'+context.target.closest('form').id).find('input[type="hidden"]')[0].value;
 
 			for(var i in this._scopes) {
-				this._scopes[i].active = false;
-			}
+				if (this._scopes[i].name === currentlyActiveValue) {
+					this._scopes[i].active = true;
+				} else {
+					this._scopes[i].active = false;
+				}
 
-			switch (currentlyActiveValue) {
-				case "private":
-					this._scopes[0].active = true;
-					break;
-				case "contacts":
-					this._scopes[1].active = true;
-					break;
-				case "public":
-					this._scopes[2].active = true;
-					break;
+				var isExcludedScope = this._excludedScopes.includes(this._scopes[i].name)
+				if (isExcludedScope && !this._scopes[i].active) {
+					this._scopes[i].hidden = true
+				} else if (isExcludedScope && this._scopes[i].active) {
+					this._scopes[i].hidden = false
+					this._scopes[i].disabled = true
+				} else {
+					this._scopes[i].hidden = false
+					this._scopes[i].disabled = false
+				}
 			}
 
 			this.render();

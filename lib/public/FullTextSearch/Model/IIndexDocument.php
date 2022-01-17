@@ -1,15 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
-
 /**
- * FullTextSearch - Full text search framework for Nextcloud
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
  * @copyright 2018
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,17 +17,14 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OCP\FullTextSearch\Model;
-
 
 /**
  * Class IIndexDocument
@@ -44,14 +39,10 @@ namespace OCP\FullTextSearch\Model;
  * generated. As an example, an original document can be a file, a mail, ...
  *
  * @since 15.0.0
- *
- * @package OC\FullTextSearch\Model
  */
 interface IIndexDocument {
-
-
-	const NOT_ENCODED = 0;
-	const ENCODED_BASE64 = 1;
+	public const NOT_ENCODED = 0;
+	public const ENCODED_BASE64 = 1;
 
 
 
@@ -72,7 +63,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getProviderId(): string;
+	public function getProviderId(): string;
 
 
 	/**
@@ -86,7 +77,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setIndex(IIndex $index): IIndexDocument;
+	public function setIndex(IIndex $index): IIndexDocument;
 
 	/**
 	 * Get the Index.
@@ -95,7 +86,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndex
 	 */
-	 public function getIndex(): IIndex;
+	public function getIndex(): IIndex;
 
 	/**
 	 * return if Index is defined.
@@ -116,7 +107,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setModifiedTime(int $modifiedTime): IIndexDocument;
+	public function setModifiedTime(int $modifiedTime): IIndexDocument;
 
 	/**
 	 * Get the modified time of the original document.
@@ -125,7 +116,7 @@ interface IIndexDocument {
 	 *
 	 * @return int
 	 */
-	 public function getModifiedTime(): int;
+	public function getModifiedTime(): int;
 
 	/**
 	 * Check if the original document of the IIndexDocument is older than $time.
@@ -136,7 +127,7 @@ interface IIndexDocument {
 	 *
 	 * @return bool
 	 */
-	 public function isOlderThan(int $time): bool;
+	public function isOlderThan(int $time): bool;
 
 
 	/**
@@ -150,7 +141,7 @@ interface IIndexDocument {
 	 *
 	 * @return $this
 	 */
-	 public function setAccess(IDocumentAccess $access): IIndexDocument;
+	public function setAccess(IDocumentAccess $access): IIndexDocument;
 
 	/**
 	 * Get the IDocumentAccess related to the original document.
@@ -159,7 +150,7 @@ interface IIndexDocument {
 	 *
 	 * @return IDocumentAccess
 	 */
-	 public function getAccess(): IDocumentAccess;
+	public function getAccess(): IDocumentAccess;
 
 
 	/**
@@ -171,7 +162,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function addTag(string $tag): IIndexDocument;
+	public function addTag(string $tag): IIndexDocument;
 
 	/**
 	 * Set the list of tags assigned to the original document.
@@ -182,7 +173,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setTags(array $tags): IIndexDocument;
+	public function setTags(array $tags): IIndexDocument;
 
 	/**
 	 * Get the list of tags assigned to the original document.
@@ -191,7 +182,7 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getTags(): array;
+	public function getTags(): array;
 
 
 	/**
@@ -203,7 +194,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function addMetaTag(string $tag): IIndexDocument;
+	public function addMetaTag(string $tag): IIndexDocument;
 
 	/**
 	 * Set the list of meta tags assigned to the original document.
@@ -214,7 +205,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setMetaTags(array $tags): IIndexDocument;
+	public function setMetaTags(array $tags): IIndexDocument;
 
 	/**
 	 * Get the list of meta tags assigned to the original document.
@@ -223,7 +214,7 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getMetaTags(): array;
+	public function getMetaTags(): array;
 
 
 	/**
@@ -236,7 +227,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function addSubTag(string $sub, string $tag): IIndexDocument;
+	public function addSubTag(string $sub, string $tag): IIndexDocument;
 
 	/**
 	 * Set the list of sub tags assigned to the original document.
@@ -247,7 +238,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setSubTags(array $tags): IIndexDocument;
+	public function setSubTags(array $tags): IIndexDocument;
 
 	/**
 	 * Get the list of sub tags assigned to the original document.
@@ -260,7 +251,7 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getSubTags(bool $formatted = false): array;
+	public function getSubTags(bool $formatted = false): array;
 
 
 	/**
@@ -272,7 +263,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setSource(string $source): IIndexDocument;
+	public function setSource(string $source): IIndexDocument;
 
 	/**
 	 * Get the source of the original document.
@@ -281,7 +272,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getSource(): string;
+	public function getSource(): string;
 
 
 	/**
@@ -293,7 +284,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setTitle(string $title): IIndexDocument;
+	public function setTitle(string $title): IIndexDocument;
 
 	/**
 	 * Get the title of the original document.
@@ -302,7 +293,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getTitle(): string;
+	public function getTitle(): string;
 
 
 	/**
@@ -317,7 +308,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setContent(string $content, int $encoded = 0): IIndexDocument;
+	public function setContent(string $content, int $encoded = 0): IIndexDocument;
 
 	/**
 	 * Get the content of the original document.
@@ -326,7 +317,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getContent(): string;
+	public function getContent(): string;
 
 	/**
 	 * Returns the type of the encoding on the content.
@@ -335,7 +326,7 @@ interface IIndexDocument {
 	 *
 	 * @return int
 	 */
-	 public function isContentEncoded(): int;
+	public function isContentEncoded(): int;
 
 	/**
 	 * Return the size of the content.
@@ -344,7 +335,7 @@ interface IIndexDocument {
 	 *
 	 * @return int
 	 */
-	 public function getContentSize(): int;
+	public function getContentSize(): int;
 
 
 	/**
@@ -354,7 +345,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function initHash(): IIndexDocument;
+	public function initHash(): IIndexDocument;
 
 	/**
 	 * Set the hash of the original document.
@@ -365,7 +356,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setHash(string $hash): IIndexDocument;
+	public function setHash(string $hash): IIndexDocument;
 
 	/**
 	 * Get the hash of the original document.
@@ -374,7 +365,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getHash(): string;
+	public function getHash(): string;
 
 
 	/**
@@ -390,7 +381,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function addPart(string $part, string $content): IIndexDocument;
+	public function addPart(string $part, string $content): IIndexDocument;
 
 	/**
 	 * Set all parts and their content.
@@ -401,7 +392,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setParts(array $parts): IIndexDocument;
+	public function setParts(array $parts): IIndexDocument;
 
 	/**
 	 * Get all parts of the IIndexDocument.
@@ -410,7 +401,7 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getParts(): array;
+	public function getParts(): array;
 
 
 	/**
@@ -422,7 +413,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setLink(string $link): IIndexDocument;
+	public function setLink(string $link): IIndexDocument;
 
 	/**
 	 * Get the link.
@@ -431,7 +422,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getLink(): string;
+	public function getLink(): string;
 
 
 	/**
@@ -443,7 +434,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setMore(array $more): IIndexDocument;
+	public function setMore(array $more): IIndexDocument;
 
 	/**
 	 * Get more information.
@@ -452,7 +443,7 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getMore(): array;
+	public function getMore(): array;
 
 
 	/**
@@ -466,7 +457,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function addExcerpt(string $source, string $excerpt): IIndexDocument;
+	public function addExcerpt(string $source, string $excerpt): IIndexDocument;
 
 	/**
 	 * Set all excerpts of the content of the original document.
@@ -477,7 +468,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setExcerpts(array $excerpts): IIndexDocument;
+	public function setExcerpts(array $excerpts): IIndexDocument;
 
 	/**
 	 * Get all excerpts of the content of the original document.
@@ -486,7 +477,7 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getExcerpts(): array;
+	public function getExcerpts(): array;
 
 
 	/**
@@ -499,7 +490,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setScore(string $score): IIndexDocument;
+	public function setScore(string $score): IIndexDocument;
 
 	/**
 	 * Get the score.
@@ -508,7 +499,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getScore(): string;
+	public function getScore(): string;
 
 
 	/**
@@ -525,7 +516,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setInfo(string $info, string $value): IIndexDocument;
+	public function setInfo(string $info, string $value): IIndexDocument;
 
 	/**
 	 * Get an information about a document. (string)
@@ -537,7 +528,7 @@ interface IIndexDocument {
 	 *
 	 * @return string
 	 */
-	 public function getInfo(string $info, string $default = ''): string;
+	public function getInfo(string $info, string $default = ''): string;
 
 	/**
 	 * Set some information about the original document that will be available
@@ -553,7 +544,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setInfoArray(string $info, array $value): IIndexDocument;
+	public function setInfoArray(string $info, array $value): IIndexDocument;
 
 	/**
 	 * Get an information about a document. (array)
@@ -565,7 +556,7 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getInfoArray(string $info, array $default = []): array;
+	public function getInfoArray(string $info, array $default = []): array;
 
 	/**
 	 * Set some information about the original document that will be available
@@ -581,7 +572,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setInfoInt(string $info, int $value): IIndexDocument;
+	public function setInfoInt(string $info, int $value): IIndexDocument;
 
 	/**
 	 * Get an information about a document. (int)
@@ -593,7 +584,7 @@ interface IIndexDocument {
 	 *
 	 * @return int
 	 */
-	 public function getInfoInt(string $info, int $default = 0): int;
+	public function getInfoInt(string $info, int $default = 0): int;
 
 	/**
 	 * Set some information about the original document that will be available
@@ -609,7 +600,7 @@ interface IIndexDocument {
 	 *
 	 * @return IIndexDocument
 	 */
-	 public function setInfoBool(string $info, bool $value): IIndexDocument;
+	public function setInfoBool(string $info, bool $value): IIndexDocument;
 
 	/**
 	 * Get an information about a document. (bool)
@@ -621,7 +612,7 @@ interface IIndexDocument {
 	 *
 	 * @return bool
 	 */
-	 public function getInfoBool(string $info, bool $default = false): bool;
+	public function getInfoBool(string $info, bool $default = false): bool;
 
 	/**
 	 * Get all info.
@@ -630,7 +621,5 @@ interface IIndexDocument {
 	 *
 	 * @return array
 	 */
-	 public function getInfoAll(): array;
-
+	public function getInfoAll(): array;
 }
-

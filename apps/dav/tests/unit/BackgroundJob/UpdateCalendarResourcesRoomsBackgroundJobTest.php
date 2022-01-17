@@ -2,24 +2,28 @@
 /**
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
@@ -33,21 +37,24 @@ use OCP\Calendar\Resource\IResource;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use Test\TestCase;
 
+interface tmpI extends IResource, IMetadataProvider {
+}
+
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 	/** @var UpdateCalendarResourcesRoomsBackgroundJob */
 	private $backgroundJob;
 
-	/** @var IResourceManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IResourceManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $resourceManager;
 
-	/** @var IRoomManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRoomManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $roomManager;
 
-	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $calDavBackend;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->resourceManager = $this->createMock(IResourceManager::class);
@@ -59,7 +66,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 			$this->calDavBackend);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->delete('calendar_resources')->execute();
 		$query->delete('calendar_resources_md')->execute();
@@ -103,13 +110,13 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$backend3 = $this->createMock(IBackend::class);
 		$backend4 = $this->createMock(IBackend::class);
 
-		$res6 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res7 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res8 = $this->createMock([IResource::class, IMetadataProvider::class]);
+		$res6 = $this->createMock(tmpI::class);
+		$res7 = $this->createMock(tmpI::class);
+		$res8 = $this->createMock(tmpI::class);
 		$res9 = $this->createMock(IResource::class);
 
 		$backend2->method('getBackendIdentifier')
-			->will($this->returnValue('backend2'));
+			->willReturn('backend2');
 		$backend2->method('listAllResources')
 			->will($this->throwException(new BackendTemporarilyUnavailableException()));
 		$backend2->method('getResource')
@@ -117,33 +124,33 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$backend2->method('getAllResources')
 			->will($this->throwException(new BackendTemporarilyUnavailableException()));
 		$backend3->method('getBackendIdentifier')
-			->will($this->returnValue('backend3'));
+			->willReturn('backend3');
 		$backend3->method('listAllResources')
-			->will($this->returnValue(['res6', 'res7']));
+			->willReturn(['res6', 'res7']);
 		$backend3->method('getResource')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['res6', $res6],
 				['res7', $res7],
-			]));
+			]);
 		$backend4->method('getBackendIdentifier')
-			->will($this->returnValue('backend4'));
+			->willReturn('backend4');
 		$backend4->method('listAllResources')
-			->will($this->returnValue(['res8', 'res9']));
+			->willReturn(['res8', 'res9']);
 		$backend4->method('getResource')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['res8', $res8],
 				['res9', $res9],
-			]));
+			]);
 
-		$res6->method('getId')->will($this->returnValue('res6'));
-		$res6->method('getDisplayName')->will($this->returnValue('Pointer123'));
-		$res6->method('getGroupRestrictions')->will($this->returnValue(['foo', 'biz']));
-		$res6->method('getEMail')->will($this->returnValue('res6@foo.bar'));
-		$res6->method('getBackend')->will($this->returnValue($backend3));
+		$res6->method('getId')->willReturn('res6');
+		$res6->method('getDisplayName')->willReturn('Pointer123');
+		$res6->method('getGroupRestrictions')->willReturn(['foo', 'biz']);
+		$res6->method('getEMail')->willReturn('res6@foo.bar');
+		$res6->method('getBackend')->willReturn($backend3);
 
-		$res6->method('getAllAvailableMetadataKeys')->will($this->returnValue(['meta99', 'meta123']));
-		$res6->method('getMetadataForKey')->will($this->returnCallback(function($key) {
-			switch($key) {
+		$res6->method('getAllAvailableMetadataKeys')->willReturn(['meta99', 'meta123']);
+		$res6->method('getMetadataForKey')->willReturnCallback(function ($key) {
+			switch ($key) {
 				case 'meta99':
 					return 'value99-new';
 
@@ -153,58 +160,58 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				default:
 					return null;
 			}
-		}));
+		});
 
-		$res7->method('getId')->will($this->returnValue('res7'));
-		$res7->method('getDisplayName')->will($this->returnValue('Resource4'));
-		$res7->method('getGroupRestrictions')->will($this->returnValue(['biz']));
-		$res7->method('getEMail')->will($this->returnValue('res7@foo.bar'));
-		$res7->method('getBackend')->will($this->returnValue($backend3));
-		$res7->method('getAllAvailableMetadataKeys')->will($this->returnValue(['meta1']));
-		$res7->method('getMetadataForKey')->will($this->returnCallback(function($key) {
-			switch($key) {
+		$res7->method('getId')->willReturn('res7');
+		$res7->method('getDisplayName')->willReturn('Resource4');
+		$res7->method('getGroupRestrictions')->willReturn(['biz']);
+		$res7->method('getEMail')->willReturn('res7@foo.bar');
+		$res7->method('getBackend')->willReturn($backend3);
+		$res7->method('getAllAvailableMetadataKeys')->willReturn(['meta1']);
+		$res7->method('getMetadataForKey')->willReturnCallback(function ($key) {
+			switch ($key) {
 				case 'meta1':
 					return 'value1';
 
 				default:
 					return null;
 			}
-		}));
+		});
 
-		$res8->method('getId')->will($this->returnValue('res8'));
-		$res8->method('getDisplayName')->will($this->returnValue('Beamer'));
-		$res8->method('getGroupRestrictions')->will($this->returnValue([]));
-		$res8->method('getEMail')->will($this->returnValue('res8@foo.bar'));
-		$res8->method('getBackend')->will($this->returnValue($backend4));
-		$res8->method('getAllAvailableMetadataKeys')->will($this->returnValue(['meta2']));
-		$res8->method('getMetadataForKey')->will($this->returnCallback(function($key) {
-			switch($key) {
+		$res8->method('getId')->willReturn('res8');
+		$res8->method('getDisplayName')->willReturn('Beamer');
+		$res8->method('getGroupRestrictions')->willReturn([]);
+		$res8->method('getEMail')->willReturn('res8@foo.bar');
+		$res8->method('getBackend')->willReturn($backend4);
+		$res8->method('getAllAvailableMetadataKeys')->willReturn(['meta2']);
+		$res8->method('getMetadataForKey')->willReturnCallback(function ($key) {
+			switch ($key) {
 				case 'meta2':
 					return 'value2';
 
 				default:
 					return null;
 			}
-		}));
+		});
 
-		$res9->method('getId')->will($this->returnValue('res9'));
-		$res9->method('getDisplayName')->will($this->returnValue('Beamer2'));
-		$res9->method('getGroupRestrictions')->will($this->returnValue([]));
-		$res9->method('getEMail')->will($this->returnValue('res9@foo.bar'));
-		$res9->method('getBackend')->will($this->returnValue($backend4));
+		$res9->method('getId')->willReturn('res9');
+		$res9->method('getDisplayName')->willReturn('Beamer2');
+		$res9->method('getGroupRestrictions')->willReturn([]);
+		$res9->method('getEMail')->willReturn('res9@foo.bar');
+		$res9->method('getBackend')->willReturn($backend4);
 
 		$this->resourceManager
 			->method('getBackends')
-			->will($this->returnValue([
+			->willReturn([
 				$backend2, $backend3, $backend4
-			]));
+			]);
 		$this->resourceManager
 			->method('getBackend')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['backend2', $backend2],
 				['backend3', $backend3],
 				['backend4', $backend4],
-			]));
+			]);
 
 		$this->backgroundJob->run([]);
 
@@ -214,7 +221,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$rows = [];
 		$ids = [];
 		$stmt = $query->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$ids[$row['backend_id'] . '::' . $row['resource_id']] = $row['id'];
 			unset($row['id']);
 			$rows[] = $row;
@@ -284,7 +291,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 		$rows2 = [];
 		$stmt = $query2->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			unset($row['id']);
 			$rows2[] = $row;
 		}

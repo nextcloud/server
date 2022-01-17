@@ -20,21 +20,17 @@
     "File is already shared with %s" : "Tiedosto on jo jaettu kohteen %s kanssa",
     "Could not find share" : "Ei löytynyt jakoa",
     "Federated sharing" : "Federoitu jakaminen",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vastaanotit \"%3$s\":n etäjakona käyttäjältä %1$s (%2$s:n puolesta)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Vastaanotit jaon {share} etäjakona käyttäjältä {user} ({behalf}:n puolesta)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vastaanotit \"%3$s\":n etäjakona käyttäjältä %1$s",
     "You received {share} as a remote share from {user}" : "Vastaanotit jaon {share} etäjakona käyttäjältä {user}",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
+    "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Sharing" : "Jakaminen",
     "Federated file sharing" : "Federoitu tiedostojako",
     "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
-    "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
     "Open documentation" : "Avaa ohje",
-    "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä.",
-    "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",
     "Allow users on this server to send shares to groups on other servers" : "Salli käyttäjien tällä palvelimella lähettää jakoja toisten palvelimien ryhmille",
     "Allow users on this server to receive group shares from other servers" : "Salli käyttäjien tällä palvelimella vastaanottaa ryhmäjakoja toisilta palvelimilta",
@@ -45,6 +41,7 @@
     "Share it so your friends can share files with you:" : "Jaa se, jotta ystäväsi voivat jakaa tiedostoja kanssasi:",
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
-    "HTML Code:" : "HTML-koodi:"
+    "HTML Code:" : "HTML-koodi:",
+    "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

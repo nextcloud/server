@@ -1,12 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -21,38 +22,37 @@ declare(strict_types = 1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\TwoFactorAuth;
 
-use function array_diff;
-use function array_filter;
 use BadMethodCallException;
 use Exception;
-use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
-use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserDisabled;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserEnabled;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function array_diff;
+use function array_filter;
 
 class Manager {
-
-	const SESSION_UID_KEY = 'two_factor_auth_uid';
-	const SESSION_UID_DONE = 'two_factor_auth_passed';
-	const REMEMBER_LOGIN = 'two_factor_remember_login';
-	const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
+	public const SESSION_UID_KEY = 'two_factor_auth_uid';
+	public const SESSION_UID_DONE = 'two_factor_auth_passed';
+	public const REMEMBER_LOGIN = 'two_factor_remember_login';
+	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
 	/** @var ProviderLoader */
 	private $providerLoader;
@@ -72,7 +72,7 @@ class Manager {
 	/** @var IManager */
 	private $activityManager;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var TokenProvider */
@@ -81,15 +81,26 @@ class Manager {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
+
+	/** @var EventDispatcherInterface */
+	private $legacyDispatcher;
+
+	/** @psalm-var array<string, bool> */
+	private $userIsTwoFactorAuthenticated = [];
 
 	public function __construct(ProviderLoader $providerLoader,
 								IRegistry $providerRegistry,
 								MandatoryTwoFactor $mandatoryTwoFactor,
-								ISession $session, IConfig $config,
-								IManager $activityManager, ILogger $logger, TokenProvider $tokenProvider,
-								ITimeFactory $timeFactory, EventDispatcherInterface $eventDispatcher) {
+								ISession $session,
+								IConfig $config,
+								IManager $activityManager,
+								LoggerInterface $logger,
+								TokenProvider $tokenProvider,
+								ITimeFactory $timeFactory,
+								IEventDispatcher $eventDispatcher,
+								EventDispatcherInterface $legacyDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -100,6 +111,7 @@ class Manager {
 		$this->tokenProvider = $tokenProvider;
 		$this->timeFactory = $timeFactory;
 		$this->dispatcher = $eventDispatcher;
+		$this->legacyDispatcher = $legacyDispatcher;
 	}
 
 	/**
@@ -109,6 +121,10 @@ class Manager {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
+		if (isset($this->userIsTwoFactorAuthenticated[$user->getUID()])) {
+			return $this->userIsTwoFactorAuthenticated[$user->getUID()];
+		}
+
 		if ($this->mandatoryTwoFactor->isEnforcedFor($user)) {
 			return true;
 		}
@@ -120,7 +136,8 @@ class Manager {
 		$providerIds = array_keys($enabled);
 		$providerIdsWithoutBackupCodes = array_diff($providerIds, [self::BACKUP_CODES_PROVIDER_ID]);
 
-		return !empty($providerIdsWithoutBackupCodes);
+		$this->userIsTwoFactorAuthenticated[$user->getUID()] = !empty($providerIdsWithoutBackupCodes);
+		return $this->userIsTwoFactorAuthenticated[$user->getUID()];
 	}
 
 	/**
@@ -142,7 +159,7 @@ class Manager {
 	 */
 	public function getLoginSetupProviders(IUser $user): array {
 		$providers = $this->providerLoader->getProviders($user);
-		return array_filter($providers, function(IProvider $provider) {
+		return array_filter($providers, function (IProvider $provider) {
 			return ($provider instanceof IActivatableAtLogin);
 		});
 	}
@@ -160,7 +177,6 @@ class Manager {
 	 */
 	private function fixMissingProviderStates(array $providerStates,
 		array $providers, IUser $user): array {
-
 		foreach ($providers as $provider) {
 			if (isset($providerStates[$provider->getId()])) {
 				// All good
@@ -181,7 +197,7 @@ class Manager {
 
 	/**
 	 * @param array $states
-	 * @param IProvider $providers
+	 * @param IProvider[] $providers
 	 */
 	private function isProviderMissing(array $states, array $providers): bool {
 		$indexed = [];
@@ -200,8 +216,8 @@ class Manager {
 				$missing[] = $providerId;
 				$this->logger->alert("two-factor auth provider '$providerId' failed to load",
 					[
-					'app' => 'core',
-				]);
+						'app' => 'core',
+					]);
 			}
 		}
 
@@ -266,14 +282,18 @@ class Manager {
 			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $tokenId);
 
 			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->dispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
+			$this->legacyDispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
+
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_success', [
 				'provider' => $provider->getDisplayName(),
 			]);
 		} else {
 			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->dispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
+			$this->legacyDispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
+
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_failed', [
 				'provider' => $provider->getDisplayName(),
@@ -299,8 +319,7 @@ class Manager {
 		try {
 			$this->activityManager->publish($activity);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity', ['app' => 'core']);
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->warning('could not publish activity', ['app' => 'core', 'exception' => $e]);
 		}
 	}
 
@@ -339,7 +358,7 @@ class Manager {
 				$tokenId = $token->getId();
 				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
 
-				if (!\in_array($tokenId, $tokensNeeding2FA, true)) {
+				if (!\in_array((string) $tokenId, $tokensNeeding2FA, true)) {
 					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
 					return false;
 				}
@@ -376,15 +395,14 @@ class Manager {
 
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', $token->getId(), $this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string) $token->getId(), $this->timeFactory->getTime());
 	}
 
 	public function clearTwoFactorPending(string $userId) {
 		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
 
 		foreach ($tokensNeeding2FA as $tokenId) {
-			$this->tokenProvider->invalidateTokenById($userId, $tokenId);
+			$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
 		}
 	}
-
 }

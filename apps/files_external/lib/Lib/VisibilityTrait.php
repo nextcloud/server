@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,13 +17,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
-use \OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\BackendService;
 
 /**
  * Trait to implement visibility mechanics for a configuration class
@@ -133,5 +133,4 @@ trait VisibilityTrait {
 	public function removeAllowedVisibility($allowedVisibility) {
 		return $this->setAllowedVisibility($this->allowedVisibility & ~$allowedVisibility);
 	}
-
 }

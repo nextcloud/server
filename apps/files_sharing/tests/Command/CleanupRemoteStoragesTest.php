@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,13 +20,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -47,6 +51,11 @@ class CleanupRemoteStoragesTest extends TestCase {
 	 */
 	private $connection;
 
+	/**
+	 * @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $cloudIdManager;
+
 	private $storages = [
 		['id' => 'shared::7b4a322b22f9d0047c38d77d471ce3cf', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e1', 'remote' => 'https://hostname.tld/owncloud1', 'user' => 'user1'],
 		['id' => 'shared::efe3b456112c3780da6155d3a9b9141c', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e2', 'remote' => 'https://hostname.tld/owncloud2', 'user' => 'user2'],
@@ -57,7 +66,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 		['notExistingId' => 'shared::c34568c143cdac7d2f06e0800b5280f9', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e7', 'remote' => 'https://hostname.tld/owncloud7', 'user' => 'user7'],
 	];
 
-	protected function setup() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -107,10 +116,12 @@ class CleanupRemoteStoragesTest extends TestCase {
 			}
 		}
 
-		$this->command = new CleanupRemoteStorages($this->connection);
+		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+
+		$this->command = new CleanupRemoteStorages($this->connection, $this->cloudIdManager);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$storageQuery = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$storageQuery->delete('storages')
 			->where($storageQuery->expr()->eq('id', $storageQuery->createParameter('id')));
@@ -133,7 +144,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 			}
 		}
 
-		return parent::tearDown();
+		parent::tearDown();
 	}
 
 	private function doesStorageExist($numericId) {
@@ -141,7 +152,10 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$qb->select('*')
 			->from('storages')
 			->where($qb->expr()->eq('numeric_id', $qb->createNamedParameter($numericId)));
-		$result = $qb->execute()->fetchAll();
+
+		$qResult = $qb->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 		if (!empty($result)) {
 			return true;
 		}
@@ -150,7 +164,10 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$qb->select('*')
 			->from('filecache')
 			->where($qb->expr()->eq('storage', $qb->createNamedParameter($numericId)));
-		$result = $qb->execute()->fetchAll();
+
+		$qResult = $qb->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 		if (!empty($result)) {
 			return true;
 		}
@@ -183,6 +200,22 @@ class CleanupRemoteStoragesTest extends TestCase {
 			->method('writeln')
 			->with('5 remote share(s) exist');
 
+		$this->cloudIdManager
+			->expects($this->any())
+			->method('getCloudId')
+			->will($this->returnCallback(function (string $user, string $remote) {
+				$cloudIdMock = $this->createMock(ICloudId::class);
+
+				// The remotes are already sanitized in the original data, so
+				// they can be directly returned.
+				$cloudIdMock
+					->expects($this->any())
+					->method('getRemote')
+					->willReturn($remote);
+
+				return $cloudIdMock;
+			}));
+
 		$this->command->execute($input, $output);
 
 		$this->assertTrue($this->doesStorageExist($this->storages[0]['numeric_id']));
@@ -190,7 +223,5 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$this->assertFalse($this->doesStorageExist($this->storages[3]['numeric_id']));
 		$this->assertTrue($this->doesStorageExist($this->storages[4]['numeric_id']));
 		$this->assertFalse($this->doesStorageExist($this->storages[5]['numeric_id']));
-
 	}
 }
-

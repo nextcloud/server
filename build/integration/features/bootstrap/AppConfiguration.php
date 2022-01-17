@@ -1,8 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
- *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,11 +18,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
@@ -69,6 +73,19 @@ trait AppConfiguration {
 		}
 	}
 
+	/**
+	 * @param string $app
+	 * @param string $parameter
+	 * @param string $value
+	 */
+	protected function deleteServerConfig($app, $parameter) {
+		$this->sendingTo('DELETE', "/apps/testing/api/v1/app/{$app}/{$parameter}");
+		$this->theHTTPStatusCodeShouldBe('200');
+		if ($this->apiVersion === 1) {
+			$this->theOCSStatusCodeShouldBe('100');
+		}
+	}
+
 	protected function setStatusTestingApp($enabled) {
 		$this->sendingTo(($enabled ? 'post' : 'delete'), '/cloud/apps/testing');
 		$this->theHTTPStatusCodeShouldBe('200');
@@ -94,7 +111,7 @@ trait AppConfiguration {
 	 * reset the configs before each scenario
 	 * @param BeforeScenarioScope $event
 	 */
-	public function prepareParameters(BeforeScenarioScope $event){
+	public function prepareParameters(BeforeScenarioScope $event) {
 		$user = $this->currentUser;
 		$this->currentUser = 'admin';
 

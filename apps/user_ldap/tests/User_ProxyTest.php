@@ -3,7 +3,10 @@
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
@@ -16,17 +19,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Tests;
 
-use OCA\User_LDAP\ILDAPUserPlugin;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
@@ -35,23 +37,26 @@ use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use Test\TestCase;
 
-class User_ProxyTest extends TestCase  {
-	/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
+class User_ProxyTest extends TestCase {
+	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
+	protected $helper;
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $ldapWrapper;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var INotificationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var User_Proxy|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var User_Proxy|\PHPUnit\Framework\MockObject\MockObject */
 	private $proxy;
-	/** @var UserPluginManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var UserPluginManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userPluginManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
+		$this->helper = $this->createMock(Helper::class);
 		$this->ldapWrapper = $this->createMock(ILDAPWrapper::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
@@ -59,7 +64,7 @@ class User_ProxyTest extends TestCase  {
 		$this->userPluginManager = $this->createMock(UserPluginManager::class);
 		$this->proxy = $this->getMockBuilder(User_Proxy::class)
 			->setConstructorArgs([
-				[],
+				$this->helper,
 				$this->ldapWrapper,
 				$this->config,
 				$this->notificationManager,
@@ -87,7 +92,8 @@ class User_ProxyTest extends TestCase  {
 			->with('MyUid', 'setDisplayName', ['MyUid', 'MyPassword'])
 			->willReturn(true);
 
-		$this->assertTrue($this->proxy->setDisplayName('MyUid', 'MyPassword'));	}
+		$this->assertTrue($this->proxy->setDisplayName('MyUid', 'MyPassword'));
+	}
 
 	public function testCreateUser() {
 		$this->proxy

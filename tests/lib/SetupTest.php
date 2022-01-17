@@ -14,36 +14,37 @@ use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class SetupTest extends \Test\TestCase {
 
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|MockObject */
 	protected $config;
-	/** @var \bantu\IniGetWrapper\IniGetWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \bantu\IniGetWrapper\IniGetWrapper|MockObject */
 	private $iniWrapper;
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|MockObject */
 	private $l10n;
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|MockObject */
 	private $defaults;
-	/** @var \OC\Setup|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Setup|MockObject */
 	protected $setupClass;
-	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var \OCP\Security\ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Security\ISecureRandom|MockObject */
 	protected $random;
-	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Installer|MockObject */
 	protected $installer;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->iniWrapper = $this->createMock(IniGetWrapper::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->setupClass = $this->getMockBuilder(Setup::class)
@@ -56,17 +57,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue(
+			->willReturn(
 				['sqlite', 'mysql', 'oci']
-			));
+			);
 		$this->setupClass
 			->expects($this->once())
 			->method('is_callable')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue(['sqlite']));
+			->willReturn(['sqlite']);
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = [
 			'sqlite' => 'SQLite'
@@ -79,17 +80,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue(
+			->willReturn(
 				['sqlite', 'mysql', 'oci', 'pgsql']
-			));
+			);
 		$this->setupClass
 			->expects($this->any())
 			->method('is_callable')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue([]));
+			->willReturn([]);
 		$result = $this->setupClass->getSupportedDatabases();
 
 		$this->assertSame([], $result);
@@ -99,17 +100,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue(
+			->willReturn(
 				['sqlite', 'mysql', 'pgsql', 'oci']
-			));
+			);
 		$this->setupClass
 			->expects($this->any())
 			->method('is_callable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue(['sqlite', 'mysql', 'pgsql']));
+			->willReturn(['sqlite', 'mysql', 'pgsql']);
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = [
 			'sqlite' => 'SQLite',
@@ -120,15 +121,15 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $result);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Supported databases are not properly configured.
-	 */
+
 	public function testGetSupportedDatabaseException() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Supported databases are not properly configured.');
+
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue('NotAnArray'));
+			->willReturn('NotAnArray');
 		$this->setupClass->getSupportedDatabases();
 	}
 
@@ -143,7 +144,7 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue($url));
+			->willReturn($url);
 		\OC::$CLI = true;
 
 		try {

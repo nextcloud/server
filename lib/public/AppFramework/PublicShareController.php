@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -13,15 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-declare(strict_types=1);
-
 namespace OCP\AppFramework;
 
 use OCP\IRequest;
@@ -109,7 +110,7 @@ abstract class PublicShareController extends Controller {
 	 *
 	 * @since 14.0.0
 	 */
-	final public function isAuthenticated(): bool {
+	public function isAuthenticated(): bool {
 		// Always authenticated against non password protected shares
 		if (!$this->isPasswordProtected()) {
 			return true;
@@ -133,6 +134,5 @@ abstract class PublicShareController extends Controller {
 	 * @since 14.0.0
 	 */
 	public function shareNotFound() {
-
 	}
 }

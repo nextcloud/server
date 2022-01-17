@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -18,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -58,9 +59,9 @@ class ListCommand extends Base {
 	 */
 	protected $userManager;
 
-	const ALL = -1;
+	public const ALL = -1;
 
-	function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
+	public function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->userService = $userService;
@@ -95,24 +96,23 @@ class ListCommand extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		/** @var StorageConfig[] $mounts */
 		if ($input->getOption('all')) {
-			/** @var  $mounts StorageConfig[] */
 			$mounts = $this->globalService->getStorageForAllUsers();
 			$userId = self::ALL;
 		} else {
 			$userId = $input->getArgument('user_id');
 			$storageService = $this->getStorageService($userId);
-
-			/** @var  $mounts StorageConfig[] */
 			$mounts = $storageService->getAllStorages();
 		}
 
 		$this->listMounts($userId, $mounts, $input, $output);
+		return 0;
 	}
 
 	/**
-	 * @param $userId $userId
+	 * @param string $userId
 	 * @param StorageConfig[] $mounts
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
@@ -125,7 +125,7 @@ class ListCommand extends Base {
 			} else {
 				if ($userId === self::ALL) {
 					$output->writeln("<info>No mounts configured</info>");
-				} else if ($userId) {
+				} elseif ($userId) {
 					$output->writeln("<info>No mounts configured by $userId</info>");
 				} else {
 					$output->writeln("<info>No admin mounts configured</info>");

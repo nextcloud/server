@@ -1,10 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Jakub Onderka <ahoj@jakubonderka.cz>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author simonspa <1677436+simonspa@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Trashbin\Controller;
 
 use OCA\Files_Trashbin\Trash\ITrashManager;
@@ -84,12 +88,11 @@ class PreviewController extends Controller {
 	 * @return DataResponse|Http\FileDisplayResponse
 	 */
 	public function getPreview(
-		int $fileId,
+		int $fileId = -1,
 		int $x = 128,
 		int $y = 128
 	) {
-
-		if ($x === 0 || $y === 0) {
+		if ($fileId === -1 || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

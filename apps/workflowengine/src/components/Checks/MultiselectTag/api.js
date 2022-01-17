@@ -1,9 +1,12 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +15,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,7 +24,7 @@
  */
 
 import axios from '@nextcloud/axios'
-import { generateRemoteUrl } from 'nextcloud-router'
+import { generateRemoteUrl } from '@nextcloud/router'
 
 const xmlToJson = (xml) => {
 	let obj = {}
@@ -46,7 +49,7 @@ const xmlToJson = (xml) => {
 				obj[nodeName] = xmlToJson(item)
 			} else {
 				if (typeof obj[nodeName].push === 'undefined') {
-					var old = obj[nodeName]
+					const old = obj[nodeName]
 					obj[nodeName] = []
 					obj[nodeName].push(old)
 				}
@@ -82,7 +85,7 @@ const xmlToTagList = (xml) => {
 			displayName: tag['d:prop']['oc:display-name']['#text'],
 			canAssign: tag['d:prop']['oc:can-assign']['#text'] === 'true',
 			userAssignable: tag['d:prop']['oc:user-assignable']['#text'] === 'true',
-			userVisible: tag['d:prop']['oc:user-visible']['#text'] === 'true'
+			userVisible: tag['d:prop']['oc:user-visible']['#text'] === 'true',
 		})
 	}
 	return result
@@ -101,12 +104,12 @@ const searchTags = function() {
 						<oc:user-assignable />
 						<oc:can-assign />
 					  </d:prop>
-					</d:propfind>`
+					</d:propfind>`,
 	}).then((response) => {
 		return xmlToTagList(response.data)
 	})
 }
 
 export {
-	searchTags
+	searchTags,
 }

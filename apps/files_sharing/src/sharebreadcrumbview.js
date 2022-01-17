@@ -1,9 +1,11 @@
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,32 +18,25 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 (function() {
 	'use strict'
 
-	var BreadCrumbView = OC.Backbone.View.extend({
+	const BreadCrumbView = OC.Backbone.View.extend({
 		tagName: 'span',
 		events: {
-			click: '_onClick'
+			click: '_onClick',
 		},
 		_dirInfo: undefined,
 
-		/** @type OCA.Sharing.ShareTabView */
-		_shareTab: undefined,
-
-		initialize: function(options) {
-			this._shareTab = options.shareTab
-		},
-
-		render: function(data) {
+		render(data) {
 			this._dirInfo = data.dirInfo || null
 
 			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
-				var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0
+				const isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0
 				this.$el.removeClass('shared icon-public icon-shared')
 				if (isShared) {
 					this.$el.addClass('shared')
@@ -62,39 +57,22 @@
 
 			return this
 		},
-		_onClick: function(e) {
+		_onClick(e) {
 			e.preventDefault()
+			e.stopPropagation()
 
-			var fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo)
-			var self = this
+			const fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo)
+			const self = this
 			fileInfoModel.on('change', function() {
 				self.render({
-					dirInfo: self._dirInfo
+					dirInfo: self._dirInfo,
 				})
 			})
-			this._shareTab.on('sharesChanged', function(shareModel) {
-				var shareTypes = []
-				var shares = shareModel.getSharesWithCurrentItem()
 
-				for (var i = 0; i < shares.length; i++) {
-					if (shareTypes.indexOf(shares[i].share_type) === -1) {
-						shareTypes.push(shares[i].share_type)
-					}
-				}
-
-				if (shareModel.hasLinkShares()) {
-					shareTypes.push(OC.Share.SHARE_TYPE_LINK)
-				}
-
-				// Since the dirInfo isn't updated we need to do this dark hackery
-				self._dirInfo.shareTypes = shareTypes
-
-				self.render({
-					dirInfo: self._dirInfo
-				})
-			})
-			OCA.Files.App.fileList.showDetailsView(fileInfoModel, 'shareTabView')
-		}
+			const path = fileInfoModel.attributes.path + '/' + fileInfoModel.attributes.name
+			OCA.Files.Sidebar.open(path)
+			OCA.Files.Sidebar.setActiveTab('sharing')
+		},
 	})
 
 	OCA.Sharing.ShareBreadCrumbView = BreadCrumbView

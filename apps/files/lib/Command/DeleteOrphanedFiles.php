@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -17,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Command;
 
 use OCP\IDBConnection;
@@ -32,8 +33,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Delete all file entries that have no matching entries in the storage table.
  */
 class DeleteOrphanedFiles extends Command {
-
-	const CHUNK_SIZE = 200;
+	public const CHUNK_SIZE = 200;
 
 	/**
 	 * @var IDBConnection
@@ -51,7 +51,7 @@ class DeleteOrphanedFiles extends Command {
 			->setDescription('cleanup filecache');
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$deletedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();
@@ -78,6 +78,39 @@ class DeleteOrphanedFiles extends Command {
 		}
 
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
+
+		$deletedMounts = $this->cleanupOrphanedMounts();
+		$output->writeln("$deletedMounts orphaned mount entries deleted");
+		return 0;
 	}
 
+	private function cleanupOrphanedMounts() {
+		$deletedEntries = 0;
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('m.storage_id')
+			->from('mounts', 'm')
+			->where($query->expr()->isNull('s.numeric_id'))
+			->leftJoin('m', 'storages', 's', $query->expr()->eq('m.storage_id', 's.numeric_id'))
+			->groupBy('storage_id')
+			->setMaxResults(self::CHUNK_SIZE);
+
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete('mounts')
+			->where($deleteQuery->expr()->eq('storage_id', $deleteQuery->createParameter('storageid')));
+
+		$deletedInLastChunk = self::CHUNK_SIZE;
+		while ($deletedInLastChunk === self::CHUNK_SIZE) {
+			$deletedInLastChunk = 0;
+			$result = $query->execute();
+			while ($row = $result->fetch()) {
+				$deletedInLastChunk++;
+				$deletedEntries += $deleteQuery->setParameter('storageid', (int) $row['storage_id'])
+					->execute();
+			}
+			$result->closeCursor();
+		}
+
+		return $deletedEntries;
+	}
 }

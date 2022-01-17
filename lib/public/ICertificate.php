@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
@@ -17,16 +21,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
  * Interface ICertificate
  *
- * @package OCP
  * @since 8.0.0
  */
 interface ICertificate {
@@ -34,47 +36,47 @@ interface ICertificate {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getName();
+	public function getName(): string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getCommonName();
+	public function getCommonName(): ?string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getOrganization();
-
-	/**
-	 * @return \DateTime
-	 * @since 8.0.0
-	 */
-	public function getIssueDate();
+	public function getOrganization(): ?string;
 
 	/**
 	 * @return \DateTime
 	 * @since 8.0.0
 	 */
-	public function getExpireDate();
+	public function getIssueDate(): \DateTime;
+
+	/**
+	 * @return \DateTime
+	 * @since 8.0.0
+	 */
+	public function getExpireDate(): \DateTime;
 
 	/**
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function isExpired();
+	public function isExpired(): bool;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getIssuerName();
+	public function getIssuerName(): ?string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getIssuerOrganization();
+	public function getIssuerOrganization(): ?string;
 }

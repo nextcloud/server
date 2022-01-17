@@ -8,7 +8,6 @@
 
 namespace Test\Archive;
 
-
 use OC\Archive\ZIP;
 
 class ZIPTest extends TestBase {
@@ -18,6 +17,6 @@ class ZIPTest extends TestBase {
 	}
 
 	protected function getNew() {
-		return new ZIP(\OC::$server->getTempManager()->getTemporaryFile('.zip'));
+		return new ZIP(\OC::$server->getTempManager()->getTempBaseDir().'/newArchive.zip');
 	}
 }

@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\UpdateLastPasswordConfirmCommand;
 use OCP\ISession;
@@ -34,7 +34,7 @@ class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
 	/** @var ISession|MockObject */
 	private $session;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->session = $this->createMock(ISession::class);
@@ -60,5 +60,4 @@ class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
 }

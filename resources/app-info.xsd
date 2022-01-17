@@ -97,6 +97,10 @@
             <xs:selector xpath="dependencies/database"/>
             <xs:field xpath="."/>
         </xs:unique>
+        <xs:unique name="uniqueArchitecture">
+            <xs:selector xpath="dependencies/architecture"/>
+            <xs:field xpath="."/>
+        </xs:unique>
         <xs:unique name="uniqueLib">
             <xs:selector xpath="dependencies/lib"/>
             <xs:field xpath="."/>
@@ -341,6 +345,7 @@
 
     <xs:simpleType name="category">
         <xs:restriction base="xs:string">
+            <xs:enumeration value="dashboard"/>
             <xs:enumeration value="security"/>
             <xs:enumeration value="customization"/>
             <xs:enumeration value="files"/>
@@ -353,6 +358,7 @@
             <xs:enumeration value="tools"/>
             <xs:enumeration value="games"/>
             <xs:enumeration value="search"/>
+            <xs:enumeration value="workflow"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -383,9 +389,8 @@
 
     <xs:complexType name="settings">
         <xs:sequence>
-            <xs:element name="admin" type="php-class" minOccurs="0"
-                        maxOccurs="unbounded"/>
-            <xs:element name="admin-section" type="php-class" minOccurs="0"
+			<xs:element name="admin" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="admin-section" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
             <xs:element name="personal" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
@@ -505,6 +510,8 @@
         <xs:sequence>
             <xs:element name="collections" type="sabre-collections" minOccurs="0" maxOccurs="1"/>
             <xs:element name="plugins" type="sabre-plugins" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="address-book-plugins" type="sabre-plugins" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="calendar-plugins" type="sabre-plugins" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -548,6 +555,8 @@
                         maxOccurs="1"/>
             <xs:element name="nextcloud" type="nextcloud" minOccurs="1"
                         maxOccurs="1"/>
+            <xs:element name="architecture" type="architecture" minOccurs="0"
+                        maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -606,6 +615,15 @@
         <xs:restriction base="xs:int">
             <xs:enumeration value="32"/>
             <xs:enumeration value="64"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="architecture">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="x86"/>
+            <xs:enumeration value="x86_64"/>
+            <xs:enumeration value="aarch"/>
+            <xs:enumeration value="aarch64"/>
         </xs:restriction>
     </xs:simpleType>
 

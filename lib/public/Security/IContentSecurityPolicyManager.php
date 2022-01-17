@@ -1,8 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,17 +21,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
+
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 
 /**
  * Used for Content Security Policy manipulations
  *
- * @package OCP\Security
  * @since 9.0.0
  * @deprecated 17.0.0 listen to the AddContentSecurityPolicyEvent to add a policy
  */

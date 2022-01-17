@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Daniel Kesselberg (mail@danielkesselberg.de)
@@ -36,7 +37,7 @@ class AppsEnableTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$command = new Enable(
@@ -55,9 +56,9 @@ class AppsEnableTest extends TestCase {
 	 * @param $appId
 	 * @param $groups
 	 * @param $statusCode
-	 * @param $output
+	 * @param $pattern
 	 */
-	public function testCommandInput($appId, $groups, $statusCode, $output): void {
+	public function testCommandInput($appId, $groups, $statusCode, $pattern): void {
 		$input = ['app-id' => $appId];
 
 		if (is_array($groups)) {
@@ -66,33 +67,29 @@ class AppsEnableTest extends TestCase {
 
 		$this->commandTester->execute($input);
 
-		$this->assertContains($output, $this->commandTester->getDisplay());
+		$this->assertRegExp('/' . $pattern . '/', $this->commandTester->getDisplay());
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
 	public function dataCommandInput(): array {
 		return [
-			[['admin_audit'], null, 0, 'admin_audit enabled'],
-			[['comments'], null, 0, 'comments enabled'],
+			[['admin_audit'], null, 0, 'admin_audit ([\d\.]*) enabled'],
+			[['comments'], null, 0, 'comments ([\d\.]*) enabled'],
+			[['comments', 'comments'], null, 0, "comments ([\d\.]*) enabled\ncomments already enabled"],
 			[['invalid_app'], null, 1, 'Could not download app invalid_app'],
 
-			[['admin_audit', 'comments'], null, 0, "admin_audit enabled\ncomments enabled"],
-			[['admin_audit', 'comments', 'invalid_app'], null, 1, "admin_audit enabled\ncomments enabled\nCould not download app invalid_app"],
+			[['admin_audit', 'comments'], null, 0, "admin_audit ([\d\.]*) enabled\ncomments ([\d\.]*) enabled"],
+			[['admin_audit', 'comments', 'invalid_app'], null, 1, "admin_audit ([\d\.]*) enabled\ncomments ([\d\.]*) enabled\nCould not download app invalid_app"],
 
 			[['admin_audit'], ['admin'], 1, "admin_audit can't be enabled for groups"],
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
 
-			[['updatenotification'], ['admin'], 0, 'updatenotification enabled for groups: admin'],
-# TODO: not reliable due to dependency to appstore
-#			[['updatenotification', 'contacts'], ['admin'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
-			[['updatenotification', 'accessibility'], ['admin'], 0, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin"],
+			[['updatenotification'], ['admin'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
+			[['updatenotification', 'accessibility'], ['admin'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin"],
 
-			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification enabled for groups: admin'],
-# TODO: not reliable due to dependency to appstore
-#			[['updatenotification', 'contacts'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
-#			[['updatenotification', 'contacts', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin\nCould not download app invalid_app"],
-			[['updatenotification', 'accessibility'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin"],
-			[['updatenotification', 'accessibility', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin\nCould not download app invalid_app"],
+			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
+			[['updatenotification', 'accessibility'], ['admin', 'invalid_group'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin"],
+			[['updatenotification', 'accessibility', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin\nCould not download app invalid_app"],
 		];
 	}
 }

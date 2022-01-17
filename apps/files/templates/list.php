@@ -5,6 +5,7 @@
 		</div>
 		<div id="file_action_panel"></div>
 		<div class="notCreatable notPublic hidden">
+			<div class="icon-alert-outline"></div>
 			<?php p($l->t('You don’t have permission to upload or create files here'))?>
 		</div>
 	<?php /* Note: the template attributes are here only for the public page. These are normally loaded
@@ -12,7 +13,7 @@
 	*/ ?>
 	<input type="hidden" name="permissions" value="" id="permissions">
 	<input type="hidden" id="free_space" value="<?php isset($_['freeSpace']) ? p($_['freeSpace']) : '' ?>">
-	<?php if(isset($_['dirToken'])):?>
+	<?php if (isset($_['dirToken'])):?>
 	<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 	<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
 	<?php endif;?>
@@ -44,7 +45,7 @@
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
 					<a class="name sort columntitle" data-sort="name">
-                        <span><?php p($l->t( 'Name' )); ?></span>
+                        <span><?php p($l->t('Name')); ?></span>
                         <span class="sort-indicator"></span>
 
                     </a>
@@ -60,7 +61,7 @@
 				<a class="size sort columntitle" data-sort="size"><span><?php p($l->t('Size')); ?></span><span class="sort-indicator"></span></a>
 			</th>
 			<th id="headerDate" class="hidden column-mtime">
-				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
+				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span class="sort-indicator"></span></a>
 			</th>
 		</tr>
 	</thead>

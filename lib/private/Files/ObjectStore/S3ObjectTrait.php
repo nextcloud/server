@@ -2,7 +2,11 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Florent <florent@coppint.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,23 +17,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartUploader;
-use Aws\S3\ObjectUploader;
 use Aws\S3\S3Client;
-use Icewind\Streams\CallbackWrapper;
-
-const S3_UPLOAD_PART_SIZE = 524288000; // 500MB
+use GuzzleHttp\Psr7\Utils;
+use OC\Files\Stream\SeekableHttpStream;
+use GuzzleHttp\Psr7;
+use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
 	/**
@@ -46,61 +49,110 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function readObject($urn) {
-		$client = $this->getConnection();
-		$command = $client->getCommand('GetObject', [
-			'Bucket' => $this->bucket,
-			'Key' => $urn
-		]);
-		$request = \Aws\serialize($command);
-		$headers = [];
-		foreach ($request->getHeaders() as $key => $values) {
-			foreach ($values as $value) {
-				$headers[] = "$key: $value";
+	public function readObject($urn) {
+		return SeekableHttpStream::open(function ($range) use ($urn) {
+			$command = $this->getConnection()->getCommand('GetObject', [
+				'Bucket' => $this->bucket,
+				'Key' => $urn,
+				'Range' => 'bytes=' . $range,
+			]);
+			$request = \Aws\serialize($command);
+			$headers = [];
+			foreach ($request->getHeaders() as $key => $values) {
+				foreach ($values as $value) {
+					$headers[] = "$key: $value";
+				}
 			}
-		}
-		$opts = [
-			'http' => [
-				'protocol_version'  => 1.1,
-				'header' => $headers
-			]
-		];
+			$opts = [
+				'http' => [
+					'protocol_version' => $request->getProtocolVersion(),
+					'header' => $headers,
+				],
+			];
 
-		$context = stream_context_create($opts);
-		return fopen($request->getUri(), 'r', false, $context);
+			if ($this->getProxy()) {
+				$opts['http']['proxy'] = $this->getProxy();
+				$opts['http']['request_fulluri'] = true;
+			}
+
+			$context = stream_context_create($opts);
+			return fopen($request->getUri(), 'r', false, $context);
+		});
 	}
 
 	/**
+	 * Single object put helper
+	 *
 	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
+	 * @param StreamInterface $stream stream with the data to write
+	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
 	 */
-	function writeObject($urn, $stream) {
-		$count = 0;
-		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
-			$count += $read;
-		});
+	protected function writeSingle(string $urn, StreamInterface $stream, string $mimetype = null): void {
+		$this->getConnection()->putObject([
+			'Bucket' => $this->bucket,
+			'Key' => $urn,
+			'Body' => $stream,
+			'ACL' => 'private',
+			'ContentType' => $mimetype,
+		]);
+	}
 
-		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
+
+	/**
+	 * Multipart upload helper that tries to avoid orphaned fragments in S3
+	 *
+	 * @param string $urn the unified resource name used to identify the object
+	 * @param StreamInterface $stream stream with the data to write
+	 * @param string|null $mimetype the mimetype to set for the remove object
+	 * @throws \Exception when something goes wrong, message will be logged
+	 */
+	protected function writeMultiPart(string $urn, StreamInterface $stream, string $mimetype = null): void {
+		$uploader = new MultipartUploader($this->getConnection(), $stream, [
 			'bucket' => $this->bucket,
 			'key' => $urn,
-			'part_size' => S3_UPLOAD_PART_SIZE
+			'part_size' => $this->uploadPartSize,
+			'params' => [
+				'ContentType' => $mimetype
+			],
 		]);
 
 		try {
 			$uploader->upload();
 		} catch (S3MultipartUploadException $e) {
-			// This is an empty file so just touch it then
-			if ($count === 0 && feof($countStream)) {
-				$uploader = new ObjectUploader($this->getConnection(), $this->bucket, $urn, '');
-				$uploader->upload();
-			} else {
-				throw $e;
+			// if anything goes wrong with multipart, make sure that you don´t poison and
+			// slow down s3 bucket with orphaned fragments
+			$uploadInfo = $e->getState()->getId();
+			if ($e->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
+				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
+			throw $e;
 		}
+	}
 
-		fclose($countStream);
+
+	/**
+	 * @param string $urn the unified resource name used to identify the object
+	 * @param resource $stream stream with the data to write
+	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
+	 * @throws \Exception when something goes wrong, message will be logged
+	 * @since 7.0.0
+	 */
+	public function writeObject($urn, $stream, string $mimetype = null) {
+		$psrStream = Utils::streamFor($stream);
+
+		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
+		// so the optimisation does not apply
+		$buffer = new Psr7\Stream(fopen("php://memory", 'rwb+'));
+		Utils::copyToStream($psrStream, $buffer, $this->uploadPartSize);
+		$buffer->seek(0);
+		if ($buffer->getSize() < $this->putSizeLimit) {
+			// buffer is fully seekable, so use it directly for the small upload
+			$this->writeSingle($urn, $buffer, $mimetype);
+		} else {
+			$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+			$this->writeMultiPart($urn, $loadStream, $mimetype);
+		}
 	}
 
 	/**
@@ -109,14 +161,18 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function deleteObject($urn) {
+	public function deleteObject($urn) {
 		$this->getConnection()->deleteObject([
 			'Bucket' => $this->bucket,
-			'Key' => $urn
+			'Key' => $urn,
 		]);
 	}
 
 	public function objectExists($urn) {
 		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
+	}
+
+	public function copyObject($from, $to) {
+		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to);
 	}
 }

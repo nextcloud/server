@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Denis Mosolov <denismosolov@gmail.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Denis Mosolov <denismosolov@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,17 +18,17 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -60,7 +64,7 @@ class Add extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$gid = $input->getArgument('groupid');
 		$group = $this->groupManager->get($gid);
 		if ($group) {
@@ -68,12 +72,17 @@ class Add extends Base {
 			return 1;
 		} else {
 			$group = $this->groupManager->createGroup($gid);
+			if (!$group instanceof IGroup) {
+				$output->writeln('<error>Could not create group</error>');
+				return 2;
+			}
 			$output->writeln('Created group "' . $group->getGID() . '"');
 
-			$displayName = trim((string) $input->getOption('display-name'));
+			$displayName = trim((string)$input->getOption('display-name'));
 			if ($displayName !== '') {
 				$group->setDisplayName($displayName);
 			}
 		}
+		return 0;
 	}
 }

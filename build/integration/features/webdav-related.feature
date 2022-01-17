@@ -48,6 +48,7 @@ Feature: webdav-related
 		  | shareType | 0 |
 		  | permissions | 1 |
 		  | shareWith | user0 |
+		And user "user0" accepts last share
 		And As an "user0"
 		And User "user0" moves file "/textfile0.txt" to "/testshare/textfile0.txt"
 		And the HTTP status code should be "403"
@@ -66,6 +67,7 @@ Feature: webdav-related
 		  | shareType | 0 |
 		  | permissions | 1 |
 		  | shareWith | user0 |
+		And user "user0" accepts last share
 		And User "user1" copies file "/welcome.txt" to "/testshare/overwritethis.txt"
 		And As an "user0"
 		When User "user0" moves file "/textfile0.txt" to "/testshare/overwritethis.txt"
@@ -102,6 +104,7 @@ Feature: webdav-related
 		  | shareType | 0 |
 		  | permissions | 1 |
 		  | shareWith | user0 |
+		And user "user0" accepts last share
 		And As an "user0"
 		When User "user0" copies file "/textfile0.txt" to "/testshare/textfile0.txt"
 		Then the HTTP status code should be "403"
@@ -120,6 +123,7 @@ Feature: webdav-related
 		  | shareType | 0 |
 		  | permissions | 1 |
 		  | shareWith | user0 |
+		And user "user0" accepts last share
 		And User "user1" copies file "/welcome.txt" to "/testshare/overwritethis.txt"
 		And As an "user0"
 		When User "user0" copies file "/textfile0.txt" to "/testshare/overwritethis.txt"
@@ -172,6 +176,7 @@ Feature: webdav-related
 		  | shareType | 0 |
 		  | permissions | 31 |
 		  | shareWith | user0 |
+		And user "user0" accepts last share
 		Then as "user0" gets properties of folder "/testquota" with
 		  |{DAV:}quota-available-bytes|
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485421"
@@ -190,6 +195,7 @@ Feature: webdav-related
 		  | shareType | 0 |
 		  | permissions | 31 |
 		  | shareWith | user0 |
+		And user "user0" accepts last share
 		And As an "user0"
 		When User "user0" uploads file "data/textfile.txt" to "/testquota/asdf.txt"
 		Then the HTTP status code should be "201"
@@ -204,7 +210,7 @@ Feature: webdav-related
 		  |{DAV:}quota-available-bytes|
 		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "592"
 
-	Scenario: Retrieving folder quota when quota is set and a file was recieved
+	Scenario: Retrieving folder quota when quota is set and a file was received
 		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
@@ -212,6 +218,7 @@ Feature: webdav-related
 		And user "user1" has a quota of "1 KB"
 		And user "user0" adds a file of 93 bytes to "/user0.txt"
 		And file "user0.txt" of user "user0" is shared with user "user1"
+		And user "user1" accepts last share
 		When as "user1" gets properties of folder "/" with
 		  |{DAV:}quota-available-bytes|
 		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "685"
@@ -425,6 +432,7 @@ Feature: webdav-related
 			| shareType | 0 |
 			| permissions | 31 |
 			| shareWith | user0 |
+		And user "user0" accepts last share
 		And User "user0" uploads file with content "copytest" to "/copytest.txt"
 		When User "user0" copies file "/copytest.txt" to "/testcopypermissionsAllowed/copytest.txt"
 		Then the HTTP status code should be "201"
@@ -440,6 +448,7 @@ Feature: webdav-related
 			| shareType | 0 |
 			| permissions | 1 |
 			| shareWith | user0 |
+		And user "user0" accepts last share
 		And User "user0" uploads file with content "copytest" to "/copytest.txt"
 		When User "user0" copies file "/copytest.txt" to "/testcopypermissionsNotAllowed/copytest.txt"
 		Then the HTTP status code should be "403"
@@ -458,6 +467,7 @@ Feature: webdav-related
 			| shareType   | 0          |
 			| permissions | 23         |
 			| shareWith   | user0      |
+		And user "user0" accepts last share
 		And As an "user0"
 		And User "user0" uploads file "data/textfile.txt" to "/testfolder/asdf.txt"
 		And As an "user1"
@@ -598,3 +608,26 @@ Feature: webdav-related
 		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
 		When user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt" with size 15
 		Then the HTTP status code should be "201"
+
+	Scenario: Upload bulked files
+		Given user "user0" exists
+		And user "user0" uploads bulked files "A.txt" with "AAAAA" and "B.txt" with "BBBBB" and "C.txt" with "CCCCC"
+		When As an "user0"
+		Then Downloading file "/A.txt"
+		And Downloaded content should be "AAAAA"
+		And File "/A.txt" should have prop "d:getlastmodified" equal to "Fri, 18 Mar 2005 01:58:31 GMT"
+		And Downloading file "/B.txt"
+		And Downloaded content should be "BBBBB"
+		And File "/B.txt" should have prop "d:getlastmodified" equal to "Sat, 02 Jun 2040 03:57:02 GMT"
+		And Downloading file "/C.txt"
+		And Downloaded content should be "CCCCC"
+		And File "/C.txt" should have prop "d:getlastmodified" equal to "Sun, 18 Aug 2075 05:55:33 GMT"
+
+	Scenario: Creating a folder with invalid characters
+		Given using new dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare	"
+		Then the HTTP status code should be "400"

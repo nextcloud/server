@@ -2,6 +2,10 @@
 /**
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,22 +15,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Encryption\Command;
 
-
-use OC\Files\Filesystem;
-use OC\User\NoUserException;
-use OCA\Encryption\Crypto\Crypt;
-use OCA\Encryption\KeyManager;
-use OCA\Encryption\Recovery;
 use OCA\Encryption\Util;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -58,7 +55,6 @@ class RecoverUser extends Command {
 								IConfig $config,
 								IUserManager $userManager,
 								QuestionHelper $questionHelper) {
-
 		$this->util = $util;
 		$this->questionHelper = $questionHelper;
 		$this->userManager = $userManager;
@@ -77,26 +73,25 @@ class RecoverUser extends Command {
 		);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMasterKeyEnabled = $this->util->isMasterKeyEnabled();
 
-		if($isMasterKeyEnabled) {
+		if ($isMasterKeyEnabled) {
 			$output->writeln('You use the master key, no individual user recovery needed.');
-			return;
+			return 0;
 		}
 
 		$uid = $input->getArgument('user');
 		$userExists = $this->userManager->userExists($uid);
 		if ($userExists === false) {
 			$output->writeln('User "' . $uid . '" unknown.');
-			return;
+			return 1;
 		}
 
 		$recoveryKeyEnabled = $this->util->isRecoveryEnabledForUser($uid);
-		if($recoveryKeyEnabled === false) {
+		if ($recoveryKeyEnabled === false) {
 			$output->writeln('Recovery key is not enabled for: ' . $uid);
-			return;
+			return 1;
 		}
 
 		$question = new Question('Please enter the recovery key password: ');
@@ -112,7 +107,6 @@ class RecoverUser extends Command {
 		$output->write('Start to recover users files... This can take some time...');
 		$this->userManager->get($uid)->setPassword($newLoginPassword, $recoveryPassword);
 		$output->writeln('Done.');
-
+		return 0;
 	}
-
 }

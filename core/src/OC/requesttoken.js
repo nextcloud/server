@@ -1,9 +1,10 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,25 +17,41 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import { emit } from '@nextcloud/event-bus'
 
-let token = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken')
-
 /**
- * @returns {string}
+ * @private
+ * @param {Document} global the document to read the initial value from
+ * @param {Function} emit the function to invoke for every new token
+ * @return {object}
  */
-export const getToken = () => token
+export const manageToken = (global, emit) => {
+	let token = global.getElementsByTagName('head')[0].getAttribute('data-requesttoken')
 
-/**
- * @param {String} newToken new token
- */
-export const setToken = newToken => {
-	token = newToken
+	return {
+		getToken: () => token,
+		setToken: newToken => {
+			token = newToken
 
-	emit('csrf-token-update', {
-		token
-	})
+			emit('csrf-token-update', {
+				token,
+			})
+		},
+	}
 }
+
+const manageFromDocument = manageToken(document, emit)
+
+/**
+ * @return {string}
+ */
+export const getToken = manageFromDocument.getToken
+
+/**
+ * @param {string} newToken new token
+ */
+export const setToken = manageFromDocument.setToken

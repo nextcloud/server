@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lars <winnetou+github@catolic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
@@ -24,36 +26,35 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
-use OCP\ILogger;
+use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\IConfig;
 use OCP\ITempManager;
+use Psr\Log\LoggerInterface;
 
 class TempManager implements ITempManager {
 	/** @var string[] Current temporary files and folders, used for cleanup */
 	protected $current = [];
 	/** @var string i.e. /tmp on linux systems */
 	protected $tmpBaseDir;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $log;
 	/** @var IConfig */
 	protected $config;
+	/** @var IniGetWrapper */
+	protected $iniGetWrapper;
 
 	/** Prefix */
-	const TMP_PREFIX = 'oc_tmp_';
+	public const TMP_PREFIX = 'oc_tmp_';
 
-	/**
-	 * @param \OCP\ILogger $logger
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct(ILogger $logger, IConfig $config) {
+	public function __construct(LoggerInterface $logger, IConfig $config, IniGetWrapper $iniGetWrapper) {
 		$this->log = $logger;
 		$this->config = $config;
+		$this->iniGetWrapper = $iniGetWrapper;
 		$this->tmpBaseDir = $this->getTempBaseDir();
 	}
 
@@ -66,7 +67,7 @@ class TempManager implements ITempManager {
 	 * @return string
 	 */
 	private function buildFileNameWithSuffix($absolutePath, $postFix = '') {
-		if($postFix !== '') {
+		if ($postFix !== '') {
 			$postFix = '.' . ltrim($postFix, '.');
 			$postFix = str_replace(['\\', '/'], '', $postFix);
 			$absolutePath .= '-';
@@ -92,7 +93,7 @@ class TempManager implements ITempManager {
 
 			// If a postfix got specified sanitize it and create a postfixed
 			// temporary file
-			if($postFix !== '') {
+			if ($postFix !== '') {
 				$fileNameWithPostfix = $this->buildFileNameWithSuffix($file, $postFix);
 				touch($fileNameWithPostfix);
 				chmod($fileNameWithPostfix, 0600);
@@ -217,7 +218,7 @@ class TempManager implements ITempManager {
 		if ($temp = $this->config->getSystemValue('tempdirectory', null)) {
 			$directories[] = $temp;
 		}
-		if ($temp = \OC::$server->getIniWrapper()->get('upload_tmp_dir')) {
+		if ($temp = $this->iniGetWrapper->get('upload_tmp_dir')) {
 			$directories[] = $temp;
 		}
 		if ($temp = getenv('TMP')) {
@@ -276,5 +277,4 @@ class TempManager implements ITempManager {
 	public function overrideTempBaseDir($directory) {
 		$this->tmpBaseDir = $directory;
 	}
-
 }

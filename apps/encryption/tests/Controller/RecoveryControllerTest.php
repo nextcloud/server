@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,13 +20,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 namespace OCA\Encryption\Tests\Controller;
-
 
 use OCA\Encryption\Controller\RecoveryController;
 use OCA\Encryption\Recovery;
@@ -37,13 +36,13 @@ use Test\TestCase;
 class RecoveryControllerTest extends TestCase {
 	/** @var RecoveryController */
 	private $controller;
-	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
-	/** @var \OCA\Encryption\Recovery|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Recovery|\PHPUnit\Framework\MockObject\MockObject */
 	private $recoveryMock;
 
 	public function adminRecoveryProvider() {
@@ -65,8 +64,6 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedStatus
 	 */
 	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus) {
-
-
 		$this->recoveryMock->expects($this->any())
 			->method('enableAdminRecovery')
 			->willReturn(true);
@@ -82,8 +79,6 @@ class RecoveryControllerTest extends TestCase {
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
-
-
 	}
 
 	public function changeRecoveryPasswordProvider() {
@@ -108,10 +103,10 @@ class RecoveryControllerTest extends TestCase {
 		$this->recoveryMock->expects($this->any())
 			->method('changeRecoveryKeyPassword')
 			->with($password, $oldPassword)
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['test', 'oldTestFail', false],
 				['test', 'oldtest', true]
-			]));
+			]);
 
 		$response = $this->controller->changeRecoveryPassword($password,
 			$oldPassword,
@@ -119,8 +114,6 @@ class RecoveryControllerTest extends TestCase {
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
-
-
 	}
 
 	public function userSetRecoveryProvider() {
@@ -140,20 +133,19 @@ class RecoveryControllerTest extends TestCase {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
 			->with($enableRecovery)
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['1', true],
 				['0', false]
-			]));
+			]);
 
 
 		$response = $this->controller->userSetRecovery($enableRecovery);
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
-
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->requestMock = $this->getMockBuilder(IRequest::class)
@@ -183,5 +175,4 @@ class RecoveryControllerTest extends TestCase {
 			$this->l10nMock,
 			$this->recoveryMock);
 	}
-
 }

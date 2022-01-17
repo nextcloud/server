@@ -5,7 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,21 +18,27 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OC\EventDispatcher;
 
-use OCP\ILogger;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use function is_callable;
 use OCP\EventDispatcher\Event;
+use OCP\ILogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use function is_object;
+use function is_string;
 
+/**
+ * @deprecated 20.0.0 use \OCP\EventDispatcher\IEventDispatcher
+ */
 class SymfonyAdapter implements EventDispatcherInterface {
 
 	/** @var EventDispatcher */
@@ -38,9 +46,34 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	/** @var ILogger */
 	private $logger;
 
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public function __construct(EventDispatcher $eventDispatcher, ILogger $logger) {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
+	}
+
+	private static function detectEventAndName($a, $b) {
+		if (is_object($a) && (is_string($b) || $b === null)) {
+			// a is the event, the other one is the optional name
+			return [$a, $b];
+		}
+		if (is_object($b) && (is_string($a) || $a === null)) {
+			// b is the event, the other one is the optional name
+			return [$b, $a];
+		}
+		if (is_string($a) && $b === null) {
+			// a is a payload-less event
+			return [null, $a];
+		}
+		if (is_string($b) && $a === null) {
+			// b is a payload-less event
+			return [null, $b];
+		}
+
+		// Anything else we can't detect
+		return [$a, $b];
 	}
 
 	/**
@@ -52,20 +85,42 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @param Event|null $event The event to pass to the event handlers/listeners
 	 *                              If not supplied, an empty Event instance is created
 	 *
-	 * @return void
+	 * @return object the emitted event
+	 * @deprecated 20.0.0
 	 */
-	public function dispatch($eventName, $event = null) {
+	public function dispatch($eventName, $event = null): object {
+		[$event, $eventName] = self::detectEventAndName($event, $eventName);
+
 		// type hinting is not possible, due to usage of GenericEvent
+		if ($event instanceof Event && $eventName === null) {
+			$this->eventDispatcher->dispatchTyped($event);
+			return $event;
+		}
 		if ($event instanceof Event) {
 			$this->eventDispatcher->dispatch($eventName, $event);
+			return $event;
+		}
+
+		if ($event instanceof GenericEvent && get_class($event) === GenericEvent::class) {
+			$newEvent = new GenericEventWrapper($this->logger, $eventName, $event);
 		} else {
+			$newEvent = $event;
+
 			// Legacy event
 			$this->logger->info(
 				'Deprecated event type for {name}: {class}',
-				[ 'name' => $eventName, 'class' => is_object($event) ? get_class($event) : 'null' ]
+				['name' => $eventName, 'class' => is_object($event) ? get_class($event) : 'null']
 			);
-			$this->eventDispatcher->getSymfonyDispatcher()->dispatch($eventName, $event);
 		}
+
+		// Event with no payload (object) need special handling
+		if ($newEvent === null) {
+			$this->eventDispatcher->getSymfonyDispatcher()->dispatch($eventName);
+			return new Event();
+		}
+
+		// Flip the argument order for Symfony to prevent a trigger_error
+		return $this->eventDispatcher->getSymfonyDispatcher()->dispatch($newEvent, $eventName);
 	}
 
 	/**
@@ -75,6 +130,7 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @param callable $listener The listener
 	 * @param int $priority The higher this value, the earlier an event
 	 *                            listener will be triggered in the chain (defaults to 0)
+	 * @deprecated 20.0.0
 	 */
 	public function addListener($eventName, $listener, $priority = 0) {
 		if (is_callable($listener)) {
@@ -90,6 +146,7 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 *
 	 * The subscriber is asked for all the events it is
 	 * interested in and added as a listener for these events.
+	 * @deprecated 20.0.0
 	 */
 	public function addSubscriber(EventSubscriberInterface $subscriber) {
 		$this->eventDispatcher->getSymfonyDispatcher()->addSubscriber($subscriber);
@@ -100,11 +157,15 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 *
 	 * @param string $eventName The event to remove a listener from
 	 * @param callable $listener The listener to remove
+	 * @deprecated 20.0.0
 	 */
 	public function removeListener($eventName, $listener) {
 		$this->eventDispatcher->getSymfonyDispatcher()->removeListener($eventName, $listener);
 	}
 
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public function removeSubscriber(EventSubscriberInterface $subscriber) {
 		$this->eventDispatcher->getSymfonyDispatcher()->removeSubscriber($subscriber);
 	}
@@ -115,6 +176,7 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @param string|null $eventName The name of the event
 	 *
 	 * @return array The event listeners for the specified event, or all event listeners by event name
+	 * @deprecated 20.0.0
 	 */
 	public function getListeners($eventName = null) {
 		return $this->eventDispatcher->getSymfonyDispatcher()->getListeners($eventName);
@@ -129,6 +191,7 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @param callable $listener The listener
 	 *
 	 * @return int|null The event listener priority
+	 * @deprecated 20.0.0
 	 */
 	public function getListenerPriority($eventName, $listener) {
 		return $this->eventDispatcher->getSymfonyDispatcher()->getListenerPriority($eventName, $listener);
@@ -140,9 +203,9 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @param string|null $eventName The name of the event
 	 *
 	 * @return bool true if the specified event has any listeners, false otherwise
+	 * @deprecated 20.0.0
 	 */
 	public function hasListeners($eventName = null) {
 		return $this->eventDispatcher->getSymfonyDispatcher()->hasListeners($eventName);
 	}
-
 }

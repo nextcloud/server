@@ -20,12 +20,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Share20;
 
 use OC\Share20\LegacyHooks;
 use OC\Share20\Manager;
 use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
+use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
@@ -41,7 +44,7 @@ class LegacyHooksTest extends TestCase {
 	/** @var Manager */
 	private $manager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->eventDispatcher = new EventDispatcher();
@@ -53,14 +56,18 @@ class LegacyHooksTest extends TestCase {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
+		$info = $this->createMock(ICacheEntry::class);
+		$info->method('getMimeType')->willReturn('text/plain');
+
 		$share = $this->manager->newShare();
 		$share->setId(42)
 			->setProviderId('prov')
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
-			->setTarget('myTarget');
+			->setTarget('myTarget')
+			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
@@ -69,7 +76,7 @@ class LegacyHooksTest extends TestCase {
 			'id' => 42,
 			'itemType' => 'file',
 			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareType' => IShare::TYPE_USER,
 			'shareWith' => 'awesomeUser',
 			'itemparent' => null,
 			'uidOwner' => 'sharedBy',
@@ -90,14 +97,18 @@ class LegacyHooksTest extends TestCase {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
+		$info = $this->createMock(ICacheEntry::class);
+		$info->method('getMimeType')->willReturn('text/plain');
+
 		$share = $this->manager->newShare();
 		$share->setId(42)
 			->setProviderId('prov')
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
-			->setTarget('myTarget');
+			->setTarget('myTarget')
+			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
@@ -106,7 +117,7 @@ class LegacyHooksTest extends TestCase {
 			'id' => 42,
 			'itemType' => 'file',
 			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareType' => IShare::TYPE_USER,
 			'shareWith' => 'awesomeUser',
 			'itemparent' => null,
 			'uidOwner' => 'sharedBy',
@@ -117,7 +128,7 @@ class LegacyHooksTest extends TestCase {
 					'id' => 42,
 					'itemType' => 'file',
 					'itemSource' => 1,
-					'shareType' => \OCP\Share::SHARE_TYPE_USER,
+					'shareType' => IShare::TYPE_USER,
 					'shareWith' => 'awesomeUser',
 					'itemparent' => null,
 					'uidOwner' => 'sharedBy',
@@ -141,14 +152,18 @@ class LegacyHooksTest extends TestCase {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
+		$info = $this->createMock(ICacheEntry::class);
+		$info->method('getMimeType')->willReturn('text/plain');
+
 		$share = $this->manager->newShare();
 		$share->setId(42)
 			->setProviderId('prov')
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
-			->setTarget('myTarget');
+			->setTarget('myTarget')
+			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['postFromSelf'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_unshareFromSelf', $hookListner, 'postFromSelf');
@@ -157,7 +172,7 @@ class LegacyHooksTest extends TestCase {
 			'id' => 42,
 			'itemType' => 'file',
 			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareType' => IShare::TYPE_USER,
 			'shareWith' => 'awesomeUser',
 			'itemparent' => null,
 			'uidOwner' => 'sharedBy',
@@ -169,7 +184,7 @@ class LegacyHooksTest extends TestCase {
 					'id' => 42,
 					'itemType' => 'file',
 					'itemSource' => 1,
-					'shareType' => \OCP\Share::SHARE_TYPE_USER,
+					'shareType' => IShare::TYPE_USER,
 					'shareWith' => 'awesomeUser',
 					'itemparent' => null,
 					'uidOwner' => 'sharedBy',
@@ -196,7 +211,7 @@ class LegacyHooksTest extends TestCase {
 		$date = new \DateTime();
 
 		$share = $this->manager->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+		$share->setShareType(IShare::TYPE_LINK)
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
@@ -216,7 +231,7 @@ class LegacyHooksTest extends TestCase {
 		$expected = [
 			'itemType' => 'file',
 			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+			'shareType' => IShare::TYPE_LINK,
 			'shareWith' => 'awesomeUser',
 			'uidOwner' => 'sharedBy',
 			'fileSource' => 1,
@@ -244,7 +259,7 @@ class LegacyHooksTest extends TestCase {
 		$date = new \DateTime();
 
 		$share = $this->manager->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+		$share->setShareType(IShare::TYPE_LINK)
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
@@ -264,7 +279,7 @@ class LegacyHooksTest extends TestCase {
 		$expected = [
 			'itemType' => 'file',
 			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+			'shareType' => IShare::TYPE_LINK,
 			'shareWith' => 'awesomeUser',
 			'uidOwner' => 'sharedBy',
 			'fileSource' => 1,
@@ -280,10 +295,10 @@ class LegacyHooksTest extends TestCase {
 			->expects($this->exactly(1))
 			->method('preShare')
 			->with($expected)
-			->will($this->returnCallback(function ($data) {
+			->willReturnCallback(function ($data) {
 				$data['run'] = false;
 				$data['error'] = 'I error';
-			}));
+			});
 
 		$event = new GenericEvent($share);
 		$this->eventDispatcher->dispatch('OCP\Share::preShare', $event);
@@ -300,7 +315,7 @@ class LegacyHooksTest extends TestCase {
 
 		$share = $this->manager->newShare();
 		$share->setId(42)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
@@ -318,7 +333,7 @@ class LegacyHooksTest extends TestCase {
 			'id' => 42,
 			'itemType' => 'file',
 			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+			'shareType' => IShare::TYPE_LINK,
 			'shareWith' => 'awesomeUser',
 			'uidOwner' => 'sharedBy',
 			'fileSource' => 1,
@@ -327,6 +342,7 @@ class LegacyHooksTest extends TestCase {
 			'permissions' => Constants::PERMISSION_ALL,
 			'expiration' => $date,
 			'token' => 'token',
+			'path' => null,
 		];
 
 		$hookListner

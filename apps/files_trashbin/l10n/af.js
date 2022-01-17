@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Geen inskrwyings in hierdie vouer gevind",
     "Select all" : "Kies alle",
     "Name" : "Naam",
+    "Actions" : "Aksies",
     "Deleted" : "Geskrap",
     "Delete" : "Skrap"
 },

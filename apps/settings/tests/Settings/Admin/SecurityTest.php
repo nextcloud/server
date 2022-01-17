@@ -2,7 +2,12 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,21 +18,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Encryption\Manager;
-use OCA\Settings\Admin\Security;
+use OCA\Settings\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -41,15 +45,15 @@ class SecurityTest extends TestCase {
 	private $userManager;
 	/** @var MandatoryTwoFactor|MockObject */
 	private $mandatoryTwoFactor;
-	/** @var IInitialStateService|MockObject */
+	/** @var IInitialState|MockObject */
 	private $initialState;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->manager = $this->getMockBuilder(Manager::class)->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Security(
 			$this->manager,

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -20,23 +21,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Preview interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP;
 
 use OCP\Files\File;
-use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 /**
  * This class provides functions to render and show thumbnails and previews of files
@@ -46,11 +41,12 @@ interface IPreview {
 
 	/**
 	 * @since 9.2.0
+	 * @deprecated 22.0.0
 	 */
-	const EVENT = self::class . ':' . 'PreviewRequested';
+	public const EVENT = self::class . ':' . 'PreviewRequested';
 
-	const MODE_FILL = 'fill';
-	const MODE_COVER = 'cover';
+	public const MODE_FILL = 'fill';
+	public const MODE_COVER = 'cover';
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be
@@ -62,6 +58,9 @@ interface IPreview {
 	 * @param \Closure $callable
 	 * @return void
 	 * @since 8.1.0
+	 * @see \OCP\AppFramework\Bootstrap\IRegistrationContext::registerPreviewProvider
+	 *
+	 * @deprecated 23.0.0 Register your provider via the IRegistrationContext when booting the app
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable);
 
@@ -114,4 +113,17 @@ interface IPreview {
 	 * @since 8.0.0
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file);
+
+	/**
+	 * Generates previews of a file
+	 *
+	 * @param File $file
+	 * @param array $specifications
+	 * @param string $mimeType
+	 * @return ISimpleFile the last preview that was generated
+	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
+	 * @since 19.0.0
+	 */
+	public function generatePreviews(File $file, array $specifications, $mimeType = null);
 }

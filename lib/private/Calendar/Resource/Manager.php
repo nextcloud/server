@@ -2,7 +2,9 @@
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Calendar\Resource;
 
 use OCP\Calendar\Resource\IBackend;
@@ -74,7 +75,7 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 	 * @since 14.0.0
 	 */
 	public function getBackends():array {
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			if (isset($this->initializedBackends[$backend])) {
 				continue;
 			}
@@ -92,7 +93,7 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 	 */
 	public function getBackend($backendId) {
 		$backends = $this->getBackends();
-		foreach($backends as $backend) {
+		foreach ($backends as $backend) {
 			if ($backend->getBackendIdentifier() === $backendId) {
 				return $backend;
 			}

@@ -34,7 +34,7 @@ OCA.Files_External.App = {
 		);
 
 		this._extendFileList(this.fileList);
-		this.fileList.appName = t('files_external', 'External storages');
+		this.fileList.appName = t('files_external', 'External storage');
 		return this.fileList;
 	},
 
@@ -65,7 +65,7 @@ OCA.Files_External.App = {
 	}
 };
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-extstoragemounts').on('show', function(e) {
 		OCA.Files_External.App.initList($(e.target));
 	});

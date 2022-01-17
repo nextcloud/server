@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -16,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Config;
 
 use OC\Core\Command\Base;
@@ -71,9 +71,14 @@ class ListConfigs extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$app = $input->getArgument('app');
 		$noSensitiveValues = !$input->getOption('private');
+
+		if (!is_string($app)) {
+			$output->writeln('<error>Invalid app value given</error>');
+			return 1;
+		}
 
 		switch ($app) {
 			case 'system':
@@ -102,6 +107,7 @@ class ListConfigs extends Base {
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $configs);
+		return 0;
 	}
 
 	/**

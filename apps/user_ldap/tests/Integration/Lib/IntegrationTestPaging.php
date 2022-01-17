@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,15 +20,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Integration\Lib;
 
-use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User_LDAP;
+use OCA\User_LDAP\UserPluginManager;
 
 require_once __DIR__ . '/../Bootstrap.php';
 
@@ -48,7 +50,7 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		require(__DIR__ . '/../setup-scripts/createExplicitUsers.php');
 		parent::init();
 
-		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query('LDAPUserPluginManager'));
+		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query(UserPluginManager::class));
 	}
 
 	public function initConnection() {
@@ -73,12 +75,12 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		// the result will be 4, because the highest possible paging size
 		// is 2 (as configured).
 		// But also with more than one search base, the limit can be outpaced.
-		if(count($result) !== 4) {
+		if (count($result) !== 4) {
 			return false;
 		}
 
 		$result = $this->access->searchUsers($filter, $attributes);
-		if(count($result) !== 7) {
+		if (count($result) !== 7) {
 			return false;
 		}
 

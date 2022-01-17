@@ -78,7 +78,7 @@ class NextcloudTestServerContext implements Context {
 		$nextcloudTestServerHelperClass = new ReflectionClass($nextcloudTestServerHelper);
 
 		if ($nextcloudTestServerHelperParameters === null) {
-			$nextcloudTestServerHelperParameters = array();
+			$nextcloudTestServerHelperParameters = [];
 		}
 
 		$this->nextcloudTestServerHelper = $nextcloudTestServerHelperClass->newInstanceArgs($nextcloudTestServerHelperParameters);
@@ -124,5 +124,4 @@ class NextcloudTestServerContext implements Context {
 			}
 		}
 	}
-
 }

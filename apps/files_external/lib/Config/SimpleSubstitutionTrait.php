@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Config;
 
 /**
@@ -62,12 +63,12 @@ trait SimpleSubstitutionTrait {
 	 */
 	protected function checkPlaceholder(): void {
 		$this->sanitizedPlaceholder = trim(strtolower($this->placeholder));
-		if(!(bool)\preg_match('/^[a-z0-9]*$/', $this->sanitizedPlaceholder)) {
+		if (!(bool)\preg_match('/^[a-z0-9]*$/', $this->sanitizedPlaceholder)) {
 			throw new \RuntimeException(sprintf(
 				'Invalid placeholder %s, only [a-z0-9] are allowed', $this->sanitizedPlaceholder
 			));
 		}
-		if($this->sanitizedPlaceholder === '') {
+		if ($this->sanitizedPlaceholder === '') {
 			throw new \RuntimeException('Invalid empty placeholder');
 		}
 	}
@@ -78,7 +79,7 @@ trait SimpleSubstitutionTrait {
 	 * @return mixed
 	 */
 	protected function substituteIfString($value, string $replacement) {
-		if(is_string($value)) {
+		if (is_string($value)) {
 			return str_ireplace('$' . $this->sanitizedPlaceholder, $replacement, $value);
 		}
 		return $value;

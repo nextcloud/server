@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Service;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -184,6 +186,23 @@ class LoginFlowV2Service {
 		return true;
 	}
 
+	public function flowDoneWithAppPassword(string $loginToken, string $server, string $loginName, string $appPassword): bool {
+		try {
+			$data = $this->mapper->getByLoginToken($loginToken);
+		} catch (DoesNotExistException $e) {
+			return false;
+		}
+
+		$data->setLoginName($loginName);
+		$data->setServer($server);
+
+		// Properly encrypt
+		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
+
+		$this->mapper->update($data);
+		return true;
+	}
+
 	public function createTokens(string $userAgent): LoginFlowV2Tokens {
 		$flow = new LoginFlowV2();
 		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER);
@@ -223,7 +242,10 @@ class LoginFlowV2Service {
 			throw new \RuntimeException('Could not initialize keys');
 		}
 
-		openssl_pkey_export($res, $privateKey);
+		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
 
 		// Extract the public key from $res to $pubKey
 		$publicKey = openssl_pkey_get_details($res);

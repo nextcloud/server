@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,13 +20,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
+use OCP\Share\IShare;
 use Test\Traits\UserTrait;
 
 /**
@@ -54,7 +55,7 @@ class SizePropagationTest extends TestCase {
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
 		$this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,
@@ -89,7 +90,7 @@ class SizePropagationTest extends TestCase {
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
 		$this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,
@@ -112,7 +113,7 @@ class SizePropagationTest extends TestCase {
 
 		// but the size including mountpoints increases
 		$newRecipientRootInfo = $recipientView->getFileInfo('', true);
-		$this->assertEquals($oldRecipientSize +3, $newRecipientRootInfo->getSize());
+		$this->assertEquals($oldRecipientSize + 3, $newRecipientRootInfo->getSize());
 
 		// size of owner's root increases
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);

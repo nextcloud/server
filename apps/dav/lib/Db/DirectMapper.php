@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,22 +16,23 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 
-class DirectMapper extends Mapper {
-
+/**
+ * @template-extends QBMapper<Direct>
+ */
+class DirectMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'directlink', Direct::class);
 	}
@@ -43,26 +46,18 @@ class DirectMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-			->from('directlink')
+			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('token', $qb->createNamedParameter($token))
 			);
 
-		$cursor = $qb->execute();
-		$data = $cursor->fetch();
-		$cursor->closeCursor();
-
-		if ($data === false) {
-			throw new DoesNotExistException('Direct link with token does not exist');
-		}
-
-		return Direct::fromRow($data);
+		return parent::findEntity($qb);
 	}
 
 	public function deleteExpired(int $expiration) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->delete('directlink')
+		$qb->delete($this->getTableName())
 			->where(
 				$qb->expr()->lt('expiration', $qb->createNamedParameter($expiration))
 			);

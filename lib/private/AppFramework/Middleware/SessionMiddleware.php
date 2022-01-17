@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,15 +20,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
-use OCP\IRequest;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
@@ -63,12 +62,11 @@ class SessionMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController($controller, $methodName, Response $response){
+	public function afterController($controller, $methodName, Response $response) {
 		$useSession = $this->reflector->hasAnnotation('UseSession');
 		if ($useSession) {
 			$this->session->close();
 		}
 		return $response;
 	}
-
 }

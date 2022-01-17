@@ -18,16 +18,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Encryption;
 
 /**
  * Interface IFile
  *
- * @package OCP\Encryption
  * @since 8.1.0
  */
 interface IFile {
@@ -40,5 +38,4 @@ interface IFile {
 	 * @since 8.1.0
 	 */
 	public function getAccessList($path);
-
 }

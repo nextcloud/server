@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\Owncloud;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -35,8 +36,7 @@ use OCP\PreConditionNotMetException;
  * before the data structure is changed and the information is gone
  */
 class SaveAccountsTableData implements IRepairStep {
-
-	const BATCH_SIZE = 75;
+	public const BATCH_SIZE = 75;
 
 	/** @var IDBConnection */
 	protected $db;
@@ -77,6 +77,15 @@ class SaveAccountsTableData implements IRepairStep {
 			$offset += $numUsers;
 			$numUsers = $this->runStep($offset);
 		}
+
+		// oc_persistent_locks will be removed later on anyways so we can just drop and ignore any foreign key constraints here
+		$tableName = $this->config->getSystemValue('dbtableprefix', 'oc_') . 'persistent_locks';
+		$schema = $this->db->createSchema();
+		$table = $schema->getTable($tableName);
+		foreach ($table->getForeignKeys() as $foreignKey) {
+			$table->removeForeignKey($foreignKey->getName());
+		}
+		$this->db->migrateToSchema($schema);
 
 		// Remove the table
 		if ($this->hasForeignKeyOnPersistentLocks) {
@@ -177,7 +186,7 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 		if ($state === 1) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'true');
-		} else if ($state === 2) {
+		} elseif ($state === 2) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'false');
 		}
 
@@ -186,7 +195,5 @@ class SaveAccountsTableData implements IRepairStep {
 				->setParameter('userid', $userdata['user_id']);
 			$update->execute();
 		}
-
 	}
 }
-

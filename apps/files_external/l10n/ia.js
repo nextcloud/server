@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Immagazinages externe",
+    "External storage" : "Immagazinage externe",
     "Personal" : "Personal",
     "System" : "Systema",
     "Grant access" : "Conceder accesso",
@@ -19,7 +19,6 @@ OC.L10N.register(
     "Once every direct access" : "A cata accesso directe",
     "Delete" : "Deler",
     "Saved" : "Salveguardate",
-    "Saving..." : "Salveguardante...",
     "Save" : "Salveguardar",
     "External mount error" : "Error del montage externe",
     "external-storage" : "immagazinage-externe",
@@ -62,17 +61,21 @@ OC.L10N.register(
     "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Root",
-    "SMB / CIFS" : "SMB / CIFS",
+    "Share" : "Compartir",
+    "Show hidden files" : "Monstrar files occultate",
     "Service name" : "Nomine del servicio",
     "Name" : "Nomine",
     "Storage type" : "Typo de immagazinage",
+    "Open documentation" : "Aperir documentation",
     "Folder name" : "Nomine de dossier",
-    "External storage" : "Immagazinage externe",
     "Authentication" : "Authentication",
     "Configuration" : "Configuration",
     "Available for" : "Disponibile a",
     "Add storage" : "Adder immagazinage",
     "Advanced settings" : "Configurationes avantiate",
-    "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe"
+    "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
+    "External storages" : "Immagazinages externe",
+    "(group)" : "(gruppo)",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n != 1);");

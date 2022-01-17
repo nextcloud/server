@@ -4,6 +4,7 @@
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *
@@ -17,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Mount;
 
 /**
@@ -48,7 +48,7 @@ interface IMountPoint {
 	/**
 	 * Get the storage that is mounted
 	 *
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OCP\Files\Storage\IStorage|null
 	 * @since 8.0.0
 	 */
 	public function getStorage();
@@ -121,7 +121,7 @@ interface IMountPoint {
 	public function getMountId();
 
 	/**
-	 * Get the type of mount point, used to distinguish things like shares and external storages
+	 * Get the type of mount point, used to distinguish things like shares and external storage
 	 * in the web interface
 	 *
 	 * @return string

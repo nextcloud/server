@@ -1,7 +1,7 @@
 OC.L10N.register(
     "theming",
     {
-    "Loading preview…" : "Ön izleme yükleniyor...",
+    "Loading preview…" : "Ön izleme yükleniyor …",
     "Saved" : "Kaydedildi",
     "Admin" : "Yönetici",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
@@ -23,8 +23,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Geçici klasör bulunamadı",
     "Could not write file to disk" : "Dosya diske yazılamadı",
     "A PHP extension stopped the file upload" : "Bir PHP eklentisi dosyanın yüklenmesini engelledi",
-    "No file uploaded" : "Herhangi bir dosya yüklenmemiş",
-    "Unsupported image type" : "Görsel türü desteklenmiyor",
+    "No file uploaded" : "Henüz bir dosya yüklenmemiş",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Zaten özel bir tema kullanıyorsunuz. Tema uygulaması ayarları bu değer ile değiştirilebilir.",
     "Theming" : "Tema",
     "Legal notice" : "Yasal bildirim",
@@ -33,7 +32,7 @@ OC.L10N.register(
     "Open documentation" : "Belgeleri aç",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
-    "Reset to default" : "Varsayılana Sıfırla",
+    "Reset to default" : "Varsayılanlara dön",
     "Web link" : "Web bağlantısı",
     "https://…" : "https://…",
     "Slogan" : "Slogan",

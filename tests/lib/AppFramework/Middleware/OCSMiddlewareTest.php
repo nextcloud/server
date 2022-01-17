@@ -19,8 +19,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\AppFramework\Middleware;
 
+use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\OCS\BaseResponse;
 use OC\AppFramework\OCS\V1Response;
 use OC\AppFramework\OCS\V2Response;
@@ -32,8 +34,6 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
-use OC\AppFramework\Middleware\OCSMiddleware;
-
 
 class OCSMiddlewareTest extends \Test\TestCase {
 
@@ -42,7 +42,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 */
 	private $request;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)
@@ -98,29 +98,24 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		$OCSMiddleware = new OCSMiddleware($this->request);
 		$OCSMiddleware->beforeController($controller, 'method');
 
-		try {
-			$result = $OCSMiddleware->afterException($controller, 'method', $exception);
-			$this->assertFalse($forward);
-
-			$this->assertInstanceOf(V1Response::class, $result);
-
-			$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
-
-			if ($exception->getCode() === 0) {
-				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
-			} else {
-				$this->assertSame($code, $result->getOCSStatus());
-			}
-
-			if ($exception instanceof OCSForbiddenException) {
-				$this->assertSame(Http::STATUS_UNAUTHORIZED, $result->getStatus());
-			} else {
-				$this->assertSame(Http::STATUS_OK, $result->getStatus());
-			}
-		} catch (\Exception $e) {
-			$this->assertTrue($forward);
-			$this->assertEquals($exception, $e);
+		if ($forward) {
+			$this->expectException(get_class($exception));
+			$this->expectExceptionMessage($exception->getMessage());
 		}
+
+		$result = $OCSMiddleware->afterException($controller, 'method', $exception);
+
+		$this->assertInstanceOf(V1Response::class, $result);
+
+		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
+
+		if ($exception->getCode() === 0) {
+			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+		} else {
+			$this->assertSame($code, $result->getOCSStatus());
+		}
+
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
 
 	/**
@@ -139,23 +134,22 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		$OCSMiddleware = new OCSMiddleware($this->request);
 		$OCSMiddleware->beforeController($controller, 'method');
 
-		try {
-			$result = $OCSMiddleware->afterException($controller, 'method', $exception);
-			$this->assertFalse($forward);
-
-			$this->assertInstanceOf(V2Response::class, $result);
-
-			$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
-			if ($exception->getCode() === 0) {
-				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
-			} else {
-				$this->assertSame($code, $result->getOCSStatus());
-			}
-			$this->assertSame($code, $result->getStatus());
-		} catch (\Exception $e) {
-			$this->assertTrue($forward);
-			$this->assertEquals($exception, $e);
+		if ($forward) {
+			$this->expectException(get_class($exception));
+			$this->expectExceptionMessage($exception->getMessage());
 		}
+
+		$result = $OCSMiddleware->afterException($controller, 'method', $exception);
+
+		$this->assertInstanceOf(V2Response::class, $result);
+
+		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
+		if ($exception->getCode() === 0) {
+			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+		} else {
+			$this->assertSame($code, $result->getOCSStatus());
+		}
+		$this->assertSame($code, $result->getStatus());
 	}
 
 	/**
@@ -174,23 +168,22 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		$OCSMiddleware = new OCSMiddleware($this->request);
 		$OCSMiddleware->beforeController($controller, 'method');
 
-		try {
-			$result = $OCSMiddleware->afterException($controller, 'method', $exception);
-			$this->assertFalse($forward);
-
-			$this->assertInstanceOf(V2Response::class, $result);
-
-			$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
-			if ($exception->getCode() === 0) {
-				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
-			} else {
-				$this->assertSame($code, $result->getOCSStatus());
-			}
-			$this->assertSame($code, $result->getStatus());
-		} catch (\Exception $e) {
-			$this->assertTrue($forward);
-			$this->assertEquals($exception, $e);
+		if ($forward) {
+			$this->expectException(get_class($exception));
+			$this->expectExceptionMessage($exception->getMessage());
 		}
+
+		$result = $OCSMiddleware->afterException($controller, 'method', $exception);
+
+		$this->assertInstanceOf(V2Response::class, $result);
+
+		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
+		if ($exception->getCode() === 0) {
+			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+		} else {
+			$this->assertSame($code, $result->getOCSStatus());
+		}
+		$this->assertSame($code, $result->getStatus());
 	}
 
 	public function dataAfterController() {
@@ -205,7 +198,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			[$OCSController, new Http\Response(), false],
 			[$OCSController, new Http\JSONResponse(), false],
 			[$OCSController, new Http\JSONResponse(['message' => 'foo']), false],
-			[$OCSController, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), true],
+			[$OCSController, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), true, OCSController::RESPOND_UNAUTHORISED],
 			[$OCSController, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), true],
 
 			[$controller, new Http\Response(), false],
@@ -223,8 +216,9 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 * @param Controller $controller
 	 * @param Http\Response $response
 	 * @param bool $converted
+	 * @param int $convertedOCSStatus
 	 */
-	public function testAfterController($controller, $response, $converted) {
+	public function testAfterController($controller, $response, $converted, $convertedOCSStatus = 0) {
 		$OCSMiddleware = new OCSMiddleware($this->request);
 		$newResponse = $OCSMiddleware->afterController($controller, 'foo', $response);
 
@@ -232,11 +226,14 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			$this->assertSame($response, $newResponse);
 		} else {
 			$this->assertInstanceOf(BaseResponse::class, $newResponse);
-			/** @var Http\OCSResponse $newResponse */
 			$this->assertSame($response->getData()['message'], $this->invokePrivate($newResponse, 'statusMessage'));
-			$this->assertSame(\OCP\API::RESPOND_UNAUTHORISED, $newResponse->getOCSStatus());
-			$this->assertSame(Http::STATUS_UNAUTHORIZED, $newResponse->getStatus());
+
+			if ($convertedOCSStatus) {
+				$this->assertSame($convertedOCSStatus, $newResponse->getOCSStatus());
+			} else {
+				$this->assertSame($response->getStatus(), $newResponse->getOCSStatus());
+			}
+			$this->assertSame($response->getStatus(), $newResponse->getStatus());
 		}
 	}
-
 }

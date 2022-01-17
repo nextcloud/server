@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Kyle Fazzari <kyrofa@ubuntu.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -20,10 +22,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
 class JSResourceLocator extends ResourceLocator {
@@ -47,6 +48,10 @@ class JSResourceLocator extends ResourceLocator {
 			return;
 		}
 
+		// Extracting the appId and the script file name
+		$app = substr($script, 0, strpos($script, '/'));
+		$scriptName = basename($script);
+
 		if (strpos($script, '/l10n/') !== false) {
 			// For language files we try to load them all, so themes can overwrite
 			// single l10n strings without having to translate all of them.
@@ -61,19 +66,21 @@ class JSResourceLocator extends ResourceLocator {
 			if ($found) {
 				return;
 			}
-		} else if ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
+		} elseif ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $script.'.js')
+			|| $this->appendIfExist($this->serverroot, "dist/$app-$scriptName.js")
+			|| $this->appendIfExist($this->serverroot, 'apps/'.$script.'.js')
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$script.'.js')
+			|| $this->appendIfExist($this->serverroot, "dist/core-$scriptName.js")
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
 		) {
 			return;
 		}
 
-		$app = substr($script, 0, strpos($script, '/'));
-		$script = substr($script, strpos($script, '/')+1);
+		$script = substr($script, strpos($script, '/') + 1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
 

@@ -1,14 +1,19 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Jonas Meurer <jonas@freesources.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +24,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
@@ -66,6 +70,23 @@ trait Provisioning {
 	}
 
 	/**
+	 * @Given /^user "([^"]*)" with displayname "((?:[^"]|\\")*)" exists$/
+	 * @param string $user
+	 */
+	public function assureUserWithDisplaynameExists($user, $displayname) {
+		try {
+			$this->userExists($user);
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$previous_user = $this->currentUser;
+			$this->currentUser = "admin";
+			$this->creatingTheUser($user, $displayname);
+			$this->currentUser = $previous_user;
+		}
+		$this->userExists($user);
+		Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
 	 * @Given /^user "([^"]*)" does not exist$/
 	 * @param string $user
 	 */
@@ -89,7 +110,7 @@ trait Provisioning {
 		}
 	}
 
-	public function creatingTheUser($user) {
+	public function creatingTheUser($user, $displayname = '') {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users";
 		$client = new Client();
 		$options = [];
@@ -101,6 +122,9 @@ trait Provisioning {
 			'userid' => $user,
 			'password' => '123456'
 		];
+		if ($displayname !== '') {
+			$options['form_params']['displayName'] = $displayname;
+		}
 		$options['headers'] = [
 			'OCS-APIREQUEST' => 'true',
 		];
@@ -133,7 +157,11 @@ trait Provisioning {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
 		$options = [];
-		$options['auth'] = $this->adminUser;
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
 		$options['headers'] = [
 			'OCS-APIREQUEST' => 'true',
 		];
@@ -141,12 +169,110 @@ trait Provisioning {
 		$response = $client->get($fullUrl, $options);
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
+			if (isset($value['element']) && in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+				$expectedValues = explode(';', $setting[1]);
+				foreach ($expectedValues as $expected) {
+					Assert::assertTrue(in_array($expected, $value['element'], true));
+				}
+			} elseif (isset($value[0])) {
+				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+			} else {
+				Assert::assertEquals('', $setting[1]);
+			}
+		}
+	}
+
+	/**
+	 * @Then /^group "([^"]*)" has$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 */
+	public function groupHasSetting($group, $settings) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/details?search=$group";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		$groupDetails = simplexml_load_string($response->getBody())->data[0]->groups[0]->element;
+		foreach ($settings->getRows() as $setting) {
+			$value = json_decode(json_encode($groupDetails->{$setting[0]}), 1);
 			if (isset($value[0])) {
 				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
 			} else {
 				Assert::assertEquals('', $setting[1]);
 			}
 		}
+	}
+
+
+	/**
+	 * @Then /^user "([^"]*)" has editable fields$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $fields
+	 */
+	public function userHasEditableFields($user, $fields) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/user/fields";
+		if ($user !== 'self') {
+			$fullUrl .= '/' . $user;
+		}
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		$fieldsArray = json_decode(json_encode(simplexml_load_string($response->getBody())->data->element), 1);
+
+		$expectedFields = $fields->getRows();
+		$expectedFields = $this->simplifyArray($expectedFields);
+		Assert::assertEquals($expectedFields, $fieldsArray);
+	}
+
+	/**
+	 * @Then /^search users by phone for region "([^"]*)" with$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 */
+	public function searchUserByPhone($region, \Behat\Gherkin\Node\TableNode $searchTable) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/search/by-phone";
+		$client = new Client();
+		$options = [];
+		$options['auth'] = $this->adminUser;
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$search = [];
+		foreach ($searchTable->getRows() as $row) {
+			if (!isset($search[$row[0]])) {
+				$search[$row[0]] = [];
+			}
+			$search[$row[0]][] = $row[1];
+		}
+
+		$options['form_params'] = [
+			'location' => $region,
+			'search' => $search,
+		];
+
+		$this->response = $client->post($fullUrl, $options);
 	}
 
 	public function createUser($user) {
@@ -271,7 +397,7 @@ trait Provisioning {
 		];
 
 		$this->response = $client->get($fullUrl, $options);
-		$groups = array($group);
+		$groups = [$group];
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 		Assert::assertNotEquals($groups, $respondedArray, "", 0.0, 10, true);
 		Assert::assertEquals(200, $this->response->getStatusCode());
@@ -376,7 +502,6 @@ trait Provisioning {
 		$this->userExists($user);
 		$this->groupExists($group);
 		$this->addingUserToGroup($user, $group);
-
 	}
 
 	/**
@@ -399,7 +524,7 @@ trait Provisioning {
 			'groupid' => $group,
 		];
 
-		$this->response =$client->post($fullUrl, $options);
+		$this->response = $client->post($fullUrl, $options);
 	}
 
 
@@ -535,7 +660,33 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
 			Assert::assertEquals($usersSimplified, $respondedArray, "", 0.0, 10, true);
 		}
+	}
 
+	/**
+	 * @Then /^phone matches returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $usersList
+	 */
+	public function thePhoneUsersShouldBe($usersList) {
+		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+			$users = $usersList->getRowsHash();
+			$listCheckedElements = simplexml_load_string($this->response->getBody())->data;
+			$respondedArray = json_decode(json_encode($listCheckedElements), true);
+			Assert::assertEquals($users, $respondedArray);
+		}
+	}
+
+	/**
+	 * @Then /^detailed users returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $usersList
+	 */
+	public function theDetailedUsersShouldBe($usersList) {
+		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+			$users = $usersList->getRows();
+			$usersSimplified = $this->simplifyArray($users);
+			$respondedArray = $this->getArrayOfDetailedUsersResponded($this->response);
+			$respondedArray = array_keys($respondedArray);
+			Assert::assertEquals($usersSimplified, $respondedArray);
+		}
 	}
 
 	/**
@@ -549,7 +700,6 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
-
 	}
 
 	/**
@@ -563,7 +713,6 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
 			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
-
 	}
 
 	/**
@@ -577,7 +726,6 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfAppsResponded($this->response);
 			Assert::assertEquals($appsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
-
 	}
 
 	/**
@@ -596,6 +744,18 @@ trait Provisioning {
 	 */
 	public function getArrayOfUsersResponded($resp) {
 		$listCheckedElements = simplexml_load_string($resp->getBody())->data[0]->users[0]->element;
+		$extractedElementsArray = json_decode(json_encode($listCheckedElements), 1);
+		return $extractedElementsArray;
+	}
+
+	/**
+	 * Parses the xml answer to get the array of detailed users returned.
+	 *
+	 * @param ResponseInterface $resp
+	 * @return array
+	 */
+	public function getArrayOfDetailedUsersResponded($resp) {
+		$listCheckedElements = simplexml_load_string($resp->getBody())->data[0]->users;
 		$extractedElementsArray = json_decode(json_encode($listCheckedElements), 1);
 		return $extractedElementsArray;
 	}
@@ -814,4 +974,37 @@ trait Provisioning {
 		$this->usingServer($previousServer);
 	}
 
+	/**
+	 * @Then /^user "([^"]*)" has not$/
+	 */
+	public function userHasNotSetting($user, \Behat\Gherkin\Node\TableNode $settings) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		foreach ($settings->getRows() as $setting) {
+			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
+			if (isset($value[0])) {
+				if (in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+					$expectedValues = explode(';', $setting[1]);
+					foreach ($expectedValues as $expected) {
+						Assert::assertFalse(in_array($expected, $value, true));
+					}
+				} else {
+					Assert::assertNotEquals($setting[1], $value[0], "", 0.0, 10, true);
+				}
+			} else {
+				Assert::assertNotEquals('', $setting[1]);
+			}
+		}
+	}
 }

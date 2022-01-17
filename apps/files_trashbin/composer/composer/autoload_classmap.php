@@ -6,18 +6,21 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Files_Trashbin\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Files_Trashbin\\BackgroundJob\\ExpireTrash' => $baseDir . '/../lib/BackgroundJob/ExpireTrash.php',
     'OCA\\Files_Trashbin\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\Files_Trashbin\\Command\\CleanUp' => $baseDir . '/../lib/Command/CleanUp.php',
     'OCA\\Files_Trashbin\\Command\\Expire' => $baseDir . '/../lib/Command/Expire.php',
     'OCA\\Files_Trashbin\\Command\\ExpireTrash' => $baseDir . '/../lib/Command/ExpireTrash.php',
+    'OCA\\Files_Trashbin\\Command\\Size' => $baseDir . '/../lib/Command/Size.php',
     'OCA\\Files_Trashbin\\Controller\\PreviewController' => $baseDir . '/../lib/Controller/PreviewController.php',
     'OCA\\Files_Trashbin\\Events\\MoveToTrashEvent' => $baseDir . '/../lib/Events/MoveToTrashEvent.php',
     'OCA\\Files_Trashbin\\Exceptions\\CopyRecursiveException' => $baseDir . '/../lib/Exceptions/CopyRecursiveException.php',
     'OCA\\Files_Trashbin\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Trashbin\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files_Trashbin\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Files_Trashbin\\Migration\\Version1010Date20200630192639' => $baseDir . '/../lib/Migration/Version1010Date20200630192639.php',
     'OCA\\Files_Trashbin\\Sabre\\AbstractTrash' => $baseDir . '/../lib/Sabre/AbstractTrash.php',
     'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFile' => $baseDir . '/../lib/Sabre/AbstractTrashFile.php',
     'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFolder' => $baseDir . '/../lib/Sabre/AbstractTrashFolder.php',

@@ -3,7 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -17,12 +18,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Comments;
-
 
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
@@ -36,16 +35,16 @@ use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\PropPatch;
 
 class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
-	const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
-	const PROPERTY_NAME_MESSAGE = '{http://owncloud.org/ns}message';
-	const PROPERTY_NAME_ACTOR_DISPLAYNAME = '{http://owncloud.org/ns}actorDisplayName';
-	const PROPERTY_NAME_MENTIONS = '{http://owncloud.org/ns}mentions';
-	const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
-	const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
-	const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
-	const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
+	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
+	public const PROPERTY_NAME_MESSAGE = '{http://owncloud.org/ns}message';
+	public const PROPERTY_NAME_ACTOR_DISPLAYNAME = '{http://owncloud.org/ns}actorDisplayName';
+	public const PROPERTY_NAME_MENTIONS = '{http://owncloud.org/ns}mentions';
+	public const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
+	public const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
+	public const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
+	public const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
 	/** @var  IComment */
 	public $comment;
@@ -86,11 +85,11 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		$this->logger = $logger;
 
 		$methods = get_class_methods($this->comment);
-		$methods = array_filter($methods, function($name){
+		$methods = array_filter($methods, function ($name) {
 			return strpos($name, 'get') === 0;
 		});
-		foreach($methods as $getter) {
-			if($getter === 'getMentions') {
+		foreach ($methods as $getter) {
+			if ($getter === 'getMentions') {
 				continue;	// special treatment
 			}
 			$name = '{'.self::NS_OWNCLOUD.'}' . lcfirst(substr($getter, 3));
@@ -105,7 +104,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return array
 	 */
-	static public function getPropertyNames() {
+	public static function getPropertyNames() {
 		return [
 			'{http://owncloud.org/ns}id',
 			'{http://owncloud.org/ns}parentId',
@@ -132,7 +131,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 	protected function checkWriteAccessOnComment() {
 		$user = $this->userSession->getUser();
-		if(    $this->comment->getActorType() !== 'users'
+		if ($this->comment->getActorType() !== 'users'
 			|| is_null($user)
 			|| $this->comment->getActorId() !== $user->getUID()
 		) {
@@ -145,7 +144,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return void
 	 */
-	function delete() {
+	public function delete() {
 		$this->checkWriteAccessOnComment();
 		$this->commentsManager->delete($this->comment->getId());
 	}
@@ -157,7 +156,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return string
 	 */
-	function getName() {
+	public function getName() {
 		return $this->comment->getId();
 	}
 
@@ -167,7 +166,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param string $name The new name
 	 * @throws MethodNotAllowed
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
 
@@ -176,7 +175,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 
@@ -196,7 +195,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			return true;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'dav/comments']);
-			if($e instanceof MessageTooLongException) {
+			if ($e instanceof MessageTooLongException) {
 				$msg = 'Message exceeds allowed character limit of ';
 				throw new BadRequest($msg . IComment::MAX_MESSAGE_LENGTH, 0, $e);
 			}
@@ -216,7 +215,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param PropPatch $propPatch
 	 * @return void
 	 */
-	function propPatch(PropPatch $propPatch) {
+	public function propPatch(PropPatch $propPatch) {
 		// other properties than 'message' are read only
 		$propPatch->handle(self::PROPERTY_NAME_MESSAGE, [$this, 'updateComment']);
 	}
@@ -236,18 +235,18 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param array $properties
 	 * @return array
 	 */
-	function getProperties($properties) {
+	public function getProperties($properties) {
 		$properties = array_keys($this->properties);
 
 		$result = [];
-		foreach($properties as $property) {
+		foreach ($properties as $property) {
 			$getter = $this->properties[$property];
-			if(method_exists($this->comment, $getter)) {
+			if (method_exists($this->comment, $getter)) {
 				$result[$property] = $this->comment->$getter();
 			}
 		}
 
-		if($this->comment->getActorType() === 'users') {
+		if ($this->comment->getActorType() === 'users') {
 			$user = $this->userManager->get($this->comment->getActorId());
 			$displayName = is_null($user) ? null : $user->getDisplayName();
 			$result[self::PROPERTY_NAME_ACTOR_DISPLAYNAME] = $displayName;
@@ -256,14 +255,14 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		$result[self::PROPERTY_NAME_MENTIONS] = $this->composeMentionsPropertyValue();
 
 		$unread = null;
-		$user =  $this->userSession->getUser();
-		if(!is_null($user)) {
+		$user = $this->userSession->getUser();
+		if (!is_null($user)) {
 			$readUntil = $this->commentsManager->getReadMark(
 				$this->comment->getObjectType(),
 				$this->comment->getObjectId(),
 				$user
 			);
-			if(is_null($readUntil)) {
+			if (is_null($readUntil)) {
 				$unread = 'true';
 			} else {
 				$unread = $this->comment->getCreationDateTime() > $readUntil;
@@ -284,7 +283,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @return array
 	 */
 	protected function composeMentionsPropertyValue() {
-		return array_map(function($mention) {
+		return array_map(function ($mention) {
 			try {
 				$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);
 			} catch (\OutOfBoundsException $e) {
@@ -295,8 +294,8 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 			return [
 				self::PROPERTY_NAME_MENTION => [
-					self::PROPERTY_NAME_MENTION_TYPE        => $mention['type'],
-					self::PROPERTY_NAME_MENTION_ID          => $mention['id'],
+					self::PROPERTY_NAME_MENTION_TYPE => $mention['type'],
+					self::PROPERTY_NAME_MENTION_ID => $mention['id'],
 					self::PROPERTY_NAME_MENTION_DISPLAYNAME => $displayName,
 				]
 			];

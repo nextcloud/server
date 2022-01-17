@@ -29,8 +29,7 @@ namespace Test\Preview;
  * @package Test\Preview
  */
 class BitmapTest extends Provider {
-
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$fileName = 'testimage.eps';
@@ -39,5 +38,4 @@ class BitmapTest extends Provider {
 		$this->height = 1707;
 		$this->provider = new \OC\Preview\Postscript;
 	}
-
 }

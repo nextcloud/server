@@ -2,12 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,22 +23,21 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Backend\Backend;
 
 /**
  * External storage configuration
  */
 class StorageConfig implements \JsonSerializable {
-	const MOUNT_TYPE_ADMIN = 1;
-	const MOUNT_TYPE_PERSONAl = 2;
+	public const MOUNT_TYPE_ADMIN = 1;
+	public const MOUNT_TYPE_PERSONAl = 2;
 
 	/**
 	 * Storage config id
@@ -97,14 +98,14 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * List of users who have access to this storage
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $applicableUsers = [];
 
 	/**
 	 * List of groups that have access to this storage
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $applicableGroups = [];
 
@@ -182,7 +183,7 @@ class StorageConfig implements \JsonSerializable {
 	 * @param Backend $backend
 	 */
 	public function setBackend(Backend $backend) {
-		$this->backend= $backend;
+		$this->backend = $backend;
 	}
 
 	/**
@@ -214,10 +215,10 @@ class StorageConfig implements \JsonSerializable {
 	 * @param array $backendOptions backend options
 	 */
 	public function setBackendOptions($backendOptions) {
-		if($this->getBackend() instanceof  Backend) {
+		if ($this->getBackend() instanceof  Backend) {
 			$parameters = $this->getBackend()->getParameters();
-			foreach($backendOptions as $key => $value) {
-				if(isset($parameters[$key])) {
+			foreach ($backendOptions as $key => $value) {
+				if (isset($parameters[$key])) {
 					switch ($parameters[$key]->getType()) {
 						case \OCA\Files_External\Lib\DefinitionParameter::VALUE_BOOLEAN:
 							$value = (bool)$value;
@@ -271,7 +272,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the users for which to mount this storage
 	 *
-	 * @return array applicable users
+	 * @return string[] applicable users
 	 */
 	public function getApplicableUsers() {
 		return $this->applicableUsers;
@@ -280,7 +281,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the users for which to mount this storage
 	 *
-	 * @param array|null $applicableUsers applicable users
+	 * @param string[]|null $applicableUsers applicable users
 	 */
 	public function setApplicableUsers($applicableUsers) {
 		if (is_null($applicableUsers)) {
@@ -292,7 +293,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the groups for which to mount this storage
 	 *
-	 * @return array applicable groups
+	 * @return string[] applicable groups
 	 */
 	public function getApplicableGroups() {
 		return $this->applicableGroups;
@@ -301,7 +302,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the groups for which to mount this storage
 	 *
-	 * @param array|null $applicableGroups applicable groups
+	 * @param string[]|null $applicableGroups applicable groups
 	 */
 	public function setApplicableGroups($applicableGroups) {
 		if (is_null($applicableGroups)) {
@@ -395,10 +396,8 @@ class StorageConfig implements \JsonSerializable {
 
 	/**
 	 * Serialize config to JSON
-	 *
-	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		$result = [];
 		if (!is_null($this->id)) {
 			$result['id'] = $this->id;

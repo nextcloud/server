@@ -2,13 +2,16 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
+ * @author Greta Doci <gretadoci@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Daniel Rudolf <nextcloud.com@daniel-rudolf.de>
  *
  * @license AGPL-3.0
  *
@@ -22,19 +25,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\App;
 
-use OCP\IUser;
 use OCP\IGroup;
+use OCP\IUser;
 
 /**
  * Interface IAppManager
  *
- * @package OCP\App
  * @since 8.0.0
  */
 interface IAppManager {
@@ -83,10 +84,11 @@ interface IAppManager {
 	 * Enable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $forceEnable
 	 * @throws AppPathNotFoundException
 	 * @since 8.0.0
 	 */
-	public function enableApp($appId);
+	public function enableApp(string $appId, bool $forceEnable = false): void;
 
 	/**
 	 * Whether a list of types contains a protected app type
@@ -102,10 +104,11 @@ interface IAppManager {
 	 *
 	 * @param string $appId
 	 * @param \OCP\IGroup[] $groups
+	 * @param bool $forceEnable
 	 * @throws \Exception
 	 * @since 8.0.0
 	 */
-	public function enableAppForGroups($appId, $groups);
+	public function enableAppForGroups(string $appId, array $groups, bool $forceEnable = false): void;
 
 	/**
 	 * Disable an app for every user
@@ -178,12 +181,6 @@ interface IAppManager {
 	 * @since 17.0.0
 	 */
 	public function getEnabledAppsForGroup(IGroup $group): array;
-
-	/**
-	 * @return array
-	 * @since 17.0.0
-	 */
-	public function getAutoDisabledApps(): array;
 
 	/**
 	 * @param String $appId

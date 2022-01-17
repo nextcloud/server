@@ -2,6 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Maxopoly <max@dermax.org>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author sualko <klaus@jsxc.org>
  *
  * @license AGPL-3.0
@@ -16,21 +22,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\App;
 
 use OC\Installer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Install extends Command {
-
 	protected function configure() {
 		$this
 			->setName('app:install')
@@ -46,11 +50,18 @@ class Install extends Command {
 				InputOption::VALUE_NONE,
 				'don\'t enable the app afterwards'
 			)
+			->addOption(
+				'force',
+				'f',
+				InputOption::VALUE_NONE,
+				'install the app regardless of the Nextcloud version requirement'
+			)
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
+		$forceEnable = (bool) $input->getOption('force');
 
 		if (\OC_App::getAppPath($appId)) {
 			$output->writeln($appId . ' already installed');
@@ -61,18 +72,19 @@ class Install extends Command {
 			/** @var Installer $installer */
 			$installer = \OC::$server->query(Installer::class);
 			$installer->downloadApp($appId);
-			$result = $installer->installApp($appId);
-		} catch(\Exception $e) {
+			$result = $installer->installApp($appId, $forceEnable);
+		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			return 1;
 		}
 
-		if($result === false) {
+		if ($result === false) {
 			$output->writeln($appId . ' couldn\'t be installed');
 			return 1;
 		}
 
-		$output->writeln($appId . ' installed');
+		$appVersion = \OC_App::getAppVersion($appId);
+		$output->writeln($appId . ' ' . $appVersion . ' installed');
 
 		if (!$input->getOption('keep-disabled')) {
 			$appClass = new \OC_App();

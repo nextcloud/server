@@ -104,7 +104,7 @@
 		 * Returns the full URL to the given directory
 		 *
 		 * @param {Object.<String, String>} part crumb data as map
-		 * @param {int} index crumb index
+		 * @param {number} index crumb index
 		 * @return full URL
 		 */
 		getCrumbUrl: function(part, index) {
@@ -176,6 +176,7 @@
 					dirInfo: this.dirInfo
 				});
 				$crumb.append(view.$el);
+				$menuItem.append(view.$el.clone(true));
 			}, this);
 
 			// setup drag and drop
@@ -326,7 +327,7 @@
 			// Note that the crumbs shown always overflow the parent width
 			// (except, of course, when they all fit in).
 			while (this.$el.find(this.hiddenCrumbSelector).length > 0
-				&& this.getTotalWidth() <= this.$el.parent().width()) {
+				&& Math.round(this.getTotalWidth()) <= Math.round(this.$el.parent().width())) {
 				this._showCrumb();
 			}
 
@@ -342,7 +343,7 @@
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
-			while (this.getTotalWidth() > availableWidth
+			while (Math.round(this.getTotalWidth()) > Math.round(availableWidth)
 				&& this.$el.find(this.crumbSelector).length > 0) {
 				// As soon as one of the crumbs is hidden the menu will be
 				// shown. This is needed for proper results in further width

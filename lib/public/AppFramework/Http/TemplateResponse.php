@@ -3,7 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -19,26 +23,49 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\TemplateResponse class
- */
-
 namespace OCP\AppFramework\Http;
-
 
 /**
  * Response for a normal template
  * @since 6.0.0
  */
 class TemplateResponse extends Response {
+	/**
+	 * @since 20.0.0
+	 */
+	public const RENDER_AS_GUEST = 'guest';
+	/**
+	 * @since 20.0.0
+	 */
+	public const RENDER_AS_BLANK = '';
+	/**
+	 * @since 20.0.0
+	 */
+	public const RENDER_AS_BASE = 'base';
+	/**
+	 * @since 20.0.0
+	 */
+	public const RENDER_AS_USER = 'user';
+	/**
+	 * @since 20.0.0
+	 */
+	public const RENDER_AS_ERROR = 'error';
+	/**
+	 * @since 20.0.0
+	 */
+	public const RENDER_AS_PUBLIC = 'public';
 
-	const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
-	const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
+	/**
+	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
+	 */
+	public const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
+	/**
+	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
+	 */
+	public const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
 
 	/**
 	 * name of the template
@@ -73,8 +100,8 @@ class TemplateResponse extends Response {
 	 * @param string $renderAs how the page should be rendered, defaults to user
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
 	 */
-	public function __construct($appName, $templateName, array $params=array(),
-	                            $renderAs='user') {
+	public function __construct($appName, $templateName, array $params = [],
+								$renderAs = self::RENDER_AS_USER) {
 		parent::__construct();
 
 		$this->templateName = $templateName;
@@ -94,7 +121,7 @@ class TemplateResponse extends Response {
 	 * @return TemplateResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setParams(array $params){
+	public function setParams(array $params) {
 		$this->params = $params;
 
 		return $this;
@@ -106,7 +133,7 @@ class TemplateResponse extends Response {
 	 * @return array the params
 	 * @since 6.0.0
 	 */
-	public function getParams(){
+	public function getParams() {
 		return $this->params;
 	}
 
@@ -116,7 +143,7 @@ class TemplateResponse extends Response {
 	 * @return string the name of the used template
 	 * @since 6.0.0
 	 */
-	public function getTemplateName(){
+	public function getTemplateName() {
 		return $this->templateName;
 	}
 
@@ -130,7 +157,7 @@ class TemplateResponse extends Response {
 	 * @return TemplateResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function renderAs($renderAs){
+	public function renderAs($renderAs) {
 		$this->renderAs = $renderAs;
 
 		return $this;
@@ -142,7 +169,7 @@ class TemplateResponse extends Response {
 	 * @return string the renderAs value
 	 * @since 6.0.0
 	 */
-	public function getRenderAs(){
+	public function getRenderAs() {
 		return $this->renderAs;
 	}
 
@@ -152,17 +179,28 @@ class TemplateResponse extends Response {
 	 * @return string the rendered html
 	 * @since 6.0.0
 	 */
-	public function render(){
-		// \OCP\Template needs an empty string instead of 'blank' for an unwrapped response
-		$renderAs = $this->renderAs === 'blank' ? '' : $this->renderAs;
+	public function render() {
+		$renderAs = self::RENDER_AS_USER;
+		if ($this->renderAs === 'blank') {
+			// Legacy fallback as \OCP\Template needs an empty string instead of 'blank' for an unwrapped response
+			$renderAs = self::RENDER_AS_BLANK;
+		} elseif (in_array($this->renderAs, [
+			self::RENDER_AS_GUEST,
+			self::RENDER_AS_BLANK,
+			self::RENDER_AS_BASE,
+			self::RENDER_AS_ERROR,
+			self::RENDER_AS_PUBLIC,
+			self::RENDER_AS_USER], true)) {
+			$renderAs = $this->renderAs;
+		}
 
+		\OCP\Util::addHeader('meta', ['name' => 'robots', 'content' => 'noindex, nofollow']);
 		$template = new \OCP\Template($this->appName, $this->templateName, $renderAs);
 
-		foreach($this->params as $key => $value){
+		foreach ($this->params as $key => $value) {
 			$template->assign($key, $value);
 		}
 
 		return $template->fetchPage($this->params);
 	}
-
 }

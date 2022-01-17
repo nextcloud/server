@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -28,12 +30,10 @@ use OC\Authentication\Token\IToken;
 use Test\TestCase;
 
 class RemoteWipeStartedTest extends TestCase {
-
 	public function testGetToken() {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 
 		$this->assertSame($token, $event->getToken());
 	}
-
 }

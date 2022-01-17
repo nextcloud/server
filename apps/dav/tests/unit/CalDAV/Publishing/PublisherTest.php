@@ -1,9 +1,11 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,11 +16,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Publishing;
@@ -28,8 +30,7 @@ use Sabre\Xml\Writer;
 use Test\TestCase;
 
 class PublisherTest extends TestCase {
-
-	const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
+	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
 	public function testSerializePublished() {
 		$publish = new Publisher('urltopublish', true);

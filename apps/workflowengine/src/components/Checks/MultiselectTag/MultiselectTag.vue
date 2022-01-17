@@ -41,52 +41,50 @@
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { searchTags } from './api'
 
 let uuid = 0
 export default {
 	name: 'MultiselectTag',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		label: {
 			type: String,
-			required: true
+			required: true,
 		},
 		value: {
-			type: Array,
-			default() {
-				return []
-			}
+			type: [String, Array],
+			default: null,
 		},
 		disabled: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		multiple: {
 			type: Boolean,
-			default: true
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
 			inputValObjects: [],
-			tags: []
+			tags: [],
 		}
 	},
 	computed: {
 		id() {
 			return 'settings-input-text-' + this.uuid
-		}
+		},
 	},
 	watch: {
 		value(newVal) {
 			this.inputValObjects = this.getValueObject()
-		}
+		},
 	},
-	beforeCreate: function() {
+	beforeCreate() {
 		this.uuid = uuid.toString()
 		uuid += 1
 		searchTags().then((result) => {
@@ -126,7 +124,7 @@ export default {
 				return t('systemtags', '%s (restricted)').replace('%s', displayName)
 			}
 			return displayName
-		}
-	}
+		},
+	},
 }
 </script>

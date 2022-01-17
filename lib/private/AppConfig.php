@@ -5,12 +5,15 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author michaelletzgus <michaelletzgus@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -24,16 +27,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
+use OC\DB\Connection;
 use OC\DB\OracleConnection;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IDBConnection;
 
 /**
  * This class provides an easy way for apps to store config values in the
@@ -47,11 +49,12 @@ class AppConfig implements IAppConfig {
 			'/^sites$/',
 		],
 		'spreed' => [
+			'/^bridge_bot_password/',
+			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
-			'/^turn_server_secret$/',
 			'/^stun_servers$/',
 			'/^turn_servers$/',
-			'/^signaling_servers$/',
+			'/^turn_server_secret$/',
 		],
 		'theming' => [
 			'/^imprintUrl$/',
@@ -64,7 +67,7 @@ class AppConfig implements IAppConfig {
 		],
 	];
 
-	/** @var \OCP\IDBConnection */
+	/** @var Connection */
 	protected $conn;
 
 	/** @var array[] */
@@ -74,11 +77,10 @@ class AppConfig implements IAppConfig {
 	private $configLoaded = false;
 
 	/**
-	 * @param IDBConnection $conn
+	 * @param Connection $conn
 	 */
-	public function __construct(IDBConnection $conn) {
+	public function __construct(Connection $conn) {
 		$this->conn = $conn;
-		$this->configLoaded = false;
 	}
 
 	/**
@@ -199,12 +201,9 @@ class AppConfig implements IAppConfig {
 
 		$sql = $this->conn->getQueryBuilder();
 		$sql->update('appconfig')
-			->set('configvalue', $sql->createParameter('configvalue'))
-			->where($sql->expr()->eq('appid', $sql->createParameter('app')))
-			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
-			->setParameter('configvalue', $value)
-			->setParameter('app', $app)
-			->setParameter('configkey', $key);
+			->set('configvalue', $sql->createNamedParameter($value))
+			->where($sql->expr()->eq('appid', $sql->createNamedParameter($app)))
+			->andWhere($sql->expr()->eq('configkey', $sql->createNamedParameter($key)));
 
 		/*
 		 * Only limit to the existing value for non-Oracle DBs:
@@ -212,9 +211,25 @@ class AppConfig implements IAppConfig {
 		 * > Large objects (LOBs) are not supported in comparison conditions.
 		 */
 		if (!($this->conn instanceof OracleConnection)) {
-			// Only update the value when it is not the same
-			$sql->andWhere($sql->expr()->neq('configvalue', $sql->createParameter('configvalue')))
-				->setParameter('configvalue', $value);
+
+			/*
+			 * Only update the value when it is not the same
+			 * Note that NULL requires some special handling. Since comparing
+			 * against null can have special results.
+			 */
+
+			if ($value === null) {
+				$sql->andWhere(
+					$sql->expr()->isNotNull('configvalue')
+				);
+			} else {
+				$sql->andWhere(
+					$sql->expr()->orX(
+						$sql->expr()->isNull('configvalue'),
+						$sql->expr()->neq('configvalue', $sql->createNamedParameter($value))
+					)
+				);
+			}
 		}
 
 		$changedRow = (bool) $sql->execute();
@@ -283,7 +298,7 @@ class AppConfig implements IAppConfig {
 			return $this->getAppValues($app);
 		} else {
 			$appIds = $this->getApps();
-			$values = array_map(function($appId) use ($key) {
+			$values = array_map(function ($appId) use ($key) {
 				return isset($this->cache[$appId][$key]) ? $this->cache[$appId][$key] : null;
 			}, $appIds);
 			$result = array_combine($appIds, $values);
@@ -332,13 +347,23 @@ class AppConfig implements IAppConfig {
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			if (!isset($this->cache[$row['appid']])) {
-				$this->cache[$row['appid']] = [];
+				$this->cache[(string)$row['appid']] = [];
 			}
 
-			$this->cache[$row['appid']][$row['configkey']] = $row['configvalue'];
+			$this->cache[(string)$row['appid']][(string)$row['configkey']] = (string)$row['configvalue'];
 		}
 		$result->closeCursor();
 
 		$this->configLoaded = true;
+	}
+
+	/**
+	 * Clear all the cached app config values
+	 *
+	 * WARNING: do not use this - this is only for usage with the SCSSCacher to
+	 * clear the memory cache of the app config
+	 */
+	public function clearCachedConfig() {
+		$this->configLoaded = false;
 	}
 }

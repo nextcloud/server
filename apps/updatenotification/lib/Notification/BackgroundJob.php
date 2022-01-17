@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -19,10 +21,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Notification;
 
 use OC\BackgroundJob\TimedJob;
@@ -36,7 +37,6 @@ use OCP\IGroupManager;
 use OCP\Notification\IManager;
 
 class BackgroundJob extends TimedJob {
-
 	protected $connectionNotifications = [3, 7, 14, 30];
 
 	/** @var IConfig */
@@ -60,17 +60,12 @@ class BackgroundJob extends TimedJob {
 	/** @var string[] */
 	protected $users;
 
-	/**
-	 * NotificationBackgroundJob constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IManager $notificationManager
-	 * @param IGroupManager $groupManager
-	 * @param IAppManager $appManager
-	 * @param IClientService $client
-	 * @param Installer $installer
-	 */
-	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client, Installer $installer) {
+	public function __construct(IConfig $config,
+								IManager $notificationManager,
+								IGroupManager $groupManager,
+								IAppManager $appManager,
+								IClientService $client,
+								Installer $installer) {
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
 
@@ -83,6 +78,16 @@ class BackgroundJob extends TimedJob {
 	}
 
 	protected function run($argument) {
+		if (\OC::$CLI && !$this->config->getSystemValueBool('debug', false)) {
+			try {
+				// Jitter the pinging of the updater server and the appstore a bit.
+				// Otherwise all Nextcloud installations are pinging the servers
+				// in one of 288
+				sleep(random_int(1, 180));
+			} catch (\Exception $e) {
+			}
+		}
+
 		$this->checkCoreUpdate();
 		$this->checkAppUpdates();
 	}
@@ -106,7 +111,7 @@ class BackgroundJob extends TimedJob {
 			if (\in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
 			}
-		} else if (\is_array($status)) {
+		} elseif (\is_array($status)) {
 			$this->config->setAppValue('updatenotification', 'update_check_errors', 0);
 			$this->clearErrorNotifications();
 

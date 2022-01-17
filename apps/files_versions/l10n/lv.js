@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_versions",
     {
     "Versions" : "Versijas",
+    "This application automatically maintains older versions of files that are changed." : "Šī lietotne automātiski uztur vecākas versijas datnēm, kas tiek izmainītas.",
     "Failed to revert {file} to revision {timestamp}." : "Neizdevās atjaunot {file} no rediģējuma {timestamp} ",
     "_%n byte_::_%n bytes_" : ["%n baiti","%n baiti","%n baiti"],
     "Restore" : "Atjaunot",

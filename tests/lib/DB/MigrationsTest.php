@@ -7,7 +7,6 @@
  * See the COPYING-README file.
  */
 
-
 namespace Test\DB;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
@@ -19,6 +18,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
@@ -32,12 +32,12 @@ use OCP\Migration\IMigrationStep;
  */
 class MigrationsTest extends \Test\TestCase {
 
-	/** @var MigrationService | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var MigrationService | \PHPUnit\Framework\MockObject\MockObject */
 	private $migrationService;
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IDBConnection $db */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IDBConnection $db */
 	private $db;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = $this->createMock(Connection::class);
@@ -61,27 +61,27 @@ class MigrationsTest extends \Test\TestCase {
 		$this->assertEquals('test_oc_migrations', $this->migrationService->getMigrationsTableName());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Version 20170130180000 is unknown.
-	 */
+
 	public function testExecuteUnknownStep() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Version 20170130180000 is unknown.');
+
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage App not found
-	 */
+
 	public function testUnknownApp() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('App not found');
+
 		$migrationService = new MigrationService('unknown-bloody-app', $this->db);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Migration step 'X' is unknown
-	 */
+
 	public function testExecuteStepWithUnknownClass() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Migration step \'X\' is unknown');
+
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
 			->setMethods(['findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
@@ -93,7 +93,6 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	public function testExecuteStepWithSchemaChange() {
-
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')
@@ -137,7 +136,6 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	public function testExecuteStepWithoutSchemaChange() {
-
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')
@@ -222,7 +220,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->migrate();
 	}
 
-	public function testEnsureOracleIdentifierLengthLimitValid() {
+	public function testEnsureOracleConstraintsValid() {
 		$column = $this->createMock(Column::class);
 		$column->expects($this->once())
 			->method('getName')
@@ -277,10 +275,10 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	public function testEnsureOracleIdentifierLengthLimitValidWithPrimaryKey() {
+	public function testEnsureOracleConstraintsValidWithPrimaryKey() {
 		$index = $this->createMock(Index::class);
 		$index->expects($this->any())
 			->method('getName')
@@ -320,14 +318,14 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	public function testEnsureOracleIdentifierLengthLimitValidWithPrimaryKeyDefault() {
+	public function testEnsureOracleConstraintsValidWithPrimaryKeyDefault() {
 		$defaultName = 'PRIMARY';
 		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 			$defaultName = \str_repeat('a', 26) . '_' . \str_repeat('b', 30) . '_seq';
-		} else if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+		} elseif ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
 			$defaultName = \str_repeat('a', 26) . '_seq';
 		}
 
@@ -342,7 +340,7 @@ class MigrationsTest extends \Test\TestCase {
 		$table = $this->createMock(Table::class);
 		$table->expects($this->any())
 			->method('getName')
-			->willReturn(\str_repeat('a', 26));
+			->willReturn(\str_repeat('a', 25));
 
 		$table->expects($this->once())
 			->method('getColumns')
@@ -373,13 +371,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEnsureOracleIdentifierLengthLimitTooLongTableName() {
+
+	public function testEnsureOracleConstraintsTooLongTableName() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$table = $this->createMock(Table::class);
 		$table->expects($this->any())
 			->method('getName')
@@ -398,17 +396,17 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEnsureOracleIdentifierLengthLimitTooLongPrimaryWithDefault() {
+
+	public function testEnsureOracleConstraintsTooLongPrimaryWithDefault() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$defaultName = 'PRIMARY';
 		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 			$defaultName = \str_repeat('a', 27) . '_' . \str_repeat('b', 30) . '_seq';
-		} else if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+		} elseif ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
 			$defaultName = \str_repeat('a', 27) . '_seq';
 		}
 
@@ -451,13 +449,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEnsureOracleIdentifierLengthLimitTooLongPrimaryWithName() {
+
+	public function testEnsureOracleConstraintsTooLongPrimaryWithName() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$index = $this->createMock(Index::class);
 		$index->expects($this->any())
 			->method('getName')
@@ -494,13 +492,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEnsureOracleIdentifierLengthLimitTooLongColumnName() {
+
+	public function testEnsureOracleConstraintsTooLongColumnName() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$column = $this->createMock(Column::class);
 		$column->expects($this->any())
 			->method('getName')
@@ -528,13 +526,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEnsureOracleIdentifierLengthLimitTooLongIndexName() {
+
+	public function testEnsureOracleConstraintsTooLongIndexName() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$index = $this->createMock(Index::class);
 		$index->expects($this->any())
 			->method('getName')
@@ -565,13 +563,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEnsureOracleIdentifierLengthLimitTooLongForeignKeyName() {
+
+	public function testEnsureOracleConstraintsTooLongForeignKeyName() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$foreignKey = $this->createMock(ForeignKeyConstraint::class);
 		$foreignKey->expects($this->any())
 			->method('getName')
@@ -605,13 +603,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEnsureOracleIdentifierLengthLimitTooLongSequenceName() {
+
+	public function testEnsureOracleConstraintsTooLongSequenceName() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$sequence = $this->createMock(Sequence::class);
 		$sequence->expects($this->any())
 			->method('getName')
@@ -633,6 +631,46 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
+	}
+
+
+	public function testEnsureOracleConstraintsBooleanNotNull() {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$column = $this->createMock(Column::class);
+		$column->expects($this->any())
+			->method('getName')
+			->willReturn('aaaa');
+		$column->expects($this->any())
+			->method('getType')
+			->willReturn(Type::getType('boolean'));
+		$column->expects($this->any())
+			->method('getNotnull')
+			->willReturn(true);
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([$column]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects($this->any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects($this->any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 }

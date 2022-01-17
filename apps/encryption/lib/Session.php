@@ -4,8 +4,10 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,23 +21,22 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption;
 
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
-use \OCP\ISession;
+use OCP\ISession;
 
 class Session {
 
 	/** @var ISession */
 	protected $session;
 
-	const NOT_INITIALIZED = '0';
-	const INIT_EXECUTED = '1';
-	const INIT_SUCCESSFUL = '2';
+	public const NOT_INITIALIZED = '0';
+	public const INIT_EXECUTED = '1';
+	public const INIT_SUCCESSFUL = '2';
 
 	/**
 	 * @param ISession $session
@@ -183,5 +184,4 @@ class Session {
 		$this->session->remove('decryptAllKey');
 		$this->session->remove('decryptAllUid');
 	}
-
 }

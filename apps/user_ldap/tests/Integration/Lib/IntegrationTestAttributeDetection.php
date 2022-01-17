@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,21 +14,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\user_ldap\tests\Integration\Lib;
 
 use OCA\User_LDAP\Group_LDAP;
+use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User_LDAP;
+use OCA\User_LDAP\UserPluginManager;
 
 require_once __DIR__ . '/../Bootstrap.php';
 
@@ -50,12 +51,12 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		$groupMapper->clear();
 		$this->access->setGroupMapper($groupMapper);
 
-		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query('LDAPUserPluginManager'));
+		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query(UserPluginManager::class));
 		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
 		$userManager->registerBackend($userBackend);
 
-		$groupBackend = new Group_LDAP($this->access, \OC::$server->query('LDAPGroupPluginManager'));
+		$groupBackend = new Group_LDAP($this->access, \OC::$server->query(GroupPluginManager::class));
 		$groupManger = \OC::$server->getGroupManager();
 		$groupManger->clearBackends();
 		$groupManger->addBackend($groupBackend);

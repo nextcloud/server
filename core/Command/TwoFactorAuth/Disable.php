@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -17,13 +17,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\TwoFactorAuth;
 
-use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\ProviderManager;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
@@ -53,7 +51,7 @@ class Disable extends Base {
 		$this->addArgument('provider_id', InputArgument::REQUIRED);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		$providerId = $input->getArgument('provider_id');
 		$user = $this->userManager->get($uid);
@@ -69,5 +67,4 @@ class Disable extends Base {
 			return 2;
 		}
 	}
-
 }

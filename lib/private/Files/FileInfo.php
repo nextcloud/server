@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author 1 Man Projects <reed@1manprojects.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -13,7 +13,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author tbartenstein <tbartenstein@users.noreply.github.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,10 +27,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -95,7 +94,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @param \OCP\Files\Mount\IMountPoint $mount
 	 * @param \OCP\IUser|null $owner
 	 */
-	public function __construct($path, $storage, $internalPath, $data, $mount, $owner= null) {
+	public function __construct($path, $storage, $internalPath, $data, $mount, $owner = null) {
 		$this->path = $path;
 		$this->storage = $storage;
 		$this->internalPath = $internalPath;
@@ -105,26 +104,30 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->rawSize = $this->data['size'] ?? 0;
 	}
 
-	public function offsetSet($offset, $value) {
+	public function offsetSet($offset, $value): void {
 		$this->data[$offset] = $value;
 	}
 
-	public function offsetExists($offset) {
+	public function offsetExists($offset): bool {
 		return isset($this->data[$offset]);
 	}
 
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		unset($this->data[$offset]);
 	}
 
+	/**
+	 * @return mixed
+	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		if ($offset === 'type') {
 			return $this->getType();
-		} else if ($offset === 'etag') {
+		} elseif ($offset === 'etag') {
 			return $this->getEtag();
-		} else if ($offset === 'size') {
+		} elseif ($offset === 'size') {
 			return $this->getSize();
-		} else if ($offset === 'mtime') {
+		} elseif ($offset === 'mtime') {
 			return $this->getMTime();
 		} elseif ($offset === 'permissions') {
 			return $this->getPermissions();
@@ -243,7 +246,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
 			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
 		}
-		return (int) $perms;
+		return $perms;
 	}
 
 	/**
@@ -405,5 +408,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	public function getExtension(): string {
 		return pathinfo($this->getName(), PATHINFO_EXTENSION);
+	}
+
+	public function getCreationTime(): int {
+		return (int) $this->data['creation_time'];
+	}
+
+	public function getUploadTime(): int {
+		return (int) $this->data['upload_time'];
 	}
 }

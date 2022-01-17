@@ -1,9 +1,11 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,19 +18,22 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
+
+import $ from 'jquery'
 
 /**
  * Parses a URL query string into a JS map
+ *
  * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
- * @returns {Object.<string, string>} map containing key/values matching the URL parameters
+ * @return {object.<string, string>} map containing key/values matching the URL parameters
  */
 export const parse = queryString => {
-	let parts
 	let pos
 	let components
-	let result = {}
+	const result = {}
 	let key
 	if (!queryString) {
 		return null
@@ -37,15 +42,15 @@ export const parse = queryString => {
 	if (pos >= 0) {
 		queryString = queryString.substr(pos + 1)
 	}
-	parts = queryString.replace(/\+/g, '%20').split('&')
+	const parts = queryString.replace(/\+/g, '%20').split('&')
 	for (let i = 0; i < parts.length; i++) {
 		// split on first equal sign
-		var part = parts[i]
+		const part = parts[i]
 		pos = part.indexOf('=')
 		if (pos >= 0) {
 			components = [
 				part.substr(0, pos),
-				part.substr(pos + 1)
+				part.substr(pos + 1),
 			]
 		} else {
 			// key only
@@ -71,15 +76,16 @@ export const parse = queryString => {
 
 /**
  * Builds a URL query from a JS map.
- * @param {Object.<string, string>} params map containing key/values matching the URL parameters
- * @returns {string} String containing a URL query (without question) mark
+ *
+ * @param {object.<string, string>} params map containing key/values matching the URL parameters
+ * @return {string} String containing a URL query (without question) mark
  */
 export const build = params => {
 	if (!params) {
 		return ''
 	}
 	return $.map(params, function(value, key) {
-		var s = encodeURIComponent(key)
+		let s = encodeURIComponent(key)
 		if (value !== null && typeof (value) !== 'undefined') {
 			s += '=' + encodeURIComponent(value)
 		}

@@ -8,12 +8,11 @@
 
 namespace Test\Repair;
 
-
 use OC\Repair\RepairInvalidShares;
-use OC\Share\Constants;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 /**
@@ -31,7 +30,7 @@ class RepairInvalidSharesTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	private $connection;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$config = $this->getMockBuilder(IConfig::class)
@@ -40,7 +39,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$config->expects($this->any())
 			->method('getSystemValue')
 			->with('version')
-			->will($this->returnValue('12.0.0.0'));
+			->willReturn('12.0.0.0');
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->deleteAllShares();
@@ -49,7 +48,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$this->repair = new RepairInvalidShares($config, $this->connection);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->deleteAllShares();
 
 		parent::tearDown();
@@ -66,7 +65,7 @@ class RepairInvalidSharesTest extends TestCase {
 	public function testSharesNonExistingParent() {
 		$qb = $this->connection->getQueryBuilder();
 		$shareValues = [
-			'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_USER),
+			'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 			'share_with' => $qb->expr()->literal('recipientuser1'),
 			'uid_owner' => $qb->expr()->literal('user1'),
 			'item_type' => $qb->expr()->literal('folder'),
@@ -111,7 +110,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$this->assertEquals([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
 		$result->closeCursor();
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
 			->disableOriginalConstructor()
 			->getMock();
@@ -160,7 +159,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_LINK),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
 				'uid_owner' => $qb->expr()->literal('user1'),
 				'item_type' => $qb->expr()->literal($itemType),
 				'item_source' => $qb->expr()->literal(123),
@@ -174,7 +173,7 @@ class RepairInvalidSharesTest extends TestCase {
 
 		$shareId = $this->getLastShareId();
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
 			->disableOriginalConstructor()
 			->getMock();
@@ -202,4 +201,3 @@ class RepairInvalidSharesTest extends TestCase {
 		return $this->connection->lastInsertId('*PREFIX*share');
 	}
 }
-

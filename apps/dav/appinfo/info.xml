@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.14.0</version>
+	<version>1.22.0</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -16,7 +16,7 @@
 	<category>integration</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="18" max-version="18"/>
+		<nextcloud min-version="24" max-version="24"/>
 	</dependencies>
 
 	<background-jobs>
@@ -24,6 +24,7 @@
 		<job>OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob</job>
 		<job>OCA\DAV\BackgroundJob\CleanupInvitationTokenJob</job>
 		<job>OCA\DAV\BackgroundJob\EventReminderJob</job>
+		<job>OCA\DAV\BackgroundJob\CalendarRetentionJob</job>
 	</background-jobs>
 
 	<repair-steps>
@@ -32,10 +33,12 @@
 			<step>OCA\DAV\Migration\RegenerateBirthdayCalendars</step>
 			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
 			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
+			<step>OCA\DAV\Migration\BuildSocialSearchIndex</step>
 			<step>OCA\DAV\Migration\RefreshWebcalJobRegistrar</step>
 			<step>OCA\DAV\Migration\RegisterBuildReminderIndexBackgroundJob</step>
 			<step>OCA\DAV\Migration\RemoveOrphanEventsAndContacts</step>
 			<step>OCA\DAV\Migration\RemoveClassifiedEventActivity</step>
+			<step>OCA\DAV\Migration\RemoveDeletedUsersCalendarSubscriptions</step>
 		</post-migration>
 		<live-migration>
 			<step>OCA\DAV\Migration\ChunkCleanup</step>
@@ -45,8 +48,10 @@
 	<commands>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
 		<command>OCA\DAV\Command\CreateCalendar</command>
+		<command>OCA\DAV\Command\DeleteCalendar</command>
 		<command>OCA\DAV\Command\MoveCalendar</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
+		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
@@ -55,6 +60,7 @@
 
 	<settings>
 		<admin>OCA\DAV\Settings\CalDAVSettings</admin>
+		<personal>OCA\DAV\Settings\AvailabilitySettings</personal>
 	</settings>
 
 	<activity>
@@ -62,17 +68,21 @@
 			<setting>OCA\DAV\CalDAV\Activity\Setting\Calendar</setting>
 			<setting>OCA\DAV\CalDAV\Activity\Setting\Event</setting>
 			<setting>OCA\DAV\CalDAV\Activity\Setting\Todo</setting>
+			<setting>OCA\DAV\CardDAV\Activity\Setting</setting>
 		</settings>
 
 		<filters>
 			<filter>OCA\DAV\CalDAV\Activity\Filter\Calendar</filter>
 			<filter>OCA\DAV\CalDAV\Activity\Filter\Todo</filter>
+			<filter>OCA\DAV\CardDAV\Activity\Filter</filter>
 		</filters>
 
 		<providers>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Calendar</provider>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Event</provider>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Todo</provider>
+			<provider>OCA\DAV\CardDAV\Activity\Provider\Addressbook</provider>
+			<provider>OCA\DAV\CardDAV\Activity\Provider\Card</provider>
 		</providers>
 	</activity>
 

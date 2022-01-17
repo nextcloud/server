@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,12 +26,9 @@ declare(strict_types=1);
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware;
-use OC\Security\CSP\ContentSecurityPolicy;
-use OC\Security\CSRF\CsrfToken;
 use OC\Security\FeaturePolicy\FeaturePolicy;
 use OC\Security\FeaturePolicy\FeaturePolicyManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyFeaturePolicy;
 use OCP\AppFramework\Http\Response;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -44,7 +42,7 @@ class FeaturePolicyMiddlewareTest extends \Test\TestCase {
 	/** @var FeaturePolicyManager|MockObject */
 	private $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->controller = $this->createMock(Controller::class);

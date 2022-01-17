@@ -11,6 +11,7 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0 (2).txt" of user "user1" is shared with user "user2"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0.txt"
@@ -25,6 +26,7 @@ Feature: sharing
     And user "user1" exists
     And user "user2" exists
     And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And user "user0" accepts last share
     And Updating last share with
       | permissions | 1 |
     And file "textfile0.txt" of user "user1" is shared with user "user2"
@@ -49,6 +51,7 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And user "user0" accepts last share
     And save the last share data as "textfile0.txt from user1"
     And file "textfile0 (2).txt" of user "user0" is shared with user "user3"
     And restore the last share data from "textfile0.txt from user1"
@@ -89,8 +92,11 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0 (2).txt" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
     And file "textfile0 (2).txt" of user "user2" is shared with user "user3"
+    And user "user3" accepts last share
     And As an "user1"
     When User "user1" deletes file "/textfile0 (2).txt"
     And As an "user3"
@@ -155,6 +161,7 @@ Feature: sharing
       | displayname_owner | user0 |
       | mimetype          | text/plain |
     And As an "user1"
+    And accepting last share
     And Getting info of last share
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -215,6 +222,7 @@ Feature: sharing
     Given user "user0" exists
     And user "user1" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0.txt" of user "user1" is shared with user "user0"
     When As an "user0"
     And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=/"
@@ -259,7 +267,9 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "PARENT" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "PARENT (2)/CHILD" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
     And file "CHILD" of user "user2" is shared with user "user3"
     When As an "user0"
     And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=PARENT"
@@ -299,7 +309,9 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "PARENT" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "PARENT (2)/CHILD" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
     And file "CHILD" of user "user2" is shared with user "user3"
     When As an "user1"
     And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=PARENT (2)"
@@ -340,7 +352,9 @@ Feature: sharing
     And user "user3" exists
     And file "PARENT" of user "user0" is shared with user "user1"
     And save the last share data as "parent folder"
+    And user "user1" accepts last share
     And file "PARENT (2)/CHILD" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
     And file "CHILD" of user "user2" is shared with user "user3"
     And As an "user0"
     And restore the last share data from "parent folder"
@@ -369,6 +383,7 @@ Feature: sharing
     And user "user1" exists
     And user "user2" exists
     And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And user "user0" accepts last share
     And Updating last share with
       | permissions | 1 |
     And file "textfile0.txt" of user "user1" is shared with user "user2"
@@ -393,7 +408,9 @@ Feature: sharing
     And user "user1" exists
     And user "user2" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And user "user0" accepts last share
     And Updating last share with
       | permissions | 1 |
     And file "textfile0.txt" of user "user1" is shared with user "user2"
@@ -432,6 +449,7 @@ Feature: sharing
     And group "group1" exists
     And user "user1" belongs to group "group1"
     And file "textfile0.txt" of user "user0" is shared with group "group1"
+    And user "user1" accepts last share
     And User "user1" moved file "/textfile0 (2).txt" to "/FOLDER/textfile0.txt"
     And As an "user0"
     When Updating last share with
@@ -491,6 +509,7 @@ Feature: sharing
     And user "user1" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
     And file "textfile1.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And As an "user1"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true&path=textfile1 (2).txt"
     Then the OCS status code should be "100"
@@ -501,6 +520,7 @@ Feature: sharing
     Given user "user0" exists
     And user "user1" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile1.txt" of user "user0" is shared with user "user1"
     And As an "user1"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true&path=textfile0 (2).txt"
@@ -533,12 +553,43 @@ Feature: sharing
       | shareWith | user1 |
       | permissions | 8 |
     And As an "user1"
+    And accepting last share
     When creating a share with
       | path | /textfile0 (2).txt |
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
     Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: User is allowed to reshare file with more permissions if shares of same file to same user have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 1 |
+      | shareWith | group1 |
+      | permissions | 15 |
+    And As an "user1"
+    And accepting last share
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 17 |
+    And As an "user1"
+    And accepting last share
+    When creating a share with
+      | path | /textfile0 (2).txt |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 19 |
+    Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with more permissions
@@ -553,11 +604,98 @@ Feature: sharing
       | shareWith | user1 |
       | permissions | 16 |
     And As an "user1"
+    And accepting last share
     When creating a share with
       | path | /textfile0 (2).txt |
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: User is not allowed to reshare file with more permissions even if shares of same file to other users have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user3 |
+      | permissions | 15 |
+    And As an "user3"
+    And accepting last share
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 17 |
+    And As an "user1"
+    And accepting last share
+    When creating a share with
+      | path | /textfile0 (2).txt |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 19 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: User is not allowed to reshare file with more permissions even if shares of other files from same user have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 15 |
+    And As an "user1"
+    And accepting last share
+    And As an "user0"
+    And creating a share with
+      | path | /textfile1.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 17 |
+    And As an "user1"
+    And accepting last share
+    When creating a share with
+      | path | /textfile1 (2).txt |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 19 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: User is not allowed to reshare file with more permissions even if shares of other files from other users have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And As an "user3"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 15 |
+    And As an "user1"
+    And accepting last share
+    And As an "user0"
+    And creating a share with
+      | path | /textfile1.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 17 |
+    And As an "user1"
+    And accepting last share
+    When creating a share with
+      | path | /textfile1 (2).txt |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 19 |
     Then the OCS status code should be "404"
     And the HTTP status code should be "200"
 
@@ -573,6 +711,7 @@ Feature: sharing
       | shareWith | user1 |
       | permissions | 16 |
     And As an "user1"
+    And accepting last share
     When creating a share with
       | path | /PARENT (2) |
       | shareType | 0 |
@@ -593,6 +732,7 @@ Feature: sharing
       | shareWith | user1 |
       | permissions | 16 |
     And As an "user1"
+    And accepting last share
     When creating a share with
       | path | /textfile0 (2).txt |
       | shareType | 0 |
@@ -636,6 +776,7 @@ Feature: sharing
     And user "user1" exists
     And user "user2" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0.txt" of user "user0" is shared with user "user2"
     And As an "user1"
     When Getting info of last share
@@ -668,7 +809,9 @@ Feature: sharing
     And group "group0" exists
     And user "user1" belongs to group "group0"
     And file "/PARENT" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     When file "/PARENT/CHILD" of user "user0" is shared with group "group0"
+    And user "user1" accepts last share
     Then user "user1" should see following elements
       | /FOLDER/ |
       | /PARENT/ |
@@ -694,7 +837,10 @@ Feature: sharing
     And user "user0" created a folder "/common"
     And user "user0" created a folder "/common/sub"
     And file "common" of user "user0" is shared with group "group0"
+    And user "user1" accepts last share
+    And user "user2" accepts last share
     And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
     And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
     And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
     And As an "user2"
@@ -715,7 +861,10 @@ Feature: sharing
     And user "user0" created a folder "/common"
     And user "user0" created a folder "/common/sub"
     And file "common" of user "user0" is shared with group "group0"
+    And user "user1" accepts last share
+    And user "user2" accepts last share
     And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
     And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
     And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
     And As an "user2"
@@ -731,6 +880,7 @@ Feature: sharing
     And group "group1" exists
     And user "user1" belongs to group "group1"
     And file "textfile0.txt" of user "user0" is shared with group "group1"
+    And user "user1" accepts last share
     And User "user1" moved file "/textfile0 (2).txt" to "/FOLDER/textfile0.txt"
     And As an "user0"
     And Deleting last share
@@ -764,11 +914,12 @@ Feature: sharing
     And user "user1" exists
     And user "user2" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0.txt" of user "user0" is shared with user "user2"
     And As an "user1"
     When Deleting last share
     Then the OCS status code should be "403"
-    And the HTTP status code should be "401"
+    And the HTTP status code should be "200"
 
   Scenario: Keep usergroup shares (#22143)
     Given As an "admin"
@@ -780,6 +931,8 @@ Feature: sharing
     And user "user2" belongs to group "group"
     And user "user0" created a folder "/TMP"
     And file "TMP" of user "user0" is shared with group "group"
+    And user "user1" accepts last share
+    And user "user2" accepts last share
     And user "user1" created a folder "/myFOLDER"
     And User "user1" moves file "/TMP" to "/myFOLDER/myTMP"
     And user "user2" does not exist
@@ -794,6 +947,7 @@ Feature: sharing
     And user "user1" has a quota of "0"
     And User "user0" moved file "/welcome.txt" to "/myfile.txt"
     And file "myfile.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     When User "user1" uploads file "data/textfile.txt" to "/myfile.txt"
     Then the HTTP status code should be "204"
 
@@ -811,10 +965,44 @@ Feature: sharing
     And user "user2" exists
     And user "user0" created a folder "/TMP"
     And file "TMP" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "TMP" of user "user1" is shared with user "user2"
     And As an "user1"
     When Updating last share with
       | permissions | 1 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
+  Scenario: Allow reshare to exceed permissions if shares of same file to same user have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 1 |
+      | shareWith | group1 |
+      | permissions | 15 |
+    And As an "user1"
+    And accepting last share
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 17 |
+    And As an "user1"
+    And accepting last share
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 17 |
+    When Updating last share with
+      | permissions | 31 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
@@ -830,6 +1018,102 @@ Feature: sharing
       | shareWith | user1 |
       | permissions | 21 |
     And As an "user1"
+    And accepting last share
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 21 |
+    When Updating last share with
+      | permissions | 31 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: Do not allow reshare to exceed permissions even if shares of same file to other users have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user3 |
+      | permissions | 15 |
+    And As an "user3"
+    And accepting last share
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 21 |
+    And As an "user1"
+    And accepting last share
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 21 |
+    When Updating last share with
+      | permissions | 31 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: Do not allow reshare to exceed permissions even if shares of other files from same user have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And As an "user0"
+    And creating a share with
+      | path | /FOLDER |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 15 |
+    And As an "user1"
+    And accepting last share
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 21 |
+    And As an "user1"
+    And accepting last share
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 21 |
+    When Updating last share with
+      | permissions | 31 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: Do not allow reshare to exceed permissions even if shares of other files from other users have them
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And As an "user3"
+    And creating a share with
+      | path | /FOLDER |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 15 |
+    And As an "user1"
+    And accepting last share
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 21 |
+    And As an "user1"
+    And accepting last share
     And creating a share with
       | path | /TMP |
       | shareType | 0 |
@@ -853,6 +1137,7 @@ Feature: sharing
       | shareWith | user1 |
       | permissions | 21 |
     And As an "user1"
+    And accepting last share
     And creating a share with
       | path | /TMP/SUB |
       | shareType | 0 |

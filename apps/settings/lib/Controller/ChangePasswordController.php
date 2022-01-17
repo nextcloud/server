@@ -1,11 +1,13 @@
 <?php
-// FIXME: disabled for now to be able to inject IGroupManager and also use
-// getSubAdmin()
-//declare(strict_types=1);
 /**
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
- *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Matthew Setter <matthew@matthewsetter.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -20,20 +22,25 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+// FIXME: disabled for now to be able to inject IGroupManager and also use
+// getSubAdmin()
+//declare(strict_types=1);
+
 namespace OCA\Settings\Controller;
 
-use OC\HintException;
+use OC\Group\Manager as GroupManager;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\HintException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -52,7 +59,7 @@ class ChangePasswordController extends Controller {
 	/** @var IL10N */
 	private $l;
 
-	/** @var IGroupManager */
+	/** @var GroupManager */
 	private $groupManager;
 
 	/** @var Session */
@@ -81,12 +88,13 @@ class ChangePasswordController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @BruteForceProtection(action=changePersonalPassword)
 	 */
 	public function changePersonalPassword(string $oldpassword = '', string $newpassword = null): JSONResponse {
+		$loginName = $this->userSession->getLoginName();
 		/** @var IUser $user */
-		$user = $this->userManager->checkPassword($this->userId, $oldpassword);
+		$user = $this->userManager->checkPassword($loginName, $oldpassword);
 		if ($user === false) {
 			$response = new JSONResponse([
 				'status' => 'error',
@@ -104,8 +112,8 @@ class ChangePasswordController extends Controller {
 					'status' => 'error'
 				]);
 			}
-		// password policy app throws exception
-		} catch(HintException $e) {
+			// password policy app throws exception
+		} catch (HintException $e) {
 			return new JSONResponse([
 				'status' => 'error',
 				'data' => [
@@ -183,14 +191,14 @@ class ChangePasswordController extends Controller {
 				\OC::$server->getUserSession(),
 				new \OCA\Encryption\Session(\OC::$server->getSession()),
 				\OC::$server->getLogger(),
-				$util);
+				$util,
+				\OC::$server->getLockingProvider()
+			);
 			$recovery = new \OCA\Encryption\Recovery(
 				\OC::$server->getUserSession(),
 				$crypt,
-				\OC::$server->getSecureRandom(),
 				$keyManager,
 				\OC::$server->getConfig(),
-				$keyStorage,
 				\OC::$server->getEncryptionFilesHelper(),
 				new \OC\Files\View());
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
@@ -219,8 +227,8 @@ class ChangePasswordController extends Controller {
 			} else { // now we know that everything is fine regarding the recovery password, let's try to change the password
 				try {
 					$result = $targetUser->setPassword($password, $recoveryPassword);
-				// password policy app throws exception
-				} catch(HintException $e) {
+					// password policy app throws exception
+				} catch (HintException $e) {
 					return new JSONResponse([
 						'status' => 'error',
 						'data' => [
@@ -254,8 +262,8 @@ class ChangePasswordController extends Controller {
 						],
 					]);
 				}
-			// password policy app throws exception
-			} catch(HintException $e) {
+				// password policy app throws exception
+			} catch (HintException $e) {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [

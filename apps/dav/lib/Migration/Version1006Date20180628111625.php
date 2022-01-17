@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,20 +20,19 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version1006Date20180628111625 extends SimpleMigrationStep {
 
@@ -43,7 +48,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('calendarchanges')) {
 			$calendarChangesTable = $schema->getTable('calendarchanges');
-			$calendarChangesTable->addColumn('calendartype', Type::INTEGER, [
+			$calendarChangesTable->addColumn('calendartype', Types::INTEGER, [
 				'notnull' => true,
 				'default' => 0,
 			]);
@@ -56,7 +61,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('calendarobjects')) {
 			$calendarObjectsTable = $schema->getTable('calendarobjects');
-			$calendarObjectsTable->addColumn('calendartype', Type::INTEGER, [
+			$calendarObjectsTable->addColumn('calendartype', Types::INTEGER, [
 				'notnull' => true,
 				'default' => 0,
 			]);
@@ -69,7 +74,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('calendarobjects_props')) {
 			$calendarObjectsPropsTable = $schema->getTable('calendarobjects_props');
-			$calendarObjectsPropsTable->addColumn('calendartype', Type::INTEGER, [
+			$calendarObjectsPropsTable->addColumn('calendartype', Types::INTEGER, [
 				'notnull' => true,
 				'default' => 0,
 			]);
@@ -88,6 +93,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 			$calendarObjectsPropsTable->addIndex(['objectid', 'calendartype'], 'calendarobject_index');
 			$calendarObjectsPropsTable->addIndex(['name', 'calendartype'], 'calendarobject_name_index');
 			$calendarObjectsPropsTable->addIndex(['value', 'calendartype'], 'calendarobject_value_index');
+			$calendarObjectsPropsTable->addIndex(['calendarid', 'calendartype'], 'calendarobject_calid_index');
 		}
 
 		if ($schema->hasTable('calendarsubscriptions')) {

@@ -4,16 +4,18 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Liam JACK <liamjack@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,16 +29,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Tests;
-
-require_once __DIR__ . '/../appinfo/app.php';
 
 use OC\Files\Storage\Temporary;
 use OCP\IConfig;
+use OCP\IUser;
+use OCP\Share\IShare;
 
 /**
  * Class Test_Files_versions
@@ -45,56 +46,60 @@ use OCP\IConfig;
  * @group DB
  */
 class VersioningTest extends \Test\TestCase {
-
-	const TEST_VERSIONS_USER = 'test-versions-user';
-	const TEST_VERSIONS_USER2 = 'test-versions-user2';
-	const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
+	public const TEST_VERSIONS_USER = 'test-versions-user';
+	public const TEST_VERSIONS_USER2 = 'test-versions-user2';
+	public const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
 
 	/**
 	 * @var \OC\Files\View
 	 */
 	private $rootView;
+	private $user1;
+	private $user2;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
 		$application = new \OCA\Files_Sharing\AppInfo\Application();
-		$application->registerMountProviders();
 
 		// create test user
 		self::loginHelper(self::TEST_VERSIONS_USER2, true);
 		self::loginHelper(self::TEST_VERSIONS_USER, true);
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		// cleanup test user
 		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER2);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		parent::tearDownAfterClass();
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$config = \OC::$server->getConfig();
 		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
-			->will($this->returnCallback(function ($key, $default) use ($config) {
+			->willReturnCallback(function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
 					return \OC\Files\Cache\Watcher::CHECK_ONCE;
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
-			}));
-		$this->overwriteService('AllConfig', $mockConfig);
+			});
+		$this->overwriteService(\OC\AllConfig::class, $mockConfig);
 
 		// clear hooks
 		\OC_Hook::clear();
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 		\OCA\Files_Versions\Hooks::connectHooks();
 
 		self::loginHelper(self::TEST_VERSIONS_USER);
@@ -102,10 +107,17 @@ class VersioningTest extends \Test\TestCase {
 		if (!$this->rootView->file_exists(self::USERS_VERSIONS_ROOT)) {
 			$this->rootView->mkdir(self::USERS_VERSIONS_ROOT);
 		}
+
+		$this->user1 = $this->createMock(IUser::class);
+		$this->user1->method('getUID')
+			->willReturn(self::TEST_VERSIONS_USER);
+		$this->user2 = $this->createMock(IUser::class);
+		$this->user2->method('getUID')
+			->willReturn(self::TEST_VERSIONS_USER2);
 	}
 
-	protected function tearDown() {
-		$this->restoreService('AllConfig');
+	protected function tearDown(): void {
+		$this->restoreService(\OC\AllConfig::class);
 
 		if ($this->rootView) {
 			$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files/');
@@ -130,13 +142,13 @@ class VersioningTest extends \Test\TestCase {
 		$startTime = 5000000;
 
 		$testClass = new VersionStorageToTest();
-		list($deleted, $size) = $testClass->callProtectedGetExpireList($startTime, $versions);
+		[$deleted, $size] = $testClass->callProtectedGetExpireList($startTime, $versions);
 
 		// we should have deleted 16 files each of the size 1
 		$this->assertEquals($sizeOfAllDeletedFiles, $size);
 
 		// the deleted array should only contain versions which should be deleted
-		foreach($deleted as $key => $path) {
+		foreach ($deleted as $key => $path) {
 			unset($versions[$key]);
 			$this->assertEquals("delete", substr($path, 0, strlen("delete")));
 		}
@@ -145,129 +157,132 @@ class VersioningTest extends \Test\TestCase {
 		foreach ($versions as $version) {
 			$this->assertEquals("keep", $version['path']);
 		}
-
 	}
 
 	public function versionsProvider() {
-		return array(
+		return [
 			// first set of versions uniformly distributed versions
-			array(
-				array(
+			[
+				[
 					// first slice (10sec) keep one version every 2 seconds
-					array("version" => 4999999, "path" => "keep", "size" => 1),
-					array("version" => 4999998, "path" => "delete", "size" => 1),
-					array("version" => 4999997, "path" => "keep", "size" => 1),
-					array("version" => 4999995, "path" => "keep", "size" => 1),
-					array("version" => 4999994, "path" => "delete", "size" => 1),
+					["version" => 4999999, "path" => "keep", "size" => 1],
+					["version" => 4999998, "path" => "delete", "size" => 1],
+					["version" => 4999997, "path" => "keep", "size" => 1],
+					["version" => 4999995, "path" => "keep", "size" => 1],
+					["version" => 4999994, "path" => "delete", "size" => 1],
 					//next slice (60sec) starts at 4999990 keep one version every 10 secons
-					array("version" => 4999988, "path" => "keep", "size" => 1),
-					array("version" => 4999978, "path" => "keep", "size" => 1),
-					array("version" => 4999975, "path" => "delete", "size" => 1),
-					array("version" => 4999972, "path" => "delete", "size" => 1),
-					array("version" => 4999967, "path" => "keep", "size" => 1),
-					array("version" => 4999958, "path" => "delete", "size" => 1),
-					array("version" => 4999957, "path" => "keep", "size" => 1),
+					["version" => 4999988, "path" => "keep", "size" => 1],
+					["version" => 4999978, "path" => "keep", "size" => 1],
+					["version" => 4999975, "path" => "delete", "size" => 1],
+					["version" => 4999972, "path" => "delete", "size" => 1],
+					["version" => 4999967, "path" => "keep", "size" => 1],
+					["version" => 4999958, "path" => "delete", "size" => 1],
+					["version" => 4999957, "path" => "keep", "size" => 1],
 					//next slice (3600sec) start at 4999940 keep one version every 60 seconds
-					array("version" => 4999900, "path" => "keep", "size" => 1),
-					array("version" => 4999841, "path" => "delete", "size" => 1),
-					array("version" => 4999840, "path" => "keep", "size" => 1),
-					array("version" => 4999780, "path" => "keep", "size" => 1),
-					array("version" => 4996401, "path" => "keep", "size" => 1),
+					["version" => 4999900, "path" => "keep", "size" => 1],
+					["version" => 4999841, "path" => "delete", "size" => 1],
+					["version" => 4999840, "path" => "keep", "size" => 1],
+					["version" => 4999780, "path" => "keep", "size" => 1],
+					["version" => 4996401, "path" => "keep", "size" => 1],
 					// next slice (86400sec) start at 4996400 keep one version every 3600 seconds
-					array("version" => 4996350, "path" => "delete", "size" => 1),
-					array("version" => 4992800, "path" => "keep", "size" => 1),
-					array("version" => 4989800, "path" => "delete", "size" => 1),
-					array("version" => 4989700, "path" => "delete", "size" => 1),
-					array("version" => 4989200, "path" => "keep", "size" => 1),
+					["version" => 4996350, "path" => "delete", "size" => 1],
+					["version" => 4992800, "path" => "keep", "size" => 1],
+					["version" => 4989800, "path" => "delete", "size" => 1],
+					["version" => 4989700, "path" => "delete", "size" => 1],
+					["version" => 4989200, "path" => "keep", "size" => 1],
 					// next slice (2592000sec) start at 4913600 keep one version every 86400 seconds
-					array("version" => 4913600, "path" => "keep", "size" => 1),
-					array("version" => 4852800, "path" => "delete", "size" => 1),
-					array("version" => 4827201, "path" => "delete", "size" => 1),
-					array("version" => 4827200, "path" => "keep", "size" => 1),
-					array("version" => 4777201, "path" => "delete", "size" => 1),
-					array("version" => 4777501, "path" => "delete", "size" => 1),
-					array("version" => 4740000, "path" => "keep", "size" => 1),
+					["version" => 4913600, "path" => "keep", "size" => 1],
+					["version" => 4852800, "path" => "delete", "size" => 1],
+					["version" => 4827201, "path" => "delete", "size" => 1],
+					["version" => 4827200, "path" => "keep", "size" => 1],
+					["version" => 4777201, "path" => "delete", "size" => 1],
+					["version" => 4777501, "path" => "delete", "size" => 1],
+					["version" => 4740000, "path" => "keep", "size" => 1],
 					// final slice starts at 2408000 keep one version every 604800 secons
-					array("version" => 2408000, "path" => "keep", "size" => 1),
-					array("version" => 1803201, "path" => "delete", "size" => 1),
-					array("version" => 1803200, "path" => "keep", "size" => 1),
-					array("version" => 1800199, "path" => "delete", "size" => 1),
-					array("version" => 1800100, "path" => "delete", "size" => 1),
-					array("version" => 1198300, "path" => "keep", "size" => 1),
-				),
+					["version" => 2408000, "path" => "keep", "size" => 1],
+					["version" => 1803201, "path" => "delete", "size" => 1],
+					["version" => 1803200, "path" => "keep", "size" => 1],
+					["version" => 1800199, "path" => "delete", "size" => 1],
+					["version" => 1800100, "path" => "delete", "size" => 1],
+					["version" => 1198300, "path" => "keep", "size" => 1],
+				],
 				16 // size of all deleted files (every file has the size 1)
-			),
+			],
 			// second set of versions, here we have only really old versions
-			array(
-				array(
+			[
+				[
 					// first slice (10sec) keep one version every 2 seconds
 					// next slice (60sec) starts at 4999990 keep one version every 10 secons
 					// next slice (3600sec) start at 4999940 keep one version every 60 seconds
 					// next slice (86400sec) start at 4996400 keep one version every 3600 seconds
-					array("version" => 4996400, "path" => "keep", "size" => 1),
-					array("version" => 4996350, "path" => "delete", "size" => 1),
-					array("version" => 4996350, "path" => "delete", "size" => 1),
-					array("version" => 4992800, "path" => "keep", "size" => 1),
-					array("version" => 4989800, "path" => "delete", "size" => 1),
-					array("version" => 4989700, "path" => "delete", "size" => 1),
-					array("version" => 4989200, "path" => "keep", "size" => 1),
+					["version" => 4996400, "path" => "keep", "size" => 1],
+					["version" => 4996350, "path" => "delete", "size" => 1],
+					["version" => 4996350, "path" => "delete", "size" => 1],
+					["version" => 4992800, "path" => "keep", "size" => 1],
+					["version" => 4989800, "path" => "delete", "size" => 1],
+					["version" => 4989700, "path" => "delete", "size" => 1],
+					["version" => 4989200, "path" => "keep", "size" => 1],
 					// next slice (2592000sec) start at 4913600 keep one version every 86400 seconds
-					array("version" => 4913600, "path" => "keep", "size" => 1),
-					array("version" => 4852800, "path" => "delete", "size" => 1),
-					array("version" => 4827201, "path" => "delete", "size" => 1),
-					array("version" => 4827200, "path" => "keep", "size" => 1),
-					array("version" => 4777201, "path" => "delete", "size" => 1),
-					array("version" => 4777501, "path" => "delete", "size" => 1),
-					array("version" => 4740000, "path" => "keep", "size" => 1),
+					["version" => 4913600, "path" => "keep", "size" => 1],
+					["version" => 4852800, "path" => "delete", "size" => 1],
+					["version" => 4827201, "path" => "delete", "size" => 1],
+					["version" => 4827200, "path" => "keep", "size" => 1],
+					["version" => 4777201, "path" => "delete", "size" => 1],
+					["version" => 4777501, "path" => "delete", "size" => 1],
+					["version" => 4740000, "path" => "keep", "size" => 1],
 					// final slice starts at 2408000 keep one version every 604800 secons
-					array("version" => 2408000, "path" => "keep", "size" => 1),
-					array("version" => 1803201, "path" => "delete", "size" => 1),
-					array("version" => 1803200, "path" => "keep", "size" => 1),
-					array("version" => 1800199, "path" => "delete", "size" => 1),
-					array("version" => 1800100, "path" => "delete", "size" => 1),
-					array("version" => 1198300, "path" => "keep", "size" => 1),
-				),
+					["version" => 2408000, "path" => "keep", "size" => 1],
+					["version" => 1803201, "path" => "delete", "size" => 1],
+					["version" => 1803200, "path" => "keep", "size" => 1],
+					["version" => 1800199, "path" => "delete", "size" => 1],
+					["version" => 1800100, "path" => "delete", "size" => 1],
+					["version" => 1198300, "path" => "keep", "size" => 1],
+				],
 				11 // size of all deleted files (every file has the size 1)
-			),
+			],
 			// third set of versions, with some gaps between
-			array(
-				array(
+			[
+				[
 					// first slice (10sec) keep one version every 2 seconds
-					array("version" => 4999999, "path" => "keep", "size" => 1),
-					array("version" => 4999998, "path" => "delete", "size" => 1),
-					array("version" => 4999997, "path" => "keep", "size" => 1),
-					array("version" => 4999995, "path" => "keep", "size" => 1),
-					array("version" => 4999994, "path" => "delete", "size" => 1),
+					["version" => 4999999, "path" => "keep", "size" => 1],
+					["version" => 4999998, "path" => "delete", "size" => 1],
+					["version" => 4999997, "path" => "keep", "size" => 1],
+					["version" => 4999995, "path" => "keep", "size" => 1],
+					["version" => 4999994, "path" => "delete", "size" => 1],
 					//next slice (60sec) starts at 4999990 keep one version every 10 secons
-					array("version" => 4999988, "path" => "keep", "size" => 1),
-					array("version" => 4999978, "path" => "keep", "size" => 1),
+					["version" => 4999988, "path" => "keep", "size" => 1],
+					["version" => 4999978, "path" => "keep", "size" => 1],
 					//next slice (3600sec) start at 4999940 keep one version every 60 seconds
 					// next slice (86400sec) start at 4996400 keep one version every 3600 seconds
-					array("version" => 4989200, "path" => "keep", "size" => 1),
+					["version" => 4989200, "path" => "keep", "size" => 1],
 					// next slice (2592000sec) start at 4913600 keep one version every 86400 seconds
-					array("version" => 4913600, "path" => "keep", "size" => 1),
-					array("version" => 4852800, "path" => "delete", "size" => 1),
-					array("version" => 4827201, "path" => "delete", "size" => 1),
-					array("version" => 4827200, "path" => "keep", "size" => 1),
-					array("version" => 4777201, "path" => "delete", "size" => 1),
-					array("version" => 4777501, "path" => "delete", "size" => 1),
-					array("version" => 4740000, "path" => "keep", "size" => 1),
+					["version" => 4913600, "path" => "keep", "size" => 1],
+					["version" => 4852800, "path" => "delete", "size" => 1],
+					["version" => 4827201, "path" => "delete", "size" => 1],
+					["version" => 4827200, "path" => "keep", "size" => 1],
+					["version" => 4777201, "path" => "delete", "size" => 1],
+					["version" => 4777501, "path" => "delete", "size" => 1],
+					["version" => 4740000, "path" => "keep", "size" => 1],
 					// final slice starts at 2408000 keep one version every 604800 secons
-					array("version" => 2408000, "path" => "keep", "size" => 1),
-					array("version" => 1803201, "path" => "delete", "size" => 1),
-					array("version" => 1803200, "path" => "keep", "size" => 1),
-					array("version" => 1800199, "path" => "delete", "size" => 1),
-					array("version" => 1800100, "path" => "delete", "size" => 1),
-					array("version" => 1198300, "path" => "keep", "size" => 1),
-				),
+					["version" => 2408000, "path" => "keep", "size" => 1],
+					["version" => 1803201, "path" => "delete", "size" => 1],
+					["version" => 1803200, "path" => "keep", "size" => 1],
+					["version" => 1800199, "path" => "delete", "size" => 1],
+					["version" => 1800100, "path" => "delete", "size" => 1],
+					["version" => 1198300, "path" => "keep", "size" => 1],
+				],
 				9 // size of all deleted files (every file has the size 1)
-			),
+			],
+			// fourth set of versions: empty (see issue #19066)
+			[
+				[],
+				0
+			]
 
-		);
+		];
 	}
 
 	public function testRename() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -297,7 +312,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRenameInSharedFolder() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder1/folder2');
 		\OC\Files\Filesystem::file_put_contents("folder1/test.txt", "test file");
@@ -320,11 +334,12 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 
@@ -347,7 +362,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testMoveFolder() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder2');
 		\OC\Files\Filesystem::file_put_contents('folder1/test.txt', 'test file');
@@ -381,18 +395,18 @@ class VersioningTest extends \Test\TestCase {
 
 
 	public function testMoveFileIntoSharedFolderAsRecipient() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 		$versionsFolder2 = '/' . self::TEST_VERSIONS_USER2 . '/files_versions';
@@ -431,17 +445,17 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testMoveFolderIntoSharedFolderAsRecipient() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 		$versionsFolder2 = '/' . self::TEST_VERSIONS_USER2 . '/files_versions';
@@ -482,7 +496,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRenameSharedFile() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -504,11 +517,12 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('test.txt');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 
@@ -531,7 +545,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testCopy() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -565,7 +578,6 @@ class VersioningTest extends \Test\TestCase {
 	 * the correct 'path' and 'name'
 	 */
 	public function testGetVersions() {
-
 		$t1 = time();
 		// second version is two weeks older, this way we make sure that no
 		// version will be expired
@@ -615,10 +627,10 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertFalse(\OCA\Files_Versions\Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
 	}
 
-	/**
-	 * @expectedException \OC\User\NoUserException
-	 */
+
 	public function testExpireNonexistingUser() {
+		$this->expectException(\OC\User\NoUserException::class);
+
 		$this->logout();
 		// needed to have a FS setup (the background job does this)
 		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
@@ -633,8 +645,8 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRestoreCrossStorage() {
-		$storage2 = new Temporary(array());
-		\OC\Files\Filesystem::mount($storage2, array(), self::TEST_VERSIONS_USER . '/files/sub');
+		$storage2 = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage2, [], self::TEST_VERSIONS_USER . '/files/sub');
 
 		$this->doTestRestore();
 	}
@@ -648,11 +660,12 @@ class VersioningTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		$versions = $this->createAndCheckVersions(
 			\OC\Files\Filesystem::getView(),
@@ -665,12 +678,55 @@ class VersioningTest extends \Test\TestCase {
 
 		$firstVersion = current($versions);
 
-		$this->assertFalse(\OCA\Files_Versions\Storage::rollback('folder/test.txt', $firstVersion['version']), 'Revert did not happen');
+		$this->assertFalse(\OCA\Files_Versions\Storage::rollback('folder/test.txt', $firstVersion['version'], $this->user2), 'Revert did not happen');
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		\OC::$server->getShareManager()->deleteShare($share);
 		$this->assertEquals('test file', $file->getContent(), 'File content has not changed');
+	}
+
+	public function testRestoreMovedShare() {
+		$this->markTestSkipped('Unreliable test');
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
+
+		$userHome = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER);
+		$node = $userHome->newFolder('folder');
+		$file = $node->newFile('test.txt');
+
+		$userHome2 = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER2);
+		$userHome2->newFolder('subfolder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setNode($node)
+			->setShareType(IShare::TYPE_USER)
+			->setSharedBy(self::TEST_VERSIONS_USER)
+			->setSharedWith(self::TEST_VERSIONS_USER2)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$share = \OC::$server->getShareManager()->createShare($share);
+		$shareManager = \OC::$server->getShareManager();
+		$shareManager->acceptShare($share, self::TEST_VERSIONS_USER2);
+
+		$share->setTarget("subfolder/folder");
+		$shareManager->moveShare($share, self::TEST_VERSIONS_USER2);
+
+		$versions = $this->createAndCheckVersions(
+			\OC\Files\Filesystem::getView(),
+			'folder/test.txt'
+		);
+
+		$file->putContent('test file');
+
+		$this->loginAsUser(self::TEST_VERSIONS_USER2);
+
+		$firstVersion = current($versions);
+
+		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('folder/test.txt', $firstVersion['version'], $this->user1));
+
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
+
+		\OC::$server->getShareManager()->deleteShare($share);
+		$this->assertEquals('version 2', $file->getContent(), 'File content has not changed');
 	}
 
 	/**
@@ -688,11 +744,11 @@ class VersioningTest extends \Test\TestCase {
 
 		$eventHandler->expects($this->any())
 			->method('callback')
-			->will($this->returnCallback(
-				function($p) use (&$params) {
+			->willReturnCallback(
+				function ($p) use (&$params) {
 					$params = $p;
 				}
-			));
+			);
 
 		\OCP\Util::connectHook(
 			'\OCP\Versions',
@@ -730,13 +786,13 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertEquals('test file', $this->rootView->file_get_contents($filePath));
 		$info1 = $this->rootView->getFileInfo($filePath);
 
-		$params = array();
+		$params = [];
 		$this->connectMockHooks('rollback', $params);
 
-		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2));
-		$expectedParams = array(
+		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2, $this->user1));
+		$expectedParams = [
 			'path' => '/sub/test.txt',
-		);
+		];
 
 		$this->assertEquals($expectedParams['path'], $params['path']);
 		$this->assertTrue(array_key_exists('revision', $params));
@@ -818,11 +874,12 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER2);
 
@@ -867,7 +924,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		// need to scan for the versions
-		list($rootStorage,) = $this->rootView->resolvePath(self::TEST_VERSIONS_USER . '/files_versions');
+		[$rootStorage,] = $this->rootView->resolvePath(self::TEST_VERSIONS_USER . '/files_versions');
 		$rootStorage->getScanner()->scan('files_versions');
 
 		$versions = \OCA\Files_Versions\Storage::getVersions(
@@ -886,9 +943,8 @@ class VersioningTest extends \Test\TestCase {
 	 * @param bool $create
 	 */
 	public static function loginHelper($user, $create = false) {
-
 		if ($create) {
-			$backend  = new \Test\Util\User\Dummy();
+			$backend = new \Test\Util\User\Dummy();
 			$backend->createUser($user, $user);
 			\OC::$server->getUserManager()->registerBackend($backend);
 		}
@@ -906,7 +962,6 @@ class VersioningTest extends \Test\TestCase {
 		\OC_Util::setupFS($user);
 		\OC::$server->getUserFolder($user);
 	}
-
 }
 
 // extend the original class to make it possible to test protected methods
@@ -917,6 +972,5 @@ class VersionStorageToTest extends \OCA\Files_Versions\Storage {
 	 */
 	public function callProtectedGetExpireList($time, $versions) {
 		return self::getExpireList($time, $versions);
-
 	}
 }

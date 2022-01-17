@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -36,7 +38,7 @@ use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-class RemoteWipeNotificationListenerTests extends TestCase {
+class RemoteWipeNotificationsListenerTest extends TestCase {
 
 	/** @var INotificationManager|MockObject */
 	private $notificationManager;
@@ -47,7 +49,7 @@ class RemoteWipeNotificationListenerTests extends TestCase {
 	/** @var IEventListener */
 	private $listener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->notificationManager = $this->createMock(INotificationManager::class);
@@ -146,5 +148,4 @@ class RemoteWipeNotificationListenerTests extends TestCase {
 
 		$this->listener->handle($event);
 	}
-
 }

@@ -2,6 +2,7 @@
 /**
  * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,11 +14,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\DAV\Traits;
@@ -74,7 +75,7 @@ trait PrincipalProxyTrait {
 	 * @throws Exception
 	 */
 	public function getGroupMembership($principal, $needGroups = false) {
-		list($prefix, $name) = \Sabre\Uri\split($principal);
+		[$prefix, $name] = \Sabre\Uri\split($principal);
 
 		if ($prefix !== $this->principalPrefix) {
 			return [];
@@ -110,7 +111,7 @@ trait PrincipalProxyTrait {
 	 * @throws Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {
-		list($principalUri, $target) = \Sabre\Uri\split($principal);
+		[$principalUri, $target] = \Sabre\Uri\split($principal);
 
 		if ($target !== 'calendar-proxy-write' && $target !== 'calendar-proxy-read') {
 			throw new Exception('Setting members of the group is not supported yet');
@@ -126,11 +127,11 @@ trait PrincipalProxyTrait {
 			$permission |= ProxyMapper::PERMISSION_WRITE;
 		}
 
-		list($prefix, $owner) = \Sabre\Uri\split($principalUri);
+		[$prefix, $owner] = \Sabre\Uri\split($principalUri);
 		$proxies = $this->proxyMapper->getProxiesOf($principalUri);
 
 		foreach ($members as $member) {
-			list($prefix, $name) = \Sabre\Uri\split($member);
+			[$prefix, $name] = \Sabre\Uri\split($member);
 
 			if ($prefix !== $this->principalPrefix) {
 				throw new Exception('Invalid member group prefix: ' . $prefix);
@@ -148,7 +149,7 @@ trait PrincipalProxyTrait {
 					$proxy->setPermissions($proxy->getPermissions() | $permission);
 					$this->proxyMapper->update($proxy);
 
-					$proxies = array_filter($proxies, function(Proxy $p) use ($proxy) {
+					$proxies = array_filter($proxies, function (Proxy $p) use ($proxy) {
 						return $p->getId() !== $proxy->getId();
 					});
 					break;
@@ -179,8 +180,8 @@ trait PrincipalProxyTrait {
 	 * @return bool
 	 */
 	private function isProxyPrincipal(string $principalUri):bool {
-		list($realPrincipalUri, $proxy) = \Sabre\Uri\split($principalUri);
-		list($prefix, $userId) = \Sabre\Uri\split($realPrincipalUri);
+		[$realPrincipalUri, $proxy] = \Sabre\Uri\split($principalUri);
+		[$prefix, $userId] = \Sabre\Uri\split($realPrincipalUri);
 
 		if (!isset($prefix) || !isset($userId)) {
 			return false;
@@ -191,7 +192,6 @@ trait PrincipalProxyTrait {
 
 		return $proxy === 'calendar-proxy-read'
 			|| $proxy === 'calendar-proxy-write';
-
 	}
 
 	/**
@@ -199,7 +199,7 @@ trait PrincipalProxyTrait {
 	 * @return bool
 	 */
 	private function isReadProxyPrincipal(string $principalUri):bool {
-		list(, $proxy) = \Sabre\Uri\split($principalUri);
+		[, $proxy] = \Sabre\Uri\split($principalUri);
 		return $proxy === 'calendar-proxy-read';
 	}
 
@@ -208,7 +208,7 @@ trait PrincipalProxyTrait {
 	 * @return bool
 	 */
 	private function isWriteProxyPrincipal(string $principalUri):bool {
-		list(, $proxy) = \Sabre\Uri\split($principalUri);
+		[, $proxy] = \Sabre\Uri\split($principalUri);
 		return $proxy === 'calendar-proxy-write';
 	}
 
@@ -217,7 +217,7 @@ trait PrincipalProxyTrait {
 	 * @return string
 	 */
 	private function getPrincipalUriFromProxyPrincipal(string $principalUri):string {
-		list($realPrincipalUri, ) = \Sabre\Uri\split($principalUri);
+		[$realPrincipalUri, ] = \Sabre\Uri\split($principalUri);
 		return $realPrincipalUri;
 	}
 }

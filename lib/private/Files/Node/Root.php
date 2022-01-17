@@ -3,14 +3,16 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,20 +26,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Node;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
+use OC\Hooks\PublicEmitter;
+use OC\User\NoUserException;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OC\Hooks\PublicEmitter;
-use OCP\Files\IRootFolder;
 use OCP\ILogger;
 use OCP\IUserManager;
 
@@ -132,7 +134,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $method
 	 * @param Node[] $arguments
 	 */
-	public function emit($scope, $method, $arguments = array()) {
+	public function emit($scope, $method, $arguments = []) {
 		$this->emitter->emit($scope, $method, $arguments);
 	}
 
@@ -141,7 +143,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $mountPoint
 	 * @param array $arguments
 	 */
-	public function mount($storage, $mountPoint, $arguments = array()) {
+	public function mount($storage, $mountPoint, $arguments = []) {
 		$mount = new MountPoint($storage, $mountPoint, $arguments);
 		$this->mountManager->addMount($mount);
 	}
@@ -189,7 +191,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $path
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
-	 * @return string
+	 * @return Node
 	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);
@@ -351,7 +353,8 @@ class Root extends Folder implements IRootFolder {
 	 *
 	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
-	 * @throws \OC\User\NoUserException
+	 * @throws NoUserException
+	 * @throws NotPermittedException
 	 */
 	public function getUserFolder($userId) {
 		$userObject = $this->userManager->get($userId);
@@ -366,7 +369,7 @@ class Root extends Folder implements IRootFolder {
 					'app' => 'files',
 				]
 			);
-			throw new \OC\User\NoUserException('Backends provided no user object');
+			throw new NoUserException('Backends provided no user object');
 		}
 
 		$userId = $userObject->getUID();

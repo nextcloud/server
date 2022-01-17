@@ -2,9 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -21,30 +21,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
-use OCA\FederatedFileSharing\DiscoveryManager;
 
 class Hooks {
-
 	public static function deleteUser($params) {
-		$manager = new External\Manager(
-			\OC::$server->getDatabaseConnection(),
-			\OC\Files\Filesystem::getMountManager(),
-			\OC\Files\Filesystem::getLoader(),
-			\OC::$server->getHTTPClientService(),
-			\OC::$server->getNotificationManager(),
-			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-			\OC::$server->getCloudFederationProviderManager(),
-			\OC::$server->getCloudFederationFactory(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getUserManager(),
-			$params['uid']);
+		$manager = \OC::$server->get(External\Manager::class);
 
 		$manager->removeUserShares($params['uid']);
 	}

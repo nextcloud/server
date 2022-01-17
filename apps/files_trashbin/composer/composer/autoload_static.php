@@ -21,18 +21,21 @@ class ComposerStaticInitFiles_Trashbin
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Files_Trashbin\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Files_Trashbin\\BackgroundJob\\ExpireTrash' => __DIR__ . '/..' . '/../lib/BackgroundJob/ExpireTrash.php',
         'OCA\\Files_Trashbin\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Files_Trashbin\\Command\\CleanUp' => __DIR__ . '/..' . '/../lib/Command/CleanUp.php',
         'OCA\\Files_Trashbin\\Command\\Expire' => __DIR__ . '/..' . '/../lib/Command/Expire.php',
         'OCA\\Files_Trashbin\\Command\\ExpireTrash' => __DIR__ . '/..' . '/../lib/Command/ExpireTrash.php',
+        'OCA\\Files_Trashbin\\Command\\Size' => __DIR__ . '/..' . '/../lib/Command/Size.php',
         'OCA\\Files_Trashbin\\Controller\\PreviewController' => __DIR__ . '/..' . '/../lib/Controller/PreviewController.php',
         'OCA\\Files_Trashbin\\Events\\MoveToTrashEvent' => __DIR__ . '/..' . '/../lib/Events/MoveToTrashEvent.php',
         'OCA\\Files_Trashbin\\Exceptions\\CopyRecursiveException' => __DIR__ . '/..' . '/../lib/Exceptions/CopyRecursiveException.php',
         'OCA\\Files_Trashbin\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Trashbin\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Trashbin\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Trashbin\\Migration\\Version1010Date20200630192639' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630192639.php',
         'OCA\\Files_Trashbin\\Sabre\\AbstractTrash' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrash.php',
         'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFile' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrashFile.php',
         'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFolder' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrashFolder.php',

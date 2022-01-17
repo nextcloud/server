@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -11,7 +13,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,15 +27,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
-use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
+use OCA\Files_Sharing\MountProvider;
+use OCP\Files\Config\IMountProviderCollection;
+use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
 
 /**
@@ -46,12 +50,12 @@ use Test\Traits\MountProviderTrait;
 abstract class TestCase extends \Test\TestCase {
 	use MountProviderTrait;
 
-	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
-	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
-	const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
-	const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
+	public const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
+	public const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
+	public const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
+	public const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
 
-	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
+	public const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
 
 	public $filename;
 	public $data;
@@ -67,19 +71,23 @@ abstract class TestCase extends \Test\TestCase {
 	/** @var \OCP\Files\IRootFolder */
 	protected $rootFolder;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
-		$application = new Application();
-		$application->registerMountProviders();
-		
+		$app = new Application();
+		$app->registerMountProviders(
+			\OC::$server->get(IMountProviderCollection::class),
+			\OC::$server->get(MountProvider::class),
+			\OC::$server->get(ExternalMountProvider::class),
+		);
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC::$server->getGroupManager()->clearBackends();
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
@@ -106,7 +114,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getGroupManager()->addBackend($groupBackend);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		//login as user1
@@ -119,22 +127,36 @@ abstract class TestCase extends \Test\TestCase {
 		$this->rootFolder = \OC::$server->getRootFolder();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->delete('share');
+		$qb->execute();
+
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('mounts');
+		$qb->execute();
+
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('filecache');
 		$qb->execute();
 
 		parent::tearDown();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		// cleanup users
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		// delete group
 		$group = \OC::$server->getGroupManager()->get(self::TEST_FILES_SHARING_API_GROUP1);
@@ -161,7 +183,6 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-
 		if ($password === false) {
 			$password = $user;
 		}
@@ -173,7 +194,7 @@ abstract class TestCase extends \Test\TestCase {
 			$userObject = $userManager->createUser($user, $password);
 			$group = $groupManager->createGroup('group');
 
-			if ($group and $userObject) {
+			if ($group && $userObject) {
 				$group->addUser($userObject);
 			}
 		}
@@ -218,7 +239,6 @@ abstract class TestCase extends \Test\TestCase {
 		$result->closeCursor();
 
 		return $share;
-
 	}
 
 	/**
@@ -240,6 +260,8 @@ abstract class TestCase extends \Test\TestCase {
 			->setNode($node)
 			->setPermissions($permissions);
 		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$share = $this->shareManager->updateShare($share);
 
 		return $share;
 	}

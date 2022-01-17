@@ -1,7 +1,9 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,11 +16,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\Files_Sharing\Tests\Middleware;
@@ -36,20 +38,20 @@ use OCP\Share\IManager;
  */
 class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 	/** @var IL10N */
 	private $l;
 	/** @var OCSShareAPIMiddleware */
 	private $middleware;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->l = $this->createMock(IL10N::class);
 
-		$this->l->method('t')->will($this->returnArgument(0));
+		$this->l->method('t')->willReturnArgument(0);
 
 		$this->middleware = new OCSShareAPIMiddleware($this->shareManager, $this->l);
 	}

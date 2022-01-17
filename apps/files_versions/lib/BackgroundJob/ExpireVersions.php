@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
@@ -18,47 +20,54 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\BackgroundJob;
 
+use OCA\Files_Versions\Expiration;
+use OCA\Files_Versions\Storage;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCA\Files_Versions\AppInfo\Application;
-use OCA\Files_Versions\Storage;
-use OCA\Files_Versions\Expiration;
 
 class ExpireVersions extends \OC\BackgroundJob\TimedJob {
+	public const ITEMS_PER_SESSION = 1000;
 
-	const ITEMS_PER_SESSION = 1000;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * @var Expiration
 	 */
 	private $expiration;
-	
+
 	/**
 	 * @var IUserManager
 	 */
 	private $userManager;
 
-	public function __construct(IUserManager $userManager, Expiration $expiration) {
+	public function __construct(IConfig $config, IUserManager $userManager, Expiration $expiration) {
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
+		$this->config = $config;
 		$this->expiration = $expiration;
 		$this->userManager = $userManager;
 	}
 
-	protected function run($argument) {
+	public function run($argument) {
+		$backgroundJob = $this->config->getAppValue('files_versions', 'background_job_expire_versions', 'yes');
+		if ($backgroundJob === 'no') {
+			return;
+		}
+
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			return;
 		}
 
-		$this->userManager->callForSeenUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$uid = $user->getUID();
 			if (!$this->setupFS($uid)) {
 				return;

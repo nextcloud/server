@@ -22,8 +22,8 @@
     "Password to access {file} was sent to {email}" : "Пароль для доступа к «{file}» был отправлен на адрес {email}",
     "Password to access %1$s was sent to you" : "Вам был отправлен пароль для доступа к «%1$s»",
     "Password to access {file} was sent to you" : "Вам был отправлен пароль для доступа к «{file}»",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Не удалось открыть общий доступ к «%1$s», общий доступ для %2$s уже предоставлен",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Не удаётся отправить вам автоматически созданный пароль. Укажите верный адрес email в своих личных настройках и попробуйте снова.",
+    "Share by mail" : "Поделиться по почте",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Не удалось предоставить доступ к %1$s, так как этот ресурс уже доступен пользователю %2$s",
     "Failed to send share by email" : "Не удалось предоставить общий доступ по адресу электронной почты",
     "%1$s shared »%2$s« with you" : "%1$s предоставил(а) вам доступ к «%2$s»",
     "%1$s shared »%2$s« with you." : "%1$s предоставил(а) вам доступ к «%2$s».",
@@ -43,11 +43,11 @@
     "This is the password:" : "Пароль: ",
     "You can choose a different password at any time in the share dialog." : "В любой момент можно выбрать другой пароль в диалоге «Общий доступ».",
     "Could not find share" : "Не удалось найти общий ресурс",
-    "Share by mail" : "Поделиться по почте",
     "Share provider which allows you to share files by mail" : "Приложение для обмена файлами с помощью электронной почты",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
-    "Enforce password protection" : "Требовать защиту паролем",
-    "Password to access »%1$s« shared with %2$s" : "Пароль для доступа пользователя %2$s к ресурсу «%1$s»"
+    "Reply to initiator" : "Направлять ответ инициатору",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Не удаётся отправить вам автоматически созданный пароль. Укажите верный адрес email в своих личных настройках и попробуйте снова.",
+    "Enforce password protection" : "Требовать защиту паролем"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

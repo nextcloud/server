@@ -2,14 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author martin-rueegg <martin.rueegg@metaworx.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author tbelau666 <thomas.belau@gmx.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,32 +22,27 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
-use \Doctrine\DBAL\DBALException;
-use \Doctrine\DBAL\Schema\Index;
-use \Doctrine\DBAL\Schema\Table;
-use \Doctrine\DBAL\Schema\Schema;
-use \Doctrine\DBAL\Schema\SchemaConfig;
-use \Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Schema\AbstractAsset;
+use Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\Type;
 use OCP\IConfig;
-use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function preg_match;
 
 class Migrator {
 
 	/** @var \Doctrine\DBAL\Connection */
 	protected $connection;
-
-	/** @var ISecureRandom */
-	private $random;
 
 	/** @var IConfig */
 	protected $config;
@@ -60,23 +54,22 @@ class Migrator {
 	private $noEmit = false;
 
 	/**
-	 * @param \Doctrine\DBAL\Connection|Connection $connection
-	 * @param ISecureRandom $random
+	 * @param \Doctrine\DBAL\Connection $connection
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(\Doctrine\DBAL\Connection $connection,
-								ISecureRandom $random,
 								IConfig $config,
 								EventDispatcherInterface $dispatcher = null) {
 		$this->connection = $connection;
-		$this->random = $random;
 		$this->config = $config;
 		$this->dispatcher = $dispatcher;
 	}
 
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
+	 *
+	 * @throws Exception
 	 */
 	public function migrate(Schema $targetSchema) {
 		$this->noEmit = true;
@@ -100,103 +93,17 @@ class Migrator {
 	}
 
 	/**
-	 * @param Schema $targetSchema
-	 * @throws \OC\DB\MigrationException
+	 * @throws Exception
 	 */
-	public function checkMigrate(Schema $targetSchema) {
-		$this->noEmit = true;
-		/**@var \Doctrine\DBAL\Schema\Table[] $tables */
-		$tables = $targetSchema->getTables();
-		$filterExpression = $this->getFilterExpression();
-		$this->connection->getConfiguration()->
-			setFilterSchemaAssetsExpression($filterExpression);
-		$existingTables = $this->connection->getSchemaManager()->listTableNames();
-
-		$step = 0;
-		foreach ($tables as $table) {
-			if (strpos($table->getName(), '.')) {
-				list(, $tableName) = explode('.', $table->getName());
-			} else {
-				$tableName = $table->getName();
-			}
-			$this->emitCheckStep($tableName, $step++, count($tables));
-			// don't need to check for new tables
-			if (array_search($tableName, $existingTables) !== false) {
-				$this->checkTableMigrate($table);
-			}
-		}
-	}
-
-	/**
-	 * Create a unique name for the temporary table
-	 *
-	 * @param string $name
-	 * @return string
-	 */
-	protected function generateTemporaryTableName($name) {
-		return $this->config->getSystemValue('dbtableprefix', 'oc_') . $name . '_' . $this->random->generate(13, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
-	}
-
-	/**
-	 * Check the migration of a table on a copy so we can detect errors before messing with the real table
-	 *
-	 * @param \Doctrine\DBAL\Schema\Table $table
-	 * @throws \OC\DB\MigrationException
-	 */
-	protected function checkTableMigrate(Table $table) {
-		$name = $table->getName();
-		$tmpName = $this->generateTemporaryTableName($name);
-
-		$this->copyTable($name, $tmpName);
-
-		//create the migration schema for the temporary table
-		$tmpTable = $this->renameTableSchema($table, $tmpName);
-		$schemaConfig = new SchemaConfig();
-		$schemaConfig->setName($this->connection->getDatabase());
-		$schema = new Schema(array($tmpTable), array(), $schemaConfig);
-
-		try {
-			$this->applySchema($schema);
-			$this->dropTable($tmpName);
-		} catch (DBALException $e) {
-			// pgsql needs to commit it's failed transaction before doing anything else
-			if ($this->connection->isTransactionActive()) {
-				$this->connection->commit();
-			}
-			$this->dropTable($tmpName);
-			throw new MigrationException($table->getName(), $e->getMessage());
-		}
-	}
-
-	/**
-	 * @param \Doctrine\DBAL\Schema\Table $table
-	 * @param string $newName
-	 * @return \Doctrine\DBAL\Schema\Table
-	 */
-	protected function renameTableSchema(Table $table, $newName) {
-		/**
-		 * @var \Doctrine\DBAL\Schema\Index[] $indexes
-		 */
-		$indexes = $table->getIndexes();
-		$newIndexes = array();
-		foreach ($indexes as $index) {
-			if ($index->isPrimary()) {
-				// do not rename primary key
-				$indexName = $index->getName();
-			} else {
-				// avoid conflicts in index names
-				$indexName = $this->config->getSystemValue('dbtableprefix', 'oc_') . $this->random->generate(13, ISecureRandom::CHAR_LOWER);
-			}
-			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
-		}
-
-		// foreign keys are not supported so we just set it to an empty array
-		return new Table($newName, $table->getColumns(), $newIndexes, array(), 0, $table->getOptions());
-	}
-
 	public function createSchema() {
-		$filterExpression = $this->getFilterExpression();
-		$this->connection->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
+		$this->connection->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
+			/** @var string|AbstractAsset $asset */
+			$filterExpression = $this->getFilterExpression();
+			if ($asset instanceof AbstractAsset) {
+				return preg_match($filterExpression, $asset->getName()) === 1;
+			}
+			return preg_match($filterExpression, $asset) === 1;
+		});
 		return $this->connection->getSchemaManager()->createSchema();
 	}
 
@@ -204,7 +111,6 @@ class Migrator {
 	 * @param Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
-	 * @throws DBALException
 	 */
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		// adjust varchar columns with a length higher then getVarcharMaxLength to clob
@@ -219,12 +125,17 @@ class Migrator {
 			}
 		}
 
-		$filterExpression = $this->getFilterExpression();
-		$this->connection->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
+		$this->connection->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
+			/** @var string|AbstractAsset $asset */
+			$filterExpression = $this->getFilterExpression();
+			if ($asset instanceof AbstractAsset) {
+				return preg_match($filterExpression, $asset->getName()) === 1;
+			}
+			return preg_match($filterExpression, $asset) === 1;
+		});
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about
-		/** @var $table \Doctrine\DBAL\Schema\Table */
 		foreach ($sourceSchema->getTables() as $table) {
 			if (!$targetSchema->hasTable($table->getName())) {
 				$sourceSchema->dropTable($table->getName());
@@ -244,6 +155,8 @@ class Migrator {
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection
+	 *
+	 * @throws Exception
 	 */
 	protected function applySchema(Schema $targetSchema, \Doctrine\DBAL\Connection $connection = null) {
 		if (is_null($connection)) {
@@ -252,33 +165,18 @@ class Migrator {
 
 		$schemaDiff = $this->getDiff($targetSchema, $connection);
 
-		$connection->beginTransaction();
+		if (!$connection->getDatabasePlatform() instanceof MySQLPlatform) {
+			$connection->beginTransaction();
+		}
 		$sqls = $schemaDiff->toSql($connection->getDatabasePlatform());
 		$step = 0;
 		foreach ($sqls as $sql) {
 			$this->emit($sql, $step++, count($sqls));
 			$connection->query($sql);
 		}
-		$connection->commit();
-	}
-
-	/**
-	 * @param string $sourceName
-	 * @param string $targetName
-	 */
-	protected function copyTable($sourceName, $targetName) {
-		$quotedSource = $this->connection->quoteIdentifier($sourceName);
-		$quotedTarget = $this->connection->quoteIdentifier($targetName);
-
-		$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' (LIKE ' . $quotedSource . ')');
-		$this->connection->exec('INSERT INTO ' . $quotedTarget . ' SELECT * FROM ' . $quotedSource);
-	}
-
-	/**
-	 * @param string $name
-	 */
-	protected function dropTable($name) {
-		$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($name));
+		if (!$connection->getDatabasePlatform() instanceof MySQLPlatform) {
+			$connection->commit();
+		}
 	}
 
 	/**
@@ -300,16 +198,9 @@ class Migrator {
 		if ($this->noEmit) {
 			return;
 		}
-		if(is_null($this->dispatcher)) {
+		if (is_null($this->dispatcher)) {
 			return;
 		}
-		$this->dispatcher->dispatch('\OC\DB\Migrator::executeSql', new GenericEvent($sql, [$step+1, $max]));
-	}
-
-	private function emitCheckStep($tableName, $step, $max) {
-		if(is_null($this->dispatcher)) {
-			return;
-		}
-		$this->dispatcher->dispatch('\OC\DB\Migrator::checkTable', new GenericEvent($tableName, [$step+1, $max]));
+		$this->dispatcher->dispatch('\OC\DB\Migrator::executeSql', new GenericEvent($sql, [$step + 1, $max]));
 	}
 }
