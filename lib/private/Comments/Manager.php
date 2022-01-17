@@ -104,7 +104,18 @@ class Manager implements ICommentsManager {
 		$data['children_count'] = (int)$data['children_count'];
 		$data['reference_id'] = $data['reference_id'] ?? null;
 		if ($this->supportReactions()) {
-			$data['reactions'] = json_decode($data['reactions'], true);
+			$list = json_decode($data['reactions'], true);
+			// Ordering does not work on the database with group concat and Oracle,
+			// So we simply sort on the output.
+			if (is_array($list)) {
+				uasort($list, static function($a, $b) {
+					if ($a === $b) {
+						return 0;
+					}
+					return ($a > $b) ? -1 : 1;
+				});
+			}
+			$data['reactions'] = $list;
 		}
 		return $data;
 	}
@@ -1033,10 +1044,8 @@ class Manager implements ICommentsManager {
 		while ($data = $result->fetch()) {
 			$commentIds[] = $data['message_id'];
 		}
-		$comments = [];
-		$comments = $this->getCommentsById($commentIds);
 
-		return $comments;
+		return $this->getCommentsById($commentIds);
 	}
 
 	/**
@@ -1217,14 +1226,14 @@ class Manager implements ICommentsManager {
 			->where($totalQuery->expr()->eq('r.parent_id', $qb->createNamedParameter($parentId)))
 			->groupBy('r.reaction')
 			->orderBy('total', 'DESC')
-			->setMaxResults(200);
+			->setMaxResults(20);
 
 		$jsonQuery = $this->dbConn->getQueryBuilder();
 		$jsonQuery
 			->selectAlias(
 				$jsonQuery->func()->concat(
 					$jsonQuery->expr()->literal('{'),
-					$jsonQuery->func()->groupConcat('colonseparatedvalue', ',', $jsonQuery->getColumnName('total') . ' DESC'),
+					$jsonQuery->func()->groupConcat('colonseparatedvalue', ','),
 					$jsonQuery->expr()->literal('}')
 				),
 				'json'

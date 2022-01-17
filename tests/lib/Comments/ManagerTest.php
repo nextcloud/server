@@ -1175,7 +1175,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * @dataProvider providerTestReactionsSummarizeOrdered
 	 */
-	public function testReactionsSummarizeOrdered(array $comments, $expected) {
+	public function testReactionsSummarizeOrdered(array $comments, array $expected, bool $isFullMatch) {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
@@ -1192,7 +1192,13 @@ class ManagerTest extends TestCase {
 			}
 		}
 		$actual = $manager->get($comment->getParentId());
-		$this->assertSame($expected, $actual->getReactions());
+
+		if ($isFullMatch) {
+			$this->assertSame($expected, $actual->getReactions());
+		} else {
+			$subResult = array_slice($actual->getReactions(), 0, count($expected));
+			$this->assertSame($expected, $subResult);
+		}
 	}
 
 	public function providerTestReactionsSummarizeOrdered(): array {
@@ -1203,11 +1209,31 @@ class ManagerTest extends TestCase {
 					['👍', 'alice', 'reaction', 'message'],
 				],
 				['👍' => 1],
+				true,
 			],
 			[
 				[
 					['message', 'alice', 'comment', null],
 					['👎', 'John', 'reaction', 'message'],
+					['💼', 'Luke', 'reaction', 'message'],
+					['📋', 'Luke', 'reaction', 'message'],
+					['🚀', 'Luke', 'reaction', 'message'],
+					['🖤', 'Luke', 'reaction', 'message'],
+					['😜', 'Luke', 'reaction', 'message'],
+					['🌖', 'Luke', 'reaction', 'message'],
+					['💖', 'Luke', 'reaction', 'message'],
+					['📥', 'Luke', 'reaction', 'message'],
+					['🐉', 'Luke', 'reaction', 'message'],
+					['☕', 'Luke', 'reaction', 'message'],
+					['🐄', 'Luke', 'reaction', 'message'],
+					['🐕', 'Luke', 'reaction', 'message'],
+					['🐈', 'Luke', 'reaction', 'message'],
+					['🛂', 'Luke', 'reaction', 'message'],
+					['🕸', 'Luke', 'reaction', 'message'],
+					['🏰', 'Luke', 'reaction', 'message'],
+					['⚙️', 'Luke', 'reaction', 'message'],
+					['🚨', 'Luke', 'reaction', 'message'],
+					['👥', 'Luke', 'reaction', 'message'],
 					['👍', 'Paul', 'reaction', 'message'],
 					['👍', 'Peter', 'reaction', 'message'],
 					['💜', 'Matthew', 'reaction', 'message'],
@@ -1215,11 +1241,10 @@ class ManagerTest extends TestCase {
 					['💜', 'Luke', 'reaction', 'message'],
 				],
 				[
-
 					'💜' => 3,
 					'👍' => 2,
-					'👎' => 1,
 				],
+				false,
 			],
 		];
 	}
