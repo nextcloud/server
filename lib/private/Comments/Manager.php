@@ -1099,6 +1099,10 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function save(IComment $comment) {
+		if ($comment->getVerb() === 'reaction') {
+			$this->throwIfNotSupportReactions();
+		}
+
 		if ($this->prepareCommentForDatabaseWrite($comment)->getId() === '') {
 			$result = $this->insert($comment);
 		} else {
