@@ -53,7 +53,7 @@ abstract class GroupMappingMigration extends SimpleMigrationStep {
 			->from($sourceTable);
 
 
-		$result = $query->executeQuery();
+		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			$insert
 				->setParameter('ldap_dn', $row['ldap_dn'])
@@ -62,7 +62,7 @@ abstract class GroupMappingMigration extends SimpleMigrationStep {
 				->setParameter('ldap_dn_hash', $row['ldap_dn_hash'])
 				;
 
-			$insert->executeStatement();
+			$insert->execute();
 		}
 		$result->closeCursor();
 	}
