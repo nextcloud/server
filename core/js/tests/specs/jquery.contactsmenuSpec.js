@@ -124,7 +124,7 @@ describe('jquery.contactsMenu tests', function() {
 
 			$selector1.on('load', function() {
 				// FIXME: don't compare HTML one to one but check specific text in the output
-				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="mailto:bar%40baz.wtf"><img src="foo.svg"><span>bar@baz.wtf</span></a></li></ul></div>');
+				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="mailto:bar%40baz.wtf"><img src="foo.svg"><span>bar@baz.wtf</span></a></li></ul></div>');
 
 				done();
 			});
@@ -156,7 +156,7 @@ describe('jquery.contactsMenu tests', function() {
 
 			$selector1.on('load', function() {
 				// FIXME: don't compare HTML one to one but check specific text in the output
-				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="mailto:bar%40baz.wtf"><img src="foo.svg"><span>bar@baz.wtf</span></a></li><li><a href="http://localhost/index.php/apps/contacts"><img src="details.svg"><span>Details</span></a></li></ul></div>');
+				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="mailto:bar%40baz.wtf"><img src="foo.svg"><span>bar@baz.wtf</span></a></li><li><a href="http://localhost/index.php/apps/contacts"><img src="details.svg"><span>Details</span></a></li></ul></div>');
 
 				done();
 			});
@@ -181,7 +181,7 @@ describe('jquery.contactsMenu tests', function() {
 
 			$selector1.on('load', function() {
 				// FIXME: don't compare HTML one to one but check specific text in the output
-				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>No action available</span></a></li></ul></div>');
+				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>No action available</span></a></li></ul></div>');
 
 				done();
 			});
@@ -201,7 +201,7 @@ describe('jquery.contactsMenu tests', function() {
 
 			$selector1.on('loaderror', function() {
 				// FIXME: don't compare HTML one to one but check specific text in the output
-				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>Error fetching contact actions</span></a></li></ul></div>');
+				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>Error fetching contact actions</span></a></li></ul></div>');
 
 				done();
 			});
@@ -221,7 +221,7 @@ describe('jquery.contactsMenu tests', function() {
 
 			$selector1.on('loaderror', function() {
 				// FIXME: don't compare HTML one to one but check specific text in the output
-				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>No action available</span></a></li></ul></div>');
+				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>No action available</span></a></li></ul></div>');
 
 				done();
 			});
