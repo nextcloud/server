@@ -148,8 +148,8 @@ class Manager implements ICommentsManager {
 			throw new \UnexpectedValueException('Actor, Object and Verb information must be provided for saving');
 		}
 
-		if ($comment->getVerb() === 'reaction' && mb_strlen($comment->getMessage()) > 8) {
-			throw new \UnexpectedValueException('Reactions cannot be longer than 8 bytes');
+		if ($comment->getVerb() === 'reaction' && mb_strlen($comment->getMessage()) > 2) {
+			throw new \UnexpectedValueException('Reactions cannot be longer than 2 chars (emoji with skin tone have two chars)');
 		}
 
 		if ($comment->getId() === '') {

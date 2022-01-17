@@ -1144,6 +1144,7 @@ class ManagerTest extends TestCase {
 	 * @dataProvider providerTestReactionMessageSize
 	 */
 	public function testReactionMessageSize($reactionString, $valid) {
+		$this->skipIfNotSupport4ByteUTF();
 		if (!$valid) {
 			$this->expectException(\UnexpectedValueException::class);
 		}
@@ -1162,8 +1163,8 @@ class ManagerTest extends TestCase {
 		return [
 			['a', true],
 			['1', true],
-			['12345678', true],
-			['123456789', false],
+			['12', true],
+			['123', false],
 			['👍', true],
 			['👍👍', true],
 			['👍🏽', true],
