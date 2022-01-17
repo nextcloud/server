@@ -9,10 +9,19 @@
 
 		/** Center the shared content inside the page */
 		&.app-files_sharing {
-			justify-content: center;
-			align-items: center;
 			#app-content {
-				min-height: inherit;
+				min-height: 100%;
+				display: flex;
+			}
+
+			#files-public-content {
+				flex-grow: 2;
+				display: grid;
+			}
+
+			#preview {
+				justify-self: center;
+				align-self: center;
 				padding-left: 1rem;
 				padding-right: 1rem;
 			}
