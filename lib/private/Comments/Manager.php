@@ -1233,7 +1233,7 @@ class Manager implements ICommentsManager {
 			->selectAlias(
 				$jsonQuery->func()->concat(
 					$jsonQuery->expr()->literal('{'),
-					$jsonQuery->func()->groupConcat('colonseparatedvalue', ','),
+					$jsonQuery->func()->groupConcat('colonseparatedvalue'),
 					$jsonQuery->expr()->literal('}')
 				),
 				'json'

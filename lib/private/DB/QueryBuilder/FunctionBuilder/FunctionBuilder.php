@@ -59,7 +59,7 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction(sprintf('CONCAT(%s)', implode(', ', $list)));
 	}
 
-	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction {
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$separator = $this->connection->quote($separator);
 		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ' SEPARATOR ' . $separator . ')');
 	}

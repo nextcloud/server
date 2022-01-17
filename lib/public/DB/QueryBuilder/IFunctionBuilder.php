@@ -62,11 +62,10 @@ interface IFunctionBuilder {
 	 *
 	 * @param string|IQueryFunction $expr The expression to group
 	 * @param string|null $separator The separator
-	 * @param string|null $orderBy Option only used to make compatible with Oracle database if is necessary use order. The default value is null and the Oracle don't will respect the order by of query
 	 * @return IQueryFunction
 	 * @since 24.0.0
 	 */
-	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = null): IQueryFunction;
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction;
 
 	/**
 	 * Takes a substring from the input string

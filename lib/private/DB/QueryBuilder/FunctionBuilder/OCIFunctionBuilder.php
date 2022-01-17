@@ -82,8 +82,8 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
-	public function groupConcat($expr, ?string $separator = ',', ?string $orderBy = 'NULL'): IQueryFunction {
-		$orderByClause = ' WITHIN GROUP(ORDER BY ' . $orderBy . ')';
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$orderByClause = ' WITHIN GROUP(ORDER BY NULL)';
 		if (is_null($separator)) {
 			return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ')' . $orderByClause);
 		}
