@@ -1,0 +1,18 @@
+name: Pull request checks
+
+on: pull_request
+
+jobs:
+  block-merge-during-freeze:
+    name: Block merge during freezes
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download version.php of $GITHUB_BASE_REF
+        run: curl https://raw.githubusercontent.com/nextcloud/server/$GITHUB_BASE_REF/version.php
+
+      - name: Run check
+        run: cat version.php | grep 'OC_VersionString' | grep -i -v 'RC'
