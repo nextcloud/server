@@ -151,7 +151,7 @@ class SearchComposer {
 	 * @throws InvalidArgumentException when the $providerId does not correspond to a registered provider
 	 */
 	public function search(IUser $user,
-						   string $providerId,
+		string $providerId,
 						   ISearchQuery $query): SearchResult {
 		$this->loadLazyProviders();
 
@@ -160,5 +160,65 @@ class SearchComposer {
 			throw new InvalidArgumentException("Provider $providerId is unknown");
 		}
 		return $provider->search($user, $query);
+	}
+
+
+	/**
+	 * Parsing the $term, removing those that are considered as options from the query string and
+	 * filling a ISearchOptions with them
+	 *
+	 * Options are entries with comma (':')
+	 * if search term is "keyword1 option1:value1 keyword2":
+	 *   - the search term will be "keyword1 keyword2"
+	 *   - the options are ['option1' => 'value1']
+	 *
+	 * Options Keys will be stored lowercased
+	 *
+	 * There is a better way to do this by using regex, but at least this one can be fully understood
+	 *
+	 * @param string $term
+	 *
+	 * @return SearchOptions
+	 */
+	public function extractSearchOptions(string &$term): SearchOptions {
+		$entries = explode(' ', $term);
+		$newTerms = $options = [];
+		foreach ($entries as $entry) {
+			if (trim($entry) === '') {
+				continue;
+			}
+
+			$posColon = strpos($entry, ':');
+			if (is_bool($posColon) || $posColon === 0) {
+				$newTerms[] = $entry;
+				continue;
+			}
+
+			[$option, $value] = explode(':', $entry, 2);
+			$option = strtolower($option);
+
+			$posComma = strpos($value, ',');
+			if (!is_bool($posComma) && $posComma > 0) {
+				$value = explode(',', $value);
+			}
+
+			if (array_key_exists($option, $options)) {
+				if (!is_array($value)) {
+					$value = [$value];
+				}
+
+				if (!is_array($options[$option])) {
+					$options[$option] = [$options[$option]];
+				}
+
+				$value = array_merge($options[$option], $value);
+			}
+
+			$options[$option] = $value;
+		}
+
+		$term = implode(' ', $newTerms);
+
+		return new SearchOptions($options);
 	}
 }

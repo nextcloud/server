@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OC\Search;
 
+use OCP\Search\ISearchOptions;
 use OCP\Search\ISearchQuery;
 
 class SearchQuery implements ISearchQuery {
@@ -50,6 +51,10 @@ class SearchQuery implements ISearchQuery {
 	/** @var array */
 	private $routeParameters;
 
+	/** @var ISearchOptions */
+	private $searchOptions;
+
+
 	/**
 	 * @param string $term
 	 * @param int $sortOrder
@@ -57,19 +62,26 @@ class SearchQuery implements ISearchQuery {
 	 * @param int|string|null $cursor
 	 * @param string $route
 	 * @param array $routeParameters
+	 * @param ISearchOptions|null $searchOptions
 	 */
 	public function __construct(string $term,
 								int $sortOrder = ISearchQuery::SORT_DATE_DESC,
 								int $limit = self::LIMIT_DEFAULT,
 								$cursor = null,
 								string $route = '',
-								array $routeParameters = []) {
+								array $routeParameters = [],
+								?ISearchOptions $searchOptions = null) {
 		$this->term = $term;
 		$this->sortOrder = $sortOrder;
 		$this->limit = $limit;
 		$this->cursor = $cursor;
 		$this->route = $route;
 		$this->routeParameters = $routeParameters;
+
+		if (is_null($searchOptions)) {
+			$searchOptions = new SearchOptions();
+		}
+		$this->searchOptions = $searchOptions;
 	}
 
 	/**
@@ -113,4 +125,19 @@ class SearchQuery implements ISearchQuery {
 	public function getRouteParameters(): array {
 		return $this->routeParameters;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setSearchOptions(ISearchOptions $options): ISearchQuery {
+		$this->searchOptions = $options;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getSearchOptions(): ISearchOptions {
+		return $this->searchOptions;
+	}
+
 }

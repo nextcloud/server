@@ -89,4 +89,19 @@ interface ISearchQuery {
 	 * @since 20.0.0
 	 */
 	public function getRouteParameters(): array;
+
+	/**
+	 * @param ISearchOptions $options
+	 *
+	 * @return self
+	 * @since 24.0.0
+	 */
+	public function setSearchOptions(ISearchOptions $options): self;
+
+	/**
+	 * @return ISearchOptions
+	 * @since 24.0.0
+	 */
+	public function getSearchOptions(): ISearchOptions;
+
 }

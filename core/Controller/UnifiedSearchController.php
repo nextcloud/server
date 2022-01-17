@@ -29,9 +29,9 @@ namespace OC\Core\Controller;
 
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -105,20 +105,25 @@ class UnifiedSearchController extends OCSController {
 		if (empty(trim($term))) {
 			return new DataResponse(null, Http::STATUS_BAD_REQUEST);
 		}
+
 		[$route, $routeParameters] = $this->getRouteInformation($from);
+		$options = $this->composer->extractSearchOptions($term);
+
+		$query = new SearchQuery(
+			$term,
+			$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
+			$limit ?? SearchQuery::LIMIT_DEFAULT,
+			$cursor,
+			$route,
+			$routeParameters,
+			$options
+		);
 
 		return new DataResponse(
 			$this->composer->search(
 				$this->userSession->getUser(),
 				$providerId,
-				new SearchQuery(
-					$term,
-					$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
-					$limit ?? SearchQuery::LIMIT_DEFAULT,
-					$cursor,
-					$route,
-					$routeParameters
-				)
+				$query
 			)
 		);
 	}
