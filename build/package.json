@@ -19,7 +19,7 @@
     "karma-coverage": "2.0.1",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-sinon": "^1.0.4",
-    "karma-spec-reporter": "^0.0.32",
+    "karma-spec-reporter": "^0.0.33",
     "karma-viewport": "^1.0.8",
     "node-sass": "~7.0.1",
     "puppeteer": "^13.0.1",
