@@ -365,7 +365,10 @@ class OC {
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
-		OC_Util::addScript('update');
+		OC_Util::addScript('core', 'common');
+		OC_Util::addScript('core', 'main');
+		OC_Util::addTranslations('core');
+		OC_Util::addScript('update', null, 'core');
 
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
