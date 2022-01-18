@@ -10,28 +10,13 @@
 
 set -euo pipefail
 
-NPM="$(which npm 2>/dev/null)"
-PREFIX="build"
-
-if test -z "$NPM"
-then
-	echo 'Node JS >= 0.8 is required to run the JavaScript tests' >&2
-	exit 1
-fi
-
-# install test packages
-mkdir -p "$PREFIX"
-$NPM ci --prefix "$PREFIX" || exit 3
-
 # create scss test
+# We use the deprecated node-sass module for that as the compilation fails with modern modules. See "DEPRECATION WARNING" during execution of this script.
 mkdir -p tests/css
 for SCSSFILE in core/css/*.scss
 do
     FILE=$(basename $SCSSFILE)
-    printf "\$webroot:''; @import 'functions.scss'; @import 'variables.scss'; @import '${FILE}';" | ./build/node_modules/.bin/node-sass --include-path core/css/ > tests/css/${FILE}.css
+    printf "\$webroot:''; @import 'functions.scss'; @import 'variables.scss'; @import '${FILE}';" | ./node_modules/.bin/node-sass --include-path core/css/ > tests/css/${FILE}.css
 done
 
-KARMA="$PREFIX/node_modules/karma/bin/karma"
-
-NODE_PATH='build/node_modules' KARMA_TESTSUITE="${1:-}" $KARMA start tests/karma.config.js --single-run
-
+npm run test:jsunit

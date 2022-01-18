@@ -63,6 +63,9 @@ jobs:
       - name: Set up npm ${{ needs.versions.outputs.npmVersion }}
         run: npm i -g npm@"${{ needs.versions.outputs.npmVersion }}"
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Test
         run: ./autotest-js.sh
 
