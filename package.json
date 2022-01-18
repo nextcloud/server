@@ -14,7 +14,8 @@
     "lint": "eslint '**/src/**/*.{vue,js}'",
     "lint:fix": "eslint '**/src/**/*.{vue,js}' --fix",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:jsunit": "karma start tests/karma.config.js --single-run"
   },
   "repository": {
     "type": "git",
@@ -124,7 +125,21 @@
     "vue-template-compiler": "^2.6.14",
     "webpack": "^5.66.0",
     "webpack-cli": "^4.9.1",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "handlebars": "^4.7.7",
+    "jasmine-core": "~2.5.2",
+    "jasmine-sinon": "^0.4.0",
+    "jsdoc": "^3.6.7",
+    "karma": "^6.3.11",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "2.1.0",
+    "karma-jasmine": "^1.1.2",
+    "karma-jasmine-sinon": "^1.0.4",
+    "karma-spec-reporter": "^0.0.33",
+    "karma-viewport": "^1.0.8",
+    "node-sass": "~6.0.1",
+    "puppeteer": "^13.1.0",
+    "sinon": "<= 5.0.7"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
@@ -132,6 +147,9 @@
   "engines": {
     "node": "^14.0.0",
     "npm": "^7.0.0"
+  },
+  "overrides": {
+    "colors": "1.4.0"
   },
   "jest": {
     "moduleFileExtensions": [
