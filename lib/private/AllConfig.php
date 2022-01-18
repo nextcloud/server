@@ -319,7 +319,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
-		$data = $this->getUserValues($userId);
+		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName][$key])) {
 			return $data[$appName][$key];
 		} else {
@@ -335,7 +335,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string[]
 	 */
 	public function getUserKeys($userId, $appName) {
-		$data = $this->getUserValues($userId);
+		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName])) {
 			return array_keys($data[$appName]);
 		} else {
@@ -406,7 +406,7 @@ class AllConfig implements \OCP\IConfig {
 	 *         [ $key => $value ]
 	 *     ]
 	 */
-	private function getUserValues($userId) {
+	public function getAllUserValues(string $userId): array {
 		if (isset($this->userCache[$userId])) {
 			return $this->userCache[$userId];
 		}

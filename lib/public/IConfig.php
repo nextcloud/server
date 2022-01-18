@@ -217,6 +217,18 @@ interface IConfig {
 	public function getUserKeys($userId, $appName);
 
 	/**
+	 * Get all user configs sorted by app of one user
+	 *
+	 * @param string $userId the userId of the user that we want to get all values from
+	 * @return array[] - 2 dimensional array with the following structure:
+	 *     [ $appId =>
+	 *         [ $key => $value ]
+	 *     ]
+	 * @since 24.0.0
+	 */
+	public function getAllUserValues(string $userId): array;
+
+	/**
 	 * Delete a user value
 	 *
 	 * @param string $userId the userId of the user that we want to store the value under
