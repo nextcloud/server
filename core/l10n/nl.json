@@ -157,6 +157,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Je bestanden zijn versleuteld. Het is niet mogelijk om je gegevens terug te krijgen als je wachtwoord wordt gereset. Als je niet zeker weer wat je moet doen, neem dan contact op met je beheerder voordat je verdergaat. Wil je echt verder gaan?",
     "I know what I'm doing" : "Ik weet wat ik doe",
     "Resetting password" : "Resetten wachtwoord",
+    "Install recommended apps" : "Installeer aanbevolen apps",
     "Recommended apps" : "Aanbevolen apps",
     "Loading apps …" : "Laden apps ...",
     "Could not fetch list of apps from the App Store." : "Kon lijst met apps niet ophalen vanuit de App Store.",
@@ -314,10 +315,6 @@
     "You chose SQLite as database." : "Je koos SQLite als database.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite zou alleen moeten worden gebruikt voor minimale en ontwikkelomgevingen. Voor productie raden we aan om een andere database backend te gebruiken.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Als je clients gebruikt voor bestandssynchronisatie wordt het gebruik van SQLite sterk ontraden.",
-    "Install recommended apps" : "Installeer aanbevolen apps",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Agenda, Contactpersonen, Talk, E-mail & Samenwerkend schrijven",
-    "Finish setup" : "Installatie afronden",
-    "Finishing …" : "Afronden ...",
     "Need help?" : "Hulp nodig?",
     "See the documentation" : "Zie de documentatie",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Het lijkt erop of je Nextcloud wilt herinstalleren. Maar het bestand CAN_INSTALL ontbreekt in de configdirectory. Maak het bestand CAN_INSTALL aan in je config map om verder te gaan.",
@@ -423,6 +420,9 @@
     "Could not fetch list of apps from the app store." : "Kon lijst met apps niet ophalen van de app store.",
     "Can't install this app because it is not compatible" : "Kan deze app niet installeren omdat deze niet compatible is",
     "Can't install this app" : "Kan deze app niet installeren",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Agenda, Contactpersonen, Talk, E-mail & Samenwerkend schrijven",
+    "Finish setup" : "Installatie afronden",
+    "Finishing …" : "Afronden ...",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "De PHP OPcache is niet geladen.  {linkstart}Voor betere prestaties  adviseren we ↗{linkend}  die te laden in je php.ini instellingen.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "De PHP OPcache is niet correct geconfigureerd. {linkstart}Voor betere prestaties wordt aanbevolen ↗ {linked} om de volgende instellingen in de <code>php.ini</code> te gebruiken:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

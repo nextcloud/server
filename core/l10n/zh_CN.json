@@ -157,6 +157,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "您的文件已经加密。您的密码重置后就没有任何方式能恢复您的数据了。如果您不确定，请在继续前联系您的管理员。您是否真的要继续？",
     "I know what I'm doing" : "我知道我在做什么",
     "Resetting password" : "正在重置密码",
+    "Install recommended apps" : "安装推荐的应用",
     "Recommended apps" : "推荐的应用",
     "Loading apps …" : "正在加载应用…",
     "Could not fetch list of apps from the App Store." : "无法从应用商店获取应用列表",
@@ -314,10 +315,6 @@
     "You chose SQLite as database." : "您选择SQLite作为数据库。",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite应只用于最小化和开发实例。生产环境我们推荐使用不同的数据库后端。",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "如果您使用文件同步客户端，强烈不建议使用SQLite。",
-    "Install recommended apps" : "安装推荐的应用",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "日历、联系人、通话、电子邮件和协作编辑",
-    "Finish setup" : "安装完成",
-    "Finishing …" : "正在完成 …",
     "Need help?" : "需要帮助？",
     "See the documentation" : "查看文档",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "看起来您正在尝试重新安装您的Nextcloud。但您的config文件夹中没有CAN_INSTALL文件。请在您的config文件夹中创建CAN_INSTALL文件以继续。",
@@ -423,6 +420,9 @@
     "Could not fetch list of apps from the app store." : "无法从应用商店中获取应用列表。",
     "Can't install this app because it is not compatible" : "无法安装此应用，因为不兼容",
     "Can't install this app" : "无法安装此应用",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "日历、联系人、通话、电子邮件和协作编辑",
+    "Finish setup" : "安装完成",
+    "Finishing …" : "正在完成 …",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "未加载 PHP OPcache 模块。{linkstart} 为了更佳性能，建议 ↗{linkend} 将其加载到你的 PHP 安装。",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "未正确配置 PHP OPcache 模块。 {linkstart}为了更佳性能，建议 ↗{linkend}使用 <code>php.ini</code>中的下列设置："
 },"pluralForm" :"nplurals=1; plural=0;"

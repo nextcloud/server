@@ -191,8 +191,6 @@ OC.L10N.register(
     "Database host" : "Bază date",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Specifică și numărul portului pe lângă hostname (ex: localhost;5432).",
     "Performance warning" : "Alertă de performanță",
-    "Finish setup" : "Finalizează instalarea",
-    "Finishing …" : "Se finalizează...",
     "Need help?" : "Ai nevoie de ajutor?",
     "See the documentation" : "Vezi documentația",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Această aplicație necesită JavaScript pentru a funcționa corect. {linkstart}Activează JavaScript{linkend} și reîncarcă pagina.",
@@ -246,6 +244,8 @@ OC.L10N.register(
     "Checked database schema update for apps" : "S-a verificat actualizarea schemei bazei de date pentru aplicații",
     "Check the background job settings" : "Verificați setările jobului de fundal",
     "Continue to Nextcloud" : "Continuă la Nextcloud",
-    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs."
+    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs.",
+    "Finish setup" : "Finalizează instalarea",
+    "Finishing …" : "Se finalizează..."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

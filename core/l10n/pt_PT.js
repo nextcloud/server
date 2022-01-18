@@ -129,6 +129,7 @@ OC.L10N.register(
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Os seus ficheiros estão cifrados. Não será possível aceder aos seus dados após a palavra-passe ser alterada. Se não tiver a certeza do que fazer, contacte o administrador do sistema antes de continuar. Tem a certeza que quer continuar?",
     "I know what I'm doing" : "Eu sei o que eu estou a fazer",
     "Resetting password" : "A fazer reset à palavra passe",
+    "Install recommended apps" : "Instalar aplicações recomendadas",
     "Recommended apps" : "Aplicações recomendadas",
     "Loading apps …" : "A carregar aplicações...",
     "Installing apps …" : "A instalar aplicações ...",
@@ -255,9 +256,6 @@ OC.L10N.register(
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Por favor, especifique o número da porta com o nome do anfitrião (por exemplo, localhost:5432).",
     "Performance warning" : "Aviso de desempenho",
     "You chose SQLite as database." : "Escolheu SQLite como base de dados",
-    "Install recommended apps" : "Instalar aplicações recomendadas",
-    "Finish setup" : "Terminar configuração",
-    "Finishing …" : "A terminar...",
     "Need help?" : "Precisa de ajuda?",
     "See the documentation" : "Consulte a documentação",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicação requer JavaScript para funcionar corretamente. Por favor, {linkstart}ative o JavaScript{linkend} e recarregue a página.",
@@ -343,6 +341,8 @@ OC.L10N.register(
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada, para o seu endereço de e-mail, uma mensagem para fazer reset à password desta conta. Se não a receber, verifique as pastas de spam/junk ou peça ajuda ao seu administrador.",
     "Password can not be changed. Please contact your administrator." : "A palavra-passe não pode ser alterada. Por favor, contacte o seu administrador.",
     "Can't install this app because it is not compatible" : "Não é possível instalar esta aplicação por não ser compatível",
-    "Can't install this app" : "Não é possível instalar esta aplicação"
+    "Can't install this app" : "Não é possível instalar esta aplicação",
+    "Finish setup" : "Terminar configuração",
+    "Finishing …" : "A terminar..."
 },
 "nplurals=2; plural=(n != 1);");

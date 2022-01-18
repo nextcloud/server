@@ -81,6 +81,7 @@ OC.L10N.register(
     "New password" : "گذرواژه جدید",
     "I know what I'm doing" : "اطلاع از انجام این کار دارم",
     "Resetting password" : "در حال ریست کردن کلمه عبور...",
+    "Install recommended apps" : "نصب کاره‌های پیشنهادی",
     "Installing apps …" : "در حال نصب برنامه",
     "Cancel" : "منصرف شدن",
     "Schedule work & meetings, synced with all your devices." : "برنامه کار و جلسات ، همگام سازی با تمام دستگاه های شما",
@@ -188,9 +189,6 @@ OC.L10N.register(
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Please specify the port number along with the host name (e.g., localhost:5432).",
     "Performance warning" : "اخطار کارایی",
     "You chose SQLite as database." : "شما SQLite را به عنوان پایگاه داده انتخاب کردید.",
-    "Install recommended apps" : "نصب کاره‌های پیشنهادی",
-    "Finish setup" : "اتمام نصب",
-    "Finishing …" : "در حال اتمام ...",
     "Need help?" : "کمک لازم دارید ؟",
     "See the documentation" : "مشاهده‌ی مستندات",
     "More apps" : "برنامه های بیشتر",
@@ -223,6 +221,8 @@ OC.L10N.register(
     "Checked database schema update for apps" : "Checked database schema update for apps",
     "Continue to Nextcloud" : "ادامه به Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه ","به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه "],
-    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید ."
+    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید .",
+    "Finish setup" : "اتمام نصب",
+    "Finishing …" : "در حال اتمام ..."
 },
 "nplurals=2; plural=(n > 1);");

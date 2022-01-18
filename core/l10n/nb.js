@@ -114,6 +114,7 @@ OC.L10N.register(
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Dine filer er kryptert. Det finnes ingen måte å få dine data tilbake etter at passordet er nullstilt. Hvis du er usikker på hva du skal gjøre, vennligst kontakt din administrator før du fortsetter. Er du helt sikker på at du vil fortsette?",
     "I know what I'm doing" : "Jeg vet hva jeg gjør",
     "Resetting password" : "Tilbakestill passord",
+    "Install recommended apps" : "Installer anbefalte apper",
     "Recommended apps" : "Anbefalte apper",
     "Loading apps …" : "Laster apper ... ",
     "Installing apps …" : "Installerer apper ... ",
@@ -263,10 +264,6 @@ OC.L10N.register(
     "You chose SQLite as database." : "Du velger å bruke SQLite som database.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite skal bare bli brukt for minimale- eller utvikler-installasjoner. I vanlig bruk anbefaler vi å bruke et annet bakstykke.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Hvis du bruker klienter for filsynkronisering så er bruk av SQLite absolutt ikke anbefalt.",
-    "Install recommended apps" : "Installer anbefalte apper",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontaker, Talk, E-post og Samredigering",
-    "Finish setup" : "Fullfør oppsett",
-    "Finishing …" : "Ferdigstiller…",
     "Need help?" : "Trenger du hjelp?",
     "See the documentation" : "Se dokumentasjonen",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Det ser ut som at du forsøker å re installere Nextcloud. Filen CAN_INSTALL mangler imidlertid fra innstillingsmappen. Opprett filen CAN_INSTALL i innstillingsmappen for å fortsette.",
@@ -371,6 +368,9 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Passordet kan ikke endres. Kontakt administratoren din.",
     "Could not fetch list of apps from the app store." : "Kunne ikke hente liste med apper fra appbutikken. ",
     "Can't install this app because it is not compatible" : "Kan ikke installere denne appen fordi den ikke er kompatibel",
-    "Can't install this app" : "Kan ikke installere denne appen"
+    "Can't install this app" : "Kan ikke installere denne appen",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontaker, Talk, E-post og Samredigering",
+    "Finish setup" : "Fullfør oppsett",
+    "Finishing …" : "Ferdigstiller…"
 },
 "nplurals=2; plural=(n != 1);");

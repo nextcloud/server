@@ -107,6 +107,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Ваши фајлови су шифровани. Не постоји ниједан начин да се Ваши подаци поврате ако се лозинка сад ресетује. Уколико нисте сигурни шта да радите, контактирајте Вашег администратора пре него што наставите. Да ли стварно желите да наставите?",
     "I know what I'm doing" : "Знам шта радим",
     "Resetting password" : "Ресетујем лозинку",
+    "Install recommended apps" : "Инсталирајте препоручене апликације",
     "Recommended apps" : "Препоручене апликације",
     "Loading apps …" : "Учитавам апликације…",
     "Installing apps …" : "Инсталирам апликације…",
@@ -252,10 +253,6 @@
     "You chose SQLite as database." : "Одабрали сте SQLite за базу података.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite треба да се користи само за најмање инстанце или за инстанце за развој. За продукцију, препоручујемо други тип база података.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Коришћење SQLite базе података нарочите није препоручљиво ако користите клијенте за синхронизацију фајлова.",
-    "Install recommended apps" : "Инсталирајте препоручене апликације",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Календар, контакти, разговор, пошта & заједничко уређивање",
-    "Finish setup" : "Заврши подешавање",
-    "Finishing …" : "Завршавам…",
     "Need help?" : "Треба Вам помоћ?",
     "See the documentation" : "Погледајте документацију",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Делује као да покушавате да реинсталирате Некстклауд. Међутим, фајл CAN_INSTALL фали из конфигурационог директоријума, Молимо креирајте фајл CAN_INSTALL у овом директоријуму да бисте наставили.",
@@ -359,6 +356,9 @@
     "Password can not be changed. Please contact your administrator." : "Лозинка се не може променити. Контактирајте администратора.",
     "Could not fetch list of apps from the app store." : "Не могу да добавим листу апликација из продавнице.",
     "Can't install this app because it is not compatible" : "Не могу да инсталирам ову апликација зато што није компатибилна",
-    "Can't install this app" : "Не могу да инсталирам ову апликацију"
+    "Can't install this app" : "Не могу да инсталирам ову апликацију",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Календар, контакти, разговор, пошта & заједничко уређивање",
+    "Finish setup" : "Заврши подешавање",
+    "Finishing …" : "Завршавам…"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

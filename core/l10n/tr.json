@@ -157,6 +157,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Dosyalarınız şifrelendi. Parolanız sıfırlandıktan sonra verilerinizi geri almanın herhangi bir yolu olmayacak. Ne yapacağınızı bilmiyorsanız işlemi sürdürmeden önce BT yöneticiniz ile görüşün. İşlemi sürdürmek istediğinize emin misiniz? ",
     "I know what I'm doing" : "Ne yaptığımı biliyorum",
     "Resetting password" : "Parola sıfırlanıyor",
+    "Install recommended apps" : "Önerilen uygulamaları kur",
     "Recommended apps" : "Önerilen uygulamalar",
     "Loading apps …" : "Uygulamalar yükleniyor …",
     "Could not fetch list of apps from the App Store." : "Uygulama mağazasından uygulama listesi alınamadı.",
@@ -314,10 +315,6 @@
     "You chose SQLite as database." : "Veritabanı olarak SQLite seçtiniz.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite yalnız küçük ve geliştirme ortamları için seçilmelidir. Üretim ortamları için farklı bir veritabanı kullanmanız önerilir.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Dosya eşitlemesi için istemcileri kullanıyorsanız SQLite kullanımından kaçınmalısınız.",
-    "Install recommended apps" : "Önerilen uygulamaları kur",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendar, Contacts, Talk, Mail ve İş birlikli düzenleme",
-    "Finish setup" : "Kurulumu tamamla",
-    "Finishing …" : "Tamamlanıyor …",
     "Need help?" : "Yardım gerekiyor mu?",
     "See the documentation" : "Belgelere bakın",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Nextcloud kurulumunu yeniden yapmayı deniyorsunuz gibi görünüyor. Ancak config klasöründe CAN_INSTALL dosyası eksik. Lütfen işlemi sürdürebilmek için config klasöründe CAN_INSTALL dosyasını oluşturun.",
@@ -423,6 +420,9 @@
     "Could not fetch list of apps from the app store." : "Uygulama mağazasından uygulama listesi alınamadı.",
     "Can't install this app because it is not compatible" : "Bu uygulama uyumlu olmadığından kurulamadı",
     "Can't install this app" : "Bu uygulama kurulamadı",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendar, Contacts, Talk, Mail ve İş birlikli düzenleme",
+    "Finish setup" : "Kurulumu tamamla",
+    "Finishing …" : "Tamamlanıyor …",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache modülü yüklenmemiş. {linkstart}Daa iyi başarım sağlamak için ↗{linkend} PHP kurulumunuza eklemeniz önerilir.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache modülü doğru şekilde ayarlanmamış. {linkstart}Daha iyi başarım sağlamak için ↗{linkend} <code>php.ini</code> dosyasında şu ayarların kullanılması önerilir:"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
