@@ -184,7 +184,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\Report::class));
 	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig(), \OC::$server->getDatabaseConnection()));
+	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\AddAppPassword(\OC::$server->get(\OCP\IUserManager::class), \OC::$server->get(\OC\Authentication\Token\IProvider::class), \OC::$server->get(\OCP\Security\ISecureRandom::class), \OC::$server->get(\OCP\Security\ICrypto::class)));

@@ -27,7 +27,6 @@ namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
@@ -42,19 +41,14 @@ class Setting extends Base {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var IDBConnection */
-	protected $connection;
-
 	/**
 	 * @param IUserManager $userManager
 	 * @param IConfig $config
-	 * @param IDBConnection $connection
 	 */
-	public function __construct(IUserManager $userManager, IConfig $config, IDBConnection $connection) {
+	public function __construct(IUserManager $userManager, IConfig $config) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->config = $config;
-		$this->connection = $connection;
 	}
 
 	protected function configure() {
@@ -247,25 +241,17 @@ class Setting extends Base {
 	}
 
 	protected function getUserSettings($uid, $app) {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('*')
-			->from('preferences')
-			->where($query->expr()->eq('userid', $query->createNamedParameter($uid)));
-
+		$settings = $this->config->getAllUserValues($uid);
 		if ($app !== '') {
-			$query->andWhere($query->expr()->eq('appid', $query->createNamedParameter($app)));
-		}
-
-		$result = $query->execute();
-		$settings = [];
-		while ($row = $result->fetch()) {
-			$settings[$row['appid']][$row['configkey']] = $row['configvalue'];
+			if (isset($settings[$app])) {
+				$settings = [$app => $settings[$app]];
+			} else {
+				$settings = [];
+			}
 		}
 
 		$user = $this->userManager->get($uid);
 		$settings['settings']['display_name'] = $user->getDisplayName();
-
-		$result->closeCursor();
 
 		return $settings;
 	}
