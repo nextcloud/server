@@ -125,6 +125,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Dina filer är krypterade. Det kommer inte att finnas något sätt att få tillbaka din data efter att ditt lösenord har återställs. Om du är osäker på hur du ska göra, kontakta din administratör innan du fortsätter. Är du verkligen säker på att du vill fortsätta?",
     "I know what I'm doing" : "Jag vet vad jag gör",
     "Resetting password" : "Återställer lösenord",
+    "Install recommended apps" : "Installera rekommenderade appar",
     "Recommended apps" : "Rekommenderade appar",
     "Loading apps …" : "Läser in appar …",
     "Installing apps …" : "Installerar appar ...",
@@ -275,10 +276,6 @@
     "You chose SQLite as database." : "Du valde SQLite som databas.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite bör endast användas till små installationer och installationer avsedda för utveckling. För produktion rekommenderar vi byte till annan databas.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Om du använder synkklienter avråder vi starkt från användning av SQLite.",
-    "Install recommended apps" : "Installera rekommenderade appar",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontakter, Talk, E-post & Kollaborativ redigering",
-    "Finish setup" : "Slutför installationen",
-    "Finishing …" : "Slutför ...",
     "Need help?" : "Behövs hjälp?",
     "See the documentation" : "Se dokumentationen",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Det gick inte att ta bort CAN_INSTALL från konfigurationsmappen. Ta bort den här filen manuellt.",
@@ -372,6 +369,9 @@
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ett meddelande om lösenordsåterställning har skickats till e-postadressen för det här kontot. Om du får det, kontrollera dina spam/skräp -mappar eller fråga din lokala administratör om hjälp.",
     "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
     "Can't install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
-    "Can't install this app" : "Appen kan inte installeras"
+    "Can't install this app" : "Appen kan inte installeras",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontakter, Talk, E-post & Kollaborativ redigering",
+    "Finish setup" : "Slutför installationen",
+    "Finishing …" : "Slutför ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

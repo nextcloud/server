@@ -113,6 +113,7 @@ OC.L10N.register(
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "הקבצים שלך מוצפנים. לא תהיה שום דרך להחזיר את הנתונים לאחר איפוס הסיסמה. אם אינך בטוח מה לעשות, פנה למנהל המערכת לפני שתמשיך. האם אתה באמת רוצה להמשיך?",
     "I know what I'm doing" : "אני יודע/ת מה אני עושה",
     "Resetting password" : "איפוס ססמה",
+    "Install recommended apps" : "התקנת יישומונים מומלצים",
     "Recommended apps" : "יישומונים מומלצים",
     "Loading apps …" : "היישומונים נטענים…",
     "Installing apps …" : "היישומונים מותקנים…",
@@ -259,10 +260,6 @@ OC.L10N.register(
     "You chose SQLite as database." : "בחרת ב־SQLite כמסד נתונים.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "יש להשתמש ב־SQLite לסביבות מזעריות או למטרות פיתוח. בסביבת פעילות שגרתית אנו ממליצים על מנגנון מסד נתונים אחר.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "אם יש לך לקוח שמשמש אותך לסנכרון קבצים, השימוש ב־SQLite לא מומלץ עבורך.",
-    "Install recommended apps" : "התקנת יישומונים מומלצים",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "לוח שנה, אנשי קשר, שיחה, דואר, ועריכה משותפת",
-    "Finish setup" : "סיום התקנה",
-    "Finishing …" : "מסיים...",
     "Need help?" : "עזרה נזקקת?",
     "See the documentation" : "יש לצפות במסמכי התיעוד",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "נראה שאתה מנסה להתקין מחדש את ה-Nextcloud שלך.אבל הקובץ CAN_INSTALL חסר בספריית ה-config שלך. אנא צור את הקובץ CAN_INSTALL בתיקיית ה-config שלך כדי להמשיך.",
@@ -366,6 +363,9 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "לא ניתן לשנות את הססמה. יש לפנות למנהל שלך.",
     "Could not fetch list of apps from the app store." : "לא ניתן לקבל את רשימת היישומונים מחנות היישומונים.",
     "Can't install this app because it is not compatible" : "לא ניתן להתקין את היישומון הזה כיוון שאינו נתמך.",
-    "Can't install this app" : " לא ניתן להתקין את היישומון הזה"
+    "Can't install this app" : " לא ניתן להתקין את היישומון הזה",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "לוח שנה, אנשי קשר, שיחה, דואר, ועריכה משותפת",
+    "Finish setup" : "סיום התקנה",
+    "Finishing …" : "מסיים..."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
