@@ -146,22 +146,21 @@
 
 })();
 
-window.addEventListener('DOMContentLoaded', function() {
-	$('.updateButton').on('click', function() {
-		var $updateEl = $('.update');
-		var $progressEl = $('.update-progress');
-		$progressEl.removeClass('hidden');
-		$('.updateOverview').addClass('hidden');
-		$('#update-progress-message-error').hide();
-		$('#update-progress-message-warnings').hide();
-		OC.Update.start($progressEl, {
-			productName: $updateEl.attr('data-productname'),
-			version: $updateEl.attr('data-version')
-		});
-		return false;
+$('.updateButton').on('click', function() {
+	var $updateEl = $('.update');
+	var $progressEl = $('.update-progress');
+	$progressEl.removeClass('hidden');
+	$('.updateOverview').addClass('hidden');
+	$('#update-progress-message-error').hide();
+	$('#update-progress-message-warnings').hide();
+	OC.Update.start($progressEl, {
+		productName: $updateEl.attr('data-productname'),
+		version: $updateEl.attr('data-version')
 	});
-	$('.update-show-detailed').on('click', function() {
-		$('#update-progress-detailed').toggleClass('hidden');
-		return false;
-	});
+	return false;
+});
+
+$('.update-show-detailed').on('click', function() {
+	$('#update-progress-detailed').toggleClass('hidden');
+	return false;
 });
