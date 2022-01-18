@@ -88,6 +88,7 @@ OC.L10N.register(
     "Back to login" : "Grįžti prie prisijungimo",
     "New password" : "Naujas slaptažodis",
     "I know what I'm doing" : "Aš žinau ką darau",
+    "Install recommended apps" : "Įdiegti rekomenduojamas programėles",
     "Recommended apps" : "Rekomenduojamos programėlės",
     "Loading apps …" : "Įkeliamos programėlės…",
     "Installing apps …" : "Įdiegiamos programėlės…",
@@ -230,9 +231,6 @@ OC.L10N.register(
     "You chose SQLite as database." : "Jūs kaip duomenų bazę pasirinkote SQLite.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite turėtų būti naudojama tik minimaliems ir plėtojimo egzemplioriams. Darbiniam egzemplioriui rekomenduojame naudoti kitą duomenų bazės vidinę pusę.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Jei sinchronizavimui naudojate kliento programas, tuomet SQLite naudojimas yra primygtinai nerekomenduojamas.",
-    "Install recommended apps" : "Įdiegti rekomenduojamas programėles",
-    "Finish setup" : "Užbaigti sąranką",
-    "Finishing …" : "Užbaigiama…",
     "Need help?" : "Reikia pagalbos?",
     "See the documentation" : "Žiūrėkite dokumentaciją",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Nepavyko iš konfigūracijos aplanko pašalinti failo CAN_INSTALL. Pašalinkite šį failą rankiniu būdu.",
@@ -310,6 +308,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Slaptažodis negali būti pakeistas. Susisiekite su savo administratoriumi.",
     "Could not fetch list of apps from the app store." : "Nepavyko iš programėlių parduotuvės gauti programėlių sąrašo.",
     "Can't install this app because it is not compatible" : "Nepavyksta įdiegti šios programėlės, nes ji yra nesuderinama",
-    "Can't install this app" : "Nepavyksta įdiegti šios programėlės"
+    "Can't install this app" : "Nepavyksta įdiegti šios programėlės",
+    "Finish setup" : "Užbaigti sąranką",
+    "Finishing …" : "Užbaigiama…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

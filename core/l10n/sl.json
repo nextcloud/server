@@ -149,6 +149,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Datoteke so šifrirane. Če niste omogočili obnovitvenega ključa, po ponastavitvi gesla dostop do datotek ne bo več mogoč.<br />Če niste prepričani, kaj storiti, stopite v stik s skrbnikom sistema.<br />Ali res želite nadaljevati?",
     "I know what I'm doing" : "Vem, kaj delam!",
     "Resetting password" : "Ponastavljanje gesla",
+    "Install recommended apps" : "Namesti priporočene programe",
     "Recommended apps" : "Priporočeni programi",
     "Loading apps …" : "Poteka nalaganje programov ...",
     "Installing apps …" : "Poteka nameščanje programov ...",
@@ -301,10 +302,6 @@
     "You chose SQLite as database." : "Kot podatkovna zbirka bo uporabljena zbirka SQLite.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "Podatkovna zbirka SQLite je primerna le za manjše in razvojne namestitve. Za produkcijsko okolje je priporočljivo uporabiti drugo podatkovno ozadje.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Če uporabljate namizni odjemalec za usklajevanje datotek, je uporaba podatkovne zbirke SQLite odsvetovana.",
-    "Install recommended apps" : "Namesti priporočene programe",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Koledar, Stiki, Talk, Pošta in Sodelovalno urejanje dokumentov",
-    "Finish setup" : "Končaj nastavitev",
-    "Finishing …" : "Poteka zaključevanje opravila ...",
     "Need help?" : "Ali potrebujete pomoč?",
     "See the documentation" : "Preverite dokumentacijo",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Kaže, da poskušate ponovno namestiti okolje Nextcloud, a datoteke CAN_INSTALL ni v mapi nastavitev. Ustvarite jo, potem lahko poskusite znova.",
@@ -409,6 +406,9 @@
     "Could not fetch list of apps from the app store." : "Ni mogoče pridobiti seznama programov iz trgovine.",
     "Can't install this app because it is not compatible" : "Programa ni mogoče namestiti, ker ni skladen z različico okolja.",
     "Can't install this app" : "Programa ni mogoče namestiti.",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Koledar, Stiki, Talk, Pošta in Sodelovalno urejanje dokumentov",
+    "Finish setup" : "Končaj nastavitev",
+    "Finishing …" : "Poteka zaključevanje opravila ...",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Modul PHP OPcache ni naložen. {linkstart}Za najboljše delovanje je priporočljivo ↗{linkend} modul dodati k uporabljeni namestitvi PHP.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Modul PHP OPcache ni pravilno nastavljen. {linkstart}Za najboljše delovanje je priporočljivo ↗{linkend} uporabiti posebne nastavitve v datoteki <code>php.ini</code>:"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

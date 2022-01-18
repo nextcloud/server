@@ -180,8 +180,6 @@
     "Database host" : "მონაცემთა ბაზის ჰოსტი",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "ჰოსტის სახელთან ერთად გთხოვთ მიუთითოთ პორტის ნომერიც (მაგ.: localhost:5432).",
     "Performance warning" : "გაფრთხილება მოქმედების შესახებ",
-    "Finish setup" : "კონფიგურაციის დასრულება",
-    "Finishing …" : "სრულდება ...",
     "Need help?" : "გესაჭიროებათ დახმარება?",
     "See the documentation" : "იხილეთ დოკუმენტაცია",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "ეს აპლიკაცია სწორი ოპერაციისთვის საჭიროებს JavaScript-ს. გთხოვთ {linkstart}ჩართოთ JavaScript-ი{linkend} და გადატვირთოთ გვერდი.",
@@ -233,6 +231,8 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან.",
     "Continue to Nextcloud" : "გაგრძლება Nextcloud-ისკენ",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["განახლება წარმატებით დასრულდა. Nextcloud-ისკენ გადაგამისამართებთ %n წამში.","განახლება წარმატებით დასრულდა. Nextcloud-ისკენ გადაგამისამართებთ %n წამში."],
-    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს."
+    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს.",
+    "Finish setup" : "კონფიგურაციის დასრულება",
+    "Finishing …" : "სრულდება ..."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -212,8 +212,6 @@ OC.L10N.register(
     "Database host" : "Datubāzes serveris",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Lūdzu, norādiet porta numuru kopā ar resursdatora nosaukumu (piemēram, localhost: 5432).",
     "Performance warning" : "Veiktspējas brīdinājums",
-    "Finish setup" : "Pabeigt iestatīšanu",
-    "Finishing …" : "Pabeidz ...",
     "Need help?" : "Vajadzīga palīdzība?",
     "See the documentation" : "Skatiet dokumentāciju",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Šai lietotnei nepieciešams JavaScript. Lūdzu {linkstart}ieslēdziet JavasScript{linkend} un pārlādējiet lapu.",
@@ -264,6 +262,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Paroli, nevar nomainīt. Lūdzu kontaktēties ar savu administratoru.",
     "Could not fetch list of apps from the app store." : "Nevarēja ielādēt lietotņu sarakstu no lietotņu veikala.",
     "Can't install this app because it is not compatible" : "Nevar instalēt šo lietotni, jo tā nav savietojama",
-    "Can't install this app" : "Nevar instalēt šo lietotni"
+    "Can't install this app" : "Nevar instalēt šo lietotni",
+    "Finish setup" : "Pabeigt iestatīšanu",
+    "Finishing …" : "Pabeidz ..."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

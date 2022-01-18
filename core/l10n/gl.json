@@ -132,6 +132,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Os seus ficheiros están cifrados. Non haberá maneira de recuperar os datos após o restabelecemento do contrasinal. Se non está seguro de que facer, póñase en contacto co administrador antes de continuar. Confirma que quere continuar?",
     "I know what I'm doing" : "Sei o que estou a facer",
     "Resetting password" : "Restabelecendo o contrasinal",
+    "Install recommended apps" : "Instalar aplicacións recomendadas",
     "Recommended apps" : "Aplicacións recomendadas",
     "Loading apps …" : "Cargando aplicacións…",
     "Installing apps …" : "Instalando aplicacións…",
@@ -279,10 +280,6 @@
     "You chose SQLite as database." : "Escolleu SQLite como base de datos.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite só debería empregarse para instancias mínimas e de desenvolvemento. Para produción recomendámoslle que empregue unha infraestrutura de base de datos diferente.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Se emprega clientes para a sincronización dos ficheiros, desaconséllase encarecidamente o uso de SQLite.",
-    "Install recommended apps" : "Instalar aplicacións recomendadas",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendario, Contactos, Talk, Correo e Edición colaborativa",
-    "Finish setup" : "Rematar a configuración",
-    "Finishing …" : "Rematando…",
     "Need help?" : "Precisa axuda?",
     "See the documentation" : "Vexa a documentación",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Semella que está tentando reinstalar o seu Nextcloud. Non obstante o ficheiro CAN_INSTALL falta no seu directorio de configuración. Cree o ficheiro CAN_INSTALL no cartafol de configuración para continuar.",
@@ -387,6 +384,9 @@
     "Could not fetch list of apps from the app store." : "Non foi posíbel obter a lista de aplicacións da tenda de aplicacións.",
     "Can't install this app because it is not compatible" : "Non é posíbel instalar esta aplicación porque non é compatíbel",
     "Can't install this app" : "Non é posíbel instalar esta aplicación",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendario, Contactos, Talk, Correo e Edición colaborativa",
+    "Finish setup" : "Rematar a configuración",
+    "Finishing …" : "Rematando…",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "OPcache de PHP non está configurado correctamente. {linkstart}Para mellorar o rendemento recomendamoslle ↗{linkend} cargalo na súa instalación de PHP.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "OPcache de PHP non está configurado correctamente. {linkstart}Para mellorar o rendemento recomendase ↗{linkend} usar os seguintes axustes en <code>php.ini</code>:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

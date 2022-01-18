@@ -120,6 +120,7 @@
     "New password" : "Senhal novèl",
     "I know what I'm doing" : "Sabi çò que fau",
     "Resetting password" : "Reïnicializacion de senhal",
+    "Install recommended apps" : "Installar las aplicacions recomandadas",
     "Recommended apps" : "Aplicacions recomandadas",
     "Loading apps …" : "Cargament aplicacions…",
     "Installing apps …" : "Installacion aplicacions…",
@@ -267,10 +268,6 @@
     "You chose SQLite as database." : "Causissètz SQLite coma basa de donadas.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite deu solament èsser utilizat per d’instàncias minimalas e de desvolopament. Per la produccion recomandam un autre sistèma de basa de donadas.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "S’utilizatz los clients per sincronizar de fichièrs, l’utilizacion de SQLite es forçadament descoratjada.",
-    "Install recommended apps" : "Installar las aplicacions recomandadas",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendièr, Contactes, Talk, Corrièl e edicion collaborativa",
-    "Finish setup" : "Acabar parametratge",
-    "Finishing …" : "Finalizacion…",
     "Need help?" : "Besonh d’ajuda ?",
     "See the documentation" : "Vejatz la documentacion",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Sembla que sètz a reïnstallar vòstre Nextcloud. Pasmens lo fichièr CAN_INSTALL es absent del repertòri config. Volgatz ben crear lo fichièr CAN_INSTALL dins vòstre dossièr config per contunhar.",
@@ -370,6 +367,9 @@
     "Password can not be changed. Please contact your administrator." : "Cambiament impossible del senhal. Contactatz vòstre administrator.",
     "Could not fetch list of apps from the app store." : "Recuperacion impossibla de la lista de las aplicacions de la botiga d’aplicacions.",
     "Can't install this app because it is not compatible" : "Installacion impossibla d’aquesta aplicacion pr’amor qu’es pas compatibla",
-    "Can't install this app" : "Installacion impossibla d’aquesta aplicacion"
+    "Can't install this app" : "Installacion impossibla d’aquesta aplicacion",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendièr, Contactes, Talk, Corrièl e edicion collaborativa",
+    "Finish setup" : "Acabar parametratge",
+    "Finishing …" : "Finalizacion…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

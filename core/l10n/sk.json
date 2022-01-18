@@ -157,6 +157,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Vaše súbory sú šifrované. Po obnovení hesla nebude možné dostať sa k vašim údajom. Ak neviete, čo robíte, kontaktujte vášho administrátora a až potom pokračujte. Naozaj chcete pokračovať?",
     "I know what I'm doing" : "Viem, čo robím",
     "Resetting password" : "Obnovuje sa heslo",
+    "Install recommended apps" : "Nainštalovať odporúčané apky",
     "Recommended apps" : "Odporúčané apky",
     "Loading apps …" : "Načítavanie apiek...",
     "Could not fetch list of apps from the App Store." : "Nepodarilo sa načítať zoznam apiek z Obchodu s aplikáciami.",
@@ -314,10 +315,6 @@
     "You chose SQLite as database." : "Ako databázu ste vybrali SQLite.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite by sa malo používať len pre naozaj maličké alebo vývojové inštancie. Pre produkčné použitie výrazne odporúčame použiť robustnejšiu databázu.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Ak používate klientské aplikácie pre synchronizáciu súborov, tak výrazne odporúčame nepoužívať SQLite.",
-    "Install recommended apps" : "Nainštalovať odporúčané apky",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalendár, Kontakty, Rozhovory, Pošta a Spoločné úpravy",
-    "Finish setup" : "Dokončiť inštaláciu",
-    "Finishing …" : "Dokončujem...",
     "Need help?" : "Potrebujete pomoc?",
     "See the documentation" : "Pozri dokumentáciu",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Vyzerá, že sa snažíte preinštalovať svoj Nextcloud. Avšak v adresári s konfiguráciou chýba súbor CAN_INSTALL. Ak chcete pokračovať, tak ho vytvorte.",
@@ -423,6 +420,9 @@
     "Could not fetch list of apps from the app store." : "Nepodarilo sa načítať zoznam apiek z katalógu.",
     "Can't install this app because it is not compatible" : "Táto apka sa nedá nainštalovať, nie je kompatibilná",
     "Can't install this app" : "Táto apka sa nedá nainštalovať",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalendár, Kontakty, Rozhovory, Pošta a Spoločné úpravy",
+    "Finish setup" : "Dokončiť inštaláciu",
+    "Finishing …" : "Dokončujem...",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Modul OPcache PHP nie je načítaný. {linkstart} Pre lepší výkon sa odporúča ↗{linkend} načítať ho do vašej inštalácie PHP.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache nie je nakonfigurovaná správne. {linkstart}Pre zvýšenie výkonu ↗{linkend} použite v <code>php.ini</code> nasledovné odporúčané nastavenia:"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"

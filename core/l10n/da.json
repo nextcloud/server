@@ -156,6 +156,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Dine filer er krypteret. Det vil ikke være muligt at kunne genskabe din data hvis din adgangskode nulstilles. Hvis du ikke er sikker på hvad du skal gøre, så kontakt venligst din administrator før du fortsætter. Ønsker du at forsætte?",
     "I know what I'm doing" : "Jeg ved, hvad jeg har gang i",
     "Resetting password" : "Nulstilling af adgangskode",
+    "Install recommended apps" : "Installer anbefalede apps",
     "Recommended apps" : "Anbefalede apps",
     "Loading apps …" : "Henter apps ...",
     "Could not fetch list of apps from the App Store." : "Kunne ikke hente listen over apps fra App Store.",
@@ -312,10 +313,6 @@
     "You chose SQLite as database." : "Du valgte SQLite som database.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite bør kun bruges til minimale og udviklingsmæssige servere. Til produktion anbefaler vi en anden database backend.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Hvis du bruger klienter til fil synkronisering, frarådes brugen af SQLite på det kraftigste.",
-    "Install recommended apps" : "Installer anbefalede apps",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontakter, Snak, Mail & OnlyOffice",
-    "Finish setup" : "Afslut opsætning",
-    "Finishing …" : "Færdigbehandler …",
     "Need help?" : "Brug for hjælp?",
     "See the documentation" : "Se dokumentationen",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Det ser ud til at du forsøger at geninstallere Nextcloud. Men filen CAN_INSTALL mangler fra din konfiguration mappe. Venligst opret filen CAN_INSTALL i din konfiguration mappe for at fortsætte.",
@@ -421,6 +418,9 @@
     "Could not fetch list of apps from the app store." : "Kunne ikke hente liste over apps fra app-storen.",
     "Can't install this app because it is not compatible" : "Denne app kan ikke installeres fordi den ikke er kompatibel",
     "Can't install this app" : "Kan ikke installere denne app",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontakter, Snak, Mail & OnlyOffice",
+    "Finish setup" : "Afslut opsætning",
+    "Finishing …" : "Færdigbehandler …",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache-modulet er ikke indlæst. {linkstart}For bedre ydeevne anbefales det ↗{linked} at indlæse det i din PHP-installation.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache-modulet er ikke korrekt konfigureret. {linkstart}For bedre ydeevne anbefales det ↗{linkend} at bruge følgende indstillinger i <code>php.ini</code>:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

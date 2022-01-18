@@ -178,8 +178,6 @@ OC.L10N.register(
     "Database host" : "Servidor de base de datos",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Por favor especifica el número de puerto así como el nombre del servidor (ejem., localhost:5432).",
     "Performance warning" : "Advertencia de desempeño",
-    "Finish setup" : "Terminar configuración",
-    "Finishing …" : "Terminando …",
     "Need help?" : "¿Necesitas ayuda?",
     "See the documentation" : "Ver la documentación",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación requiere de JavaScript para su correcta operación. Por favor {linkstart}habilita JavaScript{linkend} y vuelve a cargar la página. ",
@@ -231,6 +229,8 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Probablemente tu directorio de datos y archivos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Se recomienda ampliamente que configures tu servidor web para que el directorio de datos no sea accesible, o bien, que muevas el directorio de datos fuera del directorio raíz del servidor web.",
     "Continue to Nextcloud" : "Continuar a Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundo. ","La actualización fue exitosa. Te redireccionaremos a Nextcloud en %n segundos."],
-    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador"
+    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador",
+    "Finish setup" : "Terminar configuración",
+    "Finishing …" : "Terminando …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -241,8 +241,6 @@ OC.L10N.register(
     "You chose SQLite as database." : "Vi elektis datumbazon „SQLite“.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite estu nur uzita por minimuma kaj programista servilo. Por produkta medio, ni rekomendas uzi alian tipon de datumbazo.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Se vi uzas klientojn por sinkronigi dosierojn, oni ne rekomendas datumbazon SQLite.",
-    "Finish setup" : "Fini la instalon",
-    "Finishing …" : "Finiĝo...",
     "Need help?" : "Ĉu necesas helpo?",
     "See the documentation" : "Vidi la dokumentaron",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Ŝajnas, ke vi provas reinstali vian Nextcloud. Sed la dosiero CAN_INSTALL (angle por „eblo instali“) mankas en via dosierujo „config“. Bv. krei dosieron CAN_INSTALL ene de via dosierujo „config“ por daŭrigi.",
@@ -343,6 +341,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Pasvorto ne eblas esti ŝanĝita. Bonvolu kontakti vian administranton.",
     "Could not fetch list of apps from the app store." : "Elŝutado de la listo de la aplikaĵoj el la aplikaĵejo malsukcesis.",
     "Can't install this app because it is not compatible" : "La instalado de tiu aplikaĵo malsukcesis, ĉar ĝi estas nekongrua",
-    "Can't install this app" : "La instalado de tiu aplikaĵo ne eblas"
+    "Can't install this app" : "La instalado de tiu aplikaĵo ne eblas",
+    "Finish setup" : "Fini la instalon",
+    "Finishing …" : "Finiĝo..."
 },
 "nplurals=2; plural=(n != 1);");

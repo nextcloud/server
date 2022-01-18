@@ -108,6 +108,7 @@ OC.L10N.register(
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Berkas Anda terenkripsi. Tidak memungkinkan untuk mendapatkan kembali data anda setelah kata sandi disetel ulang. Jika tidak yakin, silakan hubungi administrator Anda sebelum melanjutkan. Apa anda ingin melanjutkan?",
     "I know what I'm doing" : "Saya tahu apa yang saya lakukan",
     "Resetting password" : "Menyetel ulang kata sandi",
+    "Install recommended apps" : "Instal aplikasi rekomendasi",
     "Recommended apps" : "Aplikasi terekomendasi",
     "Loading apps …" : "Memuat aplikasi ...",
     "Installing apps …" : "Instalasi aplikasi ...",
@@ -243,10 +244,6 @@ OC.L10N.register(
     "You chose SQLite as database." : "Anda memilih SQLite sebagai pangkalan data",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite hanya digunakan pada instalasi minimal dan lingkungan pengembangan. Untuk lingkungan produksi dianjurkan menggunakan backend pangkalan data lain.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Jika menggunakan klien untuk sinkronisasi berkas, penggunaan SQLite sangat tidak dianjurkan.",
-    "Install recommended apps" : "Instal aplikasi rekomendasi",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontak, Talk, Surel, & Penyuntingan kolaboratif",
-    "Finish setup" : "Selesaikan instalasi",
-    "Finishing …" : "Menyelesaikan ...",
     "Need help?" : "Butuh bantuan?",
     "See the documentation" : "Lihat dokumentasi",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Sepertinya Anda coba untuk menginstal ulang Nextcloud. Namun berkas CAN_INSTALL tidak ditemukan pada direktori konfigurasi. Silakan buat berkas tersebut untuk melanjutkan.",
@@ -347,6 +344,9 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Kata sandi tidak dapat diubah. Silakan hubungi administrator Anda",
     "Could not fetch list of apps from the app store." : "Tidak dapat mengambil daftar aplikasi dari toko.",
     "Can't install this app because it is not compatible" : "Instalasi aplikasi gagal karena tidak kompatibel",
-    "Can't install this app" : "Instalasi aplikasi gagal"
+    "Can't install this app" : "Instalasi aplikasi gagal",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontak, Talk, Surel, & Penyuntingan kolaboratif",
+    "Finish setup" : "Selesaikan instalasi",
+    "Finishing …" : "Menyelesaikan ..."
 },
 "nplurals=1; plural=0;");

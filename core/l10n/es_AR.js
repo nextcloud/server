@@ -73,6 +73,7 @@ OC.L10N.register(
     "New password" : "Nueva contraseña",
     "I know what I'm doing" : "Sé lo que estoy haciendo",
     "Resetting password" : "Restableciendo contraseña",
+    "Install recommended apps" : "Instalar apps recomendadas",
     "Recommended apps" : "Apps recomendadas",
     "Loading apps …" : "Cargando apps ...",
     "App download or installation failed" : "App descargada o instalación fallida",
@@ -186,9 +187,6 @@ OC.L10N.register(
     "Database host" : "Servidor de base de datos",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Favor de especificar el número de puerto así como el nombre del servidor (ejem., localhost:5432).",
     "Performance warning" : "Advertencia de desempeño",
-    "Install recommended apps" : "Instalar apps recomendadas",
-    "Finish setup" : "Terminar configuración",
-    "Finishing …" : "Terminando …",
     "Need help?" : "¿Necesita ayuda?",
     "See the documentation" : "Ver la documentación",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación requiere de JavaScript para su correcta operación. Favor de {linkstart}habilitar JavaScript{linkend} y vuelva a cargar la página. ",
@@ -239,6 +237,8 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundo. ","La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundos."],
     "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Favor de contactar a su adminstrador",
     "Can't install this app because it is not compatible" : "No se puede instalar esta app porque no es compatible",
-    "Can't install this app" : "No se puede instalar esta app"
+    "Can't install this app" : "No se puede instalar esta app",
+    "Finish setup" : "Terminar configuración",
+    "Finishing …" : "Terminando …"
 },
 "nplurals=2; plural=(n != 1);");

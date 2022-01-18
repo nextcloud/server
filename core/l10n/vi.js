@@ -173,8 +173,6 @@ OC.L10N.register(
     "Database host" : "Database host",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Vui lòng xác định số cổng cùng với tên máy chủ lưu trữ (ví dụ: localhost: 5432).",
     "Performance warning" : "Cảnh báo hiệu suất",
-    "Finish setup" : "Cài đặt hoàn tất",
-    "Finishing …" : "Đang hoàn thành ...",
     "Need help?" : "Cần hỗ trợ ?",
     "See the documentation" : "Xem tài liệu",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ứng dụng này yêu cầu JavaScript để hoạt động chính xác. Vui lòng {linkstart} bật JavaScript {linkend} và tải lại trang.",
@@ -221,6 +219,8 @@ OC.L10N.register(
     "Checked database schema update for apps" : "Bản cập nhật lược đồ cơ sở dữ liệu cho các ứng dụng đã được kiểm tra",
     "Continue to Nextcloud" : "Tiếp tục đến Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Cập nhật thành công. Đang chuyển hướng bạn tới Nextcloud trong %ngiây."],
-    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống."
+    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống.",
+    "Finish setup" : "Cài đặt hoàn tất",
+    "Finishing …" : "Đang hoàn thành ..."
 },
 "nplurals=1; plural=0;");

@@ -93,6 +93,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Ваші файли зашифровано. У разі перевстановлення паролю ви не зможете отримати доступ до них. Якщо ви не впевнені, що робити, будь ласка, сконтактуйте з адміністратором перед продовженням. Дійсно продовжити?",
     "I know what I'm doing" : "Я знаю що роблю",
     "Resetting password" : "Перевстановлення пароля",
+    "Install recommended apps" : "Встановити рекомендовані застосунки",
     "Recommended apps" : "Рекомендовані застосунки",
     "Loading apps …" : "Завантаження застосунків ...",
     "Installing apps …" : "Встановлення застосунків ...",
@@ -225,10 +226,6 @@
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Будь ласка, вкажіть номер порту поряд з ім'ям вузла (напр., localhost:5432).",
     "Performance warning" : "Попередження продуктивності",
     "You chose SQLite as database." : "Ви вибрали SQLite як базу даних",
-    "Install recommended apps" : "Встановити рекомендовані застосунки",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Календар, Контакти, Talk, Пошта та спільне редагування",
-    "Finish setup" : "Завершити встановлення",
-    "Finishing …" : "Завершується ...",
     "Need help?" : "Потрібна допомога?",
     "See the documentation" : "Подивитись документацію",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ця програма вимагає увімкнений JavaScript для коректної роботи. Будь ласка, активуйте {linkstart}JavaScript{linkend} та оновіть сторінку.",
@@ -308,6 +305,9 @@
     "Password can not be changed. Please contact your administrator." : "Пароль не може бути змінено. Будь ласка, зверніться до вашого адміністратора",
     "Could not fetch list of apps from the app store." : "Неможливо отримати перелік застосунків з крамниці застосунків",
     "Can't install this app because it is not compatible" : "Неможливо встановити цей застосунок через несумісність",
-    "Can't install this app" : "Неможливо встановити цей застосунок"
+    "Can't install this app" : "Неможливо встановити цей застосунок",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Календар, Контакти, Talk, Пошта та спільне редагування",
+    "Finish setup" : "Завершити встановлення",
+    "Finishing …" : "Завершується ..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
