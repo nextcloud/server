@@ -186,7 +186,7 @@ interface IConfig {
 	/**
 	 * Shortcut for getting a user defined value
 	 *
-	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param ?string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param mixed $default the default value to be returned if the value isn't set

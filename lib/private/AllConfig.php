@@ -312,7 +312,7 @@ class AllConfig implements \OCP\IConfig {
 	/**
 	 * Getting a user defined value
 	 *
-	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param ?string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param mixed $default the default value to be returned if the value isn't set
@@ -400,19 +400,19 @@ class AllConfig implements \OCP\IConfig {
 	/**
 	 * Returns all user configs sorted by app of one user
 	 *
-	 * @param string $userId the user ID to get the app configs from
+	 * @param ?string $userId the user ID to get the app configs from
 	 * @return array[] - 2 dimensional array with the following structure:
 	 *     [ $appId =>
 	 *         [ $key => $value ]
 	 *     ]
 	 */
-	public function getAllUserValues(string $userId): array {
+	public function getAllUserValues(?string $userId): array {
 		if (isset($this->userCache[$userId])) {
 			return $this->userCache[$userId];
 		}
 		if ($userId === null || $userId === '') {
-			$this->userCache[$userId] = [];
-			return $this->userCache[$userId];
+			$this->userCache[''] = [];
+			return $this->userCache[''];
 		}
 
 		// TODO - FIXME
