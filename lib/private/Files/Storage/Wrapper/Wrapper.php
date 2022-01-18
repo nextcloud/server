@@ -485,7 +485,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	/**
 	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
 	 *
-	 * @param string $class
+	 * @param class-string<IStorage> $class
 	 * @return bool
 	 */
 	public function instanceOfStorage($class) {
@@ -494,6 +494,25 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 			$class = '\OCA\Files_Sharing\SharedStorage';
 		}
 		return is_a($this, $class) or $this->getWrapperStorage()->instanceOfStorage($class);
+	}
+
+	/**
+	 * @psalm-template T of IStorage
+	 * @psalm-param class-string<T> $class
+	 * @psalm-return T|null
+	 */
+	public function getInstanceOfStorage(string $class) {
+		$storage = $this;
+		while ($storage instanceof Wrapper) {
+			if ($storage instanceof $class) {
+				break;
+			}
+			$storage = $storage->getWrapperStorage();
+		}
+		if (!($storage instanceof $class)) {
+			return null;
+		}
+		return $storage;
 	}
 
 	/**
