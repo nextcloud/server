@@ -112,6 +112,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Τα αρχεία σας είναι κρυπτογραφημένα. Δεν θα υπάρξει κανένας τρόπος για να έχετε πρόσβαση στα δεδομένα σας μετά την επαναφορά του συνθηματικού σας. Αν δεν είστε σίγουροι για το τι πρέπει να κάνετε, επικοινωνήστε με το διαχειριστή, πριν να συνεχίσετε. Θέλετε σίγουρα να συνεχίσετε;",
     "I know what I'm doing" : "Γνωρίζω τι κάνω",
     "Resetting password" : "Επαναφορά κωδικού",
+    "Install recommended apps" : "Εγκατάσταση προτεινόμεων εφαρμογών",
     "Recommended apps" : "Προτεινόμενες εφαρμογές",
     "Loading apps …" : "Φόρτωση εφαρμογών …",
     "Installing apps …" : "Εγκατάσταση εφαρμογών …",
@@ -258,10 +259,6 @@
     "You chose SQLite as database." : "Επιλέξατε την SQLite ως βάση δεδομένων.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "Η SQLite πρέπει να χρησιμοποιείται μόνο για μικρές εγκαταστάσεις και εγκαταστάσεις για ανάπτυξη. Για παραγωγικά συστήματα συνιστούμε διαφορετική βάση δεδομένων.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Εάν χρησιμοποιείτε το λογισμικό υπολογιστή για συγχρονισμό, δεν συνίσταται η χρήση της SQLite.",
-    "Install recommended apps" : "Εγκατάσταση προτεινόμεων εφαρμογών",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Ημερολόγιο, Επαφές, Συνομιλία, Mail και Συνεργατική επεξεργασία",
-    "Finish setup" : "Ολοκλήρωση ρύθμισης",
-    "Finishing …" : "Ολοκλήρωση …",
     "Need help?" : "Θέλετε βοήθεια;",
     "See the documentation" : "Δείτε την τεκμηρίωση",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Φαίνεται ότι προσπαθείτε να επανεγκαταστήσετε το Nextcloud. Ωστόσο, το αρχείο CAN_INSTALL λείπει από τον κατάλογο config. Δημιουργήστε το αρχείο CAN_INSTALL στο φάκελο config για να συνεχίσετε.",
@@ -365,6 +362,9 @@
     "Password can not be changed. Please contact your administrator." : "Το συνθηματικό σας δεν μπορεί να αλλάξει. Παρακαλώ επικοινωνήστε με το διαχειριστή.",
     "Could not fetch list of apps from the app store." : "Δεν μπορεί να ληφθεί η λίστα εφαρμογών από την αγορά εφαρμογών.",
     "Can't install this app because it is not compatible" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί, δεν είναι συμβατή",
-    "Can't install this app" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί"
+    "Can't install this app" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Ημερολόγιο, Επαφές, Συνομιλία, Mail και Συνεργατική επεξεργασία",
+    "Finish setup" : "Ολοκλήρωση ρύθμισης",
+    "Finishing …" : "Ολοκλήρωση …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

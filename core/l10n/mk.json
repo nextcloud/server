@@ -141,6 +141,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Вашите податоци се шифрирани. Не постои можност за враќање на податоците одкако вашата лозинка ќе биде ресетирана. Доколку незнаете што да правите, контактирајте го вашиот администратор пред да продолжите понатаму. Дали сте сигурни дека сакате да продолжите?",
     "I know what I'm doing" : "Знам што правам",
     "Resetting password" : "Ресетирање на лозинка",
+    "Install recommended apps" : "Инсталирајте ги препорачаните апликации",
     "Recommended apps" : "Препорачани апликации",
     "Loading apps …" : "Апликациите се вчитуваат ...",
     "Could not fetch list of apps from the App Store." : "Неможе да се вчита листата на апликации од продавницата.",
@@ -292,10 +293,6 @@
     "You chose SQLite as database." : "Вие избравте SQLite како база на податоци.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite треба да се користи само за минимални и развојни цели. За користење, препорачуваме различен начин за база на податоци.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Ако користите клиент за синхронизација на датотеки, SQLite не е препорачливо.",
-    "Install recommended apps" : "Инсталирајте ги препорачаните апликации",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Календар, контакти, разговор, Е-пошта & Колаборативно уредување",
-    "Finish setup" : "Заврши го подесувањето",
-    "Finishing …" : "Завршувам ...",
     "Need help?" : "Ви треба помош?",
     "See the documentation" : "Види ја документацијата",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Изгледа дека се обидувате да го преинсталирате Nextcloud. Како и да е, датотеката CAN_INSTALL недостасува во вашата конфигурациона папка. Креирајте празна датотека CAN_INSTALL во конфигурационата папка за да продолжите.",
@@ -396,6 +393,9 @@
     "Could not fetch list of apps from the app store." : "Неможе да се вчита листата на апликации од продавницата.",
     "Can't install this app because it is not compatible" : "Неможе да се инсталираа оваа апликација бидејќи не е компатибилна",
     "Can't install this app" : "Неможе да се инсталираа оваа апликација ",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Календар, контакти, разговор, Е-пошта & Колаборативно уредување",
+    "Finish setup" : "Заврши го подесувањето",
+    "Finishing …" : "Завршувам ...",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Недостасува PHP модулот \"OPcache\". {linkstart}За да имате подобри перформанси е препорачливо ↗{linkend} да го овозможите во вашата PHP инсталација.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP модулот \"OPcache\" не е правилно конфигуриран. {linkstart}За да имате подобри перформанси е препорачливо ↗{linkend} да ги користите следните поставки во вашата <code>php.ini</code> датотека:"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

@@ -168,8 +168,6 @@
     "Database host" : "Strehë baze të dhënash",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Ju lutem specifikoni numrin e portës së bashku me një emër hosti (p.sh. localhost:5432).",
     "Performance warning" : "Sinjalizim funksionimi",
-    "Finish setup" : "Përfundoje rregullimin",
-    "Finishing …" : "Po përfundohet …",
     "Need help?" : "Ju duhet ndihmë?",
     "See the documentation" : "Shihni dokumentimin",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ky aplikacion lyp JavaScript për punim të saktë. Ju lutemi, {linkstart}aktivizoni JavaScript-in{linkend} dhe ringarkoni faqen.",
@@ -212,6 +210,8 @@
     "Checked database schema update for apps" : "U kontrollua përditësimi i skemës së bazës së të dhënave për aplikacionet",
     "Continue to Nextcloud" : "Vazhdoni tek Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud për %n sekonda.","Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud për %n sekonda."],
-    "Password can not be changed. Please contact your administrator." : "Fjalëkalimi nuk mund të ndryshohet. Ju lutemi, lidhuni me përgjegjësin tuaj."
+    "Password can not be changed. Please contact your administrator." : "Fjalëkalimi nuk mund të ndryshohet. Ju lutemi, lidhuni me përgjegjësin tuaj.",
+    "Finish setup" : "Përfundoje rregullimin",
+    "Finishing …" : "Po përfundohet …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

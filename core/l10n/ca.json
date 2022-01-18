@@ -107,6 +107,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Els vostres fitxers estan xifrats. No hi haurà manera de recuperar les vostres dades un cop que es reinicialitzi la contrasenya. Si no esteu segurs del que feu, contacteu el vostre administrador abans de continuar. Esteu segurs de voler continuar ara?",
     "I know what I'm doing" : "Sé el que faig",
     "Resetting password" : "S'està restablint la contrasenya",
+    "Install recommended apps" : "Instal·la les aplicacions recomanades",
     "Recommended apps" : "Aplicacions recomanades",
     "Loading apps …" : "S'estan carregant les aplicacions …",
     "Installing apps …" : "S'estan instal·lant les aplicacions …",
@@ -252,10 +253,6 @@
     "You chose SQLite as database." : "Heu triat SQLite com a base de dades.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite només s'hauria de fer servir per a instàncies mínimes i de desenvolupament. Per a sistemes en producció, us recomanem un motor de base de dades diferent.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Si feu servir clients per a la sincronització de fitxers, l’ús de SQLite és altament decebedor.",
-    "Install recommended apps" : "Instal·la les aplicacions recomanades",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendari, Contactes, Parla, Correu i edició col·laborativa",
-    "Finish setup" : "Acaba la configuració",
-    "Finishing …" : "S'està acabant …",
     "Need help?" : "Necessiteu ajuda?",
     "See the documentation" : "Consulteu la documentació",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Sembla que estàs intentant reinstal·lar el teu Nextcloud. Malgrat això manca el fitxer CAN_INSTALL a la carpeta de configuració. Crea el fitxer CAN_INSTALL a la teva carpeta de configuració per continuar.",
@@ -359,6 +356,9 @@
     "Password can not be changed. Please contact your administrator." : "La contrasenya no es pot canviar. Contacteu amb l'administrador.",
     "Could not fetch list of apps from the app store." : "No s'ha pogut obtenir la llista d'aplicacions de la botiga d'aplicacions.",
     "Can't install this app because it is not compatible" : "No es pot instal·lar aquesta aplicació perquè no és compatible",
-    "Can't install this app" : "No es pot instal·lar aquesta aplicació"
+    "Can't install this app" : "No es pot instal·lar aquesta aplicació",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendari, Contactes, Parla, Correu i edició col·laborativa",
+    "Finish setup" : "Acaba la configuració",
+    "Finishing …" : "S'està acabant …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

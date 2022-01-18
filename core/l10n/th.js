@@ -114,6 +114,7 @@ OC.L10N.register(
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "ไฟล์ของคุณถูกเข้ารหัส คุณจะไม่สามารถรับข้อมูลของคุณกลับมาหลังจากที่ตั้งรหัสผ่านใหม่แล้ว หากคุณไม่แน่ใจว่าควรทำอย่างไร โปรดติดต่อผู้ดูแลระบบของคุณก่อนดำเนินการต่อ ต้องการดำเนินการต่อหรือไม่?",
     "I know what I'm doing" : "ฉันรู้ว่าฉันกำลังทำอะไรอยู่",
     "Resetting password" : "กำลังตั้งรหัสผ่านใหม่",
+    "Install recommended apps" : "ติดตั้งแอปแนะนำ",
     "Recommended apps" : "แอปแนะนำ",
     "Loading apps …" : "กำลังโหลดแอป …",
     "Could not fetch list of apps from the App Store." : "ไม่สามารถดึงรายการแอปจากร้านค้าแอป",
@@ -258,10 +259,6 @@ OC.L10N.register(
     "You chose SQLite as database." : "คุณเลือก SQLite เป็นฐานข้อมูล",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "ควรใช้ SQLite เฉพาะการทำงานขนาดเล็กและการพัฒนาเท่านั้น สำหรับการใช้งานจริง เราแนะนำให้ใช้แบ็กเอนด์ฐานข้อมูลแบบอื่น",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "หากคุณใช้ไคลเอ็นต์เพื่อซิงค์ไฟล์ ไม่แนะนำให้ใช้ SQLite อย่างยิ่ง",
-    "Install recommended apps" : "ติดตั้งแอปแนะนำ",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "ปฏิทิน, รายชื่อ, Talk, Mail และการแก้ไขร่วมกัน",
-    "Finish setup" : "ตั้งค่าให้เสร็จ",
-    "Finishing …" : "กำลังเสร็จสิ้น ...",
     "Need help?" : "ต้องการความช่วยเหลือ?",
     "See the documentation" : "ดูเอกสารประกอบ",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "ดูเหมือนว่าคุณกำลังพยายามติดตั้ง Nextcloud ใหม่ แต่ในไดเรกทอรี config ของคุณไม่มีไฟล์ CAN_INSTALL โปรดสร้างไฟล์ CAN_INSTALL ในโฟลเดอร์ config ของคุณก่อนดำเนินการต่อ",
@@ -339,6 +336,9 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "ไม่สามารถเปลี่ยนรหัสผ่าน กรุณาติดต่อผู้ดูแลระบบ",
     "Could not fetch list of apps from the app store." : "ไม่สามารถดึงรายการแอปจากร้านค้าแอป",
     "Can't install this app because it is not compatible" : "ไม่สามารถติดตั้งแอปนี้ เนื่องจากแอปนี้เข้ากันไม่ได้",
-    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้"
+    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "ปฏิทิน, รายชื่อ, Talk, Mail และการแก้ไขร่วมกัน",
+    "Finish setup" : "ตั้งค่าให้เสร็จ",
+    "Finishing …" : "กำลังเสร็จสิ้น ..."
 },
 "nplurals=1; plural=0;");

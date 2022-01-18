@@ -153,6 +153,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Deine Dateien sind verschlüsselt. Es gibt keinen Weg Deine Dateien nach dem Rücksetzen des Passwortes wiederherzustellen. Falls Du Dir nicht sicher bist, kontaktiere Deinen Administrator. Möchtest Du wirklich fortfahren?",
     "I know what I'm doing" : "Ich weiß, was ich mache",
     "Resetting password" : "Setze Passwort zurück",
+    "Install recommended apps" : "Empfohlene Apps installieren",
     "Recommended apps" : "Empfohlene Apps",
     "Loading apps …" : "Lade Apps …",
     "Could not fetch list of apps from the App Store." : "Liste der Apps konnte nicht vom App-Store abgerufen werden",
@@ -305,10 +306,6 @@
     "You chose SQLite as database." : "Du hast SQLite als Datenbanktyp ausgewählt.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite sollte nur für Minimal- und Entwicklungsinstanzen gewählt werden. Für die Produktion empfehlen wir ein anderes Datenbank-Backend.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Wenn Clients für die Dateisynchronisierung verwenden werden, so wird von der Verwendung von SQLite dringend abgeraten.",
-    "Install recommended apps" : "Empfohlene Apps installieren",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontakte, Talk, Mail & Gemeinsame Bearbeitung",
-    "Finish setup" : "Installation abschließen",
-    "Finishing …" : "Abschließen…",
     "Need help?" : "Hilfe nötig?",
     "See the documentation" : "Schau in die Dokumentation",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Es sieht so aus, als ob Du Nextcloud erneut installieren möchtest. Es fehlt jedoch die Datei CAN_INSTALL in Deinem Konfigurationsordner. Bitte erstelle die Datei CAN_INSTALL im Konfigurationsordner um fortzufahren.",
@@ -413,6 +410,9 @@
     "Could not fetch list of apps from the app store." : "Liste der Apps konnte nicht vom App Store abgerufen werden.",
     "Can't install this app because it is not compatible" : "App kann nicht installiert werden, da sie inkompatibel ist",
     "Can't install this app" : "App kann nicht installiert werden",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontakte, Talk, Mail & Gemeinsame Bearbeitung",
+    "Finish setup" : "Installation abschließen",
+    "Finishing …" : "Abschließen…",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Das PHP-OPcache-Modul ist nicht geladen. {linkstart}Für eine bessere Leistung empfiehlt es sich ↗{linkend} das Modul in Deine PHP-Installation zu laden.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Der PHP-OPcache ist nicht richtig konfiguriert. {linkstart}Für eine bessere Leistung empfiehlt es sich ↗{linkend}folgende Einstellungen in der <code>php.ini</code> vorzunehmen:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

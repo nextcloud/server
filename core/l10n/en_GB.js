@@ -188,8 +188,6 @@ OC.L10N.register(
     "Database host" : "Database host",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Please specify the port number along with the host name (e.g., localhost:5432).",
     "Performance warning" : "Performance warning",
-    "Finish setup" : "Finish setup",
-    "Finishing …" : "Finishing …",
     "Need help?" : "Need help?",
     "See the documentation" : "See the documentation",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page.",
@@ -248,6 +246,8 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.",
     "Continue to Nextcloud" : "Continue to Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["The update was successful. Redirecting you to Nextcloud in %n second.","The update was successful. Redirecting you to Nextcloud in %n seconds."],
-    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator."
+    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator.",
+    "Finish setup" : "Finish setup",
+    "Finishing …" : "Finishing …"
 },
 "nplurals=2; plural=(n != 1);");
