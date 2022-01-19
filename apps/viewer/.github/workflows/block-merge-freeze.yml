@@ -1,0 +1,21 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: Pull request checks
+
+on: pull_request
+
+jobs:
+  block-merges-during-freeze:
+    name: Block merges during freezes
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download version.php from ${{ github.base_ref }}
+        run: curl https://raw.githubusercontent.com/nextcloud/server/${{ github.base_ref }}/version.php --output version.php
+
+      - name: Run check
+        run: cat version.php | grep 'OC_VersionString' | grep -i -v 'RC'
