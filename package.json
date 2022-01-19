@@ -88,7 +88,7 @@
     "vue-clipboard2": "^0.3.3",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
-    "vue-material-design-icons": "^4.13.0",
+    "vue-material-design-icons": "^5.0.0",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.5.3",
     "vuedraggable": "^2.24.3",
