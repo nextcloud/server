@@ -317,6 +317,8 @@ OC.L10N.register(
     "You chose SQLite as database." : "Wybrałeś SQLite jako bazę danych.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite powinien być używany tylko dla instancji minimalnych i rozwojowych. Dla rozwiniętej zalecamy inne zaplecze bazy danych.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Jeśli używasz klientów do synchronizacji plików, używanie SQLite jest bardzo odradzane.",
+    "Install" : "Zainstaluj",
+    "Installing …" : "Instalowanie…",
     "Need help?" : "Potrzebujesz pomocy?",
     "See the documentation" : "Zapoznaj się z dokumentacją",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Wygląda na to, że próbujesz ponownie zainstalować Nextcloud. Brakuje jednak pliku CAN_INSTALL w katalogu konfiguracyjnym. Aby kontynuować, utwórz plik CAN_INSTALL w katalogu konfiguracyjnym.",
