@@ -317,6 +317,8 @@ OC.L10N.register(
     "You chose SQLite as database." : "您選擇了 SQLite 作為數據庫",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite 只適用於小型或是開發用站台，針對上線服務我們建議使用其他數據庫後端。",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "若使用桌面版或是手機版客戶端同步檔案，不建議使用 SQLite",
+    "Install" : "安裝",
+    "Installing …" : "正在安裝 …",
     "Need help?" : "需要協助嗎？",
     "See the documentation" : "閱讀說明文件",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "您似乎正在嘗試重新安裝您的Nextcloud。然而，檔案 CAN_INSTALL 並未在您的config目錄中。請在您的config目錄中建立 CAN_INSTALL檔以繼續。",
