@@ -29,6 +29,13 @@ use OCP\Log\IWriter;
 
 class Errorlog implements IWriter {
 
+	/** @var string */
+	protected $tag;
+
+	public function __construct(string $tag = 'owncloud') {
+		$this->tag = $tag;
+	}
+
 	/**
 	 * write a message in the log
 	 * @param string $app
@@ -36,6 +43,6 @@ class Errorlog implements IWriter {
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {
-		error_log('[owncloud]['.$app.']['.$level.'] '.$message);
+		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$message);
 	}
 }
