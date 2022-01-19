@@ -962,6 +962,14 @@ $CONFIG = [
  */
 'log_rotate_size' => 100 * 1024 * 1024,
 
+/**
+ * Enable built-in profiler. Helpful when trying to debug performance
+ * issues.
+ *
+ * Note that this has a performance impact and shouldn't be enabled
+ * on production.
+ */
+'profiler' => false,
 
 /**
  * Alternate Code Locations

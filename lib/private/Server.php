@@ -260,6 +260,8 @@ use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\BackendService;
+use OCP\Profiler\IProfiler;
+use OC\Profiler\Profiler;
 
 /**
  * Class Server
@@ -342,6 +344,10 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(SystemConfig::class)
 				)
 			);
+		});
+
+		$this->registerService(IProfiler::class, function (Server $c) {
+			return new Profiler($c->get(SystemConfig::class));
 		});
 
 		$this->registerService(\OCP\Encryption\IManager::class, function (Server $c) {
@@ -691,9 +697,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('UserCache', ICache::class);
 
 		$this->registerService(Factory::class, function (Server $c) {
-			$arrayCacheFactory = new \OC\Memcache\Factory(
-				'',
-				$c->get(LoggerInterface::class),
+			$profiler = $c->get(IProfiler::class);
+			$arrayCacheFactory = new \OC\Memcache\Factory('', $c->get(LoggerInterface::class),
+				$profiler,
 				ArrayCache::class,
 				ArrayCache::class,
 				ArrayCache::class
@@ -717,9 +723,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
 				$prefix = md5($instanceId . '-' . $version . '-' . $path);
-				return new \OC\Memcache\Factory(
-					$prefix,
+				return new \OC\Memcache\Factory($prefix,
 					$c->get(LoggerInterface::class),
+					$profiler,
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
 					$config->getSystemValue('memcache.locking', null),
@@ -769,6 +775,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(KnownUserService::class)
 			);
 		});
+
 		$this->registerAlias(IAvatarManager::class, AvatarManager::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('AvatarManager', AvatarManager::class);
@@ -861,7 +868,6 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 			$connectionParams = $factory->createConnectionParams();
 			$connection = $factory->getConnection($type, $connectionParams);
-			$connection->getConfiguration()->setSQLLogger($c->getQueryLogger());
 			return $connection;
 		});
 		/** @deprecated 19.0.0 */

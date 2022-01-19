@@ -272,6 +272,7 @@ return array(
     'OCA\\DAV\\Migration\\Version1016Date20201109085907' => $baseDir . '/../lib/Migration/Version1016Date20201109085907.php',
     'OCA\\DAV\\Migration\\Version1017Date20210216083742' => $baseDir . '/../lib/Migration/Version1017Date20210216083742.php',
     'OCA\\DAV\\Migration\\Version1018Date20210312100735' => $baseDir . '/../lib/Migration/Version1018Date20210312100735.php',
+    'OCA\\DAV\\Profiler\\ProfilerPlugin' => $baseDir . '/../lib/Profiler/ProfilerPlugin.php',
     'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningNode' => $baseDir . '/../lib/Provisioning/Apple/AppleProvisioningNode.php',
     'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningPlugin' => $baseDir . '/../lib/Provisioning/Apple/AppleProvisioningPlugin.php',
     'OCA\\DAV\\RootCollection' => $baseDir . '/../lib/RootCollection.php',

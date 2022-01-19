@@ -60,7 +60,8 @@ class EventLogger implements IEventLogger {
 	}
 
 	public function isLoggingActivated(): bool {
-		$systemValue = (bool)$this->config->getValue('diagnostics.logging', false);
+		$systemValue = (bool)$this->config->getValue('diagnostics.logging', false)
+			|| (bool)$this->config->getValue('profiler', false);
 
 		if ($systemValue && $this->config->getValue('debug', false)) {
 			return true;
