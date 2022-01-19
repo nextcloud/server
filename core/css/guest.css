@@ -667,18 +667,14 @@ form #selectDbType label span {
 	margin: 5px 0 !important;
 }
 
-#install-recommended-apps + label span {
-	display: inline-block;
-	opacity: .7;
-}
-
 /* Errors */
 /* Warnings and errors are the same */
 .body-login-container,
 .warning,
 .update,
 .error {
-	display: block;
+	display: flex;
+	flex-direction: column;
 	margin-top: 15px;
 	padding: 15px;
 	background-color: rgba(0,0,0,.3);
