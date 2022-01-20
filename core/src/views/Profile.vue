@@ -258,8 +258,8 @@ export default {
 
 		emptyProfileMessage() {
 			return this.isCurrentUser
-				? t('core', 'You haven\'t added any info yet')
-				: t('core', '{user} hasn\'t added any info yet', { user: (this.displayname || this.userId) })
+				? t('core', 'You have not added any info yet')
+				: t('core', '{user} has not added any info yet', { user: (this.displayname || this.userId) })
 		},
 	},
 

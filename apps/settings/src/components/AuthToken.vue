@@ -76,7 +76,7 @@
 						icon="icon-delete"
 						:title="t('settings', 'Revoke')"
 						@click.stop.prevent="revoke">
-						{{ t('settings', 'Revoking this token might prevent the wiping of your device if it hasn\'t started the wipe yet.') }}
+						{{ t('settings', 'Revoking this token might prevent the wiping of your device if it has not started the wipe yet.') }}
 					</ActionButton>
 				</template>
 			</Actions>
