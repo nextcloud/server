@@ -56,7 +56,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		</div>
 		<header role="banner" id="header">
 			<div class="header-left">
-				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
+				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
 					id="nextcloud">
 					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
