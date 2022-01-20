@@ -122,7 +122,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 			if (!isset($config['arguments']['bucket'])) {
 				$config['arguments']['bucket'] = '';
 			}
-			$mapper = new \OC\Files\ObjectStore\Mapper($user);
+			$mapper = new \OC\Files\ObjectStore\Mapper($user, $this->config);
 			$numBuckets = isset($config['arguments']['num_buckets']) ? $config['arguments']['num_buckets'] : 64;
 			$config['arguments']['bucket'] .= $mapper->getBucket($numBuckets);
 
