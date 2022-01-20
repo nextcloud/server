@@ -115,13 +115,13 @@ export default {
 			if (this.passwordCopied) {
 				return {
 					...base,
-					content: t('core', 'Copied!'),
+					content: t('settings', 'Copied!'),
 					show: true,
 				}
 			} else {
 				return {
 					...base,
-					content: t('core', 'Copy'),
+					content: t('settings', 'Copy'),
 					show: this.hoveringCopyButton,
 				}
 			}
@@ -151,7 +151,7 @@ export default {
 				})
 				.catch(err => {
 					console.error('could not create a new app password', err)
-					OC.Notification.showTemporary(t('core', 'Error while creating device token'))
+					OC.Notification.showTemporary(t('settings', 'Error while creating device token'))
 
 					this.reset()
 				})
@@ -162,7 +162,7 @@ export default {
 			setTimeout(() => { this.passwordCopied = false }, 3000)
 		},
 		onCopyPasswordFailed() {
-			OC.Notification.showTemporary(t('core', 'Could not copy app password. Please copy it manually.'))
+			OC.Notification.showTemporary(t('settings', 'Could not copy app password. Please copy it manually.'))
 		},
 		reset() {
 			this.adding = false
