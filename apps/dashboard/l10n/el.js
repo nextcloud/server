@@ -22,7 +22,7 @@ OC.L10N.register(
     "Good evening" : "Καλό βράδυ",
     "Good evening, {name}" : "Καλό βράδυ, {name}",
     "Hello" : "Γειά",
-    "Hello, {name}" : "Γειά, {όνομα}",
+    "Hello, {name}" : "Γειά, {name}",
     "Pick from Files" : "Επιλέξτε από αρχεία",
     "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",

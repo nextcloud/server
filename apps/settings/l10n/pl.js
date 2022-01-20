@@ -219,7 +219,7 @@ OC.L10N.register(
     "Show QR code for mobile apps" : "Pokaż kod QR dla aplikacji mobilnych",
     "Copied!" : "Skopiowano!",
     "Copy" : "Kopiuj",
-    "Could not copy app password. Please copy it manually." : "Nie można skopiować hasła do aplikacji. Skopiuj go ręcznie.",
+    "Could not copy app password. Please copy it manually." : "Nie można skopiować hasła do aplikacji. Skopiuj je ręcznie.",
     "Your biography" : "Twoja biografia",
     "Unable to update biography" : "Nie można zaktualizować biografii",
     "Your full name" : "Twoja pełna nazwa",
