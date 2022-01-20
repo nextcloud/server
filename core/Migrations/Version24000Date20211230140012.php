@@ -62,6 +62,6 @@ class Version24000Date20211230140012 extends SimpleMigrationStep {
 		$update->update('jobs')
 			->set('argument_hash', $update->func()->md5('argument'));
 
-		$update->executeStatement();
+		$update->execute();
 	}
 }
