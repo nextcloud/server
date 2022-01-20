@@ -98,6 +98,10 @@ class TemplateLayout extends \OC_Template {
 			$this->initialState->provideInitialState('unified-search', 'limit-default', SearchQuery::LIMIT_DEFAULT);
 			Util::addScript('core', 'unified-search', 'core');
 
+			// set logo link target
+			$logoUrl = $this->config->getSystemValueString('logo_url', '');
+			$this->assign('logoUrl', $logoUrl);
+
 			// Add navigation entry
 			$this->assign('application', '');
 			$this->assign('appid', $appId);

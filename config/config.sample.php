@@ -354,6 +354,13 @@ $CONFIG = [
 'lost_password_link' => 'https://example.org/link/to/password/reset',
 
 /**
+ * URL to use as target for the logo link in the header (top-left logo)
+ *
+ * Defaults to the base URL of your Nextcloud instance
+ */
+'logo_url' => 'https://example.org',
+
+/**
  * Mail Parameters
  *
  * These configure the email settings for Nextcloud notifications and password
