@@ -27,6 +27,11 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Reminder;
 
+use InvalidArgumentException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use function in_array;
+
 /**
  * Class NotificationProviderManager
  *
@@ -44,7 +49,7 @@ class NotificationProviderManager {
 	 * @return bool
 	 */
 	public function hasProvider(string $type):bool {
-		return (\in_array($type, ReminderService::REMINDER_TYPES, true)
+		return (in_array($type, ReminderService::REMINDER_TYPES, true)
 			&& isset($this->providers[$type]));
 	}
 
@@ -70,13 +75,14 @@ class NotificationProviderManager {
 	 * Registers a new provider
 	 *
 	 * @param string $providerClassName
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
 	public function registerProvider(string $providerClassName):void {
 		$provider = \OC::$server->get($providerClassName);
 
 		if (!$provider instanceof INotificationProvider) {
-			throw new \InvalidArgumentException('Invalid notification provider registered');
+			throw new InvalidArgumentException('Invalid notification provider registered');
 		}
 
 		$this->providers[$provider::NOTIFICATION_TYPE] = $provider;

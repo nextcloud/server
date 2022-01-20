@@ -25,6 +25,8 @@
  */
 namespace OCA\DAV\Files;
 
+use DateTime;
+use InvalidArgumentException;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
@@ -32,17 +34,21 @@ use OC\Files\Search\SearchQuery;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 use OCP\Share\IManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sabre\DAV\Exception\NotFound;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Backend\SearchPropertyDefinition;
@@ -51,6 +57,7 @@ use SearchDAV\Query\Literal;
 use SearchDAV\Query\Operator;
 use SearchDAV\Query\Order;
 use SearchDAV\Query\Query;
+use function array_slice;
 
 class FileSearchBackend implements ISearchBackend {
 	/** @var CachingTree */
@@ -137,50 +144,53 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param Query $search
+	 * @param Query $query
 	 * @return SearchResult[]
+	 * @throws NotFound
+	 * @throws NotFoundException
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function search(Query $search) {
-		if (count($search->from) !== 1) {
-			throw new \InvalidArgumentException('Searching more than one folder is not supported');
+	public function search(Query $query) {
+		if (count($query->from) !== 1) {
+			throw new InvalidArgumentException('Searching more than one folder is not supported');
 		}
-		$query = $this->transformQuery($search);
-		$scope = $search->from[0];
+		$transformedQuery = $this->transformQuery($query);
+		$scope = $query->from[0];
 		if ($scope->path === null) {
-			throw new \InvalidArgumentException('Using uri\'s as scope is not supported, please use a path relative to the search arbiter instead');
+			throw new InvalidArgumentException('Using uri\'s as scope is not supported, please use a path relative to the search arbiter instead');
 		}
 		$node = $this->tree->getNodeForPath($scope->path);
 		if (!$node instanceof Directory) {
-			throw new \InvalidArgumentException('Search is only supported on directories');
+			throw new InvalidArgumentException('Search is only supported on directories');
 		}
 
 		$fileInfo = $node->getFileInfo();
 		$folder = $this->rootFolder->get($fileInfo->getPath());
 		/** @var Folder $folder $results */
-		$results = $folder->search($query);
+		$results = $folder->search($transformedQuery);
 
-		/** @var SearchResult[] $nodes */
 		$nodes = array_map(function (Node $node) {
 			if ($node instanceof Folder) {
-				$davNode = new \OCA\DAV\Connector\Sabre\Directory($this->view, $node, $this->tree, $this->shareManager);
+				$davNode = new Directory($this->view, $node, $this->tree, $this->shareManager);
 			} else {
-				$davNode = new \OCA\DAV\Connector\Sabre\File($this->view, $node, $this->shareManager);
+				$davNode = new File($this->view, $node, $this->shareManager);
 			}
 			$path = $this->getHrefForNode($node);
 			$this->tree->cacheNode($davNode, $path);
 			return new SearchResult($davNode, $path);
 		}, $results);
 
-		if (!$query->limitToHome()) {
+		if (!$transformedQuery->limitToHome()) {
 			// Sort again, since the result from multiple storages is appended and not sorted
-			usort($nodes, function (SearchResult $a, SearchResult $b) use ($search) {
-				return $this->sort($a, $b, $search->orderBy);
+			usort($nodes, function (SearchResult $a, SearchResult $b) use ($query) {
+				return $this->sort($a, $b, $query->orderBy);
 			});
 		}
 
 		// If a limit is provided use only return that number of files
-		if ($search->limit->maxResults !== 0) {
-			$nodes = \array_slice($nodes, 0, $search->limit->maxResults);
+		if ($query->limit->maxResults !== 0) {
+			$nodes = array_slice($nodes, 0, $query->limit->maxResults);
 		}
 
 		return $nodes;
@@ -217,7 +227,7 @@ class FileSearchBackend implements ISearchBackend {
 		return 0;
 	}
 
-	private function compareProperties($a, $b, Order $order) {
+	private function compareProperties($a, $b, Order $order): int {
 		switch ($order->property->dataType) {
 			case SearchPropertyDefinition::DATATYPE_STRING:
 				return strcmp($a, $b);
@@ -262,7 +272,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param Node $node
 	 * @return string
 	 */
-	private function getHrefForNode(Node $node) {
+	private function getHrefForNode(Node $node): string {
 		$base = '/files/' . $this->user->getUID();
 		return $base . $this->view->getRelativePath($node->getPath());
 	}
@@ -282,7 +292,7 @@ class FileSearchBackend implements ISearchBackend {
 			if ($ownerProp === $this->user->getUID()) {
 				$limitHome = true;
 			} else {
-				throw new \InvalidArgumentException("Invalid search value for '{http://owncloud.org/ns}owner-id', only the current user id is allowed");
+				throw new InvalidArgumentException("Invalid search value for '{http://owncloud.org/ns}owner-id', only the current user id is allowed");
 			}
 		}
 
@@ -323,19 +333,19 @@ class FileSearchBackend implements ISearchBackend {
 			case Operator::OPERATION_LESS_THAN:
 			case Operator::OPERATION_IS_LIKE:
 				if (count($operator->arguments) !== 2) {
-					throw new \InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
+					throw new InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
 				}
 				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
-					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
+					throw new InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
 				}
 				if (!($operator->arguments[1] instanceof Literal)) {
-					throw new \InvalidArgumentException('Invalid argument 2 for ' . $trimmedType . ' operation, expected literal');
+					throw new InvalidArgumentException('Invalid argument 2 for ' . $trimmedType . ' operation, expected literal');
 				}
 				return new SearchComparison($trimmedType, $this->mapPropertyNameToColumn($operator->arguments[0]), $this->castValue($operator->arguments[0], $operator->arguments[1]->value));
 			case Operator::OPERATION_IS_COLLECTION:
 				return new SearchComparison('eq', 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE);
 			default:
-				throw new \InvalidArgumentException('Unsupported operation ' . $trimmedType . ' (' . $operator->type . ')');
+				throw new InvalidArgumentException('Unsupported operation ' . $trimmedType . ' (' . $operator->type . ')');
 		}
 	}
 
@@ -343,7 +353,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param SearchPropertyDefinition $property
 	 * @return string
 	 */
-	private function mapPropertyNameToColumn(SearchPropertyDefinition $property) {
+	private function mapPropertyNameToColumn(SearchPropertyDefinition $property): string {
 		switch ($property->name) {
 			case '{DAV:}displayname':
 				return 'name';
@@ -360,7 +370,7 @@ class FileSearchBackend implements ISearchBackend {
 			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
 				return 'fileid';
 			default:
-				throw new \InvalidArgumentException('Unsupported property for search or order: ' . $property->name);
+				throw new InvalidArgumentException('Unsupported property for search or order: ' . $property->name);
 		}
 	}
 
@@ -376,8 +386,8 @@ class FileSearchBackend implements ISearchBackend {
 				if (is_numeric($value)) {
 					return max(0, 0 + $value);
 				}
-				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $value);
-				return ($date instanceof \DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
+				$date = DateTime::createFromFormat(\DateTimeInterface::ATOM, $value);
+				return ($date instanceof DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
 			default:
 				return $value;
 		}
@@ -415,13 +425,13 @@ class FileSearchBackend implements ISearchBackend {
 
 								return $value;
 							} else {
-								throw new \InvalidArgumentException("searching by '$propertyName' is only allowed with a literal value");
+								throw new InvalidArgumentException("searching by '$propertyName' is only allowed with a literal value");
 							}
 						} else {
-							throw new \InvalidArgumentException("searching by '$propertyName' is not allowed inside a '{DAV:}or' or '{DAV:}not'");
+							throw new InvalidArgumentException("searching by '$propertyName' is not allowed inside a '{DAV:}or' or '{DAV:}not'");
 						}
 					} else {
-						throw new \InvalidArgumentException("searching by '$propertyName' is only allowed inside a '$comparison'");
+						throw new InvalidArgumentException("searching by '$propertyName' is only allowed inside a '$comparison'");
 					}
 				} else {
 					return null;

@@ -153,6 +153,12 @@ class FilesReportPluginTest extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * @throws PreconditionFailed
+	 * @throws BadRequest
+	 * @throws NotFound
+	 * @throws NotFoundException
+	 */
 	public function testOnReportInvalidNode() {
 		$path = 'totally/unrelated/13';
 

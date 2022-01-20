@@ -28,11 +28,13 @@
  */
 namespace OCA\DAV\CalDAV\Schedule;
 
+use DateTimeInterface;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
 use Sabre\CalDAV\ICalendar;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropFind;
@@ -66,7 +68,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	private $pathOfCalendarObjectChange = null;
 
 	public const CALENDAR_USER_TYPE = '{' . self::NS_CALDAV . '}calendar-user-type';
-	public const SCHEDULE_DEFAULT_CALENDAR_URL = '{' . Plugin::NS_CALDAV . '}schedule-default-calendar-URL';
+	public const SCHEDULE_DEFAULT_CALENDAR_URL = '{' . self::NS_CALDAV . '}schedule-default-calendar-URL';
 
 	/**
 	 * @param IConfig $config
@@ -178,7 +180,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
 		// If parent::scheduleLocalDelivery set scheduleStatus to 1.2,
 		// it means that it was successfully delivered locally.
-		// Meaning that the ACL plugin is loaded and that a principial
+		// Meaning that the ACL plugin is loaded and that a principal
 		// exists for the given recipient id, no need to double check
 		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
 		$aclPlugin = $this->server->getPlugin('acl');
@@ -208,10 +210,10 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			return;
 		}
 
-		/** @var Component $vevent */
+		/** @var VEvent $vevent */
 		$vevent = $vcalendar->VEVENT;
 
-		// We don't support autoresponses for recurrencing events for now
+		// We don't support auto-responses for recurring events for now
 		if (isset($vevent->RRULE) || isset($vevent->RDATE)) {
 			return;
 		}
@@ -286,6 +288,7 @@ EOF;
 	 * @param PropFind $propFind
 	 * @param INode $node
 	 * @return void
+	 * @throws NotFound
 	 */
 	public function propFindDefaultCalendarUrl(PropFind $propFind, INode $node) {
 		if ($node instanceof IPrincipal) {
@@ -337,7 +340,7 @@ EOF;
 	 * @param string $principal
 	 * @return string|null
 	 */
-	protected function getCalendarUserTypeForPrincipal($principal):?string {
+	protected function getCalendarUserTypeForPrincipal(string $principal):?string {
 		$calendarUserType = '{' . self::NS_CALDAV . '}calendar-user-type';
 		$properties = $this->server->getProperties(
 			$principal,
@@ -418,12 +421,13 @@ EOF;
 
 	/**
 	 * @param string $email
-	 * @param \DateTimeInterface $start
-	 * @param \DateTimeInterface $end
+	 * @param DateTimeInterface $start
+	 * @param DateTimeInterface $end
 	 * @param string $ignoreUID
 	 * @return bool
+	 * @throws NotFound
 	 */
-	private function isAvailableAtTime(string $email, \DateTimeInterface $start, \DateTimeInterface $end, string $ignoreUID):bool {
+	private function isAvailableAtTime(string $email, DateTimeInterface $start, DateTimeInterface $end, string $ignoreUID):bool {
 		// This method is heavily inspired by Sabre\CalDAV\Schedule\Plugin::scheduleLocalDelivery
 		// and Sabre\CalDAV\Schedule\Plugin::getFreeBusyForEmail
 

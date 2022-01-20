@@ -188,7 +188,7 @@ class Backend {
 	 * @param int $resourceId
 	 * @return array
 	 */
-	public function getShares($resourceId) {
+	public function getShares(int $resourceId): array {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['principaluri', 'access'])
 			->from('dav_shares')

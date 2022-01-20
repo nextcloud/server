@@ -226,7 +226,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * @throws Exception
 	 */
-	public function getUsersOwnAddressBooks($principalUri): array {
+	public function getUsersOwnAddressBooks(string $principalUri): array {
 		return array_values($this->getUserAddressBooks($principalUri));
 	}
 
@@ -377,10 +377,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId)))
 				->executeStatement();
 
-			$this->addChange($addressBookId, "", 2);
+			$this->addChange((int) $addressBookId, "", 2);
 
 			$addressBookRow = $this->getAddressBookById((int)$addressBookId);
-			$shares = $this->getShares($addressBookId);
+			$shares = $this->getShares((int) $addressBookId);
 			$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
 
 			return true;
@@ -536,7 +536,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *
 	 * @param mixed $addressBookId
 	 * @param string $cardUri
-	 * @return array|false
+	 * @return array
 	 * @throws Exception
 	 */
 	public function getCard($addressBookId, $cardUri) {

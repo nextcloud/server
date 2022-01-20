@@ -42,7 +42,9 @@ use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\RequestedRangeNotSatisfiable;
 use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
+use Throwable;
 
 class ExceptionLoggerPlugin extends ServerPlugin {
 	protected $nonFatalExceptions = [
@@ -92,9 +94,9 @@ class ExceptionLoggerPlugin extends ServerPlugin {
 
 	/**
 	 * @param string $loggerAppName app name to use when logging
-	 * @param LoggerInterface $logger
+	 * @param LoggerInterface|null $logger
 	 */
-	public function __construct(string $loggerAppName, LoggerInterface $logger) {
+	public function __construct(string $loggerAppName, ?LoggerInterface $logger) {
 		$this->appName = $loggerAppName;
 		$this->logger = $logger;
 	}
@@ -107,17 +109,17 @@ class ExceptionLoggerPlugin extends ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 *
-	 * @param \Sabre\DAV\Server $server
+	 * @param Server $server
 	 * @return void
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(Server $server) {
 		$server->on('exception', [$this, 'logException'], 10);
 	}
 
 	/**
 	 * Log exception
 	 */
-	public function logException(\Throwable $ex): void {
+	public function logException(Throwable $ex): void {
 		$exceptionClass = get_class($ex);
 		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
 			(
@@ -125,9 +127,9 @@ class ExceptionLoggerPlugin extends ServerPlugin {
 				$ex->getMessage() === 'System in maintenance mode.'
 			)
 		) {
-			$this->logger->debug('Sabre has thrown an exception', ['exception' => $ex, 'app' => $this->appName]);
+			$this->logger->debug($ex->getMessage(), ['exception' => $ex, 'app' => $this->appName]);
+		} else {
+			$this->logger->critical($ex->getMessage(), ['exception' => $ex, 'app' => $this->appName]);
 		}
-
-		$this->logger->critical('Sabre has thrown an exception', ['exception' => $ex, 'app' => $this->appName]);
 	}
 }

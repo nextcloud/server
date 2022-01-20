@@ -31,10 +31,14 @@ use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Property\ICalendar\CalAddress;
 use Sabre\VObject\Reader;
+use function in_array;
 
 class InvitationResponseController extends Controller {
 
@@ -74,6 +78,7 @@ class InvitationResponseController extends Controller {
 	 *
 	 * @param string $token
 	 * @return TemplateResponse
+	 * @throws Exception
 	 */
 	public function accept(string $token):TemplateResponse {
 		$row = $this->getTokenInformation($token);
@@ -98,6 +103,7 @@ class InvitationResponseController extends Controller {
 	 *
 	 * @param string $token
 	 * @return TemplateResponse
+	 * @throws Exception
 	 */
 	public function decline(string $token):TemplateResponse {
 		$row = $this->getTokenInformation($token);
@@ -137,6 +143,7 @@ class InvitationResponseController extends Controller {
 	 * @param string $token
 	 *
 	 * @return TemplateResponse
+	 * @throws Exception
 	 */
 	public function processMoreOptionsResult(string $token):TemplateResponse {
 		$partstat = $this->request->getParam('partStat');
@@ -144,7 +151,7 @@ class InvitationResponseController extends Controller {
 		$comment = $this->request->getParam('comment');
 
 		$row = $this->getTokenInformation($token);
-		if (!$row || !\in_array($partstat, ['ACCEPTED', 'DECLINED', 'TENTATIVE'])) {
+		if (!$row || !in_array($partstat, ['ACCEPTED', 'DECLINED', 'TENTATIVE'])) {
 			return new TemplateResponse($this->appName, 'schedule-response-error', [], 'guest');
 		}
 
@@ -162,14 +169,15 @@ class InvitationResponseController extends Controller {
 	/**
 	 * @param string $token
 	 * @return array|null
+	 * @throws Exception
 	 */
-	private function getTokenInformation(string $token) {
+	private function getTokenInformation(string $token): ?array {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
 			->from('calendar_invitations')
 			->where($query->expr()->eq('token', $query->createNamedParameter($token)));
-		$stmt = $query->execute();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$stmt = $query->executeQuery();
+		$row = $stmt->fetch();
 
 		if (!$row) {
 			return null;
@@ -224,8 +232,9 @@ EOF;
 			$partStat, $row['attendee'], $row['organizer'],
 			$row['uid'], $row['sequence'] ?? 0, $row['recurrenceid'] ?? ''
 		]));
+		/** @var VEvent $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
-		/** @var \Sabre\VObject\Property\ICalendar\CalAddress $attendee */
+		/** @var CalAddress $attendee */
 		$attendee = $vEvent->{'ATTENDEE'};
 
 		$vEvent->DTSTAMP = date('Ymd\\THis\\Z', $this->timeFactory->getTime());

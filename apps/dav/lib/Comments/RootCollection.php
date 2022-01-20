@@ -34,6 +34,7 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
+use Sabre\DAV\INode;
 
 class RootCollection implements ICollection {
 
@@ -94,10 +95,10 @@ class RootCollection implements ICollection {
 			throw new NotAuthenticated();
 		}
 
-		$event = new CommentsEntityEvent(CommentsEntityEvent::class);
+		$this->entityTypeCollections = [];
+		$event = new CommentsEntityEvent();
 		$this->dispatcher->dispatchTyped($event);
 
-		$this->entityTypeCollections = [];
 		foreach ($event->getEntityCollections() as $entity => $entityExistsFunction) {
 			$this->entityTypeCollections[$entity] = new EntityTypeCollection(
 				$entity,
@@ -139,8 +140,9 @@ class RootCollection implements ICollection {
 	 * exist.
 	 *
 	 * @param string $name
-	 * @return \Sabre\DAV\INode
+	 * @return INode
 	 * @throws NotFound
+	 * @throws NotAuthenticated
 	 */
 	public function getChild($name) {
 		$this->initCollections();
@@ -153,7 +155,8 @@ class RootCollection implements ICollection {
 	/**
 	 * Returns an array with all the child nodes
 	 *
-	 * @return \Sabre\DAV\INode[]
+	 * @return INode[]
+	 * @throws NotAuthenticated
 	 */
 	public function getChildren() {
 		$this->initCollections();
@@ -165,6 +168,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @param string $name
 	 * @return bool
+	 * @throws NotAuthenticated
 	 */
 	public function childExists($name) {
 		$this->initCollections();

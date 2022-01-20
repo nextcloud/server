@@ -35,10 +35,10 @@ class PublicCalendarRoot extends Collection {
 	/** @var CalDavBackend */
 	protected $caldavBackend;
 
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	protected $l10n;
 
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	protected $config;
 
 	/** @var LoggerInterface */

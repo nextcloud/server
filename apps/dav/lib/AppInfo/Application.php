@@ -33,6 +33,7 @@ declare(strict_types=1);
 namespace OCA\DAV\AppInfo;
 
 use Exception;
+use OC\Files\AppData\Factory as AppDataFactory;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\CalendarProvider;
@@ -123,7 +124,7 @@ class Application extends App implements IBootstrap {
 			$server = $c->get(IServerContainer::class);
 
 			return new PhotoCache(
-				$server->getAppDataDir('dav-photocache'),
+				$server->get(AppDataFactory::class)->get('dav-photocache'),
 				$c->get(LoggerInterface::class)
 			);
 		});
@@ -283,16 +284,18 @@ class Application extends App implements IBootstrap {
 										   IAppContainer $container,
 										   string $userID): void {
 		/** @var ContactsManager $cm */
-		$cm = $container->query(ContactsManager::class);
-		$urlGenerator = $container->getServer()->get(IURLGenerator::class);
+		$cm = $container->get(ContactsManager::class);
+		/** @var IURLGenerator $urlGenerator */
+		$urlGenerator = $container->get(IURLGenerator::class);
 		$cm->setupContactsProvider($contactsManager, $userID, $urlGenerator);
 	}
 
 	private function setupSystemContactsProvider(IContactsManager $contactsManager,
 												 IAppContainer $container): void {
 		/** @var ContactsManager $cm */
-		$cm = $container->query(ContactsManager::class);
-		$urlGenerator = $container->getServer()->get(IURLGenerator::class);
+		$cm = $container->get(ContactsManager::class);
+		/** @var IURLGenerator $urlGenerator */
+		$urlGenerator = $container->get(IURLGenerator::class);
 		$cm->setupSystemContactsProvider($contactsManager, $urlGenerator);
 	}
 

@@ -25,12 +25,15 @@
  */
 namespace OCA\DAV\Files;
 
+use OC\User\NoUserException;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotPermittedException;
 use OCP\IUserSession;
 use Sabre\DAV\INode;
 use Sabre\DAV\SimpleCollection;
 use Sabre\DAVACL\AbstractPrincipalCollection;
+use function Sabre\Uri\split;
 
 class RootCollection extends AbstractPrincipalCollection {
 
@@ -43,9 +46,11 @@ class RootCollection extends AbstractPrincipalCollection {
 	 *
 	 * @param array $principalInfo
 	 * @return INode
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
-		[,$name] = \Sabre\Uri\split($principalInfo['uri']);
+		[,$name] = split($principalInfo['uri']);
 		$user = \OC::$server->get(IUserSession::class)->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			// a user is only allowed to see their own home contents, so in case another collection

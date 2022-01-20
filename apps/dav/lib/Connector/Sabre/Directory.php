@@ -32,20 +32,29 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use Exception;
+use OC;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OC_FileChunking;
+use OC_Helper;
+use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Locked;
 use Sabre\DAV\Exception\NotFound;
@@ -81,12 +90,10 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	/**
 	 * Sets up the node, expects a full path name
 	 *
-	 * @param View $view
-	 * @param FileInfo $info
-	 * @param ObjectTree|null $tree
-	 * @param IManager|null $shareManager
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function __construct(View $view, FileInfo $info, ObjectTree $tree = null, IManager $shareManager = null) {
+	public function __construct(View $view, FileInfo $info, $tree = null, IManager $shareManager = null) {
 		parent::__construct($view, $info, $shareManager);
 		$this->tree = $tree;
 	}
@@ -114,14 +121,14 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	 * @param string $name Name of the file
 	 * @param resource|string $data Initial payload
 	 * @return null|string
-	 * @throws Exception\EntityTooLarge
-	 * @throws Exception\UnsupportedMediaType
+	 * @throws EntityTooLarge
+	 * @throws UnsupportedMediaType
 	 * @throws FileLocked
 	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception
-	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @throws BadRequest
 	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws ServiceUnavailable
 	 */
 	public function createFile($name, $data = null) {
 		try {
@@ -130,7 +137,7 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 			if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 
 				// exit if we can't create a new file and we don't updatable existing file
-				$chunkInfo = \OC_FileChunking::decodeName($name);
+				$chunkInfo = OC_FileChunking::decodeName($name);
 				if (!$this->fileView->isCreatable($this->path) &&
 					!$this->fileView->isUpdatable($this->path . '/' . $chunkInfo['name'])
 				) {
@@ -152,7 +159,7 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 				// use a dummy FileInfo which is acceptable here since it will be refreshed after the put is complete
 				$info = new \OC\Files\FileInfo($path, null, null, [], null);
 			}
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+			$node = new File($this->fileView, $info);
 
 			// only allow 1 process to upload a file at once but still allow reading the file while writing the part file
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
@@ -163,8 +170,8 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 			$this->fileView->unlockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
 			$node->releaseLock(ILockingProvider::LOCK_SHARED);
 			return $result;
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage(), false, $ex);
 		} catch (ForbiddenException $ex) {
@@ -181,7 +188,7 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	 * @throws FileLocked
 	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws ServiceUnavailable
 	 */
 	public function createDirectory($name) {
 		try {
@@ -194,8 +201,8 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 			if (!$this->fileView->mkdir($newPath)) {
 				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory ' . $newPath);
 			}
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable($e->getMessage());
 		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
 		} catch (ForbiddenException $ex) {
@@ -209,11 +216,14 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	 * Returns a specific child node, referenced by its name
 	 *
 	 * @param string $name
-	 * @param FileInfo $info
-	 * @return \Sabre\DAV\INode
+	 * @param null $info
+	 * @return INode
+	 * @throws ContainerExceptionInterface
 	 * @throws InvalidPath
-	 * @throws \Sabre\DAV\Exception\NotFound
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws NotFound
+	 * @throws NotFoundExceptionInterface
+	 * @throws ServiceUnavailable
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function getChild($name, $info = null) {
 		if (!$this->info->isReadable()) {
@@ -226,8 +236,8 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 			try {
 				$this->fileView->verifyPath($this->path, $name);
 				$info = $this->fileView->getFileInfo($path);
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			} catch (StorageNotAvailableException $e) {
+				throw new ServiceUnavailable($e->getMessage());
 			} catch (InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage());
 			} catch (ForbiddenException $e) {
@@ -236,13 +246,13 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 		}
 
 		if (!$info) {
-			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
+			throw new NotFound('File with name ' . $path . ' could not be located');
 		}
 
 		if ($info['mimetype'] === 'httpd/unix-directory') {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
+			$node = new Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager);
+			$node = new File($this->fileView, $info, $this->shareManager);
 		}
 		if ($this->tree) {
 			$this->tree->cacheNode($node);
@@ -253,9 +263,15 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	/**
 	 * Returns an array with all the child nodes
 	 *
-	 * @return \Sabre\DAV\INode[]
-	 * @throws \Sabre\DAV\Exception\Locked
-	 * @throws \OCA\DAV\Connector\Sabre\Exception\Forbidden
+	 * @return INode[]
+	 * @throws ContainerExceptionInterface
+	 * @throws Forbidden
+	 * @throws InvalidPath
+	 * @throws Locked
+	 * @throws NotFound
+	 * @throws NotFoundExceptionInterface
+	 * @throws ServiceUnavailable
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function getChildren() {
 		if (!is_null($this->dirContent)) {
@@ -334,7 +350,7 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 		}
 		try {
 			$info = $this->fileView->getFileInfo($this->path, false);
-			$storageInfo = \OC_Helper::getStorageInfo($this->info->getPath(), $info);
+			$storageInfo = OC_Helper::getStorageInfo($this->info->getPath(), $info);
 			if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
 				$free = FileInfo::SPACE_UNLIMITED;
 			} else {
@@ -345,9 +361,9 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 				$free
 			];
 			return $this->quotaInfo;
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return [0, 0];
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException $e) {
 			return [0, 0];
 		} catch (NotPermittedException $e) {
 			return [0, 0];
@@ -374,9 +390,12 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	 * @param INode $sourceNode Source node itself
 	 * @return bool
 	 * @throws BadRequest
-	 * @throws ServiceUnavailable
-	 * @throws Forbidden
+	 * @throws ContainerExceptionInterface
 	 * @throws FileLocked
+	 * @throws Forbidden
+	 * @throws InvalidPath
+	 * @throws NotFoundExceptionInterface
+	 * @throws ServiceUnavailable
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function moveInto($targetName, $fullSourcePath, INode $sourceNode) {
@@ -410,7 +429,7 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 		$sourcePath = $sourceNode->getPath();
 
 		$isMovableMount = false;
-		$sourceMount = \OC::$server->get(IMountManager::class)->find($this->fileView->getAbsolutePath($sourcePath));
+		$sourceMount = OC::$server->get(IMountManager::class)->find($this->fileView->getAbsolutePath($sourcePath));
 		$internalPath = $sourceMount->getInternalPath($this->fileView->getAbsolutePath($sourcePath));
 		if ($sourceMount instanceof MoveableMount && $internalPath === '') {
 			$isMovableMount = true;
@@ -461,6 +480,11 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	}
 
 
+	/**
+	 * @throws InvalidPath
+	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @throws Exception
+	 */
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
 		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
 			$destinationPath = $this->getPath() . '/' . $targetName;

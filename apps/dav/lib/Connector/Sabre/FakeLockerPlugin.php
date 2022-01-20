@@ -90,7 +90,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 */
 	public function propFind(PropFind $propFind, INode $node) {
 		$propFind->handle('{DAV:}supportedlock', function () {
-			return new SupportedLock(true);
+			return new SupportedLock();
 		});
 		$propFind->handle('{DAV:}lockdiscovery', function () use ($propFind) {
 			return new LockDiscovery([]);

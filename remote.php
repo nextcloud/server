@@ -34,6 +34,8 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 
@@ -57,7 +59,7 @@ function handleException($e) {
 		$server = new Server();
 		if (!($e instanceof RemoteException)) {
 			// we shall not log on RemoteException
-			$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->getLogger()));
+			$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->get(LoggerInterface::class)));
 		}
 		$server->on('beforeMethod:*', function () use ($e) {
 			if ($e instanceof RemoteException) {
@@ -65,7 +67,7 @@ function handleException($e) {
 					case 503:
 						throw new ServiceUnavailable($e->getMessage());
 					case 404:
-						throw new \Sabre\DAV\Exception\NotFound($e->getMessage());
+						throw new NotFound($e->getMessage());
 				}
 			}
 			$class = get_class($e);

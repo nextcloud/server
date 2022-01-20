@@ -74,7 +74,7 @@ class ContactsManager {
 	 */
 	private function register(IManager $cm, $addressBooks, $urlGenerator) {
 		foreach ($addressBooks as $addressBookInfo) {
-			$addressBook = new \OCA\DAV\CardDAV\AddressBook($this->backend, $addressBookInfo, $this->l10n);
+			$addressBook = new AddressBook($this->backend, $addressBookInfo, $this->l10n);
 			$cm->registerAddressBook(
 				new AddressBookImpl(
 					$addressBook,

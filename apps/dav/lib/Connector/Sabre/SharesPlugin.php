@@ -48,13 +48,6 @@ class SharesPlugin extends ServerPlugin {
 	public const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
 	public const SHAREES_PROPERTYNAME = '{http://nextcloud.org/ns}sharees';
 
-	/**
-	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
-
 	/** @var IManager */
 	private $shareManager;
 
@@ -107,8 +100,8 @@ class SharesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::SHARETYPES_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHAREES_PROPERTYNAME;
 
-		$this->server = $server;
-		$this->server->on('propFind', [$this, 'handleGetProperties']);
+		$server1 = $server;
+		$server1->on('propFind', [$this, 'handleGetProperties']);
 	}
 
 	/**

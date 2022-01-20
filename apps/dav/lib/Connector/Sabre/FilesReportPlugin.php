@@ -166,7 +166,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param string $uri
 	 * @return array
 	 */
-	public function getSupportedReportSet($uri) {
+	public function getSupportedReportSet($uri): array {
 		return [self::REPORT_NAME];
 	}
 
@@ -174,15 +174,15 @@ class FilesReportPlugin extends ServerPlugin {
 	 * REPORT operations to look for files
 	 *
 	 * @param string $reportName
-	 * @param array $report
+	 * @param array|object $report
 	 * @param string $uri
 	 * @return bool|void
 	 * @throws BadRequest
 	 * @throws NotFound
-	 * @throws PreconditionFailed
+	 * @throws PreconditionFailed|NotFoundException
 	 * @internal param $ [] $report
 	 */
-	public function onReport(string $reportName, array $report, string $uri) {
+	public function onReport(string $reportName, $report, string $uri) {
 		$reportTargetNode = $this->server->tree->getNodeForPath($uri);
 		if (!$reportTargetNode instanceof Directory || $reportName !== self::REPORT_NAME) {
 			return;
@@ -423,7 +423,7 @@ class FilesReportPlugin extends ServerPlugin {
 				$entry = current($entry);
 				if ($entry instanceof \OCP\Files\File) {
 					$results[] = new File($this->fileView, $entry);
-				} elseif ($entry instanceof \OCP\Files\Folder) {
+				} elseif ($entry instanceof Folder) {
 					$results[] = new Directory($this->fileView, $entry);
 				}
 			}

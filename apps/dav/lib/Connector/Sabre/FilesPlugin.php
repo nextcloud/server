@@ -218,6 +218,10 @@ class FilesPlugin extends ServerPlugin {
 
 		if ($sourceDir !== $destinationDir) {
 			$sourceNodeFileInfo = $sourceNode->getFileInfo();
+			if ($sourceNodeFileInfo === null) {
+				throw new NotFound($source . ' does not exist');
+			}
+
 			if (!$sourceNodeFileInfo->isDeletable()) {
 				throw new Forbidden($source . " cannot be deleted");
 			}

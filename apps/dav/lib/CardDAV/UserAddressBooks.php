@@ -33,18 +33,20 @@ use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use Sabre\CardDAV\AddressBookHome;
 use Sabre\CardDAV\Backend;
+use Sabre\DAV\Exception\InvalidResourceType;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\CardDAV\IAddressBook;
 use function array_map;
 use Sabre\DAV\MkCol;
 
-class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
+class UserAddressBooks extends AddressBookHome {
 
-	/** @var IL10N */
+	/** @var IL10N|null */
 	protected $l10n;
 
-	/** @var IConfig */
+	/** @var IConfig|null */
 	protected $config;
 
 	/** @var PluginManager */
@@ -87,6 +89,10 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		return array_merge($objects, ...$objectsFromPlugins);
 	}
 
+	/**
+	 * @throws InvalidResourceType
+	 * @throws MethodNotAllowed
+	 */
 	public function createExtendedCollection($name, MkCol $mkCol) {
 		if (ExternalAddressBook::doesViolateReservedName($name)) {
 			throw new MethodNotAllowed('The resource you tried to create has a reserved name');

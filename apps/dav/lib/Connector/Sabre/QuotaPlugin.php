@@ -154,7 +154,7 @@ class QuotaPlugin extends ServerPlugin {
 	 * @param string $path relative to the users home
 	 * @param int|null $length
 	 * @return bool
-	 *@throws InsufficientStorage|ServiceUnavailable
+	 * @throws InsufficientStorage|ServiceUnavailable
 	 */
 	public function checkQuota(string $path, int $length = null): bool {
 		if ($length === null) {
