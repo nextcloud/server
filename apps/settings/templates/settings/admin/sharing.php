@@ -151,6 +151,9 @@
 } ?>">
 			<input name="shareapi_allow_links_exclude_groups" type="hidden" id="linksExcludedGroups" value="<?php p($_['allowLinksExcludeGroups']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
 		</p>
+		<p class="<?php if ($_['shareAPIEnabled'] === 'no') {
+	p('hidden');
+}?>">
 			<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing" class="checkbox"
 				   value="1" <?php if ($_['allowResharing'] === 'yes') {
 	print_unescaped('checked="checked"');
