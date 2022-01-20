@@ -194,7 +194,7 @@ steps:
 - name: sqlite-php7.4-webdav-apache
   image: ghcr.io/nextcloud/continuous-integration-webdav-apache-php7.4:latest
   commands:
-    - apache2
+    - apache2ctl start
     - ./autotest-external.sh sqlite webdav-apachedrone
     - wget https://codecov.io/bash -O codecov.sh
     - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
