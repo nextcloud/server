@@ -350,8 +350,19 @@ class Throttler {
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
 		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > self::MAX_ATTEMPTS) {
+			$this->logger->info('IP address blocked because it reached the maximum failed attempts in the last 30 minutes [action: {action}, ip: {ip}]', [
+				'action' => $action,
+				'ip' => $ip,
+			]);
 			// If the ip made too many attempts within the last 30 mins we don't execute anymore
 			throw new MaxDelayReached('Reached maximum delay');
+		}
+		if ($delay > 100) {
+			$this->logger->info('IP address throttled because it reached the attempts limit in the last 30 minutes [action: {action}, delay: {delay}, ip: {ip}]', [
+				'action' => $action,
+				'ip' => $ip,
+				'delay' => $delay,
+			]);
 		}
 		usleep($delay * 1000);
 		return $delay;
