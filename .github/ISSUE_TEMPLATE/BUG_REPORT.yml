@@ -210,3 +210,11 @@ body:
       description: Any additional information related to the issue (ex. browser console errors, software versions).
     validations:
       required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/)
+      options:
+        - label: I agree to follow Nextcloud's Code of Conduct
+          required: true
