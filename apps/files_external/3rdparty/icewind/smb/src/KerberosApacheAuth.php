@@ -31,35 +31,65 @@ class KerberosApacheAuth extends KerberosAuth implements IAuth {
 	/** @var string */
 	private $ticketPath = "";
 
-	// only working with specific library (mod_auth_kerb, krb5, smbclient) versions
-	/** @var bool */
-	private $saveTicketInMemory = false;
-
 	/** @var bool */
 	private $init = false;
 
+	/** @var string|false */
+	private $ticketName;
+
+	public function __construct() {
+		$this->ticketName = getenv("KRB5CCNAME");
+	}
+
+
 	/**
-	 * @param bool $saveTicketInMemory
+	 * Copy the ticket to a temporary location and use that ticket for authentication
+	 *
+	 * @return void
 	 */
-	public function __construct(bool $saveTicketInMemory = false) {
-		$this->saveTicketInMemory = $saveTicketInMemory;
+	public function copyTicket(): void {
+		if (!$this->checkTicket()) {
+			return;
+		}
+		$krb5 = new \KRB5CCache();
+		$krb5->open($this->ticketName);
+		$tmpFilename = tempnam("/tmp", "krb5cc_php_");
+		$tmpCacheFile = "FILE:" . $tmpFilename;
+		$krb5->save($tmpCacheFile);
+		$this->ticketPath = $tmpFilename;
+		$this->ticketName = $tmpCacheFile;
+	}
+
+	/**
+	 * Pass the ticket to smbclient by memory instead of path
+	 *
+	 * @return void
+	 */
+	public function passTicketFromMemory(): void {
+		if (!$this->checkTicket()) {
+			return;
+		}
+		$krb5 = new \KRB5CCache();
+		$krb5->open($this->ticketName);
+		$this->ticketName = (string)$krb5->getName();
 	}
 
 	/**
 	 * Check if a valid kerberos ticket is present
 	 *
 	 * @return bool
+	 * @psalm-assert-if-true string $this->ticketName
 	 */
 	public function checkTicket(): bool {
 		//read apache kerberos ticket cache
-		$cacheFile = getenv("KRB5CCNAME");
-		if (!$cacheFile) {
+		if (!$this->ticketName) {
 			return false;
 		}
 
 		$krb5 = new \KRB5CCache();
-		$krb5->open($cacheFile);
-		return (bool)$krb5->isValid();
+		$krb5->open($this->ticketName);
+		/** @psalm-suppress MixedArgument */
+		return count($krb5->getEntries()) > 0;
 	}
 
 	private function init(): void {
@@ -75,28 +105,13 @@ class KerberosApacheAuth extends KerberosAuth implements IAuth {
 		}
 
 		//read apache kerberos ticket cache
-		$cacheFile = getenv("KRB5CCNAME");
-		if (!$cacheFile) {
+		if (!$this->checkTicket()) {
 			throw new Exception('No kerberos ticket cache environment variable (KRB5CCNAME) found.');
 		}
 
-		$krb5 = new \KRB5CCache();
-		$krb5->open($cacheFile);
-		if (!$krb5->isValid()) {
-			throw new Exception('Kerberos ticket cache is not valid.');
-		}
-
-
-		if ($this->saveTicketInMemory) {
-			putenv("KRB5CCNAME=" . (string)$krb5->getName());
-		} else {
-			//workaround: smbclient is not working with the original apache ticket cache.
-			$tmpFilename = tempnam("/tmp", "krb5cc_php_");
-			$tmpCacheFile = "FILE:" . $tmpFilename;
-			$krb5->save($tmpCacheFile);
-			$this->ticketPath = $tmpFilename;
-			putenv("KRB5CCNAME=" . $tmpCacheFile);
-		}
+		// note that even if the ticketname is the value we got from `getenv("KRB5CCNAME")` we still need to set the env variable ourselves
+		// this is because `getenv` also reads the variables passed from the SAPI (apache-php) and we need to set the variable in the OS's env
+		putenv("KRB5CCNAME=" . $this->ticketName);
 	}
 
 	public function getExtraCommandLineArguments(): string {
@@ -106,7 +121,11 @@ class KerberosApacheAuth extends KerberosAuth implements IAuth {
 
 	public function setExtraSmbClientOptions($smbClientState): void {
 		$this->init();
-		parent::setExtraSmbClientOptions($smbClientState);
+		try {
+			parent::setExtraSmbClientOptions($smbClientState);
+		} catch (Exception $e) {
+			// suppress
+		}
 	}
 
 	public function __destruct() {
