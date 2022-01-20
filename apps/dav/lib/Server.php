@@ -36,8 +36,17 @@ namespace OCA\DAV;
 
 use OCP\Diagnostics\IEventLogger;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
+use OC\EventDispatcher\SymfonyAdapter;
 use OC\Security\Bruteforce\Throttler;
+use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
+use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
+use OCA\DAV\CalDAV\Publishing\PublishPlugin;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
+use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use OCA\DAV\Connector\Sabre\LockPlugin;
+use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Events\SabreAddPluginEvent;
+use OCA\DAV\Files\FileSearchBackend;
 use OCP\App\IAppManager;
 use OCP\Comments\ICommentsManager;
 use OCP\Files\IRootFolder;
@@ -49,6 +58,7 @@ use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\SabrePluginEvent;
 use OCP\Share\IManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -108,15 +118,15 @@ class Server {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->get(LoggerInterface::class);
-		$dispatcher = \OC::$server->get(\OC\EventDispatcher\SymfonyAdapter::class);
+		$dispatcher = \OC::$server->get(SymfonyAdapter::class);
 		/** @var IEventDispatcher $newDispatcher */
 		$newDispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		$root = new RootCollection();
-		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
+		$this->server = new Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->get(IConfig::class), \OC::$server->get(IFactory::class)->get('dav')));
+		$this->server->addPlugin(new MaintenancePlugin(\OC::$server->get(IConfig::class), \OC::$server->get(IFactory::class)->get('dav')));
 
 		// Backends
 		$authBackend = new Auth(
@@ -158,8 +168,8 @@ class Server {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
 		}
 
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $logger));
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
+		$this->server->addPlugin(new ExceptionLoggerPlugin('webdav', $logger));
+		$this->server->addPlugin(new LockPlugin());
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
 		// acl
@@ -174,20 +184,20 @@ class Server {
 
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->get(IConfig::class), \OC::$server->get(LoggerInterface::class)));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->get(IConfig::class)));
+			$this->server->addPlugin(new CalDAV\Plugin());
+			$this->server->addPlugin(new ICSExportPlugin(\OC::$server->get(IConfig::class), \OC::$server->get(LoggerInterface::class)));
+			$this->server->addPlugin(new CalDAV\Schedule\Plugin(\OC::$server->get(IConfig::class)));
 			if (\OC::$server->get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
-				$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+				$this->server->addPlugin(\OC::$server->get(IMipPlugin::class));
 			}
 
-			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
+			$this->server->addPlugin(\OC::$server->get(CalDAV\Trashbin\Plugin::class));
+			$this->server->addPlugin(new CalDAV\WebcalCaching\Plugin($request));
 			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->get(IRequest::class), \OC::$server->get(IConfig::class)));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
+			$this->server->addPlugin(new PublishPlugin(
 				\OC::$server->get(IConfig::class),
 				\OC::$server->get(IURLGenerator::class)
 			));
@@ -196,7 +206,7 @@ class Server {
 		// addressbook plugins
 		if ($this->requestIsForSubtree(['addressbooks', 'principals'])) {
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->get(IRequest::class), \OC::$server->get(IConfig::class)));
-			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
+			$this->server->addPlugin(new CardDAV\Plugin());
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new HasPhotoPlugin());
@@ -225,7 +235,7 @@ class Server {
 
 		// allow setup of additional plugins
 		$newDispatcher->dispatchTyped(new SabreAddPluginEvent($this->server));
-		$event = new \OCP\SabrePluginEvent($this->server);
+		$event = new SabrePluginEvent($this->server);
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
@@ -294,7 +304,7 @@ class Server {
 					\OC::$server->get(ICommentsManager::class),
 					$userSession
 				));
-				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
+				$this->server->addPlugin(new CalDAV\Search\SearchPlugin());
 				if ($view !== null) {
 					$this->server->addPlugin(new FilesReportPlugin(
 						$this->server->tree,
@@ -307,7 +317,7 @@ class Server {
 						$userFolder,
 						\OC::$server->get(IAppManager::class)
 					));
-					$lazySearchBackend->setBackend(new \OCA\DAV\Files\FileSearchBackend(
+					$lazySearchBackend->setBackend(new FileSearchBackend(
 						$this->server->tree,
 						$user,
 						\OC::$server->get(IRootFolder::class),
@@ -319,14 +329,14 @@ class Server {
 						new BulkUploadPlugin($userFolder, $logger)
 					);
 				}
-				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
+				$this->server->addPlugin(new EnablePlugin(
 					\OC::$server->get(IConfig::class),
 					\OC::$server->get(BirthdayService::class)
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
 					\OC::$server->get(IUserSession::class),
 					\OC::$server->get(IURLGenerator::class),
-					\OC::$server->getThemingDefaults(),
+					\OC::$server->get('ThemingDefaults'),
 					\OC::$server->get(IRequest::class),
 					\OC::$server->get(IFactory::class)->get('dav'),
 					function () {
@@ -353,12 +363,19 @@ class Server {
 		);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function exec() {
+		$this->start();
+	}
+
+	public function start() {
 		/** @var IEventLogger $eventLogger */
 		$eventLogger = \OC::$server->get(IEventLogger::class);
-		$eventLogger->start('dav_server_exec', '');
-		$this->server->exec();
-		$eventLogger->end('dav_server_exec');
+		$eventLogger->start('dav_server_start', '');
+		$this->server->start();
+		$eventLogger->end('dav_server_start');
 	}
 
 	private function requestIsForSubtree(array $subTrees): bool {

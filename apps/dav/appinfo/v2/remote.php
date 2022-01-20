@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Ko- <k.stoffelen@cs.ru.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -22,6 +23,9 @@
  *
  */
 // no php execution timeout for webdav
+use OCA\DAV\Server;
+use OCP\IRequest;
+
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	@set_time_limit(0);
 }
@@ -30,6 +34,5 @@ ignore_user_abort(true);
 // Turn off output buffering to prevent memory problems
 \OC_Util::obEnd();
 
-$request = \OC::$server->getRequest();
-$server = new \OCA\DAV\Server($request, $baseuri);
-$server->exec();
+$server = new Server(\OC::$server->get(IRequest::class), $baseuri);
+$server->start();

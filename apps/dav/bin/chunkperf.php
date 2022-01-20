@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -20,6 +21,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use Sabre\DAV\Client;
+
 require '../../../../3rdparty/autoload.php';
 
 if ($argc !== 6) {
@@ -28,11 +32,14 @@ if ($argc !== 6) {
 }
 
 /**
- * @param \Sabre\DAV\Client $client
- * @param $uploadUrl
- * @return mixed
+ * @param Client $client
+ * @param string $method
+ * @param string $uploadUrl
+ * @param string|null $data
+ * @param array $headers
+ * @return array
  */
-function request($client, $method, $uploadUrl, $data = null, $headers = []) {
+function request(Client $client, string $method, string $uploadUrl, string $data = null, array $headers = []): array {
 	echo "$method $uploadUrl ... ";
 	$t0 = microtime(true);
 	$result = $client->request($method, $uploadUrl, $data, $headers);
@@ -50,7 +57,7 @@ $password = $argv[3];
 $file = $argv[4];
 $chunkSize = $argv[5] * 1024 * 1024;
 
-$client = new \Sabre\DAV\Client([
+$client = new Client([
 	'baseUri' => $baseUri,
 	'userName' => $userName,
 	'password' => $password

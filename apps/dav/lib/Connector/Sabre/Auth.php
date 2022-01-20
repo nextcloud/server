@@ -41,6 +41,7 @@ use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
@@ -73,11 +74,11 @@ class Auth extends AbstractBasic {
 	 * @param string $principalPrefix
 	 */
 	public function __construct(ISession $session,
-								Session $userSession,
+								IUserSession $userSession,
 								IRequest $request,
 								Manager $twoFactorManager,
 								Throttler $throttler,
-								$principalPrefix = 'principals/users/') {
+								string $principalPrefix = 'principals/users/') {
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->twoFactorManager = $twoFactorManager;

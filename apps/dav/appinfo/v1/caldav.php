@@ -26,8 +26,13 @@
  *
  */
 // Backends
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\KnownUser\KnownUserService;
+use OC\Security\Bruteforce\Throttler;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
+use OCA\DAV\CalDAV\Schedule\Plugin as SchedulePlugin;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -35,51 +40,78 @@ use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
 use Psr\Log\LoggerInterface;
+use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IRequest;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10NFactory;
+use OCP\Security\ISecureRandom;
+use OCP\Share\IManager as IShareManager;
+use Sabre\CalDAV\ICSExportPlugin;
+use Sabre\CalDAV\Plugin as CalDAVPlugin;
+use Sabre\CalDAV\Principal\Collection;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
+use Sabre\DAV\Browser\Plugin as BrowserPlugin;
+use Sabre\DAV\Server;
+use Sabre\DAV\Sync\Plugin as SyncPlugin;
+
+/** @var IUserSession $userSession */
+$userSession = \OC::$server->get(IUserSession::class);
+/** @var IRequest $request */
+$request = \OC::$server->get(IRequest::class);
+/** @var IUserManager $userManager */
+$userManager = \OC::$server->get(IUserManager::class);
+/** @var IGroupManager $groupManager */
+$groupManager = \OC::$server->get(IGroupManager::class);
+/** @var IConfig $config */
+$config = \OC::$server->get(IConfig::class);
+/** @var IL10NFactory $l10nFactory */
+$l10nFactory = \OC::$server->get(IL10NFactory::class);
+/** @var LoggerInterface $logger */
+$logger = \OC::$server->get(LoggerInterface::class);
 
 $authBackend = new Auth(
-	\OC::$server->getSession(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getRequest(),
-	\OC::$server->getTwoFactorAuthManager(),
-	\OC::$server->getBruteForceThrottler(),
+	$userSession->getSession(),
+	$userSession,
+	$request,
+	\OC::$server->get(TwoFactorAuthManager::class),
+	\OC::$server->get(Throttler::class),
 	'principals/'
 );
 $principalBackend = new Principal(
-	\OC::$server->getUserManager(),
-	\OC::$server->getGroupManager(),
-	\OC::$server->getShareManager(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getAppManager(),
-	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	$userManager,
+	$groupManager,
+	\OC::$server->get(IShareManager::class),
+	$userSession,
+	\OC::$server->get(IAppManager::class),
+	\OC::$server->get(ProxyMapper::class),
 	\OC::$server->get(KnownUserService::class),
-	\OC::$server->getConfig(),
-	\OC::$server->getL10NFactory(),
+	$config,
+	$l10nFactory,
 	'principals/'
 );
-$db = \OC::$server->getDatabaseConnection();
-$userManager = \OC::$server->getUserManager();
-$random = \OC::$server->getSecureRandom();
-$logger = \OC::$server->getLogger();
-$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-$config = \OC::$server->get(\OCP\IConfig::class);
 
 $calDavBackend = new CalDavBackend(
-	$db,
+	\OC::$server->get(IDBConnection::class),
 	$principalBackend,
 	$userManager,
-	\OC::$server->getGroupManager(),
-	$random,
+	$groupManager,
+	\OC::$server->get(ISecureRandom::class),
 	$logger,
-	$dispatcher,
+	\OC::$server->get(IEventDispatcher::class),
 	$config,
 	true
 );
 
-$debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
-$sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
+$debugging = $config->getSystemValue('debug', false);
+$sendInvitations = $config->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
 
 // Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
+$principalCollection = new Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
 $addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', \OC::$server->get(LoggerInterface::class));
@@ -91,29 +123,29 @@ $nodes = [
 ];
 
 // Fire up server
-$server = new \Sabre\DAV\Server($nodes);
+$server = new Server($nodes);
 $server::$exposeVersion = false;
-$server->httpRequest->setUrl(\OC::$server->getRequest()->getRequestUri());
+$server->httpRequest->setUrl($request->getRequestUri());
 $server->setBaseUri($baseuri);
 
 // Add plugins
-$server->addPlugin(new MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
-$server->addPlugin(new \Sabre\CalDAV\Plugin());
+$server->addPlugin(new MaintenancePlugin($config, $l10nFactory->get('dav')));
+$server->addPlugin(new AuthPlugin($authBackend));
+$server->addPlugin(new CalDAVPlugin());
 
 $server->addPlugin(new LegacyDAVACL());
 if ($debugging) {
-	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
+	$server->addPlugin(new BrowserPlugin());
 }
 
-$server->addPlugin(new \Sabre\DAV\Sync\Plugin());
-$server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
+$server->addPlugin(new SyncPlugin());
+$server->addPlugin(new ICSExportPlugin());
+$server->addPlugin(new SchedulePlugin($config));
 
 if ($sendInvitations) {
-	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+	$server->addPlugin(\OC::$server->get(IMipPlugin::class));
 }
-$server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
+$server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
 
 // And off we go!
-$server->exec();
+$server->start();

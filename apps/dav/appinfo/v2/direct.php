@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,7 +25,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-use \OCA\DAV\Direct\ServerFactory;
+
+use OC\Security\Bruteforce\Throttler;
+use OCA\DAV\Db\DirectMapper;
+use OCA\DAV\Direct\ServerFactory;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\IRootFolder;
+use OCP\IRequest;
 
 // no php execution timeout for webdav
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
@@ -35,18 +42,19 @@ ignore_user_abort(true);
 // Turn off output buffering to prevent memory problems
 \OC_Util::obEnd();
 
-$requestUri = \OC::$server->getRequest()->getRequestUri();
+/** @var IRequest $request */
+$request = \OC::$server->get(IRequest::class);
 
 /** @var ServerFactory $serverFactory */
-$serverFactory = \OC::$server->query(ServerFactory::class);
+$serverFactory = \OC::$server->get(ServerFactory::class);
 $server = $serverFactory->createServer(
 	$baseuri,
-	$requestUri,
-	\OC::$server->getRootFolder(),
-	\OC::$server->query(\OCA\DAV\Db\DirectMapper::class),
-	\OC::$server->query(\OCP\AppFramework\Utility\ITimeFactory::class),
-	\OC::$server->getBruteForceThrottler(),
-	\OC::$server->getRequest()
+	$request->getRequestUri(),
+	\OC::$server->get(IRootFolder::class),
+	\OC::$server->get(DirectMapper::class),
+	\OC::$server->get(ITimeFactory::class),
+	\OC::$server->get(Throttler::class),
+	$request
 );
 
-$server->exec();
+$server->start();
