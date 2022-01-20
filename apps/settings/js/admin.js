@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', function(){
 	});
 
 	$('#shareAPIEnabled').change(function() {
-		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked);
+		$('#shareAPI p:not(#enable), #shareAPI h3').toggleClass('hidden', !this.checked);
 	});
 
 	$('#enableEncryption').change(function() {
