@@ -38,9 +38,11 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IRequestId;
+use OCP\ITempManager;
+use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\HookHelper;
@@ -88,7 +90,7 @@ class FileTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$userManager->get($this->user)->delete();
 		unset($_SERVER['HTTP_OC_CHUNKED']);
 
@@ -96,10 +98,10 @@ class FileTest extends TestCase {
 	}
 
 	/**
-	 * @return MockObject|Storage
+	 * @return MockObject|IStorage
 	 */
 	private function getMockStorage() {
-		$storage = $this->getMockBuilder(Storage::class)
+		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storage->method('getId')
@@ -181,7 +183,7 @@ class FileTest extends TestCase {
 		// setup
 		$storage = $this->getMockBuilder(Local::class)
 			->setMethods(['writeStream'])
-			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
+			->setConstructorArgs([['datadir' => \OC::$server->get(ITempManager::class)->getTemporaryFolder()]])
 			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
 		/** @var View | MockObject $view */
@@ -241,7 +243,7 @@ class FileTest extends TestCase {
 		// setup
 		$storage = $this->getMockBuilder(Local::class)
 			->setMethods(['fopen'])
-			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
+			->setConstructorArgs([['datadir' => \OC::$server->get(ITempManager::class)->getTemporaryFolder()]])
 			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
 		$view = $this->getMockBuilder(View::class)

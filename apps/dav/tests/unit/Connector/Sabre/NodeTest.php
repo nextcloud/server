@@ -30,7 +30,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -129,7 +129,7 @@ class NodeTest extends \Test\TestCase {
 	 * @dataProvider sharePermissionsProvider
 	 */
 	public function testSharePermissions($type, $user, $permissions, $expected) {
-		$storage = $this->getMockBuilder(Storage::class)
+		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storage->method('getPermissions')->willReturn($permissions);

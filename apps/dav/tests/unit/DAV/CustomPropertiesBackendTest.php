@@ -60,7 +60,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->user->method('getUID')
 			->with()
 			->willReturn('dummy_user_42');
-		$this->dbConnection = \OC::$server->getDatabaseConnection();
+		$this->dbConnection = \OC::$server->get(IDBConnection::class);
 
 		$this->backend = new CustomPropertiesBackend(
 			$this->tree,

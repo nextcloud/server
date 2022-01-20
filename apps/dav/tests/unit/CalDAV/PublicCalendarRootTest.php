@@ -37,6 +37,7 @@ use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -76,17 +77,12 @@ class PublicCalendarRootTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$db = \OC::$server->getDatabaseConnection();
-		$this->principal = $this->createMock('OCA\DAV\Connector\Sabre\Principal');
+		$db = \OC::$server->get(IDBConnection::class);
+		$this->principal = $this->createMock(Principal::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->random = \OC::$server->getSecureRandom();
-<<<<<<< HEAD
-		$this->logger = $this->createMock(ILogger::class);
-		$this->psrLogger = $this->createMock(LoggerInterface::class);
-=======
+		$this->random = \OC::$server->get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
->>>>>>> 4565b23b66 (Move uses of ILogger to LoggerInterface)
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$config = $this->createMock(IConfig::class);
 
@@ -113,7 +109,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend,
-			$this->l10n, $this->config, $this->psrLogger);
+			$this->l10n, $this->config, $this->logger);
 	}
 
 	protected function tearDown(): void {

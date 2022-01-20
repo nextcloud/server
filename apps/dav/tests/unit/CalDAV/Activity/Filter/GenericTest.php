@@ -44,7 +44,7 @@ class GenericTest extends TestCase {
 	 * @param string $filterClass
 	 */
 	public function testImplementsInterface($filterClass) {
-		$filter = \OC::$server->query($filterClass);
+		$filter = \OC::$server->get($filterClass);
 		$this->assertInstanceOf(IFilter::class, $filter);
 	}
 
@@ -54,7 +54,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testGetIdentifier($filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = \OC::$server->get($filterClass);
 		$this->assertIsString($filter->getIdentifier());
 	}
 
@@ -64,7 +64,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testGetName($filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = \OC::$server->get($filterClass);
 		$this->assertIsString($filter->getName());
 	}
 
@@ -74,7 +74,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testGetPriority($filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = \OC::$server->get($filterClass);
 		$priority = $filter->getPriority();
 		$this->assertIsInt($filter->getPriority());
 		$this->assertGreaterThanOrEqual(0, $priority);
@@ -87,7 +87,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testGetIcon($filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = \OC::$server->get($filterClass);
 		$this->assertIsString($filter->getIcon());
 		$this->assertStringStartsWith('http', $filter->getIcon());
 	}
@@ -98,7 +98,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testFilterTypes($filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = \OC::$server->get($filterClass);
 		$this->assertIsArray($filter->filterTypes([]));
 	}
 
@@ -108,7 +108,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testAllowedApps($filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = \OC::$server->get($filterClass);
 		$this->assertIsArray($filter->allowedApps());
 	}
 }

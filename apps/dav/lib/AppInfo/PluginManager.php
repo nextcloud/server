@@ -32,7 +32,7 @@ use OC\ServerContainer;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use Sabre\DAV\Collection;
 use Sabre\DAV\ServerPlugin;
 use function array_map;
@@ -254,7 +254,7 @@ class PluginManager {
 	private function createClass(string $className): object {
 		try {
 			return $this->container->get($className);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			if (class_exists($className)) {
 				return new $className();
 			}

@@ -36,7 +36,7 @@ use OCP\IConfig;
  */
 class PartFileInRootUploadTest extends UploadTest {
 	protected function setUp(): void {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(IConfig::class);
 		$mockConfig = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();

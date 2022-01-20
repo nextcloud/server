@@ -132,7 +132,7 @@ class SearchPlugin extends ServerPlugin {
 	 * @param Xml\Request\CalendarSearchReport $report
 	 * @return void
 	 */
-	private function calendarSearch($report) {
+	private function calendarSearch(CalendarSearchReport $report): void {
 		$node = $this->server->tree->getNodeForPath($this->server->getRequestUri());
 		$depth = $this->server->getHTTPDepth(2);
 

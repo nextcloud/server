@@ -49,6 +49,7 @@ use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
 use OCA\DAV\Connector\Sabre\Exception\BadGateway;
+use OCP\App\IAppManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
@@ -545,7 +546,7 @@ class File extends Node implements IFile {
 	 * @return array|bool
 	 */
 	public function getDirectDownload() {
-		if (\OCP\App::isEnabled('encryption')) {
+		if (\OC::$server->get(IAppManager::class)->isEnabledForUser('encryption')) {
 			return [];
 		}
 		/** @var \OCP\Files\Storage $storage */

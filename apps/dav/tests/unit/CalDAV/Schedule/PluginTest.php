@@ -241,7 +241,7 @@ class PluginTest extends TestCase {
 	/**
 	 * @dataProvider propFindDefaultCalendarUrlProvider
 	 * @param string $principalUri
-	 * @param string $calendarHome
+	 * @param string|null $calendarHome
 	 * @param bool $isResource
 	 * @param string $calendarUri
 	 * @param string $displayName
@@ -249,7 +249,6 @@ class PluginTest extends TestCase {
 	 * @param bool $propertiesForPath
 	 */
 	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $propertiesForPath = true) {
-		/** @var PropFind $propFind */
 		$propFind = new PropFind(
 			$principalUri,
 			[

@@ -34,6 +34,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -105,8 +106,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
-		$db = \OC::$server->getDatabaseConnection();
-		$this->random = \OC::$server->getSecureRandom();
+		$db = \OC::$server->get(IDBConnection::class);
+		$this->random = \OC::$server->get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->backend = new CalDavBackend(

@@ -24,6 +24,8 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OCP\Files\IRootFolder;
+use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -79,15 +81,17 @@ class Auth implements BackendInterface {
 	 * @return array
 	 */
 	public function check(RequestInterface $request, ResponseInterface $response) {
-		$userSession = \OC::$server->getUserSession();
+		/** @var IUserSession $userSession */
+		$userSession = \OC::$server->get(IUserSession::class);
 		$result = $userSession->login($this->user, $this->password);
-		if ($result) {
+		if ($result && $user = $userSession->getUser()) {
 			//we need to pass the user name, which may differ from login name
-			$user = $userSession->getUser()->getUID();
-			\OC_Util::setupFS($user);
+			$userId = $user->getUID();
+			\OC_Util::setupFS($userId);
 			//trigger creation of user home and /files folder
-			\OC::$server->getUserFolder($user);
-			return [true, "principals/$user"];
+			$root = \OC::$server->get(IRootFolder::class);
+			$root->getUserFolder($userId);
+			return [true, "principals/$userId"];
 		}
 		return [false, "login failed"];
 	}

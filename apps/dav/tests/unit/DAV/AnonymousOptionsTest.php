@@ -46,7 +46,7 @@ class AnonymousOptionsTest extends TestCase {
 		$server->httpRequest->setHeader('User-Agent', $userAgent);
 
 		$server->sapi = new SapiMock();
-		$server->exec();
+		$server->start();
 		return $server->httpResponse;
 	}
 
