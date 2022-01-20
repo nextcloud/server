@@ -1,7 +1,7 @@
 { "translations": {
     "Dark theme" : "深色主题",
     "Enable dark theme" : "启用深色主题",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "一款通过降低整体亮度来使您的眼睛放松的深色主题。该主题目前还在开发中，如发现问题请您及时向我们反馈。",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "一款通过降低整体亮度来使您的眼睛放松的深色主题。该主题目前还在开发中，请您及时向我们反馈您可能发现的任何问题。",
     "High contrast mode" : "高对比度模式",
     "Enable high contrast mode" : "启用高对比度模式",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "使用高对比度模式。图像质量会下降，但清晰度会提升。",
