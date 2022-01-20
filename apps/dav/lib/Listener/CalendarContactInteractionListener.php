@@ -46,6 +46,9 @@ use function strlen;
 use function strpos;
 use function substr;
 
+/**
+ * @template-implements IEventListener<CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarShareUpdatedEvent>
+ */
 class CalendarContactInteractionListener implements IEventListener {
 	private const URI_USERS = 'principals/users/';
 

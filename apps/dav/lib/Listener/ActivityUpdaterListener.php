@@ -43,6 +43,9 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use function sprintf;
 
+/**
+ * @template-implements IEventListener<CalendarCreatedEvent|CalendarUpdatedEvent|CalendarMovedToTrashEvent|CalendarRestoredEvent|CalendarDeletedEvent|CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent|CalendarObjectDeletedEvent>
+ */
 class ActivityUpdaterListener implements IEventListener {
 
 	/** @var ActivityBackend */

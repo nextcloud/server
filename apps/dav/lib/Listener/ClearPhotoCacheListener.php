@@ -31,6 +31,9 @@ use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
+/**
+ * @template-implements IEventListener<CardUpdatedEvent|CardDeletedEvent>
+ */
 class ClearPhotoCacheListener implements IEventListener {
 	/** @var PhotoCache */
 	private $photoCache;

@@ -32,6 +32,9 @@ use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
+/**
+ * @template-implements IEventListener<CardCreatedEvent|CardUpdatedEvent|CardDeletedEvent>
+ */
 class BirthdayListener implements IEventListener {
 	/** @var BirthdayService */
 	private $birthdayService;
