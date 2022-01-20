@@ -303,6 +303,11 @@ class CustomPropertiesBackend implements BackendInterface {
 					);
 				}
 			} else {
+				if ($propertyValue instanceOf \Sabre\DAV\Xml\Property\Complex) {
+					$propertyValue = $propertyValue->getXml();
+				} elseif (!is_string($propertyValue)) {
+					$propertyValue = (string)$propertyValue;
+				}
 				if (!array_key_exists($propertyName, $existing)) {
 					$this->connection->executeUpdate($insertStatement,
 						[
