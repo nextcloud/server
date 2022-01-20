@@ -45,19 +45,24 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Share\IManager;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Locked;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\ICollection;
+use Sabre\DAV\ICopyTarget;
 use Sabre\DAV\IFile;
+use Sabre\DAV\IMoveTarget;
 use Sabre\DAV\INode;
+use Sabre\DAV\IQuota;
 
-class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
+class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyTarget {
 
 	/**
 	 * Cached directory content
 	 *
-	 * @var \OCP\Files\FileInfo[]
+	 * @var FileInfo[]
 	 */
 	private $dirContent;
 
@@ -76,12 +81,12 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	/**
 	 * Sets up the node, expects a full path name
 	 *
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\FileInfo $info
+	 * @param View $view
+	 * @param FileInfo $info
 	 * @param ObjectTree|null $tree
-	 * @param \OCP\Share\IManager $shareManager
+	 * @param IManager|null $shareManager
 	 */
-	public function __construct(View $view, FileInfo $info, $tree = null, $shareManager = null) {
+	public function __construct(View $view, FileInfo $info, ObjectTree $tree = null, IManager $shareManager = null) {
 		parent::__construct($view, $info, $shareManager);
 		$this->tree = $tree;
 	}
@@ -204,7 +209,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 * Returns a specific child node, referenced by its name
 	 *
 	 * @param string $name
-	 * @param \OCP\Files\FileInfo $info
+	 * @param FileInfo $info
 	 * @return \Sabre\DAV\INode
 	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\NotFound
@@ -330,8 +335,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		try {
 			$info = $this->fileView->getFileInfo($this->path, false);
 			$storageInfo = \OC_Helper::getStorageInfo($this->info->getPath(), $info);
-			if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-				$free = \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
+				$free = FileInfo::SPACE_UNLIMITED;
 			} else {
 				$free = $storageInfo['free'];
 			}

@@ -40,7 +40,7 @@ class ChecksumList implements XmlSerializable {
 	/**
 	 * @param string $checksum
 	 */
-	public function __construct($checksum) {
+	public function __construct(string $checksum) {
 		$this->checksums = explode(',', $checksum);
 	}
 

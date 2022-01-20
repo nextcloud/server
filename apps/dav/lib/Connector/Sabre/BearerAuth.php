@@ -23,6 +23,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -49,18 +50,18 @@ class BearerAuth extends AbstractBearer {
 	public function __construct(IUserSession $userSession,
 								ISession $session,
 								IRequest $request,
-								$principalPrefix = 'principals/users/') {
+								string $principalPrefix = 'principals/users/') {
 		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->request = $request;
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName();
 	}
 
-	private function setupUserFs($userId) {
+	private function setupUserFs(string $userId): string {
 		\OC_Util::setupFS($userId);
 		$this->session->close();
 		return $this->principalPrefix . $userId;

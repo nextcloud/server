@@ -42,7 +42,7 @@ class LegacyDAVACL extends DavAclPlugin {
 			return [];
 		}
 
-		$principalV1 = $this->convertPrincipal($principalV2, false);
+		$principalV1 = $this->convertPrincipal($principalV2);
 		return array_merge(
 			[
 				$principalV2,
@@ -52,11 +52,8 @@ class LegacyDAVACL extends DavAclPlugin {
 		);
 	}
 
-	private function convertPrincipal($principal, $toV2) {
+	private function convertPrincipal(string $principal): string {
 		[, $name] = \Sabre\Uri\split($principal);
-		if ($toV2) {
-			return "principals/users/$name";
-		}
 		return "principals/$name";
 	}
 

@@ -23,6 +23,8 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\Xml\Element;
+use Sabre\Xml\LibXMLException;
+use Sabre\Xml\ParseException;
 use Sabre\Xml\Reader;
 use Sabre\Xml\Writer;
 
@@ -44,7 +46,7 @@ class ShareTypeList implements Element {
 	/**
 	 * @param int[] $shareTypes
 	 */
-	public function __construct($shareTypes) {
+	public function __construct(array $shareTypes) {
 		$this->shareTypes = $shareTypes;
 	}
 
@@ -53,7 +55,7 @@ class ShareTypeList implements Element {
 	 *
 	 * @return int[]
 	 */
-	public function getShareTypes() {
+	public function getShareTypes(): array {
 		return $this->shareTypes;
 	}
 
@@ -61,9 +63,11 @@ class ShareTypeList implements Element {
 	 * The deserialize method is called during xml parsing.
 	 *
 	 * @param Reader $reader
-	 * @return mixed
+	 * @return ShareTypeList|null
+	 * @throws LibXMLException
+	 * @throws ParseException
 	 */
-	public static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader): ?ShareTypeList {
 		$shareTypes = [];
 
 		$tree = $reader->parseInnerTree();
@@ -79,7 +83,7 @@ class ShareTypeList implements Element {
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * @param Writer $writer
 	 * @return void

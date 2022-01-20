@@ -30,9 +30,9 @@ class CachingTree extends Tree {
 	 * Store a node in the cache
 	 *
 	 * @param Node $node
-	 * @param null|string $path
+	 * @param string|null $path
 	 */
-	public function cacheNode(Node $node, $path = null) {
+	public function cacheNode(Node $node, string $path = null) {
 		if (is_null($path)) {
 			$path = $node->getPath();
 		}

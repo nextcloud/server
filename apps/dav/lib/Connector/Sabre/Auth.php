@@ -37,8 +37,10 @@ use Exception;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
+use OC\User\LoginException;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -87,7 +89,7 @@ class Auth extends AbstractBasic {
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName();
 	}
 
@@ -102,7 +104,7 @@ class Auth extends AbstractBasic {
 	 * @param string $username
 	 * @return bool
 	 */
-	public function isDavAuthenticated($username) {
+	public function isDavAuthenticated(string $username): bool {
 		return !is_null($this->session->get(self::DAV_AUTHENTICATED)) &&
 		$this->session->get(self::DAV_AUTHENTICATED) === $username;
 	}
@@ -116,7 +118,7 @@ class Auth extends AbstractBasic {
 	 * @param string $username
 	 * @param string $password
 	 * @return bool
-	 * @throws PasswordLoginForbidden
+	 * @throws PasswordLoginForbidden|LoginException
 	 */
 	protected function validateUserPass($username, $password) {
 		if ($this->userSession->isLoggedIn() &&
@@ -169,7 +171,7 @@ class Auth extends AbstractBasic {
 	 *
 	 * @return bool
 	 */
-	private function requiresCSRFCheck() {
+	private function requiresCSRFCheck(): bool {
 		// GET requires no check at all
 		if ($this->request->getMethod() === 'GET') {
 			return false;
@@ -209,7 +211,7 @@ class Auth extends AbstractBasic {
 	 * @return array
 	 * @throws NotAuthenticated
 	 */
-	private function auth(RequestInterface $request, ResponseInterface $response) {
+	private function auth(RequestInterface $request, ResponseInterface $response): array {
 		$forcedLogout = false;
 
 		if (!$this->request->passesCSRFCheck() &&
@@ -219,7 +221,7 @@ class Auth extends AbstractBasic {
 				$forcedLogout = true;
 			} else {
 				$response->setStatus(401);
-				throw new \Sabre\DAV\Exception\NotAuthenticated('CSRF check not passed.');
+				throw new NotAuthenticated('CSRF check not passed.');
 			}
 		}
 
@@ -227,7 +229,7 @@ class Auth extends AbstractBasic {
 			$this->userSession->logout();
 		} else {
 			if ($this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
-				throw new \Sabre\DAV\Exception\NotAuthenticated('2FA challenge not passed.');
+				throw new NotAuthenticated('2FA challenge not passed.');
 			}
 			if (
 				//Fix for broken webdav clients
@@ -247,7 +249,7 @@ class Auth extends AbstractBasic {
 			// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 			$response->addHeader('WWW-Authenticate','DummyBasic realm="' . $this->realm . '"');
 			$response->setStatus(401);
-			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
+			throw new NotAuthenticated('Cannot authenticate over ajax calls');
 		}
 
 		$data = parent::check($request, $response);

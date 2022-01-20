@@ -25,6 +25,8 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use Sabre\DAV\Exception;
+
 /**
  * Class \OCA\DAV\Connector\Sabre\Server
  *
@@ -36,6 +38,7 @@ class Server extends \Sabre\DAV\Server {
 	/** @var CachingTree $tree */
 
 	/**
+	 * @throws Exception
 	 * @see \Sabre\DAV\Server
 	 */
 	public function __construct($treeOrNode = null) {

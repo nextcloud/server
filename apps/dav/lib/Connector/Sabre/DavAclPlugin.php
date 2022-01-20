@@ -28,9 +28,11 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\CardDAV\AddressBook;
 use Sabre\CalDAV\Principal\User;
+use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
+use Sabre\DAVACL\Exception\NeedPrivileges;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -48,6 +50,11 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		$this->allowUnauthenticatedAccess = false;
 	}
 
+	/**
+	 * @throws NeedPrivileges
+	 * @throws NotAuthenticated
+	 * @throws NotFound
+	 */
 	public function checkPrivileges($uri, $privileges, $recursion = self::R_PARENT, $throwExceptions = true) {
 		$access = parent::checkPrivileges($uri, $privileges, $recursion, false);
 		if ($access === false && $throwExceptions) {
@@ -74,6 +81,11 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		return $access;
 	}
 
+	/**
+	 * @throws NotAuthenticated
+	 * @throws NotFound
+	 * @throws NeedPrivileges
+	 */
 	public function propFind(PropFind $propFind, INode $node) {
 		// If the node is neither readable nor writable then fail unless its of
 		// the standard user-principal

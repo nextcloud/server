@@ -26,6 +26,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IConfig;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 
@@ -61,7 +62,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 	 * Detects all unsupported clients and throws a \Sabre\DAV\Exception\Forbidden
 	 * exception which will result in a 403 to them.
 	 * @param RequestInterface $request
-	 * @throws \Sabre\DAV\Exception\Forbidden If the client version is not supported
+	 * @throws Forbidden If the client version is not supported
 	 */
 	public function beforeHandler(RequestInterface $request) {
 		$userAgent = $request->getHeader('User-Agent');
@@ -76,7 +77,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 		preg_match("/(?:mirall\\/)([\d.]+)/i", $userAgent, $versionMatches);
 		if (isset($versionMatches[1]) &&
 			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
-			throw new \Sabre\DAV\Exception\Forbidden('Unsupported client version.');
+			throw new Forbidden('Unsupported client version.');
 		}
 	}
 }

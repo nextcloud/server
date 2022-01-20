@@ -25,6 +25,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -33,7 +34,7 @@ use Sabre\HTTP\ResponseInterface;
  * This is a workaround for setups that automatically strip
  * or mangle Etag headers.
  */
-class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
+class CopyEtagHeaderPlugin extends ServerPlugin {
 
 	/** @var \Sabre\DAV\Server */
 	private $server;
@@ -57,7 +58,7 @@ class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param RequestInterface $request request
 	 * @param ResponseInterface $response response
 	 */
-	public function afterMethod(RequestInterface $request, ResponseInterface $response) {
+	public function afterMethod(RequestInterface $request, ResponseInterface $response): void {
 		$eTag = $response->getHeader('Etag');
 		if (!empty($eTag)) {
 			$response->setHeader('OC-ETag', $eTag);
@@ -73,7 +74,7 @@ class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param string $destination
 	 * @return void
 	 */
-	public function afterMove($source, $destination) {
+	public function afterMove(string $source, string $destination): void {
 		try {
 			$node = $this->server->tree->getNodeForPath($destination);
 		} catch (NotFound $e) {

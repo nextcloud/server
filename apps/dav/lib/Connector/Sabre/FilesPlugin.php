@@ -44,6 +44,7 @@ use OCP\IUserSession;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\ServerPlugin;
@@ -138,8 +139,8 @@ class FilesPlugin extends ServerPlugin {
 								IRequest $request,
 								IPreview $previewManager,
 								IUserSession $userSession,
-								$isPublic = false,
-								$downloadAttachment = true) {
+								bool $isPublic = false,
+								bool $downloadAttachment = true) {
 		$this->tree = $tree;
 		$this->config = $config;
 		$this->request = $request;
@@ -207,7 +208,7 @@ class FilesPlugin extends ServerPlugin {
 	 * @throws Forbidden
 	 * @throws NotFound
 	 */
-	public function checkMove($source, $destination) {
+	public function checkMove(string $source, string $destination) {
 		$sourceNode = $this->tree->getNodeForPath($source);
 		if (!$sourceNode instanceof Node) {
 			return;
@@ -217,10 +218,6 @@ class FilesPlugin extends ServerPlugin {
 
 		if ($sourceDir !== $destinationDir) {
 			$sourceNodeFileInfo = $sourceNode->getFileInfo();
-			if ($sourceNodeFileInfo === null) {
-				throw new NotFound($source . ' does not exist');
-			}
-
 			if (!$sourceNodeFileInfo->isDeletable()) {
 				throw new Forbidden($source . " cannot be deleted");
 			}
@@ -258,6 +255,7 @@ class FilesPlugin extends ServerPlugin {
 	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
+	 * @throws NotFound
 	 */
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 		// Only handle valid files
@@ -284,7 +282,7 @@ class FilesPlugin extends ServerPlugin {
 			}
 		}
 
-		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
+		if ($node instanceof File) {
 			//Add OC-Checksum header
 			$checksum = $node->getChecksum();
 			if ($checksum !== null && $checksum !== '') {
@@ -297,13 +295,13 @@ class FilesPlugin extends ServerPlugin {
 	 * Adds all ownCloud-specific properties
 	 *
 	 * @param PropFind $propFind
-	 * @param \Sabre\DAV\INode $node
+	 * @param INode $node
 	 * @return void
 	 */
-	public function handleGetProperties(PropFind $propFind, \Sabre\DAV\INode $node) {
+	public function handleGetProperties(PropFind $propFind, INode $node) {
 		$httpRequest = $this->server->httpRequest;
 
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
+		if ($node instanceof Node) {
 			/**
 			 * This was disabled, because it made dir listing throw an exception,
 			 * so users were unable to navigate into folders where one subitem
@@ -359,20 +357,10 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::OWNER_ID_PROPERTYNAME, function () use ($node) {
-				$owner = $node->getOwner();
-				if (!$owner) {
-					return null;
-				} else {
-					return $owner->getUID();
-				}
+				return $node->getOwner()->getUID();
 			});
 			$propFind->handle(self::OWNER_DISPLAY_NAME_PROPERTYNAME, function () use ($node) {
-				$owner = $node->getOwner();
-				if (!$owner) {
-					return null;
-				} else {
-					return $owner->getDisplayName();
-				}
+				return $node->getOwner()->getDisplayName();
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
@@ -408,16 +396,14 @@ class FilesPlugin extends ServerPlugin {
 			});
 		}
 
-		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
+		if ($node instanceof File) {
 			$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function () use ($node) {
 				try {
 					$directDownloadUrl = $node->getDirectDownload();
 					if (isset($directDownloadUrl['url'])) {
 						return $directDownloadUrl['url'];
 					}
-				} catch (StorageNotAvailableException $e) {
-					return false;
-				} catch (ForbiddenException $e) {
+				} catch (StorageNotAvailableException|ForbiddenException $e) {
 					return false;
 				}
 				return false;
@@ -468,10 +454,10 @@ class FilesPlugin extends ServerPlugin {
 	/**
 	 * translate Nextcloud permissions to OCM Permissions
 	 *
-	 * @param $ncPermissions
+	 * @param int $ncPermissions
 	 * @return array
 	 */
-	protected function ncPermissions2ocmPermissions($ncPermissions) {
+	protected function ncPermissions2ocmPermissions(int $ncPermissions): array {
 		$ocmPermissions = [];
 
 		if ($ncPermissions & Constants::PERMISSION_SHARE) {
@@ -497,10 +483,11 @@ class FilesPlugin extends ServerPlugin {
 	 * @param PropPatch $propPatch
 	 *
 	 * @return void
+	 * @throws NotFound
 	 */
-	public function handleUpdateProperties($path, PropPatch $propPatch) {
+	public function handleUpdateProperties(string $path, PropPatch $propPatch) {
 		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof \OCA\DAV\Connector\Sabre\Node)) {
+		if (!($node instanceof Node)) {
 			return;
 		}
 
@@ -539,10 +526,10 @@ class FilesPlugin extends ServerPlugin {
 
 	/**
 	 * @param string $filePath
-	 * @param \Sabre\DAV\INode $node
-	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @param INode|null $node
+	 * @throws NotFound
 	 */
-	public function sendFileIdHeader($filePath, \Sabre\DAV\INode $node = null) {
+	public function sendFileIdHeader(string $filePath, INode $node = null) {
 		// chunked upload handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			[$path, $name] = \Sabre\Uri\split($filePath);
@@ -557,7 +544,7 @@ class FilesPlugin extends ServerPlugin {
 			return;
 		}
 		$node = $this->server->tree->getNodeForPath($filePath);
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
+		if ($node instanceof Node) {
 			$fileId = $node->getFileId();
 			if (!is_null($fileId)) {
 				$this->server->httpResponse->setHeader('OC-FileId', $fileId);

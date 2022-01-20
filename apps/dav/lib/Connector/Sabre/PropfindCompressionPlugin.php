@@ -51,10 +51,10 @@ class PropfindCompressionPlugin extends ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
-		$this->server->on('afterMethod:PROPFIND', [$this, 'compressResponse'], 100);
+		$this->server->on('afterMethod:PROPFIND', [$this, 'compressResponse']);
 	}
 
-	public function compressResponse(Request $request, Response $response) {
+	public function compressResponse(Request $request, Response $response): Response {
 		$header = $request->getHeader('Accept-Encoding');
 
 		if ($header === null) {

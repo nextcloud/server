@@ -58,6 +58,9 @@ class LockPlugin extends ServerPlugin {
 		$this->isLocked = false;
 	}
 
+	/**
+	 * @throws FileLocked
+	 */
 	public function getLock(RequestInterface $request) {
 		// we can't listen on 'beforeMethod:PUT' due to order of operations with setting up the tree
 		// so instead we limit ourselves to the PUT method manually
@@ -79,6 +82,9 @@ class LockPlugin extends ServerPlugin {
 		}
 	}
 
+	/**
+	 * @throws LockedException
+	 */
 	public function releaseLock(RequestInterface $request) {
 		// don't try to release the lock if we never locked one
 		if ($this->isLocked === false) {

@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -42,7 +43,7 @@ use Sabre\HTTP\ResponseInterface;
  *
  * @package OCA\DAV\Connector\Sabre
  */
-class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
+class DummyGetResponsePlugin extends ServerPlugin {
 	/** @var \Sabre\DAV\Server */
 	protected $server;
 
@@ -60,7 +61,7 @@ class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param ResponseInterface $response
 	 * @return false
 	 */
-	public function httpGet(RequestInterface $request, ResponseInterface $response) {
+	public function httpGet(RequestInterface $request, ResponseInterface $response): bool {
 		$string = 'This is the WebDAV interface. It can only be accessed by ' .
 			'WebDAV clients such as the Nextcloud desktop sync client.';
 		$stream = fopen('php://memory','r+');

@@ -30,12 +30,14 @@
 namespace OCA\DAV\Connector;
 
 use OC\Security\Bruteforce\Throttler;
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
+use Sabre\DAV\Exception\NotAuthenticated;
 
 /**
  * Class PublicAuth
@@ -45,7 +47,7 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
 class PublicAuth extends AbstractBasic {
 	private const BRUTEFORCE_ACTION = 'public_webdav_auth';
 
-	/** @var \OCP\Share\IShare */
+	/** @var IShare */
 	private $share;
 
 	/** @var IManager */
@@ -76,7 +78,7 @@ class PublicAuth extends AbstractBasic {
 		$this->throttler = $throttler;
 
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName();
 	}
 
@@ -90,7 +92,7 @@ class PublicAuth extends AbstractBasic {
 	 * @param string $password
 	 *
 	 * @return bool
-	 * @throws \Sabre\DAV\Exception\NotAuthenticated
+	 * @throws NotAuthenticated
 	 */
 	protected function validateUserPass($username, $password) {
 		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
@@ -121,7 +123,7 @@ class PublicAuth extends AbstractBasic {
 						// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 						http_response_code(401);
 						header('WWW-Authenticate: DummyBasic realm="' . $this->realm . '"');
-						throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
+						throw new NotAuthenticated('Cannot authenticate over ajax calls');
 					}
 
 					$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
@@ -138,10 +140,7 @@ class PublicAuth extends AbstractBasic {
 		}
 	}
 
-	/**
-	 * @return \OCP\Share\IShare
-	 */
-	public function getShare() {
+	public function getShare(): IShare {
 		return $this->share;
 	}
 }

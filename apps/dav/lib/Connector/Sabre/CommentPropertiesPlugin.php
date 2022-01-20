@@ -27,6 +27,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\Comments\ICommentsManager;
 use OCP\IUserSession;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\ServerPlugin;
 
@@ -97,19 +98,19 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 * if requested.
 	 *
 	 * @param PropFind $propFind
-	 * @param \Sabre\DAV\INode $node
+	 * @param INode $node
 	 * @return void
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $node
+		INode $node
 	) {
 		if (!($node instanceof File) && !($node instanceof Directory)) {
 			return;
 		}
 
 		// need prefetch ?
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory
+		if ($node instanceof Directory
 			&& $propFind->getDepth() !== 0
 			&& !is_null($propFind->getStatus(self::PROPERTY_NAME_UNREAD))
 		) {
@@ -136,7 +137,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 * returns a reference to the comments node
 	 *
 	 * @param Node $node
-	 * @return mixed|string
+	 * @return array|string|string[]|null
 	 */
 	public function getCommentsLink(Node $node) {
 		$href = $this->server->getBaseUri();
@@ -146,8 +147,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			return null;
 		}
 		$commentsPart = 'dav/comments/files/' . rawurldecode($node->getId());
-		$href = substr_replace($href, $commentsPart, $entryPoint + strlen('/remote.php/'));
-		return $href;
+		return substr_replace($href, $commentsPart, $entryPoint + strlen('/remote.php/'));
 	}
 
 	/**
@@ -157,7 +157,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 * @param Node $node
 	 * @return Int|null
 	 */
-	public function getUnreadCount(Node $node) {
+	public function getUnreadCount(Node $node): ?int {
 		$user = $this->userSession->getUser();
 		if (is_null($user)) {
 			return null;

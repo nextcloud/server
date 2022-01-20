@@ -42,8 +42,9 @@ use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\RequestedRangeNotSatisfiable;
 use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\ServerPlugin;
 
-class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
+class ExceptionLoggerPlugin extends ServerPlugin {
 	protected $nonFatalExceptions = [
 		NotAuthenticated::class => true,
 		// If tokenauth can throw this exception (which is basically as
@@ -93,7 +94,7 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param string $loggerAppName app name to use when logging
 	 * @param LoggerInterface $logger
 	 */
-	public function __construct($loggerAppName, $logger) {
+	public function __construct(string $loggerAppName, LoggerInterface $logger) {
 		$this->appName = $loggerAppName;
 		$this->logger = $logger;
 	}
@@ -115,9 +116,8 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 
 	/**
 	 * Log exception
-	 *
 	 */
-	public function logException(\Throwable $ex) {
+	public function logException(\Throwable $ex): void {
 		$exceptionClass = get_class($ex);
 		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
 			(

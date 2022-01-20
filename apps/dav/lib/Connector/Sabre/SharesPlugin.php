@@ -32,13 +32,17 @@ use OCA\DAV\Connector\Sabre\Node as DavNode;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
+use Sabre\DAV\ServerPlugin;
+use Sabre\DAV\Tree;
 
 /**
  * Sabre Plugin to provide share-related properties
  */
-class SharesPlugin extends \Sabre\DAV\ServerPlugin {
+class SharesPlugin extends ServerPlugin {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	public const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
@@ -51,16 +55,16 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private $server;
 
-	/** @var \OCP\Share\IManager */
+	/** @var IManager */
 	private $shareManager;
 
-	/** @var \Sabre\DAV\Tree */
+	/** @var Tree */
 	private $tree;
 
 	/** @var string */
 	private $userId;
 
-	/** @var \OCP\Files\Folder */
+	/** @var Folder */
 	private $userFolder;
 
 	/** @var IShare[][] */
@@ -70,16 +74,16 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	private $cachedFolders = [];
 
 	/**
-	 * @param \Sabre\DAV\Tree $tree tree
+	 * @param Tree $tree tree
 	 * @param IUserSession $userSession user session
-	 * @param \OCP\Files\Folder $userFolder user home folder
-	 * @param \OCP\Share\IManager $shareManager share manager
+	 * @param Folder $userFolder user home folder
+	 * @param IManager $shareManager share manager
 	 */
 	public function __construct(
-		\Sabre\DAV\Tree $tree,
+		Tree         $tree,
 		IUserSession $userSession,
-		\OCP\Files\Folder $userFolder,
-		\OCP\Share\IManager $shareManager
+		Folder       $userFolder,
+		IManager     $shareManager
 	) {
 		$this->tree = $tree;
 		$this->shareManager = $shareManager;
@@ -163,7 +167,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				$parentPath = '/';
 			}
 			// if we already cached the folder this file is in we know there are no shares for this file
-			if (array_search($parentPath, $this->cachedFolders) === false) {
+			if (!in_array($parentPath, $this->cachedFolders)) {
 				try {
 					$node = $this->userFolder->get($sabreNode->getPath());
 				} catch (NotFoundException $e) {
@@ -183,11 +187,11 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * Adds shares to propfind response
 	 *
 	 * @param PropFind $propFind propfind object
-	 * @param \Sabre\DAV\INode $sabreNode sabre node
+	 * @param INode $sabreNode sabre node
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $sabreNode
+		INode $sabreNode
 	) {
 		if (!($sabreNode instanceof DavNode)) {
 			return;

@@ -40,6 +40,12 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\KnownUser\KnownUserService;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Circles\Exceptions\CircleNotFoundException;
+use OCA\Circles\Exceptions\FederatedUserException;
+use OCA\Circles\Exceptions\FederatedUserNotFoundException;
+use OCA\Circles\Exceptions\InitiatorNotFoundException;
+use OCA\Circles\Exceptions\InvalidIdException;
+use OCA\Circles\Exceptions\RequestBuilderException;
+use OCA\Circles\Exceptions\SingleCircleNotFoundException;
 use OCA\Circles\Model\Circle;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
@@ -257,7 +263,7 @@ class Principal implements BackendInterface {
 	 * @param string $test
 	 * @return array
 	 */
-	protected function searchUserPrincipals(array $searchProperties, $test = 'allof') {
+	protected function searchUserPrincipals(array $searchProperties, string $test = 'allof'): array {
 		$results = [];
 
 		// If sharing is disabled, return the empty array
@@ -449,7 +455,7 @@ class Principal implements BackendInterface {
 	/**
 	 * @param string $uri
 	 * @param string $principalPrefix
-	 * @return string
+	 * @return string|null
 	 */
 	public function findByUri($uri, $principalPrefix) {
 		// If sharing is disabled, return the empty array
@@ -526,6 +532,12 @@ class Principal implements BackendInterface {
 	/**
 	 * @param string $circleUniqueId
 	 * @return array|null
+	 * @throws FederatedUserException
+	 * @throws FederatedUserNotFoundException
+	 * @throws InitiatorNotFoundException
+	 * @throws InvalidIdException
+	 * @throws RequestBuilderException
+	 * @throws SingleCircleNotFoundException
 	 */
 	protected function circleToPrincipal(string $circleUniqueId): ?array {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
@@ -534,22 +546,14 @@ class Principal implements BackendInterface {
 
 		try {
 			$circle = Circles::detailsCircle($circleUniqueId, true);
-		} catch (ContainerExceptionInterface $ex) {
-			return null;
-		} catch (CircleNotFoundException $ex) {
+		} catch (ContainerExceptionInterface|CircleNotFoundException $ex) {
 			return null;
 		}
 
-		if (!$circle) {
-			return null;
-		}
-
-		$principal = [
+		return [
 			'uri' => 'principals/circles/' . $circleUniqueId,
 			'{DAV:}displayname' => $circle->getDisplayName(),
 		];
-
-		return $principal;
 	}
 
 	/**
@@ -558,6 +562,12 @@ class Principal implements BackendInterface {
 	 * @param string $principal
 	 * @return array
 	 * @throws Exception
+	 * @throws FederatedUserException
+	 * @throws FederatedUserNotFoundException
+	 * @throws InitiatorNotFoundException
+	 * @throws InvalidIdException
+	 * @throws RequestBuilderException
+	 * @throws SingleCircleNotFoundException
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function getCircleMembership(string $principal):array {
@@ -575,7 +585,6 @@ class Principal implements BackendInterface {
 			$circles = Circles::joinedCircles($name, true);
 
 			return array_map(static function ($circle) {
-				/** @var Circle $circle */
 				return 'principals/circles/' . urlencode($circle->getSingleId());
 			}, $circles);
 		}

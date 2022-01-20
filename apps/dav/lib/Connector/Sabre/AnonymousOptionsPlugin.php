@@ -51,15 +51,17 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	}
 
 	/**
+	 * @param $path
 	 * @return bool
 	 */
-	public function isRequestInRoot($path) {
+	public function isRequestInRoot($path): bool {
 		return $path === '' || (is_string($path) && strpos($path, '/') === false);
 	}
 
 	/**
-	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @return bool
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 * @return false|void
 	 */
 	public function handleAnonymousOptions(RequestInterface $request, ResponseInterface $response) {
 		$isOffice = preg_match('/Microsoft Office/i', $request->getHeader('User-Agent') ?? '');

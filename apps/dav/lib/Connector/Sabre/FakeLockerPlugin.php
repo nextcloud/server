@@ -103,7 +103,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @param RequestInterface $request
 	 * @param array $conditions
 	 */
-	public function validateTokens(RequestInterface $request, &$conditions) {
+	public function validateTokens(RequestInterface $request, array &$conditions) {
 		foreach ($conditions as &$fileCondition) {
 			if (isset($fileCondition['tokens'])) {
 				foreach ($fileCondition['tokens'] as &$token) {
@@ -125,7 +125,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function fakeLockProvider(RequestInterface $request,
-									 ResponseInterface $response) {
+									 ResponseInterface $response): bool {
 		$lockInfo = new LockInfo();
 		$lockInfo->token = md5($request->getPath());
 		$lockInfo->uri = $request->getPath();
@@ -151,7 +151,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function fakeUnlockProvider(RequestInterface $request,
-									 ResponseInterface $response) {
+									 ResponseInterface $response): bool {
 		$response->setStatus(204);
 		$response->setHeader('Content-Length', '0');
 		return false;

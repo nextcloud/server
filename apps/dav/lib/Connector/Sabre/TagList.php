@@ -24,6 +24,8 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\Xml\Element;
+use Sabre\Xml\LibXMLException;
+use Sabre\Xml\ParseException;
 use Sabre\Xml\Reader;
 use Sabre\Xml\Writer;
 
@@ -54,14 +56,14 @@ class TagList implements Element {
 	 *
 	 * @return array
 	 */
-	public function getTags() {
+	public function getTags(): array {
 		return $this->tags;
 	}
 
 	/**
 	 * The deserialize method is called during xml parsing.
 	 *
-	 * This method is called statictly, this is because in theory this method
+	 * This method is called statically, this is because in theory this method
 	 * may be used as a type of constructor, or factory method.
 	 *
 	 * Often you want to return an instance of the current class, but you are
@@ -77,9 +79,11 @@ class TagList implements Element {
 	 * the next element.
 	 *
 	 * @param Reader $reader
-	 * @return mixed
+	 * @return TagList|null
+	 * @throws LibXMLException
+	 * @throws ParseException
 	 */
-	public static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader): ?TagList {
 		$tags = [];
 
 		$tree = $reader->parseInnerTree();
@@ -95,7 +99,7 @@ class TagList implements Element {
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * Use the $writer argument to write its own xml serialization.
 	 *

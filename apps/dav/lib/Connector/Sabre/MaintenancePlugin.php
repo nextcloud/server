@@ -39,7 +39,7 @@ class MaintenancePlugin extends ServerPlugin {
 	/** @var IConfig */
 	private $config;
 
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	private $l10n;
 
 	/**
@@ -81,7 +81,7 @@ class MaintenancePlugin extends ServerPlugin {
 	 * @throws ServiceUnavailable
 	 * @return bool
 	 */
-	public function checkMaintenanceMode() {
+	public function checkMaintenanceMode(): bool {
 		if ($this->config->getSystemValueBool('maintenance')) {
 			throw new ServiceUnavailable($this->l10n->t('System is in maintenance mode.'));
 		}

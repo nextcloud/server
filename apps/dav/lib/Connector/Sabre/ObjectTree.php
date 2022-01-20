@@ -28,40 +28,42 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use Exception;
 use OC\Files\FileInfo;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\Storage;
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\ForbiddenException;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\LockedException;
+use Sabre\DAV\Exception\Locked;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\INode;
 
 class ObjectTree extends CachingTree {
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $fileView;
 
 	/**
-	 * @var  \OCP\Files\Mount\IMountManager
+	 * @var  IMountManager
 	 */
 	protected $mountManager;
 
 	/**
-	 * Creates the object
+	 * @param INode $rootNode
+	 * @param View $view
+	 * @param  IMountManager $mountManager
 	 */
-	public function __construct() {
-	}
-
-	/**
-	 * @param \Sabre\DAV\INode $rootNode
-	 * @param \OC\Files\View $view
-	 * @param  \OCP\Files\Mount\IMountManager $mountManager
-	 */
-	public function init(\Sabre\DAV\INode $rootNode, \OC\Files\View $view, \OCP\Files\Mount\IMountManager $mountManager) {
+	public function init(INode $rootNode, View $view, IMountManager $mountManager) {
 		$this->rootNode = $rootNode;
 		$this->fileView = $view;
 		$this->mountManager = $mountManager;
@@ -76,7 +78,7 @@ class ObjectTree extends CachingTree {
 	 *
 	 * @return string path to real file
 	 */
-	private function resolveChunkFile($path) {
+	private function resolveChunkFile(string $path): string {
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			// resolve to real file name to find the proper node
 			[$dir, $name] = \Sabre\Uri\split($path);
@@ -100,15 +102,15 @@ class ObjectTree extends CachingTree {
 	 * Returns the INode object for the requested path
 	 *
 	 * @param string $path
-	 * @return \Sabre\DAV\INode
+	 * @return INode
 	 * @throws InvalidPath
-	 * @throws \Sabre\DAV\Exception\Locked
-	 * @throws \Sabre\DAV\Exception\NotFound
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws Locked
+	 * @throws NotFound
+	 * @throws ServiceUnavailable|\Sabre\DAV\Exception\Forbidden
 	 */
 	public function getNodeForPath($path) {
 		if (!$this->fileView) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
+			throw new ServiceUnavailable('filesystem not setup');
 		}
 
 		$path = trim($path, '/');
@@ -138,7 +140,7 @@ class ObjectTree extends CachingTree {
 			$internalPath = $mount->getInternalPath($absPath);
 			if ($storage && $storage->file_exists($internalPath)) {
 				/**
-				 * @var \OC\Files\Storage\Storage $storage
+				 * @var Storage $storage
 				 */
 				// get data directly
 				$data = $storage->getMetaData($internalPath);
@@ -158,24 +160,24 @@ class ObjectTree extends CachingTree {
 					throw new StorageNotAvailableException();
 				}
 			} catch (StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage is temporarily not available', 0, $e);
+				throw new ServiceUnavailable('Storage is temporarily not available', 0, $e);
 			} catch (StorageInvalidException $e) {
-				throw new \Sabre\DAV\Exception\NotFound('Storage ' . $path . ' is invalid');
+				throw new NotFound('Storage ' . $path . ' is invalid');
 			} catch (LockedException $e) {
-				throw new \Sabre\DAV\Exception\Locked();
+				throw new Locked();
 			} catch (ForbiddenException $e) {
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 		}
 
 		if (!$info) {
-			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
+			throw new NotFound('File with name ' . $path . ' could not be located');
 		}
 
 		if ($info->getType() === 'dir') {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this);
+			$node = new Directory($this->fileView, $info, $this);
 		} else {
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+			$node = new File($this->fileView, $info);
 		}
 
 		$this->cache[$path] = $node;
@@ -193,16 +195,16 @@ class ObjectTree extends CachingTree {
 	 * @throws FileLocked
 	 * @throws Forbidden
 	 * @throws InvalidPath
-	 * @throws \Exception
+	 * @throws Exception
 	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @throws \Sabre\DAV\Exception\Locked
-	 * @throws \Sabre\DAV\Exception\NotFound
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws Locked
+	 * @throws NotFound
+	 * @throws ServiceUnavailable
 	 * @return void
 	 */
 	public function copy($sourcePath, $destinationPath) {
 		if (!$this->fileView) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
+			throw new ServiceUnavailable('filesystem not setup');
 		}
 
 
@@ -229,7 +231,7 @@ class ObjectTree extends CachingTree {
 		try {
 			$this->fileView->copy($sourcePath, $destinationPath);
 		} catch (StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new ServiceUnavailable($e->getMessage());
 		} catch (ForbiddenException $ex) {
 			throw new Forbidden($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {

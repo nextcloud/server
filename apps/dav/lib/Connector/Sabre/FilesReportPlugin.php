@@ -30,6 +30,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\View;
 use OCP\App\IAppManager;
 use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -37,6 +38,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\ServerPlugin;
@@ -172,14 +174,15 @@ class FilesReportPlugin extends ServerPlugin {
 	 * REPORT operations to look for files
 	 *
 	 * @param string $reportName
-	 * @param $report
+	 * @param array $report
 	 * @param string $uri
-	 * @return bool
+	 * @return bool|void
 	 * @throws BadRequest
+	 * @throws NotFound
 	 * @throws PreconditionFailed
 	 * @internal param $ [] $report
 	 */
-	public function onReport($reportName, $report, $uri) {
+	public function onReport(string $reportName, array $report, string $uri) {
 		$reportTargetNode = $this->server->tree->getNodeForPath($uri);
 		if (!$reportTargetNode instanceof Directory || $reportName !== self::REPORT_NAME) {
 			return;
@@ -264,7 +267,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 *
 	 * @throws TagNotFoundException whenever a tag was not found
 	 */
-	protected function processFilterRules($filterRules) {
+	protected function processFilterRules(array $filterRules): array {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
 		$resultFileIds = null;
 		$systemTagIds = [];
@@ -310,7 +313,7 @@ class FilesReportPlugin extends ServerPlugin {
 		return $resultFileIds;
 	}
 
-	private function getSystemTagFileIds($systemTagIds) {
+	private function getSystemTagFileIds(array $systemTagIds): ?array {
 		$resultFileIds = null;
 
 		// check user permissions, if applicable
@@ -358,7 +361,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param array $circlesIds
 	 * @return array
 	 */
-	private function getCirclesFileIds(array $circlesIds) {
+	private function getCirclesFileIds(array $circlesIds): array {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return [];
 		}
@@ -375,7 +378,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param Node[] nodes nodes for which to fetch and prepare responses
 	 * @return Response[]
 	 */
-	public function prepareResponses($filesUri, $requestedProps, $nodes) {
+	public function prepareResponses(string $filesUri, array $requestedProps, array $nodes): array {
 		$responses = [];
 		foreach ($nodes as $node) {
 			$propFind = new PropFind($filesUri . $node->getPath(), $requestedProps);
@@ -405,8 +408,9 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param Node $rootNode root node for search
 	 * @param array $fileIds file ids
 	 * @return Node[] array of Sabre nodes
+	 * @throws NotFoundException
 	 */
-	public function findNodesByFileIds($rootNode, $fileIds) {
+	public function findNodesByFileIds(Node $rootNode, array $fileIds): array {
 		$folder = $this->userFolder;
 		if (trim($rootNode->getPath(), '/') !== '') {
 			$folder = $folder->get($rootNode->getPath());
@@ -431,7 +435,7 @@ class FilesReportPlugin extends ServerPlugin {
 	/**
 	 * Returns whether the currently logged in user is an administrator
 	 */
-	private function isAdmin() {
+	private function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
 			return $this->groupManager->isAdmin($user->getUID());
