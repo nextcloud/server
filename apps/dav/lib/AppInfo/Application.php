@@ -35,7 +35,6 @@ namespace OCA\DAV\AppInfo;
 use Exception;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
-use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
@@ -94,7 +93,6 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\BackgroundJob\IJobList;
-use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
@@ -206,7 +204,6 @@ class Application extends App implements IBootstrap {
 
 		$context->injectFn([$this, 'registerHooks']);
 		$context->injectFn([$this, 'registerContactsManager']);
-		$context->injectFn([$this, 'registerCalendarManager']);
 		$context->injectFn([$this, 'registerCalendarReminders']);
 	}
 
@@ -297,23 +294,6 @@ class Application extends App implements IBootstrap {
 		$cm = $container->query(ContactsManager::class);
 		$urlGenerator = $container->getServer()->get(IURLGenerator::class);
 		$cm->setupSystemContactsProvider($contactsManager, $urlGenerator);
-	}
-
-	public function registerCalendarManager(ICalendarManager $calendarManager,
-											 IAppContainer $container): void {
-		$calendarManager->register(function () use ($container, $calendarManager) {
-			$user = \OC::$server->get(IUserSession::class)->getUser();
-			if ($user !== null) {
-				$this->setupCalendarProvider($calendarManager, $container, $user->getUID());
-			}
-		});
-	}
-
-	private function setupCalendarProvider(ICalendarManager $calendarManager,
-										   IAppContainer $container,
-										   $userId) {
-		$cm = $container->query(CalendarManager::class);
-		$cm->setupCalendarProvider($calendarManager, $userId);
 	}
 
 	public function registerCalendarReminders(NotificationProviderManager $manager,
