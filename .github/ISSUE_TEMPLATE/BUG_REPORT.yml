@@ -20,13 +20,6 @@ body:
     validations:
       required: true
   - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected behavior
-      description: Describe what you expected to happen.
-    validations:
-      required: true
-  - type: textarea
     id: reproduce
     attributes:
       label: Steps to reproduce
@@ -36,6 +29,13 @@ body:
         2.
         3.
         ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen.
     validations:
       required: true
   - type: dropdown
