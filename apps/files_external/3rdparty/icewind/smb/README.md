@@ -44,13 +44,42 @@ $server = $serverFactory->createServer('localhost', $auth);
 
 ### Using kerberos authentication ###
 
+There are two ways of using kerberos to authenticate against the smb server:
+
+- Using a ticket from the php server
+- Re-using a ticket send by the client
+
+### Using a server ticket
+
+Using a server ticket allows the web server to authenticate against the smb server using an existing machine account.
+
+The ticket needs to be available in the environment of the php process.
+
 ```php
 $serverFactory = new ServerFactory();
 $auth = new KerberosAuth();
 $server = $serverFactory->createServer('localhost', $auth);
 ```
 
-Note that this requires a valid kerberos ticket to already be available for php
+### Re-using a client ticket
+
+By re-using a client ticket you can create a single sign-on setup where the user authenticates against
+the web service using kerberos. And the web server can forward that ticket to the smb server, allowing it
+to act on the behalf of the user without requiring the user to enter his passord.
+
+The setup for such a system is fairly involved and requires roughly the following this
+
+- The web server is authenticated against kerberos with a machine account
+- Delegation is enabled for the web server's machine account
+- Apache is setup to perform kerberos authentication and save the ticket in it's environment
+- Php has the krb5 extension installed
+- The client authenticates using a ticket with forwarding enabled
+
+```php
+$serverFactory = new ServerFactory();
+$auth = new KerberosApacheAuth();
+$server = $serverFactory->createServer('localhost', $auth);
+```
 
 ### Upload a file ###
 
