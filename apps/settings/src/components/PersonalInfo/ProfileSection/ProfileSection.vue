@@ -22,20 +22,16 @@
 
 <template>
 	<section>
-		<HeaderBar
-			:account-property="accountProperty" />
+		<HeaderBar :account-property="accountProperty" />
 
-		<ProfileCheckbox
-			:profile-enabled.sync="profileEnabled" />
+		<ProfileCheckbox :profile-enabled.sync="profileEnabled" />
 
-		<ProfilePreviewCard
-			:organisation="organisation"
+		<ProfilePreviewCard :organisation="organisation"
 			:display-name="displayName"
 			:profile-enabled="profileEnabled"
 			:user-id="userId" />
 
-		<EditProfileAnchorLink
-			:profile-enabled="profileEnabled" />
+		<EditProfileAnchorLink :profile-enabled="profileEnabled" />
 	</section>
 </template>
 

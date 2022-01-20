@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<AppSidebar
-		v-if="file"
+	<AppSidebar v-if="file"
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
@@ -46,8 +45,7 @@
 		<template v-if="fileInfo" #secondary-actions>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
-			<ActionButton
-				v-if="isSystemTagsEnabled"
+			<ActionButton v-if="isSystemTagsEnabled"
 				:close-after-click="true"
 				icon="icon-tag"
 				@click="toggleTags">
@@ -63,8 +61,7 @@
 		<!-- If fileInfo fetch is complete, render tabs -->
 		<template v-for="tab in tabs" v-else-if="fileInfo">
 			<!-- Hide them if we're loading another file but keep them mounted -->
-			<SidebarTab
-				v-if="tab.enabled(fileInfo)"
+			<SidebarTab v-if="tab.enabled(fileInfo)"
 				v-show="!loading"
 				:id="tab.id"
 				:key="tab.id"

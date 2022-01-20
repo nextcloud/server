@@ -21,8 +21,7 @@
 -->
 
 <template>
-	<Actions
-		:class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
+	<Actions :class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
 		:aria-label="ariaLabel"
 		:default-icon="scopeIcon"
 		:disabled="disabled">

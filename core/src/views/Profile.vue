@@ -31,8 +31,7 @@
 					<a v-if="isCurrentUser"
 						class="primary profile__header__container__edit-button"
 						:href="settingsUrl">
-						<PencilIcon
-							class="pencil-icon"
+						<PencilIcon class="pencil-icon"
 							decorative
 							title=""
 							:size="16" />
@@ -50,8 +49,7 @@
 
 		<div class="profile__content">
 			<div class="profile__sidebar">
-				<Avatar
-					class="avatar"
+				<Avatar class="avatar"
 					:class="{ interactive: isCurrentUser }"
 					:user="userId"
 					:size="180"
@@ -84,8 +82,7 @@
 								backgroundImage: `url(${action.icon})`,
 								...(colorMainBackground === '#181818' && { filter: 'invert(1)' })
 							}">
-							<ActionLink
-								:close-after-click="true"
+							<ActionLink :close-after-click="true"
 								:icon="action.icon"
 								:href="action.target"
 								:target="action.id === 'phone' ? '_self' :'_blank'">
@@ -93,8 +90,7 @@
 							</ActionLink>
 						</Actions>
 						<template v-if="otherActions">
-							<Actions
-								:force-menu="true">
+							<Actions :force-menu="true">
 								<ActionLink v-for="action in otherActions"
 									:key="action.id"
 									:class="{ 'icon-invert': colorMainBackground === '#181818' }"
@@ -117,8 +113,7 @@
 					</div>
 					<div v-if="address" class="detail">
 						<p>
-							<MapMarkerIcon
-								class="map-icon"
+							<MapMarkerIcon class="map-icon"
 								decorative
 								title=""
 								:size="16" />
@@ -136,8 +131,7 @@
 				</template>
 				<template v-else>
 					<div class="profile__blocks-empty-info">
-						<AccountIcon
-							decorative
+						<AccountIcon decorative
 							title=""
 							fill-color="var(--color-text-maxcontrast)"
 							:size="60" />

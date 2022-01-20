@@ -22,8 +22,7 @@
 
 <template>
 	<div class="role">
-		<input
-			id="role"
+		<input id="role"
 			type="text"
 			:placeholder="t('settings', 'Your role')"
 			:value="role"

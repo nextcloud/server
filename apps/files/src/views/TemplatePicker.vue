@@ -33,13 +33,11 @@
 
 			<!-- Templates list -->
 			<ul class="templates-picker__list">
-				<TemplatePreview
-					v-bind="emptyTemplate"
+				<TemplatePreview v-bind="emptyTemplate"
 					:checked="checked === emptyTemplate.fileid"
 					@check="onCheck" />
 
-				<TemplatePreview
-					v-for="template in provider.templates"
+				<TemplatePreview v-for="template in provider.templates"
 					:key="template.fileid"
 					v-bind="template"
 					:checked="checked === template.fileid"

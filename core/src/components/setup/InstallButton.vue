@@ -21,8 +21,7 @@
 -->
 
 <template>
-	<button
-		class="primary"
+	<button class="primary"
 		:autofocus="true"
 		v-on="$listeners">
 		{{ t('core', 'Install recommended apps') }}

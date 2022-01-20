@@ -21,8 +21,7 @@
 -->
 
 <template>
-	<button
-		:disabled="disabled"
+	<button :disabled="disabled"
 		v-on="$listeners">
 		<span class="icon icon-add" />
 		{{ t('settings', 'Add') }}

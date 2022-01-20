@@ -36,15 +36,13 @@
 				show if we have a message id and current user is author -->
 			<Actions v-if="isOwnComment && id && !loading" class="comment__actions">
 				<template v-if="!editing">
-					<ActionButton
-						:close-after-click="true"
+					<ActionButton :close-after-click="true"
 						icon="icon-rename"
 						@click="onEdit">
 						{{ t('comments', 'Edit comment') }}
 					</ActionButton>
 					<ActionSeparator />
-					<ActionButton
-						:close-after-click="true"
+					<ActionButton :close-after-click="true"
 						icon="icon-delete"
 						@click="onDeleteWithUndo">
 						{{ t('comments', 'Delete comment') }}

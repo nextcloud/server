@@ -133,8 +133,7 @@
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<!-- Custom Label -->
-					<ActionInput
-						ref="label"
+					<ActionInput ref="label"
 						v-tooltip.auto="{
 							content: errors.label,
 							show: errors.label,
@@ -185,8 +184,7 @@
 						{{ t('files_sharing', 'Allow editing') }}
 					</ActionCheckbox>
 
-					<ActionCheckbox
-						:checked.sync="share.hideDownload"
+					<ActionCheckbox :checked.sync="share.hideDownload"
 						:disabled="saving"
 						@change="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}

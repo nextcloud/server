@@ -24,8 +24,7 @@
 		<transition name="fade" mode="out-in">
 			<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''"
 				key="login">
-				<LoginForm
-					:username.sync="user"
+				<LoginForm :username.sync="user"
 					:redirect-url="redirectUrl"
 					:direct-login="directLogin"
 					:messages="messages"
@@ -67,8 +66,7 @@
 			<div v-else-if="!loading && passwordlessLogin"
 				key="reset"
 				class="login-additional">
-				<PasswordLessLoginForm
-					:username.sync="user"
+				<PasswordLessLoginForm :username.sync="user"
 					:redirect-url="redirectUrl"
 					:inverted-colors="invertedColors"
 					:auto-complete-allowed="autoCompleteAllowed"

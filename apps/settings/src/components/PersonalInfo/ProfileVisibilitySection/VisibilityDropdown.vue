@@ -21,14 +21,12 @@
 -->
 
 <template>
-	<div
-		class="visibility-container"
+	<div class="visibility-container"
 		:class="{ disabled }">
 		<label :for="inputId">
 			{{ t('settings', '{displayId}', { displayId }) }}
 		</label>
-		<Multiselect
-			:id="inputId"
+		<Multiselect :id="inputId"
 			class="visibility-container__multiselect"
 			:options="visibilityOptions"
 			track-by="name"

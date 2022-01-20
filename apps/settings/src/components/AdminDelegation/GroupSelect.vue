@@ -1,6 +1,5 @@
 <template>
-	<Multiselect
-		v-model="selected"
+	<Multiselect v-model="selected"
 		class="group-multiselect"
 		:placeholder="t('settings', 'None')"
 		track-by="gid"

@@ -22,8 +22,7 @@
 
 <template>
 	<div class="checkbox-container">
-		<input
-			id="enable-profile"
+		<input id="enable-profile"
 			class="checkbox"
 			type="checkbox"
 			:checked="profileEnabled"

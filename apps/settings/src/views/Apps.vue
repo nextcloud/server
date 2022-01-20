@@ -28,24 +28,20 @@
 		<!-- Categories & filters -->
 		<AppNavigation>
 			<template #list>
-				<AppNavigationItem
-					id="app-category-your-apps"
+				<AppNavigationItem id="app-category-your-apps"
 					:to="{ name: 'apps' }"
 					:exact="true"
 					icon="icon-category-installed"
 					:title="t('settings', 'Your apps')" />
-				<AppNavigationItem
-					id="app-category-enabled"
+				<AppNavigationItem id="app-category-enabled"
 					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 					icon="icon-category-enabled"
 					:title="t('settings', 'Active apps')" />
-				<AppNavigationItem
-					id="app-category-disabled"
+				<AppNavigationItem id="app-category-disabled"
 					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
 					icon="icon-category-disabled"
 					:title="t('settings', 'Disabled apps')" />
-				<AppNavigationItem
-					v-if="updateCount > 0"
+				<AppNavigationItem v-if="updateCount > 0"
 					id="app-category-updates"
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
@@ -54,8 +50,7 @@
 						{{ updateCount }}
 					</AppNavigationCounter>
 				</AppNavigationItem>
-				<AppNavigationItem
-					id="app-category-your-bundles"
+				<AppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 					icon="icon-category-app-bundles"
 					:title="t('settings', 'App bundles')" />
@@ -64,14 +59,12 @@
 
 				<!-- App store categories -->
 				<template v-if="settings.appstoreEnabled">
-					<AppNavigationItem
-						id="app-category-featured"
+					<AppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
 						:title="t('settings', 'Featured apps')" />
 
-					<AppNavigationItem
-						v-for="cat in categories"
+					<AppNavigationItem v-for="cat in categories"
 						:key="'icon-category-' + cat.ident"
 						:icon="'icon-category-' + cat.ident"
 						:to="{
@@ -81,8 +74,7 @@
 						:title="cat.displayName" />
 				</template>
 
-				<AppNavigationItem
-					id="app-developer-docs"
+				<AppNavigationItem id="app-developer-docs"
 					href="settings.developerDocumentation"
 					:title="t('settings', 'Developer documentation') + ' ↗'" />
 			</template>
@@ -94,8 +86,7 @@
 		</AppContent>
 
 		<!-- Selected app details -->
-		<AppSidebar
-			v-if="id && app"
+		<AppSidebar v-if="id && app"
 			v-bind="appSidebar"
 			:class="{'app-sidebar--without-background': !appSidebar.background}"
 			@close="hideAppDetails">

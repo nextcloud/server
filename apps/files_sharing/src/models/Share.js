@@ -27,7 +27,7 @@
 
 export default class Share {
 
-	_share;
+	_share
 
 	/**
 	 * Create the share object

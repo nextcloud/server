@@ -22,7 +22,7 @@
 
 export default class ShareSearch {
 
-	_state;
+	_state
 
 	constructor() {
 		// init empty state

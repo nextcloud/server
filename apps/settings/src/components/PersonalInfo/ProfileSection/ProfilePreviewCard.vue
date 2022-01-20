@@ -21,12 +21,10 @@
 -->
 
 <template>
-	<a
-		class="preview-card"
+	<a class="preview-card"
 		:class="{ disabled }"
 		:href="profilePageLink">
-		<Avatar
-			class="preview-card__avatar"
+		<Avatar class="preview-card__avatar"
 			:user="userId"
 			:size="48"
 			:show-user-status="true"

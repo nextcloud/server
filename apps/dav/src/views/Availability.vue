@@ -21,16 +21,14 @@
 					<div class="availability-slot-group">
 						<template v-for="(slot, idx) in day.slots">
 							<div :key="`slot-${day.id}-${idx}`" class="availability-slot">
-								<DatetimePicker
-									v-model="slot.start"
+								<DatetimePicker v-model="slot.start"
 									type="time"
 									class="start-date"
 									format="H:mm" />
 								<span class="to-text">
 									{{ $t('dav', 'to') }}
 								</span>
-								<DatetimePicker
-									v-model="slot.end"
+								<DatetimePicker v-model="slot.end"
 									type="time"
 									class="end-date"
 									format="H:mm" />

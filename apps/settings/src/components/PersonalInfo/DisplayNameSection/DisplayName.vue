@@ -22,8 +22,7 @@
 
 <template>
 	<div class="displayname">
-		<input
-			id="displayname"
+		<input id="displayname"
 			type="text"
 			:placeholder="t('settings', 'Your full name')"
 			:value="displayName"

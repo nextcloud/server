@@ -20,8 +20,7 @@
   -
   -->
 <template>
-	<div
-		:id="id"
+	<div :id="id"
 		v-click-outside="clickOutsideConfig"
 		:class="{ 'header-menu--opened': opened }"
 		class="header-menu">

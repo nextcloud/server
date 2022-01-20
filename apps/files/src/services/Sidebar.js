@@ -22,7 +22,7 @@
 
 export default class Sidebar {
 
-	_state;
+	_state
 
 	constructor() {
 		// init empty state
