@@ -82,7 +82,6 @@ class JobList implements IJobList {
 				->values([
 					'class' => $query->createNamedParameter($class),
 					'argument' => $query->createNamedParameter($argumentJson),
-					'argument_hash' => $query->createNamedParameter(md5($argumentJson)),
 					'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
 					'last_checked' => $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT),
 				]);
@@ -91,7 +90,7 @@ class JobList implements IJobList {
 				->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
 				->set('last_checked', $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT))
 				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
-				->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
+				->andWhere($query->expr()->eq('argument', $query->createNamedParameter($argumentJson)));
 		}
 		$query->executeStatement();
 	}
@@ -146,7 +145,7 @@ class JobList implements IJobList {
 		$query->select('id')
 			->from('jobs')
 			->where($query->expr()->eq('class', $query->createNamedParameter($class)))
-			->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argument))))
+			->andWhere($query->expr()->eq('argument', $query->createNamedParameter($argument)))
 			->setMaxResults(1);
 
 		$result = $query->execute();
