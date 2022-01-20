@@ -211,7 +211,15 @@ body:
     validations:
       required: true
   - type: checkboxes
-    id: terms
+    id: issue-terms
+    attributes:
+      label: This is a bug, not a question or a configuration issue
+      description: By submitting this issue, you agree to use Github only to report bugs on this project code
+      options:
+        - label: This is a bug, not a question or a configuration issue
+          required: true
+  - type: checkboxes
+    id: coc-terms
     attributes:
       label: Code of Conduct
       description: By submitting this issue, you agree to follow our [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/)
