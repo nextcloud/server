@@ -70,7 +70,6 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
-use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
 use OCA\DAV\Listener\BirthdayListener;
@@ -84,6 +83,7 @@ use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\SubscriptionCreationListener;
 use OCA\DAV\Listener\SubscriptionDeletionListener;
+use OCA\DAV\Listener\UserChangeListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -100,6 +100,10 @@ use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -184,6 +188,11 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardDeletedEvent::class, ClearPhotoCacheListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, ClearPhotoCacheListener::class);
 
+		$context->registerEventListener(UserCreatedEvent::class, UserChangeListener::class);
+		$context->registerEventListener(BeforeUserDeletedEvent::class, UserChangeListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserChangeListener::class);
+		$context->registerEventListener(UserChangedEvent::class, UserChangeListener::class);
+
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
@@ -201,16 +210,16 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerCalendarReminders']);
 	}
 
-	public function registerHooks(HookManager $hm,
+	public function registerHooks(UserChangeListener $userChangeListener,
 								   EventDispatcherInterface $dispatcher,
 								   IAppContainer $container,
 								   IServerContainer $serverContainer) {
-		$hm->setup();
+		$userChangeListener->setupLegacyHooks();
 
 		// first time login event setup
-		$dispatcher->addListener(IUser::class . '::firstLogin', function ($event) use ($hm) {
+		$dispatcher->addListener(IUser::class . '::firstLogin', function ($event) use ($userChangeListener) {
 			if ($event instanceof GenericEvent) {
-				$hm->firstLogin($event->getSubject());
+				$userChangeListener->firstLogin($event->getSubject());
 			}
 		});
 
