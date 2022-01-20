@@ -85,7 +85,7 @@ body:
   - type: dropdown
     id: webserver
     attributes:
-      label: PHP engine version
+      label: Web server
       description: |
         Select Webserver serving Nextcloud Server.
         Describe in the "Additional info" section if you chose "Other".
