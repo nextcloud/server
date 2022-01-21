@@ -177,8 +177,6 @@
     "Login form is disabled." : "A bejelentkezési űrlap letiltva.",
     "Edit Profile" : "Profil szerkesztése",
     "The headline and about sections will show up here" : "A fejléc és a névjegy szakaszok itt fognak megjelenni",
-    "You haven't added any info yet" : "Még nem adott hozzá információkat",
-    "{user} hasn't added any info yet" : "{user} még nem adott hozzá információkat",
     "Error opening the user status modal, try hard refreshing the page" : "Hiba a felhasználói állapot párbeszédablak megnyitásakor, próbálja meg az oldal kényszerített újratöltését",
     "Reset search" : "Keresés visszaállítása",
     "Search for {name} only" : "Keresés csak a(z) {name} kifejezésre",

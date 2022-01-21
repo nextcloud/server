@@ -146,8 +146,6 @@
     "Back" : "Takaisin",
     "Login form is disabled." : "Kirjautumislomake on poistettu käytöstä.",
     "Edit Profile" : "Muokkaa profiilia",
-    "You haven't added any info yet" : "Et ole lisännyt tietoja vielä",
-    "{user} hasn't added any info yet" : "{user} ei ole lisännyt tietoja vielä",
     "Reset search" : "Tyhjennä haku",
     "Search for {name} only" : "Etsi vain {name}",
     "No results for {query}" : "Ei tuloksia haulle {query}",
