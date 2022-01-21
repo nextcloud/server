@@ -11,7 +11,8 @@ body:
       value: |
         Before submitting, we'd appreciate it if you:
           - Verify that your issue is not already reported. Search for it on Github.
-          - Check if your Nextcloud Server is up to date. If not, we recommend that you update it first. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
+          - Check if your Nextcloud Server is up to date. If not, we recommend that you update it first.
+          See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
   - type: textarea
     id: bug-description
     attributes:
@@ -50,7 +51,6 @@ body:
         - "Official Docker image"
         - "Official VM scripts"
         - "Official SNAP package"
-        - "Official All-in-One appliance"
         - "Web installer on a VPS or web space"
         - "Other"
     validations:
