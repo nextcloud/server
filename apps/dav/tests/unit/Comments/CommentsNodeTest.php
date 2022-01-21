@@ -404,6 +404,7 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'objectId' => '1848',
 			$ns . 'referenceId' => 'ref',
 			$ns . 'isUnread' => null,
+			$ns . 'reactions' => [],
 		];
 
 		$this->commentsManager->expects($this->exactly(2))
