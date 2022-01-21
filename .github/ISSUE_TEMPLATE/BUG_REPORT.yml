@@ -11,7 +11,7 @@ body:
       value: |
         Before submitting, we'd appreciate it if you:
           - Verify that your issue is not already reported. Search for it on Github.
-          - Check if your Nextcloud Server is up to date. If not, we recommend that you update it first.
+          - Check if your Nextcloud Server is up to date. If not, we recommend that you update it first. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
   - type: textarea
     id: bug-description
     attributes:
