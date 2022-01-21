@@ -1,6 +1,6 @@
 name: "Bug report: Nextcloud Server"
 description: "Submit a report and help us improve Nextcloud Server"
-title: "[Bug]: "
+title: ""
 labels: ["bug", "0. Needs triage"]
 body:
   - type: markdown
@@ -130,8 +130,8 @@ body:
       description: |
         Select if encryption is Enabled on your Nextcloud Server.
       options:
-        - "Enabled"
-        - "Disabled"
+        - "Encryption is Enabled"
+        - "Encryption is Disabled"
     validations:
       required: true
   - type: dropdown
@@ -142,6 +142,7 @@ body:
         Select if an external user-backend is Enabled on your Nextcloud Server.
         Describe in the "Additional info" section if you chose "Other".
       options:
+        - "Internal user-backend only"
         - "LDAP/ Active Directory"
         - "SSO - SAML"
         - "Other"
