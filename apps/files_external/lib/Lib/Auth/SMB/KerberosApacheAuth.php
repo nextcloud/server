@@ -42,7 +42,7 @@ class KerberosApacheAuth extends AuthMechanism {
 		$this
 			->setIdentifier('smb::kerberosapache')
 			->setScheme(self::SCHEME_SMB)
-			->setText($l->t('Kerberos ticket apache mode'))
+			->setText($l->t('Kerberos ticket Apache mode'))
 			->addParameter($realm);
 		$this->credentialsStore = $credentialsStore;
 	}
