@@ -32,6 +32,8 @@ class ManagerTest extends TestCase {
 
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
 		$this->connection->prepare($sql)->execute();
+		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*reactions`');
+		$this->connection->prepare($sql)->execute();
 	}
 
 	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null) {
@@ -469,14 +471,21 @@ class ManagerTest extends TestCase {
 		$manager->get($id);
 	}
 
-	public function testSaveNew() {
+	/**
+	 * @dataProvider providerTestSave
+	 */
+	public function testSave(string $message, string $actorId, string $verb, ?string $parentId, ?string $id = ''): IComment {
 		$manager = $this->getManager();
 		$comment = new Comment();
 		$comment
-			->setActor('users', 'alice')
+			->setId($id)
+			->setActor('users', $actorId)
 			->setObject('files', 'file64')
-			->setMessage('very beautiful, I am impressed!')
-			->setVerb('comment');
+			->setMessage($message)
+			->setVerb($verb);
+		if ($parentId) {
+			$comment->setParentId($parentId);
+		}
 
 		$saveSuccessful = $manager->save($comment);
 		$this->assertTrue($saveSuccessful);
@@ -487,6 +496,13 @@ class ManagerTest extends TestCase {
 		$loadedComment = $manager->get($comment->getId());
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
 		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $loadedComment->getCreationDateTime()->getTimestamp());
+		return $comment;
+	}
+
+	public function providerTestSave(): array {
+		return [
+			['very beautiful, I am impressed!', 'alice', 'comment', null]
+		];
 	}
 
 	public function testSaveUpdate() {
@@ -859,6 +875,77 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(is_string($manager->resolveDisplayName('planet', 'neptune')));
 	}
 
+	private function skipIfNotSupport4ByteUTF() {
+		if (!$this->getManager()->supportReactions()) {
+			$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
+		}
+	}
+
+	/**
+	 * @dataProvider providerTestReactionAddAndDelete
+	 *
+	 * @param IComment[] $comments
+	 * @param array $reactionsExpected
+	 * @return void
+	 */
+	public function testReactionAddAndDelete(array $comments, array $reactionsExpected) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = end($processedComments);
+		if ($comment->getParentId()) {
+			$parent = $manager->get($comment->getParentId());
+			$this->assertEqualsCanonicalizing($reactionsExpected, $parent->getReactions());
+		}
+	}
+
+	public function providerTestReactionAddAndDelete(): array {
+		return[
+			[
+				[
+					['message', 'alice', 'comment', null],
+				], [],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				], ['👍' => 2],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction_deleted', 'message#alice'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction_deleted', 'message#alice'],
+					['👍', 'frank', 'reaction_deleted', 'message#alice'],
+				], [],
+			],
+		];
+	}
 
 	public function testResolveDisplayNameInvalidType() {
 		$this->expectException(\InvalidArgumentException::class);
@@ -871,5 +958,306 @@ class ManagerTest extends TestCase {
 
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$this->assertTrue(is_string($manager->resolveDisplayName(1337, 'neptune')));
+	}
+
+	/**
+	 * @param array $data
+	 * @return IComment[]
+	 */
+	private function proccessComments(array $data): array {
+		/** @var IComment[] */
+		$comments = [];
+		foreach ($data as $comment) {
+			[$message, $actorId, $verb, $parentText] = $comment;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $comments[$parentText]->getId();
+			}
+			$id = '';
+			if ($verb === 'reaction_deleted') {
+				$id = $comments[$message . '#' . $actorId]->getId();
+			}
+			$comment = $this->testSave($message, $actorId, $verb, $parentId, $id);
+			$comments[$comment->getMessage() . '#' . $comment->getActorId()] = $comment;
+		}
+		return $comments;
+	}
+
+	/**
+	 * @dataProvider providerTestRetrieveAllReactions
+	 */
+	public function testRetrieveAllReactions(array $comments, array $expected) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = reset($processedComments);
+		$all = $manager->retrieveAllReactions($comment->getId());
+		$actual = array_map(function ($row) {
+			return [
+				'message' => $row->getMessage(),
+				'actorId' => $row->getActorId(),
+			];
+		}, $all);
+		$this->assertEqualsCanonicalizing($expected, $actual);
+	}
+
+	public function providerTestRetrieveAllReactions(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+				],
+				[],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestRetrieveAllReactionsWithSpecificReaction
+	 */
+	public function testRetrieveAllReactionsWithSpecificReaction(array $comments, string $reaction, array $expected) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = reset($processedComments);
+		$all = $manager->retrieveAllReactionsWithSpecificReaction($comment->getId(), $reaction);
+		$actual = array_map(function ($row) {
+			return [
+				'message' => $row->getMessage(),
+				'actorId' => $row->getActorId(),
+			];
+		}, $all);
+		$this->assertEqualsCanonicalizing($expected, $actual);
+	}
+
+	public function providerTestRetrieveAllReactionsWithSpecificReaction(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+				],
+				'👎',
+				[],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				'👍',
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👎', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				'👎',
+				[
+					['👎', 'alice'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestGetReactionComment
+	 */
+	public function testGetReactionComment(array $comments, array $expected, bool $notFound) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+
+		$keys = ['message', 'actorId', 'verb', 'parent'];
+		$expected = array_combine($keys, $expected);
+
+		if ($notFound) {
+			$this->expectException(\OCP\Comments\NotFoundException::class);
+		}
+		$comment = $processedComments[$expected['message'] . '#' . $expected['actorId']];
+		$actual = $manager->getReactionComment($comment->getParentId(), $comment->getActorType(), $comment->getActorId(), $comment->getMessage());
+		if (!$notFound) {
+			$this->assertEquals($expected['message'], $actual->getMessage());
+			$this->assertEquals($expected['actorId'], $actual->getActorId());
+			$this->assertEquals($expected['verb'], $actual->getVerb());
+			$this->assertEquals($processedComments[$expected['parent']]->getId(), $actual->getParentId());
+		}
+	}
+
+	public function providerTestGetReactionComment(): array {
+		return [
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👍', 'Matthew', 'reaction', 'message#Matthew'],
+					['👍', 'Mark', 'reaction', 'message#Matthew'],
+					['👍', 'Luke', 'reaction', 'message#Matthew'],
+					['👍', 'John', 'reaction', 'message#Matthew'],
+				],
+				['👍', 'Matthew', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👍', 'Matthew', 'reaction', 'message#Matthew'],
+					['👍', 'Mark', 'reaction', 'message#Matthew'],
+					['👍', 'Luke', 'reaction', 'message#Matthew'],
+					['👍', 'John', 'reaction', 'message#Matthew'],
+				],
+				['👍', 'Mark', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				],
+				['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👎', 'Matthew', 'reaction', 'message#Matthew'],
+					['👎', 'Matthew', 'reaction_deleted', 'message#Matthew'],
+				],
+				['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				true,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestReactionMessageSize
+	 */
+	public function testReactionMessageSize($reactionString, $valid) {
+		$this->skipIfNotSupport4ByteUTF();
+		if (!$valid) {
+			$this->expectException(\UnexpectedValueException::class);
+		}
+
+		$manager = $this->getManager();
+		$comment = new Comment();
+		$comment->setMessage($reactionString)
+			->setVerb('reaction')
+			->setActor('users', 'alice')
+			->setObject('files', 'file64');
+		$status = $manager->save($comment);
+		$this->assertTrue($status);
+	}
+
+	public function providerTestReactionMessageSize(): array {
+		return [
+			['a', true],
+			['1', true],
+			['12', true],
+			['123', false],
+			['👍', true],
+			['👍👍', true],
+			['👍🏽', true],
+			['👍🏽👍', false],
+			['👍🏽👍🏽', false],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestReactionsSummarizeOrdered
+	 */
+	public function testReactionsSummarizeOrdered(array $comments, array $expected, bool $isFullMatch) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = end($processedComments);
+		$actual = $manager->get($comment->getParentId());
+
+		if ($isFullMatch) {
+			$this->assertSame($expected, $actual->getReactions());
+		} else {
+			$subResult = array_slice($actual->getReactions(), 0, count($expected));
+			$this->assertSame($expected, $subResult);
+		}
+	}
+
+	public function providerTestReactionsSummarizeOrdered(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+				],
+				['👍' => 1],
+				true,
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👎', 'John', 'reaction', 'message#alice'],
+					['💼', 'Luke', 'reaction', 'message#alice'],
+					['📋', 'Luke', 'reaction', 'message#alice'],
+					['🚀', 'Luke', 'reaction', 'message#alice'],
+					['🖤', 'Luke', 'reaction', 'message#alice'],
+					['😜', 'Luke', 'reaction', 'message#alice'],
+					['🌖', 'Luke', 'reaction', 'message#alice'],
+					['💖', 'Luke', 'reaction', 'message#alice'],
+					['📥', 'Luke', 'reaction', 'message#alice'],
+					['🐉', 'Luke', 'reaction', 'message#alice'],
+					['☕', 'Luke', 'reaction', 'message#alice'],
+					['🐄', 'Luke', 'reaction', 'message#alice'],
+					['🐕', 'Luke', 'reaction', 'message#alice'],
+					['🐈', 'Luke', 'reaction', 'message#alice'],
+					['🛂', 'Luke', 'reaction', 'message#alice'],
+					['🕸', 'Luke', 'reaction', 'message#alice'],
+					['🏰', 'Luke', 'reaction', 'message#alice'],
+					['⚙️', 'Luke', 'reaction', 'message#alice'],
+					['🚨', 'Luke', 'reaction', 'message#alice'],
+					['👥', 'Luke', 'reaction', 'message#alice'],
+					['👍', 'Paul', 'reaction', 'message#alice'],
+					['👍', 'Peter', 'reaction', 'message#alice'],
+					['💜', 'Matthew', 'reaction', 'message#alice'],
+					['💜', 'Mark', 'reaction', 'message#alice'],
+					['💜', 'Luke', 'reaction', 'message#alice'],
+				],
+				[
+					'💜' => 3,
+					'👍' => 2,
+				],
+				false,
+			],
+		];
 	}
 }

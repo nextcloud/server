@@ -44,6 +44,7 @@ class Comment implements IComment {
 		'referenceId' => null,
 		'creationDT' => null,
 		'latestChildDT' => null,
+		'reactions' => null,
 	];
 
 	/**
@@ -427,6 +428,21 @@ class Comment implements IComment {
 			}
 			$this->data['referenceId'] = $referenceId;
 		}
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getReactions(): array {
+		return $this->data['reactions'] ?? [];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setReactions(?array $reactions): IComment {
+		$this->data['reactions'] = $reactions;
 		return $this;
 	}
 

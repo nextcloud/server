@@ -278,4 +278,25 @@ interface IComment {
 	 * @since 19.0.0
 	 */
 	public function setReferenceId(?string $referenceId): IComment;
+
+	/**
+	 * Returns the reactions array if exists
+	 *
+	 * The keys is the emoji of reaction and the value is the total.
+	 *
+	 * @return array<string, integer> e.g. ["👍":1]
+	 * @since 24.0.0
+	 */
+	public function getReactions(): array;
+
+	/**
+	 * Set summarized array of reactions by reaction type
+	 *
+	 * The keys is the emoji of reaction and the value is the total.
+	 *
+	 * @param array<string, integer>|null $reactions e.g. ["👍":1]
+	 * @return IComment
+	 * @since 24.0.0
+	 */
+	public function setReactions(?array $reactions): IComment;
 }
