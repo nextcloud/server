@@ -161,8 +161,6 @@ OC.L10N.register(
     "Login form is disabled." : "로그인 양식이 비활성화 되었습니다.",
     "Edit Profile" : "프로파일 수정",
     "The headline and about sections will show up here" : "머리말과 about section이 여기에 보일것입니다.",
-    "You haven't added any info yet" : "아직 아무 정보도 추가하지 않았습니다.",
-    "{user} hasn't added any info yet" : "{user} 아직 아무정보도 추가하지 않았습니다.",
     "Reset search" : "검색 초기화",
     "Search for {name} only" : "{name}(으)로만 검색",
     "No results for {query}" : "{query}에 대한 결과가 없음",
