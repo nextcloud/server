@@ -4246,11 +4246,6 @@
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Memcache/Memcached.php">
-    <RedundantCondition occurrences="1">
-      <code>method_exists(self::$cache, 'deleteMulti')</code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/Memcache/Redis.php">
     <InvalidMethodCall occurrences="2">
       <code>exec</code>
