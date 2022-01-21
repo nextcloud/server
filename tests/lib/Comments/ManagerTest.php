@@ -472,12 +472,13 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providerTestSaveNew
+	 * @dataProvider providerTestSave
 	 */
-	public function testSaveNew(string $message, string $actorId, string $verb, ?string $parentId): IComment {
+	public function testSave(string $message, string $actorId, string $verb, ?string $parentId, ?string $id = ''): IComment {
 		$manager = $this->getManager();
 		$comment = new Comment();
 		$comment
+			->setId($id)
 			->setActor('users', $actorId)
 			->setObject('files', 'file64')
 			->setMessage($message)
@@ -498,7 +499,7 @@ class ManagerTest extends TestCase {
 		return $comment;
 	}
 
-	public function providerTestSaveNew(): array {
+	public function providerTestSave(): array {
 		return [
 			['very beautiful, I am impressed!', 'alice', 'comment', null]
 		];
@@ -883,24 +884,16 @@ class ManagerTest extends TestCase {
 	/**
 	 * @dataProvider providerTestReactionAddAndDelete
 	 *
+	 * @param IComment[] $comments
+	 * @param array $reactionsExpected
 	 * @return void
 	 */
 	public function testReactionAddAndDelete(array $comments, array $reactionsExpected) {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
-		$buffer = [];
-		foreach ($comments as $commentData) {
-			[$message, $actorId, $verb, $parentText] = $commentData;
-			$parentId = null;
-			if ($parentText) {
-				$parentId = (string) $buffer[$parentText]->getId();
-			}
-			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
-			if (!$parentId) {
-				$buffer[$comment->getMessage()] = $comment;
-			}
-		}
-		$comment = end($buffer);
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = end($processedComments);
 		if ($comment->getParentId()) {
 			$parent = $manager->get($comment->getParentId());
 			$this->assertEqualsCanonicalizing($reactionsExpected, $parent->getReactions());
@@ -917,38 +910,38 @@ class ManagerTest extends TestCase {
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
 				], ['👍' => 1],
 			],
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction', 'message#alice'],
 				], ['👍' => 1],
 			],
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'frank', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
 				], ['👍' => 2],
 			],
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'frank', 'reaction', 'message'],
-					['👍', 'frank', 'reaction_deleted', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction_deleted', 'message#alice'],
 				], ['👍' => 1],
 			],
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'frank', 'reaction', 'message'],
-					['👍', 'alice', 'reaction_deleted', 'message'],
-					['👍', 'frank', 'reaction_deleted', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction_deleted', 'message#alice'],
+					['👍', 'frank', 'reaction_deleted', 'message#alice'],
 				], [],
 			],
 		];
@@ -968,25 +961,38 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
+	 * @param array $data
+	 * @return IComment[]
+	 */
+	private function proccessComments(array $data): array {
+		/** @var IComment[] */
+		$comments = [];
+		foreach ($data as $comment) {
+			[$message, $actorId, $verb, $parentText] = $comment;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $comments[$parentText]->getId();
+			}
+			$id = '';
+			if ($verb === 'reaction_deleted') {
+				$id = $comments[$message . '#' . $actorId]->getId();
+			}
+			$comment = $this->testSave($message, $actorId, $verb, $parentId, $id);
+			$comments[$comment->getMessage() . '#' . $comment->getActorId()] = $comment;
+		}
+		return $comments;
+	}
+
+	/**
 	 * @dataProvider providerTestRetrieveAllReactions
 	 */
 	public function testRetrieveAllReactions(array $comments, array $expected) {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
-		$buffer = [];
-		foreach ($comments as $commentData) {
-			[$message, $actorId, $verb, $parentText] = $commentData;
-			$parentId = null;
-			if ($parentText) {
-				$parentId = (string) $buffer[$parentText]->getId();
-			}
-			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
-			if (!$parentId) {
-				$buffer[$comment->getMessage()] = $comment;
-			}
-		}
-		$all = $manager->retrieveAllReactions($buffer['message']->getId());
+		$processedComments = $this->proccessComments($comments);
+		$comment = reset($processedComments);
+		$all = $manager->retrieveAllReactions($comment->getId());
 		$actual = array_map(function ($row) {
 			return [
 				'message' => $row->getMessage(),
@@ -1007,8 +1013,8 @@ class ManagerTest extends TestCase {
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'frank', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
 				],
 				[
 					['👍', 'alice'],
@@ -1018,9 +1024,9 @@ class ManagerTest extends TestCase {
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'frank', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
 				],
 				[
 					['👍', 'alice'],
@@ -1037,19 +1043,9 @@ class ManagerTest extends TestCase {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
-		$buffer = [];
-		foreach ($comments as $commentData) {
-			[$message, $actorId, $verb, $parentText] = $commentData;
-			$parentId = null;
-			if ($parentText) {
-				$parentId = (string) $buffer[$parentText]->getId();
-			}
-			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
-			if (!$parentId) {
-				$buffer[$comment->getMessage()] = $comment;
-			}
-		}
-		$all = $manager->retrieveAllReactionsWithSpecificReaction($buffer['message']->getId(), $reaction);
+		$processedComments = $this->proccessComments($comments);
+		$comment = reset($processedComments);
+		$all = $manager->retrieveAllReactionsWithSpecificReaction($comment->getId(), $reaction);
 		$actual = array_map(function ($row) {
 			return [
 				'message' => $row->getMessage(),
@@ -1071,8 +1067,8 @@ class ManagerTest extends TestCase {
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👍', 'frank', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
 				],
 				'👍',
 				[
@@ -1083,9 +1079,9 @@ class ManagerTest extends TestCase {
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
-					['👎', 'alice', 'reaction', 'message'],
-					['👍', 'frank', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👎', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
 				],
 				'👎',
 				[
@@ -1098,44 +1094,68 @@ class ManagerTest extends TestCase {
 	/**
 	 * @dataProvider providerTestGetReactionComment
 	 */
-	public function testGetReactionComment(array $comments, $expected) {
+	public function testGetReactionComment(array $comments, array $expected, bool $notFound) {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
-		$buffer = [];
-		foreach ($comments as $comment) {
-			[$message, $actorId, $verb, $parentText] = $comment;
-			$parentId = null;
-			if ($parentText) {
-				$parentId = (string) $buffer[$parentText]->getId();
-			}
-			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
-			if (!$parentId) {
-				$buffer[$comment->getMessage()] = $comment;
-			}
+		$processedComments = $this->proccessComments($comments);
+
+		$keys = ['message', 'actorId', 'verb', 'parent'];
+		$expected = array_combine($keys, $expected);
+
+		if ($notFound) {
+			$this->expectException(\OCP\Comments\NotFoundException::class);
 		}
+		$comment = $processedComments[$expected['message'] . '#' . $expected['actorId']];
 		$actual = $manager->getReactionComment($comment->getParentId(), $comment->getActorType(), $comment->getActorId(), $comment->getMessage());
-		$this->assertEquals($expected[0], $actual->getMessage());
-		$this->assertEquals($expected[1], $actual->getActorId());
-		$this->assertEquals($expected[2], $actual->getVerb());
-		$this->assertEquals($buffer[$expected[3]]->getId(), $actual->getParentId());
+		if (!$notFound) {
+			$this->assertEquals($expected['message'], $actual->getMessage());
+			$this->assertEquals($expected['actorId'], $actual->getActorId());
+			$this->assertEquals($expected['verb'], $actual->getVerb());
+			$this->assertEquals($processedComments[$expected['parent']]->getId(), $actual->getParentId());
+		}
 	}
 
 	public function providerTestGetReactionComment(): array {
 		return [
 			[
 				[
-					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
+					['message', 'Matthew', 'comment', null],
+					['👍', 'Matthew', 'reaction', 'message#Matthew'],
+					['👍', 'Mark', 'reaction', 'message#Matthew'],
+					['👍', 'Luke', 'reaction', 'message#Matthew'],
+					['👍', 'John', 'reaction', 'message#Matthew'],
 				],
-				['👍', 'alice', 'reaction', 'message'],
+				['👍', 'Matthew', 'reaction', 'message#Matthew'],
+				false,
 			],
 			[
 				[
-					['message', 'alice', 'comment', null],
-					['👎', 'alice', 'reaction', 'message'],
+					['message', 'Matthew', 'comment', null],
+					['👍', 'Matthew', 'reaction', 'message#Matthew'],
+					['👍', 'Mark', 'reaction', 'message#Matthew'],
+					['👍', 'Luke', 'reaction', 'message#Matthew'],
+					['👍', 'John', 'reaction', 'message#Matthew'],
 				],
-				['👎', 'alice', 'reaction', 'message'],
+				['👍', 'Mark', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				],
+				['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👎', 'Matthew', 'reaction', 'message#Matthew'],
+					['👎', 'Matthew', 'reaction_deleted', 'message#Matthew'],
+				],
+				['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				true,
 			],
 		];
 	}
@@ -1180,18 +1200,9 @@ class ManagerTest extends TestCase {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
 
-		$buffer = [];
-		foreach ($comments as $comment) {
-			[$message, $actorId, $verb, $parentText] = $comment;
-			$parentId = null;
-			if ($parentText) {
-				$parentId = (string) $buffer[$parentText]->getId();
-			}
-			$comment = $this->testSaveNew($message, $actorId, $verb, $parentId);
-			if (!$parentId) {
-				$buffer[$comment->getMessage()] = $comment;
-			}
-		}
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = end($processedComments);
 		$actual = $manager->get($comment->getParentId());
 
 		if ($isFullMatch) {
@@ -1207,7 +1218,7 @@ class ManagerTest extends TestCase {
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👍', 'alice', 'reaction', 'message'],
+					['👍', 'alice', 'reaction', 'message#alice'],
 				],
 				['👍' => 1],
 				true,
@@ -1215,31 +1226,31 @@ class ManagerTest extends TestCase {
 			[
 				[
 					['message', 'alice', 'comment', null],
-					['👎', 'John', 'reaction', 'message'],
-					['💼', 'Luke', 'reaction', 'message'],
-					['📋', 'Luke', 'reaction', 'message'],
-					['🚀', 'Luke', 'reaction', 'message'],
-					['🖤', 'Luke', 'reaction', 'message'],
-					['😜', 'Luke', 'reaction', 'message'],
-					['🌖', 'Luke', 'reaction', 'message'],
-					['💖', 'Luke', 'reaction', 'message'],
-					['📥', 'Luke', 'reaction', 'message'],
-					['🐉', 'Luke', 'reaction', 'message'],
-					['☕', 'Luke', 'reaction', 'message'],
-					['🐄', 'Luke', 'reaction', 'message'],
-					['🐕', 'Luke', 'reaction', 'message'],
-					['🐈', 'Luke', 'reaction', 'message'],
-					['🛂', 'Luke', 'reaction', 'message'],
-					['🕸', 'Luke', 'reaction', 'message'],
-					['🏰', 'Luke', 'reaction', 'message'],
-					['⚙️', 'Luke', 'reaction', 'message'],
-					['🚨', 'Luke', 'reaction', 'message'],
-					['👥', 'Luke', 'reaction', 'message'],
-					['👍', 'Paul', 'reaction', 'message'],
-					['👍', 'Peter', 'reaction', 'message'],
-					['💜', 'Matthew', 'reaction', 'message'],
-					['💜', 'Mark', 'reaction', 'message'],
-					['💜', 'Luke', 'reaction', 'message'],
+					['👎', 'John', 'reaction', 'message#alice'],
+					['💼', 'Luke', 'reaction', 'message#alice'],
+					['📋', 'Luke', 'reaction', 'message#alice'],
+					['🚀', 'Luke', 'reaction', 'message#alice'],
+					['🖤', 'Luke', 'reaction', 'message#alice'],
+					['😜', 'Luke', 'reaction', 'message#alice'],
+					['🌖', 'Luke', 'reaction', 'message#alice'],
+					['💖', 'Luke', 'reaction', 'message#alice'],
+					['📥', 'Luke', 'reaction', 'message#alice'],
+					['🐉', 'Luke', 'reaction', 'message#alice'],
+					['☕', 'Luke', 'reaction', 'message#alice'],
+					['🐄', 'Luke', 'reaction', 'message#alice'],
+					['🐕', 'Luke', 'reaction', 'message#alice'],
+					['🐈', 'Luke', 'reaction', 'message#alice'],
+					['🛂', 'Luke', 'reaction', 'message#alice'],
+					['🕸', 'Luke', 'reaction', 'message#alice'],
+					['🏰', 'Luke', 'reaction', 'message#alice'],
+					['⚙️', 'Luke', 'reaction', 'message#alice'],
+					['🚨', 'Luke', 'reaction', 'message#alice'],
+					['👥', 'Luke', 'reaction', 'message#alice'],
+					['👍', 'Paul', 'reaction', 'message#alice'],
+					['👍', 'Peter', 'reaction', 'message#alice'],
+					['💜', 'Matthew', 'reaction', 'message#alice'],
+					['💜', 'Mark', 'reaction', 'message#alice'],
+					['💜', 'Luke', 'reaction', 'message#alice'],
 				],
 				[
 					'💜' => 3,
