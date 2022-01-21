@@ -108,14 +108,12 @@ class SMB extends Backend {
 							if (empty($realm)) {
 								$realm = 'WORKGROUP';
 							}
-							$userPart = $matches[1];
-							$domainPart = $matches[2];
 							if (count($matches) === 0) {
 								$username = $user;
 								$workgroup = $realm;
 							} else {
-								$username = $userPart;
-								$workgroup = $domainPart;
+								$username = $matches[1];;
+								$workgroup = $matches[2];
 							}
 							$smbAuth = new BasicAuth(
 								$username,
