@@ -180,8 +180,6 @@ OC.L10N.register(
     "Login form is disabled." : "登入表格已停用",
     "Edit Profile" : "編輯個人設定",
     "The headline and about sections will show up here" : "標題與關於部份將在此顯示",
-    "You haven't added any info yet" : "您尚未新增任何資訊",
-    "{user} hasn't added any info yet" : "{user} 尚未新增任何資訊",
     "Error opening the user status modal, try hard refreshing the page" : "打開用戶狀態模式時出錯，請嘗試刷新頁面",
     "Reset search" : "重置搜尋",
     "Search for {name} only" : "只搜尋 {name}",

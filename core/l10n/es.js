@@ -180,8 +180,6 @@ OC.L10N.register(
     "Login form is disabled." : "La página de inicio de sesión está deshabilitada.",
     "Edit Profile" : "Editar perfil",
     "The headline and about sections will show up here" : "El título y la sección acerca de aparecerán aquí",
-    "You haven't added any info yet" : "No has añadido ninguna información todavía",
-    "{user} hasn't added any info yet" : "{user} no ha añadido aún ninguna información",
     "Error opening the user status modal, try hard refreshing the page" : "Error al abrir la ventana de estado del usuario, intente actualizar la página",
     "Reset search" : "Resetear búsqueda",
     "Search for {name} only" : "Buscar solo por {name}",

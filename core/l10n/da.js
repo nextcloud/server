@@ -178,8 +178,6 @@ OC.L10N.register(
     "Back" : "Tilbage",
     "Login form is disabled." : "Loginformularen er deaktiveret.",
     "Edit Profile" : "Rediger profil",
-    "You haven't added any info yet" : "Du har ikke tilføjet nogle info endnu",
-    "{user} hasn't added any info yet" : "{user} har ikke tilføjet nogle info endnu",
     "Error opening the user status modal, try hard refreshing the page" : "Fejl ved åbning af brugerstatusmodal. Prøv at opdatere siden",
     "Reset search" : "Nulstil søgning",
     "Search for {name} only" : "Søg kun efter {name}",

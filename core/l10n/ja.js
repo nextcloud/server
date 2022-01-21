@@ -180,8 +180,6 @@ OC.L10N.register(
     "Login form is disabled." : "ログインフォームは無効です。",
     "Edit Profile" : "プロフィールを編集",
     "The headline and about sections will show up here" : "見出しと概要セクションがここに表示されます",
-    "You haven't added any info yet" : "まだ情報が追加されていません",
-    "{user} hasn't added any info yet" : "{user}が、まだ情報を追加していません",
     "Error opening the user status modal, try hard refreshing the page" : "ユーザーステータスモーダルを開くときにエラーが発生しました。ページを更新してみてください",
     "Reset search" : "検索をリセットする",
     "Search for {name} only" : "{name}のみを検索",

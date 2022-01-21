@@ -180,8 +180,6 @@ OC.L10N.register(
     "Login form is disabled." : "Oturum açma formu devre dışı bırakılmış.",
     "Edit Profile" : "Profili düzenle",
     "The headline and about sections will show up here" : "Başlık ve hakkında bölümleri burada görüntülenir",
-    "You haven't added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",
-    "{user} hasn't added any info yet" : "{user} henüz herhangi bir bilgi eklememiş",
     "Error opening the user status modal, try hard refreshing the page" : "Üste açılan kullanıcı durumu penceresinde sorun çıktı. Sayfası temizleyerek yenilemeyi deneyin ",
     "Reset search" : "Aramayı sıfırla",
     "Search for {name} only" : "Yalnız {name} için aransın",

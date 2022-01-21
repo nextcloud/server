@@ -178,8 +178,6 @@
     "Login form is disabled." : "Inlogscherm uitgeschakeld",
     "Edit Profile" : "Wijzig Profiel",
     "The headline and about sections will show up here" : "De koplijn- en oversectie zal hier verschijnen",
-    "You haven't added any info yet" : "Je hebt nog geen info toegevoegd",
-    "{user} hasn't added any info yet" : "{user} heeft nog geen info toegevoegd",
     "Error opening the user status modal, try hard refreshing the page" : "Fout bij het openen van het gebruiker status model, probeer een harde refresh van de pagina",
     "Reset search" : "Zoekopdracht wissen",
     "Search for {name} only" : "Zoek alleen naar {name}",
