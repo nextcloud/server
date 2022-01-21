@@ -1,6 +1,6 @@
 name: "Bug report: Nextcloud Server"
 description: "Submit a report and help us improve Nextcloud Server"
-title: ""
+title: "[Bug]: "
 labels: ["bug", "0. Needs triage"]
 body:
   - type: markdown
