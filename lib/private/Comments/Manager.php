@@ -412,6 +412,37 @@ class Manager implements ICommentsManager {
 		int $limit = 30,
 		bool $includeLastKnown = false
 	): array {
+		return $this->getCommentsWithVerbForObjectSinceComment(
+			$objectType,
+			$objectId,
+			[],
+			$lastKnownCommentId,
+			$sortDirection,
+			$limit,
+			$includeLastKnown
+		);
+	}
+
+	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param string[] $verbs List of verbs to filter by
+	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
+	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
+	 * @param int $limit optional, number of maximum comments to be returned. if
+	 * set to 0, all comments are returned.
+	 * @param bool $includeLastKnown
+	 * @return IComment[]
+	 */
+	public function getCommentsWithVerbForObjectSinceComment(
+		string $objectType,
+		string $objectId,
+		array $verbs,
+		int $lastKnownCommentId,
+		string $sortDirection = 'asc',
+		int $limit = 30,
+		bool $includeLastKnown = false
+	): array {
 		$comments = [];
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -424,6 +455,10 @@ class Manager implements ICommentsManager {
 
 		if ($limit > 0) {
 			$query->setMaxResults($limit);
+		}
+
+		if (!empty($verbs)) {
+			$query->andWhere($query->expr()->in('verb', $query->createNamedParameter($verbs, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
 
 		$lastKnownComment = $lastKnownCommentId > 0 ? $this->getLastKnownComment(
@@ -681,18 +716,7 @@ class Manager implements ICommentsManager {
 			return $this->getNumberOfCommentsWithVerbsForObjectSinceComment($objectType, $objectId, $lastRead, [$verb]);
 		}
 
-		$query = $this->dbConn->getQueryBuilder();
-		$query->select($query->func()->count('id', 'num_messages'))
-			->from('comments')
-			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
-			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
-			->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastRead)));
-
-		$result = $query->executeQuery();
-		$data = $result->fetch();
-		$result->closeCursor();
-
-		return (int) ($data['num_messages'] ?? 0);
+		return $this->getNumberOfCommentsWithVerbsForObjectSinceComment($objectType, $objectId, $lastRead, []);
 	}
 
 	/**
@@ -709,8 +733,11 @@ class Manager implements ICommentsManager {
 			->from('comments')
 			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
-			->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastRead)))
-			->andWhere($query->expr()->in('verb', $query->createNamedParameter($verbs, IQueryBuilder::PARAM_STR_ARRAY)));
+			->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastRead)));
+
+		if (!empty($verbs)) {
+			$query->andWhere($query->expr()->in('verb', $query->createNamedParameter($verbs, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
 
 		$result = $query->executeQuery();
 		$data = $result->fetch();
