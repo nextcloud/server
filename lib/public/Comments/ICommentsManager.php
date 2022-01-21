@@ -131,7 +131,7 @@ interface ICommentsManager {
 	 * @param bool $includeLastKnown
 	 * @return IComment[]
 	 * @since 14.0.0
-	 * @depreacted 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
+	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
 	 */
 	public function getForObjectSince(
 		string $objectType,
@@ -221,7 +221,7 @@ interface ICommentsManager {
 	 * @param string $verb
 	 * @return int
 	 * @since 21.0.0
-	 * @depreacted 24.0.0 - Use getNumberOfCommentsWithVerbsForObjectSinceComment instead
+	 * @deprecated 24.0.0 - Use getNumberOfCommentsWithVerbsForObjectSinceComment instead
 	 */
 	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int;
 
