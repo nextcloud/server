@@ -163,7 +163,7 @@ body:
         > NOTE: This will be automatically formatted into code.
       render: shell
     validations:
-      required: false
+      required: true
   - type: textarea
     id: apps
     attributes:
@@ -179,7 +179,7 @@ body:
         > NOTE: This will be automatically formatted into code.
       render: shell
     validations:
-      required: false
+      required: true
   - type: textarea
     id: nextcloud-signingstatus
     attributes:
@@ -204,7 +204,7 @@ body:
         > NOTE: This will be automatically formatted into code.
       render: shell
     validations:
-      required: false
+      required: true
   - type: textarea
     id: additional-info
     attributes:
