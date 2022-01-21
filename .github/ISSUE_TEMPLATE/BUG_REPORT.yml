@@ -50,6 +50,7 @@ body:
         - "Official Docker image"
         - "Official VM scripts"
         - "Official SNAP package"
+        - "Official All-in-One appliance"
         - "Web installer on a VPS or web space"
         - "Other"
     validations:
