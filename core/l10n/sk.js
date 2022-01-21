@@ -180,8 +180,6 @@ OC.L10N.register(
     "Login form is disabled." : "Prihlasovací formulár je vypnutý.",
     "Edit Profile" : "Upraviť Profil",
     "The headline and about sections will show up here" : "Tu sa zobrazí nadpis a sekcia Informácie",
-    "You haven't added any info yet" : "Zatiaľ ste nepridali žiadne informácie",
-    "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie",
     "Error opening the user status modal, try hard refreshing the page" : "Chyba pri otváraní modálneho okna stavu používateľa, skúste stránku obnoviť",
     "Reset search" : "Vynuluj vyhľadávanie",
     "Search for {name} only" : "Hľadať iba {name}",

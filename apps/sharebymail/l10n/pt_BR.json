@@ -25,6 +25,7 @@
     "Share by mail" : "Compartilhamento por e-mail",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Compartilhamento de %1$s falhou,  porque este item já está compartilhado com o usuário%2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não pudemos enviar a você a senha auto-gerada. Defina um e-mail válido em sua configuração e tente novamente.",
+    "Failed to send share by email. Got an invalid email address" : "Compartilhamento por email falhou. Endereço de email inválido",
     "Failed to send share by email" : "Falha ao enviar compartilhamento via e-mail",
     "%1$s shared »%2$s« with you" : "%1$s compartilhou »%2$s« com você",
     "%1$s shared »%2$s« with you." : "%1$s compartilhou »%2$s« com você.",
