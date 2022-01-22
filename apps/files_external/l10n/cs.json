@@ -79,6 +79,7 @@
     "Public key" : "Veřejný klíč",
     "RSA private key" : "Soukromá část RSA klíče",
     "Private key" : "Soukromá část klíče",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Výchozí kerberos oblast (realm) – výchozí je „WORKGROUP",
     "Kerberos ticket" : "Kerberos ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -136,6 +137,7 @@
     "External storages" : "Externí úložiště",
     "(group)" : "(skupina)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS za použití přihlašovacího jména OC"
+    "SMB / CIFS using OC login" : "SMB / CIFS za použití přihlašovacího jména OC",
+    "Kerberos ticket apache mode" : "Režim kerberos lístku (ticket) apache serveru"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

@@ -183,6 +183,7 @@ OC.L10N.register(
     "Rename" : "Premenovať",
     "Revoke" : "Odvolať",
     "Wipe device" : "Vymazať obsah zariadenia",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "Ostránenie tohto tokenu môže zabrániť vymazaniu vášho zariadenia, ak sa ešte nezačalo mazanie.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

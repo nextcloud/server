@@ -181,6 +181,7 @@
     "Rename" : "Přejmenovat",
     "Revoke" : "Odvolat",
     "Wipe device" : "Vymazat obsah zařízení",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "Odstranění tohoto tokenu může zabránit vymazání obsahu přístroje, pokud nebyl proces vymazání do teď zahájen.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

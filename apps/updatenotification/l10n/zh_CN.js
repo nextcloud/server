@@ -35,7 +35,6 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "正在检查应用程序的兼容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "请确认 config.php 没有设置<samp>appstoreenabled </samp> 为 false。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "无法连接到应用商店或没有返回任何更新。手动搜索更新，或者确保你的服务器可以上网且可以连接到应用商店。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>应用都有一个与这个 Nextcloud 版本兼容的版本可用",
     "View changelog" : "查看更新记录",
     "Enterprise" : "企业级",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "供企业使用。总是提供最新的补丁级别，但不会马上升级到下一个大版本。当Nextcloud GmbH为大规模和关键任务部署完成额外的加固和测试后，升级才会进行。此频道只对客户可用，提供Nextcloud企业级软件包。",
@@ -43,7 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新稳定版本。适合日常使用并总是更新至最新主版本。",
     "Beta" : "Beta测试版",
     "A pre-release version only for testing new features, not for production environments." : "预发布版本仅作测试新功能用，不可用于生产环境。",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>个应用有与这个 Nextcloud 兼容的版本可用"],
     "Apps missing updates" : "缺少更新的应用",
     "Apps with available updates" : "有可用更新的应用",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "请注意，在新版本发布后，它可能需要一段时间才能显示在这里。新版本发布后，随着时间的推移，当用户发现问题时我们可能会跳过一个版本。",
@@ -51,6 +49,8 @@ OC.L10N.register(
     "Checking apps for compatible updates" : "检查应用以匹配更新",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "无法连接到应用商店，或者应用商店返回无可用更新。请手动搜索更新，或者是确认您的服务器能访问互联网，并能连接到应用商店。",
     "<strong>All</strong> apps have an update for this version available" : "<strong>所有</strong> 应用有适用于这个版本的更新",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>应用没有适用这个版本的更新"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>应用没有适用这个版本的更新"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>应用都有一个与这个 Nextcloud 版本兼容的版本可用",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>个应用有与这个 Nextcloud 兼容的版本可用"]
 },
 "nplurals=1; plural=0;");

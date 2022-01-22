@@ -180,6 +180,8 @@ OC.L10N.register(
     "Login form is disabled." : "Formularz logowania jest wyłączony.",
     "Edit Profile" : "Edytuj profil",
     "The headline and about sections will show up here" : "Tutaj pojawi się nagłówek i informacje o sekcjach",
+    "You have not added any info yet" : "Nie dodałeś jeszcze żadnych informacji",
+    "{user} has not added any info yet" : "{user} nie dodał jeszcze żadnych informacji",
     "Error opening the user status modal, try hard refreshing the page" : "Błąd podczas otwierania modalnego statusu użytkownika, spróbuj bardziej odświeżyć stronę",
     "Reset search" : "Zresetuj wyszukiwanie",
     "Search for {name} only" : "Wyszukaj tylko {name}",
