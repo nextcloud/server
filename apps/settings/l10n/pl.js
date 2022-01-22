@@ -183,6 +183,7 @@ OC.L10N.register(
     "Rename" : "Zmień nazwę",
     "Revoke" : "Cofnij",
     "Wipe device" : "Wyczyść urządzenie",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "Unieważnienie tego tokena uniemożliwi czyszczenie urządzenia, jeśli jeszcze nie zostało rozpoczęte.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

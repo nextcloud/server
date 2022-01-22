@@ -81,6 +81,7 @@ OC.L10N.register(
     "Public key" : "公鑰",
     "RSA private key" : "RSA 私鑰",
     "Private key" : "私鑰",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 默認領域，默認為 “WORKGROUP”",
     "Kerberos ticket" : "Kerberos 票證",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -138,6 +139,7 @@ OC.L10N.register(
     "External storages" : "外部儲存",
     "(group)" : "（群組）",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登入"
+    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登入",
+    "Kerberos ticket apache mode" : "Kerberos 票證 Apache 模式"
 },
 "nplurals=1; plural=0;");

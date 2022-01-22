@@ -35,7 +35,6 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Alkalmazások ellenőrzése kompatibilis verziók után",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ellenőrizze, hogy a config.php fájl nem állítja-e be <samp>appstoreenabled</samp> értékét false-ra.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Nem lehet csatlakozni az alkalmazástárhoz, vagy az egyáltalán nem adott vissza frissítéseket. Keressen kézzel frissítéseket, vagy győződjön meg arról, hogy a kiszolgálója hozzáfér-e az internethez és eléri-e az alkalmazástárat.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Minden</strong> alkalmazás rendelkezik ezzel a Nextcloud verzióval kompatibilis verzióval",
     "View changelog" : "Változásnapló megjelenítése",
     "Enterprise" : "Vállalati",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Vállalati felhasználásra. Mindig a legfrissebb foltozási szint, de nem fog azonnal a legújabb főverzióra frissíteni. A frissítés csak azután fog megtörténni, amikor a Nextcloud GmbH elvégezte a szükséges biztonsági megerősítéseket, illetve a nagy méretű és kritikus fontosságú rendszereket érintő teszteket. Ez a csatorna csak ügyfelek számára érhető el, és a Nextcloud Vállalati csomagját biztosítja.",
@@ -43,7 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "A legfrissebb stabil verzió. Mindennapos használatra ajánlott, mindig a legújabb főverzióra frissít.",
     "Beta" : "Béta",
     "A pre-release version only for testing new features, not for production environments." : "Az előzetes verzió kizárólag az új funkciók tesztelésére szolgál, nem éles környezetekbe való.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz"],
     "Apps missing updates" : "Alkalmazások frissítés nélkül",
     "Apps with available updates" : "Alkalmazások elérhető frissítéssel",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Vegye figyelembe, hogy egy új kiadás után időbe telhet, míg itt megjelenik. Fokozatosan juttatjuk el a frissítéseket a felhasználókhoz, és néha kimarad egy-egy verziót, ha problémák merülnek fel.",
@@ -51,6 +49,8 @@ OC.L10N.register(
     "Checking apps for compatible updates" : "Alkalmazások ellenőrzése kompatibilis frissítések után",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nem lehet csatlakozni az alkalmazástárhoz, vagy az egyáltalán nem adott vissza frissítéseket. Keressen kézzel frissítéseket, vagy győződjön meg arról, hogy a kiszolgálója hozzáfér-e az internethez és eléri-e az alkalmazástárat.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Minden</strong> alkalmazás frissítve a legújabb verzióra",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Minden</strong> alkalmazás rendelkezik ezzel a Nextcloud verzióval kompatibilis verzióval",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz"]
 },
 "nplurals=2; plural=(n != 1);");
