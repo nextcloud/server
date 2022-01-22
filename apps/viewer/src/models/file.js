@@ -21,6 +21,11 @@
  */
 import { getDavPath } from '../utils/fileUtils'
 
+/**
+ * @param fileInfo
+ * @param mime
+ * @param component
+ */
 export default function(fileInfo, mime, component) {
 	const data = {
 		mime,

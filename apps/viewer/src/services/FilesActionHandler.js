@@ -22,6 +22,10 @@
 
 import { encodePath } from '@nextcloud/paths'
 
+/**
+ * @param name
+ * @param context
+ */
 export default function(name, context) {
 	// replace potential leading double slashes
 	const path = `${context.dir}/${name}`.replace(/^\/\//, '/')
@@ -36,6 +40,10 @@ export default function(name, context) {
 	OCA.Viewer.open({ path, onPrev: pushToHistory, onNext: pushToHistory, onClose })
 }
 
+/**
+ * @param root0
+ * @param root0.fileid
+ */
 function pushToHistory({ fileid }) {
 	const params = OC.Util.History.parseUrlQuery()
 	const dir = params.dir

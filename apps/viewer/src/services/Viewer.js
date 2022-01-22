@@ -63,7 +63,7 @@ export default class Viewer {
 	 * Register a new handler
 	 *
 	 * @memberof Viewer
-	 * @param {Object} handler a new unregistered handler
+	 * @param {object} handler a new unregistered handler
 	 */
 	registerHandler(handler) {
 		this._state.handlers.push(handler)
@@ -74,7 +74,7 @@ export default class Viewer {
 	 * Get the current opened file
 	 *
 	 * @memberof Viewer
-	 * @returns {string} the currently opened file
+	 * @return {string} the currently opened file
 	 */
 	get file() {
 		return this._state.file
@@ -84,7 +84,7 @@ export default class Viewer {
 	 * Get the current files list
 	 *
 	 * @memberof Viewer
-	 * @returns {Object[]} the currently opened file
+	 * @return {object[]} the currently opened file
 	 */
 	get files() {
 		return this._state.files
@@ -94,7 +94,7 @@ export default class Viewer {
 	 * Get the supported mimetypes that can be opened with the viewer
 	 *
 	 * @memberof Viewer
-	 * @returns {array} list of mimetype strings that the viewer can open
+	 * @return {Array} list of mimetype strings that the viewer can open
 	 */
 	get mimetypes() {
 		return this._mimetypes
@@ -104,7 +104,7 @@ export default class Viewer {
 	 * Return the method provided to fetch more results
 	 *
 	 * @memberof Viewer
-	 * @returns {Function}
+	 * @return {Function}
 	 */
 	get loadMore() {
 		return this._state.loadMore
@@ -114,7 +114,7 @@ export default class Viewer {
 	 * Get the method to run on previous navigation
 	 *
 	 * @memberof Viewer
-	 * @returns {Function}
+	 * @return {Function}
 	 */
 	get onPrev() {
 		return this._state.onPrev
@@ -124,7 +124,7 @@ export default class Viewer {
 	 * Get the method to run on next navigation
 	 *
 	 * @memberof Viewer
-	 * @returns {Function}
+	 * @return {Function}
 	 */
 	get onNext() {
 		return this._state.onNext
@@ -134,7 +134,7 @@ export default class Viewer {
 	 * Get the method to run on viewer close
 	 *
 	 * @memberof Viewer
-	 * @returns {Function}
+	 * @return {Function}
 	 */
 	get onClose() {
 		return this._state.onClose
@@ -144,7 +144,7 @@ export default class Viewer {
 	 * Is looping over the provided list allowed?
 	 *
 	 * @memberof Viewer
-	 * @returns {boolean}
+	 * @return {boolean}
 	 */
 	get canLoop() {
 		return this._state.canLoop
@@ -154,9 +154,9 @@ export default class Viewer {
 	 * Open the path into the viewer
 	 *
 	 * @memberof Viewer
-	 * @param {Object} options Options for opening the viewer
+	 * @param {object} options Options for opening the viewer
 	 * @param {string} options.path path of the file to open
-	 * @param {Object[]} [options.list] the list of files as objects (fileinfo) format
+	 * @param {object[]} [options.list] the list of files as objects (fileinfo) format
 	 * @param {Function} options.loadMore callback for loading more files
 	 * @param {boolean} options.canLoop can the viewer loop over the array
 	 * @param {Function} options.onPrev callback when navigating back to previous file

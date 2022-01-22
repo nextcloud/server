@@ -28,7 +28,8 @@ export default {
 	computed: {
 		/**
 		 * Link to the preview path if the file have a preview
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		previewpath() {
 			return this.getPreviewIfAny({
@@ -41,7 +42,8 @@ export default {
 
 		/**
 		 * Absolute dav remote path of the file
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		davPath() {
 			return getDavPath({
@@ -56,11 +58,12 @@ export default {
 		 * Return the preview url if the file have an existing
 		 * preview or the absolute dav remote path if none.
 		 *
-		 * @param {Object} data destructuring object
+		 * @param {object} data destructuring object
 		 * @param {string} data.fileid the file id
 		 * @param {boolean} data.hasPreview have the file an existing preview ?
 		 * @param {string} data.davPath the absolute dav path
-		 * @returns {String} the absolute url
+		 * @param data.filename
+		 * @return {string} the absolute url
 		 */
 		getPreviewIfAny({ fileid, filename, hasPreview, davPath }) {
 			const searchParams = `fileId=${fileid}`

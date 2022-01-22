@@ -22,8 +22,7 @@
  -->
 
 <template>
-	<Modal
-		v-if="initiated || currentFile.modal"
+	<Modal v-if="initiated || currentFile.modal"
 		id="viewer"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
 			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
@@ -44,23 +43,20 @@
 		@next="next">
 		<!-- ACTIONS -->
 		<template #actions>
-			<ActionButton
-				v-if="Sidebar && !isSidebarShown"
+			<ActionButton v-if="Sidebar && !isSidebarShown"
 				:close-after-click="true"
 				icon="icon-menu-sidebar"
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
 			</ActionButton>
-			<ActionLink
-				v-if="canDownload"
+			<ActionLink v-if="canDownload"
 				:download="currentFile.basename"
 				icon="icon-download"
 				:close-after-click="true"
 				:href="currentFile.davPath">
 				{{ t('viewer', 'Download') }}
 			</ActionLink>
-			<ActionButton
-				v-if="canDelete"
+			<ActionButton v-if="canDelete"
 				:close-after-click="true"
 				icon="icon-delete"
 				@click="onDelete">
@@ -70,8 +66,7 @@
 
 		<div class="viewer__content" @click.self.exact="close">
 			<!-- PREVIOUS -->
-			<component
-				:is="previousFile.modal"
+			<component :is="previousFile.modal"
 				v-if="previousFile && !previousFile.failed"
 				:key="previousFile.fileid"
 				ref="previous-content"
@@ -79,14 +74,12 @@
 				:file-list="fileList"
 				class="viewer__file--hidden viewer__file"
 				@error="previousFailed" />
-			<Error
-				v-else-if="previousFile"
+			<Error v-else-if="previousFile"
 				class="hidden-visually"
 				:name="previousFile.basename" />
 
 			<!-- CURRENT -->
-			<component
-				:is="currentFile.modal"
+			<component :is="currentFile.modal"
 				v-if="!currentFile.failed"
 				:key="currentFile.fileid"
 				ref="content"
@@ -99,13 +92,11 @@
 				:is-sidebar-shown="isSidebarShown"
 				class="viewer__file viewer__file--active"
 				@error="currentFailed" />
-			<Error
-				v-else
+			<Error v-else
 				:name="currentFile.basename" />
 
 			<!-- NEXT -->
-			<component
-				:is="nextFile.modal"
+			<component :is="nextFile.modal"
 				v-if="nextFile && !nextFile.failed"
 				:key="nextFile.fileid"
 				ref="next-content"
@@ -113,8 +104,7 @@
 				:file-list="fileList"
 				class="viewer__file--hidden viewer__file"
 				@error="nextFailed" />
-			<Error
-				v-else-if="nextFile"
+			<Error v-else-if="nextFile"
 				class="hidden-visually"
 				:name="nextFile.basename" />
 		</div>
@@ -228,7 +218,7 @@ export default {
 		 * If the sidebar is available but closed an empty string is returned.
 		 * If the sidebar is not available null is returned.
 		 *
-		 * @returns {string|null} the path to the current opened file in the
+		 * @return {string|null} the path to the current opened file in the
 		 *          sidebar, if any.
 		 */
 		sidebarFile() {
@@ -237,7 +227,8 @@ export default {
 
 		/**
 		 * Is the current user allowed to delete the file?
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		canDelete() {
 			return this.currentFile?.permissions?.includes('D')
@@ -245,7 +236,8 @@ export default {
 
 		/**
 		 * Is the current user allowed to download the file in public mode?
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		canDownload() {
 			return canDownload()
@@ -451,7 +443,7 @@ export default {
 		/**
 		 * Open the view and display the file from the file list
 		 *
-		 * @param {Object} fileInfo the opened file info
+		 * @param {object} fileInfo the opened file info
 		 */
 		openFileFromList(fileInfo) {
 			// override mimetype if existing alias
@@ -506,11 +498,11 @@ export default {
 		/**
 		 * Registering possible new handers
 		 *
-		 * @param {Object} handler the handler to register
-		 * @param {String} handler.id unique handler identifier
+		 * @param {object} handler the handler to register
+		 * @param {string} handler.id unique handler identifier
 		 * @param {Array} handler.mimes list of valid mimes compatible with the handler
-		 * @param {Object} handler.component a vuejs component to render when a file matching the mime list is opened
-		 * @param {String} [handler.group] a group name to be associated with for the slideshow
+		 * @param {object} handler.component a vuejs component to render when a file matching the mime list is opened
+		 * @param {string} [handler.group] a group name to be associated with for the slideshow
 		 */
 		registerHandler(handler) {
 			// checking if handler is not already registered

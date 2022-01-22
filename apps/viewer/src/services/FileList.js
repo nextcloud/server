@@ -26,9 +26,9 @@ import { genFileInfo } from '../utils/fileUtils'
 /**
  * Retrieve the files list
  *
- * @param {String} path the path relative to the user root
- * @param {Object} [options] optional options for axios
- * @returns {Array} the file list
+ * @param {string} path the path relative to the user root
+ * @param {object} [options] optional options for axios
+ * @return {Array} the file list
  */
 export default async function(path, options) {
 	// getDirectoryContents doesn't accept / for root

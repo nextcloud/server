@@ -21,8 +21,7 @@
  -->
 
 <template>
-	<img
-		:class="{
+	<img :class="{
 			dragging,
 			loaded,
 			zoomed: zoomRatio !== 1
@@ -112,7 +111,7 @@ export default {
 		/**
 		 * Manually retrieve the path and return its base64
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		async getBase64FromImage() {
 			const file = await axios.get(this.davPath)
@@ -123,7 +122,7 @@ export default {
 		 * Handle zooming
 		 *
 		 * @param {Event} event the scroll event
-		 * @returns {null}
+		 * @return {null}
 		 */
 		updateZoom(event) {
 			event.stopPropagation()
