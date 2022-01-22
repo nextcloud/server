@@ -7,23 +7,23 @@ name: Dependabot
 
 on:
   pull_request_target:
-     branches:
+    branches:
       - master
       - stable*
 
 jobs:
-  auto-merge:
+  auto-approve-merge:
+    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
+
     steps:
-      # Default github action approve
+      # Github actions bot approve
       - uses: hmarr/auto-approve-action@v2
-        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       # Nextcloud bot approve and merge request
       - uses: ahmadnassri/action-dependabot-auto-merge@v2
-        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         with:
           target: minor
           github-token: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}
