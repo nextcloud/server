@@ -24,15 +24,13 @@
 	<!-- Plyr currently replaces the parent. Wrapping to prevent this
 	https://github.com/redxtech/vue-plyr/issues/259 -->
 	<div v-if="davPath">
-		<VuePlyr
-			ref="plyr"
+		<VuePlyr ref="plyr"
 			:options="options"
 			:style="{
 				height: height + 'px',
 				width: width + 'px'
 			}">
-			<video
-				ref="video"
+			<video ref="video"
 				:autoplay="active"
 				:playsinline="true"
 				:poster="livePhotoPath"

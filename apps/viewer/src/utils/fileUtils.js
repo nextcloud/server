@@ -29,8 +29,8 @@ import { isNumber } from './numberUtil'
 /**
  * Get an url encoded path
  *
- * @param {String} path the full path
- * @returns {string} url encoded file path
+ * @param {string} path the full path
+ * @return {string} url encoded file path
  */
 const encodeFilePath = function(path) {
 	const pathSections = (path.startsWith('/') ? path : `/${path}`).split('/')
@@ -46,8 +46,8 @@ const encodeFilePath = function(path) {
 /**
  * Extract dir and name from file path
  *
- * @param {String} path the full path
- * @returns {String[]} [dirPath, fileName]
+ * @param {string} path the full path
+ * @return {string[]} [dirPath, fileName]
  */
 const extractFilePaths = function(path) {
 	const pathSections = path.split('/')
@@ -59,11 +59,11 @@ const extractFilePaths = function(path) {
 /**
  * Sorting comparison function
  *
- * @param {Object} fileInfo1 file 1 fileinfo
- * @param {Object} fileInfo2 file 2 fileinfo
+ * @param {object} fileInfo1 file 1 fileinfo
+ * @param {object} fileInfo2 file 2 fileinfo
  * @param {string} key key to sort with
  * @param {boolean} [asc=true] sort ascending?
- * @returns {number}
+ * @return {number}
  */
 const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {
 
@@ -95,8 +95,8 @@ const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {
  * Generate a fileinfo object based on the full dav properties
  * It will flatten everything and put all keys to camelCase
  *
- * @param {Object} obj the object
- * @returns {Object}
+ * @param {object} obj the object
+ * @return {object}
  */
 const genFileInfo = function(obj) {
 	const fileInfo = {}
@@ -125,8 +125,11 @@ const genFileInfo = function(obj) {
 
 /**
  * Generate absolute dav remote path of the file
+ *
  * @param {object} fileInfo The fileInfo
- * @returns {string}
+ * @param fileInfo.filename
+ * @param fileInfo.basename
+ * @return {string}
  */
 const getDavPath = function({ filename, basename }) {
 	// TODO: allow proper dav access without the need of basic auth
