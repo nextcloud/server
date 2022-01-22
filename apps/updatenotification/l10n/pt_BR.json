@@ -33,7 +33,6 @@
     "Checking apps for compatible versions" : "Verificando aplicativos para versões compatíveis",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Certifique-se de que seu config.php não tenha configurado <samp>appstoreenabled</samp> para falso.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Não foi possível conectar à App Store ou nenhuma atualização foi retornada. Pesquise manualmente por atualizações ou certifique-se de que seu servidor tenha acesso à Internet e possa se conectar à App Store.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todos</strong> os aplicativos têm uma versão compatível para esta versão Nextcloud disponível",
     "View changelog" : "Visualizar registro de alterações",
     "Enterprise" : "Empresarial",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Para uso empresarial. Fornece sempre o nível de patch mais recente, mas não será atualizado para a próxima versão principal imediatamente. Essa atualização acontece assim que a Nextcloud GmbH fizer mais ajustes e testes para implantações de larga escala e missão crítica. Este canal está disponível apenas para clientes do Nextcloud Enterprise.",
@@ -41,7 +40,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "A versão estável mais recente. É adequada para uso regular e será sempre atualizada para a versão principal mais recente.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Uma versão de pré-lançamento para testar novos recursos, não indicada para produção.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão Nextcloud disponível ","<strong>%n</strong> aplicativos não têm versão compatível para esta versão Nextcloud disponível"],
     "Apps missing updates" : "Aplicativos faltando atualizações",
     "Apps with available updates" : "Aplicativos com atualizações disponíveis",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Observe que uma nova versão pode levar um tempo até aparecer aqui. Lançamos novas versões distribuídas ao longo do tempo para nossos usuários e às vezes pulamos uma versão quando problemas são encontrados.",
@@ -49,6 +47,8 @@
     "Checking apps for compatible updates" : "Verificando atualização dos aplicativos",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Não foi possível conectar a appstore ou não havia atualização. Procure manualmente por atualizações ou verifique se o servidor tem acesso à internet.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Todos</strong> os aplicativos tem uma atualização disponível",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplicativo não tem atualização disponível","<strong>%n</strong> aplicativos tem uma atualização disponível"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplicativo não tem atualização disponível","<strong>%n</strong> aplicativos tem uma atualização disponível"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todos</strong> os aplicativos têm uma versão compatível para esta versão Nextcloud disponível",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão Nextcloud disponível ","<strong>%n</strong> aplicativos não têm versão compatível para esta versão Nextcloud disponível"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

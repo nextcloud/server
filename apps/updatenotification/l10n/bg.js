@@ -35,7 +35,6 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Проверка на приложенията за съвместими версии",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Моля, уверете се, че в config.php не е зададено <samp>appstoreenabled</samp> на false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Свързването с магазина за приложения App Store не е възможно или изобщо не са върнати актуализации. Търсете ръчно за актуализации или се уверете, че вашият сървър има достъп до интернет и може да се свърже с App Store.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Всички</strong>  приложения имат налична съвместима версия за тази версия на Nextcloud",
     "View changelog" : "Преглед на списъка с промени",
     "Enterprise" : "Предприятие",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Осигурява винаги най-новото ниво на корекция, но няма да се актуализира веднага до следващото голямо издание. Тази актуализация се случва, след като Nextcloud GmbH направи допълнително подсилване и тестване за широкомащабни и критични за мисията внедрявания. Този канал е достъпен само за клиенти и доставчици на пакета Nextcloud Enterprise.",
@@ -43,7 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Последната стабилна версия. Подходяща е за ежедневно ползване и се актуализации до последната главна версия.",
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Версия само за тестване на нови функционалности, която не е подходяща за ползване в производствена среда.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud ","<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud "],
     "Apps missing updates" : "Приложения без актуализация",
     "Apps with available updates" : "Приложенията, с налични актуализации",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "След издаването на нова версия обикновено няма да получите веднага известие. Потребителите се известяват на интервали, което може да доведе до пропускане на версия ако се появят проблеми.",
@@ -51,6 +49,8 @@ OC.L10N.register(
     "Checking apps for compatible updates" : "Проверка на приложенията за съвместими актуализации",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Свързването с магазина за приложения не е възможно или няма актуализации. Потърсете ръчно за актуализации или се уверете, че сървъра има връзка с Интернет и може да се свързва с магазина за приложения.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Всички</strong> приложения имат актуализация за наличната версия",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение няма актуализация за тази версия","<strong>%n</strong> приложения нямат актуализация за тази версия"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение няма актуализация за тази версия","<strong>%n</strong> приложения нямат актуализация за тази версия"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Всички</strong>  приложения имат налична съвместима версия за тази версия на Nextcloud",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud ","<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud "]
 },
 "nplurals=2; plural=(n != 1);");
