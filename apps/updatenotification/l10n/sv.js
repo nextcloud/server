@@ -35,7 +35,6 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Kontrollerar appar efter kompatibla versioner",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Se till att din config.php inte ställer in <samp>appstoreenabled</samp> till falsk.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kunde inte ansluta till appbutiken eller så returnerades inga uppdateringar alls. Sök manuellt för uppdateringar och säkerställ att din server har tillgång till internet och kan ansluta till appbutiken.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alla</strong> appar har en kompatibel version för denna version av Nextcloud.",
     "View changelog" : "Visa ändringslogg",
     "Enterprise" : "Enterprise",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Innehåller alltid den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Den uppdateringen sker när Nextcloud GmbH har utfört ytterligare verifiering och testning för storskaliga och kritiska installationer. Den här kanalen är endast tillgänglig för kunder och tillhandahåller Nextcloud Enterprise-paketet.",
@@ -43,7 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste större mer omfattande versionen.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."],
     "Apps missing updates" : "Appar som saknar uppdateringar",
     "Apps with available updates" : "Appar med tillgängliga uppdateringar",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Notera att när en ny version släppts kan det ta lite tid innan den dyker upp här. Vi rullar ut nya versioner till våra användare vid utspridda tillfällen och hoppar ibland över versioner när problem hittas.",
@@ -51,6 +49,8 @@ OC.L10N.register(
     "Checking apps for compatible updates" : "Kontrollera appar för kompatibla uppdateringar",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Kunde inte ansluta till appbutiken eller så returnerades inga uppdateringar alls. Sök manuellt för uppdateringar och säkerställ att din server har tillgång till internet och kan ansluta till appbutiken.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Alla</strong> appar har en uppdatering för den här versionen tillgänglig",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alla</strong> appar har en kompatibel version för denna version av Nextcloud.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."]
 },
 "nplurals=2; plural=(n != 1);");

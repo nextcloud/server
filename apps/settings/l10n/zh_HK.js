@@ -183,6 +183,7 @@ OC.L10N.register(
     "Rename" : "重新命名",
     "Revoke" : "撤銷",
     "Wipe device" : "抹除裝置",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "如果還沒開始抹除，則撤銷此權杖可能會導致無法抹除您的裝置。",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

@@ -178,6 +178,8 @@
     "Login form is disabled." : "O formulário de login está desativado.",
     "Edit Profile" : "Editar Perfil ",
     "The headline and about sections will show up here" : "O título e as seções sobre serão exibidos aqui",
+    "You have not added any info yet" : "Você ainda não adicionou nenhuma informação",
+    "{user} has not added any info yet" : "{usuário} ainda não adicionou nenhuma informação",
     "Error opening the user status modal, try hard refreshing the page" : "Erro ao abrir o modal de status do usuário, tente atualizar a página",
     "Reset search" : "Redefinir pesquisa",
     "Search for {name} only" : "Pesquisar somente por {nome}",
