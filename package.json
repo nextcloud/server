@@ -116,7 +116,7 @@
     "jest": "^26.6.3",
     "jsdom": "^19.0.0",
     "regextras": "^0.8.0",
-    "sass": "^1.47.0",
+    "sass": "^1.49.0",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
     "url-loader": "^4.1.1",
