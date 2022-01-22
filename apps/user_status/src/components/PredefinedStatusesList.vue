@@ -20,11 +20,9 @@
   -->
 
 <template>
-	<div
-		v-if="hasLoaded"
+	<div v-if="hasLoaded"
 		class="predefined-statuses-list">
-		<PredefinedStatus
-			v-for="status in predefinedStatuses"
+		<PredefinedStatus v-for="status in predefinedStatuses"
 			:key="status.id"
 			:message-id="status.id"
 			:icon="status.icon"
@@ -32,8 +30,7 @@
 			:clear-at="status.clearAt"
 			@select="selectStatus(status)" />
 	</div>
-	<div
-		v-else
+	<div v-else
 		class="predefined-statuses-list">
 		<div class="icon icon-loading-small" />
 	</div>

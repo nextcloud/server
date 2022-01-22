@@ -22,18 +22,15 @@
 
 <template>
 	<!-- TODO remove this inline margin placeholder once the settings layout is updated -->
-	<section
-		id="profile-visibility"
+	<section id="profile-visibility"
 		:style="{ marginLeft }">
-		<HeaderBar
-			:account-property="heading" />
+		<HeaderBar :account-property="heading" />
 
 		<em :class="{ disabled }">
 			{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
 		</em>
 
-		<div
-			class="visibility-dropdowns"
+		<div class="visibility-dropdowns"
 			:style="{
 				gridTemplateRows: `repeat(${rows}, 44px)`,
 			}">

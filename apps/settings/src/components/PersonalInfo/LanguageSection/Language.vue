@@ -22,8 +22,7 @@
 
 <template>
 	<div class="language">
-		<select
-			id="language"
+		<select id="language"
 			:placeholder="t('settings', 'Language')"
 			@change="onLanguageChange">
 			<option v-for="commonLanguage in commonLanguages"
@@ -43,8 +42,7 @@
 			</option>
 		</select>
 
-		<a
-			href="https://www.transifex.com/nextcloud/nextcloud/"
+		<a href="https://www.transifex.com/nextcloud/nextcloud/"
 			target="_blank"
 			rel="noreferrer noopener">
 			<em>{{ t('settings', 'Help translate') }}</em>

@@ -22,8 +22,7 @@
 <template>
 	<li :class="{ inline }">
 		<div id="weather-status-menu-item">
-			<Actions
-				class="weather-status-menu-item__subheader"
+			<Actions class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
 				:menu-title="currentWeatherMessage">
 				<ActionText v-if="gotWeather"
@@ -43,14 +42,12 @@
 					{{ addRemoveFavoriteText }}
 				</ActionButton>
 				<ActionSeparator v-if="address && !errorMessage" />
-				<ActionButton
-					icon="icon-crosshair"
+				<ActionButton icon="icon-crosshair"
 					:close-after-click="true"
 					@click="onBrowserLocationClick">
 					{{ t('weather_status', 'Detect location') }}
 				</ActionButton>
-				<ActionInput
-					ref="addressInput"
+				<ActionInput ref="addressInput"
 					:disabled="false"
 					icon="icon-rename"
 					type="text"
@@ -58,8 +55,7 @@
 					@submit="onAddressSubmit">
 					{{ t('weather_status', 'Set custom address') }}
 				</ActionInput>
-				<ActionButton
-					v-show="favorites.length > 0"
+				<ActionButton v-show="favorites.length > 0"
 					:icon="toggleFavoritesIcon"
 					@click="showFavorites = !showFavorites">
 					{{ t('weather_status', 'Favorites') }}

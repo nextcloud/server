@@ -39,14 +39,12 @@
 				<span>{{ share.status.message || '' }}</span>
 			</p>
 		</component>
-		<Actions
-			menu-align="right"
+		<Actions menu-align="right"
 			class="sharing-entry__actions"
 			@close="onMenuClose">
 			<template v-if="share.canEdit">
 				<!-- edit permission -->
-				<ActionCheckbox
-					ref="canEdit"
+				<ActionCheckbox ref="canEdit"
 					:checked.sync="canEdit"
 					:value="permissionsEdit"
 					:disabled="saving || !canSetEdit">
@@ -54,8 +52,7 @@
 				</ActionCheckbox>
 
 				<!-- create permission -->
-				<ActionCheckbox
-					v-if="isFolder"
+				<ActionCheckbox v-if="isFolder"
 					ref="canCreate"
 					:checked.sync="canCreate"
 					:value="permissionsCreate"
@@ -64,8 +61,7 @@
 				</ActionCheckbox>
 
 				<!-- delete permission -->
-				<ActionCheckbox
-					v-if="isFolder"
+				<ActionCheckbox v-if="isFolder"
 					ref="canDelete"
 					:checked.sync="canDelete"
 					:value="permissionsDelete"
@@ -74,8 +70,7 @@
 				</ActionCheckbox>
 
 				<!-- reshare permission -->
-				<ActionCheckbox
-					v-if="config.isResharingAllowed"
+				<ActionCheckbox v-if="config.isResharingAllowed"
 					ref="canReshare"
 					:checked.sync="canReshare"
 					:value="permissionsShare"
@@ -112,8 +107,7 @@
 
 				<!-- note -->
 				<template v-if="canHaveNote">
-					<ActionCheckbox
-						:checked.sync="hasNote"
+					<ActionCheckbox :checked.sync="hasNote"
 						:disabled="saving"
 						@uncheck="queueUpdate('note')">
 						{{ t('files_sharing', 'Note to recipient') }}

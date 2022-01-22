@@ -19,11 +19,9 @@
   -
   -->
 <template>
-	<form
-		class="custom-input__form"
+	<form class="custom-input__form"
 		@submit.prevent>
-		<input
-			ref="input"
+		<input ref="input"
 			maxlength="80"
 			:disabled="disabled"
 			:placeholder="$t('user_status', 'What is your status?')"

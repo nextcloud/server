@@ -43,8 +43,7 @@
 	</div>
 
 	<!-- User full data -->
-	<UserRowSimple
-		v-else-if="!editing"
+	<UserRowSimple v-else-if="!editing"
 		:editing.sync="editing"
 		:feedback-message="feedbackMessage"
 		:groups="groups"
@@ -75,12 +74,10 @@
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
-			<form
-				:class="{'icon-loading-small': loading.displayName}"
+			<form :class="{'icon-loading-small': loading.displayName}"
 				class="displayName"
 				@submit.prevent="updateDisplayName">
-				<input
-					:id="'displayName'+user.id+rand"
+				<input :id="'displayName'+user.id+rand"
 					ref="displayName"
 					:disabled="loading.displayName||loading.all"
 					:value="user.displayname"
@@ -89,8 +86,7 @@
 					autocorrect="off"
 					spellcheck="false"
 					type="text">
-				<input
-					class="icon-confirm"
+				<input class="icon-confirm"
 					type="submit"
 					value="">
 			</form>

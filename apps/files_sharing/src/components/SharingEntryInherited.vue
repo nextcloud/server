@@ -21,13 +21,11 @@
   -->
 
 <template>
-	<SharingEntrySimple
-		:key="share.id"
+	<SharingEntrySimple :key="share.id"
 		class="sharing-entry__inherited"
 		:title="share.shareWithDisplayName">
 		<template #avatar>
-			<Avatar
-				:user="share.shareWith"
+			<Avatar :user="share.shareWith"
 				:display-name="share.shareWithDisplayName"
 				class="sharing-entry__avatar"
 				tooltip-message="" />

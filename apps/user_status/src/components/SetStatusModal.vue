@@ -20,8 +20,7 @@
   -->
 
 <template>
-	<Modal
-		size="normal"
+	<Modal size="normal"
 		:title="$t('user_status', 'Set status')"
 		@close="closeModal">
 		<div class="set-status-modal">
@@ -43,21 +42,17 @@
 			</div>
 			<div class="set-status-modal__custom-input">
 				<EmojiPicker @select="setIcon">
-					<button
-						class="custom-input__emoji-button">
+					<button class="custom-input__emoji-button">
 						{{ visibleIcon }}
 					</button>
 				</EmojiPicker>
-				<CustomMessageInput
-					ref="customMessageInput"
+				<CustomMessageInput ref="customMessageInput"
 					:message="message"
 					@change="setMessage"
 					@submit="saveStatus" />
 			</div>
-			<PredefinedStatusesList
-				@selectStatus="selectPredefinedMessage" />
-			<ClearAtSelect
-				:clear-at="clearAt"
+			<PredefinedStatusesList @selectStatus="selectPredefinedMessage" />
+			<ClearAtSelect :clear-at="clearAt"
 				@selectClearAt="setClearAt" />
 			<div class="status-buttons">
 				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">

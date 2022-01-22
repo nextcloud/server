@@ -21,12 +21,10 @@
 -->
 
 <template>
-	<a
-		:class="{ disabled }"
+	<a :class="{ disabled }"
 		href="#profile-visibility"
 		v-on="$listeners">
-		<ChevronDownIcon
-			class="anchor-icon"
+		<ChevronDownIcon class="anchor-icon"
 			decorative
 			title=""
 			:size="22" />

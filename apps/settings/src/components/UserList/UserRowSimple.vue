@@ -1,6 +1,5 @@
 <template>
-	<div
-		class="row"
+	<div class="row"
 		:class="{'disabled': loading.delete || loading.disable}"
 		:data-id="user.id">
 		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
@@ -35,8 +34,7 @@
 		<div class="userQuota">
 			<div class="quota">
 				{{ userQuota }} ({{ usedSpace }})
-				<progress
-					class="quota-user-progress"
+				<progress class="quota-user-progress"
 					:class="{'warn': usedQuota > 80}"
 					:value="usedQuota"
 					max="100" />
@@ -65,8 +63,7 @@
 					</ActionButton>
 				</Actions>
 				<div class="userPopoverMenuWrapper">
-					<button
-						v-click-outside="hideMenu"
+					<button v-click-outside="hideMenu"
 						class="icon-more"
 						:aria-label="t('settings', 'Toggle user actions menu')"
 						@click.prevent="toggleMenu" />

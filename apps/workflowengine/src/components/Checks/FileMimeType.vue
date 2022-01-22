@@ -22,8 +22,7 @@
 
 <template>
 	<div>
-		<Multiselect
-			:value="currentValue"
+		<Multiselect :value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			track-by="pattern"

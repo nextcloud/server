@@ -22,8 +22,7 @@
 
 <template>
 	<div class="headline">
-		<input
-			id="headline"
+		<input id="headline"
 			type="text"
 			:placeholder="t('settings', 'Your headline')"
 			:value="headline"

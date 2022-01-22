@@ -7,8 +7,7 @@
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<p class="settings-hint" v-html="hint" />
 		<p>
-			<input
-				id="caldavSendInvitations"
+			<input id="caldavSendInvitations"
 				v-model="sendInvitations"
 				type="checkbox"
 				class="checkbox">
@@ -23,8 +22,7 @@
 			<em v-html="sendInvitationsHelpText" />
 		</p>
 		<p>
-			<input
-				id="caldavGenerateBirthdayCalendar"
+			<input id="caldavGenerateBirthdayCalendar"
 				v-model="generateBirthdayCalendar"
 				type="checkbox"
 				class="checkbox">
@@ -41,8 +39,7 @@
 			</em>
 		</p>
 		<p>
-			<input
-				id="caldavSendEventReminders"
+			<input id="caldavSendEventReminders"
 				v-model="sendEventReminders"
 				type="checkbox"
 				class="checkbox">
@@ -61,8 +58,7 @@
 			</em>
 		</p>
 		<p>
-			<input
-				id="caldavSendEventRemindersPush"
+			<input id="caldavSendEventRemindersPush"
 				v-model="sendEventRemindersPush"
 				type="checkbox"
 				class="checkbox"

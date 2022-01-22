@@ -21,24 +21,21 @@
 -->
 
 <template>
-	<h3
-		:class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
+	<h3 :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
 		<label :for="labelFor">
 			<!-- Already translated as required by prop validator -->
 			{{ accountProperty }}
 		</label>
 
 		<template v-if="scope">
-			<FederationControl
-				class="federation-control"
+			<FederationControl class="federation-control"
 				:account-property="accountProperty"
 				:scope.sync="localScope"
 				@update:scope="onScopeChange" />
 		</template>
 
 		<template v-if="isEditable && isMultiValueSupported">
-			<AddButton
-				class="add-button"
+			<AddButton class="add-button"
 				:disabled="!isValidSection"
 				@click.stop.prevent="onAddAdditional" />
 		</template>

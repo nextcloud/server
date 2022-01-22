@@ -22,16 +22,14 @@
 
 <template>
 	<section>
-		<HeaderBar
-			:account-property="accountProperty"
+		<HeaderBar :account-property="accountProperty"
 			label-for="displayname"
 			:is-editable="displayNameChangeSupported"
 			:is-valid-section="isValidSection"
 			:scope.sync="primaryDisplayName.scope" />
 
 		<template v-if="displayNameChangeSupported">
-			<DisplayName
-				:display-name.sync="primaryDisplayName.value"
+			<DisplayName :display-name.sync="primaryDisplayName.value"
 				:scope.sync="primaryDisplayName.scope" />
 		</template>
 

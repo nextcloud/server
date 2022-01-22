@@ -21,8 +21,7 @@
   -
   -->
 <template>
-	<AppSidebarTab
-		:id="id"
+	<AppSidebarTab :id="id"
 		ref="tab"
 		:name="name"
 		:icon="icon"

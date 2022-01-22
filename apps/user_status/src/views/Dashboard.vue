@@ -20,17 +20,14 @@
   -->
 
 <template>
-	<DashboardWidget
-		id="user-status_panel"
+	<DashboardWidget id="user-status_panel"
 		:items="items"
 		:loading="loading">
 		<template #default="{ item }">
-			<DashboardWidgetItem
-				:main-text="item.mainText"
+			<DashboardWidgetItem :main-text="item.mainText"
 				:sub-text="item.subText">
 				<template #avatar>
-					<Avatar
-						class="item-avatar"
+					<Avatar class="item-avatar"
 						:size="44"
 						:user="item.avatarUsername"
 						:display-name="item.mainText"
@@ -40,8 +37,7 @@
 			</DashboardWidgetItem>
 		</template>
 		<template #empty-content>
-			<EmptyContent
-				id="user_status-widget-empty-content"
+			<EmptyContent id="user_status-widget-empty-content"
 				icon="icon-user-status">
 				{{ t('user_status', 'No recent status changes') }}
 			</EmptyContent>

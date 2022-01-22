@@ -22,7 +22,7 @@
 
 export default class ExternalLinkActions {
 
-	_state;
+	_state
 
 	constructor() {
 		// init empty state

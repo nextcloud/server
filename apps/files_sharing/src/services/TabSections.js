@@ -22,7 +22,7 @@
 
 export default class TabSections {
 
-	_sections;
+	_sections
 
 	constructor() {
 		this._sections = []

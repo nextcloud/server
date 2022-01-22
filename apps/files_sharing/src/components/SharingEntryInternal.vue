@@ -1,7 +1,6 @@
 
 <template>
-	<SharingEntrySimple
-		class="sharing-entry__internal"
+	<SharingEntrySimple class="sharing-entry__internal"
 		:title="t('files_sharing', 'Internal link')"
 		:subtitle="internalLinkSubtitle">
 		<template #avatar>

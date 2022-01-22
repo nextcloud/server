@@ -19,8 +19,7 @@
   -
   -->
 <template>
-	<div
-		class="predefined-status"
+	<div class="predefined-status"
 		tabindex="0"
 		@keyup.enter="select"
 		@keyup.space="select"

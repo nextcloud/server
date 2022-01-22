@@ -23,8 +23,7 @@
 	<li>
 		<div class="user-status-menu-item">
 			<!-- Username display -->
-			<a
-				v-if="!inline"
+			<a v-if="!inline"
 				class="user-status-menu-item__header"
 				:href="profilePageLink"
 				@click="loadProfilePage">
@@ -50,8 +49,7 @@
 		</div>
 
 		<!-- Status management modal -->
-		<SetStatusModal
-			v-if="isModalOpen"
+		<SetStatusModal v-if="isModalOpen"
 			@close="closeModal" />
 	</li>
 </template>

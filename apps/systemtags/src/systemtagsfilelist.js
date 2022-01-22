@@ -137,7 +137,7 @@
 								},
 							})
 						} else {
-							// eslint-disable-next-line node/no-callback-literal
+							// eslint-disable-next-line n/no-callback-literal
 							callback([])
 						}
 					},

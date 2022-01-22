@@ -22,8 +22,7 @@
 
 <template>
 	<div class="biography">
-		<textarea
-			id="biography"
+		<textarea id="biography"
 			:placeholder="t('settings', 'Your biography')"
 			:value="biography"
 			rows="8"
