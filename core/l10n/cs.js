@@ -380,7 +380,7 @@ OC.L10N.register(
     "Maintenance mode" : "Režim údržby",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tato instance %s se právě nachází v režimu údržby a ta může chvíli trvat.",
     "This page will refresh itself when the instance is available again." : "Tato stránka se automaticky znovu načte, jakmile bude tato instance opět dostupná.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Pokud se tato zpráva objevuje trvale nebo nečekaně, obraťte se správce systému.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Pokud se tato zpráva objevuje trvale nebo nečekaně, obraťte se na správce systému.",
     "Couldn't reset password because the token is invalid" : "Heslo není možné resetovat, protože token není platný",
     "Couldn't reset password because the token is expired" : "Heslo není možné resetovat, protože platnost tokenu skončila",
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Zjišťuje se, zda je možné schéma databáze zaktualizovat (v závislosti na velikosti databáze to může trvat delší dobu)",
