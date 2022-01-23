@@ -80,6 +80,7 @@
     "RSA private key" : "Privater RSA-Schlüssel",
     "Private key" : "Privater Schlüssel",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos-Standard-Realm, standardmäßig „WORKGROUP“",
+    "Kerberos ticket Apache mode" : "Kerberos-Ticket Apache-Modus",
     "Kerberos ticket" : "Kerberos-Ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
