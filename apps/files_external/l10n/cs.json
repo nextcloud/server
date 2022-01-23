@@ -80,6 +80,7 @@
     "RSA private key" : "Soukromá část RSA klíče",
     "Private key" : "Soukromá část klíče",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Výchozí kerberos oblast (realm) – výchozí je „WORKGROUP",
+    "Kerberos ticket Apache mode" : "Režim kerberos lístku (ticket) apache serveru",
     "Kerberos ticket" : "Kerberos ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
