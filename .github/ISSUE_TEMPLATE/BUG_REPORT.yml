@@ -5,14 +5,23 @@ labels: ["bug", "0. Needs triage"]
 body:
   - type: markdown
     attributes:
-      value: "### Thank you for contributing to our project!"
-  - type: markdown
-    attributes:
       value: |
-        Before submitting, we'd appreciate it if you:
-          - Verify that your issue is not already reported. Search for it on Github.
-          - Check if your Nextcloud Server is up to date. If not, we recommend that you update it first.
-          See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
+        ### 👍 Thank you for contributing to our project!
+        Please note this is a **free and open-source** project. You can obtain [Enterprise support](https://nextcloud.com/support/) if you run Nextcloud Server in a mission critical environment.
+  - type: checkboxes
+    id: before-posting
+    attributes:
+      label: "⚠️ Before submitting, please verify the following: ⚠️"
+      description: All conditions are **required**. Your issue can be closed if these are checked incorrectly.
+      options:
+        - label: This is a **bug**, not a question or a configuration issue.
+          required: true
+        - label: This issue is **not** already reported on Github (I've searched it).
+          required: true
+        - label: Nextcloud Server **is** up to date. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
+          required: true
+        - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/)
+          required: true
   - type: textarea
     id: bug-description
     attributes:
@@ -215,19 +224,3 @@ body:
       description: Any additional information related to the issue (ex. browser console errors, software versions).
     validations:
       required: true
-  - type: checkboxes
-    id: issue-terms
-    attributes:
-      label: This is a bug, not a question or a configuration issue
-      description: By submitting this issue, you agree to use Github only to report bugs on this project code
-      options:
-        - label: This is a bug, not a question or a configuration issue
-          required: true
-  - type: checkboxes
-    id: coc-terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/)
-      options:
-        - label: I agree to follow Nextcloud's Code of Conduct
-          required: true
