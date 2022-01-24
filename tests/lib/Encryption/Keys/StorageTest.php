@@ -452,7 +452,7 @@ class StorageTest extends TestCase {
 	/**
 	 * @dataProvider dataProviderCopyRename
 	 */
-	public function testCopyKeys($source, $target, $systemWideMountSource, $systemWideMountTarget , $expectedSource, $expectedTarget) {
+	public function testCopyKeys($source, $target, $systemWideMountSource, $systemWideMountTarget, $expectedSource, $expectedTarget) {
 		$this->view->expects($this->any())
 			->method('file_exists')
 			->willReturn(true);

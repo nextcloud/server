@@ -100,7 +100,7 @@ class DateTimeFormatterTest extends TestCase {
 			['in 2 years',		$time, $this->getTimestampAgo($time, 0, 0, 0, 0, 2)],
 
 			// Test with compare timestamp
-			['today',			$this->getTimestampAgo($time,  0,  0, 0, 0, 1), $this->getTimestampAgo($time, 0, 0, 0, 0, 1)],
+			['today',			$this->getTimestampAgo($time, 0, 0, 0, 0, 1), $this->getTimestampAgo($time, 0, 0, 0, 0, 1)],
 			['yesterday',		$this->getTimestampAgo($time, 30, 15, 3, 1, 1), $this->getTimestampAgo($time, 0, 0, 0, 0, 1)],
 			['4 days ago',		$this->getTimestampAgo($time, 30, 15, 3, 4, 1), $this->getTimestampAgo($time, 0, 0, 0, 0, 1)],
 			['5 months ago',	$this->getTimestampAgo($time, 30, 15, 3, 155, 1), $this->getTimestampAgo($time, 0, 0, 0, 0, 1)],

@@ -247,8 +247,7 @@ class Upgrade extends Command {
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
 				. 'logfile (data/nextcloud.log). If you want to re-run the '
 				. 'upgrade procedure, remove the "maintenance mode" from '
-				. 'config.php and call this script again.</comment>'
-				, true);
+				. 'config.php and call this script again.</comment>', true);
 			return self::ERROR_MAINTENANCE_MODE;
 		} else {
 			$output->writeln('<info>Nextcloud is already latest version</info>');

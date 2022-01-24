@@ -302,7 +302,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string
 	 */
 	public function getHeader(string $name): string {
-		$name = strtoupper(str_replace('-', '_',$name));
+		$name = strtoupper(str_replace('-', '_', $name));
 		if (isset($this->server['HTTP_' . $name])) {
 			return $this->server['HTTP_' . $name];
 		}

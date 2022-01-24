@@ -197,7 +197,7 @@ class HasherTest extends \Test\TestCase {
 		}
 
 
-		$this->assertTrue($this->hasher->verify($message, $blowfish,$newHash));
+		$this->assertTrue($this->hasher->verify($message, $blowfish, $newHash));
 		$this->assertTrue($this->hasher->verify($message, $argon2));
 
 		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$newHash]);

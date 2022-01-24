@@ -43,7 +43,7 @@ class AdapterPgSql extends Adapter {
 		return $statement;
 	}
 
-	public function insertIgnoreConflict(string $table,array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values) : int {
 		if ($this->isPre9_5CompatMode() === true) {
 			return parent::insertIgnoreConflict($table, $values);
 		}

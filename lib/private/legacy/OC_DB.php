@@ -42,7 +42,7 @@ class OC_DB {
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
-	public static function prepare($query , $limit = null, $offset = null, $isManipulation = null) {
+	public static function prepare($query, $limit = null, $offset = null, $isManipulation = null) {
 		$connection = \OC::$server->getDatabaseConnection();
 
 		if ($isManipulation === null) {

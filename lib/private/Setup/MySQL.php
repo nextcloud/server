@@ -125,7 +125,7 @@ class MySQL extends AbstractDatabase {
 				$connection->executeUpdate($query);
 			}
 		} catch (\Exception $ex) {
-			$this->logger->error('Database user creation failed.',[
+			$this->logger->error('Database user creation failed.', [
 				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);

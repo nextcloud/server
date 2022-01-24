@@ -178,7 +178,7 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && in_array($key , ['email', 'display_name'])) {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
 						if ($key === 'email') {
@@ -208,7 +208,7 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && in_array($key , ['email', 'display_name'])) {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
 						if ($key === 'email') {

@@ -1062,7 +1062,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.server.name:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.server.name:8080', $request->getInsecureServerHost());
 	}
 
 	public function testInsecureServerHostHttpHostHeader() {
@@ -1079,7 +1079,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.host.header:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.host.header:8080', $request->getInsecureServerHost());
 	}
 
 	public function testInsecureServerHostHttpFromForwardedHeaderSingle() {
@@ -1108,7 +1108,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.forwarded.host:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.forwarded.host:8080', $request->getInsecureServerHost());
 	}
 
 	public function testInsecureServerHostHttpFromForwardedHeaderStacked() {
@@ -1137,7 +1137,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.forwarded.host2:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.forwarded.host2:8080', $request->getInsecureServerHost());
 	}
 
 	public function testGetServerHostWithOverwriteHost() {
@@ -1161,7 +1161,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('my.overwritten.host',  $request->getServerHost());
+		$this->assertSame('my.overwritten.host', $request->getServerHost());
 	}
 
 	public function testGetServerHostWithTrustedDomain() {
@@ -1190,7 +1190,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('my.trusted.host',  $request->getServerHost());
+		$this->assertSame('my.trusted.host', $request->getServerHost());
 	}
 
 	public function testGetServerHostWithUntrustedDomain() {
@@ -1219,7 +1219,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('my.trusted.host',  $request->getServerHost());
+		$this->assertSame('my.trusted.host', $request->getServerHost());
 	}
 
 	public function testGetServerHostWithNoTrustedDomain() {
@@ -1245,7 +1245,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('',  $request->getServerHost());
+		$this->assertSame('', $request->getServerHost());
 	}
 
 	/**
