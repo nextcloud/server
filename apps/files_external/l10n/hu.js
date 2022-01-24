@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Hitelesítő adatok mentve",
     "Credentials saving failed" : "Hitelesítő adatok mentése sikertelen",
     "Credentials required" : "Hitelesítő adatok szükségesek",
+    "Forbidden to manage local mounts" : "A helyi csatolt kötetek kezelése tiltott",
     "Storage with ID \"%d\" not found" : "A(z) „%d” azonosítójú tároló nem található",
     "Invalid backend or authentication mechanism class" : "Érvénytelen háttérszolgáltatási vagy hitelesítési mechanizmus osztály",
     "Invalid mount point" : "Érvénytelen csatolási pont",
@@ -80,6 +81,8 @@ OC.L10N.register(
     "Public key" : "Nyilvános kulcs",
     "RSA private key" : "RSA titkos kulcs",
     "Private key" : "Titkos kulcs",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Az alapértelmezett Kerberos tartomány, alapértelmezetten „WORKGROUP”",
+    "Kerberos ticket Apache mode" : "Kerberos jegy Apache módja",
     "Kerberos ticket" : "Kerberos jegy",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -137,6 +140,7 @@ OC.L10N.register(
     "External storages" : "Külső tárolók",
     "(group)" : "(csoport)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC bejelentkezéssel"
+    "SMB / CIFS using OC login" : "SMB / CIFS OC bejelentkezéssel",
+    "Kerberos ticket apache mode" : "Kerberos jegy apache módja"
 },
 "nplurals=2; plural=(n != 1);");

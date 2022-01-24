@@ -81,7 +81,9 @@ OC.L10N.register(
     "Public key" : "Herkese açık anahtar",
     "RSA private key" : "Kişisel RSA anahtarı",
     "Private key" : "Kişisel anahtar",
-    "Kerberos ticket" : "Kerberos bileti",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Varsayılan Kerberos alanı, varsayılan olarak \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Kerberos kaydı Apache kipi",
+    "Kerberos ticket" : "Kerberos kaydı",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Buket",
     "Hostname" : "Sunucu adı",
@@ -138,6 +140,7 @@ OC.L10N.register(
     "External storages" : "Dış depolama",
     "(group)" : "(grup)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS"
+    "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
+    "Kerberos ticket apache mode" : "Kerberos kaydı apache kipi"
 },
 "nplurals=2; plural=(n > 1);");

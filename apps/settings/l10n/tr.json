@@ -181,6 +181,7 @@
     "Rename" : "Yeniden adlandır",
     "Revoke" : "Geri al",
     "Wipe device" : "Aygıtı sil",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "Silme işlemi henüz başlamamış ise bu kodun geri çekilmesi aygıtınızın silinmesini engelleyebilir.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
