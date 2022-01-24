@@ -109,6 +109,8 @@ body:
         - "MySQL"
         - "MariaDB"
         - "PostgreSQL"
+        - "SQlite"
+        - "Oracle"
         - "Other"
     validations:
       required: true
@@ -135,18 +137,18 @@ body:
         - "Encryption is Disabled"
     validations:
       required: true
-  - type: dropdown
+  - type: checkboxes
     id: users
     attributes:
       label: Are you using an external user-backend?
       description: |
-        Select if an external user-backend is Enabled on your Nextcloud Server.
+        Select all user-backends Enabled on your Nextcloud Server.
         Describe in the "Additional info" section if you chose "Other".
       options:
-        - "Internal user-backend only"
-        - "LDAP/ Active Directory"
-        - "SSO - SAML"
-        - "Other"
+      - label: "Default internal user-backend"
+      - label: "LDAP/ Active Directory"
+      - label: "SSO - SAML"
+      - label: "Other"
     validations:
       required: true
   - type: textarea
