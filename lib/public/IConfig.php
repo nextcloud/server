@@ -220,6 +220,7 @@ interface IConfig {
 	 * Get all user configs sorted by app of one user
 	 *
 	 * @param string $userId the userId of the user that we want to get all values from
+	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
 	 *     [ $appId =>
 	 *         [ $key => $value ]

@@ -401,6 +401,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Returns all user configs sorted by app of one user
 	 *
 	 * @param ?string $userId the user ID to get the app configs from
+	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
 	 *     [ $appId =>
 	 *         [ $key => $value ]
