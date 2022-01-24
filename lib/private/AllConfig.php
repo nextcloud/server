@@ -312,14 +312,14 @@ class AllConfig implements \OCP\IConfig {
 	/**
 	 * Getting a user defined value
 	 *
-	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param ?string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return string
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
-		$data = $this->getUserValues($userId);
+		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName][$key])) {
 			return $data[$appName][$key];
 		} else {
@@ -335,7 +335,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string[]
 	 */
 	public function getUserKeys($userId, $appName) {
-		$data = $this->getUserValues($userId);
+		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName])) {
 			return array_keys($data[$appName]);
 		} else {
@@ -400,19 +400,20 @@ class AllConfig implements \OCP\IConfig {
 	/**
 	 * Returns all user configs sorted by app of one user
 	 *
-	 * @param string $userId the user ID to get the app configs from
+	 * @param ?string $userId the user ID to get the app configs from
+	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
 	 *     [ $appId =>
 	 *         [ $key => $value ]
 	 *     ]
 	 */
-	private function getUserValues($userId) {
+	public function getAllUserValues(?string $userId): array {
 		if (isset($this->userCache[$userId])) {
 			return $this->userCache[$userId];
 		}
 		if ($userId === null || $userId === '') {
-			$this->userCache[$userId] = [];
-			return $this->userCache[$userId];
+			$this->userCache[''] = [];
+			return $this->userCache[''];
 		}
 
 		// TODO - FIXME
