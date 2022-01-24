@@ -128,15 +128,6 @@ interface IFactory {
 	public function localeExists($locale);
 
 	/**
-	 * Creates a function from the plural string
-	 *
-	 * @param string $string
-	 * @return string Unique function name
-	 * @since 14.0.0
-	 */
-	public function createPluralFunction($string);
-
-	/**
 	 * iterate through language settings (if provided) in this order:
 	 * 1. returns the forced language or:
 	 * 2. if applicable, the trunk of 1 (e.g. "fu" instead of "fu_BAR"
