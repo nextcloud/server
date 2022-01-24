@@ -80,6 +80,7 @@
     "RSA private key" : "RSA 私鑰",
     "Private key" : "私鑰",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 默認領域，默認為 “WORKGROUP”",
+    "Kerberos ticket Apache mode" : "Kerberos 票證 Apache 模式",
     "Kerberos ticket" : "Kerberos 票證",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
