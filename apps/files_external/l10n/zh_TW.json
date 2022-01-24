@@ -79,6 +79,8 @@
     "Public key" : "公開金鑰",
     "RSA private key" : "RSA 私鑰",
     "Private key" : "私鑰",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 預設領域，預設為 \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Kerberos 票證 Apache 模式",
     "Kerberos ticket" : "Kerberos 票據",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -136,6 +138,7 @@
     "External storages" : "外部儲存空間",
     "(group)" : "（群組）",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "使用 OC 登入的 SMB / CIFS"
+    "SMB / CIFS using OC login" : "使用 OC 登入的 SMB / CIFS",
+    "Kerberos ticket apache mode" : "Kerberos 票證 apache 模式"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

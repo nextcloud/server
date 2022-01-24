@@ -183,6 +183,7 @@ OC.L10N.register(
     "Rename" : "Átnevezés",
     "Revoke" : "Visszavonás",
     "Wipe device" : "Eszköz törlése",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "A token visszavonása lehet hogy meggátolja az eszköz törlését, ha az még nem kezdődött el.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

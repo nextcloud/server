@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "E-posta ile paylaş",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
+    "Failed to send share by email. Got an invalid email address" : "Paylaşım e-posta ile gönderilemedi. Bir e-posta adresi geçersiz",
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%1$s shared »%2$s« with you" : "%1$s, sizinle »%2$s« ögesini paylaştı",
     "%1$s shared »%2$s« with you." : "%1$s, sizinle »%2$s« ögesini paylaştı.",
