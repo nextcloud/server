@@ -264,6 +264,9 @@ class SecurityMiddleware extends Middleware {
 					if ($usernamePrefill !== '') {
 						$params['user'] = $usernamePrefill;
 					}
+					if ($this->request->getParam('direct')) {
+						$params['direct'] = 1;
+					}
 					$url = $this->urlGenerator->linkToRoute('core.login.showLoginForm', $params);
 					$response = new RedirectResponse($url);
 				} else {
