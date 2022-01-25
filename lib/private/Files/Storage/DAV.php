@@ -796,7 +796,7 @@ class DAV extends Common {
 				if (isset($response['{DAV:}getetag'])) {
 					$etag = trim($response['{DAV:}getetag'], '"');
 				}
-				if (!empty($etag) && $cachedData['etag'] !== $etag) {
+				if (($cachedData === false) || (!empty($etag) && ($cachedData['etag'] !== $etag))) {
 					return true;
 				} elseif (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 					$sharePermissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
