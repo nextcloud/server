@@ -173,14 +173,10 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * Create a CacheEntry from database row
-	 *
-	 * @param array $data
-	 * @param IMimeTypeLoader $mimetypeLoader
-	 * @return CacheEntry
+	 * Helper method that creates a CacheEntry from a database row.
 	 */
-	public static function cacheEntryFromData($data, IMimeTypeLoader $mimetypeLoader) {
-		//fix types
+	public static function cacheEntryFromData(array $data, IMimeTypeLoader $mimetypeLoader): ICacheEntry {
+		// Fix types
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
 		$data['size'] = 0 + $data['size'];
