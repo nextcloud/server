@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Anmeldeinformationen gespeichert",
     "Credentials saving failed" : "Speichern der Anmeldeinformationen fehlgeschlagen",
     "Credentials required" : "Anmeldeinformationen benötigt",
+    "Forbidden to manage local mounts" : "Das Verwalten lokaler Laufwerke ist nicht erlaubt",
     "Storage with ID \"%d\" not found" : "Der Speicher mit der ID „%d“ wurde nicht gefunden",
     "Invalid backend or authentication mechanism class" : "Ungültiger Backend- oder Authentifizierungsmechanismus",
     "Invalid mount point" : "Ungültiger Einbindungspunkt",
@@ -80,6 +81,8 @@ OC.L10N.register(
     "Public key" : "Öffentlicher Schlüssel",
     "RSA private key" : "Privater RSA-Schlüssel",
     "Private key" : "Privater Schlüssel",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos-Standard-Realm, standardmäßig „WORKGROUP“",
+    "Kerberos ticket Apache mode" : "Kerberos-Ticket Apache-Modus",
     "Kerberos ticket" : "Kerberos-Ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -137,6 +140,7 @@ OC.L10N.register(
     "External storages" : "Externe Speicher",
     "(group)" : "(Gruppe)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Anmeldung"
+    "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Anmeldung",
+    "Kerberos ticket apache mode" : "Kerberos-Ticket Apache-Modus"
 },
 "nplurals=2; plural=(n != 1);");
