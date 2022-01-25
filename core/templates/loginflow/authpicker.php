@@ -62,6 +62,7 @@ $urlGenerator = $_['urlGenerator'];
 		</p>
 		<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
+		<input type="hidden" name="direct" value="<?php p($_['direct']) ?>">
 		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
 	</form>
 </div>
