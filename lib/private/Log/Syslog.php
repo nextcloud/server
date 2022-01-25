@@ -38,9 +38,12 @@ class Syslog extends LogDetails implements IWriter {
 		ILogger::FATAL => LOG_CRIT,
 	];
 
-	public function __construct(SystemConfig $config) {
+	public function __construct(SystemConfig $config, ?string $tag = null) {
 		parent::__construct($config);
-		openlog($config->getValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
+		if ($tag === null) {
+			$tag = $config->getValue('syslog_tag', 'Nextcloud');
+		}
+		openlog($tag, LOG_PID | LOG_CONS, LOG_USER);
 	}
 
 	public function __destruct() {

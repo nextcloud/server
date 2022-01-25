@@ -96,15 +96,19 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function getLogger(IConfig $config,
-							   LoggerInterface $logger,
 							   ILogFactory $logFactory): LoggerInterface {
-		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
-		$logFile = $config->getAppValue('admin_audit', 'logfile', $default);
+		$auditType = $config->getSystemValueString('log_type_audit', 'file');
+		$defaultTag = $config->getSystemValueString('syslog_tag', 'Nextcloud');
+		$auditTag = $config->getSystemValueString('syslog_tag_audit', $defaultTag);
+		$logFile = $config->getSystemValueString('logfile_audit', '');
 
-		if ($logFile === null) {
-			return $logger;
+		if ($auditType === 'file' && !$logFile) {
+			$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
+			// Legacy way was appconfig, now it's paralleled with the normal log config
+			$logFile = $config->getAppValue('admin_audit', 'logfile', $default);
 		}
-		return $logFactory->getCustomPsrLogger($logFile);
+
+		return $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
 	}
 
 	/**
