@@ -164,10 +164,11 @@ class ClientFlowLoginController extends Controller {
 	 * @UseSession
 	 *
 	 * @param string $clientIdentifier
+	 * @param int $direct
 	 *
 	 * @return StandaloneTemplateResponse
 	 */
-	public function showAuthPickerPage($clientIdentifier = '') {
+	public function showAuthPickerPage($clientIdentifier = '', $direct = 0) {
 		$clientName = $this->getClientName();
 		$client = null;
 		if ($clientIdentifier !== '') {
@@ -218,6 +219,7 @@ class ClientFlowLoginController extends Controller {
 				'stateToken' => $stateToken,
 				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
+				'direct' => $direct,
 			],
 			'guest'
 		);
@@ -234,10 +236,12 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
+	 * @param int $direct
 	 * @return StandaloneTemplateResponse
 	 */
 	public function grantPage($stateToken = '',
-								 $clientIdentifier = '') {
+		$clientIdentifier = '',
+		$direct = 0) {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -267,6 +271,7 @@ class ClientFlowLoginController extends Controller {
 				'stateToken' => $stateToken,
 				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
+				'direct' => $direct,
 			],
 			'guest'
 		);
