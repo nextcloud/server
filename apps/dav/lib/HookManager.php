@@ -105,10 +105,7 @@ class HookManager {
 			$this->postDeleteUser(['uid' => $uid]);
 		});
 		\OC::$server->getUserManager()->listen('\OC\User', 'postUnassignedUserId', [$this, 'postUnassignedUserId']);
-		Util::connectHook('OC_User',
-			'changeUser',
-			$this,
-			'changeUser');
+		Util::connectHook('OC_User', 'changeUser', $this, 'changeUser');
 	}
 
 	public function postCreateUser($params) {
@@ -164,7 +161,12 @@ class HookManager {
 
 	public function changeUser($params) {
 		$user = $params['user'];
-		$this->syncService->updateUser($user);
+		$feature = $params['feature'];
+		// This case is already covered by the account manager firing up a signal
+		// later on
+		if ($feature !== 'eMailAddress' && $feature !== 'displayName') {
+			$this->syncService->updateUser($user);
+		}
 	}
 
 	public function firstLogin(IUser $user = null) {

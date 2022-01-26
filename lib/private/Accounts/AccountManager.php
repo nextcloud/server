@@ -269,12 +269,15 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	protected function updateUser(IUser $user, array $data, bool $throwOnData = false): array {
-		$oldUserData = $this->getUser($user, false);
+	protected function updateUser(IUser $user, array $data, ?array $oldUserData, bool $throwOnData = false): array {
+		if ($oldUserData === null) {
+			$oldUserData = $this->getUser($user, false);
+		}
+
 		$updated = true;
 
 		if ($oldUserData !== $data) {
-			$this->updateExistingUser($user, $data);
+			$this->updateExistingUser($user, $data, $oldUserData);
 		} else {
 			// nothing needs to be done if new and old data set are the same
 			$updated = false;
@@ -601,12 +604,9 @@ class AccountManager implements IAccountManager {
 	}
 
 	/**
-	 * update existing user in accounts table
-	 *
-	 * @param IUser $user
-	 * @param array $data
+	 * Update existing user in accounts table
 	 */
-	protected function updateExistingUser(IUser $user, array $data): void {
+	protected function updateExistingUser(IUser $user, array $data, array $oldData): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = $this->prepareJson($data);
 		$query = $this->connection->getQueryBuilder();
@@ -820,7 +820,7 @@ class AccountManager implements IAccountManager {
 			];
 		}
 
-		$this->updateUser($account->getUser(), $data, true);
+		$this->updateUser($account->getUser(), $data, $oldData, true);
 		$this->internalCache->set($account->getUser()->getUID(), $account);
 	}
 }
