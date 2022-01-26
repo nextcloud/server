@@ -23,7 +23,9 @@
  */
 namespace OCP\Comments;
 
+use Closure;
 use OCP\EventDispatcher\Event;
+use OutOfBoundsException;
 
 /**
  * Class CommentsEntityEvent
@@ -31,49 +33,42 @@ use OCP\EventDispatcher\Event;
  * @since 9.1.0
  */
 class CommentsEntityEvent extends Event {
-	/**
-	 * @deprecated 22.0.0
-	 */
-	public const EVENT_ENTITY = 'OCP\Comments\ICommentsManager::registerEntity';
-
-	/** @var string */
-	protected $event;
-	/** @var \Closure[] */
+	/** @var Closure[] */
 	protected $collections;
 
 	/**
 	 * DispatcherEvent constructor.
 	 *
-	 * @param string $event
+	 * @param Closure[] $collections
 	 * @since 9.1.0
 	 */
-	public function __construct($event) {
-		$this->event = $event;
-		$this->collections = [];
+	public function __construct(array $collections = []) {
+		parent::__construct();
+		$this->collections = $collections;
 	}
 
 	/**
 	 * @param string $name
-	 * @param \Closure $entityExistsFunction The closure should take one
+	 * @param Closure $entityExistsFunction The closure should take one
 	 *                 argument, which is the id of the entity, that comments
 	 *                 should be handled for. The return should then be bool,
 	 *                 depending on whether comments are allowed (true) or not.
-	 * @throws \OutOfBoundsException when the entity name is already taken
+	 * @throws OutOfBoundsException when the entity name is already taken
 	 * @since 9.1.0
 	 */
-	public function addEntityCollection($name, \Closure $entityExistsFunction) {
+	public function addEntityCollection(string $name, Closure $entityExistsFunction) {
 		if (isset($this->collections[$name])) {
-			throw new \OutOfBoundsException('Duplicate entity name "' . $name . '"');
+			throw new OutOfBoundsException('Duplicate entity name "' . $name . '"');
 		}
 
 		$this->collections[$name] = $entityExistsFunction;
 	}
 
 	/**
-	 * @return \Closure[]
+	 * @return Closure[]
 	 * @since 9.1.0
 	 */
-	public function getEntityCollections() {
+	public function getEntityCollections(): array {
 		return $this->collections;
 	}
 }

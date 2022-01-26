@@ -28,8 +28,24 @@ namespace OCA\Comments\Listener;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\IRootFolder;
+use OCP\IUserSession;
 
 class CommentsEntityEventListener implements IEventListener {
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+	/**
+	 * @var IRootFolder
+	 */
+	private $rootFolder;
+
+	public function __construct(IUserSession $userSession, IRootFolder $rootFolder) {
+		$this->userSession = $userSession;
+		$this->rootFolder = $rootFolder;
+	}
+
 	public function handle(Event $event): void {
 		if (!($event instanceof CommentsEntityEvent)) {
 			// Unrelated
@@ -37,8 +53,12 @@ class CommentsEntityEventListener implements IEventListener {
 		}
 
 		$event->addEntityCollection('files', function ($name) {
-			$nodes = \OC::$server->getUserFolder()->getById((int)$name);
-			return !empty($nodes);
+			if ($user = $this->userSession->getUser()) {
+				$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+				$nodes = $userFolder->getById((int)$name);
+				return !empty($nodes);
+			}
+			return false;
 		});
 	}
 }
