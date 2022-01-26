@@ -21,8 +21,10 @@
  *
  */
 
+import { Type as ShareTypes } from '@nextcloud/sharing'
+
 const shareWithTitle = function(share) {
-	if (share.type === OC.Share.SHARE_TYPE_GROUP) {
+	if (share.type === ShareTypes.SHARE_TYPE_GROUP) {
 		return t(
 			'files_sharing',
 			'Shared with you and the group {group} by {owner}',
@@ -33,7 +35,7 @@ const shareWithTitle = function(share) {
 			undefined,
 			{ escape: false }
 		)
-	} else if (share.type === OC.Share.SHARE_TYPE_CIRCLE) {
+	} else if (share.type === ShareTypes.SHARE_TYPE_CIRCLE) {
 		return t(
 			'files_sharing',
 			'Shared with you and {circle} by {owner}',
@@ -44,7 +46,7 @@ const shareWithTitle = function(share) {
 			undefined,
 			{ escape: false }
 		)
-	} else if (share.type === OC.Share.SHARE_TYPE_ROOM) {
+	} else if (share.type === ShareTypes.SHARE_TYPE_ROOM) {
 		if (share.shareWithDisplayName) {
 			return t(
 				'files_sharing',
