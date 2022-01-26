@@ -26,8 +26,10 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CachedSubscriptionObject;
 use OCA\DAV\CalDAV\CalDavBackend;
+use Sabre\DAV\Exception\MethodNotAllowed;
+use Test\TestCase;
 
-class CachedSubscriptionObjectTest extends \Test\TestCase {
+class CachedSubscriptionObjectTest extends TestCase {
 	public function testGet() {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
@@ -51,9 +53,9 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 		$this->assertEquals('BEGIN...', $calendarObject->get());
 	}
 
-	
+
 	public function testPut() {
-		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectException(MethodNotAllowed::class);
 		$this->expectExceptionMessage('Creating objects in a cached subscription is not allowed');
 
 		$backend = $this->createMock(CalDavBackend::class);
@@ -71,9 +73,9 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 		$calendarObject->put('');
 	}
 
-	
+
 	public function testDelete() {
-		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectException(MethodNotAllowed::class);
 		$this->expectExceptionMessage('Deleting objects in a cached subscription is not allowed');
 
 		$backend = $this->createMock(CalDavBackend::class);

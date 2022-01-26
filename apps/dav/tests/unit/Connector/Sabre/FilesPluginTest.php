@@ -43,6 +43,8 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
@@ -73,12 +75,12 @@ class FilesPluginTest extends TestCase {
 	public const HAS_PREVIEW_PROPERTYNAME = FilesPlugin::HAS_PREVIEW_PROPERTYNAME;
 
 	/**
-	 * @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject
+	 * @var Server | MockObject
 	 */
 	private $server;
 
 	/**
-	 * @var \Sabre\DAV\Tree | \PHPUnit\Framework\MockObject\MockObject
+	 * @var Tree | MockObject
 	 */
 	private $tree;
 
@@ -88,17 +90,17 @@ class FilesPluginTest extends TestCase {
 	private $plugin;
 
 	/**
-	 * @var \OCP\IConfig | \PHPUnit\Framework\MockObject\MockObject
+	 * @var IConfig | MockObject
 	 */
 	private $config;
 
 	/**
-	 * @var \OCP\IRequest | \PHPUnit\Framework\MockObject\MockObject
+	 * @var IRequest | MockObject
 	 */
 	private $request;
 
 	/**
-	 * @var \OCP\IPreview | \PHPUnit\Framework\MockObject\MockObject
+	 * @var IPreview | MockObject
 	 */
 	private $previewManager;
 
@@ -125,23 +127,15 @@ class FilesPluginTest extends TestCase {
 			$this->userSession
 		);
 
-		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$response = $this->createMock(ResponseInterface::class);
 		$this->server->httpResponse = $response;
 		$this->server->xml = new Service();
 
 		$this->plugin->initialize($this->server);
 	}
 
-	/**
-	 * @param string $class
-	 * @return \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private function createTestNode($class, $path = '/dummypath') {
-		$node = $this->getMockBuilder($class)
-			->disableOriginalConstructor()
-			->getMock();
+	private function createTestNode(string $class): MockObject {
+		$node = $this->createMock($class);
 
 		$node->expects($this->any())
 			->method('getId')
@@ -149,7 +143,7 @@ class FilesPluginTest extends TestCase {
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
-			->with($path)
+			->with('/dummypath')
 			->willReturn($node);
 
 		$node->expects($this->any())
@@ -157,7 +151,7 @@ class FilesPluginTest extends TestCase {
 			->willReturn('00000123instanceid');
 		$node->expects($this->any())
 			->method('getInternalFileId')
-			->willReturn('123');
+			->willReturn(123);
 		$node->expects($this->any())
 			->method('getEtag')
 			->willReturn('"abc"');
@@ -181,8 +175,8 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForFile() {
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		/** @var File | MockObject $node */
+		$node = $this->createTestNode(File::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',
@@ -201,8 +195,7 @@ class FilesPluginTest extends TestCase {
 			0
 		);
 
-		$user = $this->getMockBuilder(User::class)
-			->disableOriginalConstructor()->getMock();
+		$user = $this->createMock(User::class);
 		$user
 			->expects($this->once())
 			->method('getUID')
@@ -238,8 +231,8 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesStorageNotAvailable() {
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		/** @var File | MockObject $node */
+		$node = $this->createTestNode(File::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',
@@ -265,9 +258,7 @@ class FilesPluginTest extends TestCase {
 		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->config,
-			$this->getMockBuilder(IRequest::class)
-				->disableOriginalConstructor()
-				->getMock(),
+			$this->createMock(IRequest::class),
 			$this->previewManager,
 			$this->userSession,
 			true);
@@ -281,8 +272,8 @@ class FilesPluginTest extends TestCase {
 			0
 		);
 
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		/** @var File | MockObject $node */
+		$node = $this->createTestNode(File::class);
 		$node->expects($this->any())
 			->method('getDavPermissions')
 			->willReturn('DWCKMSR');
@@ -296,8 +287,8 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForDirectory() {
-		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
+		/** @var Directory | MockObject $node */
+		$node = $this->createTestNode(Directory::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',
@@ -331,10 +322,8 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForRootDirectory() {
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var Directory|MockObject $node */
+		$node = $this->createMock(Directory::class);
 		$node->expects($this->any())->method('getPath')->willReturn('/');
 
 		$fileInfo = $this->createMock(FileInfo::class);
@@ -367,10 +356,8 @@ class FilesPluginTest extends TestCase {
 		// But we still want to load the directory list, so this is okay for us.
 		// $this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var Directory|MockObject $node */
+		$node = $this->createMock(Directory::class);
 		$node->expects($this->any())->method('getPath')->willReturn('/');
 
 		$fileInfo = $this->createMock(FileInfo::class);
@@ -398,8 +385,11 @@ class FilesPluginTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
+	/**
+	 * @throws NotFound
+	 */
 	public function testUpdateProps() {
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		$node = $this->createTestNode(File::class);
 
 		$testDate = 'Fri, 13 Feb 2015 00:01:02 GMT';
 		$testCreationDate = '2007-08-31T16:47+00:00';
@@ -411,7 +401,7 @@ class FilesPluginTest extends TestCase {
 		$node->expects($this->once())
 			->method('setEtag')
 			->with('newetag')
-			->willReturn(true);
+			->willReturn(1);
 
 		$node->expects($this->once())
 			->method('setCreationTime')
@@ -439,6 +429,9 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals(200, $result[self::CREATIONDATE_PROPERTYNAME]);
 	}
 
+	/**
+	 * @throws NotFound
+	 */
 	public function testUpdatePropsForbidden() {
 		$propPatch = new PropPatch([
 			self::OWNER_ID_PROPERTYNAME => 'user2',
@@ -477,21 +470,18 @@ class FilesPluginTest extends TestCase {
 	 * FolderA is an incoming shared folder and there are no delete permissions.
 	 * Thus moving /FolderA/test.txt to /test.txt should fail already on that check
 	 *
+	 * @throws NotFound
 	 */
 	public function testMoveSrcNotDeletable() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 		$this->expectExceptionMessage('FolderA/test.txt cannot be deleted');
 
-		$fileInfoFolderATestTXT = $this->getMockBuilder(FileInfo::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$fileInfoFolderATestTXT = $this->createMock(FileInfo::class);
 		$fileInfoFolderATestTXT->expects($this->once())
 			->method('isDeletable')
 			->willReturn(false);
 
-		$node = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getFileInfo')
 			->willReturn($fileInfoFolderATestTXT);
@@ -502,17 +492,17 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
 
+	/**
+	 * @throws Forbidden
+	 * @throws NotFound
+	 */
 	public function testMoveSrcDeletable() {
-		$fileInfoFolderATestTXT = $this->getMockBuilder(FileInfo::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$fileInfoFolderATestTXT = $this->createMock(FileInfo::class);
 		$fileInfoFolderATestTXT->expects($this->once())
 			->method('isDeletable')
 			->willReturn(true);
 
-		$node = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getFileInfo')
 			->willReturn($fileInfoFolderATestTXT);
@@ -524,13 +514,14 @@ class FilesPluginTest extends TestCase {
 	}
 
 
+	/**
+	 * @throws Forbidden
+	 */
 	public function testMoveSrcNotExist() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 		$this->expectExceptionMessage('FolderA/test.txt does not exist');
 
-		$node = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getFileInfo')
 			->willReturn(null);
@@ -541,7 +532,7 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
 
-	public function downloadHeadersProvider() {
+	public function downloadHeadersProvider(): array {
 		return [
 			[
 				false,
@@ -556,23 +547,18 @@ class FilesPluginTest extends TestCase {
 
 	/**
 	 * @dataProvider downloadHeadersProvider
+	 * @throws NotFound
 	 */
 	public function testDownloadHeaders($isClumsyAgent, $contentDispositionHeader) {
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$request
 			->expects($this->once())
 			->method('getPath')
 			->willReturn('test/somefile.xml');
 
-		$node = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(File::class);
 		$node
 			->expects($this->once())
 			->method('getName')
@@ -598,8 +584,8 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testHasPreview() {
-		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
+		/** @var Directory | MockObject $node */
+		$node = $this->createTestNode(Directory::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',

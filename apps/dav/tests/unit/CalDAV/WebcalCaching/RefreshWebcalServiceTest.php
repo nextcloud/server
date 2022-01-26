@@ -74,7 +74,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	 */
 	public function testRun(string $body, string $contentType, string $result) {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri'])
+			->onlyMethods(['getRandomCalendarObjectUri'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -156,7 +156,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -233,7 +233,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -294,7 +294,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('error')
-			->with($badRequestException);
+			->with($this->anything(), ['exception' => $badRequestException]);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -327,7 +327,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	 *
 	 * @param string $source
 	 */
-	public function testRunLocalURL($source) {
+	public function testRunLocalURL(string $source): void {
 		$refreshWebcalService = new RefreshWebcalService(
 			$this->caldavBackend,
 			$this->clientService,
@@ -367,7 +367,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('warning')
-			->with($this->anything(), $this->isInstanceOf(LocalServerException::class));
+			->with($this->anything(), ['exception' => new LocalServerException()]);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}

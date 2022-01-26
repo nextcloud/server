@@ -28,15 +28,18 @@
  */
 namespace OCA\DAV\Tests\unit\Upload;
 
+use OCA\DAV\Upload\AssemblyStream;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\File;
+use Test\TestCase;
 
-class AssemblyStreamTest extends \Test\TestCase {
+class AssemblyStreamTest extends TestCase {
 
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContents($expected, $nodes) {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+	public function testGetContents(string $expected, array $nodes) {
+		$stream = AssemblyStream::wrap($nodes);
 		$content = stream_get_contents($stream);
 
 		$this->assertEquals($expected, $content);
@@ -45,8 +48,8 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContentsFread($expected, $nodes) {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+	public function testGetContentsFread(string $expected, array $nodes) {
+		$stream = AssemblyStream::wrap($nodes);
 
 		$content = '';
 		while (!feof($stream)) {
@@ -59,8 +62,8 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testSeek($expected, $nodes) {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+	public function testSeek(string $expected, array $nodes) {
+		$stream = AssemblyStream::wrap($nodes);
 
 		$offset = floor(strlen($expected) * 0.6);
 		if (fseek($stream, $offset) === -1) {
@@ -71,7 +74,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$this->assertEquals(substr($expected, $offset), $content);
 	}
 
-	public function providesNodes() {
+	public function providesNodes(): array {
 		$data8k = $this->makeData(8192);
 		$dataLess8k = $this->makeData(8191);
 
@@ -80,7 +83,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		for ($i = 0; $i < 101; $i++) {
 			$thisdata = rand(0,100); // variable length and content
 			$tonofdata .= $thisdata;
-			array_push($tonofnodes, $this->buildNode($i,$thisdata));
+			$tonofnodes[] = $this->buildNode($i, $thisdata);
 		}
 
 		return[
@@ -127,7 +130,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		];
 	}
 
-	private function makeData($count) {
+	private function makeData(int $count): string {
 		$data = '';
 		$base = '1234567890';
 		$j = 0;
@@ -141,9 +144,12 @@ class AssemblyStreamTest extends \Test\TestCase {
 		return $data;
 	}
 
-	private function buildNode($name, $data) {
+	/**
+	 * @return MockObject|File
+	 */
+	private function buildNode(string $name, string $data) {
 		$node = $this->getMockBuilder(File::class)
-			->setMethods(['getName', 'get', 'getSize'])
+			->onlyMethods(['getName', 'get', 'getSize'])
 			->getMockForAbstractClass();
 
 		$node->expects($this->any())

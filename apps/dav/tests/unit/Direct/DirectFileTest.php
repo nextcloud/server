@@ -33,53 +33,42 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\Forbidden;
 use Test\TestCase;
 
 class DirectFileTest extends TestCase {
 
-	/** @var Direct */
-	private $direct;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
-	private $userFolder;
-
-	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var File|MockObject */
 	private $file;
 
 	/** @var DirectFile */
 	private $directFile;
 
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->direct = Direct::fromParams([
+		$direct = Direct::fromParams([
 			'userId' => 'directUser',
 			'token' => 'directToken',
 			'fileId' => 42,
 		]);
 
-		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder = $this->createMock(IRootFolder::class);
 
-		$this->userFolder = $this->createMock(Folder::class);
-		$this->rootFolder->method('getUserFolder')
+		$userFolder = $this->createMock(Folder::class);
+		$rootFolder->method('getUserFolder')
 			->with('directUser')
-			->willReturn($this->userFolder);
+			->willReturn($userFolder);
 
 		$this->file = $this->createMock(File::class);
-		$this->userFolder->method('getById')
+		$userFolder->method('getById')
 			->with(42)
 			->willReturn([$this->file]);
 
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$this->directFile = new DirectFile($this->direct, $this->rootFolder, $this->eventDispatcher);
+		$this->directFile = new DirectFile($direct, $rootFolder, $eventDispatcher);
 	}
 
 	public function testPut() {

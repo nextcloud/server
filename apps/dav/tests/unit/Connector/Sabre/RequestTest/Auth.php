@@ -26,6 +26,8 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OCP\Files\IRootFolder;
 use OCP\IUserSession;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -76,9 +78,9 @@ class Auth implements BackendInterface {
 	 *
 	 * principals/users/[username]
 	 *
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
 	 * @return array
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
 	public function check(RequestInterface $request, ResponseInterface $response) {
 		/** @var IUserSession $userSession */

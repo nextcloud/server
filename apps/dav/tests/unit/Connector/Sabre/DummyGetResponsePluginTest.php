@@ -26,6 +26,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -47,10 +48,8 @@ class DummyGetResponsePluginTest extends TestCase {
 	}
 
 	public function testInitialize() {
-		/** @var Server $server */
-		$server = $this->getMockBuilder(Server::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var Server|MockObject $server */
+		$server = $this->createMock(Server::class);
 		$server
 			->expects($this->once())
 			->method('on')
@@ -61,14 +60,10 @@ class DummyGetResponsePluginTest extends TestCase {
 
 
 	public function testHttpGet() {
-		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		/** @var \Sabre\HTTP\ResponseInterface $response */
-		$response = $server = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var RequestInterface|MockObject $request */
+		$request = $this->createMock(RequestInterface::class);
+		/** @var ResponseInterface|MockObject $response */
+		$response = $this->createMock(ResponseInterface::class);
 		$response
 			->expects($this->once())
 			->method('setBody');

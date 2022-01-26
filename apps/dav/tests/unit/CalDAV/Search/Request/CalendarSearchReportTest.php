@@ -25,6 +25,8 @@
 namespace OCA\DAV\Tests\unit\CalDAV\Search\Xml\Request;
 
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\Xml\LibXMLException;
 use Sabre\Xml\Reader;
 use Test\TestCase;
 
@@ -34,6 +36,9 @@ class CalendarSearchReportTest extends TestCase {
 			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport',
 	];
 
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testFoo() {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -90,6 +95,9 @@ XML;
 		);
 	}
 
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testNoLimitOffset() {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -131,9 +139,12 @@ XML;
 		);
 	}
 
-	
+
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testRequiresCompFilter() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 		$this->expectExceptionMessage('{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter given without any {http://nextcloud.com/ns}comp-filter');
 
 		$xml = <<<XML
@@ -158,9 +169,12 @@ XML;
 		$this->parse($xml);
 	}
 
-	
+
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testRequiresFilter() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 		$this->expectExceptionMessage('The {http://nextcloud.com/ns}filter element is required for this request');
 
 		$xml = <<<XML
@@ -176,9 +190,12 @@ XML;
 		$this->parse($xml);
 	}
 
-	
+
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testNoSearchTerm() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 		$this->expectExceptionMessage('{http://nextcloud.com/ns}search-term is required for this request');
 
 		$xml = <<<XML
@@ -204,9 +221,12 @@ XML;
 		$this->parse($xml);
 	}
 
-	
+
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testCompOnly() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 		$this->expectExceptionMessage('At least one{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter is required for this request');
 
 		$xml = <<<XML
@@ -247,6 +267,9 @@ XML;
 		);
 	}
 
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testPropOnly() {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -288,6 +311,9 @@ XML;
 		);
 	}
 
+	/**
+	 * @throws LibXMLException
+	 */
 	public function testParamOnly() {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -332,7 +358,11 @@ XML;
 		);
 	}
 
-	private function parse($xml, array $elementMap = []) {
+	/**
+	 * @throws LibXMLException
+	 */
+	private function parse($xml): array {
+		$elementMap = [];
 		$reader = new Reader();
 		$reader->elementMap = array_merge($this->elementMap, $elementMap);
 		$reader->xml($xml);

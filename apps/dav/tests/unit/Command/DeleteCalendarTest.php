@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\Command;
 
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDav\CalDavBackend;
 use OCA\DAV\Command\DeleteCalendar;
@@ -47,12 +48,6 @@ class DeleteCalendarTest extends TestCase {
 	/** @var CalDavBackend|MockObject */
 	private $calDav;
 
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IL10N|MockObject */
-	private $l10n;
-
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
@@ -66,22 +61,22 @@ class DeleteCalendarTest extends TestCase {
 		parent::setUp();
 
 		$this->calDav = $this->createMock(CalDavBackend::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->l10n = $this->createMock(IL10N::class);
+		$config = $this->createMock(IConfig::class);
+		$l10n = $this->createMock(IL10N::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->command = new DeleteCalendar(
 			$this->calDav,
-			$this->config,
-			$this->l10n,
+			$config,
+			$l10n,
 			$this->userManager,
 			$this->logger
 		);
 	}
 
 	public function testInvalidUser() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage(
 			'User <' . self::USER . '> is unknown.');
 
@@ -98,7 +93,7 @@ class DeleteCalendarTest extends TestCase {
 	}
 
 	public function testNoCalendarName() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage(
 			'Please specify a calendar name or --birthday');
 
@@ -114,7 +109,7 @@ class DeleteCalendarTest extends TestCase {
 	}
 
 	public function testInvalidCalendar() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage(
 			'User <' . self::USER . '> has no calendar named <' . self::NAME .  '>.');
 

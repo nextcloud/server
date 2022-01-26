@@ -27,21 +27,24 @@ namespace OCA\DAV\Tests\unit\CalDAV\Search;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Search\SearchPlugin;
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
+use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
+use Sabre\HTTP\Response;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
 class SearchPluginTest extends TestCase {
 	protected $server;
 
-	/** @var \OCA\DAV\CalDAV\Search\SearchPlugin $plugin */
+	/** @var SearchPlugin $plugin */
 	protected $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->createMock(\Sabre\DAV\Server::class);
-		$this->server->tree = $this->createMock(\Sabre\DAV\Tree::class);
-		$this->server->httpResponse = $this->createMock(\Sabre\HTTP\Response::class);
+		$this->server = $this->createMock(Server::class);
+		$this->server->tree = $this->createMock(Tree::class);
+		$this->server->httpResponse = $this->createMock(Response::class);
 		$this->server->xml = new Service();
 
 		$this->plugin = new SearchPlugin();
@@ -57,11 +60,11 @@ class SearchPluginTest extends TestCase {
 	}
 
 	public function testInitialize() {
-		$server = $this->createMock(\Sabre\DAV\Server::class);
+		$server = $this->createMock(Server::class);
 
 		$plugin = new SearchPlugin();
 
-		$server->expects($this->at(0))
+		$server->expects($this->once())
 			->method('on')
 			->with('report', [$plugin, 'report']);
 		$server->xml = new Service();
@@ -69,30 +72,30 @@ class SearchPluginTest extends TestCase {
 		$plugin->initialize($server);
 
 		$this->assertEquals(
-			$server->xml->elementMap['{http://nextcloud.com/ns}calendar-search'],
-			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport'
+			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport',
+			$server->xml->elementMap['{http://nextcloud.com/ns}calendar-search']
 		);
 	}
 
 	public function testReportUnknown() {
 		$result = $this->plugin->report('{urn:ietf:params:xml:ns:caldav}calendar-query', 'REPORT', null);
-		$this->assertEquals($result, null);
-		$this->assertNotEquals($this->server->transactionType, 'report-nc-calendar-search');
+		$this->assertEquals(null, $result);
+		$this->assertNotEquals('report-nc-calendar-search', $this->server->transactionType);
 	}
 
 	public function testReport() {
 		$report = $this->createMock(CalendarSearchReport::class);
 		$report->filters = [];
 		$calendarHome = $this->createMock(CalendarHome::class);
-		$this->server->expects($this->at(0))
+		$this->server->expects($this->once())
 			->method('getRequestUri')
 			->with()
 			->willReturn('/re/quest/u/r/i');
-		$this->server->tree->expects($this->at(0))
+		$this->server->tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('/re/quest/u/r/i')
 			->willReturn($calendarHome);
-		$this->server->expects($this->at(1))
+		$this->server->expects($this->once())
 			->method('getHTTPDepth')
 			->with(2)
 			->willReturn(2);
@@ -101,7 +104,7 @@ class SearchPluginTest extends TestCase {
 			->willReturn([
 				'return' => null
 			]);
-		$calendarHome->expects($this->at(0))
+		$calendarHome->expects($this->once())
 			->method('calendarSearch')
 			->willReturn([]);
 

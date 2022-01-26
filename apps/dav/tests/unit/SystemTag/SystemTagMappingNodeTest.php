@@ -25,46 +25,48 @@
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
+use Exception;
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagMappingNode;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
+use Test\TestCase;
 
-class SystemTagMappingNodeTest extends \Test\TestCase {
+class SystemTagMappingNodeTest extends TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
+	 * @var ISystemTagObjectMapper
 	 */
 	private $tagMapper;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
-		$this->user = $this->getMockBuilder(IUser::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
+		$this->user = $this->createMock(IUser::class);
 	}
 
-	public function getMappingNode($tag = null) {
+	public function getMappingNode($tag = null): SystemTagMappingNode {
 		if ($tag === null) {
 			$tag = new SystemTag(1, 'Test', true, true);
 		}
-		return new \OCA\DAV\SystemTag\SystemTagMappingNode(
+		return new SystemTagMappingNode(
 			$tag,
 			123,
 			'files',
@@ -83,6 +85,10 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->assertEquals('files', $node->getObjectType());
 	}
 
+	/**
+	 * @throws NotFound
+	 * @throws Forbidden
+	 */
 	public function testDeleteTag() {
 		$node = $this->getMappingNode();
 		$this->tagManager->expects($this->once())
@@ -102,17 +108,17 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$node->delete();
 	}
 
-	public function tagNodeDeleteProviderPermissionException() {
+	public function tagNodeDeleteProviderPermissionException(): array {
 		return [
 			[
 				// cannot unassign invisible tag
 				new SystemTag(1, 'Original', false, true),
-				'Sabre\DAV\Exception\NotFound',
+				NotFound::class,
 			],
 			[
 				// cannot unassign non-assignable tag
 				new SystemTag(1, 'Original', true, false),
-				'Sabre\DAV\Exception\Forbidden',
+				Forbidden::class,
 			],
 		];
 	}
@@ -120,7 +126,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagNodeDeleteProviderPermissionException
 	 */
-	public function testDeleteTagExpectedException(ISystemTag $tag, $expectedException) {
+	public function testDeleteTagExpectedException(ISystemTag $tag, string $expectedException) {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -137,16 +143,19 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$thrown = null;
 		try {
 			$this->getMappingNode($tag)->delete();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$thrown = $e;
 		}
 
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
+	/**
+	 * @throws Forbidden
+	 */
 	public function testDeleteTagNotFound() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		// assuming the tag existed at the time the node was created,
 		// but got deleted concurrently in the database

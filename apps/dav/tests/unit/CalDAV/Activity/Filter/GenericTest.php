@@ -23,16 +23,19 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Filter;
 
+use OC;
 use OCA\DAV\CalDAV\Activity\Filter\Calendar;
 use OCA\DAV\CalDAV\Activity\Filter\Todo;
 use OCP\Activity\IFilter;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Test\TestCase;
 
 /**
  * @group DB
  */
 class GenericTest extends TestCase {
-	public function dataFilters() {
+	public function dataFilters(): array {
 		return [
 			[Calendar::class],
 			[Todo::class],
@@ -41,40 +44,44 @@ class GenericTest extends TestCase {
 
 	/**
 	 * @dataProvider dataFilters
-	 * @param string $filterClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testImplementsInterface($filterClass) {
-		$filter = \OC::$server->get($filterClass);
+	public function testImplementsInterface(string $filterClass) {
+		$filter = OC::$server->get($filterClass);
 		$this->assertInstanceOf(IFilter::class, $filter);
 	}
 
 	/**
 	 * @dataProvider dataFilters
-	 * @param string $filterClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testGetIdentifier($filterClass) {
+	public function testGetIdentifier(string $filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->get($filterClass);
+		$filter = OC::$server->get($filterClass);
 		$this->assertIsString($filter->getIdentifier());
 	}
 
 	/**
 	 * @dataProvider dataFilters
-	 * @param string $filterClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testGetName($filterClass) {
+	public function testGetName(string $filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->get($filterClass);
+		$filter = OC::$server->get($filterClass);
 		$this->assertIsString($filter->getName());
 	}
 
 	/**
 	 * @dataProvider dataFilters
-	 * @param string $filterClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testGetPriority($filterClass) {
+	public function testGetPriority(string $filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->get($filterClass);
+		$filter = OC::$server->get($filterClass);
 		$priority = $filter->getPriority();
 		$this->assertIsInt($filter->getPriority());
 		$this->assertGreaterThanOrEqual(0, $priority);
@@ -83,32 +90,35 @@ class GenericTest extends TestCase {
 
 	/**
 	 * @dataProvider dataFilters
-	 * @param string $filterClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testGetIcon($filterClass) {
+	public function testGetIcon(string $filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->get($filterClass);
+		$filter = OC::$server->get($filterClass);
 		$this->assertIsString($filter->getIcon());
 		$this->assertStringStartsWith('http', $filter->getIcon());
 	}
 
 	/**
 	 * @dataProvider dataFilters
-	 * @param string $filterClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testFilterTypes($filterClass) {
+	public function testFilterTypes(string $filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->get($filterClass);
+		$filter = OC::$server->get($filterClass);
 		$this->assertIsArray($filter->filterTypes([]));
 	}
 
 	/**
 	 * @dataProvider dataFilters
-	 * @param string $filterClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testAllowedApps($filterClass) {
+	public function testAllowedApps(string $filterClass) {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->get($filterClass);
+		$filter = OC::$server->get($filterClass);
 		$this->assertIsArray($filter->allowedApps());
 	}
 }

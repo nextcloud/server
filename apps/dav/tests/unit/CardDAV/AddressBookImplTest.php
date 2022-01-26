@@ -69,10 +69,8 @@ class AddressBookImplTest extends TestCase {
 			'principaluri' => 'principals/system/system',
 			'{DAV:}displayname' => 'display name',
 		];
-		$this->addressBook = $this->getMockBuilder(AddressBook::class)
-			->disableOriginalConstructor()->getMock();
-		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->disableOriginalConstructor()->getMock();
+		$this->addressBook = $this->createMock(AddressBook::class);
+		$this->backend = $this->createMock(CardDavBackend::class);
 		$this->vCard = $this->createMock(VCard::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 

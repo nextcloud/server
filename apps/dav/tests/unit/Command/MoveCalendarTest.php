@@ -46,20 +46,14 @@ use Test\TestCase;
  */
 class MoveCalendarTest extends TestCase {
 
-	/** @var \OCP\IUserManager|MockObject $userManager */
+	/** @var IUserManager|MockObject $userManager */
 	private $userManager;
 
-	/** @var \OCP\IGroupManager|MockObject $groupManager */
+	/** @var IGroupManager|MockObject $groupManager */
 	private $groupManager;
 
-	/** @var \OCP\Share\IManager|MockObject $shareManager */
+	/** @var IManager|MockObject $shareManager */
 	private $shareManager;
-
-	/** @var IConfig|MockObject $l10n */
-	private $config;
-
-	/** @var IL10N|MockObject $l10n */
-	private $l10n;
 
 	/** @var CalDavBackend|MockObject $l10n */
 	private $calDav;
@@ -67,32 +61,29 @@ class MoveCalendarTest extends TestCase {
 	/** @var MoveCalendar */
 	private $command;
 
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->l10n = $this->createMock(IL10N::class);
+		$config = $this->createMock(IConfig::class);
+		$l10n = $this->createMock(IL10N::class);
 		$this->calDav = $this->createMock(CalDavBackend::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$logger = $this->createMock(LoggerInterface::class);
 
 		$this->command = new MoveCalendar(
 			$this->userManager,
 			$this->groupManager,
 			$this->shareManager,
-			$this->config,
-			$this->l10n,
+			$config,
+			$l10n,
 			$this->calDav,
-			$this->logger
+			$logger
 		);
 	}
 
-	public function dataExecute() {
+	public function dataExecute(): array {
 		return [
 			[false, true],
 			[true, false]
@@ -105,19 +96,24 @@ class MoveCalendarTest extends TestCase {
 	 * @param $userOriginExists
 	 * @param $userDestinationExists
 	 */
-	public function testWithBadUserOrigin($userOriginExists, $userDestinationExists) {
-		$this->expectException(\InvalidArgumentException::class);
+	public function testWithBadUserOrigin(bool $userOriginExists, bool $userDestinationExists) {
+		$this->expectException(InvalidArgumentException::class);
 
-		$this->userManager->expects($this->at(0))
-			->method('userExists')
-			->with('user')
-			->willReturn($userOriginExists);
-
-		if (!$userDestinationExists) {
-			$this->userManager->expects($this->at(1))
+		if ($userDestinationExists) {
+			$this->userManager->expects($this->once())
 				->method('userExists')
-				->with('user2')
-				->willReturn($userDestinationExists);
+				->with('user')
+				->willReturn($userOriginExists);
+		} else {
+			$this->userManager->expects($this->exactly(2))
+				->method('userExists')
+				->withConsecutive(
+					['user'],
+					['user2']
+				)
+				->willReturnOnConsecutiveCalls(
+					$userOriginExists, $userDestinationExists
+				);
 		}
 
 		$commandTester = new CommandTester($this->command);
@@ -130,17 +126,12 @@ class MoveCalendarTest extends TestCase {
 
 
 	public function testMoveWithInexistantCalendar() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('User <user> has no calendar named <personal>. You can run occ dav:list-calendars to list calendars URIs for this user.');
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
-			->with('user')
-			->willReturn(true);
-
-		$this->userManager->expects($this->at(1))
-			->method('userExists')
-			->with('user2')
+			->withConsecutive(['user'], ['user2'])
 			->willReturn(true);
 
 		$this->calDav->expects($this->once())->method('getCalendarByUri')
@@ -157,27 +148,19 @@ class MoveCalendarTest extends TestCase {
 
 
 	public function testMoveWithExistingDestinationCalendar() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('User <user2> already has a calendar named <personal>.');
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
-			->with('user')
+			->withConsecutive(['user'], ['user2'])
 			->willReturn(true);
 
-		$this->userManager->expects($this->at(1))
-			->method('userExists')
-			->with('user2')
-			->willReturn(true);
-
-		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
-			->with('principals/users/user', 'personal')
-			->willReturn([
-				'id' => 1234,
-			]);
-
-		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
-			->with('principals/users/user2', 'personal')
+		$this->calDav->expects($this->exactly(2))->method('getCalendarByUri')
+			->withConsecutive(
+				['principals/users/user', 'personal'],
+				['principals/users/user2', 'personal']
+			)
 			->willReturn([
 				'id' => 1234,
 			]);
@@ -191,25 +174,19 @@ class MoveCalendarTest extends TestCase {
 	}
 
 	public function testMove() {
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
-			->with('user')
+			->withConsecutive(['user'], ['user2'])
 			->willReturn(true);
 
-		$this->userManager->expects($this->at(1))
-			->method('userExists')
-			->with('user2')
-			->willReturn(true);
-
-		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
-			->with('principals/users/user', 'personal')
-			->willReturn([
+		$this->calDav->expects($this->exactly(2))->method('getCalendarByUri')
+			->withConsecutive(
+				['principals/users/user', 'personal'],
+				['principals/users/user2', 'personal']
+			)
+			->willReturnOnConsecutiveCalls([
 				'id' => 1234,
-			]);
-
-		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
-			->with('principals/users/user2', 'personal')
-			->willReturn(null);
+			], null);
 
 		$this->calDav->expects($this->once())->method('getShares')
 			->with(1234)
@@ -236,26 +213,20 @@ class MoveCalendarTest extends TestCase {
 	 * @dataProvider dataTestMoveWithDestinationNotPartOfGroup
 	 */
 	public function testMoveWithDestinationNotPartOfGroup(bool $shareWithGroupMembersOnly) {
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
-			->with('user')
+			->withConsecutive(['user'], ['user2'])
 			->willReturn(true);
 
-		$this->userManager->expects($this->at(1))
-			->method('userExists')
-			->with('user2')
-			->willReturn(true);
-
-		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
-			->with('principals/users/user', 'personal')
-			->willReturn([
+		$this->calDav->expects($this->exactly(2))->method('getCalendarByUri')
+			->withConsecutive(
+				['principals/users/user', 'personal'],
+				['principals/users/user2', 'personal']
+			)
+			->willReturnOnConsecutiveCalls([
 				'id' => 1234,
 				'uri' => 'personal'
-			]);
-
-		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
-			->with('principals/users/user2', 'personal')
-			->willReturn(null);
+			], null);
 
 		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
 			->willReturn($shareWithGroupMembersOnly);
@@ -279,26 +250,20 @@ class MoveCalendarTest extends TestCase {
 	}
 
 	public function testMoveWithDestinationPartOfGroup() {
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
-			->with('user')
+			->withConsecutive(['user'], ['user2'])
 			->willReturn(true);
 
-		$this->userManager->expects($this->at(1))
-			->method('userExists')
-			->with('user2')
-			->willReturn(true);
-
-		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
-			->with('principals/users/user', 'personal')
-			->willReturn([
+		$this->calDav->expects($this->exactly(2))->method('getCalendarByUri')
+			->withConsecutive(
+				['principals/users/user', 'personal'],
+				['principals/users/user2', 'personal']
+			)
+			->willReturnOnConsecutiveCalls([
 				'id' => 1234,
 				'uri' => 'personal'
-			]);
-
-		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
-			->with('principals/users/user2', 'personal')
-			->willReturn(null);
+			], null);
 
 		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
 			->willReturn(true);
@@ -324,27 +289,21 @@ class MoveCalendarTest extends TestCase {
 	}
 
 	public function testMoveWithDestinationNotPartOfGroupAndForce() {
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
-			->with('user')
+			->withConsecutive(['user'], ['user2'])
 			->willReturn(true);
 
-		$this->userManager->expects($this->at(1))
-			->method('userExists')
-			->with('user2')
-			->willReturn(true);
-
-		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
-			->with('principals/users/user', 'personal')
-			->willReturn([
+		$this->calDav->expects($this->exactly(2))->method('getCalendarByUri')
+			->withConsecutive(
+				['principals/users/user', 'personal'],
+				['principals/users/user2', 'personal']
+			)
+			->willReturnOnConsecutiveCalls([
 				'id' => 1234,
 				'uri' => 'personal',
 				'{DAV:}displayname' => 'Personal'
-			]);
-
-		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
-			->with('principals/users/user2', 'personal')
-			->willReturn(null);
+			], null);
 
 		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
 			->willReturn(true);
@@ -381,27 +340,21 @@ class MoveCalendarTest extends TestCase {
 	 * @dataProvider dataTestMoveWithCalendarAlreadySharedToDestination
 	 */
 	public function testMoveWithCalendarAlreadySharedToDestination(bool $force) {
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
-			->with('user')
+			->withConsecutive(['user'], ['user2'])
 			->willReturn(true);
 
-		$this->userManager->expects($this->at(1))
-			->method('userExists')
-			->with('user2')
-			->willReturn(true);
-
-		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
-			->with('principals/users/user', 'personal')
-			->willReturn([
+		$this->calDav->expects($this->exactly(2))->method('getCalendarByUri')
+			->withConsecutive(
+				['principals/users/user', 'personal'],
+				['principals/users/user2', 'personal']
+			)
+			->willReturnOnConsecutiveCalls([
 				'id' => 1234,
 				'uri' => 'personal',
-				'{DAV:}displayname' => 'Personal',
-			]);
-
-		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
-			->with('principals/users/user2', 'personal')
-			->willReturn(null);
+				'{DAV:}displayname' => 'Personal'
+			], null);
 
 		$this->calDav->expects($this->once())->method('getShares')
 				->with(1234)

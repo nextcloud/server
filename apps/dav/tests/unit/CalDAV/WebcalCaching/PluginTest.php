@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,16 +26,17 @@ namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\WebcalCaching\Plugin;
 use OCP\IRequest;
+use Test\TestCase;
 
-class PluginTest extends \Test\TestCase {
+class PluginTest extends TestCase {
 	public function testDisabled() {
 		$request = $this->createMock(IRequest::class);
-		$request->expects($this->at(0))
+		$request->expects($this->once())
 			->method('isUserAgent')
 			->with(Plugin::ENABLE_FOR_CLIENTS)
 			->willReturn(false);
 
-		$request->expects($this->at(1))
+		$request->expects($this->once())
 			->method('getHeader')
 			->with('X-NC-CalDAV-Webcal-Caching')
 			->willReturn('');
@@ -46,12 +48,12 @@ class PluginTest extends \Test\TestCase {
 
 	public function testEnabled() {
 		$request = $this->createMock(IRequest::class);
-		$request->expects($this->at(0))
+		$request->expects($this->once())
 			->method('isUserAgent')
 			->with(Plugin::ENABLE_FOR_CLIENTS)
 			->willReturn(false);
 
-		$request->expects($this->at(1))
+		$request->expects($this->once())
 			->method('getHeader')
 			->with('X-NC-CalDAV-Webcal-Caching')
 			->willReturn('On');

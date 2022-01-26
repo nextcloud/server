@@ -27,34 +27,39 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-use OC\Log;
+use Exception;
 use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\AbstractLogger;
+use Psr\Log\LogLevel;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 use Test\TestCase;
 
-class TestLogger extends Log {
+class TestLogger extends AbstractLogger {
+	/** @var string $message */
 	public $message;
+	/** @var int $level */
 	public $level;
+	/** @var array $context */
+	public $context;
 
-	public function writeLog(string $app, $entry, int $level) {
+	public function log($level, $message, array $context = array()) {
 		$this->level = $level;
-		$this->message = $entry;
+		$this->message = $message;
+		$this->context = $context;
 	}
 }
 
 class ExceptionLoggerPluginTest extends TestCase {
 
-	/** @var Server */
-	private $server;
-
 	/** @var PluginToTest */
 	private $plugin;
 
-	/** @var TestLogger | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var TestLogger | MockObject */
 	private $logger;
 
 	private function init() {
@@ -70,30 +75,30 @@ class ExceptionLoggerPluginTest extends TestCase {
 				}
 			});
 
-		$this->server = new Server();
-		$this->logger = new TestLogger(new Log\File(\OC::$SERVERROOT.'/data/nextcloud.log', '', $config), $config);
+		$server = new Server();
+		$this->logger = new TestLogger();
 		$this->plugin = new PluginToTest('unit-test', $this->logger);
-		$this->plugin->initialize($this->server);
+		$this->plugin->initialize($server);
 	}
 
 	/**
 	 * @dataProvider providesExceptions
 	 */
-	public function testLogging($expectedLogLevel, $expectedMessage, $exception) {
+	public function testLogging(string $expectedLogLevel, string $expectedMessage, Exception $exception) {
 		$this->init();
 		$this->plugin->logException($exception);
 
 		$this->assertEquals($expectedLogLevel, $this->logger->level);
-		$this->assertEquals(get_class($exception), $this->logger->message['Exception']);
-		$this->assertEquals($expectedMessage, $this->logger->message['Message']);
+		$this->assertInstanceOf(get_class($exception), $this->logger->context['exception']);
+		$this->assertEquals($expectedMessage, $this->logger->message);
 	}
 
-	public function providesExceptions() {
+	public function providesExceptions(): array {
 		return [
-			[0, '', new NotFound()],
-			[0, 'System in maintenance mode.', new ServiceUnavailable('System in maintenance mode.')],
-			[4, 'Upgrade needed', new ServiceUnavailable('Upgrade needed')],
-			[4, 'This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
+			[LogLevel::DEBUG, '', new NotFound()],
+			[LogLevel::DEBUG, 'System in maintenance mode.', new ServiceUnavailable('System in maintenance mode.')],
+			[LogLevel::CRITICAL, 'Upgrade needed', new ServiceUnavailable('Upgrade needed')],
+			[LogLevel::CRITICAL, 'This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
 		];
 	}
 }

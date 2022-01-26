@@ -46,7 +46,7 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 	/** @var IConfig | MockObject */
 	private $config;
 
-	/** @var \OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob */
+	/** @var GenerateBirthdayCalendarBackgroundJob */
 	private $backgroundJob;
 
 	protected function setUp(): void {

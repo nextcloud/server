@@ -27,6 +27,7 @@ namespace OCA\DAV\Tests\Files\Sharing;
 
 use OC\Files\View;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
@@ -35,19 +36,19 @@ use Test\TestCase;
 
 class FilesDropPluginTest extends TestCase {
 
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var View|MockObject */
 	private $view;
 
-	/** @var Server|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Server|MockObject */
 	private $server;
 
 	/** @var FilesDropPlugin */
 	private $plugin;
 
-	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var RequestInterface|MockObject */
 	private $request;
 
-	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ResponseInterface|MockObject */
 	private $response;
 
 	protected function setUp(): void {
@@ -64,6 +65,9 @@ class FilesDropPluginTest extends TestCase {
 			->method($this->anything());
 	}
 
+	/**
+	 * @throws MethodNotAllowed
+	 */
 	public function testInitialize() {
 		$this->server->expects($this->once())
 			->method('on')
@@ -76,6 +80,9 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
+	/**
+	 * @throws MethodNotAllowed
+	 */
 	public function testNotEnabled() {
 		$this->view->expects($this->never())
 			->method($this->anything());
@@ -86,6 +93,9 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
+	/**
+	 * @throws MethodNotAllowed
+	 */
 	public function testValid() {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
@@ -110,6 +120,9 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
+	/**
+	 * @throws MethodNotAllowed
+	 */
 	public function testFileAlreadyExistsValid() {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
@@ -151,6 +164,9 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
+	/**
+	 * @throws MethodNotAllowed
+	 */
 	public function testNoSubdirPut() {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);

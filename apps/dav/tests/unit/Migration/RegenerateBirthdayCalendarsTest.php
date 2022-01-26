@@ -31,14 +31,15 @@ use OCA\DAV\Migration\RegenerateBirthdayCalendars;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegenerateBirthdayCalendarsTest extends TestCase {
 
-	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList | MockObject */
 	private $jobList;
 
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig | MockObject */
 	private $config;
 
 	/** @var RegenerateBirthdayCalendars */

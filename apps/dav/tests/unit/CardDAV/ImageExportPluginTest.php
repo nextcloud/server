@@ -30,6 +30,7 @@ use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Node;
 use Sabre\DAV\Server;
@@ -40,17 +41,15 @@ use Test\TestCase;
 
 class ImageExportPluginTest extends TestCase {
 
-	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ResponseInterface|MockObject */
 	private $response;
-	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var RequestInterface|MockObject */
 	private $request;
-	/** @var ImageExportPlugin|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ImageExportPlugin|MockObject */
 	private $plugin;
-	/** @var Server */
-	private $server;
-	/** @var Tree|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Tree|MockObject */
 	private $tree;
-	/** @var PhotoCache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var PhotoCache|MockObject */
 	private $cache;
 
 	protected function setUp(): void {
@@ -58,29 +57,28 @@ class ImageExportPluginTest extends TestCase {
 
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->response = $this->createMock(ResponseInterface::class);
-		$this->server = $this->createMock(Server::class);
+		$server = $this->createMock(Server::class);
 		$this->tree = $this->createMock(Tree::class);
-		$this->server->tree = $this->tree;
+		$server->tree = $this->tree;
 		$this->cache = $this->createMock(PhotoCache::class);
 
 		$this->plugin = $this->getMockBuilder(ImageExportPlugin::class)
-			->setMethods(['getPhoto'])
+			->addMethods(['getPhoto'])
 			->setConstructorArgs([$this->cache])
 			->getMock();
-		$this->plugin->initialize($this->server);
+		$this->plugin->initialize($server);
 	}
 
 	/**
 	 * @dataProvider providesQueryParams
-	 * @param $param
 	 */
-	public function testQueryParams($param) {
+	public function testQueryParams(array $param) {
 		$this->request->expects($this->once())->method('getQueryParameters')->willReturn($param);
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertTrue($result);
 	}
 
-	public function providesQueryParams() {
+	public function providesQueryParams(): array {
 		return [
 			[[]],
 			[['1']],
@@ -105,7 +103,7 @@ class ImageExportPluginTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function dataTestCard() {
+	public function dataTestCard(): array {
 		return [
 			[null, false],
 			[null, true],
@@ -116,11 +114,8 @@ class ImageExportPluginTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestCard
-	 *
-	 * @param $size
-	 * @param bool $photo
 	 */
-	public function testCard($size, $photo) {
+	public function testCard(?int $size, bool $photo) {
 		$query = ['photo' => null];
 		if ($size !== null) {
 			$query['size'] = $size;
@@ -150,17 +145,13 @@ class ImageExportPluginTest extends TestCase {
 				$this->fail();
 			});
 
-		$this->response->expects($this->at(0))
-			->method('setHeader')
-			->with('Cache-Control', 'private, max-age=3600, must-revalidate');
-		$this->response->expects($this->at(1))
-			->method('setHeader')
-			->with('Etag', '"myEtag"');
-		$this->response->expects($this->at(2))
-			->method('setHeader')
-			->with('Pragma', 'public');
-
 		$size = $size === null ? -1 : $size;
+
+		$setHeadersParams = [
+			['Cache-Control', 'private, max-age=3600, must-revalidate'],
+			['Etag', '"myEtag"'],
+			['Pragma', 'public']
+		];
 
 		if ($photo) {
 			$file = $this->createMock(ISimpleFile::class);
@@ -173,12 +164,10 @@ class ImageExportPluginTest extends TestCase {
 				->with(1, 'card', $size, $card)
 				->willReturn($file);
 
-			$this->response->expects($this->at(3))
-				->method('setHeader')
-				->with('Content-Type', 'image/jpeg');
-			$this->response->expects($this->at(4))
-				->method('setHeader')
-				->with('Content-Disposition', 'attachment; filename=card.jpg');
+			$setHeadersParams = array_merge($setHeadersParams, [
+				['Content-Type', 'image/jpeg'],
+				['Content-Disposition', 'attachment; filename=card.jpg']
+			]);
 
 			$this->response->expects($this->once())
 				->method('setStatus')
@@ -194,6 +183,10 @@ class ImageExportPluginTest extends TestCase {
 				->method('setStatus')
 				->with(404);
 		}
+
+		$this->response->expects($this->exactly(count($setHeadersParams)))
+			->method('setHeader')
+			->withConsecutive(...$setHeadersParams);
 
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertFalse($result);

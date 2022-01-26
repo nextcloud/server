@@ -67,7 +67,7 @@ class PublisherTest extends TestCase {
 	protected $namespaceMap = ['DAV:' => 'd'];
 	protected $contextUri = '/';
 
-	private function write($input) {
+	private function write($input): string {
 		$writer = new Writer();
 		$writer->contextUri = $this->contextUri;
 		$writer->namespaceMap = $this->namespaceMap;

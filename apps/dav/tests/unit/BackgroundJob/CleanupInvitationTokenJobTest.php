@@ -29,21 +29,25 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
+use Doctrine\DBAL\Driver\Statement;
 use OCA\DAV\BackgroundJob\CleanupInvitationTokenJob;
+use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CleanupInvitationTokenJobTest extends TestCase {
 
-	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection | MockObject */
 	private $dbConnection;
 
-	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory | MockObject */
 	private $timeFactory;
 
-	/** @var \OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob */
+	/** @var GenerateBirthdayCalendarBackgroundJob */
 	private $backgroundJob;
 
 	protected function setUp(): void {
@@ -63,8 +67,8 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			->willReturn(1337);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
-		$stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
+		$expr = $this->createMock(IExpressionBuilder::class);
+		$stmt = $this->createMock(Statement::class);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
@@ -87,15 +91,15 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			->with()
 			->willReturn($queryBuilder);
 
-		$queryBuilder->expects($this->at(0))
+		$queryBuilder->expects($this->once())
 			->method('delete')
 			->with('calendar_invitations')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(3))
+		$queryBuilder->expects($this->once())
 			->method('where')
 			->with('LT STATEMENT')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(4))
+		$queryBuilder->expects($this->once())
 			->method('execute')
 			->with()
 			->willReturn($stmt);

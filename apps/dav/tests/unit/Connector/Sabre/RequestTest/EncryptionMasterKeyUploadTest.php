@@ -21,9 +21,14 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use Exception;
+use OC;
+use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCP\IConfig;
 use OCP\ITempManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Test\Traits\EncryptionTrait;
 
 /**
@@ -36,12 +41,17 @@ use Test\Traits\EncryptionTrait;
 class EncryptionMasterKeyUploadTest extends UploadTest {
 	use EncryptionTrait;
 
-	protected function setupUser($name, $password) {
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws Exception
+	 */
+	protected function setupUser($name, $password): View {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
-		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
+		$tmpFolder = OC::$server->get(ITempManager::class)->getTemporaryFolder();
+		$this->registerMount($name, Local::class, '/' . $name, ['datadir' => $tmpFolder]);
 		// we use the master key
-		\OC::$server->get(IConfig::class)->setAppValue('encryption', 'useMasterKey', '1');
+		OC::$server->get(IConfig::class)->setAppValue('encryption', 'useMasterKey', '1');
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');

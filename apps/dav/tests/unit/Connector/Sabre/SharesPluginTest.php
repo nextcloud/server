@@ -32,46 +32,40 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
+use Test\TestCase;
 
-class SharesPluginTest extends \Test\TestCase {
-	public const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
-
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
+class SharesPluginTest extends TestCase {
+	public const SHARETYPES_PROPERTYNAME = SharesPlugin::SHARETYPES_PROPERTYNAME;
 
 	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var \OCP\Share\IManager
+	 * @var IManager
 	 */
 	private $shareManager;
 
 	/**
-	 * @var \OCP\Files\Folder
+	 * @var Folder
 	 */
 	private $userFolder;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\SharesPlugin
+	 * @var SharesPlugin
 	 */
 	private $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->server = new \Sabre\DAV\Server();
-		$this->tree = $this->createMock(Tree::class);
+		$server = new Server();
+		$tree = $this->createMock(Tree::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
@@ -83,22 +77,20 @@ class SharesPluginTest extends \Test\TestCase {
 			->willReturn($user);
 		$this->userFolder = $this->createMock(Folder::class);
 
-		$this->plugin = new \OCA\DAV\Connector\Sabre\SharesPlugin(
-			$this->tree,
+		$this->plugin = new SharesPlugin(
+			$tree,
 			$userSession,
 			$this->userFolder,
 			$this->shareManager
 		);
-		$this->plugin->initialize($this->server);
+		$this->plugin->initialize($server);
 	}
 
 	/**
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
-	public function testGetProperties($shareTypes) {
-		$sabreNode = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+	public function testGetProperties(array $shareTypes) {
+		$sabreNode = $this->createMock(Node::class);
 		$sabreNode->expects($this->any())
 			->method('getId')
 			->willReturn(123);
@@ -107,9 +99,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->willReturn('/subdir');
 
 		// node API nodes
-		$node = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Folder::class);
 
 		$this->userFolder->expects($this->once())
 			->method('get')
@@ -125,7 +115,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->willReturnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes) {
+			->willReturnCallback(function ($userId, $requestedShareType) use ($shareTypes) {
 				if (in_array($requestedShareType, $shareTypes)) {
 					$share = $this->createMock(IShare::class);
 					$share->method('getShareType')
@@ -135,7 +125,7 @@ class SharesPluginTest extends \Test\TestCase {
 				return [];
 			});
 
-		$propFind = new \Sabre\DAV\PropFind(
+		$propFind = new PropFind(
 			'/dummyPath',
 			[self::SHARETYPES_PROPERTYNAME],
 			0
@@ -156,7 +146,7 @@ class SharesPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
-	public function testPreloadThenGetProperties($shareTypes) {
+	public function testPreloadThenGetProperties(array $shareTypes) {
 		$sabreNode1 = $this->createMock(File::class);
 		$sabreNode1->method('getId')
 			->willReturn(111);
@@ -192,7 +182,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->willReturn($node);
 
 		$dummyShares = array_map(function ($type) {
-			$share = $this->getMockBuilder(IShare::class)->getMock();
+			$share = $this->createMock(IShare::class);
 			$share->expects($this->any())
 				->method('getShareType')
 				->willReturn($type);
@@ -208,7 +198,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->willReturnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares) {
+			->willReturnCallback(function ($userId, $requestedShareType, $node) use ($shareTypes, $dummyShares) {
 				if ($node->getId() === 111 && in_array($requestedShareType, $shareTypes)) {
 					foreach ($dummyShares as $dummyShare) {
 						if ($dummyShare->getShareType() === $requestedShareType) {
@@ -227,22 +217,22 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->anything(),
 				$this->equalTo(true)
 			)
-			->willReturnCallback(function ($userId, $node, $flag) use ($shareTypes, $dummyShares) {
+			->willReturnCallback(function () use ($shareTypes, $dummyShares) {
 				return [111 => $dummyShares];
 			});
 
 		// simulate sabre recursive PROPFIND traversal
-		$propFindRoot = new \Sabre\DAV\PropFind(
+		$propFindRoot = new PropFind(
 			'/subdir',
 			[self::SHARETYPES_PROPERTYNAME],
 			1
 		);
-		$propFind1 = new \Sabre\DAV\PropFind(
+		$propFind1 = new PropFind(
 			'/subdir/test.txt',
 			[self::SHARETYPES_PROPERTYNAME],
 			0
 		);
-		$propFind2 = new \Sabre\DAV\PropFind(
+		$propFind2 = new PropFind(
 			'/subdir/test2.txt',
 			[self::SHARETYPES_PROPERTYNAME],
 			0
@@ -268,7 +258,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
-	public function sharesGetPropertiesDataProvider() {
+	public function sharesGetPropertiesDataProvider(): array {
 		return [
 			[[]],
 			[[IShare::TYPE_USER]],
@@ -286,11 +276,8 @@ class SharesPluginTest extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesSkipChunks(): void {
-		$sabreNode = $this->getMockBuilder(UploadFile::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$propFind = new \Sabre\DAV\PropFind(
+		$sabreNode = $this->createMock(UploadFile::class);
+		$propFind = new PropFind(
 			'/dummyPath',
 			[self::SHARETYPES_PROPERTYNAME],
 			0

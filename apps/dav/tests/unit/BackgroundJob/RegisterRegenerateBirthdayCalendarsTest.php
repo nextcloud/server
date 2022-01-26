@@ -32,20 +32,20 @@ use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 
-	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory | MockObject */
 	private $time;
 
-	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager | MockObject */
 	private $userManager;
 
-	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList | MockObject */
 	private $jobList;
 
 	/** @var RegisterRegenerateBirthdayCalendars */
@@ -81,24 +81,22 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 				$closure($user3);
 			});
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(3))
 			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid1',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid2',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(2))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid3',
-				'purgeBeforeGenerating' => true
-			]);
+			->withConsecutive(
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid1',
+					'purgeBeforeGenerating' => true
+				]],
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid2',
+					'purgeBeforeGenerating' => true
+				]],
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid3',
+					'purgeBeforeGenerating' => true
+				]]
+			);
 
 		$this->backgroundJob->run([]);
 	}

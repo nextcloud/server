@@ -23,14 +23,17 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Setting;
 
+use OC;
 use OCA\DAV\CalDAV\Activity\Setting\Calendar;
 use OCA\DAV\CalDAV\Activity\Setting\Event;
 use OCA\DAV\CalDAV\Activity\Setting\Todo;
 use OCP\Activity\ISetting;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Test\TestCase;
 
 class GenericTest extends TestCase {
-	public function dataSettings() {
+	public function dataSettings(): array {
 		return [
 			[Calendar::class],
 			[Event::class],
@@ -40,40 +43,44 @@ class GenericTest extends TestCase {
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testImplementsInterface($settingClass) {
-		$setting = \OC::$server->get($settingClass);
+	public function testImplementsInterface(string $settingClass) {
+		$setting = OC::$server->get($settingClass);
 		$this->assertInstanceOf(ISetting::class, $setting);
 	}
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testGetIdentifier($settingClass) {
+	public function testGetIdentifier(string $settingClass) {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->get($settingClass);
+		$setting = OC::$server->get($settingClass);
 		$this->assertIsString($setting->getIdentifier());
 	}
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testGetName($settingClass) {
+	public function testGetName(string $settingClass) {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->get($settingClass);
+		$setting = OC::$server->get($settingClass);
 		$this->assertIsString($setting->getName());
 	}
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testGetPriority($settingClass) {
+	public function testGetPriority(string $settingClass) {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->get($settingClass);
+		$setting = OC::$server->get($settingClass);
 		$priority = $setting->getPriority();
 		$this->assertIsInt($setting->getPriority());
 		$this->assertGreaterThanOrEqual(0, $priority);
@@ -82,41 +89,45 @@ class GenericTest extends TestCase {
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testCanChangeStream($settingClass) {
+	public function testCanChangeStream(string $settingClass) {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->get($settingClass);
+		$setting = OC::$server->get($settingClass);
 		$this->assertIsBool($setting->canChangeStream());
 	}
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testIsDefaultEnabledStream($settingClass) {
+	public function testIsDefaultEnabledStream(string $settingClass) {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->get($settingClass);
+		$setting = OC::$server->get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledStream());
 	}
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testCanChangeMail($settingClass) {
+	public function testCanChangeMail(string $settingClass) {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->get($settingClass);
+		$setting = OC::$server->get($settingClass);
 		$this->assertIsBool($setting->canChangeMail());
 	}
 
 	/**
 	 * @dataProvider dataSettings
-	 * @param string $settingClass
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function testIsDefaultEnabledMail($settingClass) {
+	public function testIsDefaultEnabledMail(string $settingClass) {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->get($settingClass);
+		$setting = OC::$server->get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledMail());
 	}
 }

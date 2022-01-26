@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
+use Exception;
 use OCA\DAV\Migration\RemoveDeletedUsersCalendarSubscriptions;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
@@ -80,7 +81,7 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 	 * @param array $subscriptions
 	 * @param array $userExists
 	 * @param int $deletions
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function testRun(array $subscriptions, array $userExists, int $deletions): void {
 		$qb = $this->createMock(IQueryBuilder::class);
@@ -111,7 +112,7 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 		$qb->method('execute')
 			->willReturn($result);
 
-		$result->expects($this->at(0))
+		$result->expects($this->once())
 			->method('fetchOne')
 			->willReturn(count($subscriptions));
 

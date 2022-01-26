@@ -28,12 +28,12 @@ use Sabre\HTTP\Response;
 
 class Sapi {
 	/**
-	 * @var \Sabre\HTTP\Request
+	 * @var Request
 	 */
 	private $request;
 
 	/**
-	 * @var \Sabre\HTTP\Response
+	 * @var Response
 	 */
 	private $response;
 
@@ -41,9 +41,9 @@ class Sapi {
 	 * This static method will create a new Request object, based on the
 	 * current PHP request.
 	 *
-	 * @return \Sabre\HTTP\Request
+	 * @return Request
 	 */
-	public function getRequest() {
+	public function getRequest(): Request {
 		return $this->request;
 	}
 
@@ -52,7 +52,7 @@ class Sapi {
 	}
 
 	/**
-	 * @param \Sabre\HTTP\Response $response
+	 * @param Response $response
 	 * @return void
 	 */
 	public function sendResponse(Response $response) {
@@ -68,9 +68,9 @@ class Sapi {
 	}
 
 	/**
-	 * @return \Sabre\HTTP\Response
+	 * @return Response
 	 */
-	public function getResponse() {
+	public function getResponse(): Response {
 		return $this->response;
 	}
 }

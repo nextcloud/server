@@ -82,11 +82,11 @@ class EventTest extends TestCase {
 				$this->eventMerger,
 				$this->appManager
 			])
-			->setMethods(['parse'])
+			->onlyMethods(['parse'])
 			->getMock();
 	}
 
-	public function dataGenerateObjectParameter() {
+	public function dataGenerateObjectParameter(): array {
 		$link = [
 			'object_uri' => 'someuuid.ics',
 			'calendar_uri' => 'personal',
@@ -142,7 +142,7 @@ class EventTest extends TestCase {
 		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter]));
 	}
 
-	public function dataGenerateObjectParameterThrows() {
+	public function dataGenerateObjectParameterThrows(): array {
 		return [
 			['event', TypeError::class],
 			[['name' => 'event']],

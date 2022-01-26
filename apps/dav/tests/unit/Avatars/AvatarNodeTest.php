@@ -24,18 +24,19 @@ namespace OCA\DAV\Tests\Unit\Avatars;
 
 use OCA\DAV\Avatars\AvatarNode;
 use OCP\IAvatar;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AvatarNodeTest extends TestCase {
 	public function testGetName() {
-		/** @var IAvatar | \PHPUnit\Framework\MockObject\MockObject $a */
+		/** @var IAvatar | MockObject $a */
 		$a = $this->createMock(IAvatar::class);
 		$n = new AvatarNode(1024, 'png', $a);
 		$this->assertEquals('1024.png', $n->getName());
 	}
 
 	public function testGetContentType() {
-		/** @var IAvatar | \PHPUnit\Framework\MockObject\MockObject $a */
+		/** @var IAvatar | MockObject $a */
 		$a = $this->createMock(IAvatar::class);
 		$n = new AvatarNode(1024, 'png', $a);
 		$this->assertEquals('image/png', $n->getContentType());

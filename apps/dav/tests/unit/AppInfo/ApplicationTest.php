@@ -25,6 +25,8 @@ namespace OCA\DAV\Tests\unit\AppInfo;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Test\TestCase;
 
 /**
@@ -35,14 +37,18 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Unit\AppInfo
  */
 class ApplicationTest extends TestCase {
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
 	public function test() {
 		$app = new Application();
 		$c = $app->getContainer();
 
 		// assert service instances in the container are properly setup
-		$s = $c->query(ContactsManager::class);
+		$s = $c->get(ContactsManager::class);
 		$this->assertInstanceOf(ContactsManager::class, $s);
-		$s = $c->query(CardDavBackend::class);
+		$s = $c->get(CardDavBackend::class);
 		$this->assertInstanceOf(CardDavBackend::class, $s);
 	}
 }

@@ -25,22 +25,27 @@
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\EntityCollection as EntityCollectionImplemantation;
+use OCA\DAV\Comments\EntityTypeCollection;
 use OCP\Comments\ICommentsManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\Exception\NotFound;
+use Test\TestCase;
 
-class EntityTypeCollectionTest extends \Test\TestCase {
+class EntityTypeCollectionTest extends TestCase {
 
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICommentsManager|MockObject */
 	protected $commentsManager;
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var \OCA\DAV\Comments\EntityTypeCollection */
+	/** @var EntityTypeCollection */
 	protected $collection;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	protected $userSession;
 
 	protected $childMap = [];
@@ -48,22 +53,14 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$instance = $this;
 
-		$this->collection = new \OCA\DAV\Comments\EntityTypeCollection(
+		$this->collection = new EntityTypeCollection(
 			'files',
 			$this->commentsManager,
 			$this->userManager,
@@ -84,6 +81,9 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->collection->childExists('17'));
 	}
 
+	/**
+	 * @throws NotFound
+	 */
 	public function testGetChild() {
 		$this->childMap[17] = true;
 
@@ -93,14 +93,14 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 
 
 	public function testGetChildException() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		$this->collection->getChild('17');
 	}
 
 
 	public function testGetChildren() {
-		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectException(MethodNotAllowed::class);
 
 		$this->collection->getChildren();
 	}

@@ -29,12 +29,13 @@ use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use Sabre\DAV\Auth\Backend\BasicCallBack;
 use Sabre\DAV\Auth\Plugin;
 use Sabre\DAV\Server;
+use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\HTTP\Sapi;
 use Test\TestCase;
 
 class AnonymousOptionsTest extends TestCase {
-	private function sendRequest($method, $path, $userAgent = '') {
+	private function sendRequest($method, $path, $userAgent = ''): Response {
 		$server = new Server();
 		$server->addPlugin(new AnonymousOptionsPlugin());
 		$server->addPlugin(new Plugin(new BasicCallBack(function () {

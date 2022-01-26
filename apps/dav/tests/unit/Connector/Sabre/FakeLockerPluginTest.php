@@ -28,9 +28,11 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
+use Sabre\DAV\Xml\Service;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
@@ -51,26 +53,17 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testInitialize() {
-		/** @var Server $server */
-		$server = $this->getMockBuilder(Server::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var Server|MockObject $server */
+		$server = $this->createMock(Server::class);
 		$server
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('on')
-			->with('method:LOCK', [$this->fakeLockerPlugin, 'fakeLockProvider'], 1);
-		$server
-			->expects($this->at(1))
-			->method('on')
-			->with('method:UNLOCK', [$this->fakeLockerPlugin, 'fakeUnlockProvider'], 1);
-		$server
-			->expects($this->at(2))
-			->method('on')
-			->with('propFind', [$this->fakeLockerPlugin, 'propFind']);
-		$server
-			->expects($this->at(3))
-			->method('on')
-			->with('validateTokens', [$this->fakeLockerPlugin, 'validateTokens']);
+			->withConsecutive(
+				['method:LOCK', [$this->fakeLockerPlugin, 'fakeLockProvider'], 1],
+				['method:UNLOCK', [$this->fakeLockerPlugin, 'fakeUnlockProvider'], 1],
+				['propFind', [$this->fakeLockerPlugin, 'propFind']],
+				['validateTokens', [$this->fakeLockerPlugin, 'validateTokens']]
+			);
 
 		$this->fakeLockerPlugin->initialize($server);
 	}
@@ -91,24 +84,20 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testPropFind() {
-		$propFind = $this->getMockBuilder(PropFind::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$node = $this->getMockBuilder(INode::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$propFind = $this->createMock(PropFind::class);
+		$node = $this->createMock(INode::class);
 
-		$propFind->expects($this->at(0))
+		$propFind->expects($this->exactly(2))
 			->method('handle')
-			->with('{DAV:}supportedlock');
-		$propFind->expects($this->at(1))
-			->method('handle')
-			->with('{DAV:}lockdiscovery');
+			->withConsecutive(
+				['{DAV:}supportedlock'],
+				['{DAV:}lockdiscovery']
+			);
 
 		$this->fakeLockerPlugin->propFind($propFind, $node);
 	}
 
-	public function tokenDataProvider() {
+	public function tokenDataProvider(): array {
 		return [
 			[
 				[
@@ -151,20 +140,15 @@ class FakeLockerPluginTest extends TestCase {
 	 * @param array $expected
 	 */
 	public function testValidateTokens(array $input, array $expected) {
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
 		$this->fakeLockerPlugin->validateTokens($request, $input);
 		$this->assertSame($expected, $input);
 	}
 
 	public function testFakeLockProvider() {
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
 		$response = new Response();
-		$server = $this->getMockBuilder(Server::class)
-			->getMock();
+		$server = $this->getMockBuilder(Server::class)->getMock();
 		$this->fakeLockerPlugin->initialize($server);
 
 		$request->expects($this->exactly(2))
@@ -179,12 +163,8 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testFakeUnlockProvider() {
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$response->expects($this->once())
 				->method('setStatus')

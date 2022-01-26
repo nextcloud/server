@@ -28,11 +28,14 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\File as SabreFile;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
 use OCP\App\IAppManager;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IPreview;
@@ -44,85 +47,67 @@ use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\TagNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\INode;
+use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
+use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ResponseInterface;
+use Test\TestCase;
 
-class FilesReportPluginTest extends \Test\TestCase {
-	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
+class FilesReportPluginTest extends TestCase {
+	/** @var Server|MockObject */
 	private $server;
 
-	/** @var \Sabre\DAV\Tree|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Tree|MockObject */
 	private $tree;
 
-	/** @var ISystemTagObjectMapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISystemTagObjectMapper|MockObject */
 	private $tagMapper;
 
-	/** @var ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISystemTagManager|MockObject */
 	private $tagManager;
 
-	/** @var ITags|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITags|MockObject */
 	private $privateTags;
-
-	/** @var  \OCP\IUserSession */
-	private $userSession;
 
 	/** @var FilesReportPluginImplementation */
 	private $plugin;
 
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject **/
-	private $view;
-
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject **/
+	/** @var IGroupManager|MockObject **/
 	private $groupManager;
 
-	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject **/
+	/** @var Folder|MockObject **/
 	private $userFolder;
 
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject * */
+	/** @var IPreview|MockObject * */
 	private $previewManager;
-
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject * */
-	private $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$this->tree = $this->createMock(Tree::class);
+		$view = $this->createMock(View::class);
+		$this->server = $this->getMockBuilder(Server::class)
 			->setConstructorArgs([$this->tree])
-			->setMethods(['getRequestUri', 'getBaseUri'])
+			->onlyMethods(['getRequestUri', 'getBaseUri'])
 			->getMock();
 
 		$this->server->expects($this->any())
 			->method('getBaseUri')
 			->willReturn('http://example.com/owncloud/remote.php/dav');
 
-		$this->groupManager = $this->getMockBuilder(IGroupManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->userFolder = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->previewManager = $this->getMockBuilder(IPreview::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->appManager = $this->getMockBuilder(IAppManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userFolder = $this->createMock(Folder::class);
+		$this->previewManager = $this->createMock(IPreview::class);
+		/** @var IAppManager|MockObject $appManager */
+		$appManager = $this->createMock(IAppManager::class);
 		$this->tagManager = $this->createMock(ISystemTagManager::class);
 		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
-		$this->userSession = $this->createMock(IUserSession::class);
+		$userSession = $this->createMock(IUserSession::class);
 		$this->privateTags = $this->createMock(ITags::class);
 		$privateTagManager = $this->createMock(ITagManager::class);
 		$privateTagManager->expects($this->any())
@@ -130,26 +115,24 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->with('files')
 			->willReturn($this->privateTags);
 
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('testuser');
-		$this->userSession->expects($this->any())
+		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
 
 		$this->plugin = new FilesReportPluginImplementation(
 			$this->tree,
-			$this->view,
+			$view,
 			$this->tagManager,
 			$this->tagMapper,
 			$privateTagManager,
-			$this->userSession,
+			$userSession,
 			$this->groupManager,
 			$this->userFolder,
-			$this->appManager
+			$appManager
 		);
 	}
 
@@ -166,9 +149,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('getNodeForPath')
 			->with('/' . $path)
 			->willReturn(
-				$this->getMockBuilder(INode::class)
-					->disableOriginalConstructor()
-					->getMock()
+				$this->createMock(INode::class)
 			);
 
 		$this->server->expects($this->any())
@@ -179,6 +160,12 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertNull($this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, [], '/' . $path));
 	}
 
+	/**
+	 * @throws PreconditionFailed
+	 * @throws BadRequest
+	 * @throws NotFound
+	 * @throws NotFoundException
+	 */
 	public function testOnReportInvalidReportName() {
 		$path = 'test';
 
@@ -186,9 +173,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('getNodeForPath')
 			->with('/' . $path)
 			->willReturn(
-				$this->getMockBuilder(INode::class)
-					->disableOriginalConstructor()
-					->getMock()
+				$this->createMock(INode::class)
 			);
 
 		$this->server->expects($this->any())
@@ -199,6 +184,12 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertNull($this->plugin->onReport('{whoever}whatever', [], '/' . $path));
 	}
 
+	/**
+	 * @throws PreconditionFailed
+	 * @throws BadRequest
+	 * @throws NotFound
+	 * @throws NotFoundException
+	 */
 	public function testOnReport() {
 		$path = 'test';
 
@@ -223,25 +214,23 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->willReturn(true);
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123', 'files')
-			->willReturn(['111', '222']);
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456', 'files')
-			->willReturn(['111', '222', '333']);
+			->withConsecutive(
+				['123', 'files'],
+				['456', 'files']
+			)
+			->willReturnOnConsecutiveCalls(
+				['111', '222'],
+				['111', '222', '333']
+			);
 
-		$reportTargetNode = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$reportTargetNode = $this->createMock(Directory::class);
 		$reportTargetNode->expects($this->any())
 			->method('getPath')
 			->willReturn('');
 
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$response = $this->createMock(ResponseInterface::class);
 
 		$response->expects($this->once())
 			->method('setHeader')
@@ -259,21 +248,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->with('/' . $path)
 			->willReturn($reportTargetNode);
 
-		$filesNode1 = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$filesNode2 = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$filesNode1 = $this->createMock(Folder::class);
+		$filesNode2 = $this->createMock(File::class);
 
-		$this->userFolder->expects($this->at(0))
+		$this->userFolder->expects($this->exactly(2))
 			->method('getById')
-			->with('111')
-			->willReturn([$filesNode1]);
-		$this->userFolder->expects($this->at(1))
-			->method('getById')
-			->with('222')
-			->willReturn([$filesNode2]);
+			->withConsecutive(
+				['111'], ['222']
+			)->willReturnOnConsecutiveCalls(
+				[$filesNode1], [$filesNode2]
+			);
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')
@@ -284,95 +268,85 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertFalse($this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, $parameters, '/' . $path));
 	}
 
+	/**
+	 * @throws NotFoundException
+	 */
 	public function testFindNodesByFileIdsRoot() {
-		$filesNode1 = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$filesNode1 = $this->createMock(Folder::class);
 		$filesNode1->expects($this->once())
 			->method('getName')
 			->willReturn('first node');
 
-		$filesNode2 = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$filesNode2 = $this->createMock(File::class);
 		$filesNode2->expects($this->once())
 			->method('getName')
 			->willReturn('second node');
 
-		$reportTargetNode = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$reportTargetNode = $this->createMock(Directory::class);
 		$reportTargetNode->expects($this->any())
 			->method('getPath')
 			->willReturn('/');
 
-		$this->userFolder->expects($this->at(0))
+		$this->userFolder->expects($this->exactly(2))
 			->method('getById')
-			->with('111')
-			->willReturn([$filesNode1]);
-		$this->userFolder->expects($this->at(1))
-			->method('getById')
-			->with('222')
-			->willReturn([$filesNode2]);
+			->withConsecutive(
+				['111'], ['222']
+			)->willReturnOnConsecutiveCalls(
+				[$filesNode1], [$filesNode2]
+			);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $reportTargetNode */
+		/** @var Directory|MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\Directory', $result[0]);
+		$this->assertInstanceOf(Directory::class, $result[0]);
 		$this->assertEquals('first node', $result[0]->getName());
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\File', $result[1]);
+		$this->assertInstanceOf(SabreFile::class, $result[1]);
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
+	/**
+	 * @throws NotFoundException
+	 */
 	public function testFindNodesByFileIdsSubDir() {
-		$filesNode1 = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$filesNode1 = $this->createMock(Folder::class);
 		$filesNode1->expects($this->once())
 			->method('getName')
 			->willReturn('first node');
 
-		$filesNode2 = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$filesNode2 = $this->createMock(File::class);
 		$filesNode2->expects($this->once())
 			->method('getName')
 			->willReturn('second node');
 
-		$reportTargetNode = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$reportTargetNode->expects($this->any())
+		$reportTargetNode = $this->createMock(Directory::class);
+		$reportTargetNode->expects($this->exactly(2))
 			->method('getPath')
 			->willReturn('/sub1/sub2');
 
 
-		$subNode = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$subNode = $this->createMock(Folder::class);
 
-		$this->userFolder->expects($this->at(0))
+		$this->userFolder->expects($this->once())
 			->method('get')
 			->with('/sub1/sub2')
 			->willReturn($subNode);
 
-		$subNode->expects($this->at(0))
+		$subNode->expects($this->exactly(2))
 			->method('getById')
-			->with('111')
-			->willReturn([$filesNode1]);
-		$subNode->expects($this->at(1))
-			->method('getById')
-			->with('222')
-			->willReturn([$filesNode2]);
+			->withConsecutive(
+				['111'], ['222']
+			)->willReturnOnConsecutiveCalls(
+				[$filesNode1], [$filesNode2]
+			);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $reportTargetNode */
+		/** @var Directory|MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\Directory', $result[0]);
+		$this->assertInstanceOf(Directory::class, $result[0]);
 		$this->assertEquals('first node', $result[0]->getName());
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\File', $result[1]);
+		$this->assertInstanceOf(SabreFile::class, $result[1]);
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
@@ -382,23 +356,19 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->method('isReadable')->willReturn(true);
 
-		$node1 = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$node2 = $this->getMockBuilder(\OCA\DAV\Connector\Sabre\File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node1 = $this->createMock(Directory::class);
+		$node2 = $this->createMock(SabreFile::class);
 
 		$node1->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('111');
+			->willReturn(111);
 		$node1->expects($this->any())
 			->method('getPath')
 			->willReturn('/node1');
 		$node1->method('getFileInfo')->willReturn($fileInfo);
 		$node2->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('222');
+			->willReturn(222);
 		$node2->expects($this->once())
 			->method('getSize')
 			->willReturn(1024);
@@ -407,12 +377,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->willReturn('/sub/node2');
 		$node2->method('getFileInfo')->willReturn($fileInfo);
 
-		$config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$config = $this->createMock(IConfig::class);
 
 		$this->server->addPlugin(
-			new \OCA\DAV\Connector\Sabre\FilesPlugin(
+			new FilesPlugin(
 				$this->tree,
 				$config,
 				$this->createMock(IRequest::class),
@@ -434,14 +402,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$props1 = $responses[0]->getResponseProperties();
 		$this->assertEquals('111', $props1[200]['{http://owncloud.org/ns}fileid']);
 		$this->assertNull($props1[404]['{DAV:}getcontentlength']);
-		$this->assertInstanceOf('\Sabre\DAV\Xml\Property\ResourceType', $props1[200]['{DAV:}resourcetype']);
+		$this->assertInstanceOf(ResourceType::class, $props1[200]['{DAV:}resourcetype']);
 		$resourceType1 = $props1[200]['{DAV:}resourcetype']->getValue();
 		$this->assertEquals('{DAV:}collection', $resourceType1[0]);
 
 		$props2 = $responses[1]->getResponseProperties();
 		$this->assertEquals('1024', $props2[200]['{DAV:}getcontentlength']);
 		$this->assertEquals('222', $props2[200]['{http://owncloud.org/ns}fileid']);
-		$this->assertInstanceOf('\Sabre\DAV\Xml\Property\ResourceType', $props2[200]['{DAV:}resourcetype']);
+		$this->assertInstanceOf(ResourceType::class, $props2[200]['{DAV:}resourcetype']);
 		$this->assertCount(0, $props2[200]['{DAV:}resourcetype']->getValue());
 	}
 
@@ -570,9 +538,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->willReturn(true);
 
-		$tag1 = $this->getMockBuilder(ISystemTag::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tag1 = $this->createMock(ISystemTag::class);
 		$tag1->expects($this->any())
 			->method('getId')
 			->willReturn('123');
@@ -580,9 +546,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->willReturn(true);
 
-		$tag2 = $this->getMockBuilder(ISystemTag::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tag2 = $this->createMock(ISystemTag::class);
 		$tag2->expects($this->any())
 			->method('getId')
 			->willReturn('123');
@@ -594,14 +558,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->tagManager->expects($this->never())
 			->method('getTagsByIds');
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123')
-			->willReturn(['111', '222']);
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456')
-			->willReturn(['222', '333']);
+			->withConsecutive(['123'], ['456'])
+			->willReturnOnConsecutiveCalls(['111', '222'], ['222', '333']);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
@@ -613,15 +573,13 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 
 	public function testProcessFilterRulesInvisibleTagAsUser() {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(false);
 
-		$tag1 = $this->getMockBuilder(ISystemTag::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tag1 = $this->createMock(ISystemTag::class);
 		$tag1->expects($this->any())
 			->method('getId')
 			->willReturn('123');
@@ -629,9 +587,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->willReturn(true);
 
-		$tag2 = $this->getMockBuilder(ISystemTag::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tag2 = $this->createMock(ISystemTag::class);
 		$tag2->expects($this->any())
 			->method('getId')
 			->willReturn('123');
@@ -657,9 +613,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->willReturn(false);
 
-		$tag1 = $this->getMockBuilder(ISystemTag::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tag1 = $this->createMock(ISystemTag::class);
 		$tag1->expects($this->any())
 			->method('getId')
 			->willReturn('123');
@@ -667,9 +621,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->willReturn(true);
 
-		$tag2 = $this->getMockBuilder(ISystemTag::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tag2 = $this->createMock(ISystemTag::class);
 		$tag2->expects($this->any())
 			->method('getId')
 			->willReturn('123');
@@ -682,14 +634,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->with(['123', '456'])
 			->willReturn([$tag1, $tag2]);
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123')
-			->willReturn(['111', '222']);
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456')
-			->willReturn(['222', '333']);
+			->withConsecutive(['123'], ['456'])
+			->willReturnOnConsecutiveCalls(['111', '222'], ['222', '333']);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
@@ -711,7 +659,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals(['456', '789'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	public function filesBaseUriProvider() {
+	public function filesBaseUriProvider(): array {
 		return [
 			['', '', ''],
 			['files/username', '', '/files/username'],
@@ -724,7 +672,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider filesBaseUriProvider
 	 */
-	public function testFilesBaseUri($uri, $reportPath, $expectedUri) {
+	public function testFilesBaseUri(string $uri, string $reportPath, string $expectedUri) {
 		$this->assertEquals($expectedUri, $this->invokePrivate($this->plugin, 'getFilesBaseUri', [$uri, $reportPath]));
 	}
 }

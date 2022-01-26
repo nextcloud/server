@@ -62,11 +62,11 @@ class BaseTest extends TestCase {
 				$this->groupManager,
 				$this->url,
 			])
-			->setMethods(['parse'])
+			->onlyMethods(['parse'])
 			->getMock();
 	}
 
-	public function dataSetSubjects() {
+	public function dataSetSubjects(): array {
 		return [
 			['abc', [], 'abc'],
 			['{actor} created {calendar}', ['actor' => ['name' => 'abc'], 'calendar' => ['name' => 'xyz']], 'abc created xyz'],
@@ -93,7 +93,7 @@ class BaseTest extends TestCase {
 		$this->invokePrivate($this->provider, 'setSubjects', [$event, $subject, $parameters]);
 	}
 
-	public function dataGenerateCalendarParameter() {
+	public function dataGenerateCalendarParameter(): array {
 		return [
 			[['id' => 23, 'uri' => 'foo', 'name' => 'bar'], 'bar'],
 			[['id' => 42, 'uri' => 'foo', 'name' => 'Personal'], 'Personal'],
@@ -122,7 +122,7 @@ class BaseTest extends TestCase {
 		], $this->invokePrivate($this->provider, 'generateCalendarParameter', [$data, $l]));
 	}
 
-	public function dataGenerateLegacyCalendarParameter() {
+	public function dataGenerateLegacyCalendarParameter(): array {
 		return [
 			[23, 'c1'],
 			[42, 'c2'],
@@ -142,7 +142,7 @@ class BaseTest extends TestCase {
 		], $this->invokePrivate($this->provider, 'generateLegacyCalendarParameter', [$id, $name]));
 	}
 
-	public function dataGenerateGroupParameter() {
+	public function dataGenerateGroupParameter(): array {
 		return [
 			['g1'],
 			['g2'],
@@ -161,7 +161,7 @@ class BaseTest extends TestCase {
 		], $this->invokePrivate($this->provider, 'generateGroupParameter', [$gid]));
 	}
 
-	public function dataGenerateUserParameter() {
+	public function dataGenerateUserParameter(): array {
 		$u1 = $this->createMock(IUser::class);
 		$u1->expects($this->any())
 			->method('getDisplayName')

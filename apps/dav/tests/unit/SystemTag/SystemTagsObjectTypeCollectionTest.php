@@ -25,62 +25,52 @@
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
+use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
+use OCA\DAV\SystemTag\SystemTagsObjectTypeCollection;
 use OCP\Files\Folder;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\Exception\NotFound;
+use Test\TestCase;
 
-class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
+class SystemTagsObjectTypeCollectionTest extends TestCase {
 
 	/**
-	 * @var \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection
+	 * @var SystemTagsObjectTypeCollection
 	 */
 	private $node;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var \OCP\Files\Folder
+	 * @var Folder
 	 */
 	private $userFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
+		$tagManager = $this->createMock(ISystemTagManager::class);
+		$tagMapper = $this->createMock(ISystemTagObjectMapper::class);
 
-		$user = $this->getMockBuilder(IUser::class)
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('testuser');
-		$userSession = $this->getMockBuilder(IUserSession::class)
-			->getMock();
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$groupManager = $this->getMockBuilder(IGroupManager::class)
-			->getMock();
+		$groupManager = $this->createMock(IGroupManager::class);
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->willReturn(true);
 
-		$this->userFolder = $this->getMockBuilder(Folder::class)
-			->getMock();
+		$this->userFolder = $this->createMock(Folder::class);
 		$userFolder = $this->userFolder;
 
 		$closure = function ($name) use ($userFolder) {
@@ -88,30 +78,33 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			return !empty($nodes);
 		};
 
-		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
+		$this->node = new SystemTagsObjectTypeCollection(
 			'files',
-			$this->tagManager,
-			$this->tagMapper,
+			$tagManager,
+			$tagMapper,
 			$userSession,
 			$groupManager,
 			$closure
 		);
 	}
 
-	
+
 	public function testForbiddenCreateFile() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->node->createFile('555');
 	}
 
-	
+
 	public function testForbiddenCreateDirectory() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->node->createDirectory('789');
 	}
 
+	/**
+	 * @throws NotFound
+	 */
 	public function testGetChild() {
 		$this->userFolder->expects($this->once())
 			->method('getById')
@@ -119,13 +112,13 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			->willReturn([true]);
 		$childNode = $this->node->getChild('555');
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection', $childNode);
+		$this->assertInstanceOf(SystemTagsObjectMappingCollection::class, $childNode);
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-	
+
 	public function testGetChildWithoutAccess() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		$this->userFolder->expects($this->once())
 			->method('getById')
@@ -134,9 +127,9 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->node->getChild('555');
 	}
 
-	
+
 	public function testGetChildren() {
-		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectException(MethodNotAllowed::class);
 
 		$this->node->getChildren();
 	}
@@ -157,16 +150,16 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->node->childExists('555'));
 	}
 
-	
+
 	public function testDelete() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->node->delete();
 	}
 
-	
+
 	public function testSetName() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->node->setName('somethingelse');
 	}

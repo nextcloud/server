@@ -29,6 +29,8 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCP\IConfig;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Test\TestCase;
 
 /**
@@ -37,9 +39,9 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class MaintenancePluginTest extends TestCase {
-	/** @var IConfig */
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var \PHPUnit\Framework\MockObject\Builder\InvocationMocker|\PHPUnit_Framework_MockObject_Builder_InvocationMocker|IL10N  */
+	/** @var IL10N|MockObject  */
 	private $l10n;
 	/** @var MaintenancePlugin */
 	private $maintenancePlugin;
@@ -47,14 +49,14 @@ class MaintenancePluginTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->maintenancePlugin = new MaintenancePlugin($this->config, $this->l10n);
 	}
 
 
 	public function testMaintenanceMode() {
-		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
+		$this->expectException(ServiceUnavailable::class);
 		$this->expectExceptionMessage('System is in maintenance mode.');
 
 		$this->config

@@ -28,40 +28,42 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
+use DateTime;
+use DateTimeInterface;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Reminder\Backend;
 use OCA\DAV\CalDAV\Reminder\INotificationProvider;
+use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
+use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\VObject\InvalidDataException;
 use Test\TestCase;
 
 class ReminderServiceTest extends TestCase {
 
-	/** @var Backend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Backend|MockObject */
 	private $backend;
 
-	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var NotificationProviderManager|MockObject */
 	private $notificationProviderManager;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject*/
+	/** @var IGroupManager|MockObject*/
 	private $groupManager;
 
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend|MockObject */
 	private $caldavBackend;
 
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var ITimeFactory|MockObject  */
 	private $timeFactory;
 
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -211,6 +213,9 @@ EOD;
 			$this->config);
 	}
 
+	/**
+	 * @throws InvalidDataException
+	 */
 	public function testOnCalendarObjectDelete():void {
 		$this->backend->expects($this->once())
 			->method('cleanRemindersForEvent')
@@ -224,6 +229,9 @@ EOD;
 		$this->reminderService->onCalendarObjectDelete($objectData);
 	}
 
+	/**
+	 * @throws InvalidDataException
+	 */
 	public function testOnCalendarObjectCreateSingleEntry():void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA,
@@ -243,11 +251,14 @@ EOD;
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
-			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+			->willReturn(DateTime::createFromFormat(DateTimeInterface::ATOM, '2016-06-08T00:00:00+00:00'));
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
+	/**
+	 * @throws InvalidDataException
+	 */
 	public function testOnCalendarObjectCreateSingleEntryWithRepeat(): void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_REPEAT,
@@ -270,11 +281,14 @@ EOD;
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
-			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+			->willReturn(DateTime::createFromFormat(DateTimeInterface::ATOM, '2016-06-08T00:00:00+00:00'));
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
+	/**
+	 * @throws InvalidDataException
+	 */
 	public function testOnCalendarObjectCreateRecurringEntry(): void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_RECURRING,
@@ -294,11 +308,14 @@ EOD;
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
-			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
+			->willReturn(DateTime::createFromFormat(DateTimeInterface::ATOM, '2016-06-29T00:00:00+00:00'));
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
+	/**
+	 * @throws InvalidDataException
+	 */
 	public function testOnCalendarObjectCreateEmpty():void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_NO_ALARM,
@@ -313,6 +330,9 @@ EOD;
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
+	/**
+	 * @throws InvalidDataException
+	 */
 	public function testOnCalendarObjectCreateRecurringEntryWithRepeat():void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_RECURRING_REPEAT,
@@ -336,13 +356,17 @@ EOD;
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
-			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
+			->willReturn(DateTime::createFromFormat(DateTimeInterface::ATOM, '2016-06-29T00:00:00+00:00'));
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
+	/**
+	 * @throws ProviderNotAvailableException
+	 * @throws NotificationTypeDoesNotExistException
+	 */
 	public function testProcessReminders():void {
-		$this->backend->expects($this->at(0))
+		$this->backend->expects($this->once())
 			->method('getRemindersToProcess')
 			->with()
 			->willReturn([
@@ -438,60 +462,34 @@ EOD;
 				]
 			]);
 
-		$this->notificationProviderManager->expects($this->at(0))
+		$this->notificationProviderManager->expects($this->exactly(5))
 			->method('hasProvider')
-			->with('EMAIL')
+			->withConsecutive(
+				['EMAIL'],
+				['EMAIL'],
+				['DISPLAY'],
+				['EMAIL'],
+				['EMAIL'],
+			)
 			->willReturn(true);
 
 		$provider1 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(1))
-			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider1);
-
-		$this->notificationProviderManager->expects($this->at(2))
-			->method('hasProvider')
-			->with('EMAIL')
-			->willReturn(true);
-
 		$provider2 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(3))
-			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider2);
-
-		$this->notificationProviderManager->expects($this->at(4))
-			->method('hasProvider')
-			->with('DISPLAY')
-			->willReturn(true);
-
 		$provider3 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(5))
-			->method('getProvider')
-			->with('DISPLAY')
-			->willReturn($provider3);
-
-		$this->notificationProviderManager->expects($this->at(6))
-			->method('hasProvider')
-			->with('EMAIL')
-			->willReturn(true);
-
 		$provider4 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(7))
-			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider4);
-
-		$this->notificationProviderManager->expects($this->at(8))
-			->method('hasProvider')
-			->with('EMAIL')
-			->willReturn(true);
-
 		$provider5 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(9))
+
+		$this->notificationProviderManager->expects($this->exactly(5))
 			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider5);
+			->withConsecutive(
+				['EMAIL'],
+				['EMAIL'],
+				['DISPLAY'],
+				['EMAIL'],
+				['EMAIL'],
+			)
+			->willReturnOnConsecutiveCalls($provider1, $provider2, $provider3, $provider4, $provider5);
+
 
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->exactly(5))
@@ -502,87 +500,62 @@ EOD;
 		$provider1->expects($this->once())
 			->method('send')
 			->with($this->callback(function ($vevent) {
-				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
+				if ($vevent->DTSTART->getDateTime()->format(DateTimeInterface::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
 				return true;
-			}, 'Displayname 123', $user));
+			}), 'Displayname 123', [$user]);
 		$provider2->expects($this->once())
 			->method('send')
 			->with($this->callback(function ($vevent) {
-				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
+				if ($vevent->DTSTART->getDateTime()->format(DateTimeInterface::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
 				return true;
-			}, 'Displayname 123', $user));
+			}), 'Displayname 123', [$user]);
 		$provider3->expects($this->once())
 			->method('send')
 			->with($this->callback(function ($vevent) {
-				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
+				if ($vevent->DTSTART->getDateTime()->format(DateTimeInterface::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
 				return true;
-			}, 'Displayname 123', $user));
+			}), 'Displayname 123', [$user]);
 		$provider4->expects($this->once())
 			->method('send')
 			->with($this->callback(function ($vevent) {
-				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-30T00:00:00+00:00') {
+				if ($vevent->DTSTART->getDateTime()->format(DateTimeInterface::ATOM) !== '2016-06-30T00:00:00+00:00') {
 					return false;
 				}
 				return true;
-			}, 'Displayname 123', $user));
+			}), 'Displayname 123', [$user]);
 		$provider5->expects($this->once())
 			->method('send')
 			->with($this->callback(function ($vevent) {
-				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-07-07T00:00:00+00:00') {
+				if ($vevent->DTSTART->getDateTime()->format(DateTimeInterface::ATOM) !== '2016-07-07T00:00:00+00:00') {
 					return false;
 				}
 				return true;
-			}, 'Displayname 123', $user));
+			}), 'Displayname 123', [$user]);
 
-		$this->backend->expects($this->at(1))
+		$this->backend->expects($this->exactly(5))
 			->method('removeReminder')
-			->with(1);
-		$this->backend->expects($this->at(2))
-			->method('removeReminder')
-			->with(2);
-		$this->backend->expects($this->at(3))
-			->method('removeReminder')
-			->with(3);
-		$this->backend->expects($this->at(4))
-			->method('removeReminder')
-			->with(4);
-		$this->backend->expects($this->at(5))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false)
-			->willReturn(99);
+			->withConsecutive([1], [2], [3], [4], [5]);
 
-		$this->backend->expects($this->at(6))
+		$this->backend->expects($this->exactly(6))
 			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848820, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(7))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848940, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(8))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849060, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(9))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849180, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(10))
-			->method('removeReminder')
-			->with(5);
-		$this->backend->expects($this->at(11))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1468454400, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467763200, false)
+			->withConsecutive(
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848820, true],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848940, true],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849060, true],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849180, true],
+				[1337, 42, 'wej2z68l9h', true, 1468454400, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467763200, false]
+			)
 			->willReturn(99);
 
 		$this->timeFactory->method('getDateTime')
-			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+			->willReturn(DateTime::createFromFormat(DateTimeInterface::ATOM, '2016-06-08T00:00:00+00:00'));
 
 		$this->reminderService->processReminders();
 	}

@@ -37,6 +37,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -44,51 +45,39 @@ use Test\TestCase;
 
 class DirectHomeTest extends TestCase {
 
-	/** @var DirectMapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var DirectMapper|MockObject */
 	private $directMapper;
 
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Throttler|MockObject */
 	private $throttler;
-
-	/** @var IRequest */
-	private $request;
 
 	/** @var DirectHome */
 	private $directHome;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->directMapper = $this->createMock(DirectMapper::class);
-		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$timeFactory = $this->createMock(ITimeFactory::class);
 		$this->throttler = $this->createMock(Throttler::class);
-		$this->request = $this->createMock(IRequest::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$request = $this->createMock(IRequest::class);
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$this->timeFactory->method('getTime')
+		$timeFactory->method('getTime')
 			->willReturn(42);
 
-		$this->request->method('getRemoteAddress')
+		$request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
 
 
 		$this->directHome = new DirectHome(
-			$this->rootFolder,
+			$rootFolder,
 			$this->directMapper,
-			$this->timeFactory,
+			$timeFactory,
 			$this->throttler,
-			$this->request,
-			$this->eventDispatcher
+			$request,
+			$eventDispatcher
 		);
 	}
 
@@ -134,6 +123,9 @@ class DirectHomeTest extends TestCase {
 		$this->assertSame(0, $this->directHome->getLastModified());
 	}
 
+	/**
+	 * @throws NotFound
+	 */
 	public function testGetChildValid() {
 		$direct = Direct::fromParams([
 			'expiration' => 100,

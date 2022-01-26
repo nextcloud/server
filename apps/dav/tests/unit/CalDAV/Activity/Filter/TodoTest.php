@@ -29,14 +29,15 @@ use OCA\DAV\CalDAV\Activity\Filter\Todo;
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class TodoTest extends TestCase {
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	protected $url;
 
-	/** @var IFilter|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFilter|MockObject */
 	protected $filter;
 
 	protected function setUp(): void {
@@ -68,7 +69,7 @@ class TodoTest extends TestCase {
 		$this->assertEquals('absolute-path-to-icon', $this->filter->getIcon());
 	}
 
-	public function dataFilterTypes() {
+	public function dataFilterTypes(): array {
 		return [
 			[[], []],
 			[['calendar_todo'], ['calendar_todo']],
@@ -82,7 +83,7 @@ class TodoTest extends TestCase {
 	 * @param string[] $types
 	 * @param string[] $expected
 	 */
-	public function testFilterTypes($types, $expected) {
+	public function testFilterTypes(array $types, array $expected) {
 		$this->assertEquals($expected, $this->filter->filterTypes($types));
 	}
 }

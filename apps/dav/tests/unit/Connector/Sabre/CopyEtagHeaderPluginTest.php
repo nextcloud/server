@@ -34,6 +34,8 @@ use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
+use Sabre\Http\Request;
+use Sabre\Http\Response;
 use Test\TestCase;
 
 /**
@@ -52,14 +54,14 @@ class CopyEtagHeaderPluginTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->server = new \Sabre\DAV\Server();
+		$this->server = new Server();
 		$this->plugin = new CopyEtagHeaderPlugin();
 		$this->plugin->initialize($this->server);
 	}
 
 	public function testCopyEtag() {
-		$request = new \Sabre\Http\Request('GET', 'dummy.file');
-		$response = new \Sabre\Http\Response();
+		$request = new Request('GET', 'dummy.file');
+		$response = new Response();
 		$response->setHeader('Etag', 'abcd');
 
 		$this->plugin->afterMethod($request, $response);
@@ -68,8 +70,8 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testNoopWhenEmpty() {
-		$request = new \Sabre\Http\Request('GET', 'dummy.file');
-		$response = new \Sabre\Http\Response();
+		$request = new Request('GET', 'dummy.file');
+		$response = new Response();
 
 		$this->plugin->afterMethod($request, $response);
 
@@ -90,15 +92,11 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testAfterMove() {
-		$node = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->once())
 			->method('getETag')
 			->willReturn('123456');
-		$tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tree = $this->createMock(Tree::class);
 		$tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('test.txt')

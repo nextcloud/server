@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\Search;
 
+use DateTime;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCP\App\IAppManager;
@@ -35,21 +36,22 @@ use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class EventsSearchProviderTest extends TestCase {
 
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppManager|MockObject */
 	private $appManager;
 
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend|MockObject */
 	private $backend;
 
 	/** @var EventsSearchProvider */
@@ -361,7 +363,7 @@ class EventsSearchProviderTest extends TestCase {
 				$this->urlGenerator,
 				$this->backend,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getDeepLinkToCalendarApp',
 				'generateSubline',
 			])
@@ -420,15 +422,15 @@ class EventsSearchProviderTest extends TestCase {
 	}
 
 	public function testGetDeepLinkToCalendarApp(): void {
-		$this->urlGenerator->expects($this->at(0))
+		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
 			->with('', 'remote.php')
 			->willReturn('link-to-remote.php');
-		$this->urlGenerator->expects($this->at(1))
+		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('calendar.view.index')
 			->willReturn('link-to-route-calendar/');
-		$this->urlGenerator->expects($this->at(2))
+		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
 			->with('link-to-route-calendar/edit/bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvZm9vL2Jhci5pY3M=')
 			->willReturn('absolute-url-to-route');
@@ -449,7 +451,7 @@ class EventsSearchProviderTest extends TestCase {
 		$eventComponent = $vCalendar->VEVENT;
 
 		$this->l10n->method('l')
-			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+			->willReturnCallback(static function (string $type, DateTime $date):string {
 				if ($type === 'time') {
 					return $date->format('H:i');
 				}

@@ -23,13 +23,16 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
-class ExceptionPlugin extends \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin {
+use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use Throwable;
+
+class ExceptionPlugin extends ExceptionLoggerPlugin {
 	/**
-	 * @var \Throwable[]
+	 * @var Throwable[]
 	 */
 	protected $exceptions = [];
 
-	public function logException(\Throwable $ex) {
+	public function logException(Throwable $ex): void {
 		$exceptionClass = get_class($ex);
 		if (!isset($this->nonFatalExceptions[$exceptionClass])) {
 			$this->exceptions[] = $ex;
@@ -37,9 +40,9 @@ class ExceptionPlugin extends \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin {
 	}
 
 	/**
-	 * @return \Throwable[]
+	 * @return Throwable[]
 	 */
-	public function getExceptions() {
+	public function getExceptions(): array {
 		return $this->exceptions;
 	}
 }

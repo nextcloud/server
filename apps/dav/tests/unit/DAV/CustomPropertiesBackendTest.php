@@ -27,9 +27,14 @@
  */
 namespace OCA\DAV\Tests\DAV;
 
+use OC;
 use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCP\DB\Exception;
 use OCP\IDBConnection;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
@@ -40,18 +45,22 @@ use Test\TestCase;
  */
 class CustomPropertiesBackendTest extends TestCase {
 
-	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Tree | MockObject */
 	private $tree;
 
 	/** @var  IDBConnection */
 	private $dbConnection;
 
-	/** @var IUser | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser | MockObject */
 	private $user;
 
-	/** @var CustomPropertiesBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var CustomPropertiesBackend | MockObject */
 	private $backend;
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -60,7 +69,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->user->method('getUID')
 			->with()
 			->willReturn('dummy_user_42');
-		$this->dbConnection = \OC::$server->get(IDBConnection::class);
+		$this->dbConnection = OC::$server->get(IDBConnection::class);
 
 		$this->backend = new CustomPropertiesBackend(
 			$this->tree,
@@ -69,10 +78,13 @@ class CustomPropertiesBackendTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	protected function tearDown(): void {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->delete('properties');
-		$query->execute();
+		$query->executeStatement();
 
 		parent::tearDown();
 	}
@@ -85,12 +97,18 @@ class CustomPropertiesBackendTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	protected function insertProps(string $user, string $path, array $props) {
 		foreach ($props as $name => $value) {
 			$this->insertProp($user, $path, $name, $value);
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	protected function insertProp(string $user, string $path, string $name, string $value) {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->insert('properties')
@@ -100,17 +118,20 @@ class CustomPropertiesBackendTest extends TestCase {
 				'propertyname' => $query->createNamedParameter($name),
 				'propertyvalue' => $query->createNamedParameter($value),
 			]);
-		$query->execute();
+		$query->executeStatement();
 	}
 
-	protected function getProps(string $user, string $path) {
+	/**
+	 * @throws Exception
+	 */
+	protected function getProps(string $user, string $path): array {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select('propertyname', 'propertyvalue')
 			->from('properties')
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
 			->where($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$data = [];
 		while ($row = $result->fetch()) {
 			$data[$row['propertyname']] = $row['propertyvalue'];
@@ -129,7 +150,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		);
 
 		$propFind = $this->createMock(PropFind::class);
-		$propFind->expects($this->at(0))
+		$propFind->expects($this->once())
 			->method('get404Properties')
 			->with()
 			->willReturn([
@@ -179,7 +200,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 		$setProps = [];
 		$propFind->method('set')
-			->willReturnCallback(function ($name, $value, $status) use (&$setProps) {
+			->willReturnCallback(function ($name, $value) use (&$setProps) {
 				$setProps[$name] = $value;
 			});
 
@@ -189,6 +210,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 	/**
 	 * @dataProvider propPatchProvider
+	 * @throws Exception
 	 */
 	public function testPropPatch(string $path, array $existing, array $props, array $result) {
 		$this->insertProps($this->user->getUID(), $path, $existing);
@@ -201,7 +223,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals($result, $storedProps);
 	}
 
-	public function propPatchProvider() {
+	public function propPatchProvider(): array {
 		$longPath = str_repeat('long_path', 100);
 		return [
 			['foo_bar_path_1337', [], ['{DAV:}displayname' => 'anything'], ['{DAV:}displayname' => 'anything']],
@@ -213,6 +235,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 	/**
 	 * @dataProvider deleteProvider
+	 * @throws Exception
 	 */
 	public function testDelete(string $path) {
 		$this->insertProps('dummy_user_42', $path, ['foo' => 'bar']);
@@ -220,7 +243,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals([], $this->getProps('dummy_user_42', $path));
 	}
 
-	public function deleteProvider() {
+	public function deleteProvider(): array {
 		return [
 			['foo_bar_path_1337'],
 			[str_repeat('long_path', 100)]
@@ -229,6 +252,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 	/**
 	 * @dataProvider moveProvider
+	 * @throws Exception
 	 */
 	public function testMove(string $source, string $target) {
 		$this->insertProps('dummy_user_42', $source, ['foo' => 'bar']);
@@ -237,7 +261,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar'], $this->getProps('dummy_user_42', $target));
 	}
 
-	public function moveProvider() {
+	public function moveProvider(): array {
 		return [
 			['foo_bar_path_1337', 'foo_bar_path_7333'],
 			[str_repeat('long_path1', 100), str_repeat('long_path2', 100)]

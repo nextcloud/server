@@ -22,10 +22,14 @@
  */
 namespace OCA\DAV\Tests\Unit\Command;
 
+use OC;
 use OCA\DAV\Command\RemoveInvalidShares;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -37,9 +41,13 @@ use Test\TestCase;
  * @group DB
  */
 class RemoveInvalidSharesTest extends TestCase {
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
 	protected function setUp(): void {
 		parent::setUp();
-		$db = \OC::$server->get(IDBConnection::class);
+		$db = OC::$server->get(IDBConnection::class);
 
 		$db->insertIfNotExist('*PREFIX*dav_shares', [
 			'principaluri' => 'principal:unknown',
@@ -49,13 +57,17 @@ class RemoveInvalidSharesTest extends TestCase {
 		]);
 	}
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
 	public function test() {
-		$db = \OC::$server->get(IDBConnection::class);
-		/** @var Principal | \PHPUnit\Framework\MockObject\MockObject $principal */
+		$db = OC::$server->get(IDBConnection::class);
+		/** @var Principal | MockObject $principal */
 		$principal = $this->createMock(Principal::class);
 
-		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $output */
-		$output = $this->createMock(IOutput::class);
+		/** @var IOutput | MockObject $output */
+		$this->createMock(IOutput::class);
 
 		$repair = new RemoveInvalidShares($db, $principal);
 		$this->invokePrivate($repair, 'run', [$this->createMock(InputInterface::class), $this->createMock(OutputInterface::class)]);
@@ -65,6 +77,6 @@ class RemoveInvalidSharesTest extends TestCase {
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter('principal:unknown')))->execute();
 		$data = $result->fetchAll();
 		$result->closeCursor();
-		$this->assertEquals(0, count($data));
+		$this->assertCount(0, $data);
 	}
 }

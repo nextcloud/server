@@ -27,11 +27,16 @@
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OC\Security\Bruteforce\Throttler;
+use OC_User;
+use OC_Util;
+use OCA\DAV\Connector\PublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
 /**
  * Class PublicAuthTest
@@ -40,18 +45,14 @@ use OCP\Share\IShare;
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
-class PublicAuthTest extends \Test\TestCase {
+class PublicAuthTest extends TestCase {
 
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|MockObject */
 	private $session;
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	private $shareManager;
-	/** @var \OCA\DAV\Connector\PublicAuth */
+	/** @var PublicAuth */
 	private $auth;
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
-	private $throttler;
 
 	/** @var string */
 	private $oldUser;
@@ -59,36 +60,28 @@ class PublicAuthTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->session = $this->getMockBuilder(ISession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->shareManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->throttler = $this->getMockBuilder(Throttler::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$throttler = $this->createMock(Throttler::class);
 
-		$this->auth = new \OCA\DAV\Connector\PublicAuth(
-			$this->request,
+		$this->auth = new PublicAuth(
+			$request,
 			$this->shareManager,
 			$this->session,
-			$this->throttler
+			$throttler
 		);
 
 		// Store current user
-		$this->oldUser = \OC_User::getUser();
+		$this->oldUser = OC_User::getUser();
 	}
 
 	protected function tearDown(): void {
-		\OC_User::setIncognitoMode(false);
+		OC_User::setIncognitoMode(false);
 
 		// Set old user
-		\OC_User::setUserId($this->oldUser);
-		\OC_Util::setupFS($this->oldUser);
+		OC_User::setUserId($this->oldUser);
+		OC_Util::setupFS($this->oldUser);
 
 		parent::tearDown();
 	}
@@ -104,9 +97,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testShareNoPassword() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn(null);
 
 		$this->shareManager->expects($this->once())
@@ -119,9 +110,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordFancyShareType() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
 
@@ -136,9 +125,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 
 	public function testSharePasswordRemote() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
 
@@ -152,9 +139,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkValidPassword() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 
@@ -174,9 +159,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordMailValidPassword() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
@@ -196,9 +179,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkValidSession() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
@@ -222,9 +203,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkInvalidSession() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
@@ -249,9 +228,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 
 	public function testSharePasswordMailInvalidSession() {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 		$share->method('getId')->willReturn('42');

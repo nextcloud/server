@@ -31,20 +31,27 @@ use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
+use Sabre\DAV\Xml\Service;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\Response;
+use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class EnablePluginTest extends TestCase {
 
-	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Server|MockObject */
 	protected $server;
 
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
 
-	/** @var BirthdayService |\PHPUnit\Framework\MockObject\MockObject */
+	/** @var BirthdayService |MockObject */
 	protected $birthdayService;
 
-	/** @var \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin $plugin */
+	/** @var EnablePlugin $plugin */
 	protected $plugin;
 
 	protected $request;
@@ -54,10 +61,10 @@ class EnablePluginTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->createMock(\Sabre\DAV\Server::class);
-		$this->server->tree = $this->createMock(\Sabre\DAV\Tree::class);
-		$this->server->httpResponse = $this->createMock(\Sabre\HTTP\Response::class);
-		$this->server->xml = $this->createMock(\Sabre\DAV\Xml\Service::class);
+		$this->server = $this->createMock(Server::class);
+		$this->server->tree = $this->createMock(Tree::class);
+		$this->server->httpResponse = $this->createMock(Response::class);
+		$this->server->xml = $this->createMock(Service::class);
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->birthdayService = $this->createMock(BirthdayService::class);
@@ -65,8 +72,8 @@ class EnablePluginTest extends TestCase {
 		$this->plugin = new EnablePlugin($this->config, $this->birthdayService);
 		$this->plugin->initialize($this->server);
 
-		$this->request = $this->createMock(\Sabre\HTTP\RequestInterface::class);
-		$this->response = $this->createMock(\Sabre\HTTP\ResponseInterface::class);
+		$this->request = $this->createMock(RequestInterface::class);
+		$this->response = $this->createMock(ResponseInterface::class);
 	}
 
 	public function testGetFeatures() {
@@ -78,7 +85,7 @@ class EnablePluginTest extends TestCase {
 	}
 
 	public function testInitialize() {
-		$server = $this->createMock(\Sabre\DAV\Server::class);
+		$server = $this->createMock(Server::class);
 
 		$plugin = new EnablePlugin($this->config, $this->birthdayService);
 

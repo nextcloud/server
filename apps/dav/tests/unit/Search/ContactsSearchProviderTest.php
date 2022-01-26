@@ -35,21 +35,22 @@ use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class ContactsSearchProviderTest extends TestCase {
 
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppManager|MockObject */
 	private $appManager;
 
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var CardDavBackend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var CardDavBackend|MockObject */
 	private $backend;
 
 	/** @var ContactsSearchProvider */
@@ -192,7 +193,7 @@ class ContactsSearchProviderTest extends TestCase {
 				$this->urlGenerator,
 				$this->backend,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getDavUrlForContact',
 				'getDeepLinkToContactsApp',
 				'generateSubline',

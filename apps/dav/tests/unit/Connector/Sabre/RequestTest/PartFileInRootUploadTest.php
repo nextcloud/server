@@ -25,7 +25,10 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OC;
 use OCP\IConfig;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class PartFileInRootUploadTest
@@ -35,14 +38,17 @@ use OCP\IConfig;
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
 class PartFileInRootUploadTest extends UploadTest {
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
 	protected function setUp(): void {
-		$config = \OC::$server->get(IConfig::class);
-		$mockConfig = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var IConfig $config */
+		$config = OC::$server->get(IConfig::class);
+		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($config) {
+			->willReturnCallback(function (string $key, string $default) use ($config) {
 				if ($key === 'part_file_in_storage') {
 					return false;
 				} else {

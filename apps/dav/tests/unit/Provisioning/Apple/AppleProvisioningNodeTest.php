@@ -24,14 +24,17 @@
  */
 namespace OCA\DAV\Tests\unit\Provisioning\Apple;
 
+use DateTime;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
 use OCP\AppFramework\Utility\ITimeFactory;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AppleProvisioningNodeTest extends TestCase {
 
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
 	/** @var AppleProvisioningNode */
@@ -50,7 +53,7 @@ class AppleProvisioningNodeTest extends TestCase {
 
 
 	public function testSetName() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 		$this->expectExceptionMessage('Renaming apple-provisioning.mobileconfig is forbidden');
 
 		$this->node->setName('foo');
@@ -62,16 +65,16 @@ class AppleProvisioningNodeTest extends TestCase {
 
 
 	public function testDelete() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 		$this->expectExceptionMessage('apple-provisioning.mobileconfig may not be deleted');
 
 		$this->node->delete();
 	}
 
 	public function testGetProperties() {
-		$this->timeFactory->expects($this->at(0))
+		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
-			->willReturn(new \DateTime('2000-01-01'));
+			->willReturn(new DateTime('2000-01-01'));
 
 		$this->assertEquals([
 			'{DAV:}getcontentlength' => 42,
@@ -81,7 +84,7 @@ class AppleProvisioningNodeTest extends TestCase {
 
 
 	public function testGetPropPatch() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 		$this->expectExceptionMessage('apple-provisioning.mobileconfig\'s properties may not be altered.');
 
 		$propPatch = $this->createMock(PropPatch::class);

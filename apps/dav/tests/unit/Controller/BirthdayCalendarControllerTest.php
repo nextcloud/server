@@ -30,49 +30,45 @@ namespace OCA\DAV\Tests\Unit\DAV\Controller;
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Controller\BirthdayCalendarController;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BirthdayCalendarControllerTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $db;
-
-	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList|MockObject */
 	private $jobList;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend|MockObject */
 	private $caldav;
 
-	/** @var BirthdayCalendarController|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var BirthdayCalendarController|MockObject */
 	private $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->request = $this->createMock(IRequest::class);
-		$this->db = $this->createMock(IDBConnection::class);
+		$request = $this->createMock(IRequest::class);
+		$db = $this->createMock(IDBConnection::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->caldav = $this->createMock(CalDavBackend::class);
 
 		$this->controller = new BirthdayCalendarController('dav',
-			$this->request, $this->db, $this->config, $this->jobList,
+			$request, $db, $this->config, $this->jobList,
 			$this->userManager, $this->caldav);
 	}
 
@@ -105,7 +101,7 @@ class BirthdayCalendarControllerTest extends TestCase {
 			);
 
 		$response = $this->controller->enable();
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
+		$this->assertInstanceOf(JSONResponse::class, $response);
 	}
 
 	public function testDisable() {
@@ -119,6 +115,6 @@ class BirthdayCalendarControllerTest extends TestCase {
 			->method('deleteAllBirthdayCalendars');
 
 		$response = $this->controller->disable();
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
+		$this->assertInstanceOf(JSONResponse::class, $response);
 	}
 }

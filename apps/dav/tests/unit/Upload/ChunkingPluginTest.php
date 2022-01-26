@@ -27,9 +27,14 @@
 namespace OCA\DAV\Tests\unit\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\FutureFile;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
@@ -38,12 +43,7 @@ class ChunkingPluginTest extends TestCase {
 
 
 	/**
-	 * @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $server;
-
-	/**
-	 * @var \Sabre\DAV\Tree | \PHPUnit\Framework\MockObject\MockObject
+	 * @var Tree | MockObject
 	 */
 	private $tree;
 
@@ -51,32 +51,32 @@ class ChunkingPluginTest extends TestCase {
 	 * @var ChunkingPlugin
 	 */
 	private $plugin;
-	/** @var RequestInterface | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var RequestInterface | MockObject */
 	private $request;
-	/** @var ResponseInterface | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ResponseInterface | MockObject */
 	private $response;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
-			->disableOriginalConstructor()
-			->getMock();
+		$server = $this->createMock(Server::class);
+		$this->tree = $this->createMock(Tree::class);
 
-		$this->server->tree = $this->tree;
+		$server->tree = $this->tree;
 		$this->plugin = new ChunkingPlugin();
 
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->response = $this->createMock(ResponseInterface::class);
-		$this->server->httpRequest = $this->request;
-		$this->server->httpResponse = $this->response;
+		$server->httpRequest = $this->request;
+		$server->httpResponse = $this->response;
 
-		$this->plugin->initialize($this->server);
+		$this->plugin->initialize($server);
 	}
 
+	/**
+	 * @throws BadRequest
+	 * @throws NotFound|Forbidden
+	 */
 	public function testBeforeMoveFutureFileSkip() {
 		$node = $this->createMock(Directory::class);
 
@@ -90,41 +90,40 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertNull($this->plugin->beforeMove('source', 'target'));
 	}
 
+	/**
+	 * @throws NotFound|Forbidden
+	 */
 	public function testBeforeMoveDestinationIsDirectory() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 		$this->expectExceptionMessage('The given destination target is a directory.');
 
 		$sourceNode = $this->createMock(FutureFile::class);
 		$targetNode = $this->createMock(Directory::class);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willReturn($targetNode);
+			->withConsecutive(['source'], ['target'])
+			->willReturnOnConsecutiveCalls($sourceNode, $targetNode);
 		$this->response->expects($this->never())
 			->method('setStatus');
 
 		$this->assertNull($this->plugin->beforeMove('source', 'target'));
 	}
 
+	/**
+	 * @throws BadRequest
+	 * @throws NotFound|Forbidden
+	 */
 	public function testBeforeMoveFutureFileSkipNonExisting() {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(['source'], ['target'])
+			->willReturnOnConsecutiveCalls($sourceNode, $this->throwException(new NotFound()));
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -138,25 +137,26 @@ class ChunkingPluginTest extends TestCase {
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')
-			->willReturn(4);
+			->willReturn('4');
 
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
+	/**
+	 * @throws BadRequest
+	 * @throws NotFound|Forbidden
+	 */
 	public function testBeforeMoveFutureFileMoveIt() {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(['source'], ['target'])
+			->willReturnOnConsecutiveCalls($sourceNode, $this->throwException(new NotFound()));
+
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -180,8 +180,11 @@ class ChunkingPluginTest extends TestCase {
 	}
 
 
+	/**
+	 * @throws NotFound|Forbidden
+	 */
 	public function testBeforeMoveSizeIsWrong() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 		$this->expectExceptionMessage('Chunks on server do not sum up to 4 but to 3 bytes');
 
 		$sourceNode = $this->createMock(FutureFile::class);
@@ -189,14 +192,11 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(3);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(['source'], ['target'])
+			->willReturnOnConsecutiveCalls($sourceNode, $this->throwException(new NotFound()));
+
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')

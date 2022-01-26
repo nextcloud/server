@@ -28,6 +28,8 @@ use OCA\DAV\Avatars\AvatarHome;
 use OCA\DAV\Avatars\AvatarNode;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Test\TestCase;
@@ -37,7 +39,7 @@ class AvatarHomeTest extends TestCase {
 	/** @var AvatarHome */
 	private $home;
 
-	/** @var IAvatarManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAvatarManager | MockObject */
 	private $avatarManager;
 
 	protected function setUp(): void {
@@ -49,13 +51,13 @@ class AvatarHomeTest extends TestCase {
 	/**
 	 * @dataProvider providesForbiddenMethods
 	 */
-	public function testForbiddenMethods($method) {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+	public function testForbiddenMethods(string $method) {
+		$this->expectException(Forbidden::class);
 
 		$this->home->$method('');
 	}
 
-	public function providesForbiddenMethods() {
+	public function providesForbiddenMethods(): array {
 		return [
 			['createFile'],
 			['createDirectory'],
@@ -69,7 +71,7 @@ class AvatarHomeTest extends TestCase {
 		self::assertEquals('admin', $n);
 	}
 
-	public function providesTestGetChild() {
+	public function providesTestGetChild(): array {
 		return [
 			[MethodNotAllowed::class, false, ''],
 			[MethodNotAllowed::class, false, 'bla.foo'],
@@ -81,8 +83,9 @@ class AvatarHomeTest extends TestCase {
 
 	/**
 	 * @dataProvider providesTestGetChild
+	 * @throws MethodNotAllowed|NotFound
 	 */
-	public function testGetChild($expectedException, $hasAvatar, $path) {
+	public function testGetChild(?string $expectedException, bool $hasAvatar, string $path) {
 		if ($expectedException !== null) {
 			$this->expectException($expectedException);
 		}
@@ -97,19 +100,19 @@ class AvatarHomeTest extends TestCase {
 
 	public function testGetChildren() {
 		$avatarNodes = $this->home->getChildren();
-		self::assertEquals(0, count($avatarNodes));
+		self::assertCount(0, $avatarNodes);
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())->method('exists')->willReturn(true);
 		$this->avatarManager->expects($this->any())->method('getAvatar')->with('admin')->willReturn($avatar);
 		$avatarNodes = $this->home->getChildren();
-		self::assertEquals(1, count($avatarNodes));
+		self::assertCount(1, $avatarNodes);
 	}
 
 	/**
 	 * @dataProvider providesTestGetChild
 	 */
-	public function testChildExists($expectedException, $hasAvatar, $path) {
+	public function testChildExists(?string $expectedException, bool $hasAvatar, string $path) {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->method('exists')->willReturn($hasAvatar);
 

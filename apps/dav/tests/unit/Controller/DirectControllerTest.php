@@ -40,23 +40,24 @@ use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class DirectControllerTest extends TestCase {
 
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	private $rootFolder;
 
-	/** @var DirectMapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var DirectMapper|MockObject */
 	private $directMapper;
 
-	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISecureRandom|MockObject */
 	private $random;
 
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
 	/** @var DirectController */
@@ -83,6 +84,9 @@ class DirectControllerTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @throws OCSBadRequestException
+	 */
 	public function testGetUrlNonExistingFileId() {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
@@ -97,6 +101,9 @@ class DirectControllerTest extends TestCase {
 		$this->controller->getUrl(101);
 	}
 
+	/**
+	 * @throws OCSNotFoundException
+	 */
 	public function testGetUrlForFolder() {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
@@ -113,6 +120,10 @@ class DirectControllerTest extends TestCase {
 		$this->controller->getUrl(101);
 	}
 
+	/**
+	 * @throws OCSBadRequestException
+	 * @throws OCSNotFoundException
+	 */
 	public function testGetUrlValid() {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')

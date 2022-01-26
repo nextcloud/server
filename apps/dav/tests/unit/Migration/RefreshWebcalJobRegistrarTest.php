@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
+use Exception;
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
 use OCA\DAV\Migration\RefreshWebcalJobRegistrar;
 use OCP\BackgroundJob\IJobList;
@@ -33,14 +34,16 @@ use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use PDO;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RefreshWebcalJobRegistrarTest extends TestCase {
 
-	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection | MockObject */
 	private $db;
 
-	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList | MockObject */
 	private $jobList;
 
 	/** @var RefreshWebcalJobRegistrar */
@@ -56,9 +59,12 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 	}
 
 	public function testGetName() {
-		$this->assertEquals($this->migration->getName(), 'Registering background jobs to update cache for webcal calendars');
+		$this->assertEquals('Registering background jobs to update cache for webcal calendars', $this->migration->getName());
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testRun() {
 		$output = $this->createMock(IOutput::class);
 
@@ -69,77 +75,79 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 			->method('getQueryBuilder')
 			->willReturn($queryBuilder);
 
-		$queryBuilder->expects($this->at(0))
+		$queryBuilder->expects($this->once())
 			->method('select')
 			->with(['principaluri', 'uri'])
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(1))
+		$queryBuilder->expects($this->once())
 			->method('from')
 			->with('calendarsubscriptions')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(2))
-			->method('execute')
+		$queryBuilder->expects($this->once())
+			->method('executeQuery')
 			->willReturn($statement);
 
-		$statement->expects($this->at(0))
+		$statement->expects($this->exactly(4))
 			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
-			->willReturn([
-				'principaluri' => 'foo1',
-				'uri' => 'bar1',
-			]);
-		$statement->expects($this->at(1))
-			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
-			->willReturn([
-				'principaluri' => 'foo2',
-				'uri' => 'bar2',
-			]);
-		$statement->expects($this->at(2))
-			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
-			->willReturn([
-				'principaluri' => 'foo3',
-				'uri' => 'bar3',
-			]);
-		$statement->expects($this->at(0))
-			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
-			->willReturn(null);
+			->with(PDO::FETCH_ASSOC)
+			->willReturnOnConsecutiveCalls(
+				[
+					'principaluri' => 'foo1',
+					'uri' => 'bar1',
+				],
+				[
+					'principaluri' => 'foo2',
+					'uri' => 'bar2',
+				],
+				[
+					'principaluri' => 'foo3',
+					'uri' => 'bar3',
+				],
+				null
+			);
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(3))
 			->method('has')
-			->with(RefreshWebcalJob::class, [
-				'principaluri' => 'foo1',
-				'uri' => 'bar1',
-			])
-			->willReturn(false);
-		$this->jobList->expects($this->at(1))
+			->withConsecutive(
+				[
+					RefreshWebcalJob::class, [
+						'principaluri' => 'foo1',
+						'uri' => 'bar1',
+					]
+				],
+				[
+					RefreshWebcalJob::class,
+					[
+						'principaluri' => 'foo2',
+						'uri' => 'bar2',
+					]
+				],
+				[
+					RefreshWebcalJob::class,
+					[
+						'principaluri' => 'foo3',
+						'uri' => 'bar3',
+					]
+				]
+			)
+			->willReturnOnConsecutiveCalls(false, true, false);
+		$this->jobList->expects($this->exactly(2))
 			->method('add')
-			->with(RefreshWebcalJob::class, [
-				'principaluri' => 'foo1',
-				'uri' => 'bar1',
-			]);
-		$this->jobList->expects($this->at(2))
-			->method('has')
-			->with(RefreshWebcalJob::class, [
-				'principaluri' => 'foo2',
-				'uri' => 'bar2',
-			])
-			->willReturn(true);
-		$this->jobList->expects($this->at(3))
-			->method('has')
-			->with(RefreshWebcalJob::class, [
-				'principaluri' => 'foo3',
-				'uri' => 'bar3',
-			])
-			->willReturn(false);
-		$this->jobList->expects($this->at(4))
-			->method('add')
-			->with(RefreshWebcalJob::class, [
-				'principaluri' => 'foo3',
-				'uri' => 'bar3',
-			]);
+			->withConsecutive(
+				[
+					RefreshWebcalJob::class, [
+						'principaluri' => 'foo1',
+						'uri' => 'bar1',
+					]
+				],
+				[
+					RefreshWebcalJob::class,
+					[
+						'principaluri' => 'foo3',
+						'uri' => 'bar3',
+					]
+				]
+			);
 
 		$output->expects($this->once())
 			->method('info')

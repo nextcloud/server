@@ -24,8 +24,10 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use Exception;
 use OCP\AppFramework\Http;
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 
 /**
  * Class DownloadTest
@@ -35,6 +37,10 @@ use OCP\Lock\ILockingProvider;
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
 class DownloadTest extends RequestTestCase {
+	/**
+	 * @throws LockedException
+	 * @throws Exception
+	 */
 	public function testDownload() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -43,9 +49,13 @@ class DownloadTest extends RequestTestCase {
 
 		$response = $this->request($view, $user, 'pass', 'GET', '/foo.txt');
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals(stream_get_contents($response->getBody()), 'bar');
+		$this->assertEquals('bar', stream_get_contents($response->getBody()));
 	}
 
+	/**
+	 * @throws LockedException
+	 * @throws Exception
+	 */
 	public function testDownloadWriteLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -58,6 +68,10 @@ class DownloadTest extends RequestTestCase {
 		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
+	/**
+	 * @throws LockedException
+	 * @throws Exception
+	 */
 	public function testDownloadReadLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -68,6 +82,6 @@ class DownloadTest extends RequestTestCase {
 
 		$response = $this->request($view, $user, 'pass', 'GET', '/foo.txt', 'asd');
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals(stream_get_contents($response->getBody()), 'bar');
+		$this->assertEquals('bar', stream_get_contents($response->getBody()));
 	}
 }

@@ -26,10 +26,13 @@
  */
 namespace OCA\DAV\Tests\Command;
 
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Command\ListCalendars;
+use OCA\DAV\DAV\Sharing\Plugin;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -40,10 +43,10 @@ use Test\TestCase;
  */
 class ListCalendarsTest extends TestCase {
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+	/** @var IUserManager|MockObject $userManager */
 	private $userManager;
 
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject $l10n */
+	/** @var CalDavBackend|MockObject $l10n */
 	private $calDav;
 
 	/** @var ListCalendars */
@@ -64,7 +67,7 @@ class ListCalendarsTest extends TestCase {
 	}
 
 	public function testWithBadUser() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		$this->userManager->expects($this->once())
 			->method('userExists')
@@ -96,7 +99,7 @@ class ListCalendarsTest extends TestCase {
 		$this->assertStringContainsString("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
-	public function dataExecute() {
+	public function dataExecute(): array {
 		return [
 			[false, '✓'],
 			[true, 'x']
@@ -120,11 +123,11 @@ class ListCalendarsTest extends TestCase {
 					'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI,
 				],
 				[
-					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $readOnly,
+					'{' . Plugin::NS_OWNCLOUD . '}read-only' => $readOnly,
 					'uri' => 'test',
 					'{DAV:}displayname' => 'dp',
-					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => 'owner-principal',
-					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}owner-displayname' => 'owner-dp',
+					'{' . Plugin::NS_OWNCLOUD . '}owner-principal' => 'owner-principal',
+					'{' . Plugin::NS_NEXTCLOUD . '}owner-displayname' => 'owner-dp',
 				]
 			]);
 

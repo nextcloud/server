@@ -25,43 +25,49 @@
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
+use Exception;
+use InvalidArgumentException;
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagMappingNode;
+use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\PreconditionFailed;
+use Test\TestCase;
 
-class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
+class SystemTagsObjectMappingCollectionTest extends TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
+	 * @var ISystemTagObjectMapper
 	 */
 	private $tagMapper;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
 
-		$this->user = $this->getMockBuilder(IUser::class)
-			->getMock();
+		$this->user = $this->createMock(IUser::class);
 	}
 
-	public function getNode() {
-		return new \OCA\DAV\SystemTag\SystemTagsObjectMappingCollection(
+	public function getNode(): SystemTagsObjectMappingCollection {
+		return new SystemTagsObjectMappingCollection(
 			111,
 			'files',
 			$this->user,
@@ -70,6 +76,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * @throws PreconditionFailed
+	 * @throws Forbidden
+	 */
 	public function testAssignTag() {
 		$tag = new SystemTag('1', 'Test', true, true);
 		$this->tagManager->expects($this->once())
@@ -92,19 +102,19 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->createFile('555');
 	}
 
-	public function permissionsProvider() {
+	public function permissionsProvider(): array {
 		return [
 			// invisible, tag does not exist for user
-			[false, true, '\Sabre\DAV\Exception\PreconditionFailed'],
+			[false, true, PreconditionFailed::class],
 			// visible but static, cannot assign tag
-			[true, false, '\Sabre\DAV\Exception\Forbidden'],
+			[true, false, Forbidden::class],
 		];
 	}
 
 	/**
 	 * @dataProvider permissionsProvider
 	 */
-	public function testAssignTagNoPermission($userVisible, $userAssignable, $expectedException) {
+	public function testAssignTagNoPermission(bool $userVisible, bool $userAssignable, string $expectedException) {
 		$tag = new SystemTag('1', 'Test', $userVisible, $userAssignable);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
@@ -125,16 +135,19 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$thrown = null;
 		try {
 			$this->getNode()->createFile('555');
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$thrown = $e;
 		}
 
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
+	/**
+	 * @throws Forbidden
+	 */
 	public function testAssignTagNotFound() {
-		$this->expectException(\Sabre\DAV\Exception\PreconditionFailed::class);
+		$this->expectException(PreconditionFailed::class);
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
@@ -144,13 +157,17 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->createFile('555');
 	}
 
-	
+
 	public function testForbiddenCreateDirectory() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->getNode()->createDirectory('789');
 	}
 
+	/**
+	 * @throws BadRequest
+	 * @throws NotFound
+	 */
 	public function testGetChild() {
 		$tag = new SystemTag(555, 'TheTag', true, false);
 		$this->tagManager->expects($this->once())
@@ -170,13 +187,16 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 		$childNode = $this->getNode()->getChild('555');
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $childNode);
+		$this->assertInstanceOf(SystemTagMappingNode::class, $childNode);
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-	
+
+	/**
+	 * @throws BadRequest
+	 */
 	public function testGetChildNonVisible() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		$tag = new SystemTag(555, 'TheTag', false, false);
 		$this->tagManager->expects($this->once())
@@ -197,9 +217,12 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('555');
 	}
 
-	
+
+	/**
+	 * @throws BadRequest
+	 */
 	public function testGetChildRelationNotFound() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -209,21 +232,27 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('777');
 	}
 
-	
+
+	/**
+	 * @throws NotFound
+	 */
 	public function testGetChildInvalidId() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', 'badid')
-			->will($this->throwException(new \InvalidArgumentException()));
+			->will($this->throwException(new InvalidArgumentException()));
 
 		$this->getNode()->getChild('badid');
 	}
 
-	
+
+	/**
+	 * @throws BadRequest
+	 */
 	public function testGetChildTagDoesNotExist() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -258,8 +287,8 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 		$this->assertCount(2, $children);
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $children[0]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $children[1]);
+		$this->assertInstanceOf(SystemTagMappingNode::class, $children[0]);
+		$this->assertInstanceOf(SystemTagMappingNode::class, $children[1]);
 
 		$this->assertEquals(111, $children[0]->getObjectId());
 		$this->assertEquals('files', $children[0]->getObjectType());
@@ -270,6 +299,9 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertEquals($tag2, $children[1]->getSystemTag());
 	}
 
+	/**
+	 * @throws BadRequest
+	 */
 	public function testChildExistsWithVisibleTag() {
 		$tag = new SystemTag(555, 'TagOne', true, false);
 
@@ -291,6 +323,9 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertTrue($this->getNode()->childExists('555'));
 	}
 
+	/**
+	 * @throws BadRequest
+	 */
 	public function testChildExistsWithInvisibleTag() {
 		$tag = new SystemTag(555, 'TagOne', false, false);
 
@@ -307,6 +342,9 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
 
+	/**
+	 * @throws BadRequest
+	 */
 	public function testChildExistsNotFound() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -316,6 +354,9 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
 
+	/**
+	 * @throws BadRequest
+	 */
 	public function testChildExistsTagNotFound() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -325,28 +366,28 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
 
-	
+
 	public function testChildExistsInvalidId() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '555')
-			->will($this->throwException(new \InvalidArgumentException()));
+			->will($this->throwException(new InvalidArgumentException()));
 
 		$this->getNode()->childExists('555');
 	}
 
-	
+
 	public function testDelete() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->getNode()->delete();
 	}
 
-	
+
 	public function testSetName() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->getNode()->setName('somethingelse');
 	}

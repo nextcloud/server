@@ -47,9 +47,6 @@ class CalendarContactInteractionListenerTest extends TestCase {
 	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var Principal|MockObject */
-	private $principalConnector;
-
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
@@ -64,14 +61,14 @@ class CalendarContactInteractionListenerTest extends TestCase {
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->principalConnector = $this->createMock(Principal::class);
+		$principalConnector = $this->createMock(Principal::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->listener = new CalendarContactInteractionListener(
 			$this->eventDispatcher,
 			$this->userSession,
-			$this->principalConnector,
+			$principalConnector,
 			$this->mailer,
 			$this->logger
 		);

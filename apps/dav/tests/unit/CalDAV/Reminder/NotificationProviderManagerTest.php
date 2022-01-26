@@ -29,21 +29,26 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\Capabilities;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Test\TestCase;
 
 class NotificationProviderManagerTest extends TestCase {
 
-	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var NotificationProviderManager|MockObject */
 	private $providerManager;
 
 	/**
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,7 +62,7 @@ class NotificationProviderManagerTest extends TestCase {
 	 * @throws NotificationTypeDoesNotExistException
 	 */
 	public function testGetProviderForUnknownType(): void {
-		$this->expectException(\OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException::class);
+		$this->expectException(NotificationTypeDoesNotExistException::class);
 		$this->expectExceptionMessage('Type NOT EXISTENT is not an accepted type of notification');
 
 		$this->providerManager->getProvider('NOT EXISTENT');
@@ -68,17 +73,27 @@ class NotificationProviderManagerTest extends TestCase {
 	 * @throws ProviderNotAvailableException
 	 */
 	public function testGetProviderForUnRegisteredType(): void {
-		$this->expectException(\OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException::class);
+		$this->expectException(ProviderNotAvailableException::class);
 		$this->expectExceptionMessage('No notification provider for type AUDIO available');
 
 		$this->providerManager->getProvider('AUDIO');
 	}
 
+	/**
+	 * @throws ProviderNotAvailableException
+	 * @throws NotificationTypeDoesNotExistException
+	 */
 	public function testGetProvider(): void {
 		$provider = $this->providerManager->getProvider('EMAIL');
 		$this->assertInstanceOf(EmailProvider::class, $provider);
 	}
 
+	/**
+	 * @throws NotFoundExceptionInterface
+	 * @throws ContainerExceptionInterface
+	 * @throws ProviderNotAvailableException
+	 * @throws NotificationTypeDoesNotExistException
+	 */
 	public function testRegisterProvider(): void {
 		$this->providerManager->registerProvider(PushProvider::class);
 		$provider = $this->providerManager->getProvider('DISPLAY');
@@ -86,10 +101,11 @@ class NotificationProviderManagerTest extends TestCase {
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
 	public function testRegisterBadProvider(): void {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Invalid notification provider registered');
 
 		$this->providerManager->registerProvider(Capabilities::class);

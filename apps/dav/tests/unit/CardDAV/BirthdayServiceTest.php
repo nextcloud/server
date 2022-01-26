@@ -33,7 +33,10 @@ use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
@@ -41,17 +44,17 @@ class BirthdayServiceTest extends TestCase {
 
 	/** @var BirthdayService */
 	private $service;
-	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend | MockObject */
 	private $calDav;
-	/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var CardDavBackend | MockObject */
 	private $cardDav;
-	/** @var GroupPrincipalBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var GroupPrincipalBackend | MockObject */
 	private $groupPrincipalBackend;
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig | MockObject */
 	private $config;
-	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection | MockObject */
 	private $dbConnection;
-	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N | MockObject */
 	private $l10n;
 
 	protected function setUp(): void {
@@ -77,21 +80,26 @@ class BirthdayServiceTest extends TestCase {
 
 	/**
 	 * @dataProvider providesVCards
-	 * @param string $expectedSummary
-	 * @param string $expectedDTStart
-	 * @param string $expectedFieldType
-	 * @param string $expectedUnknownYear
-	 * @param string $expectedOriginalYear
-	 * @param string | null $data
+	 * @throws InvalidDataException
 	 */
-	public function testBuildBirthdayFromContact($expectedSummary, $expectedDTStart, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $data, $fieldType, $prefix, $supports4Bytes) {
+	public function testBuildBirthdayFromContact(
+		?string $expectedSummary,
+		?string $expectedDTStart,
+		?string $expectedFieldType,
+		?string $expectedUnknownYear,
+		?string $expectedOriginalYear,
+		?string $data,
+		string $fieldType,
+		string $prefix,
+		bool $supports4Bytes
+	) {
 		$this->dbConnection->method('supports4ByteText')->willReturn($supports4Bytes);
 		$cal = $this->service->buildDateFromContact($data, $fieldType, $prefix);
 
 		if ($expectedSummary === null) {
 			$this->assertNull($cal);
 		} else {
-			$this->assertInstanceOf('Sabre\VObject\Component\VCalendar', $cal);
+			$this->assertInstanceOf(VCalendar::class, $cal);
 			$this->assertEquals('-//IDN nextcloud.com//Birthday calendar//EN', $cal->PRODID->getValue());
 			$this->assertTrue(isset($cal->VEVENT));
 			$this->assertEquals('FREQ=YEARLY', $cal->VEVENT->RRULE->getValue());
@@ -165,9 +173,11 @@ class BirthdayServiceTest extends TestCase {
 			->willReturn([
 				'id' => 1234
 			]);
-		$this->calDav->expects($this->at(1))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf.ics');
-		$this->calDav->expects($this->at(2))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-death.ics');
-		$this->calDav->expects($this->at(3))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-anniversary.ics');
+		$this->calDav->expects($this->exactly(3))->method('deleteCalendarObject')->withConsecutive(
+			[1234, 'default-gump.vcf.ics'],
+			[1234, 'default-gump.vcf-death.ics'],
+			[1234, 'default-gump.vcf-anniversary.ics']
+		);
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
 		$this->service->onCardDeleted(666, 'gump.vcf');
@@ -182,7 +192,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->cardDav->expects($this->never())->method('getAddressBookById');
 
 		$service = $this->getMockBuilder(BirthdayService::class)
-			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
+			->onlyMethods(['buildDateFromContact', 'birthdayEvenChanged'])
 			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config, $this->dbConnection, $this->l10n])
 			->getMock();
 
@@ -209,9 +219,9 @@ class BirthdayServiceTest extends TestCase {
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 		$this->calDav->expects($this->never())->method('getCalendarByUri');
 
-		/** @var BirthdayService | \PHPUnit\Framework\MockObject\MockObject $service */
+		/** @var BirthdayService | MockObject $service */
 		$service = $this->getMockBuilder(BirthdayService::class)
-			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
+			->onlyMethods(['buildDateFromContact', 'birthdayEvenChanged'])
 			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config, $this->dbConnection, $this->l10n])
 			->getMock();
 
@@ -221,7 +231,7 @@ class BirthdayServiceTest extends TestCase {
 	/**
 	 * @dataProvider providesCardChanges
 	 */
-	public function testOnCardChanged($expectedOp) {
+	public function testOnCardChanged(string $expectedOp) {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -245,9 +255,9 @@ class BirthdayServiceTest extends TestCase {
 			]);
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
-		/** @var BirthdayService | \PHPUnit\Framework\MockObject\MockObject $service */
+		/** @var BirthdayService | MockObject $service */
 		$service = $this->getMockBuilder(BirthdayService::class)
-			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
+			->onlyMethods(['buildDateFromContact', 'birthdayEvenChanged'])
 			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config, $this->dbConnection, $this->l10n])
 			->getMock();
 
@@ -290,11 +300,8 @@ class BirthdayServiceTest extends TestCase {
 
 	/**
 	 * @dataProvider providesBirthday
-	 * @param $expected
-	 * @param $old
-	 * @param $new
 	 */
-	public function testBirthdayEvenChanged($expected, $old, $new) {
+	public function testBirthdayEvenChanged(bool $expected, string $old, string $new) {
 		$new = Reader::read($new);
 		$this->assertEquals($expected, $this->service->birthdayEvenChanged($old, $new));
 	}
@@ -338,6 +345,9 @@ class BirthdayServiceTest extends TestCase {
 		], $users);
 	}
 
+	/**
+	 * @throws BadRequest
+	 */
 	public function testBirthdayCalendarHasComponentEvent() {
 		$this->calDav->expects($this->once())
 			->method('createCalendar')
@@ -350,32 +360,28 @@ class BirthdayServiceTest extends TestCase {
 	}
 
 	public function testResetForUser() {
-		$this->calDav->expects($this->at(0))
+		$this->calDav->expects($this->once())
 			->method('getCalendarByUri')
 			->with('principals/users/user123', 'contact_birthdays')
 			->willReturn(['id' => 42]);
 
-		$this->calDav->expects($this->at(1))
+		$this->calDav->expects($this->once())
 			->method('getCalendarObjects')
 			->with(42, 0)
 			->willReturn([['uri' => '1.ics'], ['uri' => '2.ics'], ['uri' => '3.ics']]);
 
-		$this->calDav->expects($this->at(2))
+		$this->calDav->expects($this->exactly(3))
 			->method('deleteCalendarObject')
-			->with(42, '1.ics', 0);
-
-		$this->calDav->expects($this->at(3))
-			->method('deleteCalendarObject')
-			->with(42, '2.ics', 0);
-
-		$this->calDav->expects($this->at(4))
-			->method('deleteCalendarObject')
-			->with(42, '3.ics', 0);
+			->withConsecutive(
+				[42, '1.ics', 0],
+				[42, '2.ics', 0],
+				[42, '3.ics', 0]
+			);
 
 		$this->service->resetForUser('user123');
 	}
 
-	public function providesBirthday() {
+	public function providesBirthday(): array {
 		return [
 			[true,
 				'',
@@ -392,7 +398,7 @@ class BirthdayServiceTest extends TestCase {
 		];
 	}
 
-	public function providesCardChanges() {
+	public function providesCardChanges(): array {
 		return[
 			['delete'],
 			['create'],
@@ -400,7 +406,7 @@ class BirthdayServiceTest extends TestCase {
 		];
 	}
 
-	public function providesVCards() {
+	public function providesVCards(): array {
 		return [
 			// $expectedSummary, $expectedDTStart, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $data, $fieldType, $prefix, $supports4Byte
 			[null, null, null, null, null, 'yasfewf', '', '', true],

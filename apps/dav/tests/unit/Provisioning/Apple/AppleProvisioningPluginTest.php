@@ -33,32 +33,36 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Server;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class AppleProvisioningPluginTest extends TestCase {
 
-	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Server|MockObject */
 	protected $server;
 
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	protected $userSession;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
 
-	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ThemingDefaults|MockObject */
 	protected $themingDefaults;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|MockObject */
 	protected $request;
 
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	protected $l10n;
 
-	/** @var \Sabre\HTTP\RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var RequestInterface|MockObject */
 	protected $sabreRequest;
 
-	/** @var \Sabre\HTTP\ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ResponseInterface|MockObject */
 	protected $sabreResponse;
 
 	/** @var AppleProvisioningPlugin */
@@ -67,7 +71,7 @@ class AppleProvisioningPluginTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->createMock(\Sabre\DAV\Server::class);
+		$this->server = $this->createMock(Server::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
@@ -84,19 +88,19 @@ class AppleProvisioningPluginTest extends TestCase {
 			}
 		);
 
-		$this->sabreRequest = $this->createMock(\Sabre\HTTP\RequestInterface::class);
-		$this->sabreResponse = $this->createMock(\Sabre\HTTP\ResponseInterface::class);
+		$this->sabreRequest = $this->createMock(RequestInterface::class);
+		$this->sabreResponse = $this->createMock(ResponseInterface::class);
 	}
 
 	public function testInitialize() {
-		$server = $this->createMock(\Sabre\DAV\Server::class);
+		$server = $this->createMock(Server::class);
 
 		$plugin = new AppleProvisioningPlugin($this->userSession,
 			$this->urlGenerator, $this->themingDefaults, $this->request, $this->l10n,
 			function () {
 			});
 
-		$server->expects($this->at(0))
+		$server->expects($this->once())
 			->method('on')
 			->with('method:GET', [$plugin, 'httpGet'], 90);
 
@@ -104,36 +108,36 @@ class AppleProvisioningPluginTest extends TestCase {
 	}
 
 	public function testHttpGetOnHttp() {
-		$this->sabreRequest->expects($this->at(0))
+		$this->sabreRequest->expects($this->once())
 			->method('getPath')
 			->with()
 			->willReturn('provisioning/apple-provisioning.mobileconfig');
 
 		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->once())
 			->method('getServerProtocol')
 			->wilLReturn('http');
 
-		$this->themingDefaults->expects($this->at(0))
+		$this->themingDefaults->expects($this->once())
 			->method('getName')
 			->willReturn('InstanceName');
 
-		$this->l10n->expects($this->at(0))
+		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS.', ['InstanceName'])
 			->willReturn('LocalizedErrorMessage');
 
-		$this->sabreResponse->expects($this->at(0))
+		$this->sabreResponse->expects($this->once())
 			->method('setStatus')
 			->with(200);
-		$this->sabreResponse->expects($this->at(1))
+		$this->sabreResponse->expects($this->once())
 			->method('setHeader')
 			->with('Content-Type', 'text/plain; charset=utf-8');
-		$this->sabreResponse->expects($this->at(2))
+		$this->sabreResponse->expects($this->once())
 			->method('setBody')
 			->with('LocalizedErrorMessage');
 
@@ -143,21 +147,21 @@ class AppleProvisioningPluginTest extends TestCase {
 	}
 
 	public function testHttpGetOnHttps() {
-		$this->sabreRequest->expects($this->at(0))
+		$this->sabreRequest->expects($this->once())
 			->method('getPath')
 			->with()
 			->willReturn('provisioning/apple-provisioning.mobileconfig');
 
 		$user = $this->createMock(IUser::class);
-		$user->expects($this->at(0))
+		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('userName');
 
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->once())
 			->method('getServerProtocol')
 			->wilLReturn('https');
 
@@ -165,30 +169,25 @@ class AppleProvisioningPluginTest extends TestCase {
 			->method('getBaseUrl')
 			->willReturn('https://nextcloud.tld/nextcloud');
 
-		$this->themingDefaults->expects($this->at(0))
+		$this->themingDefaults->expects($this->once())
 			->method('getName')
 			->willReturn('InstanceName');
 
-		$this->l10n->expects($this->at(0))
+		$this->l10n->expects($this->exactly(2))
 			->method('t')
-			->with('Configures a CalDAV account')
-			->willReturn('LocalizedConfiguresCalDAV');
+			->withConsecutive(['Configures a CalDAV account'], ['Configures a CardDAV account'])
+			->willReturnOnConsecutiveCalls('LocalizedConfiguresCalDAV', 'LocalizedConfiguresCardDAV');
 
-		$this->l10n->expects($this->at(1))
-			->method('t')
-			->with('Configures a CardDAV account')
-			->willReturn('LocalizedConfiguresCardDAV');
-
-		$this->sabreResponse->expects($this->at(0))
+		$this->sabreResponse->expects($this->once())
 			->method('setStatus')
 			->with(200);
-		$this->sabreResponse->expects($this->at(1))
+		$this->sabreResponse->expects($this->exactly(2))
 			->method('setHeader')
-			->with('Content-Disposition', 'attachment; filename="userName-apple-provisioning.mobileconfig"');
-		$this->sabreResponse->expects($this->at(2))
-			->method('setHeader')
-			->with('Content-Type', 'application/xml; charset=utf-8');
-		$this->sabreResponse->expects($this->at(3))
+			->withConsecutive(
+				['Content-Disposition', 'attachment; filename="userName-apple-provisioning.mobileconfig"'],
+				['Content-Type', 'application/xml; charset=utf-8']
+			);
+		$this->sabreResponse->expects($this->once())
 			->method('setBody')
 			->with(<<<EOF
 <?xml version="1.0" encoding="UTF-8"?>

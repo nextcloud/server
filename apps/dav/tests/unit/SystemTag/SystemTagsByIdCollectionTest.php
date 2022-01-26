@@ -25,74 +25,76 @@
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
+use InvalidArgumentException;
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagNode;
+use OCA\DAV\SystemTag\SystemTagsByIdCollection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagNotFoundException;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
+use Test\TestCase;
 
-class SystemTagsByIdCollectionTest extends \Test\TestCase {
+class SystemTagsByIdCollectionTest extends TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
-
-	/**
-	 * @var \OCP\IUser
-	 */
-	private $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
 	}
 
-	public function getNode($isAdmin = true) {
-		$this->user = $this->getMockBuilder(IUser::class)
-			->getMock();
-		$this->user->expects($this->any())
+	public function getNode($isAdmin = true): SystemTagsByIdCollection {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('testuser');
-		$userSession = $this->getMockBuilder(IUserSession::class)
-			->getMock();
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
-			->willReturn($this->user);
-		$groupManager = $this->getMockBuilder(IGroupManager::class)
-			->getMock();
+			->willReturn($user);
+		$groupManager = $this->createMock(IGroupManager::class);
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->willReturn($isAdmin);
-		return new \OCA\DAV\SystemTag\SystemTagsByIdCollection(
+		return new SystemTagsByIdCollection(
 			$this->tagManager,
 			$userSession,
 			$groupManager
 		);
 	}
 
-	public function adminFlagProvider() {
+	public function adminFlagProvider(): array {
 		return [[true], [false]];
 	}
 
-	
+
 	public function testForbiddenCreateFile() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->getNode()->createFile('555');
 	}
 
-	
+
 	public function testForbiddenCreateDirectory() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$this->getNode()->createDirectory('789');
 	}
 
+	/**
+	 * @throws BadRequest
+	 * @throws NotFound
+	 */
 	public function testGetChild() {
 		$tag = new SystemTag(123, 'Test', true, false);
 		$this->tagManager->expects($this->once())
@@ -107,26 +109,32 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 		$childNode = $this->getNode()->getChild('123');
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $childNode);
+		$this->assertInstanceOf(SystemTagNode::class, $childNode);
 		$this->assertEquals('123', $childNode->getName());
 		$this->assertEquals($tag, $childNode->getSystemTag());
 	}
 
-	
+
+	/**
+	 * @throws NotFound
+	 */
 	public function testGetChildInvalidName() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['invalid'])
-			->will($this->throwException(new \InvalidArgumentException()));
+			->will($this->throwException(new InvalidArgumentException()));
 
 		$this->getNode()->getChild('invalid');
 	}
 
-	
+
+	/**
+	 * @throws BadRequest
+	 */
 	public function testGetChildNotFound() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
@@ -136,9 +144,12 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('444');
 	}
 
-	
+
+	/**
+	 * @throws BadRequest
+	 */
 	public function testGetChildUserNotVisible() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 
 		$tag = new SystemTag(123, 'Test', false, false);
 
@@ -159,12 +170,12 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 			->with(null)
 			->willReturn([$tag1, $tag2]);
 
-		$children = $this->getNode(true)->getChildren();
+		$children = $this->getNode()->getChildren();
 
 		$this->assertCount(2, $children);
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[0]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[1]);
+		$this->assertInstanceOf(SystemTagNode::class, $children[0]);
+		$this->assertInstanceOf(SystemTagNode::class, $children[1]);
 		$this->assertEquals($tag1, $children[0]->getSystemTag());
 		$this->assertEquals($tag2, $children[1]->getSystemTag());
 	}
@@ -182,8 +193,8 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 		$this->assertCount(2, $children);
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[0]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[1]);
+		$this->assertInstanceOf(SystemTagNode::class, $children[0]);
+		$this->assertInstanceOf(SystemTagNode::class, $children[1]);
 		$this->assertEquals($tag1, $children[0]->getSystemTag());
 		$this->assertEquals($tag2, $children[1]->getSystemTag());
 	}
@@ -196,7 +207,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->assertCount(0, $this->getNode()->getChildren());
 	}
 
-	public function childExistsProvider() {
+	public function childExistsProvider(): array {
 		return [
 			[true, true],
 			[false, false],
@@ -205,8 +216,9 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider childExistsProvider
+	 * @throws BadRequest
 	 */
-	public function testChildExists($userVisible, $expectedResult) {
+	public function testChildExists(bool $userVisible, bool $expectedResult) {
 		$tag = new SystemTag(123, 'One', $userVisible, false);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
@@ -221,6 +233,9 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $this->getNode()->childExists('123'));
 	}
 
+	/**
+	 * @throws BadRequest
+	 */
 	public function testChildExistsNotFound() {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
@@ -230,14 +245,14 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('123'));
 	}
 
-	
+
 	public function testChildExistsBadRequest() {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(BadRequest::class);
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['invalid'])
-			->will($this->throwException(new \InvalidArgumentException()));
+			->will($this->throwException(new InvalidArgumentException()));
 
 		$this->getNode()->childExists('invalid');
 	}

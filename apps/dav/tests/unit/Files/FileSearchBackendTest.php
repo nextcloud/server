@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\Tests\Files;
 
+use InvalidArgumentException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
@@ -42,34 +43,35 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Query\Limit;
+use SearchDAV\Query\Literal;
+use SearchDAV\Query\Operator;
 use SearchDAV\Query\Query;
+use SearchDAV\Query\Scope;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
-	/** @var CachingTree|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var CachingTree|MockObject */
 	private $tree;
 
 	/** @var IUser */
 	private $user;
 
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	private $rootFolder;
 
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var View|MockObject */
 	private $view;
 
-	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Folder|MockObject */
 	private $searchFolder;
 
 	/** @var FileSearchBackend */
 	private $search;
 
-	/** @var Directory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Directory|MockObject */
 	private $davFolder;
 
 	protected function setUp(): void {
@@ -80,21 +82,15 @@ class FileSearchBackendTest extends TestCase {
 			->method('getUID')
 			->willReturn('test');
 
-		$this->tree = $this->getMockBuilder(CachingTree::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$this->tree = $this->createMock(CachingTree::class);
+		$this->view = $this->createMock(View::class);
 		$this->view->expects($this->any())
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
-		$this->shareManager = $this->createMock(IManager::class);
+		$shareManager = $this->createMock(IManager::class);
 
 		$this->searchFolder = $this->createMock(Folder::class);
 
@@ -110,7 +106,7 @@ class FileSearchBackendTest extends TestCase {
 			->method('get')
 			->willReturn($this->searchFolder);
 
-		$this->search = new FileSearchBackend($this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view);
+		$this->search = new FileSearchBackend($this->tree, $this->user, $this->rootFolder, $shareManager, $this->view);
 	}
 
 	public function testSearchFilename() {
@@ -135,7 +131,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]);
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
+		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -164,7 +160,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]);
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}getcontenttype', 'foo');
+		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}getcontenttype', 'foo');
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -193,7 +189,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]);
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_GREATER_THAN, FilesPlugin::SIZE_PROPERTYNAME, 10);
+		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, FilesPlugin::SIZE_PROPERTYNAME, 10);
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -222,7 +218,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]);
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_GREATER_THAN, '{DAV:}getlastmodified', 10);
+		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, '{DAV:}getlastmodified', 10);
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -251,7 +247,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]);
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_IS_COLLECTION, 'yes');
+		$query = $this->getBasicQuery(Operator::OPERATION_IS_COLLECTION, 'yes');
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -260,7 +256,7 @@ class FileSearchBackendTest extends TestCase {
 
 
 	public function testSearchInvalidProp() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
@@ -269,25 +265,25 @@ class FileSearchBackendTest extends TestCase {
 		$this->searchFolder->expects($this->never())
 			->method('search');
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}getetag', 'foo');
+		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}getetag', 'foo');
 		$this->search->search($query);
 	}
 
-	private function getBasicQuery($type, $property, $value = null) {
-		$scope = new \SearchDAV\Query\Scope('/', 'infinite');
+	private function getBasicQuery($type, $property, $value = null): Query {
+		$scope = new Scope('/', 'infinite');
 		$scope->path = '/';
 		$from = [$scope];
 		$orderBy = [];
 		$select = [];
 		if (is_null($value)) {
-			$where = new \SearchDAV\Query\Operator(
+			$where = new Operator(
 				$type,
-				[new \SearchDAV\Query\Literal($property)]
+				[new Literal($property)]
 			);
 		} else {
-			$where = new \SearchDAV\Query\Operator(
+			$where = new Operator(
 				$type,
-				[new SearchPropertyDefinition($property, true, true, true), new \SearchDAV\Query\Literal($value)]
+				[new SearchPropertyDefinition($property, true, true, true), new Literal($value)]
 			);
 		}
 		$limit = new Limit();
@@ -297,7 +293,7 @@ class FileSearchBackendTest extends TestCase {
 
 
 	public function testSearchNonFolder() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		$davNode = $this->createMock(File::class);
 
@@ -305,7 +301,7 @@ class FileSearchBackendTest extends TestCase {
 			->method('getNodeForPath')
 			->willReturn($davNode);
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
+		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
 		$this->search->search($query);
 	}
 
@@ -325,7 +321,7 @@ class FileSearchBackendTest extends TestCase {
 				];
 			});
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, FilesPlugin::OWNER_ID_PROPERTYNAME, $this->user->getUID());
+		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, FilesPlugin::OWNER_ID_PROPERTYNAME, $this->user->getUID());
 		$this->search->search($query);
 
 		$this->assertNotNull($receivedQuery);
@@ -354,17 +350,17 @@ class FileSearchBackendTest extends TestCase {
 				];
 			});
 
-		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, FilesPlugin::OWNER_ID_PROPERTYNAME, $this->user->getUID());
-		$query->where = new \SearchDAV\Query\Operator(
-			\SearchDAV\Query\Operator::OPERATION_AND,
+		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, FilesPlugin::OWNER_ID_PROPERTYNAME, $this->user->getUID());
+		$query->where = new Operator(
+			Operator::OPERATION_AND,
 			[
-				new \SearchDAV\Query\Operator(
-					\SearchDAV\Query\Operator::OPERATION_EQUAL,
-					[new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true), new \SearchDAV\Query\Literal('image/png')]
+				new Operator(
+					Operator::OPERATION_EQUAL,
+					[new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true), new Literal('image/png')]
 				),
-				new \SearchDAV\Query\Operator(
-					\SearchDAV\Query\Operator::OPERATION_EQUAL,
-					[new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, true), new \SearchDAV\Query\Literal($this->user->getUID())]
+				new Operator(
+					Operator::OPERATION_EQUAL,
+					[new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, true), new Literal($this->user->getUID())]
 				)
 			]
 		);

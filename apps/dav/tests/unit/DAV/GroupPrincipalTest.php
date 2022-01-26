@@ -39,11 +39,11 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
+use Test\TestCase;
 
-class GroupPrincipalTest extends \Test\TestCase {
-	/** @var IConfig|MockObject */
-	private $config;
+class GroupPrincipalTest extends TestCase {
 
 	/** @var IGroupManager | MockObject */
 	private $groupManager;
@@ -61,13 +61,13 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->shareManager = $this->createMock(IManager::class);
-		$this->config = $this->createMock(IConfig::class);
+		$config = $this->createMock(IConfig::class);
 
 		$this->connector = new GroupPrincipalBackend(
 			$this->groupManager,
 			$this->userSession,
 			$this->shareManager,
-			$this->config
+			$config
 		);
 		parent::setUp();
 	}
@@ -192,11 +192,17 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testGetGroupMemberSet() {
 		$response = $this->connector->getGroupMemberSet('principals/groups/foo');
 		$this->assertSame([], $response);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testGetGroupMembership() {
 		$response = $this->connector->getGroupMembership('principals/groups/foo');
 		$this->assertSame([], $response);
@@ -204,7 +210,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 
 
 	public function testSetGroupMembership() {
-		$this->expectException(\Sabre\DAV\Exception::class);
+		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Setting members of the group is not supported yet');
 
 		$this->connector->setGroupMemberSet('principals/groups/foo', ['foo']);
@@ -288,7 +294,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			['{DAV:}displayname' => 'Foo'], $test));
 	}
 
-	public function searchPrincipalsDataProvider() {
+	public function searchPrincipalsDataProvider(): array {
 		return [
 			[true, true, false, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
 			[true, true, false, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
@@ -329,7 +335,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 					->method('getUser')
 					->willReturn($user);
 
-				$this->groupManager->expects($this->at(0))
+				$this->groupManager->expects($this->once())
 					->method('getUserGroupIds')
 					->with($user)
 					->willReturn(['group1', 'group2', 'group5']);
@@ -344,7 +350,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertEquals($result, $this->connector->findByUri($findUri, 'principals/groups'));
 	}
 
-	public function findByUriDataProvider() {
+	public function findByUriDataProvider(): array {
 		return [
 			[false, false, false, 'principal:principals/groups/group1', null],
 			[false, false, false, 'principal:principals/groups/group3', null],

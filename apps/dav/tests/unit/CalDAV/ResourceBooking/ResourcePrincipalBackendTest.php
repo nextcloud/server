@@ -25,8 +25,12 @@
 namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
+use OCP\DB\Exception;
 
 class ResourcePrincipalBackendTest extends AbstractPrincipalBackendTest {
+	/**
+	 * @throws Exception
+	 */
 	protected function setUp(): void {
 		parent::setUp();
 

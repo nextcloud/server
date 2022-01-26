@@ -31,6 +31,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
+use DateTime;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -40,6 +41,7 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
@@ -127,61 +129,33 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$message21 = $this->getMessageMock('uid2@example.com', $template2);
 		$message22 = $this->getMessageMock('uid3@example.com', $template2);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects($this->exactly(2))
 			->method('createEMailTemplate')
 			->with('dav.calendarReminder')
-			->willReturn($template1);
+			->willReturnOnConsecutiveCalls($template1, $template2);
 
-		$this->mailer->expects($this->at(1))
+		$this->mailer->expects($this->exactly(4))
 			->method('validateMailAddress')
-			->with('uid1@example.com')
-			->willReturn(true);
+			->withConsecutive(
+				['uid1@example.com'],
+				['uid2@example.com'],
+				['uid3@example.com'],
+				['invalid']
+			)
+			->willReturnOnConsecutiveCalls(true, true, true, false);
 
-		$this->mailer->expects($this->at(2))
+		$this->mailer->expects($this->exactly(3))
 			->method('createMessage')
 			->with()
-			->willReturn($message11);
-		$this->mailer->expects($this->at(3))
+			->willReturnOnConsecutiveCalls($message11, $message21, $message22);
+		$this->mailer->expects($this->exactly(3))
 			->method('send')
-			->with($message11)
+			->withConsecutive(
+				[$message11],
+				[$message21],
+				[$message22]
+			)
 			->willReturn([]);
-
-		$this->mailer->expects($this->at(4))
-			->method('createEMailTemplate')
-			->with('dav.calendarReminder')
-			->willReturn($template2);
-
-		$this->mailer->expects($this->at(5))
-			->method('validateMailAddress')
-			->with('uid2@example.com')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(6))
-			->method('createMessage')
-			->with()
-			->willReturn($message21);
-		$this->mailer->expects($this->at(7))
-			->method('send')
-			->with($message21)
-			->willReturn([]);
-		$this->mailer->expects($this->at(8))
-			->method('validateMailAddress')
-			->with('uid3@example.com')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(9))
-			->method('createMessage')
-			->with()
-			->willReturn($message22);
-		$this->mailer->expects($this->at(10))
-			->method('send')
-			->with($message22)
-			->willReturn([]);
-
-		$this->mailer->expects($this->at(11))
-			->method('validateMailAddress')
-			->with('invalid')
-			->willReturn(false);
 
 		$this->setupURLGeneratorMock(2);
 
@@ -240,97 +214,47 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$message22 = $this->getMessageMock('foo4@example.org', $template2);
 		$message23 = $this->getMessageMock('uid1@example.com', $template2);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects($this->exactly(2))
 			->method('createEMailTemplate')
 			->with('dav.calendarReminder')
-			->willReturn($template1);
+			->willReturnOnConsecutiveCalls($template1, $template2);
 
-		$this->mailer->expects($this->at(1))
+		$this->mailer->expects($this->exactly(7))
 			->method('validateMailAddress')
-			->with('foo1@example.org')
-			->willReturn(true);
+			->withConsecutive(
+				['foo1@example.org'],
+				['uid2@example.com'],
+				['uid3@example.com'],
+				['invalid'],
+				['foo3@example.org'],
+				['foo4@example.org'],
+				['uid1@example.com']
+			)
+			->willReturnOnConsecutiveCalls(true, true, true, false, true, true, true);
 
-		$this->mailer->expects($this->at(2))
+		$this->mailer->expects($this->exactly(6))
 			->method('createMessage')
 			->with()
-			->willReturn($message11);
-		$this->mailer->expects($this->at(3))
-			->method('send')
-			->with($message11)
-			->willReturn([]);
-		$this->mailer->expects($this->at(4))
-			->method('validateMailAddress')
-			->with('uid2@example.com')
-			->willReturn(true);
-		$this->mailer->expects($this->at(5))
-			->method('createMessage')
-			->with()
-			->willReturn($message12);
-		$this->mailer->expects($this->at(6))
-			->method('send')
-			->with($message12)
-			->willReturn([]);
+			->willReturnOnConsecutiveCalls(
+				$message11,
+				$message12,
+				$message13,
+				$message21,
+				$message22,
+				$message23
+			);
 
-		$this->mailer->expects($this->at(7))
-			->method('validateMailAddress')
-			->with('uid3@example.com')
-			->willReturn(true);
 
-		$this->mailer->expects($this->at(8))
-			->method('createMessage')
-			->with()
-			->willReturn($message13);
-		$this->mailer->expects($this->at(9))
+		$this->mailer->expects($this->exactly(6))
 			->method('send')
-			->with($message13)
-			->willReturn([]);
-
-		$this->mailer->expects($this->at(10))
-			->method('validateMailAddress')
-			->with('invalid')
-			->willReturn(false);
-
-		$this->mailer->expects($this->at(11))
-			->method('createEMailTemplate')
-			->with('dav.calendarReminder')
-			->willReturn($template2);
-
-		$this->mailer->expects($this->at(12))
-			->method('validateMailAddress')
-			->with('foo3@example.org')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(13))
-			->method('createMessage')
-			->with()
-			->willReturn($message21);
-		$this->mailer->expects($this->at(14))
-			->method('send')
-			->with($message21)
-			->willReturn([]);
-		$this->mailer->expects($this->at(15))
-			->method('validateMailAddress')
-			->with('foo4@example.org')
-			->willReturn(true);
-		$this->mailer->expects($this->at(16))
-			->method('createMessage')
-			->with()
-			->willReturn($message22);
-		$this->mailer->expects($this->at(17))
-			->method('send')
-			->with($message22)
-			->willReturn([]);
-		$this->mailer->expects($this->at(18))
-			->method('validateMailAddress')
-			->with('uid1@example.com')
-			->willReturn(true);
-		$this->mailer->expects($this->at(19))
-			->method('createMessage')
-			->with()
-			->willReturn($message23);
-		$this->mailer->expects($this->at(20))
-			->method('send')
-			->with($message23)
+			->withConsecutive(
+				[$message11],
+				[$message12],
+				[$message13],
+				[$message21],
+				[$message22],
+				[$message23]
+			)
 			->willReturn([]);
 
 		$this->setupURLGeneratorMock(2);
@@ -345,42 +269,27 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	private function getTemplateMock():IEMailTemplate {
 		$template = $this->createMock(IEMailTemplate::class);
 
-		$template->expects($this->at(0))
+		$template->expects($this->once())
 			->method('addHeader')
 			->with()
 			->willReturn($template);
 
-		$template->expects($this->at(1))
+		$template->expects($this->once())
 			->method('setSubject')
 			->with()
 			->willReturn($template);
 
-		$template->expects($this->at(2))
+		$template->expects($this->once())
 			->method('addHeading')
 			->with()
 			->willReturn($template);
 
-		$template->expects($this->at(3))
+		$template->expects($this->exactly(4))
 			->method('addBodyListItem')
 			->with()
 			->willReturn($template);
 
-		$template->expects($this->at(4))
-			->method('addBodyListItem')
-			->with()
-			->willReturn($template);
-
-		$template->expects($this->at(5))
-			->method('addBodyListItem')
-			->with()
-			->willReturn($template);
-
-		$template->expects($this->at(6))
-			->method('addBodyListItem')
-			->with()
-			->willReturn($template);
-
-		$template->expects($this->at(7))
+		$template->expects($this->once())
 			->method('addFooter')
 			->with()
 			->willReturn($template);
@@ -391,31 +300,29 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	/**
 	 * @param string $toMail
 	 * @param IEMailTemplate $templateMock
-	 * @param array|null $replyTo
 	 * @return IMessage
 	 */
-	private function getMessageMock(string $toMail, IEMailTemplate $templateMock, array $replyTo = null):IMessage {
+	private function getMessageMock(string $toMail, IEMailTemplate $templateMock):IMessage {
 		$message = $this->createMock(IMessage::class);
-		$i = 0;
 
-		$message->expects($this->at($i++))
+		$message->expects($this->once())
 			->method('setFrom')
-			->with([\OCP\Util::getDefaultEmailAddress('reminders-noreply')])
+			->with([Util::getDefaultEmailAddress('reminders-noreply')])
 			->willReturn($message);
 
-		if ($replyTo) {
-			$message->expects($this->at($i++))
+		if (null) {
+			$message->expects($this->once())
 				->method('setReplyTo')
-				->with($replyTo)
+				->with(null)
 				->willReturn($message);
 		}
 
-		$message->expects($this->at($i++))
+		$message->expects($this->once())
 			->method('setTo')
 			->with([$toMail])
 			->willReturn($message);
 
-		$message->expects($this->at($i++))
+		$message->expects($this->once())
 			->method('useTemplate')
 			->with($templateMock)
 			->willReturn($message);
@@ -427,7 +334,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$vcalendar = new VCalendar();
 		$vcalendar->add('VEVENT', [
 			'SUMMARY' => 'Fellowship meeting',
-			'DTSTART' => new \DateTime('2017-01-01 00:00:00+00:00'), // 1483228800,
+			'DTSTART' => new DateTime('2017-01-01 00:00:00+00:00'), // 1483228800,
 			'UID' => 'uid1234',
 			'LOCATION' => 'Location 123',
 			'DESCRIPTION' => 'DESCRIPTION 456',
@@ -440,7 +347,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$vcalendar = new VCalendar();
 		$vcalendar->add('VEVENT', [
 			'SUMMARY' => 'Fellowship meeting',
-			'DTSTART' => new \DateTime('2017-01-01 00:00:00+00:00'), // 1483228800,
+			'DTSTART' => new DateTime('2017-01-01 00:00:00+00:00'), // 1483228800,
 			'UID' => 'uid1234',
 			'LOCATION' => 'Location 123',
 			'DESCRIPTION' => 'DESCRIPTION 456',
@@ -487,55 +394,42 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	}
 
 	private function setupURLGeneratorMock(int $times = 1):void {
+		$imagePathArgs = [];
+		$imagePathReturns = [];
+
+		$absoluteURLArgs = [];
+		$absoluteURLReturns = [];
+
 		for ($i = 0; $i < $times; $i++) {
-			$this->urlGenerator
-				->expects($this->at(8 * $i))
-				->method('imagePath')
-				->with('core', 'actions/info.png')
-				->willReturn('imagePath1');
+			$imagePathArgs = array_merge($imagePathArgs, [
+				['core', 'actions/info.png'],
+				['core', 'places/calendar.png'],
+				['core', 'actions/address.png'],
+				['core', 'actions/more.png']
+			]);
+			$imagePathReturns = array_merge($imagePathReturns, ['imagePath1', 'imagePath2', 'imagePath3', 'imagePath4']);
 
-			$this->urlGenerator
-				->expects($this->at(8 * $i + 1))
-				->method('getAbsoluteURL')
-				->with('imagePath1')
-				->willReturn('AbsURL1');
+			$absoluteURLArgs = array_merge($absoluteURLArgs, [
+				['imagePath1'],
+				['imagePath2'],
+				['imagePath3'],
+				['imagePath4']
+			]);
 
-			$this->urlGenerator
-				->expects($this->at(8 * $i + 2))
-				->method('imagePath')
-				->with('core', 'places/calendar.png')
-				->willReturn('imagePath2');
-
-			$this->urlGenerator
-				->expects($this->at(8 * $i + 3))
-				->method('getAbsoluteURL')
-				->with('imagePath2')
-				->willReturn('AbsURL2');
-
-			$this->urlGenerator
-				->expects($this->at(8 * $i + 4))
-				->method('imagePath')
-				->with('core', 'actions/address.png')
-				->willReturn('imagePath3');
-
-			$this->urlGenerator
-				->expects($this->at(8 * $i + 5))
-				->method('getAbsoluteURL')
-				->with('imagePath3')
-				->willReturn('AbsURL3');
-
-			$this->urlGenerator
-				->expects($this->at(8 * $i + 6))
-				->method('imagePath')
-				->with('core', 'actions/more.png')
-				->willReturn('imagePath4');
-
-			$this->urlGenerator
-				->expects($this->at(8 * $i + 7))
-				->method('getAbsoluteURL')
-				->with('imagePath4')
-				->willReturn('AbsURL4');
+			$absoluteURLReturns = array_merge($absoluteURLReturns, ['AbsURL1', 'AbsURL2', 'AbsURL3', 'AbsURL4']);
 		}
+
+		$this->urlGenerator
+			->expects($this->exactly(4 * $times))
+			->method('imagePath')
+			->withConsecutive(...$imagePathArgs)
+			->willReturnOnConsecutiveCalls(...$imagePathReturns);
+
+		$this->urlGenerator
+			->expects($this->exactly(4 * $times))
+			->method('getAbsoluteURL')
+			->withConsecutive(...$absoluteURLArgs)
+			->willReturnOnConsecutiveCalls(...$absoluteURLReturns);
 	}
 
 	private function getUsers(): array {

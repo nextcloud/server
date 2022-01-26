@@ -25,10 +25,15 @@
  */
 namespace OCA\DAV\Tests\Unit\DAV\Migration;
 
+use Exception;
+use OC;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Migration\CalDAVRemoveEmptyValue;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\InvalidDataException;
 use Test\TestCase;
@@ -41,13 +46,13 @@ use Test\TestCase;
  */
 class CalDAVRemoveEmptyValueTest extends TestCase {
 
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend|MockObject */
 	private $backend;
 
-	/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IOutput|MockObject */
 	private $output;
 
 	/** @var string */
@@ -100,15 +105,20 @@ END:VCALENDAR';
 		$this->output = $this->createMock(IOutput::class);
 	}
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws Exception
+	 */
 	public function testRunAllValid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->get(IDBConnection::class),
+				OC::$server->get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])
-			->setMethods(['getInvalidObjects'])
+			->onlyMethods(['getInvalidObjects'])
 			->getMock();
 
 		$step->expects($this->once())
@@ -124,15 +134,20 @@ END:VCALENDAR';
 		$step->run($this->output);
 	}
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws Exception
+	 */
 	public function testRunInvalid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->get(IDBConnection::class),
+				OC::$server->get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])
-			->setMethods(['getInvalidObjects'])
+			->onlyMethods(['getInvalidObjects'])
 			->getMock();
 
 		$step->expects($this->once())
@@ -167,15 +182,20 @@ END:VCALENDAR';
 		$step->run($this->output);
 	}
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws Exception
+	 */
 	public function testRunValid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->get(IDBConnection::class),
+				OC::$server->get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])
-			->setMethods(['getInvalidObjects'])
+			->onlyMethods(['getInvalidObjects'])
 			->getMock();
 
 		$step->expects($this->once())
@@ -209,15 +229,20 @@ END:VCALENDAR';
 		$step->run($this->output);
 	}
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws Exception
+	 */
 	public function testRunStillInvalid() {
-		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
+		/** @var CalDAVRemoveEmptyValue|MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->get(IDBConnection::class),
+				OC::$server->get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])
-			->setMethods(['getInvalidObjects'])
+			->onlyMethods(['getInvalidObjects'])
 			->getMock();
 
 		$step->expects($this->once())

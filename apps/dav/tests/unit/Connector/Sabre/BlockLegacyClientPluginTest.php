@@ -28,6 +28,9 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\HTTP\RequestInterface;
 use Test\TestCase;
 
 /**
@@ -36,7 +39,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class BlockLegacyClientPluginTest extends TestCase {
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig | MockObject */
 	private $config;
 	/** @var BlockLegacyClientPlugin */
 	private $blockLegacyClientVersionPlugin;
@@ -44,16 +47,14 @@ class BlockLegacyClientPluginTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->config = $this->createMock(IConfig::class);
 		$this->blockLegacyClientVersionPlugin = new BlockLegacyClientPlugin($this->config);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function oldDesktopClientProvider() {
+	public function oldDesktopClientProvider(): array {
 		return [
 			['Mozilla/5.0 (1.5.0) mirall/1.5.0'],
 			['mirall/1.5.0'],
@@ -67,12 +68,12 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 * @dataProvider oldDesktopClientProvider
 	 * @param string $userAgent
 	 */
-	public function testBeforeHandlerException($userAgent) {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+	public function testBeforeHandlerException(string $userAgent) {
+		$this->expectException(Forbidden::class);
 		$this->expectExceptionMessage('Unsupported client version.');
 
-		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
-		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
+		/** @var RequestInterface | MockObject $request */
+		$request = $this->createMock(RequestInterface::class);
 		$request
 			->expects($this->once())
 			->method('getHeader')
@@ -91,7 +92,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function newAndAlternateDesktopClientProvider() {
+	public function newAndAlternateDesktopClientProvider(): array {
 		return [
 			['Mozilla/5.0 (1.7.0) mirall/1.7.0'],
 			['mirall/1.8.3'],
@@ -103,11 +104,11 @@ class BlockLegacyClientPluginTest extends TestCase {
 
 	/**
 	 * @dataProvider newAndAlternateDesktopClientProvider
-	 * @param string $userAgent
+	 * @throws Forbidden
 	 */
-	public function testBeforeHandlerSuccess($userAgent) {
-		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
-		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
+	public function testBeforeHandlerSuccess(string $userAgent) {
+		/** @var RequestInterface | MockObject $request */
+		$request = $this->createMock(RequestInterface::class);
 		$request
 			->expects($this->once())
 			->method('getHeader')
@@ -123,9 +124,12 @@ class BlockLegacyClientPluginTest extends TestCase {
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 
+	/**
+	 * @throws Forbidden
+	 */
 	public function testBeforeHandlerNoUserAgent() {
-		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
-		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
+		/** @var RequestInterface | MockObject $request */
+		$request = $this->createMock(RequestInterface::class);
 		$request
 			->expects($this->once())
 			->method('getHeader')

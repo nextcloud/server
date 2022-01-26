@@ -27,9 +27,12 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\CachedSubscription;
 use OCA\DAV\CalDAV\CachedSubscriptionObject;
 use OCA\DAV\CalDAV\CalDavBackend;
+use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
+use Test\TestCase;
 
-class CachedSubscriptionTest extends \Test\TestCase {
+class CachedSubscriptionTest extends TestCase {
 	public function testGetACL() {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
@@ -141,9 +144,9 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$calendar->propPatch($propPatch);
 	}
 
-	
+
 	public function testGetChild() {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectException(NotFound::class);
 		$this->expectExceptionMessage('Calendar object not found');
 
 		$backend = $this->createMock(CalDavBackend::class);
@@ -154,18 +157,19 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->exactly(2))
 			->method('getCalendarObject')
-			->with(666, 'foo1', 1)
-			->willReturn([
-				'id' => 99,
-				'uri' => 'foo1'
-			]);
-		$backend->expects($this->at(1))
-			->method('getCalendarObject')
-			->with(666, 'foo2', 1)
-			->willReturn(null);
-
+			->withConsecutive(
+				[666, 'foo1', 1],
+				[666, 'foo2', 1]
+			)
+			->willReturnOnConsecutiveCalls(
+				[
+					'id' => 99,
+					'uri' => 'foo1'
+				],
+				null
+			);
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 
 		$first = $calendar->getChild('foo1');
@@ -183,7 +187,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->once())
 			->method('getCalendarObjects')
 			->with(666, 1)
 			->willReturn([
@@ -214,7 +218,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->once())
 			->method('getMultipleCalendarObjects')
 			->with(666, ['foo1', 'foo2'], 1)
 			->willReturn([
@@ -236,9 +240,9 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$this->assertInstanceOf(CachedSubscriptionObject::class, $res[1]);
 	}
 
-	
+
 	public function testCreateFile() {
-		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectException(MethodNotAllowed::class);
 		$this->expectExceptionMessage('Creating objects in cached subscription is not allowed');
 
 		$backend = $this->createMock(CalDavBackend::class);
@@ -262,17 +266,16 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->exactly(2))
 			->method('getCalendarObject')
-			->with(666, 'foo1', 1)
-			->willReturn([
+			->withConsecutive(
+				[666, 'foo1', 1],
+				[666, 'foo2', 1]
+			)
+			->willReturnOnConsecutiveCalls([
 				'id' => 99,
 				'uri' => 'foo1'
-			]);
-		$backend->expects($this->at(1))
-			->method('getCalendarObject')
-			->with(666, 'foo2', 1)
-			->willReturn(null);
+			], null);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 

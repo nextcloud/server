@@ -28,19 +28,21 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarImpl;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
-class CalendarImplTest extends \Test\TestCase {
+class CalendarImplTest extends TestCase {
 
 	/** @var CalendarImpl */
 	private $calendarImpl;
 
-	/** @var Calendar | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Calendar | MockObject */
 	private $calendar;
 
 	/** @var array */
 	private $calendarInfo;
 
-	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend | MockObject */
 	private $backend;
 
 	protected function setUp(): void {
@@ -60,15 +62,15 @@ class CalendarImplTest extends \Test\TestCase {
 
 
 	public function testGetKey() {
-		$this->assertEquals($this->calendarImpl->getKey(), 'fancy_id_123');
+		$this->assertEquals('fancy_id_123', $this->calendarImpl->getKey());
 	}
 
 	public function testGetDisplayname() {
-		$this->assertEquals($this->calendarImpl->getDisplayName(),'user readable name 123');
+		$this->assertEquals('user readable name 123', $this->calendarImpl->getDisplayName());
 	}
 
 	public function testGetDisplayColor() {
-		$this->assertEquals($this->calendarImpl->getDisplayColor(), '#AABBCC');
+		$this->assertEquals('#AABBCC', $this->calendarImpl->getDisplayColor());
 	}
 
 	public function testSearch() {
@@ -78,7 +80,7 @@ class CalendarImplTest extends \Test\TestCase {
 			->willReturn(['SEARCHRESULTS']);
 
 		$result = $this->calendarImpl->search('abc', ['def'], ['ghi'], 42, 1337);
-		$this->assertEquals($result, ['SEARCHRESULTS']);
+		$this->assertEquals(['SEARCHRESULTS'], $result);
 	}
 
 	public function testGetPermissionRead() {

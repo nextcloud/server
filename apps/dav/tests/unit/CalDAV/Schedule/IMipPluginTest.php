@@ -29,6 +29,8 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
+use DateTime;
+use Exception;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -62,12 +64,6 @@ class IMipPluginTest extends TestCase {
 	/** @var IEMailTemplate|MockObject */
 	private $emailTemplate;
 
-	/** @var IAttachment|MockObject */
-	private $emailAttachment;
-
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
 	/** @var IConfig|MockObject */
 	private $config;
 
@@ -86,20 +82,20 @@ class IMipPluginTest extends TestCase {
 		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);
 		$this->mailMessage->method('setTo')->willReturn($this->mailMessage);
 
-		$this->mailer = $this->getMockBuilder(IMailer::class)->disableOriginalConstructor()->getMock();
+		$this->mailer = $this->createMock(IMailer::class);
 		$this->mailer->method('createMessage')->willReturn($this->mailMessage);
 
 		$this->emailTemplate = $this->createMock(IEMailTemplate::class);
 		$this->mailer->method('createEMailTemplate')->willReturn($this->emailTemplate);
 
-		$this->emailAttachment = $this->createMock(IAttachment::class);
-		$this->mailer->method('createAttachment')->willReturn($this->emailAttachment);
+		$emailAttachment = $this->createMock(IAttachment::class);
+		$this->mailer->method('createAttachment')->willReturn($emailAttachment);
 
 		/** @var LoggerInterface|MockObject $logger */
-		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->createMock(LoggerInterface::class);
 
-		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
-		$this->timeFactory->method('getTime')->willReturn(1496912528); // 2017-01-01
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->method('getTime')->willReturn(1496912528); // 2017-01-01
 
 		$this->config = $this->createMock(IConfig::class);
 
@@ -130,15 +126,20 @@ class IMipPluginTest extends TestCase {
 		$defaults->method('getName')
 			->willReturn('Instance Name 123');
 
-		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, $this->userManager, 'user123');
+		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, $this->userManager, 'user123');
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testDelivery() {
-		$this->config
-	  ->expects($this->at(1))
+		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
+			->withConsecutive(
+				['dav', 'invitation_list_attendees', 'no'],
+				['dav', 'invitation_link_recipients', 'yes']
+			)
+			->willReturnOnConsecutiveCalls('no', 'yes');
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
@@ -147,23 +148,31 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testFailedDelivery() {
-		$this->config
-	  ->expects($this->at(1))
+		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
+			->withConsecutive(
+				['dav', 'invitation_list_attendees', 'no'],
+				['dav', 'invitation_link_recipients', 'yes']
+			)
+			->willReturnOnConsecutiveCalls('no', 'yes');
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
 		$this->mailer
 			->method('send')
-			->willThrowException(new \Exception());
+			->willThrowException(new Exception());
 		$this->_expectSend();
 		$this->plugin->schedule($message);
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testInvalidEmailDelivery() {
 		$this->mailer->method('validateMailAddress')->willReturn(false);
 
@@ -172,12 +181,17 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testDeliveryWithNoCommonName() {
-		$this->config
-	  ->expects($this->at(1))
+		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
+			->withConsecutive(
+				['dav', 'invitation_list_attendees', 'no'],
+				['dav', 'invitation_link_recipients', 'yes']
+			)
+			->willReturnOnConsecutiveCalls('no', 'yes');
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
@@ -218,18 +232,18 @@ class IMipPluginTest extends TestCase {
 		}
 	}
 
-	public function dataNoMessageSendForPastEvents() {
+	public function dataNoMessageSendForPastEvents(): array {
 		return [
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00')], false],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00')], false],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-12-31 00:00:00')], true],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DURATION' => 'P1D'], false],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DURATION' => 'P52W'], true],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY'], true],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;COUNT=3'], false],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20170301T000000Z'], false],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;COUNT=33'], true],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20171001T000000Z'], true],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00')], false],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DTEND' => new DateTime('2017-01-01 00:00:00')], false],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DTEND' => new DateTime('2017-12-31 00:00:00')], true],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DURATION' => 'P1D'], false],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DURATION' => 'P52W'], true],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DTEND' => new DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY'], true],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DTEND' => new DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;COUNT=3'], false],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DTEND' => new DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20170301T000000Z'], false],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DTEND' => new DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;COUNT=33'], true],
+			[['DTSTART' => new DateTime('2017-01-01 00:00:00'), 'DTEND' => new DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20171001T000000Z'], true],
 		];
 	}
 
@@ -241,17 +255,20 @@ class IMipPluginTest extends TestCase {
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$this->_expectSend($recipient, true, $has_buttons);
-		$this->config
-	  ->expects($this->at(1))
+
+		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn($config_setting);
+			->withConsecutive(
+				['dav', 'invitation_list_attendees', 'no'],
+				['dav', 'invitation_link_recipients', 'yes']
+			)
+			->willReturnOnConsecutiveCalls('no', $config_setting);
 
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
-	public function dataIncludeResponseButtons() {
+	public function dataIncludeResponseButtons(): array {
 		return [
 			// dav.invitation_link_recipients, recipient, $has_buttons
 			[ 'yes', 'joe@internal.com', true],
@@ -279,7 +296,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
-	private function _testMessage(array $attrs = [], string $recipient = 'frodo@hobb.it') {
+	private function _testMessage(array $attrs = [], string $recipient = 'frodo@hobb.it'): Message {
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -287,7 +304,7 @@ class IMipPluginTest extends TestCase {
 			'UID' => 'uid-1234',
 			'SEQUENCE' => 0,
 			'SUMMARY' => 'Fellowship meeting',
-			'DTSTART' => new \DateTime('2018-01-01 00:00:00')
+			'DTSTART' => new DateTime('2018-01-01 00:00:00')
 		], $attrs));
 		$message->message->VEVENT->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
 		$message->message->VEVENT->add('ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ]);
@@ -325,15 +342,15 @@ class IMipPluginTest extends TestCase {
 			->method('send');
 
 		if ($expectButtons) {
-			$this->queryBuilder->expects($this->at(0))
+			$this->queryBuilder->expects($this->once())
 				->method('insert')
 				->with('calendar_invitations')
 				->willReturn($this->queryBuilder);
-			$this->queryBuilder->expects($this->at(8))
+			$this->queryBuilder->expects($this->once())
 				->method('values')
 				->willReturn($this->queryBuilder);
-			$this->queryBuilder->expects($this->at(9))
-				->method('execute');
+			$this->queryBuilder->expects($this->once())
+				->method('executeStatement');
 		} else {
 			$this->queryBuilder->expects($this->never())
 				->method('insert')

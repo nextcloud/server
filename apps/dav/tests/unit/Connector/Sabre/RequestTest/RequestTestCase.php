@@ -28,10 +28,13 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use Exception;
+use OC;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -41,18 +44,23 @@ use OCP\ITagManager;
 use OCP\ITempManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Auth\Plugin;
 use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
+use Throwable;
 
 abstract class RequestTestCase extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\ServerFactory
+	 * @var ServerFactory
 	 */
 	protected $serverFactory;
 
@@ -63,47 +71,54 @@ abstract class RequestTestCase extends TestCase {
 		return $stream;
 	}
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
 	protected function setUp(): void {
 		parent::setUp();
 
 		unset($_SERVER['HTTP_OC_CHUNKED']);
 
 		$this->serverFactory = new ServerFactory(
-			\OC::$server->get(IConfig::class),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->get(IDBConnection::class),
-			\OC::$server->get(IUserSession::class),
-			\OC::$server->get(IMountManager::class),
-			\OC::$server->get(ITagManager::class),
-			$this->getMockBuilder(IRequest::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			\OC::$server->get(IPreview::class),
-			\OC::$server->get(\OC\EventDispatcher\SymfonyAdapter::class),
-			\OC::$server->get(IFactory::class)->get('dav')
+			OC::$server->get(IConfig::class),
+			OC::$server->get(LoggerInterface::class),
+			OC::$server->get(IDBConnection::class),
+			OC::$server->get(IUserSession::class),
+			OC::$server->get(IMountManager::class),
+			OC::$server->get(ITagManager::class),
+			$this->createMock(IRequest::class),
+			OC::$server->get(IPreview::class),
+			OC::$server->get(IEventDispatcher::class),
+			OC::$server->get(IFactory::class)->get('dav')
 		);
 	}
 
-	protected function setupUser($name, $password) {
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws Exception
+	 */
+	protected function setupUser($name, $password): View {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
+		$tmpFolder = OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, Local::class, '/' . $name, ['datadir' => $tmpFolder]);
 		$this->loginAsUser($name);
 		return new View('/' . $name . '/files');
 	}
 
 	/**
-	 * @param \OC\Files\View $view the view to run the webdav server against
+	 * @param View $view the view to run the webdav server against
 	 * @param string $user
 	 * @param string $password
 	 * @param string $method
 	 * @param string $url
 	 * @param resource|string|null $body
 	 * @param array|null $headers
-	 * @return \Sabre\HTTP\Response
-	 * @throws \Exception
+	 * @return Response
+	 * @throws Exception|Throwable
 	 */
-	protected function request($view, $user, $password, $method, $url, $body = null, $headers = []) {
+	protected function request(View $view, string $user, string $password, string $method, string $url, string $body = null, ?array $headers = []): Response {
 		if (is_string($body)) {
 			$body = $this->getStream($body);
 		}
@@ -131,12 +146,7 @@ abstract class RequestTestCase extends TestCase {
 		return $result;
 	}
 
-	/**
-	 * @param Server $server
-	 * @param Request $request
-	 * @return \Sabre\HTTP\Response
-	 */
-	protected function makeRequest(Server $server, Request $request) {
+	protected function makeRequest(Server $server, Request $request): Response {
 		$sapi = new Sapi($request);
 		$server->sapi = $sapi;
 		$server->httpRequest = $request;
@@ -145,15 +155,11 @@ abstract class RequestTestCase extends TestCase {
 	}
 
 	/**
-	 * @param View $view
-	 * @param string $user
-	 * @param string $password
-	 * @param ExceptionPlugin $exceptionPlugin
-	 * @return Server
+	 * @throws \Sabre\DAV\Exception
 	 */
-	protected function getSabreServer(View $view, $user, $password, ExceptionPlugin $exceptionPlugin) {
+	protected function getSabreServer(View $view, string $user, string $password, ExceptionPlugin $exceptionPlugin): Server {
 		$authBackend = new Auth($user, $password);
-		$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
+		$authPlugin = new Plugin($authBackend);
 
 		$server = $this->serverFactory->createServer('/', 'dummy', $authPlugin, function () use ($view) {
 			return $view;

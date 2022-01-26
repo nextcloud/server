@@ -245,6 +245,9 @@ class PrincipalTest extends TestCase {
 		$this->assertNull($response);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testGetGroupMemberSet(): void {
 		$response = $this->connector->getGroupMemberSet('principals/users/foo');
 		$this->assertSame([], $response);
@@ -264,6 +267,9 @@ class PrincipalTest extends TestCase {
 		$this->connector->getGroupMemberSet('principals/users/foo/calendar-proxy-read');
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testGetGroupMemberSetProxyRead(): void {
 		$fooUser = $this->createMock(User::class);
 		$fooUser
@@ -296,6 +302,9 @@ class PrincipalTest extends TestCase {
 		$this->assertEquals(['proxyId1'], $this->connector->getGroupMemberSet('principals/users/foo/calendar-proxy-read'));
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testGetGroupMemberSetProxyWrite(): void {
 		$fooUser = $this->createMock(User::class);
 		$fooUser
@@ -328,6 +337,9 @@ class PrincipalTest extends TestCase {
 		$this->assertEquals(['proxyId2', 'proxyId3'], $this->connector->getGroupMemberSet('principals/users/foo/calendar-proxy-write'));
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testGetGroupMembership(): void {
 		$fooUser = $this->createMock(User::class);
 		$group1 = $this->createMock(IGroup::class);
@@ -390,6 +402,9 @@ class PrincipalTest extends TestCase {
 	}
 
 
+	/**
+	 * @throws \OCP\DB\Exception
+	 */
 	public function testSetGroupMembership(): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Setting members of the group is not supported yet');
@@ -397,6 +412,10 @@ class PrincipalTest extends TestCase {
 		$this->connector->setGroupMemberSet('principals/users/foo', ['foo']);
 	}
 
+	/**
+	 * @throws Exception
+	 * @throws \OCP\DB\Exception
+	 */
 	public function testSetGroupMembershipProxy(): void {
 		$fooUser = $this->createMock(User::class);
 		$fooUser
@@ -409,22 +428,17 @@ class PrincipalTest extends TestCase {
 			->method('getUID')
 			->willReturn('bar');
 		$this->userManager
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('get')
-			->with('foo')
-			->willReturn($fooUser);
-		$this->userManager
-			->expects($this->at(1))
-			->method('get')
-			->with('bar')
-			->willReturn($barUser);
+			->withConsecutive(['foo'], ['bar'])
+			->willReturnOnConsecutiveCalls($fooUser, $barUser);
 
-		$this->proxyMapper->expects($this->at(0))
+		$this->proxyMapper->expects($this->once())
 			->method('getProxiesOf')
 			->with('principals/users/foo')
 			->willReturn([]);
 
-		$this->proxyMapper->expects($this->at(1))
+		$this->proxyMapper->expects($this->once())
 			->method('insert')
 			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
@@ -460,7 +474,7 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider searchPrincipalsDataProvider
 	 */
-	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $test, $result): void {
+	public function testSearchPrincipals(bool $sharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn($sharingEnabled);
@@ -479,11 +493,6 @@ class PrincipalTest extends TestCase {
 				$this->userSession->expects($this->atLeastOnce())
 					->method('getUser')
 					->willReturn($user);
-
-				$this->groupManager->expects($this->at(0))
-					->method('getUserGroupIds')
-					->with($user)
-					->willReturn(['group1', 'group2', 'group5']);
 			}
 		} else {
 			$this->config->expects($this->never())
@@ -502,12 +511,12 @@ class PrincipalTest extends TestCase {
 		$user4->method('getUID')->willReturn('user4');
 
 		if ($sharingEnabled) {
-			$this->userManager->expects($this->at(0))
+			$this->userManager->expects($this->once())
 				->method('getByEmail')
 				->with('user@example.com')
 				->willReturn([$user2, $user3]);
 
-			$this->userManager->expects($this->at(1))
+			$this->userManager->expects($this->once())
 				->method('searchDisplayName')
 				->with('User 12')
 				->willReturn([$user3, $user4]);
@@ -520,22 +529,18 @@ class PrincipalTest extends TestCase {
 		}
 
 		if ($sharingEnabled && $groupsOnly) {
-			$this->groupManager->expects($this->at(1))
+			$this->groupManager->expects($this->exactly(5))
 				->method('getUserGroupIds')
-				->with($user2)
-				->willReturn(['group1', 'group3']);
-			$this->groupManager->expects($this->at(2))
-				->method('getUserGroupIds')
-				->with($user3)
-				->willReturn(['group3', 'group4']);
-			$this->groupManager->expects($this->at(3))
-				->method('getUserGroupIds')
-				->with($user3)
-				->willReturn(['group3', 'group4']);
-			$this->groupManager->expects($this->at(4))
-				->method('getUserGroupIds')
-				->with($user4)
-				->willReturn(['group4', 'group5']);
+				->withConsecutive(
+					[$user], [$user2], [$user3], [$user3], [$user4]
+				)
+				->willReturnOnConsecutiveCalls(
+					['group1', 'group2', 'group5'],
+					['group1', 'group3'],
+					['group3', 'group4'],
+					['group3', 'group4'],
+					['group4', 'group5']
+				);
 		}
 
 
@@ -573,7 +578,7 @@ class PrincipalTest extends TestCase {
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('getByEmail')
 			->with('user@example.com')
 			->willReturn([$user2, $user3]);
@@ -615,7 +620,7 @@ class PrincipalTest extends TestCase {
 		$user2->method('getDisplayName')->willReturn('User 222');
 		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('searchDisplayName')
 			->with('User 2')
 			->willReturn([$user2, $user3, $user4]);
@@ -707,15 +712,15 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testSearchPrincipalWithEnumerationLimitedDisplayname(): void {
-		$this->shareManager->expects($this->at(0))
+		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(1))
+		$this->shareManager->expects($this->once())
 			->method('allowEnumeration')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(2))
+		$this->shareManager->expects($this->once())
 			->method('limitEnumerationToGroups')
 			->willReturn(true);
 
@@ -737,24 +742,17 @@ class PrincipalTest extends TestCase {
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
 
-		$this->groupManager->expects($this->at(0))
+		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(1))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(2))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(3))
-			->method('getUserGroupIds')
-			->willReturn(['group2']);
+			->willReturnOnConsecutiveCalls(
+				['group1'], ['group1'], ['group1'], ['group2']
+			);
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('searchDisplayName')
 			->with('User')
 			->willReturn([$user2, $user3, $user4]);
@@ -768,15 +766,15 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testSearchPrincipalWithEnumerationLimitedMail(): void {
-		$this->shareManager->expects($this->at(0))
+		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(1))
+		$this->shareManager->expects($this->once())
 			->method('allowEnumeration')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(2))
+		$this->shareManager->expects($this->once())
 			->method('limitEnumerationToGroups')
 			->willReturn(true);
 
@@ -798,24 +796,17 @@ class PrincipalTest extends TestCase {
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
 
-		$this->groupManager->expects($this->at(0))
+		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(1))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(2))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(3))
-			->method('getUserGroupIds')
-			->willReturn(['group2']);
+			->willReturnOnConsecutiveCalls(
+				['group1'], ['group1'], ['group1'], ['group2']
+			);
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('getByEmail')
 			->with('user')
 			->willReturn([$user2, $user3, $user4]);
@@ -839,7 +830,7 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider findByUriWithGroupRestrictionDataProvider
 	 */
-	public function testFindByUriWithGroupRestriction($uri, $email, $expects): void {
+	public function testFindByUriWithGroupRestriction(string $uri, string $email, ?string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
 			->willReturn(true);
@@ -853,11 +844,6 @@ class PrincipalTest extends TestCase {
 				->method('getUser')
 				->willReturn($user);
 
-		$this->groupManager->expects($this->at(0))
-				->method('getUserGroupIds')
-				->with($user)
-				->willReturn(['group1', 'group2']);
-
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user3 = $this->createMock(IUser::class);
@@ -869,15 +855,15 @@ class PrincipalTest extends TestCase {
 				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
 
 		if ($email === 'user2@foo.bar') {
-			$this->groupManager->expects($this->at(1))
+			$this->groupManager->expects($this->exactly(2))
 					->method('getUserGroupIds')
-					->with($user2)
-					->willReturn(['group1', 'group3']);
+					->withConsecutive([$user], [$user2])
+					->willReturnOnConsecutiveCalls(['group1', 'group2'], ['group1', 'group3']);
 		} else {
-			$this->groupManager->expects($this->at(1))
-					->method('getUserGroupIds')
-					->with($user3)
-					->willReturn(['group3', 'group3']);
+			$this->groupManager->expects($this->exactly(2))
+				->method('getUserGroupIds')
+				->withConsecutive([$user], [$user3])
+				->willReturnOnConsecutiveCalls(['group1', 'group2'], ['group3', 'group3']);
 		}
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
@@ -893,7 +879,7 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider findByUriWithoutGroupRestrictionDataProvider
 	 */
-	public function testFindByUriWithoutGroupRestriction($uri, $email, $expects): void {
+	public function testFindByUriWithoutGroupRestriction(string $uri, string $email, string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
 			->willReturn(true);

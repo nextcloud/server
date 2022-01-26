@@ -26,8 +26,11 @@
 namespace OCA\DAV\Tests\unit\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Upload\FutureFile;
+use Sabre\DAV\Exception\Forbidden;
+use Test\TestCase;
 
-class FutureFileTest extends \Test\TestCase {
+class FutureFileTest extends TestCase {
 	public function testGetContentType() {
 		$f = $this->mockFutureFile();
 		$this->assertEquals('application/octet-stream', $f->getContentType());
@@ -62,39 +65,39 @@ class FutureFileTest extends \Test\TestCase {
 	public function testDelete() {
 		$d = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
-			->setMethods(['delete'])
+			->onlyMethods(['delete'])
 			->getMock();
 
 		$d->expects($this->once())
 			->method('delete');
 
-		$f = new \OCA\DAV\Upload\FutureFile($d, 'foo.txt');
+		$f = new FutureFile($d, 'foo.txt');
 		$f->delete();
 	}
 
-	
+
 	public function testPut() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$f = $this->mockFutureFile();
 		$f->put('');
 	}
 
-	
+
 	public function testSetName() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$f = $this->mockFutureFile();
 		$f->setName('');
 	}
 
 	/**
-	 * @return \OCA\DAV\Upload\FutureFile
+	 * @return FutureFile
 	 */
-	private function mockFutureFile() {
+	private function mockFutureFile(): FutureFile {
 		$d = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
-			->setMethods(['getETag', 'getLastModified', 'getChildren'])
+			->onlyMethods(['getETag', 'getLastModified', 'getChildren'])
 			->getMock();
 
 		$d->expects($this->any())
@@ -109,6 +112,6 @@ class FutureFileTest extends \Test\TestCase {
 			->method('getChildren')
 			->willReturn([]);
 
-		return new \OCA\DAV\Upload\FutureFile($d, 'foo.txt');
+		return new FutureFile($d, 'foo.txt');
 	}
 }

@@ -79,12 +79,12 @@ class BackendTest extends TestCase {
 					$this->userSession,
 					$this->appManager,
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 		}
 	}
 
-	public function dataCallTriggerCalendarActivity() {
+	public function dataCallTriggerCalendarActivity(): array {
 		return [
 			['onCalendarAdd', [['data']], Calendar::SUBJECT_ADD, [['data'], [], []]],
 			['onCalendarUpdate', [['data'], ['shares'], ['changed-properties']], Calendar::SUBJECT_UPDATE, [['data'], ['shares'], ['changed-properties']]],
@@ -95,13 +95,8 @@ class BackendTest extends TestCase {
 
 	/**
 	 * @dataProvider dataCallTriggerCalendarActivity
-	 *
-	 * @param string $method
-	 * @param array $payload
-	 * @param string $expectedSubject
-	 * @param array $expectedPayload
 	 */
-	public function testCallTriggerCalendarActivity($method, array $payload, $expectedSubject, array $expectedPayload) {
+	public function testCallTriggerCalendarActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload) {
 		$backend = $this->getBackend(['triggerCalendarActivity']);
 		$backend->expects($this->once())
 			->method('triggerCalendarActivity')
@@ -114,7 +109,7 @@ class BackendTest extends TestCase {
 		call_user_func_array([$backend, $method], $payload);
 	}
 
-	public function dataTriggerCalendarActivity() {
+	public function dataTriggerCalendarActivity(): array {
 		return [
 			// Add calendar
 			[Calendar::SUBJECT_ADD, [], [], [], '', '', null, []],
@@ -197,16 +192,8 @@ class BackendTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTriggerCalendarActivity
-	 * @param string $action
-	 * @param array $data
-	 * @param array $shares
-	 * @param array $changedProperties
-	 * @param string $currentUser
-	 * @param string $author
-	 * @param string[]|null $shareUsers
-	 * @param string[] $users
 	 */
-	public function testTriggerCalendarActivity($action, array $data, array $shares, array $changedProperties, $currentUser, $author, $shareUsers, array $users) {
+	public function testTriggerCalendarActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users) {
 		$backend = $this->getBackend(['getUsersForShares']);
 
 		if ($shareUsers === null) {
@@ -269,7 +256,7 @@ class BackendTest extends TestCase {
 		$this->invokePrivate($backend, 'triggerCalendarActivity', [$action, $data, $shares, $changedProperties]);
 	}
 
-	public function dataGetUsersForShares() {
+	public function dataGetUsersForShares(): array {
 		return [
 			[
 				[],
@@ -349,7 +336,7 @@ class BackendTest extends TestCase {
 	 * @param string[] $users
 	 * @return IUser[]|MockObject[]
 	 */
-	protected function getUsers(array $users) {
+	protected function getUsers(array $users): array {
 		$list = [];
 		foreach ($users as $user) {
 			$list[] = $this->getUserMock($user);
@@ -361,7 +348,7 @@ class BackendTest extends TestCase {
 	 * @param string $uid
 	 * @return IUser|MockObject
 	 */
-	protected function getUserMock($uid) {
+	protected function getUserMock(string $uid) {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')

@@ -41,8 +41,12 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager as ShareManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
+use Sabre\DAV\Exception;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Xml\Property\Href;
 use Test\TestCase;
 
@@ -58,19 +62,14 @@ abstract class AbstractCalDavBackend extends TestCase {
 	/** @var CalDavBackend */
 	protected $backend;
 
-	/** @var Principal | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Principal | MockObject */
 	protected $principal;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-
-	/** @var ISecureRandom */
-	private $random;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
 
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
@@ -95,7 +94,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
+			->onlyMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
@@ -107,16 +106,16 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
 		$db = \OC::$server->get(IDBConnection::class);
-		$this->random = \OC::$server->get(ISecureRandom::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$random = \OC::$server->get(ISecureRandom::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->backend = new CalDavBackend(
 			$db,
 			$this->principal,
 			$this->userManager,
 			$this->groupManager,
-			$this->random,
-			$this->logger,
+			$random,
+			$logger,
 			$this->dispatcher,
 			$this->config
 		);
@@ -153,6 +152,9 @@ abstract class AbstractCalDavBackend extends TestCase {
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	protected function createTestCalendar() {
 		$this->dispatcher->expects(self::any())
 			->method('dispatchTyped');
@@ -161,7 +163,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF'
 		]);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($calendars));
+		$this->assertCount(1, $calendars);
 		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
 		/** @var SupportedCalendarComponentSet $components */
 		$components = $calendars[0]['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
@@ -170,26 +172,28 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->assertEquals('#1C4587FF', $color);
 		$this->assertEquals('Example', $calendars[0]['uri']);
 		$this->assertEquals('Example', $calendars[0]['{DAV:}displayname']);
-		$calendarId = $calendars[0]['id'];
-
-		return $calendarId;
+		return $calendars[0]['id'];
 	}
 
+	/**
+	 * @throws Forbidden
+	 */
 	protected function createTestSubscription() {
 		$this->backend->createSubscription(self::UNIT_TEST_USER, 'Example', [
 			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF',
 			'{http://calendarserver.org/ns/}source' => new Href(['foo']),
 		]);
 		$calendars = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($calendars));
+		$this->assertCount(1, $calendars);
 		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
 		$this->assertEquals('Example', $calendars[0]['uri']);
-		$calendarId = $calendars[0]['id'];
-
-		return $calendarId;
+		return $calendars[0]['id'];
 	}
 
-	protected function createEvent($calendarId, $start = '20130912T130000Z', $end = '20130912T140000Z') {
+	/**
+	 * @throws BadRequest
+	 */
+	protected function createEvent($calendarId, $start = '20130912T130000Z', $end = '20130912T140000Z'): string {
 		$randomPart = self::getUniqueID();
 
 		$calData = <<<EOD
@@ -232,7 +236,6 @@ EOD;
 		foreach ($acl as $a) {
 			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
 				$this->fail("ACL contains $principal / $privilege");
-				return;
 			}
 		}
 		$this->addToAssertionCount(1);

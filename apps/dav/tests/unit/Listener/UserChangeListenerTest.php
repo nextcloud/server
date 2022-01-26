@@ -41,17 +41,11 @@ use Test\TestCase;
 
 class UserChangeListenerTest extends TestCase {
 
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
 	/** @var CalDavBackend|MockObject */
 	private $calDavBackend;
 
 	/** @var CardDavBackend|MockObject */
 	private $cardDavBackend;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
 
 	/** @var Defaults|MockObject */
 	private $defaults;
@@ -65,20 +59,20 @@ class UserChangeListenerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(IUserManager::class);
+		$userManager = $this->createMock(IUserManager::class);
 		$this->calDavBackend = $this->createMock(CalDavBackend::class);
 		$this->cardDavBackend = $this->createMock(CardDavBackend::class);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->syncService = $this->createMock(SyncService::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$logger = $this->createMock(LoggerInterface::class);
 
 		$this->listener = new UserChangeListener(
-			$this->userManager,
+			$userManager,
 			$this->calDavBackend,
 			$this->cardDavBackend,
 			$this->defaults,
 			$this->syncService,
-			$this->logger
+			$logger
 		);
 	}
 

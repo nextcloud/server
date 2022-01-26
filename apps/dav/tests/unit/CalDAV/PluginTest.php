@@ -38,7 +38,7 @@ class PluginTest extends TestCase {
 		$this->plugin = new Plugin();
 	}
 
-	public function linkProvider() {
+	public function linkProvider(): array {
 		return [
 			[
 				'principals/users/MyUserName',
@@ -57,11 +57,8 @@ class PluginTest extends TestCase {
 
 	/**
 	 * @dataProvider linkProvider
-	 *
-	 * @param $input
-	 * @param $expected
 	 */
-	public function testGetCalendarHomeForPrincipal($input, $expected) {
+	public function testGetCalendarHomeForPrincipal(string $input, string $expected) {
 		$this->assertSame($expected, $this->plugin->getCalendarHomeForPrincipal($input));
 	}
 

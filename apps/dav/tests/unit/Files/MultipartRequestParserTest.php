@@ -22,11 +22,13 @@
 
 namespace OCA\DAV\Tests\unit\DAV;
 
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\HTTP\RequestInterface;
 use Test\TestCase;
-use \OCA\DAV\BulkUpload\MultipartRequestParser;
+use OCA\DAV\BulkUpload\MultipartRequestParser;
 
 class MultipartRequestParserTest extends TestCase {
-	private function getValidBodyObject() {
+	private function getValidBodyObject(): array {
 		return [
 			[
 				"headers" => [
@@ -39,11 +41,11 @@ class MultipartRequestParserTest extends TestCase {
 		];
 	}
 
+	/**
+	 * @throws BadRequest
+	 */
 	private function getMultipartParser(array $parts, array $headers = [], string $boundary = "boundary_azertyuiop"): MultipartRequestParser {
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
-			->disableOriginalConstructor()
-			->getMock();
-
+		$request = $this->createMock(RequestInterface::class);
 		$headers = array_merge(['Content-Type' => 'multipart/related; boundary='.$boundary], $headers);
 		$request->expects($this->any())
 			->method('getHeader')
@@ -79,12 +81,12 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test validation of the request's body type
+	 *
+	 * @throws BadRequest
 	 */
 	public function testBodyTypeValidation() {
 		$bodyStream = "I am not a stream, but pretend to be";
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
 		$request->expects($this->any())
 			->method('getBody')
 			->willReturn($bodyStream);
@@ -100,6 +102,8 @@ class MultipartRequestParserTest extends TestCase {
 	 * - valid content-length
 	 * - valid file content
 	 * - valid file path
+	 *
+	 * @throws BadRequest
 	 */
 	public function testValidRequest() {
 		$multipartParser = $this->getMultipartParser(
@@ -108,15 +112,17 @@ class MultipartRequestParserTest extends TestCase {
 
 		[$headers, $content] = $multipartParser->parseNextPart();
 
-		$this->assertSame((int)$headers["content-length"], 7, "Content-Length header should be the same as provided.");
-		$this->assertSame($headers["x-file-md5"], "4f2377b4d911f7ec46325fe603c3af03", "X-File-MD5 header should be the same as provided.");
-		$this->assertSame($headers["x-file-path"], "/coucou.txt", "X-File-Path header should be the same as provided.");
+		$this->assertSame(7, (int)$headers["content-length"], "Content-Length header should be the same as provided.");
+		$this->assertSame("4f2377b4d911f7ec46325fe603c3af03", $headers["x-file-md5"], "X-File-MD5 header should be the same as provided.");
+		$this->assertSame("/coucou.txt", $headers["x-file-path"], "X-File-Path header should be the same as provided.");
 
-		$this->assertSame($content, "Coucou\n", "Content should be the same");
+		$this->assertSame("Coucou\n", $content, "Content should be the same");
 	}
 
 	/**
 	 * Test with invalid md5 hash.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testInvalidMd5Hash() {
 		$bodyObject = $this->getValidBodyObject();
@@ -131,6 +137,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a null md5 hash.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testNullMd5Hash() {
 		$bodyObject = $this->getValidBodyObject();
@@ -145,6 +153,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a null Content-Length.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testNullContentLength() {
 		$bodyObject = $this->getValidBodyObject();
@@ -159,6 +169,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a lower Content-Length.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testLowerContentLength() {
 		$bodyObject = $this->getValidBodyObject();
@@ -173,6 +185,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a higher Content-Length.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testHigherContentLength() {
 		$bodyObject = $this->getValidBodyObject();
@@ -187,6 +201,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with wrong boundary in body.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testWrongBoundary() {
 		$bodyObject = $this->getValidBodyObject();
@@ -201,6 +217,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with no boundary in request headers.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testNoBoundaryInHeader() {
 		$bodyObject = $this->getValidBodyObject();
@@ -213,6 +231,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with no boundary in the request's headers.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testNoBoundaryInBody() {
 		$bodyObject = $this->getValidBodyObject();
@@ -228,6 +248,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a boundary with quotes in the request's headers.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testBoundaryWithQuotes() {
 		$bodyObject = $this->getValidBodyObject();
@@ -244,6 +266,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a wrong Content-Type in the request's headers.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testWrongContentType() {
 		$bodyObject = $this->getValidBodyObject();
@@ -256,6 +280,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a wrong key after the content type in the request's headers.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testWrongKeyInContentType() {
 		$bodyObject = $this->getValidBodyObject();
@@ -268,6 +294,8 @@ class MultipartRequestParserTest extends TestCase {
 
 	/**
 	 * Test with a null Content-Type in the request's headers.
+	 *
+	 * @throws BadRequest
 	 */
 	public function testNullContentType() {
 		$bodyObject = $this->getValidBodyObject();

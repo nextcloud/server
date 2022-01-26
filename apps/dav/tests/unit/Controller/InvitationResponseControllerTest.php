@@ -34,11 +34,14 @@ use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\Controller\InvitationResponseController;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use PDO;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
@@ -47,16 +50,16 @@ class InvitationResponseControllerTest extends TestCase {
 	/** @var InvitationResponseController */
 	private $controller;
 
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection|MockObject */
 	private $dbConnection;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
-	/** @var InvitationResponseServer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var InvitationResponseServer|MockObject */
 	private $responseServer;
 
 	protected function setUp(): void {
@@ -65,9 +68,7 @@ class InvitationResponseControllerTest extends TestCase {
 		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->responseServer = $this->getMockBuilder(InvitationResponseServer::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->responseServer = $this->createMock(InvitationResponseServer::class);
 
 		$this->controller = new InvitationResponseController(
 			'appName',
@@ -87,9 +88,10 @@ class InvitationResponseControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider attendeeProvider
+	 * @throws Exception
 	 */
 	public function testAccept(bool $isExternalAttendee): void {
-		$this->buildQueryExpects('TOKEN123', [
+		$this->buildQueryExpects([
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
 			'recurrenceid' => null,
@@ -98,7 +100,7 @@ class InvitationResponseControllerTest extends TestCase {
 			'sequence' => null,
 			'token' => 'TOKEN123',
 			'expiration' => 420000,
-		], 1337);
+		]);
 
 		$expected = <<<EOF
 BEGIN:VCALENDAR
@@ -151,9 +153,10 @@ EOF;
 
 	/**
 	 * @dataProvider attendeeProvider
+	 * @throws Exception
 	 */
 	public function testAcceptSequence(bool $isExternalAttendee): void {
-		$this->buildQueryExpects('TOKEN123', [
+		$this->buildQueryExpects([
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
 			'recurrenceid' => null,
@@ -162,7 +165,7 @@ EOF;
 			'sequence' => 1337,
 			'token' => 'TOKEN123',
 			'expiration' => 420000,
-		], 1337);
+		]);
 
 		$expected = <<<EOF
 BEGIN:VCALENDAR
@@ -215,9 +218,10 @@ EOF;
 
 	/**
 	 * @dataProvider attendeeProvider
+	 * @throws Exception
 	 */
 	public function testAcceptRecurrenceId(bool $isExternalAttendee): void {
-		$this->buildQueryExpects('TOKEN123', [
+		$this->buildQueryExpects([
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
 			'recurrenceid' => "RECURRENCE-ID;TZID=Europe/Berlin:20180726T150000\n",
@@ -226,7 +230,7 @@ EOF;
 			'sequence' => null,
 			'token' => 'TOKEN123',
 			'expiration' => 420000,
-		], 1337);
+		]);
 
 		$expected = <<<EOF
 BEGIN:VCALENDAR
@@ -278,8 +282,11 @@ EOF;
 		$this->assertTrue($called);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testAcceptTokenNotFound() {
-		$this->buildQueryExpects('TOKEN123', null, 1337);
+		$this->buildQueryExpects(null);
 
 		$response = $this->controller->accept('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
@@ -287,8 +294,11 @@ EOF;
 		$this->assertEquals([], $response->getParams());
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function testAcceptExpiredToken() {
-		$this->buildQueryExpects('TOKEN123', [
+		$this->buildQueryExpects([
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
 			'recurrenceid' => null,
@@ -297,7 +307,7 @@ EOF;
 			'sequence' => null,
 			'token' => 'TOKEN123',
 			'expiration' => 42,
-		], 1337);
+		]);
 
 		$response = $this->controller->accept('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
@@ -307,9 +317,10 @@ EOF;
 
 	/**
 	 * @dataProvider attendeeProvider
+	 * @throws Exception
 	 */
 	public function testDecline(bool $isExternalAttendee): void {
-		$this->buildQueryExpects('TOKEN123', [
+		$this->buildQueryExpects([
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
 			'recurrenceid' => null,
@@ -318,7 +329,7 @@ EOF;
 			'sequence' => null,
 			'token' => 'TOKEN123',
 			'expiration' => 420000,
-		], 1337);
+		]);
 
 		$expected = <<<EOF
 BEGIN:VCALENDAR
@@ -378,22 +389,15 @@ EOF;
 
 	/**
 	 * @dataProvider attendeeProvider
+	 * @throws Exception
 	 */
 	public function testProcessMoreOptionsResult(bool $isExternalAttendee): void {
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->exactly(3))
 			->method('getParam')
-			->with('partStat')
-			->willReturn('TENTATIVE');
-		$this->request->expects($this->at(1))
-			->method('getParam')
-			->with('guests')
-			->willReturn('7');
-		$this->request->expects($this->at(2))
-			->method('getParam')
-			->with('comment')
-			->willReturn('Foo bar Bli blub');
+			->withConsecutive(['partStat'], ['guests'], ['comment'])
+			->willReturnOnConsecutiveCalls('TENTATIVE', '7', 'Foo bar Bli blub');
 
-		$this->buildQueryExpects('TOKEN123', [
+		$this->buildQueryExpects([
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
 			'recurrenceid' => null,
@@ -402,7 +406,7 @@ EOF;
 			'sequence' => null,
 			'token' => 'TOKEN123',
 			'expiration' => 420000,
-		], 1337);
+		]);
 
 		$expected = <<<EOF
 BEGIN:VCALENDAR
@@ -456,7 +460,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	private function buildQueryExpects($token, $return, $time) {
+	private function buildQueryExpects(?array $return) {
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 		$stmt = $this->createMock(IResult::class);
 		$expr = $this->createMock(IExpressionBuilder::class);
@@ -469,12 +473,12 @@ EOF;
 			->willReturn($expr);
 		$queryBuilder->method('createNamedParameter')
 			->willReturnMap([
-				[$token, \PDO::PARAM_STR, null, 'namedParameterToken']
+				['TOKEN123', PDO::PARAM_STR, null, 'namedParameterToken']
 			]);
 
 		$stmt->expects($this->once())
 			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
+			->with(PDO::FETCH_ASSOC)
 			->willReturn($return);
 
 		$expr->expects($this->once())
@@ -487,24 +491,24 @@ EOF;
 			->with()
 			->willReturn($queryBuilder);
 
-		$queryBuilder->expects($this->at(0))
+		$queryBuilder->expects($this->once())
 			->method('select')
 			->with('*')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(1))
+		$queryBuilder->expects($this->once())
 			->method('from')
 			->with('calendar_invitations')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(4))
+		$queryBuilder->expects($this->once())
 			->method('where')
 			->with('EQ STATEMENT')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(5))
-			->method('execute')
+		$queryBuilder->expects($this->once())
+			->method('executeQuery')
 			->with()
 			->willReturn($stmt);
 
 		$this->timeFactory->method('getTime')
-			->willReturn($time);
+			->willReturn(1337);
 	}
 }

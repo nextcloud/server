@@ -22,7 +22,10 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Integration;
 
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
+use ReflectionMethod;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Test\TestCase;
 
 class ExternalCalendarTest extends TestCase {
@@ -40,28 +43,28 @@ class ExternalCalendarTest extends TestCase {
 		$this->assertEquals('app-generated--example-app-id--calendar-uri-in-backend',
 			$this->abstractExternalCalendar->getName());
 
-		// Check that the method is final and can't be overriden by other classes
-		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'getName');
+		// Check that the method is final and can't be overridden by other classes
+		$reflectionMethod = new ReflectionMethod(ExternalCalendar::class, 'getName');
 		$this->assertTrue($reflectionMethod->isFinal());
 	}
 
 	public function testSetName():void {
-		// Check that the method is final and can't be overriden by other classes
-		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'setName');
+		// Check that the method is final and can't be overridden by other classes
+		$reflectionMethod = new ReflectionMethod(ExternalCalendar::class, 'setName');
 		$this->assertTrue($reflectionMethod->isFinal());
 
-		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectException(MethodNotAllowed::class);
 		$this->expectExceptionMessage('Renaming calendars is not yet supported');
 
 		$this->abstractExternalCalendar->setName('other-name');
 	}
 
 	public function createDirectory():void {
-		// Check that the method is final and can't be overriden by other classes
-		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'createDirectory');
+		// Check that the method is final and can't be overridden by other classes
+		$reflectionMethod = new ReflectionMethod(ExternalCalendar::class, 'createDirectory');
 		$this->assertTrue($reflectionMethod->isFinal());
 
-		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectException(MethodNotAllowed::class);
 		$this->expectExceptionMessage('Creating collections in calendar objects is not allowed');
 
 		$this->abstractExternalCalendar->createDirectory('other-name');
@@ -84,7 +87,7 @@ class ExternalCalendarTest extends TestCase {
 	 * @dataProvider splitAppGeneratedCalendarUriDataProvider
 	 */
 	public function testSplitAppGeneratedCalendarUriInvalid(string $name):void {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Provided calendar uri was not app-generated');
 
 		ExternalCalendar::splitAppGeneratedCalendarUri($name);
