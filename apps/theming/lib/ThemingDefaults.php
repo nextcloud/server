@@ -158,6 +158,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
+	 * We pass a string and sanitizeHTML will return a string to in that case
 	 * @psalm-suppress InvalidReturnStatement
 	 * @psalm-suppress InvalidReturnType
 	 */
@@ -407,7 +408,7 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * Increases the cache buster key
 	 */
-	private function increaseCacheBuster() {
+	private function increaseCacheBuster(): void {
 		$cacheBusterKey = (int)$this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (string)($cacheBusterKey + 1));
 		$this->cacheFactory->createDistributed('theming-')->clear();

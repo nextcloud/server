@@ -36,11 +36,6 @@
       <code>array</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="apps/admin_audit/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>registerEventListener</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/cloud_federation_api/lib/Controller/RequestHandlerController.php">
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
@@ -48,12 +43,6 @@
     <TypeDoesNotContainType occurrences="1">
       <code>!is_array($notification)</code>
     </TypeDoesNotContainType>
-  </file>
-  <file src="apps/comments/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="2">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
   </file>
   <file src="apps/comments/lib/Search/Result.php">
     <InvalidScalarArgument occurrences="1">
@@ -64,11 +53,6 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($this-&gt;principalUri)</code>
     </UndefinedFunction>
-  </file>
-  <file src="apps/contactsinteraction/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>registerEventListener</code>
-    </InvalidArgument>
   </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <TooManyArguments occurrences="1">
@@ -128,36 +112,7 @@
     </MissingFile>
   </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="28">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
+    <InvalidArgument occurrences="1"/>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getAppDataDir</code>
     </UndefinedInterfaceMethod>
@@ -1132,11 +1087,6 @@
       <code>$userSession</code>
     </RedundantCondition>
   </file>
-  <file src="apps/federatedfilesharing/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>registerEventListener</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
     <InvalidScalarArgument occurrences="7">
       <code>$id</code>
@@ -1191,11 +1141,6 @@
       <code>null</code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/federation/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>registerEventListener</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/federation/lib/TrustedServers.php">
     <InvalidArgument occurrences="1">
       <code>'OCP\Federation\TrustedServerEvent::remove'</code>
@@ -1239,12 +1184,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>10 * 1024 * 1024</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="apps/files/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="2">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
   </file>
   <file src="apps/files/lib/Command/Scan.php">
     <NullArgument occurrences="1">
@@ -1334,12 +1273,6 @@
     <InvalidScope occurrences="1">
       <code>$this</code>
     </InvalidScope>
-  </file>
-  <file src="apps/files_external/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="2">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
   </file>
   <file src="apps/files_external/lib/Command/Delete.php">
     <NullArgument occurrences="1">
@@ -1838,12 +1771,6 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_versions/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="2">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType occurrences="1">
       <code>getChild</code>
@@ -1887,11 +1814,6 @@
   <file src="apps/oauth2/lib/Db/ClientMapper.php">
     <InvalidCatch occurrences="2"/>
   </file>
-  <file src="apps/provisioning_api/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>registerEventListener</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/provisioning_api/lib/Controller/UsersController.php">
     <InvalidScalarArgument occurrences="1">
       <code>$quota</code>
@@ -1902,11 +1824,7 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="apps/settings/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="3">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
+    <InvalidArgument occurrences="1"/>
     <InvalidScalarArgument occurrences="1">
       <code>\OC_User::getUser()</code>
     </InvalidScalarArgument>
@@ -1977,19 +1895,6 @@
       <code>$event-&gt;getObjectId()</code>
       <code>$event-&gt;getObjectId()</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="apps/theming/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>registerEventListener</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="4">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
   </file>
   <file src="apps/twofactor_backupcodes/lib/BackgroundJob/RememberBackupCodesJob.php">
     <InvalidArgument occurrences="1">
@@ -2269,19 +2174,9 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/user_status/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="3">
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-      <code>registerEventListener</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>registerProvider</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="apps/workflowengine/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>registerEventListener</code>
-    </InvalidArgument>
   </file>
   <file src="apps/workflowengine/lib/Check/AbstractStringCheck.php">
     <NullArgument occurrences="1">

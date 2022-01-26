@@ -107,8 +107,7 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @psalm-return FileDisplayResponse|DataDisplayResponse
-	 * @return Response
+	 * @return FileDisplayResponse|DataDisplayResponse
 	 * @throws \Exception
 	 */
 	public function getFavicon(string $app = 'core'): Response {
