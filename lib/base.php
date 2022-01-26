@@ -775,7 +775,7 @@ class OC {
 			if (!$isScssRequest) {
 				http_response_code(400);
 
-				\OC::$server->getLogger()->info(
+				\OC::$server->getLogger()->warning(
 					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
 					[
 						'app' => 'core',
