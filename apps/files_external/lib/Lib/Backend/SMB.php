@@ -112,7 +112,7 @@ class SMB extends Backend {
 								$username = $user;
 								$workgroup = $realm;
 							} else {
-								$username = $matches[1];;
+								$username = $matches[1];
 								$workgroup = $matches[2];
 							}
 							$smbAuth = new BasicAuth(
