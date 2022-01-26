@@ -38,7 +38,7 @@ $dir = \OC\Files\Filesystem::normalizePath($dir);
 
 try {
 	$dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
-	if (!$dirInfo || !$dirInfo->getType() === 'dir') {
+	if (!$dirInfo || $dirInfo->getType() !== 'dir') {
 		http_response_code(404);
 		exit();
 	}
