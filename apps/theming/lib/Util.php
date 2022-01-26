@@ -155,6 +155,7 @@ class Util {
 	/**
 	 * @param string $color rgb color value
 	 * @return int[]
+	 * @psalm-return array{0: int, 1: int, 2: int}
 	 */
 	public function hexToRGB($color) {
 		$hex = preg_replace("/[^0-9A-Fa-f]/", '', $color);
@@ -162,7 +163,7 @@ class Util {
 			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
 		}
 		if (strlen($hex) !== 6) {
-			return 0;
+			return [0, 0, 0];
 		}
 		return [
 			hexdec(substr($hex, 0, 2)),
@@ -205,9 +206,7 @@ class Util {
 			$logoFile = null;
 			try {
 				$folder = $this->appData->getFolder('images');
-				if ($folder !== null) {
-					return $folder->getFile('logo');
-				}
+				return $folder->getFile('logo');
 			} catch (NotFoundException $e) {
 			}
 		}

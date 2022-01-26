@@ -435,8 +435,8 @@ class Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|array $value
-	 * @return string|array an array of sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @param string|string[] $value
+	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
 	public static function sanitizeHTML($value) {

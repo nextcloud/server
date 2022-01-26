@@ -1978,59 +1978,10 @@
       <code>$event-&gt;getObjectId()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/testing/lib/Controller/LockingController.php">
-    <InvalidScalarArgument occurrences="5">
-      <code>$this-&gt;config-&gt;getAppValue('testing', $lock)</code>
-      <code>$this-&gt;config-&gt;getAppValue('testing', $lock)</code>
-      <code>$this-&gt;config-&gt;getAppValue('testing', $lock)</code>
-      <code>$type</code>
-      <code>$type</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/theming/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1">
       <code>registerEventListener</code>
     </InvalidArgument>
-  </file>
-  <file src="apps/theming/lib/Controller/IconController.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$response</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>FileDisplayResponse|NotFoundResponse</code>
-    </InvalidReturnType>
-    <RedundantCondition occurrences="3">
-      <code>$iconFile !== false</code>
-      <code>$iconFile !== false</code>
-      <code>$iconFile !== false</code>
-    </RedundantCondition>
-  </file>
-  <file src="apps/theming/lib/ImageManager.php">
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/theming/lib/ThemingDefaults.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>\OCP\Util::sanitizeHTML($this-&gt;config-&gt;getAppValue('theming', 'slogan', parent::getSlogan($lang)))</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>getSlogan</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>(int)$cacheBusterKey + 1</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/theming/lib/Util.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>0</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>int[]</code>
-    </InvalidReturnType>
-    <RedundantCondition occurrences="1">
-      <code>$folder !== null</code>
-    </RedundantCondition>
   </file>
   <file src="apps/twofactor_backupcodes/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="4">
