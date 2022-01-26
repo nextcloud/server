@@ -329,6 +329,7 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
+import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -662,8 +663,8 @@ export default {
 		externalLinkActions() {
 			// filter only the registered actions for said link
 			return this.ExternalShareActions.actions
-				.filter(action => action.shareType.includes(OC.Share.SHARE_TYPE_LINK)
-					|| action.shareType.includes(OC.Share.SHARE_TYPE_EMAIL))
+				.filter(action => action.shareType.includes(ShareTypes.SHARE_TYPE_LINK)
+					|| action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL))
 		},
 
 		isPasswordPolicyEnabled() {
@@ -682,7 +683,7 @@ export default {
 			}
 
 			const shareDefaults = {
-				share_type: OC.Share.SHARE_TYPE_LINK,
+				share_type: ShareTypes.SHARE_TYPE_LINK,
 			}
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
@@ -756,7 +757,7 @@ export default {
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const newShare = await this.createShare({
 					path,
-					shareType: OC.Share.SHARE_TYPE_LINK,
+					shareType: ShareTypes.SHARE_TYPE_LINK,
 					password: share.password,
 					expireDate: share.expireDate,
 					// we do not allow setting the publicUpload

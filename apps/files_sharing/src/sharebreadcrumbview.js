@@ -22,6 +22,8 @@
  *
  */
 
+import { Type as ShareTypes } from '@nextcloud/sharing'
+
 (function() {
 	'use strict'
 
@@ -40,7 +42,7 @@
 				this.$el.removeClass('shared icon-public icon-shared')
 				if (isShared) {
 					this.$el.addClass('shared')
-					if (data.dirInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_LINK) !== -1) {
+					if (data.dirInfo.shareTypes.indexOf(ShareTypes.SHARE_TYPE_LINK) !== -1) {
 						this.$el.addClass('icon-public')
 					} else {
 						this.$el.addClass('icon-shared')
