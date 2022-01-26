@@ -183,6 +183,7 @@ OC.L10N.register(
     "Rename" : "Renommer",
     "Revoke" : "Révoquer",
     "Wipe device" : "Effacer l'appareil",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "La révocation de ce jeton peut empêcher l'effacement sur l'appareil s'il n'a pas commencé.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
