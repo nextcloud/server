@@ -7,45 +7,49 @@ body:
     attributes:
       value: |
         ### 👍 Thank you for contributing to our project!
-        Please note this is a **free and open-source** project. You can obtain [Enterprise support](https://nextcloud.com/support/) if you run Nextcloud Server in a mission critical environment.
+        Please note this is a **free and open-source** project. Most people take on their own time to help you, so please, be patient.
+        You can obtain [Enterprise support](https://nextcloud.com/support/) if you run Nextcloud Server in a mission critical environment.
   - type: checkboxes
     id: before-posting
     attributes:
-      label: "⚠️ Before submitting, please verify the following: ⚠️"
+      label: "⚠️ This issue respects the following points: ⚠️"
       description: All conditions are **required**. Your issue can be closed if these are checked incorrectly.
       options:
-        - label: This is a **bug**, not a question or a configuration issue.
+        - label: This is a **bug**, not a question or a configuration/webserver/proxy issue.
           required: true
-        - label: This issue is **not** already reported on Github (I've searched it).
+        - label: This issue is **not** already reported on Github _(I've searched it)_.
           required: true
         - label: Nextcloud Server **is** up to date. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
           required: true
-        - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/)
+        - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/).
           required: true
   - type: textarea
     id: bug-description
     attributes:
       label: Bug description
-      description: Provide a description of the bug you're experiencing.
+      description: |
+        Provide a description of the bug you're experiencing.
+        Don't just expect someone will guess what your specific problem is and provide full details.
     validations:
       required: true
   - type: textarea
     id: reproduce
     attributes:
       label: Steps to reproduce
-      description: Describe the steps to reproduce the bug.
+      description: |
+        Describe the steps to reproduce the bug.
+        The better your description is _(go 'here', click 'there'...)_ the fastest you'll get an _(accurate)_ answer. 
       value: |
         1.
         2.
         3.
-        ...
     validations:
       required: true
   - type: textarea
     id: expected-behavior
     attributes:
       label: Expected behavior
-      description: Describe what you expected to happen.
+      description: Describe what you expected to happen instead.
     validations:
       required: true
   - type: dropdown
@@ -53,8 +57,8 @@ body:
     attributes:
       label: Installation method
       description: |
-        Select installation method you used.
-        Describe the method in the "Additional info" section if you chose "other".
+        Select installation method you've used.
+        _Describe the method in the "Additional info" section if you chose "Other"._
       options:
         - "Manual installation"
         - "Official Docker image"
@@ -71,7 +75,7 @@ body:
       label: Operating system
       description: |
         Select operating system where Nextcloud Server is installed.
-        Describe in the "Additional info" section if you chose "Other".
+        _Describe in the "Additional info" section if you chose "Other"._
       options:
         - "Debian/Ubuntu"
         - "RHEL/CentOS"
@@ -84,7 +88,7 @@ body:
       label: PHP engine version
       description: |
         Select PHP engine version serving Nextcloud Server.
-        Describe in the "Additional info" section if you chose "Other".
+        _Describe in the "Additional info" section if you chose "Other"._
       options:
         - "PHP 7.3"
         - "PHP 7.4"
@@ -99,7 +103,7 @@ body:
       label: Web server
       description: |
         Select Webserver serving Nextcloud Server.
-        Describe in the "Additional info" section if you chose "Other".
+        _Describe in the "Additional info" section if you chose "Other"._
       options:
         - "Apache (supported)"
         - "Nginx"
@@ -113,7 +117,7 @@ body:
       label: Database engine version
       description: |
         Select Database engine serving Nextcloud Server.
-        Describe in the "Additional info" section if you chose "Other".
+        _Describe in the "Additional info" section if you chose "Other"._
       options:
         - "MySQL"
         - "MariaDB"
@@ -139,8 +143,7 @@ body:
     id: encryption
     attributes:
       label: Are you using the Nextcloud Server Encryption module?
-      description: |
-        Select if encryption is Enabled on your Nextcloud Server.
+      description: Select if encryption is Enabled on your Nextcloud Server.
       options:
         - "Encryption is Enabled"
         - "Encryption is Disabled"
@@ -149,17 +152,15 @@ body:
   - type: checkboxes
     id: users
     attributes:
-      label: Are you using an external user-backend?
+      label: What user-backends are you using?
       description: |
-        Select all user-backends Enabled on your Nextcloud Server.
-        Describe in the "Additional info" section if you chose "Other".
+        Select **all** user-backends Enabled on your Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
       options:
-      - label: "Default internal user-backend"
+      - label: "Default user-backend _(database)_"
       - label: "LDAP/ Active Directory"
       - label: "SSO - SAML"
       - label: "Other"
-    validations:
-      required: true
   - type: textarea
     id: configs
     attributes:
@@ -172,7 +173,7 @@ body:
         php occ config:list system
         ./occ config:list system
         ```
-        > NOTE: This will be automatically formatted into code.
+        > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
       required: true
@@ -188,7 +189,7 @@ body:
         php occ app:list
         ./occ app:list
         ```
-        > NOTE: This will be automatically formatted into code.
+        > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
       required: true
@@ -200,9 +201,9 @@ body:
         Provide Nextcloud Signing status.
         First, login as Admin user into your Nextcloud, then access this URL:
         ```shell
-        https://yournextcloud.com/index.php/settings/integrity/failed 
+        https://yournextcloud.tld/index.php/settings/integrity/failed 
         ```
-        > NOTE: This will be automatically formatted into code.
+        > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
       required: true
@@ -213,7 +214,7 @@ body:
       description: |
         Provide Nextcloud logs lines.
         Copy all contents from `data/nextcloud.log` or a RAW from `/settings/admin/logging` section:
-        > NOTE: This will be automatically formatted into code.
+        > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
       required: true
