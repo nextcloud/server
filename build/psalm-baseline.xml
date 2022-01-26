@@ -2466,14 +2466,6 @@
       <code>registerProvider</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/user_status/lib/Db/UserStatusMapper.php">
-    <MoreSpecificImplementedParamType occurrences="4">
-      <code>UserStatus insert(UserStatus $entity)</code>
-      <code>UserStatus insert(UserStatus $entity)</code>
-      <code>UserStatus insert(UserStatus $entity)</code>
-      <code>UserStatus insert(UserStatus $entity)</code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="apps/workflowengine/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1">
       <code>registerEventListener</code>
