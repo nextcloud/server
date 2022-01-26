@@ -25,6 +25,7 @@
     "Share by mail" : "Partage par e-mail",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Le partage de %1$s a échoué, parce que cet élément est déjà partagé avec l'utilisateur %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nous ne pouvons pas vous envoyer le mot de passe généré automatiquement. Merci de définir une adresse courriel valide dans vos paramètres personnels et essayez à nouveau.",
+    "Failed to send share by email. Got an invalid email address" : "Échec lors de l'envoi du partage par email. L'adresse email est invalide",
     "Failed to send share by email" : "Échec lors de l'envoi du partage par e-mail",
     "%1$s shared »%2$s« with you" : "%1$s a partagé « %2$s » avec vous",
     "%1$s shared »%2$s« with you." : "%1$s a partagé « %2$s » avec vous.",
