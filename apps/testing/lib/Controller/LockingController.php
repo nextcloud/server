@@ -80,10 +80,9 @@ class LockingController extends OCSController {
 	}
 
 	/**
-	 * @return ILockingProvider
 	 * @throws \RuntimeException
 	 */
-	protected function getLockingProvider() {
+	protected function getLockingProvider(): ILockingProvider {
 		if ($this->lockingProvider instanceof DBLockingProvider) {
 			return $this->fakeDBLockingProvider;
 		}
@@ -91,21 +90,17 @@ class LockingController extends OCSController {
 	}
 
 	/**
-	 * @param string $user
-	 * @param string $path
-	 * @return string
 	 * @throws NotFoundException
 	 */
-	protected function getPath($user, $path) {
+	protected function getPath(string $user, string $path): string {
 		$node = $this->rootFolder->getUserFolder($user)->get($path);
 		return 'files/' . md5($node->getStorage()->getId() . '::' . trim($node->getInternalPath(), '/'));
 	}
 
 	/**
-	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function isLockingEnabled() {
+	public function isLockingEnabled(): DataResponse {
 		try {
 			$this->getLockingProvider();
 			return new DataResponse();
@@ -115,13 +110,9 @@ class LockingController extends OCSController {
 	}
 
 	/**
-	 * @param int $type
-	 * @param string $user
-	 * @param string $path
-	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function acquireLock($type, $user, $path) {
+	public function acquireLock(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
 		} catch (NoUserException $e) {
@@ -134,7 +125,7 @@ class LockingController extends OCSController {
 
 		try {
 			$lockingProvider->acquireLock($path, $type);
-			$this->config->setAppValue('testing', 'locking_' . $path, $type);
+			$this->config->setAppValue('testing', 'locking_' . $path, (string)$type);
 			return new DataResponse();
 		} catch (LockedException $e) {
 			throw new OCSException('', Http::STATUS_LOCKED, $e);
@@ -142,13 +133,9 @@ class LockingController extends OCSController {
 	}
 
 	/**
-	 * @param int $type
-	 * @param string $user
-	 * @param string $path
-	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function changeLock($type, $user, $path) {
+	public function changeLock(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
 		} catch (NoUserException $e) {
@@ -161,7 +148,7 @@ class LockingController extends OCSController {
 
 		try {
 			$lockingProvider->changeLock($path, $type);
-			$this->config->setAppValue('testing', 'locking_' . $path, $type);
+			$this->config->setAppValue('testing', 'locking_' . $path, (string)$type);
 			return new DataResponse();
 		} catch (LockedException $e) {
 			throw new OCSException('', Http::STATUS_LOCKED, $e);
@@ -169,13 +156,9 @@ class LockingController extends OCSController {
 	}
 
 	/**
-	 * @param int $type
-	 * @param string $user
-	 * @param string $path
-	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function releaseLock($type, $user, $path) {
+	public function releaseLock(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
 		} catch (NoUserException $e) {
@@ -196,13 +179,9 @@ class LockingController extends OCSController {
 	}
 
 	/**
-	 * @param int $type
-	 * @param string $user
-	 * @param string $path
-	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function isLocked($type, $user, $path) {
+	public function isLocked(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
 		} catch (NoUserException $e) {
@@ -220,11 +199,7 @@ class LockingController extends OCSController {
 		throw new OCSException('', Http::STATUS_LOCKED);
 	}
 
-	/**
-	 * @param int $type
-	 * @return DataResponse
-	 */
-	public function releaseAll($type = null) {
+	public function releaseAll(int $type = null): DataResponse {
 		$lockingProvider = $this->getLockingProvider();
 
 		foreach ($this->config->getAppKeys('testing') as $lock) {
@@ -232,11 +207,11 @@ class LockingController extends OCSController {
 				$path = substr($lock, strlen('locking_'));
 
 				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
-					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));
+					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
 				} elseif ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
-					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));
+					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
 				} else {
-					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));
+					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
 				}
 			}
 		}

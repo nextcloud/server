@@ -157,6 +157,11 @@ class ThemingDefaults extends \OC_Defaults {
 		return $this->config->getAppValue('theming', 'url', $this->url);
 	}
 
+	/**
+	 * We pass a string and sanitizeHTML will return a string too in that case
+	 * @psalm-suppress InvalidReturnStatement
+	 * @psalm-suppress InvalidReturnType
+	 */
 	public function getSlogan(?string $lang = null) {
 		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', parent::getSlogan($lang)));
 	}
@@ -403,9 +408,9 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * Increases the cache buster key
 	 */
-	private function increaseCacheBuster() {
-		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
-		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey + 1);
+	private function increaseCacheBuster(): void {
+		$cacheBusterKey = (int)$this->config->getAppValue('theming', 'cachebuster', '0');
+		$this->config->setAppValue('theming', 'cachebuster', (string)($cacheBusterKey + 1));
 		$this->cacheFactory->createDistributed('theming-')->clear();
 		$this->cacheFactory->createDistributed('imagePath')->clear();
 	}

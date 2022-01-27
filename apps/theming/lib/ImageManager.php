@@ -92,6 +92,7 @@ class ImageManager {
 			case 'background':
 				return $this->urlGenerator->imagePath('core', 'background.png') . '?v=' . $cacheBusterCounter;
 		}
+		return '';
 	}
 
 	public function getImageUrlAbsolute(string $key, bool $useSvg = true): string {
@@ -131,6 +132,9 @@ class ImageManager {
 		return $folder->getFile($key);
 	}
 
+	/**
+	 * @return array<string, array{mime: string, url: string}>
+	 */
 	public function getCustomImages(): array {
 		$images = [];
 		foreach ($this->supportedImageKeys as $key) {
@@ -192,7 +196,7 @@ class ImageManager {
 		return $file;
 	}
 
-	public function delete(string $key) {
+	public function delete(string $key): void {
 		/* ignore exceptions, since we don't want to fail hard if something goes wrong during cleanup */
 		try {
 			$file = $this->appData->getFolder('images')->getFile($key);
@@ -208,7 +212,7 @@ class ImageManager {
 		}
 	}
 
-	public function updateImage(string $key, string $tmpFile) {
+	public function updateImage(string $key, string $tmpFile): string {
 		$this->delete($key);
 
 		try {
@@ -255,7 +259,7 @@ class ImageManager {
 	 * "favicon" images are only allowed to be SVG when imagemagick with SVG support is available.
 	 *
 	 * @param string $key The image key, e.g. "favicon"
-	 * @return array
+	 * @return string[]
 	 */
 	private function getSupportedUploadImageFormats(string $key): array {
 		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
