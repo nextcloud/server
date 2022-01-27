@@ -162,13 +162,8 @@ class ClientFlowLoginController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @UseSession
-	 *
-	 * @param string $clientIdentifier
-	 * @param int $direct
-	 *
-	 * @return StandaloneTemplateResponse
 	 */
-	public function showAuthPickerPage($clientIdentifier = '', $direct = 0) {
+	public function showAuthPickerPage(string $clientIdentifier = '', int $direct = 0): StandaloneTemplateResponse {
 		$clientName = $this->getClientName();
 		$client = null;
 		if ($clientIdentifier !== '') {
@@ -233,15 +228,10 @@ class ClientFlowLoginController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 * @UseSession
-	 *
-	 * @param string $stateToken
-	 * @param string $clientIdentifier
-	 * @param int $direct
-	 * @return StandaloneTemplateResponse
 	 */
-	public function grantPage($stateToken = '',
-		$clientIdentifier = '',
-		$direct = 0) {
+	public function grantPage(string $stateToken = '',
+				  string $clientIdentifier = '',
+				  int $direct = 0): StandaloneTemplateResponse {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
