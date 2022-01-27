@@ -158,7 +158,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * We pass a string and sanitizeHTML will return a string to in that case
+	 * We pass a string and sanitizeHTML will return a string too in that case
 	 * @psalm-suppress InvalidReturnStatement
 	 * @psalm-suppress InvalidReturnType
 	 */

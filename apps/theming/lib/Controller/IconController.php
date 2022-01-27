@@ -107,7 +107,7 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @return FileDisplayResponse|DataDisplayResponse
+	 * @return FileDisplayResponse|DataDisplayResponse|NotFoundResponse
 	 * @throws \Exception
 	 */
 	public function getFavicon(string $app = 'core'): Response {
@@ -123,6 +123,9 @@ class IconController extends Controller {
 				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
 			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getFavicon($app);
+				if ($icon === false || $icon === '') {
+					return new NotFoundResponse();
+				}
 				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app, $icon);
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
@@ -142,7 +145,7 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @return DataDisplayResponse|FileDisplayResponse
+	 * @return DataDisplayResponse|FileDisplayResponse|NotFoundResponse
 	 * @throws \Exception
 	 */
 	public function getTouchIcon(string $app = 'core'): Response {
@@ -157,6 +160,9 @@ class IconController extends Controller {
 				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
 			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getTouchIcon($app);
+				if ($icon === false || $icon === '') {
+					return new NotFoundResponse();
+				}
 				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app, $icon);
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
