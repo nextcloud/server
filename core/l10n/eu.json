@@ -314,6 +314,7 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite garapenerako eta instantzia txikietarako soilik erabili behar litzateke. Produkziorako beste datu-base sistema bat erabiltzea gomendatzen dugu.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Fitxategiak sinkronizatzeko bezeroak erabiltzen badituzu, SQLite ez erabiltzea aholkatzen da.",
     "Install" : "Instalatu",
+    "Installing …" : "Instalatzen ...",
     "Need help?" : "Laguntza behar duzu?",
     "See the documentation" : "Ikusi dokumentazioa",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Badirudi zure Nextcloud berrinstalatu nahian ari zarela. Hala ere CAN_INSTALL fitxategia ez da aurkitzen zure config direktorioan. Mesedez sor ezazu CAN_INSTALL fitxategia zure config karpetan jarraitu ahal izateko.",
