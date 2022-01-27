@@ -62,7 +62,7 @@ class TXT extends ProviderV2 {
 			return null;
 		}
 
-		$content = stream_get_contents($content,3000);
+		$content = stream_get_contents($content, 3000);
 
 		//don't create previews of empty text files
 		if (trim($content) === '') {

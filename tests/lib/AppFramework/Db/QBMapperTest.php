@@ -109,11 +109,11 @@ class QBMapperTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->qb = $this->getMockBuilder(IQueryBuilder:: class)
+		$this->qb = $this->getMockBuilder(IQueryBuilder::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->expr = $this->getMockBuilder(IExpressionBuilder:: class)
+		$this->expr = $this->getMockBuilder(IExpressionBuilder::class)
 			->disableOriginalConstructor()
 			->getMock();
 

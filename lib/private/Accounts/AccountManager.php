@@ -633,7 +633,7 @@ class AccountManager implements IAccountManager {
 			}
 
 			// the value col is limited to 255 bytes. It is used for searches only.
-			$value = $property['value'] ? Util::shortenMultibyteString($property['value'],  255) : '';
+			$value = $property['value'] ? Util::shortenMultibyteString($property['value'], 255) : '';
 
 			$query->setParameter('name', $property['name'])
 				->setParameter('value', $value);

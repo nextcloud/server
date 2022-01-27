@@ -93,7 +93,7 @@ class Manager implements IManager {
 	 */
 	public function getCollectionForUser(int $id, ?IUser $user): ICollection {
 		$query = $this->connection->getQueryBuilder();
-		$userId = $user instanceof IUser ? $user->getUID() : '';
+		$userId = $user !== null ? $user->getUID() : '';
 
 		$query->select('*')
 			->from(self::TABLE_COLLECTIONS, 'c')
@@ -114,7 +114,7 @@ class Manager implements IManager {
 		}
 
 		$access = $row['access'] === null ? null : (bool) $row['access'];
-		if ($user instanceof IUser) {
+		if ($user !== null) {
 			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
 		}
 
@@ -131,7 +131,7 @@ class Manager implements IManager {
 	 */
 	public function searchCollections(IUser $user, string $filter, int $limit = 50, int $start = 0): array {
 		$query = $this->connection->getQueryBuilder();
-		$userId = $user instanceof IUser ? $user->getUID() : '';
+		$userId = $user->getUID();
 
 		$query->select('c.*', 'a.access')
 			->from(self::TABLE_COLLECTIONS, 'c')

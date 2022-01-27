@@ -1753,7 +1753,7 @@ class Access extends LDAPUtility {
 			}
 
 			$attribute = $this->connection->getFromCache($uuidAttr);
-			if (!$attribute === null) {
+			if ($attribute !== null) {
 				$this->connection->$uuidAttr = $attribute;
 				return true;
 			}

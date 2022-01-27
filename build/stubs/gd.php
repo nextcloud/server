@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @strict-properties
+ * @not-serializable
+ */
+final class GdImage {}
+
+/**
  * Retrieve information about the currently installed GD library
  * @link https://php.net/manual/en/function.gd-info.php
  * @return array an associative array.
