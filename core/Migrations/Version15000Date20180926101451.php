@@ -44,7 +44,7 @@ class Version15000Date20180926101451 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('authtoken');
-		$table->addColumn('password_invalid','boolean', [
+		$table->addColumn('password_invalid', 'boolean', [
 			'default' => 0,
 			'notnull' => false,
 		]);

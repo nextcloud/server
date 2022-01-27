@@ -212,7 +212,7 @@ class SecurityMiddleware extends Middleware {
 			if ($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT . '/');
 			}
-			if (stripos($this->request->getHeader('Accept'),'html') === false) {
+			if (stripos($this->request->getHeader('Accept'), 'html') === false) {
 				$response = new JSONResponse(
 					['message' => $exception->getMessage()],
 					$exception->getCode()

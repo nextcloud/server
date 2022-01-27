@@ -60,7 +60,7 @@ try {
 	 * not return a webpage, so we only print the error page when html is accepted,
 	 * otherwise we reply with a JSON array like the SecurityMiddleware would do.
 	 */
-	if (stripos($request->getHeader('Accept'),'html') === false) {
+	if (stripos($request->getHeader('Accept'), 'html') === false) {
 		http_response_code(401);
 		header('Content-Type: application/json; charset=utf-8');
 		echo json_encode(['message' => $ex->getMessage()]);

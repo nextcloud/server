@@ -43,7 +43,7 @@ class MarkDown extends TXT {
 			return null;
 		}
 
-		$content = stream_get_contents($content,3000);
+		$content = stream_get_contents($content, 3000);
 
 		//don't create previews of empty text files
 		if (trim($content) === '') {
@@ -119,7 +119,7 @@ class MarkDown extends TXT {
 				// Get rid of markdown symbols that we still needed for the font size
 				$line = preg_replace('/^#*\s/', '', $line);
 
-				$wrappedText = wordwrap($line, $wordWrap,"\n");
+				$wrappedText = wordwrap($line, $wordWrap, "\n");
 				$linesWrapped = count(explode("\n", $wrappedText));
 				imagettftext($image, $actualFontSize, 0, $x, $y, $textColor, $actualFontSize === $fontSize ? $fontFile : $fontFileBold, $wrappedText);
 				$nextLineStart = (int)($linesWrapped * ceil($actualFontSize * 2));

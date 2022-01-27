@@ -79,7 +79,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 			$olderVersions = $ms->getMigratedVersions();
 			$olderVersions[] = '0';
 			$olderVersions[] = 'prev';
-			if (in_array($version,  $olderVersions, true)) {
+			if (in_array($version, $olderVersions, true)) {
 				$output->writeln('<error>Can not go back to previous migration without debug enabled</error>');
 				return 1;
 			}

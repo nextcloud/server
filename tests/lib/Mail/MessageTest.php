@@ -113,7 +113,7 @@ class MessageTest extends TestCase {
 	/**
 	 * @dataProvider  getMailAddressProvider
 	 */
-	public function testGetTo($swiftresult,$return) {
+	public function testGetTo($swiftresult, $return) {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getTo')
@@ -133,7 +133,7 @@ class MessageTest extends TestCase {
 	/**
 	 * @dataProvider  getMailAddressProvider
 	 */
-	public function testGetCc($swiftresult,$return) {
+	public function testGetCc($swiftresult, $return) {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getCc')
@@ -153,7 +153,7 @@ class MessageTest extends TestCase {
 	/**
 	 * @dataProvider  getMailAddressProvider
 	 */
-	public function testGetBcc($swiftresult,$return) {
+	public function testGetBcc($swiftresult, $return) {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getBcc')

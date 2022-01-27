@@ -436,7 +436,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @SubAdminRequired
 	 */
 	public function testIsNotSubAdminCheck() {
-		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$sec = $this->getMiddleware(true, false, false);
 
 		$this->expectException(SecurityException::class);
@@ -448,7 +448,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @SubAdminRequired
 	 */
 	public function testIsSubAdminCheck() {
-		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$sec = $this->getMiddleware(true, false, true);
 
 		$sec->beforeController($this, __METHOD__);
@@ -460,7 +460,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @SubAdminRequired
 	 */
 	public function testIsSubAdminAndAdminCheck() {
-		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$sec = $this->getMiddleware(true, true, true);
 
 		$sec->beforeController($this, __METHOD__);
@@ -513,7 +513,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			new NotLoggedInException()
 		);
 		$expected = new RedirectResponse('http://localhost/nextcloud/index.php/login?redirect_url=nextcloud/index.php/apps/specialapp');
-		$this->assertEquals($expected , $response);
+		$this->assertEquals($expected, $response);
 	}
 
 	public function testAfterExceptionRedirectsToWebRootAfterStrictCookieFail() {
@@ -536,7 +536,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		);
 
 		$expected = new RedirectResponse(\OC::$WEBROOT . '/');
-		$this->assertEquals($expected , $response);
+		$this->assertEquals($expected, $response);
 	}
 
 
@@ -584,7 +584,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		);
 		$expected = new TemplateResponse('core', '403', ['message' => $exception->getMessage()], 'guest');
 		$expected->setStatus($exception->getCode());
-		$this->assertEquals($expected , $response);
+		$this->assertEquals($expected, $response);
 	}
 
 	public function testAfterAjaxExceptionReturnsJSONError() {
@@ -614,7 +614,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 */
 	public function testRestrictedAppLoggedInPublicPage() {
 		$middleware = $this->getMiddleware(true, false, false);
-		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
 
 		$this->appManager->method('getAppPath')
 			->with('files')
@@ -635,7 +635,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 */
 	public function testRestrictedAppNotLoggedInPublicPage() {
 		$middleware = $this->getMiddleware(false, false, false);
-		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
 
 		$this->appManager->method('getAppPath')
 			->with('files')
@@ -655,7 +655,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 */
 	public function testRestrictedAppLoggedIn() {
 		$middleware = $this->getMiddleware(true, false, false, false);
-		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
 
 		$this->appManager->method('getAppPath')
 			->with('files')
