@@ -118,10 +118,11 @@ function print_unescaped($string) {
  * they are coming from a template registration.
  * Please consider moving them into the relevant controller
  *
+ * @deprecated 24.0.0 - Use \OCP\Util::addScript
+ *
  * @param string $app the appname
  * @param string|string[] $file the filename,
  * if an array is given it will add all scripts
- * @deprecated 23.1.0
  */
 function script($app, $file = null) {
 	if (is_array($file)) {

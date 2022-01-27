@@ -580,7 +580,7 @@ class OC_Util {
 	/**
 	 * add a javascript file
 	 *
-	 * @deprecated 24.0.0
+	 * @deprecated 24.0.0 - Use \OCP\Util::addScript
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
