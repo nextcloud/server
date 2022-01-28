@@ -4761,10 +4761,8 @@
     </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
-    <InvalidArgument occurrences="3">
+    <InvalidArgument occurrences="1">
       <code>$fh</code>
-      <code>$fileInfos</code>
-      <code>[$fileInfo]</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="1">
       <code>mt_rand()</code>
