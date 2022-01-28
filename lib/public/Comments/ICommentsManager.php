@@ -131,10 +131,33 @@ interface ICommentsManager {
 	 * @param bool $includeLastKnown
 	 * @return IComment[]
 	 * @since 14.0.0
+	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
 	 */
 	public function getForObjectSince(
 		string $objectType,
 		string $objectId,
+		int $lastKnownCommentId,
+		string $sortDirection = 'asc',
+		int $limit = 30,
+		bool $includeLastKnown = false
+	): array;
+
+	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param string[] $verbs List of verbs to filter by
+	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
+	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
+	 * @param int $limit optional, number of maximum comments to be returned. if
+	 * set to 0, all comments are returned.
+	 * @param bool $includeLastKnown
+	 * @return IComment[]
+	 * @since 24.0.0
+	 */
+	public function getCommentsWithVerbForObjectSinceComment(
+		string $objectType,
+		string $objectId,
+		array $verbs,
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
@@ -198,6 +221,7 @@ interface ICommentsManager {
 	 * @param string $verb
 	 * @return int
 	 * @since 21.0.0
+	 * @deprecated 24.0.0 - Use getNumberOfCommentsWithVerbsForObjectSinceComment instead
 	 */
 	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int;
 
