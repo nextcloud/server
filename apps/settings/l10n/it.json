@@ -181,6 +181,7 @@
     "Rename" : "Rinomina",
     "Revoke" : "Revoca",
     "Wipe device" : "Cancella dispositivo",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "La revoca di questo token potrebbe impedire la cancellazione del tuo dispositivo se non ha ancora iniziato la cancellazione.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
