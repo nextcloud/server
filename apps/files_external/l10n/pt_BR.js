@@ -81,6 +81,8 @@ OC.L10N.register(
     "Public key" : "Chave pública",
     "RSA private key" : "Chave privada RSA",
     "Private key" : "Chave privada",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "reino padrão do Kerberos, padrão para \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Bilhete Kerberos Modo Apache",
     "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Cesta",
@@ -138,6 +140,7 @@ OC.L10N.register(
     "External storages" : "Armazenamentos externos",
     "(group)" : "(grupo)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando OC login"
+    "SMB / CIFS using OC login" : "SMB / CIFS usando OC login",
+    "Kerberos ticket apache mode" : "Modo apache de tíquete Kerberos"
 },
 "nplurals=2; plural=(n > 1);");
