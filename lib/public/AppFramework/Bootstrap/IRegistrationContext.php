@@ -264,4 +264,15 @@ interface IRegistrationContext {
 	 * @since 23.0.0
 	 */
 	public function registerProfileLinkAction(string $actionClass): void;
+
+	/**
+	 * Register an implementation of \OCP\UserMigration\IMigrationOperation that
+	 * will handle the implementation of a migration operation
+	 *
+	 * @param string $operationClass
+	 * @psalm-param class-string<\OCP\UserMigration\IMigrationOperation> $operationClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerMigrationOperation(string $operationClass): void;
 }
