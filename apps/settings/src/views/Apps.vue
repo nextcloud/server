@@ -107,6 +107,9 @@
 						{{ t('settings', 'Featured') }}</span>
 					<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
 				</div>
+				<div class="app-version">
+					<p>{{ app.version }}</p>
+				</div>
 			</template>
 
 			<!-- Tab content -->
@@ -315,6 +318,12 @@ export default {
 			background-size: 32px;
 
 			filter: invert(1);
+		}
+	}
+
+	.app-sidebar-header__description {
+		.app-version {
+			padding-left: 10px;
 		}
 	}
 
