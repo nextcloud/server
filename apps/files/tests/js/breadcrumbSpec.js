@@ -56,13 +56,15 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(1).find('a').hasClass('icon-home')).toEqual(true);
 			expect($crumbs.eq(1).data('dir')).toEqual('/');
 		});
-		it('Renders root when switching to root', function() {
+		it('Renders complete directory when switching to root', function() {
 			var $crumbs;
 			bc.setDirectory('/somedir');
 			bc.setDirectory('/');
 			$crumbs = bc.$el.find('.crumb');
-			expect($crumbs.length).toEqual(2);
+			expect($crumbs.length).toEqual(3);
 			expect($crumbs.eq(1).data('dir')).toEqual('/');
+			expect($crumbs.eq(2).data('dir')).toEqual('/somedir');
+			expect($crumbs.eq(2).attr('class').includes("active")).toEqual(false);
 		});
 		it('Renders single path section', function() {
 			var $crumbs;
