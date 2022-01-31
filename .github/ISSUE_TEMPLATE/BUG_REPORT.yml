@@ -176,7 +176,7 @@ body:
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
-      required: true
+      required: false
   - type: textarea
     id: apps
     attributes:
@@ -192,7 +192,7 @@ body:
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
-      required: true
+      required: false
   - type: textarea
     id: nextcloud-signingstatus
     attributes:
@@ -206,7 +206,7 @@ body:
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
-      required: true
+      required: false
   - type: textarea
     id: nextcloud-log
     attributes:
@@ -217,11 +217,11 @@ body:
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
     validations:
-      required: true
+      required: false
   - type: textarea
     id: additional-info
     attributes:
       label: Additional info
       description: Any additional information related to the issue (ex. browser console errors, software versions).
     validations:
-      required: true
+      required: false
