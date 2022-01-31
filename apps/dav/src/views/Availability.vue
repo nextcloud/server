@@ -6,7 +6,7 @@
 		</p>
 		<div class="time-zone">
 			<strong>
-				{{ $t('calendar', 'Time zone:') }}
+				{{ $t('dav', 'Time zone:') }}
 			</strong>
 			<span class="time-zone-text">
 				<TimezonePicker v-model="timezone" />
