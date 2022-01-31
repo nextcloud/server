@@ -240,14 +240,14 @@
 					if (data.cronErrors.length > 0) {
 						var listOfCronErrors = "";
 						data.cronErrors.forEach(function(element){
-							listOfCronErrors += "<li>";
+							listOfCronErrors += '<li>';
 							listOfCronErrors += element.error;
 							listOfCronErrors += ' ';
 							listOfCronErrors += element.hint;
-							listOfCronErrors += "</li>";
+							listOfCronErrors += '</li>';
 						});
 						messages.push({
-							msg: t('core', 'It was not possible to execute the cron job via CLI. The following technical errors have appeared:') + "<ul>" + listOfCronErrors + "</ul>",
+							msg: t('core', 'It was not possible to execute the cron job via CLI. The following technical errors have appeared:') + '<ul>' + listOfCronErrors + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						})
 					}
@@ -336,7 +336,7 @@
 					if(data.OpcacheSetupRecommendations.length > 0) {
 						var listOfOPcacheRecommendations = "";
 						data.OpcacheSetupRecommendations.forEach(function(element){
-							listOfOPcacheRecommendations += "<li>" + element + "</li>";
+							listOfOPcacheRecommendations += '<li>' + element + '</li>';
 						});
 						messages.push({
 							msg: t('core', 'The PHP OPcache module is not properly configured. See the {linkstart}documentation ↗{linkend} for more information.')
@@ -360,46 +360,46 @@
 					if (data.missingIndexes.length > 0) {
 						var listOfMissingIndexes = "";
 						data.missingIndexes.forEach(function(element){
-							listOfMissingIndexes += "<li>";
+							listOfMissingIndexes += '<li>';
 							listOfMissingIndexes += t('core', 'Missing index "{indexName}" in table "{tableName}".', element);
-							listOfMissingIndexes += "</li>";
+							listOfMissingIndexes += '</li>';
 						});
 						messages.push({
-							msg: t('core', 'The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \'occ db:add-missing-indices\' those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.') + "<ul>" + listOfMissingIndexes + "</ul>",
+							msg: t('core', 'The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \'occ db:add-missing-indices\' those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.') + '<ul>' + listOfMissingIndexes + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.missingPrimaryKeys.length > 0) {
 						var listOfMissingPrimaryKeys = "";
 						data.missingPrimaryKeys.forEach(function(element){
-							listOfMissingPrimaryKeys += "<li>";
+							listOfMissingPrimaryKeys += '<li>';
 							listOfMissingPrimaryKeys += t('core', 'Missing primary key on table "{tableName}".', element);
-							listOfMissingPrimaryKeys += "</li>";
+							listOfMissingPrimaryKeys += '</li>';
 						});
 						messages.push({
-							msg: t('core', 'The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \'occ db:add-missing-primary-keys\' those missing primary keys could be added manually while the instance keeps running.') + "<ul>" + listOfMissingPrimaryKeys + "</ul>",
+							msg: t('core', 'The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \'occ db:add-missing-primary-keys\' those missing primary keys could be added manually while the instance keeps running.') + '<ul>' + listOfMissingPrimaryKeys + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.missingColumns.length > 0) {
 						var listOfMissingColumns = "";
 						data.missingColumns.forEach(function(element){
-							listOfMissingColumns += "<li>";
+							listOfMissingColumns += '<li>';
 							listOfMissingColumns += t('core', 'Missing optional column "{columnName}" in table "{tableName}".', element);
-							listOfMissingColumns += "</li>";
+							listOfMissingColumns += '</li>';
 						});
 						messages.push({
-							msg: t('core', 'The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running \'occ db:add-missing-columns\' those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.') + "<ul>" + listOfMissingColumns + "</ul>",
+							msg: t('core', 'The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running \'occ db:add-missing-columns\' those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.') + '<ul>' + listOfMissingColumns + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.recommendedPHPModules.length > 0) {
 						var listOfRecommendedPHPModules = "";
 						data.recommendedPHPModules.forEach(function(element){
-							listOfRecommendedPHPModules += "<li>" + element + "</li>";
+							listOfRecommendedPHPModules += '<li>' + element + '</li>';
 						});
 						messages.push({
-							msg: t('core', 'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.') + "<ul><code>" + listOfRecommendedPHPModules + "</code></ul>",
+							msg: t('core', 'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.') + '<ul><code>' + listOfRecommendedPHPModules + '</code></ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -430,12 +430,12 @@
 					if (data.pendingBigIntConversionColumns.length > 0) {
 						var listOfPendingBigIntConversionColumns = "";
 						data.pendingBigIntConversionColumns.forEach(function(element){
-							listOfPendingBigIntConversionColumns += "<li>" + element + "</li>";
+							listOfPendingBigIntConversionColumns += '<li>' + element + '</li>';
 						});
 						messages.push({
 							msg: t('core', 'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \'occ db:convert-filecache-bigint\' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion') + '">')
-								.replace('{linkend}', '</a>') + "<ul>" + listOfPendingBigIntConversionColumns + "</ul>",
+								.replace('{linkend}', '</a>') + '<ul>' + listOfPendingBigIntConversionColumns + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
