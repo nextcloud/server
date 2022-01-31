@@ -178,6 +178,8 @@
     "Login form is disabled." : "Форма входа отключена.",
     "Edit Profile" : "Редактирование профиля",
     "The headline and about sections will show up here" : "Разделы \"Заголовок\" и \"О вас\" будут отображаться здесь",
+    "You have not added any info yet" : "Вы ещё не добавили никакой информации",
+    "{user} has not added any info yet" : "Пользователь {user} ещё не добавил(а) никакой информации",
     "Error opening the user status modal, try hard refreshing the page" : "Произошла ошибка при открытии модального окна пользователя, попробуйте обновить страницу",
     "Reset search" : "Очистить поиск",
     "Search for {name} only" : "Искать только для «{name}»",
