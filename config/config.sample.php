@@ -1209,6 +1209,20 @@ $CONFIG = [
  */
 'maintenance' => false,
 
+/**
+ * UTC Hour for maintenance windows
+ *
+ * Some background jobs only run once a day. When an hour is defined for this config,
+ * the background jobs which advertise themselves as not time sensitive will be
+ * delayed during the "working" hours and only run in the 4 hours after the given time.
+ * This is e.g. used for activity expiration, suspicious login training and update checks.
+ *
+ * A value of 1 e.g. will only run these background jobs between 01:00am UTC and 05:00am UTC.
+ *
+ * Defaults to ``100`` which disables the feature
+ */
+'maintenance_window_start' => 1,
+
 
 /**
  * SSL
