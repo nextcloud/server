@@ -67,8 +67,6 @@ body:
         - "Official All-in-One appliance"
         - "Web installer on a VPS or web space"
         - "Other"
-    validations:
-      required: true
   - type: dropdown
     id: system
     attributes:
@@ -80,8 +78,6 @@ body:
         - "Debian/Ubuntu"
         - "RHEL/CentOS"
         - "Other"
-    validations:
-      required: true
   - type: dropdown
     id: php
     attributes:
@@ -95,8 +91,6 @@ body:
         - "PHP 8.0"
         - "PHP 8.1"
         - "Other"
-    validations:
-      required: true
   - type: dropdown
     id: webserver
     attributes:
@@ -109,8 +103,6 @@ body:
         - "Nginx"
         - "Lighttpd"
         - "Other"
-    validations:
-      required: true
   - type: dropdown
     id: database
     attributes:
@@ -125,8 +117,6 @@ body:
         - "SQlite"
         - "Oracle"
         - "Other"
-    validations:
-      required: true
   - type: dropdown
     id: fresh
     attributes:
@@ -137,8 +127,6 @@ body:
         - "Updated from a minor version (ex. 22.2.3 to 22.2.4)"
         - "Updated to a major version (ex. 22.2.3 to 23.0.1)"
         - "Fresh Nextcloud Server install"
-    validations:
-      required: true
   - type: dropdown
     id: encryption
     attributes:
@@ -147,8 +135,6 @@ body:
       options:
         - "Encryption is Enabled"
         - "Encryption is Disabled"
-    validations:
-      required: true
   - type: checkboxes
     id: users
     attributes:
@@ -175,8 +161,6 @@ body:
         ```
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
-    validations:
-      required: true
   - type: textarea
     id: apps
     attributes:
@@ -205,8 +189,6 @@ body:
         ```
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
-    validations:
-      required: true
   - type: textarea
     id: nextcloud-log
     attributes:
@@ -216,12 +198,8 @@ body:
         Copy all contents from `data/nextcloud.log` or a RAW from `/settings/admin/logging` section:
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
-    validations:
-      required: true
   - type: textarea
     id: additional-info
     attributes:
       label: Additional info
       description: Any additional information related to the issue (ex. browser console errors, software versions).
-    validations:
-      required: true
