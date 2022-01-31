@@ -34,6 +34,7 @@
  */
 namespace OCA\DAV;
 
+use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use Psr\Log\LoggerInterface;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\BirthdayService;
@@ -205,6 +206,7 @@ class Server {
 		));
 
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
+		$this->server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
 		$this->server->addPlugin(new ChunkingPlugin());
 
 		// allow setup of additional plugins
