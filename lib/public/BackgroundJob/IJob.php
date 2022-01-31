@@ -35,6 +35,15 @@ use OCP\ILogger;
  */
 interface IJob {
 	/**
+	 * @since 24.0.0
+	 */
+	public const TIME_INSENSITIVE = 0;
+	/**
+	 * @since 24.0.0
+	 */
+	public const TIME_SENSITIVE = 1;
+
+	/**
 	 * Run the background job with the registered argument
 	 *
 	 * @param IJobList $jobList The job list that manages the state of this job

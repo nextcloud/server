@@ -1001,6 +1001,7 @@ return array(
     'OC\\Core\\Migrations\\Version24000Date20211213081604' => $baseDir . '/core/Migrations/Version24000Date20211213081604.php',
     'OC\\Core\\Migrations\\Version24000Date20211222112246' => $baseDir . '/core/Migrations/Version24000Date20211222112246.php',
     'OC\\Core\\Migrations\\Version24000Date20211230140012' => $baseDir . '/core/Migrations/Version24000Date20211230140012.php',
+    'OC\\Core\\Migrations\\Version24000Date20220131153041' => $baseDir . '/core/Migrations/Version24000Date20220131153041.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
