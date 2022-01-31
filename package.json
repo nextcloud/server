@@ -50,7 +50,7 @@
     "bootstrap": "^4.6.0",
     "buffer": "^6.0.3",
     "camelcase": "^6.3.0",
-    "clipboard": "^2.0.8",
+    "clipboard": "^2.0.9",
     "core-js": "^3.20.3",
     "css-vars-ponyfill": "^2.4.7",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.2.1",
