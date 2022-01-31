@@ -81,6 +81,7 @@ class OC_Util {
 	public static $styles = [];
 	public static $headers = [];
 	private static $rootMounted = false;
+	private static $rootFsSetup = false;
 	private static $fsSetup = false;
 
 	/** @var array Local cache of version.php */
@@ -186,30 +187,18 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function setupFS($user = '') {
+	public static function setupRootFS(string $user = '') {
 		//setting up the filesystem twice can only lead to trouble
-		if (self::$fsSetup) {
+		if (self::$rootFsSetup) {
 			return false;
 		}
 
-		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
-
-		// If we are not forced to load a specific user we load the one that is logged in
-		if ($user === null) {
-			$user = '';
-		} elseif ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
-			$user = OC_User::getUser();
-		}
+		\OC::$server->getEventLogger()->start('setup_root_fs', 'Setup root filesystem');
 
 		// load all filesystem apps before, so no setup-hook gets lost
 		OC_App::loadApps(['filesystem']);
 
-		// the filesystem will finish when $user is not empty,
-		// mark fs setup here to avoid doing the setup from loading
-		// OC_Filesystem
-		if ($user != '') {
-			self::$fsSetup = true;
-		}
+		self::$rootFsSetup = true;
 
 		\OC\Files\Filesystem::initMountManager();
 
@@ -277,10 +266,10 @@ class OC_Util {
 				return new \OC\Files\Storage\Wrapper\PermissionsMask([
 					'storage' => $storage,
 					'mask' => \OCP\Constants::PERMISSION_ALL & ~(
-						\OCP\Constants::PERMISSION_UPDATE |
-						\OCP\Constants::PERMISSION_CREATE |
-						\OCP\Constants::PERMISSION_DELETE
-					),
+							\OCP\Constants::PERMISSION_UPDATE |
+							\OCP\Constants::PERMISSION_CREATE |
+							\OCP\Constants::PERMISSION_DELETE
+						),
 				]);
 			}
 			return $storage;
@@ -313,19 +302,46 @@ class OC_Util {
 			$mountManager->addMount($rootMountProvider);
 		}
 
-		if ($user != '' && !\OC::$server->getUserManager()->userExists($user)) {
-			\OC::$server->getEventLogger()->end('setup_fs');
+		\OC::$server->getEventLogger()->end('setup_root_fs');
+
+		return true;
+	}
+
+	/**
+	 * Can be set up
+	 *
+	 * @param string $user
+	 * @return boolean
+	 * @description configure the initial filesystem based on the configuration
+	 * @suppress PhanDeprecatedFunction
+	 * @suppress PhanAccessMethodInternal
+	 */
+	public static function setupFS($user = '') {
+		self::setupRootFS($user);
+
+		if (self::$fsSetup) {
 			return false;
 		}
 
-		//if we aren't logged in, there is no use to set up the filesystem
-		if ($user != "") {
-			$userDir = '/' . $user . '/files';
+		self::$fsSetup = true;
+
+		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
+
+		// If we are not forced to load a specific user we load the one that is logged in
+		if ($user === '') {
+			$userObject = \OC::$server->get(\OCP\IUserSession::class)->getUser();
+		} else {
+			$userObject = \OC::$server->get(\OCP\IUserManager::class)->get($user);
+		}
+
+		//if we aren't logged in, or the user doesn't exist, there is no use to set up the filesystem
+		if ($userObject) {
+			$userDir = '/' . $userObject->getUID() . '/files';
 
 			//jail the user into his "home" directory
-			\OC\Files\Filesystem::init($user, $userDir);
+			\OC\Files\Filesystem::init($userObject->getUID(), $userDir);
 
-			OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user, 'user_dir' => $userDir]);
+			OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $userObject->getUID(), 'user_dir' => $userDir]);
 		}
 		\OC::$server->getEventLogger()->end('setup_fs');
 		return true;
@@ -484,6 +500,7 @@ class OC_Util {
 		\OC\Files\Filesystem::tearDown();
 		\OC::$server->getRootFolder()->clearCache();
 		self::$fsSetup = false;
+		self::$rootFsSetup = false;
 		self::$rootMounted = false;
 	}
 

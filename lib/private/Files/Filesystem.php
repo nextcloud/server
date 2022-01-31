@@ -240,9 +240,7 @@ class Filesystem {
 	 * @return \OC\Files\Mount\Manager
 	 */
 	public static function getMountManager($user = '') {
-		if (!self::$mounts) {
-			\OC_Util::setupFS($user);
-		}
+		self::initMountManager();
 		return self::$mounts;
 	}
 
@@ -292,10 +290,7 @@ class Filesystem {
 	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public static function getStorage($mountPoint) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		$mount = self::$mounts->find($mountPoint);
+		$mount = self::getMountManager()->find($mountPoint);
 		return $mount->getStorage();
 	}
 
@@ -304,10 +299,7 @@ class Filesystem {
 	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByStorageId($id) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		return self::$mounts->findByStorageId($id);
+		return self::getMountManager()->findByStorageId($id);
 	}
 
 	/**
@@ -315,10 +307,7 @@ class Filesystem {
 	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByNumericId($id) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		return self::$mounts->findByNumericId($id);
+		return self::getMountManager()->findByNumericId($id);
 	}
 
 	/**
@@ -328,10 +317,7 @@ class Filesystem {
 	 * @return array an array consisting of the storage and the internal path
 	 */
 	public static function resolvePath($path) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		$mount = self::$mounts->find($path);
+		$mount = self::getMountManager()->find($path);
 		if ($mount) {
 			return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
 		} else {
