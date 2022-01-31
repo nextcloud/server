@@ -247,10 +247,7 @@
 							listOfCronErrors += "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'It was not possible to execute the cron job via CLI. The following technical errors have appeared:'
-							) + "<ul>" + listOfCronErrors + "</ul>",
+							msg: t('core', 'It was not possible to execute the cron job via CLI. The following technical errors have appeared:') + "<ul>" + listOfCronErrors + "</ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						})
 					}
@@ -350,18 +347,13 @@
 					}
 					if(!data.isSettimelimitAvailable) {
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
+							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 					if (!data.hasFreeTypeSupport) {
 						messages.push({
-							msg: t(
-								'core',
-								'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'
-							),
+							msg: t('core', 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -373,10 +365,7 @@
 							listOfMissingIndexes += "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running "occ db:add-missing-indices" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.'
-							) + "<ul>" + listOfMissingIndexes + "</ul>",
+							msg: t('core', 'The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \'occ db:add-missing-indices\' those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.') + "<ul>" + listOfMissingIndexes + "</ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -388,10 +377,7 @@
 							listOfMissingPrimaryKeys += "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running "occ db:add-missing-primary-keys" those missing primary keys could be added manually while the instance keeps running.'
-							) + "<ul>" + listOfMissingPrimaryKeys + "</ul>",
+							msg: t('core', 'The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \'occ db:add-missing-primary-keys\' those missing primary keys could be added manually while the instance keeps running.') + "<ul>" + listOfMissingPrimaryKeys + "</ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -403,10 +389,7 @@
 							listOfMissingColumns += "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running "occ db:add-missing-columns" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.'
-							) + "<ul>" + listOfMissingColumns + "</ul>",
+							msg: t('core', 'The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running \'occ db:add-missing-columns\' those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.') + "<ul>" + listOfMissingColumns + "</ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -416,10 +399,7 @@
 							listOfRecommendedPHPModules += "<li>" + element + "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.'
-							) + "<ul><code>" + listOfRecommendedPHPModules + "</code></ul>",
+							msg: t('core', 'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.') + "<ul><code>" + listOfRecommendedPHPModules + "</code></ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -443,10 +423,7 @@
 					}
 					if (data.imageMagickLacksSVGSupport) {
 						messages.push({
-							msg: t(
-								'core',
-								'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'
-							),
+							msg: t('core', 'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -464,10 +441,7 @@
 					}
 					if (data.isSqliteUsed) {
 						messages.push({
-							msg: t(
-								'core',
-								'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.'
-							) + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
+							msg: t('core', 'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.') + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
 							t('core', 'To migrate to another database use the command line tool: \'occ db:convert-type\', or see the {linkstart}documentation ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.databaseConversionDocumentation + '">')
 								.replace('{linkend}', '</a>'),
@@ -476,10 +450,7 @@
 					}
 					if (!data.isMemoryLimitSufficient) {
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP memory limit is below the recommended value of 512MB.'
-							),
+							msg: t('core', 'The PHP memory limit is below the recommended value of 512MB.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						})
 					}
@@ -509,19 +480,13 @@
 					}
 					if (!data.isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed) {
 						messages.push({
-							msg: t(
-								'core',
-								'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'
-							),
+							msg: t('core', 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
 					if (!data.temporaryDirectoryWritable) {
 						messages.push({
-							msg: t(
-								'core',
-								'The temporary directory of this instance points to an either non-existing or non-writable directory.'
-							),
+							msg: t('core', 'The temporary directory of this instance points to an either non-existing or non-writable directory.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
