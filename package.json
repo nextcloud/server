@@ -140,7 +140,7 @@
     "karma-viewport": "^1.0.8",
     "node-sass": "~7.0.1",
     "puppeteer": "^13.1.3",
-    "sinon": "<= 5.0.7"
+    "sinon": "<= 13.0.1"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
