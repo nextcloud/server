@@ -90,7 +90,7 @@ class CheckUser extends Command {
 		try {
 			$uid = $input->getArgument('ocName');
 			$this->isAllowed($input->getOption('force'));
-			$this->confirmUserIsMapped($uid);
+			$wasMapped = $this->userWasMapped($uid);
 			$exists = $this->backend->userExistsOnLDAP($uid, true);
 			if ($exists === true) {
 				$output->writeln('The user is still available on LDAP.');
@@ -98,13 +98,15 @@ class CheckUser extends Command {
 					$this->updateUser($uid, $output);
 				}
 				return 0;
+			} elseif ($wasMapped) {
+				$this->dui->markUser($uid);
+				$output->writeln('The user does not exists on LDAP anymore.');
+				$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
+					. $uid . '"');
+				return 0;
+			} else {
+				throw new \Exception('The given user is not a recognized LDAP user.');
 			}
-
-			$this->dui->markUser($uid);
-			$output->writeln('The user does not exists on LDAP anymore.');
-			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
-				. $uid . '"');
-			return 0;
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
 			return 1;
@@ -114,16 +116,10 @@ class CheckUser extends Command {
 	/**
 	 * checks whether a user is actually mapped
 	 * @param string $ocName the username as used in Nextcloud
-	 * @throws \Exception
-	 * @return true
 	 */
-	protected function confirmUserIsMapped($ocName) {
+	protected function userWasMapped(string $ocName): bool {
 		$dn = $this->mapping->getDNByName($ocName);
-		if ($dn === false) {
-			throw new \Exception('The given user is not a recognized LDAP user.');
-		}
-
-		return true;
+		return ($dn !== false);
 	}
 
 	/**
