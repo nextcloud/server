@@ -474,7 +474,7 @@ Raw output
 	protected function getOpcacheSetupRecommendations(): array {
 		// If the module is not loaded, return directly to skip inapplicable checks
 		if (!extension_loaded('Zend OPcache')) {
-			return ['The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.'];
+			return [$this->l10n->t('The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.')];
 		}
 
 		$recommendations = [];
@@ -487,18 +487,18 @@ Raw output
 		}
 
 		if (!$this->iniGetWrapper->getBool('opcache.enable')) {
-			$recommendations[] = 'OPcache is disabled. For better performance, it is recommended to apply <code>opcache.enable=1</code> to your PHP configuration.';
+			$recommendations[] = $this->l10n->t('OPcache is disabled. For better performance, it is recommended to apply <code>opcache.enable=1</code> to your PHP configuration.');
 
 			// Check for saved comments only when OPcache is currently disabled. If it was enabled, opcache.save_comments=0 would break Nextcloud in the first place.
 			if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
-				$recommendations[] = 'OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function.';
+				$recommendations[] = $this->l10n->t('OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function.');
 			}
 
 			if (!$isPermitted) {
-				$recommendations[] = 'Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.';
+				$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
 			}
 		} elseif (!$isPermitted) {
-			$recommendations[] = 'Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.';
+			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
 		} else {
 			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
 			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
@@ -513,21 +513,21 @@ Raw output
 				empty($status['opcache_statistics']['max_cached_keys']) ||
 				($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
 			) {
-				$recommendations[] = 'The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently') . '</code>.';
+				$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently')]);
 			}
 
 			if (
 				empty($status['memory_usage']['free_memory']) ||
 				($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
 			) {
-				$recommendations[] = 'The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently') . '</code>.';
+				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
 			}
 
 			if (
 				empty($status['interned_strings_usage']['free_memory']) ||
 				($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
 			) {
-				$recommendations[] = 'The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>' . ($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently') . '</code>.';
+				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
 			}
 		}
 
