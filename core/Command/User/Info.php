@@ -97,7 +97,11 @@ class Info extends Base {
 	protected function getStorageInfo(IUser $user): array {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user->getUID());
-		$storage = \OC_Helper::getStorageInfo('/');
+		try {
+			$storage = \OC_Helper::getStorageInfo('/');
+		} catch (\OCP\Files\NotFoundException $e) {
+			return [];
+		}
 		return [
 			'free' => $storage['free'],
 			'used' => $storage['used'],
