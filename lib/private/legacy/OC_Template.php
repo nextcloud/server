@@ -105,9 +105,6 @@ class OC_Template extends \OC\Template\Base {
 			// apps that started before the template initialization can load their own scripts/styles
 			// so to make sure this scripts/styles here are loaded first we put all core scripts first
 			// check lib/public/Util.php
-			// OC_Util::addStyle('css-variables', null, true);
-			OC_Util::addStyle('server', null, true);
-
 			// include common nextcloud webpack bundle
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');

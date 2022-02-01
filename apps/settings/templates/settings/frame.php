@@ -21,12 +21,15 @@
  *
  */
 
-style('settings', 'settings');
-script('settings', 'settings');
-\OCP\Util::addScript('settings', 'legacy-admin');
-script('core', 'setupchecks');
-script('files', 'jquery.fileupload');
+use OCP\Util;
 
+Util::addScript('settings', 'main', );
+Util::addScript('settings', 'settings');
+Util::addScript('settings', 'admin');
+Util::addScript('settings', 'log');
+Util::addScript('core', 'setupchecks');
+Util::addScript('files', 'jquery.fileupload');
+Util::addScript('settings', 'legacy-admin');
 ?>
 
 <div id="app-navigation">

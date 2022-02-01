@@ -14,25 +14,25 @@ input {
 }
 
 /* icons for sidebar */
-.nav-icon-personal-settings {
-	@include icon-color('personal', 'settings', $color-black);
-}
-
-.nav-icon-security {
-	@include icon-color('toggle-filelist', 'settings', $color-black);
-}
-
-.nav-icon-clientsbox {
-	@include icon-color('change', 'settings', $color-black);
-}
-
-.nav-icon-federated-cloud {
-	@include icon-color('share', 'settings', $color-black);
-}
-
-.nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-	@include icon-color('password', 'settings', $color-black);
-}
+//.nav-icon-personal-settings {
+//	@include icon-color('personal', 'settings', $color-black);
+//}
+//
+//.nav-icon-security {
+//	@include icon-color('toggle-filelist', 'settings', $color-black);
+//}
+//
+//.nav-icon-clientsbox {
+//	@include icon-color('change', 'settings', $color-black);
+//}
+//
+//.nav-icon-federated-cloud {
+//	@include icon-color('share', 'settings', $color-black);
+//}
+//
+//.nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
+//	@include icon-color('password', 'settings', $color-black);
+//}
 
 #avatarform {
 	.avatardiv {
@@ -916,7 +916,7 @@ span.version {
 	}
 }
 
-@media only screen and (max-width: $breakpoint-mobile) {
+@media only screen and (max-width: var(--breakpoint-mobile)) {
 	.store .section {
 		width: 50%;
 	}
@@ -1047,6 +1047,11 @@ span.version {
 		z-index: 1;
 		display: flex;
 		align-items: center;
+	}
+
+	.counter {
+		padding-left: calc(var(--header-height) - 10px);
+		margin: 10px;
 	}
 
 	&.installed {
@@ -1572,7 +1577,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 100; /* above multiselect */
-				top: $header-height;
+				top: var(--header-height);
 
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);

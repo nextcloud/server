@@ -179,7 +179,7 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	@include position('sticky');
+	position: 'sticky';
 	height: 44px;
 	padding: 0;
 	margin: 0;
@@ -190,7 +190,7 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 	display: flex;
-	top: $header-height;
+	top: var(--header-height);
 }
 
 /* position controls for apps with app-navigation */

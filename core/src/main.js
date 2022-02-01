@@ -36,6 +36,7 @@ import './globals'
 import './jquery/index'
 import { initCore } from './init'
 import { registerAppsSlideToggle } from './OC/apps'
+import '../css/server.scss'
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()

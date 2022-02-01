@@ -80,9 +80,7 @@ export default {
 				.map(([paramId, { appId, displayId, visibility }]) => ({ id: paramId, appId, displayId, visibility }))
 				.sort(compareParams),
 			// TODO remove this when not used once the settings layout is updated
-			marginLeft: window.matchMedia('(min-width: 1600px)').matches
-				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
-				: '0px',
+			marginLeft: '0px',
 		}
 	},
 
@@ -104,6 +102,11 @@ export default {
 				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
 				: '0px'
 		}
+		setTimeout(() => {
+			this.marginLeft = window.matchMedia('(min-width: 1600px)').matches
+				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
+				: '0px'
+		}, 1000)
 	},
 
 	beforeDestroy() {

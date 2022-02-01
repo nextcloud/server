@@ -80,14 +80,14 @@ kbd {
 #app-navigation:not(.vue) {
 	width: $navigation-width;
 	position: fixed;
-	top: $header-height;
+	top: var(--header-height);
 	left: 0;
 	z-index: 500;
 	overflow-y: auto;
 	overflow-x: hidden;
 	// Do not use vh because of mobile headers
 	// are included in the calculation
-	height: calc(100% - #{$header-height});
+	height: calc(100% - var(--header-height));
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -593,7 +593,7 @@ kbd {
 	position: relative;
 	display: flex;
 	// padding is included in height
-	padding-top: $header-height;
+	padding-top: var(--header-height);
 	min-height: 100%;
 }
 
@@ -652,13 +652,13 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 	min-width: $sidebar-min-width;
 	max-width: $sidebar-max-width;
 	display: block;
-	@include position('sticky');
-	top: $header-height;
+	position: 'sticky';
+	top: var(--header-height);
 	right:0;
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1500;
-	height: calc(100vh - #{$header-height});
+	height: calc(100vh - var(--header-height));
 	background: var(--color-main-background);
 	border-left: 1px solid var(--color-border);
 	flex-shrink: 0;
@@ -1118,14 +1118,14 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
-	@include position('sticky');
-	top: $header-height;
+	position: 'sticky';
+	top: var(--header-height);
 	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
-	min-height: calc(100vh - #{$header-height});
-	max-height: calc(100vh - #{$header-height});
+	min-height: calc(100vh - var(--header-height));
+	max-height: calc(100vh - var(--header-height));
 	overflow-y: auto;
 	overflow-x: hidden;
 	flex: 1 1 $list-min-width;
