@@ -323,8 +323,6 @@ class OC_Util {
 			return false;
 		}
 
-		self::$fsSetup = true;
-
 		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
 
 		// If we are not forced to load a specific user we load the one that is logged in
@@ -336,6 +334,8 @@ class OC_Util {
 
 		//if we aren't logged in, or the user doesn't exist, there is no use to set up the filesystem
 		if ($userObject) {
+			self::$fsSetup = true;
+
 			$userDir = '/' . $userObject->getUID() . '/files';
 
 			//jail the user into his "home" directory
