@@ -96,6 +96,15 @@ const mutations = {
 			console.error('Can\'t create group', e)
 		}
 	},
+	renameGroup(state, { gid, displayName }) {
+		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
+		if (groupIndex >= 0) {
+			const updatedGroup = state.groups[groupIndex]
+			updatedGroup.name = displayName
+			state.groups.splice(groupIndex, 1, updatedGroup)
+			state.groups = orderGroups(state.groups, state.orderBy)
+		}
+	},
 	removeGroup(state, gid) {
 		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
 		if (groupIndex >= 0) {
@@ -337,6 +346,30 @@ const actions = {
 			context.commit('API_FAILURE', { gid, error })
 			// let's throw one more time to prevent the view
 			// from adding the user to a group that doesn't exists
+			throw error
+		})
+	},
+
+	/**
+	 * Rename group
+	 *
+	 * @param {Object} context store context
+	 * @param {string} groupid Group id
+	 * @param {string} displayName Group display name
+	 * @return {Promise}
+	 */
+	renameGroup(context, { groupid, displayName }) {
+		return api.requireAdmin().then((response) => {
+			return api.put(generateOcsUrl('cloud/groups/{groupId}', { groupId: encodeURIComponent(groupid) }), { key: 'displayname', value: displayName })
+				.then((response) => {
+					context.commit('renameGroup', { gid: groupid, displayName })
+					return { groupid, displayName }
+				})
+				.catch((error) => { throw error })
+		}).catch((error) => {
+			context.commit('API_FAILURE', { groupid, error })
+			// let's throw one more time to prevent the view
+			// from renaming the group
 			throw error
 		})
 	},

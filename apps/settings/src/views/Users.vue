@@ -72,23 +72,11 @@
 				</AppNavigationItem>
 
 				<AppNavigationCaption v-if="groupList.length > 0" :title="t('settings', 'Groups')" />
-				<AppNavigationItem v-for="group in groupList"
+				<GroupListItem v-for="group in groupList"
+					:id="group.id"
 					:key="group.id"
-					:exact="true"
 					:title="group.title"
-					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }"
-					icon="icon-group">
-					<AppNavigationCounter v-if="group.count" slot="counter">
-						{{ group.count }}
-					</AppNavigationCounter>
-					<template slot="actions">
-						<ActionButton v-if="group.id !== 'admin' && group.id !== 'disabled' && settings.isAdmin"
-							icon="icon-delete"
-							@click="removeGroup(group.id)">
-							{{ t('settings', 'Remove group') }}
-						</ActionButton>
-					</template>
-				</AppNavigationItem>
+					:count="group.count" />
 			</template>
 			<template #footer>
 				<AppNavigationSettings>
@@ -154,7 +142,6 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationCaption from '@nextcloud/vue/dist/Components/AppNavigationCaption'
@@ -169,6 +156,7 @@ import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 
+import GroupListItem from '../components/GroupListItem'
 import UserList from '../components/UserList'
 
 Vue.use(VueLocalStorage)
@@ -176,7 +164,6 @@ Vue.use(VueLocalStorage)
 export default {
 	name: 'Users',
 	components: {
-		ActionButton,
 		AppContent,
 		AppNavigation,
 		AppNavigationCaption,
@@ -185,6 +172,7 @@ export default {
 		AppNavigationNew,
 		AppNavigationSettings,
 		Content,
+		GroupListItem,
 		Multiselect,
 		UserList,
 	},
@@ -365,19 +353,6 @@ export default {
 			this.showConfig[key] = status
 			this.$localStorage.set(key, status)
 			return status
-		},
-		removeGroup(groupid) {
-			const self = this
-			// TODO migrate to a vue js confirm dialog component
-			OC.dialogs.confirm(
-				t('settings', 'You are about to remove the group {group}. The users will NOT be deleted.', { group: groupid }),
-				t('settings', 'Please confirm the group removal '),
-				function(success) {
-					if (success) {
-						self.$store.dispatch('removeGroup', groupid)
-					}
-				}
-			)
 		},
 
 		/**
