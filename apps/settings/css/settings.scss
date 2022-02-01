@@ -1556,7 +1556,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 			/* various */
 			&#grid-header {
-				@include position('sticky');
+				position: sticky;
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 100; /* above multiselect */
