@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0', '8.1']
+        php-versions: ['7.4', '8.0', '8.1']
     name: php${{ matrix.php-versions }} lint
     steps:
     - name: Checkout
