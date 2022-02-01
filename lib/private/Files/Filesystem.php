@@ -368,6 +368,8 @@ class Filesystem {
 		} elseif ($user instanceof IUser) {
 			$userObject = $user;
 			$user = $userObject->getUID();
+		} else {
+			$userObject = null;
 		}
 
 		if ($userObject === null || $user === false || $user === '') {

@@ -23,6 +23,7 @@
 namespace Test\Cache;
 
 use OC\Files\Storage\Local;
+use Test\Traits\UserTrait;
 
 /**
  * Class FileCacheTest
@@ -32,6 +33,8 @@ use OC\Files\Storage\Local;
  * @package Test\Cache
  */
 class FileCacheTest extends TestCache {
+	use UserTrait;
+
 	/**
 	 * @var string
 	 * */
@@ -56,6 +59,12 @@ class FileCacheTest extends TestCache {
 	protected function setUp(): void {
 		parent::setUp();
 
+		//login
+		$this->createUser('test', 'test');
+
+		$this->user = \OC_User::getUser();
+		\OC_User::setUserId('test');
+
 		//clear all proxies and hooks so we can do clean testing
 		\OC_Hook::clear('OC_Filesystem');
 
@@ -68,15 +77,6 @@ class FileCacheTest extends TestCache {
 		$config = \OC::$server->getConfig();
 		$this->datadir = $config->getSystemValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');
 		$config->setSystemValue('cachedirectory', $datadir);
-
-		\OC_User::clearBackends();
-		\OC_User::useBackend(new \Test\Util\User\Dummy());
-
-		//login
-		\OC::$server->getUserManager()->createUser('test', 'test');
-
-		$this->user = \OC_User::getUser();
-		\OC_User::setUserId('test');
 
 		//set up the users dir
 		$this->rootView = new \OC\Files\View('');
@@ -100,10 +100,6 @@ class FileCacheTest extends TestCache {
 			$this->instance->clear();
 			$this->instance = null;
 		}
-
-		//tear down the users dir aswell
-		$user = \OC::$server->getUserManager()->get('test');
-		$user->delete();
 
 		// Restore the original mount point
 		\OC\Files\Filesystem::clearMounts();
