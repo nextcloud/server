@@ -338,7 +338,7 @@ class OC_Util {
 			$userDir = '/' . $userObject->getUID() . '/files';
 
 			//jail the user into his "home" directory
-			\OC\Files\Filesystem::init($userObject->getUID(), $userDir);
+			\OC\Files\Filesystem::init($userObject, $userDir);
 
 			OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $userObject->getUID(), 'user_dir' => $userDir]);
 		}

@@ -45,6 +45,7 @@ use OCP\Files\Config\IMountProvider;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\IUserManager;
 
 class Filesystem {
@@ -353,14 +354,23 @@ class Filesystem {
 	/**
 	 * Initialize system and personal mount points for a user
 	 *
-	 * @param string $user
+	 * @param string|IUser|null $user
 	 * @throws \OC\User\NoUserException if the user is not available
 	 */
 	public static function initMountPoints($user = '') {
-		if ($user == '') {
-			$user = \OC_User::getUser();
+		$userManager = \OC::$server->getUserManager();
+		if (is_string($user)) {
+			if ($user === '') {
+				$user = \OC_User::getUser();
+			}
+
+			$userObject = $userManager->get($user);
+		} elseif ($user instanceof IUser) {
+			$userObject = $user;
+			$user = $userObject->getUID();
 		}
-		if ($user === null || $user === false || $user === '') {
+
+		if ($userObject === null || $user === false || $user === '') {
 			throw new \OC\User\NoUserException('Attempted to initialize mount points for null user and no user in session');
 		}
 
@@ -369,9 +379,6 @@ class Filesystem {
 		}
 
 		self::$usersSetup[$user] = true;
-
-		$userManager = \OC::$server->getUserManager();
-		$userObject = $userManager->get($user);
 
 		if (is_null($userObject)) {
 			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, ILogger::ERROR);
