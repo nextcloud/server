@@ -21,14 +21,13 @@
   -->
 
 <template>
-	<AppNavigationItem
-		:key="id"
+	<AppNavigationItem :key="id"
 		:exact="true"
 		:title="title"
 		:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
 		icon="icon-group"
 		:loading="loadingRenameGroup"
-		:menuOpen="openGroupMenu"
+		:menu-open="openGroupMenu"
 		@update:menuOpen="handleGroupMenuOpen">
 		<template #counter>
 			<CounterBubble v-if="count">
@@ -36,8 +35,7 @@
 			</CounterBubble>
 		</template>
 		<template #actions>
-			<ActionInput
-				v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+			<ActionInput v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
 				ref="displayNameInput"
 				icon="icon-edit"
 				type="text"
@@ -45,8 +43,7 @@
 				@submit="renameGroup(id)">
 				{{ t('settings', 'Rename group') }}
 			</ActionInput>
-			<ActionButton
-				v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+			<ActionButton v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
 				icon="icon-delete"
 				@click="removeGroup(id)">
 				{{ t('settings', 'Remove group') }}
@@ -116,7 +113,7 @@ export default {
 				this.loadingRenameGroup = true
 				await this.$store.dispatch('renameGroup', {
 					groupid: gid.trim(),
-					displayName: displayName.trim()
+					displayName: displayName.trim(),
 				})
 
 				this.loadingRenameGroup = false

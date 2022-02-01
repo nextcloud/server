@@ -356,7 +356,7 @@ const actions = {
 	 * @param {Object} context store context
 	 * @param {string} groupid Group id
 	 * @param {string} displayName Group display name
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	renameGroup(context, { groupid, displayName }) {
 		return api.requireAdmin().then((response) => {
