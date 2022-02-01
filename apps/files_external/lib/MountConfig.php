@@ -47,6 +47,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IUser;
 use phpseclib\Crypt\AES;
 
 /**
@@ -142,29 +143,6 @@ class MountConfig {
 			}
 		}
 		return StorageNotAvailableException::STATUS_ERROR;
-	}
-
-	/**
-	 * Read the mount points in the config file into an array
-	 *
-	 * @param string|null $user If not null, personal for $user, otherwise system
-	 * @return array
-	 */
-	public static function readData($user = null) {
-		if (isset($user)) {
-			$jsonFile = \OC::$server->getUserManager()->get($user)->getHome() . '/mount.json';
-		} else {
-			$config = \OC::$server->getConfig();
-			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
-			$jsonFile = $config->getSystemValue('mount_file', $datadir . '/mount.json');
-		}
-		if (is_file($jsonFile)) {
-			$mountPoints = json_decode(file_get_contents($jsonFile), true);
-			if (is_array($mountPoints)) {
-				return $mountPoints;
-			}
-		}
-		return [];
 	}
 
 	/**
