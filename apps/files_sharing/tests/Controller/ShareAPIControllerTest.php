@@ -2793,6 +2793,99 @@ class ShareAPIControllerTest extends TestCase {
 	}
 
 
+	public function publicLinkValidPermissionsProvider() {
+		return [
+			[\OCP\Constants::PERMISSION_CREATE],
+			[\OCP\Constants::PERMISSION_READ],
+			[\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE],
+			[\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE],
+			[\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE],
+		];
+	}
+
+	/**
+	 * @dataProvider publicLinkValidPermissionsProvider
+	 */
+	public function testUpdateLinkShareSetCRUDPermissions($permissions) {
+		$ocs = $this->mockFormatShare();
+
+		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')
+			->willReturn(42);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(IShare::TYPE_LINK)
+			->setPassword('password')
+			->setNode($folder);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+		$this->shareManager->method('getSharedWith')->willReturn([]);
+
+		$this->shareManager
+			->expects($this->any())
+			->method('updateShare')
+			->willReturnArgument(0);
+
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
+		$expected = new DataResponse([]);
+		$result = $ocs->updateShare(42, $permissions, 'password', null, 'true', null);
+
+		$this->assertInstanceOf(get_class($expected), $result);
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function publicLinkInvalidPermissionsProvider1() {
+		return [
+			[\OCP\Constants::PERMISSION_DELETE],
+			[\OCP\Constants::PERMISSION_UPDATE],
+			[\OCP\Constants::PERMISSION_SHARE],
+		];
+	}
+
+	/**
+	 * @dataProvider publicLinkInvalidPermissionsProvider1
+	 */
+	public function testUpdateLinkShareSetInvalidCRUDPermissions1($permissions) {
+		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
+		$this->expectExceptionMessage('Share must at least have READ or CREATE permissions');
+
+		$this->testUpdateLinkShareSetCRUDPermissions($permissions);
+	}
+
+	public function publicLinkInvalidPermissionsProvider2() {
+		return [
+			[\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE],
+			[\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE],
+		];
+	}
+
+	/**
+	 * @dataProvider publicLinkInvalidPermissionsProvider2
+	 */
+	public function testUpdateLinkShareSetInvalidCRUDPermissions2($permissions) {
+		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
+		$this->expectExceptionMessage('Share must have READ permission if UPDATE or DELETE permission is set.');
+
+		$this->testUpdateLinkShareSetCRUDPermissions($permissions);
+	}
+
 	public function testUpdateLinkShareInvalidDate() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
 		$this->expectExceptionMessage('Invalid date. Format must be YYYY-MM-DD');
