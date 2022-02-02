@@ -33,6 +33,7 @@ namespace OCP\AppFramework\Http;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -94,6 +95,12 @@ class Response {
 	 * @since 17.0.0
 	 */
 	public function __construct() {
+		/** @var IRequest $request */
+		/**
+		 * @psalm-suppress UndefinedClass
+		 */
+		$request = \OC::$server->get(IRequest::class);
+		$this->addHeader("X-Request-Id", $request->getId());
 	}
 
 	/**

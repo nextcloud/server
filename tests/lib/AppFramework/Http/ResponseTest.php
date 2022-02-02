@@ -91,7 +91,7 @@ class ResponseTest extends \Test\TestCase {
 	public function testAddHeaderValueNullDeletesIt() {
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
-		$this->assertEquals(4, count($this->childResponse->getHeaders()));
+		$this->assertEquals(5, count($this->childResponse->getHeaders()));
 	}
 
 

@@ -28,6 +28,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
+use OCP\IRequest;
 
 class ChildController extends Controller {
 	public function __construct($appName, $request) {
@@ -59,6 +60,7 @@ class ControllerTest extends \Test\TestCase {
 	 */
 	private $controller;
 	private $app;
+	private $request;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -90,6 +92,8 @@ class ControllerTest extends \Test\TestCase {
 				->willReturn('apptemplate_advanced');
 
 		$this->controller = new ChildController($this->app, $request);
+		$this->overwriteService(IRequest::class, $request);
+		$this->request = $request;
 	}
 
 
@@ -114,6 +118,7 @@ class ControllerTest extends \Test\TestCase {
 			'Content-Type' => 'application/json; charset=utf-8',
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
+			'X-Request-Id' => $this->request->getId(),
 			'X-Robots-Tag' => 'none',
 		];
 
