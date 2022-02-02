@@ -52,6 +52,12 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 		return 'Adjust LDAP user and group ldap_dn column lengths and add ldap_dn_hash columns';
 	}
 
+	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+		foreach (['ldap_user_mapping', 'ldap_group_mapping'] as $tableName) {
+			$this->processDuplicateUUIDs($tableName);
+		}
+	}
+
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
@@ -171,5 +177,88 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 			->set('ldap_dn_hash', $qb->createParameter('dn_hash'))
 			->where($qb->expr()->eq('owncloud_name', $qb->createParameter('name')));
 		return $qb;
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	protected function processDuplicateUUIDs(string $table): void {
+		$uuids = $this->getDuplicatedUuids($table);
+		$idsWithUuidToInvalidate = [];
+		foreach ($uuids as $uuid) {
+			array_push($idsWithUuidToInvalidate, ...$this->getNextcloudIdsByUuid($table, $uuid));
+		}
+		$this->invalidateUuids($table, $idsWithUuidToInvalidate);
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	protected function invalidateUuids(string $table, array $idList): void {
+		$update = $this->dbc->getQueryBuilder();
+		$update->update($table)
+			->set('directory_uuid', $update->createParameter('invalidatedUuid'))
+			->where($update->expr()->eq('owncloud_name', $update->createParameter('nextcloudId')));
+
+		while ($nextcloudId = array_shift($idList)) {
+			$update->setParameter('nextcloudId', $nextcloudId);
+			$update->setParameter('invalidatedUuid', 'invalidated_' . \bin2hex(\random_bytes(6)));
+			try {
+				$update->executeStatement();
+				$this->logger->warning(
+					'LDAP user or group with ID {nid} has a duplicated UUID value which therefore was invalidated. You may double-check your LDAP configuration and trigger an update of the UUID.',
+					[
+						'app' => 'user_ldap',
+						'nid' => $nextcloudId,
+					]
+				);
+			} catch (Exception $e) {
+				// Catch possible, but unlikely duplications if new invalidated errors.
+				// There is the theoretical chance of an infinity loop is, when
+				// the constraint violation has a different background. I cannot
+				// think of one at the moment.
+				if ($e->getReason() !== Exception::REASON_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+				$idList[] = $nextcloudId;
+			}
+		}
+	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 * @return array<string>
+	 */
+	protected function getNextcloudIdsByUuid(string $table, string $uuid): array {
+		$select = $this->dbc->getQueryBuilder();
+		$select->select('owncloud_name')
+			->from($table)
+			->where($select->expr()->eq('directory_uuid', $select->createNamedParameter($uuid)));
+
+		$result = $select->executeQuery();
+		$idList = [];
+		while ($id = $result->fetchOne()) {
+			$idList[] = $id;
+		}
+		$result->closeCursor();
+		return $idList;
+	}
+
+	/**
+	 * @return Generator<string>
+	 * @throws \OCP\DB\Exception
+	 */
+	protected function getDuplicatedUuids(string $table): Generator{
+		$select = $this->dbc->getQueryBuilder();
+		$select->select('directory_uuid')
+			->from($table)
+			->groupBy('directory_uuid')
+			->having($select->expr()->gt($select->func()->count('owncloud_name'), $select->createNamedParameter(1)));
+
+		$result = $select->executeQuery();
+		while ($uuid = $result->fetchOne()) {
+			yield $uuid;
+		}
+		$result->closeCursor();
 	}
 }
