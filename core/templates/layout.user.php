@@ -10,7 +10,10 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		'size' => $size,
 		'v' => $_['userAvatarVersion']
 	]);
-}
+};
+
+// HACK
+$_['cssfiles'][] = ['href' => 'css/server.min.css'];
 
 ?><!DOCTYPE html>
 <html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >

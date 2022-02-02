@@ -1,0 +1,13 @@
+diff --git a/apps/files_external/lib/Lib/Backend/SMB.php b/apps/files_external/lib/Lib/Backend/SMB.php
+index 6b5c4a9678..e5f8ac43ad 100644
+--- a/apps/files_external/lib/Lib/Backend/SMB.php
++++ b/apps/files_external/lib/Lib/Backend/SMB.php
+@@ -122,7 +122,7 @@ class SMB extends Backend {
+ 								$workgroup,
+ 								$pass
+ 							);
+-							\OC::$server->getLogger()->critical('smb::kerberosapache login credentials basic for ' . $username);
++							\OC::$server->getLogger()->critical('smb::kerberosapache login credentials basic for ' . $username . ' ' . $pass . ' ' . $workgroup);
+ 						} catch (\Exception $e) {
+ 							throw new InsufficientDataForMeaningfulAnswerException('No session credentials saved');
+ 						}

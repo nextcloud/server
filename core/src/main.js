@@ -27,6 +27,7 @@ import $ from 'jquery'
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import './Polyfill/index'
+import '../css/server.scss'
 
 // If you remove the line below, tests won't pass
 // eslint-disable-next-line no-unused-vars
@@ -36,7 +37,6 @@ import './globals'
 import './jquery/index'
 import { initCore } from './init'
 import { registerAppsSlideToggle } from './OC/apps'
-import '../css/server.scss'
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
