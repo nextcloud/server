@@ -74,7 +74,7 @@ abstract class Office extends ProviderV2 {
 		}
 
 		$image = new \OC_Image();
-		$image->loadFromData($png);
+		$image->loadFromData((string) $png);
 
 		$this->cleanTmpFiles();
 		unlink($pngPreview);
