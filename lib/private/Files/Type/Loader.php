@@ -25,6 +25,8 @@
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeLoader;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 
 /**
@@ -43,13 +45,17 @@ class Loader implements IMimeTypeLoader {
 	/** @var array [mimetype => id] */
 	protected $mimetypeIds;
 
+	/** @var ICache */
+	private $cache;
+
 	/**
 	 * @param IDBConnection $dbConnection
 	 */
-	public function __construct(IDBConnection $dbConnection) {
+	public function __construct(IDBConnection $dbConnection, ICacheFactory $cacheFactory) {
 		$this->dbConnection = $dbConnection;
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];
+		$this->cache = $cacheFactory->createLocal('mimetype::');
 	}
 
 	/**
@@ -140,6 +146,13 @@ class Loader implements IMimeTypeLoader {
 	 * Load all mimetypes from DB
 	 */
 	private function loadMimetypes() {
+		$cachedTypes = $this->cache->get('mimetypes');
+		$cachedIds = $this->cache->get('mimeids');
+		if ($cachedTypes && $cachedIds) {
+			$this->mimetypes = json_decode($cachedTypes, true);
+			$this->mimetypeIds = json_decode($cachedIds, true);
+			return;
+		}
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('id', 'mimetype')
 			->from('mimetypes');
@@ -152,6 +165,9 @@ class Loader implements IMimeTypeLoader {
 			$this->mimetypes[$row['id']] = $row['mimetype'];
 			$this->mimetypeIds[$row['mimetype']] = $row['id'];
 		}
+
+		$this->cache->set('mimetypes', json_encode($this->mimetypes));
+		$this->cache->set('mimeids', json_encode($this->mimetypeIds));
 	}
 
 	/**
