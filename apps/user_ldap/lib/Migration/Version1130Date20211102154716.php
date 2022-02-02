@@ -57,6 +57,17 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 		foreach (['ldap_user_mapping', 'ldap_group_mapping'] as $tableName) {
 			$this->processDuplicateUUIDs($tableName);
 		}
+
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
+		if ($schema->hasTable('ldap_group_mapping_backup')) {
+			// Previous upgrades of a broken release might have left an incomplete
+			// ldap_group_mapping_backup table. No need to recreate, but it
+			// should be empty.
+			// TRUNCATE is not available from Query Builder, but faster than DELETE FROM.
+			$sql = $this->dbc->getDatabasePlatform()->getTruncateTableSQL('ldap_group_mapping_backup', false);
+			$this->dbc->executeStatement($sql);
+		}
 	}
 
 	/**
@@ -98,7 +109,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					$table->addUniqueIndex(['directory_uuid'], 'ldap_user_directory_uuid');
 					$changeSchema = true;
 				}
-			} else {
+			} else if (!$schema->hasTable('ldap_group_mapping_backup')) {
 				// We need to copy the table twice to be able to change primary key, prepare the backup table
 				$table2 = $schema->createTable('ldap_group_mapping_backup');
 				$table2->addColumn('ldap_dn', Types::STRING, [
