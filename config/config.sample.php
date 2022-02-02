@@ -2068,4 +2068,18 @@ $CONFIG = [
  * Also, it might log sensitive data into a plain text file.
  */
 'ldap_log_file' => '',
+
+/**
+ * Enable diagnostics event logging
+ *
+ * If enabled the timings of common execution steps will be logged to the
+ * Nextcloud log at debug level. log.condition is useful to enable this on
+ * production systems to only log under some conditions
+ */
+'diagnostics.logging' => true,
+
+/**
+ * Limit diagnostics event logging to events longer than the configured threshold in ms
+ */
+'diagnostics.logging.threshold' => 0,
 ];
