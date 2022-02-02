@@ -308,16 +308,16 @@ class OC_Util {
 	}
 
 	/**
-	 * Can be set up
+	 * Setup the file system
 	 *
-	 * @param string $user
+	 * @param string|null $user
 	 * @return boolean
 	 * @description configure the initial filesystem based on the configuration
 	 * @suppress PhanDeprecatedFunction
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function setupFS($user = '') {
-		self::setupRootFS($user);
+	public static function setupFS(?string $user = '') {
+		self::setupRootFS($user ?? '');
 
 		if (self::$fsSetup) {
 			return false;
