@@ -47,6 +47,7 @@ use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\ScopedPsrLogger;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
+use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OCA\WorkflowEngine\Manager;
@@ -184,7 +185,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(IRequest::class),
 				$c->get(IConfig::class),
 				$c->get(IDBConnection::class),
-				$c->get(LoggerInterface::class)
+				$c->get(LoggerInterface::class),
+				$c->get(EventLogger::class)
 			);
 		});
 

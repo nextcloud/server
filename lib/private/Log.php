@@ -233,7 +233,7 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
-	private function getLogLevel($context) {
+	public function getLogLevel($context) {
 		$logCondition = $this->config->getValue('log.condition', []);
 
 		/**

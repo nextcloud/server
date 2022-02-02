@@ -40,6 +40,7 @@ use OC\DB\ConnectionAdapter;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
@@ -70,6 +71,9 @@ class Dispatcher {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/** @var IEventLogger */
+	private $eventLogger;
+
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
@@ -80,6 +84,7 @@ class Dispatcher {
 	 * @param IConfig $config
 	 * @param ConnectionAdapter $connection
 	 * @param LoggerInterface $logger
+	 * @param IEventLogger $eventLogger
 	 */
 	public function __construct(Http $protocol,
 								MiddlewareDispatcher $middlewareDispatcher,
@@ -87,7 +92,8 @@ class Dispatcher {
 								IRequest $request,
 								IConfig $config,
 								ConnectionAdapter $connection,
-								LoggerInterface $logger) {
+								LoggerInterface $logger,
+								IEventLogger $eventLogger) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -95,6 +101,7 @@ class Dispatcher {
 		$this->config = $config;
 		$this->connection = $connection;
 		$this->logger = $logger;
+		$this->eventLogger = $eventLogger;
 	}
 
 
@@ -215,7 +222,9 @@ class Dispatcher {
 			$arguments[] = $value;
 		}
 
+		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
 		$response = \call_user_func_array([$controller, $methodName], $arguments);
+		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
