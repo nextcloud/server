@@ -866,12 +866,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('HttpClientService', IClientService::class);
 		$this->registerService(IEventLogger::class, function (ContainerInterface $c) {
-			$eventLogger = new EventLogger();
-			if ($c->get(SystemConfig::class)->getValue('debug', false)) {
-				// In debug mode, module is being activated by default
-				$eventLogger->activate();
-			}
-			return $eventLogger;
+			return new EventLogger($c->get(SystemConfig::class), $c->get(LoggerInterface::class), $c->get(Log::class));
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('EventLogger', IEventLogger::class);
