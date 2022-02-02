@@ -76,4 +76,12 @@ interface ICachedMountInfo {
 	 * @since 11.0.0
 	 */
 	public function getRootInternalPath();
+
+	/**
+	 * Get the class of the mount provider that this mount originates from
+	 *
+	 * @return string
+	 * @since 24.0.0
+	 */
+	public function getMountProvider(): string;
 }

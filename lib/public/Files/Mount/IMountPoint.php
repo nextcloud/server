@@ -128,4 +128,12 @@ interface IMountPoint {
 	 * @since 12.0.0
 	 */
 	public function getMountType();
+
+	/**
+	 * Get the class of the mount provider that this mount originates from
+	 *
+	 * @return string
+	 * @since 24.0.0
+	 */
+	public function getMountProvider(): string;
 }

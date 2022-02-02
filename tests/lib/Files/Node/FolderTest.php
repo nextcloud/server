@@ -499,6 +499,7 @@ class FolderTest extends NodeTest {
 				1,
 				0,
 				'/bar/',
+				'test',
 				1,
 				''
 			)]);
@@ -549,6 +550,7 @@ class FolderTest extends NodeTest {
 				1,
 				0,
 				'/bar/',
+				'test',
 				1,
 				''
 			)]);
@@ -595,6 +597,7 @@ class FolderTest extends NodeTest {
 				1,
 				0,
 				'/bar/',
+				'test',
 				1,
 				''
 			)]);
@@ -645,6 +648,7 @@ class FolderTest extends NodeTest {
 					1,
 					0,
 					'/bar/',
+					'test',
 					1,
 					''
 				),

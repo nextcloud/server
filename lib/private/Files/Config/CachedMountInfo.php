@@ -58,6 +58,9 @@ class CachedMountInfo implements ICachedMountInfo {
 	 */
 	protected $rootInternalPath;
 
+	/** @var string */
+	protected $mountProvider;
+
 	/**
 	 * CachedMountInfo constructor.
 	 *
@@ -68,13 +71,25 @@ class CachedMountInfo implements ICachedMountInfo {
 	 * @param int|null $mountId
 	 * @param string $rootInternalPath
 	 */
-	public function __construct(IUser $user, $storageId, $rootId, $mountPoint, $mountId = null, $rootInternalPath = '') {
+	public function __construct(
+		IUser $user,
+		int $storageId,
+		int $rootId,
+		string $mountPoint,
+		string $mountProvider,
+		int $mountId = null,
+		string $rootInternalPath = ''
+	) {
 		$this->user = $user;
 		$this->storageId = $storageId;
 		$this->rootId = $rootId;
 		$this->mountPoint = $mountPoint;
 		$this->mountId = $mountId;
 		$this->rootInternalPath = $rootInternalPath;
+		if (strlen($mountProvider) > 128) {
+			throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
+		}
+		$this->mountProvider = $mountProvider;
 	}
 
 	/**
@@ -137,5 +152,9 @@ class CachedMountInfo implements ICachedMountInfo {
 	 */
 	public function getRootInternalPath() {
 		return $this->rootInternalPath;
+	}
+
+	public function getMountProvider(): string {
+		return $this->mountProvider;
 	}
 }
