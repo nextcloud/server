@@ -218,6 +218,7 @@
     "Copied!" : "已複製！",
     "Copy" : "複製",
     "Could not copy app password. Please copy it manually." : "無法複製應用程式密碼。請手動複製。",
+    "Rename group" : "重新命名群組",
     "Remove group" : "移除群組",
     "You are about to remove the group {group}. The users will NOT be deleted." : "您將要移除群組 {group}。用戶將不會被刪除。",
     "Please confirm the group removal " : "請確認移除群組",

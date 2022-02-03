@@ -220,6 +220,7 @@ OC.L10N.register(
     "Copied!" : "Kopyalandı!",
     "Copy" : "Kopyala",
     "Could not copy app password. Please copy it manually." : "Uygulama parolası kopyalanamadı. Lütfen el ile kopyalayın.",
+    "Rename group" : "Grubu yeniden adlandır",
     "Remove group" : "Grubu sil",
     "You are about to remove the group {group}. The users will NOT be deleted." : "{group} grubunu silmek üzeresiniz. Kullanıcılar SİLİNMEYECEK.",
     "Please confirm the group removal " : "Grubu silme işlemini onaylayın",

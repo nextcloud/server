@@ -218,6 +218,7 @@
     "Copied!" : "Kopiert!",
     "Copy" : "Kopieren",
     "Could not copy app password. Please copy it manually." : "Das Passwort für die App konnte nicht kopiert werden. Bitte kopieren Sie es manuell.",
+    "Rename group" : "Gruppe umbenennen",
     "Remove group" : "Gruppe entfernen",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Sie sind im Begriff, die Gruppe {group} zu löschen. Die Benutzer werden NICHT gelöscht.",
     "Please confirm the group removal " : "Bitte die Löschung der Gruppe bestätigen",
