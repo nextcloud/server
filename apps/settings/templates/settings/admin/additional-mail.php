@@ -158,7 +158,7 @@ $mail_sendmailmode = [
 	</form>
 
 	<br />
-	<em><?php p($l->t('Test email settings')); ?></em>
+	<em><?php p($l->t('Test and verify email settings')); ?></em>
 	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t('Send email')); ?>"/>
 	<span id="sendtestmail_msg" class="msg"></span>
 </div>
