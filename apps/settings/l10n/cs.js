@@ -220,6 +220,7 @@ OC.L10N.register(
     "Copied!" : "Zkopírováno",
     "Copy" : "Zkopírovat",
     "Could not copy app password. Please copy it manually." : "Nedaří se zkopírovat heslo pro aplikaci. Zkopírujte ho ručně.",
+    "Rename group" : "Přejmenovat skupinu",
     "Remove group" : "Odebrat skupinu",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Chystáte se smazat skupinu {group}. Uživatelé NEbudou smazáni.",
     "Please confirm the group removal " : "Potvrďte odstranění skupiny",
