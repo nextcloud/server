@@ -2149,6 +2149,12 @@
 			this.setFiles(result);
 
 			if (this.dirInfo) {
+				// Make sure the currentFileList is the current one
+				// When navigating to the favorite or share with you virtual
+				// folder, this is not correctly set during the initialisation
+				// otherwise.
+				OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
+
 				var newFileId = this.dirInfo.id;
 				// update fileid in URL
 				var params = {
