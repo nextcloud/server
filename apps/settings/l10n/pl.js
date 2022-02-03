@@ -220,6 +220,7 @@ OC.L10N.register(
     "Copied!" : "Skopiowano!",
     "Copy" : "Kopiuj",
     "Could not copy app password. Please copy it manually." : "Nie można skopiować hasła do aplikacji. Skopiuj je ręcznie.",
+    "Rename group" : "Zmień nazwę grupy",
     "Remove group" : "Usuń grupę",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Zamierzasz usunąć grupę {group}. Użytkownicy NIE zostaną usunięci.",
     "Please confirm the group removal " : "Potwierdź usunięcie grupy",
