@@ -34,6 +34,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Command\\ShowConfig' => __DIR__ . '/..' . '/../lib/Command/ShowConfig.php',
         'OCA\\User_LDAP\\Command\\ShowRemnants' => __DIR__ . '/..' . '/../lib/Command/ShowRemnants.php',
         'OCA\\User_LDAP\\Command\\TestConfig' => __DIR__ . '/..' . '/../lib/Command/TestConfig.php',
+        'OCA\\User_LDAP\\Command\\UpdateUUID' => __DIR__ . '/..' . '/../lib/Command/UpdateUUID.php',
         'OCA\\User_LDAP\\Configuration' => __DIR__ . '/..' . '/../lib/Configuration.php',
         'OCA\\User_LDAP\\Connection' => __DIR__ . '/..' . '/../lib/Connection.php',
         'OCA\\User_LDAP\\ConnectionFactory' => __DIR__ . '/..' . '/../lib/ConnectionFactory.php',
