@@ -1271,21 +1271,29 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				]
 			);
 
-		foreach ($vCard->children() as $property) {
-			if (!in_array($property->name, self::$indexProperties)) {
-				continue;
-			}
-			$preferred = 0;
-			foreach ($property->parameters as $parameter) {
-				if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
-					$preferred = 1;
-					break;
+
+		$this->db->beginTransaction();
+
+		try {
+			foreach ($vCard->children() as $property) {
+				if (!in_array($property->name, self::$indexProperties)) {
+					continue;
 				}
+				$preferred = 0;
+				foreach ($property->parameters as $parameter) {
+					if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
+						$preferred = 1;
+						break;
+					}
+				}
+				$query->setParameter('name', $property->name);
+				$query->setParameter('value', mb_strcut($property->getValue(), 0, 254));
+				$query->setParameter('preferred', $preferred);
+				$query->execute();
 			}
-			$query->setParameter('name', $property->name);
-			$query->setParameter('value', mb_strcut($property->getValue(), 0, 254));
-			$query->setParameter('preferred', $preferred);
-			$query->execute();
+			$this->db->commit();
+		} catch (\Exception $e) {
+			$this->db->rollBack();
 		}
 	}
 
