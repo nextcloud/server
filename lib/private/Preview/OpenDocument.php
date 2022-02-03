@@ -43,7 +43,7 @@ class OpenDocument extends Bundled {
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$image = $this->extractThumbnail($file, 'Thumbnails/thumbnail.png');
-		if ($image->valid()) {
+		if (!empty($image) && $image->valid()) {
 			return $image;
 		}
 		return null;
