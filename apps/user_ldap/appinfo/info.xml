@@ -56,6 +56,7 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 		<command>OCA\User_LDAP\Command\ShowConfig</command>
 		<command>OCA\User_LDAP\Command\ShowRemnants</command>
 		<command>OCA\User_LDAP\Command\TestConfig</command>
+		<command>OCA\User_LDAP\Command\UpdateUUID</command>
 	</commands>
 
 	<settings>

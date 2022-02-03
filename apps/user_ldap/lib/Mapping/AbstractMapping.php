@@ -175,7 +175,7 @@ abstract class AbstractMapping {
 	 * @param $fdn
 	 * @return bool
 	 */
-	public function setUUIDbyDN($uuid, $fdn) {
+	public function setUUIDbyDN($uuid, $fdn): bool {
 		$statement = $this->dbc->prepare('
 			UPDATE `' . $this->getTableName() . '`
 			SET `directory_uuid` = ?
@@ -329,26 +329,24 @@ abstract class AbstractMapping {
 		return $this->getXbyY('directory_uuid', 'ldap_dn_hash', $this->getDNHash($dn));
 	}
 
-	/**
-	 * gets a piece of the mapping list
-	 *
-	 * @param int $offset
-	 * @param int $limit
-	 * @return array
-	 */
-	public function getList($offset = null, $limit = null) {
-		$query = $this->dbc->prepare('
-			SELECT
-				`ldap_dn` AS `dn`,
-				`owncloud_name` AS `name`,
-				`directory_uuid` AS `uuid`
-			FROM `' . $this->getTableName() . '`',
-			$limit,
-			$offset
-		);
+	public function getList(int $offset = null, int $limit = null, $invalidatedOnly = false): array {
+		$select = $this->dbc->getQueryBuilder();
+		$select->selectAlias('ldap_dn', 'dn')
+			->selectAlias('owncloud_name', 'name')
+			->selectAlias('directory_uuid', 'uuid')
+			->from($this->getTableName(false))
+			->setMaxResults($limit)
+			->setFirstResult($offset);
 
-		$query->execute();
-		return $query->fetchAll();
+		if ($invalidatedOnly) {
+			$select->where($select->expr()->like('directory_uuid', $select->createNamedParameter('invalidated_%')));
+		}
+
+		$result = $select->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+
+		return $entries;
 	}
 
 	/**
@@ -458,10 +456,21 @@ abstract class AbstractMapping {
 	 *
 	 * @return int
 	 */
-	public function count() {
-		$qb = $this->dbc->getQueryBuilder();
-		$query = $qb->select($qb->func()->count('ldap_dn_hash'))
+	public function count(): int {
+		$query = $this->dbc->getQueryBuilder();
+		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName());
+		$res = $query->execute();
+		$count = $res->fetchOne();
+		$res->closeCursor();
+		return (int)$count;
+	}
+
+	public function countInvalidated(): int {
+		$query = $this->dbc->getQueryBuilder();
+		$query->select($query->func()->count('ldap_dn_hash'))
+			->from($this->getTableName())
+			->where($query->expr()->like('directory_uuid', $query->createNamedParameter('invalidated_%')));
 		$res = $query->execute();
 		$count = $res->fetchOne();
 		$res->closeCursor();
