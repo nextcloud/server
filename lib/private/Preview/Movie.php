@@ -159,8 +159,10 @@ class Movie extends ProviderV2 {
 			}
 		}
 
-		$logger = \OC::$server->get(LoggerInterface::class);
-		$logger->error('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
+		if ($second === 0) {
+			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger->error('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
+		}
 
 		unlink($tmpPath);
 		return null;
