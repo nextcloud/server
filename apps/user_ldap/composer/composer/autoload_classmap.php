@@ -20,6 +20,7 @@ return array(
     'OCA\\User_LDAP\\Command\\ShowConfig' => $baseDir . '/../lib/Command/ShowConfig.php',
     'OCA\\User_LDAP\\Command\\ShowRemnants' => $baseDir . '/../lib/Command/ShowRemnants.php',
     'OCA\\User_LDAP\\Command\\TestConfig' => $baseDir . '/../lib/Command/TestConfig.php',
+    'OCA\\User_LDAP\\Command\\UpdateUUID' => $baseDir . '/../lib/Command/UpdateUUID.php',
     'OCA\\User_LDAP\\Configuration' => $baseDir . '/../lib/Configuration.php',
     'OCA\\User_LDAP\\Connection' => $baseDir . '/../lib/Connection.php',
     'OCA\\User_LDAP\\ConnectionFactory' => $baseDir . '/../lib/ConnectionFactory.php',
