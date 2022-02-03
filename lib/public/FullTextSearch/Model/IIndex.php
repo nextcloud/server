@@ -85,6 +85,17 @@ interface IIndex {
 
 
 	/**
+	 * Get the collection of the index.
+	 * If empty (''), means collection is the default one used by the internal framework
+	 *
+	 * @since 24.0.0
+	 *
+	 * @return string
+	 */
+	public function getCollection(): string;
+
+
+	/**
 	 * Set the source of the original document.
 	 *
 	 * @since 15.0.0
