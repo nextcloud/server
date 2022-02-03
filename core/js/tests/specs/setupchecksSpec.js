@@ -226,6 +226,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -283,6 +284,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -341,6 +343,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -396,6 +399,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -450,6 +454,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -492,6 +497,62 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		it('should return an info if the mail server config was not set or verified, yet', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'You have not set or verified your email server configuration, yet. Please head over to the <a href="http://localhost/index.php/settings/admin">Basic settings</a> in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
 		it('should return a warning if there are app directories with wrong permissions', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -504,6 +565,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -560,6 +622,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -614,6 +677,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -668,6 +732,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -742,6 +807,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -797,6 +863,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -852,6 +919,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -907,6 +975,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -965,6 +1034,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1020,6 +1090,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1072,6 +1143,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1126,6 +1198,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1180,6 +1253,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',

@@ -172,6 +172,7 @@ class CheckSetupControllerTest extends TestCase {
 			])
 			->setMethods([
 				'isReadOnlyConfig',
+				'wasEmailTestSuccessful',
 				'hasValidTransactionIsolationLevel',
 				'hasFileinfoInstalled',
 				'hasWorkingFileLocking',
@@ -498,6 +499,10 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(false);
 		$this->checkSetupController
 			->expects($this->once())
+			->method('wasEmailTestSuccessful')
+			->willReturn(false);
+		$this->checkSetupController
+			->expects($this->once())
 			->method('hasValidTransactionIsolationLevel')
 			->willReturn(true);
 		$this->checkSetupController
@@ -594,6 +599,7 @@ class CheckSetupControllerTest extends TestCase {
 			[
 				'isGetenvServerWorking' => true,
 				'isReadOnlyConfig' => false,
+				'wasEmailTestSuccessful' => false,
 				'hasValidTransactionIsolationLevel' => true,
 				'hasFileinfoInstalled' => true,
 				'hasWorkingFileLocking' => true,
