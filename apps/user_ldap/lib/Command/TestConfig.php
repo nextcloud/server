@@ -35,8 +35,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TestConfig extends Command {
-	protected const SUCCESS = 0;
-	protected const INVALID = 1;
+	protected const ESTABLISHED = 0;
+	protected const CONF_INVALID = 1;
 	protected const BINDFAILURE = 2;
 	protected const SEARCHFAILURE = 3;
 
@@ -71,10 +71,10 @@ class TestConfig extends Command {
 
 		$result = $this->testConfig($configID);
 		switch ($result) {
-			case static::SUCCESS:
+			case static::ESTABLISHED:
 				$output->writeln('The configuration is valid and the connection could be established!');
 				return 0;
-			case static::INVALID:
+			case static::CONF_INVALID:
 				$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
 				break;
 			case static::BINDFAILURE:
@@ -103,7 +103,7 @@ class TestConfig extends Command {
 		if (!$connection->setConfiguration([
 			'ldap_configuration_active' => 1,
 		])) {
-			return static::INVALID;
+			return static::CONF_INVALID;
 		}
 		if (!$connection->bind()) {
 			return static::BINDFAILURE;
@@ -113,6 +113,6 @@ class TestConfig extends Command {
 		if (!is_int($result) || ($result <= 0)) {
 			return static::SEARCHFAILURE;
 		}
-		return static::SUCCESS;
+		return static::ESTABLISHED;
 	}
 }
