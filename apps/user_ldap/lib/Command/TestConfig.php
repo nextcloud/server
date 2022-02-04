@@ -35,8 +35,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TestConfig extends Command {
-	protected const SUCCESS = 0;
-	protected const INVALID = 1;
+	public const SUCCESS = 0;
+	public const INVALID = 1;
 	protected const BINDFAILURE = 2;
 	protected const SEARCHFAILURE = 3;
 
