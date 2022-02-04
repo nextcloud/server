@@ -137,7 +137,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$server_url = $parsedUrl['host'];
 
 		$description = $this->themingDefaults->getName();
-		$userId = $user->getUID();
+		$userId = $user->getEMailAddress();
 
 		$reverseDomain = implode('.', array_reverse(explode('.', $parsedUrl['host'])));
 
