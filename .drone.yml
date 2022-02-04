@@ -479,7 +479,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-11
-  image: ghcr.io/nextcloud/continuous-integration-postgres-11:latest
+  image: ghcr.io/nextcloud/continuous-integration-postgres-11:postgres-11
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -515,7 +515,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-13
-  image: ghcr.io/nextcloud/continuous-integration-postgres-13:latest
+  image: ghcr.io/nextcloud/continuous-integration-postgres-13:postgres-13
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
