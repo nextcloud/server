@@ -7,7 +7,7 @@ steps:
   commands:
     - git submodule update --init
 - name: checkers
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - ./autotest-checkers.sh
   secrets: [ github_token ]
@@ -224,7 +224,7 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -256,7 +256,7 @@ steps:
   commands:
     - git submodule update --init
 - name: sqlite-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
@@ -280,15 +280,15 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.1-php7.4
+name: mariadb10.4-php7.4
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: mariadb10.1-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+- name: mariadb10.4-php7.4
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -297,7 +297,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.1:10.1
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:latest
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -333,7 +333,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:10.4
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:latest
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -396,7 +396,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysql-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
@@ -433,7 +433,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -469,7 +469,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -479,7 +479,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-11
-  image: ghcr.io/nextcloud/continuous-integration-postgres-11:postgres-11
+  image: ghcr.io/nextcloud/continuous-integration-postgres-11:latest
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -515,7 +515,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-13
-  image: ghcr.io/nextcloud/continuous-integration-postgres-13:postgres-13
+  image: ghcr.io/nextcloud/continuous-integration-postgres-13:latest
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -1830,7 +1830,7 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-codecov
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -1862,7 +1862,7 @@ steps:
   commands:
     - git submodule update --init
 - name: db-codecov
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -1903,7 +1903,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   environment:
       OBJECT_STORE: s3
       CODECOV_TOKEN:
@@ -1933,7 +1933,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   environment:
       OBJECT_STORE: azure
       CODECOV_TOKEN:
