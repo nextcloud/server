@@ -8,7 +8,7 @@ Feature: avatar
     Then The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 0 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is not a single color
 
   Scenario: get default user avatar as an anonymous user
@@ -16,7 +16,7 @@ Feature: avatar
     Then The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 0 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is not a single color
 
 
@@ -39,7 +39,7 @@ Feature: avatar
     Then The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 0 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is not a single color
 
 
@@ -57,13 +57,13 @@ Feature: avatar
     And The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is a single "#FF0000" color
     And user "anonymous" gets avatar for user "user0"
     And The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is a single "#FF0000" color
 
   Scenario: set user avatar from internal path
@@ -112,26 +112,26 @@ Feature: avatar
     And The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is a single "#FF0000" color
     And user "anonymous" gets avatar for user "user0"
     And The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is a single "#FF0000" color
     When logged in user deletes the user avatar
     Then user "user0" gets avatar for user "user0"
     And The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 0 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is not a single color
     And user "anonymous" gets avatar for user "user0"
     And The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 0 |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is not a single color
 
 
@@ -148,7 +148,7 @@ Feature: avatar
     Then The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 192
+    And last avatar is a square of size 512
     And last avatar is a single "#FF0000" color
 
   Scenario: get user avatar with a smaller size than the original one
@@ -163,7 +163,7 @@ Feature: avatar
     Then The following headers should be set
       | Content-Type | image/png |
       | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 96
+    And last avatar is a square of size 512
     And last avatar is a single "#FF0000" color
 
 
@@ -172,12 +172,12 @@ Feature: avatar
     When user "user0" gets avatar for guest "guest0"
     Then The following headers should be set
       | Content-Type | image/png |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is not a single color
 
   Scenario: get default guest avatar as an anonymous user
     When user "anonymous" gets avatar for guest "guest0"
     Then The following headers should be set
       | Content-Type | image/png |
-    And last avatar is a square of size 128
+    And last avatar is a square of size 512
     And last avatar is not a single color
