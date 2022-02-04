@@ -421,13 +421,14 @@ class OC {
 		// TODO: Temporary disabled again to solve issues with CalDAV/CardDAV clients like DAVx5 that use cookies
 		// TODO: See https://github.com/nextcloud/server/issues/37277#issuecomment-1476366147 and the other comments
 		// TODO: for further information.
-		// $isDavRequest = strpos($request->getRequestUri(), '/remote.php/dav') === 0 || strpos($request->getRequestUri(), '/remote.php/webdav') === 0;
-		// if ($request->getHeader('Authorization') !== '' && is_null($request->getCookie('cookie_test')) && $isDavRequest && !isset($_COOKIE['nc_session_id'])) {
-		// setcookie('cookie_test', 'test', time() + 3600);
-		// // Do not initialize the session if a request is authenticated directly
-		// // unless there is a session cookie already sent along
-		// return;
-		// }
+        // MagentaCLOUD stays with original version of the solution from production
+		$isDavRequest = strpos($request->getRequestUri(), '/remote.php/dav') === 0 || 
+                           strpos($request->getRequestUri(), '/remote.php/webdav') === 0;
+		if ($request->getHeader('Authorization') !== '' && $isDavRequest && !isset($_COOKIE['nc_session_id'])) {
+		   // Do not initialize the session if a request is authenticated directly
+		   // unless there is a session cookie already sent along
+		   return;
+		}
 
 		if ($request->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', 'true');
