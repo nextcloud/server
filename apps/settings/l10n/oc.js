@@ -227,7 +227,6 @@ OC.L10N.register(
     "SMTP Username" : "Utilizaire SMTP",
     "SMTP Password" : "Senhal SMTP",
     "Save" : "Salvar",
-    "Test email settings" : "Ensajar los paramètres email",
     "Send email" : "Enviar email",
     "Version" : "Version",
     "Two-Factor Authentication" : "Autentificacion dos factors",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Close" : "Tampar",
     "All languages" : "Totas las lengas",
     "Everyone" : "Tot lo monde",
+    "Test email settings" : "Ensajar los paramètres email",
     "days" : "jorns",
     "No display name set" : "Cap de nom d’afichatge pas definit",
     "For password reset and notifications" : "Per reconfigurar lo senhal e recebre las notificacions"
