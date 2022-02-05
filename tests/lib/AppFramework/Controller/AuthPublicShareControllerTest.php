@@ -63,7 +63,9 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 				'isPasswordProtected',
 				'isValidToken',
 				'showShare',
-				'verifyPassword'
+				'verifyPassword',
+				'validateIdentity',
+				'generatePassword'
 			])->getMock();
 	}
 
