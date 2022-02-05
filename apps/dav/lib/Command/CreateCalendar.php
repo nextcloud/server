@@ -29,6 +29,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -83,6 +84,7 @@ class CreateCalendar extends Command {
 		$principalBackend = new Principal(
 			$this->userManager,
 			$this->groupManager,
+			\OC::$server->get(IAccountManager::class),
 			\OC::$server->getShareManager(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),

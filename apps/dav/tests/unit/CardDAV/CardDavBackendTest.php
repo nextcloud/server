@@ -37,6 +37,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -136,6 +137,7 @@ class CardDavBackendTest extends TestCase {
 			->setConstructorArgs([
 				$this->userManager,
 				$this->groupManager,
+				$this->createMock(IAccountManager::class),
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),
