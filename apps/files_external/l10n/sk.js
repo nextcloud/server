@@ -81,6 +81,8 @@ OC.L10N.register(
     "Public key" : "Verejný kľúč",
     "RSA private key" : "RSA súkromný kľúč",
     "Private key" : "Súkromný kľúč",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Predvolená oblasť Kerberos, ak nie je nastavené použije sa \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Kerberos ticket v režime Apache",
     "Kerberos ticket" : "Kerberos tiket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Sektor",
@@ -138,6 +140,7 @@ OC.L10N.register(
     "External storages" : "Externé úložiská",
     "(group)" : "(skupina)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS s použitím OC prihlásenia"
+    "SMB / CIFS using OC login" : "SMB / CIFS s použitím OC prihlásenia",
+    "Kerberos ticket apache mode" : "Kerberos ticket v režime apache"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
