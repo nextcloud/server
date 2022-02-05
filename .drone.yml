@@ -297,7 +297,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:10.4
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -333,7 +333,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:10.4
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
