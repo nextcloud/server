@@ -150,7 +150,7 @@ class AppleProvisioningPluginTest extends TestCase {
 
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->at(0))
-			->method('getUID')
+			->method('getEMailAddress')
 			->willReturn('userName');
 
 		$this->userSession->expects($this->at(0))
