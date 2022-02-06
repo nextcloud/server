@@ -280,7 +280,7 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.4-php7.4
+name: mariadb10.2-php7.4
 
 steps:
 - name: submodules
@@ -297,7 +297,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:10.4
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.2:10.2
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -316,7 +316,7 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.4-php8.0
+name: mariadb10.2-php8.0
 
 steps:
 - name: submodules
@@ -333,7 +333,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:10.4
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.2:10.2
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
