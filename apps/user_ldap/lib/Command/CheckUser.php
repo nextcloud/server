@@ -64,7 +64,7 @@ class CheckUser extends Command {
 			->addArgument(
 					'ocName',
 					InputArgument::REQUIRED,
-					'the user name as used in Nextcloud'
+					'the user name as used in Nextcloud, or the LDAP DN'
 					 )
 			->addOption(
 					'force',
@@ -83,8 +83,14 @@ class CheckUser extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-			$uid = $input->getArgument('ocName');
 			$this->assertAllowed($input->getOption('force'));
+			$uid = $input->getArgument('ocName');
+			if ($this->backend->getLDAPAccess($uid)->stringResemblesDN($uid)) {
+				$username = $this->backend->dn2UserName($uid);
+				if ($username !== false) {
+					$uid = $username;
+				}
+			}
 			$wasMapped = $this->userWasMapped($uid);
 			$exists = $this->backend->userExistsOnLDAP($uid, true);
 			if ($exists === true) {
