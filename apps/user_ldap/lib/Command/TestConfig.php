@@ -35,10 +35,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TestConfig extends Command {
-	protected const SUCCESS = 0;
-	protected const INVALID = 1;
-	protected const BINDFAILURE = 2;
-	protected const SEARCHFAILURE = 3;
+	protected const RESULT_SUCCESS = 0;
+	protected const RESULT_INVALID = 1;
+	protected const RESULT_BINDFAILURE = 2;
+	protected const RESULT_SEARCHFAILURE = 3;
 
 	/** @var AccessFactory */
 	protected $accessFactory;
@@ -65,22 +65,22 @@ class TestConfig extends Command {
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
-			$output->writeln('Invalid configID');
+			$output->writeln('RESULT_INVALID configID');
 			return 1;
 		}
 
 		$result = $this->testConfig($configID);
 		switch ($result) {
-			case static::SUCCESS:
+			case static::RESULT_SUCCESS:
 				$output->writeln('The configuration is valid and the connection could be established!');
 				return 0;
-			case static::INVALID:
-				$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
+			case static::RESULT_INVALID:
+				$output->writeln('The configuration is RESULT_INVALID. Please have a look at the logs for further details.');
 				break;
-			case static::BINDFAILURE:
+			case static::RESULT_BINDFAILURE:
 				$output->writeln('The configuration is valid, but the bind failed. Please check the server settings and credentials.');
 				break;
-			case static::SEARCHFAILURE:
+			case static::RESULT_SEARCHFAILURE:
 				$output->writeln('The configuration is valid and the bind passed, but a simple search on the base fails. Please check the server base setting.');
 				break;
 			default:
@@ -103,16 +103,16 @@ class TestConfig extends Command {
 		if (!$connection->setConfiguration([
 			'ldap_configuration_active' => 1,
 		])) {
-			return static::INVALID;
+			return static::RESULT_INVALID;
 		}
 		if (!$connection->bind()) {
-			return static::BINDFAILURE;
+			return static::RESULT_BINDFAILURE;
 		}
 		$access = $this->accessFactory->get($connection);
 		$result = $access->countObjects(1);
 		if (!is_int($result) || ($result <= 0)) {
-			return static::SEARCHFAILURE;
+			return static::RESULT_SEARCHFAILURE;
 		}
-		return static::SUCCESS;
+		return static::RESULT_SUCCESS;
 	}
 }
