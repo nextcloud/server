@@ -38,6 +38,7 @@ module.exports = {
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
+		profile: path.join(__dirname, 'core/src', 'profile.js'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
