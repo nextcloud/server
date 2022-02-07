@@ -425,42 +425,6 @@ trigger:
 
 ---
 kind: pipeline
-name: postgres9.6-php7.4
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: postgres-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
-  commands:
-    - bash tests/drone-run-php-tests.sh || exit 0
-    - sleep 10 # gives the database enough time to initialize
-    - POSTGRES=9 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
-
-services:
-- name: cache
-  image: ghcr.io/nextcloud/continuous-integration-redis:latest
-- name: postgres-9
-  image: ghcr.io/nextcloud/continuous-integration-postgres-9:postgres-9.6
-  environment:
-    POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
-    POSTGRES_PASSWORD: owncloud
-  tmpfs:
-    - /var/lib/postgresql/data
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: postgres11-php7.4
 
 steps:
