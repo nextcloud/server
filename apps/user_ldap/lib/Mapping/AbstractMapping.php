@@ -329,12 +329,12 @@ abstract class AbstractMapping {
 		return $this->getXbyY('directory_uuid', 'ldap_dn_hash', $this->getDNHash($dn));
 	}
 
-	public function getList(int $offset = null, int $limit = null, $invalidatedOnly = false): array {
+	public function getList(int $offset = 0, int $limit = null, bool $invalidatedOnly = false): array {
 		$select = $this->dbc->getQueryBuilder();
 		$select->selectAlias('ldap_dn', 'dn')
 			->selectAlias('owncloud_name', 'name')
 			->selectAlias('directory_uuid', 'uuid')
-			->from($this->getTableName(false))
+			->from($this->getTableName())
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
