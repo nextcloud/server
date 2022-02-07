@@ -119,7 +119,7 @@ class CheckUser extends Command {
 	 */
 	protected function userWasMapped(string $ocName): bool {
 		$dn = $this->mapping->getDNByName($ocName);
-		return ($dn !== false);
+		return $dn !== false;
 	}
 
 	/**
