@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -48,12 +49,6 @@ class CheckUser extends Command {
 	/** @var UserMapping */
 	protected $mapping;
 
-	/**
-	 * @param User_Proxy $uBackend
-	 * @param Helper $helper
-	 * @param DeletedUsersIndex $dui
-	 * @param UserMapping $mapping
-	 */
 	public function __construct(User_Proxy $uBackend, Helper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
 		$this->backend = $uBackend;
 		$this->helper = $helper;
@@ -62,7 +57,7 @@ class CheckUser extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:check-user')
 			->setDescription('checks whether a user exists on LDAP.')
@@ -89,7 +84,7 @@ class CheckUser extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$uid = $input->getArgument('ocName');
-			$this->isAllowed($input->getOption('force'));
+			$this->assertAllowed($input->getOption('force'));
 			$wasMapped = $this->userWasMapped($uid);
 			$exists = $this->backend->userExistsOnLDAP($uid, true);
 			if ($exists === true) {
@@ -125,9 +120,8 @@ class CheckUser extends Command {
 	/**
 	 * checks whether the setup allows reliable checking of LDAP user existence
 	 * @throws \Exception
-	 * @return true
 	 */
-	protected function isAllowed($force) {
+	protected function assertAllowed(bool $force): void {
 		if ($this->helper->haveDisabledConfigurations() && !$force) {
 			throw new \Exception('Cannot check user existence, because '
 				. 'disabled LDAP configurations are present.');
@@ -136,8 +130,6 @@ class CheckUser extends Command {
 		// we don't check ldapUserCleanupInterval from config.php because this
 		// action is triggered manually, while the setting only controls the
 		// background job.
-
-		return true;
 	}
 
 	private function updateUser(string $uid, OutputInterface $output): void {
