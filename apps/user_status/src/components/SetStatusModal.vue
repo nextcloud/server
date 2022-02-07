@@ -51,9 +51,9 @@
 					@change="setMessage"
 					@submit="saveStatus" />
 			</div>
-			<PredefinedStatusesList @selectStatus="selectPredefinedMessage" />
+			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
-				@selectClearAt="setClearAt" />
+				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
 				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
