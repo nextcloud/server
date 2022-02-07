@@ -352,6 +352,19 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		$output->writeln('<info>Check indices of the oc_direct_edit table.</info>');
+		if ($schema->hasTable('direct_edit')) {
+			$table = $schema->getTable('direct_edit');
+			if (!$table->hasIndex('direct_edit_timestamp')) {
+				$output->writeln('<info>Adding direct_edit_timestamp index to the oc_direct_edit table, this can take some time...</info>');
+
+				$table->addIndex(['timestamp'], 'direct_edit_timestamp');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_direct_edit table updated successfully.</info>');
+			}
+		}
+
 		if (!$updated) {
 			$output->writeln('<info>Done.</info>');
 		}
