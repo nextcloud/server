@@ -213,6 +213,13 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'direct_edit_timestamp');
 					}
 				}
+
+				if ($schema->hasTable('preferences')) {
+					$table = $schema->getTable('preferences');
+					if (!$table->hasIndex('preferences_app_key')) {
+						$subject->addHintForMissingSubject($table->getName(), 'preferences_app_key');
+					}
+				}
 			}
 		);
 

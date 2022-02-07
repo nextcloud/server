@@ -497,6 +497,8 @@ class AllConfig implements \OCP\IConfig {
 			$sql .= 'AND `configvalue` = ?';
 		}
 
+		$sql .= ' ORDER BY `userid`';
+
 		$result = $this->connection->executeQuery($sql, [$appName, $key, $value]);
 
 		$userIDs = [];
@@ -533,6 +535,8 @@ class AllConfig implements \OCP\IConfig {
 		} else {
 			$sql .= 'AND LOWER(`configvalue`) = ?';
 		}
+
+		$sql .= ' ORDER BY `userid`';
 
 		$result = $this->connection->executeQuery($sql, [$appName, $key, strtolower($value)]);
 
