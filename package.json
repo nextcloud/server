@@ -134,7 +134,7 @@
     "karma": "^6.3.15",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "2.1.1",
-    "karma-jasmine": "^1.1.2",
+    "karma-jasmine": "^4.0.1",
     "karma-jasmine-sinon": "^1.0.4",
     "karma-spec-reporter": "^0.0.33",
     "karma-viewport": "^1.0.8",
