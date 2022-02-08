@@ -129,10 +129,10 @@ class Helper {
 		sort($serverConnections);
 		$lastKey = array_pop($serverConnections);
 		$lastNumber = (int)str_replace('s', '', $lastKey);
-		return 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
+		return 's' . str_pad((string)($lastNumber + 1), 2, '0', STR_PAD_LEFT);
 	}
 
-	private function getServersConfig($value) {
+	private function getServersConfig(string $value): array {
 		$regex = '/' . $value . '$/S';
 
 		$keys = $this->config->getAppKeys('user_ldap');
@@ -211,7 +211,7 @@ class Helper {
 	/**
 	 * sanitizes a DN received from the LDAP server
 	 *
-	 * @param array $dn the DN in question
+	 * @param array|string $dn the DN in question
 	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
