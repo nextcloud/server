@@ -58,7 +58,9 @@
 	BreadCrumb.prototype = {
 		$el: null,
 		dir: null,
+		maxDepthDir: null,
 		dirInfo: null,
+		activeItemIndex: 0,
 
 		/**
 		 * Total width of all breadcrumbs
@@ -81,6 +83,9 @@
 			dir = dir.replace(/\\/g, '/');
 			dir = dir || '/';
 			if (dir !== this.dir) {
+				if ((this.maxDepthDir || "").search(dir) !== 0) {
+					this.maxDepthDir = dir;
+				}
 				this.dir = dir;
 				this.render();
 			}
@@ -118,7 +123,7 @@
 			// Menu is destroyed on every change, we need to init it
 			OC.unregisterMenu($('.crumbmenu > .icon-more'), $('.crumbmenu > .popovermenu'));
 
-			var parts = this._makeCrumbs(this.dir || '/');
+			var parts = this._makeCrumbs(this.maxDepthDir || '/');
 			var $crumb;
 			var $menuItem;
 			this.$el.empty();
@@ -163,7 +168,7 @@
 				if(menuPart.dir) {
 					$menuItem = $('<li class="crumblist"><a><span class="icon-folder"></span><span></span></a></li>');
 					$menuItem.data('dir', menuPart.dir);
-					$menuItem.find('a').attr('href', this.getCrumbUrl(part, j));
+					$menuItem.find('a').attr('href', this.getCrumbUrl(menuPart, j));
 					$menuItem.find('span:eq(1)').text(menuPart.name);
 					this.$menu.children('ul').append($menuItem);
 					if (this.onClick) {
@@ -171,11 +176,16 @@
 					}
 				}
 			}
+
 			_.each(this._detailViews, function(view) {
 				view.render({
 					dirInfo: this.dirInfo
 				});
-				$crumb.append(view.$el);
+
+				if (this.breadcrumbs.length > 2) {
+					this.breadcrumbs[this.activeItemIndex + 2].append(view.$el);
+				}
+
 				$menuItem.append(view.$el.clone(true));
 			}, this);
 
@@ -228,8 +238,15 @@
 			for (var i = 0; i < parts.length; i++) {
 				var part = parts[i];
 				pathToHere = pathToHere + '/' + part;
+
+				let classes = "";
+				if (pathToHere === this.dir) {
+					this.activeItemIndex = i;
+					classes = "active";
+				}
 				crumbs.push({
 					dir: pathToHere,
+					class: classes,
 					name: part
 				});
 			}
