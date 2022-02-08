@@ -1540,12 +1540,12 @@ class Access extends LDAPUtility {
 	 * string into single words
 	 *
 	 * @param string $search the search term
-	 * @param string[] $searchAttributes needs to have at least two attributes,
+	 * @param string[]|null|'' $searchAttributes needs to have at least two attributes,
 	 * otherwise it does not make sense :)
 	 * @return string the final filter part to use in LDAP searches
 	 * @throws DomainException
 	 */
-	private function getAdvancedFilterPartForSearch(string $search, mixed $searchAttributes): string {
+	private function getAdvancedFilterPartForSearch(string $search, $searchAttributes): string {
 		if (!is_array($searchAttributes) || count($searchAttributes) < 2) {
 			throw new DomainException('searchAttributes must be an array with at least two string');
 		}
@@ -1572,7 +1572,7 @@ class Access extends LDAPUtility {
 	 * did not define search attributes. Typically the display name attribute.
 	 * @return string the final filter part to use in LDAP searches
 	 */
-	private function getFilterPartForSearch(string $search, mixed $searchAttributes, string $fallbackAttribute): string {
+	private function getFilterPartForSearch(string $search, $searchAttributes, string $fallbackAttribute): string {
 		$filter = [];
 		$haveMultiSearchAttributes = (is_array($searchAttributes) && count($searchAttributes) > 0);
 		if ($haveMultiSearchAttributes && strpos(trim($search), ' ') !== false) {
