@@ -38,11 +38,22 @@ interface IExportDestination {
 	 *
 	 * @param string $path Full path to the file in the export archive. Parent directories will be created if needed.
 	 * @param string $content The full content of the file.
-	 * @return bool whether the file was successfully added.
+	 * @return bool whether the file contents were successfully added.
 	 *
 	 * @since 24.0.0
 	 */
-	public function addFile(string $path, string $content): bool;
+	public function addFileContents(string $path, string $content): bool;
+
+	/**
+	 * Adds a file to the export as a stream
+	 *
+	 * @param string $path Full path to the file in the export archive. Parent directories will be created if needed.
+	 * @param resource $stream A stream resource to read from to get the file content.
+	 * @return bool whether the file stream was successfully added.
+	 *
+	 * @since 24.0.0
+	 */
+	public function addFileAsStream(string $path, $stream): bool;
 
 	/**
 	 * Copy a folder to the export
