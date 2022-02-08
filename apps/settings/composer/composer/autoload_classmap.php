@@ -58,6 +58,7 @@ return array(
     'OCA\\Settings\\Settings\\Personal\\Security\\WebAuthn' => $baseDir . '/../lib/Settings/Personal/Security/WebAuthn.php',
     'OCA\\Settings\\Settings\\Personal\\ServerDevNotice' => $baseDir . '/../lib/Settings/Personal/ServerDevNotice.php',
     'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => $baseDir . '/../lib/SetupChecks/CheckUserCertificates.php',
+    'OCA\\Settings\\SetupChecks\\LdapInvalidUuids' => $baseDir . '/../lib/SetupChecks/LdapInvalidUuids.php',
     'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => $baseDir . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
     'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => $baseDir . '/../lib/SetupChecks/PhpDefaultCharset.php',
     'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => $baseDir . '/../lib/SetupChecks/PhpOutputBuffering.php',
