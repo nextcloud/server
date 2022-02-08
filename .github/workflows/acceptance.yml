@@ -1,0 +1,30 @@
+name: acceptance-users
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
+
+jobs:
+  acceptance:
+    runs-on: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+
+    strategy:
+      fail-fast: false
+
+    name: acceptance
+
+    services:
+      selenium:
+        image: ghcr.io/nextcloud/continuous-integration-selenium:3.141.59
+        ports: ["4444:4444"]
+        env:
+          # Reduce default log level for Selenium server (INFO) as it is too
+          # verbose.
+          JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+    steps:
+      - name: Acceptance tests
+        run: tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-users --selenium-server selenium:4444 allow-git-repository-modifications features/users.feature
