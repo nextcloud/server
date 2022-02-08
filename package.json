@@ -71,7 +71,7 @@
     "moment-timezone": "^0.5.34",
     "nextcloud-vue-collections": "^0.9.0",
     "p-limit": "^4.0.0",
-    "p-queue": "^7.1.0",
+    "p-queue": "^7.2.0",
     "path": "^0.12.7",
     "query-string": "^7.1.1",
     "regenerator-runtime": "^0.13.9",
