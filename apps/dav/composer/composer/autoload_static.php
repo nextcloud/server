@@ -139,6 +139,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Command\\CreateAddressBook' => __DIR__ . '/..' . '/../lib/Command/CreateAddressBook.php',
         'OCA\\DAV\\Command\\CreateCalendar' => __DIR__ . '/..' . '/../lib/Command/CreateCalendar.php',
         'OCA\\DAV\\Command\\DeleteCalendar' => __DIR__ . '/..' . '/../lib/Command/DeleteCalendar.php',
+        'OCA\\DAV\\Command\\ExportCalendars' => __DIR__ . '/..' . '/../lib/Command/ExportCalendars.php',
+        'OCA\\DAV\\Command\\ImportCalendar' => __DIR__ . '/..' . '/../lib/Command/ImportCalendar.php',
         'OCA\\DAV\\Command\\ListCalendars' => __DIR__ . '/..' . '/../lib/Command/ListCalendars.php',
         'OCA\\DAV\\Command\\MoveCalendar' => __DIR__ . '/..' . '/../lib/Command/MoveCalendar.php',
         'OCA\\DAV\\Command\\RemoveInvalidShares' => __DIR__ . '/..' . '/../lib/Command/RemoveInvalidShares.php',
@@ -314,6 +316,9 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Upload\\UploadFile' => __DIR__ . '/..' . '/../lib/Upload/UploadFile.php',
         'OCA\\DAV\\Upload\\UploadFolder' => __DIR__ . '/..' . '/../lib/Upload/UploadFolder.php',
         'OCA\\DAV\\Upload\\UploadHome' => __DIR__ . '/..' . '/../lib/Upload/UploadHome.php',
+        'OCA\\DAV\\UserMigration\\CalendarMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigrator.php',
+        'OCA\\DAV\\UserMigration\\CalendarMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigratorException.php',
+        'OCA\\DAV\\UserMigration\\InvalidCalendarException' => __DIR__ . '/..' . '/../lib/UserMigration/InvalidCalendarException.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

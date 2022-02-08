@@ -70,6 +70,13 @@ class CalendarImpl implements ICreateFromString {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public function getUri() {
+		return $this->calendarInfo['uri'];
+	}
+
+	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 * @return null|string
 	 * @since 13.0.0
