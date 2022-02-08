@@ -272,7 +272,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 		if (!WaitFor::elementToBeEventuallyShown(
 				$this->actor,
 				self::rowForUser($user),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+				$timeout = 15 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The user $user in the list of users is not shown yet after $timeout seconds");
 		}
 	}
