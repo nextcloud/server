@@ -275,10 +275,10 @@ class Helper {
 	 * listens to a hook thrown by server2server sharing and replaces the given
 	 * login name by a username, if it matches an LDAP user.
 	 *
-	 * @param array $param
+	 * @param array $param contains a reference to a $uid var under 'uid' key
 	 * @throws \Exception
 	 */
-	public static function loginName2UserName($param) {
+	public static function loginName2UserName($param): void {
 		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
