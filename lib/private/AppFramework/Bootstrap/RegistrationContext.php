@@ -30,6 +30,8 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use OCP\Calendar\Resource\IBackend as IResourceBackend;
+use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Talk\ITalkBackend;
 use RuntimeException;
 use function array_shift;
@@ -69,6 +71,12 @@ class RegistrationContext {
 
 	/** @var null|ServiceRegistration<ITalkBackend> */
 	private $talkBackendRegistration = null;
+
+	/** @var ServiceRegistration<IResourceBackend>[] */
+	private $calendarResourceBackendRegistrations = [];
+
+	/** @var ServiceRegistration<IRoomBackend>[] */
+	private $calendarRoomBackendRegistrations = [];
 
 	/** @var ServiceFactoryRegistration[] */
 	private $services = [];
@@ -271,6 +279,20 @@ class RegistrationContext {
 					$backend
 				);
 			}
+
+			public function registerCalendarResourceBackend(string $class): void {
+				$this->context->registerCalendarResourceBackend(
+					$this->appId,
+					$class
+				);
+			}
+
+			public function registerCalendarRoomBackend(string $class): void {
+				$this->context->registerCalendarRoomBackend(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -374,6 +396,20 @@ class RegistrationContext {
 		}
 
 		$this->talkBackendRegistration = new ServiceRegistration($appId, $backend);
+	}
+
+	public function registerCalendarResourceBackend(string $appId, string $class) {
+		$this->calendarResourceBackendRegistrations[] = new ServiceRegistration(
+			$appId,
+			$class,
+		);
+	}
+
+	public function registerCalendarRoomBackend(string $appId, string $class) {
+		$this->calendarRoomBackendRegistrations[] = new ServiceRegistration(
+			$appId,
+			$class,
+		);
 	}
 
 	/**
@@ -634,5 +670,21 @@ class RegistrationContext {
 	 */
 	public function getTalkBackendRegistration(): ?ServiceRegistration {
 		return $this->talkBackendRegistration;
+	}
+
+	/**
+	 * @return ServiceRegistration[]
+	 * @psalm-return ServiceRegistration<IResourceBackend>[]
+	 */
+	public function getCalendarResourceBackendRegistrations(): array {
+		return $this->calendarResourceBackendRegistrations;
+	}
+
+	/**
+	 * @return ServiceRegistration[]
+	 * @psalm-return ServiceRegistration<IRoomBackend>[]
+	 */
+	public function getCalendarRoomBackendRegistrations(): array {
+		return $this->calendarRoomBackendRegistrations;
 	}
 }

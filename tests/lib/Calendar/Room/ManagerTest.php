@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -23,101 +26,124 @@
 
 namespace Test\Calendar\Room;
 
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Calendar\Room\Manager;
 use OCP\Calendar\Room\IBackend;
 use OCP\IServerContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
+	/** @var Coordinator|MockObject */
+	private $coordinator;
+
+	/** @var IServerContainer|MockObject */
+	private $server;
+
 	/** @var Manager */
 	private $manager;
-
-	/** @var IServerContainer */
-	private $server;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->server = $this->createMock(IServerContainer::class);
-		$this->manager = new Manager($this->server);
+		$this->manager = new Manager(
+			$this->coordinator,
+			$this->server,
+		);
 	}
 
-	public function testRegisterUnregisterBackend() {
+	public function testRegisterUnregisterBackend(): void {
 		$backend1 = $this->createMock(IBackend::class);
 		$backend1->method('getBackendIdentifier')->willReturn('backend_1');
-		$this->server->expects($this->at(0))
-			->method('query')
-			->with('calendar_room_backend1')
-			->willReturn($backend1);
-
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
-		$this->server->expects($this->at(1))
+		$this->server->expects(self::exactly(2))
 			->method('query')
-			->with('calendar_room_backend2')
-			->willReturn($backend2);
+			->willReturnMap([
+				['calendar_room_backend1', true, $backend1,],
+				['calendar_room_backend2', true, $backend2,],
+			]);
 
 		$this->manager->registerBackend('calendar_room_backend1');
 		$this->manager->registerBackend('calendar_room_backend2');
 
-		$this->assertEquals([
+		self::assertEquals([
 			$backend1, $backend2
 		], $this->manager->getBackends());
 
 		$this->manager->unregisterBackend('calendar_room_backend1');
 
-		$this->assertEquals([
+		self::assertEquals([
 			$backend2
 		], $this->manager->getBackends());
 	}
 
-	public function testGetBackend() {
-		$backend1 = $this->createMock(IBackend::class);
-		$backend1->method('getBackendIdentifier')->willReturn('backend_1');
-		$this->server->expects($this->at(0))
+	public function testGetBackendFromBootstrapRegistration(): void {
+		$backendClass = '\\OCA\\CalendarRoomFoo\\Backend';
+		$backend = $this->createMock(IBackend::class);
+		$backend->method('getBackendIdentifier')->willReturn('from_bootstrap');
+		$context = $this->createMock(RegistrationContext::class);
+		$this->coordinator->expects(self::once())
+			->method('getRegistrationContext')
+			->willReturn($context);
+		$context->expects(self::once())
+			->method('getCalendarRoomBackendRegistrations')
+			->willReturn([
+				new ServiceRegistration('calendar_room_foo', $backendClass)
+			]);
+		$this->server->expects(self::once())
 			->method('query')
-			->with('calendar_room_backend1')
-			->willReturn($backend1);
+			->with($backendClass)
+			->willReturn($backend);
 
-		$backend2 = $this->createMock(IBackend::class);
-		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
-		$this->server->expects($this->at(1))
-			->method('query')
-			->with('calendar_room_backend2')
-			->willReturn($backend2);
-
-		$this->manager->registerBackend('calendar_room_backend1');
-		$this->manager->registerBackend('calendar_room_backend2');
-
-		$this->assertEquals($backend1, $this->manager->getBackend('backend_1'));
-		$this->assertEquals($backend2, $this->manager->getBackend('backend_2'));
+		self::assertEquals($backend, $this->manager->getBackend('from_bootstrap'));
 	}
 
-	public function testClear() {
+	public function testGetBackend(): void {
 		$backend1 = $this->createMock(IBackend::class);
 		$backend1->method('getBackendIdentifier')->willReturn('backend_1');
-		$this->server->expects($this->at(0))
-			->method('query')
-			->with('calendar_room_backend1')
-			->willReturn($backend1);
-
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
-		$this->server->expects($this->at(1))
+		$this->server->expects(self::exactly(2))
 			->method('query')
-			->with('calendar_room_backend2')
-			->willReturn($backend2);
+			->willReturnMap([
+				['calendar_room_backend1', true, $backend1,],
+				['calendar_room_backend2', true, $backend2,],
+			]);
 
 		$this->manager->registerBackend('calendar_room_backend1');
 		$this->manager->registerBackend('calendar_room_backend2');
 
-		$this->assertEquals([
+		self::assertEquals($backend1, $this->manager->getBackend('backend_1'));
+		self::assertEquals($backend2, $this->manager->getBackend('backend_2'));
+	}
+
+	public function testClear(): void {
+		$backend1 = $this->createMock(IBackend::class);
+		$backend1->method('getBackendIdentifier')->willReturn('backend_1');
+		$backend2 = $this->createMock(IBackend::class);
+		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
+		$this->server->expects(self::exactly(2))
+			->method('query')
+			->willReturnMap([
+				['calendar_room_backend1', true, $backend1,],
+				['calendar_room_backend2', true, $backend2,],
+			]);
+
+		$this->manager->registerBackend('calendar_room_backend1');
+		$this->manager->registerBackend('calendar_room_backend2');
+
+		self::assertEquals([
 			$backend1, $backend2
 		], $this->manager->getBackends());
 
 		$this->manager->clear();
 
-		$this->assertEquals([], $this->manager->getBackends());
+		self::assertEquals([], $this->manager->getBackends());
 	}
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -24,26 +27,30 @@
  */
 namespace OC\Calendar\Resource;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Calendar\Resource\IBackend;
+use OCP\Calendar\Resource\IManager;
 use OCP\IServerContainer;
 
-class Manager implements \OCP\Calendar\Resource\IManager {
+class Manager implements IManager {
+	private Coordinator $bootstrapCoordinator;
 
-	/** @var IServerContainer */
-	private $server;
+	private IServerContainer $server;
 
-	/** @var string[] holds all registered resource backends */
+	private bool $bootstrapBackendsLoaded = false;
+
+	/**
+	 * @var string[] holds all registered resource backends
+	 * @psalm-var class-string<IBackend>[]
+	 */
 	private $backends = [];
 
 	/** @var IBackend[] holds all backends that have been initialized already */
 	private $initializedBackends = [];
 
-	/**
-	 * Manager constructor.
-	 *
-	 * @param IServerContainer $server
-	 */
-	public function __construct(IServerContainer $server) {
+	public function __construct(Coordinator $bootstrapCoordinator,
+								IServerContainer $server) {
+		$this->bootstrapCoordinator = $bootstrapCoordinator;
 		$this->server = $server;
 	}
 
@@ -69,12 +76,30 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
 
+	private function fetchBootstrapBackends(): void {
+		if ($this->bootstrapBackendsLoaded) {
+			return;
+		}
+
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+		if ($context === null) {
+			// Too soon
+			return;
+		}
+
+		foreach ($context->getCalendarResourceBackendRegistrations() as $registration) {
+			$this->backends[] = $registration->getService();
+		}
+	}
+
 	/**
 	 * @return IBackend[]
 	 * @throws \OCP\AppFramework\QueryException
 	 * @since 14.0.0
 	 */
 	public function getBackends():array {
+		$this->fetchBootstrapBackends();
+
 		foreach ($this->backends as $backend) {
 			if (isset($this->initializedBackends[$backend])) {
 				continue;

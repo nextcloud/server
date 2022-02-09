@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -23,9 +26,8 @@
 namespace OCP\Calendar\Resource;
 
 /**
- * Interface IManager
- *
  * @since 14.0.0
+ * @deprecated 24.0.0
  */
 interface IManager {
 
@@ -35,6 +37,7 @@ interface IManager {
 	 * @param string $backendClass
 	 * @return void
 	 * @since 14.0.0
+	 * @deprecated 24.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerCalendarResourceBackend
 	 */
 	public function registerBackend(string $backendClass);
 
@@ -44,12 +47,14 @@ interface IManager {
 	 * @param string $backendClass
 	 * @return void
 	 * @since 14.0.0
+	 * @deprecated 24.0.0
 	 */
 	public function unregisterBackend(string $backendClass);
 
 	/**
 	 * @return IBackend[]
 	 * @since 14.0.0
+	 * @deprecated 24.0.0
 	 */
 	public function getBackends():array;
 
@@ -57,6 +62,7 @@ interface IManager {
 	 * @param string $backendId
 	 * @return IBackend|null
 	 * @since 14.0.0
+	 * @deprecated 24.0.0
 	 */
 	public function getBackend($backendId);
 
@@ -64,6 +70,7 @@ interface IManager {
 	 * removes all registered backend instances
 	 * @return void
 	 * @since 14.0.0
+	 * @deprecated 24.0.0
 	 */
 	public function clear();
 }

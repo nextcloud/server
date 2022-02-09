@@ -275,4 +275,24 @@ interface IRegistrationContext {
 	 * @since 24.0.0
 	 */
 	public function registerTalkBackend(string $backend): void;
+
+	/**
+	 * Register a resource backend for the DAV server
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Calendar\Resource\IBackend> $actionClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerCalendarResourceBackend(string $class): void;
+
+	/**
+	 * Register a room backend for the DAV server
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerCalendarRoomBackend(string $class): void;
 }
