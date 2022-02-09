@@ -73,7 +73,7 @@
 				{{ t('files_sharing', 'Advanced settings') }}
 			</label>
 			<ActionCheckbox :checked.sync="share.hideDownload"
-				:disabled="saving"
+				:disabled="saving || sharePermissions === publicUploadWValue"
 				@change="addHideDownload">
 				{{ t('files_sharing', 'Hide download') }}
 			</ActionCheckbox>
@@ -422,6 +422,9 @@ export default {
 			let permissions = 0
 			if (this.isExteranlShare) {
 				permissions = parseInt(event.target.value, 10)
+				if (permissions === OC.PERMISSION_CREATE) {
+					this.share.hideDownload = false
+				}
 				this.share.permissions = permissions
 			} else {
 				permissions = parseInt(event.target.value, 10)
