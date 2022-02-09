@@ -84,6 +84,11 @@ class ContactInteractionListener implements IEventListener {
 			return;
 		}
 
+		if ($event->getUid() !== null && $event->getUid() === $event->getActor()->getUID()) {
+			$this->logger->info("Ignoring contact interaction with self");
+			return;
+		}
+
 		$existing = $this->mapper->findMatch(
 			$event->getActor(),
 			$event->getUid(),
