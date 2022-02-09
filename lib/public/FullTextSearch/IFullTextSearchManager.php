@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCP\FullTextSearch;
 
+use OCP\FullTextSearch\Exceptions\IndexNotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\FullTextSearch\Service\IIndexService;
@@ -143,6 +144,8 @@ interface IFullTextSearchManager {
 	 * @param string $documentId
 	 * @param int $status
 	 * @param bool $reset
+	 *
+	 * @throws IndexNotFoundException (since 24.0.0)
 	 */
 	public function updateIndexStatus(string $providerId, string $documentId, int $status, bool $reset = false);
 

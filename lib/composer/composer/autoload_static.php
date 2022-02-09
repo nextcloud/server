@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -16,15 +16,15 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -362,6 +362,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\UnseekableException' => __DIR__ . '/../../..' . '/lib/public/Files/UnseekableException.php',
         'OCP\\Files_FullTextSearch\\Model\\AFilesDocument' => __DIR__ . '/../../..' . '/lib/public/Files_FullTextSearch/Model/AFilesDocument.php',
         'OCP\\FullTextSearch\\Exceptions\\FullTextSearchAppNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/Exceptions/FullTextSearchAppNotAvailableException.php',
+        'OCP\\FullTextSearch\\Exceptions\\IndexNotFoundException' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/Exceptions/IndexNotFoundException.php',
         'OCP\\FullTextSearch\\IFullTextSearchManager' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/IFullTextSearchManager.php',
         'OCP\\FullTextSearch\\IFullTextSearchPlatform' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/IFullTextSearchPlatform.php',
         'OCP\\FullTextSearch\\IFullTextSearchProvider' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/IFullTextSearchProvider.php',
