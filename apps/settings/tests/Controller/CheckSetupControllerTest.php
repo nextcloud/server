@@ -42,6 +42,7 @@ use OC\IntegrityCheck\Checker;
 use OC\MemoryInfo;
 use OC\Security\SecureRandom;
 use OCA\Settings\Controller\CheckSetupController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -52,6 +53,7 @@ use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
@@ -105,6 +107,10 @@ class CheckSetupControllerTest extends TestCase {
 	private $tempManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
+	/** @var IAppManager|MockObject */
+	private $appManager;
+	/** @var IServerContainer|MockObject */
+	private $serverContainer;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -149,6 +155,8 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
@@ -169,6 +177,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->connection,
 				$this->tempManager,
 				$this->notificationManager,
+				$this->appManager,
+				$this->serverContainer,
 			])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -643,6 +653,7 @@ class CheckSetupControllerTest extends TestCase {
 				'OCA\Settings\SetupChecks\SupportedDatabase' => ['pass' => true, 'description' => '', 'severity' => 'info'],
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
+				\OCA\Settings\SetupChecks\LdapInvalidUuids::class => ['pass' => true, 'description' =>  'Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.', 'severity' => 'warning'],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -669,6 +680,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->connection,
 				$this->tempManager,
 				$this->notificationManager,
+				$this->appManager,
+				$this->serverContainer
 			])
 			->setMethods(null)->getMock();
 
@@ -1440,7 +1453,9 @@ Array
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->tempManager,
-			$this->notificationManager
+			$this->notificationManager,
+			$this->appManager,
+			$this->serverContainer
 		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
@@ -1492,7 +1507,9 @@ Array
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->tempManager,
-			$this->notificationManager
+			$this->notificationManager,
+			$this->appManager,
+			$this->serverContainer
 		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
