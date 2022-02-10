@@ -66,11 +66,9 @@
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
-use OC\Files\Storage\LocalRootStorage;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Share\IManager;
@@ -80,7 +78,6 @@ class OC_Util {
 	public static $scripts = [];
 	public static $styles = [];
 	public static $headers = [];
-	private static $rootMounted = false;
 	private static $rootFsSetup = false;
 	private static $fsSetup = false;
 
@@ -89,93 +86,6 @@ class OC_Util {
 
 	protected static function getAppManager() {
 		return \OC::$server->getAppManager();
-	}
-
-	private static function initLocalStorageRootFS() {
-		// mount local file backend as root
-		$configDataDirectory = \OC::$server->getSystemConfig()->getValue("datadirectory", OC::$SERVERROOT . "/data");
-		//first set up the local "root" storage
-		\OC\Files\Filesystem::initMountManager();
-		if (!self::$rootMounted) {
-			\OC\Files\Filesystem::mount(LocalRootStorage::class, ['datadir' => $configDataDirectory], '/');
-			self::$rootMounted = true;
-		}
-	}
-
-	/**
-	 * mounting an object storage as the root fs will in essence remove the
-	 * necessity of a data folder being present.
-	 * TODO make home storage aware of this and use the object storage instead of local disk access
-	 *
-	 * @param array $config containing 'class' and optional 'arguments'
-	 * @suppress PhanDeprecatedFunction
-	 */
-	private static function initObjectStoreRootFS($config) {
-		// check misconfiguration
-		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
-		}
-		if (!isset($config['arguments'])) {
-			$config['arguments'] = [];
-		}
-
-		// instantiate object store implementation
-		$name = $config['class'];
-		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
-			$segments = explode('\\', $name);
-			OC_App::loadApp(strtolower($segments[1]));
-		}
-		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
-		// mount with plain / root object store implementation
-		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
-
-		// mount object storage as root
-		\OC\Files\Filesystem::initMountManager();
-		if (!self::$rootMounted) {
-			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
-			self::$rootMounted = true;
-		}
-	}
-
-	/**
-	 * mounting an object storage as the root fs will in essence remove the
-	 * necessity of a data folder being present.
-	 *
-	 * @param array $config containing 'class' and optional 'arguments'
-	 * @suppress PhanDeprecatedFunction
-	 */
-	private static function initObjectStoreMultibucketRootFS($config) {
-		// check misconfiguration
-		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
-		}
-		if (!isset($config['arguments'])) {
-			$config['arguments'] = [];
-		}
-
-		// instantiate object store implementation
-		$name = $config['class'];
-		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
-			$segments = explode('\\', $name);
-			OC_App::loadApp(strtolower($segments[1]));
-		}
-
-		if (!isset($config['arguments']['bucket'])) {
-			$config['arguments']['bucket'] = '';
-		}
-		// put the root FS always in first bucket for multibucket configuration
-		$config['arguments']['bucket'] .= '0';
-
-		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
-		// mount with plain / root object store implementation
-		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
-
-		// mount object storage as root
-		\OC\Files\Filesystem::initMountManager();
-		if (!self::$rootMounted) {
-			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
-			self::$rootMounted = true;
-		}
 	}
 
 	/**
@@ -278,19 +188,6 @@ class OC_Util {
 		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user]);
 
 		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
-
-		//check if we are using an object storage
-		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
-		$objectStoreMultibucket = \OC::$server->getSystemConfig()->getValue('objectstore_multibucket', null);
-
-		// use the same order as in ObjectHomeMountProvider
-		if (isset($objectStoreMultibucket)) {
-			self::initObjectStoreMultibucketRootFS($objectStoreMultibucket);
-		} elseif (isset($objectStore)) {
-			self::initObjectStoreRootFS($objectStore);
-		} else {
-			self::initLocalStorageRootFS();
-		}
 
 		/** @var \OCP\Files\Config\IMountProviderCollection $mountProviderCollection */
 		$mountProviderCollection = \OC::$server->query(\OCP\Files\Config\IMountProviderCollection::class);
@@ -501,7 +398,6 @@ class OC_Util {
 		\OC::$server->getRootFolder()->clearCache();
 		self::$fsSetup = false;
 		self::$rootFsSetup = false;
-		self::$rootMounted = false;
 	}
 
 	/**
