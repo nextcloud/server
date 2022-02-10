@@ -216,7 +216,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 			$update->setParameter('nextcloudId', $nextcloudId);
 			$update->setParameter('invalidatedUuid', 'invalidated_' . \bin2hex(\random_bytes(6)));
 			try {
-				$update->executeStatement();
+				$update->execute();
 				$this->logger->warning(
 					'LDAP user or group with ID {nid} has a duplicated UUID value which therefore was invalidated. You may double-check your LDAP configuration and trigger an update of the UUID.',
 					[
@@ -247,7 +247,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 			->from($table)
 			->where($select->expr()->eq('directory_uuid', $select->createNamedParameter($uuid)));
 
-		$result = $select->executeQuery();
+		$result = $select->execute();
 		$idList = [];
 		while ($id = $result->fetchOne()) {
 			$idList[] = $id;
@@ -267,7 +267,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 			->groupBy('directory_uuid')
 			->having($select->expr()->gt($select->func()->count('owncloud_name'), $select->createNamedParameter(1)));
 
-		$result = $select->executeQuery();
+		$result = $select->execute();
 		while ($uuid = $result->fetchOne()) {
 			yield $uuid;
 		}
