@@ -30,18 +30,28 @@ namespace OC\Files\Mount;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
+use OCP\Diagnostics\IEventLogger;
+use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\IUserSession;
 
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
 	private array $mounts = [];
 	private CappedMemoryCache $pathCache;
 	private CappedMemoryCache $inPathCache;
+	private SetupManager $setupManager;
 
-	public function __construct() {
+	public function __construct(
+		IEventLogger $eventLogger,
+		IMountProviderCollection $mountProviderCollection,
+		IUserSession $userSession
+	) {
 		$this->pathCache = new CappedMemoryCache();
 		$this->inPathCache = new CappedMemoryCache();
+		$this->setupManager = new SetupManager($eventLogger, $mountProviderCollection, $this, $userSession);
 	}
 
 	/**
@@ -80,12 +90,12 @@ class Manager implements IMountManager {
 	private function setupForFind(string $path) {
 		if (strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0) {
 			// for appdata, we only setup the root bits, not the user bits
-			\OC_Util::setupRootFS();
+			$this->setupManager->setupRoot();
 		} elseif (strpos($path, '/files_external/uploads/') === 0) {
 			// for OC\Security\CertificateManager, we only setup the root bits, not the user bits
-			\OC_Util::setupRootFS();
+			$this->setupManager->setupRoot();
 		} else {
-			\OC_Util::setupFS();
+			$this->setupManager->setupForCurrentUser();
 		}
 	}
 

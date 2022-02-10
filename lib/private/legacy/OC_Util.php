@@ -66,6 +66,7 @@
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
+use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -78,130 +79,12 @@ class OC_Util {
 	public static $scripts = [];
 	public static $styles = [];
 	public static $headers = [];
-	private static $rootFsSetup = false;
-	private static $fsSetup = false;
 
 	/** @var array Local cache of version.php */
 	private static $versionCache = null;
 
 	protected static function getAppManager() {
 		return \OC::$server->getAppManager();
-	}
-
-	/**
-	 * Can be set up
-	 *
-	 * @param string $user
-	 * @return boolean
-	 * @description configure the initial filesystem based on the configuration
-	 * @suppress PhanDeprecatedFunction
-	 * @suppress PhanAccessMethodInternal
-	 */
-	public static function setupRootFS(string $user = '') {
-		//setting up the filesystem twice can only lead to trouble
-		if (self::$rootFsSetup) {
-			return false;
-		}
-
-		\OC::$server->getEventLogger()->start('setup_root_fs', 'Setup root filesystem');
-
-		// load all filesystem apps before, so no setup-hook gets lost
-		OC_App::loadApps(['filesystem']);
-
-		self::$rootFsSetup = true;
-
-		\OC\Files\Filesystem::initMountManager();
-
-		$prevLogging = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
-		\OC\Files\Filesystem::addStorageWrapper('mount_options', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
-				/** @var \OC\Files\Storage\Common $storage */
-				$storage->setMountOptions($mount->getOptions());
-			}
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if (!$mount->getOption('enable_sharing', true)) {
-				return new \OC\Files\Storage\Wrapper\PermissionsMask([
-					'storage' => $storage,
-					'mask' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE
-				]);
-			}
-			return $storage;
-		});
-
-		// install storage availability wrapper, before most other wrappers
-		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, \OCP\Files\Storage\IStorage $storage) {
-			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
-				return new \OC\Files\Storage\Wrapper\Availability(['storage' => $storage]);
-			}
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
-				return new \OC\Files\Storage\Wrapper\Encoding(['storage' => $storage]);
-			}
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
-			// set up quota for home storages, even for other users
-			// which can happen when using sharing
-
-			/**
-			 * @var \OC\Files\Storage\Storage $storage
-			 */
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
-				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
-			) {
-				/** @var \OC\Files\Storage\Home $storage */
-				if (is_object($storage->getUser())) {
-					$quota = OC_Util::getUserQuota($storage->getUser());
-					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => $quota, 'root' => 'files']);
-					}
-				}
-			}
-
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			/*
-			 * Do not allow any operations that modify the storage
-			 */
-			if ($mount->getOption('readonly', false)) {
-				return new \OC\Files\Storage\Wrapper\PermissionsMask([
-					'storage' => $storage,
-					'mask' => \OCP\Constants::PERMISSION_ALL & ~(
-							\OCP\Constants::PERMISSION_UPDATE |
-							\OCP\Constants::PERMISSION_CREATE |
-							\OCP\Constants::PERMISSION_DELETE
-						),
-				]);
-			}
-			return $storage;
-		});
-
-		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user]);
-
-		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
-
-		/** @var \OCP\Files\Config\IMountProviderCollection $mountProviderCollection */
-		$mountProviderCollection = \OC::$server->query(\OCP\Files\Config\IMountProviderCollection::class);
-		$rootMountProviders = $mountProviderCollection->getRootMounts();
-
-		/** @var \OC\Files\Mount\Manager $mountManager */
-		$mountManager = \OC\Files\Filesystem::getMountManager();
-		foreach ($rootMountProviders as $rootMountProvider) {
-			$mountManager->addMount($rootMountProvider);
-		}
-
-		\OC::$server->getEventLogger()->end('setup_root_fs');
-
-		return true;
 	}
 
 	/**
@@ -214,14 +97,6 @@ class OC_Util {
 	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function setupFS(?string $user = '') {
-		self::setupRootFS($user ?? '');
-
-		if (self::$fsSetup) {
-			return false;
-		}
-
-		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
-
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user === '') {
 			$userObject = \OC::$server->get(\OCP\IUserSession::class)->getUser();
@@ -229,19 +104,14 @@ class OC_Util {
 			$userObject = \OC::$server->get(\OCP\IUserManager::class)->get($user);
 		}
 
-		//if we aren't logged in, or the user doesn't exist, there is no use to set up the filesystem
+		/** @var SetupManager $setupManager */
+		$setupManager = \OC::$server->get(SetupManager::class);
+
 		if ($userObject) {
-			self::$fsSetup = true;
-
-			$userDir = '/' . $userObject->getUID() . '/files';
-
-			//jail the user into his "home" directory
-			\OC\Files\Filesystem::init($userObject, $userDir);
-
-			OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $userObject->getUID(), 'user_dir' => $userDir]);
+			$setupManager->setupForUser($userObject);
+		} else {
+			$setupManager->setupRoot();
 		}
-		\OC::$server->getEventLogger()->end('setup_fs');
-		return true;
 	}
 
 	/**
