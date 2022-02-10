@@ -45,6 +45,7 @@ use OCP\Files\Config\IMountProvider;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\IUserManager;
 
 class Filesystem {
@@ -240,9 +241,7 @@ class Filesystem {
 	 * @return \OC\Files\Mount\Manager
 	 */
 	public static function getMountManager($user = '') {
-		if (!self::$mounts) {
-			\OC_Util::setupFS($user);
-		}
+		self::initMountManager();
 		return self::$mounts;
 	}
 
@@ -292,10 +291,7 @@ class Filesystem {
 	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public static function getStorage($mountPoint) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		$mount = self::$mounts->find($mountPoint);
+		$mount = self::getMountManager()->find($mountPoint);
 		return $mount->getStorage();
 	}
 
@@ -304,10 +300,7 @@ class Filesystem {
 	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByStorageId($id) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		return self::$mounts->findByStorageId($id);
+		return self::getMountManager()->findByStorageId($id);
 	}
 
 	/**
@@ -315,10 +308,7 @@ class Filesystem {
 	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByNumericId($id) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		return self::$mounts->findByNumericId($id);
+		return self::getMountManager()->findByNumericId($id);
 	}
 
 	/**
@@ -328,10 +318,7 @@ class Filesystem {
 	 * @return array an array consisting of the storage and the internal path
 	 */
 	public static function resolvePath($path) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		$mount = self::$mounts->find($path);
+		$mount = self::getMountManager()->find($path);
 		if ($mount) {
 			return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
 		} else {
@@ -367,14 +354,25 @@ class Filesystem {
 	/**
 	 * Initialize system and personal mount points for a user
 	 *
-	 * @param string $user
+	 * @param string|IUser|null $user
 	 * @throws \OC\User\NoUserException if the user is not available
 	 */
 	public static function initMountPoints($user = '') {
-		if ($user == '') {
-			$user = \OC_User::getUser();
+		$userManager = \OC::$server->getUserManager();
+		if (is_string($user)) {
+			if ($user === '') {
+				$user = \OC_User::getUser();
+			}
+
+			$userObject = $userManager->get($user);
+		} elseif ($user instanceof IUser) {
+			$userObject = $user;
+			$user = $userObject->getUID();
+		} else {
+			$userObject = null;
 		}
-		if ($user === null || $user === false || $user === '') {
+
+		if ($userObject === null || $user === false || $user === '') {
 			throw new \OC\User\NoUserException('Attempted to initialize mount points for null user and no user in session');
 		}
 
@@ -383,9 +381,6 @@ class Filesystem {
 		}
 
 		self::$usersSetup[$user] = true;
-
-		$userManager = \OC::$server->getUserManager();
-		$userObject = $userManager->get($user);
 
 		if (is_null($userObject)) {
 			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, ILogger::ERROR);
