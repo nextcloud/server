@@ -474,7 +474,7 @@ class StatusService {
 				// Another status is set automatically, do nothing
 				return;
 			}
-			$this->removeUserStatus($userId);
+			$this->mapper->delete($userStatus);
 		} catch (DoesNotExistException $ex) {
 			// No current status => nothing to delete
 		}
