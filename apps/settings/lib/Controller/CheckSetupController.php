@@ -48,7 +48,6 @@ use DirectoryIterator;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\TransactionIsolationLevel;
-use OCP\DB\Types;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
@@ -61,20 +60,24 @@ use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
+use OCA\Settings\SetupChecks\LdapInvalidUuids;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\SupportedDatabase;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\DB\Types;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
@@ -111,6 +114,10 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IAppManager */
+	private $appManager;
+	/** @var IServerContainer */
+	private $serverContainer;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -127,7 +134,10 @@ class CheckSetupController extends Controller {
 								MemoryInfo $memoryInfo,
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection) {
+								IDBConnection $connection,
+								IAppManager $appManager,
+								IServerContainer $serverContainer
+	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -143,6 +153,8 @@ class CheckSetupController extends Controller {
 		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
+		$this->appManager = $appManager;
+		$this->serverContainer = $serverContainer;
 	}
 
 	/**
@@ -732,6 +744,7 @@ Raw output
 		$legacySSEKeyFormat = new LegacySSEKeyFormat($this->l10n, $this->config, $this->urlGenerator);
 		$checkUserCertificates = new CheckUserCertificates($this->l10n, $this->config, $this->urlGenerator);
 		$supportedDatabases = new SupportedDatabase($this->l10n, $this->connection);
+		$ldapInvalidUuids = new LdapInvalidUuids($this->appManager, $this->l10n, $this->serverContainer);
 
 		return new DataResponse(
 			[
@@ -779,6 +792,7 @@ Raw output
 				CheckUserCertificates::class => ['pass' => $checkUserCertificates->run(), 'description' => $checkUserCertificates->description(), 'severity' => $checkUserCertificates->severity(), 'elements' => $checkUserCertificates->elements()],
 				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
 				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
+				LdapInvalidUuids::class => ['pass' => $ldapInvalidUuids->run(), 'description' => $ldapInvalidUuids->description(), 'severity' => $ldapInvalidUuids->severity()],
 			]
 		);
 	}
