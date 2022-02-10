@@ -216,7 +216,7 @@ class Scanner extends PublicEmitter {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Home') and
 				(!$storage->isCreatable('') or !$storage->isCreatable('files'))
 			) {
-				if ($storage->file_exists('') or $storage->getCache()->inCache('')) {
+				if ($storage->is_dir('files')) {
 					throw new ForbiddenException();
 				} else {// if the root exists in neither the cache nor the storage the user isn't setup yet
 					break;
