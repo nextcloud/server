@@ -37,7 +37,8 @@ use OCP\User\Events\PostLoginEvent;
 use Psr\Log\LoggerInterface;
 
 class FirstLoginListener implements IEventListener {
-	protected $somekindofstatefulhandler;
+	/** @var array<string,array<string, int>> */
+	private $eventHappened = [];
 
 	/** @var Group_Proxy */
 	private $groupBackend;
@@ -75,17 +76,17 @@ class FirstLoginListener implements IEventListener {
 	}
 
 	public function onAssignedId(string $username): void {
-		$this->somekindofstatefulhandler[$username]['id'] = 1;
+		$this->eventHappened[$username]['id'] = 1;
 		$this->triggerUpdateGroups($username);
 	}
 
 	public function onPostLogin(string $username): void {
-		$this->somekindofstatefulhandler[$username]['login'] = 1;
+		$this->eventHappened[$username]['login'] = 1;
 		$this->triggerUpdateGroups($username);
 	}
 
 	private function triggerUpdateGroups(string $username): void {
-		if (array_sum($this->somekindofstatefulhandler[$username] ?? []) >= 2) {
+		if (array_sum($this->eventHappened[$username] ?? []) >= 2) {
 			$this->updateGroups($username);
 		}
 	}
@@ -108,7 +109,7 @@ class FirstLoginListener implements IEventListener {
 				'groupId' => $group
 			]);
 
-			$qResult = $qb->execute();
+			$qResult = $qb->executeQuery();
 			$data = $qResult->fetchOne();
 			$qResult->closeCursor();
 
@@ -116,6 +117,17 @@ class FirstLoginListener implements IEventListener {
 			$hasChanged = false;
 
 			$groupObject = $this->groupManager->get($group);
+			if ($groupObject === null) {
+				$this->logger->error(
+					__CLASS__ . ' – group {group} could not be found (user {user})',
+					[
+						'app' => 'user_ldap',
+						'user' => $username,
+						'group' => $group
+					]
+				);
+				continue;
+			}
 			if (!in_array($username, $knownUsers)) {
 				$userObject = $this->userManager->get($username);
 				if ($userObject instanceof IUser) {
@@ -132,7 +144,7 @@ class FirstLoginListener implements IEventListener {
 						'members' => serialize(array_merge($knownUsers, [$username])),
 						'groupId' => $group
 					]);
-					$qbUpdate->execute();
+					$qbUpdate->executeStatement();
 				}
 			}
 		}
