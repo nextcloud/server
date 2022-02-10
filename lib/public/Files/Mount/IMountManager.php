@@ -37,7 +37,7 @@ interface IMountManager {
 	/**
 	 * Add a new mount
 	 *
-	 * @param \OCP\Files\Mount\IMountPoint $mount
+	 * @param IMountPoint $mount
 	 * @since 8.2.0
 	 */
 	public function addMount(IMountPoint $mount);
@@ -63,16 +63,16 @@ interface IMountManager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return \OCP\Files\Mount\IMountPoint|null
+	 * @return IMountPoint|null
 	 * @since 8.2.0
 	 */
-	public function find(string $path);
+	public function find(string $path): ?IMountPoint;
 
 	/**
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 * @since 8.2.0
 	 */
 	public function findIn(string $path): array;
@@ -88,13 +88,13 @@ interface IMountManager {
 	 * Find mounts by storage id
 	 *
 	 * @param string $id
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 * @since 8.2.0
 	 */
 	public function findByStorageId(string $id): array;
 
 	/**
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 * @since 8.2.0
 	 */
 	public function getAll(): array;
@@ -103,7 +103,7 @@ interface IMountManager {
 	 * Find mounts by numeric storage id
 	 *
 	 * @param int $id
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 * @since 8.2.0
 	 */
 	public function findByNumericId(int $id): array;

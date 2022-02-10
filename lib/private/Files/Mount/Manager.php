@@ -35,13 +35,9 @@ use OCP\Files\Mount\IMountPoint;
 
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
-	private $mounts = [];
-
-	/** @var CappedMemoryCache */
-	private $pathCache;
-
-	/** @var CappedMemoryCache */
-	private $inPathCache;
+	private array $mounts = [];
+	private CappedMemoryCache $pathCache;
+	private CappedMemoryCache $inPathCache;
 
 	public function __construct() {
 		$this->pathCache = new CappedMemoryCache();
@@ -99,7 +95,7 @@ class Manager implements IMountManager {
 	 * @param string $path
 	 * @return MountPoint|null
 	 */
-	public function find(string $path) {
+	public function find(string $path): ?MountPoint {
 		$this->setupForFind($path);
 		$path = Filesystem::normalizePath($path);
 

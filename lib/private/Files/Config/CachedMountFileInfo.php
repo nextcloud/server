@@ -27,8 +27,7 @@ use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\IUser;
 
 class CachedMountFileInfo extends CachedMountInfo implements ICachedMountFileInfo {
-	/** @var string */
-	private $internalPath;
+	private string $internalPath;
 
 	public function __construct(
 		IUser $user,

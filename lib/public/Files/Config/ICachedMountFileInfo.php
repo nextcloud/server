@@ -34,11 +34,11 @@ interface ICachedMountFileInfo extends ICachedMountInfo {
 	 * @return string
 	 * @since 13.0.0
 	 */
-	public function getInternalPath();
+	public function getInternalPath(): string;
 
 	/**
 	 * @return string
 	 * @since 13.0.0
 	 */
-	public function getPath();
+	public function getPath(): string;
 }
