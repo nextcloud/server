@@ -1755,3 +1755,18 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		}
 	}
 }
+
+.animated {
+    animation: blink-animation 1s steps(5, start) 4;
+}
+
+@keyframes blink-animation {
+  to {
+    opacity: 0.6;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    opacity: 1;
+  }
+}

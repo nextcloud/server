@@ -20,6 +20,9 @@
  *
  */
 
+import { showError } from '@nextcloud/dialogs'
+import rebuildNavigation from '../service/rebuild-navigation.js'
+
 export default {
 	computed: {
 		appGroups() {
@@ -109,33 +112,33 @@ export default {
 		},
 		forceEnable(appId) {
 			this.$store.dispatch('forceEnableApp', { appId, groups: [] })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		enable(appId) {
 			this.$store.dispatch('enableApp', { appId, groups: [] })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		disable(appId) {
 			this.$store.dispatch('disableApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		remove(appId) {
 			this.$store.dispatch('uninstallApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		install(appId) {
 			this.$store.dispatch('enableApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		update(appId) {
 			this.$store.dispatch('updateApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 	},
 }
