@@ -144,13 +144,12 @@ class OwnershipTransferService {
 			throw new TransferOwnershipException("Unknown path provided: $path", 1);
 		}
 
-		if ($move && (
-				!$view->is_dir($finalTarget) || (
-					!$firstLogin &&
-					count($view->getDirectoryContent($finalTarget)) > 0
-				)
-			)
-		) {
+		if ($move && !$view->is_dir($finalTarget)) {
+			// Initialize storage
+			\OC_Util::setupFS($destinationUser->getUID());
+		}
+
+		if ($move && !$firstLogin && count($view->getDirectoryContent($finalTarget)) > 0) {
 			throw new TransferOwnershipException("Destination path does not exists or is not empty", 1);
 		}
 
