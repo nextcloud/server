@@ -468,16 +468,13 @@ class StatusService {
 			// No user status to revert, do nothing
 			return;
 		}
-		try {
-			$userStatus = $this->mapper->findByUserId($userId);
-			if ($userStatus->getMessageId() !== $messageId || $userStatus->getStatus() !== $status) {
-				// Another status is set automatically, do nothing
-				return;
-			}
-			$this->mapper->delete($userStatus);
-		} catch (DoesNotExistException $ex) {
-			// No current status => nothing to delete
+
+		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId ?? '', $status);
+		if (!$deleted) {
+			// Another status is set automatically or no status, do nothing
+			return;
 		}
+
 		$backupUserStatus->setIsBackup(false);
 		// Remove the underscore prefix added when creating the backup
 		$backupUserStatus->setUserId(substr($backupUserStatus->getUserId(), 1));
