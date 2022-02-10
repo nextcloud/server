@@ -89,6 +89,7 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
+		$context->registerEventListener(PostLoginEvent::class, FirstLoginListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -119,7 +120,6 @@ class Application extends App implements IBootstrap {
 		});
 
 		$context->injectFn(Closure::fromCallable([$this, 'registerBackendDependents']));
-		$context->injectFn(Closure::fromCallable([$this, 'registerFirstLoginListener']));
 
 		\OCP\Util::connectHook(
 			'\OCA\Files_Sharing\API\Server2Server',
@@ -127,9 +127,15 @@ class Application extends App implements IBootstrap {
 			'\OCA\User_LDAP\Helper',
 			'loginName2UserName'
 		);
+		\OCP\Util::connectHook(
+			'\OC\User',
+			'assignedUserId',
+			FirstLoginListener::class,
+			'onAssignedId'
+		);
 	}
 
-	private function registerBackendDependents(IAppContainer $appContainer, EventDispatcherInterface $dispatcher) {
+	private function registerBackendDependents(IAppContainer $appContainer, EventDispatcherInterface $dispatcher): void {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {
@@ -138,16 +144,6 @@ class Application extends App implements IBootstrap {
 					return $appContainer->get(ExtStorageConfigHandler::class);
 				});
 			}
-		);
-	}
-
-	private function registerFirstLoginListener(IEventDispatcher $dispatcher) {
-		$dispatcher->addServiceListener(PostLoginEvent::class, FirstLoginListener::class);
-		\OCP\Util::connectHook(
-			'\OC\User',
-			'assignedUserId',
-			FirstLoginListener::class,
-			'onAssignedId'
 		);
 	}
 }
