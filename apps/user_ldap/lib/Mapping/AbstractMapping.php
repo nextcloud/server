@@ -331,7 +331,7 @@ abstract class AbstractMapping {
 			$select->where($select->expr()->like('directory_uuid', $select->createNamedParameter('invalidated_%')));
 		}
 
-		$result = $select->executeQuery();
+		$result = $select->execute();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
 
