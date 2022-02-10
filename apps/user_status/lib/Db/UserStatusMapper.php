@@ -111,7 +111,7 @@ class UserStatusMapper extends QBMapper {
 	 * @param array $userIds
 	 * @return array
 	 */
-	public function findByUserIds(array $userIds):array {
+	public function findByUserIds(array $userIds): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
@@ -176,5 +176,22 @@ class UserStatusMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('status', $qb->createNamedParameter($status)))
 			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 		return $qb->executeStatement() > 0;
+	}
+
+	public function deleteByIds(array $ids): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+		$qb->executeStatement();
+	}
+
+	public function restoreBackupStatuses(array $ids): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName)
+			->set('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
+			->set('user_id', $qb->func()->substring('user_id', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+
+		$qb->executeStatement();
 	}
 }

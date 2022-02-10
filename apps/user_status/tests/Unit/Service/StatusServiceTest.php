@@ -771,4 +771,62 @@ class StatusServiceTest extends TestCase {
 
 		$this->service->backupCurrentStatus('john');
 	}
+
+	public function testRevertMultipleUserStatus(): void {
+		$john = new UserStatus();
+		$john->setId(1);
+		$john->setStatus(IUserStatus::AWAY);
+		$john->setStatusTimestamp(1337);
+		$john->setIsUserDefined(false);
+		$john->setMessageId('call');
+		$john->setUserId('john');
+		$john->setIsBackup(false);
+
+		$johnBackup = new UserStatus();
+		$johnBackup->setId(2);
+		$johnBackup->setStatus(IUserStatus::ONLINE);
+		$johnBackup->setStatusTimestamp(1337);
+		$johnBackup->setIsUserDefined(true);
+		$johnBackup->setMessageId('hello');
+		$johnBackup->setUserId('_john');
+		$johnBackup->setIsBackup(true);
+
+		$noBackup = new UserStatus();
+		$noBackup->setId(3);
+		$noBackup->setStatus(IUserStatus::AWAY);
+		$noBackup->setStatusTimestamp(1337);
+		$noBackup->setIsUserDefined(false);
+		$noBackup->setMessageId('call');
+		$noBackup->setUserId('nobackup');
+		$noBackup->setIsBackup(false);
+
+		$backupOnly = new UserStatus();
+		$backupOnly->setId(4);
+		$backupOnly->setStatus(IUserStatus::ONLINE);
+		$backupOnly->setStatusTimestamp(1337);
+		$backupOnly->setIsUserDefined(true);
+		$backupOnly->setMessageId('hello');
+		$backupOnly->setUserId('_backuponly');
+		$backupOnly->setIsBackup(true);
+
+		$this->mapper->expects($this->once())
+			->method('findByUserIds')
+			->with(['john', 'nobackup', 'backuponly', '_john', '_nobackup', '_backuponly'])
+			->willReturn([
+				$john,
+				$johnBackup,
+				$noBackup,
+				$backupOnly,
+			]);
+
+		$this->mapper->expects($this->once())
+			->method('deleteByIds')
+			->with([1, 3]);
+
+		$this->mapper->expects($this->once())
+			->method('restoreBackupStatuses')
+			->with([2]);
+
+		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly'], 'call', IUserStatus::AWAY);
+	}
 }

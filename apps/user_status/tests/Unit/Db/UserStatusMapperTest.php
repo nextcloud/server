@@ -251,4 +251,56 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->insert($userStatus2);
 		$this->mapper->insert($userStatus3);
 	}
+
+	public function testRestoreBackupStatuses(): void {
+		$userStatus1 = new UserStatus();
+		$userStatus1->setUserId('_user1');
+		$userStatus1->setStatus('online');
+		$userStatus1->setStatusTimestamp(5000);
+		$userStatus1->setIsUserDefined(true);
+		$userStatus1->setIsBackup(true);
+		$userStatus1->setCustomIcon('🚀');
+		$userStatus1->setCustomMessage('Releasing');
+		$userStatus1->setClearAt(50000);
+		$userStatus1 = $this->mapper->insert($userStatus1);
+
+		$userStatus2 = new UserStatus();
+		$userStatus2->setUserId('_user2');
+		$userStatus2->setStatus('away');
+		$userStatus2->setStatusTimestamp(5000);
+		$userStatus2->setIsUserDefined(true);
+		$userStatus2->setIsBackup(true);
+		$userStatus2->setCustomIcon('💩');
+		$userStatus2->setCustomMessage('Do not disturb');
+		$userStatus2->setClearAt(50000);
+		$userStatus2 = $this->mapper->insert($userStatus2);
+
+		$userStatus3 = new UserStatus();
+		$userStatus3->setUserId('_user3');
+		$userStatus3->setStatus('away');
+		$userStatus3->setStatusTimestamp(5000);
+		$userStatus3->setIsUserDefined(true);
+		$userStatus3->setIsBackup(true);
+		$userStatus3->setCustomIcon('🏝️');
+		$userStatus3->setCustomMessage('Vacationing');
+		$userStatus3->setClearAt(50000);
+		$this->mapper->insert($userStatus3);
+
+		$this->mapper->restoreBackupStatuses([$userStatus1->getId(), $userStatus2->getId()]);
+
+		$user1Status = $this->mapper->findByUserId('user1', false);
+		$this->assertEquals('user1', $user1Status->getUserId());
+		$this->assertEquals(false, $user1Status->getIsBackup());
+		$this->assertEquals('Releasing', $user1Status->getCustomMessage());
+
+		$user2Status = $this->mapper->findByUserId('user2', false);
+		$this->assertEquals('user2', $user2Status->getUserId());
+		$this->assertEquals(false, $user2Status->getIsBackup());
+		$this->assertEquals('Do not disturb', $user2Status->getCustomMessage());
+
+		$user3Status = $this->mapper->findByUserId('user3', true);
+		$this->assertEquals('_user3', $user3Status->getUserId());
+		$this->assertEquals(true, $user3Status->getIsBackup());
+		$this->assertEquals('Vacationing', $user3Status->getCustomMessage());
+	}
 }
