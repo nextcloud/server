@@ -52,7 +52,6 @@ use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
-use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\HintException;
@@ -74,17 +73,16 @@ class Access extends LDAPUtility {
 	public $connection;
 	/** @var Manager */
 	public $userManager;
-	//never ever check this var directly, always use getPagedSearchResultState
+	/**
+	 * never ever check this var directly, always use getPagedSearchResultState
+	 * @var ?bool
+	 */
 	protected $pagedSearchedSuccessful;
 
-	/**
-	 * @var UserMapping $userMapper
-	 */
+	/** @var ?AbstractMapping */
 	protected $userMapper;
 
-	/**
-	 * @var AbstractMapping $userMapper
-	 */
+	/** @var ?AbstractMapping */
 	protected $groupMapper;
 
 	/**
@@ -121,17 +119,15 @@ class Access extends LDAPUtility {
 
 	/**
 	 * sets the User Mapper
-	 *
-	 * @param AbstractMapping $mapper
 	 */
-	public function setUserMapper(AbstractMapping $mapper) {
+	public function setUserMapper(AbstractMapping $mapper): void {
 		$this->userMapper = $mapper;
 	}
 
 	/**
 	 * @throws \Exception
 	 */
-	public function getUserMapper(): UserMapping {
+	public function getUserMapper(): AbstractMapping {
 		if (is_null($this->userMapper)) {
 			throw new \Exception('UserMapper was not assigned to this Access instance.');
 		}
@@ -140,20 +136,17 @@ class Access extends LDAPUtility {
 
 	/**
 	 * sets the Group Mapper
-	 *
-	 * @param AbstractMapping $mapper
 	 */
-	public function setGroupMapper(AbstractMapping $mapper) {
+	public function setGroupMapper(AbstractMapping $mapper): void {
 		$this->groupMapper = $mapper;
 	}
 
 	/**
 	 * returns the Group Mapper
 	 *
-	 * @return AbstractMapping
 	 * @throws \Exception
 	 */
-	public function getGroupMapper() {
+	public function getGroupMapper(): AbstractMapping {
 		if (is_null($this->groupMapper)) {
 			throw new \Exception('GroupMapper was not assigned to this Access instance.');
 		}
@@ -343,8 +336,8 @@ class Access extends LDAPUtility {
 	public function extractRangeData($result, $attribute) {
 		$keys = array_keys($result);
 		foreach ($keys as $key) {
-			if ($key !== $attribute && strpos($key, $attribute) === 0) {
-				$queryData = explode(';', $key);
+			if ($key !== $attribute && strpos((string)$key, $attribute) === 0) {
+				$queryData = explode(';', (string)$key);
 				if (strpos($queryData[1], 'range=') === 0) {
 					$high = substr($queryData[1], 1 + strpos($queryData[1], '-'));
 					$data = [
@@ -669,12 +662,10 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param array $ldapObjects as returned by fetchList()
-	 * @param bool $isUsers
-	 * @return array
+	 * @param array[] $ldapObjects as returned by fetchList()
 	 * @throws \Exception
 	 */
-	private function ldap2NextcloudNames($ldapObjects, $isUsers) {
+	private function ldap2NextcloudNames(array $ldapObjects, bool $isUsers): array {
 		if ($isUsers) {
 			$nameAttribute = $this->connection->ldapUserDisplayName;
 			$sndAttribute = $this->connection->ldapUserDisplayName2;
@@ -786,7 +777,7 @@ class Access extends LDAPUtility {
 	 * Instead of using this method directly, call
 	 * createAltInternalOwnCloudName($name, true)
 	 */
-	private function _createAltInternalOwnCloudNameForUsers($name) {
+	private function _createAltInternalOwnCloudNameForUsers(string $name) {
 		$attempts = 0;
 		//while loop is just a precaution. If a name is not generated within
 		//20 attempts, something else is very wrong. Avoids infinite loop.
@@ -813,8 +804,8 @@ class Access extends LDAPUtility {
 	 * numbering, e.g. Developers_42 when there are 41 other groups called
 	 * "Developers"
 	 */
-	private function _createAltInternalOwnCloudNameForGroups($name) {
-		$usedNames = $this->groupMapper->getNamesBySearch($name, "", '_%');
+	private function _createAltInternalOwnCloudNameForGroups(string $name) {
+		$usedNames = $this->getGroupMapper()->getNamesBySearch($name, "", '_%');
 		if (!$usedNames || count($usedNames) === 0) {
 			$lastNo = 1; //will become name_2
 		} else {
@@ -843,10 +834,10 @@ class Access extends LDAPUtility {
 	 * creates a unique name for internal Nextcloud use.
 	 *
 	 * @param string $name the display name of the object
-	 * @param boolean $isUser whether name should be created for a user (true) or a group (false)
+	 * @param bool $isUser whether name should be created for a user (true) or a group (false)
 	 * @return string|false with with the name to use in Nextcloud or false if unsuccessful
 	 */
-	private function createAltInternalOwnCloudName($name, $isUser) {
+	private function createAltInternalOwnCloudName(string $name, bool $isUser) {
 		// ensure there is space for the "_1234" suffix
 		if (strlen($name) > 59) {
 			$name = substr($name, 0, 59);
@@ -879,7 +870,7 @@ class Access extends LDAPUtility {
 	 * utilizing the login filter.
 	 *
 	 * @param string $loginName
-	 * @return int
+	 * @return false|int
 	 */
 	public function countUsersByLoginName($loginName) {
 		$loginName = $this->escapeFilterPart($loginName);
@@ -954,7 +945,7 @@ class Access extends LDAPUtility {
 	 * @param string|string[] $attr
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array
+	 * @return array[]
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
 		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
@@ -965,7 +956,7 @@ class Access extends LDAPUtility {
 		}, []);
 		$idsByDn = $this->groupMapper->getListOfIdsByDn($listOfDNs);
 
-		array_walk($groupRecords, function ($record) use ($idsByDn) {
+		array_walk($groupRecords, function (array $record) use ($idsByDn) {
 			$newlyMapped = false;
 			$gid = $idsByDn[$record['dn'][0]] ?? null;
 			if ($gid === null) {
@@ -978,27 +969,17 @@ class Access extends LDAPUtility {
 		return $this->fetchList($groupRecords, $this->manyAttributes($attr));
 	}
 
-	/**
-	 * @param array $list
-	 * @param bool $manyAttributes
-	 * @return array
-	 */
-	private function fetchList($list, $manyAttributes) {
-		if (is_array($list)) {
-			if ($manyAttributes) {
-				return $list;
-			} else {
-				$list = array_reduce($list, function ($carry, $item) {
-					$attribute = array_keys($item)[0];
-					$carry[] = $item[$attribute][0];
-					return $carry;
-				}, []);
-				return array_unique($list, SORT_LOCALE_STRING);
-			}
+	private function fetchList(array $list, bool $manyAttributes): array {
+		if ($manyAttributes) {
+			return $list;
+		} else {
+			$list = array_reduce($list, function ($carry, $item) {
+				$attribute = array_keys($item)[0];
+				$carry[] = $item[$attribute][0];
+				return $carry;
+			}, []);
+			return array_unique($list, SORT_LOCALE_STRING);
 		}
-
-		//error cause actually, maybe throw an exception in future.
-		return [];
 	}
 
 	/**
@@ -1518,7 +1499,7 @@ class Access extends LDAPUtility {
 	 * @param string $operator either & or |
 	 * @return string the combined filter
 	 */
-	private function combineFilter($filters, $operator) {
+	private function combineFilter(array $filters, string $operator): string {
 		$combinedFilter = '(' . $operator;
 		foreach ($filters as $filter) {
 			if ($filter !== '' && $filter[0] !== '(') {
@@ -1559,12 +1540,12 @@ class Access extends LDAPUtility {
 	 * string into single words
 	 *
 	 * @param string $search the search term
-	 * @param string[] $searchAttributes needs to have at least two attributes,
+	 * @param string[]|null|'' $searchAttributes needs to have at least two attributes,
 	 * otherwise it does not make sense :)
 	 * @return string the final filter part to use in LDAP searches
 	 * @throws DomainException
 	 */
-	private function getAdvancedFilterPartForSearch($search, $searchAttributes) {
+	private function getAdvancedFilterPartForSearch(string $search, $searchAttributes): string {
 		if (!is_array($searchAttributes) || count($searchAttributes) < 2) {
 			throw new DomainException('searchAttributes must be an array with at least two string');
 		}
@@ -1586,12 +1567,12 @@ class Access extends LDAPUtility {
 	 * creates a filter part for searches
 	 *
 	 * @param string $search the search term
-	 * @param string[]|null $searchAttributes
+	 * @param string[]|null|'' $searchAttributes
 	 * @param string $fallbackAttribute a fallback attribute in case the user
 	 * did not define search attributes. Typically the display name attribute.
 	 * @return string the final filter part to use in LDAP searches
 	 */
-	private function getFilterPartForSearch($search, $searchAttributes, $fallbackAttribute) {
+	private function getFilterPartForSearch(string $search, $searchAttributes, string $fallbackAttribute): string {
 		$filter = [];
 		$haveMultiSearchAttributes = (is_array($searchAttributes) && count($searchAttributes) > 0);
 		if ($haveMultiSearchAttributes && strpos(trim($search), ' ') !== false) {
@@ -1623,10 +1604,8 @@ class Access extends LDAPUtility {
 	 * returns the search term depending on whether we are allowed
 	 * list users found by ldap with the current input appended by
 	 * a *
-	 *
-	 * @return string
 	 */
-	private function prepareSearchTerm($term) {
+	private function prepareSearchTerm(string $term): string {
 		$config = \OC::$server->getConfig();
 
 		$allowEnum = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
@@ -1735,7 +1714,7 @@ class Access extends LDAPUtility {
 	 * @return bool true on success, false otherwise
 	 * @throws ServerNotAvailableException
 	 */
-	private function detectUuidAttribute($dn, $isUser = true, $force = false, array $ldapRecord = null) {
+	private function detectUuidAttribute(string $dn, bool $isUser = true, bool $force = false, ?array $ldapRecord = null): bool {
 		if ($isUser) {
 			$uuidAttr = 'ldapUuidUserAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
@@ -1827,10 +1806,9 @@ class Access extends LDAPUtility {
 	 * converts a binary ObjectGUID into a string representation
 	 *
 	 * @param string $oguid the ObjectGUID in it's binary form as retrieved from AD
-	 * @return string
 	 * @link https://www.php.net/manual/en/function.ldap-get-values-len.php#73198
 	 */
-	private function convertObjectGUID2Str($oguid) {
+	private function convertObjectGUID2Str(string $oguid): string {
 		$hex_guid = bin2hex($oguid);
 		$hex_guid_to_guid_str = '';
 		for ($k = 1; $k <= 4; ++$k) {
@@ -1990,7 +1968,7 @@ class Access extends LDAPUtility {
 	 *
 	 * @throws ServerNotAvailableException
 	 */
-	private function abandonPagedSearch() {
+	private function abandonPagedSearch(): void {
 		if ($this->lastCookie === '') {
 			return;
 		}
