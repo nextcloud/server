@@ -88,9 +88,9 @@ class RedisFactory {
 
 			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth, $connectionParameters);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth, $connectionParameters);
 			} else {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth);
 			}
 
 			if (isset($config['failover_mode'])) {
@@ -119,9 +119,17 @@ class RedisFactory {
 				$connectionParameters = [
 					'stream' => $this->getSslContext($config)
 				];
-				$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				/**
+				 * even though the stubs and documentation don't want you to know this,
+				 * pconnect does have the same $connectionParameters argument connect has
+				 *
+				 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
+				 *
+				 * @psalm-suppress TooManyArguments
+				 */
+				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
 			} else {
-				$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout);
+				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout);
 			}
 
 
