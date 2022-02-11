@@ -21,18 +21,25 @@
 
 namespace Test\Diagnostics;
 
+use Psr\Log\LoggerInterface;
 use OC\Diagnostics\EventLogger;
+use OC\Log;
+use OC\SystemConfig;
 use Test\TestCase;
 
 class EventLoggerTest extends TestCase {
 
 	/** @var \OC\Diagnostics\EventLogger */
 	private $logger;
-	
+
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = new EventLogger();
+		$this->logger = new EventLogger(
+			$this->createMock(SystemConfig::class),
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(Log::class)
+		);
 	}
 
 	public function testQueryLogger() {
