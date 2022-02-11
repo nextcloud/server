@@ -109,8 +109,7 @@ class UserStatusMapper extends QBMapper {
 		$qb
 			->select('*')
 			->from($this->tableName)
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($isBackup ? '_' . $userId : $userId, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter($isBackup, IQueryBuilder::PARAM_BOOL)));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($isBackup ? '_' . $userId : $userId, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntity($qb);
 	}
