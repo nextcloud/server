@@ -33,6 +33,9 @@
 						{{ t('settings', 'Update all') }}
 					</button>
 				</div>
+				<div v-if="!showUpdateAll" class="counter">
+					{{ t('settings', 'All apps are up-to-date.') }}
+				</div>
 				<transition-group name="app-list" tag="div" class="apps-list-container">
 					<AppItem v-for="app in apps"
 						:key="app.id"

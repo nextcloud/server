@@ -1034,8 +1034,13 @@ span.version {
 	}
 
 	.counter {
-		padding-left: $header-height - 10px;
-		margin: 10px;
+		padding-left: $header-height;
+		padding-top: 10px;
+		width: 100%;
+		background-color: var(--color-main-background);
+		position: fixed;
+		z-index: 1;
+		height: $header-height;
 	}
 
 	&.installed {
@@ -1043,6 +1048,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
+			margin-top: $header-height;
 		}
 
 		margin-bottom: 100px;
