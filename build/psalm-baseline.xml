@@ -1682,11 +1682,6 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/files_trashbin/lib/Hooks.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$user</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
@@ -1757,12 +1752,9 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidScalarArgument occurrences="5">
+    <InvalidScalarArgument occurrences="2">
       <code>$timestamp</code>
       <code>$timestamp</code>
-      <code>$uid</code>
-      <code>$user</code>
-      <code>$user</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/files_versions/appinfo/routes.php">
@@ -1793,9 +1785,8 @@
     </UndefinedFunction>
   </file>
   <file src="apps/files_versions/lib/Storage.php">
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="1">
       <code>$timestamp</code>
-      <code>$uid</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
@@ -1825,9 +1816,6 @@
   </file>
   <file src="apps/settings/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1"/>
-    <InvalidScalarArgument occurrences="1">
-      <code>\OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getSettingsManager</code>
     </UndefinedInterfaceMethod>
@@ -1878,11 +1866,6 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-  </file>
-  <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$uid</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidScalarArgument occurrences="2">
@@ -1954,9 +1937,6 @@
     </InvalidScope>
   </file>
   <file src="apps/user_ldap/lib/Access.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$this-&gt;countUsers($filter)</code>
-    </FalsableReturnStatement>
     <InvalidArgument occurrences="1">
       <code>$record</code>
     </InvalidArgument>
@@ -1967,10 +1947,8 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
-      <code>$key</code>
-      <code>$key</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>$cookie</code>
@@ -2038,18 +2016,6 @@
     <ParamNameMismatch occurrences="1">
       <code>$gid</code>
     </ParamNameMismatch>
-  </file>
-  <file src="apps/user_ldap/lib/Helper.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$lastNumber + 1</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/user_ldap/lib/Jobs/CleanUp.php">
-    <InvalidScalarArgument occurrences="3">
-      <code>$newOffset</code>
-      <code>0</code>
-      <code>50</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
     <InvalidOperand occurrences="2">
@@ -3319,11 +3285,6 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
-      <code>$user</code>
-      <code>$user</code>
-      <code>\OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
@@ -3856,10 +3817,9 @@
     <InvalidReturnType occurrences="1">
       <code>\OC\Files\Mount\MountPoint</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$fileId</code>
       <code>$mtime</code>
-      <code>$user</code>
     </InvalidScalarArgument>
     <NullableReturnStatement occurrences="6">
       <code>$mount</code>
@@ -4378,10 +4338,6 @@
     <InvalidOperand occurrences="1">
       <code>!self::isResharingAllowed()</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="2">
-      <code>\OC_User::getUser()</code>
-      <code>\OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <UndefinedInterfaceMethod occurrences="2">
       <code>getParents</code>
       <code>getParents</code>
@@ -4582,10 +4538,9 @@
       <code>string</code>
       <code>string</code>
     </InvalidParamDefault>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$appName</code>
       <code>$appName</code>
-      <code>\OC_User::getUser()</code>
     </InvalidScalarArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getInitialStates</code>
@@ -4817,11 +4772,6 @@
       <code>$isWritable</code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/legacy/OC_JSON.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>OC_User::getUser()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
@@ -4838,10 +4788,6 @@
     <InvalidReturnType occurrences="1">
       <code>float</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$user</code>
-      <code>OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>is_string($expected)</code>
     </RedundantCondition>
