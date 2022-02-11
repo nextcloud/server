@@ -42,6 +42,7 @@ use OC\IntegrityCheck\Checker;
 use OC\MemoryInfo;
 use OC\Security\SecureRandom;
 use OCA\Settings\Controller\CheckSetupController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -53,6 +54,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -99,6 +101,10 @@ class CheckSetupControllerTest extends TestCase {
 	private $iniGetWrapper;
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $connection;
+	/** @var IAppManager|MockObject */
+	private $appManager;
+	/** @var IServerContainer|MockObject */
+	private $serverContainer;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -141,6 +147,8 @@ class CheckSetupControllerTest extends TestCase {
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
 		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()->getMock();
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
@@ -159,6 +167,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->appManager,
+				$this->serverContainer,
 			])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -617,6 +627,7 @@ class CheckSetupControllerTest extends TestCase {
 				'imageMagickLacksSVGSupport' => false,
 				'isDefaultPhoneRegionSet' => false,
 				'OCA\Settings\SetupChecks\SupportedDatabase' => ['pass' => true, 'description' => '', 'severity' => 'info'],
+				\OCA\Settings\SetupChecks\LdapInvalidUuids::class => ['pass' => true, 'description' =>  'Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.', 'severity' => 'warning'],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -641,6 +652,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->appManager,
+				$this->serverContainer
 			])
 			->setMethods(null)->getMock();
 
@@ -1410,7 +1423,9 @@ Array
 				$this->memoryInfo,
 				$this->secureRandom,
 				$this->iniGetWrapper,
-				$this->connection
+				$this->connection,
+				$this->appManager,
+				$this->serverContainer
 			);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
@@ -1460,7 +1475,9 @@ Array
 			$this->memoryInfo,
 			$this->secureRandom,
 			$this->iniGetWrapper,
-			$this->connection
+			$this->connection,
+			$this->appManager,
+			$this->serverContainer
 		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
