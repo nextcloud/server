@@ -109,7 +109,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					$table->addUniqueIndex(['directory_uuid'], 'ldap_user_directory_uuid');
 					$changeSchema = true;
 				}
-			} else if (!$schema->hasTable('ldap_group_mapping_backup')) {
+			} elseif (!$schema->hasTable('ldap_group_mapping_backup')) {
 				// We need to copy the table twice to be able to change primary key, prepare the backup table
 				$table2 = $schema->createTable('ldap_group_mapping_backup');
 				$table2->addColumn('ldap_dn', Types::STRING, [
@@ -260,7 +260,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	 * @return Generator<string>
 	 * @throws \OCP\DB\Exception
 	 */
-	protected function getDuplicatedUuids(string $table): Generator{
+	protected function getDuplicatedUuids(string $table): Generator {
 		$select = $this->dbc->getQueryBuilder();
 		$select->select('directory_uuid')
 			->from($table)
