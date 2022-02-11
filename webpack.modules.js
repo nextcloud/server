@@ -90,7 +90,7 @@ module.exports = {
 	weather_status: {
 		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
-	twofactor_backupscodes: {
+	twofactor_backupcodes: {
 		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),
 	},
 	updatenotification: {
