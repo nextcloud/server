@@ -34,6 +34,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IServerContainer;
@@ -78,6 +79,7 @@ class CoordinatorTest extends TestCase {
 			$this->crashReporterRegistry,
 			$this->dashboardManager,
 			$this->eventDispatcher,
+			$this->eventLogger,
 			$this->logger
 		);
 	}
