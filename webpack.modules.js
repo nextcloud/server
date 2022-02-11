@@ -40,14 +40,15 @@ module.exports = {
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
 		profile: path.join(__dirname, 'core/src', 'profile.js'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
-		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
+		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
 	},
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
 	},
 	dav: {
 		'settings-admin-caldav': path.join(__dirname, 'apps/dav/src', 'settings.js'),
+		'settings-personal-availability': path.join(__dirname, 'apps/dav/src', 'settings-personal-availability.js'),
 	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
@@ -72,16 +73,22 @@ module.exports = {
 		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
 	},
 	settings: {
-		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
-		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
 		'vue-settings-admin-delegation': path.join(__dirname, 'apps/settings/src', 'main-admin-delegation.js'),
-		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
-		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
+		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
+		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
 		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
 		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
+		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
+		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
 	},
 	systemtags: {
 		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
+	},
+	twofactor_backupcodes: {
+		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),
+	},
+	updatenotification: {
+		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'init.js'),
 	},
 	user_status: {
 		dashboard: path.join(__dirname, 'apps/user_status/src', 'dashboard.js'),
@@ -89,12 +96,6 @@ module.exports = {
 	},
 	weather_status: {
 		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
-	},
-	twofactor_backupcodes: {
-		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),
-	},
-	updatenotification: {
-		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'init.js'),
 	},
 	workflowengine: {
 		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),
