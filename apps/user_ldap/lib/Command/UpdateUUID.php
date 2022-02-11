@@ -42,12 +42,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function sprintf;
 
 class UuidUpdateReport {
-	const UNCHANGED = 0;
-	const UNKNOWN = 1;
-	const UNREADABLE = 2;
-	const UPDATED = 3;
-	const UNWRITABLE = 4;
-	const UNMAPPED = 5;
+	public const UNCHANGED = 0;
+	public const UNKNOWN = 1;
+	public const UNREADABLE = 2;
+	public const UPDATED = 3;
+	public const UNWRITABLE = 4;
+	public const UNMAPPED = 5;
 
 	public $id = '';
 	public $dn = '';
@@ -140,7 +140,7 @@ class UpdateUUID extends Command {
 		$entriesToUpdate = $this->estimateNumberOfUpdates($input);
 		$progress = new ProgressBar($output);
 		$progress->start($entriesToUpdate);
-		foreach($this->handleUpdates($input) as $_) {
+		foreach ($this->handleUpdates($input) as $_) {
 			$progress->advance();
 		}
 		$progress->finish();
@@ -178,7 +178,7 @@ class UpdateUUID extends Command {
 				if (!empty($report->id)) {
 					$output->writeln(sprintf('  %s: %s',
 						$report->isUser ? 'User' : 'Group', $report->id));
-				} else if (!empty($report->dn)) {
+				} elseif (!empty($report->dn)) {
 					$output->writeln(sprintf('  DN: %s', $report->dn));
 				}
 			}
@@ -219,37 +219,37 @@ class UpdateUUID extends Command {
 
 	protected function handleUpdates(InputInterface $input): \Generator {
 		if ($input->getOption('all')) {
-			foreach($this->handleMappingBasedUpdates(false) as $_) {
+			foreach ($this->handleMappingBasedUpdates(false) as $_) {
 				yield;
 			}
-		} else if ($input->getOption('userId')
+		} elseif ($input->getOption('userId')
 			|| $input->getOption('groupId')
 			|| $input->getOption('dn')
 		) {
-			foreach($this->handleUpdatesByUserId($input->getOption('userId')) as $_) {
+			foreach ($this->handleUpdatesByUserId($input->getOption('userId')) as $_) {
 				yield;
 			}
-			foreach($this->handleUpdatesByGroupId($input->getOption('groupId')) as $_) {
+			foreach ($this->handleUpdatesByGroupId($input->getOption('groupId')) as $_) {
 				yield;
 			}
-			foreach($this->handleUpdatesByDN($input->getOption('dn')) as $_) {
+			foreach ($this->handleUpdatesByDN($input->getOption('dn')) as $_) {
 				yield;
 			}
 		} else {
-			foreach($this->handleMappingBasedUpdates(true) as $_) {
+			foreach ($this->handleMappingBasedUpdates(true) as $_) {
 				yield;
 			}
 		}
 	}
 
 	protected function handleUpdatesByUserId(array $userIds): \Generator {
-		foreach($this->handleUpdatesByEntryId($userIds, $this->userMapping) as $_) {
+		foreach ($this->handleUpdatesByEntryId($userIds, $this->userMapping) as $_) {
 			yield;
 		}
 	}
 
 	protected function handleUpdatesByGroupId(array $groupIds): \Generator {
-		foreach($this->handleUpdatesByEntryId($groupIds, $this->groupMapping) as $_) {
+		foreach ($this->handleUpdatesByEntryId($groupIds, $this->groupMapping) as $_) {
 			yield;
 		}
 	}
@@ -272,10 +272,10 @@ class UpdateUUID extends Command {
 			$this->reports[UuidUpdateReport::UNMAPPED][] = new UuidUpdateReport('', $dn, true, UuidUpdateReport::UNMAPPED);
 			yield;
 		}
-		foreach($this->handleUpdatesByList($this->userMapping, $userList) as $_) {
+		foreach ($this->handleUpdatesByList($this->userMapping, $userList) as $_) {
 			yield;
 		}
-		foreach($this->handleUpdatesByList($this->groupMapping, $groupList) as $_) {
+		foreach ($this->handleUpdatesByList($this->groupMapping, $groupList) as $_) {
 			yield;
 		}
 	}
@@ -284,7 +284,7 @@ class UpdateUUID extends Command {
 		$isUser = $mapping instanceof UserMapping;
 		$list = [];
 		while ($id = array_pop($ids)) {
-			if(!$dn = $mapping->getDNByName($id)) {
+			if (!$dn = $mapping->getDNByName($id)) {
 				$this->reports[UuidUpdateReport::UNMAPPED][] = new UuidUpdateReport($id, '', $isUser, UuidUpdateReport::UNMAPPED);
 				yield;
 				continue;
@@ -293,7 +293,7 @@ class UpdateUUID extends Command {
 			$uuid = $mapping->getUUIDByDN($dn);
 			$list[] = ['name' => $id, 'uuid' => $uuid];
 		}
-		foreach($this->handleUpdatesByList($mapping, $list) as $_) {
+		foreach ($this->handleUpdatesByList($mapping, $list) as $_) {
 			yield;
 		}
 	}
@@ -301,13 +301,13 @@ class UpdateUUID extends Command {
 	protected function handleMappingBasedUpdates(bool $invalidatedOnly): \Generator {
 		$limit = 1000;
 		/** @var AbstractMapping $mapping*/
-		foreach([$this->userMapping, $this->groupMapping] as $mapping) {
+		foreach ([$this->userMapping, $this->groupMapping] as $mapping) {
 			$offset = 0;
 			do {
 				$list = $mapping->getList($offset, $limit, $invalidatedOnly);
 				$offset += $limit;
 
-				foreach($this->handleUpdatesByList($mapping, $list) as $tick) {
+				foreach ($this->handleUpdatesByList($mapping, $list) as $tick) {
 					yield; // null, for it only advances progress counter
 				}
 			} while (count($list) === $limit);
@@ -326,8 +326,7 @@ class UpdateUUID extends Command {
 		foreach ($list as $row) {
 			$access = $backendProxy->getLDAPAccess($row['name']);
 			if ($access instanceof Access
-				&& $dn = $mapping->getDNByName($row['name']))
-			{
+				&& $dn = $mapping->getDNByName($row['name'])) {
 				if ($uuid = $access->getUUID($dn, $isUser)) {
 					if ($uuid !== $row['uuid']) {
 						if ($this->dryRun || $mapping->setUUIDbyDN($uuid, $dn)) {
@@ -359,7 +358,7 @@ class UpdateUUID extends Command {
 	protected function estimateNumberOfUpdates(InputInterface $input): int {
 		if ($input->getOption('all')) {
 			return $this->userMapping->count() + $this->groupMapping->count();
-		} else if ($input->getOption('userId')
+		} elseif ($input->getOption('userId')
 			|| $input->getOption('groupId')
 			|| $input->getOption('dn')
 		) {
@@ -370,5 +369,4 @@ class UpdateUUID extends Command {
 			return $this->userMapping->countInvalidated() + $this->groupMapping->countInvalidated();
 		}
 	}
-
 }
