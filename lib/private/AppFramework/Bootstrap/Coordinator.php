@@ -57,6 +57,9 @@ class Coordinator {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
+	/** @var IEventLogger */
+	private $eventLogger;
+
 	/** @var LoggerInterface */
 	private $logger;
 
@@ -75,6 +78,7 @@ class Coordinator {
 		$this->registry = $registry;
 		$this->dashboardManager = $dashboardManager;
 		$this->eventDispatcher = $eventListener;
+		$this->eventLogger = $eventLogger;
 		$this->logger = $logger;
 	}
 
@@ -123,7 +127,9 @@ class Coordinator {
 						continue;
 					}
 
+					$this->eventLogger->start('bootstrap:register_app_' . $appId, '');
 					$application->register($this->registrationContext->for($appId));
+					$this->eventLogger->end('bootstrap:register_app_' . $appId);
 				}
 			} catch (Throwable $e) {
 				$this->logger->emergency('Error during app service registration: ' . $e->getMessage(), [
@@ -169,6 +175,7 @@ class Coordinator {
 		 * the instance was already created for register, but any other
 		 * (legacy) code will now do their magic via the constructor.
 		 */
+		$this->eventLogger->start('bootstrap:boot_app_' . $appId, '');
 		try {
 			/** @var App $application */
 			$application = $this->serverContainer->query($applicationClassName);
@@ -186,6 +193,7 @@ class Coordinator {
 				'exception' => $e,
 			]);
 		}
+		$this->eventLogger->end('bootstrap:boot_app_' . $appId);
 	}
 
 	public function isBootable(string $appId) {
