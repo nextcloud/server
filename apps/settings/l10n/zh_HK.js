@@ -132,6 +132,7 @@ OC.L10N.register(
     "Verifying" : "正在驗證",
     "A background job is pending that checks for user imported SSL certificates. Please check back later." : "背景作業正在檢查用戶匯入的SSL證書。請稍後再檢查。",
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "存在一些用戶匯入的SSL證書，這些在Nextcloud 21中不再使用。可以通過“ occ security:certificates:import”命令在命令行上將其導入。它們在數據目錄中的路徑如下所示。",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP 用戶或群組的 UUID 無效。請查看 LDAP 配置專家部分中的“覆蓋 UUID 檢測”設置，並使用“occ ldap:update-uuid”更新它們。",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "啟用了舊的伺服器端加密格式。我們建議停用它。",
     "MariaDB version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MariaDB 10.2 or higher." : "正在使用 MariaDB 版本「%s」。Nextcloud 21 不再支援此版本，並需要 MariaDB 10.2 或更新版本。",
     "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "正在使用 MySQL 版本「%s」。Nextcloud 21 不再支援此版本，並需要 MySQL 8.0、MariaDB 10.2 或更新版本。",
