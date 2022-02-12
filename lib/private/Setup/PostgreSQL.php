@@ -61,24 +61,35 @@ class PostgreSQL extends AbstractDatabase {
 				$canCreateRoles = false;
 			}
 
-			if ($canCreateRoles) {
-				//use the admin login data for the new database user
-
-				//add prefix to the postgresql user name to prevent collisions
-				$this->dbUser = 'oc_' . strtolower($username);
-				//create a new password so we don't need to store the admin config in the config file
-				$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
-
-				$this->createDBUser($connection);
-			}
-
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
 
-			//create the database
-			$this->createDatabase($connection);
+			try {
+				//create the database
+				$this->createDatabase($connection);
+			} catch (\Exception $e) {
+				if ($canCreateRoles) {
+					//use the admin login data for the new database user
+
+					//add prefix to the postgresql user name to prevent collisions
+					$this->dbUser = 'oc_' . strtolower($username);
+					//create a new password so we don't need to store the admin config in the config file
+					$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+
+					$this->createDBUser($connection);
+
+					$this->config->setValues([
+						'dbuser' => $this->dbUser,
+						'dbpassword' => $this->dbPassword,
+					]);
+
+					//create the database
+					$this->createDatabase($connection);
+				}
+			}
+
 			// the connection to dbname=postgres is not needed anymore
 			$connection->close();
 		} catch (\Exception $e) {
@@ -116,6 +127,7 @@ class PostgreSQL extends AbstractDatabase {
 				$this->logger->error('Error while trying to create database', [
 					'exception' => $e,
 				]);
+				throw $e;
 			}
 		} else {
 			$query = $connection->prepare("REVOKE ALL PRIVILEGES ON DATABASE " . addslashes($this->dbName) . " FROM PUBLIC");
