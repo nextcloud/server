@@ -156,7 +156,7 @@
  */
 
 /*!
- * jQuery UI :data 1.13.0
+ * jQuery UI :data 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -165,16 +165,7 @@
  */
 
 /*!
- * jQuery UI Autocomplete 1.13.0
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
- * jQuery UI Button 1.13.0
+ * jQuery UI Autocomplete 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -192,25 +183,7 @@
  */
 
 /*!
- * jQuery UI Checkboxradio 1.13.0
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
  * jQuery UI Checkboxradio 1.13.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
- * jQuery UI Controlgroup 1.13.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -228,7 +201,7 @@
  */
 
 /*!
- * jQuery UI Datepicker 1.13.0
+ * jQuery UI Datepicker 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -237,7 +210,7 @@
  */
 
 /*!
- * jQuery UI Dialog 1.13.0
+ * jQuery UI Dialog 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -246,7 +219,7 @@
  */
 
 /*!
- * jQuery UI Draggable 1.13.0
+ * jQuery UI Draggable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -255,7 +228,7 @@
  */
 
 /*!
- * jQuery UI Droppable 1.13.0
+ * jQuery UI Droppable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -264,7 +237,7 @@
  */
 
 /*!
- * jQuery UI Effects 1.13.0
+ * jQuery UI Effects 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -273,7 +246,7 @@
  */
 
 /*!
- * jQuery UI Focusable 1.13.0
+ * jQuery UI Focusable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -309,7 +282,7 @@
  */
 
 /*!
- * jQuery UI Position 1.13.0
+ * jQuery UI Position 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -320,7 +293,7 @@
  */
 
 /*!
- * jQuery UI Resizable 1.13.0
+ * jQuery UI Resizable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -329,7 +302,7 @@
  */
 
 /*!
- * jQuery UI Spinner 1.13.0
+ * jQuery UI Spinner 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -338,7 +311,7 @@
  */
 
 /*!
- * jQuery UI Support for jQuery core 1.8.x and newer 1.13.0
+ * jQuery UI Support for jQuery core 1.8.x and newer 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -348,7 +321,7 @@
  */
 
 /*!
- * jQuery UI Tabs 1.13.0
+ * jQuery UI Tabs 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -357,16 +330,7 @@
  */
 
 /*!
- * jQuery UI Tooltip 1.13.0
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
- * jQuery UI Widget 1.13.0
+ * jQuery UI Tooltip 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -421,7 +385,7 @@
 
 /*! jQuery Migrate v3.3.2 | (c) OpenJS Foundation and other contributors | jquery.org/license */
 
-/*! jQuery UI - v1.13.0 - 2021-10-07
+/*! jQuery UI - v1.13.1 - 2022-01-20
 * http://jqueryui.com
 * Includes: widget.js, position.js, data.js, disable-selection.js, effect.js, effects/effect-blind.js, effects/effect-bounce.js, effects/effect-clip.js, effects/effect-drop.js, effects/effect-explode.js, effects/effect-fade.js, effects/effect-fold.js, effects/effect-highlight.js, effects/effect-puff.js, effects/effect-pulsate.js, effects/effect-scale.js, effects/effect-shake.js, effects/effect-size.js, effects/effect-slide.js, effects/effect-transfer.js, focusable.js, form-reset-mixin.js, jquery-patch.js, keycode.js, labels.js, scroll-parent.js, tabbable.js, unique-id.js, widgets/accordion.js, widgets/autocomplete.js, widgets/button.js, widgets/checkboxradio.js, widgets/controlgroup.js, widgets/datepicker.js, widgets/dialog.js, widgets/draggable.js, widgets/droppable.js, widgets/menu.js, widgets/mouse.js, widgets/progressbar.js, widgets/resizable.js, widgets/selectable.js, widgets/selectmenu.js, widgets/slider.js, widgets/sortable.js, widgets/spinner.js, widgets/tabs.js, widgets/tooltip.js
 * Copyright jQuery Foundation and other contributors; Licensed MIT */

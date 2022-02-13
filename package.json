@@ -63,7 +63,7 @@
     "jquery": "~3.6",
     "jquery-migrate": "~3.3",
     "jquery-ui": "^1.13.1",
-    "jquery-ui-dist": "^1.13.0",
+    "jquery-ui-dist": "^1.13.1",
     "jstimezonedetect": "^1.0.7",
     "lodash": "^4.17.21",
     "marked": "^4.0.12",
