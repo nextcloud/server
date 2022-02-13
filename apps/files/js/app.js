@@ -14,14 +14,6 @@
 /* global dragOptions, folderDropOptions, OC */
 (function() {
 
-	if (!OCA.Files) {
-		/**
-		 * Namespace for the files app
-		 * @namespace OCA.Files
-		 */
-		OCA.Files = {};
-	}
-
 	/**
 	 * @namespace OCA.Files.App
 	 */
@@ -398,10 +390,4 @@
 	};
 })();
 
-window.addEventListener('DOMContentLoaded', function() {
-	// wait for other apps/extensions to register their event handlers and file actions
-	// in the "ready" clause
-	_.defer(function() {
-		OCA.Files.App.initialize();
-	});
-});
+OCA.Files.App.initialize();

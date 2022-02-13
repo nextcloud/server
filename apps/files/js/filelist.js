@@ -9,32 +9,10 @@
  */
 
 (function() {
-
-	/**
-	 * @class OCA.Files.FileList
-	 * @classdesc
-	 *
-	 * The FileList class manages a file list view.
-	 * A file list view consists of a controls bar and
-	 * a file list table.
-	 *
-	 * @param $el container element with existing markup for the #controls
-	 * and a table
-	 * @param {Object} [options] map of options, see other parameters
-	 * @param {Object} [options.scrollContainer] scrollable container, defaults to $(window)
-	 * @param {Object} [options.dragOptions] drag options, disabled by default
-	 * @param {Object} [options.folderDropOptions] folder drop options, disabled by default
-	 * @param {boolean} [options.detailsViewEnabled=true] whether to enable details view
-	 * @param {boolean} [options.enableUpload=false] whether to enable uploader
-	 * @param {OC.Files.Client} [options.filesClient] files client to use
-	 */
-	var FileList = function($el, options) {
-		this.initialize($el, options);
-	};
 	/**
 	 * @memberof OCA.Files
 	 */
-	FileList.prototype = {
+	const FileListPrototype = {
 		SORT_INDICATOR_ASC_CLASS: 'icon-triangle-n',
 		SORT_INDICATOR_DESC_CLASS: 'icon-triangle-s',
 
@@ -667,6 +645,13 @@
 			}
 		},
 
+		_updateDetailsViewTmpFileName: null,
+		_updateDetailsViewTmpShow: null,
+
+		updateDetailsView: function(fileName, show) {
+			this._updateDetailsView(fileName, show)
+		},
+
 		/**
 		 * Update the details view to display the given file
 		 *
@@ -675,7 +660,8 @@
 		 */
 		_updateDetailsView: function(fileName, show) {
 			if (!(OCA.Files && OCA.Files.Sidebar)) {
-				console.error('No sidebar available');
+				this._updateDetailsViewTmpFileName = fileName
+				this._updateDetailsViewTmpShow = show
 				return;
 			}
 
@@ -4009,16 +3995,44 @@
 	 */
 	OCA.Files.FileInfo = OC.Files.FileInfo;
 
+	/**
+	 * @class OCA.Files.FileList
+	 * @classdesc
+	 *
+	 * The FileList class manages a file list view.
+	 * A file list view consists of a controls bar and
+	 * a file list table.
+	 *
+	 * @param $el container element with existing markup for the #controls
+	 * and a table
+	 * @param {Object} [options] map of options, see other parameters
+	 * @param {Object} [options.scrollContainer] scrollable container, defaults to $(window)
+	 * @param {Object} [options.dragOptions] drag options, disabled by default
+	 * @param {Object} [options.folderDropOptions] folder drop options, disabled by default
+	 * @param {boolean} [options.detailsViewEnabled=true] whether to enable details view
+	 * @param {boolean} [options.enableUpload=false] whether to enable uploader
+	 * @param {OC.Files.Client} [options.filesClient] files client to use
+	 */
+	function FileList($el, options) {
+		this.initialize($el, options);
+		let filelist = this
+
+		window.addEventListener('DOMContentLoaded', function() {
+			// FIXME: unused ?
+			this.useUndo = (window.onbeforeunload)?true:false;
+			$(window).on('beforeunload', function () {
+			if (this.lastAction) {
+				this.lastAction();
+			}
+			});
+			if (this._updateDetailsViewTmpFileName && this._updateDetailsViewTmpShow) {
+				filelist.updateDetailsView(this._updateDetailsViewTmpFileName, this._updateDetailsViewTmpShow)
+			}
+		});
+	}
+
+	FileList.prototype = FileListPrototype
+	FileList.prototype.constructor = FileList
+	
 	OCA.Files.FileList = FileList;
 })();
-
-window.addEventListener('DOMContentLoaded', function() {
-	// FIXME: unused ?
-	OCA.Files.FileList.useUndo = (window.onbeforeunload)?true:false;
-	$(window).on('beforeunload', function () {
-		if (OCA.Files.FileList.lastAction) {
-			OCA.Files.FileList.lastAction();
-		}
-	});
-
-});

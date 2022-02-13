@@ -1,5 +1,4 @@
 [
-  "app.js",
   "breadcrumb.js",
   "detailfileinfoview.js",
   "detailsview.js",
@@ -28,5 +27,6 @@
   "sidebarpreviewmanager.js",
   "sidebarpreviewtext.js",
   "tagsplugin.js",
-  "templates.js"
+  "templates.js",
+  "app.js"
 ]

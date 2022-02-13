@@ -20,6 +20,13 @@
 */
 
 (function() {
+	if (!OCA.Files) {
+		/**
+		 * Namespace for the files app
+		 * @namespace OCA.Files
+		 */
+		OCA.Files = {};
+	}
 	/**
 	 * @class BreadCrumb
 	 * @memberof OCA.Files
