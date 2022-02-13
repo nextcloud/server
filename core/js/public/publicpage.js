@@ -31,6 +31,10 @@ window.addEventListener('DOMContentLoaded', function () {
 		$('#remote_address').focus();
 	});
 
+	if (new URLSearchParams(window.location.search).get('view') == 'grid') {
+		$('#view-toggle').removeClass('icon-toggle-pictures').addClass('icon-toggle-filelist');
+		$('#filestable').addClass('view-grid');
+	}
 
 	$(document).mouseup(function(e) {
 		var toggle = $('#body-public').find('.header-right .menutoggle');
