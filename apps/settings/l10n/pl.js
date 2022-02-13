@@ -173,6 +173,7 @@ OC.L10N.register(
     "Featured" : "Polecane",
     "Update to {update}" : "Aktualizuj do {update}",
     "Update all" : "Zaktualizuj wszystko",
+    "All apps are up-to-date." : "Wszystkie aplikacje są aktualne.",
     "Results from other categories" : "Wyniki z innych kategorii",
     "No apps found for your version" : "Nie znaleziono aplikacji dla Twojej wersji",
     "Disable all" : "Wyłącz wszystkie",
