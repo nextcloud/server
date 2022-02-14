@@ -76,11 +76,25 @@ class FirstLoginListener implements IEventListener {
 	}
 
 	public function onAssignedId(string $username): void {
+		$this->logger->info(
+			__CLASS__ . ' – {user} assignedId',
+			[
+				'app' => 'user_ldap',
+				'user' => $username,
+			]
+		);
 		$this->eventHappened[$username]['id'] = 1;
 		$this->triggerUpdateGroups($username);
 	}
 
 	public function onPostLogin(string $username): void {
+		$this->logger->info(
+			__CLASS__ . ' – {user} postLogin',
+			[
+				'app' => 'user_ldap',
+				'user' => $username,
+			]
+		);
 		$this->eventHappened[$username]['login'] = 1;
 		$this->triggerUpdateGroups($username);
 	}
@@ -92,6 +106,13 @@ class FirstLoginListener implements IEventListener {
 	}
 
 	private function updateGroups(string $username): void {
+		$this->logger->info(
+			__CLASS__ . ' – {user} updateGroups',
+			[
+				'app' => 'user_ldap',
+				'user' => $username,
+			]
+		);
 		$groups = $this->groupBackend->getUserGroups($username);
 
 		$qb = $this->dbc->getQueryBuilder();
