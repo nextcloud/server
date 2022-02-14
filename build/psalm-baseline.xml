@@ -243,11 +243,6 @@
       <code>$principal</code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/dav/lib/CalDAV/InvitationResponse/InvitationResponseServer.php">
-    <UndefinedPropertyAssignment occurrences="1">
-      <code>$acl-&gt;defaultUsernamePath</code>
-    </UndefinedPropertyAssignment>
-  </file>
   <file src="apps/dav/lib/CalDAV/Plugin.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|null</code>
@@ -939,9 +934,6 @@
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
-    <UndefinedPropertyAssignment occurrences="1">
-      <code>$acl-&gt;defaultUsernamePath</code>
-    </UndefinedPropertyAssignment>
   </file>
   <file src="apps/dav/lib/SystemTag/SystemTagsByIdCollection.php">
     <InvalidNullableReturnType occurrences="1">
