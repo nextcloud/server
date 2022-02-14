@@ -37,6 +37,6 @@ class LoadSidebarListener implements IEventListener {
 			return;
 		}
 
-		Util::addScript(Application::APP_ID, 'files_sharing_tab');
+		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
 	}
 }

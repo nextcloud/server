@@ -128,7 +128,10 @@
 			// refer to the one of the "files" view
 			window.FileList = this.fileList;
 
-			OC.Plugins.attach('OCA.Files.App', this);
+			let selfApp = this
+			window.addEventListener('DOMContentLoaded', function() {
+				OC.Plugins.attach('OCA.Files.App', selfApp)
+			})
 
 			this._setupEvents();
 			// trigger URL change event handlers

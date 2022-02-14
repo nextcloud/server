@@ -56,7 +56,10 @@
 				}
 		        }];
 
-			OC.Plugins.attach('OCA.Files.NewFileMenu', this);
+			let selfNewFileMenu = this
+			window.addEventListener('DOMContentLoaded', function() {
+				OC.Plugins.attach('OCA.Files.NewFileMenu', selfNewFileMenu);
+			})
 		},
 
 		template: function(data) {
