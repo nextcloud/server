@@ -4,7 +4,7 @@
     "behat/behat": "~3.10.0",
     "guzzlehttp/guzzle": "6.5.2",
     "jarnaiz/behat-junit-formatter": "^1.3",
-    "sabre/dav": "4.3.0",
+    "sabre/dav": "4.3.1",
     "symfony/event-dispatcher": "~5.3"
   }
 }
