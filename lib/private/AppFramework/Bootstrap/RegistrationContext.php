@@ -52,6 +52,7 @@ use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
 use OCP\Support\CrashReport\IReporter;
+use OCP\UserMigration\IMigrator as IUserMigrator;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -77,6 +78,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IRoomBackend>[] */
 	private $calendarRoomBackendRegistrations = [];
+
+	/** @var ServiceRegistration<IUserMigrator>[] */
+	private $userMigrators = [];
 
 	/** @var ServiceFactoryRegistration[] */
 	private $services = [];
@@ -293,6 +297,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerUserMigrator(string $migratorClass): void {
+				$this->context->registerUserMigrator(
+					$this->appId,
+					$migratorClass
+				);
+			}
 		};
 	}
 
@@ -410,6 +421,13 @@ class RegistrationContext {
 			$appId,
 			$class,
 		);
+	}
+
+	/**
+	 * @psalm-param class-string<IUserMigrator> $migratorClass
+	 */
+	public function registerUserMigrator(string $appId, string $migratorClass): void {
+		$this->userMigrators[] = new ServiceRegistration($appId, $migratorClass);
 	}
 
 	/**
@@ -686,5 +704,12 @@ class RegistrationContext {
 	 */
 	public function getCalendarRoomBackendRegistrations(): array {
 		return $this->calendarRoomBackendRegistrations;
+	}
+
+	/**
+	 * @return ServiceRegistration<IUserMigrator>[]
+	 */
+	public function getUserMigrators(): array {
+		return $this->userMigrators;
 	}
 }
