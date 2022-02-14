@@ -32,13 +32,13 @@ use OCA\User_LDAP\Controller\RenewPasswordController;
 use OCA\User_LDAP\Events\GroupBackendRegistered;
 use OCA\User_LDAP\Events\UserBackendRegistered;
 use OCA\User_LDAP\FilesystemHelper;
-use OCA\User_LDAP\FirstLoginListener;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\LoginListener;
 use OCA\User_LDAP\Notification\Notifier;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_Proxy;
@@ -115,7 +115,7 @@ class Application extends App implements IBootstrap {
 			// the instance is specific to a lazy bound Access instance, thus cannot be shared.
 			false
 		);
-		$context->registerEventListener(PostLoginEvent::class, FirstLoginListener::class);
+		$context->registerEventListener(PostLoginEvent::class, LoginListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -151,12 +151,6 @@ class Application extends App implements IBootstrap {
 			'preLoginNameUsedAsUserName',
 			'\OCA\User_LDAP\Helper',
 			'loginName2UserName'
-		);
-		\OCP\Util::connectHook(
-			'\OC\User',
-			'assignedUserId',
-			FirstLoginListener::class,
-			'onAssignedId'
 		);
 	}
 
