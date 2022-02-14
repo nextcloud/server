@@ -450,7 +450,7 @@ abstract class AbstractMapping {
 			->from($this->getTableName())
 			->where($query->expr()->like('directory_uuid', $query->createNamedParameter('invalidated_%')));
 		$res = $query->execute();
-		$count = $res->fetchOne();
+		$count = $res->fetchColumn();
 		$res->closeCursor();
 		return (int)$count;
 	}
