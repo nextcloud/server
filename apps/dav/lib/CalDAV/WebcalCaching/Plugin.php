@@ -33,6 +33,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use function count;
 
 class Plugin extends ServerPlugin {
 
@@ -46,16 +47,8 @@ class Plugin extends ServerPlugin {
 	public const ENABLE_FOR_CLIENTS = [
 		"/^MSFT-WIN-3/"
 	];
-
-	/**
-	 * @var bool
-	 */
-	private $enabled = false;
-
-	/**
-	 * @var Server
-	 */
-	private $server;
+	private bool $enabled = false;
+	private Server $server;
 
 	/**
 	 * Plugin constructor.
@@ -99,7 +92,7 @@ class Plugin extends ServerPlugin {
 
 		$path = $request->getPath();
 		$pathParts = explode('/', ltrim($path, '/'));
-		if (\count($pathParts) < 2) {
+		if (count($pathParts) < 2) {
 			return;
 		}
 

@@ -43,18 +43,10 @@ use Sabre\VObject\Reader;
  * @package OCA\DAV\CalDAV\Activity
  */
 class Backend {
-
-	/** @var IActivityManager */
-	protected $activityManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IAppManager */
-	protected $appManager;
+	protected IActivityManager $activityManager;
+	protected IGroupManager $groupManager;
+	protected IUserSession $userSession;
+	protected IAppManager $appManager;
 
 	public function __construct(IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession, IAppManager $appManager) {
 		$this->activityManager = $activityManager;
@@ -131,7 +123,7 @@ class Backend {
 	 * @param array $shares
 	 * @param array $changedProperties
 	 */
-	protected function triggerCalendarActivity($action, array $calendarData, array $shares = [], array $changedProperties = []) {
+	protected function triggerCalendarActivity(string $action, array $calendarData, array $shares = [], array $changedProperties = []) {
 		if (!isset($calendarData['principaluri'])) {
 			return;
 		}
@@ -356,7 +348,7 @@ class Backend {
 	 * @param array[] $shares
 	 * @return bool
 	 */
-	protected function isAlreadyShared($principal, $shares) {
+	protected function isAlreadyShared(string $principal, array $shares): bool {
 		foreach ($shares as $share) {
 			if ($principal === $share['href']) {
 				return true;
@@ -374,7 +366,7 @@ class Backend {
 	 * @param array $properties
 	 * @param string $subject
 	 */
-	protected function triggerActivityGroup($gid, IEvent $event, array $properties, $subject) {
+	protected function triggerActivityGroup(string $gid, IEvent $event, array $properties, string $subject) {
 		$group = $this->groupManager->get($gid);
 
 		if ($group instanceof IGroup) {
@@ -396,7 +388,7 @@ class Backend {
 	 * @param string $subject
 	 * @param string $subjectSelf
 	 */
-	protected function triggerActivityUser($user, IEvent $event, array $properties, $subject, $subjectSelf = '') {
+	protected function triggerActivityUser(string $user, IEvent $event, array $properties, string $subject, string $subjectSelf = '') {
 		$event->setAffectedUser($user)
 			->setSubject(
 				$user === $event->getAuthor() && $subjectSelf ? $subjectSelf : $subject,
@@ -421,7 +413,7 @@ class Backend {
 	 * @param array $shares
 	 * @param array $objectData
 	 */
-	public function onTouchCalendarObject($action, array $calendarData, array $shares, array $objectData) {
+	public function onTouchCalendarObject(string $action, array $calendarData, array $shares, array $objectData) {
 		if (!isset($calendarData['principaluri'])) {
 			return;
 		}
@@ -524,7 +516,7 @@ class Backend {
 	 * @param array $shares
 	 * @return string[]
 	 */
-	protected function getUsersForShares(array $shares) {
+	protected function getUsersForShares(array $shares): array {
 		$users = $groups = [];
 		foreach ($shares as $share) {
 			$principal = explode('/', $share['{http://owncloud.org/ns}principal']);

@@ -23,15 +23,13 @@
  */
 namespace OCA\DAV\Connector\Sabre\Exception;
 
+use DOMElement;
 use Sabre\DAV\Exception;
+use Sabre\DAV\Server;
 
 class InvalidPath extends Exception {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
-
-	/**
-	 * @var bool
-	 */
-	private $retry;
+	private bool $retry;
 
 	/**
 	 * @param string $message
@@ -56,11 +54,11 @@ class InvalidPath extends Exception {
 	 * This method allows the exception to include additional information
 	 * into the WebDAV error response
 	 *
-	 * @param \Sabre\DAV\Server $server
-	 * @param \DOMElement $errorNode
+	 * @param Server $server
+	 * @param DOMElement $errorNode
 	 * @return void
 	 */
-	public function serialize(\Sabre\DAV\Server $server,\DOMElement $errorNode) {
+	public function serialize(Server $server, DOMElement $errorNode) {
 
 		// set ownCloud namespace
 		$errorNode->setAttribute('xmlns:o', self::NS_OWNCLOUD);

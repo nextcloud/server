@@ -27,6 +27,8 @@ namespace OCA\DAV\CalDAV\Search\Xml\Filter;
 
 use OCA\DAV\CalDAV\Search\SearchPlugin;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\Xml\LibXMLException;
+use Sabre\Xml\ParseException;
 use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
@@ -34,8 +36,10 @@ class LimitFilter implements XmlDeserializable {
 
 	/**
 	 * @param Reader $reader
-	 * @throws BadRequest
 	 * @return int
+	 * @throws BadRequest
+	 * @throws LibXMLException
+	 * @throws ParseException
 	 */
 	public static function xmlDeserialize(Reader $reader) {
 		$value = $reader->parseInnerTree();

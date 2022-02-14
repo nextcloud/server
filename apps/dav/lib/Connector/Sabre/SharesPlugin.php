@@ -48,23 +48,16 @@ class SharesPlugin extends ServerPlugin {
 	public const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
 	public const SHAREES_PROPERTYNAME = '{http://nextcloud.org/ns}sharees';
 
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var Tree */
-	private $tree;
-
-	/** @var string */
-	private $userId;
-
-	/** @var Folder */
-	private $userFolder;
+	private IManager $shareManager;
+	private Tree $tree;
+	private string $userId;
+	private Folder $userFolder;
 
 	/** @var IShare[][] */
-	private $cachedShares = [];
+	private array $cachedShares = [];
 
 	/** @var string[] */
-	private $cachedFolders = [];
+	private array $cachedFolders = [];
 
 	/**
 	 * @param Tree $tree tree

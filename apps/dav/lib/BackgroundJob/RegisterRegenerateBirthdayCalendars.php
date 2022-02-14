@@ -34,12 +34,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class RegisterRegenerateBirthdayCalendars extends QueuedJob {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IJobList */
-	private $jobList;
+	private IUserManager $userManager;
+	private IJobList $jobList;
 
 	/**
 	 * RegisterRegenerateBirthdayCalendars constructor.

@@ -30,15 +30,9 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class CalendarManager {
-
-	/** @var CalDavBackend */
-	private $backend;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IConfig */
-	private $config;
+	private CalDavBackend $backend;
+	private IL10N $l10n;
+	private IConfig $config;
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -61,7 +55,7 @@ class CalendarManager {
 	 * @param IManager $cm
 	 * @param string $userId
 	 */
-	public function setupCalendarProvider(IManager $cm, $userId) {
+	public function setupCalendarProvider(IManager $cm, string $userId) {
 		$calendars = $this->backend->getCalendarsForUser("principals/users/$userId");
 		$this->register($cm, $calendars);
 	}

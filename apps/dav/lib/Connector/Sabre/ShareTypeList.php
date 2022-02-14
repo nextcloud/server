@@ -41,7 +41,7 @@ class ShareTypeList implements Element {
 	 *
 	 * @var int[]
 	 */
-	private $shareTypes;
+	private array $shareTypes;
 
 	/**
 	 * @param int[] $shareTypes

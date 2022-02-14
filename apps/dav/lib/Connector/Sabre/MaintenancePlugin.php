@@ -29,32 +29,23 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\L10N\IFactory;
 use OCP\Util;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\ServerPlugin;
 
 class MaintenancePlugin extends ServerPlugin {
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N */
-	private $l10n;
+	private IConfig $config;
+	private IL10N $l10n;
 
 	/**
 	 * Reference to main server object
-	 *
-	 * @var Server
 	 */
-	private $server;
+	private \Sabre\DAV\Server $server;
 
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(IConfig $config, IL10N $l10n) {
 		$this->config = $config;
-		$this->l10n = \OC::$server->get(IFactory::class)->get('dav');
+		$this->l10n = $l10n;
 	}
 
 

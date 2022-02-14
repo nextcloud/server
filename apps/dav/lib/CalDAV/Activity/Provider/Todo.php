@@ -24,21 +24,14 @@
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use InvalidArgumentException;
 use OCP\Activity\IEvent;
 
 class Todo extends Event {
 
-	/**
-	 * @param string $language
-	 * @param IEvent $event
-	 * @param IEvent|null $previousEvent
-	 * @return IEvent
-	 * @throws \InvalidArgumentException
-	 * @since 11.0.0
-	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_todo') {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -70,22 +63,20 @@ class Todo extends Event {
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self') {
 			$subject = $this->l->t('You reopened todo {todo} in list {calendar}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$parsedParameters = $this->getParameters($event);
 		$this->setSubjects($event, $subject, $parsedParameters);
 
-		$event = $this->eventMerger->mergeEvents('todo', $event, $previousEvent);
-
-		return $event;
+		return $this->eventMerger->mergeEvents('todo', $event, $previousEvent);
 	}
 
 	/**
 	 * @param IEvent $event
 	 * @return array
 	 */
-	protected function getParameters(IEvent $event) {
+	protected function getParameters(IEvent $event): array {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
@@ -141,6 +132,6 @@ class Todo extends Event {
 				];
 		}
 
-		throw new \InvalidArgumentException();
+		throw new InvalidArgumentException();
 	}
 }

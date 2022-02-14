@@ -36,17 +36,13 @@ use Sabre\HTTP\RequestInterface;
 class LockPlugin extends ServerPlugin {
 	/**
 	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	private $server;
+	private \Sabre\DAV\Server $server;
 
 	/**
 	 * State of the lock
-	 *
-	 * @var bool
 	 */
-	private $isLocked;
+	private bool $isLocked;
 
 	/**
 	 * {@inheritdoc}

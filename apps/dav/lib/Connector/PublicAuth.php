@@ -30,6 +30,7 @@
 namespace OCA\DAV\Connector;
 
 use OC\Security\Bruteforce\Throttler;
+use OC_User;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
@@ -47,20 +48,11 @@ use Sabre\DAV\Exception\NotAuthenticated;
 class PublicAuth extends AbstractBasic {
 	private const BRUTEFORCE_ACTION = 'public_webdav_auth';
 
-	/** @var IShare */
-	private $share;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var Throttler */
-	private $throttler;
+	private IShare $share;
+	private IManager $shareManager;
+	private ISession $session;
+	private IRequest $request;
+	private Throttler $throttler;
 
 	/**
 	 * @param IRequest $request
@@ -106,7 +98,7 @@ class PublicAuth extends AbstractBasic {
 
 		$this->share = $share;
 
-		\OC_User::setIncognitoMode(true);
+		OC_User::setIncognitoMode(true);
 
 		// check if the share is password protected
 		if ($share->getPassword() !== null) {

@@ -47,8 +47,7 @@ use Sabre\HTTP\ResponseInterface;
  * @package OCA\DAV\Connector\Sabre
  */
 class FakeLockerPlugin extends ServerPlugin {
-	/** @var \Sabre\DAV\Server */
-	private $server;
+	private \Sabre\DAV\Server $server;
 
 	/** {@inheritDoc} */
 	public function initialize(\Sabre\DAV\Server $server) {

@@ -23,13 +23,15 @@
  */
 namespace OCA\DAV\Connector\Sabre\Exception;
 
+use Sabre\DAV\Exception;
+
 /**
  * Entity Too Large
  *
  * This exception is thrown whenever a user tries to upload a file which exceeds hard limitations
  *
  */
-class EntityTooLarge extends \Sabre\DAV\Exception {
+class EntityTooLarge extends Exception {
 
 	/**
 	 * Returns the HTTP status code for this exception

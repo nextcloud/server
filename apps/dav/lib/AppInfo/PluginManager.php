@@ -46,49 +46,41 @@ use function is_array;
  */
 class PluginManager {
 
-	/**
-	 * @var ServerContainer
-	 */
-	private $container;
-
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
+	private ServerContainer $container;
+	private IAppManager $appManager;
 
 	/**
 	 * App plugins
 	 *
 	 * @var ServerPlugin[]
 	 */
-	private $plugins = [];
+	private array $plugins = [];
 
 	/**
 	 * App collections
 	 *
 	 * @var Collection[]
 	 */
-	private $collections = [];
+	private array $collections = [];
 
 	/**
 	 * Address book plugins
 	 *
 	 * @var IAddressBookProvider[]
 	 */
-	private $addressBookPlugins = [];
+	private array $addressBookPlugins = [];
 
 	/**
 	 * Calendar plugins
 	 *
 	 * @var ICalendarProvider[]
 	 */
-	private $calendarPlugins = [];
+	private array $calendarPlugins = [];
 
-	/** @var bool */
-	private $populated = false;
+	private bool $populated = false;
 
 	/**
-	 * Contstruct a PluginManager
+	 * Construct a PluginManager
 	 *
 	 * @param ServerContainer $container server container for resolving plugin classes
 	 * @param IAppManager $appManager app manager to loading apps and their info

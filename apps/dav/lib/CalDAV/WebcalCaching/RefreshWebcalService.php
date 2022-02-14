@@ -46,6 +46,7 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
@@ -54,18 +55,10 @@ use Sabre\VObject\UUIDUtil;
 use function count;
 
 class RefreshWebcalService {
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private CalDavBackend $calDavBackend;
+	private IClientService $clientService;
+	private IConfig $config;
+	private LoggerInterface $logger;
 
 	public const REFRESH_RATE = '{http://apple.com/ns/ical/}refreshrate';
 	public const STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
@@ -142,7 +135,7 @@ class RefreshWebcalService {
 				$calendarData = $vObject->serialize();
 				try {
 					$this->calDavBackend->createCalendarObject($subscription['id'], $uri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-				} catch (NoInstancesException | BadRequest $ex) {
+				} catch (NoInstancesException | MaxInstancesExceededException | BadRequest $ex) {
 					$this->logger->error('Error while creating calendar object from subscription', ['exception' => $ex]);
 				}
 			}
@@ -167,7 +160,7 @@ class RefreshWebcalService {
 	 * @param string $uri
 	 * @return array|null
 	 */
-	public function getSubscription(string $principalUri, string $uri) {
+	public function getSubscription(string $principalUri, string $uri): ?array {
 		$subscriptions = array_values(array_filter(
 			$this->calDavBackend->getSubscriptionsForUser($principalUri),
 			function ($sub) use ($uri) {
@@ -189,7 +182,7 @@ class RefreshWebcalService {
 	 * @param array &$mutations
 	 * @return null|string
 	 */
-	private function queryWebcalFeed(array $subscription, array &$mutations) {
+	private function queryWebcalFeed(array $subscription, array &$mutations): ?string {
 		$client = $this->clientService->newClient();
 
 		$didBreak301Chain = false;
@@ -302,7 +295,7 @@ class RefreshWebcalService {
 	 * @param string $webcalData
 	 * @return string|null
 	 */
-	private function checkWebcalDataForRefreshRate($subscription, $webcalData) {
+	private function checkWebcalDataForRefreshRate(array $subscription, string $webcalData): ?string {
 		// if there is no refreshrate stored in the database, check the webcal feed
 		// whether it suggests any refresh rate and store that in the database
 		if (isset($subscription[self::REFRESH_RATE]) && $subscription[self::REFRESH_RATE] !== null) {
@@ -360,7 +353,7 @@ class RefreshWebcalService {
 	 * @param string $url
 	 * @return string|null
 	 */
-	private function cleanURL(string $url) {
+	private function cleanURL(string $url): ?string {
 		$parsed = parse_url($url);
 		if ($parsed === false) {
 			return null;

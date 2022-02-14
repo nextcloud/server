@@ -32,9 +32,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 
 class CalendarObject extends \Sabre\CalDAV\CalendarObject {
-
-	/** @var IL10N */
-	protected $l10n;
+	protected IL10N $l10n;
 
 	/**
 	 * CalendarObject constructor.
@@ -85,7 +83,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		return (int) $this->objectData['id'];
 	}
 
-	protected function isShared() {
+	protected function isShared(): bool {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
 		}
@@ -148,7 +146,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @return bool
 	 */
-	private function canWrite() {
+	private function canWrite(): bool {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}read-only'])) {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}

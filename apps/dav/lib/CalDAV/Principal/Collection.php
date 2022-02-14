@@ -23,6 +23,8 @@
  */
 namespace OCA\DAV\CalDAV\Principal;
 
+use Sabre\DAV\Exception;
+
 /**
  * Class Collection
  *
@@ -35,6 +37,7 @@ class Collection extends \Sabre\CalDAV\Principal\Collection {
 	 *
 	 * @param array $principalInfo
 	 * @return User
+	 * @throws Exception
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
 		return new User($this->principalBackend, $principalInfo);

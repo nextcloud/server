@@ -23,6 +23,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC_Util;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
@@ -32,14 +33,10 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class BearerAuth extends AbstractBearer {
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ISession */
-	private $session;
-	/** @var IRequest */
-	private $request;
-	/** @var string */
-	private $principalPrefix;
+	private IUserSession $userSession;
+	private ISession $session;
+	private IRequest $request;
+	private string $principalPrefix;
 
 	/**
 	 * @param IUserSession $userSession
@@ -62,7 +59,7 @@ class BearerAuth extends AbstractBearer {
 	}
 
 	private function setupUserFs(string $userId): string {
-		\OC_Util::setupFS($userId);
+		OC_Util::setupFS($userId);
 		$this->session->close();
 		return $this->principalPrefix . $userId;
 	}
@@ -71,7 +68,7 @@ class BearerAuth extends AbstractBearer {
 	 * {@inheritdoc}
 	 */
 	public function validateBearerToken($bearerToken) {
-		\OC_Util::setupFS();
+		OC_Util::setupFS();
 
 		if (!$this->userSession->isLoggedIn()) {
 			$this->userSession->tryTokenLogin($this->request);

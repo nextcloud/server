@@ -22,12 +22,12 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IRequest;
+use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
-class RequestIdHeaderPlugin extends \Sabre\DAV\ServerPlugin {
-	/** @var IRequest */
-	private $request;
+class RequestIdHeaderPlugin extends ServerPlugin {
+	private IRequest $request;
 
 	public function __construct(IRequest $request) {
 		$this->request = $request;

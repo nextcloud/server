@@ -34,27 +34,16 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 abstract class Base implements IProvider {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var string[]  */
-	protected $userDisplayNames = [];
-
-	/** @var IGroupManager */
-	protected $groupManager;
+	protected IUserManager $userManager;
+	protected IGroupManager $groupManager;
+	protected IURLGenerator $url;
 
 	/** @var string[] */
-	protected $groupDisplayNames = [];
+	protected array $userDisplayNames = [];
 
-	/** @var IURLGenerator */
-	protected $url;
+	/** @var string[] */
+	protected array $groupDisplayNames = [];
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IURLGenerator $urlGenerator
-	 */
 	public function __construct(IUserManager $userManager, IGroupManager $groupManager, IURLGenerator $urlGenerator) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -66,7 +55,7 @@ abstract class Base implements IProvider {
 	 * @param string $subject
 	 * @param array $parameters
 	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
+	protected function setSubjects(IEvent $event, string $subject, array $parameters) {
 		$placeholders = $replacements = [];
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';
@@ -82,7 +71,7 @@ abstract class Base implements IProvider {
 	 * @param IL10N $l
 	 * @return array
 	 */
-	protected function generateCalendarParameter($data, IL10N $l) {
+	protected function generateCalendarParameter(array $data, IL10N $l): array {
 		if ($data['uri'] === CalDavBackend::PERSONAL_CALENDAR_URI &&
 			$data['name'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
 			return [
@@ -104,7 +93,7 @@ abstract class Base implements IProvider {
 	 * @param string $name
 	 * @return array
 	 */
-	protected function generateLegacyCalendarParameter($id, $name) {
+	protected function generateLegacyCalendarParameter(int $id, string $name): array {
 		return [
 			'type' => 'calendar',
 			'id' => $id,
@@ -116,7 +105,7 @@ abstract class Base implements IProvider {
 	 * @param string $uid
 	 * @return array
 	 */
-	protected function generateUserParameter($uid) {
+	protected function generateUserParameter(string $uid): array {
 		if (!isset($this->userDisplayNames[$uid])) {
 			$this->userDisplayNames[$uid] = $this->getUserDisplayName($uid);
 		}
@@ -132,7 +121,7 @@ abstract class Base implements IProvider {
 	 * @param string $uid
 	 * @return string
 	 */
-	protected function getUserDisplayName($uid) {
+	protected function getUserDisplayName(string $uid): string {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			return $user->getDisplayName();
@@ -144,7 +133,7 @@ abstract class Base implements IProvider {
 	 * @param string $gid
 	 * @return array
 	 */
-	protected function generateGroupParameter($gid) {
+	protected function generateGroupParameter(string $gid): array {
 		if (!isset($this->groupDisplayNames[$gid])) {
 			$this->groupDisplayNames[$gid] = $this->getGroupDisplayName($gid);
 		}
@@ -160,7 +149,7 @@ abstract class Base implements IProvider {
 	 * @param string $gid
 	 * @return string
 	 */
-	protected function getGroupDisplayName($gid) {
+	protected function getGroupDisplayName(string $gid): string {
 		$group = $this->groupManager->get($gid);
 		if ($group instanceof IGroup) {
 			return $group->getDisplayName();

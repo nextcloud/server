@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Proxy;
 
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\Exception;
 use OCP\IDBConnection;
 
 /**
@@ -52,6 +53,7 @@ class ProxyMapper extends QBMapper {
 	 * @param string $proxyId The principal uri that can act as a proxy for the resulting calendars
 	 *
 	 * @return Proxy[]
+	 * @throws Exception
 	 */
 	public function getProxiesFor(string $proxyId): array {
 		$qb = $this->db->getQueryBuilder();
@@ -67,6 +69,7 @@ class ProxyMapper extends QBMapper {
 	 * @param string $ownerId The principal uri that has the resulting proxies for their calendars
 	 *
 	 * @return Proxy[]
+	 * @throws Exception
 	 */
 	public function getProxiesOf(string $ownerId): array {
 		$qb = $this->db->getQueryBuilder();

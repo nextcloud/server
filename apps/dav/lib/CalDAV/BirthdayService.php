@@ -38,6 +38,8 @@ use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\DateTimeParser;
@@ -45,6 +47,8 @@ use Sabre\VObject\Document;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property\VCard\DateAndOrTime;
 use Sabre\VObject\Reader;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
+use Sabre\VObject\Recur\NoInstancesException;
 
 /**
  * Class BirthdayService
@@ -53,35 +57,13 @@ use Sabre\VObject\Reader;
  */
 class BirthdayService {
 	public const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
+	private GroupPrincipalBackend $principalBackend;
+	private CalDavBackend $calDavBackEnd;
+	private CardDavBackend $cardDavBackEnd;
+	private IConfig $config;
+	private IDBConnection $dbConnection;
+	private IL10N $l10n;
 
-	/** @var GroupPrincipalBackend */
-	private $principalBackend;
-
-	/** @var CalDavBackend  */
-	private $calDavBackEnd;
-
-	/** @var CardDavBackend  */
-	private $cardDavBackEnd;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IDBConnection */
-	private $dbConnection;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/**
-	 * BirthdayService constructor.
-	 *
-	 * @param CalDavBackend $calDavBackEnd
-	 * @param CardDavBackend $cardDavBackEnd
-	 * @param GroupPrincipalBackend $principalBackend
-	 * @param IConfig $config
-	 * @param IDBConnection $dbConnection
-	 * @param IL10N $l10n
-	 */
 	public function __construct(CalDavBackend $calDavBackEnd,
 								CardDavBackend $cardDavBackEnd,
 								GroupPrincipalBackend $principalBackend,
@@ -100,6 +82,13 @@ class BirthdayService {
 	 * @param int $addressBookId
 	 * @param string $cardUri
 	 * @param string $cardData
+	 * @throws BadRequest
+	 * @throws Forbidden
+	 * @throws InvalidDataException
+	 * @throws MaxInstancesExceededException
+	 * @throws NoInstancesException
+	 * @throws \OCP\DB\Exception
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function onCardChanged(int $addressBookId,
 								  string $cardUri,
@@ -132,6 +121,10 @@ class BirthdayService {
 	/**
 	 * @param int $addressBookId
 	 * @param string $cardUri
+	 * @throws BadRequest
+	 * @throws \OCP\DB\Exception
+	 * @throws Forbidden
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function onCardDeleted(int $addressBookId,
 								  string $cardUri) {
@@ -158,7 +151,8 @@ class BirthdayService {
 	/**
 	 * @param string $principal
 	 * @return array|null
-	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @throws BadRequest|
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function ensureCalendarExists(string $principal):?array {
 		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
@@ -175,10 +169,6 @@ class BirthdayService {
 	}
 
 	/**
-	 * @param $cardData
-	 * @param $dateField
-	 * @param $postfix
-	 * @return VCalendar|null
 	 * @throws InvalidDataException
 	 */
 	public function buildDateFromContact(string $cardData,
@@ -299,6 +289,7 @@ class BirthdayService {
 
 	/**
 	 * @param string $user
+	 * @throws Forbidden
 	 */
 	public function resetForUser(string $user):void {
 		$principal = 'principals/users/'.$user;
@@ -312,7 +303,13 @@ class BirthdayService {
 
 	/**
 	 * @param string $user
-	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @throws BadRequest
+	 * @throws Forbidden
+	 * @throws InvalidDataException
+	 * @throws MaxInstancesExceededException
+	 * @throws NoInstancesException
+	 * @throws \OCP\DB\Exception
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function syncUser(string $user):void {
 		$principal = 'principals/users/'.$user;
@@ -347,9 +344,10 @@ class BirthdayService {
 
 	/**
 	 * @param integer $addressBookId
-	 * @return mixed
+	 * @return string[]
+	 * @throws \Sabre\DAV\Exception
 	 */
-	protected function getAllAffectedPrincipals(int $addressBookId) {
+	protected function getAllAffectedPrincipals(int $addressBookId): array {
 		$targetPrincipals = [];
 		$shares = $this->cardDavBackEnd->getShares($addressBookId);
 		foreach ($shares as $share) {
@@ -371,8 +369,11 @@ class BirthdayService {
 	 * @param array $book
 	 * @param int $calendarId
 	 * @param array $type
+	 * @throws BadRequest
+	 * @throws Forbidden
 	 * @throws InvalidDataException
-	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @throws MaxInstancesExceededException
+	 * @throws NoInstancesException
 	 */
 	private function updateCalendar(string $cardUri,
 									string $cardData,

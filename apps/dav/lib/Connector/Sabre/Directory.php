@@ -73,19 +73,13 @@ class Directory extends Node implements ICollection, IQuota, IMoveTarget, ICopyT
 	 *
 	 * @var FileInfo[]
 	 */
-	private $dirContent;
+	private array $dirContent;
 
 	/**
 	 * Cached quota info
-	 *
-	 * @var array
 	 */
-	private $quotaInfo;
-
-	/**
-	 * @var ObjectTree|null
-	 */
-	private $tree;
+	private array $quotaInfo;
+	private ?ObjectTree $tree;
 
 	/**
 	 * Sets up the node, expects a full path name

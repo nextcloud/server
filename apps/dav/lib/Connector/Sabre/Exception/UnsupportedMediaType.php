@@ -23,13 +23,15 @@
  */
 namespace OCA\DAV\Connector\Sabre\Exception;
 
+use Sabre\DAV\Exception;
+
 /**
  * Unsupported Media Type
  *
  * This exception is thrown whenever a user tries to upload a file which holds content which is not allowed
  *
  */
-class UnsupportedMediaType extends \Sabre\DAV\Exception {
+class UnsupportedMediaType extends Exception {
 
 	/**
 	 * Returns the HTTP status code for this exception

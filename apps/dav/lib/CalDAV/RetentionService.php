@@ -28,20 +28,16 @@ namespace OCA\DAV\CalDAV;
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use Sabre\DAV\Exception\Forbidden;
 use function max;
 
 class RetentionService {
 	public const RETENTION_CONFIG_KEY = 'calendarRetentionObligation';
 	private const DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var ITimeFactory */
-	private $time;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
+	private IConfig $config;
+	private ITimeFactory $time;
+	private CalDavBackend $calDavBackend;
 
 	public function __construct(IConfig $config,
 								ITimeFactory $time,
@@ -62,6 +58,9 @@ class RetentionService {
 		);
 	}
 
+	/**
+	 * @throws Forbidden
+	 */
 	public function cleanUp(): void {
 		$retentionTime = $this->getDuration();
 		$now = $this->time->getTime();

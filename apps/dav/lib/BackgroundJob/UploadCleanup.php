@@ -34,16 +34,14 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 
 class UploadCleanup extends TimedJob {
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IJobList */
-	private $jobList;
+	private IRootFolder $rootFolder;
+	private IJobList $jobList;
 
 	public function __construct(ITimeFactory $time, IRootFolder $rootFolder, IJobList $jobList) {
 		parent::__construct($time);
@@ -55,6 +53,11 @@ class UploadCleanup extends TimedJob {
 		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
+	/**
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 */
 	protected function run($argument) {
 		$uid = $argument['uid'];
 		$folder = $argument['folder'];

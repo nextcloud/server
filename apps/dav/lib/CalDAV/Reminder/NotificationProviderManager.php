@@ -40,7 +40,7 @@ use function in_array;
 class NotificationProviderManager {
 
 	/** @var INotificationProvider[] */
-	private $providers = [];
+	private array $providers = [];
 
 	/**
 	 * Checks whether a provider for a given ACTION exists

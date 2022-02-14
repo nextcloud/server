@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use InvalidArgumentException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -48,26 +49,11 @@ class Calendar extends Base {
 	public const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
 	public const SUBJECT_UNSHARE_GROUP = 'calendar_group_unshare';
 
-	/** @var IFactory */
-	protected $languageFactory;
+	protected IFactory $languageFactory;
+	protected IL10N $l;
+	protected IManager $activityManager;
+	protected IEventMerger $eventMerger;
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IManager $activityManager
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IEventMerger $eventMerger
-	 */
 	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager, IEventMerger $eventMerger) {
 		parent::__construct($userManager, $groupManager, $url);
 		$this->languageFactory = $languageFactory;
@@ -80,12 +66,12 @@ class Calendar extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar') {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -143,7 +129,7 @@ class Calendar extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from group {group}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$parsedParameters = $this->getParameters($event);
@@ -168,7 +154,7 @@ class Calendar extends Base {
 	 * @param IEvent $event
 	 * @return array
 	 */
-	protected function getParameters(IEvent $event) {
+	protected function getParameters(IEvent $event): array {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
@@ -272,6 +258,6 @@ class Calendar extends Base {
 				];
 		}
 
-		throw new \InvalidArgumentException();
+		throw new InvalidArgumentException();
 	}
 }

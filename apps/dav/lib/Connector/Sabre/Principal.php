@@ -46,7 +46,6 @@ use OCA\Circles\Exceptions\InitiatorNotFoundException;
 use OCA\Circles\Exceptions\InvalidIdException;
 use OCA\Circles\Exceptions\RequestBuilderException;
 use OCA\Circles\Exceptions\SingleCircleNotFoundException;
-use OCA\Circles\Model\Circle;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\App\IAppManager;
@@ -63,43 +62,21 @@ use Psr\Container\ContainerExceptionInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
+use function array_filter;
 
 class Principal implements BackendInterface {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var string */
-	private $principalPrefix;
-
-	/** @var bool */
-	private $hasGroups;
-
-	/** @var bool */
-	private $hasCircles;
-
-	/** @var ProxyMapper */
-	private $proxyMapper;
-
-	/** @var KnownUserService */
-	private $knownUserService;
-
-	/** @var IConfig */
-	private $config;
-	/** @var IFactory */
-	private $languageFactory;
+	private IUserManager $userManager;
+	private IGroupManager $groupManager;
+	private IShareManager $shareManager;
+	private IUserSession $userSession;
+	private IAppManager $appManager;
+	private string $principalPrefix;
+	private bool $hasGroups;
+	private bool $hasCircles;
+	private ProxyMapper $proxyMapper;
+	private KnownUserService $knownUserService;
+	private IConfig $config;
+	private IFactory $languageFactory;
 
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
@@ -311,7 +288,7 @@ class Principal implements BackendInterface {
 						}
 					} else {
 						$users = $this->userManager->getByEmail($value);
-						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+						$users = array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
 							if ($allowEnumerationFullMatch && $user->getSystemEMailAddress() === $value) {
 								return true;
 							}
@@ -354,7 +331,7 @@ class Principal implements BackendInterface {
 					if (!$allowEnumeration) {
 						if ($allowEnumerationFullMatch) {
 							$users = $this->userManager->searchDisplayName($value, $searchLimit);
-							$users = \array_filter($users, static function (IUser $user) use ($value) {
+							$users = array_filter($users, static function (IUser $user) use ($value) {
 								return $user->getDisplayName() === $value;
 							});
 						} else {
@@ -362,7 +339,7 @@ class Principal implements BackendInterface {
 						}
 					} else {
 						$users = $this->userManager->searchDisplayName($value, $searchLimit);
-						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+						$users = array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
 							if ($allowEnumerationFullMatch && $user->getDisplayName() === $value) {
 								return true;
 							}

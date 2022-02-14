@@ -26,6 +26,8 @@ namespace OCA\DAV\CalDAV\Search\Xml\Filter;
 
 use OCA\DAV\CalDAV\Search\SearchPlugin;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\Xml\LibXMLException;
+use Sabre\Xml\ParseException;
 use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
@@ -33,8 +35,10 @@ class ParamFilter implements XmlDeserializable {
 
 	/**
 	 * @param Reader $reader
+	 * @return string[]
 	 * @throws BadRequest
-	 * @return string
+	 * @throws LibXMLException
+	 * @throws ParseException
 	 */
 	public static function xmlDeserialize(Reader $reader) {
 		$att = $reader->parseAttributes();

@@ -34,26 +34,16 @@ class AppEnabledPlugin extends ServerPlugin {
 
 	/**
 	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	private $server;
-
-	/**
-	 * @var string
-	 */
-	private $app;
-
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
+	private \Sabre\DAV\Server $server;
+	private string $app;
+	private IAppManager $appManager;
 
 	/**
 	 * @param string $app
 	 * @param IAppManager $appManager
 	 */
-	public function __construct($app, IAppManager $appManager) {
+	public function __construct(string $app, IAppManager $appManager) {
 		$this->app = $app;
 		$this->appManager = $appManager;
 	}

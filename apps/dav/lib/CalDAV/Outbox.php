@@ -32,12 +32,8 @@ use Sabre\CalDAV\Plugin as CalDAVPlugin;
  * @package OCA\DAV\CalDAV
  */
 class Outbox extends \Sabre\CalDAV\Schedule\Outbox {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var null|bool */
-	private $disableFreeBusy = null;
+	private IConfig $config;
+	private ?bool $disableFreeBusy = null;
 
 	/**
 	 * Outbox constructor.

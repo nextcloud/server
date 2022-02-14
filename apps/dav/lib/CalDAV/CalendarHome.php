@@ -33,11 +33,13 @@ use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use Psr\Log\LoggerInterface;
 use OCP\App\IAppManager;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\L10N\IFactory;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
+use Sabre\CalDAV\Notifications\Collection;
 use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -46,18 +48,10 @@ use Sabre\DAV\INode;
 use Sabre\DAV\MkCol;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
-
-	/** @var \OCP\IL10N */
-	private $l10n;
-
-	/** @var \OCP\IConfig */
-	private $config;
-
-	/** @var PluginManager */
-	private $pluginManager;
-
-	/** @var bool */
-	private $returnCachedSubscriptions = false;
+	private IL10N $l10n;
+	private IConfig $config;
+	private PluginManager $pluginManager;
+	private bool $returnCachedSubscriptions = false;
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -73,10 +67,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @return BackendInterface
-	 */
-	public function getCalDAVBackend() {
+	public function getCalDAVBackend(): BackendInterface {
 		return $this->caldavBackend;
 	}
 
@@ -113,7 +104,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		// We're adding a notifications node, if it's supported by the backend.
 		if ($this->caldavBackend instanceof NotificationSupport) {
-			$objects[] = new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+			$objects[] = new Collection($this->caldavBackend, $this->principalInfo['uri']);
 		}
 
 		if ($this->caldavBackend instanceof CalDavBackend) {
@@ -132,7 +123,6 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		}
 
 		foreach ($this->pluginManager->getCalendarPlugins() as $calendarPlugin) {
-			/** @var ICalendarProvider $calendarPlugin */
 			$calendars = $calendarPlugin->fetchAllForCalendarHome($this->principalInfo['uri']);
 			foreach ($calendars as $calendar) {
 				$objects[] = $calendar;
@@ -156,7 +146,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			return new Outbox($this->config, $this->principalInfo['uri']);
 		}
 		if ($name === 'notifications' && $this->caldavBackend instanceof NotificationSupport) {
-			return new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+			return new Collection($this->caldavBackend, $this->principalInfo['uri']);
 		}
 		if ($name === TrashbinHome::NAME && $this->caldavBackend instanceof CalDavBackend) {
 			return new TrashbinHome($this->caldavBackend, $this->principalInfo);
@@ -185,7 +175,6 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			[$appId, $calendarUri] = ExternalCalendar::splitAppGeneratedCalendarUri($name);
 
 			foreach ($this->pluginManager->getCalendarPlugins() as $calendarPlugin) {
-				/** @var ICalendarProvider $calendarPlugin */
 				if ($calendarPlugin->getAppId() !== $appId) {
 					continue;
 				}
@@ -204,7 +193,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 * @param integer|null $limit
 	 * @param integer|null $offset
 	 */
-	public function calendarSearch(array $filters, $limit = null, $offset = null) {
+	public function calendarSearch(array $filters, int $limit = null, int $offset = null): array {
 		$principalUri = $this->principalInfo['uri'];
 		return $this->caldavBackend->calendarSearch($principalUri, $filters, $limit, $offset);
 	}

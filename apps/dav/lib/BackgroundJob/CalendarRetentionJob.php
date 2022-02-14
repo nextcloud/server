@@ -30,8 +30,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class CalendarRetentionJob extends TimedJob {
-	/** @var RetentionService */
-	private $service;
+	private RetentionService $service;
 
 	public function __construct(ITimeFactory $time,
 								RetentionService $service) {

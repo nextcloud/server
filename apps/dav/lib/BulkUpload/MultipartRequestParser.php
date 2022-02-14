@@ -32,12 +32,8 @@ class MultipartRequestParser {
 
 	/** @var resource */
 	private $stream;
-
-	/** @var string */
-	private $boundary = "";
-
-	/** @var string */
-	private $lastBoundary = "";
+	private string $boundary = "";
+	private string $lastBoundary = "";
 
 	/**
 	 * @throws BadRequest
@@ -117,6 +113,8 @@ class MultipartRequestParser {
 
 	/**
 	 * Check whether the stream's cursor is sitting right before the boundary.
+	 *
+	 * @throws Exception
 	 */
 	private function isAtBoundary(): bool {
 		return $this->isAt($this->boundary);
@@ -124,6 +122,8 @@ class MultipartRequestParser {
 
 	/**
 	 * Check whether the stream's cursor is sitting right before the last boundary.
+	 *
+	 * @throws Exception
 	 */
 	public function isAtLastBoundary(): bool {
 		return $this->isAt($this->lastBoundary);
@@ -140,6 +140,8 @@ class MultipartRequestParser {
 	 * Content of
 	 * the part
 	 *
+	 * @throws BadRequest
+	 * @throws Exception
 	 */
 	public function parseNextPart(): array {
 		$this->readBoundary();
@@ -155,13 +157,14 @@ class MultipartRequestParser {
 	 * Read the boundary and check its content.
 	 *
 	 * @throws BadRequest
+	 * @throws Exception
 	 */
-	private function readBoundary(): string {
+	private function readBoundary(): void {
 		if (!$this->isAtBoundary()) {
 			throw new BadRequest("Boundary not found where it should be.");
 		}
 
-		return fread($this->stream, strlen($this->boundary));
+		fread($this->stream, strlen($this->boundary));
 	}
 
 	/**

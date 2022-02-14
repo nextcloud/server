@@ -22,7 +22,9 @@
 
 namespace OCA\DAV\BulkUpload;
 
+use Exception;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -32,12 +34,8 @@ use OCP\AppFramework\Http;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
-
-	/** @var Folder */
-	private $userFolder;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private Folder $userFolder;
+	private LoggerInterface $logger;
 
 	public function __construct(Folder $userFolder, LoggerInterface $logger) {
 		$this->userFolder = $userFolder;
@@ -57,6 +55,8 @@ class BulkUploadPlugin extends ServerPlugin {
 	 * - writing is done with the userFolder service
 	 *
 	 * Will respond with an object containing an ETag for every written files.
+	 *
+	 * @throws BadRequest
 	 */
 	public function httpPost(RequestInterface $request, ResponseInterface $response): bool {
 		// Limit bulk upload to the /dav/bulk endpoint
@@ -70,7 +70,7 @@ class BulkUploadPlugin extends ServerPlugin {
 		while (!$multiPartParser->isAtLastBoundary()) {
 			try {
 				[$headers, $content] = $multiPartParser->parseNextPart();
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				// Return early if an error occurs during parsing.
 				$this->logger->error($e->getMessage());
 				$response->setStatus(Http::STATUS_BAD_REQUEST);
@@ -95,7 +95,7 @@ class BulkUploadPlugin extends ServerPlugin {
 					"error" => false,
 					"etag" => $node->getETag(),
 				];
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => true,

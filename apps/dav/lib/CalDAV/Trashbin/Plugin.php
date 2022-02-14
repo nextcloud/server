@@ -39,6 +39,7 @@ use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use function array_slice;
+use function count;
 use function implode;
 
 class Plugin extends ServerPlugin {
@@ -46,14 +47,9 @@ class Plugin extends ServerPlugin {
 	public const PROPERTY_CALENDAR_URI = '{http://nextcloud.com/ns}calendar-uri';
 	public const PROPERTY_RETENTION_DURATION = '{http://nextcloud.com/ns}trash-bin-retention-duration';
 
-	/** @var bool */
-	private $disableTrashbin;
-
-	/** @var RetentionService */
-	private $retentionService;
-
-	/** @var Server */
-	private $server;
+	private bool $disableTrashbin;
+	private RetentionService $retentionService;
+	private Server $server;
 
 	public function __construct(IRequest $request,
 								RetentionService $retentionService) {
@@ -74,7 +70,7 @@ class Plugin extends ServerPlugin {
 
 		$path = $request->getPath();
 		$pathParts = explode('/', ltrim($path, '/'));
-		if (\count($pathParts) < 3) {
+		if (count($pathParts) < 3) {
 			// We are looking for a path like calendars/username/calendarname
 			return;
 		}

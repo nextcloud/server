@@ -44,46 +44,17 @@ use function array_unique;
 use function array_values;
 
 abstract class AbstractPrincipalBackend implements BackendInterface {
+	private IDBConnection $db;
+	private IUserSession $userSession;
+	private IGroupManager $groupManager;
+	private LoggerInterface $logger;
+	private ProxyMapper $proxyMapper;
+	private string $principalPrefix;
+	private string $dbTableName;
+	private string $dbMetaDataTableName;
+	private string $dbForeignKeyName;
+	private string $cuType;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ProxyMapper */
-	private $proxyMapper;
-
-	/** @var string */
-	private $principalPrefix;
-
-	/** @var string */
-	private $dbTableName;
-
-	/** @var string */
-	private $dbMetaDataTableName;
-
-	/** @var string */
-	private $dbForeignKeyName;
-
-	/** @var string */
-	private $cuType;
-
-	/**
-	 * @param IDBConnection $dbConnection
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param LoggerInterface $logger
-	 * @param string $principalPrefix
-	 * @param string $dbPrefix
-	 * @param string $cuType
-	 */
 	public function __construct(IDBConnection $dbConnection,
 								IUserSession $userSession,
 								IGroupManager $groupManager,
@@ -118,6 +89,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 *
 	 * @param string $prefixPath
 	 * @return string[]
+	 * @throws Exception
 	 */
 	public function getPrincipalsByPrefix($prefixPath): array {
 		$principals = [];
@@ -126,12 +98,12 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 				->from($this->dbTableName);
-			$stmt = $query->execute();
+			$stmt = $query->executeQuery();
 
 			$metaDataQuery = $this->db->getQueryBuilder();
 			$metaDataQuery->select([$this->dbForeignKeyName, 'key', 'value'])
 				->from($this->dbMetaDataTableName);
-			$metaDataStmt = $metaDataQuery->execute();
+			$metaDataStmt = $metaDataQuery->executeQuery();
 			$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 
 			$metaDataById = [];
@@ -165,9 +137,10 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * The returned structure should be the exact same as from
 	 * getPrincipalsByPrefix.
 	 *
-	 * @param string $prefixPath
+	 * @param string $path
 	 *
 	 * @return array
+	 * @throws Exception
 	 */
 	public function getPrincipalByPath($path) {
 		if (strpos($path, $this->principalPrefix) !== 0) {
@@ -182,7 +155,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			->from($this->dbTableName)
 			->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
 		if (!$row) {
@@ -193,7 +166,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$metaDataQuery->select(['key', 'value'])
 			->from($this->dbMetaDataTableName)
 			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
-		$metaDataStmt = $metaDataQuery->execute();
+		$metaDataStmt = $metaDataQuery->executeQuery();
 		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 		$metadata = [];
 
@@ -207,13 +180,14 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	/**
 	 * @param int $id
 	 * @return string[]|null
+	 * @throws Exception
 	 */
-	public function getPrincipalById($id): ?array {
+	public function getPrincipalById(int $id): ?array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 			->from($this->dbTableName)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
 		if (!$row) {
@@ -224,7 +198,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$metaDataQuery->select(['key', 'value'])
 			->from($this->dbMetaDataTableName)
 			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
-		$metaDataStmt = $metaDataQuery->execute();
+		$metaDataStmt = $metaDataQuery->executeQuery();
 		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 		$metadata = [];
 
@@ -249,6 +223,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param string $test
 	 *
 	 * @return array
+	 * @throws Exception
 	 */
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		$results = [];
@@ -273,7 +248,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 						->from($this->dbTableName)
 						->where($query->expr()->iLike('email', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
 
-					$stmt = $query->execute();
+					$stmt = $query->executeQuery();
 					$principals = [];
 					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
@@ -292,7 +267,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 						->from($this->dbTableName)
 						->where($query->expr()->iLike('displayname', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
 
-					$stmt = $query->execute();
+					$stmt = $query->executeQuery();
 					$principals = [];
 					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
@@ -411,6 +386,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param IQueryBuilder $query
 	 * @param string[] $usersGroups
 	 * @return string[]
+	 * @throws Exception
 	 */
 	private function getRows(IQueryBuilder $query, array $usersGroups): array {
 		try {
@@ -460,7 +436,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				->from($this->dbTableName)
 				->where($query->expr()->eq('email', $query->createNamedParameter($email)));
 
-			$stmt = $query->execute();
+			$stmt = $query->executeQuery();
 			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
 			if (!$row) {
@@ -487,7 +463,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				->from($this->dbTableName)
 				->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
 				->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
-			$stmt = $query->execute();
+			$stmt = $query->executeQuery();
 			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
 			if (!$row) {

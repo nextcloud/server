@@ -56,57 +56,21 @@ class FilesReportPlugin extends ServerPlugin {
 
 	/**
 	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	private $server;
-
-	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var View
-	 */
-	private $fileView;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
+	private \Sabre\DAV\Server $server;
+	private Tree $tree;
+	private View $fileView;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
 
 	/**
 	 * Manager for private tags
-	 *
-	 * @var ITagManager
 	 */
-	private $fileTagger;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var Folder
-	 */
-	private $userFolder;
-
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
+	private ITagManager $fileTagger;
+	private IUserSession $userSession;
+	private IGroupManager $groupManager;
+	private Folder $userFolder;
+	private IAppManager $appManager;
 
 	/**
 	 * @param Tree $tree
@@ -214,7 +178,7 @@ class FilesReportPlugin extends ServerPlugin {
 		try {
 			$resultFileIds = $this->processFilterRules($filterRules);
 		} catch (TagNotFoundException $e) {
-			throw new PreconditionFailed('Cannot filter by non-existing tag', 0, $e);
+			throw new PreconditionFailed('Cannot filter by non-existing tag', 0);
 		}
 
 		// find sabre nodes by file id, restricted to the root node path

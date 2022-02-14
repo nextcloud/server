@@ -77,39 +77,17 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class IMipPlugin extends SabreIMipPlugin {
-
-	/** @var string */
-	private $userId;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var L10NFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IUserManager */
-	private $userManager;
+	private string $userId;
+	private IConfig $config;
+	private IMailer $mailer;
+	private LoggerInterface $logger;
+	private ITimeFactory $timeFactory;
+	private L10NFactory $l10nFactory;
+	private IURLGenerator $urlGenerator;
+	private ISecureRandom $random;
+	private IDBConnection $db;
+	private Defaults $defaults;
+	private IUserManager $userManager;
 
 	public const MAX_DATE = '2038-01-01';
 
@@ -623,8 +601,8 @@ class IMipPlugin extends SabreIMipPlugin {
 				$attendeeHTML .= ' ✔︎';
 				$attendeeText .= ' ✔︎';
 			}
-			array_push($attendeesHTML, $attendeeHTML);
-			array_push($attendeesText, $attendeeText);
+			$attendeesHTML[] = $attendeeHTML;
+			$attendeesText[] = $attendeeText;
 		}
 
 		$template->addBodyListItem(implode('<br/>',$attendeesHTML), $l10n->t('Attendees:'),

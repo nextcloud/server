@@ -34,11 +34,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class AnonymousOptionsPlugin extends ServerPlugin {
-
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
+	private \Sabre\DAV\Server $server;
 
 	/**
 	 * @param \Sabre\DAV\Server $server

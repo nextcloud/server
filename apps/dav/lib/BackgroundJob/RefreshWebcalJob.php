@@ -35,36 +35,18 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
 use OCP\IConfig;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 
 class RefreshWebcalJob extends Job {
 
-	/**
-	 * @var RefreshWebcalService
-	 */
-	private $refreshWebcalService;
+	private RefreshWebcalService $refreshWebcalService;
+	private IConfig $config;
+	private LoggerInterface $logger;
+	private ITimeFactory $timeFactory;
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/**
-	 * RefreshWebcalJob constructor.
-	 *
-	 * @param RefreshWebcalService $refreshWebcalService
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param ITimeFactory $timeFactory
-	 */
-	public function __construct(RefreshWebcalService $refreshWebcalService, IConfig $config, ILogger $logger, ITimeFactory $timeFactory) {
+	public function __construct(RefreshWebcalService $refreshWebcalService, IConfig $config, LoggerInterface $logger, ITimeFactory $timeFactory) {
 		parent::__construct($timeFactory);
 		$this->refreshWebcalService = $refreshWebcalService;
 		$this->config = $config;
@@ -104,7 +86,7 @@ class RefreshWebcalJob extends Job {
 			return;
 		}
 
-		parent::execute($jobList, $logger);
+		parent::execute($jobList);
 	}
 
 	/**

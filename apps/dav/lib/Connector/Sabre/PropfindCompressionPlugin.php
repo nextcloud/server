@@ -33,10 +33,8 @@ class PropfindCompressionPlugin extends ServerPlugin {
 
 	/**
 	 * Reference to main server object
-	 *
-	 * @var Server
 	 */
-	private $server;
+	private \Sabre\DAV\Server $server;
 
 	/**
 	 * This initializes the plugin.

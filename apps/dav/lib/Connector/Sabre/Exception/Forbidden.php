@@ -22,20 +22,20 @@
  */
 namespace OCA\DAV\Connector\Sabre\Exception;
 
+use DOMElement;
+use Exception;
+use Sabre\DAV\Server;
+
 class Forbidden extends \Sabre\DAV\Exception\Forbidden {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
-
-	/**
-	 * @var bool
-	 */
-	private $retry;
+	private bool $retry;
 
 	/**
 	 * @param string $message
 	 * @param bool $retry
-	 * @param \Exception $previous
+	 * @param Exception|null $previous
 	 */
-	public function __construct($message, $retry = false, \Exception $previous = null) {
+	public function __construct($message, $retry = false, Exception $previous = null) {
 		parent::__construct($message, 0, $previous);
 		$this->retry = $retry;
 	}
@@ -44,11 +44,11 @@ class Forbidden extends \Sabre\DAV\Exception\Forbidden {
 	 * This method allows the exception to include additional information
 	 * into the WebDAV error response
 	 *
-	 * @param \Sabre\DAV\Server $server
-	 * @param \DOMElement $errorNode
+	 * @param Server $server
+	 * @param DOMElement $errorNode
 	 * @return void
 	 */
-	public function serialize(\Sabre\DAV\Server $server,\DOMElement $errorNode) {
+	public function serialize(Server $server, DOMElement $errorNode) {
 
 		// set ownCloud namespace
 		$errorNode->setAttribute('xmlns:o', self::NS_OWNCLOUD);

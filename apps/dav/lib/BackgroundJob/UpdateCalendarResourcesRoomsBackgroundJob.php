@@ -42,17 +42,10 @@ use OCP\IDBConnection;
 
 class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 
-	/** @var IResourceManager */
-	private $resourceManager;
-
-	/** @var IRoomManager */
-	private $roomManager;
-
-	/** @var IDBConnection */
-	private $dbConnection;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
+	private IResourceManager $resourceManager;
+	private IRoomManager $roomManager;
+	private IDBConnection $dbConnection;
+	private CalDavBackend $calDavBackend;
 
 	public function __construct(ITimeFactory $time,
 								IResourceManager $resourceManager,

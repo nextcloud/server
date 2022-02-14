@@ -26,6 +26,8 @@ namespace OCA\DAV\CalDAV\Search\Xml\Request;
 
 use OCA\DAV\CalDAV\Search\SearchPlugin;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\Xml\LibXMLException;
+use Sabre\Xml\ParseException;
 use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
@@ -41,27 +43,16 @@ class CalendarSearchReport implements XmlDeserializable {
 
 	/**
 	 * An array with requested properties.
-	 *
-	 * @var array
 	 */
-	public $properties;
+	public array $properties;
 
 	/**
 	 * List of property/component filters.
-	 *
-	 * @var array
 	 */
-	public $filters;
+	public array $filters;
 
-	/**
-	 * @var int
-	 */
-	public $limit;
-
-	/**
-	 * @var int
-	 */
-	public $offset;
+	public int $limit;
+	public int $offset;
 
 	/**
 	 * The deserialize method is called during xml parsing.
@@ -82,7 +73,10 @@ class CalendarSearchReport implements XmlDeserializable {
 	 * the next element.
 	 *
 	 * @param Reader $reader
-	 * @return mixed
+	 * @return CalendarSearchReport
+	 * @throws BadRequest
+	 * @throws LibXMLException
+	 * @throws ParseException
 	 */
 	public static function xmlDeserialize(Reader $reader) {
 		$elems = $reader->parseInnerTree([

@@ -33,6 +33,7 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAVACL\Exception\NeedPrivileges;
+use Sabre\DAVACL\Plugin as ACLPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -44,7 +45,7 @@ use Sabre\HTTP\ResponseInterface;
  * @see https://github.com/owncloud/core/issues/22578
  * @package OCA\DAV\Connector\Sabre
  */
-class DavAclPlugin extends \Sabre\DAVACL\Plugin {
+class DavAclPlugin extends ACLPlugin {
 	public function __construct() {
 		$this->hideNodesFromListings = true;
 		$this->allowUnauthenticatedAccess = false;
@@ -94,8 +95,8 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 			$readPermissions = $this->checkPrivileges($path, '{DAV:}read', self::R_PARENT, false);
 			$writePermissions = $this->checkPrivileges($path, '{DAV:}write', self::R_PARENT, false);
 			if ($readPermissions === false && $writePermissions === false) {
-				$this->checkPrivileges($path, '{DAV:}read', self::R_PARENT, true);
-				$this->checkPrivileges($path, '{DAV:}write', self::R_PARENT, true);
+				$this->checkPrivileges($path, '{DAV:}read');
+				$this->checkPrivileges($path, '{DAV:}write');
 			}
 		}
 

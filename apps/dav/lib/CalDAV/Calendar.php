@@ -51,27 +51,11 @@ use Sabre\DAV\PropPatch;
  * @property CalDavBackend $caldavBackend
  */
 class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable, IMoveTarget {
+	private IConfig $config;
+	protected IL10N $l10n;
+	private bool $useTrashbin = true;
+	private LoggerInterface $logger;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N */
-	protected $l10n;
-
-	/** @var bool */
-	private $useTrashbin = true;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/**
-	 * Calendar constructor.
-	 *
-	 * @param BackendInterface $caldavBackend
-	 * @param $calendarInfo
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 */
 	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
 		// Convert deletion date to ISO8601 string
 		if (isset($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
@@ -140,17 +124,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		return $this->caldavBackend->getShares($this->getResourceId());
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getResourceId() {
+	public function getResourceId(): int {
 		return $this->calendarInfo['id'];
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPrincipalURI() {
+	public function getPrincipalURI(): string {
 		return $this->calendarInfo['principaluri'];
 	}
 
@@ -372,20 +350,17 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	 * @param boolean $value
 	 * @return string|null
 	 */
-	public function setPublishStatus($value) {
+	public function setPublishStatus(bool $value): ?string {
 		$publicUri = $this->caldavBackend->setPublishStatus($value, $this);
 		$this->calendarInfo['publicuri'] = $publicUri;
 		return $publicUri;
 	}
 
-	/**
-	 * @return mixed $value
-	 */
-	public function getPublishStatus() {
+	public function getPublishStatus(): bool {
 		return $this->caldavBackend->getPublishStatus($this);
 	}
 
-	public function canWrite() {
+	public function canWrite(): bool {
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
 			return false;
 		}
@@ -396,11 +371,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		return true;
 	}
 
-	private function isPublic() {
+	private function isPublic(): bool {
 		return isset($this->calendarInfo['{http://owncloud.org/ns}public']);
 	}
 
-	protected function isShared() {
+	protected function isShared(): bool {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
 		}
@@ -408,7 +383,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri'];
 	}
 
-	public function isSubscription() {
+	public function isSubscription(): bool {
 		return isset($this->calendarInfo['{http://calendarserver.org/ns/}source']);
 	}
 

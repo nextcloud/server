@@ -29,14 +29,11 @@ use OCA\DAV\CalDAV\BirthdayService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\IConfig;
+use Sabre\DAV\Exception\BadRequest;
 
 class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
-
-	/** @var BirthdayService */
-	private $birthdayService;
-
-	/** @var IConfig */
-	private $config;
+	private BirthdayService $birthdayService;
+	private IConfig $config;
 
 	public function __construct(ITimeFactory $time,
 								BirthdayService $birthdayService,
@@ -49,6 +46,7 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 
 	/**
 	 * @param array $arguments
+	 * @throws BadRequest
 	 */
 	public function run($arguments) {
 		$userId = $arguments['userId'];

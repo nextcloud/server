@@ -31,15 +31,9 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class CalendarProvider implements ICalendarProvider {
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IConfig */
-	private $config;
+	private CalDavBackend $calDavBackend;
+	private IL10N $l10n;
+	private IConfig $config;
 
 	/** @var LoggerInterface */
 	private $logger;

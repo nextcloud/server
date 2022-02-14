@@ -31,6 +31,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC;
 use OC\Files\View;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -59,26 +60,16 @@ use Sabre\DAV\Exception;
 use Sabre\DAV\SimpleCollection;
 
 class ServerFactory {
-	/** @var IConfig */
-	private $config;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var IDBConnection */
-	private $databaseConnection;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IMountManager */
-	private $mountManager;
-	/** @var ITagManager */
-	private $tagManager;
-	/** @var IRequest */
-	private $request;
-	/** @var IPreview  */
-	private $previewManager;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var IL10N */
-	private $l10n;
+	private IConfig $config;
+	private LoggerInterface $logger;
+	private IDBConnection $databaseConnection;
+	private IUserSession $userSession;
+	private IMountManager $mountManager;
+	private ITagManager $tagManager;
+	private IRequest $request;
+	private IPreview $previewManager;
+	private IEventDispatcher $eventDispatcher;
+	private IL10N $l10n;
 
 	/**
 	 * @param IConfig $config
@@ -163,9 +154,9 @@ class ServerFactory {
 		$server->on('beforeMethod:*', function () use ($server, $objectTree, $viewCallBack) {
 			// ensure the skeleton is copied
 			$userFolder = null;
-			$root = \OC::$server->get(IRootFolder::class);
+			$root = OC::$server->get(IRootFolder::class);
 			/** @var IUser $user */
-			if ($user = \OC::$server->get(IUserSession::class)->getUser()) {
+			if ($user = OC::$server->get(IUserSession::class)->getUser()) {
 				/** @var IRootFolder $root */
 				$rootInfo = $root->getUserFolder($user->getUID());
 				$userFolder = $rootInfo;
@@ -203,19 +194,19 @@ class ServerFactory {
 					$objectTree,
 					$this->userSession,
 					$userFolder,
-					\OC::$server->get(IManager::class)
+					OC::$server->get(IManager::class)
 				));
-				$server->addPlugin(new CommentPropertiesPlugin(\OC::$server->get(ICommentsManager::class), $this->userSession));
+				$server->addPlugin(new CommentPropertiesPlugin(OC::$server->get(ICommentsManager::class), $this->userSession));
 				$server->addPlugin(new FilesReportPlugin(
 					$objectTree,
 					$view,
-					\OC::$server->get(ISystemTagManager::class),
-					\OC::$server->get(ISystemTagObjectMapper::class),
-					\OC::$server->get(ITagManager::class),
+					OC::$server->get(ISystemTagManager::class),
+					OC::$server->get(ISystemTagObjectMapper::class),
+					OC::$server->get(ITagManager::class),
 					$this->userSession,
-					\OC::$server->get(IGroupManager::class),
+					OC::$server->get(IGroupManager::class),
 					$userFolder,
-					\OC::$server->get(IAppManager::class)
+					OC::$server->get(IAppManager::class)
 				));
 				// custom properties plugin must be the last one
 				$server->addPlugin(
@@ -234,8 +225,8 @@ class ServerFactory {
 			$event = new SabrePluginEvent($server);
 			$this->eventDispatcher->dispatchTyped($event);
 			$pluginManager = new PluginManager(
-				\OC::$server,
-				\OC::$server->get(IAppManager::class)
+				OC::$server,
+				OC::$server->get(IAppManager::class)
 			);
 			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
 				$server->addPlugin($appPlugin);

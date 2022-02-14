@@ -40,21 +40,11 @@ use Psr\Log\LoggerInterface;
  * @package OCA\DAV\BackgroundJob
  */
 class BuildReminderIndexBackgroundJob extends QueuedJob {
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var ReminderService */
-	private $reminderService;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
+	private IDBConnection $db;
+	private ReminderService $reminderService;
+	private LoggerInterface $logger;
+	private IJobList $jobList;
+	private ITimeFactory $timeFactory;
 
 	/**
 	 * BuildReminderIndexBackgroundJob constructor.

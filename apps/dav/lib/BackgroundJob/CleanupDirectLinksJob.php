@@ -31,8 +31,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanupDirectLinksJob extends TimedJob {
-	/** @var DirectMapper */
-	private $mapper;
+	private DirectMapper $mapper;
 
 	public function __construct(ITimeFactory $timeFactory, DirectMapper $mapper) {
 		parent::__construct($timeFactory);

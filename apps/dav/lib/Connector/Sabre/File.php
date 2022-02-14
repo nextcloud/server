@@ -45,6 +45,9 @@ use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
 use OC\ServerNotAvailableException;
+use OC_FileChunking;
+use OC_Helper;
+use OC_Hook;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
@@ -81,6 +84,7 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
+use function header;
 
 class File extends Node implements IFile {
 	protected $request;
@@ -257,7 +261,7 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				[$count, $result] = \OC_Helper::streamCopy($data, $target);
+				[$count, $result] = OC_Helper::streamCopy($data, $target);
 				fclose($target);
 			}
 
@@ -430,17 +434,17 @@ class File extends Node implements IFile {
 		$run = true;
 
 		if (!$exists) {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
+			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
 				Filesystem::signal_param_path => $hookPath,
 				Filesystem::signal_param_run => &$run,
 			]);
 		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
+			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
 				Filesystem::signal_param_path => $hookPath,
 				Filesystem::signal_param_run => &$run,
 			]);
 		}
-		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
+		OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $hookPath,
 			Filesystem::signal_param_run => &$run,
 		]);
@@ -459,15 +463,15 @@ class File extends Node implements IFile {
 		}
 		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
 		if (!$exists) {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
+			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
 				Filesystem::signal_param_path => $hookPath
 			]);
 		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
+			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $hookPath
 			]);
 		}
-		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_write, [
+		OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_write, [
 			Filesystem::signal_param_path => $hookPath
 		]);
 	}
@@ -559,7 +563,7 @@ class File extends Node implements IFile {
 		if (\OC::$server->get(IAppManager::class)->isEnabledForUser('encryption')) {
 			return [];
 		}
-		/** @var \OCP\Files\Storage $storage */
+		/** @var Storage $storage */
 		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
 		if (is_null($storage)) {
 			return [];
@@ -579,12 +583,12 @@ class File extends Node implements IFile {
 	private function createFileChunked($data): ?string {
 		[$path, $name] = \Sabre\Uri\split($this->path);
 
-		$info = \OC_FileChunking::decodeName($name);
+		$info = OC_FileChunking::decodeName($name);
 		if (empty($info)) {
 			throw new NotImplemented($this->l10n->t('Invalid chunk name'));
 		}
 
-		$chunk_handler = new \OC_FileChunking($info);
+		$chunk_handler = new OC_FileChunking($info);
 		$bytesWritten = $chunk_handler->store($info['index'], $data);
 
 		//detect aborted upload
@@ -758,7 +762,7 @@ class File extends Node implements IFile {
 
 	protected function header($string) {
 		if (!\OC::$CLI) {
-			\header($string);
+			header($string);
 		}
 	}
 }

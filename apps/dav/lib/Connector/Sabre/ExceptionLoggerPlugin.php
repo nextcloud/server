@@ -47,7 +47,7 @@ use Sabre\DAV\ServerPlugin;
 use Throwable;
 
 class ExceptionLoggerPlugin extends ServerPlugin {
-	protected $nonFatalExceptions = [
+	protected array $nonFatalExceptions = [
 		NotAuthenticated::class => true,
 		// If tokenauth can throw this exception (which is basically as
 		// NotAuthenticated. So not fatal.
@@ -86,11 +86,8 @@ class ExceptionLoggerPlugin extends ServerPlugin {
 		RequestedRangeNotSatisfiable::class => true,
 	];
 
-	/** @var string */
-	private $appName;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private string $appName;
+	private ?LoggerInterface $logger;
 
 	/**
 	 * @param string $loggerAppName app name to use when logging

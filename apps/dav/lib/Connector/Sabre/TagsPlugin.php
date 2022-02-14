@@ -52,8 +52,10 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\ITagManager;
 use OCP\ITags;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\Locked;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -70,33 +72,17 @@ class TagsPlugin extends ServerPlugin {
 
 	/**
 	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	private $server;
-
-	/**
-	 * @var ITagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ITags
-	 */
-	private $tagger;
+	private \Sabre\DAV\Server $server;
+	private ITagManager $tagManager;
+	private ?ITags $tagger;
 
 	/**
 	 * Array of file id to tags array
 	 * The null value means the cache wasn't initialized.
-	 *
-	 * @var array
 	 */
-	private $cachedTags;
-
-	/**
-	 * @var Tree
-	 */
-	private $tree;
+	private array $cachedTags;
+	private Tree $tree;
 
 	/**
 	 * @param Tree $tree tree
@@ -216,7 +202,11 @@ class TagsPlugin extends ServerPlugin {
 	 * @param INode $node
 	 * @return void
 	 * @throws Exception\Forbidden
+	 * @throws Exception\InvalidPath
 	 * @throws Locked
+	 * @throws NotFound
+	 * @throws Forbidden
+	 * @throws ServiceUnavailable
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,

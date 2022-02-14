@@ -35,15 +35,6 @@ use Psr\Log\LoggerInterface;
  */
 class ResourcePrincipalBackend extends AbstractPrincipalBackend {
 
-	/**
-	 * ResourcePrincipalBackend constructor.
-	 *
-	 * @param IDBConnection $dbConnection
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param LoggerInterface $logger
-	 * @param ProxyMapper $proxyMapper
-	 */
 	public function __construct(IDBConnection $dbConnection,
 								IUserSession $userSession,
 								IGroupManager $groupManager,

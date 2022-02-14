@@ -31,18 +31,18 @@ class Publisher implements XmlSerializable {
 	/**
 	 * @var string $publishUrl
 	 */
-	protected $publishUrl;
+	protected string $publishUrl;
 
 	/**
 	 * @var boolean $isPublished
 	 */
-	protected $isPublished;
+	protected bool $isPublished;
 
 	/**
 	 * @param string $publishUrl
 	 * @param boolean $isPublished
 	 */
-	public function __construct($publishUrl, $isPublished) {
+	public function __construct(string $publishUrl, bool $isPublished) {
 		$this->publishUrl = $publishUrl;
 		$this->isPublished = $isPublished;
 	}
@@ -50,17 +50,17 @@ class Publisher implements XmlSerializable {
 	/**
 	 * @return string
 	 */
-	public function getValue() {
+	public function getValue(): string {
 		return $this->publishUrl;
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * Use the $writer argument to write its own xml serialization.
 	 *
 	 * An important note: do _not_ create a parent element. Any element
-	 * implementing XmlSerializble should only ever write what's considered
+	 * implementing XmlSerializable should only ever write what's considered
 	 * its 'inner xml'.
 	 *
 	 * The parent of the current element is responsible for writing a

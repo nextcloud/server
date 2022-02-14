@@ -30,6 +30,9 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Reminder;
 
 use DateTime;
+use DateTimeInterface;
+use Exception;
+use InvalidArgumentException;
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
@@ -46,25 +49,11 @@ use OCP\Notification\INotifier;
  */
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	private $l10nFactory;
+	private IFactory $l10nFactory;
+	private IURLGenerator $urlGenerator;
+	private IL10N $l10n;
+	private ITimeFactory $timeFactory;
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/**
-	 * Notifier constructor.
-	 *
-	 * @param IFactory $factory
-	 * @param IURLGenerator $urlGenerator
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(IFactory $factory,
 								IURLGenerator $urlGenerator,
 								ITimeFactory $timeFactory) {
@@ -99,12 +88,12 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function prepare(INotification $notification,
 							string $languageCode):INotification {
 		if ($notification->getApp() !== Application::APP_ID) {
-			throw new \InvalidArgumentException('Notification not from this app');
+			throw new InvalidArgumentException('Notification not from this app');
 		}
 
 		// Read the language from the notification
@@ -116,7 +105,7 @@ class Notifier implements INotifier {
 				return $this->prepareReminderNotification($notification);
 
 			default:
-				throw new \InvalidArgumentException('Unknown subject');
+				throw new InvalidArgumentException('Unknown subject');
 
 		}
 	}
@@ -124,6 +113,7 @@ class Notifier implements INotifier {
 	/**
 	 * @param INotification $notification
 	 * @return INotification
+	 * @throws Exception
 	 */
 	private function prepareReminderNotification(INotification $notification):INotification {
 		$imagePath = $this->urlGenerator->imagePath('core', 'places/calendar.svg');
@@ -144,7 +134,7 @@ class Notifier implements INotifier {
 	private function prepareNotificationSubject(INotification $notification): void {
 		$parameters = $notification->getSubjectParameters();
 
-		$startTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
+		$startTime = DateTime::createFromFormat(DateTimeInterface::ATOM, $parameters['start_atom']);
 		$now = $this->timeFactory->getDateTime();
 		$title = $this->getTitleFromParameters($parameters);
 
@@ -188,6 +178,7 @@ class Notifier implements INotifier {
 	 * Sets the notification message based on the parameters set in PushProvider
 	 *
 	 * @param INotification $notification
+	 * @throws Exception
 	 */
 	private function prepareNotificationMessage(INotification $notification): void {
 		$parameters = $notification->getMessageParameters();
@@ -218,11 +209,11 @@ class Notifier implements INotifier {
 	/**
 	 * @param array $parameters
 	 * @return string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	private function generateDateString(array $parameters):string {
-		$startDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
-		$endDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['end_atom']);
+		$startDateTime = DateTime::createFromFormat(DateTimeInterface::ATOM, $parameters['start_atom']);
+		$endDateTime = DateTime::createFromFormat(DateTimeInterface::ATOM, $parameters['end_atom']);
 
 		// If the event has already ended, dismiss the notification
 		if ($endDateTime < $this->timeFactory->getDateTime()) {

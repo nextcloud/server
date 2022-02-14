@@ -36,13 +36,9 @@ use OCP\AppFramework\Db\Entity;
  * @method void setPermissions(int $permissions)
  */
 class Proxy extends Entity {
-
-	/** @var string */
-	protected $ownerId;
-	/** @var string */
-	protected $proxyId;
-	/** @var int */
-	protected $permissions;
+	protected string $ownerId;
+	protected string $proxyId;
+	protected int $permissions;
 
 	public function __construct() {
 		$this->addType('ownerId', 'string');

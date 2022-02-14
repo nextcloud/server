@@ -49,11 +49,8 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	 */
 	private const DELIMITER = '--';
 
-	/** @var string */
-	private $appId;
-
-	/** @var string */
-	private $calendarUri;
+	private string $appId;
+	private string $calendarUri;
 
 	/**
 	 * ExternalCalendar constructor.

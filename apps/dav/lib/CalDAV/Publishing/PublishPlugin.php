@@ -32,37 +32,35 @@ use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
+use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
+use Sabre\DAVACL\Exception\NeedPrivileges;
+use Sabre\DAVACL\Plugin as ACLPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\Xml\ParseException;
 
 class PublishPlugin extends ServerPlugin {
 	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
 	/**
 	 * Reference to SabreDAV server object.
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	protected $server;
+	protected Server $server;
 
 	/**
 	 * Config instance to get instance secret.
-	 *
-	 * @var IConfig
 	 */
-	protected $config;
+	protected IConfig $config;
 
 	/**
 	 * URL Generator for absolute URLs.
-	 *
-	 * @var IURLGenerator
 	 */
-	protected $urlGenerator;
+	protected IURLGenerator $urlGenerator;
 
 	/**
 	 * PublishPlugin constructor.
@@ -150,6 +148,9 @@ class PublishPlugin extends ServerPlugin {
 	 * @param ResponseInterface $response
 	 *
 	 * @return void|bool
+	 * @throws NeedPrivileges
+	 * @throws NotAuthenticated
+	 * @throws ParseException
 	 */
 	public function httpPost(RequestInterface $request, ResponseInterface $response) {
 		$path = $request->getPath();
@@ -195,7 +196,7 @@ class PublishPlugin extends ServerPlugin {
 
 			// If there's no ACL support, we allow everything
 			if ($acl) {
-				/** @var \Sabre\DAVACL\Plugin $acl */
+				/** @var ACLPlugin $acl */
 				$acl->checkPrivileges($path, '{DAV:}write');
 
 				$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
@@ -230,7 +231,7 @@ class PublishPlugin extends ServerPlugin {
 
 			// If there's no ACL support, we allow everything
 			if ($acl) {
-				/** @var \Sabre\DAVACL\Plugin $acl */
+				/** @var ACLPlugin $acl */
 				$acl->checkPrivileges($path, '{DAV:}write');
 
 				$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';

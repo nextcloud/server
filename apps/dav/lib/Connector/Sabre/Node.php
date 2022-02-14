@@ -37,6 +37,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OC_Util;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\Constants;
@@ -55,35 +56,18 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 
 abstract class Node implements INode {
-
-	/**
-	 * @var View
-	 */
-	protected $fileView;
-
 	/**
 	 * The path to the current node
-	 *
-	 * @var string|null
 	 */
-	protected $path;
+	protected ?string $path;
 
 	/**
 	 * node properties cache
-	 *
-	 * @var array
 	 */
-	protected $property_cache = null;
-
-	/**
-	 * @var FileInfo|null
-	 */
-	protected $info;
-
-	/**
-	 * @var IManager
-	 */
-	protected $shareManager;
+	protected ?array $property_cache = null;
+	protected View $fileView;
+	protected ?FileInfo $info;
+	protected IManager $shareManager;
 
 	/**
 	 * Sets up the node, expects a full path name
@@ -245,7 +229,7 @@ abstract class Node implements INode {
 	 */
 	public function getFileId(): ?string {
 		if ($this->info->getId()) {
-			$instanceId = \OC_Util::getInstanceId();
+			$instanceId = OC_Util::getInstanceId();
 			$id = sprintf('%08d', $this->info->getId());
 			return $id . $instanceId;
 		}
@@ -290,7 +274,7 @@ abstract class Node implements INode {
 		}
 
 		/*
-		 * We can always share non moveable mount points with DELETE and UPDATE
+		 * We can always share non movable mount points with DELETE and UPDATE
 		 * Eventually we need to do this properly
 		 */
 		$mountpoint = $this->info->getMountPoint();

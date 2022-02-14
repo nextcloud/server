@@ -26,6 +26,8 @@
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use Exception;
+use InvalidArgumentException;
 use OC_App;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
@@ -44,20 +46,11 @@ class Event extends Base {
 	public const SUBJECT_OBJECT_RESTORE = 'object_restore';
 	public const SUBJECT_OBJECT_DELETE = 'object_delete';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var IAppManager */
-	protected $appManager;
+	protected IFactory $languageFactory;
+	protected IL10N $l;
+	protected IManager $activityManager;
+	protected IEventMerger $eventMerger;
+	protected IAppManager $appManager;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -80,9 +73,9 @@ class Event extends Base {
 	 * @param array $eventData
 	 * @return array
 	 */
-	protected function generateObjectParameter(array $eventData) {
+	protected function generateObjectParameter(array $eventData): array {
 		if (!isset($eventData['id']) || !isset($eventData['name'])) {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$params = [
@@ -105,7 +98,7 @@ class Event extends Base {
 					'recurrenceId' => 'next'
 				];
 				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexview.timerange.edit', $link);
-			} catch (\Exception $error) {
+			} catch (Exception $error) {
 				// Do nothing
 			}
 		}
@@ -117,12 +110,12 @@ class Event extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_event') {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -154,22 +147,20 @@ class Event extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event_self') {
 			$subject = $this->l->t('You restored event {event} of calendar {calendar}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$parsedParameters = $this->getParameters($event);
 		$this->setSubjects($event, $subject, $parsedParameters);
 
-		$event = $this->eventMerger->mergeEvents('event', $event, $previousEvent);
-
-		return $event;
+		return $this->eventMerger->mergeEvents('event', $event, $previousEvent);
 	}
 
 	/**
 	 * @param IEvent $event
 	 * @return array
 	 */
-	protected function getParameters(IEvent $event) {
+	protected function getParameters(IEvent $event): array {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
@@ -221,10 +212,10 @@ class Event extends Base {
 				];
 		}
 
-		throw new \InvalidArgumentException();
+		throw new InvalidArgumentException();
 	}
 
-	private function generateClassifiedObjectParameter(array $eventData) {
+	private function generateClassifiedObjectParameter(array $eventData): array {
 		$parameter = $this->generateObjectParameter($eventData);
 		if (!empty($eventData['classified'])) {
 			$parameter['name'] = $this->l->t('Busy');

@@ -28,6 +28,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Reminder;
 
+use Exception;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 
@@ -37,12 +38,8 @@ use OCP\IDBConnection;
  * @package OCA\DAV\CalDAV\Reminder
  */
 class Backend {
-
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
+	protected IDBConnection $db;
+	private ITimeFactory $timeFactory;
 
 	/**
 	 * Backend constructor.
@@ -60,7 +57,7 @@ class Backend {
 	 * Get all reminders with a notification date before now
 	 *
 	 * @return array
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function getRemindersToProcess():array {
 		$query = $this->db->getQueryBuilder();
@@ -82,13 +79,14 @@ class Backend {
 	 *
 	 * @param int $objectId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getAllScheduledRemindersForEvent(int $objectId):array {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
 			->from('calendar_reminders')
 			->where($query->expr()->eq('object_id', $query->createNamedParameter($objectId)));
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 
 		return array_map(
 			[$this, 'fixRowTyping'],
@@ -112,6 +110,7 @@ class Backend {
 	 * @param int $notificationDate
 	 * @param bool $isRepeatBased
 	 * @return int The insert id
+	 * @throws \OCP\DB\Exception
 	 */
 	public function insertReminder(int $calendarId,
 								   int $objectId,
@@ -141,7 +140,7 @@ class Backend {
 				'notification_date' => $query->createNamedParameter($notificationDate),
 				'is_repeat_based' => $query->createNamedParameter($isRepeatBased ? 1 : 0),
 			])
-			->execute();
+			->executeStatement();
 
 		return $query->getLastInsertId();
 	}
@@ -151,6 +150,7 @@ class Backend {
 	 *
 	 * @param int $reminderId
 	 * @param int $newNotificationDate
+	 * @throws \OCP\DB\Exception
 	 */
 	public function updateReminder(int $reminderId,
 								   int $newNotificationDate):void {
@@ -158,7 +158,7 @@ class Backend {
 		$query->update('calendar_reminders')
 			->set('notification_date', $query->createNamedParameter($newNotificationDate))
 			->where($query->expr()->eq('id', $query->createNamedParameter($reminderId)))
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -166,26 +166,28 @@ class Backend {
 	 *
 	 * @param integer $reminderId
 	 * @return void
+	 * @throws \OCP\DB\Exception
 	 */
 	public function removeReminder(int $reminderId):void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
 			->where($query->expr()->eq('id', $query->createNamedParameter($reminderId)))
-			->execute();
+			->executeStatement();
 	}
 
 	/**
 	 * Cleans reminders in database
 	 *
 	 * @param int $objectId
+	 * @throws \OCP\DB\Exception
 	 */
 	public function cleanRemindersForEvent(int $objectId):void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
 			->where($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -193,13 +195,14 @@ class Backend {
 	 *
 	 * @param int $calendarId
 	 * @return void
+	 * @throws \OCP\DB\Exception
 	 */
 	public function cleanRemindersForCalendar(int $calendarId):void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
 			->where($query->expr()->eq('calendar_id', $query->createNamedParameter($calendarId)))
-			->execute();
+			->executeStatement();
 	}
 
 	/**

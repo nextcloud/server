@@ -38,7 +38,7 @@ class ShareeList implements XmlSerializable {
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 
 	/** @var IShare[] */
-	private $shares;
+	private array $shares;
 
 	public function __construct(array $shares) {
 		$this->shares = $shares;

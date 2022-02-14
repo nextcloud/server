@@ -27,12 +27,8 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Todo implements IFilter {
-
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
+	protected IL10N $l;
+	protected IURLGenerator $url;
 
 	public function __construct(IL10N $l, IURLGenerator $url) {
 		$this->l = $l;

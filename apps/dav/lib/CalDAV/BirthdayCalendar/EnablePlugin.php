@@ -27,10 +27,14 @@ namespace OCA\DAV\CalDAV\BirthdayCalendar;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
+use OCP\PreConditionNotMetException;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\Xml\ParseException;
 
 /**
  * Class EnablePlugin
@@ -41,27 +45,10 @@ use Sabre\HTTP\ResponseInterface;
 class EnablePlugin extends ServerPlugin {
 	public const NS_Nextcloud = 'http://nextcloud.com/ns';
 
-	/**
-	 * @var IConfig
-	 */
-	protected $config;
+	protected IConfig $config;
+	protected BirthdayService $birthdayService;
+	protected Server $server;
 
-	/**
-	 * @var BirthdayService
-	 */
-	protected $birthdayService;
-
-	/**
-	 * @var Server
-	 */
-	protected $server;
-
-	/**
-	 * PublishPlugin constructor.
-	 *
-	 * @param IConfig $config
-	 * @param BirthdayService $birthdayService
-	 */
 	public function __construct(IConfig $config, BirthdayService $birthdayService) {
 		$this->config = $config;
 		$this->birthdayService = $birthdayService;
@@ -114,6 +101,10 @@ class EnablePlugin extends ServerPlugin {
 	 * @param ResponseInterface $response
 	 *
 	 * @return bool|void
+	 * @throws PreConditionNotMetException
+	 * @throws NotFound
+	 * @throws ParseException
+	 * @throws BadRequest
 	 */
 	public function httpPost(RequestInterface $request, ResponseInterface $response) {
 		$node = $this->server->tree->getNodeForPath($this->server->getRequestUri());

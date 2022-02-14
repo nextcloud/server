@@ -35,21 +35,10 @@ use Sabre\VObject\Property\ICalendar\Duration;
  * @package OCA\DAV\CalDAV\ICSExportPlugin
  */
 class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var string */
+	private IConfig $config;
+	private LoggerInterface $logger;
 	private const DEFAULT_REFRESH_INTERVAL = 'PT4H';
 
-	/**
-	 * ICSExportPlugin constructor.
-	 *
-	 * @param IConfig $config
-	 */
 	public function __construct(IConfig $config, LoggerInterface $logger) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -64,7 +53,7 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 			$properties['{http://nextcloud.com/ns}refresh-interval'] = $value;
 		}
 
-		return parent::generateResponse($path, $start, $end, $expand, $componentType, $format, $properties, $response);
+		parent::generateResponse($path, $start, $end, $expand, $componentType, $format, $properties, $response);
 	}
 
 	/**

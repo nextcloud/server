@@ -56,16 +56,11 @@ use function \Sabre\Uri\split;
 
 class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
+	private IConfig $config;
 
 	/** @var ITip\Message[] */
-	private $schedulingResponses = [];
-
-	/** @var string|null */
-	private $pathOfCalendarObjectChange = null;
+	private array $schedulingResponses = [];
+	private ?string $pathOfCalendarObjectChange = null;
 
 	public const CALENDAR_USER_TYPE = '{' . self::NS_CALDAV . '}calendar-user-type';
 	public const SCHEDULE_DEFAULT_CALENDAR_URL = '{' . self::NS_CALDAV . '}schedule-default-calendar-URL';
@@ -163,6 +158,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
 	/**
 	 * @inheritDoc
+	 * @throws NotFound
 	 */
 	public function scheduleLocalDelivery(ITip\Message $iTipMessage):void {
 		parent::scheduleLocalDelivery($iTipMessage);
@@ -271,6 +267,7 @@ EOF;
 
 	/**
 	 * @param string $uri
+	 * @throws NotFound
 	 */
 	public function dispatchSchedulingResponses(string $uri):void {
 		if ($uri !== $this->pathOfCalendarObjectChange) {
@@ -431,6 +428,7 @@ EOF;
 		// This method is heavily inspired by Sabre\CalDAV\Schedule\Plugin::scheduleLocalDelivery
 		// and Sabre\CalDAV\Schedule\Plugin::getFreeBusyForEmail
 
+		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
 		$aclPlugin = $this->server->getPlugin('acl');
 		$this->server->removeListener('propFind', [$aclPlugin, 'propFind']);
 
@@ -537,7 +535,7 @@ EOF;
 		}
 
 		// If more than one Free-Busy property was returned, it means that an event
-		// starts or ends inside this time-range, so it's not availabe and we return false
+		// starts or ends inside this time-range, so it's not available and we return false
 		if (count($freeBusyProperties) > 1) {
 			return false;
 		}

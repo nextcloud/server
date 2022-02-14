@@ -37,7 +37,7 @@ interface ICalendar {
 	 * @return string defining the technical unique key
 	 * @since 13.0.0
 	 */
-	public function getKey();
+	public function getKey(): string;
 
 	/**
 	 * @since 24.0.0
@@ -49,14 +49,14 @@ interface ICalendar {
 	 * @return null|string
 	 * @since 13.0.0
 	 */
-	public function getDisplayName();
+	public function getDisplayName(): ?string;
 
 	/**
 	 * Calendar color
 	 * @return null|string
 	 * @since 13.0.0
 	 */
-	public function getDisplayColor();
+	public function getDisplayColor(): ?string;
 
 	/**
 	 * @param string $pattern which should match within the $searchProperties
@@ -68,11 +68,11 @@ interface ICalendar {
 	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
-	public function search($pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null);
+	public function search(string $pattern, array $searchProperties = [], array $options = [], int $limit = null, int $offset = null): array;
 
 	/**
 	 * @return integer build up using \OCP\Constants
 	 * @since 13.0.0
 	 */
-	public function getPermissions();
+	public function getPermissions(): int;
 }

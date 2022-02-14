@@ -33,10 +33,12 @@ use OC\Files\FileInfo;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Storage;
 use OC\Files\View;
+use OC_FileChunking;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\ForbiddenException;
+use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
@@ -47,16 +49,8 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
 
 class ObjectTree extends CachingTree {
-
-	/**
-	 * @var View
-	 */
-	protected $fileView;
-
-	/**
-	 * @var  IMountManager
-	 */
-	protected $mountManager;
+	protected View $fileView;
+	protected IMountManager $mountManager;
 
 	/**
 	 * @param INode $rootNode
@@ -86,7 +80,7 @@ class ObjectTree extends CachingTree {
 				$dir = '';
 			}
 
-			$info = \OC_FileChunking::decodeName($name);
+			$info = OC_FileChunking::decodeName($name);
 			// only replace path if it was really the chunked file
 			if (isset($info['transferid'])) {
 				// getNodePath is called for multiple nodes within a chunk
@@ -122,7 +116,7 @@ class ObjectTree extends CachingTree {
 		if ($path) {
 			try {
 				$this->fileView->verifyPath($path, basename($path));
-			} catch (\OCP\Files\InvalidPathException $ex) {
+			} catch (InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage());
 			}
 		}
@@ -224,7 +218,7 @@ class ObjectTree extends CachingTree {
 		[$destinationDir, $destinationName] = \Sabre\Uri\split($destinationPath);
 		try {
 			$this->fileView->verifyPath($destinationDir, $destinationName);
-		} catch (\OCP\Files\InvalidPathException $ex) {
+		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
 		}
 

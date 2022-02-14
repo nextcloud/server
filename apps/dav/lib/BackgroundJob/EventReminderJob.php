@@ -26,18 +26,16 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\BackgroundJob;
 
+use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
+use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 
 class EventReminderJob extends TimedJob {
-
-	/** @var ReminderService */
-	private $reminderService;
-
-	/** @var IConfig */
-	private $config;
+	private ReminderService $reminderService;
+	private IConfig $config;
 
 	public function __construct(ITimeFactory $time,
 								ReminderService $reminderService,
@@ -52,12 +50,10 @@ class EventReminderJob extends TimedJob {
 	}
 
 	/**
-	 * @param $arg
-	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException
-	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException
-	 * @throws \OC\User\NoUserException
+	 * @throws ProviderNotAvailableException
+	 * @throws NotificationTypeDoesNotExistException
 	 */
-	public function run($arg):void {
+	public function run($argument):void {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			return;
 		}

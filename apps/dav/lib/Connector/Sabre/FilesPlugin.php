@@ -33,7 +33,10 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use OC\AppFramework\Http\Request;
+use OC_FileChunking;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
@@ -83,57 +86,21 @@ class FilesPlugin extends ServerPlugin {
 
 	/**
 	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	private $server;
-
-	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
+	private \Sabre\DAV\Server $server;
+	private Tree $tree;
+	private IUserSession $userSession;
 
 	/**
 	 * Whether this is public webdav.
 	 * If true, some returned information will be stripped off.
-	 *
-	 * @var bool
 	 */
-	private $isPublic;
+	private bool $isPublic;
+	private bool $downloadAttachment;
+	private IConfig $config;
+	private IRequest $request;
+	private IPreview $previewManager;
 
-	/**
-	 * @var bool
-	 */
-	private $downloadAttachment;
-
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * @var IRequest
-	 */
-	private $request;
-
-	/**
-	 * @var IPreview
-	 */
-	private $previewManager;
-
-	/**
-	 * @param Tree $tree
-	 * @param IConfig $config
-	 * @param IRequest $request
-	 * @param IPreview $previewManager
-	 * @param bool $isPublic
-	 * @param bool $downloadAttachment
-	 */
 	public function __construct(Tree $tree,
 								IConfig $config,
 								IRequest $request,
@@ -303,8 +270,6 @@ class FilesPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function handleGetProperties(PropFind $propFind, INode $node) {
-		$httpRequest = $this->server->httpRequest;
-
 		if ($node instanceof Node) {
 			/**
 			 * This was disabled, because it made dir listing throw an exception,
@@ -334,7 +299,7 @@ class FilesPlugin extends ServerPlugin {
 				return $perms;
 			});
 
-			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node, $httpRequest) {
+			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node) {
 				$user = $this->userSession->getUser();
 				if ($user === null) {
 					return null;
@@ -344,7 +309,7 @@ class FilesPlugin extends ServerPlugin {
 				);
 			});
 
-			$propFind->handle(self::OCM_SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node, $httpRequest) {
+			$propFind->handle(self::OCM_SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node) {
 				$user = $this->userSession->getUser();
 				if ($user === null) {
 					return null;
@@ -377,7 +342,7 @@ class FilesPlugin extends ServerPlugin {
 				return $node->getFileInfo()->getMountPoint()->getMountType();
 			});
 
-			$propFind->handle(self::SHARE_NOTE, function () use ($node, $httpRequest) {
+			$propFind->handle(self::SHARE_NOTE, function () use ($node) {
 				$user = $this->userSession->getUser();
 				if ($user === null) {
 					return null;
@@ -388,12 +353,12 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function () use ($node) {
-				return $this->config->getSystemValue('data-fingerprint', '');
+				return $this->config->getSystemValue('data-fingerprint');
 			});
 			$propFind->handle(self::CREATIONDATE_PROPERTYNAME, function () use ($node) {
-				return (new \DateTimeImmutable())
+				return (new DateTimeImmutable())
 					->setTimestamp($node->getFileInfo()->getCreationTime())
-					->format(\DateTimeInterface::ATOM);
+					->format(DateTimeInterface::ATOM);
 			});
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
@@ -515,7 +480,7 @@ class FilesPlugin extends ServerPlugin {
 			if (empty($time)) {
 				return false;
 			}
-			$dateTime = new \DateTimeImmutable($time);
+			$dateTime = new DateTimeImmutable($time);
 			$node->setCreationTime($dateTime->getTimestamp());
 			return true;
 		});
@@ -537,7 +502,7 @@ class FilesPlugin extends ServerPlugin {
 		// chunked upload handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			[$path, $name] = \Sabre\Uri\split($filePath);
-			$info = \OC_FileChunking::decodeName($name);
+			$info = OC_FileChunking::decodeName($name);
 			if (!empty($info)) {
 				$filePath = $path . '/' . $info['name'];
 			}

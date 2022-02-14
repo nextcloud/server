@@ -38,11 +38,8 @@ use function preg_match;
 class DeletedCalendarObjectsCollection implements ICalendarObjectContainer {
 	public const NAME = 'objects';
 
-	/** @var CalDavBackend */
-	protected $caldavBackend;
-
-	/** @var mixed[] */
-	private $principalInfo;
+	protected CalDavBackend $caldavBackend;
+	private array $principalInfo;
 
 	public function __construct(CalDavBackend $caldavBackend,
 								array $principalInfo) {

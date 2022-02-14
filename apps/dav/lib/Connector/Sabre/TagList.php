@@ -37,16 +37,8 @@ use Sabre\Xml\Writer;
 class TagList implements Element {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
-	/**
-	 * tags
-	 *
-	 * @var array
-	 */
-	private $tags;
+	private array $tags;
 
-	/**
-	 * @param array $tags
-	 */
 	public function __construct(array $tags) {
 		$this->tags = $tags;
 	}
@@ -104,7 +96,7 @@ class TagList implements Element {
 	 * Use the $writer argument to write its own xml serialization.
 	 *
 	 * An important note: do _not_ create a parent element. Any element
-	 * implementing XmlSerializble should only ever write what's considered
+	 * implementing XmlSerializable should only ever write what's considered
 	 * its 'inner xml'.
 	 *
 	 * The parent of the current element is responsible for writing a

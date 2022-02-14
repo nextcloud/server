@@ -22,6 +22,8 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use InvalidArgumentException;
+
 class MtimeSanitizer {
 	public static function sanitizeMtime(string $mtimeFromRequest): int {
 		// In PHP 5.X "is_numeric" returns true for strings in hexadecimal
@@ -29,12 +31,12 @@ class MtimeSanitizer {
 		// ensures that strings with hexadecimal notations fail too in PHP 5.X.
 		$isHexadecimal = preg_match('/^\s*0[xX]/', $mtimeFromRequest);
 		if ($isHexadecimal || !is_numeric($mtimeFromRequest)) {
-			throw new \InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
+			throw new InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
 		}
 
 		// Prevent writing invalid mtime (timezone-proof)
 		if ((int)$mtimeFromRequest <= 24 * 60 * 60) {
-			throw new \InvalidArgumentException('X-OC-MTime header must be a valid positive integer');
+			throw new InvalidArgumentException('X-OC-MTime header must be a valid positive integer');
 		}
 
 		return (int)$mtimeFromRequest;

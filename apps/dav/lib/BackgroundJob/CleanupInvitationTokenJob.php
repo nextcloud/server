@@ -32,8 +32,7 @@ use OCP\IDBConnection;
 
 class CleanupInvitationTokenJob extends TimedJob {
 
-	/** @var IDBConnection  */
-	private $db;
+	private IDBConnection $db;
 
 	public function __construct(IDBConnection $db, ITimeFactory $time) {
 		parent::__construct($time);

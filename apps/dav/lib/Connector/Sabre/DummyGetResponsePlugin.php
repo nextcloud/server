@@ -44,8 +44,7 @@ use Sabre\HTTP\ResponseInterface;
  * @package OCA\DAV\Connector\Sabre
  */
 class DummyGetResponsePlugin extends ServerPlugin {
-	/** @var \Sabre\DAV\Server */
-	protected $server;
+	protected \Sabre\DAV\Server $server;
 
 	/**
 	 * @param \Sabre\DAV\Server $server

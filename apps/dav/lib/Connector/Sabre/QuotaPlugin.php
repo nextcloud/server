@@ -31,6 +31,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
+use OC_FileChunking;
 use OCA\DAV\Upload\FutureFile;
 use OCP\Files\InvalidPathException;
 use OCP\Files\StorageNotAvailableException;
@@ -48,20 +49,15 @@ use Sabre\DAV\ServerPlugin;
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class QuotaPlugin extends ServerPlugin {
-
-	/** @var View */
-	private $view;
+	private View $view;
 
 	/**
 	 * Reference to main server object
 	 *
 	 * @var \Sabre\DAV\Server
 	 */
-	private $server;
+	private \Sabre\DAV\Server $server;
 
-	/**
-	 * @param View $view
-	 */
 	public function __construct(View $view) {
 		$this->view = $view;
 	}
@@ -168,7 +164,7 @@ class QuotaPlugin extends ServerPlugin {
 			}
 			$req = $this->server->httpRequest;
 			if ($req->getHeader('OC-Chunked')) {
-				$info = \OC_FileChunking::decodeName($newName);
+				$info = OC_FileChunking::decodeName($newName);
 				$chunkHandler = $this->getFileChunking($info);
 				// subtract the already uploaded size to see whether
 				// there is still enough space for the remaining chunks
@@ -187,9 +183,9 @@ class QuotaPlugin extends ServerPlugin {
 		return true;
 	}
 
-	public function getFileChunking($info): \OC_FileChunking {
+	public function getFileChunking($info): OC_FileChunking {
 		// FIXME: need a factory for better mocking support
-		return new \OC_FileChunking($info);
+		return new OC_FileChunking($info);
 	}
 
 	public function getLength() {

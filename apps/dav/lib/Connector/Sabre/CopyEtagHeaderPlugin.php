@@ -35,9 +35,7 @@ use Sabre\HTTP\ResponseInterface;
  * or mangle Etag headers.
  */
 class CopyEtagHeaderPlugin extends ServerPlugin {
-
-	/** @var \Sabre\DAV\Server */
-	private $server;
+	private \Sabre\DAV\Server $server;
 	/**
 	 * This initializes the plugin.
 	 *

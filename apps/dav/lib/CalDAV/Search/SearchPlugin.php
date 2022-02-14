@@ -28,6 +28,7 @@ namespace OCA\DAV\CalDAV\Search;
 
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
@@ -36,10 +37,8 @@ class SearchPlugin extends ServerPlugin {
 
 	/**
 	 * Reference to SabreDAV server object.
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	protected $server;
+	protected Server $server;
 
 	/**
 	 * This method should return a list of server-features.
@@ -92,8 +91,9 @@ class SearchPlugin extends ServerPlugin {
 	 * @param mixed $report
 	 * @param mixed $path
 	 * @return bool
+	 * @throws NotFound
 	 */
-	public function report($reportName, $report, $path) {
+	public function report(string $reportName, $report, $path) {
 		switch ($reportName) {
 			case '{' . self::NS_Nextcloud . '}calendar-search':
 				$this->server->transactionType = 'report-nc-calendar-search';
@@ -111,6 +111,7 @@ class SearchPlugin extends ServerPlugin {
 	 *
 	 * @param string $uri
 	 * @return array
+	 * @throws NotFound
 	 */
 	public function getSupportedReportSet($uri) {
 		$node = $this->server->tree->getNodeForPath($uri);
@@ -131,6 +132,7 @@ class SearchPlugin extends ServerPlugin {
 	 *
 	 * @param Xml\Request\CalendarSearchReport $report
 	 * @return void
+	 * @throws NotFound
 	 */
 	private function calendarSearch(CalendarSearchReport $report): void {
 		$node = $this->server->tree->getNodeForPath($this->server->getRequestUri());

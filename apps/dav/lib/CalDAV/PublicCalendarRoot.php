@@ -31,15 +31,9 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\Collection;
 
 class PublicCalendarRoot extends Collection {
-
-	/** @var CalDavBackend */
-	protected $caldavBackend;
-
-	/** @var IL10N */
-	protected $l10n;
-
-	/** @var IConfig */
-	protected $config;
+	protected CalDavBackend $caldavBackend;
+	protected IL10N $l10n;
+	protected IConfig $config;
 
 	/** @var LoggerInterface */
 	private $logger;

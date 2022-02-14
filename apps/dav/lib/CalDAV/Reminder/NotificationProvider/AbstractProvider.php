@@ -49,31 +49,14 @@ abstract class AbstractProvider implements INotificationProvider {
 
 	/** @var string */
 	public const NOTIFICATION_TYPE = '';
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var L10NFactory */
-	protected $l10nFactory;
-
+	protected LoggerInterface $logger;
+	protected L10NFactory $l10nFactory;
 	/** @var IL10N[] */
-	private $l10ns;
+	private array $l10ns;
+	private string $fallbackLanguage;
+	protected IURLGenerator $urlGenerator;
+	protected IConfig $config;
 
-	/** @var string */
-	private $fallbackLanguage;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var IConfig */
-	protected $config;
-
-	/**
-	 * @param LoggerInterface $logger
-	 * @param L10NFactory $l10nFactory
-	 * @param IConfig $config
-	 * @param IUrlGenerator $urlGenerator
-	 */
 	public function __construct(LoggerInterface $logger,
 								L10NFactory $l10nFactory,
 								IURLGenerator $urlGenerator,

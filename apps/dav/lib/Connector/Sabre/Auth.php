@@ -38,7 +38,7 @@ use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\LoginException;
-use OC\User\Session;
+use OC_Util;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\Defaults;
 use OCP\IRequest;
@@ -54,22 +54,16 @@ use Sabre\HTTP\ResponseInterface;
 class Auth extends AbstractBasic {
 	public const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
 
-	/** @var ISession */
-	private $session;
-	/** @var Session */
-	private $userSession;
-	/** @var IRequest */
-	private $request;
-	/** @var string */
-	private $currentUser;
-	/** @var Manager */
-	private $twoFactorManager;
-	/** @var Throttler */
-	private $throttler;
+	private ISession $session;
+	private IUserSession $userSession;
+	private IRequest $request;
+	private string $currentUser;
+	private Manager $twoFactorManager;
+	private Throttler $throttler;
 
 	/**
 	 * @param ISession $session
-	 * @param Session $userSession
+	 * @param IUserSession $userSession
 	 * @param IRequest $request
 	 * @param Manager $twoFactorManager
 	 * @param Throttler $throttler
@@ -124,14 +118,14 @@ class Auth extends AbstractBasic {
 		if ($this->userSession->isLoggedIn() &&
 			$this->isDavAuthenticated($this->userSession->getUser()->getUID())
 		) {
-			\OC_Util::setupFS($this->userSession->getUser()->getUID());
+			OC_Util::setupFS($this->userSession->getUser()->getUID());
 			$this->session->close();
 			return true;
 		} else {
-			\OC_Util::setupFS(); //login hooks may need early access to the filesystem
+			OC_Util::setupFS(); //login hooks may need early access to the filesystem
 			try {
 				if ($this->userSession->logClientIn($username, $password, $this->request, $this->throttler)) {
-					\OC_Util::setupFS($this->userSession->getUser()->getUID());
+					OC_Util::setupFS($this->userSession->getUser()->getUID());
 					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
 					$this->session->close();
 					return true;

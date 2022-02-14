@@ -82,9 +82,8 @@ class PublicCalendar extends Calendar {
 
 	/**
 	 * public calendars are always shared
-	 * @return bool
 	 */
-	protected function isShared() {
+	protected function isShared(): bool {
 		return true;
 	}
 }
