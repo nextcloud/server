@@ -80,6 +80,7 @@ module.exports = {
 				loader: 'vue-loader',
 				exclude: BabelLoaderExcludeNodeModulesExcept([
 					'vue-material-design-icons',
+					'emoji-mart-vue-fast',
 				]),
 			},
 			{
