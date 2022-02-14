@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2022 Christopher Ng <chrng8@gmail.com>
+ * @copyright Copyright (c) 2022 Côme Chilliet <come.chilliet@nextcloud.com>
  *
- * @author Christopher Ng <chrng8@gmail.com>
  * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -27,47 +26,23 @@ declare(strict_types=1);
 
 namespace OCP\UserMigration;
 
-use OCP\IUser;
-use Symfony\Component\Console\Output\OutputInterface;
-
 /**
- * @since 24.0.0
+ * Basic version handling: we can import older versions but not newer ones
  */
-interface IMigrator {
+trait TMigratorBasicVersionHandling {
+	protected int $version = 1;
 
 	/**
-	 * Export user data
-	 *
-	 * @since 24.0.0
+	 * {@inheritDoc}
 	 */
-	public function export(
-		IUser $user,
-		IExportDestination $exportDestination,
-		OutputInterface $output
-	): void;
+	public function getVersion(): int {
+		return $this->version;
+	}
 
 	/**
-	 * Import user data
-	 *
-	 * @since 24.0.0
+	 * {@inheritDoc}
 	 */
-	public function import(
-		IUser $user,
-		IImportSource $importSource,
-		OutputInterface $output
-	): void;
-
-	/**
-	 * Returns the version of the export format for this migrator
-	 *
-	 * @since 24.0.0
-	 */
-	public function getVersion(): int;
-
-	/**
-	 * Checks whether it is able to import a version of the export format for this migrator
-	 *
-	 * @since 24.0.0
-	 */
-	public function canImport(int $version): bool;
+	public function canImport(int $version): bool {
+		return ($this->version >= $version);
+	}
 }
