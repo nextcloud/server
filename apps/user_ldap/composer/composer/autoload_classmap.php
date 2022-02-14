@@ -33,6 +33,7 @@ return array(
     'OCA\\User_LDAP\\Exceptions\\NoMoreResults' => $baseDir . '/../lib/Exceptions/NoMoreResults.php',
     'OCA\\User_LDAP\\Exceptions\\NotOnLDAP' => $baseDir . '/../lib/Exceptions/NotOnLDAP.php',
     'OCA\\User_LDAP\\FilesystemHelper' => $baseDir . '/../lib/FilesystemHelper.php',
+    'OCA\\User_LDAP\\FirstLoginListener' => $baseDir . '/../lib/FirstLoginListener.php',
     'OCA\\User_LDAP\\GroupPluginManager' => $baseDir . '/../lib/GroupPluginManager.php',
     'OCA\\User_LDAP\\Group_LDAP' => $baseDir . '/../lib/Group_LDAP.php',
     'OCA\\User_LDAP\\Group_Proxy' => $baseDir . '/../lib/Group_Proxy.php',

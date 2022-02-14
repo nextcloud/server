@@ -48,6 +48,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Exceptions\\NoMoreResults' => __DIR__ . '/..' . '/../lib/Exceptions/NoMoreResults.php',
         'OCA\\User_LDAP\\Exceptions\\NotOnLDAP' => __DIR__ . '/..' . '/../lib/Exceptions/NotOnLDAP.php',
         'OCA\\User_LDAP\\FilesystemHelper' => __DIR__ . '/..' . '/../lib/FilesystemHelper.php',
+        'OCA\\User_LDAP\\FirstLoginListener' => __DIR__ . '/..' . '/../lib/FirstLoginListener.php',
         'OCA\\User_LDAP\\GroupPluginManager' => __DIR__ . '/..' . '/../lib/GroupPluginManager.php',
         'OCA\\User_LDAP\\Group_LDAP' => __DIR__ . '/..' . '/../lib/Group_LDAP.php',
         'OCA\\User_LDAP\\Group_Proxy' => __DIR__ . '/..' . '/../lib/Group_Proxy.php',
