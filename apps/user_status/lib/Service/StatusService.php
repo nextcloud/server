@@ -35,6 +35,7 @@ use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\UserStatus\IUserStatus;
 
@@ -434,30 +435,18 @@ class StatusService {
 	}
 
 	/**
-	 * @return bool false iff there is already a backup. In this case abort the procedure.
+	 * @return bool false if there is already a backup. In this case abort the procedure.
 	 */
 	public function backupCurrentStatus(string $userId): bool {
 		try {
-			$this->mapper->findByUserId($userId, true);
-			return false;
-		} catch (DoesNotExistException $ex) {
-			// No backup already existing => Good
-		}
-
-		try {
-			$userStatus = $this->mapper->findByUserId($userId);
-		} catch (DoesNotExistException $ex) {
-			// if there is no status to backup, just return
+			$this->mapper->createBackupStatus($userId);
 			return true;
+		} catch (Exception $ex) {
+			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return false;
+			}
+			throw $ex;
 		}
-
-		$userStatus->setIsBackup(true);
-		// Prefix user account with an underscore because user_id is marked as unique
-		// in the table. Starting an username with an underscore is not allowed so this
-		// shouldn't create any trouble.
-		$userStatus->setUserId('_' . $userStatus->getUserId());
-		$this->mapper->update($userStatus);
-		return true;
 	}
 
 	public function revertUserStatus(string $userId, ?string $messageId, string $status): void {

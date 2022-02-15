@@ -184,4 +184,21 @@ class UserStatusMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 		return $qb->executeStatement() > 0;
 	}
+
+	/**
+	 * @param string $userId
+	 * @return bool
+	 * @throws \OCP\DB\Exception
+	 */
+	public function createBackupStatus(string $userId): bool {
+		// Prefix user account with an underscore because user_id is marked as unique
+		// in the table. Starting a username with an underscore is not allowed so this
+		// shouldn't create any trouble.
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName)
+			->set('is_backup', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL))
+			->set('user_id', $qb->createNamedParameter('_' . $userId))
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		return $qb->executeStatement() > 0;
+	}
 }
