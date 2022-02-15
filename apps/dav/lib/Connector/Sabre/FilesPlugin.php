@@ -76,6 +76,8 @@ class FilesPlugin extends ServerPlugin {
 	public const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
 	public const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
+	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
+	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
 
 	/**
 	 * Reference to main server object
@@ -429,7 +431,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 		}
 
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory) {
+		if ($node instanceof Directory) {
 			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node) {
 				return $node->getSize();
 			});
@@ -437,6 +439,23 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::IS_ENCRYPTED_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->isEncrypted() ? '1' : '0';
 			});
+
+			$requestProperties = $propFind->getRequestedProperties();
+			if (in_array(self::SUBFILE_COUNT_PROPERTYNAME, $requestProperties, true)
+				|| in_array(self::SUBFOLDER_COUNT_PROPERTYNAME, $requestProperties, true)) {
+				$nbFiles = 0;
+				$nbFolders = 0;
+				foreach ($node->getChildren() as $child) {
+					if ($child instanceof File) {
+						$nbFiles++;
+					} elseif ($child instanceof Directory) {
+						$nbFolders++;
+					}
+				}
+
+				$propFind->handle(self::SUBFILE_COUNT_PROPERTYNAME, $nbFiles);
+				$propFind->handle(self::SUBFOLDER_COUNT_PROPERTYNAME, $nbFolders);
+			}
 		}
 	}
 
