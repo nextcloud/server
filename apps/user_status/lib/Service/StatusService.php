@@ -230,6 +230,7 @@ class StatusService {
 			$userStatus->setStatus(IUserStatus::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
 			$userStatus->setIsUserDefined(false);
+			$userStatus->setIsBackup(false);
 		}
 
 		if (!$this->predefinedStatusService->isValidId($messageId)) {
@@ -251,6 +252,60 @@ class StatusService {
 		}
 
 		return $this->mapper->update($userStatus);
+	}
+
+	/**
+	 * @param string $userId
+	 * @param string $status
+	 * @param string $messageId
+	 * @param bool $createBackup
+	 * @throws InvalidStatusTypeException
+	 * @throws InvalidMessageIdException
+	 */
+	public function setUserStatus(string $userId,
+										 string $status,
+										 string $messageId,
+										 bool $createBackup): void {
+		// Check if status-type is valid
+		if (!\in_array($status, self::PRIORITY_ORDERED_STATUSES, true)) {
+			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
+		}
+
+		if (!$this->predefinedStatusService->isValidId($messageId)) {
+			throw new InvalidMessageIdException('Message-Id "' . $messageId . '" is not supported');
+		}
+
+		if ($createBackup) {
+			if ($this->backupCurrentStatus($userId) === false) {
+				return; // Already a status set automatically => abort.
+			}
+
+			// If we just created the backup
+			$userStatus = new UserStatus();
+			$userStatus->setUserId($userId);
+		} else {
+			try {
+				$userStatus = $this->mapper->findByUserId($userId);
+			} catch (DoesNotExistException $ex) {
+				$userStatus = new UserStatus();
+				$userStatus->setUserId($userId);
+			}
+		}
+
+		$userStatus->setStatus($status);
+		$userStatus->setStatusTimestamp($this->timeFactory->getTime());
+		$userStatus->setIsUserDefined(false);
+		$userStatus->setIsBackup(false);
+		$userStatus->setMessageId($messageId);
+		$userStatus->setCustomIcon(null);
+		$userStatus->setCustomMessage(null);
+		$userStatus->setClearAt(null);
+
+		if ($userStatus->getId() !== null) {
+			$this->mapper->update($userStatus);
+			return;
+		}
+		$this->mapper->insert($userStatus);
 	}
 
 	/**
