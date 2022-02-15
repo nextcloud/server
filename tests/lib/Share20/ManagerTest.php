@@ -505,14 +505,46 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectExceptionMessage('Passwords are enforced for link and mail shares');
 
 		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
 		]);
 
 		self::invokePrivate($this->manager, 'verifyPassword', [null]);
 	}
 
+	public function testVerifyPasswordNotEnforcedGroup() {
+		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', '["admin"]'],
+			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
+		]);
+
+		// Create admin user
+		$user = $this->createMock(IUser::class);
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['admin']);
+
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$this->assertNull($result);
+	}
+
+	public function testVerifyPasswordNotEnforcedMultipleGroups() {
+		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', '["admin", "special"]'],
+			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
+		]);
+
+		// Create admin user
+		$user = $this->createMock(IUser::class);
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['special']);
+
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$this->assertNull($result);
+	}
+
 	public function testVerifyPasswordNull() {
 		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
@@ -522,6 +554,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testVerifyPasswordHook() {
 		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
@@ -543,6 +576,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectExceptionMessage('password not accepted');
 
 		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 

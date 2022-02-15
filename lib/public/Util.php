@@ -482,12 +482,14 @@ class Util {
 	}
 
 	/**
-	 * check if a password is required for each public link
+	 * Check if a password is required for each public link
+	 *
+	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return boolean
 	 * @since 7.0.0
 	 */
-	public static function isPublicLinkPasswordRequired() {
-		return \OC_Util::isPublicLinkPasswordRequired();
+	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
+		return \OC_Util::isPublicLinkPasswordRequired($checkGroupMembership);
 	}
 
 	/**
