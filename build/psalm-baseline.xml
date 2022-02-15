@@ -750,12 +750,6 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($sabreNode-&gt;getPath())</code>
     </UndefinedFunction>
-    <UndefinedPropertyAssignment occurrences="1">
-      <code>$server-&gt;xml-&gt;namespacesMap</code>
-    </UndefinedPropertyAssignment>
-    <UndefinedPropertyFetch occurrences="1">
-      <code>$server-&gt;xml-&gt;namespacesMap</code>
-    </UndefinedPropertyFetch>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/TagsPlugin.php">
     <NullableReturnStatement occurrences="1">
