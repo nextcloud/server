@@ -155,7 +155,6 @@ class Server {
 			'principals/calendar-resources',
 			'principals/calendar-rooms',
 		];
-		$acl->defaultUsernamePath = 'principals/users';
 		$this->server->addPlugin($acl);
 
 		// calendar plugins
