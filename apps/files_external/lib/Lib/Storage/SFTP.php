@@ -327,6 +327,9 @@ class SFTP extends \OC\Files\Storage\Common {
 	public function filetype($path) {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
+			if ($stat === false) {
+				return false;
+			}
 			if ((int) $stat['type'] === NET_SFTP_TYPE_REGULAR) {
 				return 'file';
 			}
