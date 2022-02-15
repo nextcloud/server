@@ -126,7 +126,7 @@ trait S3ObjectTrait {
 			if ($e->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
-			throw $e;
+			throw new \OCP\Files\StorageConnectionException("Error while upload to S3 bucket", $e);
 		}
 	}
 
