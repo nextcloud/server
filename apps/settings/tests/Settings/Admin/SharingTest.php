@@ -125,6 +125,8 @@ class SharingTest extends TestCase {
 				'shareRemoteExpireAfterNDays' => '7',
 				'shareRemoteEnforceExpireDate' => 'no',
 				'allowLinksExcludeGroups' => '',
+				'passwordExcludedGroups' => '',
+				'passwordExcludedGroupsFeatureEnabled' => false,
 			],
 			''
 		);
@@ -194,6 +196,8 @@ class SharingTest extends TestCase {
 				'shareRemoteExpireAfterNDays' => '7',
 				'shareRemoteEnforceExpireDate' => 'no',
 				'allowLinksExcludeGroups' => '',
+				'passwordExcludedGroups' => '',
+				'passwordExcludedGroupsFeatureEnabled' => false,
 			],
 			''
 		);
