@@ -29,8 +29,8 @@ class Capabilities implements ICapability {
 		return [
 			'dav' => [
 				'chunking' => '1.0',
-// disabled because of https://github.com/nextcloud/desktop/issues/4243
-//				'bulkupload' => '1.0',
+				// disabled because of https://github.com/nextcloud/desktop/issues/4243
+				// 'bulkupload' => '1.0',
 			]
 		];
 	}
