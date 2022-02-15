@@ -321,10 +321,12 @@ interface IManager {
 	/**
 	 * Is password on public link requires
 	 *
+	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return bool
 	 * @since 9.0.0
+	 * @since 24.0.0 Added optional $checkGroupMembership parameter
 	 */
-	public function shareApiLinkEnforcePassword();
+	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true);
 
 	/**
 	 * Is default expire date enabled
