@@ -39,6 +39,7 @@
     "Credentials saved" : "Kredentzialak gordeta",
     "Credentials saving failed" : "Kredentzialak gordetzeak huts egin du",
     "Credentials required" : "Kredentzialak behar dira",
+    "Forbidden to manage local mounts" : "Debekatuta dago tokiko muntaketak kudeatzea",
     "Storage with ID \"%d\" not found" : "Ez da aurkitu \"%d\" IDa duen biltegiratzea",
     "Invalid backend or authentication mechanism class" : "Atzeko alde edo autentifikazio mekanismo klase baliogabea",
     "Invalid mount point" : "Muntatze-puntu baliogabea",
