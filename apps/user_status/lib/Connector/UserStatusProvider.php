@@ -57,14 +57,8 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 		return $userStatuses;
 	}
 
-	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false): void {
-		if ($createBackup) {
-			if ($this->service->backupCurrentStatus($userId) === false) {
-				return; // Already a status set automatically => abort.
-			}
-		}
-		$this->service->setStatus($userId, $status, null, true);
-		$this->service->setPredefinedMessage($userId, $messageId, null);
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup): void {
+		$this->service->setUserStatus($userId, $status, $messageId, $createBackup);
 	}
 
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {
