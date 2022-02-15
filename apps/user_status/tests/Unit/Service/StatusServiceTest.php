@@ -26,6 +26,8 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Tests\Service;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -38,6 +40,7 @@ use OCA\UserStatus\Service\PredefinedStatusService;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\UserStatus\IUserStatus;
 use Test\TestCase;
@@ -723,53 +726,36 @@ class StatusServiceTest extends TestCase {
 		parent::invokePrivate($this->service, 'cleanStatus', [$status]);
 	}
 
-	public function testBackupWorkingHasBackupAlready() {
-		$status = new UserStatus();
-		$status->setStatus(IUserStatus::ONLINE);
-		$status->setStatusTimestamp(1337);
-		$status->setIsUserDefined(true);
-		$status->setMessageId('meeting');
-		$status->setUserId('john');
-		$status->setIsBackup(true);
-
+	public function testBackupWorkingHasBackupAlready(): void {
+		$p = $this->createMock(UniqueConstraintViolationException::class);
+		$e = DbalException::wrap($p);
 		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with('john', true)
-			->willReturn($status);
+			->method('createBackupStatus')
+			->with('john')
+			->willThrowException($e);
 
+		$this->assertFalse($this->service->backupCurrentStatus('john'));
+	}
+
+	public function testBackupThrowsOther(): void {
+		$e = new Exception('', Exception::REASON_CONNECTION_LOST);
+		$this->mapper->expects($this->once())
+			->method('createBackupStatus')
+			->with('john')
+			->willThrowException($e);
+
+		$this->expectException(Exception::class);
 		$this->service->backupCurrentStatus('john');
 	}
 
-	public function testBackup() {
-		$currentStatus = new UserStatus();
-		$currentStatus->setStatus(IUserStatus::ONLINE);
-		$currentStatus->setStatusTimestamp(1337);
-		$currentStatus->setIsUserDefined(true);
-		$currentStatus->setMessageId('meeting');
-		$currentStatus->setUserId('john');
-
-		$this->mapper->expects($this->at(0))
-			->method('findByUserId')
-			->with('john', true)
-			->willThrowException(new DoesNotExistException(''));
-		$this->mapper->expects($this->at(1))
-			->method('findByUserId')
-			->with('john', false)
-			->willReturn($currentStatus);
-
-		$newBackupStatus = new UserStatus();
-		$newBackupStatus->setStatus(IUserStatus::ONLINE);
-		$newBackupStatus->setStatusTimestamp(1337);
-		$newBackupStatus->setIsUserDefined(true);
-		$newBackupStatus->setMessageId('meeting');
-		$newBackupStatus->setUserId('_john');
-		$newBackupStatus->setIsBackup(true);
-
+	public function testBackup(): void {
+		$e = new Exception('', Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
 		$this->mapper->expects($this->once())
-			->method('update')
-			->with($newBackupStatus);
+			->method('createBackupStatus')
+			->with('john')
+			->willReturn(true);
 
-		$this->service->backupCurrentStatus('john');
+		$this->assertTrue($this->service->backupCurrentStatus('john'));
 	}
 
 	public function testRevertMultipleUserStatus(): void {
