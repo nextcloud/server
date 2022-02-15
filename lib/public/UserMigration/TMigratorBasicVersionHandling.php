@@ -32,6 +32,8 @@ namespace OCP\UserMigration;
 trait TMigratorBasicVersionHandling {
 	protected int $version = 1;
 
+	protected bool $mandatory = false;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -42,7 +44,13 @@ trait TMigratorBasicVersionHandling {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function canImport(int $version): bool {
+	public function canImport(
+		IImportSource $importSource,
+		?int $version
+	): bool {
+		if ($version === null) {
+			return !$this->mandatory;
+		}
 		return ($this->version >= $version);
 	}
 }

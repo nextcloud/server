@@ -64,6 +64,13 @@ interface IImportSource {
 	public function copyToFolder(Folder $destination, string $sourcePath): bool;
 
 	/**
+	 * @return array<string,int> Migrators and their versions from the export archive.
+	 *
+	 * @since 24.0.0
+	 */
+	public function getMigratorVersions(): array;
+
+	/**
 	 * Called after import is complete
 	 *
 	 * @since 24.0.0
