@@ -25,8 +25,11 @@
  *
  */
 
+use OCA\User_LDAP\Command\UpdateUUID;
+use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -35,19 +38,23 @@ use OCP\IUserManager;
 
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userMapping = new UserMapping($dbConnection);
+$groupMapping = \OC::$server->get(GroupMapping::class);
 $helper = new Helper(\OC::$server->getConfig());
 $ocConfig = \OC::$server->getConfig();
+$activeConfigurationPrefixes = $helper->getServerConfigurationPrefixes(true);
 $uBackend = new User_Proxy(
-	$helper->getServerConfigurationPrefixes(true),
+	$activeConfigurationPrefixes,
 	new LDAP(),
 	$ocConfig,
 	\OC::$server->getNotificationManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->query(UserPluginManager::class)
 );
+$groupBackend = new Group_Proxy($activeConfigurationPrefixes, new LDAP(), \OC::$server->get(\OCA\User_LDAP\GroupPluginManager::class));
 $deletedUsersIndex = new DeletedUsersIndex(
 	$ocConfig, $dbConnection, $userMapping
 );
+$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
 
 $application->add(new OCA\User_LDAP\Command\ShowConfig($helper));
 $application->add(new OCA\User_LDAP\Command\SetConfig());
@@ -66,3 +73,4 @@ $application->add(new OCA\User_LDAP\Command\ShowRemnants(
 $application->add(new OCA\User_LDAP\Command\CheckUser(
 	$uBackend, $helper, $deletedUsersIndex, $userMapping)
 );
+$application->add(new UpdateUUID($userMapping, $groupMapping, $uBackend, $groupBackend, $logger));

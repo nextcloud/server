@@ -1793,7 +1793,7 @@ class Access extends LDAPUtility {
 	 * @param string $dn
 	 * @param bool $isUser
 	 * @param null $ldapRecord
-	 * @return bool|string
+	 * @return false|string
 	 * @throws ServerNotAvailableException
 	 */
 	public function getUUID($dn, $isUser = true, $ldapRecord = null) {

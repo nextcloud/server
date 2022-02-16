@@ -507,6 +507,7 @@
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SupportedDatabase', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LdapInvalidUuids', messages)
 
 				} else {
 					messages.push({

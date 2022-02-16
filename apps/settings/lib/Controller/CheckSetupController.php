@@ -54,10 +54,12 @@ use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
+use OCA\Settings\SetupChecks\LdapInvalidUuids;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\SupportedDatabase;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -69,6 +71,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
@@ -104,6 +107,10 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IAppManager */
+	private $appManager;
+	/** @var IServerContainer */
+	private $serverContainer;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -120,7 +127,10 @@ class CheckSetupController extends Controller {
 								MemoryInfo $memoryInfo,
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection) {
+								IDBConnection $connection,
+								IAppManager $appManager,
+								IServerContainer $serverContainer
+	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -136,6 +146,8 @@ class CheckSetupController extends Controller {
 		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
+		$this->appManager = $appManager;
+		$this->serverContainer = $serverContainer;
 	}
 
 	/**
@@ -721,6 +733,8 @@ Raw output
 		$phpOutputBuffering = new PhpOutputBuffering();
 		$legacySSEKeyFormat = new LegacySSEKeyFormat($this->l10n, $this->config, $this->urlGenerator);
 		$supportedDatabases = new SupportedDatabase($this->l10n, $this->connection);
+		$ldapInvalidUuids = new LdapInvalidUuids($this->appManager, $this->l10n, $this->serverContainer);
+
 		return new DataResponse(
 			[
 				'isGetenvServerWorking' => !empty(getenv('PATH')),
@@ -766,6 +780,7 @@ Raw output
 				PhpOutputBuffering::class => ['pass' => $phpOutputBuffering->run(), 'description' => $phpOutputBuffering->description(), 'severity' => $phpOutputBuffering->severity()],
 				LegacySSEKeyFormat::class => ['pass' => $legacySSEKeyFormat->run(), 'description' => $legacySSEKeyFormat->description(), 'severity' => $legacySSEKeyFormat->severity(), 'linkToDocumentation' => $legacySSEKeyFormat->linkToDocumentation()],
 				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
+				LdapInvalidUuids::class => ['pass' => $ldapInvalidUuids->run(), 'description' => $ldapInvalidUuids->description(), 'severity' => $ldapInvalidUuids->severity()],
 			]
 		);
 	}
