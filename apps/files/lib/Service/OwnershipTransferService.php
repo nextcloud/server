@@ -444,13 +444,17 @@ class OwnershipTransferService {
 		$output->writeln("Restoring incoming shares ...");
 		$progress = new ProgressBar($output, count($sourceShares));
 		$prefix = "$destinationUid/files";
+		$finalShareTarget = '';
 		if (substr($finalTarget, 0, strlen($prefix)) === $prefix) {
 			$finalShareTarget = substr($finalTarget, strlen($prefix));
 		}
 		foreach ($sourceShares as $share) {
 			try {
 				// Only restore if share is in given path.
-				$pathToCheck = '/' . trim($path) . '/';
+				$pathToCheck = '/';
+				if (trim($path, '/') !== '') {
+					$pathToCheck = '/' . trim($path) . '/';
+				}
 				if (substr($share->getTarget(), 0, strlen($pathToCheck)) !== $pathToCheck) {
 					continue;
 				}
