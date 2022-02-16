@@ -53,6 +53,7 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\ILogger;
+use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 
 class Connection extends \Doctrine\DBAL\Connection {
@@ -271,11 +272,16 @@ class Connection extends \Doctrine\DBAL\Connection {
 	}
 
 	protected function logQueryToFile(string $sql): void {
-		$logFile = $this->systemConfig->getValue('query_log_file', '');
+		$logFile = $this->systemConfig->getValue('query_log_file');
 		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
+			$prefix = '';
+			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
+				$prefix .= \OC::$server->get(IRequestId::class)->getId() . "\t";
+			}
+
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
-				$sql . "\n",
+				$prefix . $sql . "\n",
 				FILE_APPEND
 			);
 		}
