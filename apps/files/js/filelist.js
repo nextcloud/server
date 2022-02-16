@@ -1625,7 +1625,6 @@
 					fileData.extraData = fileData.extraData.substr(1);
 				}
 				nameSpan.addClass('extra-data').attr('title', fileData.extraData);
-				nameSpan.tooltip({placement: 'top'});
 			}
 			// dirs can show the number of uploaded files
 			if (mime === 'httpd/unix-directory') {
