@@ -47,6 +47,7 @@ use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
+use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
@@ -206,6 +207,8 @@ class File extends Node implements IFile {
 					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
 				} catch (GenericFileException $e) {
 					$result = false;
+				} catch (BadGateway $e) {
+					throw $e;
 				}
 
 
