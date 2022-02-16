@@ -27,8 +27,10 @@ use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -44,6 +46,8 @@ class DefaultTokenMapperTest extends TestCase {
 
 	/** @var IDBConnection */
 	private $dbConnection;
+	/** @var IConfig|MockObject */
+	private $config;
 	private $time;
 
 	protected function setUp(): void {
@@ -51,9 +55,10 @@ class DefaultTokenMapperTest extends TestCase {
 
 		$this->dbConnection = OC::$server->getDatabaseConnection();
 		$this->time = time();
+		$this->config = $this->createMock(IConfig::class);
 		$this->resetDatabase();
 
-		$this->mapper = new DefaultTokenMapper($this->dbConnection);
+		$this->mapper = new DefaultTokenMapper($this->dbConnection, $this->config);
 	}
 
 	private function resetDatabase() {
