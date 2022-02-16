@@ -71,7 +71,7 @@ updates:
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
 
 - package-ecosystem: npm
   directory: "/"
@@ -126,7 +126,7 @@ updates:
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
 
 - package-ecosystem: composer
   directory: "/build/integration"
