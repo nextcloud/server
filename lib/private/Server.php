@@ -60,6 +60,7 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
@@ -202,6 +203,7 @@ use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IRequestId;
 use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\ISession;
@@ -1031,7 +1033,7 @@ class Server extends ServerContainer implements IServerContainer {
 						: '',
 					'urlParams' => $urlParams,
 				],
-				$this->get(ISecureRandom::class),
+				$this->get(IRequestId::class),
 				$this->get(\OCP\IConfig::class),
 				$this->get(CsrfTokenManager::class),
 				$stream
@@ -1039,6 +1041,13 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Request', \OCP\IRequest::class);
+
+		$this->registerService(IRequestId::class, function (ContainerInterface $c): IRequestId {
+			return new RequestId(
+				$_SERVER['UNIQUE_ID'] ?? '',
+				$this->get(ISecureRandom::class)
+			);
+		});
 
 		$this->registerService(IMailer::class, function (Server $c) {
 			return new Mailer(
@@ -1207,7 +1216,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(EventDispatcherInterface::class, \OC\EventDispatcher\SymfonyAdapter::class);
 
 		$this->registerService('CryptoWrapper', function (ContainerInterface $c) {
-			// FIXME: Instantiiated here due to cyclic dependency
+			// FIXME: Instantiated here due to cyclic dependency
 			$request = new Request(
 				[
 					'get' => $_GET,
@@ -1220,7 +1229,7 @@ class Server extends ServerContainer implements IServerContainer {
 						? $_SERVER['REQUEST_METHOD']
 						: null,
 				],
-				$c->get(ISecureRandom::class),
+				$c->get(IRequestId::class),
 				$c->get(\OCP\IConfig::class)
 			);
 
