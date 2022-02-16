@@ -43,6 +43,7 @@ use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\InvalidArgumentException;
+use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\OutOfSpaceException;
 use Icewind\SMB\Exception\TimedOutException;
@@ -241,6 +242,8 @@ class SMB extends Common implements INotifyStorage {
 			} catch (ForbiddenException $e) {
 				$this->logger->critical($e->getMessage(), ['exception' => $e]);
 				throw new NotPermittedException();
+			} catch (InvalidTypeException $e) {
+				return;
 			}
 			foreach ($files as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
