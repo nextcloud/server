@@ -651,6 +651,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->appManager,
+				$this->serverContainer
 			])
 			->setMethods(null)->getMock();
 
