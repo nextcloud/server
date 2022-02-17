@@ -51,8 +51,10 @@ interface ILogFactory {
 
 	/**
 	 * @param string $path
+	 * @param string $type
+	 * @param string $tag
 	 * @return LoggerInterface
-	 * @since 22.0.0
+	 * @since 22.0.0 - Parameters $type and $tag were added in 24.0.0
 	 */
-	public function getCustomPsrLogger(string $path): LoggerInterface;
+	public function getCustomPsrLogger(string $path, string $type = 'file', string $tag = 'Nextcloud'): LoggerInterface;
 }
