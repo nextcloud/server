@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Nem sikerült zárolni a csomópontot",
     "Could not lock path" : "Nem sikerült zárolni az útvonalat",
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
-    "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "A „Jelszó kiküldése a Nextcloud Beszélgetéssel” nem sikerült a fájlnál vagy mappánál, mert a Nextcloud Beszélgetés nem engedélyezett.",
     "shared by %s" : "megosztotta: %s",
     "Download all files" : "Összes fájl letöltése",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Érvénytelen útvonal választva",
     "Unknown error" : "Ismeretlen hiba",
     "Allow editing" : "Szerkesztés engedélyezése",
+    "Read only" : "Csak olvasható",
+    "Allow upload and editing" : "Feltöltés és szerkesztés engedélyezése",
+    "File drop (upload only)" : "Fájl ejtés (csak feltöltés)",
     "Allow creating" : "Létrehozás engedélyezése",
     "Allow deleting" : "Törlés engedélyezése",
     "Allow resharing" : "A megosztás továbbadásának engedélyezése",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Megosztás létrehozása",
     "Cancel" : "Mégse",
     "Share label" : "Megosztás címkéje",
-    "Read only" : "Csak olvasható",
-    "Allow upload and editing" : "Feltöltés és szerkesztés engedélyezése",
-    "File drop (upload only)" : "Fájl ejtés (csak feltöltés)",
     "Hide download" : "Letöltés elrejtése",
     "Password protect" : "Jelszavas védelem",
     "Video verification" : "Videós ellenőrzés",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
     "Name, email, or federated cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
-    "Download %s" : "%s letöltése"
+    "Download %s" : "%s letöltése",
+    "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait"
 },
 "nplurals=2; plural=(n != 1);");

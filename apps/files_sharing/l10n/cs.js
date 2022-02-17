@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Uzel se nedaří uzamknout",
     "Could not lock path" : "Nepodařilo se uzamknout popis umístění",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
-    "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Zaslání hesla prostřednictvím Nextcloud Talk“ pro sdílení souboru či složky se nezdařilo protože Nextcloud Talk není zapnuté.",
     "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Vybrán neplatný popis umístění",
     "Unknown error" : "Neznámá chyba",
     "Allow editing" : "Povolit úpravy",
+    "Read only" : "Pouze pro čtení",
+    "Allow upload and editing" : "Povolit nahrávání a úpravy",
+    "File drop (upload only)" : "Přetažení souboru (pouze nahrání)",
     "Allow creating" : "Povolit vytváření",
     "Allow deleting" : "Povolit mazání",
     "Allow resharing" : "Povolit sdílet dále",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Vytvořit sdílení",
     "Cancel" : "Storno",
     "Share label" : "Štítek sdílení",
-    "Read only" : "Pouze pro čtení",
-    "Allow upload and editing" : "Povolit nahrávání a úpravy",
-    "File drop (upload only)" : "Přetažení souboru (pouze nahrání)",
     "Hide download" : "Skrýt stahování",
     "Password protect" : "Chránit heslem",
     "Video verification" : "Ověřování pomocí videa",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu…",
-    "Download %s" : "Stáhnout %s"
+    "Download %s" : "Stáhnout %s",
+    "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

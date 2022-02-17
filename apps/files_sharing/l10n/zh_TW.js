@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "無法鎖定節點",
     "Could not lock path" : "無法鎖定路徑",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
-    "Cannot change permissions for public share links" : "無法變更公開分享連結的權限",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "「透過 Nextcloud Talk 傳送密碼」分享檔案或資料夾失敗，因為未啟用 Nextcloud Talk。",
     "shared by %s" : "分享自 %s",
     "Download all files" : "下載所有檔案",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "選取的路徑無效",
     "Unknown error" : "未知的錯誤",
     "Allow editing" : "允許編輯",
+    "Read only" : "唯讀",
+    "Allow upload and editing" : "允許上傳及編輯",
+    "File drop (upload only)" : "檔案投放（僅上傳）",
     "Allow creating" : "允許建立",
     "Allow deleting" : "允許刪除",
     "Allow resharing" : "允許轉分享",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "建立分享",
     "Cancel" : "取消",
     "Share label" : "分享標籤",
-    "Read only" : "唯讀",
-    "Allow upload and editing" : "允許上傳及編輯",
-    "File drop (upload only)" : "檔案投放（僅上傳）",
     "Hide download" : "隱藏下載",
     "Password protect" : "密碼保護",
     "Video verification" : "視訊驗證",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "無法變更公開分享連結的權限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
     "Name, email, or federated cloud ID …" : "名稱、電子郵件或雲端聯盟 ID……",
-    "Download %s" : "下載 %s"
+    "Download %s" : "下載 %s",
+    "Cannot change permissions for public share links" : "無法變更公開分享連結的權限"
 },
 "nplurals=1; plural=0;");

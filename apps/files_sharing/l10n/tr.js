@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Düğüm kilitlenemedi",
     "Could not lock path" : "Yol kilitlenemedi",
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
-    "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talk etkinleştirilmemiş olduğundan, paylaşım parolası Nextcloud Talk ile gönderilemedi.",
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Seçilen yol geçersiz",
     "Unknown error" : "Bilinmeyen sorun",
     "Allow editing" : "Düzenlemeye izin ver",
+    "Read only" : "Salt okunur",
+    "Allow upload and editing" : "Yüklenebilsin ve düzenlenebilsin",
+    "File drop (upload only)" : "Dosya bırakma (yalnız yükleme)",
     "Allow creating" : "Eklenebilsin",
     "Allow deleting" : "Silinebilsin",
     "Allow resharing" : "Yeniden paylaşılabilsin",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Paylaşım ekle",
     "Cancel" : "İptal",
     "Share label" : "Etiketi paylaş",
-    "Read only" : "Salt okunur",
-    "Allow upload and editing" : "Yüklenebilsin ve düzenlenebilsin",
-    "File drop (upload only)" : "Dosya bırakma (yalnız yükleme)",
     "Hide download" : "İndirme gizlensin",
     "Password protect" : "Parola koruması",
     "Video verification" : "Görüntü doğrulaması",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi",
     "Name, email, or federated cloud ID …" : "Ad, e-posta ya da birleşik bulut kodu …",
-    "Download %s" : "%s indir"
+    "Download %s" : "%s indir",
+    "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez"
 },
 "nplurals=2; plural=(n > 1);");

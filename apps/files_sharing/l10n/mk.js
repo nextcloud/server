@@ -121,7 +121,6 @@ OC.L10N.register(
     "Could not lock node" : "Не можам да го заклучам јазолот",
     "Could not lock path" : "Неможе да се заклучи патеката",
     "Wrong or no update parameter given" : "Погрешни или нема зададено параметри за ажурирање",
-    "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
     "shared by %s" : "споделено од %s",
     "Download all files" : "Преземи ги сите датотеки",
     "Direct link" : "Директен линк",
@@ -143,6 +142,9 @@ OC.L10N.register(
     "Choose a default folder for accepted shares" : "Избери стандардна папка за прифатените споделувања",
     "Unknown error" : "Непозната грешка",
     "Allow editing" : "Овозможи уредување",
+    "Read only" : "Само читај",
+    "Allow upload and editing" : "Дозволи прикачување и уредување",
+    "File drop (upload only)" : "Испуши датотека (само за прикачување)",
     "Allow creating" : "Дозволи креирање",
     "Allow deleting" : "Дозволи бришење",
     "Allow resharing" : "Дозволи повторно споделување",
@@ -175,9 +177,6 @@ OC.L10N.register(
     "Create share" : "Ново споделување",
     "Cancel" : "Откажи",
     "Share label" : "Ознака на споделувањето",
-    "Read only" : "Само читај",
-    "Allow upload and editing" : "Дозволи прикачување и уредување",
-    "File drop (upload only)" : "Испуши датотека (само за прикачување)",
     "Hide download" : "Сокриј преземање",
     "Password protect" : "Заштити со лозинка",
     "Video verification" : "Верификација со видео",
@@ -242,6 +241,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделен линк",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
     "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ...",
-    "Download %s" : "Преземи %s"
+    "Download %s" : "Преземи %s",
+    "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

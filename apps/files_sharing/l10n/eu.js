@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Ezin izan da nodoa blokeatu",
     "Could not lock path" : "Ezin izan da bidea blokeatu",
     "Wrong or no update parameter given" : "Eguneraketa parametrorik ez da eman edo okerra da",
-    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Nextcloud Talk-ek pasahitza bidaltzeak\" huts egin du ez dagoelako Nextcloud Talk gaituta fitxategi edo karpeta bat partekatzeko.",
     "shared by %s" : "%s erabiltzaileak partekatua",
     "Download all files" : "Deskargatu fitxategi guztiak",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Bide baliogabea hautatu da",
     "Unknown error" : "Errore ezezaguna",
     "Allow editing" : "Baimendu editatzea",
+    "Read only" : "Irakurtzeko soilik",
+    "Allow upload and editing" : "Onartu kargatzea eta edizioa",
+    "File drop (upload only)" : "Fitxategia jaregin (kargatzeko soilik)",
     "Allow creating" : "Baimendu sortzea",
     "Allow deleting" : "Baimendu ezabatzea",
     "Allow resharing" : "Baimendu birpartekatzea",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Sortu partekatzea",
     "Cancel" : "Utzi",
     "Share label" : "partekatu etiketa",
-    "Read only" : "Irakurtzeko soilik",
-    "Allow upload and editing" : "Onartu kargatzea eta edizioa",
-    "File drop (upload only)" : "Fitxategia jaregin (kargatzeko soilik)",
     "Hide download" : "Ezkutatu deskarga",
     "Password protect" : "Babestu pasahitzarekin",
     "Video verification" : "Bideo egiaztapena",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
     "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ...",
-    "Download %s" : "Deskargatu %s"
+    "Download %s" : "Deskargatu %s",
+    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu"
 },
 "nplurals=2; plural=(n != 1);");
