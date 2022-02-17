@@ -55,7 +55,7 @@ class FavoriteAction extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function canChangeStream() {
-		return true;
+		return false;
 	}
 
 	/**
@@ -71,7 +71,7 @@ class FavoriteAction extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function canChangeMail() {
-		return true;
+		return false;
 	}
 
 	/**
@@ -79,6 +79,14 @@ class FavoriteAction extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function isDefaultEnabledMail() {
+		return false;
+	}
+
+	/**
+	 * @return bool True when the option can be changed for the notification
+	 * @since 20.0.0
+	 */
+	public function canChangeNotification() {
 		return false;
 	}
 }
