@@ -153,8 +153,8 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: sqlite-php7.3-samba-native
-  image: nextcloudci/samba-native-php7.3:samba-native-php7.3-1
+- name: sqlite-php7.4-samba-native
+  image: ghcr.io/nextcloud/continuous-integration-samba-native-php7.4:latest
   commands:
     - smbd -D -FS &
     - ./autotest-external.sh sqlite smb-linux
@@ -163,8 +163,8 @@ steps:
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-- name: sqlite-php7.3-samba-non-native
-  image: nextcloudci/samba-non-native-php7.3:samba-non-native-php7.3-1
+- name: sqlite-php7.4-samba-non-native
+  image: ghcr.io/nextcloud/continuous-integration-samba-non-native-php7.4:latest
   commands:
     - smbd -D -FS &
     - ./autotest-external.sh sqlite smb-linux
