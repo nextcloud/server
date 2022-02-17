@@ -99,6 +99,7 @@ class OCJSController extends Controller {
 
 	/**
 	 * @NoCSRFRequired
+	 * @NoTwoFactorRequired
 	 * @PublicPage
 	 *
 	 * @return DataDisplayResponse
