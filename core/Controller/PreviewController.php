@@ -167,8 +167,10 @@ class PreviewController extends Controller {
 
 		try {
 			$f = $this->preview->getPreview($node, $x, $y, !$a, $mode);
-			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
-			$response->cacheFor(3600 * 24);
+			$response = new FileDisplayResponse($f, Http::STATUS_OK, [
+				'Content-Type' => $f->getMimeType(),
+			]);
+			$response->cacheFor(3600 * 24, false, true);
 			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
