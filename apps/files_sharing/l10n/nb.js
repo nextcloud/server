@@ -119,7 +119,6 @@ OC.L10N.register(
     "Not a directory" : "Ikke en mappe",
     "Could not lock path" : "Kunne ikke låse sti",
     "Wrong or no update parameter given" : "Feil eller ingen parametre for oppdatering er angitt",
-    "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker",
     "shared by %s" : "delt av %s",
     "Download all files" : "Last ned alle filer",
     "Direct link" : "Direkte lenke",
@@ -134,6 +133,9 @@ OC.L10N.register(
     "Reject" : "Avvis",
     "Sharing" : "Deling",
     "Allow editing" : "Tillat redigering",
+    "Read only" : "Skrivebeskyttet",
+    "Allow upload and editing" : "Tillatt opplasting og redigering",
+    "File drop (upload only)" : "Filkasse (kun opplasting)",
     "Allow creating" : "Tillat oppretting",
     "Allow deleting" : "Tillat sletting",
     "Allow resharing" : "TIllat videre deling",
@@ -157,9 +159,6 @@ OC.L10N.register(
     "Create share" : "Opprett deling",
     "Cancel" : "Avbryt",
     "Share label" : "Delingsmerkelapper",
-    "Read only" : "Skrivebeskyttet",
-    "Allow upload and editing" : "Tillatt opplasting og redigering",
-    "File drop (upload only)" : "Filkasse (kun opplasting)",
     "Hide download" : "Gjem nedlasting",
     "Password protect" : "Passordbeskyttelse",
     "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "invalid permissions" : "Ugyldige rettigheter",
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
     "Name, email, or federated cloud ID …" : "Navn, epost eller sammenknyttet sky-ID ...",
-    "Download %s" : "Last ned %s"
+    "Download %s" : "Last ned %s",
+    "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker"
 },
 "nplurals=2; plural=(n != 1);");

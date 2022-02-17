@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Impossible de verrouiller le nœud",
     "Could not lock path" : "Impossible de verrouiller le chemin",
     "Wrong or no update parameter given" : "Mauvais ou aucun paramètre donné ",
-    "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"L'envoi du mot de passe par Nextcloud Talk\" pour partager un fichier a échoué car Nextcloud Talk n'est pas activé",
     "shared by %s" : "partagé par %s",
     "Download all files" : "Télécharger tous les fichiers",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Chemin non valide sélectionné",
     "Unknown error" : "Erreur inconnue",
     "Allow editing" : "Autoriser la modification",
+    "Read only" : "Lecture seule",
+    "Allow upload and editing" : "Autoriser l’ajout et la modification",
+    "File drop (upload only)" : "Dépôt de fichier (envoi uniquement)",
     "Allow creating" : "Autoriser la création",
     "Allow deleting" : "Autoriser la suppression",
     "Allow resharing" : "Autoriser le repartage",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Créer un partage",
     "Cancel" : "Annuler",
     "Share label" : "Partager étiquette",
-    "Read only" : "Lecture seule",
-    "Allow upload and editing" : "Autoriser l’ajout et la modification",
-    "File drop (upload only)" : "Dépôt de fichier (envoi uniquement)",
     "Hide download" : "Masquer le téléchargement",
     "Password protect" : "Protéger par un mot de passe",
     "Video verification" : "Vérification vidéo",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Impossible de changer les permissions pour les liens de partage public",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
     "Name, email, or federated cloud ID …" : "Nom, adresse e-mail ou identifiant cloud fédéré…",
-    "Download %s" : "Télécharger %s"
+    "Download %s" : "Télécharger %s",
+    "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés"
 },
 "nplurals=2; plural=(n > 1);");
