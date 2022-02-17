@@ -54,8 +54,7 @@ interface IMigrator {
 	public function import(
 		IUser $user,
 		IImportSource $importSource,
-		OutputInterface $output,
-		?int $version
+		OutputInterface $output
 	): void;
 
 	/**
@@ -67,13 +66,11 @@ interface IMigrator {
 
 	/**
 	 * Checks whether it is able to import a version of the export format for this migrator
-	 *
-	 * @param ?int $version Version stored in the import source for this migrator. Null means this migrator was not listed.
+	 * Use $importSource->getMigratorVersion(static::class) to get the version from the archive
 	 *
 	 * @since 24.0.0
 	 */
 	public function canImport(
-		IImportSource $importSource,
-		?int $version
+		IImportSource $importSource
 	): bool;
 }

@@ -45,9 +45,9 @@ trait TMigratorBasicVersionHandling {
 	 * {@inheritDoc}
 	 */
 	public function canImport(
-		IImportSource $importSource,
-		?int $version
+		IImportSource $importSource
 	): bool {
+		$version = $importSource->getMigratorVersion(static::class);
 		if ($version === null) {
 			return !$this->mandatory;
 		}
