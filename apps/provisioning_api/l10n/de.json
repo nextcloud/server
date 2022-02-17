@@ -1,4 +1,5 @@
 { "translations": {
+    "Logged in user must be an administrator or have authorization to edit this setting." : "Der angemeldete Benutzer muss ein Administrator sein oder die Berechtigung haben, diese Einstellung zu bearbeiten.",
     "Email confirmation" : "E-Mail-Bestätigung",
     "To enable the email address %s please click the button below." : "Um die E-Mail-Adresse %s zu bestätigen, klicke bitte auf die untenstehende Schaltfläche.",
     "Confirm" : "Bestätigen",

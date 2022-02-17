@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Knotenpunkt konnte nicht gesperrt werden",
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
-    "Cannot change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Senden des Passwortes über Nextcloud Talk\" zum Teilen einer Datei  gescheitert, da Nextcloud Talk nicht verfügbar ist.",
     "shared by %s" : "von %s geteilt",
     "Download all files" : "Alle Dateien herunterladen",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Ungültiger Pfad ausgewählt",
     "Unknown error" : "Unbekannter Fehler",
     "Allow editing" : "Bearbeitung erlauben",
+    "Read only" : "Schreibgeschützt",
+    "Allow upload and editing" : "Hochladen und Bearbeiten erlauben",
+    "File drop (upload only)" : "Dateien ablegen (nur Hochladen)",
     "Allow creating" : "Erstellen erlauben",
     "Allow deleting" : "Löschen erlauben",
     "Allow resharing" : "Weiterteilen erlauben",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Freigabe erstellen",
     "Cancel" : "Abbrechen",
     "Share label" : "Freigabe-Label",
-    "Read only" : "Schreibgeschützt",
-    "Allow upload and editing" : "Hochladen und Bearbeiten erlauben",
-    "File drop (upload only)" : "Dateien ablegen (nur Hochladen)",
     "Hide download" : "Download verbergen",
     "Password protect" : "Passwortschutz",
     "Video verification" : "Videoüberprüfung",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
     "Name, email, or federated cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",
-    "Download %s" : "Download %s"
+    "Download %s" : "Download %s",
+    "Cannot change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden"
 },
 "nplurals=2; plural=(n != 1);");
