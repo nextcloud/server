@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -48,12 +49,6 @@ class CheckUser extends Command {
 	/** @var UserMapping */
 	protected $mapping;
 
-	/**
-	 * @param User_Proxy $uBackend
-	 * @param Helper $helper
-	 * @param DeletedUsersIndex $dui
-	 * @param UserMapping $mapping
-	 */
 	public function __construct(User_Proxy $uBackend, Helper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
 		$this->backend = $uBackend;
 		$this->helper = $helper;
@@ -62,14 +57,14 @@ class CheckUser extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:check-user')
 			->setDescription('checks whether a user exists on LDAP.')
 			->addArgument(
 					'ocName',
 					InputArgument::REQUIRED,
-					'the user name as used in Nextcloud'
+					'the user name as used in Nextcloud, or the LDAP DN'
 					 )
 			->addOption(
 					'force',
@@ -88,9 +83,15 @@ class CheckUser extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
+			$this->assertAllowed($input->getOption('force'));
 			$uid = $input->getArgument('ocName');
-			$this->isAllowed($input->getOption('force'));
-			$this->confirmUserIsMapped($uid);
+			if ($this->backend->getLDAPAccess($uid)->stringResemblesDN($uid)) {
+				$username = $this->backend->dn2UserName($uid);
+				if ($username !== false) {
+					$uid = $username;
+				}
+			}
+			$wasMapped = $this->userWasMapped($uid);
 			$exists = $this->backend->userExistsOnLDAP($uid, true);
 			if ($exists === true) {
 				$output->writeln('The user is still available on LDAP.');
@@ -98,13 +99,15 @@ class CheckUser extends Command {
 					$this->updateUser($uid, $output);
 				}
 				return 0;
+			} elseif ($wasMapped) {
+				$this->dui->markUser($uid);
+				$output->writeln('The user does not exists on LDAP anymore.');
+				$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
+					. $uid . '"');
+				return 0;
+			} else {
+				throw new \Exception('The given user is not a recognized LDAP user.');
 			}
-
-			$this->dui->markUser($uid);
-			$output->writeln('The user does not exists on LDAP anymore.');
-			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
-				. $uid . '"');
-			return 0;
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
 			return 1;
@@ -114,24 +117,17 @@ class CheckUser extends Command {
 	/**
 	 * checks whether a user is actually mapped
 	 * @param string $ocName the username as used in Nextcloud
-	 * @throws \Exception
-	 * @return true
 	 */
-	protected function confirmUserIsMapped($ocName) {
+	protected function userWasMapped(string $ocName): bool {
 		$dn = $this->mapping->getDNByName($ocName);
-		if ($dn === false) {
-			throw new \Exception('The given user is not a recognized LDAP user.');
-		}
-
-		return true;
+		return $dn !== false;
 	}
 
 	/**
 	 * checks whether the setup allows reliable checking of LDAP user existence
 	 * @throws \Exception
-	 * @return true
 	 */
-	protected function isAllowed($force) {
+	protected function assertAllowed(bool $force): void {
 		if ($this->helper->haveDisabledConfigurations() && !$force) {
 			throw new \Exception('Cannot check user existence, because '
 				. 'disabled LDAP configurations are present.');
@@ -140,8 +136,6 @@ class CheckUser extends Command {
 		// we don't check ldapUserCleanupInterval from config.php because this
 		// action is triggered manually, while the setting only controls the
 		// background job.
-
-		return true;
 	}
 
 	private function updateUser(string $uid, OutputInterface $output): void {
