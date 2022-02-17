@@ -64,6 +64,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Db\\Mapper' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/Mapper.php',
         'OCP\\AppFramework\\Db\\MultipleObjectsReturnedException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/MultipleObjectsReturnedException.php',
         'OCP\\AppFramework\\Db\\QBMapper' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/QBMapper.php',
+        'OCP\\AppFramework\\Db\\TTransactional' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/TTransactional.php',
         'OCP\\AppFramework\\Http' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http.php',
         'OCP\\AppFramework\\Http\\ContentSecurityPolicy' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ContentSecurityPolicy.php',
         'OCP\\AppFramework\\Http\\DataDisplayResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/DataDisplayResponse.php',
