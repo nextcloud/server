@@ -121,7 +121,6 @@
     "Could not lock node" : "Kon de node niet blokkeren",
     "Could not lock path" : "Kan pad niet blokkeren",
     "Wrong or no update parameter given" : "Verkeerde of geen update parameter opgegeven",
-    "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Het wachtwoord verzenden via Nextcloud Talk\" voor het delen van een bestand of map is mislukt omdat Nextcloud Talk niet is ingeschakeld.",
     "shared by %s" : "Gedeeld door %s",
     "Download all files" : "Download alle bestanden",
@@ -147,6 +146,9 @@
     "Invalid path selected" : "Ongeldig pad geselecteerd",
     "Unknown error" : "Onbekende fout",
     "Allow editing" : "Bewerken toestaan",
+    "Read only" : "Alleen lezen",
+    "Allow upload and editing" : "Uploaden en bewerken toestaan",
+    "File drop (upload only)" : "Bestand droppen (alleen uploaden)",
     "Allow creating" : "Toestaan creëren",
     "Allow deleting" : "Toestaan verwijderen",
     "Allow resharing" : "Opnieuw delen toestaan",
@@ -179,9 +181,6 @@
     "Create share" : "Creëren share",
     "Cancel" : "Annuleren",
     "Share label" : "Deel het label",
-    "Read only" : "Alleen lezen",
-    "Allow upload and editing" : "Uploaden en bewerken toestaan",
-    "File drop (upload only)" : "Bestand droppen (alleen uploaden)",
     "Hide download" : "Verberg download",
     "Password protect" : "Wachtwoord beveiligen",
     "Video verification" : "Video verificatie",
@@ -246,6 +245,7 @@
     "Can't change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
     "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …",
-    "Download %s" : "Download %s"
+    "Download %s" : "Download %s",
+    "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

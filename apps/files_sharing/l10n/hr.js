@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Nije moguće zaključati čvorište",
     "Could not lock path" : "Put nije moguće zaključati",
     "Wrong or no update parameter given" : "Pogrešan parametar ili nije dodan parametar ažuriranja",
-    "Cannot change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Slanje zaporke putem aplikacije Nextcloud Talk“ radi dijeljenja datoteke ili mape nije uspjelo jer Nextcloud Talk nije omogućen.",
     "shared by %s" : "dijeli %s",
     "Download all files" : "Preuzmi sve datoteke",
@@ -142,6 +141,9 @@ OC.L10N.register(
     "Sharing" : "Dijeljenje",
     "Accept user and group shares by default" : "Automatski prihvati dijeljenja korisnika i grupa",
     "Allow editing" : "Dopusti uređivanje",
+    "Read only" : "Samo za čitanje",
+    "Allow upload and editing" : "Omogući otpremanje i uređivanje",
+    "File drop (upload only)" : "Povlačenje datoteke (samo za otpremanje)",
     "Allow creating" : "Dopusti stvaranje",
     "Allow deleting" : "Dopusti brisanje",
     "Allow resharing" : "Dopusti ponovno dijeljenje",
@@ -174,9 +176,6 @@ OC.L10N.register(
     "Create share" : "Stvori dijeljenje",
     "Cancel" : "Odustani",
     "Share label" : "oznaka za dijeljenje",
-    "Read only" : "Samo za čitanje",
-    "Allow upload and editing" : "Omogući otpremanje i uređivanje",
-    "File drop (upload only)" : "Povlačenje datoteke (samo za otpremanje)",
     "Hide download" : "Sakrij preuzimanje",
     "Password protect" : "Zaštita zaporkom",
     "Video verification" : "Provjera videozapisa",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Neuspješno dijeljenje slanjem zaporke za Nextcloud Talk jer Nextcloud Talk nije omogućen",
     "Name, email, or federated cloud ID …" : "Naziv, adresa e-pošte ili ID udruženog oblaka…",
-    "Download %s" : "Preuzmi %s"
+    "Download %s" : "Preuzmi %s",
+    "Cannot change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

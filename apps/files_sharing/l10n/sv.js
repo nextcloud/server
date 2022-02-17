@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Kunde inte låsa nod",
     "Could not lock path" : "Kunde inte låsa sökvägen",
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
-    "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Skicka lösenord via Nextcloud Talk\" för att dela en fil eller mapp misslyckades eftersom Nextcloud Talk inte är aktiverat.",
     "shared by %s" : "delad av %s",
     "Download all files" : "Hämta alla filer",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Ogiltigt sökväg vald",
     "Unknown error" : "Okänt fel",
     "Allow editing" : "Tillåt redigering",
+    "Read only" : "Läsbehörighet",
+    "Allow upload and editing" : "Tillåt uppladdning och redigering",
+    "File drop (upload only)" : "Göm fillista (endast uppladdning)",
     "Allow creating" : "Tillåt skapa",
     "Allow deleting" : "Tillåt radera",
     "Allow resharing" : "Tillåt dela vidare",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Skapa delning",
     "Cancel" : "Avbryt",
     "Share label" : "Delningsetikett",
-    "Read only" : "Läsbehörighet",
-    "Allow upload and editing" : "Tillåt uppladdning och redigering",
-    "File drop (upload only)" : "Göm fillista (endast uppladdning)",
     "Hide download" : "Dölj hämtning",
     "Password protect" : "Lösenordsskydda",
     "Video verification" : "Video-verifiering",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
     "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ...",
-    "Download %s" : "Hämta %s"
+    "Download %s" : "Hämta %s",
+    "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar"
 },
 "nplurals=2; plural=(n != 1);");

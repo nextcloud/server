@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Възелът не можа да се заключи",
     "Could not lock path" : "Пътя не можа да се заключи",
     "Wrong or no update parameter given" : "Грешен или не е даден параметър за актуализация",
-    "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Изпращането на паролата от Nextcloud Talk“ за споделяне на файл или папка не беше успешно, тъй като Nextcloud Talk не е активиран.",
     "shared by %s" : "споделено от %s",
     "Download all files" : "Изтегли всички файлове",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Избран е невалиден път ",
     "Unknown error" : "Неизвестна грешка",
     "Allow editing" : "Разреши редактиране",
+    "Read only" : "Само за четене",
+    "Allow upload and editing" : "За качване и редактиране",
+    "File drop (upload only)" : "Само за качване",
     "Allow creating" : "Разреши създаването",
     "Allow deleting" : "Разреши изтриването",
     "Allow resharing" : "Може да споделя повторно",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Създаване на споделяне",
     "Cancel" : "Отказ",
     "Share label" : " Споделяне на етикет",
-    "Read only" : "Само за четене",
-    "Allow upload and editing" : "За качване и редактиране",
-    "File drop (upload only)" : "Само за качване",
     "Hide download" : "Скрий свалянето",
     "Password protect" : "Защита с парола",
     "Video verification" : "Видео потвърждение",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
     "Name, email, or federated cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ...",
-    "Download %s" : "Изтегли %s"
+    "Download %s" : "Изтегли %s",
+    "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне"
 },
 "nplurals=2; plural=(n != 1);");
