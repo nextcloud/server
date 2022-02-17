@@ -51,9 +51,11 @@
 			</ActionButton>
 			<ActionLink v-if="canDownload"
 				:download="currentFile.basename"
-				icon="icon-download"
 				:close-after-click="true"
 				:href="currentFile.davPath">
+				<template #icon>
+					<Download :size="24" title="" decorative />
+				</template>
 				{{ t('viewer', 'Download') }}
 			</ActionLink>
 			<ActionButton v-if="canDelete"
@@ -137,6 +139,8 @@ import getFileList from '../services/FileList'
 import Mime from '../mixins/Mime'
 import logger from '../services/logger'
 
+import Download from 'vue-material-design-icons/Download'
+
 export default {
 	name: 'Viewer',
 
@@ -145,6 +149,7 @@ export default {
 		ActionLink,
 		Modal,
 		Error,
+		Download,
 	},
 
 	mixins: [isMobile, isFullscreen],
@@ -852,9 +857,11 @@ export default {
 			}
 		}
 		::v-deep .modal-title,
-		::v-deep .modal-header .icons-menu button svg {
-			body.theme--light & {
-				color: var(--color-main-text) !important;
+		::v-deep .modal-header .icons-menu {
+			button, a {
+				svg body.theme--light & {
+					color: var(--color-main-text) !important;
+				}
 			}
 		}
 		::v-deep .modal-container {
