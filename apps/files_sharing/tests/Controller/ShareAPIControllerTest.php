@@ -1369,6 +1369,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
+				$this->loggerInterface,
 				$this->currentUser,
 				$this->l,
 				$this->config,

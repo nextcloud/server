@@ -49,6 +49,8 @@ use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use Psr\Log\LoggerInterface;
+use Psr\Log\Test\LoggerInterfaceTest;
 
 /**
  * Class ApiTest
@@ -128,6 +130,7 @@ class ApiTest extends TestCase {
 			\OC::$server->getUserManager(),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
+			$this->getMockBuilder(LoggerInterface::class)->getMock(),
 			$userId,
 			$l,
 			$config,
