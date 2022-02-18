@@ -60,6 +60,7 @@ use OCP\Lock\LockedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
@@ -91,6 +92,9 @@ class ShareAPIControllerTest extends TestCase {
 
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
+
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $loggerInterface;
 
 	/** @var string|\PHPUnit\Framework\MockObject\MockObject */
 	private $currentUser;
@@ -130,6 +134,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->loggerInterface = $this->createMock(LoggerInterface::class);
 		$this->currentUser = 'currentUser';
 
 		$this->l = $this->createMock(IL10N::class);
@@ -155,6 +160,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->userManager,
 			$this->rootFolder,
 			$this->urlGenerator,
+			$this->loggerInterface,
 			$this->currentUser,
 			$this->l,
 			$this->config,
@@ -178,6 +184,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
+				$this->loggerInterface,
 				$this->currentUser,
 				$this->l,
 				$this->config,

@@ -44,9 +44,9 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
-use OCA\Files\Helper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -56,9 +56,9 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
+use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -71,12 +71,12 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
-use OCP\Share;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Share20OCS
@@ -95,6 +95,8 @@ class ShareAPIController extends OCSController {
 	private $rootFolder;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var LoggerInterface */
+	private $logger;
 	/** @var string */
 	private $currentUser;
 	/** @var IL10N */
@@ -122,6 +124,7 @@ class ShareAPIController extends OCSController {
 	 * @param IUserManager $userManager
 	 * @param IRootFolder $rootFolder
 	 * @param IURLGenerator $urlGenerator
+	 * @param LoggerInterface $logger ,
 	 * @param string $userId
 	 * @param IL10N $l10n
 	 * @param IConfig $config
@@ -137,6 +140,7 @@ class ShareAPIController extends OCSController {
 		IUserManager $userManager,
 		IRootFolder $rootFolder,
 		IURLGenerator $urlGenerator,
+		LoggerInterface $logger,
 		string $userId = null,
 		IL10N $l10n,
 		IConfig $config,
@@ -153,6 +157,7 @@ class ShareAPIController extends OCSController {
 		$this->request = $request;
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
+		$this->logger = $logger;
 		$this->currentUser = $userId;
 		$this->l = $l10n;
 		$this->config = $config;
@@ -523,7 +528,7 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_LINK
-			|| $shareType === IShare::TYPE_EMAIL) {
+				  || $shareType === IShare::TYPE_EMAIL) {
 
 			// Can we even share links?
 			if (!$this->shareManager->shareApiAllowLinks()) {
@@ -542,9 +547,9 @@ class ShareAPIController extends OCSController {
 				}
 
 				$permissions = Constants::PERMISSION_READ |
-					Constants::PERMISSION_CREATE |
-					Constants::PERMISSION_UPDATE |
-					Constants::PERMISSION_DELETE;
+							   Constants::PERMISSION_CREATE |
+							   Constants::PERMISSION_UPDATE |
+							   Constants::PERMISSION_DELETE;
 			} else {
 				$permissions = Constants::PERMISSION_READ;
 			}
@@ -1742,7 +1747,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($share->getShareType() === IShare::TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles')
-			&& class_exists('\OCA\Circles\Api\v1\Circles')) {
+			&& class_exists('\OCA\Circles\CirclesManager')) {
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
 			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
@@ -1752,12 +1757,30 @@ class ShareAPIController extends OCSController {
 				$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 			}
 			try {
-				$member = \OCA\Circles\Api\v1\Circles::getMember($sharedWith, $userId, 1);
-				if ($member->getLevel() >= 4) {
-					return true;
+				// TODO: switch to ICirclesManager once we have it available within core
+				/** @var \OCA\Circles\CirclesManager $circleManager */
+				$circleManager = $this->serverContainer->get('\OCA\Circles\CirclesManager');
+				$circleManager->startSuperSession();
+
+				// We get the federatedUser linked to the userId (local user, so type=1)
+				// We browse the federatedUser's membership to confirm it exists and level is moderator
+				$federatedUser = $circleManager->getFederatedUser($userId, 1);
+				foreach($federatedUser->getMemberships() as $membership) {
+					if ($membership->getCircleId() === $sharedWith) {
+						return ($membership->getLevel() >= 4);
+					}
 				}
-				return false;
-			} catch (QueryException $e) {
+			} catch (\Exception $e) {
+				$this->logger->info(
+								   'Exception while confirming resharing rights visibility',
+								   [
+									   'userId' => $userId,
+									   'sharedWith' => $sharedWith,
+									   'nodeId' => $node->getId(),
+									   'exception' => $e,
+								   ]
+				);
+
 				return false;
 			}
 		}

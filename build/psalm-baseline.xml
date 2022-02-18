@@ -1534,11 +1534,13 @@
     <RedundantCondition occurrences="1">
       <code>$permissions &amp; Constants::PERMISSION_READ</code>
     </RedundantCondition>
-    <UndefinedClass occurrences="2">
-      <code>\OCA\Circles\Api\v1\Circles</code>
+    <UndefinedClass occurrences="1">
       <code>\OCA\Circles\Api\v1\Circles</code>
     </UndefinedClass>
-    <UndefinedDocblockClass occurrences="4">
+    <UndefinedDocblockClass occurrences="7">
+      <code>$circleManager</code>
+      <code>$circleManager</code>
+      <code>$circleManager</code>
       <code>$this-&gt;getRoomShareHelper()</code>
       <code>$this-&gt;getRoomShareHelper()</code>
       <code>$this-&gt;getRoomShareHelper()</code>
