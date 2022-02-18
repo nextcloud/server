@@ -184,7 +184,7 @@ class ViewController extends Controller {
 	 * @throws NotFoundException
 	 */
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
-		if ($fileid !== null) {
+		if ($fileid !== null && $dir === '') {
 			try {
 				return $this->redirectToFile($fileid);
 			} catch (NotFoundException $e) {
