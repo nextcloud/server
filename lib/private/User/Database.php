@@ -193,7 +193,13 @@ class Database extends ABackend implements
 			$hasher = \OC::$server->getHasher();
 			$hashedPassword = $hasher->hash($password);
 
-			return $this->updatePassword($uid, $hashedPassword);
+			$return = $this->updatePassword($uid, $hashedPassword);
+
+			if ($return) {
+				$this->cache[$uid]['password'] = $hashedPassword;
+			}
+
+			return $return;
 		}
 
 		return false;
