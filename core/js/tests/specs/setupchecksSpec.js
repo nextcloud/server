@@ -522,7 +522,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -876,7 +875,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -900,7 +898,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache module is not properly configured:<ul><li>recommendation1</li><li>recommendation2</li></ul>',
+						msg: 'The PHP OPcache module is not properly configured. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-php-opcache">documentation ↗</a> for more information.<ul><li>recommendation1</li><li>recommendation2</li></ul>',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -932,7 +930,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: false,
 					missingIndexes: [],
