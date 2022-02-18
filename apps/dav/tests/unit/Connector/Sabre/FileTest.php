@@ -362,28 +362,28 @@ class FileTest extends TestCase {
 				'expected result' => null
 			],
 			"castable string (int)" => [
-				'HTTP_X_OC_MTIME' => "34",
-				'expected result' => 34
+				'HTTP_X_OC_MTIME' => "987654321",
+				'expected result' => 987654321
 			],
 			"castable string (float)" => [
-				'HTTP_X_OC_MTIME' => "34.56",
-				'expected result' => 34
+				'HTTP_X_OC_MTIME' => "123456789.56",
+				'expected result' => 123456789
 			],
 			"float" => [
-				'HTTP_X_OC_MTIME' => 34.56,
-				'expected result' => 34
+				'HTTP_X_OC_MTIME' => 123456789.56,
+				'expected result' => 123456789
 			],
 			"zero" => [
 				'HTTP_X_OC_MTIME' => 0,
-				'expected result' => 0
+				'expected result' => null
 			],
 			"zero string" => [
 				'HTTP_X_OC_MTIME' => "0",
-				'expected result' => 0
+				'expected result' => null
 			],
 			"negative zero string" => [
 				'HTTP_X_OC_MTIME' => "-0",
-				'expected result' => 0
+				'expected result' => null
 			],
 			"string starting with number following by char" => [
 				'HTTP_X_OC_MTIME' => "2345asdf",
@@ -399,11 +399,11 @@ class FileTest extends TestCase {
 			],
 			"negative int" => [
 				'HTTP_X_OC_MTIME' => -34,
-				'expected result' => -34
+				'expected result' => null
 			],
 			"negative float" => [
 				'HTTP_X_OC_MTIME' => -34.43,
-				'expected result' => -34
+				'expected result' => null
 			],
 		];
 	}
@@ -422,7 +422,6 @@ class FileTest extends TestCase {
 
 		if ($resultMtime === null) {
 			$this->expectException(\InvalidArgumentException::class);
-			$this->expectExceptionMessage("X-OC-MTime header must be an integer (unix timestamp).");
 		}
 
 		$this->doPut($file, null, $request);
@@ -448,7 +447,6 @@ class FileTest extends TestCase {
 
 		if ($resultMtime === null) {
 			$this->expectException(\Sabre\DAV\Exception::class);
-			$this->expectExceptionMessage("X-OC-MTime header must be an integer (unix timestamp).");
 		}
 
 		$this->doPut($file.'-chunking-12345-2-0', null, $request);
