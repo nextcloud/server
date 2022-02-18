@@ -25,6 +25,8 @@
 import api from './api'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
+import { showError, showInfo } from '@nextcloud/dialogs'
+import '@nextcloud/dialogs/styles/toast.scss'
 
 const state = {
 	apps: [],
@@ -37,7 +39,7 @@ const state = {
 const mutations = {
 
 	APPS_API_FAILURE(state, error) {
-		OC.Notification.showHtml(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { timeout: 7 })
+		showError(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { timeout: 7, isHTML: true })
 		console.error(state, error)
 	},
 
@@ -180,16 +182,16 @@ const actions = {
 					return api.get(generateUrl('apps/files'))
 						.then(() => {
 							if (response.data.update_required) {
-								OC.dialogs.info(
+								showInfo(
 									t(
 										'settings',
 										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 									),
-									t('settings', 'App update'),
-									function() {
-										window.location.reload()
-									},
-									true
+									{
+										onClick: () => window.location.reload(),
+										close: false,
+
+									}
 								)
 								setTimeout(function() {
 									location.reload()
