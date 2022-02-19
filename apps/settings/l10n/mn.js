@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Saved" : "Хадгалагдсан",
-    "Sending…" : "Илгээх...",
     "Private" : "Далд",
     "Verify" : "Шалнгах",
     "Unable to change password" : "Нууц үг солих боломжгүй",
@@ -20,6 +18,7 @@ OC.L10N.register(
     "Your email address was changed by an administrator" : "Зохицуулагч таны цахим шуудангийн хаягийг солив",
     "Security" : "Хамгаалалт",
     "Wrong password" : "Нууц үг буруу байна",
+    "Saved" : "Хадгалагдсан",
     "Authentication error" : "Нотолгооны алдаа",
     "Invalid SMTP password." : "SMTP -н нууц үг буруу байна ",
     "Email setting test" : "Цахим шуудангийн тохиргоог шалгах",
@@ -71,6 +70,7 @@ OC.L10N.register(
     "Add group" : "Бүлэг нэмэх",
     "Admins" : "Админууд",
     "Send email to new user" : "Шинэ хэрэглэгч рүү цахим шуудан илгээх",
+    "Sending…" : "Илгээх...",
     "Address" : "Хаяг",
     "Full name" : "Бүтэн нэр",
     "Phone number" : "Утасны дугаар",
