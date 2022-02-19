@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Saved" : "Bewaar",
-    "Email sent" : "E-pos gestuur",
     "Very weak password" : "Baie swak wagwoord",
     "Weak password" : "Swak wagwoord",
     "So-so password" : "Gemiddelde wagwoord",
@@ -20,6 +18,7 @@ OC.L10N.register(
     "Security" : "Sekuriteit",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "U <strong>wagwoord</strong> of <strong>e-pos</strong> is gewysig",
     "Wrong password" : "Verkeerde wagwoord",
+    "Saved" : "Bewaar",
     "No user supplied" : "Geen gebruiker verskaf nie",
     "Well done, %s!" : "Welgedaan %s!",
     "Invalid mail address" : "Ongeldige posadres",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Details" : "Besonderhede",
     "Changelog" : "Veranderingslog",
     "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
+    "Email sent" : "E-pos gestuur",
     "Address" : "Adres",
     "Full name" : "Volle naam",
     "Phone number" : "Foonnommer",
