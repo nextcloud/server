@@ -129,7 +129,7 @@
     "node-sass": "~7.0.1",
     "puppeteer": "^13.3.2",
     "regextras": "^0.8.0",
-    "sass": "^1.49.7",
+    "sass": "^1.49.8",
     "sass-loader": "^12.6.0",
     "sinon": "<= 5.0.7",
     "style-loader": "^3.3.1",
