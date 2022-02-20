@@ -1923,9 +1923,6 @@
     </InvalidScope>
   </file>
   <file src="apps/user_ldap/lib/Access.php">
-    <InvalidArgument occurrences="1">
-      <code>$record</code>
-    </InvalidArgument>
     <InvalidReturnStatement occurrences="2">
       <code>$uuid</code>
       <code>$values</code>
