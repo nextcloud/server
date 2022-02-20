@@ -22,7 +22,7 @@ OC.L10N.register(
     "The current log-in password was not correct, please try again." : "Oraingo pasahitza ez da egokia. Mesedez, saiatu berriro.",
     "Private key password successfully updated." : "Gako pasahitz pribatu behar bezala eguneratu da.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Enkriptazio aplikaziorako gako pribatu desegokia. Zure gako pribatuaren pasahitza eguneratu ezarpen pertsonaletan, enkriptatutako fitxategiak berriz atzitu nahi badituzu",
-    "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Enkriptazioa app-a gaituta dago, baina zure gakoak ez dira hasieratu. Saiotikirten eta berriz sartu, mesedez",
+    "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Enkriptazio aplikazioa gaituta dago, baina zure gakoak ez dira hasieratu. Saiotik irten eta berriz sartu, mesedez.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Enkriptazio modulua erabili ahal izateko zerbitzariaren aldean enkriptazioagaitu administrazio ezarpenetan",
     "Encryption app is enabled and ready" : "Enkriptazioa app-a gaituta eta martxan dago",
     "Bad Signature" : "Sinadura ezegokia",
