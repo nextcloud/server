@@ -46,7 +46,7 @@
     "blueimp-md5": "^2.18.0",
     "bootstrap": "^4.6.1",
     "camelcase": "^6.2.1",
-    "clipboard": "^2.0.9",
+    "clipboard": "^2.0.10",
     "core-js": "^3.15.1",
     "css-vars-ponyfill": "^2.4.7",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.2.1",
