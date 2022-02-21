@@ -87,9 +87,8 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function mkdir($path) {
 		$sourcePath = $this->getSourcePath($path);
-		$oldMask = umask(022);
 		$result = @mkdir($sourcePath, 0777, true);
-		umask($oldMask);
+		chmod($sourcePath, 0755);
 		return $result;
 	}
 
@@ -259,13 +258,11 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
 			return false;
 		}
-		$oldMask = umask(022);
 		if (!is_null($mtime)) {
 			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
 			$result = @touch($this->getSourcePath($path));
 		}
-		umask($oldMask);
 		if ($result) {
 			clearstatcache(true, $this->getSourcePath($path));
 		}
@@ -278,10 +275,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents($path, $data) {
-		$oldMask = umask(022);
-		$result = file_put_contents($this->getSourcePath($path), $data);
-		umask($oldMask);
-		return $result;
+		return file_put_contents($this->getSourcePath($path), $data);
 	}
 
 	public function unlink($path) {
@@ -351,18 +345,12 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->is_dir($path1)) {
 			return parent::copy($path1, $path2);
 		} else {
-			$oldMask = umask(022);
-			$result = copy($this->getSourcePath($path1), $this->getSourcePath($path2));
-			umask($oldMask);
-			return $result;
+			return copy($this->getSourcePath($path1), $this->getSourcePath($path2));
 		}
 	}
 
 	public function fopen($path, $mode) {
-		$oldMask = umask(022);
-		$result = fopen($this->getSourcePath($path), $mode);
-		umask($oldMask);
-		return $result;
+		return fopen($this->getSourcePath($path), $mode);
 	}
 
 	public function hash($type, $path, $raw = false) {

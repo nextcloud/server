@@ -63,21 +63,21 @@ class LocalTest extends Storage {
 		$this->assertNotEquals($etag1, $etag2);
 	}
 
-
+	
 	public function testInvalidArgumentsEmptyArray() {
 		$this->expectException(\InvalidArgumentException::class);
 
 		new \OC\Files\Storage\Local([]);
 	}
 
-
+	
 	public function testInvalidArgumentsNoArray() {
 		$this->expectException(\InvalidArgumentException::class);
 
 		new \OC\Files\Storage\Local(null);
 	}
 
-
+	
 	public function testDisallowSymlinksOutsideDatadir() {
 		$this->expectException(\OCP\Files\ForbiddenException::class);
 
@@ -107,36 +107,5 @@ class LocalTest extends Storage {
 
 		$storage->file_put_contents('sym/foo', 'bar');
 		$this->addToAssertionCount(1);
-	}
-
-	public function testWriteUmaskFilePutContents() {
-		$oldMask = umask(0333);
-		$this->instance->file_put_contents('test.txt', 'sad');
-		umask($oldMask);
-		$this->assertTrue($this->instance->isUpdatable('test.txt'));
-	}
-
-	public function testWriteUmaskMkdir() {
-		$oldMask = umask(0333);
-		$this->instance->mkdir('test.txt');
-		umask($oldMask);
-		$this->assertTrue($this->instance->isUpdatable('test.txt'));
-	}
-
-	public function testWriteUmaskFopen() {
-		$oldMask = umask(0333);
-		$handle = $this->instance->fopen('test.txt', 'w');
-		fwrite($handle, 'foo');
-		fclose($handle);
-		umask($oldMask);
-		$this->assertTrue($this->instance->isUpdatable('test.txt'));
-	}
-
-	public function testWriteUmaskCopy() {
-		$this->instance->file_put_contents('source.txt', 'sad');
-		$oldMask = umask(0333);
-		$this->instance->copy('source.txt', 'test.txt');
-		umask($oldMask);
-		$this->assertTrue($this->instance->isUpdatable('test.txt'));
 	}
 }
