@@ -53,6 +53,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use GuzzleHttp\Psr7\ServerRequest;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -246,6 +247,7 @@ use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -1039,6 +1041,9 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Request', \OCP\IRequest::class);
+		$this->registerService(ServerRequestInterface::class, function() {
+			return ServerRequest::fromGlobals();
+		});
 
 		$this->registerService(IMailer::class, function (Server $c) {
 			return new Mailer(
