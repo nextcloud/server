@@ -296,11 +296,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
 	 * name or an instance of that user
-	 * @return bool
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function userExistsOnLDAP($user) {
+	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
 		if (is_string($user)) {
 			$user = $this->access->userManager->get($user);
 		}
@@ -309,9 +308,11 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 		$uid = $user instanceof User ? $user->getUsername() : $user->getOCName();
 		$cacheKey = 'userExistsOnLDAP' . $uid;
-		$userExists = $this->access->connection->getFromCache($cacheKey);
-		if (!is_null($userExists)) {
-			return (bool)$userExists;
+		if (!$ignoreCache) {
+			$userExists = $this->access->connection->getFromCache($cacheKey);
+			if (!is_null($userExists)) {
+				return (bool)$userExists;
+			}
 		}
 
 		$dn = $user->getDN();
@@ -389,13 +390,27 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			}
 		}
 
-		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if ((int)$marked === 0) {
-			$this->logger->notice(
-				'User '.$uid . ' is not marked as deleted, not cleaning up.',
-				['app' => 'user_ldap']
-			);
-			return false;
+		$marked = (int)$this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
+		if ($marked === 0) {
+			try {
+				$user = $this->access->userManager->get($uid);
+				if (($user instanceof User) && !$this->userExistsOnLDAP($uid, true)) {
+					$user->markUser();
+					$marked = 1;
+				}
+			} catch (\Exception $e) {
+				$this->logger->debug(
+					$e->getMessage(),
+					['app' => 'user_ldap', 'exception' => $e]
+				);
+			}
+			if ($marked === 0) {
+				$this->logger->notice(
+					'User '.$uid . ' is not marked as deleted, not cleaning up.',
+					['app' => 'user_ldap']
+				);
+				return false;
+			}
 		}
 		$this->logger->info('Cleaning up after user ' . $uid,
 			['app' => 'user_ldap']);
