@@ -331,15 +331,16 @@ class OC_Util {
 	}
 
 	/**
-	 * check if a password is required for each public link
+	 * Check if a password is required for each public link
 	 *
+	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return boolean
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function isPublicLinkPasswordRequired() {
+	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
 		/** @var IManager $shareManager */
 		$shareManager = \OC::$server->get(IManager::class);
-		return $shareManager->shareApiLinkEnforcePassword();
+		return $shareManager->shareApiLinkEnforcePassword($checkGroupMembership);
 	}
 
 	/**

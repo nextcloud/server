@@ -70,6 +70,11 @@ class Sharing implements ISettings {
 		$linksExcludeGroupsList = !is_null(json_decode($linksExcludedGroups))
 			? implode('|', json_decode($linksExcludedGroups, true)) : '';
 
+		$excludedPasswordGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
+		$excludedPasswordGroupsList = !is_null(json_decode($excludedPasswordGroups))
+			? implode('|', json_decode($excludedPasswordGroups, true)) : '';
+
+
 		$parameters = [
 			// Built-In Sharing
 			'allowGroupSharing' => $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes'),
@@ -81,7 +86,9 @@ class Sharing implements ISettings {
 			'restrictUserEnumerationToGroup' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no'),
 			'restrictUserEnumerationToPhone' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no'),
 			'restrictUserEnumerationFullMatch' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes'),
-			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(),
+			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(false),
+			'passwordExcludedGroups' => $excludedPasswordGroupsList,
+			'passwordExcludedGroupsFeatureEnabled' => $this->config->getSystemValueBool('allow_disabled_password_enforcement_groups', false),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
 			'shareAPIEnabled' => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
 			'shareDefaultExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no'),
