@@ -273,7 +273,7 @@ export default {
 		toggleSharePermissions(permissions) {
 			this.share.permissions = togglePermissions(this.share.permissions, permissions)
 
-			if (!this.permissionsSetIsValid(this.share.permissions)) {
+			if (!permissionsSetIsValid(this.share.permissions)) {
 				return
 			}
 
