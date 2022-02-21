@@ -25,9 +25,22 @@ namespace OC\Authentication\Token;
 
 use OC;
 use OC\BackgroundJob\Job;
+use OCP\IConfig;
 
 class DefaultTokenCleanupJob extends Job {
+
+	/** @var IConfig */
+	protected $config;
+
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
+
 	protected function run($argument) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		/* @var $provider IProvider */
 		$provider = OC::$server->query(IProvider::class);
 		$provider->invalidateOldTokens();

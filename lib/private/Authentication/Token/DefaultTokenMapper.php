@@ -33,13 +33,19 @@ namespace OC\Authentication\Token;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 
 /**
  * @template-extends QBMapper<DefaultToken>
  */
 class DefaultTokenMapper extends QBMapper {
-	public function __construct(IDBConnection $db) {
+
+	/** @var IConfig */
+	protected $config;
+
+	public function __construct(IDBConnection $db, IConfig $config) {
+		$this->config = $config;
 		parent::__construct($db, 'authtoken');
 	}
 
@@ -49,6 +55,10 @@ class DefaultTokenMapper extends QBMapper {
 	 * @param string $token
 	 */
 	public function invalidate(string $token) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
@@ -62,6 +72,10 @@ class DefaultTokenMapper extends QBMapper {
 	 * @param int $remember
 	 */
 	public function invalidateOld(int $olderThan, int $remember = IToken::DO_NOT_REMEMBER) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
@@ -80,6 +94,10 @@ class DefaultTokenMapper extends QBMapper {
 	 * @return DefaultToken
 	 */
 	public function getToken(string $token): DefaultToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new DoesNotExistException('Authtoken v1 disabled');
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
@@ -104,6 +122,10 @@ class DefaultTokenMapper extends QBMapper {
 	 * @return DefaultToken
 	 */
 	public function getTokenById(int $id): DefaultToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new DoesNotExistException('Authtoken v1 disabled');
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
@@ -130,6 +152,10 @@ class DefaultTokenMapper extends QBMapper {
 	 * @return DefaultToken[]
 	 */
 	public function getTokenByUser(string $uid): array {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return [];
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
@@ -149,6 +175,10 @@ class DefaultTokenMapper extends QBMapper {
 	}
 
 	public function deleteById(string $uid, int $id) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
@@ -164,6 +194,10 @@ class DefaultTokenMapper extends QBMapper {
 	 * @param string $name
 	 */
 	public function deleteByName(string $name) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
