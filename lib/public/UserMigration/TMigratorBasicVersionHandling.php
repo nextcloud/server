@@ -36,6 +36,7 @@ trait TMigratorBasicVersionHandling {
 
 	/**
 	 * {@inheritDoc}
+	 * @since 24.0.0
 	 */
 	public function getVersion(): int {
 		return $this->version;
@@ -43,6 +44,7 @@ trait TMigratorBasicVersionHandling {
 
 	/**
 	 * {@inheritDoc}
+	 * @since 24.0.0
 	 */
 	public function canImport(
 		IImportSource $importSource
