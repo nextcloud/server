@@ -166,6 +166,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\Directory' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Directory.php',
         'OCA\\DAV\\Connector\\Sabre\\DummyGetResponsePlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/DummyGetResponsePlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\ExceptionLoggerPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ExceptionLoggerPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\Exception\\BadGateway' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/BadGateway.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\EntityTooLarge' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/EntityTooLarge.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\FileLocked' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/FileLocked.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\Forbidden' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/Forbidden.php',
