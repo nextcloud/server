@@ -414,6 +414,11 @@ abstract class Node implements \Sabre\DAV\INode {
 			throw new \InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
 		}
 
+		// Prevent writing invalid mtime (timezone-proof)
+		if ((int)$mtimeFromRequest <= 24 * 60 * 60) {
+			throw new \InvalidArgumentException('X-OC-MTime header must be a valid positive integer');
+		}
+
 		return (int)$mtimeFromRequest;
 	}
 }
