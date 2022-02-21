@@ -30,12 +30,12 @@ namespace OC\Authentication\WebAuthn;
 use Cose\Algorithm\Signature\ECDSA\ES256;
 use Cose\Algorithm\Signature\RSA\RS256;
 use Cose\Algorithms;
-use GuzzleHttp\Psr7\ServerRequest;
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialEntity;
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IConfig;
 use OCP\IUser;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
@@ -63,6 +63,9 @@ class Manager {
 	/** @var PublicKeyCredentialMapper */
 	private $credentialMapper;
 
+	/** @var ServerRequestInterface */
+	private $request;
+
 	/** @var LoggerInterface */
 	private $logger;
 
@@ -72,6 +75,7 @@ class Manager {
 	public function __construct(
 		CredentialRepository $repository,
 		PublicKeyCredentialMapper $credentialMapper,
+		ServerRequestInterface $request,
 		LoggerInterface $logger,
 		IConfig $config
 	) {
@@ -79,6 +83,7 @@ class Manager {
 		$this->credentialMapper = $credentialMapper;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->request = $request;
 	}
 
 	public function startRegistration(IUser $user, string $serverHost): PublicKeyCredentialCreationOptions {
@@ -157,12 +162,11 @@ class Manager {
 			}
 
 			// Check the response against the request
-			$request = ServerRequest::fromGlobals();
-
 			$publicKeyCredentialSource = $authenticatorAttestationResponseValidator->check(
 				$response,
 				$publicKeyCredentialCreationOptions,
-				$request);
+				$this->request
+			);
 		} catch (\Throwable $exception) {
 			throw $exception;
 		}
@@ -227,21 +231,16 @@ class Manager {
 				throw new \RuntimeException('Not an authenticator attestation response');
 			}
 
-			// Check the response against the request
-			$request = ServerRequest::fromGlobals();
-
-			$publicKeyCredentialSource = $authenticatorAssertionResponseValidator->check(
+			$authenticatorAssertionResponseValidator->check(
 				$publicKeyCredential->getRawId(),
 				$response,
 				$publicKeyCredentialRequestOptions,
-				$request,
+				$this->request,
 				$uid
 			);
 		} catch (\Throwable $e) {
 			throw $e;
 		}
-
-
 
 		return true;
 	}
