@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     nextcloud:
-        image: nextcloudci/server
+        image: ghcr.io/nextcloud/continuous-integration-shallow-server
 
         ports:
             - 8082:80

@@ -65,7 +65,7 @@ describe(`Download ${fileName} in viewer`, function() {
 		// open the menu
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
 		// download the file
-		cy.get('.action-link__icon.icon-download').click()
+		cy.get('.action-link .download-icon').click()
 	})
 
 	it('Compare downloaded file with asset by size', function() {
