@@ -92,13 +92,13 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 
 	it('See the download icon and title on the viewer header', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
-		cy.get('body > .viewer .modal-header a.action-item.icon-download').should('be.visible')
+		cy.get('body > .viewer .modal-header a.action-item > .download-icon').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
 	it('Download the image', function() {
 		// download the file
-		cy.get('body > .viewer .modal-header a.action-item.icon-download').click()
+		cy.get('body > .viewer .modal-header a.action-item > .download-icon').click()
 	})
 
 	it('Compare downloaded file with asset by size', function() {

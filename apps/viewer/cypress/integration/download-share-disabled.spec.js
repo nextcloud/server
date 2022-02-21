@@ -104,7 +104,7 @@ describe(`Download ${fileName} in viewer`, function() {
 
 	it('See the title on the viewer header but not the Download button', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
-		cy.get('body > .viewer .modal-header a.action-item.icon-download').should('not.exist')
+		cy.get('body > .viewer .modal-header a.action-item > .download-icon').should('not.exist')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
