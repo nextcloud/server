@@ -495,7 +495,7 @@ class Access extends LDAPUtility {
 	/**
 	 * returns the internal Nextcloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 *
-	 * @param string $dn the dn of the user object
+	 * @param string $fdn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with with the name to use in Nextcloud
 	 * @throws \Exception
@@ -1791,7 +1791,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @param string $dn
 	 * @param bool $isUser
-	 * @param null $ldapRecord
+	 * @param array|null $ldapRecord
 	 * @return false|string
 	 * @throws ServerNotAvailableException
 	 */
