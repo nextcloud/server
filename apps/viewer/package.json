@@ -75,6 +75,6 @@
 		"cypress-image-snapshot": "^4.0.1",
 		"eslint-plugin-cypress": "^2.12.1",
 		"jest": "^27.5.1",
-		"wait-on": "^6.0.0"
+		"wait-on": "^6.0.1"
 	}
 }
