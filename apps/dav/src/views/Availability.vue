@@ -25,11 +25,11 @@
 			:l10n-friday="$t('dav', 'Friday')"
 			:l10n-saturday="$t('dav', 'Saturday')"
 			:l10n-sunday="$t('dav', 'Sunday')" />
-		<button :disabled="loading || saving"
-			class="button primary"
+		<Button :disabled="loading || saving"
+			type="primary"
 			@click="save">
 			{{ $t('dav', 'Save') }}
-		</button>
+		</Button>
 	</div>
 </template>
 
@@ -42,11 +42,14 @@ import {
 } from '../service/CalendarService'
 import jstz from 'jstimezonedetect'
 import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
+import Button from '@nextcloud/vue/dist/Components/Button'
+
 export default {
 	name: 'Availability',
 	components: {
 		CalendarAvailability,
 		TimezonePicker,
+		Button,
 	},
 	data() {
 		// Try to determine the current timezone, and fall back to UTC otherwise
