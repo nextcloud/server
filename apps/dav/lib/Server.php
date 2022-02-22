@@ -35,6 +35,7 @@
 namespace OCA\DAV;
 
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
+use OCP\Diagnostics\IEventLogger;
 use Psr\Log\LoggerInterface;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\BirthdayService;
@@ -337,7 +338,11 @@ class Server {
 	}
 
 	public function exec() {
+		/** @var IEventLogger $eventLogger */
+		$eventLogger = \OC::$server->get(IEventLogger::class);
+		$eventLogger->start('dav_server_exec', '');
 		$this->server->exec();
+		$eventLogger->end('dav_server_exec');
 	}
 
 	private function requestIsForSubtree(array $subTrees): bool {
