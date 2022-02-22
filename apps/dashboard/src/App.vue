@@ -34,7 +34,7 @@
 				@keyup.space="showModal">{{ t('dashboard', 'Customize') }}</a>
 		</div>
 
-		<Modal v-if="modal" @close="closeModal">
+		<Modal v-if="modal" size="normal" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
 				<ol class="panels">
@@ -553,9 +553,7 @@ export default {
 
 .modal__content {
 	padding: 32px 16px;
-	max-height: 70vh;
 	text-align: center;
-	overflow: auto;
 
 	ol {
 		display: flex;
