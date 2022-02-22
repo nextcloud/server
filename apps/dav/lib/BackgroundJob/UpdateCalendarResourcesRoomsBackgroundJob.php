@@ -28,8 +28,9 @@ declare(strict_types=1);
 
 namespace OCA\DAV\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\Calendar\BackendTemporarilyUnavailableException;
 use OCP\Calendar\IMetadataProvider;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
@@ -53,17 +54,20 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	/** @var CalDavBackend */
 	private $calDavBackend;
 
-	public function __construct(IResourceManager $resourceManager,
+	public function __construct(ITimeFactory $time,
+								IResourceManager $resourceManager,
 								IRoomManager $roomManager,
 								IDBConnection $dbConnection,
 								CalDavBackend $calDavBackend) {
+		parent::__construct($time);
 		$this->resourceManager = $resourceManager;
 		$this->roomManager = $roomManager;
 		$this->dbConnection = $dbConnection;
 		$this->calDavBackend = $calDavBackend;
 
-		// run once an hour
+		// Run once an hour
 		$this->setInterval(60 * 60);
+		$this->setTimeSensitivity(self::TIME_SENSITIVE);
 	}
 
 	/**

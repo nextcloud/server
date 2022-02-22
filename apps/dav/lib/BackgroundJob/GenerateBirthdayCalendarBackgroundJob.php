@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -22,8 +25,9 @@
  */
 namespace OCA\DAV\BackgroundJob;
 
-use OC\BackgroundJob\QueuedJob;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IConfig;
 
 class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
@@ -34,14 +38,11 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * GenerateAllBirthdayCalendarsBackgroundJob constructor.
-	 *
-	 * @param BirthdayService $birthdayService
-	 * @param IConfig $config
-	 */
-	public function __construct(BirthdayService $birthdayService,
+	public function __construct(ITimeFactory $time,
+								BirthdayService $birthdayService,
 								IConfig $config) {
+		parent::__construct($time);
+
 		$this->birthdayService = $birthdayService;
 		$this->config = $config;
 	}
