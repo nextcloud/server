@@ -32,6 +32,8 @@ use OCP\ILogger;
  * create a background job that is to be executed once
  *
  * @package OC\BackgroundJob
+ *
+ * @deprecated internal class, use \OCP\BackgroundJob\QueuedJob
  */
 abstract class QueuedJob extends Job {
 	/**
