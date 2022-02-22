@@ -34,6 +34,8 @@ use OCP\ILogger;
  * create a background job that is to be executed at an interval
  *
  * @package OC\BackgroundJob
+ *
+ * @deprecated internal class, use \OCP\BackgroundJob\TimedJob
  */
 abstract class TimedJob extends Job {
 	protected $interval = 0;
