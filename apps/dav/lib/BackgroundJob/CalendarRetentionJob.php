@@ -40,6 +40,7 @@ class CalendarRetentionJob extends TimedJob {
 
 		// Run four times a day
 		$this->setInterval(6 * 60 * 60);
+		$this->setTimeSensitivity(self::TIME_SENSITIVE);
 	}
 
 	protected function run($argument): void {

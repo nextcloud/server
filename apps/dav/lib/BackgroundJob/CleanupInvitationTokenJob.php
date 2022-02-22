@@ -26,8 +26,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
 
 class CleanupInvitationTokenJob extends TimedJob {
@@ -35,21 +35,20 @@ class CleanupInvitationTokenJob extends TimedJob {
 	/** @var IDBConnection  */
 	private $db;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(IDBConnection $db, ITimeFactory $timeFactory) {
+	public function __construct(IDBConnection $db, ITimeFactory $time) {
+		parent::__construct($time);
 		$this->db = $db;
-		$this->timeFactory = $timeFactory;
 
-		$this->setInterval(60 * 60 * 24);
+		// Run once a day at off-peak time
+		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	public function run($argument) {
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendar_invitations')
 			->where($query->expr()->lt('expiration',
-				$query->createNamedParameter($this->timeFactory->getTime())))
+				$query->createNamedParameter($this->time->getTime())))
 			->execute();
 	}
 }

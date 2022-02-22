@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
@@ -23,8 +26,9 @@
  */
 namespace OCA\DAV\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 
 class EventReminderJob extends TimedJob {
@@ -35,17 +39,16 @@ class EventReminderJob extends TimedJob {
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * EventReminderJob constructor.
-	 *
-	 * @param ReminderService $reminderService
-	 * @param IConfig $config
-	 */
-	public function __construct(ReminderService $reminderService, IConfig $config) {
+	public function __construct(ITimeFactory $time,
+								ReminderService $reminderService,
+								IConfig $config) {
+		parent::__construct($time);
 		$this->reminderService = $reminderService;
 		$this->config = $config;
-		/** Run every 5 minutes */
-		$this->setInterval(5);
+
+		// Run every 5 minutes
+		$this->setInterval(5 * 60);
+		$this->setTimeSensitivity(self::TIME_SENSITIVE);
 	}
 
 	/**

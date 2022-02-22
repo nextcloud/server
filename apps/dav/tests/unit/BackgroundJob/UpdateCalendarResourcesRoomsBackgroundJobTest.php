@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
@@ -29,12 +32,14 @@ namespace OCA\DAV\Tests\unit\BackgroundJob;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\BackendTemporarilyUnavailableException;
 use OCP\Calendar\IMetadataProvider;
 use OCP\Calendar\Resource\IBackend;
 use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Resource\IResource;
 use OCP\Calendar\Room\IManager as IRoomManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 interface tmpI extends IResource, IMetadataProvider {
@@ -42,28 +47,36 @@ interface tmpI extends IResource, IMetadataProvider {
 
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
-	/** @var UpdateCalendarResourcesRoomsBackgroundJob */
-	private $backgroundJob;
+	/** @var ITimeFactory|MockObject */
+	private $time;
 
-	/** @var IResourceManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IResourceManager|MockObject */
 	private $resourceManager;
 
-	/** @var IRoomManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRoomManager|MockObject */
 	private $roomManager;
 
-	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend|MockObject */
 	private $calDavBackend;
+
+	/** @var UpdateCalendarResourcesRoomsBackgroundJob */
+	private $backgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->time = $this->createMock(ITimeFactory::class);
 		$this->resourceManager = $this->createMock(IResourceManager::class);
 		$this->roomManager = $this->createMock(IRoomManager::class);
 		$this->calDavBackend = $this->createMock(CalDavBackend::class);
 
 		$this->backgroundJob = new UpdateCalendarResourcesRoomsBackgroundJob(
-			$this->resourceManager, $this->roomManager, self::$realDatabase,
-			$this->calDavBackend);
+			$this->time,
+			$this->resourceManager,
+			$this->roomManager,
+			self::$realDatabase,
+			$this->calDavBackend
+		);
 	}
 
 	protected function tearDown(): void {
