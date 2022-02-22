@@ -67,6 +67,13 @@ interface IExportDestination {
 	public function copyFolder(Folder $folder, string $destinationPath): bool;
 
 	/**
+	 * @param array<string,int> $versions Migrators and their versions.
+	 *
+	 * @since 24.0.0
+	 */
+	public function setMigratorVersions(array $versions): bool;
+
+	/**
 	 * Called after export is complete
 	 *
 	 * @since 24.0.0
