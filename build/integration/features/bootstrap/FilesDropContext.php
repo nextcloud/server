@@ -51,7 +51,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
-		$options['body'] = \GuzzleHttp\Psr7\stream_for($content);
+		$options['body'] = \GuzzleHttp\Psr7\Utils::streamFor($content);
 
 		try {
 			$this->response = $client->request('PUT', $fullUrl, $options);

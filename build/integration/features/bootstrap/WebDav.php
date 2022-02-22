@@ -493,7 +493,7 @@ trait WebDav {
 	 * @param string $destination
 	 */
 	public function userUploadsAFileTo($user, $source, $destination) {
-		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
+		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
@@ -525,7 +525,7 @@ trait WebDav {
 	 * @When User :user uploads file with content :content to :destination
 	 */
 	public function userUploadsAFileWithContentTo($user, $content, $destination) {
-		$file = \GuzzleHttp\Psr7\stream_for($content);
+		$file = \GuzzleHttp\Psr7\Utils::streamFor($content);
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
@@ -583,7 +583,7 @@ trait WebDav {
 	 */
 	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination) {
 		$num -= 1;
-		$data = \GuzzleHttp\Psr7\stream_for($data);
+		$data = \GuzzleHttp\Psr7\Utils::streamFor($data);
 		$file = $destination . '-chunking-42-' . $total . '-' . $num;
 		$this->makeDavRequest($user, 'PUT', $file, ['OC-Chunked' => '1'], $data, "uploads");
 	}
@@ -654,7 +654,7 @@ trait WebDav {
 	 * @Given user :user uploads new chunk file :num with :data to id :id
 	 */
 	public function userUploadsNewChunkFileOfWithToId($user, $num, $data, $id) {
-		$data = \GuzzleHttp\Psr7\stream_for($data);
+		$data = \GuzzleHttp\Psr7\Utils::streamFor($data);
 		$destination = '/uploads/' . $user . '/' . $id . '/' . $num;
 		$this->makeDavRequest($user, 'PUT', $destination, [], $data, "uploads");
 	}
