@@ -54,6 +54,16 @@ interface IImportSource {
 	public function getFileAsStream(string $path);
 
 	/**
+	 * List the files of a folder
+	 *
+	 * @param string $path Full path to the folder in the export archive.
+	 * @return array The list of files.
+	 *
+	 * @since 24.0.0
+	 */
+	public function getFolderListing(string $path): array;
+
+	/**
 	 * Copy files from the export to a Folder
 	 *
 	 * Folder $destination folder to copy into
