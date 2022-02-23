@@ -1739,12 +1739,13 @@ class View {
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);
 		$mounts[] = $manager->find($this->fakeRoot);
-		// reverse the array so we start with the storage this view is in
+		$mounts = array_filter($mounts);
+		// reverse the array, so we start with the storage this view is in
 		// which is the most likely to contain the file we're looking for
 		$mounts = array_reverse($mounts);
 
-		// put non shared mounts in front of the shared mount
-		// this prevent unneeded recursion into shares
+		// put non-shared mounts in front of the shared mount
+		// this prevents unneeded recursion into shares
 		usort($mounts, function (IMountPoint $a, IMountPoint $b) {
 			return $a instanceof SharedMount && (!$b instanceof SharedMount) ? 1 : -1;
 		});

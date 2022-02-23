@@ -31,10 +31,13 @@ namespace OC\Files\Mount;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
+use OC\Setup;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 
 class Manager implements IMountManager {
@@ -47,11 +50,12 @@ class Manager implements IMountManager {
 	public function __construct(
 		IEventLogger $eventLogger,
 		IMountProviderCollection $mountProviderCollection,
-		IUserSession $userSession
+		IUserSession $userSession,
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->pathCache = new CappedMemoryCache();
 		$this->inPathCache = new CappedMemoryCache();
-		$this->setupManager = new SetupManager($eventLogger, $mountProviderCollection, $this, $userSession);
+		$this->setupManager = new SetupManager($eventLogger, $mountProviderCollection, $this, $userSession, $eventDispatcher);
 	}
 
 	/**
@@ -122,7 +126,7 @@ class Manager implements IMountManager {
 			}
 
 			if ($current === '') {
-				return null;
+				throw new NotFoundException("No mount for path " . $path . " existing mounts: " . implode(",", array_keys($this->mounts)));
 			}
 
 			$current = dirname($current);
@@ -213,5 +217,9 @@ class Manager implements IMountManager {
 			$path .= '/';
 		}
 		return $path;
+	}
+
+	public function getSetupManager(): SetupManager {
+		return $this->setupManager;
 	}
 }

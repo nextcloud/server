@@ -23,7 +23,9 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
+use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
+use OC\Files\Storage\Home;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Availability;
 use OC\Files\Storage\Wrapper\Encoding;
@@ -34,8 +36,9 @@ use OC_Hook;
 use OC_Util;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
-use OCP\Files\IHomeStorage;
+use OCP\Files\Events\Node\FilesystemTearedDownEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
@@ -49,17 +52,20 @@ class SetupManager {
 	private IMountManager $mountManager;
 	private IUserSession $userSession;
 	private array $setupUsers = [];
+	private IEventDispatcher $eventDispatcher;
 
 	public function __construct(
 		IEventLogger $eventLogger,
 		IMountProviderCollection $mountProviderCollection,
 		IMountManager $mountManager,
-		IUserSession $userSession
+		IUserSession $userSession,
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
 		$this->mountManager = $mountManager;
 		$this->userSession = $userSession;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	private function setupBuiltinWrappers() {
@@ -102,7 +108,7 @@ class SetupManager {
 			/**
 			 * @var Storage $storage
 			 */
-			if ($storage->instanceOfStorage(IHomeStorage::class)) {
+			if ($storage->instanceOfStorage(HomeObjectStoreStorage::class) || $storage->instanceOfStorage(Home::class)) {
 				if (is_object($storage->getUser())) {
 					$quota = OC_Util::getUserQuota($storage->getUser());
 					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -171,24 +177,30 @@ class SetupManager {
 		if ($this->rootSetup) {
 			return;
 		}
+		$this->rootSetup = true;
 
 		$this->eventLogger->start('setup_root_fs', 'Setup root filesystem');
 
 		// load all filesystem apps before, so no setup-hook gets lost
 		OC_App::loadApps(['filesystem']);
-
-		$this->rootSetup = true;
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		$this->setupBuiltinWrappers();
 
 		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
-		$rootMountProviders = $this->mountProviderCollection->getRootMounts();
-		foreach ($rootMountProviders as $rootMountProvider) {
+		$rootMounts = $this->mountProviderCollection->getRootMounts();
+		foreach ($rootMounts as $rootMountProvider) {
 			$this->mountManager->addMount($rootMountProvider);
 		}
 
 		$this->eventLogger->end('setup_root_fs');
+	}
+
+	public function tearDown() {
+		$this->setupUsers = [];
+		$this->rootSetup = false;
+		$this->mountManager->clear();
+		$this->eventDispatcher->dispatchTyped(new FilesystemTearedDownEvent());
 	}
 }

@@ -222,4 +222,10 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		}, []);
 		return $mounts;
 	}
+
+	public function clearProviders() {
+		$this->providers = [];
+		$this->homeProviders = [];
+		$this->rootProviders = [];
+	}
 }

@@ -95,6 +95,7 @@ use OC\Files\Mount\RootMountProvider;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
+use OC\Files\SetupManager;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Template\TemplateManager;
 use OC\Files\Type\Loader;
@@ -423,7 +424,8 @@ class Server extends ServerContainer implements IServerContainer {
 				null,
 				$c->get(IUserMountCache::class),
 				$this->get(ILogger::class),
-				$this->get(IUserManager::class)
+				$this->get(IUserManager::class),
+				$this->get(IEventDispatcher::class),
 			);
 
 			$previewConnector = new \OC\Preview\WatcherConnector(
@@ -1091,6 +1093,10 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('LockingProvider', ILockingProvider::class);
 
+		$this->registerService(SetupManager::class, function ($c) {
+			// create the setupmanager through the mount manager to resolve the cyclic dependency
+			return $c->get(\OC\Files\Mount\Manager::class)->getSetupManager();
+		});
 		$this->registerAlias(IMountManager::class, \OC\Files\Mount\Manager::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('MountManager', IMountManager::class);

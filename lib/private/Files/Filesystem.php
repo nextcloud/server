@@ -41,7 +41,9 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\MountPoint;
 use OC\Lockdown\Filesystem\NullStorage;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Events\Node\FilesystemTearedDownEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ILogger;
@@ -332,6 +334,13 @@ class Filesystem {
 		}
 		self::getLoader();
 		self::$defaultInstance = new View($root);
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$eventDispatcher->addListener(FilesystemTearedDownEvent::class, function () {
+			self::$defaultInstance = null;
+			self::$usersSetup = [];
+			self::$loaded = false;
+		});
 
 		if (!self::$mounts) {
 			self::$mounts = \OC::$server->getMountManager();
@@ -474,8 +483,7 @@ class Filesystem {
 	 * tear down the filesystem, removing all storage providers
 	 */
 	public static function tearDown() {
-		self::clearMounts();
-		self::$defaultInstance = null;
+		\OC_Util::tearDownFS();
 	}
 
 	/**
@@ -490,16 +498,6 @@ class Filesystem {
 			return null;
 		}
 		return self::$defaultInstance->getRoot();
-	}
-
-	/**
-	 * clear all mounts and storage backends
-	 */
-	public static function clearMounts() {
-		if (self::$mounts) {
-			self::$usersSetup = [];
-			self::$mounts->clear();
-		}
 	}
 
 	/**

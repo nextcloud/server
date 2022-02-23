@@ -112,6 +112,7 @@ class OC_Util {
 		} else {
 			$setupManager->setupRoot();
 		}
+		return true;
 	}
 
 	/**
@@ -264,10 +265,9 @@ class OC_Util {
 	 * @suppress PhanUndeclaredMethod
 	 */
 	public static function tearDownFS() {
-		\OC\Files\Filesystem::tearDown();
-		\OC::$server->getRootFolder()->clearCache();
-		self::$fsSetup = false;
-		self::$rootFsSetup = false;
+		/** @var SetupManager $setupManager */
+		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager->tearDown();
 	}
 
 	/**
