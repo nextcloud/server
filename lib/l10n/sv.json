@@ -237,7 +237,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Eller, om du föredrar att behålla config.php skrivskyddad, sätt alternativet \"config_is_read_only\" till true i den.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivåtkomst till config-katalogen.",
     "Can't create or write into the data directory %s" : "Kan inte skapa eller skriva till data-katalogen %s",
-    "Invalid Federated Cloud ID" : "Ogiltigt federerat moln-ID",
     "Can’t increase permissions of %s" : "Kan inte öka rättigheterna för %s",
     "Files can’t be shared with delete permissions" : "Filer kan inte delas med borttagningsrättigheter",
     "Files can’t be shared with create permissions" : "Filer kan inte delas med rättigheter att skapa",

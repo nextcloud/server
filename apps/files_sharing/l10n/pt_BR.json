@@ -244,7 +244,6 @@
     "invalid permissions" : "permissões inválidas",
     "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
-    "Name, email, or federated cloud ID …" : "Nome, e-mail, ou ID da nuvem federada...",
     "Download %s" : "Baixar %s",
     "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

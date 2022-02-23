@@ -46,7 +46,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Pri ukladaní režimu sa vyskytla chyba.",
     "There was an error using personal address." : "Pri použití osobnej adresy sa vyskytla chyba.",
     "Set location for weather" : "Nastaviť polohu pre predpoveď počasia",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stav počasia integrovaný do aplikácie Dashboard.\nPoloha užívateľa môže byť automaticky zistená alebo manuálne zadaná. Zobrazuje sa 6 hodinová predpoveď počasia.\nStav počasia je možné integrovať aj s inými miestami ako napríklad s aplikáciou Kalendár.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Jasno o {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Oblačno o {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Malá oblačnosť o {time}",

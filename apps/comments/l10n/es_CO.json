@@ -16,16 +16,6 @@
     "Comment" : "Comentario",
     "Comment deleted" : "Comentario borrado",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Te mencionaron en \"{file}\", en un comentario de un usuario que ya ha sido borrado",
-    "{user} mentioned you in a comment on “{file}”" : "{user} te mencionó en un comentario en “{file}”",
-    "New comment …" : "Comentario nuevo ...",
-    "Post" : "Publicar",
-    "Cancel" : "Cancelar",
-    "[Deleted user]" : "[Usuario borrado]",
-    "More comments …" : "Más comentarios ...",
-    "Save" : "Guardar",
-    "Allowed characters {count} of {max}" : "Caracteres permitidos {count} de {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Se presentó un error al recuperar el comentario con ID {id}",
-    "Error occurred while updating comment with id {id}" : "Se presentó un error al actualizar el comentario con Id {id}",
-    "Error occurred while posting comment" : "Se presentó un error al publicar el comentario"
+    "{user} mentioned you in a comment on “{file}”" : "{user} te mencionó en un comentario en “{file}”"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

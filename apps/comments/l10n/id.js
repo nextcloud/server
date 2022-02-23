@@ -29,16 +29,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Terjadi kesalahan ketika mencoba untuk menghapus komentar",
     "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Anda disebut pada \"{file}\", dalam sebuah komentar oleh pengguna yang sejak itu telah dihapus",
-    "{user} mentioned you in a comment on “{file}”" : "{pengguna} menyebut Anda dalam sebuah komentar pada \"{file}\" ",
-    "New comment …" : "Komentar baru ...",
-    "Post" : "Posting",
-    "Cancel" : "Batal",
-    "[Deleted user]" : "[Hapus pengguna]",
-    "More comments …" : "Komentar lainnya ...",
-    "Save" : "Simpan",
-    "Allowed characters {count} of {max}" : "Karakter yang diizinkan {count} dari {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Terjadi kesalahan saat mendapatkan komentar dengan ID {id}",
-    "Error occurred while updating comment with id {id}" : "Terjadi kesalahan saat memperbarui komentar dengan id {id}",
-    "Error occurred while posting comment" : "Terjadi kesalahan saat memosting komentar"
+    "{user} mentioned you in a comment on “{file}”" : "{pengguna} menyebut Anda dalam sebuah komentar pada \"{file}\" "
 },
 "nplurals=1; plural=0;");

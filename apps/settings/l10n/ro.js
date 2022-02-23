@@ -215,7 +215,6 @@ OC.L10N.register(
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",
-    "Public" : "Public",
     "You need to set your user email before being able to send test emails." : "Trebuie să îți setezi emailul de utilizator înainte de a putea să trimiți emailuri.",
     "Nextcloud iOS app" : "Aplicația Nextcloud pentru iOS",
     "Nextcloud Android app" : "Aplicația Nextcloud pentru Android",

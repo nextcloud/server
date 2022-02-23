@@ -115,7 +115,6 @@
     "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
     "This can usually be fixed by giving the webserver write access to the config directory" : "يمكن حل هذا عادة بإعطاء خادم الوب صلاحية الكتابة في مجلد config",
     "Can't create or write into the data directory %s" : "لا يمكن الإنشاء أو الكتابة في مجلد البيانات %s",
-    "Invalid Federated Cloud ID" : "معرّف سحابة الاتحاد غير صالح",
     "Can't read file" : "لا يمكن قراءة الملف",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "يمكن إصلاح هذا الخطا بإعطاء مخدّم الموقع صلاحيات التعديل على مجلد الإعدادات. أنظر %s"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

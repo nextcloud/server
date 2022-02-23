@@ -239,7 +239,6 @@ OC.L10N.register(
     "invalid permissions" : "permissos non bàlidos",
     "Can't change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
-    "Name, email, or federated cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ...",
     "Download %s" : "Iscàrriga%s",
     "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos"
 },

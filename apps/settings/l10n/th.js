@@ -323,8 +323,6 @@ OC.L10N.register(
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",
     "Change password" : "เปลี่ยนรหัสผ่าน",
-    "Trusted" : "เชื่อถือแล้ว",
-    "Public" : "สาธารณะ",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "กำลังติดตั้งและอัพเดทแอพพลิเคชันผ่าแอพสโตร์หรือคลาวด์ในเครือ",
     "You need to set your user email before being able to send test emails." : "คุณจำเป็นต้องตั้งค่าอีเมลผู้ใช้ของคุณก่อนที่จะสามารถส่งอีเมลทดสอบ",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "การเพิกถอนโทเค็นนี้อาจทำให้ไม่สามารถล้างอุปกรณ์ของคุณได้หากการล้างยังไม่เริ่ม",
@@ -346,7 +344,7 @@ OC.L10N.register(
     "Allow users to share via link" : "อนุญาตให้ผู้ใช้สามารถแชร์ผ่านลิงก์",
     "Set default expiration date for link shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์",
     "No display name set" : "ไม่มีชื่อที่แสดง",
-    "For password reset and notifications" : "สำหรับการตั้งรหัสผ่านใหม่และการแจ้งเตือน",
-    "Change privacy level of email" : "เปลี่ยนระดับความเป็นส่วนตัวของอีเมล"
+    "Change privacy level of email" : "เปลี่ยนระดับความเป็นส่วนตัวของอีเมล",
+    "For password reset and notifications" : "สำหรับการตั้งรหัสผ่านใหม่และการแจ้งเตือน"
 },
 "nplurals=1; plural=0;");

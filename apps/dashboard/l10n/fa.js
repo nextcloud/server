@@ -24,9 +24,6 @@ OC.L10N.register(
     "Default images" : "تصاویر پیش‌فرض",
     "Plain background" : "تصویر زمینه ساده",
     "Insert from {productName}" : "درج از {productName}",
-    "Get more widgets from the app store" : "ابزارک‌های بیشتر را از فروشگاه برنامه دریافت کنید",
-    "Good night, {name}" : "{name} شبتان بخیر",
-    "Good night" : "شب بخیر",
-    "Pick from files" : "از میان پرونده‌ها انتخاب کنم"
+    "Get more widgets from the app store" : "ابزارک‌های بیشتر را از فروشگاه برنامه دریافت کنید"
 },
 "nplurals=2; plural=(n > 1);");

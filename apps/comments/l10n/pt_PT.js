@@ -19,16 +19,6 @@ OC.L10N.register(
     "_1 new comment_::_{unread} new comments_" : ["1 novo comentário","{unread} novos comentários"],
     "Comment" : "Comentário",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Foste mencionado e, “{file}”, num comentário de um utilizador que foi entretanto removido",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mencionou-te num comentário em “{file}”",
-    "New comment …" : "Novo comentário …",
-    "Post" : "Publicar",
-    "Cancel" : "Cancelar",
-    "[Deleted user]" : "[Utilizador eliminado]",
-    "More comments …" : "Mais comentários ...",
-    "Save" : "Guardar",
-    "Allowed characters {count} of {max}" : "{count} de {max} caracteres restantes",
-    "Error occurred while retrieving comment with ID {id}" : "Ocorreu um erro durante a obtenção do comentário com ID {id}",
-    "Error occurred while updating comment with id {id}" : "Ocorreu um erro ao tentar atualizar o comentário com o id {id}",
-    "Error occurred while posting comment" : "Ocorreu um erro ao tentar publicar o comentário"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mencionou-te num comentário em “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

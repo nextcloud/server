@@ -407,9 +407,6 @@ OC.L10N.register(
     "New password" : "Naujas slaptažodis",
     "Change password" : "Pakeisti slaptažodį",
     "Use a second factor besides your password to increase security for your account." : "Be savo slaptažodžio naudokite ir antrąjį faktorių, kad padidintumėte savo paskyros saugumą.",
-    "Don't synchronize to servers" : "Nesinchronizuoti į serverius",
-    "Trusted" : "Patikima",
-    "Public" : "Viešas",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Programėlių diegimas ir naujinimas per programėlių parduotuvę arba per „Federated Cloud Sharing“",
     "You need to set your user email before being able to send test emails." : "Prieš galėdami siųsti bandomuosius el. laiškus, turite nusistatyti savo naudotojo el. paštą.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Panaikinus šį prieigos raktą, jums gali būti neleista ištrinti šio įrenginio duomenų, jeigu jis dar nepradėjo duomenų ištrynimo.",
@@ -430,8 +427,6 @@ OC.L10N.register(
     "days" : "dienos",
     "Allow users to share via link" : "Leisti naudotojams bendrinti per nuorodą",
     "Set default expiration date for link shares" : "Nustatyti numatytąją galiojimo pabaigos datą viešiniams per nuorodą",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Leisti bendrinimo dialoge automatinį naudotojo vardų užbaigimą (jeigu tai išjungta, reikės įvesti pilną naudotojo vardą ar el. pašto adresą)",
-    "Restrict username autocompletion to users within the same groups" : "Apriboti naudotojo vardo automatinį užbaigimą kitiems tų pačių grupių naudotojams",
     "No display name set" : "Rodomas vardas nenurodytas",
     "For password reset and notifications" : "Skirtas slaptažodžio atstatymui ir pranešimams"
 },

@@ -14,15 +14,6 @@
     "Retry" : "Retentar",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu ensin lleer","%n comentarios ensin lleer"],
     "Comment" : "Comentariu",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»",
-    "New comment …" : "Comentariu nuevu...",
-    "Post" : "Espublizar",
-    "Cancel" : "Encaboxar",
-    "[Deleted user]" : "[Usuariu desaniciáu]",
-    "More comments …" : "Más comentarios...",
-    "Save" : "Guardar",
-    "Allowed characters {count} of {max}" : "{count} caráuteres almitíos de {max}",
-    "Error occurred while updating comment with id {id}" : "Asocedió un fallu entrín s'anovaba'l comentariu cola ID {id}",
-    "Error occurred while posting comment" : "Asocedieron fallos entrín s'espublizaba'l comentariu"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

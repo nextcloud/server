@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Numatytieji paveikslai",
     "Plain background" : "Vientisas fonas",
     "Insert from {productName}" : "Įterpti iš {productName}",
-    "Get more widgets from the app store" : "Gauti daugiau valdiklių iš programėlių parduotuvės",
-    "Good night, {name}" : "Labas vakaras, {name}",
-    "Good night" : "Labas vakaras",
-    "Pick from files" : "Pasirinkti iš failų"
+    "Get more widgets from the app store" : "Gauti daugiau valdiklių iš programėlių parduotuvės"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

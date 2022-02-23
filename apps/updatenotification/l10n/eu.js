@@ -44,7 +44,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Argitaratu aurreko bertsioa funtzionalitate berriak probatzeko soilik da, ez ekoizpen inguruneetarako.",
     "Apps missing updates" : "Eguneratzeak falta dituzten aplikazioak",
     "Apps with available updates" : "Eguneratzeak eskuragarri dituzten aplikazioak",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Kontuan izan bertsio berriak ateratzean denbora behar izaten dutela hemen agertzeko. Denboran zehar tartekatuta zabaltzen ditugu bertsio berriak eta batzuetan bertsio bat saltatu egiten dugu, arazoak topatzen bazaizkio. ",
     "Only notification for app updates are available." : "Aplikazioaren eguneraketen jakinarazpenak soilik daude eskuragarri.",
     "Checking apps for compatible updates" : "Egiaztatzen eguneratzeetarako aplikazio bateragarriak",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Ezin izan da appstore-arekin konektatu edo honek ez du eguneratzerik itzuli. Bilatu eskuz eguneratzeak edo ziurtatu zure zerbitzariak internet konexioa duela eta appstore-arekin konektatu daitekeela.",

@@ -240,7 +240,6 @@ OC.L10N.register(
     "invalid permissions" : "неважечка дозвола",
     "Can't change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделен линк",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
-    "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ...",
     "Download %s" : "Преземи %s",
     "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови"
 },

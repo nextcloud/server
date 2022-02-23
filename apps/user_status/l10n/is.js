@@ -33,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 klukkustundir",
     "Mute all notifications" : "Þagga allar tilkynningar",
     "Appear offline" : "Birtast ótengt",
-    "Clear status after" : "Hreinsa stöðu eftir",
     "What's your status?" : "Hver er staðan á þér?"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

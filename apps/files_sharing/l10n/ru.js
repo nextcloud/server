@@ -246,7 +246,6 @@ OC.L10N.register(
     "invalid permissions" : "неверные права доступа",
     "Can't change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа: приложение Nextcloud Talk отключено.",
-    "Name, email, or federated cloud ID …" : "Имя или ID межсерверного обмена…",
     "Download %s" : "Скачать %s",
     "Cannot change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно"
 },

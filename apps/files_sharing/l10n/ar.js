@@ -232,7 +232,6 @@ OC.L10N.register(
     "invalid permissions" : "صلاحيات مفقودة",
     "Can't change permissions for public share links" : "لا يمكن تغيير صلاحيات روابط المشاركة العامة",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
-    "Name, email, or federated cloud ID …" : "اسم، بريد، معرف السحابة المتحدة…",
     "Download %s" : "تنزيل %s"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

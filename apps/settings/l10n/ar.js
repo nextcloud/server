@@ -229,7 +229,6 @@ OC.L10N.register(
     "Current password" : "كلمات السر الحالية",
     "New password" : "كلمات سر جديدة",
     "Change password" : "عدل كلمة السر",
-    "Public" : "عمومي",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "التثبيت والتحديث من متجر التطبيقات أو Federated Cloud Sharing",
     "Nextcloud Android app" : "تطبيق Nextcloud للأندرويد",
     "Nextcloud Talk for iOS" : "نيكست كلاود التحدث للايفون",

@@ -393,9 +393,6 @@
     "Change password" : "Αλλαγή συνθηματικού",
     "Use a second factor besides your password to increase security for your account." : "Χρησιμοποιείστε έναν δεύτερο παράγοντα εκτός του κωδικού πρόσβασης για να αυξήσετε την ασφάλεια του λογαριαμού σας.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Εάν χρησιμοποιείτε εφαρμογές τρίτων για σύνδεση στο Nextcloud, βεβαιωθείτε ότι έχετε δημιουργήσει και διαμορφώσει έναν κωδικό πρόσβασης εφαρμογής για κάθε έναν προτού ενεργοποιήσετε τον έλεγχο ταυτότητας δεύτερου παράγοντα.",
-    "Don't synchronize to servers" : "Να μη γίνει συγχρονισμός με τους διακομιστές.",
-    "Trusted" : "Έμπιστος",
-    "Public" : "Δημόσιο",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "εγκατάσταση και ενημέρωση εφαρμογών μέσω του καταστήματος εφαρμογών ή του ",
     "You need to set your user email before being able to send test emails." : "Πρέπει να ορίσετε το email του χρήστη πριν να είστε σε θέση να στείλετε δοκιμαστικά emails.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Η κατάργηση αυτού του αναγνωριστικού ενδέχεται να αποτρέψει την εκκαθάριστη της συσκευής σας αν δεν έχει ξεκινήσει ακόμα.",
@@ -416,8 +413,6 @@
     "days" : "ημέρες",
     "Allow users to share via link" : "Να επιτρέπεται σε χρήστες ο διαμοιρασμός μέσω συνδέσμου",
     "Set default expiration date for link shares" : "Ορισμός προεπιλεγμένης ημερομηνίας λήξης για τους κοινόχρηστους συνδέσμους",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη στο παράθυρο διαλόγου κοινής χρήσης (εάν είναι απενεργοποιημένο, πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή η διεύθυνση email)",
-    "Restrict username autocompletion to users within the same groups" : "Περιορισμός της αυτόματης συμπλήρωσης του ονόματος χρήστη  σε χρήστες της ίδιας ομάδας",
     "No display name set" : "Δεν ορίστηκε όνομα",
     "For password reset and notifications" : "Για ανάκτηση συνθηματικού και ειδοποιήσεις"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

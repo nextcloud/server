@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Imàgines predefinidas",
     "Plain background" : "Isfundu simpre",
     "Insert from {productName}" : "Inserta dae {productName}",
-    "Get more widgets from the app store" : "Otene àteros trastos dae sa butega de is aplicatziones",
-    "Good night, {name}" : "Bonu note, {name}",
-    "Good night" : "Bonu note",
-    "Pick from files" : "Sèbera dae archìvios"
+    "Get more widgets from the app store" : "Otene àteros trastos dae sa butega de is aplicatziones"
 },
 "nplurals=2; plural=(n != 1);");

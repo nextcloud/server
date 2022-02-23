@@ -25,16 +25,6 @@
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
     "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Το όνομά σας αναφέρθηκε στο “{file}”, σε σχόλιο ενός χρήστη ο οποίος έχει πλέον διαγραφεί",
-    "{user} mentioned you in a comment on “{file}”" : "Ο {user} σας ανέφερε σε σχόλιο στο “{file}”",
-    "New comment …" : "Νέο σχόλιο …",
-    "Post" : "Δημοσίευση",
-    "Cancel" : "Ακύρωση",
-    "[Deleted user]" : "[Διαγραμμένος χρήστης]",
-    "More comments …" : "Περισσότερα σχόλια …",
-    "Save" : "Αποθήκευση",
-    "Allowed characters {count} of {max}" : "Επιτρεπόμενοι χαρακτήρες {count} από {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Παρουσιάστηκε σφάλμα κατά την ανάκτηση σχολίου με ID {id}",
-    "Error occurred while updating comment with id {id}" : "Ένα σφάλμα προέκυψε κατά την ενημέρωση του σχολίου με το id {id}",
-    "Error occurred while posting comment" : "Ένα σφάλμα προέκυψε κατά την δημοσίευση σχολίου"
+    "{user} mentioned you in a comment on “{file}”" : "Ο {user} σας ανέφερε σε σχόλιο στο “{file}”"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

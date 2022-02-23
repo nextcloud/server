@@ -399,9 +399,6 @@ OC.L10N.register(
     "Change password" : "Cambiar o contrasinal",
     "Use a second factor besides your password to increase security for your account." : "Empregue un segundo factor ademais do seu contrasinal para aumentar a seguridade da súa conta.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "  Se usa aplicacións de terceiros para conectarse a Nextcloud, asegúrese de crear e configurar un contrasinal de aplicación para cada unha antes de activar a autenticación de segundo factor.",
-    "Don't synchronize to servers" : "Non sincronizar con servidores",
-    "Trusted" : "De confianza",
-    "Public" : "Público",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "instalando e actualizando aplicacións mediante a tenda de aplicacións ou da nube federada compartida",
     "You need to set your user email before being able to send test emails." : "É necesario configurar o correo do usuario antes de poder enviar mensaxes de correo de proba.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "O revogado deste testemuño pode impedir a limpeza deste dispositivo se aínda non comezou.",
@@ -422,8 +419,6 @@ OC.L10N.register(
     "days" : "días",
     "Allow users to share via link" : "Permitir que os usuarios compartan a través de ligazóns",
     "Set default expiration date for link shares" : "Estabeleza a data de caducidade predeterminada para as ligazóns compartidas",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome de usuario na xanela de diálogo (se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e) ",
-    "Restrict username autocompletion to users within the same groups" : "Restrinxir o completado automático de nome de usuario a usuarios dentro dos mesmos grupos",
     "No display name set" : "Sen nome de usuario para amosar estabelecido",
     "For password reset and notifications" : "Para o restabelecemento de contrasinais e notificacións"
 },

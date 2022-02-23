@@ -233,7 +233,6 @@ OC.L10N.register(
     "invalid permissions" : "μη έγκυρα δικαιόματα",
     "Can't change permissions for public share links" : "Δεν μπορούμε να αλλάξουμε δικαιώματα για δημόσια διαμοιρασμένους συνδέσμους",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
-    "Name, email, or federated cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
     "Download %s" : "Λήψη %s"
 },
 "nplurals=2; plural=(n != 1);");

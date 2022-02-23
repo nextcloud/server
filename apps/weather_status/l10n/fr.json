@@ -44,7 +44,6 @@
     "There was an error saving the mode." : "Une erreur s'est produite lors de l'enregistrement du mode.",
     "There was an error using personal address." : "Une erreur s'est produite lors de l'utilisation de l'adresse personnelle.",
     "Set location for weather" : "Définir l'emplacement pour la météo",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "État météo intégré dans l'application de tableau de bord.\nLa position de l'utilisateur peut être déterminée automatiquement ou définie manuellement. Une prévision de 6 heures est alors affichée.\nCe statut peut également être intégré à d'autres endroits comme l'application Calendrier.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Ciel dégagé à {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nuageux à {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Beau jour à {time}",

@@ -356,7 +356,6 @@ OC.L10N.register(
     "New password" : "گذرواژه جدید",
     "Change password" : "تغییر گذر واژه",
     "Use a second factor besides your password to increase security for your account." : "برای افزایش امنیت حساب کاربری خود ، از یک عامل دوم علاوه بر رمز عبور خود استفاده کنید.",
-    "Public" : "عمومی",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "نصب و به روزرسانی برنامه ها از طریق فروشگاه برنامه یا اشتراک گذاری ابر فدرال",
     "You need to set your user email before being able to send test emails." : "شما باید قبل از ارسال ایمیل آزمایشی باید تنظیمات ایمیل کاربر را انجام دهید.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : " ابطال این نشانه ممکن است از هدر رفتن وسیله شما جلوگیری کند،اگر هنوز پاک نشده است.",

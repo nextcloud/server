@@ -387,9 +387,6 @@ OC.L10N.register(
     "New password" : "Нова лозинка",
     "Change password" : "Измени лозинку",
     "Use a second factor besides your password to increase security for your account." : "Поред лозинке, користите и други фактор да повећате безбедност Вашег налога.",
-    "Don't synchronize to servers" : "Не синхронизуј са сервером",
-    "Trusted" : "Од поверења",
-    "Public" : "Јавно",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Инсталирање и ажурирање апликација кроз продавницу или здруженом дељењу у облаку",
     "You need to set your user email before being able to send test emails." : "Морате поставити адресу е-поште пре слања тестне поруке.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Повлачење овог токена може онемогућити удаљено брисање овог уређаја, ако оно још није започето.",
@@ -410,8 +407,6 @@ OC.L10N.register(
     "days" : "дана",
     "Allow users to share via link" : "Дозволи корисницима да деле путем везе",
     "Set default expiration date for link shares" : "Постави подразумевано време истека веза дељења",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Дозволи самодовршавање корисничких имена у дијалогу за дељење (ако је ово искључено, корисник ће морати да унесе пуно корисничко име или адресу е-поште)",
-    "Restrict username autocompletion to users within the same groups" : "Ограничи ауто-довршавање корисничких имена само за кориснике из исте групе",
     "No display name set" : "Није постављено име за приказ",
     "For password reset and notifications" : "За ресетовање лозинке и обавештења"
 },

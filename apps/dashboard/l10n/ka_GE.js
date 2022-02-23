@@ -24,9 +24,6 @@ OC.L10N.register(
     "Default images" : "საწყისი სურათები",
     "Plain background" : "ცარიელი ფონი",
     "Insert from {productName}" : "შეავსეთ {productName}-დან",
-    "Get more widgets from the app store" : "გადმოწერე მეტი ვიჯეტები app store-დან.",
-    "Good night, {name}" : "ღამე მშვიდობის, {name}",
-    "Good night" : "ღამე მშვიდობის",
-    "Pick from files" : "აირჩიეთ ფაილებიდან"
+    "Get more widgets from the app store" : "გადმოწერე მეტი ვიჯეტები app store-დან."
 },
 "nplurals=2; plural=(n!=1);");
