@@ -121,4 +121,12 @@ class Manager implements IManager {
 		}
 		$this->provider->revertUserStatus($userId, $messageId, $status);
 	}
+
+	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
+		$this->setupProvider();
+		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+			return;
+		}
+		$this->provider->revertMultipleUserStatus($userIds, $messageId, $status);
+	}
 }

@@ -101,8 +101,7 @@ class UserStatusMapper extends QBMapper {
 		$qb
 			->select('*')
 			->from($this->tableName)
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($isBackup ? '_' . $userId : $userId, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter($isBackup, IQueryBuilder::PARAM_BOOL)));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($isBackup ? '_' . $userId : $userId, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntity($qb);
 	}
@@ -111,7 +110,7 @@ class UserStatusMapper extends QBMapper {
 	 * @param array $userIds
 	 * @return array
 	 */
-	public function findByUserIds(array $userIds):array {
+	public function findByUserIds(array $userIds): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
@@ -157,5 +156,58 @@ class UserStatusMapper extends QBMapper {
 			->andWhere($qb->expr()->lte('clear_at', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)));
 
 		$qb->execute();
+	}
+
+
+	/**
+	 * Deletes a user status so we can restore the backup
+	 *
+	 * @param string $userId
+	 * @param string $messageId
+	 * @param string $status
+	 * @return bool True if an entry was deleted
+	 */
+	public function deleteCurrentStatusToRestoreBackup(string $userId, string $messageId, string $status): bool {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
+			->andWhere($qb->expr()->eq('message_id', $qb->createNamedParameter($messageId)))
+			->andWhere($qb->expr()->eq('status', $qb->createNamedParameter($status)))
+			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
+		return $qb->executeStatement() > 0;
+	}
+
+	public function deleteByIds(array $ids): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+		$qb->executeStatement();
+	}
+
+	/**
+	 * @param string $userId
+	 * @return bool
+	 * @throws \OCP\DB\Exception
+	 */
+	public function createBackupStatus(string $userId): bool {
+		// Prefix user account with an underscore because user_id is marked as unique
+		// in the table. Starting a username with an underscore is not allowed so this
+		// shouldn't create any trouble.
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName)
+			->set('is_backup', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL))
+			->set('user_id', $qb->createNamedParameter('_' . $userId))
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		return $qb->executeStatement() > 0;
+	}
+
+	public function restoreBackupStatuses(array $ids): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName)
+			->set('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
+			->set('user_id', $qb->func()->substring('user_id', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+
+		$qb->executeStatement();
 	}
 }
