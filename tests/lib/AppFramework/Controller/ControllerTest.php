@@ -29,6 +29,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IRequestId;
+use OC\AppFramework\DependencyInjection\DIContainer;
 
 class ChildController extends Controller {
 	public function __construct($appName, $request) {
@@ -75,15 +77,11 @@ class ControllerTest extends \Test\TestCase {
 				'session' => ['sezession' => 'kein'],
 				'method' => 'hi',
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 
-		$this->app = $this->getMockBuilder('OC\AppFramework\DependencyInjection\DIContainer')
+		$this->app = $this->getMockBuilder(DIContainer::class)
 			->setMethods(['getAppName'])
 			->setConstructorArgs(['test'])
 			->getMock();

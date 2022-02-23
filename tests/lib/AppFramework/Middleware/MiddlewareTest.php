@@ -24,9 +24,12 @@
 namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Http\Request;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IConfig;
+use OCP\IRequestId;
+use OC\AppFramework\DependencyInjection\DIContainer;
 
 class ChildMiddleware extends Middleware {
 };
@@ -49,22 +52,22 @@ class MiddlewareTest extends \Test\TestCase {
 
 		$this->middleware = new ChildMiddleware();
 
-		$this->api = $this->getMockBuilder('OC\AppFramework\DependencyInjection\DIContainer')
+		$this->api = $this->getMockBuilder(DIContainer::class)
 				->disableOriginalConstructor()
 				->getMock();
 
-		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
+		$this->controller = $this->getMockBuilder(Controller::class)
 			->setMethods([])
 			->setConstructorArgs([
 				$this->api,
 				new Request(
 					[],
-					$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-					$this->getMockBuilder(IConfig::class)->getMock()
+					$this->createMock(IRequestId::class),
+					$this->createMock(IConfig::class)
 				)
 			])->getMock();
 		$this->exception = new \Exception();
-		$this->response = $this->getMockBuilder('OCP\AppFramework\Http\Response')->getMock();
+		$this->response = $this->getMockBuilder(Response::class)->getMock();
 	}
 
 
