@@ -27,16 +27,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Villa átti sér stað við að eyða athugasemdinni",
     "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Minnst var á þig í “{file}”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”",
-    "New comment …" : "Ný athugasemd ...",
-    "Post" : "Senda",
-    "Cancel" : "Hætta við",
-    "[Deleted user]" : "[Eyddur notandi]",
-    "More comments …" : "Fleiri athugasemdir ...",
-    "Save" : "Vista",
-    "Allowed characters {count} of {max}" : "Leyfður stafafjöldi {count} af {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Villa kom upp við að reyna að ná í ummæli með auðkenninu {id}",
-    "Error occurred while updating comment with id {id}" : "Villa kom upp við að reyna að uppfæra athugasemd með auðkenninu {id}",
-    "Error occurred while posting comment" : "Villa kom upp við að senda inn athugasemd"
+    "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

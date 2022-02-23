@@ -464,9 +464,6 @@ OC.L10N.register(
     "Change password" : "Промени лозинка",
     "Use a second factor besides your password to increase security for your account." : "Користете втор фактор и покрај вашата лозинка за да ја зголемите безбедноста на вашата сметка.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Доколку користите друга апликација за поврзување на Nextcloud, осигурајте се дека имате креирано лозинка за секоја апликација пред да овозможите втор фактор.",
-    "Don't synchronize to servers" : "Не синхронизирај со сервери",
-    "Trusted" : "Доверлив",
-    "Public" : "Јавно",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "инсталирање и ажурирање на апликации преку продавницата за апликации или Федерално споделување на облак",
     "You need to set your user email before being able to send test emails." : "Треба да ја поставите вашата  е-пошта адреса пред да можете да испратите тест пораки.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Одземањето на овој токен може да спречи бришење на вашиот уред ако сè уште не е избришано.",
@@ -487,8 +484,6 @@ OC.L10N.register(
     "days" : "денови",
     "Allow users to share via link" : "Допушти корисниците да споделуваат со линкови",
     "Set default expiration date for link shares" : "Постави основен рок на траење за споделувањата со линк",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Дозволи автоматско комплетирање во лентата за споделување. (Доколку ова е оневозможено потребно е да се внесе целосно корисничко име или адреса на е-пошта)",
-    "Restrict username autocompletion to users within the same groups" : "Ограничи автоматско комплетирање за корисници од исти групи",
     "No display name set" : "Нема поставено име за прикажување",
     "For password reset and notifications" : "За ресетирање на лозинка и известувања",
     "Set as primary mail" : "Постави како примарна е-пошта"

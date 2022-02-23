@@ -164,7 +164,6 @@
     "Storage connection timeout. %s" : "Storage connection timeout. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "This can usually be fixed by giving the webserver write access to the config directory",
     "Can't create or write into the data directory %s" : "Can't create or write into the data directory %s",
-    "Invalid Federated Cloud ID" : "Invalid Federated Cloud ID",
     "Can’t increase permissions of %s" : "Can’t increase permissions of %s",
     "Files can’t be shared with delete permissions" : "Files can’t be shared with delete permissions",
     "Files can’t be shared with create permissions" : "Files can’t be shared with create permissions",

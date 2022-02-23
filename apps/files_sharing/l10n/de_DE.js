@@ -253,7 +253,6 @@ OC.L10N.register(
     "invalid permissions" : "Ungültige Berechtigung",
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
-    "Name, email, or federated cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",
     "Download %s" : "Download %s",
     "Cannot change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden"
 },

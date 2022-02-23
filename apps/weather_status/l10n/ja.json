@@ -22,7 +22,6 @@
     "There was an error saving the mode." : "モードの保存時にエラーが発生しました",
     "There was an error using personal address." : "個人の住所使用時にエラーが発生しました",
     "Set location for weather" : "天気の地域設定",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "天気ウィジットはダッシュボードアプリに統合されています。ユーザーの現在地は自動または手動で設定でき、その地点の6時間予報が表示されます。このウィジットはカレンダーアプリなど他の場所にも統合させることができます。",
     "{temperature} {unit} Clear sky at {time}" : "{time} の天気は快晴、気温は {temperature} {unit}",
     "{temperature} {unit} Cloudy at {time}" : "{time} の天気は曇り、気温は {temperature} {unit}",
     "{temperature} {unit} Fair day at {time}" : "{time} の天気は晴れ、気温は {temperature} {unit}",

@@ -238,7 +238,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ou, si vous préférez conserver le fichier config.php en lecture seule, définissez l'option \"config_is_read_only\" sur true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire de configuration.",
     "Can't create or write into the data directory %s" : "Impossible de créer, ou d'écrire dans, le répertoire des données %s",
-    "Invalid Federated Cloud ID" : "ID Federated Cloud incorrect",
     "Can’t increase permissions of %s" : "Impossible d'augmenter les permissions de %s",
     "Files can’t be shared with delete permissions" : "Les fichiers ne peuvent pas être partagés avec les autorisations de suppression",
     "Files can’t be shared with create permissions" : "Les fichiers ne peuvent pas être partagés avec les autorisations de création",

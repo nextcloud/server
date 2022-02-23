@@ -228,9 +228,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Checking whether the database schema can be updated (this can take a long time depending on the database size)",
     "Checked database schema update" : "Checked database schema update",
     "Checking updates of apps" : "Checking updates of apps",
-    "Checking for update of app \"%s\" in appstore" : "Checking for update of app \"%s\" in appstore",
     "Update app \"%s\" from appstore" : "Update app \"%s\" from appstore",
-    "Checked for update of app \"%s\" in appstore" : "Checked for update of app \"%s\" in appstore",
     "Checked database schema update for apps" : "Checked database schema update for apps",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>.",
     "Check the background job settings" : "Check the background job settings",
@@ -244,8 +242,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.",
     "Continue to Nextcloud" : "Continue to Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["The update was successful. Redirecting you to Nextcloud in %n second.","The update was successful. Redirecting you to Nextcloud in %n seconds."],
-    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator.",
-    "Finish setup" : "Finish setup",
-    "Finishing …" : "Finishing …"
+    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -25,16 +25,6 @@
     "An error occurred while trying to delete the comment" : "حدث خطأ أثناء محاولة حذف التعليق",
     "An error occurred while trying to create the comment" : "حدث خطأ أثناء محاولة إنشاء التعليق",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "تمت الإشارة إليك على “{file}”, في تعليق بواسطة مستخدم تم حذفه منذ ذلك الحين",
-    "{user} mentioned you in a comment on “{file}”" : "{user} أشار إليك في تعليق على “{file}”",
-    "New comment …" : "تعليق جديد",
-    "Post" : "ارسال",
-    "Cancel" : "إلغاء",
-    "[Deleted user]" : "[مستخدم محذوف]",
-    "More comments …" : "مزيد من التعليقات...",
-    "Save" : "حفظ",
-    "Allowed characters {count} of {max}" : "عدد الأحرف المسموح بها {count} من {max}",
-    "Error occurred while retrieving comment with ID {id}" : "حدث خطأ عند محاولة إيجاد التعليق المعرف بـ {id}",
-    "Error occurred while updating comment with id {id}" : "حصل خطأ أثناء تعديل التعليق رقم {id}",
-    "Error occurred while posting comment" : "حصل خطأ أثناء إرسال التعليق"
+    "{user} mentioned you in a comment on “{file}”" : "{user} أشار إليك في تعليق على “{file}”"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

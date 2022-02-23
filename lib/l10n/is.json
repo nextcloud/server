@@ -193,7 +193,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory" : "Þetta er venjulega hægt að laga með því að gefa vefþjóninum skrifréttindi í stillingamöppuna",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Eða, ef þú vilt halda config.php skránni aðeins til lestrar, settu valkostinn \"config_is_read_only\" á 'true' í henni.",
     "Can't create or write into the data directory %s" : "Gat ekki búið til eða skrifað í gagnamöppuna %s",
-    "Invalid Federated Cloud ID" : "Ógilt skýjasambandsauðkenni (Federated Cloud ID)",
     "Can’t increase permissions of %s" : "Get ekki aukið aðgangsheimildir %s",
     "Files can’t be shared with delete permissions" : "Ekki er hægt að deila skrá með eyða-heimildum",
     "Files can’t be shared with create permissions" : "Ekki er hægt að deila skrá með búa-til-heimildum",

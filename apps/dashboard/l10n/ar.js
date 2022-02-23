@@ -26,9 +26,6 @@ OC.L10N.register(
     "Default images" : "الصور الإفتراضية",
     "Plain background" : "خلفية سادة",
     "Insert from {productName}" : "اضف من {productName}",
-    "Get more widgets from the app store" : "احصل على ودجات من متجر التطبيقات",
-    "Good night, {name}" : "تصبح على خير، {name}",
-    "Good night" : "تصبح على خير",
-    "Pick from files" : "اختر من الملفات"
+    "Get more widgets from the app store" : "احصل على ودجات من متجر التطبيقات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

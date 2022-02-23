@@ -231,7 +231,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "invalid permissions" : "vialliset oikeudet",
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
-    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
     "Download %s" : "Lataa %s"
 },
 "nplurals=2; plural=(n != 1);");

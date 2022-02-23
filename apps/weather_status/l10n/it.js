@@ -46,7 +46,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Si è verificato un errore durante il salvataggio della modalità.",
     "There was an error using personal address." : "Si è verificato un errore usando l'indirizzo personale.",
     "Set location for weather" : "Imposta la località per il meteo",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Meteo integrato nell'applicazione del cruscotto.\n    La posizione dell'utente può essere determinata automaticamente o definita a mano. Vengono poi mostrate previsioni per 6 ore.\n    Questo stato può anche essere integrato in altri posti come nell'applicazione Calendario.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Cielo sereno alle {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nuvoloso alle {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Giorno sereno alle {time}",

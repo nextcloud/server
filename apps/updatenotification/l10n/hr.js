@@ -44,7 +44,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Razvojna inačica koja služi samo za ispitivanje novih značajki, a nikako za produkcijska okruženja.",
     "Apps missing updates" : "Aplikacijama nedostaju ažuriranja",
     "Apps with available updates" : "Aplikacije s dostupnim ažuriranjima",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Imajte na umu da se nova izdanja mogu pojaviti ovdje tek nakon nekog dužeg vremena. Nove inačice uvodimo u pravilnim vremenskim razmacima i ponekad preskočimo inačicu ako je problematična.",
     "Only notification for app updates are available." : "Dostupne su samo obavijesti o ažuriranjima aplikacija.",
     "Checking apps for compatible updates" : "Provjera aplikacija za kompatibilna ažuriranja",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Neuspješno povezivanje s trgovinom aplikacijama ili je trgovina aplikacijama vratila da nema ažuriranja. Ručno potražite ažuriranja ili provjerite ima li vaš poslužitelj pristup internetu i može li se povezati s trgovinom aplikacijama.",

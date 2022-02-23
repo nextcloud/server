@@ -246,7 +246,6 @@ OC.L10N.register(
     "invalid permissions" : "érvénytelen jogosultságok",
     "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
-    "Name, email, or federated cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
     "Download %s" : "%s letöltése",
     "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait"
 },

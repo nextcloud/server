@@ -312,9 +312,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Athuga hvort hægt sé að uppfæra gagnagrunnsskema (þetta getur tekið langan tíma ef gagnagrunnurinn er mjög stór)",
     "Checked database schema update" : "Athugaði uppfærslu á gagnagrunnsskema.",
     "Checking updates of apps" : "Athuga með uppfærslur á öppum",
-    "Checking for update of app \"%s\" in appstore" : "Athuga með uppfærslur á \"%s\"-forriti í hugbúnaðarsafni",
     "Update app \"%s\" from appstore" : "Uppfæra \"%s\" úr hugbúnaðarsafni",
-    "Checked for update of app \"%s\" in appstore" : "Athugaði með uppfærslur á \"%s\"-forriti í hugbúnaðarsafni",
     "Checked database schema update for apps" : "Athugaði uppfærslu á gagnagrunnsskema fyrir öpp",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Vefþjónninn þinn er ekki uppsettur þannig að hann geti leyst \"{url}\". Frekari upplýsingar er að finna í <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">hjálparskjölum</a> okkar.",
     "Please check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Endilega skoðaðu <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">hjálparskjöl uppsetningarinnar ↗</a> varðandi athugasemdir vegna uppsetningar PHP og sjálfa uppsetningu PHP-þjónsins, Sérstaklega ef þú notar php-fpm.",
@@ -332,7 +330,6 @@
     "The PHP OPcache module is not loaded. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to load it into your PHP installation." : "PHP Opcache er ekki hlaðið inn. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Fyrir betri afköst mælum við með</a> því að nota eftirfarandi stillingar í <code>php.ini</code>:",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "PHP Opcache er ekki rétt uppsett. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Fyrir betri afköst mælum við með</a> því að nota eftirfarandi stillingar í <code>php.ini</code>:",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation ↗</a>." : "Til að yfirfæra í annan gagnagrunn skaltu nota skipanalínutólið: 'occ db:convert-type', eða lesa <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">hjálparskjölin ↗</a>.",
-    "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Notkun á innbyggðum php póstsendingum er ekki lengur studd. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Uppfærðu stillingar póstþjónsins þíns ↗<a/>.",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Frekari upplýsingar má sjá í <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">hjálparskjölunum</a>.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Gagnamappan og skrárnar þínar eru líklega aðgengilegar öllum af internetinu vegna þess að .htaccess skrá er ekki virk. Við mælum eindregið með að þú stillir vefþjóninn þinn á þann hátt að gagnamappa er ekki lengur aðgengileg eða þú færir gagnamöppu út fyrir skjalarót vefþjóns.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{link}\">W3C Recommendation ↗</a>." : "HTTP-hausinn \"{header}\" er ekki stilltur á \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" eða \"{val5}\". Þetta getur lekið upplýsingum um kerfið. Skoðaðu hvað <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{link}\">W3C mælir með ↗</a>.",
@@ -344,9 +341,6 @@
     "Password can not be changed. Please contact your administrator." : "Ekki er hægt að breyta lykilorði. Hafðu samband við kerfisstjóra.",
     "Could not fetch list of apps from the app store." : "Gat ekki sótt lista yfir forrit úr forritasafninu.",
     "Can't install this app because it is not compatible" : "Ekki er hægt að setja upp forritið því það er ekki samhæft",
-    "Can't install this app" : "Get ekki sett þetta forrit upp",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Dagatal, tengiliðir, spjall, póstur & samstarfsvinnsla",
-    "Finish setup" : "Ljúka uppsetningu",
-    "Finishing …" : "Að klára ..."
+    "Can't install this app" : "Get ekki sett þetta forrit upp"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

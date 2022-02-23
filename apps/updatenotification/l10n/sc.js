@@ -44,7 +44,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
     "Apps missing updates" : "Aplicatzione no agiornadas",
     "Apps with available updates" : "Aplicatziones cun agiornamentos a disponimentu",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Càstia chi, a pustis de una versione noa, bi diat pòdere chèrrere tempus in antis chi si bidat inoghe. Publicamus in su tempus versiones noas a is utentes nostros e, a bortas, brincamus una versione, si b'at problemas. ",
     "Only notification for app updates are available." : "Sunt a disponimentu isceti is notìficas pro is agiornamentos de is aplicatziones.",
     "Checking apps for compatible updates" : "Controlla is aplicatziones pro agiornamentos cumpatìbiles",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No at fatu a si connètere a sa butega de aplicatziones o a sa butega de aplicatziones no at torradu perunu agiornamentu. Chirca a manu is agiornamentos o segura·ti chi su serbidore potzat intrare a Internet e si potzat collegare a sa butega de aplicatziones.",

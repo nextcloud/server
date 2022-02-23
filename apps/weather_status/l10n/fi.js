@@ -24,7 +24,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Tilan tallennuksessa tapahtui virhe.",
     "There was an error using personal address." : "Henkilökohtaisen osoitteen käytössä tapahtui virhe.",
     "Set location for weather" : "Aseta sijainti säätiedoille",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Säätiedot integroituna konsoliin.\nKäyttäjän sijainti voidaan joko tunnistaa automaattisesti tai asettaa manuaalisesti. Sääennuste näytetään kuudelle tunnille.\nTiedot voidaan myös integroida muihin paikkoihin, kuten kalenterisovellukseen.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Kirkas taivas klo {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Pilvistä klo {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Pilvetöntä klo {time}",

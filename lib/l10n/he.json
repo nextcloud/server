@@ -177,7 +177,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "או, אם עדיף לך לשמור על config.php לקריאה בלבד, ניתן להגדיר את האפשרות „config_is_read_only” לערך true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "בדרך כלל ניתן לתקן זאת על ידי מתן גישת כתיבה לשרת לתיקיית ההגדרות (config).",
     "Can't create or write into the data directory %s" : "לא ניתן ליצור או לכתוב לתוך תיקיית הנתונים %s",
-    "Invalid Federated Cloud ID" : "זיהוי ענן מאוגד לא חוקי",
     "Can’t increase permissions of %s" : "לא ניתן לחזק את ההרשאות של %s",
     "Files can’t be shared with delete permissions" : "לא ניתן לשתף קבצים עם הרשאת מחיקה",
     "Files can’t be shared with create permissions" : "לא ניתן לשתף קבצים עם הרשאות יצירה",

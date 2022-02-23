@@ -35,7 +35,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Ha habido un error al guardar el modo.",
     "There was an error using personal address." : "Ha habido un error al ajustar la dirección personal.",
     "Set location for weather" : "Seleccione la ubicación para el tiempo",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Integración del estado del tiempo en la app dashboard.\n   La posición del panel puede ser automáticamente determinada o definida manualmente. El panel muestra una previsión de tiempo de las próximas 6 horas.\n   Este panel también puede ser integrado en otros sitios, como la app de Calendario.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Cielo despejado a las {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nublado a las {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Buen día a las {time}",

@@ -22,7 +22,6 @@
     "There was an error saving the mode." : "Prišlo je do napake med shranjevanjem načina.",
     "There was an error using personal address." : "Prišlo je do napake med uporabo osebnega naslova.",
     "Set location for weather" : "Nastavitev mesta za prikaz vremena",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Podatki o vremenu, ki so izpisani v nadzorni plošči.\n    Položaj uporabnika je lahko določen samodejno, ali pa vpisan ročno. Prikazana je 6 urna napoved vremena.\n    Ti podatki so lahko vključeni tudi na druga mesta, na primer v program Koledar.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} : po {time} se bo zjasnilo",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} : po {time} se bo pooblačilo",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} : po {time} bo prijetneje",

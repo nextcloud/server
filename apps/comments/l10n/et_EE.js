@@ -17,15 +17,6 @@ OC.L10N.register(
     "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"],
     "Comment" : "Kommentaar",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Sind mainiti \"{file}\", kommentaaris kasutataja poolt, mis on praeguseks kustutatud",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mainis sind faili “{file}” kommentaaris",
-    "New comment …" : "Uus kommentaar",
-    "Post" : "Postita",
-    "Cancel" : "Loobu",
-    "[Deleted user]" : "[Kustutatud kasutaja]",
-    "More comments …" : "Veel kommentaare ...",
-    "Save" : "Salvesta",
-    "Allowed characters {count} of {max}" : "Lubatud märkide arv {count}/{max}",
-    "Error occurred while updating comment with id {id}" : "Kommentaari {id} uuendamisel tekkis tõrge",
-    "Error occurred while posting comment" : "Viga kommentaari postitamisel"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mainis sind faili “{file}” kommentaaris"
 },
 "nplurals=2; plural=(n != 1);");

@@ -29,16 +29,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Ett fel uppstod när du försökte ta bort kommentaren",
     "An error occurred while trying to create the comment" : "Ett fel uppstod när du försökte skapa kommentaren",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du nämndes på “{file}” i en kommentar av en användare som nu har tagits bort",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\"",
-    "New comment …" : "Ny kommentar ...",
-    "Post" : "Skicka",
-    "Cancel" : "Avbryt",
-    "[Deleted user]" : "[Borttagen användare]",
-    "More comments …" : "Fler kommentarer ...",
-    "Save" : "Spara",
-    "Allowed characters {count} of {max}" : "Antal tillåtna tecken, {count} av {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Fel uppstod när kommentaren med ID {id} hämtades",
-    "Error occurred while updating comment with id {id}" : "Fel inträffade vid uppdatering av kommentar med id {id}",
-    "Error occurred while posting comment" : "Fel inträffade vid publicering av kommentar"
+    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\""
 },
 "nplurals=2; plural=(n != 1);");

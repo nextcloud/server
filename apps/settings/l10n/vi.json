@@ -245,7 +245,6 @@
     "Current password" : "Mật khẩu cũ",
     "New password" : "Mật khẩu mới",
     "Change password" : "Đổi mật khẩu",
-    "Public" : "Công khai",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Đang cài đặt và cập nhật ứng dụng từ app store hoặc Federated Cloud Sharing",
     "You need to set your user email before being able to send test emails." : "Bạn cần cài đặt email người dùng trước khi có thể gửi email kiểm tra.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Việc thu hồi tín chỉ này có thể ngăn việc xóa thiết bị của bạn nếu thiết bị chưa bắt đầu xóa.",

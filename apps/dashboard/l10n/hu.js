@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Alapértelmezett képek",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés innen: {productName}-",
-    "Get more widgets from the app store" : "Töltsön le további modulokat az alkalmazástárból",
-    "Good night, {name}" : "Jó éjszakát, {name}",
-    "Good night" : "Jó éjszakát",
-    "Pick from files" : "Választás a fájlok közül"
+    "Get more widgets from the app store" : "Töltsön le további modulokat az alkalmazástárból"
 },
 "nplurals=2; plural=(n != 1);");

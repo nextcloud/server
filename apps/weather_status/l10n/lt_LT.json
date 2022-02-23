@@ -24,7 +24,6 @@
     "There was an error saving the mode." : "Įrašant veikseną, įvyko klaida.",
     "There was an error using personal address." : "Naudojant asmeninį adresą, įvyko klaida.",
     "Set location for weather" : "Nustatyti vietą orams",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Orų būsena, integruota į skydelio programėlę.\n    Naudotojo vieta gali būti nustatyta automatiškai arba apibrėžta rankiniu būdu. Tuomet yra rodoma 6 valandų orų prognozė.\n    Ši būsena taip pat gali būti integruota kitose vietose, kaip, pavyzdžiui, kalendoriaus programėlėje.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Giedra ties {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Debesuota ties {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Giedra diena ties {time}",

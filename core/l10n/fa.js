@@ -215,14 +215,10 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "بررسی اینکه آیا طرح پایگاه داده می تواند به روز شود (این ممکن است بسته به اندازه پایگاه داده طولانی باشد)",
     "Checked database schema update" : "به روز رسانی طرح پایگاه داده بررسی شد",
     "Checking updates of apps" : "بررسی به روزرسانی های برنامه ها",
-    "Checking for update of app \"%s\" in appstore" : "بررسی به روزرسانی های برنامه \"%s\" در فروشگاه App",
     "Update app \"%s\" from appstore" : " \"%s\" به روز رسانی شد",
-    "Checked for update of app \"%s\" in appstore" : "بررسی به روزرسانی های برنامه %s",
     "Checked database schema update for apps" : "Checked database schema update for apps",
     "Continue to Nextcloud" : "ادامه به Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه ","به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه "],
-    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید .",
-    "Finish setup" : "اتمام نصب",
-    "Finishing …" : "در حال اتمام ..."
+    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید ."
 },
 "nplurals=2; plural=(n > 1);");

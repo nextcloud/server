@@ -481,9 +481,6 @@
     "Change password" : "Сменить пароль",
     "Use a second factor besides your password to increase security for your account." : "Чтобы повысить безопасность своей учётной записи, помимо пароля используйте второй фактор проверки подлинности.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Если вы используете сторонние приложения для подключения к Nextcloud, убедитесь что для них созданы и настроены пароли приложений, перед тем как активировать двухфакторную авторизацию.",
-    "Don't synchronize to servers" : "Не выполнять синхронизацию с серверами",
-    "Trusted" : "Доверенный",
-    "Public" : "Открытый",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "установка и обновление приложений через магазин приложений или федерацию облачных хранилищ",
     "You need to set your user email before being able to send test emails." : "Вы должны настроить ваш собственный адрес электронной почты прежде чем отправлять тестовые сообщения.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Если удаление данных с устройства не было инициировано, отзыв токена может сделать это невозможным.",
@@ -504,12 +501,10 @@
     "days" : "дней",
     "Allow users to share via link" : "Разрешить пользователям публикации через ссылки",
     "Set default expiration date for link shares" : "Установить срок действия ссылок общего доступа по умолчанию",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Разрешить автоматическое завершение имён при предоставлении доступа ( если его отключить, то имя пользователя или адрес email надо будет вводить вручную полностью)",
-    "Restrict username autocompletion to users within the same groups" : "Запретить автоматическое дополнение имён пользователей из других групп",
-    "No display name set" : "Отображаемое имя не указано",
-    "For password reset and notifications" : "Для восстановления пароля и уведомлений",
     "Change privacy level of full name" : "Изменить уровень конфиденциальности полного имени",
+    "No display name set" : "Отображаемое имя не указано",
     "Change privacy level of email" : "Изменить уровень конфиденциальности электронной почты",
+    "For password reset and notifications" : "Для восстановления пароля и уведомлений",
     "Set as primary mail" : "Использовать как основной адрес эл. почты"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

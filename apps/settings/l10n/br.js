@@ -383,9 +383,6 @@ OC.L10N.register(
     "New password" : "Ger-tremen nevez",
     "Change password" : "Cheñch ger-tremen",
     "Use a second factor besides your password to increase security for your account." : "Implijour un eil-elfenn d'ho ger-tremen a gwella urentez o c'hont.",
-    "Don't synchronize to servers" : "Na kempredit ket d'ar servijourioù",
-    "Trusted" : "Fiziet",
-    "Public" : "Publik",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "stalia ha nevesaat meziantoù dre ar stal meziantoù pe Federation Cloud Sharing",
     "You need to set your user email before being able to send test emails." : "Ret eo deoc'h lakaat ho postel implijer a-raok kas ar bostel test.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Digargañ ar jedouer a c'hell ampech an dilemel eus an dra ma n'eo ket bet kroget c'hoaz.",
@@ -406,7 +403,6 @@ OC.L10N.register(
     "days" : "devezh",
     "Allow users to share via link" : "Aotreañ an implijer da rannan dre liamm",
     "Set default expiration date for link shares" : "Lakaat un deizat termen dre ziouer evit al liamm rannañ",
-    "Restrict username autocompletion to users within the same groups" : "Aotreañ ar skrivañ otomatek eus anv an implijourien a zo er strollad nemetken.",
     "No display name set" : "Anv ardivink lakaet ebet",
     "For password reset and notifications" : "Evit ar gemenadennoù hag cheñch o ger-tremen"
 },

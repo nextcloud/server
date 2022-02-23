@@ -253,7 +253,6 @@ OC.L10N.register(
     "invalid permissions" : "無效的權限",
     "Can't change permissions for public share links" : "無法變更公開分享連結的權限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
-    "Name, email, or federated cloud ID …" : "名稱、電子郵件或雲端聯盟 ID……",
     "Download %s" : "下載 %s",
     "Cannot change permissions for public share links" : "無法變更公開分享連結的權限"
 },

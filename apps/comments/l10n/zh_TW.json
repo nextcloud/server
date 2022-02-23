@@ -25,16 +25,6 @@
     "An error occurred while trying to delete the comment" : "嘗試刪除留言時發生錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立留言時發生錯誤",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "一個已被刪除的使用者在「{file}」的留言中提到您",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 在「{file}」的留言中提到您",
-    "New comment …" : "新增留言……",
-    "Post" : "送出",
-    "Cancel" : "取消",
-    "[Deleted user]" : "[已刪除的使用者]",
-    "More comments …" : "其他留言……",
-    "Save" : "儲存",
-    "Allowed characters {count} of {max}" : "已輸入 {count} / 長度限制 {max}",
-    "Error occurred while retrieving comment with ID {id}" : "在擷取 ID {id} 的留言時發生錯誤",
-    "Error occurred while updating comment with id {id}" : "編輯留言 ID {id} 時發生錯誤",
-    "Error occurred while posting comment" : "張貼留言時發生錯誤"
+    "{user} mentioned you in a comment on “{file}”" : "{user} 在「{file}」的留言中提到您"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -27,16 +27,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Грешка приликом покушаја брисања коментара",
     "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Поменути сте на фајлу \"{file}\", у коментару који је оставио корисник који је од тада избрисан",
-    "{user} mentioned you in a comment on “{file}”" : "{user} Вас је поменуо у коментару на “{file}”",
-    "New comment …" : "Нови коментар …",
-    "Post" : "Објави",
-    "Cancel" : "Откажи",
-    "[Deleted user]" : "[Обрисан корисник]",
-    "More comments …" : "Преостали коментари …",
-    "Save" : "Сачувај",
-    "Allowed characters {count} of {max}" : "Дозвољених {count} знакова од {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Дошло је до грешке при прегледу коментара са идентификацијом {id}",
-    "Error occurred while updating comment with id {id}" : "Дошло је до грешке при ажурирању коментара са ознаком {id}",
-    "Error occurred while posting comment" : "Дошло је до грешке при објави коментара"
+    "{user} mentioned you in a comment on “{file}”" : "{user} Вас је поменуо у коментару на “{file}”"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

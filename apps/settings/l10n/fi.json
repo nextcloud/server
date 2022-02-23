@@ -433,9 +433,6 @@
     "Change password" : "Vaihda salasana",
     "Use a second factor besides your password to increase security for your account." : "Käytä toista vaihetta salasanasi lisäksi parantaaksesi tilisi tietoturvaa.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Jos yhdistät kolmannen osapuolen ohjelmia Nextcloudiin, määritä niille sovellussalasanat ennen kaksiosaisen todentamismenetelmän käyttöönottoa.",
-    "Don't synchronize to servers" : "Älä synkronoi palvelimille",
-    "Trusted" : "Luotettu",
-    "Public" : "Julkinen",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Sovellusten asennus tai päivitys sovelluskaupasta tai federoidusta pilvijaosta",
     "You need to set your user email before being able to send test emails." : "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta.",
     "Nextcloud iOS app" : "Nextcloudin iOS-sovellus",
@@ -455,12 +452,10 @@
     "days" : "päivän jälkeen",
     "Allow users to share via link" : "Salli käyttäjien jakaa linkkien kautta",
     "Set default expiration date for link shares" : "Aseta oletusarvoinen vanhenemispäivä linkkijaoille",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Salli käyttäjänimen automaattinen täydentäminen jakemisikkunassa (jos tämä on pois käytöstä, tulee koko käyttäjänimi tai sähköpostiosoite kirjoittaa)",
-    "Restrict username autocompletion to users within the same groups" : "Rajoita käyttäjänimen automaattista täydentämistä samoihin ryhmiin kuuluviin käyttäjiin",
-    "No display name set" : "Näyttönimeä ei ole asetettu",
-    "For password reset and notifications" : "Salasanan nollausta ja ilmoituksia varten",
     "Change privacy level of full name" : "Muuta koko nimen yksityisyystasoa",
+    "No display name set" : "Näyttönimeä ei ole asetettu",
     "Change privacy level of email" : "Muuta sähköpostin yksityisyystasoa",
+    "For password reset and notifications" : "Salasanan nollausta ja ilmoituksia varten",
     "Set as primary mail" : "Aseta ensisijaiseksi sähköpostiosoitteeksi"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

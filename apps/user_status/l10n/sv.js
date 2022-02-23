@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
     "Appear offline" : "Visa som frånkopplad",
-    "Clear status after" : "Rensa status efter",
     "What's your status?" : "Vad är din status?"
 },
 "nplurals=2; plural=(n != 1);");

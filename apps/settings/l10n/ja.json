@@ -470,9 +470,6 @@
     "Change password" : "パスワードを変更",
     "Use a second factor besides your password to increase security for your account." : "アカウントのセキュリティを強化するには、パスワード以外に2番目の要素を使用してください。",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "サードパーティのアプリケーションを使用してNextcloudに接続する場合は、二要素認証を有効にする前に必ずそれぞれのアプリパスワードを作成して設定してください。",
-    "Don't synchronize to servers" : "サーバーと同期しない",
-    "Trusted" : "信頼できる",
-    "Public" : "公開",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "アプリストアまたはクラウド連携共有から、アプリをインストールならびにアップデート",
     "You need to set your user email before being able to send test emails." : "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "ワイプが開始されていない場合、このトークンを無効にすると端末のワイプが無効になる可能性があります。",
@@ -493,12 +490,10 @@
     "days" : "日",
     "Allow users to share via link" : "URLリンクでの共有を許可する",
     "Set default expiration date for link shares" : "URL リンク共有のデフォルトの有効期限を設定する",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "共有ダイアログ中でユーザー名の自動補完を許可する。(この設定が無効の場合、完全なユーザー名またはメールアドレスを入力する必要があります)",
-    "Restrict username autocompletion to users within the same groups" : "ユーザー名の自動補完を同じグループ内のユーザーに制限する",
-    "No display name set" : "表示名が未設定",
-    "For password reset and notifications" : "パスワードリセットと通知用",
     "Change privacy level of full name" : "フルネームのプライバシーレベルを変更",
+    "No display name set" : "表示名が未設定",
     "Change privacy level of email" : "メールアドレスのプライバシーレベルを変更",
+    "For password reset and notifications" : "パスワードリセットと通知用",
     "Set as primary mail" : "基本メールアドレスに設定"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

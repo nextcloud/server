@@ -27,16 +27,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
     "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "T'ant mentovadu in “{file}”, in unu cummentu de un'utente chi ant cantzelladu",
-    "{user} mentioned you in a comment on “{file}”" : "{user} t'at mentovadu in unu cummentu in “{file}”",
-    "New comment …" : "Cummentu nou …",
-    "Post" : "Pùblica",
-    "Cancel" : "Annulla",
-    "[Deleted user]" : "[Utèntzia cantzellada]",
-    "More comments …" : "Àtero cummentos ...",
-    "Save" : "Sarva",
-    "Allowed characters {count} of {max}" : "Caràteres permìtidos {count} de {max}",
-    "Error occurred while retrieving comment with ID {id}" : "B'at àpidu un'errore in su recùperu de su cummentu cun ID {id}",
-    "Error occurred while updating comment with id {id}" : "B'at àpidu un'errore in s'agiornamentu de su cummentu cun id {id}",
-    "Error occurred while posting comment" : "B'at àpidu un'errore in sa publicatzione de su cummentu"
+    "{user} mentioned you in a comment on “{file}”" : "{user} t'at mentovadu in unu cummentu in “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

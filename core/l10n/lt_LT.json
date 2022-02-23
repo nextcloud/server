@@ -290,9 +290,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Tikrinama ar duomenų bazės struktūra gali būti atnaujinta (priklausomai nuo duomenų bazės dydžio, operacija gali ilgai užtrukti)",
     "Checked database schema update" : "Duomenų bazės struktūros naujinimas patikrintas",
     "Checking updates of apps" : "Tikrinami programėlių atnaujinimai",
-    "Checking for update of app \"%s\" in appstore" : "Programėlių parduotuvėje ieškoma atnaujinimo programėlei \"%s\"",
     "Update app \"%s\" from appstore" : "Atnaujinkite \"%s\" įskiepį iš programinės įrangos saugyklos",
-    "Checked for update of app \"%s\" in appstore" : "Atlikta atnaujinimų paieška įskiepiui \"%s\" programinės įrangos saugykloje",
     "Checked database schema update for apps" : "Duomenų bazės struktūra paruošta įskiepių atnaujinimui",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Jūsų svetainės serveris nėra sukonfiguruotas atpažinti \"{url}\". Daugiau informacijos rasite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacijoje</a>.",
     "Last background job execution ran {relativeTime}. Something seems wrong." : "Paskutinis foninis užduočių vykdymas buvo paleistas {relativeTime}. Atrodo, kad kažkas nutiko.",
@@ -306,8 +304,6 @@
     "Password can not be changed. Please contact your administrator." : "Slaptažodis negali būti pakeistas. Susisiekite su savo administratoriumi.",
     "Could not fetch list of apps from the app store." : "Nepavyko iš programėlių parduotuvės gauti programėlių sąrašo.",
     "Can't install this app because it is not compatible" : "Nepavyksta įdiegti šios programėlės, nes ji yra nesuderinama",
-    "Can't install this app" : "Nepavyksta įdiegti šios programėlės",
-    "Finish setup" : "Užbaigti sąranką",
-    "Finishing …" : "Užbaigiama…"
+    "Can't install this app" : "Nepavyksta įdiegti šios programėlės"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

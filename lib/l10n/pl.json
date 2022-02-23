@@ -256,7 +256,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Jeśli, albo wolisz zachować plik config.php tylko do odczytu, ustaw w nim opcję \"config_is_read_only\" na true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu config.",
     "Can't create or write into the data directory %s" : "Nie można tworzyć ani zapisywać w katalogu %s",
-    "Invalid Federated Cloud ID" : "Nieprawidłowy ID Chmury Federacyjnej",
     "Can’t increase permissions of %s" : "Nie można zwiększyć uprawnień %s",
     "Files can’t be shared with delete permissions" : "Pliki nie mogą zostać udostępnione z prawem do usuwania",
     "Files can’t be shared with create permissions" : "Pliki nie mogą zostać udostępnione z prawem do tworzenia",

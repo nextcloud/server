@@ -256,7 +256,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Nebo, pokud chcete mít soubor config.php pouze pro čtení, nastavte  v něm volbu „config_is_read_only“ na hodnotu true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Toto je obvykle možné vyřešit udělením webovému serveru oprávnění k zápisu do adresáře s nastaveními.",
     "Can't create or write into the data directory %s" : "Nedaří se vytvořit nebo zapisovat do datového adresáře %s",
-    "Invalid Federated Cloud ID" : "Neplatný identifikátor v rámci federovaného cloudu",
     "Can’t increase permissions of %s" : "Nelze zvýšit oprávnění %s",
     "Files can’t be shared with delete permissions" : "Soubory nelze sdílet s oprávněními k odstranění",
     "Files can’t be shared with create permissions" : "Soubory nelze sdílet s oprávněními k vytváření",

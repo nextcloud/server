@@ -246,7 +246,6 @@ OC.L10N.register(
     "invalid permissions" : "ogiltiga behörigheter",
     "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
-    "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ...",
     "Download %s" : "Hämta %s",
     "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar"
 },
