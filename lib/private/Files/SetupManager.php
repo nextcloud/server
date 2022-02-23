@@ -38,7 +38,7 @@ use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
-use OCP\Files\Events\Node\FilesystemTearedDownEvent;
+use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
@@ -201,6 +201,6 @@ class SetupManager {
 		$this->setupUsers = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
-		$this->eventDispatcher->dispatchTyped(new FilesystemTearedDownEvent());
+		$this->eventDispatcher->dispatchTyped(new FilesystemTornDownEvent());
 	}
 }

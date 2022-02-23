@@ -27,6 +27,10 @@ namespace OCA\Files_External\Tests;
 use OC\Files\Mount\Manager;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IMountProviderCollection;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class PersonalMountTest extends TestCase {
@@ -47,7 +51,12 @@ class PersonalMountTest extends TestCase {
 
 		$mount = new PersonalMount($storageService, $storageConfig, 10, $storage, '/foo');
 
-		$mountManager = new Manager();
+		$mountManager = new Manager(
+			$this->createMock(IEventLogger::class),
+			$this->createMock(IMountProviderCollection::class),
+			$this->createMock(IUserSession::class),
+			$this->createMock(IEventDispatcher::class)
+		);
 		$mountManager->addMount($mount);
 
 		$this->assertEquals([$mount], $mountManager->findByStorageId('dummy'));

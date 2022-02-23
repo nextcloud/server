@@ -31,14 +31,18 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OC\Files\SetupManager;
 use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IGroup;
@@ -102,9 +106,13 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->uid = $this->getUniqueID('user');
-		$this->createUser($this->uid, '');
-		$this->user = \OC::$server->getUserManager()->get($this->uid);
-		$this->mountManager = new \OC\Files\Mount\Manager();
+		$this->user = $this->createUser($this->uid, '');
+		$this->mountManager = new \OC\Files\Mount\Manager(
+			$this->createMock(IEventLogger::class),
+			$this->createMock(IMountProviderCollection::class),
+			$this->createMock(IUserSession::class),
+			$this->createMock(IEventDispatcher::class)
+		);
 		$this->clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
@@ -740,12 +748,12 @@ class ManagerTest extends TestCase {
 
 	private function assertNotMount($mountPoint) {
 		$mountPoint = rtrim($mountPoint, '/');
-		$mount = $this->mountManager->find($this->getFullPath($mountPoint));
-		if ($mount) {
+		try {
+			$mount = $this->mountManager->find($this->getFullPath($mountPoint));
 			$this->assertInstanceOf('\OCP\Files\Mount\IMountPoint', $mount);
 			$this->assertNotEquals($this->getFullPath($mountPoint), rtrim($mount->getMountPoint(), '/'));
-		} else {
-			$this->assertNull($mount);
+		} catch (NotFoundException $e) {
+
 		}
 	}
 

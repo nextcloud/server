@@ -45,6 +45,8 @@ class UserMountCacheTest extends TestCase {
 	private $fileIds = [];
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->fileIds = [];
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$config = $this->getMockBuilder(IConfig::class)

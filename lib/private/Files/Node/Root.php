@@ -40,7 +40,7 @@ use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\Events\Node\FilesystemTearedDownEvent;
+use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -102,7 +102,7 @@ class Root extends Folder implements IRootFolder {
 		$this->userMountCache = $userMountCache;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
-		$eventDispatcher->addListener(FilesystemTearedDownEvent::class, function () {
+		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
 			$this->userFolderCache = new CappedMemoryCache();
 		});
 	}

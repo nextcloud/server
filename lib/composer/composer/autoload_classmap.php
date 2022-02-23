@@ -271,7 +271,7 @@ return array(
     'OCP\\Files\\Events\\Node\\BeforeNodeRenamedEvent' => $baseDir . '/lib/public/Files/Events/Node/BeforeNodeRenamedEvent.php',
     'OCP\\Files\\Events\\Node\\BeforeNodeTouchedEvent' => $baseDir . '/lib/public/Files/Events/Node/BeforeNodeTouchedEvent.php',
     'OCP\\Files\\Events\\Node\\BeforeNodeWrittenEvent' => $baseDir . '/lib/public/Files/Events/Node/BeforeNodeWrittenEvent.php',
-    'OCP\\Files\\Events\\Node\\FilesystemTearedDownEvent' => $baseDir . '/lib/public/Files/Events/Node/FilesystemTearedDownEvent.php',
+    'OCP\\Files\\Events\\Node\\FilesystemTornDownEvent' => $baseDir . '/lib/public/Files/Events/Node/FilesystemTornDownEvent.php',
     'OCP\\Files\\Events\\Node\\NodeCopiedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeCopiedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeCreatedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeCreatedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeDeletedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeDeletedEvent.php',

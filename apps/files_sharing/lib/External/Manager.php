@@ -43,6 +43,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
@@ -599,8 +600,9 @@ class Manager {
 	}
 
 	public function removeShare($mountPoint): bool {
-		$mountPointObj = $this->mountManager->find($mountPoint);
-		if ($mountPointObj === null) {
+		try {
+			$mountPointObj = $this->mountManager->find($mountPoint);
+		} catch (NotFoundException $e) {
 			$this->logger->error('Mount point to remove share not found', ['mountPoint' => $mountPoint]);
 			return false;
 		}

@@ -300,7 +300,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\Events\\Node\\BeforeNodeRenamedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/BeforeNodeRenamedEvent.php',
         'OCP\\Files\\Events\\Node\\BeforeNodeTouchedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/BeforeNodeTouchedEvent.php',
         'OCP\\Files\\Events\\Node\\BeforeNodeWrittenEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/BeforeNodeWrittenEvent.php',
-        'OCP\\Files\\Events\\Node\\FilesystemTearedDownEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/FilesystemTearedDownEvent.php',
+        'OCP\\Files\\Events\\Node\\FilesystemTornDownEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/FilesystemTornDownEvent.php',
         'OCP\\Files\\Events\\Node\\NodeCopiedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeCopiedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeCreatedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeDeletedEvent.php',

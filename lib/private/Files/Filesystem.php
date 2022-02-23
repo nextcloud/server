@@ -43,7 +43,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Events\Node\FilesystemTearedDownEvent;
+use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ILogger;
@@ -336,7 +336,7 @@ class Filesystem {
 		self::$defaultInstance = new View($root);
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
-		$eventDispatcher->addListener(FilesystemTearedDownEvent::class, function () {
+		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
 			self::$defaultInstance = null;
 			self::$usersSetup = [];
 			self::$loaded = false;
