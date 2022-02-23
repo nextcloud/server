@@ -251,4 +251,65 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->insert($userStatus2);
 		$this->mapper->insert($userStatus3);
 	}
+
+	public function dataCreateBackupStatus(): array {
+		return [
+			[false, false, false],
+			[true, false, true],
+			[false, true, false],
+			[true, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataCreateBackupStatus
+	 * @param bool $hasStatus
+	 * @param bool $hasBackup
+	 * @param bool $backupCreated
+	 */
+	public function testCreateBackupStatus(bool $hasStatus, bool $hasBackup, bool $backupCreated): void {
+		if ($hasStatus) {
+			$userStatus1 = new UserStatus();
+			$userStatus1->setUserId('user1');
+			$userStatus1->setStatus('online');
+			$userStatus1->setStatusTimestamp(5000);
+			$userStatus1->setIsUserDefined(true);
+			$userStatus1->setIsBackup(false);
+			$userStatus1->setCustomIcon('🚀');
+			$userStatus1->setCustomMessage('Current');
+			$userStatus1->setClearAt(50000);
+			$this->mapper->insert($userStatus1);
+		}
+
+		if ($hasBackup) {
+			$userStatus1 = new UserStatus();
+			$userStatus1->setUserId('_user1');
+			$userStatus1->setStatus('online');
+			$userStatus1->setStatusTimestamp(5000);
+			$userStatus1->setIsUserDefined(true);
+			$userStatus1->setIsBackup(true);
+			$userStatus1->setCustomIcon('🚀');
+			$userStatus1->setCustomMessage('Backup');
+			$userStatus1->setClearAt(50000);
+			$this->mapper->insert($userStatus1);
+		}
+
+		if ($hasStatus && $hasBackup) {
+			$this->expectException(Exception::class);
+		}
+
+		self::assertSame($backupCreated, $this->mapper->createBackupStatus('user1'));
+
+		if ($backupCreated) {
+			$user1Status = $this->mapper->findByUserId('user1', true);
+			$this->assertEquals('_user1', $user1Status->getUserId());
+			$this->assertEquals(true, $user1Status->getIsBackup());
+			$this->assertEquals('Current', $user1Status->getCustomMessage());
+		} else if ($hasBackup) {
+			$user1Status = $this->mapper->findByUserId('user1', true);
+			$this->assertEquals('_user1', $user1Status->getUserId());
+			$this->assertEquals(true, $user1Status->getIsBackup());
+			$this->assertEquals('Backup', $user1Status->getCustomMessage());
+		}
+	}
 }
