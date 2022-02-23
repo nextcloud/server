@@ -22,7 +22,7 @@
 
 <template>
 	<div id="app-content" class="user-list-grid" @scroll.passive="onScroll">
-		<Modal v-if="showConfig.showNewUserForm" @close="closeModal">
+		<Modal v-if="showConfig.showNewUserForm" size="small" @close="closeModal">
 			<form id="new-user"
 				:disabled="loading.all"
 				class="modal__content"
@@ -598,7 +598,6 @@ export default {
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		overflow: auto;
 	}
 	.modal__item {
 		margin-bottom: 16px;
