@@ -481,9 +481,6 @@
     "Change password" : "Changer de mot de passe",
     "Use a second factor besides your password to increase security for your account." : "Utiliser un second facteur d'authentification en plus de votre mot de passe pour augmenter la sécurité de votre compte.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si vous utilisez des applications tierces pour vous connecter à Nextcloud, assurez-vous de créer et de configurer un mot de passe d'application pour chacune avant d'activer l'authentification à deux facteurs.",
-    "Don't synchronize to servers" : "Ne pas synchroniser avec les serveurs",
-    "Trusted" : "Approuvé",
-    "Public" : "Publique",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "le partage Federated Cloud ou l'installation et la mise à jour d'applications par l'app store",
     "You need to set your user email before being able to send test emails." : "Vous devez définir une adresse e-mail dans vos paramètres personnels avant de pouvoir envoyer des e-mails de test.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Révoquer ce jeton peut empêcher l'effacement de votre appareil s'il n'a pas encore démarré l'effacement.",
@@ -504,12 +501,10 @@
     "days" : "jours",
     "Allow users to share via link" : "Autoriser les utilisateurs à partager par lien",
     "Set default expiration date for link shares" : "Date d'expiration par défaut pour les partages par lien",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Activer l'autocomplétion des noms d'utilisateurs dans la fenêtre de partage (Si cette option est désactivée, les noms complets ou les adresses e-mail doivent être indiqués)",
-    "Restrict username autocompletion to users within the same groups" : "Limiter la saisie automatique du nom d'utilisateur aux utilisateurs appartenant aux mêmes groupes",
-    "No display name set" : "Aucun nom d'affichage configuré",
-    "For password reset and notifications" : "Pour la réinitialisation du mot de passe et les notifications",
     "Change privacy level of full name" : "Changer le niveau de confidentialité du nom complet",
+    "No display name set" : "Aucun nom d'affichage configuré",
     "Change privacy level of email" : "Changer le niveau de confidentialité de l'e-mail",
+    "For password reset and notifications" : "Pour la réinitialisation du mot de passe et les notifications",
     "Set as primary mail" : "Définir comme e-mail principal"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

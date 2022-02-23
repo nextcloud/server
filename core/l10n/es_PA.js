@@ -214,9 +214,7 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Verificando si el archivo del esquema de base de datos puede ser actualizado (esto puedo tomar mucho tiempo dependiendo del tamaño de la base de datos)",
     "Checked database schema update" : "Actualización del esquema de base de datos verificada",
     "Checking updates of apps" : "Verificando actualizaciones para aplicaciones",
-    "Checking for update of app \"%s\" in appstore" : "Verificando actualizaciones para la aplicacion \"%s\" en la appstore",
     "Update app \"%s\" from appstore" : "Actualizar la aplicación \"%s\" desde la appstore",
-    "Checked for update of app \"%s\" in appstore" : "Se verificaron actualizaciones para la aplicación \"%s\" en la appstore",
     "Checked database schema update for apps" : "Se verificó la actualización del esquema de la base de datos para las aplicaciones",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Tu servidor web no está correctamente configurado para resolver \"{url}\". Puedes encontrar más información al respecto en la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "El servidor no cuenta con una conexión a Internet: No se pudieron alcanzar múltiples endpoints. Esto significa que algunas características como montar almacenamiento externo, notificaciones de actualizaciones o instalación de aplicaciones de 3ros no funcionarán correctamente. Acceder archivos de forma remota y el envío de de notificaciones por correo electrónico puede que no funcionen tampoco. Establece una conexión desde este servidor a Internet para aprovechar todas las funcionalidades.",
@@ -229,8 +227,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Probablemente tu directorio de datos y archivos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Se recomienda ampliamente que configures tu servidor web para que el directorio de datos no sea accesible, o bien, que muevas el directorio de datos fuera del directorio raíz del servidor web.",
     "Continue to Nextcloud" : "Continuar a Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundo. ","La actualización fue exitosa. Te redireccionaremos a Nextcloud en %n segundos."],
-    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador",
-    "Finish setup" : "Terminar configuración",
-    "Finishing …" : "Terminando …"
+    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador"
 },
 "nplurals=2; plural=(n != 1);");

@@ -390,9 +390,6 @@ OC.L10N.register(
     "Change password" : "Canvia la contrasenya",
     "Use a second factor besides your password to increase security for your account." : "Feu servir un segon factor a més de la vostra contrasenya per augmentar la seguretat del vostre compte.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si utilitzeu aplicacions de tercers per a connectar-vos a Nextcloud, assegureu-vos de crear i configurar una contrasenya d'aplicació per a cadascuna abans d'habilitar l'autenticació de segon factor.",
-    "Don't synchronize to servers" : "No sincronitzeu amb els servidors",
-    "Trusted" : "De confiança",
-    "Public" : "Públic",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "s’està instal·lant i actualitzant aplicacions mitjançant la botiga d'aplicacions o la compartició de núvols federats",
     "You need to set your user email before being able to send test emails." : "Heu d'establir un nom d'usuari abans de poder enviar correus de prova.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Revocant aquest token impedirà la neteja del vostre dispositiu si encara no ha començat.",
@@ -413,8 +410,6 @@ OC.L10N.register(
     "days" : "dies",
     "Allow users to share via link" : "Permet als usuaris compartir mitjançant enllaços",
     "Set default expiration date for link shares" : "Estableix la data de caducitat per defecte per a enllaços de compartició",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permet la compleció automàtica en el diàleg de compartició (si es desactiva caldrà introduir el nom d'usuari complet i l'adreça de correu electrònic)",
-    "Restrict username autocompletion to users within the same groups" : "Restringeix autocompletar nom d'usuari per usuaris en els mateixos grups",
     "No display name set" : "No s'ha establert cap nom para mostrar",
     "For password reset and notifications" : "Per restablir la contrasenya i notificacions"
 },

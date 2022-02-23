@@ -205,7 +205,6 @@
     "Storage connection timeout. %s" : "Tempo de ligação ao armazenamento expirou. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Isto normalmente pode ser resolvido, dando ao servidor da Web direitos de gravação para a diretoria de configuração",
     "Can't create or write into the data directory %s" : "Não é possível criar ou escrever a directoria data %s",
-    "Invalid Federated Cloud ID" : "Id. de Nuvem Federada Inválida",
     "Can’t increase permissions of %s" : "Não é possível aumentar as permissões de %s",
     "Files can’t be shared with delete permissions" : "Ficheiros não podem ser partilhados com permissões de apagar",
     "Files can’t be shared with create permissions" : "Ficheiros não podem ser partilhados com permissões de criação",

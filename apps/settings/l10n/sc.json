@@ -32,7 +32,7 @@
     "{actor} removed {user} from group {group}" : "{actor} nch'at bogadu a {user} dae su grupu {group}",
     "An administrator removed you from group {group}" : "Un'utente de s'amministratzione ti nch'at bogadu dae su grupu {group}",
     "An administrator removed {user} from group {group}" : "Un'utente de s'amministratzione nch'at bogadu a {user} dae su grupu {group}",
-    "Your <strong>group memberships</strong> were modified" : "Is<strong>partetzipadas a is grupos</strong> tuas sunt istadas modificadas",
+    "Your <strong>group memberships</strong> were modified" : "Is <strong>partetzipadas a is grupos</strong> tuas sunt istadas modificadas",
     "{actor} changed your password" : "{actor} at cambiadu sa crae tua",
     "You changed your password" : "As cambiadu sa crae tua",
     "Your password was reset by an administrator" : "S'amministratzione at torradu a impostare sa crae tua",
@@ -50,7 +50,7 @@
     "A login attempt using two-factor authentication failed (%1$s)" : "Unu tentativu de atzessu cun autenticatzione a duos fatores est faddidu (%1$s)",
     "Remote wipe was started on %1$s" : "Cantzelladura remota aviada in %1$s",
     "Remote wipe has finished on %1$s" : "Cantzelladura remota acabbada in %1$s",
-    "Your <strong>password</strong> or <strong>email</strong> was modified" : "S'at modificadu sa <strong>crae</strong> o su<strong>indiritzu de posta</strong> tuo",
+    "Your <strong>password</strong> or <strong>email</strong> was modified" : "S'at modificadu sa <strong>crae</strong> o s'<strong>indiritzu de posta</strong> tuo",
     "Couldn't remove app." : "Impossìbile a bogare s'aplicatzione.",
     "Couldn't update app." : "Impossìbile a agiornare s'aplicatzione.",
     "Wrong password" : "Crae isballiada",
@@ -430,9 +430,6 @@
     "Change password" : "Càmbia crae",
     "Use a second factor besides your password to increase security for your account." : "Imprea unu segundu fatore a parte sa crae tua pro crèschere sa seguresa de su contu tuo.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si impreas aplicatziones de sa de tres partes pro ti connètere a Nextcloud, assegura•ti de creare e cunfigurare una crae pro cada aplicatzione antis de ativare su segundu fatore de autenticatzione.",
-    "Don't synchronize to servers" : "No sincronizes cun perunu serbidore",
-    "Trusted" : "Fidadu",
-    "Public" : "Pùblicu",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "installatzione e s'agiornamentu de is aplicatziones tràmite sa butega de is aplicatziones o sa cumpartzidura in sa nue federada",
     "You need to set your user email before being able to send test emails." : "Deves impostare s'indiritzu de s'utente in antis de proare a imbiare is messàgios de posta.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Sa rèvoca de custu token diat pòdere impedire sa cantzelladura de su dispositivu si no est cumintzada ancora.",
@@ -453,11 +450,9 @@
     "days" : "dies",
     "Allow users to share via link" : "Permite a is utentes de cumpartzire tràmite ligòngios",
     "Set default expiration date for link shares" : "Imposta sa data de iscadèntzia predefinida pro is ligòngios de cumpartzidura",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permite sa cumponidura automàtica in is ventanas de cumpartzidura (si custu est disativadu at a tocare a nche insertare su nùmene cumpletu o s'indiritzu de posta eletrònica)",
-    "Restrict username autocompletion to users within the same groups" : "Lìmita sa cumponidura automàtica de su nùmene de utente a is utentes de su matessi grupu",
-    "No display name set" : "Nùmene visualizadu no impostadu",
-    "For password reset and notifications" : "Pro impostare torra sa crae e notìficas ",
     "Change privacy level of full name" : "Càmbia su livellu de riservadesa de su nùmene cumpletu",
-    "Change privacy level of email" : "Càmbia su livellu de riservadesa de sa posta eletrònica"
+    "No display name set" : "Nùmene visualizadu no impostadu",
+    "Change privacy level of email" : "Càmbia su livellu de riservadesa de sa posta eletrònica",
+    "For password reset and notifications" : "Pro impostare torra sa crae e notìficas "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

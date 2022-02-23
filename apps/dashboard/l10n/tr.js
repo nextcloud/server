@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Varsayılan görseller",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
-    "Get more widgets from the app store" : "Uygulama mağazasından başka pano bileşenleri alın",
-    "Good night, {name}" : "İyi geceler, {name}",
-    "Good night" : "İyi geceler",
-    "Pick from files" : "Dosyalardan seçin"
+    "Get more widgets from the app store" : "Uygulama mağazasından başka pano bileşenleri alın"
 },
 "nplurals=2; plural=(n > 1);");

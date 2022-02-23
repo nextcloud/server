@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Gambar bawaan",
     "Plain background" : "Latar belakang polos",
     "Insert from {productName}" : "Sisipkan dari {productName}",
-    "Get more widgets from the app store" : "Dapatkan lebih banyak widget dari app store",
-    "Good night, {name}" : "Selamat malam, {name}",
-    "Good night" : "Selamat malam",
-    "Pick from files" : "Pilih dari file"
+    "Get more widgets from the app store" : "Dapatkan lebih banyak widget dari app store"
 },
 "nplurals=1; plural=0;");

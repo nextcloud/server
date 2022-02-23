@@ -485,9 +485,6 @@
     "Change password" : "修改密码",
     "Use a second factor besides your password to increase security for your account." : "使用除您密码之外的第二种方法来增强您账号的安全性。",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "如果您使用第三方应用程序连接到 Nextcloud，请确保在启用第二因素身份验证之前为每个应用程序创建和配置应用程序密码。",
-    "Don't synchronize to servers" : "不要同步到服务器",
-    "Trusted" : "受信任",
-    "Public" : "公开",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "通过应用程序商店或联合云共享安装和更新应用程序",
     "You need to set your user email before being able to send test emails." : "在发送测试邮件前您需要设置您的电子邮件地址。",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "如果擦除操作还未开始，撤销此令牌可能会妨碍对您设备的擦除操作",
@@ -508,12 +505,10 @@
     "days" : "天",
     "Allow users to share via link" : "允许用户通过链接共享文件",
     "Set default expiration date for link shares" : "设置链接共享的默认到期日期",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "允许在共享对话框中自动补全用户名。（如果被禁用，则需要输入完整的用户名或电子邮件地址。）",
-    "Restrict username autocompletion to users within the same groups" : "将用户名自动补全限制为相同组中的用户",
-    "No display name set" : "不显示名称设置",
-    "For password reset and notifications" : "用于密码重置和通知",
     "Change privacy level of full name" : "更改全名的隐私级别",
+    "No display name set" : "不显示名称设置",
     "Change privacy level of email" : "更改电子邮件的隐私级别",
+    "For password reset and notifications" : "用于密码重置和通知",
     "Set as primary mail" : "设为主邮件地址"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

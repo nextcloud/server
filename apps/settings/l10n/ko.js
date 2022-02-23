@@ -327,7 +327,6 @@ OC.L10N.register(
     "New password" : "새 암호",
     "Change password" : "암호 변경",
     "Use a second factor besides your password to increase security for your account." : "사용자의 계정을 더욱 안전하게 보호하기 위해 암호와 함께 2단계 인증을 사용하세요.",
-    "Public" : "공개",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "앱 스토어 및 연합 클라우드 공유로 앱 설치 및 업데이트",
     "You need to set your user email before being able to send test emails." : "테스트 이메일을 보내기 전 내 주소를 설정해야 합니다.",
     "Add user in group" : "그룹에 사용자 추가",

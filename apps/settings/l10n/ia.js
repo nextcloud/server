@@ -129,7 +129,6 @@ OC.L10N.register(
     "Current password" : "Contrasigno actual",
     "New password" : "Nove contrasigno",
     "Change password" : "Cambiar contrasigno",
-    "Public" : "Public",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Installation e actualisation de applicationes via le App Store o Compartimento del Nube Federate",
     "You need to set your user email before being able to send test emails." : "Tu debe configurar tu e-posta de usator ante esser capace a inviar e-posta de test.",
     "Close" : "Clauder",

@@ -208,7 +208,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "invalid permissions" : "Ugyldige rettigheter",
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
-    "Name, email, or federated cloud ID …" : "Navn, epost eller sammenknyttet sky-ID ...",
     "Download %s" : "Last ned %s",
     "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker"
 },

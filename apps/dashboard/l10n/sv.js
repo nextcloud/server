@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Standardbilder",
     "Plain background" : "Enkel bakgrund",
     "Insert from {productName}" : "Infoga från {productName}",
-    "Get more widgets from the app store" : "Hämta fler widgets från app store",
-    "Good night, {name}" : "Godnatt, {name}",
-    "Good night" : "Godnatt",
-    "Pick from files" : "Välj från filer"
+    "Get more widgets from the app store" : "Hämta fler widgets från app store"
 },
 "nplurals=2; plural=(n != 1);");

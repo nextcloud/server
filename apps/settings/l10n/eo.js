@@ -350,7 +350,6 @@ OC.L10N.register(
     "New password" : "Nova pasvorto",
     "Change password" : "Ŝanĝi la pasvorton",
     "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton.",
-    "Public" : "Publika",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "instalado kaj ĝisdatigo de aplikaĵoj per aplikaĵejo aŭ Federnuba Kunhavado",
     "You need to set your user email before being able to send test emails." : "Vi bezonas agordi vian retpoŝtadreso, antaŭ ol povi sendi provan retmesaĝon.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Senvalido de tiu ĉi ĵetono eble malhelpos forviŝadon de via aparato, se ĝi ankoraŭ ne komencis forviŝadon.",

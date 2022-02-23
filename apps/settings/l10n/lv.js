@@ -162,7 +162,6 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
-    "Public" : "Publisks",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "lietotņu instalēšana un atjaunināšana, izmantojot lietotņu veikalu vai Federatīvo Cloud koplietošanu",
     "You need to set your user email before being able to send test emails." : "Nepieciešams norādīt sava lietotāja e-pasta adresi, lai nosūtīta testa e-pastus.",
     "Close" : "Aizvērt",

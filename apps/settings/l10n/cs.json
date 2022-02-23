@@ -486,9 +486,6 @@
     "Change password" : "Změnit heslo",
     "Use a second factor besides your password to increase security for your account." : "Pro zlepšení zabezpečení vašeho účtu použijte vedle hesla také druhý faktor.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Pokud pro připojování se k Nextcloud používáte aplikace třetích stran, nezapomeňte před zapnutím ověřování druhým faktorem vytvořit pro jednotlivé aplikace jejich hesla.",
-    "Don't synchronize to servers" : "Nesynchronizovat na servery",
-    "Trusted" : "Důvěryhodné",
-    "Public" : "Veřejné",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Instalovat a aktualizovat aplikace prostřednictvím katalogu nebo federované cloudové sdílení",
     "You need to set your user email before being able to send test emails." : "Pro možnost odeslání zkušebních e-mailů musíte nejprve nastavit svou e-mailovou adresu.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Odstranění tohoto tokenu může zabránit vymazání obsahu přístroje, pokud nebyl proces vymazání do teď zahájen.",
@@ -509,12 +506,10 @@
     "days" : "dnech",
     "Allow users to share via link" : "Povolit uživatelům sdílet pomocí odkazů",
     "Set default expiration date for link shares" : "Nastavit výchozí datum skončení platností pro sdílení odkazem",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Povolit automatické dokončení uživatelského jména v dialogovém okně sdílení (pokud je tato volba zakázána, je třeba zadat úplné uživatelské jméno nebo e-mailovou adresu).",
-    "Restrict username autocompletion to users within the same groups" : "Omezit automatické doplňování uživatelského jména na uživatele ve stejných skupinách",
-    "No display name set" : "Nenastaveno žádné zobrazované jméno",
-    "For password reset and notifications" : "Pro znovunastavení hesla a upozorňování",
     "Change privacy level of full name" : "Změnit úroveň soukromí pro celé jméno",
+    "No display name set" : "Nenastaveno žádné zobrazované jméno",
     "Change privacy level of email" : "Změnit úroveň soukromí e-mailu",
+    "For password reset and notifications" : "Pro znovunastavení hesla a upozorňování",
     "Set as primary mail" : "Nastavit jako hlavní e-mai"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

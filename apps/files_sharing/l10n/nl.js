@@ -246,7 +246,6 @@ OC.L10N.register(
     "invalid permissions" : "Ongeldige machtigingen",
     "Can't change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
-    "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …",
     "Download %s" : "Download %s",
     "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen"
 },

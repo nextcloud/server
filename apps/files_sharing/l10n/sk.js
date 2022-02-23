@@ -253,7 +253,6 @@ OC.L10N.register(
     "invalid permissions" : "neplatné oprávnenia",
     "Can't change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý",
-    "Name, email, or federated cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
     "Download %s" : "Stiahnuť %s",
     "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy"
 },

@@ -26,16 +26,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Bandant ištrinti komentarą, įvyko klaida",
     "An error occurred while trying to create the comment" : "Bandant sukurti komentarą, įvyko klaida",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Jus “{file}” komentare paminėjo naudotojas, kuris nuo to laiko buvo ištrintas",
-    "{user} mentioned you in a comment on “{file}”" : "{user} paminėjo jus komentare “{file}”",
-    "New comment …" : "Naujas komentaras…",
-    "Post" : "Paskelbti",
-    "Cancel" : "Atsisakyti",
-    "[Deleted user]" : "[Ištrintas naudotojas]",
-    "More comments …" : "Daugiau komentarų…",
-    "Save" : "Įrašyti",
-    "Allowed characters {count} of {max}" : "Leidžiami simboliai {count} iš {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Klaida gaunant komentarą, kurio ID {id}",
-    "Error occurred while updating comment with id {id}" : "Klaida atnaujinant komentarą, kurio id {id}",
-    "Error occurred while posting comment" : "Skelbiant komentarą, įvyko klaida"
+    "{user} mentioned you in a comment on “{file}”" : "{user} paminėjo jus komentare “{file}”"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

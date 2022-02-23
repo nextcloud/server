@@ -28,16 +28,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Une erreur s'est produite lors de la tentative de suppression du commentaire",
     "An error occurred while trying to create the comment" : "Une erreur s'est produite lors de la tentative de création du commentaire",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Vous avez été mentionné sur \"{file}\", dans un commentaire par un utilisateur qui a été supprimé depuis lors.",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vous a mentionné⋅e dans un commentaire sur “{file}”",
-    "New comment …" : "Nouveau commentaire...",
-    "Post" : "Poster",
-    "Cancel" : "Annuler",
-    "[Deleted user]" : "[Utilisateur supprimé]",
-    "More comments …" : "Plus de commentaires ...",
-    "Save" : "Enregistrer",
-    "Allowed characters {count} of {max}" : "{count} sur {max} caractères autorisés",
-    "Error occurred while retrieving comment with ID {id}" : "Une erreur est survenue lors de la récupération du commentaire avec l'ID {id}",
-    "Error occurred while updating comment with id {id}" : "Une erreur est survenue lors de la mise à jour du commentaire avec l'id {id}",
-    "Error occurred while posting comment" : "Une erreur est survenue lors de l'envoi du commentaire"
+    "{user} mentioned you in a comment on “{file}”" : "{user} vous a mentionné⋅e dans un commentaire sur “{file}”"
 },
 "nplurals=2; plural=(n > 1);");

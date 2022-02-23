@@ -162,7 +162,6 @@
     "Storage connection timeout. %s" : "საცავის კავშირის დროის ამოწურვა. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის კონფიგურაციის დირექტორიაზე წერის უფლებების მინიჭებით",
     "Can't create or write into the data directory %s" : "მონაცემების დირექტრიის შექმნა ან მასში ჩაწერა ვერ მოხერხდა %s",
-    "Invalid Federated Cloud ID" : "არასწორი ფედერალური ქლაუდ ID",
     "Can’t increase permissions of %s" : "%s-ის უფლებების გაზრდა ვერ მოხერხდა",
     "Files can’t be shared with delete permissions" : "ფაილები გაუქმების უფლებით ვერ გაზიარდება",
     "Files can’t be shared with create permissions" : "ფაილები შექმნის უფლებებით ვერ გაზიარდება",

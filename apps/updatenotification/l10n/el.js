@@ -37,7 +37,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
     "Apps missing updates" : "Ελλιπείς ενημερώσεις εφαρμογών",
     "Apps with available updates" : "Εφαρμογές με διαθέσιμες ενημερώσεις",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Σημειώστε ότι μετά από μια νέα διανομή μπορεί να περάσει λίγος καιρός πριν εμφανιστεί εδώ. Κυκλοφορούμε κατά διαστήματα νέες εκδόσεις στους χρήστες μας και κάποιες φορές παραλείπουμε κάποια έκδοση αν βρεθούν προβλήματα.",
     "Only notification for app updates are available." : "Είναι μόνο διαθέσιμες οι ενημερώσεις για την εφαρμογή",
     "Checking apps for compatible updates" : "Έλεγχος εφαρμογών για συμβατές ενημερώσεις",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Αδυναμία σύνδεσης στο κατάστημα εφαρμογών, ή το κατάστημα εφαρμογών δεν εξέδωσε καμία ενημέρωση. Αναζητήστε χειροκίνητα ενημερώσεις ή βεβαιωθείτε ότι ο εξυπηρετητής έχει πρόσβαση στο διαδίκτυο και μπορεί να συνδεθεί στο κατάστημα εφαρμογών. ",

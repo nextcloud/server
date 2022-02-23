@@ -202,7 +202,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Aŭ, se vi preferas lasi la dosieron config.php nurlega, valorigu la opcion \"config_is_read_only“ al vero („true“) en ĝi.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Igi la dosierujojn de agordo ŝanĝebla por la servilo kutime solvas tiun problemon",
     "Can't create or write into the data directory %s" : "Ne kreeblas aŭ ne skribeblas la datumdosierujo %s",
-    "Invalid Federated Cloud ID" : "Nevalida federnuba identigilo",
     "Can’t increase permissions of %s" : "Ne eblas pliigi permesojn de %s",
     "Files can’t be shared with delete permissions" : "Dosieroj ne estas kunhavigitaj kun permesoj de forigo",
     "Files can’t be shared with create permissions" : "Dosieroj ne estas kunhavigitaj kun permesoj de kreado",

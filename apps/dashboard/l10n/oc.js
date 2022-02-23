@@ -23,8 +23,6 @@ OC.L10N.register(
     "Hello" : "Adieu",
     "Hello, {name}" : "Adieu, {name}",
     "Default images" : "Imatges per defaut",
-    "Plain background" : "Fons unit",
-    "Good night, {name}" : "Bona nuèch, {name}",
-    "Good night" : "Bona nuèch"
+    "Plain background" : "Fons unit"
 },
 "nplurals=2; plural=(n > 1);");

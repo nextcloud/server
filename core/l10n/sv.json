@@ -345,9 +345,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Kontrollerar om databasschema kan uppdateras (detta kan ta lång tid beroende på databasens storlek)",
     "Checked database schema update" : "Kontrollerade uppdatering av databasschemat",
     "Checking updates of apps" : "Kontrollerar uppdatering av appar",
-    "Checking for update of app \"%s\" in appstore" : "Letar efter uppdatering av appen \"%s\" i appbutiken",
     "Update app \"%s\" from appstore" : "Uppdatera appen \"%s\" från appbutiken",
-    "Checked for update of app \"%s\" in appstore" : "Letade efter uppdatering av appen \"%s\" i appbutiken",
     "Checked database schema update for apps" : "Kontrollerade uppdatering av databasschemat för applikationer",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Din webbserver är inte korrekt inställd för att lösa \"{url}\". Ytterligare information finns i <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentationen</a>.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Din webbserver är inte korrekt inställd för att leverera .woff2-filer. Detta är vanligtvis ett problem med Nginx-konfigurationen. För Nextcloud 15 behöver den en justering för att också kunna leverera .woff2-filer. Jämför din Nginx-konfiguration med den rekommenderade konfigurationen i vår <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentation</a>.",
@@ -365,7 +363,6 @@
     "The PHP OPcache module is not loaded. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to load it into your PHP installation." : "Modulen PHP OPcache är inte laddad. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">För bättre prestanda rekommenderas</a> att aktivera den i PHP-installationen.",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "PHP OPcache är inte korrekt konfigurerad. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">För bättre prestanda rekommenderas</a> att använda följande inställningar i <code>php.ini</code>:",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation ↗</a>." : "För att migrera till en annan databas använd kommandoradsverktyget: \"occ db:convert-type\", eller se <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentationen ↗</a>.",
-    "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Användning av den inbyggda php mailer stöds inte längre. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Vänligen uppdatera inställningarna för din e-postserver ↗<a/>.",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Se <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentationen</a> för fler detaljer.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Din datamapp och filer är förmodligen tillgängliga från Internet. .htaccess-filen fungerar inte. Det rekommenderas starkt att du konfigurerar din webbserver så att datakatalogen inte längre är tillgänglig eller flyttar datakatalogen utanför dokument root för webbservern.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{link}\">W3C Recommendation ↗</a>." : "HTTP-rubriken \"{header}\" är inte satt till \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" eller \"{val5}\". Det kan orsaka informationsläckage om hänvisningar. Se <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{link}\">W3C-rekommendationen ↗</a>.",
@@ -376,9 +373,6 @@
     "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
     "Could not fetch list of apps from the app store." : "Kunde inte hämta listan över appar från butiken.",
     "Can't install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
-    "Can't install this app" : "Appen kan inte installeras",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalender, Kontakter, Talk, E-post & Kollaborativ redigering",
-    "Finish setup" : "Slutför installationen",
-    "Finishing …" : "Slutför ..."
+    "Can't install this app" : "Appen kan inte installeras"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

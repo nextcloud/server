@@ -398,9 +398,6 @@ OC.L10N.register(
     "Change password" : "שינוי סיסמא",
     "Use a second factor besides your password to increase security for your account." : "ניתן להשתמש בגורם נוסף מלבד הססמה שלך כדי להגביר את אבטחת החשבון שלך.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "אם משמשים אותך יישומי צד־שלישי להתחברות אל Nextcloud, נא לוודא יצירת והגדרת ססמה ליישומון לכל אחד מהם בטרם הפעלת אימות דו־שלבי.",
-    "Don't synchronize to servers" : "לא לסנכרן מול השרתים",
-    "Trusted" : "מהימן",
-    "Public" : "ציבורי",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "התקנה ועדכון היישום דרך חנות היישומים או ענן שיתוף מאוגד",
     "You need to set your user email before being able to send test emails." : "יש להגדיר כתובת דואר אלקטרוני לפני שניתן יהיה לשלוח דואר אלקטרוני לבדיקה.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "שלילת האסימון הזו עשויה למנוע את השמדת נתוני המכשיר שלך אם ההשמדה טרם החלה.",
@@ -421,8 +418,6 @@ OC.L10N.register(
     "days" : "ימים",
     "Allow users to share via link" : "אפשר למשתמשים לשתף באמצעות קישור",
     "Set default expiration date for link shares" : "הגדרת תאריך תפוגה כבררת מחדל לקישורי שיתופים",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "לאפשר השלמת שמות משתמשים בתיבת דו־שיח השיתוף (אם האפשרות מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל המלאים)",
-    "Restrict username autocompletion to users within the same groups" : "הגבלת השלמה אוטומטית של שמות משתמשים למשתמשים באותה הקבוצה.",
     "No display name set" : "לא נקבע שם תצוגה",
     "For password reset and notifications" : "לאיפוס ססמה והתרעות"
 },

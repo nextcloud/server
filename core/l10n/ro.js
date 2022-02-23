@@ -238,14 +238,10 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Se verifică dacă schema bazei de date poate fi actualizată (această verificare poate lua mult timp în funcție de mărimea bazei de date)",
     "Checked database schema update" : "S-a verificat actualizarea schemei bazei de date",
     "Checking updates of apps" : "Se verifică actualizările aplicațiilor",
-    "Checking for update of app \"%s\" in appstore" : "Se verifică dacă sunt actualizări pentru aplicația \"%s\" în magazinul de aplicații",
     "Update app \"%s\" from appstore" : "Actualizare aplicație \"%s\" din magazinul de aplicații",
-    "Checked for update of app \"%s\" in appstore" : "S-a verificat dacă sunt actualizări pentru aplicația \"%s\" în magazinul de aplicații",
     "Checked database schema update for apps" : "S-a verificat actualizarea schemei bazei de date pentru aplicații",
     "Check the background job settings" : "Verificați setările jobului de fundal",
     "Continue to Nextcloud" : "Continuă la Nextcloud",
-    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs.",
-    "Finish setup" : "Finalizează instalarea",
-    "Finishing …" : "Se finalizează..."
+    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

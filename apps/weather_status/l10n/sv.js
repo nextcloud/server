@@ -46,7 +46,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Det uppstod ett fel vid sparandet av läget.",
     "There was an error using personal address." : "Det uppstod ett fel vid användning av personlig adress.",
     "Set location for weather" : "Ange position för väder",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Väderuppdatering integrerad i Instrumentpanelappen.\n    Användarens position kan identifieras automatiskt eller anges manuellt. En 6-timmarsprognos visas sedan.\n    Den här väderuppdateringen kan också integreras på andra platser så som i Kalender-appen.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} och klar himmel klockan {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} och mulet klockan {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} och klar dag klockan {time}",

@@ -253,7 +253,6 @@ OC.L10N.register(
     "invalid permissions" : "nieprawidłowe uprawnienia",
     "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
-    "Name, email, or federated cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
     "Download %s" : "Pobierz %s",
     "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia"
 },

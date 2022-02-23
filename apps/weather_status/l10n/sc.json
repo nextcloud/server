@@ -22,7 +22,6 @@
     "There was an error saving the mode." : "B'at àpidu un'errore sarvende sa modalidade.",
     "There was an error using personal address." : "B'at àpidu un'errore impreende s'indiritzu personale.",
     "Set location for weather" : "Imposta sa positzione pro su tempus",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Istadu de su tempus integradu in s'aplicatzione de su pannellu de controllu.\n    Sa positzione de s'utente si podet determinare in automàticu o definire a manu. Luegu si mustrant previsiones pro 6 oras.\n    S'istadu si podet integrare puru in àteros logos comente in s'aplicatzione de su calendàriu.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Chelu lìmpiu a is {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nues a is {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Die bella a is {time}",

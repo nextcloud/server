@@ -385,9 +385,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "正在檢查是否有可更新的數據庫模式（若數據庫較大，可能需要一段時間）",
     "Checked database schema update" : "已檢查數據庫模式更新",
     "Checking updates of apps" : "正在檢查應用程式更新",
-    "Checking for update of app \"%s\" in appstore" : "正在檢查 %s 的更新",
     "Update app \"%s\" from appstore" : "更新 %s",
-    "Checked for update of app \"%s\" in appstore" : "正在檢查 %s 的更新",
     "Checked database schema update for apps" : "已檢查應用程式數據庫模式更新",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "您的網頁伺服器設定不正確，因此無法解析 \"{url}\" ，請至<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">說明文件</a>瞭解更多資訊。",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation page</a>. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "您的伺服器並未正確的設定解析 \"{url}\"。這可能與伺服器的設定未更新為直接傳送此資料夾有關。請檢查 Apache 的 \"。htaccess\" 檔案，或在 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Nginx 說明文件</a>中查閱重寫規則。在 Nginx 環境中，通常是在由 \"location ~\" 開始的那行需要做調整。",
@@ -408,7 +406,6 @@
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "PHP 的 OPcache 功能並未被妥善設定。<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">為了有更好的效能表現</a>，我們建議在 <code>php.ini</code> 中使用以下設定：",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">the documentation page about this</a>." : "數據庫的有些欄位缺少big int。格式轉換。因為攔位格式轉換需要一些時間，所以沒有自動轉換。你可以執行'occ db：convert-filecache-bigin'手動完成轉換，轉換時Nextcloud服務必須處於離線狀態。詳情請參閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">關於此的使用手冊頁</a>。",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation ↗</a>." : "若要遷移至另一個數據庫，請使用命令列工具： 'occ db：convert-type' ，或是查閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">說明書</a>。",
-    "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "我們將不再支援使用 PHP mailer 發送電子郵件。<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">請更新您電子郵件伺服器的相關設定<a/>。",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">the documentation page about this</a>." : "您的 MySQL 數據庫並不支援 4-byte 的字元。為了能處理檔案名稱中，或是註記中的 4-byte 的字元（如表情符號等）。建議您啟用 MySQL 中支援 4-byte 的字元的功能。詳情請見<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">此文件中關於此項目的說明</a>。",
     "You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">the documentation page about this</a>." : "你經由安全的連線存取系統，但系統卻生成了不安全的 URLs。這很有可能是因為你使用了反向代理伺服器，但反向代理伺服器的改寫規則並未正常工作，請閱讀<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">文件</a>以修復這個問題。",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "要取得進一步的資訊，請見 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">說明書</a>。",
@@ -423,9 +420,6 @@
     "Could not fetch list of apps from the app store." : "無法從應用程式商店抓取應用程式清單",
     "Can't install this app because it is not compatible" : "這是一個不兼容的應用程式，無法安裝。",
     "Can't install this app" : "無法安裝此應用程式",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "編輯行事曆、聯絡人、對話、郵件與共筆。",
-    "Finish setup" : "完成設定",
-    "Finishing …" : "即將完成…",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "未加載 PHP OPcache 模塊。{linkstart}為獲得更佳性能，建議↗{linked}將其加載到您的 PHP 安裝中。",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 模塊未正確配置。{linkstart}為獲得更佳性能，建議↗{linkend}在 <code>php.ini</code> 中使用以下設定："
 },"pluralForm" :"nplurals=1; plural=0;"

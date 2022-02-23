@@ -246,7 +246,6 @@ OC.L10N.register(
     "invalid permissions" : "無効なパーミッション",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
-    "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…",
     "Download %s" : "%s をダウンロード",
     "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません"
 },

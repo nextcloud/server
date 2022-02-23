@@ -480,9 +480,6 @@
     "Change password" : "Skift kodeord",
     "Use a second factor besides your password to increase security for your account." : "Brug to-faktor godkendelse for at øge sikkerheden for din konto.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Hvis du bruger tredjepartsapplikationer til at oprette forbindelse til Nextcloud, skal du sørge for at oprette og konfigurere en app-adgangskode for hver, før du aktiverer anden faktor-godkendelse.",
-    "Don't synchronize to servers" : "Synkroniser ikke til servere",
-    "Trusted" : "Betroet",
-    "Public" : "Offentlig",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "installation og opdatering af apps via app-butikken eller sammensluttet Cloud deling",
     "You need to set your user email before being able to send test emails." : "Du skal angive din bruger-e-mail før der kan sendes test-e-mail.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Tilbagekaldelse af dette token kan muligvis forhindre sletning af din enhed, hvis den ikke har startet sletningen endnu.",
@@ -503,12 +500,10 @@
     "days" : "dage",
     "Allow users to share via link" : "Tillad brugere at dele via link",
     "Set default expiration date for link shares" : "Indstil standardudløbsdato for linkdeling",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Indstil standardudløbsdato for linkdeling",
-    "Restrict username autocompletion to users within the same groups" : "Begræns autofuldførelse af brugernavn til brugere inden for de samme grupper",
-    "No display name set" : "Der er ikke angivet skærmnavn",
-    "For password reset and notifications" : "Til nulstilling af adgangskoder og meddelelser",
     "Change privacy level of full name" : "Skift privatlivsniveau for det fulde navn",
+    "No display name set" : "Der er ikke angivet skærmnavn",
     "Change privacy level of email" : "Skift privatlivsniveau for e-mail",
+    "For password reset and notifications" : "Til nulstilling af adgangskoder og meddelelser",
     "Set as primary mail" : "Indstil som primær email"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

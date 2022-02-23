@@ -44,7 +44,6 @@
     "There was an error saving the mode." : "儲存模式時發生錯誤。",
     "There was an error using personal address." : "使用個人地址時發生錯誤。",
     "Set location for weather" : "設定天氣位置",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "整合在儀表板應用程式中的天氣狀態。\n    使用者的位置可以自動偵測或手動定義。然後會顯示6小時的預測。\n    此狀態也可以整合到其他地方，如「日曆」應用程式。",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} 晴朗於 {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} 多雲於 {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} 白天晴朗於 {time}",

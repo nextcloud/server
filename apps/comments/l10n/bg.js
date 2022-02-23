@@ -27,16 +27,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Възникна грешка при опит за изтриване на коментара",
     "An error occurred while trying to create the comment" : "Възникна грешка при опит за създаване на коментар",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Бяхте споменат/а към “{file}”, в коментар от потребител, който вече е изтрит",
-    "{user} mentioned you in a comment on “{file}”" : "{user} те спомена в коментар за “{file}”",
-    "New comment …" : "Нов коментар...",
-    "Post" : "Публикация",
-    "Cancel" : "Отказ",
-    "[Deleted user]" : "[Изтрит потребител]",
-    "More comments …" : "Още коментари...",
-    "Save" : "Запазване",
-    "Allowed characters {count} of {max}" : "Позволени символи {count} от {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Възникна грешка по време на извличане на коментар с ID {id}",
-    "Error occurred while updating comment with id {id}" : "Възникна грешка по време на обновяване на коментар с код {id}",
-    "Error occurred while posting comment" : "Възникна грешка по време на изпращане на коментар"
+    "{user} mentioned you in a comment on “{file}”" : "{user} те спомена в коментар за “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

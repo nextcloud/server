@@ -238,7 +238,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "またはconfig.phpファイルを読み取り専用にしたい場合は、オプション \"config_is_read_only\"をtrueに設定してください。",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Webサーバーにconfigディレクトリへの書き込み権限を与えることで解決する可能性があります。",
     "Can't create or write into the data directory %s" : "%s データディレクトリに作成、書き込みができません",
-    "Invalid Federated Cloud ID" : "無効なクラウド共有ID",
     "Can’t increase permissions of %s" : "%s　の権限を追加できません",
     "Files can’t be shared with delete permissions" : "削除権限つきでファイルを共有できません。",
     "Files can’t be shared with create permissions" : "作成権限つきでファイルを共有できません。",

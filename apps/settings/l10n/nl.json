@@ -480,9 +480,6 @@
     "Change password" : "Wijzig wachtwoord",
     "Use a second factor besides your password to increase security for your account." : "Gebruik een tweede factor naast je wachtwoord om de beveiliging van je account te verhogen. ",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Als u toepassingen van derden gebruikt om met Nextcloud te verbinden, zorg er dan voor om voor elke app een wachtwoord te maken en te configureren voordat \"tweede factor authenticatie\" wordt geactiveerd.",
-    "Don't synchronize to servers" : "Niet synchroniseren met de servers",
-    "Trusted" : "Vertrouwd",
-    "Public" : "Openbaar",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "installeren en bijwerken van applicaties via de app store of gefedereerd delen",
     "You need to set your user email before being able to send test emails." : "Je moet je e-mailadres invoeren voordat je testberichten kunt versturen.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Het verwijderen van deze token voorkomt mogelijk dat je apparaat gewist wordt, als dit proces nog niet gestart is.",
@@ -503,12 +500,10 @@
     "days" : "dagen",
     "Allow users to share via link" : "Sta gebruikers toe om te delen via een link",
     "Set default expiration date for link shares" : "Instellen standaard vervaldatum voor deellinks",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Sta het automatisch aanvullen van de gebruikersnaam toe in het dialoogvenster voor delen (als dit is uitgeschakeld, moet de volledige gebruikersnaam of het e-mailadres worden ingevoerd)",
-    "Restrict username autocompletion to users within the same groups" : "Beperk het automatisch aanvullen van gebruikersnamen tot de gebruikers binnen dezelfde groepen.",
-    "No display name set" : "Nog geen weergavenaam ingesteld",
-    "For password reset and notifications" : "Voor wachtwoord reset en notificaties",
     "Change privacy level of full name" : "Wijzigen privacyniveau van volledige naam",
+    "No display name set" : "Nog geen weergavenaam ingesteld",
     "Change privacy level of email" : "Wijzigen privacyniveau van e-mailadres",
+    "For password reset and notifications" : "Voor wachtwoord reset en notificaties",
     "Set as primary mail" : "Stel in als primaire e-mail"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

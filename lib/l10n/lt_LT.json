@@ -179,7 +179,6 @@
     "Storage connection timeout. %s" : "Sujungimo su saugykla laikas baigėsi. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Tai, dažniausiai, gali būti ištaisyta suteikiant saityno serveriui rašymo prieigą prie konfigūracijos katalogo",
     "Can't create or write into the data directory %s" : "Negalima nuskaityti arba rašyti į duomenų katalogą. %s",
-    "Invalid Federated Cloud ID" : "Neteisingas federacinės debesijos ID",
     "Can’t increase permissions of %s" : "Negalima pridėti papildomų %s leidimų",
     "Files can’t be shared with delete permissions" : "Failai negali būti bendrinami su trynimo leidimu.",
     "Files can’t be shared with create permissions" : "Failai negali būti bendrinami su sukūrimo leidimu.",

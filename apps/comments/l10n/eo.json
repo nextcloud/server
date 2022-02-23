@@ -17,16 +17,6 @@
     "_1 new comment_::_{unread} new comments_" : ["1 nova komento","{unread} novaj komentoj"],
     "Comment" : "Komento",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Vi estis menciita en „{file}“, en komento de uzanto, kiu poste estis forigita",
-    "{user} mentioned you in a comment on “{file}”" : "{user} menciis vin en komento pri „{file}“",
-    "New comment …" : "Nova komento …",
-    "Post" : "Afiŝi",
-    "Cancel" : "Nuligi",
-    "[Deleted user]" : "[Forigita uzanto]",
-    "More comments …" : "Pli da komentoj...",
-    "Save" : "Konservi",
-    "Allowed characters {count} of {max}" : "{count} el {max} signoj maksimume",
-    "Error occurred while retrieving comment with ID {id}" : "Eraro dum ricevo de komento kun identigilo {id}",
-    "Error occurred while updating comment with id {id}" : "Eraro dum ĝisdatigo de komento kun identigilo {id}",
-    "Error occurred while posting comment" : "Eraro dum sendo de komento"
+    "{user} mentioned you in a comment on “{file}”" : "{user} menciis vin en komento pri „{file}“"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -480,9 +480,6 @@
     "Change password" : "Promijeni zaporku",
     "Use a second factor besides your password to increase security for your account." : "Koristite se i drugim faktorom pored zaporke kako biste povećali sigurnost svog računa.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ako se za povezivanje s Nextcloudom koristite aplikacijama treće strane, stvorite i konfigurirajte lozinku za svaku aplikaciju prije omogućavanja drugog faktora za provođenje autentifikacije.",
-    "Don't synchronize to servers" : "Nemoj sinkronizirati s poslužiteljem",
-    "Trusted" : "Pouzdan",
-    "Public" : "Javna",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "instaliranje i ažuriranje aplikacija putem trgovine aplikacijama ili dijeljenja putem udruženog oblaka",
     "You need to set your user email before being able to send test emails." : "Prije slanja testnih poruka e-pošte trebate postaviti svoj korisnički račun e-pošte.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Opozivanje ovog tokena može spriječiti brisanje sadržaja s vašeg uređaja ako brisanje nije pokrenuto.",
@@ -503,12 +500,10 @@
     "days" : "dana",
     "Allow users to share via link" : "Dopusti korisnicima dijeljenje putem poveznice",
     "Set default expiration date for link shares" : "Postavi zadani datum isteka poveznice dijeljenja",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Dopusti automatsko dovršavanje korisničkog imena u dijaloškom okviru za dijeljenje (ako je ova postavka onemogućena, potrebno je unijeti puno korisničko ime ili adresu e-pošte)",
-    "Restrict username autocompletion to users within the same groups" : "Ograniči automatsko dovršavanje korisničkog imena na korisnike iz istih grupa",
-    "No display name set" : "Nije postavljeno ime za prikaz",
-    "For password reset and notifications" : "Za resetiranje zaporke i obavijesti",
     "Change privacy level of full name" : "Promijeni razinu privatnosti punog imena",
+    "No display name set" : "Nije postavljeno ime za prikaz",
     "Change privacy level of email" : "Promijeni razinu privatnosti e-pošte",
+    "For password reset and notifications" : "Za resetiranje zaporke i obavijesti",
     "Set as primary mail" : "Postavi kao primarnu adresu e-pošte"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

@@ -481,9 +481,6 @@
     "Change password" : "Alterar senha",
     "Use a second factor besides your password to increase security for your account." : "Use um segundo fator além de sua senha para aumentar a segurança da conta.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Se usar aplicativos de terceiros para se conectar ao Nextcloud, certifique-se de criar e configurar uma senha para cada aplicativo antes de habilitar a autenticação em duas etapas.",
-    "Don't synchronize to servers" : "Não sincronize com servidores",
-    "Trusted" : "Confiável",
-    "Public" : "Público",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "instalando e atualizando aplicativos via loja de aplicativos ou Nuvem Compartilhada Federada",
     "You need to set your user email before being able to send test emails." : "Você precisa configurar seu e-mail de usuário antes de ser capaz de enviar e-mails de teste.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "A revogação deste token pode impedir a limpeza do seu dispositivo, caso ainda não tenha sido iniciada.",
@@ -504,12 +501,10 @@
     "days" : "dias",
     "Allow users to share via link" : "Permitir que os usuários compartilhem por link",
     "Set default expiration date for link shares" : "Definir data de validade padrão para compartilhamentos por link",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome do usuário na tela de compartilhamento (se desabilitado, o nome completo ou e-mail deverá ser digitado)",
-    "Restrict username autocompletion to users within the same groups" : "Restringir o preenchimento automático de nome de usuário para usuários dentro dos mesmos grupos",
-    "No display name set" : "Nenhum nome de exibição definido",
-    "For password reset and notifications" : "Para redefinição de senha e notificações",
     "Change privacy level of full name" : "Alterar o nível de privacidade do nome completo ",
+    "No display name set" : "Nenhum nome de exibição definido",
     "Change privacy level of email" : "Alterar o nível de privacidade do e-mail ",
+    "For password reset and notifications" : "Para redefinição de senha e notificações",
     "Set as primary mail" : "Definir como e-mail principal"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

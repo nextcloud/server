@@ -46,7 +46,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> 個應用程式沒有適用於此 Nextcloud 版本的兼容版本。"],
     "Apps missing updates" : "沒有更新版本的應用程式",
     "Apps with available updates" : "具有可用更新版本的應用程式",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "請注意，新版本推出後，更新通告可能需要過一段時間才會在此顯示。我們隨著時間為用戶推出新版本，偶爾會在發現問題時跳過一個更新版本。",
     "Only notification for app updates are available." : "僅提供應用程式更新的通告。",
     "Checking apps for compatible updates" : "正在檢查應用程序是否兼容更新",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "無法連線至應用程式商店，或者應用程式商店回應無任何更新，請您手動搜尋更新，或者修復您伺服器的網際網路連線，讓它可以連線至應用程式商店。",

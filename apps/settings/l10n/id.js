@@ -320,7 +320,6 @@ OC.L10N.register(
     "Current password" : "Kata sandi saat ini",
     "New password" : "Kata sandi baru",
     "Change password" : "Ubah kata sandi",
-    "Public" : "Publik",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "memasang dan memperbarui aplikasi via toko aplikasi atau Federated Cloud Sharing",
     "You need to set your user email before being able to send test emails." : "Anda perlu menetapkan surel pengguna Anda sebelum dapat mengirim surel percobaan.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Mencabut token ini mungkin akan mencegah penghapusan perangkat Anda jika penghapusan belum dimulai.",

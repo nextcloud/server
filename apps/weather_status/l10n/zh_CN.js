@@ -46,7 +46,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "保存模式时出错。",
     "There was an error using personal address." : "使用个人地址出错。",
     "Set location for weather" : "设置天气位置",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "仪表盘仪表盘应用程序中集成了天气状况。\n用户的位置可以自动确定或手动定义。然后将会显示 6 小时的预报。\n此状况也可以集成到其他地方，例如“日历”应用程序。",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} 晴空，于 {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} 多云，于 {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} 晴朗的白天，于 {time}",

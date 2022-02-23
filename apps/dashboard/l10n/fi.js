@@ -25,9 +25,6 @@ OC.L10N.register(
     "Pick from Files" : "Valitse tiedostoista",
     "Default images" : "Oletuskuvat",
     "Plain background" : "Yksinkertainen tausta",
-    "Get more widgets from the app store" : "Hae lisää pienoissovelluksia sovelluskaupasta",
-    "Good night, {name}" : "Hyvää yötä, {name}",
-    "Good night" : "Hyvää yötä",
-    "Pick from files" : "Valitse tiedostoista"
+    "Get more widgets from the app store" : "Hae lisää pienoissovelluksia sovelluskaupasta"
 },
 "nplurals=2; plural=(n != 1);");

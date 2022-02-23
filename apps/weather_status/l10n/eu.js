@@ -46,7 +46,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Errore bat gertatu da modua gordetzean.",
     "There was an error using personal address." : "Errore bat gertatu da helbide pertsonala erabiltzean.",
     "Set location for weather" : "Ezarri kokalekua eguraldiarentzako",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Eguraldiaren egoera panelaren aplikazioan integratuta. \n     Erabiltzailearen kokapena automatikoki zehaztu edo eskuz definitu daiteke. 6 orduko iragarpena bistaratzen da.\n     Egoera hau Egutegia aplikazioa bezalako beste leku batzuetan ere txertatu daiteke.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Zeru oskarbia {time} -(e)tan",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} hodeitsu {time} -(e)tan",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Hala-holako eguna {time} -(e)tan",

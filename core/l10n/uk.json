@@ -288,9 +288,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Перевіряю, чи схема бази даних може бути оновлена (це може зайняти багато часу, залежно від розмірів бази даних)",
     "Checked database schema update" : "Перевірено оновлення схеми бази даних",
     "Checking updates of apps" : "Перевірка оновлень застосунків",
-    "Checking for update of app \"%s\" in appstore" : "Перевірка оновлень для застосунку \"%s\" в крамниці застосунків",
     "Update app \"%s\" from appstore" : "Оновлення застосунк \"1%s\" з крамниці застосунків",
-    "Checked for update of app \"%s\" in appstore" : "Наявність оновлення застосунку \"%s\" у крамниці перевірено",
     "Checked database schema update for apps" : "Перевірено оновлення схеми бази даних для застосунків",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Ваш вебсервер не налаштований як треба для вирішення \"{url}\". Додаткову інформація може знаходитись в нашій <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документації</a>.",
     "Please check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Перевірте розділи <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документації по встановленню ↗</a> з замітками налаштування PHP на вашому сервері, особливо коли використовуєте php-fpm.",
@@ -305,9 +303,6 @@
     "Password can not be changed. Please contact your administrator." : "Пароль не може бути змінено. Будь ласка, зверніться до вашого адміністратора",
     "Could not fetch list of apps from the app store." : "Неможливо отримати перелік застосунків з крамниці застосунків",
     "Can't install this app because it is not compatible" : "Неможливо встановити цей застосунок через несумісність",
-    "Can't install this app" : "Неможливо встановити цей застосунок",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Календар, Контакти, Talk, Пошта та спільне редагування",
-    "Finish setup" : "Завершити встановлення",
-    "Finishing …" : "Завершується ..."
+    "Can't install this app" : "Неможливо встановити цей застосунок"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
