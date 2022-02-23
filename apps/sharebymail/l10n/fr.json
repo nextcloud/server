@@ -23,6 +23,9 @@
     "Password to access %1$s was sent to you" : "Le mot de passe pour accèder à %1$s vous a été envoyé",
     "Password to access {file} was sent to you" : "Le mot de passe pour accèder à {file} vous a été envoyé",
     "Share by mail" : "Partage par e-mail",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Le partage de %1$s a échoué, parce que cet élément est déjà partagé avec l'utilisateur %2$s",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nous ne pouvons pas vous envoyer le mot de passe généré automatiquement. Merci de définir une adresse courriel valide dans vos paramètres personnels et essayez à nouveau.",
+    "Failed to send share by email. Got an invalid email address" : "Échec lors de l'envoi du partage par email. L'adresse email est invalide",
     "Failed to send share by email" : "Échec lors de l'envoi du partage par e-mail",
     "%1$s shared »%2$s« with you" : "%1$s a partagé « %2$s » avec vous",
     "%1$s shared »%2$s« with you." : "%1$s a partagé « %2$s » avec vous.",
@@ -45,6 +48,7 @@
     "Share provider which allows you to share files by mail" : "Fournisseur de partage qui vous permet de partager des fichiers par courrier électronique.",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Autoriser les utilisateurs de partager un lien personnalisé vers un fichier ou un dossier en renseignant une adresse e-mail.",
     "Send password by mail" : "Envoyer le mot de passe par e-mail",
+    "Reply to initiator" : "Répondre à l'initiateur",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nous ne pouvons pas vous envoyer le mot de passe généré automatiquement. Veuillez renseigner une adresse e-mail valide dans vos paramètres personnels puis réessayer.",
     "Enforce password protection" : "Imposer la protection par mot de passe"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

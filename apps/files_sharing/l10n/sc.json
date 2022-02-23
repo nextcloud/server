@@ -121,7 +121,6 @@
     "Could not lock node" : "No at fatu a blocare su nodu",
     "Could not lock path" : "No at fatu a blocare su percursu",
     "Wrong or no update parameter given" : "Su paràmetru frunidu est isballiadu o no agiornadu",
-    "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"S'imbiu de sa crae dae Nextcloud Talk\" pro cumpartzire un'archìviu o cartella est faddida ca Nextcloud Talk est disativadu.",
     "shared by %s" : "cumpartzidu dae %s",
     "Download all files" : "Iscàrriga totu is archìvios",
@@ -140,6 +139,9 @@
     "Sharing" : "Cumpartzidura",
     "Accept user and group shares by default" : "Atzeta is cumpartziduras de utentes e grupos comente modalidade predefinida",
     "Allow editing" : "Cunsenti sa modìfica",
+    "Read only" : "Isceti letura",
+    "Allow upload and editing" : "Permite carrigamentu e modìficas",
+    "File drop (upload only)" : "Trìsina documentu (isceti pro carrigare)",
     "Allow creating" : "Permite sa creatzione",
     "Allow deleting" : "Permite sa cantzelladura",
     "Allow resharing" : "Permite sa re-cumpartzidura",
@@ -172,9 +174,6 @@
     "Create share" : "Crea cumpartzidura",
     "Cancel" : "Annulla",
     "Share label" : "Cumpartzi eticheta",
-    "Read only" : "Isceti letura",
-    "Allow upload and editing" : "Permite carrigamentu e modìficas",
-    "File drop (upload only)" : "Trìsina documentu (isceti pro carrigare)",
     "Hide download" : "Cua iscarrigamentu",
     "Password protect" : "Bàrdia crae",
     "Video verification" : "Verìfica vìdeu",
@@ -203,6 +202,7 @@
     "Unable to load the shares list" : "Non faghet a carrigare sa lista de cumpartziduras",
     "Expires {relativetime}" : "Iscadit {relativetime}",
     "this share just expired." : "custa cumpartzidura est iscadida.",
+    "Shared with you by {owner}" : "Cumpartzidu cun tegus dae {owner}",
     "Link to a file" : "Ligòngiu a archìviu",
     "Error creating the share: {errorMessage}" : "Errore in sa creatzione de sa cumpartzidura: {errorMessage}",
     "Error creating the share" : "Errore in sa creatzione de sa cumpartzidura",
@@ -215,7 +215,6 @@
     "Shared with you and {circle} by {owner}" : "Cumpartzidu cun tegus {circle} dae {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Cumpartzidu cun tegus e sa resonada {conversation} dae {owner}",
     "Shared with you in a conversation by {owner}" : "Cumpartzidu cun tegus in una resonada dae {owner}",
-    "Shared with you by {owner}" : "Cumpartzidu cun tegus dae {owner}",
     "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",
     "Name" : "Nùmene",
     "Share time" : "Ora de cumpartzidura",
@@ -238,7 +237,7 @@
     "invalid permissions" : "permissos non bàlidos",
     "Can't change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
-    "Name, email, or federated cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ...",
-    "Download %s" : "Iscàrriga%s"
+    "Download %s" : "Iscàrriga%s",
+    "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

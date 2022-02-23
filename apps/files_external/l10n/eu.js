@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Kredentzialak gordeta",
     "Credentials saving failed" : "Kredentzialak gordetzeak huts egin du",
     "Credentials required" : "Kredentzialak behar dira",
+    "Forbidden to manage local mounts" : "Debekatuta dago tokiko muntaketak kudeatzea",
     "Storage with ID \"%d\" not found" : "Ez da aurkitu \"%d\" IDa duen biltegiratzea",
     "Invalid backend or authentication mechanism class" : "Atzeko alde edo autentifikazio mekanismo klase baliogabea",
     "Invalid mount point" : "Muntatze-puntu baliogabea",
@@ -133,11 +134,10 @@ OC.L10N.register(
     "Add storage" : "Gehitu biltegiratzea",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Allow users to mount external storage" : "Baimendu erabiltzaileek kanpoko biltegiratze zerbitzuak muntatzea",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
     "External storages" : "Kanpoko biltegiratzeak",
     "(group)" : "(taldea)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC saioa hasiera erabiliz",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko."
+    "SMB / CIFS using OC login" : "SMB / CIFS OC saioa hasiera erabiliz"
 },
 "nplurals=2; plural=(n != 1);");

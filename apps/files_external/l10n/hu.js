@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Hitelesítő adatok mentve",
     "Credentials saving failed" : "Hitelesítő adatok mentése sikertelen",
     "Credentials required" : "Hitelesítő adatok szükségesek",
+    "Forbidden to manage local mounts" : "A helyi csatolt kötetek kezelése tiltott",
     "Storage with ID \"%d\" not found" : "A(z) „%d” azonosítójú tároló nem található",
     "Invalid backend or authentication mechanism class" : "Érvénytelen háttérszolgáltatási vagy hitelesítési mechanizmus osztály",
     "Invalid mount point" : "Érvénytelen csatolási pont",
@@ -80,6 +81,8 @@ OC.L10N.register(
     "Public key" : "Nyilvános kulcs",
     "RSA private key" : "RSA titkos kulcs",
     "Private key" : "Titkos kulcs",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Az alapértelmezett Kerberos tartomány, alapértelmezetten „WORKGROUP”",
+    "Kerberos ticket Apache mode" : "Kerberos jegy Apache módja",
     "Kerberos ticket" : "Kerberos jegy",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -133,11 +136,11 @@ OC.L10N.register(
     "Add storage" : "Tároló hozzáadása",
     "Advanced settings" : "Speciális beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának engedélyezése a felhasználók számára",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
     "External storages" : "Külső tárolók",
     "(group)" : "(csoport)",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS OC bejelentkezéssel",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
+    "Kerberos ticket apache mode" : "Kerberos jegy apache módja"
 },
 "nplurals=2; plural=(n != 1);");

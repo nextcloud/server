@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show something" : "Vis noget",
     "Customize" : "Tilpas",
     "Edit widgets" : "Redigér widgets",
+    "Get more widgets from the App Store" : "Få flere widgets fra App Store",
     "Change background image" : "Ændre baggrund",
     "Weather service" : "Vejret",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Af hensyn til dit privatliv, er det din Nextcloud-server der henter vejr-data og udbyderen modtager således ingen oplysninger om dig.",
@@ -26,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Standardbilleder",
     "Plain background" : "Standard baggrund",
     "Insert from {productName}" : "Indsæt fra {productName}",
-    "Get more widgets from the app store" : "Hent flere widgets fra app store",
-    "Good night, {name}" : "Godnat {name}",
-    "Good night" : "Godnat",
-    "Pick from files" : "Vælg fra Filer"
+    "Get more widgets from the app store" : "Hent flere widgets fra app store"
 },
 "nplurals=2; plural=(n != 1);");

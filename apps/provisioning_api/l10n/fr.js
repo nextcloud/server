@@ -1,6 +1,7 @@
 OC.L10N.register(
     "provisioning_api",
     {
+    "Logged in user must be an administrator or have authorization to edit this setting." : "L'utilisateur connecté doit être un administrateur ou avoir l'autorisation de modifier ce paramètre.",
     "Email confirmation" : "Confirmation de l'adresse e-mail",
     "To enable the email address %s please click the button below." : "Pour activer l'adresse e-mail %s, veuillez cliquer sur le bouton ci-dessous.",
     "Confirm" : "Confirmer",

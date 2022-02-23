@@ -175,6 +175,7 @@
     "%1$s of %2$s used" : "%1$s/%2$s käytetty",
     "Settings" : "Asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",
+    "Crop image previews" : "Rajaa kuvien esikatseluja",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Käytä kyseistä osoitetta yhdistääksesi tiedostosi WebDAV kautta",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois",

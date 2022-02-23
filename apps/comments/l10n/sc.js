@@ -10,8 +10,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s at cummentadu %2$s",
     "{author} commented on {file}" : "{author} at cummentadu {file}",
     "<strong>Comments</strong> for files" : "<strong>Cummentos</strong> pro archìvios",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "T'ant mentovadu in “{file}”, in unu cummentu de un'utente chi ant cantzelladu",
-    "{user} mentioned you in a comment on “{file}”" : "{user} t'at mentovadu in unu cummentu in “{file}”",
     "Files app plugin to add comments to files" : "Estensione de s'aplicatzione archìvios pro agiùnghere cummentos a archìvios",
     "Edit comment" : "Modìfica cummentu",
     "Delete comment" : "Cantzella cummentu",
@@ -28,15 +26,7 @@ OC.L10N.register(
     "Comment deleted" : "Cummentu cantzelladu",
     "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
     "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
-    "New comment …" : "Cummentu nou …",
-    "Post" : "Pùblica",
-    "Cancel" : "Annulla",
-    "[Deleted user]" : "[Utèntzia cantzellada]",
-    "More comments …" : "Àtero cummentos ...",
-    "Save" : "Sarva",
-    "Allowed characters {count} of {max}" : "Caràteres permìtidos {count} de {max}",
-    "Error occurred while retrieving comment with ID {id}" : "B'at àpidu un'errore in su recùperu de su cummentu cun ID {id}",
-    "Error occurred while updating comment with id {id}" : "B'at àpidu un'errore in s'agiornamentu de su cummentu cun id {id}",
-    "Error occurred while posting comment" : "B'at àpidu un'errore in sa publicatzione de su cummentu"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "T'ant mentovadu in “{file}”, in unu cummentu de un'utente chi ant cantzelladu",
+    "{user} mentioned you in a comment on “{file}”" : "{user} t'at mentovadu in unu cummentu in “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

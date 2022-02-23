@@ -134,6 +134,9 @@
     "Sharing" : "שיתוף",
     "Accept user and group shares by default" : "לקבל את שיתופי המשתמשים והקבוצות כבררת מחדל",
     "Allow editing" : "לאפשר עריכה",
+    "Read only" : "קריאה בלבד",
+    "Allow upload and editing" : "לאפשר העלאה ועריכה",
+    "File drop (upload only)" : "השלכת קבצים (העלאה בלבד)",
     "Allow creating" : "לאפשר יצירה",
     "Allow deleting" : "לאפשר מחיקה",
     "Allow resharing" : "לאפשר שיתוף מחדש",
@@ -166,9 +169,6 @@
     "Create share" : "צור שיתוף",
     "Cancel" : "ביטול",
     "Share label" : "שתף תווית",
-    "Read only" : "קריאה בלבד",
-    "Allow upload and editing" : "לאפשר העלאה ועריכה",
-    "File drop (upload only)" : "השלכת קבצים (העלאה בלבד)",
     "Hide download" : "הסתרת הורדה",
     "Password protect" : "הגנה בססמה",
     "Video verification" : "אימות וידאו",
@@ -196,6 +196,7 @@
     "Unable to load the shares list" : "לא ניתן לטעון את רשימת השיתופים",
     "Expires {relativetime}" : "תפוגה: {relativetime}",
     "this share just expired." : "תוקף השיתוף פג זה עתה.",
+    "Shared with you by {owner}" : "שותף אתך על ידי {owner}",
     "Link to a file" : "קישור לקובץ",
     "Error creating the share" : "יצירת השיתוף נכשלה",
     "Error updating the share" : "שגיאה בעדכון השיתוף",
@@ -206,7 +207,6 @@
     "Shared with you and {circle} by {owner}" : "משותף אתך ועם {circle} על ידי {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "שותף אתך והדיון {conversation} על ידי {owner}",
     "Shared with you in a conversation by {owner}" : "שותף אתך בדיון על ידי {owner}",
-    "Shared with you by {owner}" : "שותף אתך על ידי {owner}",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Name" : "שם",
     "Share time" : "זמן שיתוף",
@@ -229,7 +229,6 @@
     "invalid permissions" : "הרשאות שגויות",
     "Can't change permissions for public share links" : "לא ניתן לשנות הרשאות לקישורי שיתוף ציבוריים",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
-    "Name, email, or federated cloud ID …" : "שם, דוא\"ל או ID ענן מאוחד...",
     "Download %s" : "הורדה %s"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

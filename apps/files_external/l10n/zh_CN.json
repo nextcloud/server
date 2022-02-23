@@ -39,6 +39,7 @@
     "Credentials saved" : "凭据已保存",
     "Credentials saving failed" : "证书保存失败",
     "Credentials required" : "需要凭据",
+    "Forbidden to manage local mounts" : "禁止管理本地挂载",
     "Storage with ID \"%d\" not found" : "ID%d的存储未找到",
     "Invalid backend or authentication mechanism class" : "无效的后端或认证类型",
     "Invalid mount point" : "无效的挂载点",
@@ -131,11 +132,10 @@
     "Add storage" : "增加存储",
     "Advanced settings" : "高级选项",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "可以使用全局凭据对具有相同凭据的多个外部存储进行身份验证。",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。",
     "External storages" : "外部存储",
     "(group)" : "（分组）",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。"
+    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

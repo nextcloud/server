@@ -32,7 +32,6 @@
     "Checked on {lastCheckedDate}" : "Tarkistettu {lastCheckedDate}",
     "Checking apps for compatible versions" : "Tarkistetaan sovellusten yhteensopivat versiot ",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Varmista, ettei config.php-tiedosto aseta valintaa <samp>appstoreenabled</samp> arvoon false.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Kaikista</strong> sovelluksista on saatavilla yhteensopiva versio tämän Nextcloudin version kanssa.",
     "View changelog" : "Näytä muutosloki",
     "Enterprise" : "Enterprise",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Yrityskäyttöön. Tarjoaa aina viimeisimmän korjaustason, mutta ei päivitä välittömästi seuraavaan pääversioon. Päivitys tapahtuu, kun Nextcloud GmbH on tehnyt lisävahvistuksia ja -testejä laajamittaisia ja kriittisiä käyttöönottoja varten. Tämä kanava on vain sopimusasiakkaiden käytettävissä, ja se tarjoaa Nextcloud Enterprise -paketin.",
@@ -40,14 +39,14 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Viimeisin vakaa versio. Sopii säännölliseen käyttöön ja päivittyy aina uusimpaan pääversioon.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Esijulkaisuversio uusien toimintojen testaukseen, ei tuotantoympäristöille.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa","<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa"],
     "Apps missing updates" : "Sovellukset, joilta puuttuvat päivitykset",
     "Apps with available updates" : "Sovellukset, joihin saatavilla päivityksiä",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Huomioi, että uuden julkaisun jälkeen voi mennä jonkin aikaa ennenkuin se näkyy täällä. Julkaisemme uusia versioita käyttäjillemme ajoittain, ja joskus jätämme jonkin version väliin, jos havaitsemme ongelmia.",
     "Only notification for app updates are available." : "Sovelluspäivityksiin on saatavilla vain huomautuksia.",
     "Checking apps for compatible updates" : "Tarkistetaan sovellusten yhteensopivat päivitykset ",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Yhteyttä sovelluskauppaan ei voitu muodostaa tai sovelluskauppa ei ilmoittanut päivityksistä. Etsi päivityksiä manuaalisesti tai varmista, että palvelimellasi on yhteys internetiin ja se voi yhdistää sovelluskauppaan.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Kaikilla</strong> sovelluksilla on päivitys tähän versioon saatavilla",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla","<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla","<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Kaikista</strong> sovelluksista on saatavilla yhteensopiva versio tämän Nextcloudin version kanssa.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa","<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

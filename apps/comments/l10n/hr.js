@@ -10,8 +10,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s je komentirao %2$s",
     "{author} commented on {file}" : "{author} je komentirao {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentari</strong> za datoteke",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Spomenuti ste u „{file}”, u komentaru korisnika koji je nakon toga izbrisan",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vas je spomenuo u komentaru na „{file}”",
     "Files app plugin to add comments to files" : "Dodatak za aplikaciju Datoteke za dodavanje komentara na datoteke",
     "Edit comment" : "Uredi komentar",
     "Delete comment" : "Izbriši komentar",
@@ -28,15 +26,7 @@ OC.L10N.register(
     "Comment deleted" : "Komentar izbrisan",
     "An error occurred while trying to delete the comment" : "Došlo je do pogreške prilikom brisanja komentara",
     "An error occurred while trying to create the comment" : "Došlo je do pogreške prilikom stvaranja komentara",
-    "New comment …" : "Novi komentar…",
-    "Post" : "Objavi",
-    "Cancel" : "Odustani",
-    "[Deleted user]" : "[Izbrisan korisnik]",
-    "More comments …" : "Više komentara...",
-    "Save" : "Spremi",
-    "Allowed characters {count} of {max}" : "Dopušteni znakovi {count} od {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Došlo je do pogreške prilikom dohvaćanja komentara s ID-om {id}",
-    "Error occurred while updating comment with id {id}" : "Došlo je do pogreške prilikom ažuriranja komentara s ID-om {id}",
-    "Error occurred while posting comment" : "Došlo je do pogreške prilikom objavljivanja komentara"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Spomenuti ste u „{file}”, u komentaru korisnika koji je nakon toga izbrisan",
+    "{user} mentioned you in a comment on “{file}”" : "{user} vas je spomenuo u komentaru na „{file}”"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

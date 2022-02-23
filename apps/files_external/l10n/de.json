@@ -2,7 +2,7 @@
     "External storage" : "Externer Speicher",
     "Personal" : "Persönlich",
     "System" : "System",
-    "Grant access" : "Zugriff gestatten",
+    "Grant access" : "Zugriff gewähren",
     "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
     "Please provide a valid app key and secret." : "Bitte einen gültigen Anwendungsschlüssel (App-Key) mit Sicherheitsschlüssel (Secret) eingeben.",
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
@@ -39,6 +39,7 @@
     "Credentials saved" : "Anmeldeinformationen gespeichert",
     "Credentials saving failed" : "Speichern der Anmeldeinformationen fehlgeschlagen",
     "Credentials required" : "Anmeldeinformationen benötigt",
+    "Forbidden to manage local mounts" : "Das Verwalten lokaler Laufwerke ist nicht erlaubt",
     "Storage with ID \"%d\" not found" : "Der Speicher mit der ID „%d“ wurde nicht gefunden",
     "Invalid backend or authentication mechanism class" : "Ungültiger Backend- oder Authentifizierungsmechanismus",
     "Invalid mount point" : "Ungültiger Einbindungspunkt",
@@ -78,6 +79,8 @@
     "Public key" : "Öffentlicher Schlüssel",
     "RSA private key" : "Privater RSA-Schlüssel",
     "Private key" : "Privater Schlüssel",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos-Standard-Realm, standardmäßig „WORKGROUP“",
+    "Kerberos ticket Apache mode" : "Kerberos-Ticket Apache-Modus",
     "Kerberos ticket" : "Kerberos-Ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -131,11 +134,11 @@
     "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden.",
     "External storages" : "Externe Speicher",
     "(group)" : "(Gruppe)",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Anmeldung",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden."
+    "Kerberos ticket apache mode" : "Kerberos-Ticket Apache-Modus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

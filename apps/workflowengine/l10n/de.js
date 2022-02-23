@@ -60,7 +60,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s(unsichtbar)",
     "%s (restricted)" : "%s (eingeschränkt)",
     "Please enter a valid time span" : "Bitte einen gültigen Zeitraum angeben",
-    "Select a request URL" : "Wählen Sie eine Anforderungs-URL aus",
+    "Select a request URL" : "Wähle eine Anforderungs-URL aus",
     "Predefined URLs" : "Vordefinierte URLs",
     "Files WebDAV" : "WebDAV für Dateien",
     "Others" : "Andere",

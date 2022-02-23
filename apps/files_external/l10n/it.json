@@ -39,6 +39,7 @@
     "Credentials saved" : "Credenziali salvate",
     "Credentials saving failed" : "Salvataggio delle credenziali non riuscito",
     "Credentials required" : "Credenziali richieste",
+    "Forbidden to manage local mounts" : "Gestione dei mount locali proibita",
     "Storage with ID \"%d\" not found" : "Archiviazione con ID \"%d\" non trovata",
     "Invalid backend or authentication mechanism class" : "Motore o classe del meccanismo di autenticazione non valido",
     "Invalid mount point" : "Punto di mount non valido",
@@ -78,6 +79,8 @@
     "Public key" : "Chiave pubblica",
     "RSA private key" : "Chiave privata RSA",
     "Private key" : "Chiave privata",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Regno predefinito di Kerberos, predefinito su \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Modalità Apache ticket Kerberos",
     "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -131,11 +134,11 @@
     "Add storage" : "Aggiungi archiviazione",
     "Advanced settings" : "Impostazioni avanzate",
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
     "External storages" : "Archiviazioni esterne",
     "(group)" : "(gruppo)",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali."
+    "Kerberos ticket apache mode" : "Modalità apache ticket Kerberos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

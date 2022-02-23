@@ -135,6 +135,9 @@
     "Invalid path selected" : "Virheellinen polku valittu",
     "Unknown error" : "Tuntematon virhe",
     "Allow editing" : "Salli muokkaus",
+    "Read only" : "Vain luku",
+    "Allow upload and editing" : "Salli lähetys ja muokkaus",
+    "File drop (upload only)" : "Tiedostojen pudotus (vain lähetys)",
     "Allow creating" : "Salli luominen",
     "Allow deleting" : "Salli poistaminen",
     "Allow resharing" : "Salli uudelleenjakaminen",
@@ -167,9 +170,6 @@
     "Create share" : "Luo jako",
     "Cancel" : "Peruuta",
     "Share label" : "Jaon nimi",
-    "Read only" : "Vain luku",
-    "Allow upload and editing" : "Salli lähetys ja muokkaus",
-    "File drop (upload only)" : "Tiedostojen pudotus (vain lähetys)",
     "Hide download" : "Piilota lataus",
     "Password protect" : "Suojaa salasanalla",
     "Video verification" : "Videovarmistus",
@@ -195,6 +195,7 @@
     "Unable to load the shares list" : "Jakolistan haku epäonnistui",
     "Expires {relativetime}" : "Vanhenee {relativetime}",
     "this share just expired." : "tämä jako vanheni juuri.",
+    "Shared with you by {owner}" : "{owner} jakoi tämän kanssasi",
     "Link to a file" : "Linkki tiedostoon",
     "Error creating the share: {errorMessage}" : "Virhe luotaessa jakoa: {errorMessage}",
     "Error creating the share" : "Virhe jakoa luotaessa",
@@ -207,7 +208,6 @@
     "Shared with you and {circle} by {owner}" : "{owner} on jakanut tämän sinun ja piirin {circle} kanssa",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} on jakanut tämän sinun ja keskustelun {conversation} kanssa",
     "Shared with you in a conversation by {owner}" : "{owner} jakoi tämän kanssasi keskustelussa",
-    "Shared with you by {owner}" : "{owner} jakoi tämän kanssasi",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Name" : "Nimi",
     "Share time" : "Jakamisen ajankohta",
@@ -229,7 +229,6 @@
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "invalid permissions" : "vialliset oikeudet",
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
-    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
     "Download %s" : "Lataa %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

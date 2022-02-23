@@ -34,7 +34,6 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Проверено на {lastCheckedDate}",
     "Checking apps for compatible versions" : "Проверка за компатибилност на апликациите со новата верзија",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Бидете сигурни дека во config.php датотеката параматарот <samp>appstoreenabled</samp> е поставен на false.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Сите</strong> апликации се компатибилни за оваа верзија",
     "View changelog" : "Видете ги проммените",
     "Enterprise" : "Професионален",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Овозможува секогаш најново ниво на ажурирање, но нема веднаш да се ажурира на следното големо издание. Ова ажурирање се случува откако Nextcloud GmbH ќе направи дополнително тестирање за големи и критични сервери. Овој канал е достапен само за клиентите и го имаат пакетот Nextcloud Enterprise.",
@@ -42,14 +41,14 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Најнова стабилна верзија. Корисно за редовна употреба и секогаш ќе се ажурира до последната најнова верзија.",
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Неиздадена верзија само за тестирање на новите можности, не е за редовна употреба.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
     "Apps missing updates" : "Недостасуваат ажурирања за апликации",
     "Apps with available updates" : "Апликации со достапни ажурирања",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Можно е да треба некое време додека новата верзија се прикаже овде. Ние испорачуваме нови до нашите корисници но од време на време некој верзии ги прескокнуваме поради пројандени проблеми во истите.",
     "Only notification for app updates are available." : "Известувања само за достапни ажурирања на апликации.",
     "Checking apps for compatible updates" : "Проверка за компатибилност на апликациите со новата верзија",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Неможе да се поврзе со appstore или одговорот е дека нема ажурирање. Пребарајте рачно за ажурирање или бидете сигурни дека серверот има пристап до интернет и може да се поврзе со продавницата.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Сите</strong> апликации имаат ажурирања за оваа верзија",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> апликација нема ажурирање за оваа веријза","<strong>%n</strong> апликации немаат ажурирања за оваа веријза"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> апликација нема ажурирање за оваа веријза","<strong>%n</strong> апликации немаат ажурирања за оваа веријза"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Сите</strong> апликации се компатибилни за оваа верзија",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"]
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

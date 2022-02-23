@@ -39,6 +39,7 @@
     "Credentials saved" : "Credenciais salvas",
     "Credentials saving failed" : "Erro ao salvar as credenciais",
     "Credentials required" : "Credenciais necessárias",
+    "Forbidden to manage local mounts" : "Proibido gerenciar montagens locais",
     "Storage with ID \"%d\" not found" : "A armazenagem com a ID \"%d\" não foi encontrada",
     "Invalid backend or authentication mechanism class" : "Plataforma de serviço ou classe de mecanismo de autenticação inválido",
     "Invalid mount point" : "Ponto de montagem inválido",
@@ -78,6 +79,8 @@
     "Public key" : "Chave pública",
     "RSA private key" : "Chave privada RSA",
     "Private key" : "Chave privada",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "reino padrão do Kerberos, padrão para \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Bilhete Kerberos Modo Apache",
     "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Cesta",
@@ -131,11 +134,11 @@
     "Add storage" : "Adic. armazenamento",
     "Advanced settings" : "Configurações avançadas",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "As credenciais globais podem ser usadas para autenticação com vários armazenamentos externos que possuem as mesmas credenciais. ",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais.",
     "External storages" : "Armazenamentos externos",
     "(group)" : "(grupo)",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS usando OC login",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais."
+    "Kerberos ticket apache mode" : "Modo apache de tíquete Kerberos"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

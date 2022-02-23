@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "已儲存認證資訊",
     "Credentials saving failed" : "認證資訊儲存失敗",
     "Credentials required" : "需要認證資訊",
+    "Forbidden to manage local mounts" : "禁止管理本機掛載",
     "Storage with ID \"%d\" not found" : "沒有找到 ID 為「%d」的儲存空間 ",
     "Invalid backend or authentication mechanism class" : "無效的後端或認證機制類別",
     "Invalid mount point" : "無效的掛載點",
@@ -80,6 +81,8 @@ OC.L10N.register(
     "Public key" : "公開金鑰",
     "RSA private key" : "RSA 私鑰",
     "Private key" : "私鑰",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 預設領域，預設為 \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Kerberos 票證 Apache 模式",
     "Kerberos ticket" : "Kerberos 票據",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -133,11 +136,11 @@ OC.L10N.register(
     "Add storage" : "新增儲存空間",
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許使用者自行掛載外部儲存空間",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。",
     "External storages" : "外部儲存空間",
     "(group)" : "（群組）",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "使用 OC 登入的 SMB / CIFS",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。"
+    "Kerberos ticket apache mode" : "Kerberos 票證 apache 模式"
 },
 "nplurals=1; plural=0;");

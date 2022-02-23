@@ -4,7 +4,7 @@ OC.L10N.register(
     "Dark theme" : "Mørkt tema",
     "Enable dark theme" : "Aktiver mørkt tema",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Et mørkt tema for å lette på øynene ved å redusere lysstyrken. Den er fortsatt under utvikling, vennligst rapporter feilene som du finner.",
-    "High contrast mode" : "Høykontrast-modus",
+    "High contrast mode" : "Høykontrastmodus",
     "Enable high contrast mode" : "Aktiver høy kontrast",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "En høykontrast modus for å få en lettere navigasjon. Den visuelle kvaliteten vil bli reusert men klarheten vil bli økt.",
     "Dyslexia font" : "Dysleksi skrifttype",

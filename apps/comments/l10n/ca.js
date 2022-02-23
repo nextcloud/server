@@ -10,8 +10,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s ha comentat a %2$s",
     "{author} commented on {file}" : "{author} ha comentat a {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentaris</strong> per fitxers",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat esmentats a \"{file}\" en un comentari d'un usuari que ja no existeix",
-    "{user} mentioned you in a comment on “{file}”" : "{user} us ha esmentat en un comentari de “{file}”",
     "Files app plugin to add comments to files" : "Connexió de l’aplicació de fitxers per afegir comentaris als fitxers",
     "Edit comment" : "Edita comentari",
     "Delete comment" : "Suprimeix comentari",
@@ -21,15 +19,7 @@ OC.L10N.register(
     "_1 new comment_::_{unread} new comments_" : ["1 comentari nou","{unread} comentaris nous"],
     "Comment" : "Comentari",
     "Comment deleted" : "Comentari suprimit",
-    "New comment …" : "Nou comentari...",
-    "Post" : "Publica",
-    "Cancel" : "Cancel·la",
-    "[Deleted user]" : "[Usuari suprimit]",
-    "More comments …" : "Més comentaris...",
-    "Save" : "Desa",
-    "Allowed characters {count} of {max}" : "{count} caràcters permesos de {max}",
-    "Error occurred while retrieving comment with ID {id}" : "S'ha produït un error en recuperar el comentari amb l'ID {id}",
-    "Error occurred while updating comment with id {id}" : "Hi ha hagut un error en actualitzar el comentari amb id {id}",
-    "Error occurred while posting comment" : "Hi ha hagut un error en publicar el comentari"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat esmentats a \"{file}\" en un comentari d'un usuari que ja no existeix",
+    "{user} mentioned you in a comment on “{file}”" : "{user} us ha esmentat en un comentari de “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

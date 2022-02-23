@@ -8,8 +8,8 @@
     "%1$s commented on %2$s" : "%1$s прокомментировано на %2$s",
     "{author} commented on {file}" : "{author} прокомментировал {file}",
     "<strong>Comments</strong> for files" : "<strong>Комментарии</strong> к файлам",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Вы были упомянуты в комментарии к файлу «{file}» пользователем, учётная запись которого была удалена",
-    "{user} mentioned you in a comment on “{file}”" : "{user} упомянул вас в комментарии к “{file}”.",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вы были упомянуты на \"{file}\", в комментарии пользователя, который с тех пор был удалён",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} упомянул вас в комментарии к \"{file}\".",
     "Files app plugin to add comments to files" : "Модуль приложения «Файлы», позволяющий комментировать файлы",
     "Edit comment" : "Редактировать комментарий",
     "Delete comment" : "Удалить комментарий",
@@ -26,15 +26,7 @@
     "Comment deleted" : "Комментарий удалён",
     "An error occurred while trying to delete the comment" : "Попытка удаления комментария завершилась ошибкой",
     "An error occurred while trying to create the comment" : "Попытка создания комментария завершилась ошибкой",
-    "New comment …" : "Новый комментарий…",
-    "Post" : "Опубликовать",
-    "Cancel" : "Отмена",
-    "[Deleted user]" : "[Удалённый пользователь]",
-    "More comments …" : "Ещё комментарии…",
-    "Save" : "Сохранить",
-    "Allowed characters {count} of {max}" : "Допустимых символов {count} из {max}",
-    "Error occurred while retrieving comment with ID {id}" : "При получении комментария с ID {id} произошла ошибка",
-    "Error occurred while updating comment with id {id}" : "При обновлении комментария с id {id} произошла ошибка",
-    "Error occurred while posting comment" : "При сохранении комментария произошла ошибка"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Вы были упомянуты в комментарии к файлу «{file}» пользователем, учётная запись которого была удалена",
+    "{user} mentioned you in a comment on “{file}”" : "{user} упомянул вас в комментарии к “{file}”."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

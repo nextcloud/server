@@ -22,14 +22,11 @@ OC.L10N.register(
     "Good evening" : "Καλό βράδυ",
     "Good evening, {name}" : "Καλό βράδυ, {name}",
     "Hello" : "Γειά",
-    "Hello, {name}" : "Γειά, {όνομα}",
+    "Hello, {name}" : "Γειά, {name}",
     "Pick from Files" : "Επιλέξτε από αρχεία",
     "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
-    "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
-    "Good night, {name}" : "Καληνύχτα, {name}",
-    "Good night" : "Καληνύχτα",
-    "Pick from files" : "Επιλογή από τα αρχεία"
+    "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store"
 },
 "nplurals=2; plural=(n != 1);");

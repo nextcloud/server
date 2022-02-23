@@ -26,9 +26,6 @@ OC.L10N.register(
     "Default images" : "デフォルトの画像",
     "Plain background" : "シンプルな背景",
     "Insert from {productName}" : "{productName} から挿入",
-    "Get more widgets from the app store" : "アプリストアで他のウィジェットを入手",
-    "Good night, {name}" : "こんばんは、{name} さん",
-    "Good night" : "こんばんは",
-    "Pick from files" : "ファイルから選択"
+    "Get more widgets from the app store" : "アプリストアで他のウィジェットを入手"
 },
 "nplurals=1; plural=0;");

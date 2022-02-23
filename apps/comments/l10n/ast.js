@@ -10,21 +10,12 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentó en %2$s",
     "{author} commented on {file}" : "{autor} comentó en {ficheru}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> pa ficheros",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»",
     "Edit comment" : "Editar comentariu",
     "Delete comment" : "Desaniciar comentariu",
     "No comments yet, start the conversation!" : "Entá nun hai comentarios. ¡Entama una conversación!",
     "Retry" : "Retentar",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu ensin lleer","%n comentarios ensin lleer"],
     "Comment" : "Comentariu",
-    "New comment …" : "Comentariu nuevu...",
-    "Post" : "Espublizar",
-    "Cancel" : "Encaboxar",
-    "[Deleted user]" : "[Usuariu desaniciáu]",
-    "More comments …" : "Más comentarios...",
-    "Save" : "Guardar",
-    "Allowed characters {count} of {max}" : "{count} caráuteres almitíos de {max}",
-    "Error occurred while updating comment with id {id}" : "Asocedió un fallu entrín s'anovaba'l comentariu cola ID {id}",
-    "Error occurred while posting comment" : "Asocedieron fallos entrín s'espublizaba'l comentariu"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»"
 },
 "nplurals=2; plural=(n != 1);");

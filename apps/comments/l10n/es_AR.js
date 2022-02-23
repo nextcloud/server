@@ -10,8 +10,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentó en %2$s",
     "{author} commented on {file}" : "{author} comentó en {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> en archivos",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Usted fue mencionado en “{file}”, en un comentario de un usuario que ya ha sido eliminado",
-    "{user} mentioned you in a comment on “{file}”" : "{user} te ha mencionado en un comentario en “{file}”",
     "Files app plugin to add comments to files" : "Complemento de aplicación de archivos para agregar comentarios a los archivos.",
     "Edit comment" : "Editar comentario",
     "Delete comment" : "Borrar comentario",
@@ -19,15 +17,7 @@ OC.L10N.register(
     "Retry" : "Reintentar",
     "_%n unread comment_::_%n unread comments_" : ["%n comentarios sin leer","%n comentarios sin leer"],
     "Comment" : "Comentar",
-    "New comment …" : "Nuevo comentario ...",
-    "Post" : "Post",
-    "Cancel" : "Cancelar",
-    "[Deleted user]" : "[Usuario borrado]",
-    "More comments …" : "Más comentarios ...",
-    "Save" : "Guardar",
-    "Allowed characters {count} of {max}" : "Caracteres permitidos {count} of {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Se produjo un error al recuperar el comentario con ID {id}",
-    "Error occurred while updating comment with id {id}" : "Se ha producido un error al actualizar el comentario con id {id}",
-    "Error occurred while posting comment" : "Se ha producido un error al publicar un comentario"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Usted fue mencionado en “{file}”, en un comentario de un usuario que ya ha sido eliminado",
+    "{user} mentioned you in a comment on “{file}”" : "{user} te ha mencionado en un comentario en “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

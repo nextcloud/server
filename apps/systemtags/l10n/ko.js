@@ -1,6 +1,7 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tag name is empty" : "태그 이름이 비었습니다",
     "Update" : "업데이트",
     "Create" : "만들기",
     "Select tag …" : "태그 선택 …",

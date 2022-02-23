@@ -7,7 +7,9 @@ OC.L10N.register(
     "Out sick" : "En congé de maladie",
     "Vacationing" : "En vacances",
     "Working remotely" : "Travail à distance",
+    "In a call" : "En communication",
     "User status" : "Statut utilisateur",
+    "View profile" : "Voir le profil",
     "Clear status message after" : "Effacer le message d'état après",
     "What is your status?" : "Quel est votre statut ?",
     "Set status" : "Définir le statut",
@@ -33,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 heures",
     "Mute all notifications" : "Désactiver toutes les notifications",
     "Appear offline" : "Apparaitre hors-ligne",
-    "Clear status after" : "Effacer l'état après",
     "What's your status?" : "Quel est votre statut ?"
 },
 "nplurals=2; plural=(n > 1);");

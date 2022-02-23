@@ -28,8 +28,8 @@
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
     "Federated Cloud Sharing" : "Souporaba zveznega oblaka",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo prek #Določila ID zveznega oblaka Nextcloud; več na %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Omogoči souporabo prek #Določila ID zveznega oblaka Nextcloud",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud; več na %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud",
     "Sharing" : "Souporaba",
     "Federated file sharing" : "Souporaba v zveznem oblaku",
     "Provide federated file sharing across servers" : "Omogoči zvezno souporabo prek različnih strežnikov",
@@ -45,7 +45,7 @@
     "Your Federated Cloud ID:" : "ID zveznega oblaka:",
     "Share it so your friends can share files with you:" : "Objavite naslov in omogočite souporabo s prijatelji:",
     "Add to your website" : "Dodaj na spletišče",
-    "Share with me via Nextcloud" : "Omogoči souporabo prek oblaka Nextcloud",
+    "Share with me via Nextcloud" : "Omogoči souporabo z oblaka Nextcloud",
     "HTML Code:" : "Koda HTML:",
     "Adjust how people can share between servers." : "Določila, kako lahko uporabniki omogočajo souporabo med različnimi strežniki."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

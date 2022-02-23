@@ -8,8 +8,6 @@
     "%1$s commented on %2$s" : "%2$s について、%1$s がコメントしました",
     "{author} commented on {file}" : "{author} が{file} にコメントしました",
     "<strong>Comments</strong> for files" : "ファイルへの<strong>コメント</strong>があったとき",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "削除されたユーザーのコメントで \"{file}\" にあなたに言及しました",
-    "{user} mentioned you in a comment on “{file}”" : "{user} さんが ““{file}” のコメントであなたについて言及しました。",
     "Files app plugin to add comments to files" : "ファイルにコメントを追加するためのファイルアプリプラグイン",
     "Edit comment" : "コメントを編集",
     "Delete comment" : "コメントを削除",
@@ -26,15 +24,7 @@
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
     "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
-    "New comment …" : "新しいコメント...",
-    "Post" : "追加",
-    "Cancel" : "キャンセル",
-    "[Deleted user]" : "[削除済みユーザー]",
-    "More comments …" : "その他のコメント...",
-    "Save" : "保存",
-    "Allowed characters {count} of {max}" : "入力文字数  {count} / {max}",
-    "Error occurred while retrieving comment with ID {id}" : "ID {id} のコメント取得中にエラーが発生しました",
-    "Error occurred while updating comment with id {id}" : "ID {id} のコメント更新中にエラーが発生しました",
-    "Error occurred while posting comment" : "コメント投稿中にエラーが発生しました"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "削除されたユーザーのコメントで \"{file}\" にあなたに言及しました",
+    "{user} mentioned you in a comment on “{file}”" : "{user} さんが ““{file}” のコメントであなたについて言及しました。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

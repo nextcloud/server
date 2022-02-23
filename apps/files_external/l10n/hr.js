@@ -133,11 +133,10 @@ OC.L10N.register(
     "Add storage" : "Dodaj pohranu",
     "Advanced settings" : "Napredne postavke",
     "Allow users to mount external storage" : "Dopusti korisnicima postavljanje vanjske pohrane",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
     "External storages" : "Vanjsko spremište za pohranu",
     "(group)" : "(grupa)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS s prijavom putem OC-a",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice."
+    "SMB / CIFS using OC login" : "SMB / CIFS s prijavom putem OC-a"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

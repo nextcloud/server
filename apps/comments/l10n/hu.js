@@ -10,8 +10,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s hozzászólt ehhez: %2$s",
     "{author} commented on {file}" : "{author} hozzászólt ehhez: {file}",
     "<strong>Comments</strong> for files" : "<strong>Hozzászólások</strong> fájlokhoz",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
-    "{user} mentioned you in a comment on “{file}”" : "{user} megemlítette egy hozzászólásban ennél: „{file}”",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} megemlítette egy hozzászólásban ennél: „{file}”",
     "Files app plugin to add comments to files" : "A Fájlok alkalmazás bővítménye, amellyel megjegyzések adhatóak a fájlokhoz",
     "Edit comment" : "Hozzászólás szerkesztése",
     "Delete comment" : "Hozzászólás törlése",
@@ -28,15 +28,7 @@ OC.L10N.register(
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "New comment …" : "Új hozzászólás…",
-    "Post" : "Küldés",
-    "Cancel" : "Mégse",
-    "[Deleted user]" : "[Törölt felhasználó]",
-    "More comments …" : "Több hozzászólás…",
-    "Save" : "Mentés",
-    "Allowed characters {count} of {max}" : "Engedélyezett karakterek: {count} / {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Hiba a(z) {id} azonosítójú hozzászólás betöltésekor",
-    "Error occurred while updating comment with id {id}" : "Hiba a(z) {id} azonosítójú hozzászólás frissítésekor",
-    "Error occurred while posting comment" : "Hiba történt a hozzászólás küldése közben"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
+    "{user} mentioned you in a comment on “{file}”" : "{user} megemlítette egy hozzászólásban ennél: „{file}”"
 },
 "nplurals=2; plural=(n != 1);");

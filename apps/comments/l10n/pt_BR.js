@@ -10,8 +10,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentaram em %2$s",
     "{author} commented on {file}" : "{author} comentou em {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Você foi mencionado em \"{file}\", em um comentário por um usuário que já foi excluído",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mencionou você em um comentário sobre “{file}”",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Você foi mencionado em \"{file}\", em um comentário de um usuário que já foi excluído",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} mencionou você em um comentário em \"{file}\"",
     "Files app plugin to add comments to files" : "Complemento do aplicativo Files para adicionar comentários",
     "Edit comment" : "Editar comentário",
     "Delete comment" : "Excluir comentário",
@@ -28,15 +28,7 @@ OC.L10N.register(
     "Comment deleted" : "Comentário excluído",
     "An error occurred while trying to delete the comment" : "Ocorreu um erro ao tentar excluir o comentário",
     "An error occurred while trying to create the comment" : "Ocorreu um erro ao tentar criar o comentário",
-    "New comment …" : "Novo comentário",
-    "Post" : "Postar",
-    "Cancel" : "Cancelar",
-    "[Deleted user]" : "[Usuário removido]",
-    "More comments …" : "Mais comentários...",
-    "Save" : "Salvar",
-    "Allowed characters {count} of {max}" : "{count} de {max} caracteres permitidos",
-    "Error occurred while retrieving comment with ID {id}" : "Erro ao recuperar comentário com a ID {id}",
-    "Error occurred while updating comment with id {id}" : "Ocorreu um erro durante a atualização do comentário com id {id}",
-    "Error occurred while posting comment" : "Ocorreu um erro ao postar o  comentário"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Você foi mencionado em \"{file}\", em um comentário por um usuário que já foi excluído",
+    "{user} mentioned you in a comment on “{file}”" : "{user} mencionou você em um comentário sobre “{file}”"
 },
 "nplurals=2; plural=(n > 1);");

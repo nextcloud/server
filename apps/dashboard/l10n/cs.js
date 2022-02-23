@@ -21,15 +21,12 @@ OC.L10N.register(
     "Good afternoon, {name}" : "Dobré odpoledne, {name}",
     "Good evening" : "Dobrý večer",
     "Good evening, {name}" : "Dobrý večer, {name}",
-    "Hello" : "Ahoj",
-    "Hello, {name}" : "Ahoj, {name}",
+    "Hello" : "Zdravíme",
+    "Hello, {name}" : "Zdravíme, {name}",
     "Pick from Files" : "Vyberte ze souborů",
     "Default images" : "Výchozí obrázky",
     "Plain background" : "Jednolité pozadí",
     "Insert from {productName}" : "Vložit z {productName}",
-    "Get more widgets from the app store" : "Získejte další ovládací prvky z katalogu aplikací",
-    "Good night, {name}" : "Dobrou noc, {name}",
-    "Good night" : "Dobrou noc",
-    "Pick from files" : "Vybrat ze souborů"
+    "Get more widgets from the app store" : "Získejte další ovládací prvky z katalogu aplikací"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

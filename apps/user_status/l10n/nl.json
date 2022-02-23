@@ -1,12 +1,14 @@
 { "translations": {
     "Recent statuses" : "Recente statussen",
-    "In a meeting" : "Vergadering",
+    "In a meeting" : "In een vergadering",
     "Commuting" : "Woon-werk",
     "Out sick" : "Ziek",
-    "Vacationing" : "vakantie",
+    "Vacationing" : "Op vakantie",
     "Working remotely" : "Thuiswerken",
+    "In a call" : "In gesprek",
     "User status" : "Gebruikersstatus",
-    "Clear status message after" : "Opruimen statusbericht na",
+    "View profile" : "Bekijk profiel",
+    "Clear status message after" : "Statusbericht wissen na",
     "What is your status?" : "Wat is jouw status?",
     "Set status" : "Instellen status",
     "Online status" : "Online status",
@@ -31,7 +33,6 @@
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
     "Appear offline" : "Toon afwezig",
-    "Clear status after" : "Maak de status leeg na",
     "What's your status?" : "Wat is je status?"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

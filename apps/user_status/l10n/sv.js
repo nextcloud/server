@@ -7,8 +7,11 @@ OC.L10N.register(
     "Out sick" : "Sjuk",
     "Vacationing" : "På semester",
     "Working remotely" : "Arbetar hemifrån",
+    "In a call" : "I ett samtal",
     "User status" : "Användarstatus",
+    "View profile" : "Visa profil",
     "Clear status message after" : "Rensa statusmeddelande efter",
+    "What is your status?" : "Vad är din status?",
     "Set status" : "Sätt status",
     "Online status" : "Online-status",
     "Status message" : "Statusmeddelande",
@@ -32,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
     "Appear offline" : "Visa som frånkopplad",
-    "Clear status after" : "Rensa status efter",
     "What's your status?" : "Vad är din status?"
 },
 "nplurals=2; plural=(n != 1);");

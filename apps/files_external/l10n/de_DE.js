@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Zugangsdaten gespeichert",
     "Credentials saving failed" : "Speichern der Zugangsdaten fehlgeschlagen",
     "Credentials required" : "Zugangsdaten benötigt",
+    "Forbidden to manage local mounts" : "Das Verwalten lokaler Laufwerke ist nicht erlaubt",
     "Storage with ID \"%d\" not found" : "Der Speicher mit ID \"1 %d\" nicht gefunden",
     "Invalid backend or authentication mechanism class" : "Ungültiger Backend- oder Authentifizierungsmechanismus",
     "Invalid mount point" : "Ungültiger Einbindungspunkt",
@@ -80,6 +81,8 @@ OC.L10N.register(
     "Public key" : "Öffentlicher Schlüssel",
     "RSA private key" : "Privater RSA-Schlüssel",
     "Private key" : "Privater Schlüssel",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos-Standard-Realm, standardmäßig „WORKGROUP“",
+    "Kerberos ticket Apache mode" : "Kerberos-Ticket Apache-Modus",
     "Kerberos ticket" : "Kerberos-Ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -133,11 +136,11 @@ OC.L10N.register(
     "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Globale Anmeldeinformationen können zur Authentifizierung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen.",
     "External storages" : "Externe Speicher",
     "(group)" : "(group)",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Anmeldung",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen."
+    "Kerberos ticket apache mode" : "Kerberos-Ticket-Apache-Modus"
 },
 "nplurals=2; plural=(n != 1);");

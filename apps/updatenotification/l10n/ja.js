@@ -35,7 +35,6 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "アプリの互換性のあるバージョンを確認する",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpで<samp>appstoreenabled</samp>がfalseに設定されていないことを確認してください。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>すべて</strong>のアプリが、このNextcloudのバージョンに対応しています。",
     "View changelog" : "変更履歴を確認する",
     "Enterprise" : "法人向け",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "法人向けです。 常に最新のパッチレベルを提供しますが、すぐに次のメジャーリリースにアップデートはしません。このアップデートはNextcloud GmbHが大規模でミッションクリティカルな開発のための追加の強化とテストを行った後に行われます。 このチャンネルは顧客だけが利用でき、Nextcloud Enterpriseパッケージを提供します。",
@@ -43,14 +42,14 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新の安定版です。 通常の使用に適しており、常に最新のメジャーバージョンにアップデートされます。",
     "Beta" : "ベータ",
     "A pre-release version only for testing new features, not for production environments." : "本番環境ではなく、新機能のテスト専用のプレリリース版です。",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["アプリ<strong>%n</strong> には、このNextcloudに互換性のあるバージョンがありません。"],
     "Apps missing updates" : "アプリのアップデートがありません",
     "Apps with available updates" : "アップデート可能なアプリ",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "新しいリリースの後、公開されるまでには時間がかかります。\n新しいバージョンを公開して配布しますが、問題が発見されたときにバージョンをスキップすることがあります。",
     "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
     "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
     "<strong>All</strong> apps have an update for this version available" : "<strong>すべての</strong> アプリにこのバージョンのアップデートがあります",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> アプリにこのバージョンのアップデートがありません"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> アプリにこのバージョンのアップデートがありません"],
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>すべて</strong>のアプリが、このNextcloudのバージョンに対応しています。",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["アプリ<strong>%n</strong> には、このNextcloudに互換性のあるバージョンがありません。"]
 },
 "nplurals=1; plural=0;");

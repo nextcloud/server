@@ -121,7 +121,6 @@
     "Could not lock node" : "Ezin izan da nodoa blokeatu",
     "Could not lock path" : "Ezin izan da bidea blokeatu",
     "Wrong or no update parameter given" : "Eguneraketa parametrorik ez da eman edo okerra da",
-    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Nextcloud Talk-ek pasahitza bidaltzeak\" huts egin du ez dagoelako Nextcloud Talk gaituta fitxategi edo karpeta bat partekatzeko.",
     "shared by %s" : "%s erabiltzaileak partekatua",
     "Download all files" : "Deskargatu fitxategi guztiak",
@@ -147,6 +146,9 @@
     "Invalid path selected" : "Bide baliogabea hautatu da",
     "Unknown error" : "Errore ezezaguna",
     "Allow editing" : "Baimendu editatzea",
+    "Read only" : "Irakurtzeko soilik",
+    "Allow upload and editing" : "Onartu kargatzea eta edizioa",
+    "File drop (upload only)" : "Fitxategia jaregin (kargatzeko soilik)",
     "Allow creating" : "Baimendu sortzea",
     "Allow deleting" : "Baimendu ezabatzea",
     "Allow resharing" : "Baimendu birpartekatzea",
@@ -179,9 +181,6 @@
     "Create share" : "Sortu partekatzea",
     "Cancel" : "Utzi",
     "Share label" : "partekatu etiketa",
-    "Read only" : "Irakurtzeko soilik",
-    "Allow upload and editing" : "Onartu kargatzea eta edizioa",
-    "File drop (upload only)" : "Fitxategia jaregin (kargatzeko soilik)",
     "Hide download" : "Ezkutatu deskarga",
     "Password protect" : "Babestu pasahitzarekin",
     "Video verification" : "Bideo egiaztapena",
@@ -210,6 +209,7 @@
     "Unable to load the shares list" : "Ezin izan da partekatzeen zerrenda kargatu",
     "Expires {relativetime}" : "Iraungitzea: {relativetime}",
     "this share just expired." : "partekatze hau oraintxe iraungi da.",
+    "Shared with you by {owner}" : "{owner} erabiltzaileak zurekin partekatua",
     "Link to a file" : "Esteka fitxategi batera",
     "Error creating the share: {errorMessage}" : "Errorea partekatzea sortzean: {errorMessage}",
     "Error creating the share" : "Errorea partekatzea sortzean",
@@ -222,7 +222,6 @@
     "Shared with you and {circle} by {owner}" : " {owner} erabiltzaileak zurekin eta {circle} zirkuluarekin partekatua",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} erabiltzaileak zu eta {conversation} elkarrizketarekin partekatua",
     "Shared with you in a conversation by {owner}" : "{owner} erabiltzaileak zurekin partekatua elkarrizketa batean",
-    "Shared with you by {owner}" : "{owner} erabiltzaileak zurekin partekatua",
     "No entries found in this folder" : "Karpeta honetan ez da sarreraik aurkitu",
     "Name" : "Izena",
     "Share time" : "Partekatzearen ordua",
@@ -245,7 +244,7 @@
     "invalid permissions" : "baimen baliogabeak",
     "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
-    "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ...",
-    "Download %s" : "Deskargatu %s"
+    "Download %s" : "Deskargatu %s",
+    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

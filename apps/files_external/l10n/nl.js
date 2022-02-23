@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Inloggegevens opgeslagen",
     "Credentials saving failed" : "Opslaan inloggegevens mislukt",
     "Credentials required" : "Inloggegevens vereist",
+    "Forbidden to manage local mounts" : "Niet toegestaan lokale koppelpunten te beheren",
     "Storage with ID \"%d\" not found" : "Opslag met ID \"%d\" niet gevonden",
     "Invalid backend or authentication mechanism class" : "Ongeldige backend of authenticatie mechanisme klasse",
     "Invalid mount point" : "Ongeldig aankoppelpunt",
@@ -106,7 +107,7 @@ OC.L10N.register(
     "Share" : "Share",
     "Show hidden files" : "Laat verborgen bestanden zien",
     "Verify ACL access when listing files" : "Controleer ACL bij bestandsoverzichten",
-    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Controleer de ACL's van elk bestand of elke map in een directory om objecten uit te filteren waar de gebruiker geen leesrechten heeft, betekent wel prestatieverlies",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Controleer de ACL's van elk bestand of elke map in een directory om objecten uit te filteren waar de gebruiker geen leesmachtiging heeft, betekent wel prestatieverlies",
     "Timeout" : "Time-out",
     "SMB/CIFS using OC login" : "SMB/CIFS via OC inlog",
     "Username as share" : "Gebruikersnaam als share",
@@ -133,11 +134,10 @@ OC.L10N.register(
     "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
     "External storages" : "Externe opslag",
     "(group)" : "(groep)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS via OC inlog",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens."
+    "SMB / CIFS using OC login" : "SMB / CIFS via OC inlog"
 },
 "nplurals=2; plural=(n != 1);");

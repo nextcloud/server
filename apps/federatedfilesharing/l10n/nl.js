@@ -20,7 +20,7 @@ OC.L10N.register(
     "It is not allowed to send federated group shares from this server." : "Het is niet toegestaan om gefedereerde groepsshares vanaf deze server te versturen.",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delen van %1$s is mislukt omdat het object al wordt gedeeld met gebruiker %2$s",
     "Not allowed to create a federated share with the same user" : "Het is niet toegestaan om een gefedereerde share met dezelfde gebruikersserver te maken",
-    "Federated shares require read permissions" : "Gefedereerde shares vereisen leesrechten",
+    "Federated shares require read permissions" : "Gefedereerde shares vereisen leesmachtiging",
     "File is already shared with %s" : "Bestand is al gedeeld met %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %1$s mislukt, kon %2$s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf-ondertekend certificaat.",
     "Could not find share" : "Kon share niet vinden",

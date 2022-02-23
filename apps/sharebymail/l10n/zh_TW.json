@@ -25,6 +25,7 @@
     "Share by mail" : "透過電子郵件分享",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失敗，因為此項目已與使用者 %2$s 分享",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼寄送給您。請在您的個人設定裡設定有效的電子郵件地址並再試一次。",
+    "Failed to send share by email. Got an invalid email address" : "透過電子郵件傳送分享失敗。收到無效的電子郵件地址",
     "Failed to send share by email" : "透過電子郵件寄送分享失敗",
     "%1$s shared »%2$s« with you" : "%1$s 與您分享了 %2$s",
     "%1$s shared »%2$s« with you." : "%1$s 與您分享了 %2$s。",

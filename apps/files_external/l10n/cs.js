@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "Přihlašovací údaje uloženy",
     "Credentials saving failed" : "Uložení přihlašovacích údajů se nezdařilo",
     "Credentials required" : "Vyžadovány přihlašovací údaje",
+    "Forbidden to manage local mounts" : "Odepřeno spravovat místní připojení (mount)",
     "Storage with ID \"%d\" not found" : "Úložiště s identifikátorem „%d“ nebylo nalezeno",
     "Invalid backend or authentication mechanism class" : "Neplatná podpůrná vrstva nebo třída ověřovacího mechanismu",
     "Invalid mount point" : "Neplatný přípojný bod",
@@ -80,6 +81,8 @@ OC.L10N.register(
     "Public key" : "Veřejný klíč",
     "RSA private key" : "Soukromá část RSA klíče",
     "Private key" : "Soukromá část klíče",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Výchozí kerberos oblast (realm) – výchozí je „WORKGROUP",
+    "Kerberos ticket Apache mode" : "Režim kerberos lístku (ticket) apache serveru",
     "Kerberos ticket" : "Kerberos ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -133,11 +136,11 @@ OC.L10N.register(
     "Add storage" : "Přidat úložiště",
     "Advanced settings" : "Pokročilá nastavení",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje.",
     "External storages" : "Externí úložiště",
     "(group)" : "(skupina)",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS za použití přihlašovacího jména OC",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje."
+    "Kerberos ticket apache mode" : "Režim kerberos lístku (ticket) apache serveru"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

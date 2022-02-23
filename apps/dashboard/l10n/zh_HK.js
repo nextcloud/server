@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "默認圖像",
     "Plain background" : "簡單背景",
     "Insert from {productName}" : "插入自 {productName}",
-    "Get more widgets from the app store" : "從應用商店取得更多小工具",
-    "Good night, {name}" : "晚安，{name}",
-    "Good night" : "晚安",
-    "Pick from files" : "從檔案選取"
+    "Get more widgets from the app store" : "從應用商店取得更多小工具"
 },
 "nplurals=1; plural=0;");

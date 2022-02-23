@@ -41,6 +41,7 @@ OC.L10N.register(
     "Credentials saved" : "資格情報を保存しました",
     "Credentials saving failed" : "資格情報の保存に失敗しました",
     "Credentials required" : "資格情報が必要です",
+    "Forbidden to manage local mounts" : "ローカルマウントの利用は禁止されています",
     "Storage with ID \"%d\" not found" : "ID \"%d\" のストレージが見つかりません",
     "Invalid backend or authentication mechanism class" : "バックエンドまたは認証システムクラスが無効",
     "Invalid mount point" : "無効なマウントポイント",
@@ -133,11 +134,10 @@ OC.L10N.register(
     "Add storage" : "ストレージを追加",
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
     "External storages" : "外部ストレージ",
     "(group)" : "(グループ)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
+    "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS"
 },
 "nplurals=1; plural=0;");

@@ -78,7 +78,7 @@
     "LDAP Filter:" : "Filter LDAP:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filter določa, katere skupine LDAP bodo imele dostop do %s.",
     "Verify settings and count the groups" : "Preveri nastavitve in preštej skupine",
-    "When logging in, %s will find the user based on the following attributes:" : "Pri prijavi bodo prek %s najdeni uporabniki na osnovi navedenih atributov:",
+    "When logging in, %s will find the user based on the following attributes:" : "Ob prijavi bodo uporabniki v %s najdeni na osnovi navedenih atributov:",
     "LDAP/AD Username:" : "Uporabniško ime LDAP / AD:",
     "Allows login against the LDAP/AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "Omogoča prijavo prek uporabniškega imena LDAP / AD, ki je ali »UID« ali ime računa »sAMAccountName«, ki bo zaznano.",
     "LDAP/AD Email Address:" : "Elektronski naslov LDAP / AD:",
