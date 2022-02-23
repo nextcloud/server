@@ -56,8 +56,6 @@
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
 		<command>OCA\DAV\Command\RemoveInvalidShares</command>
-		<command>OCA\DAV\Command\ExportCalendars</command>
-		<command>OCA\DAV\Command\ImportCalendar</command>
 	</commands>
 
 	<settings>

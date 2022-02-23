@@ -97,7 +97,7 @@ class CalendarMigratorTest extends TestCase {
 	private function getSanitizedComponents(VCalendar $vCalendar): array {
 		return array_map(
 			// Elements of the serialized blob are sorted
-			fn (VObjectComponent $component) => $this->migrator->sanitizeComponent($component)->serialize(),
+			fn (VObjectComponent $component) => $this->invokePrivate($this->migrator, 'sanitizeComponent', [$component])->serialize(),
 			$vCalendar->getComponents(),
 		);
 	}
@@ -111,9 +111,9 @@ class CalendarMigratorTest extends TestCase {
 		$problems = $importCalendar->validate();
 		$this->assertEmpty($problems);
 
-		$this->migrator->importCalendar($user, $filename, $initialCalendarUri, $importCalendar);
+		$this->invokePrivate($this->migrator, 'importCalendar', [$user, $filename, $initialCalendarUri, $importCalendar]);
 
-		$calendarExports = $this->migrator->getCalendarExports($user);
+		$calendarExports = $this->invokePrivate($this->migrator, 'getCalendarExports', [$user]);
 		$this->assertCount(1, $calendarExports);
 
 		/** @var VCalendar $exportCalendar */
@@ -125,7 +125,7 @@ class CalendarMigratorTest extends TestCase {
 		);
 
 		$this->assertEqualsCanonicalizing(
-			// Components are sanitized on import
+			// Components are expected to be sanitized on import
 			$this->getSanitizedComponents($importCalendar),
 			$this->getComponents($exportCalendar),
 		);

@@ -26,10 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\UserMigration;
 
-use function Safe\fopen;
 use function Safe\substr;
-use OC\Files\Filesystem;
-use OC\Files\View;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
@@ -41,6 +38,10 @@ use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IUser;
+use OCP\UserMigration\IExportDestination;
+use OCP\UserMigration\IImportSource;
+use OCP\UserMigration\IMigrator;
+use OCP\UserMigration\TMigratorBasicVersionHandling;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Version as SabreDavVersion;
 use Sabre\VObject\Component as VObjectComponent;
@@ -52,7 +53,9 @@ use Sabre\VObject\UUIDUtil;
 use Safe\Exceptions\FilesystemException;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CalendarMigrator {
+class CalendarMigrator implements IMigrator {
+
+	use TMigratorBasicVersionHandling;
 
 	private CalDavBackend $calDavBackend;
 
@@ -67,11 +70,13 @@ class CalendarMigrator {
 
 	private SabreDavServer $sabreDavServer;
 
-	public const USERS_URI_ROOT = 'principals/users/';
+	private const USERS_URI_ROOT = 'principals/users/';
 
-	public const FILENAME_EXT = '.ics';
+	private const FILENAME_EXT = '.ics';
 
-	public const MIGRATED_URI_PREFIX = 'migrated-';
+	private const MIGRATED_URI_PREFIX = 'migrated-';
+
+	private const EXPORT_ROOT = 'calendars/';
 
 	public function __construct(
 		CalDavBackend $calDavBackend,
@@ -86,12 +91,15 @@ class CalendarMigrator {
 		$this->defaults = $defaults;
 		$this->l10n = $l10n;
 
+		// Override trait property
+		$this->mandatory = true;
+
 		$root = new RootCollection();
 		$this->sabreDavServer = new SabreDavServer(new CachingTree($root));
 		$this->sabreDavServer->addPlugin(new CalDAVPlugin());
 	}
 
-	public function getPrincipalUri(IUser $user): string {
+	private function getPrincipalUri(IUser $user): string {
 		return CalendarMigrator::USERS_URI_ROOT . $user->getUID();
 	}
 
@@ -101,7 +109,7 @@ class CalendarMigrator {
 	 * @throws CalendarMigratorException
 	 * @throws InvalidCalendarException
 	 */
-	public function getCalendarExportData(IUser $user, ICalendar $calendar): array {
+	private function getCalendarExportData(IUser $user, ICalendar $calendar): array {
 		$userId = $user->getUID();
 		$calendarId = $calendar->getKey();
 		$calendarInfo = $this->calDavBackend->getCalendarById($calendarId);
@@ -157,7 +165,7 @@ class CalendarMigrator {
 	 *
 	 * @throws CalendarMigratorException
 	 */
-	public function getCalendarExports(IUser $user): array {
+	private function getCalendarExports(IUser $user): array {
 		$principalUri = $this->getPrincipalUri($user);
 
 		return array_values(array_filter(array_map(
@@ -174,7 +182,7 @@ class CalendarMigrator {
 		)));
 	}
 
-	public function getUniqueCalendarUri(IUser $user, string $initialCalendarUri): string {
+	private function getUniqueCalendarUri(IUser $user, string $initialCalendarUri): string {
 		$principalUri = $this->getPrincipalUri($user);
 		$initialCalendarUri = substr($initialCalendarUri, 0, strlen(CalendarMigrator::MIGRATED_URI_PREFIX)) === CalendarMigrator::MIGRATED_URI_PREFIX
 			? $initialCalendarUri
@@ -196,24 +204,11 @@ class CalendarMigrator {
 	}
 
 	/**
-	 * @throws CalendarMigratorException
+	 * {@inheritDoc}
 	 */
-	protected function writeExport(IUser $user, string $data, string $destDir, string $filename, OutputInterface $output): void {
-		$userId = $user->getUID();
+	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
+		$output->writeln("Exporting calendars…");
 
-		\OC::$server->getUserFolder($userId);
-		Filesystem::initMountPoints($userId);
-
-		$view = new View();
-
-		if ($view->file_put_contents("$destDir/$filename", $data) === false) {
-			throw new CalendarMigratorException('Could not export calendar');
-		}
-
-		$output->writeln("<info>✅ Exported calendar of <$userId> into $destDir/$filename</info>");
-	}
-
-	public function export(IUser $user, OutputInterface $output): void {
 		$userId = $user->getUID();
 
 		try {
@@ -234,24 +229,16 @@ class CalendarMigrator {
 			// Set filename to sanitized calendar name appended with the date
 			$filename = preg_replace('/[^a-zA-Z0-9-_ ]/um', '', $name) . '_' . date('Y-m-d') . CalendarMigrator::FILENAME_EXT;
 
-			$this->writeExport(
-				$user,
-				$vCalendar->serialize(),
-				// TESTING directory does not automatically get created so just write to user directory, this will be put in a zip with all other user_migration data
-				// "/$userId/export/$appId",
-				"/$userId",
-				$filename,
-				$output,
-			);
+			if ($exportDestination->addFileContents(CalendarMigrator::EXPORT_ROOT . $filename, $vCalendar->serialize()) === false) {
+				throw new CalendarMigratorException();
+			}
 		}
 	}
 
 	/**
-	 * Return an associative array mapping Time Zone ID to VTimeZone component
-	 *
 	 * @return array<string, VTimeZone>
 	 */
-	public function getCalendarTimezones(VCalendar $vCalendar): array {
+	private function getCalendarTimezones(VCalendar $vCalendar): array {
 		/** @var VTimeZone[] $calendarTimezones */
 		$calendarTimezones = array_values(array_filter(
 			$vCalendar->getComponents(),
@@ -270,7 +257,7 @@ class CalendarMigrator {
 	/**
 	 * @return VTimeZone[]
 	 */
-	public function getTimezonesForComponent(VCalendar $vCalendar, VObjectComponent $component): array {
+	private function getTimezonesForComponent(VCalendar $vCalendar, VObjectComponent $component): array {
 		$componentTimezoneIds = [];
 
 		foreach ($component->children() as $child) {
@@ -290,7 +277,7 @@ class CalendarMigrator {
 		)));
 	}
 
-	public function sanitizeComponent(VObjectComponent $component): VObjectComponent {
+	private function sanitizeComponent(VObjectComponent $component): VObjectComponent {
 		// Operate on the component clone to prevent mutation of the original
 		$componentClone = clone $component;
 
@@ -310,7 +297,7 @@ class CalendarMigrator {
 	/**
 	 * @return VObjectComponent[]
 	 */
-	public function getRequiredImportComponents(VCalendar $vCalendar, VObjectComponent $component): array {
+	private function getRequiredImportComponents(VCalendar $vCalendar, VObjectComponent $component): array {
 		$component = $this->sanitizeComponent($component);
 		/** @var array<int, VTimeZone> $timezoneComponents */
 		$timezoneComponents = $this->getTimezonesForComponent($vCalendar, $component);
@@ -320,7 +307,7 @@ class CalendarMigrator {
 		];
 	}
 
-	public function initCalendarObject(): VCalendar {
+	private function initCalendarObject(): VCalendar {
 		$vCalendarObject = new VCalendar();
 		$vCalendarObject->PRODID = $this->sabreDavServer::$exposeVersion
 			? '-//SabreDAV//SabreDAV ' . SabreDavVersion::VERSION . '//EN'
@@ -328,7 +315,7 @@ class CalendarMigrator {
 		return $vCalendarObject;
 	}
 
-	public function importCalendarObject(int $calendarId, VCalendar $vCalendarObject): void {
+	private function importCalendarObject(int $calendarId, VCalendar $vCalendarObject): void {
 		try {
 			$this->calDavBackend->createCalendarObject(
 				$calendarId,
@@ -345,7 +332,7 @@ class CalendarMigrator {
 	/**
 	 * @throws CalendarMigratorException
 	 */
-	public function importCalendar(IUser $user, string $filename, string $initialCalendarUri, VCalendar $vCalendar): void {
+	private function importCalendar(IUser $user, string $filename, string $initialCalendarUri, VCalendar $vCalendar): void {
 		$principalUri = $this->getPrincipalUri($user);
 		$calendarUri = $this->getUniqueCalendarUri($user, $initialCalendarUri);
 
@@ -415,43 +402,50 @@ class CalendarMigrator {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * @throws FilesystemException
 	 * @throws CalendarMigratorException
 	 */
-	public function import(IUser $user, string $srcDir, string $filename, OutputInterface $output): void {
-		$userId = $user->getUID();
-
-		try {
-			/** @var VCalendar $vCalendar */
-			$vCalendar = VObjectReader::read(
-				fopen("$srcDir/$filename", 'r'),
-				VObjectReader::OPTION_FORGIVING,
-			);
-		} catch (FilesystemException $e) {
-			throw new FilesystemException("Failed to read file: \"$srcDir/$filename\"");
+	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {
+		if ($importSource->getMigratorVersion(static::class) === null) {
+			$output->writeln('No version for ' . static::class . ', skipping import…');
+			return;
 		}
 
-		$problems = $vCalendar->validate();
-		if (empty($problems)) {
-			$splitFilename = explode('_', $filename, 2);
-			if (count($splitFilename) !== 2) {
-				$output->writeln("<error>Invalid filename, filename must be of the format: \"<calendar_name>_YYYY-MM-DD" . CalendarMigrator::FILENAME_EXT . "\"</error>");
-				throw new CalendarMigratorException();
+		$output->writeln("Importing calendars…");
+
+		foreach ($importSource->getFolderListing(CalendarMigrator::EXPORT_ROOT) as $filename) {
+			try {
+				/** @var VCalendar $vCalendar */
+				$vCalendar = VObjectReader::read(
+					$importSource->getFileAsStream(CalendarMigrator::EXPORT_ROOT . $filename),
+					VObjectReader::OPTION_FORGIVING,
+				);
+			} catch (FilesystemException $e) {
+				throw new FilesystemException("Failed to read file: \"$filename\"");
 			}
-			[$initialCalendarUri, $suffix] = $splitFilename;
 
-			$this->importCalendar(
-				$user,
-				$filename,
-				$initialCalendarUri,
-				$vCalendar,
-			);
+			$problems = $vCalendar->validate();
+			if (empty($problems)) {
+				$splitFilename = explode('_', $filename, 2);
+				if (count($splitFilename) !== 2) {
+					$output->writeln("<error>Invalid filename, expected filename of the format: \"<calendar_name>_YYYY-MM-DD" . CalendarMigrator::FILENAME_EXT . "\"</error>");
+					throw new CalendarMigratorException();
+				}
+				[$initialCalendarUri, $suffix] = $splitFilename;
 
-			$vCalendar->destroy();
+				$this->importCalendar(
+					$user,
+					$filename,
+					$initialCalendarUri,
+					$vCalendar,
+				);
 
-			$output->writeln("<info>✅ Imported calendar \"$filename\" into account of <$userId></info>");
-		} else {
-			throw new CalendarMigratorException("Invalid data contained in \"$srcDir/$filename\"");
+				$vCalendar->destroy();
+			} else {
+				throw new CalendarMigratorException("Invalid data contained in \"$filename\"");
+			}
 		}
 	}
 }
