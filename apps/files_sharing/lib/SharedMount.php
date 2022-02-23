@@ -78,7 +78,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
-		parent::__construct($storage, $absMountPoint, $arguments, $loader);
+		parent::__construct($storage, $absMountPoint, $arguments, $loader, null, null, MountProvider::class);
 	}
 
 	/**

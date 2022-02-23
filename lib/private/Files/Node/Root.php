@@ -29,6 +29,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Node;
 
 use OC\Cache\CappedMemoryCache;
@@ -87,8 +88,8 @@ class Root extends Folder implements IRootFolder {
 	 * @param IUserManager $userManager
 	 */
 	public function __construct($manager,
-								$view,
-								$user,
+		$view,
+		$user,
 								IUserMountCache $userMountCache,
 								ILogger $logger,
 								IUserManager $userManager) {
@@ -189,9 +190,9 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $path
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
 	 * @return Node
+	 * @throws \OCP\Files\NotPermittedException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);
@@ -212,8 +213,8 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function rename($targetPath) {
 		throw new NotPermittedException();
@@ -225,8 +226,8 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function copy($targetPath) {
 		throw new NotPermittedException();

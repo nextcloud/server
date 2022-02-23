@@ -42,7 +42,7 @@ class Mount extends MountPoint implements MoveableMount {
 	 * @param \OC\Files\Storage\StorageFactory $loader
 	 */
 	public function __construct($storage, $mountpoint, $options, $manager, $loader = null) {
-		parent::__construct($storage, $mountpoint, $options, $loader);
+		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
 		$this->manager = $manager;
 	}
 

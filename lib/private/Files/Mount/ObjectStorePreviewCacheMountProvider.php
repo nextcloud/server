@@ -69,7 +69,10 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 					AppdataPreviewObjectStoreStorage::class,
 					'/appdata_' . $instanceId . '/preview/' . $parent . '/' . $child,
 					$this->getMultiBucketObjectStore($i),
-					$loader
+					$loader,
+					null,
+					null,
+					self::class
 				);
 				$i++;
 			}
@@ -87,7 +90,10 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 			$fakeRootStorageJail,
 			'/appdata_' . $instanceId . '/preview/old-multibucket',
 			null,
-			$loader
+			$loader,
+			null,
+			null,
+			self::class
 		);
 
 		return $mountPoints;
