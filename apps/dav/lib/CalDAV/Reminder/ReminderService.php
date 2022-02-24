@@ -33,6 +33,7 @@ namespace OCA\DAV\CalDAV\Reminder;
 use DateTimeImmutable;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -66,6 +67,9 @@ class ReminderService {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var IConfig */
+	private $config;
+
 	public const REMINDER_TYPE_EMAIL = 'EMAIL';
 	public const REMINDER_TYPE_DISPLAY = 'DISPLAY';
 	public const REMINDER_TYPE_AUDIO = 'AUDIO';
@@ -90,19 +94,22 @@ class ReminderService {
 	 * @param IGroupManager $groupManager
 	 * @param CalDavBackend $caldavBackend
 	 * @param ITimeFactory $timeFactory
+	 * @param IConfig $config
 	 */
 	public function __construct(Backend $backend,
 								NotificationProviderManager $notificationProviderManager,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								CalDavBackend $caldavBackend,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IConfig $config) {
 		$this->backend = $backend;
 		$this->notificationProviderManager = $notificationProviderManager;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->caldavBackend = $caldavBackend;
 		$this->timeFactory = $timeFactory;
+		$this->config = $config;
 	}
 
 	/**
@@ -145,7 +152,12 @@ class ReminderService {
 				continue;
 			}
 
-			$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
+			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedGroupMembers', 'yes') === 'no') {
+				$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
+			} else {
+				$users = [];
+			}
+
 			$user = $this->getUserFromPrincipalURI($reminder['principaluri']);
 			if ($user) {
 				$users[] = $user;
