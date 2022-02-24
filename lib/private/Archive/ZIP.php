@@ -33,12 +33,17 @@ namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class ZIP extends Archive {
 	/**
 	 * @var \ZipArchive zip
 	 */
-	private $zip = null;
+	private $zip;
+
+	/**
+	 * @var string
+	 */
 	private $path;
 
 	/**
@@ -49,7 +54,7 @@ class ZIP extends Archive {
 		$this->zip = new \ZipArchive();
 		if ($this->zip->open($source, \ZipArchive::CREATE)) {
 		} else {
-			\OCP\Util::writeLog('files_archive', 'Error while opening archive '.$source, ILogger::WARN);
+			\OC::$server->get(LoggerInterface::class)->warning('Error while opening archive '.$source, ['app' => 'files_archive']);
 		}
 	}
 	/**
@@ -82,12 +87,12 @@ class ZIP extends Archive {
 	 * rename a file or folder in the archive
 	 * @param string $source
 	 * @param string $dest
-	 * @return boolean|null
+	 * @return bool
 	 */
 	public function rename($source, $dest) {
 		$source = $this->stripPath($source);
 		$dest = $this->stripPath($dest);
-		$this->zip->renameName($source, $dest);
+		return $this->zip->renameName($source, $dest);
 	}
 	/**
 	 * get the uncompressed size of a file in the archive
@@ -139,7 +144,7 @@ class ZIP extends Archive {
 	/**
 	 * get the content of a file
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	public function getFile($path) {
 		return $this->zip->getFromName($path);
@@ -148,11 +153,14 @@ class ZIP extends Archive {
 	 * extract a single file from the archive
 	 * @param string $path
 	 * @param string $dest
-	 * @return boolean|null
+	 * @return bool
 	 */
 	public function extractFile($path, $dest) {
 		$fp = $this->zip->getStream($path);
-		file_put_contents($dest, $fp);
+		if ($fp === false) {
+			return false;
+		}
+		return file_put_contents($dest, $fp) !== false;
 	}
 	/**
 	 * extract the archive
@@ -195,8 +203,9 @@ class ZIP extends Archive {
 			//since we can't directly get a writable stream,
 			//make a temp copy of the file and put it back
 			//in the archive when the stream is closed
-			if (strrpos($path, '.') !== false) {
-				$ext = substr($path, strrpos($path, '.'));
+			$lastPoint = strrpos($path, '.');
+			if ($lastPoint !== false) {
+				$ext = substr($path, $lastPoint);
 			} else {
 				$ext = '';
 			}
@@ -213,6 +222,9 @@ class ZIP extends Archive {
 
 	/**
 	 * write back temporary files
+	 * @param string $tmpFile
+	 * @param string $path
+	 * @return void
 	 */
 	public function writeBack($tmpFile, $path) {
 		$this->addFile($path, $tmpFile);

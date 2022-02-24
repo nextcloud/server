@@ -31,7 +31,7 @@ namespace OC\Archive;
 
 abstract class Archive {
 	/**
-	 * @param $source
+	 * @param string $source
 	 */
 	abstract public function __construct($source);
 	/**
@@ -80,14 +80,14 @@ abstract class Archive {
 	/**
 	 * get the content of a file
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	abstract public function getFile($path);
 	/**
 	 * extract a single file from the archive
 	 * @param string $path
 	 * @param string $dest
-	 * @return bool
+	 * @return bool success
 	 */
 	abstract public function extractFile($path, $dest);
 	/**
@@ -119,6 +119,7 @@ abstract class Archive {
 	 * add a folder and all its content
 	 * @param string $path
 	 * @param string $source
+	 * @return void
 	 */
 	public function addRecursive($path, $source) {
 		$dh = opendir($source);

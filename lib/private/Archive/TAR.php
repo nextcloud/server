@@ -39,13 +39,23 @@ class TAR extends Archive {
 	public const GZIP = 1;
 	public const BZIP = 2;
 
-	private $fileList;
-	private $cachedHeaders;
+	/**
+	 * @var string[]|false
+	 */
+	private $fileList = false;
+	/**
+	 * @var array|false
+	 */
+	private $cachedHeaders = false;
 
 	/**
-	 * @var \Archive_Tar tar
+	 * @var \Archive_Tar
 	 */
 	private $tar = null;
+
+	/**
+	 * @var string
+	 */
 	private $path;
 
 	/**
@@ -154,6 +164,7 @@ class TAR extends Archive {
 
 	/**
 	 * @param string $file
+	 * @return array|null
 	 */
 	private function getHeader($file) {
 		if (!$this->cachedHeaders) {
@@ -244,10 +255,15 @@ class TAR extends Archive {
 	 * get the content of a file
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	public function getFile($path) {
-		return $this->tar->extractInString($path);
+		$string = $this->tar->extractInString($path);
+		if (is_string($string)) {
+			return $string;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -364,6 +380,9 @@ class TAR extends Archive {
 
 	/**
 	 * write back temporary files
+	 * @param string $tmpFile
+	 * @param string $path
+	 * @return void
 	 */
 	public function writeBack($tmpFile, $path) {
 		$this->addFile($path, $tmpFile);
@@ -373,7 +392,7 @@ class TAR extends Archive {
 	/**
 	 * reopen the archive to ensure everything is written
 	 */
-	private function reopen() {
+	private function reopen(): void {
 		if ($this->tar) {
 			$this->tar->_close();
 			$this->tar = null;
