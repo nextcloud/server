@@ -267,12 +267,7 @@ class LoginController extends Controller {
 
 	private function generateRedirect(?string $redirectUrl): RedirectResponse {
 		if ($redirectUrl !== null && $this->userSession->isLoggedIn()) {
-			$location = null;
-			if (str_starts_with($redirectUrl, 'http')) {
-				$location = $redirectUrl;
-			} else {
-				$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
-			}
+			$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
 			if (strpos($location, '@') === false) {
