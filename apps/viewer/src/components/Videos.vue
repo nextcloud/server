@@ -27,7 +27,6 @@
 		<VuePlyr ref="plyr"
 			:options="options"
 			:style="{
-				height: height + 'px',
 				width: width + 'px'
 			}">
 			<video ref="video"

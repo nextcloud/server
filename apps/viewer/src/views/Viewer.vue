@@ -24,6 +24,7 @@
 <template>
 	<Modal v-if="initiated || currentFile.modal"
 		id="viewer"
+		size="large"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
 			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
 		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
@@ -32,7 +33,6 @@
 		:enable-swipe="canSwipe"
 		:has-next="hasNext && (canLoop ? true : !isEndOfList)"
 		:has-previous="hasPrevious && (canLoop ? true : !isStartOfList)"
-		:size="isMobile ? 'full' : 'large'"
 		:spread-navigation="true"
 		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
 		:title="currentFile.basename"
@@ -124,7 +124,6 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils'
@@ -152,7 +151,7 @@ export default {
 		Download,
 	},
 
-	mixins: [isMobile, isFullscreen],
+	mixins: [isFullscreen],
 
 	data() {
 		return {
@@ -790,35 +789,16 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
 	}
 
 	::v-deep .modal-wrapper {
 		.modal-container {
-			border-radius: 0;
 			// let the mime components manage their own background-color
 			background-color: transparent;
-			width: 900px; // same as max-width
-			height: 80%; // same as max-height
 		}
-
-		// Always set max and height/width simultaneously here
-		// to allow children to contain themselves properly
-		&--full .modal-container {
-			width: 100%; // same as max-width
-			height: 100%; // same as max-height
-			box-shadow: none;
-		}
-		&--large .modal-container {
-			width: 85%; // same as max-width
-			height: 90%; // same as max-height
-			box-shadow: none;
-		}
-	}
-
-	&__content {
-		width: 100%;
-		height: 100%;
-		cursor: pointer;
 	}
 
 	&__file {
