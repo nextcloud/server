@@ -32,7 +32,6 @@
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
-use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 class ZIP extends Archive {
