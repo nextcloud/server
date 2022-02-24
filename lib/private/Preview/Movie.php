@@ -99,11 +99,14 @@ class Movie extends ProviderV2 {
 		foreach ($sizeAttempts as $size) {
 			$absPath = $this->getLocalFile($file, $size);
 
-			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
-			if ($result === null) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
+			$result = null;
+			if (is_string($absPath)) {
+				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
 				if ($result === null) {
-					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
+					if ($result === null) {
+						$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+					}
 				}
 			}
 
