@@ -2381,12 +2381,39 @@
 			 */
 			urlSpec.a = this._filesConfig.get('cropimagepreviews') ? 0 : 1;
 
+			// Use map to get consistent parameter ordering with activity app generated URl (php)
+			const urlSpecMap = new Map()
+			urlSpecMap.set('forceIcon', urlSpec.forceIcon)
+			urlSpecMap.set('a', urlSpec.a)
+			urlSpecMap.set('x', urlSpec.x)
+			urlSpecMap.set('y', urlSpec.y)
+
+			if (urlSpec.mode) {
+				urlSpecMap.set('mode', urlSpec.mode)
+			}
+
 			if (typeof urlSpec.fileId !== 'undefined') {
-				delete urlSpec.file;
-				return OC.generateUrl('/core/preview?') + $.param(urlSpec);
+				urlSpecMap.set('fileId', urlSpec.fileId)
+				urlSpecMap.set('c', urlSpec.c)
+
+				let param = []
+				urlSpecMap.forEach((value, key) => {
+					param.push(encodeURIComponent(key) + '=' + encodeURIComponent(value))
+				})
+				param = param.join('&')
+
+				return window.location.protocol + '//' + window.location.hostname + OC.generateUrl('/core/preview?') + param
 			} else {
-				delete urlSpec.fileId;
-				return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+				urlSpecMap.set('file', urlSpec.file)
+				urlSpecMap.set('c', urlSpec.c)
+
+				let param = []
+				urlSpecMap.forEach((key, value) => {
+					param.push(encodeURIComponent(key) + '=' + encodeURIComponent(value))
+				})
+				param = param.join('&')
+
+				return window.location.protocol + '//' + window.location.hostname + OC.generateUrl('/core/preview.png?') + param
 			}
 
 		},
