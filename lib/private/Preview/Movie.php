@@ -120,25 +120,18 @@ class Movie extends ProviderV2 {
 		return $result;
 	}
 
-	/**
-	 * @param int $maxX
-	 * @param int $maxY
-	 * @param string $absPath
-	 * @param int $second
-	 * @return null|\OCP\IImage
-	 */
-	private function generateThumbNail($maxX, $maxY, $absPath, $second): ?IImage {
+	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
 		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
 		if ($binaryType === 'avconv') {
-			$cmd = $this->binary . ' -y -ss ' . escapeshellarg($second) .
+			$cmd = $this->binary . ' -y -ss ' . escapeshellarg((string)$second) .
 				' -i ' . escapeshellarg($absPath) .
 				' -an -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 				' 2>&1';
 		} elseif ($binaryType === 'ffmpeg') {
-			$cmd = $this->binary . ' -y -ss ' . escapeshellarg($second) .
+			$cmd = $this->binary . ' -y -ss ' . escapeshellarg((string)$second) .
 				' -i ' . escapeshellarg($absPath) .
 				' -f mjpeg -vframes 1' .
 				' ' . escapeshellarg($tmpPath) .
