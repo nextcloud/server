@@ -423,6 +423,8 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "Táto apka sa nedá nainštalovať, nie je kompatibilná",
     "Can't install this app" : "Táto apka sa nedá nainštalovať",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Modul OPcache PHP nie je načítaný. {linkstart} Pre lepší výkon sa odporúča ↗{linkend} načítať ho do vašej inštalácie PHP.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache nie je nakonfigurovaná správne. {linkstart}Pre zvýšenie výkonu ↗{linkend} použite v <code>php.ini</code> nasledovné odporúčané nastavenia:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache nie je nakonfigurovaná správne. {linkstart}Pre zvýšenie výkonu ↗{linkend} použite v <code>php.ini</code> nasledovné odporúčané nastavenia:",
+    "You haven't added any info yet" : "Zatiaľ ste nepridali žiadne informácie",
+    "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
