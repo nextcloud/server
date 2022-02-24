@@ -45,10 +45,7 @@ class ZIP extends Archive {
 	 */
 	private $path;
 
-	/**
-	 * @param string $source
-	 */
-	public function __construct($source) {
+	public function __construct(string $source) {
 		$this->path = $source;
 		$this->zip = new \ZipArchive();
 		if ($this->zip->open($source, \ZipArchive::CREATE)) {
@@ -56,21 +53,21 @@ class ZIP extends Archive {
 			\OC::$server->get(LoggerInterface::class)->warning('Error while opening archive '.$source, ['app' => 'files_archive']);
 		}
 	}
+
 	/**
 	 * add an empty folder to the archive
 	 * @param string $path
 	 * @return bool
 	 */
-	public function addFolder($path) {
+	public function addFolder(string $path): bool {
 		return $this->zip->addEmptyDir($path);
 	}
+
 	/**
 	 * add a file to the archive
-	 * @param string $path
 	 * @param string $source either a local file or string data
-	 * @return bool
 	 */
-	public function addFile($path, $source = '') {
+	public function addFile(string $path, string $source = ''): bool {
 		if ($source and $source[0] == '/' and file_exists($source)) {
 			$result = $this->zip->addFile($source, $path);
 		} else {
@@ -82,40 +79,37 @@ class ZIP extends Archive {
 		}
 		return $result;
 	}
+
 	/**
 	 * rename a file or folder in the archive
-	 * @param string $source
-	 * @param string $dest
-	 * @return bool
 	 */
-	public function rename($source, $dest) {
+	public function rename(string $source, string $dest): bool {
 		$source = $this->stripPath($source);
 		$dest = $this->stripPath($dest);
 		return $this->zip->renameName($source, $dest);
 	}
+
 	/**
 	 * get the uncompressed size of a file in the archive
-	 * @param string $path
 	 * @return int|false
 	 */
-	public function filesize($path) {
+	public function filesize(string $path) {
 		$stat = $this->zip->statName($path);
 		return $stat['size'] ?? false;
 	}
+
 	/**
 	 * get the last modified time of a file in the archive
-	 * @param string $path
 	 * @return int|false
 	 */
-	public function mtime($path) {
+	public function mtime(string $path) {
 		return filemtime($this->path);
 	}
+
 	/**
 	 * get the files in a folder
-	 * @param string $path
-	 * @return array
 	 */
-	public function getFolder($path) {
+	public function getFolder(string $path): array {
 		$files = $this->getFiles();
 		$folderContent = [];
 		$pathLength = strlen($path);
@@ -128,11 +122,11 @@ class ZIP extends Archive {
 		}
 		return $folderContent;
 	}
+
 	/**
 	 * get all files in the archive
-	 * @return array
 	 */
-	public function getFiles() {
+	public function getFiles(): array {
 		$fileCount = $this->zip->numFiles;
 		$files = [];
 		for ($i = 0;$i < $fileCount;$i++) {
@@ -140,62 +134,56 @@ class ZIP extends Archive {
 		}
 		return $files;
 	}
+
 	/**
 	 * get the content of a file
-	 * @param string $path
 	 * @return string|false
 	 */
-	public function getFile($path) {
+	public function getFile(string $path) {
 		return $this->zip->getFromName($path);
 	}
+
 	/**
 	 * extract a single file from the archive
-	 * @param string $path
-	 * @param string $dest
-	 * @return bool
 	 */
-	public function extractFile($path, $dest) {
+	public function extractFile(string $path, string $dest): bool {
 		$fp = $this->zip->getStream($path);
 		if ($fp === false) {
 			return false;
 		}
 		return file_put_contents($dest, $fp) !== false;
 	}
+
 	/**
 	 * extract the archive
-	 * @param string $dest
-	 * @return bool
 	 */
-	public function extract($dest) {
+	public function extract(string $dest): bool {
 		return $this->zip->extractTo($dest);
 	}
+
 	/**
 	 * check if a file or folder exists in the archive
-	 * @param string $path
-	 * @return bool
 	 */
-	public function fileExists($path) {
+	public function fileExists(string $path): bool {
 		return ($this->zip->locateName($path) !== false) or ($this->zip->locateName($path.'/') !== false);
 	}
+
 	/**
 	 * remove a file or folder from the archive
-	 * @param string $path
-	 * @return bool
 	 */
-	public function remove($path) {
+	public function remove(string $path): bool {
 		if ($this->fileExists($path.'/')) {
 			return $this->zip->deleteName($path.'/');
 		} else {
 			return $this->zip->deleteName($path);
 		}
 	}
+
 	/**
 	 * get a file handler
-	 * @param string $path
-	 * @param string $mode
 	 * @return bool|resource
 	 */
-	public function getStream($path, $mode) {
+	public function getStream(string $path, string $mode) {
 		if ($mode == 'r' or $mode == 'rb') {
 			return $this->zip->getStream($path);
 		} else {
@@ -221,20 +209,13 @@ class ZIP extends Archive {
 
 	/**
 	 * write back temporary files
-	 * @param string $tmpFile
-	 * @param string $path
-	 * @return void
 	 */
-	public function writeBack($tmpFile, $path) {
+	public function writeBack(string $tmpFile, string $path): void {
 		$this->addFile($path, $tmpFile);
 		unlink($tmpFile);
 	}
 
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	private function stripPath($path) {
+	private function stripPath(string $path): string {
 		if (!$path || $path[0] == '/') {
 			return substr($path, 1);
 		} else {
