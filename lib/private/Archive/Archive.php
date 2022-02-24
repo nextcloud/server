@@ -57,13 +57,13 @@ abstract class Archive {
 	/**
 	 * get the uncompressed size of a file in the archive
 	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
 	abstract public function filesize($path);
 	/**
 	 * get the last modified time of a file in the archive
 	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
 	abstract public function mtime($path);
 	/**

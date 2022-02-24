@@ -97,16 +97,16 @@ class ZIP extends Archive {
 	/**
 	 * get the uncompressed size of a file in the archive
 	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
 	public function filesize($path) {
 		$stat = $this->zip->statName($path);
-		return $stat['size'];
+		return $stat['size'] ?? false;
 	}
 	/**
 	 * get the last modified time of a file in the archive
 	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
 	public function mtime($path) {
 		return filemtime($this->path);
