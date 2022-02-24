@@ -39,6 +39,7 @@ use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
+use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
@@ -304,8 +305,11 @@ class Application extends App implements IBootstrap {
 				]);
 
 				/** @var CalDavBackend $calDavBackend */
-				$calDavBackend = $container->query(CalDavBackend::class);
+				$calDavBackend = $container->get(CalDavBackend::class);
 				$calDavBackend->purgeAllCachedEventsForSubscription($subscriptionData['id']);
+				/** @var ReminderBackend $calDavBackend */
+				$reminderBackend = $container->get(ReminderBackend::class);
+				$reminderBackend->cleanRemindersForCalendar((int) $subscriptionData['id']);
 			}
 		);
 
