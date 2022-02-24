@@ -35,7 +35,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	protected $options;
 
 	/** @var array */
-	private $tmpFiles = [];
+	protected $tmpFiles = [];
 
 	/**
 	 * Constructor
@@ -109,7 +109,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	/**
 	 * Clean any generated temporary files
 	 */
-	protected function cleanTmpFiles() {
+	protected function cleanTmpFiles(): void {
 		foreach ($this->tmpFiles as $tmpFile) {
 			unlink($tmpFile);
 		}

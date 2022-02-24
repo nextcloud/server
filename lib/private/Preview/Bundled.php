@@ -33,6 +33,8 @@ abstract class Bundled extends ProviderV2 {
 	protected function extractThumbnail(File $file, string $path): ?IImage {
 		$sourceTmp = \OC::$server->getTempManager()->getTemporaryFile();
 		$targetTmp = \OC::$server->getTempManager()->getTemporaryFile();
+		$this->tmpFiles[] = $sourceTmp;
+		$this->tmpFiles[] = $targetTmp;
 
 		try {
 			$content = $file->fopen('r');
