@@ -1040,7 +1040,7 @@ span.version {
 		background-color: var(--color-main-background);
 		position: fixed;
 		z-index: 1;
-		height: $header-height;
+		height: $header-height + 10px;
 	}
 
 	&.installed {
@@ -1048,7 +1048,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
-			margin-top: $header-height;
+			margin-top: $header-height + 10px;
 		}
 
 		margin-bottom: 100px;
