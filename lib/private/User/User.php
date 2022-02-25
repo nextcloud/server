@@ -73,7 +73,7 @@ class User implements IUser {
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
-	/** @var bool */
+	/** @var bool|null */
 	private $enabled;
 
 	/** @var Emitter|Manager */
@@ -82,7 +82,7 @@ class User implements IUser {
 	/** @var string */
 	private $home;
 
-	/** @var int */
+	/** @var int|null */
 	private $lastLogin;
 
 	/** @var \OCP\IConfig */
@@ -104,9 +104,6 @@ class User implements IUser {
 		}
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
-		$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
-		$this->enabled = ($enabled === 'true');
-		$this->lastLogin = $this->config->getUserValue($uid, 'login', 'lastLogin', 0);
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
@@ -231,14 +228,17 @@ class User implements IUser {
 	 * @return int
 	 */
 	public function getLastLogin() {
-		return $this->lastLogin;
+		if ($this->lastLogin === null) {
+			$this->lastLogin = (int) $this->config->getUserValue($this->uid, 'login', 'lastLogin', 0);
+		}
+		return (int) $this->lastLogin;
 	}
 
 	/**
 	 * updates the timestamp of the most recent login of this user
 	 */
 	public function updateLastLoginTimestamp() {
-		$firstTimeLogin = ($this->lastLogin === 0);
+		$firstTimeLogin = ($this->getLastLogin() === 0);
 		$this->lastLogin = time();
 		$this->config->setUserValue(
 			$this->uid, 'login', 'lastLogin', $this->lastLogin);
@@ -406,7 +406,11 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function isEnabled() {
-		return $this->enabled;
+		if ($this->enabled === null) {
+			$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+			$this->enabled = $enabled === 'true';
+		}
+		return (bool) $this->enabled;
 	}
 
 	/**
