@@ -548,11 +548,11 @@ class Session implements IUserSession, Emitter {
 			\OC::$server->getCsrfTokenManager()->refreshToken();
 		}
 
-		//we need to pass the user name, which may differ from login name
-		$user = $this->getUser()->getUID();
-		OC_Util::setupFS($user);
-
 		if ($firstTimeLogin) {
+			//we need to pass the user name, which may differ from login name
+			$user = $this->getUser()->getUID();
+			OC_Util::setupFS($user);
+
 			// TODO: lock necessary?
 			//trigger creation of user home and /files folder
 			$userFolder = \OC::$server->getUserFolder($user);
