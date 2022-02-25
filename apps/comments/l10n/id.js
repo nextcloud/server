@@ -9,7 +9,7 @@ OC.L10N.register(
     "You commented on {file}" : "Anda berkomentar pada {file} ",
     "%1$s commented on %2$s" : "%1$s dikomentari pada %2$s",
     "{author} commented on {file}" : "{pengarang} berkomentar pada {file}",
-    "<strong>Comments</strong> for files" : "<strong>komentar</strong>pada file",
+    "<strong>Comments</strong> for files" : "<strong>komentar</strong> pada file",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Anda disebut pada \"{file}\", dalam sebuah komentar oleh pengguna yang sejak itu telah dihapus",
     "{user} mentioned you in a comment on \"{file}\"" : "{pengguna} menyebut Anda dalam sebuah komentar pada \"{file}\" ",
     "Files app plugin to add comments to files" : "Plugin aplikasi file untuk menambah komentar pada file",
