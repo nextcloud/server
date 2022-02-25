@@ -65,6 +65,7 @@ script('settings', [
 
 				<div id="cropper" class="hidden">
 					<div class="inner-container">
+						<p style="width: 300px; margin-top: 0.5rem"><?php p($l->t('Please note that it can take up to 24 hours for the avatar to get updated everywhere.')); ?></p>
 						<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
 						<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
 					</div>
