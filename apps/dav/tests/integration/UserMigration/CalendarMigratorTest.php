@@ -36,6 +36,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Property as VObjectProperty;
 use Sabre\VObject\Reader as VObjectReader;
 use Sabre\VObject\UUIDUtil;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 /**
@@ -47,6 +48,8 @@ class CalendarMigratorTest extends TestCase {
 
 	private CalendarMigrator $migrator;
 
+	private OutputInterface $output;
+
 	private const ASSETS_DIR = __DIR__ . '/assets/';
 
 	protected function setUp(): void {
@@ -55,6 +58,7 @@ class CalendarMigratorTest extends TestCase {
 
 		$this->userManager = $container->get(IUserManager::class);
 		$this->migrator = $container->get(CalendarMigrator::class);
+		$this->output = $this->createMock(OutputInterface::class);
 	}
 
 	public function dataAssets(): array {
@@ -111,7 +115,7 @@ class CalendarMigratorTest extends TestCase {
 		$problems = $importCalendar->validate();
 		$this->assertEmpty($problems);
 
-		$this->invokePrivate($this->migrator, 'importCalendar', [$user, $filename, $initialCalendarUri, $importCalendar]);
+		$this->invokePrivate($this->migrator, 'importCalendar', [$user, $filename, $initialCalendarUri, $importCalendar, $this->output]);
 
 		$calendarExports = $this->invokePrivate($this->migrator, 'getCalendarExports', [$user]);
 		$this->assertCount(1, $calendarExports);

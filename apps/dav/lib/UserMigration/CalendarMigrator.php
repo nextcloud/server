@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\DAV\UserMigration;
 
 use function Safe\substr;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
@@ -42,16 +43,15 @@ use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
-use Sabre\DAV\Exception\BadRequest;
-use Sabre\DAV\Version as SabreDavVersion;
 use Sabre\VObject\Component as VObjectComponent;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Sabre\VObject\Reader as VObjectReader;
 use Sabre\VObject\UUIDUtil;
-use Safe\Exceptions\FilesystemException;
+use Safe\Exceptions\StringsException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class CalendarMigrator implements IMigrator {
 
@@ -76,7 +76,7 @@ class CalendarMigrator implements IMigrator {
 
 	private const MIGRATED_URI_PREFIX = 'migrated-';
 
-	private const EXPORT_ROOT = 'calendars/';
+	private const EXPORT_ROOT = Application::APP_ID . '/calendars/';
 
 	public function __construct(
 		CalDavBackend $calDavBackend,
@@ -114,50 +114,54 @@ class CalendarMigrator implements IMigrator {
 		$calendarId = $calendar->getKey();
 		$calendarInfo = $this->calDavBackend->getCalendarById($calendarId);
 
-		if (!empty($calendarInfo)) {
-			$uri = $calendarInfo['uri'];
-			$path = CalDAVPlugin::CALENDAR_ROOT . "/$userId/$uri";
-
-			// NOTE implementation below based on \Sabre\CalDAV\ICSExportPlugin::httpGet()
-
-			$properties = $this->sabreDavServer->getProperties($path, [
-				'{DAV:}resourcetype',
-				'{DAV:}displayname',
-				'{http://sabredav.org/ns}sync-token',
-				'{DAV:}sync-token',
-				'{http://apple.com/ns/ical/}calendar-color',
-			]);
-
-			// Filter out invalid (e.g. deleted) calendars
-			if (!isset($properties['{DAV:}resourcetype']) || !$properties['{DAV:}resourcetype']->is('{' . CalDAVPlugin::NS_CALDAV . '}calendar')) {
-				throw new InvalidCalendarException();
-			}
-
-			// NOTE implementation below based on \Sabre\CalDAV\ICSExportPlugin::generateResponse()
-
-			$calDataProp = '{' . CalDAVPlugin::NS_CALDAV . '}calendar-data';
-			$calendarNode = $this->sabreDavServer->tree->getNodeForPath($path);
-			$nodes = $this->sabreDavServer->getPropertiesIteratorForPath($path, [$calDataProp], 1);
-
-			$blobs = [];
-			foreach ($nodes as $node) {
-				if (isset($node[200][$calDataProp])) {
-					$blobs[$node['href']] = $node[200][$calDataProp];
-				}
-			}
-
-			$mergedCalendar = $this->icsExportPlugin->mergeObjects(
-				$properties,
-				$blobs,
-			);
-
-			return [
-				'name' => $calendarNode->getName(),
-				'vCalendar' => $mergedCalendar,
-			];
+		if (empty($calendarInfo)) {
+			throw new CalendarMigratorException();
 		}
 
-		throw new CalendarMigratorException();
+		$uri = $calendarInfo['uri'];
+		$path = CalDAVPlugin::CALENDAR_ROOT . "/$userId/$uri";
+
+		/**
+		 * @see \Sabre\CalDAV\ICSExportPlugin::httpGet() implementation reference
+		 */
+
+		$properties = $this->sabreDavServer->getProperties($path, [
+			'{DAV:}resourcetype',
+			'{DAV:}displayname',
+			'{http://sabredav.org/ns}sync-token',
+			'{DAV:}sync-token',
+			'{http://apple.com/ns/ical/}calendar-color',
+		]);
+
+		// Filter out invalid (e.g. deleted) calendars
+		if (!isset($properties['{DAV:}resourcetype']) || !$properties['{DAV:}resourcetype']->is('{' . CalDAVPlugin::NS_CALDAV . '}calendar')) {
+			throw new InvalidCalendarException();
+		}
+
+		/**
+		 * @see \Sabre\CalDAV\ICSExportPlugin::generateResponse() implementation reference
+		 */
+
+		$calDataProp = '{' . CalDAVPlugin::NS_CALDAV . '}calendar-data';
+		$calendarNode = $this->sabreDavServer->tree->getNodeForPath($path);
+		$nodes = $this->sabreDavServer->getPropertiesIteratorForPath($path, [$calDataProp], 1);
+
+		$blobs = [];
+		foreach ($nodes as $node) {
+			if (isset($node[200][$calDataProp])) {
+				$blobs[$node['href']] = $node[200][$calDataProp];
+			}
+		}
+
+		$mergedCalendar = $this->icsExportPlugin->mergeObjects(
+			$properties,
+			$blobs,
+		);
+
+		return [
+			'name' => $calendarNode->getName(),
+			'vCalendar' => $mergedCalendar,
+		];
 	}
 
 	/**
@@ -176,6 +180,7 @@ class CalendarMigrator implements IMigrator {
 					throw new CalendarMigratorException();
 				} catch (InvalidCalendarException $e) {
 					// Allow this exception as invalid (e.g. deleted) calendars are not to be exported
+					return null;
 				}
 			},
 			$this->calendarManager->getCalendarsForPrincipal($principalUri),
@@ -184,9 +189,13 @@ class CalendarMigrator implements IMigrator {
 
 	private function getUniqueCalendarUri(IUser $user, string $initialCalendarUri): string {
 		$principalUri = $this->getPrincipalUri($user);
-		$initialCalendarUri = substr($initialCalendarUri, 0, strlen(CalendarMigrator::MIGRATED_URI_PREFIX)) === CalendarMigrator::MIGRATED_URI_PREFIX
-			? $initialCalendarUri
-			: CalendarMigrator::MIGRATED_URI_PREFIX . $initialCalendarUri;
+		try {
+			$initialCalendarUri = substr($initialCalendarUri, 0, strlen(CalendarMigrator::MIGRATED_URI_PREFIX)) === CalendarMigrator::MIGRATED_URI_PREFIX
+				? $initialCalendarUri
+				: CalendarMigrator::MIGRATED_URI_PREFIX . $initialCalendarUri;
+		} catch (StringsException $e) {
+			throw new CalendarMigratorException();
+		}
 
 		$existingCalendarUris = array_map(
 			fn (ICalendar $calendar) => $calendar->getUri(),
@@ -207,14 +216,14 @@ class CalendarMigrator implements IMigrator {
 	 * {@inheritDoc}
 	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
-		$output->writeln("Exporting calendars…");
+		$output->writeln('Exporting calendars…');
 
 		$userId = $user->getUID();
 
 		try {
 			$calendarExports = $this->getCalendarExports($user);
 		} catch (CalendarMigratorException $e) {
-			$output->writeln("<error>Error exporting <$userId> calendars</error>");
+			throw new CalendarMigratorException();
 		}
 
 		if (empty($calendarExports)) {
@@ -240,10 +249,10 @@ class CalendarMigrator implements IMigrator {
 	 */
 	private function getCalendarTimezones(VCalendar $vCalendar): array {
 		/** @var VTimeZone[] $calendarTimezones */
-		$calendarTimezones = array_values(array_filter(
+		$calendarTimezones = array_filter(
 			$vCalendar->getComponents(),
 			fn ($component) => $component->name === 'VTIMEZONE',
-		));
+		);
 
 		/** @var array<string, VTimeZone> $calendarTimezoneMap */
 		$calendarTimezoneMap = [];
@@ -279,10 +288,10 @@ class CalendarMigrator implements IMigrator {
 
 	private function sanitizeComponent(VObjectComponent $component): VObjectComponent {
 		// Operate on the component clone to prevent mutation of the original
-		$componentClone = clone $component;
+		$component = clone $component;
 
 		// Remove RSVP parameters to prevent automatically sending invitation emails to attendees on import
-		foreach ($componentClone->children() as $child) {
+		foreach ($component->children() as $child) {
 			if (
 				$child->name === 'ATTENDEE'
 				&& isset($child->parameters['RSVP'])
@@ -291,7 +300,7 @@ class CalendarMigrator implements IMigrator {
 			}
 		}
 
-		return $componentClone;
+		return $component;
 	}
 
 	/**
@@ -309,13 +318,11 @@ class CalendarMigrator implements IMigrator {
 
 	private function initCalendarObject(): VCalendar {
 		$vCalendarObject = new VCalendar();
-		$vCalendarObject->PRODID = $this->sabreDavServer::$exposeVersion
-			? '-//SabreDAV//SabreDAV ' . SabreDavVersion::VERSION . '//EN'
-			: '-//SabreDAV//SabreDAV//EN';
+		$vCalendarObject->PRODID = '-//IDN nextcloud.com//Migrated calendar//EN';
 		return $vCalendarObject;
 	}
 
-	private function importCalendarObject(int $calendarId, VCalendar $vCalendarObject): void {
+	private function importCalendarObject(int $calendarId, VCalendar $vCalendarObject, OutputInterface $output): void {
 		try {
 			$this->calDavBackend->createCalendarObject(
 				$calendarId,
@@ -323,8 +330,9 @@ class CalendarMigrator implements IMigrator {
 				$vCalendarObject->serialize(),
 				CalDavBackend::CALENDAR_TYPE_CALENDAR,
 			);
-		} catch (BadRequest $e) {
+		} catch (Throwable $e) {
 			// Rollback creation of calendar on error
+			$output->writeln('Error creating calendar object, rolling back creation of calendar…');
 			$this->calDavBackend->deleteCalendar($calendarId, true);
 		}
 	}
@@ -332,7 +340,7 @@ class CalendarMigrator implements IMigrator {
 	/**
 	 * @throws CalendarMigratorException
 	 */
-	private function importCalendar(IUser $user, string $filename, string $initialCalendarUri, VCalendar $vCalendar): void {
+	private function importCalendar(IUser $user, string $filename, string $initialCalendarUri, VCalendar $vCalendar, OutputInterface $output): void {
 		$principalUri = $this->getPrincipalUri($user);
 		$calendarUri = $this->getUniqueCalendarUri($user, $initialCalendarUri);
 
@@ -388,7 +396,7 @@ class CalendarMigrator implements IMigrator {
 					$vCalendarObject->add($component);
 				}
 			}
-			$this->importCalendarObject($calendarId, $vCalendarObject);
+			$this->importCalendarObject($calendarId, $vCalendarObject, $output);
 		}
 
 		foreach ($ungroupedCalendarComponents as $component) {
@@ -397,14 +405,13 @@ class CalendarMigrator implements IMigrator {
 			foreach ($this->getRequiredImportComponents($vCalendar, $component) as $component) {
 				$vCalendarObject->add($component);
 			}
-			$this->importCalendarObject($calendarId, $vCalendarObject);
+			$this->importCalendarObject($calendarId, $vCalendarObject, $output);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws FilesystemException
 	 * @throws CalendarMigratorException
 	 */
 	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {
@@ -413,7 +420,7 @@ class CalendarMigrator implements IMigrator {
 			return;
 		}
 
-		$output->writeln("Importing calendars…");
+		$output->writeln('Importing calendars…');
 
 		foreach ($importSource->getFolderListing(CalendarMigrator::EXPORT_ROOT) as $filename) {
 			try {
@@ -422,15 +429,15 @@ class CalendarMigrator implements IMigrator {
 					$importSource->getFileAsStream(CalendarMigrator::EXPORT_ROOT . $filename),
 					VObjectReader::OPTION_FORGIVING,
 				);
-			} catch (FilesystemException $e) {
-				throw new FilesystemException("Failed to read file: \"$filename\"");
+			} catch (Throwable $e) {
+				throw new CalendarMigratorException();
 			}
 
 			$problems = $vCalendar->validate();
 			if (empty($problems)) {
 				$splitFilename = explode('_', $filename, 2);
 				if (count($splitFilename) !== 2) {
-					$output->writeln("<error>Invalid filename, expected filename of the format: \"<calendar_name>_YYYY-MM-DD" . CalendarMigrator::FILENAME_EXT . "\"</error>");
+					$output->writeln("<error>Invalid filename: \"$filename\" expected filename of the format: \"<calendar_name>_YYYY-MM-DD" . CalendarMigrator::FILENAME_EXT . "\"</error>");
 					throw new CalendarMigratorException();
 				}
 				[$initialCalendarUri, $suffix] = $splitFilename;
@@ -440,6 +447,7 @@ class CalendarMigrator implements IMigrator {
 					$filename,
 					$initialCalendarUri,
 					$vCalendar,
+					$output,
 				);
 
 				$vCalendar->destroy();
