@@ -27,20 +27,24 @@
 
 namespace OC;
 
+use OCP\Diagnostics\IEventLogger;
+
 class RedisFactory {
 	/** @var  \Redis */
 	private $instance;
 
-	/** @var  SystemConfig */
-	private $config;
+	private SystemConfig $config;
+
+	private IEventLogger $eventLogger;
 
 	/**
 	 * RedisFactory constructor.
 	 *
 	 * @param SystemConfig $config
 	 */
-	public function __construct(SystemConfig $config) {
+	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
 		$this->config = $config;
+		$this->eventLogger = $eventLogger;
 	}
 
 	private function create() {
@@ -97,6 +101,7 @@ class RedisFactory {
 			if (isset($config['dbindex'])) {
 				$this->instance->select($config['dbindex']);
 			}
+			$this->eventLogger->end('connect:redis');
 		}
 	}
 
