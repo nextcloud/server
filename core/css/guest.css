@@ -270,6 +270,10 @@ select {
 	border-radius: 100px; /* --border-radius-pill */
 	cursor: pointer;
 }
+input[type='submit']:focus {
+	border: 2px solid black !important;
+	padding: 8px;
+}
 input[type='text'],
 input[type='tel'],
 input[type='password'],
