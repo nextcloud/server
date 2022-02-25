@@ -26,6 +26,8 @@
  */
 namespace OC;
 
+use OCP\Diagnostics\IEventLogger;
+
 class RedisFactory {
 	public const REDIS_MINIMAL_VERSION = '3.1.3';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
@@ -33,16 +35,18 @@ class RedisFactory {
 	/** @var  \Redis|\RedisCluster */
 	private $instance;
 
-	/** @var  SystemConfig */
-	private $config;
+	private SystemConfig $config;
+
+	private IEventLogger $eventLogger;
 
 	/**
 	 * RedisFactory constructor.
 	 *
 	 * @param SystemConfig $config
 	 */
-	public function __construct(SystemConfig $config) {
+	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
 		$this->config = $config;
+		$this->eventLogger = $eventLogger;
 	}
 
 	private function create() {
@@ -113,6 +117,7 @@ class RedisFactory {
 				$port = null;
 			}
 
+			$this->eventLogger->start('connect:redis', 'Connect to redis and send AUTH, SELECT');
 			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
 				// Non-clustered redis requires connection parameters to be wrapped inside `stream`
@@ -133,6 +138,7 @@ class RedisFactory {
 			if (isset($config['dbindex'])) {
 				$this->instance->select($config['dbindex']);
 			}
+			$this->eventLogger->end('connect:redis');
 		}
 	}
 
