@@ -243,17 +243,15 @@ class CacheTest extends TestCase {
 
 	public function testGetFolderContentsInRoot() {
 		$results = $this->user2View->getDirectoryContent('/');
+		$results = (array_filter($results, function($file) {
+			return $file->getName() !== 'welcome.txt';
+		}));
 
 		// we should get the shared items "shareddir" and "shared single file.txt"
 		// additional root will always contain the example file "welcome.txt",
 		//  so this will be part of the result
 		$this->verifyFiles(
 			[
-				[
-					'name' => 'welcome.txt',
-					'path' => 'files/welcome.txt',
-					'mimetype' => 'text/plain',
-				],
 				[
 					'name' => 'shareddir',
 					'path' => 'files/shareddir',
