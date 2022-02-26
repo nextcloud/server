@@ -50,6 +50,14 @@ OCA.Sharing.PublicApp = {
 		var token = $('#sharingToken').val();
 		var hideDownload = $('#hideDownload').val();
 
+		// Prevent all right-click options if hideDownload is enabled
+		if (hideDownload === 'true') {
+			window.oncontextmenu = function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				return false;
+		   };
+		}
 
 		// file list mode ?
 		if ($el.find('#filestable').length) {
