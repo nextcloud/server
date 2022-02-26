@@ -67,7 +67,7 @@ OC.L10N.register(
     "Description: %s" : "Descrizione: %s",
     "Where: %s" : "Dove: %s",
     "%1$s via %2$s" : "%1$s tramite %2$s",
-    "Cancelled: %1$s" : "Cancellato: %1$s",
+    "Cancelled: %1$s" : "Annullato: %1$s",
     "Invitation canceled" : "Invito annullato",
     "Re: %1$s" : "Re: %1$s",
     "Invitation updated" : "Invito aggiornato",
