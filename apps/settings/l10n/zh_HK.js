@@ -226,7 +226,7 @@ OC.L10N.register(
     "Your full name" : "您的全名",
     "Unable to update full name" : "無法更新全名",
     "No full name set" : "未設定全名",
-    "Email options" : "電郵地址選項",
+    "Email options" : "電子郵件通知選項",
     "Primary email for password reset and notifications" : "用於密碼重設和通告信件的主要電郵地址",
     "Remove primary email" : "刪除主要電郵地址",
     "Delete email" : "刪除電郵地址",
