@@ -58,6 +58,7 @@
     "_%n day_::_%n days_" : ["%n nap","%n nap"],
     "_%n hour_::_%n hours_" : ["%n óra","%n óra"],
     "_%n minute_::_%n minutes_" : ["%n perc","%n perc"],
+    "%s (in %s)" : "%s (%s-ból)",
     "%s (%s ago)" : "%s (%s ezelőtt)",
     "Calendar: %s" : "Naptár: %s",
     "Date: %s" : "Dátum: %s",
@@ -120,7 +121,11 @@
     "WebDAV endpoint" : "WebDAV végpont",
     "Availability" : "Elérhetőség",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ha beállítod a munkaidődet, más felhasználók megbeszélés létrehozásakor fogják, hogy mikor vagy elérhető.",
+    "Time zone:" : "Időzóna:",
     "to" : "címzett",
+    "Delete slot" : "Idősáv törlése",
+    "No working hours set" : "Nincs munkaidő beállítva",
+    "Add slot" : "Idősáv hozzáadása",
     "Monday" : "Hétfő",
     "Tuesday" : "Kedd",
     "Wednesday" : "Szerda",
@@ -143,6 +148,8 @@
     "Please contact the organizer directly." : "Kérlek vedd fel közvetlenül a kapcsolatot a szervezővel.",
     "Are you accepting the invitation?" : "Elfogadod az meghívást?",
     "Tentative" : "Valószínűleg",
+    "Number of guests" : "Vendégek száma",
+    "Comment" : "Megjegyzés",
     "Your attendance was updated successfully." : "A részvételed frissítése sikerült.",
     "Calendar and tasks" : "Naptár és feladatok"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
