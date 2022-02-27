@@ -34,7 +34,7 @@
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, tanqueu la sessió i inicieu-ne una de nova.",
     "Encrypt the home storage" : "Xifra l'emmagatzematge de casa",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Si activeu aquesta opció, es xifraran tots els fitxers emmagatzemats a l’emmagatzematge principal; en cas contrari, només es xifraran els fitxers d’emmagatzematge extern",
-    "Enable recovery key" : "Activa la clau de recuperació",
+    "Enable recovery key" : "Habilita la clau de recuperació",
     "Disable recovery key" : "Desactiva la clau de recuperació",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clau de recuperació és una clau de xifratge addicional que s'utilitza per xifrar fitxers. Permet la recuperació dels fitxers d'un usuari si l'usuari oblida de la seva contrasenya.",
     "Recovery key password" : "Clau de recuperació de la contrasenya",
