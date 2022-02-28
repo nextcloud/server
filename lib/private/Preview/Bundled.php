@@ -46,7 +46,7 @@ abstract class Bundled extends ProviderV2 {
 			$image->fixOrientation();
 
 			return $image;
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			return null;
 		}
 	}
