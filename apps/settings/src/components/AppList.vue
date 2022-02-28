@@ -24,7 +24,7 @@
 	<div id="app-content-inner">
 		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
-				<div v-if="showUpdateAll" class="counter">
+				<div v-if="showUpdateAll" class="toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
 					<Button v-if="showUpdateAll"
 						id="app-list-update-all"
@@ -33,9 +33,11 @@
 						{{ t('settings', 'Update all') }}
 					</Button>
 				</div>
-				<div v-if="!showUpdateAll" class="counter">
+
+				<div v-if="!showUpdateAll" class="toolbar">
 					{{ t('settings', 'All apps are up-to-date.') }}
 				</div>
+
 				<transition-group name="app-list" tag="div" class="apps-list-container">
 					<AppItem v-for="app in apps"
 						:key="app.id"
@@ -43,6 +45,7 @@
 						:category="category" />
 				</transition-group>
 			</template>
+
 			<transition-group v-if="useBundleView"
 				name="app-list"
 				tag="div"
