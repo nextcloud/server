@@ -96,7 +96,12 @@ class TransferOwnership extends Command {
 				InputOption::VALUE_OPTIONAL,
 				'transfer incoming user file shares to destination user. Usage: --transfer-incoming-shares=1 (value required)',
 				'2'
-		);
+			)->addOption(
+				'ignore-encryption-error',
+				null,
+				InputOption::VALUE_NONE,
+				'ignore encryption error. Usage: --ignore-encryption-error',
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -145,6 +150,8 @@ class TransferOwnership extends Command {
 					return 1;
 					break;
 			}
+
+			$GLOBALS['ignore-encryption-error'] = $input->getOption('ignore-encryption-error');
 
 			$this->transferService->transfer(
 				$sourceUserObject,
