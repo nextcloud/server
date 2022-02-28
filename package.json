@@ -42,7 +42,7 @@
     "@nextcloud/vue": "^3.10.2",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "autosize": "^4.0.4",
-    "backbone": "^1.4.0",
+    "backbone": "^1.4.1",
     "blueimp-md5": "^2.18.0",
     "bootstrap": "^4.6.1",
     "camelcase": "^6.2.1",
