@@ -85,6 +85,9 @@ class Manager implements IMountManager {
 		if (strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0) {
 			// for appdata, we only setup the root bits, not the user bits
 			\OC_Util::setupRootFS();
+		} elseif (strpos($path, '/files_external/uploads/') === 0) {
+			// for OC\Security\CertificateManager, we only setup the root bits, not the user bits
+			\OC_Util::setupRootFS();
 		} else {
 			\OC_Util::setupFS();
 		}
