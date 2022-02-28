@@ -53,7 +53,7 @@ interface ICredentials {
 	 *
 	 * @since 12
 	 *
-	 * @return string
+	 * @return string|null
 	 * @throws PasswordUnavailableException
 	 */
 	public function getPassword();
