@@ -989,15 +989,21 @@ MountConfigListView.prototype = _.extend({
 			url: OC.generateUrl(url),
 			contentType: 'application/json',
 			success: function(result) {
+				result = Object.values(result);
 				var onCompletion = jQuery.Deferred();
 				var $rows = $();
-				Object.values(result).forEach(function(storageParams) {
+				result.forEach(function(storageParams) {
 					storageParams.mountPoint = (storageParams.mountPoint === '/')? '/' : storageParams.mountPoint.substr(1); // trim leading slash
 					var storageConfig = new self._storageConfigClass();
 					_.extend(storageConfig, storageParams);
 					var $tr = self.newStorage(storageConfig, onCompletion, true);
 
-					self.recheckStorageConfig($tr);
+					// don't recheck config automatically when there are a large number of storages
+					if (result.length < 20) {
+						self.recheckStorageConfig($tr);
+					} else {
+						self.updateStatus($tr, StorageConfig.Status.INDETERMINATE, t('files_external', 'Automatic status checking is disabled due to the large number of configured storages, click to check status'));
+					}
 					$rows = $rows.add($tr);
 				});
 				addSelect2($rows.find('.applicableUsers'), this._userListLimit);
