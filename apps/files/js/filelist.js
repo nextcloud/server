@@ -3067,7 +3067,7 @@
 			this.filesClient.createDirectory(targetPath)
 				.done(function() {
 					options = _.extend({scrollTo: true}, options || {});
-+					self.addAndFetchFileInfo(targetPath, '', options).then(function(status, data) {
+					self.addAndFetchFileInfo(targetPath, '', options).then(function(status, data) {
 						deferred.resolve(status, data);
 					}, function() {
 						OC.Notification.show(t('files', 'Could not create folder "{dir}"',
@@ -3538,11 +3538,10 @@
 		},
 
 		getUniqueName: function(name) {
-			var fileNamesOld = this.files.findIndex(function(el)
-			{
-				return el.name==name;
-			});
-			if (fileNamesOld!=-1) {
+			var fileNamesOld = this.files.findIndex(function(el) {
+				return el.name === name
+			})
+			if (fileNamesOld !== -1) {
 				var numMatch;
 				var parts=name.split('.');
 				var extension = "";
