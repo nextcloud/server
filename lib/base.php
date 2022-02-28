@@ -730,6 +730,8 @@ class OC {
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue("installed", false)) {
 			OC_App::loadApp('settings');
+			/* Build core application to make sure that listeners are registered */
+			self::$server->get(\OC\Core\Application::class);
 		}
 
 		//make sure temporary files are cleaned up
