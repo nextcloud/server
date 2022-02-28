@@ -789,9 +789,10 @@ MountConfigListView.prototype = _.extend({
 	 *
 	 * @param {StorageConfig} storageConfig storage config to pull values from
 	 * @param {jQuery.Deferred} onCompletion
+	 * @param {boolean} deferAppend
 	 * @return {jQuery} created row
 	 */
-	newStorage: function(storageConfig, onCompletion) {
+	newStorage: function(storageConfig, onCompletion, deferAppend) {
 		var mountPoint = storageConfig.mountPoint;
 		var backend = this._allBackends[storageConfig.backend];
 
@@ -803,8 +804,11 @@ MountConfigListView.prototype = _.extend({
 		}
 
 		// FIXME: Replace with a proper Handlebar template
-		var $tr = this.$el.find('tr#addMountPoint');
-		this.$el.find('tbody').append($tr.clone());
+		var $template = this.$el.find('tr#addMountPoint');
+		var $tr = $template.clone();
+		if (!deferAppend) {
+			$tr.insertBefore($template);
+		}
 
 		$tr.data('storageConfig', storageConfig);
 		$tr.show();
@@ -812,7 +816,9 @@ MountConfigListView.prototype = _.extend({
 		$tr.find('td').last().removeAttr('style');
 		$tr.removeAttr('id');
 		$tr.find('select#selectBackend');
-		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+		if (!deferAppend) {
+			addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+		}
 
 		if (storageConfig.id) {
 			$tr.data('id', storageConfig.id);
@@ -928,7 +934,8 @@ MountConfigListView.prototype = _.extend({
 				contentType: 'application/json',
 				success: function(result) {
 					var onCompletion = jQuery.Deferred();
-					$.each(result, function(i, storageParams) {
+					var $rows = $();
+					Object.values(result).forEach(function(storageParams) {
 						var storageConfig;
 						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
 						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
@@ -938,7 +945,7 @@ MountConfigListView.prototype = _.extend({
 							storageConfig = new self._storageConfigClass();
 						}
 						_.extend(storageConfig, storageParams);
-						var $tr = self.newStorage(storageConfig, onCompletion);
+						var $tr = self.newStorage(storageConfig, onCompletion,true);
 
 						// userglobal storages must be at the top of the list
 						$tr.detach();
@@ -957,7 +964,10 @@ MountConfigListView.prototype = _.extend({
 							// userglobal storages do not expose configuration data
 							$tr.find('.configuration').text(t('files_external', 'Admin defined'));
 						}
+						$rows = $rows.add($tr);
 					});
+					addSelect2(self.$el.find('.applicableUsers'), this._userListLimit);
+					self.$el.find('tr#addMountPoint').before($rows);
 					var mainForm = $('#files_external');
 					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
 						mainForm.hide();
@@ -980,14 +990,18 @@ MountConfigListView.prototype = _.extend({
 			contentType: 'application/json',
 			success: function(result) {
 				var onCompletion = jQuery.Deferred();
-				$.each(result, function(i, storageParams) {
+				var $rows = $();
+				Object.values(result).forEach(function(storageParams) {
 					storageParams.mountPoint = (storageParams.mountPoint === '/')? '/' : storageParams.mountPoint.substr(1); // trim leading slash
 					var storageConfig = new self._storageConfigClass();
 					_.extend(storageConfig, storageParams);
-					var $tr = self.newStorage(storageConfig, onCompletion);
+					var $tr = self.newStorage(storageConfig, onCompletion, true);
 
 					self.recheckStorageConfig($tr);
+					$rows = $rows.add($tr);
 				});
+				addSelect2($rows.find('.applicableUsers'), this._userListLimit);
+				self.$el.find('tr#addMountPoint').before($rows);
 				onCompletion.resolve();
 				onLoaded2.resolve();
 			}
