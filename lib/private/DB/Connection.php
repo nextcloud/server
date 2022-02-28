@@ -538,12 +538,20 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * Migrate the database to the given schema
 	 *
 	 * @param Schema $toSchema
+	 * @param bool $dryRun If true, will return the sql queries instead of running them.
 	 *
 	 * @throws Exception
+	 *
+	 * @return string|null Returns a string only if $dryRun is true.
 	 */
-	public function migrateToSchema(Schema $toSchema) {
+	public function migrateToSchema(Schema $toSchema, bool $dryRun = false) {
 		$migrator = $this->getMigrator();
-		$migrator->migrate($toSchema);
+
+		if ($dryRun) {
+			return $migrator->generateChangeScript($toSchema);
+		} else {
+			$migrator->migrate($toSchema);
+		}
 	}
 
 	private function getMigrator() {
