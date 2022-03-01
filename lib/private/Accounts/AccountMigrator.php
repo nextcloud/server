@@ -27,28 +27,45 @@ declare(strict_types=1);
 namespace OC\Accounts;
 
 use InvalidArgumentException;
+use OC\NotSquareException;
 use OCP\Accounts\IAccountManager;
+use OCP\IAvatarManager;
 use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class AccountMigrator implements IMigrator {
-
 	use TMigratorBasicVersionHandling;
 
 	use TAccountsHelper;
 
 	private IAccountManager $accountManager;
 
+	private IAvatarManager $avatarManager;
+
 	private const EXPORT_FILE = 'account.json';
 
 	public function __construct(
-		IAccountManager $accountManager
+		IAccountManager $accountManager,
+		IAvatarManager $avatarManager
 	) {
 		$this->accountManager = $accountManager;
+		$this->avatarManager = $avatarManager;
+	}
+
+	private function getExtension(string $mimeType): string {
+		switch ($mimeType) {
+			case 'image/jpeg':
+				return 'jpg';
+			case 'image/png':
+				return 'png';
+			default:
+				throw new AccountMigratorException("Invalid avatar mimetype: \"$mimeType\"");
+		}
 	}
 
 	/**
@@ -59,6 +76,16 @@ class AccountMigrator implements IMigrator {
 
 		if ($exportDestination->addFileContents(AccountMigrator::EXPORT_FILE, json_encode($this->accountManager->getAccount($user))) === false) {
 			throw new AccountMigratorException('Could not export account information');
+		}
+
+		$avatar = $this->avatarManager->getAvatar($user->getUID());
+		if ($avatar->isCustomAvatar()) {
+			$avatarData = $avatar->get(-1)->data();
+			$ext = $this->getExtension($avatar->get(-1)->dataMimeType());
+			$output->writeln('Exporting avatar to avatar.' . $ext . '…');
+			if ($exportDestination->addFileContents("avatar.$ext", $avatarData) === false) {
+				throw new AccountMigratorException('Could not export avatar');
+			}
 		}
 	}
 
@@ -98,6 +125,27 @@ class AccountMigrator implements IMigrator {
 			$this->accountManager->updateAccount($account);
 		} catch (InvalidArgumentException $e) {
 			throw new AccountMigratorException('Failed to import account information');
+		}
+
+		foreach ($importSource->getFolderListing('') as $filename) {
+			if (str_starts_with($filename, 'avatar.')) {
+				$avatarFilename = $filename;
+			}
+		}
+
+		if (isset($avatarFilename)) {
+			$output->writeln('Importing avatar from ' . $avatarFilename . '…');
+			$avatar = $importSource->getFileContents($avatarFilename);
+			$image = new \OC_Image();
+			$image->loadFromData($avatar);
+			try {
+				$avatar = $this->avatarManager->getAvatar($user->getUID());
+				$avatar->set($image);
+			} catch (NotSquareException $e) {
+				throw new AccountMigratorException('Avatar image must be square');
+			} catch (Throwable $e) {
+				throw new AccountMigratorException('Failed to import avatar', 0, $e);
+			}
 		}
 	}
 }
