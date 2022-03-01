@@ -252,16 +252,26 @@ class UtilTest extends \Test\TestCase {
 		\OCP\Util::addScript('myApp4', 'myApp4JSFile', 'myApp3');
 		\OCP\Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
 		\OCP\Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
+		\OCP\Util::addScript('core', 'common');
+		\OCP\Util::addScript('core', 'main');
 
 		$scripts = \OCP\Util::getScripts();
 
 		// Core should appear first
 		$this->assertEquals(
 			0,
-			array_search('core/js/myFancyJSFile1', $scripts, true)
+			array_search('core/js/common', $scripts, true)
 		);
 		$this->assertEquals(
 			1,
+			array_search('core/js/main', $scripts, true)
+		);
+		$this->assertEquals(
+			2,
+			array_search('core/js/myFancyJSFile1', $scripts, true)
+		);
+		$this->assertEquals(
+			3,
 			array_search('core/js/myFancyJSFile4', $scripts, true)
 		);
 
@@ -295,14 +305,25 @@ class UtilTest extends \Test\TestCase {
 
 		// All scripts still there
 		$scripts = [
-			'core/js/myFancyJSFile1',
-			'core/js/myFancyJSFile4',
-			'files/js/myFancyJSFile2',
-			'core/js/myFancyJSFile5',
-			'myApp/js/myFancyJSFile3',
-			'myApp2/js/myApp2JSFile',
-			'myApp3/js/myApp3JSFile',
-			'myApp4/js/myApp4JSFile',
+			"core/js/common",
+			"core/js/main",
+			"core/js/myFancyJSFile1",
+			"core/js/myFancyJSFile4",
+			"core/js/myFancyJSFile5",
+			"first/l10n/en",
+			"first/js/myFirstJSFile",
+			"files/l10n/en",
+			"files/js/myFancyJSFile2",
+			"myApp/l10n/en",
+			"myApp/js/myFancyJSFile3",
+			"myApp2/l10n/en",
+			"myApp2/js/myApp2JSFile",
+			"myApp5/l10n/en",
+			"myApp5/js/myApp5JSFile",
+			"myApp3/l10n/en",
+			"myApp3/js/myApp3JSFile",
+			"myApp4/l10n/en",
+			"myApp4/js/myApp4JSFile",
 		];
 		foreach ($scripts as $script) {
 			$this->assertContains($script, $scripts);
