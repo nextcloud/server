@@ -53,6 +53,13 @@ class SystemConfig {
 		'updater.secret' => true,
 		'trusted_proxies' => true,
 		'proxyuserpwd' => true,
+		'sentry.dsn' => true,
+		'sentry.public-dsn' => true,
+		'zammad.download.secret' => true,
+		'zammad.portal.secret' => true,
+		'zammad.secret' => true,
+		'github.client_id' => true,
+		'github.client_secret' => true,
 		'log.condition' => [
 			'shared_secret' => true,
 		],

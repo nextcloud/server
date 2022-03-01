@@ -45,16 +45,33 @@ class AppConfig implements IAppConfig {
 
 	/** @var array[] */
 	protected $sensitiveValues = [
+		'circles' => [
+			'/^local_gskey$/',
+		],
 		'external' => [
 			'/^sites$/',
+		],
+		'integration_discourse' => [
+			'/^private_key$/',
+			'/^public_key$/',
+		],
+		'notify_push' => [
+			'/^cookie$/',
 		],
 		'spreed' => [
 			'/^bridge_bot_password/',
 			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
+			'/^sip_bridge_dialin_info$/',
+			'/^sip_bridge_shared_secret$/',
 			'/^stun_servers$/',
 			'/^turn_servers$/',
 			'/^turn_server_secret$/',
+		],
+		'support' => [
+			'/^last_response$/',
+			'/^potential_subscription_key$/',
+			'/^subscription_key$/',
 		],
 		'theming' => [
 			'/^imprintUrl$/',
