@@ -4098,26 +4098,12 @@
       <code>$provider-&gt;getThumbnail($file, $maxWidth, $maxHeight)</code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/Preview/Movie.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$second</code>
-      <code>$second</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement occurrences="1">
       <code>$thumbnail === false ? null: $thumbnail</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>?IImage</code>
-    </InvalidReturnType>
-  </file>
-  <file src="lib/private/Preview/ProviderV2.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$file-&gt;getStorage()-&gt;getLocalFile($file-&gt;getInternalPath())</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/RedisFactory.php">
