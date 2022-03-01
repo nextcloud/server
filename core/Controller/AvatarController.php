@@ -139,7 +139,7 @@ class AvatarController extends Controller {
 		}
 
 		// Cache for 1 day
-		$response->cacheFor(60 * 60 * 24);
+		$response->cacheFor(60 * 60 * 24, false, true);
 		return $response;
 	}
 
