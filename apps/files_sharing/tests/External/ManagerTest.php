@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
 use OC\Files\SetupManager;
+use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
@@ -107,12 +108,7 @@ class ManagerTest extends TestCase {
 
 		$this->uid = $this->getUniqueID('user');
 		$this->user = $this->createUser($this->uid, '');
-		$this->mountManager = new \OC\Files\Mount\Manager(
-			$this->createMock(IEventLogger::class),
-			$this->createMock(IMountProviderCollection::class),
-			$this->createMock(IUserManager::class),
-			$this->createMock(IEventDispatcher::class)
-		);
+		$this->mountManager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
 		$this->clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);

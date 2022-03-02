@@ -26,18 +26,16 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Mount;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
-use OCP\Diagnostics\IEventLogger;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IMountProviderCollection;
+use OC\Files\SetupManagerFactory;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
-use OCP\IUserManager;
 
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
@@ -48,15 +46,10 @@ class Manager implements IMountManager {
 	private CappedMemoryCache $inPathCache;
 	private SetupManager $setupManager;
 
-	public function __construct(
-		IEventLogger $eventLogger,
-		IMountProviderCollection $mountProviderCollection,
-		IUserManager $userManager,
-		IEventDispatcher $eventDispatcher
-	) {
+	public function __construct(SetupManagerFactory $setupManagerFactory) {
 		$this->pathCache = new CappedMemoryCache();
 		$this->inPathCache = new CappedMemoryCache();
-		$this->setupManager = new SetupManager($eventLogger, $mountProviderCollection, $this, $userManager, $eventDispatcher);
+		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
 	/**

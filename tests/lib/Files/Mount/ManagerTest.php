@@ -8,6 +8,7 @@
 
 namespace Test\Files\Mount;
 
+use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\Temporary;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -28,12 +29,7 @@ class ManagerTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->manager = new \OC\Files\Mount\Manager(
-			$this->createMock(IEventLogger::class),
-			$this->createMock(IMountProviderCollection::class),
-			$this->createMock(IUserManager::class),
-			$this->createMock(IEventDispatcher::class),
-		);
+		$this->manager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
 	}
 
 	public function testFind() {
