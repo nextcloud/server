@@ -64,18 +64,19 @@
 </template>
 
 <script>
-import { normalize } from 'path'
 import { showError } from '@nextcloud/dialogs'
+import { generateOcsUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import { getCurrentDirectory } from '../utils/davUtils'
-import { createFromTemplate, getTemplates } from '../services/Templates'
+import { getTemplates } from '../services/Templates'
 import TemplatePreview from '../components/TemplatePreview'
 
 const border = 2
 const margin = 8
-const width = margin * 20
+const width = margin * 18
 
 export default {
 	name: 'TemplatePicker',
@@ -214,6 +215,7 @@ export default {
 				const options = _.extend({ scrollTo: true }, { showDetailsView: false } || {})
 				await fileList?.addAndFetchFileInfo(this.name, undefined, options)
 				fileList.rename(this.name)
+
 				this.close()
 			} catch (error) {
 				this.logger.error('Error while creating the new file from template')
@@ -233,6 +235,11 @@ export default {
 		padding: calc(var(--margin) * 2);
 		// Will be handled by the buttons
 		padding-bottom: 0;
+		// Dynamix height content
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		box-sizing: border-box;
 
 		h2 {
 			text-align: center;
@@ -252,6 +259,11 @@ export default {
 		grid-auto-rows: 1fr;
 		// Center the columns set
 		justify-content: center;
+		// Fit max size and grow, scroll if necessary
+		flex: 1 1 100%;
+		height: 100%;
+		min-height: 0;
+		overflow-y: auto;
 	}
 
 	&__buttons {
@@ -279,7 +291,7 @@ export default {
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		margin: 0;
+		margin: 0 !important;
 		background-color: var(--color-main-background-translucent);
 	}
 }
