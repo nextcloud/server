@@ -30,7 +30,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
-use OCP\IUserSession;
+use OCP\IUserManager;
 use Test\TestCase;
 
 class PersonalMountTest extends TestCase {
@@ -54,7 +54,7 @@ class PersonalMountTest extends TestCase {
 		$mountManager = new Manager(
 			$this->createMock(IEventLogger::class),
 			$this->createMock(IMountProviderCollection::class),
-			$this->createMock(IUserSession::class),
+			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class)
 		);
 		$mountManager->addMount($mount);

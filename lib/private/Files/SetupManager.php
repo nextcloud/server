@@ -43,14 +43,14 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
-use OCP\IUserSession;
+use OCP\IUserManager;
 
 class SetupManager {
 	private bool $rootSetup = false;
 	private IEventLogger $eventLogger;
 	private IMountProviderCollection $mountProviderCollection;
 	private IMountManager $mountManager;
-	private IUserSession $userSession;
+	private IUserManager $userManager;
 	private array $setupUsers = [];
 	private IEventDispatcher $eventDispatcher;
 
@@ -58,13 +58,13 @@ class SetupManager {
 		IEventLogger $eventLogger,
 		IMountProviderCollection $mountProviderCollection,
 		IMountManager $mountManager,
-		IUserSession $userSession,
+		IUserManager $userManager,
 		IEventDispatcher $eventDispatcher
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
 		$this->mountManager = $mountManager;
-		$this->userSession = $userSession;
+		$this->userManager = $userManager;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -138,16 +138,10 @@ class SetupManager {
 		});
 	}
 
-	public function setupForCurrentUser() {
-		$user = $this->userSession->getUser();
-		if ($user) {
-			$this->setupForUser($user);
-		} else {
-			$this->setupRoot();
-		}
-	}
-
-	public function setupForUser(IUser $user) {
+	/**
+	 * Setup the full filesystem for the specified user
+	 */
+	public function setupForUser(IUser $user): void {
 		$this->setupRoot();
 
 		if (in_array($user->getUID(), $this->setupUsers, true)) {
@@ -172,7 +166,10 @@ class SetupManager {
 		$this->eventLogger->end('setup_fs');
 	}
 
-	public function setupRoot() {
+	/**
+	 * Set up the root filesystem
+	 */
+	public function setupRoot(): void {
 		//setting up the filesystem twice can only lead to trouble
 		if ($this->rootSetup) {
 			return;
@@ -195,6 +192,27 @@ class SetupManager {
 		}
 
 		$this->eventLogger->end('setup_root_fs');
+	}
+
+	/**
+	 * Set up the filesystem for the specified path
+	 */
+	public function setupForPath(string $path): void {
+		if (substr_count($path, '/') < 2 || strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0 || strpos($path, '/files_external/') === 0) {
+			$this->setupRoot();
+			return;
+		} else {
+			[, $userId] = explode('/', $path);
+		}
+
+		$user = $this->userManager->get($userId);
+
+		if (!$user) {
+			$this->setupRoot();
+			return;
+		}
+
+		$this->setupForUser($user);
 	}
 
 	public function tearDown() {

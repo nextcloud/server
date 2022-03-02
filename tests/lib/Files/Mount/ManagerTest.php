@@ -12,7 +12,7 @@ use OC\Files\Storage\Temporary;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
-use OCP\IUserSession;
+use OCP\IUserManager;
 
 class LongId extends Temporary {
 	public function getId() {
@@ -31,7 +31,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager = new \OC\Files\Mount\Manager(
 			$this->createMock(IEventLogger::class),
 			$this->createMock(IMountProviderCollection::class),
-			$this->createMock(IUserSession::class),
+			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
 		);
 	}

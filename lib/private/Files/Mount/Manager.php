@@ -31,14 +31,13 @@ namespace OC\Files\Mount;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
-use OC\Setup;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
-use OCP\IUserSession;
+use OCP\IUserManager;
 
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
@@ -50,12 +49,12 @@ class Manager implements IMountManager {
 	public function __construct(
 		IEventLogger $eventLogger,
 		IMountProviderCollection $mountProviderCollection,
-		IUserSession $userSession,
+		IUserManager $userManager,
 		IEventDispatcher $eventDispatcher
 	) {
 		$this->pathCache = new CappedMemoryCache();
 		$this->inPathCache = new CappedMemoryCache();
-		$this->setupManager = new SetupManager($eventLogger, $mountProviderCollection, $this, $userSession, $eventDispatcher);
+		$this->setupManager = new SetupManager($eventLogger, $mountProviderCollection, $this, $userManager, $eventDispatcher);
 	}
 
 	/**
@@ -91,26 +90,14 @@ class Manager implements IMountManager {
 		$this->inPathCache->clear();
 	}
 
-	private function setupForFind(string $path) {
-		if (strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0) {
-			// for appdata, we only setup the root bits, not the user bits
-			$this->setupManager->setupRoot();
-		} elseif (strpos($path, '/files_external/uploads/') === 0) {
-			// for OC\Security\CertificateManager, we only setup the root bits, not the user bits
-			$this->setupManager->setupRoot();
-		} else {
-			$this->setupManager->setupForCurrentUser();
-		}
-	}
-
 	/**
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return MountPoint|null
+	 * @return MountPoint
 	 */
-	public function find(string $path): ?MountPoint {
-		$this->setupForFind($path);
+	public function find(string $path): MountPoint {
+		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
 
 		if (isset($this->pathCache[$path])) {
@@ -143,7 +130,7 @@ class Manager implements IMountManager {
 	 * @return MountPoint[]
 	 */
 	public function findIn(string $path): array {
-		$this->setupForFind($path);
+		$this->setupManager->setupForPath($path);
 		$path = $this->formatPath($path);
 
 		if (isset($this->inPathCache[$path])) {

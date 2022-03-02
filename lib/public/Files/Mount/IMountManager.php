@@ -63,7 +63,7 @@ interface IMountManager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return IMountPoint|null
+	 * @return IMountPoint
 	 * @since 8.2.0
 	 */
 	public function find(string $path): ?IMountPoint;

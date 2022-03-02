@@ -110,7 +110,7 @@ class ManagerTest extends TestCase {
 		$this->mountManager = new \OC\Files\Mount\Manager(
 			$this->createMock(IEventLogger::class),
 			$this->createMock(IMountProviderCollection::class),
-			$this->createMock(IUserSession::class),
+			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class)
 		);
 		$this->clientService = $this->getMockBuilder(IClientService::class)
