@@ -193,7 +193,13 @@ class Database extends ABackend implements
 			$hasher = \OC::$server->getHasher();
 			$hashedPassword = $hasher->hash($password);
 
-			return $this->updatePassword($uid, $hashedPassword);
+			$return = $this->updatePassword($uid, $hashedPassword);
+
+			if ($return) {
+				$this->cache[$uid]['password'] = $hashedPassword;
+			}
+
+			return $return;
 		}
 
 		return false;
@@ -329,28 +335,16 @@ class Database extends ABackend implements
 	 * returns the user id or false
 	 */
 	public function checkPassword(string $loginName, string $password) {
-		$this->fixDI();
+		$found = $this->loadUser($loginName);
 
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('uid', 'password')
-			->from($this->table)
-			->where(
-				$qb->expr()->eq(
-					'uid_lower', $qb->createNamedParameter(mb_strtolower($loginName))
-				)
-			);
-		$result = $qb->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		if ($row) {
-			$storedHash = $row['password'];
+		if ($found && is_array($this->cache[$loginName])) {
+			$storedHash = $this->cache[$loginName]['password'];
 			$newHash = '';
 			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
 					$this->updatePassword($loginName, $newHash);
 				}
-				return (string)$row['uid'];
+				return (string)$this->cache[$loginName]['uid'];
 			}
 		}
 
@@ -375,7 +369,7 @@ class Database extends ABackend implements
 			}
 
 			$qb = $this->dbConn->getQueryBuilder();
-			$qb->select('uid', 'displayname')
+			$qb->select('uid', 'displayname', 'password')
 				->from($this->table)
 				->where(
 					$qb->expr()->eq(
@@ -391,6 +385,7 @@ class Database extends ABackend implements
 				$this->cache[$uid] = [
 					'uid' => (string)$row['uid'],
 					'displayname' => (string)$row['displayname'],
+					'password' => (string)$row['password'],
 				];
 			} else {
 				$this->cache[$uid] = false;
