@@ -77,7 +77,8 @@ use Sabre\DAV\IFile;
 class File extends Node implements IFile {
 	protected $request;
 
-	protected IL10N $l10n;
+	/** @var IL10N */
+	protected $l10n;
 
 	/**
 	 * Sets up the node, expects a full path name
