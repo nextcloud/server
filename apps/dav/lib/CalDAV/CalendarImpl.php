@@ -72,7 +72,7 @@ class CalendarImpl implements ICreateFromString {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getUri() {
+	public function getUri(): string {
 		return $this->calendarInfo['uri'];
 	}
 

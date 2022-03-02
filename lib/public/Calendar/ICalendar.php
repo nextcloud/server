@@ -42,7 +42,7 @@ interface ICalendar {
 	/**
 	 * @since 24.0.0
 	 */
-	public function getUri();
+	public function getUri(): string;
 
 	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
