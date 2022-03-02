@@ -42,7 +42,9 @@ use OCP\IUserManager;
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
 	private array $mounts = [];
+	/** @var CappedMemoryCache<IMountPoint> */
 	private CappedMemoryCache $pathCache;
+	/** @var CappedMemoryCache<IMountPoint[]> */
 	private CappedMemoryCache $inPathCache;
 	private SetupManager $setupManager;
 
@@ -94,9 +96,9 @@ class Manager implements IMountManager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return MountPoint
+	 * @return IMountPoint
 	 */
-	public function find(string $path): MountPoint {
+	public function find(string $path): IMountPoint {
 		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
 
@@ -127,7 +129,7 @@ class Manager implements IMountManager {
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findIn(string $path): array {
 		$this->setupManager->setupForPath($path);
@@ -160,7 +162,7 @@ class Manager implements IMountManager {
 	 * Find mounts by storage id
 	 *
 	 * @param string $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByStorageId(string $id): array {
 		\OC_Util::setupFS();
@@ -177,7 +179,7 @@ class Manager implements IMountManager {
 	}
 
 	/**
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getAll(): array {
 		return $this->mounts;
@@ -187,7 +189,7 @@ class Manager implements IMountManager {
 	 * Find mounts by numeric storage id
 	 *
 	 * @param int $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByNumericId(int $id): array {
 		$storageId = \OC\Files\Cache\Storage::getStorageId($id);
