@@ -179,8 +179,8 @@ export default {
 		},
 
 		isNotificationEmail() {
-			return (this.email === this.activeNotificationEmail)
-					|| (this.primary && this.activeNotificationEmail === '')
+			return (this.email && this.email === this.activeNotificationEmail)
+				|| (this.primary && this.activeNotificationEmail === '')
 		},
 	},
 
