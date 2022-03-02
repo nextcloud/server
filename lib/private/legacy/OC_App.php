@@ -173,6 +173,7 @@ class OC_App {
 
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
 
+		\OC::$server->getEventLogger()->start('bootstrap:load_app_' . $app, 'Load app: ' . $app);
 		if ($isBootable && $hasAppPhpFile) {
 			\OC::$server->getLogger()->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
 				'app' => $app,
@@ -181,7 +182,6 @@ class OC_App {
 			\OC::$server->getLogger()->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
 				'app' => $app,
 			]);
-			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			try {
 				self::requireAppFile($app);
 			} catch (Throwable $ex) {
@@ -201,8 +201,9 @@ class OC_App {
 					]);
 				}
 			}
-			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
+		\OC::$server->getEventLogger()->end('bootstrap:load_app_' . $app);
+
 		$coordinator->bootApp($app);
 
 		$info = self::getAppInfo($app);

@@ -81,7 +81,17 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function connect() {
 		try {
-			return parent::connect();
+			if ($this->_conn) {
+				return parent::connect();
+			}
+
+			// Only trigger the event logger for the initial connect call
+			$eventLogger = \OC::$server->getEventLogger();
+			$eventLogger->start('connect:db', 'db connection opened');
+			$status = parent::connect();
+			$eventLogger->end('connect:db');
+
+			return $status;
 		} catch (Exception $e) {
 			// throw a new exception to prevent leaking info from the stacktrace
 			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());

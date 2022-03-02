@@ -61,6 +61,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
@@ -595,8 +596,13 @@ class OC {
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
+
 		$eventLogger = \OC::$server->getEventLogger();
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
+		$eventLogger->start('request', 'Full request after autoloading');
+		register_shutdown_function(function () use ($eventLogger) {
+			$eventLogger->end('request');
+		});
 		$eventLogger->start('boot', 'Initialize');
 
 		// Override php.ini and log everything if we're troubleshooting
@@ -794,6 +800,7 @@ class OC {
 			}
 		}
 		$eventLogger->end('boot');
+		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
 	}
 
 	/**
