@@ -41,8 +41,9 @@
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
 		</span>
+		<!-- TODO use unique key for additional email when uniqueness can be guaranteed, see https://github.com/nextcloud/server/issues/26866 -->
 		<Email v-for="(additionalEmail, index) in additionalEmails"
-			:key="index"
+			:key="additionalEmail.key"
 			:index="index"
 			:scope.sync="additionalEmail.scope"
 			:email.sync="additionalEmail.value"
@@ -77,7 +78,7 @@ export default {
 
 	data() {
 		return {
-			additionalEmails,
+			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
 			displayNameChangeSupported,
 			primaryEmail,
 			isValidForm: true,
@@ -110,7 +111,7 @@ export default {
 	methods: {
 		onAddAdditionalEmail() {
 			if (this.$refs.form?.checkValidity()) {
-				this.additionalEmails.push({ value: '', scope: DEFAULT_ADDITIONAL_EMAIL_SCOPE })
+				this.additionalEmails.push({ value: '', scope: DEFAULT_ADDITIONAL_EMAIL_SCOPE, key: this.generateUniqueKey() })
 				this.$nextTick(() => this.updateFormValidity())
 			}
 		},
@@ -171,6 +172,10 @@ export default {
 
 		updateFormValidity() {
 			this.isValidForm = this.$refs.form?.checkValidity()
+		},
+
+		generateUniqueKey() {
+			return Math.random().toString(36).substring(2)
 		},
 	},
 }
