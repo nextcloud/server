@@ -356,7 +356,7 @@ OC.L10N.register(
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Není k dispozici, protože tato vlastnost je vyžadována pro  hlavní funkce, včetně sdílení souborů a pozvánek v kalendáři",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Není k dispozici protože zveřejňování údajů o konkrétních uživatelích není vyhledávacímu serveru povoleno. Pokud máte jakékoli dotazy, obraťte se na správce systémů",
     "Show to everyone" : "Ukázat všem",
-    "Show to logged in users only" : "Zobrazit pouze přihlášené uživatele",
+    "Show to logged in users only" : "Ukázat pouze přihlášeným uživatelům",
     "Hide" : "Skrýt",
     "Download and enable" : "Stáhnout a zapnout",
     "Enable" : "Zapnout",
