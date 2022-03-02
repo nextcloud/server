@@ -194,10 +194,10 @@ export default {
 			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
 		},
 
-		  isNotificationEmail() {
-			  return (this.email === this.activeNotificationEmail)
-						|| (this.primary && this.activeNotificationEmail === '')
-		  },
+		isNotificationEmail() {
+			return (this.email && this.email === this.activeNotificationEmail)
+				|| (this.primary && this.activeNotificationEmail === '')
+		},
 	},
 
 	mounted() {
