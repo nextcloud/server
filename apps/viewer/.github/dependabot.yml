@@ -46,7 +46,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable21
+  target-branch: stable22
   labels:
     - "3. to review"
     - "dependencies"
