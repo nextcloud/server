@@ -97,7 +97,7 @@ class IconController extends Controller {
 		}
 		if ($iconFile !== false) {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
-			$response->cacheFor(86400);
+			$response->cacheFor(86400, false, true);
 			return $response;
 		}
 
