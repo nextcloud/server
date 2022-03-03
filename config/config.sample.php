@@ -768,6 +768,10 @@ $CONFIG = [
  * connection. If none of these hosts are reachable, the administration panel
  * will show a warning. Set to an empty list to not do any such checks (warning
  * will still be shown).
+ * If no protocol is provided, both http and https will be tested.
+ * For example, 'http://www.nextcloud.com' and 'https://www.nextcloud.com'
+ * will be tested for 'www.nextcloud.com'
+ * If a protocol is provided, only this one will be tested.
  *
  * Defaults to the following domains:
  *
