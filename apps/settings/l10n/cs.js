@@ -469,6 +469,7 @@ OC.L10N.register(
     "Remove image" : "Odebrat obrázek",
     "png or jpg, max. 20 MB" : "png nebo jpg, nejvýše 20 MB",
     "Picture provided by original account" : "Obrázek poskytovaný původním účtem",
+    "Please note that it can take up to 24 hours for the avatar to get updated everywhere." : "Mějte na paměti, že může trvat až 24 hodin, než bude avatar aktualizován všude.",
     "Choose as profile picture" : "Vybrat jako profilový obrázek",
     "You are a member of the following groups:" : "Jste členem následujících skupin:",
     "You are using <strong>%s</strong>" : "Vaše data zabírají <strong>%s</strong>",
