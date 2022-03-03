@@ -863,20 +863,18 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 		$groups = $this->access->fetchListOfGroups($filter,
 			[strtolower($this->access->connection->ldapGroupMemberAssocAttr), $this->access->connection->ldapGroupDisplayName, 'dn']);
-		if (is_array($groups)) {
-			$fetcher = function ($dn) use (&$seen) {
-				if (is_array($dn) && isset($dn['dn'][0])) {
-					$dn = $dn['dn'][0];
-				}
-				return $this->getGroupsByMember($dn, $seen);
-			};
-
-			if (empty($dn)) {
-				$dn = "";
+		$fetcher = function ($dn) use (&$seen) {
+			if (is_array($dn) && isset($dn['dn'][0])) {
+				$dn = $dn['dn'][0];
 			}
+			return $this->getGroupsByMember($dn, $seen);
+		};
 
-			$allGroups = $this->walkNestedGroups($dn, $fetcher, $groups, $seen);
+		if (empty($dn)) {
+			$dn = "";
 		}
+
+		$allGroups = $this->walkNestedGroups($dn, $fetcher, $groups, $seen);
 		$visibleGroups = $this->filterValidGroups($allGroups);
 		return array_intersect_key($allGroups, $visibleGroups);
 	}
