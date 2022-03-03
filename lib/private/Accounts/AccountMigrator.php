@@ -47,7 +47,9 @@ class AccountMigrator implements IMigrator {
 
 	private IAvatarManager $avatarManager;
 
-	private const EXPORT_FILE = 'account.json';
+	private const EXPORT_ACCOUNT_FILE = 'account.json';
+
+	private const EXPORT_AVATAR_BASENAME = 'avatar';
 
 	public function __construct(
 		IAccountManager $accountManager,
@@ -57,33 +59,23 @@ class AccountMigrator implements IMigrator {
 		$this->avatarManager = $avatarManager;
 	}
 
-	private function getExtension(string $mimeType): string {
-		switch ($mimeType) {
-			case 'image/jpeg':
-				return 'jpg';
-			case 'image/png':
-				return 'png';
-			default:
-				throw new AccountMigratorException("Invalid avatar mimetype: \"$mimeType\"");
-		}
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
-		$output->writeln('Exporting account information in ' . AccountMigrator::EXPORT_FILE . '…');
+		$output->writeln('Exporting account information in ' . AccountMigrator::EXPORT_ACCOUNT_FILE . '…');
 
-		if ($exportDestination->addFileContents(AccountMigrator::EXPORT_FILE, json_encode($this->accountManager->getAccount($user))) === false) {
+		if ($exportDestination->addFileContents(AccountMigrator::EXPORT_ACCOUNT_FILE, json_encode($this->accountManager->getAccount($user))) === false) {
 			throw new AccountMigratorException('Could not export account information');
 		}
 
 		$avatar = $this->avatarManager->getAvatar($user->getUID());
 		if ($avatar->isCustomAvatar()) {
-			$avatarData = $avatar->get(-1)->data();
-			$ext = $this->getExtension($avatar->get(-1)->dataMimeType());
-			$output->writeln('Exporting avatar to avatar.' . $ext . '…');
-			if ($exportDestination->addFileContents("avatar.$ext", $avatarData) === false) {
+			$avatarFile = $avatar->getFile(-1);
+			$exportFilename = AccountMigrator::EXPORT_AVATAR_BASENAME . '.' . $avatarFile->getExtension();
+
+			$output->writeln('Exporting avatar to ' . $exportFilename . '…');
+			if ($exportDestination->addFileContents($exportFilename, $avatarFile->getContent()) === false) {
 				throw new AccountMigratorException('Could not export avatar');
 			}
 		}
@@ -98,12 +90,12 @@ class AccountMigrator implements IMigrator {
 			return;
 		}
 
-		$output->writeln('Importing account information from ' . AccountMigrator::EXPORT_FILE . '…');
+		$output->writeln('Importing account information from ' . AccountMigrator::EXPORT_ACCOUNT_FILE . '…');
 
 		$account = $this->accountManager->getAccount($user);
 
 		/** @var array<string, array> $data */
-		$data = json_decode($importSource->getFileContents(AccountMigrator::EXPORT_FILE), true, 512, JSON_THROW_ON_ERROR);
+		$data = json_decode($importSource->getFileContents(AccountMigrator::EXPORT_ACCOUNT_FILE), true, 512, JSON_THROW_ON_ERROR);
 
 		foreach ($data as $propertyName => $propertyData) {
 			if ($this->isCollection($propertyName)) {
@@ -127,17 +119,23 @@ class AccountMigrator implements IMigrator {
 			throw new AccountMigratorException('Failed to import account information');
 		}
 
-		foreach ($importSource->getFolderListing('') as $filename) {
-			if (str_starts_with($filename, 'avatar.')) {
-				$avatarFilename = $filename;
-			}
-		}
+		$avatarFiles = array_filter(
+			$importSource->getFolderListing(''),
+			fn (string $filename) => pathinfo($filename, PATHINFO_FILENAME) === AccountMigrator::EXPORT_AVATAR_BASENAME,
+		);
 
-		if (isset($avatarFilename)) {
-			$output->writeln('Importing avatar from ' . $avatarFilename . '…');
-			$avatar = $importSource->getFileContents($avatarFilename);
+		if (!empty($avatarFiles)) {
+			if (count($avatarFiles) >= 2) {
+				$output->writeln('Expected single avatar image file, using first file found');
+			}
+
+			$importFilename = reset($avatarFiles);
+
+			$output->writeln('Importing avatar from ' . $importFilename . '…');
+			$data = $importSource->getFileContents($importFilename);
 			$image = new \OC_Image();
-			$image->loadFromData($avatar);
+			$image->loadFromData($data);
+
 			try {
 				$avatar = $this->avatarManager->getAvatar($user->getUID());
 				$avatar->set($image);
