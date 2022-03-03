@@ -1467,7 +1467,7 @@ class Access extends LDAPUtility {
 	 * @param string $search the search term
 	 * @return string the final filter part to use in LDAP searches
 	 */
-	public function getFilterPartForUserSearch($search) {
+	public function getFilterPartForUserSearch($search): string {
 		return $this->getFilterPartForSearch($search,
 			$this->connection->ldapAttributesForUserSearch,
 			$this->connection->ldapUserDisplayName);
@@ -1479,7 +1479,7 @@ class Access extends LDAPUtility {
 	 * @param string $search the search term
 	 * @return string the final filter part to use in LDAP searches
 	 */
-	public function getFilterPartForGroupSearch($search) {
+	public function getFilterPartForGroupSearch($search): string {
 		return $this->getFilterPartForSearch($search,
 			$this->connection->ldapAttributesForGroupSearch,
 			$this->connection->ldapGroupDisplayName);
@@ -1571,10 +1571,8 @@ class Access extends LDAPUtility {
 
 	/**
 	 * returns the filter used for counting users
-	 *
-	 * @return string
 	 */
-	public function getFilterForUserCount() {
+	public function getFilterForUserCount(): string {
 		$filter = $this->combineFilterWithAnd([
 			$this->connection->ldapUserFilter,
 			$this->connection->ldapUserDisplayName . '=*'

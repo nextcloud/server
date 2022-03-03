@@ -178,8 +178,8 @@ interface ILDAPWrapper {
 	/**
 	 * Sets the value of the specified option to be $value
 	 * @param resource|\LDAP\Connection $link LDAP link resource
-	 * @param string $option a defined LDAP Server option
-	 * @param int $value the new value for the option
+	 * @param int $option a defined LDAP Server option
+	 * @param mixed $value the new value for the option
 	 * @return bool true on success, false otherwise
 	 */
 	public function setOption($link, $option, $value);
