@@ -113,7 +113,7 @@ class AccessTest extends TestCase {
 	private function getConnectorAndLdapMock() {
 		$lw = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMockBuilder(Connection::class)
-			->setConstructorArgs([$lw, null, null])
+			->setConstructorArgs([$lw, '', null])
 			->getMock();
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
@@ -495,7 +495,7 @@ class AccessTest extends TestCase {
 			->willReturn(true);
 		$connection = $this->createMock(LDAP::class);
 		$this->connection
-			->expects($this->once())
+			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
 		$this->ldap
@@ -519,7 +519,7 @@ class AccessTest extends TestCase {
 			->willReturn(true);
 		$connection = $this->createMock(LDAP::class);
 		$this->connection
-			->expects($this->once())
+			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
 		$this->ldap

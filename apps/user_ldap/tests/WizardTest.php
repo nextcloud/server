@@ -72,7 +72,7 @@ class WizardTest extends TestCase {
 		/** @var Configuration|\PHPUnit\Framework\MockObject\MockObject $conf */
 		$conf = $this->getMockBuilder(Configuration::class)
 			->setMethods($confMethods)
-			->setConstructorArgs([$lw, null, null])
+			->setConstructorArgs(['', true])
 			->getMock();
 
 		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */
