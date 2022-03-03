@@ -477,7 +477,7 @@ Raw output
 		// Check whether Nextcloud is allowed to use the OPcache API
 		$isPermitted = true;
 		$permittedPath = $this->iniGetWrapper->getString('opcache.restrict_api');
-		if (isset($permittedPath) && $permittedPath !== '' && !str_starts_with(\OC::$SERVERROOT, $permittedPath)) {
+		if (isset($permittedPath) && $permittedPath !== '' && !str_starts_with(\OC::$SERVERROOT, rtrim($permittedPath, '/'))) {
 			$isPermitted = false;
 		}
 
