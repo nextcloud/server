@@ -38,16 +38,12 @@
 namespace OC\Files;
 
 use OC\Cache\CappedMemoryCache;
-use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\MountPoint;
-use OC\Lockdown\Filesystem\NullStorage;
 use OC\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IMountProvider;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -262,11 +258,7 @@ class Filesystem {
 			\OC_Util::setupFS();
 		}
 		$mount = self::$mounts->find($path);
-		if ($mount) {
-			return $mount->getMountPoint();
-		} else {
-			return '';
-		}
+		return $mount->getMountPoint();
 	}
 
 	/**
@@ -322,11 +314,7 @@ class Filesystem {
 	 */
 	public static function resolvePath($path) {
 		$mount = self::getMountManager()->find($path);
-		if ($mount) {
-			return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
-		} else {
-			return [null, null];
-		}
+		return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
 	}
 
 	public static function init($user, $root) {

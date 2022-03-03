@@ -10,10 +10,6 @@ namespace Test\Files\Mount;
 
 use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\Temporary;
-use OCP\Diagnostics\IEventLogger;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IMountProviderCollection;
-use OCP\IUserManager;
 
 class LongId extends Temporary {
 	public function getId() {

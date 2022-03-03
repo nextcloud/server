@@ -41,13 +41,11 @@ use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lockdown\ILockdownManager;
@@ -55,7 +53,7 @@ use OCP\Lockdown\ILockdownManager;
 class SetupManager {
 	private bool $rootSetup = false;
 	private IEventLogger $eventLogger;
-	private IMountProviderCollection $mountProviderCollection;
+	private MountProviderCollection $mountProviderCollection;
 	private IMountManager $mountManager;
 	private IUserManager $userManager;
 	private array $setupUsers = [];
@@ -66,7 +64,7 @@ class SetupManager {
 
 	public function __construct(
 		IEventLogger $eventLogger,
-		IMountProviderCollection $mountProviderCollection,
+		MountProviderCollection $mountProviderCollection,
 		IMountManager $mountManager,
 		IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,

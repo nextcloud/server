@@ -271,21 +271,21 @@ class Root extends Folder implements IRootFolder {
 	 * @return int
 	 */
 	public function getId() {
-		return null;
+		return 0;
 	}
 
 	/**
 	 * @return array
 	 */
 	public function stat() {
-		return null;
+		return [];
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getMTime() {
-		return null;
+		return 0;
 	}
 
 	/**
@@ -293,14 +293,14 @@ class Root extends Folder implements IRootFolder {
 	 * @return int
 	 */
 	public function getSize($includeMounts = true) {
-		return null;
+		return 0;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getEtag() {
-		return null;
+		return '';
 	}
 
 	/**

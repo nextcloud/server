@@ -105,10 +105,8 @@ class Manager implements IMountManager {
 			if (isset($this->mounts[$mountPoint])) {
 				$this->pathCache[$path] = $this->mounts[$mountPoint];
 				return $this->mounts[$mountPoint];
-			}
-
-			if ($current === '') {
-				throw new NotFoundException("No mount for path " . $path . " existing mounts: " . implode(",", array_keys($this->mounts)));
+			} elseif ($current === '') {
+				break;
 			}
 
 			$current = dirname($current);
@@ -116,6 +114,8 @@ class Manager implements IMountManager {
 				$current = '';
 			}
 		}
+
+		throw new NotFoundException("No mount for path " . $path . " existing mounts: " . implode(",", array_keys($this->mounts)));
 	}
 
 	/**

@@ -27,6 +27,8 @@ use OCP\EventDispatcher\Event;
 
 /**
  * Event fired after the filesystem has been torn down
+ *
+ * @since 24.0.0
  */
 class FilesystemTornDownEvent extends Event {
 }

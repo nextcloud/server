@@ -51,7 +51,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 
 	/**
 	 * @param string $key
-	 * @param T$value
+	 * @param T $value
 	 * @param int $ttl
 	 * @return bool
 	 */
@@ -89,7 +89,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 
 	/**
 	 * @param string $key
-	 * @param T$value
+	 * @param T $value
 	 * @return void
 	 */
 	public function offsetSet($offset, $value): void {
