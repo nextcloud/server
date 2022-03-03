@@ -127,6 +127,13 @@ class InMemoryFile implements ISimpleFile {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public function getExtension(): string {
+		return \pathinfo($this->name, PATHINFO_EXTENSION);
+	}
+
+	/**
 	 * Stream reading is unsupported for in memory files.
 	 *
 	 * @throws NotPermittedException

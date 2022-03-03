@@ -103,6 +103,11 @@ interface ISimpleFile {
 	public function getMimeType();
 
 	/**
+	 * @since 24.0.0
+	 */
+	public function getExtension(): string;
+
+	/**
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @return resource
