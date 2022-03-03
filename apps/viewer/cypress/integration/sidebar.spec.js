@@ -73,10 +73,6 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
-	it('Does not have any visual regression 1', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('Open the sidebar', function() {
 		// open the menu
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
@@ -87,20 +83,19 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
 		// check the sidebar is opened for the correct file
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
-		// check we indeed have a preview
+		// check we do not have a preview
 		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
-		cy.getFileId('image1.jpg').then(fileID1 => {
-			cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', fileID1)
-		})
-
+		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', 'core/filetypes')
 	})
 
-	it('Does not have any visual regression 2', function() {
-		// Comments have the user's username which is randomly generated for tests causing a difference in the snapshot.
-		// Switch to sharing section to avoid the issue.
-		cy.get('aside.app-sidebar a#sharing').click()
-
-		// cy.matchImageSnapshot()
+	it('Sidebar is in compact mode', function() {
+		// check the sidebar is opened for the correct file
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
+		// check we do not have a preview
+		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
+		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', 'core/filetypes')
 	})
 
 	it('Change to next image with sidebar open', function() {
@@ -114,14 +109,6 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image2.jpg')
 	})
 
-	it('Does not have any visual regression 3', function() {
-		// Comments have the user's username which is randomly generated for tests causing a difference in the snapshot.
-		// Switch to sharing section to avoid the issue.
-		cy.get('aside.app-sidebar a#sharing').click()
-
-		// cy.matchImageSnapshot()
-	})
-
 	it('Change to previous image with sidebar open', function() {
 		cy.get('aside.app-sidebar').should('be.visible')
 
@@ -131,14 +118,6 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		// open the previous file (image1.png) using the arrow
 		cy.get('body > .viewer .icon-previous').click()
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
-	})
-
-	it('Does not have any visual regression 4', function() {
-		// Comments have the user's username which is randomly generated for tests causing a difference in the snapshot.
-		// Switch to sharing section to avoid the issue.
-		cy.get('aside.app-sidebar a#sharing').click()
-
-		// cy.matchImageSnapshot()
 	})
 
 	it('Close the sidebar', function() {
@@ -168,9 +147,5 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar__close').click()
 		cy.get('aside.app-sidebar').should('not.exist')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
-	})
-
-	it('Does not have any visual regression 5', function() {
-		// cy.matchImageSnapshot()
 	})
 })
