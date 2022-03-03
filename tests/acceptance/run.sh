@@ -144,7 +144,7 @@ function prepareDocker() {
 		--network=container:$SELENIUM_CONTAINER \
 		--volume composer_cache:/root/.composer \
 		--interactive \
-		--tty nextcloudci/acceptance-php7.3:acceptance-php7.3-2 bash
+		--tty ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest bash
 
 	# Use the $TMPDIR or, if not set, fall back to /tmp.
 	NEXTCLOUD_LOCAL_TAR="$($MKTEMP --tmpdir="${TMPDIR:-/tmp}" --suffix=.tar nextcloud-local-XXXXXXXXXX)"
