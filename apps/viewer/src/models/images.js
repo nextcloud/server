@@ -20,20 +20,49 @@
  *
  */
 
+import { loadState } from '@nextcloud/initial-state'
+import logger from '../services/logger'
 import Images from '../components/Images'
+
+const enabledPreviewProviders = loadState(appName, 'enabled_preview_providers', [])
+
+const mimes = [
+	'image/bmp',
+	'image/heic',
+	'image/heif',
+	'image/jpeg',
+	'image/png',
+	'image/tiff',
+	'image/webp',
+	'image/x-xbitmap',
+]
+
+// Filter out supported mimes that are _not_
+// enabled in the preview API
+const filterEnabledMimes = () => {
+	return mimes.filter(filter => {
+		return enabledPreviewProviders.findIndex(mimeRegex => {
+			// Remove leading and trailing slash from string regex
+			const regex = new RegExp(mimeRegex.replace(/^\/|\/$/g, ''), 'i')
+			return filter.match(regex)
+		}) > -1
+	})
+}
+
+const enabledMimes = filterEnabledMimes()
+const ignoredMimes = mimes.filter(x => !enabledMimes.includes(x))
+if (ignoredMimes.length > 0) {
+	logger.warn('Some mimes were ignored because they are not enabled in the server previews config', { ignoredMimes })
+}
 
 export default {
 	id: 'images',
 	group: 'media',
 	mimes: [
-		'image/png',
-		'image/heic',
-		'image/jpeg',
+		// Gif and svg images does not rely on previews
 		'image/gif',
-		'image/x-xbitmap',
-		'image/bmp',
 		'image/svg+xml',
-		'image/webp',
+		...enabledMimes
 	],
 	component: Images,
 }
