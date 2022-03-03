@@ -81,10 +81,9 @@
 						:title="cat.displayName" />
 				</template>
 
-				<AppNavigationItem
-					id="app-developer-docs"
-					href="settings.developerDocumentation"
-					:title="t('settings', 'Developer documentation') + ' ↗'" />
+				<AppNavigationItem id="app-developer-docs"
+					:title="t('settings', 'Developer documentation') + ' ↗'"
+					@click="openDeveloperDocumentation" />
 			</template>
 		</AppNavigation>
 
@@ -307,6 +306,9 @@ export default {
 				name: 'apps-category',
 				params: { category: this.category },
 			})
+		},
+		openDeveloperDocumentation() {
+			window.open(this.settings.developerDocumentation)
 		},
 	},
 }
