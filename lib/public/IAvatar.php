@@ -26,8 +26,8 @@
  */
 namespace OCP;
 
-use OCP\Files\File;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 /**
  * This class provides avatar functionality
@@ -80,7 +80,7 @@ interface IAvatar {
 	/**
 	 * Get the file of the avatar
 	 * @param int $size -1 can be used to not scale the image
-	 * @return File
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
