@@ -66,7 +66,7 @@ interface ILDAPWrapper {
 	 * Retrieve the LDAP pagination cookie
 	 * @param resource|\LDAP\Connection $link LDAP link resource
 	 * @param resource|\LDAP\Result $result LDAP result resource
-	 * @param string $cookie structure sent by LDAP server
+	 * @param string &$cookie structure sent by LDAP server
 	 * @return bool true on success, false otherwise
 	 *
 	 * Corresponds to ldap_control_paged_result_response
