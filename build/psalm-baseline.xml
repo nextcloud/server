@@ -2699,21 +2699,9 @@
     </UndefinedMethod>
   </file>
   <file src="lib/private/Archive/TAR.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;tar-&gt;extractInString($path)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
     <UndefinedDocblockClass occurrences="1">
       <code>$this-&gt;tar-&gt;extractInString($path)</code>
     </UndefinedDocblockClass>
-  </file>
-  <file src="lib/private/Archive/ZIP.php">
-    <ImplementedReturnTypeMismatch occurrences="2">
-      <code>boolean|null</code>
-      <code>boolean|null</code>
-    </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Authentication/LoginCredentials/Store.php">
     <RedundantCondition occurrences="1">
@@ -4609,9 +4597,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>getBackend</code>
     </InvalidNullableReturnType>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$this-&gt;config-&gt;getUserValue($uid, 'login', 'lastLogin', 0)</code>
-    </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement occurrences="1">
       <code>$image</code>
     </InvalidReturnStatement>
