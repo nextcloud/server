@@ -25,19 +25,35 @@ declare(strict_types=1);
 
 namespace OCA\Viewer\Listener;
 
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Viewer\AppInfo\Application;
 use OCA\Viewer\Event\LoadViewer;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IPreview;
 use OCP\Util;
 
 class LoadViewerScript implements IEventListener {
+
+	/** @var IInitialState */
+	private $initialStateService;
+
+	/** @var IPreview */
+	private $previewManager;
+
+	public function __construct(IInitialState $initialStateService,
+								IPreview $previewManager) {
+		$this->initialStateService = $initialStateService;
+		$this->previewManager = $previewManager;
+	}
+
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadViewer || $event instanceof LoadAdditionalScriptsEvent)) {
 			return;
 		}
 
 		Util::addScript(Application::APP_ID, 'viewer-main', 'files');
+		$this->initialStateService->provideInitialState('enabled_preview_providers', array_keys($this->previewManager->getProviders()));
 	}
 }

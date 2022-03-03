@@ -26,8 +26,8 @@ import Audios from '../models/audios'
 
 export default class Viewer {
 
-	_state;
-	_mimetypes;
+	_state
+	_mimetypes
 
 	constructor() {
 		this._mimetypes = []
