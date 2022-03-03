@@ -1164,6 +1164,7 @@ return array(
     'OC\\Files\\Search\\SearchOrder' => $baseDir . '/lib/private/Files/Search/SearchOrder.php',
     'OC\\Files\\Search\\SearchQuery' => $baseDir . '/lib/private/Files/Search/SearchQuery.php',
     'OC\\Files\\SetupManager' => $baseDir . '/lib/private/Files/SetupManager.php',
+    'OC\\Files\\SetupManagerFactory' => $baseDir . '/lib/private/Files/SetupManagerFactory.php',
     'OC\\Files\\SimpleFS\\NewSimpleFile' => $baseDir . '/lib/private/Files/SimpleFS/NewSimpleFile.php',
     'OC\\Files\\SimpleFS\\SimpleFile' => $baseDir . '/lib/private/Files/SimpleFS/SimpleFile.php',
     'OC\\Files\\SimpleFS\\SimpleFolder' => $baseDir . '/lib/private/Files/SimpleFS/SimpleFolder.php',

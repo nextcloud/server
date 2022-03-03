@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
+use OC\Files\Config\MountProviderCollection;
+use OC\Files\Mount\MountPoint;
 use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Home;
@@ -31,19 +33,24 @@ use OC\Files\Storage\Wrapper\Availability;
 use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
+use OC\Lockdown\Filesystem\NullStorage;
 use OC_App;
 use OC_Hook;
 use OC_Util;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Lockdown\ILockdownManager;
 
 class SetupManager {
 	private bool $rootSetup = false;
@@ -53,19 +60,27 @@ class SetupManager {
 	private IUserManager $userManager;
 	private array $setupUsers = [];
 	private IEventDispatcher $eventDispatcher;
+	private IUserMountCache $userMountCache;
+	private ILockdownManager $lockdownManager;
+	private bool $listeningForProviders;
 
 	public function __construct(
 		IEventLogger $eventLogger,
 		IMountProviderCollection $mountProviderCollection,
 		IMountManager $mountManager,
 		IUserManager $userManager,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		IUserMountCache $userMountCache,
+		ILockdownManager $lockdownManager
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
 		$this->mountManager = $mountManager;
 		$this->userManager = $userManager;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->userMountCache = $userMountCache;
+		$this->lockdownManager = $lockdownManager;
+		$this->listeningForProviders = false;
 	}
 
 	private function setupBuiltinWrappers() {
@@ -161,6 +176,34 @@ class SetupManager {
 
 		Filesystem::init($user, $userDir);
 
+		if ($this->lockdownManager->canAccessFilesystem()) {
+			// home mounts are handled separate since we need to ensure this is mounted before we call the other mount providers
+			$homeMount = $this->mountProviderCollection->getHomeMountForUser($user);
+			$this->mountManager->addMount($homeMount);
+
+			if ($homeMount->getStorageRootId() === -1) {
+				$homeMount->getStorage()->mkdir('');
+				$homeMount->getStorage()->getScanner()->scan('');
+			}
+
+			// Chance to mount for other storages
+			$mounts = $this->mountProviderCollection->addMountForUser($user, $this->mountManager);
+			$mounts[] = $homeMount;
+			$this->userMountCache->registerMounts($user, $mounts);
+
+			$this->listenForNewMountProviders();
+		} else {
+			$this->mountManager->addMount(new MountPoint(
+				new NullStorage([]),
+				'/' . $user->getUID()
+			));
+			$this->mountManager->addMount(new MountPoint(
+				new NullStorage([]),
+				'/' . $user->getUID() . '/files'
+			));
+		}
+		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $user->getUID()]);
+
 		OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user->getUID(), 'user_dir' => $userDir]);
 
 		$this->eventLogger->end('setup_fs');
@@ -220,5 +263,23 @@ class SetupManager {
 		$this->rootSetup = false;
 		$this->mountManager->clear();
 		$this->eventDispatcher->dispatchTyped(new FilesystemTornDownEvent());
+	}
+
+	/**
+	 * Get mounts from mount providers that are registered after setup
+	 */
+	private function listenForNewMountProviders() {
+		if (!$this->listeningForProviders) {
+			$this->listeningForProviders = true;
+			$this->mountProviderCollection->listen('\OC\Files\Config', 'registerMountProvider', function (IMountProvider $provider) {
+				foreach ($this->setupUsers as $userId) {
+					$user = $this->userManager->get($userId);
+					if ($user) {
+						$mounts = $provider->getMountsForUser($user, Filesystem::getLoader());
+						array_walk($mounts, [$this->mountManager, 'addMount']);
+					}
+				}
+			});
+		}
 	}
 }
