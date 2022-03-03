@@ -304,9 +304,9 @@ class Connection extends LDAPUtility {
 	 * set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param array $config array that holds the config parameters in an associated array
 	 * @param array &$setParameters optional; array where the set fields will be given to
-	 * @return boolean true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
+	 * @return bool true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
 	 */
-	public function setConfiguration($config, &$setParameters = null) {
+	public function setConfiguration($config, &$setParameters = null): bool {
 		if (is_null($setParameters)) {
 			$setParameters = [];
 		}
