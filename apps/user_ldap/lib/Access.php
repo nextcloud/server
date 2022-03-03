@@ -218,7 +218,7 @@ class Access extends LDAPUtility {
 		$values = [];
 		$isRangeRequest = false;
 		do {
-			$result = $this->executeRead($cr, $dn, $attrToRead, $filter, $maxResults);
+			$result = $this->executeRead($dn, $attrToRead, $filter, $maxResults);
 			if (is_bool($result)) {
 				// when an exists request was run and it was successful, an empty
 				// array must be returned
@@ -260,17 +260,12 @@ class Access extends LDAPUtility {
 	/**
 	 * Runs an read operation against LDAP
 	 *
-	 * @param resource $cr the LDAP connection
-	 * @param string $dn
-	 * @param string $attribute
-	 * @param string $filter
-	 * @param int $maxResults
 	 * @return array|bool false if there was any error, true if an exists check
 	 *                    was performed and the requested DN found, array with the
 	 *                    returned data on a successful usual operation
 	 * @throws ServerNotAvailableException
 	 */
-	public function executeRead($cr, $dn, $attribute, $filter, $maxResults) {
+	public function executeRead(string $dn, string $attribute, string $filter, int $maxResults) {
 		try {
 			$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
 		} catch (NoMoreResults $e) {
@@ -280,7 +275,7 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		$dn = $this->helper->DNasBaseParameter($dn);
-		$rr = @$this->invokeLDAPMethod('read', $cr, $dn, $filter, [$attribute]);
+		$rr = @$this->invokeLDAPMethod('read', $dn, $filter, [$attribute]);
 		if (!$this->ldap->isResource($rr)) {
 			if ($attribute !== '') {
 				//do not throw this message on userExists check, irritates
@@ -289,18 +284,18 @@ class Access extends LDAPUtility {
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
-		if ($attribute === '' && ($filter === 'objectclass=*' || $this->invokeLDAPMethod('countEntries', $cr, $rr) === 1)) {
+		if ($attribute === '' && ($filter === 'objectclass=*' || $this->invokeLDAPMethod('countEntries', $rr) === 1)) {
 			$this->logger->debug('readAttribute: ' . $dn . ' found', ['app' => 'user_ldap']);
 			return true;
 		}
-		$er = $this->invokeLDAPMethod('firstEntry', $cr, $rr);
+		$er = $this->invokeLDAPMethod('firstEntry', $rr);
 		if (!$this->ldap->isResource($er)) {
 			//did not match the filter, return false
 			return false;
 		}
 		//LDAP attributes are not case sensitive
 		$result = \OCP\Util::mb_array_change_key_case(
-			$this->invokeLDAPMethod('getAttributes', $cr, $er), MB_CASE_LOWER, 'UTF-8');
+			$this->invokeLDAPMethod('getAttributes', $er), MB_CASE_LOWER, 'UTF-8');
 
 		return $result;
 	}
@@ -381,10 +376,10 @@ class Access extends LDAPUtility {
 		}
 		try {
 			// try PASSWD extended operation first
-			return @$this->invokeLDAPMethod('exopPasswd', $cr, $userDN, '', $password) ||
-				@$this->invokeLDAPMethod('modReplace', $cr, $userDN, $password);
+			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password) ||
+				@$this->invokeLDAPMethod('modReplace', $userDN, $password);
 		} catch (ConstraintViolationException $e) {
-			throw new HintException('Password change rejected.', \OC::$server->getL10N('user_ldap')->t('Password change rejected. Hint: ') . $e->getMessage(), $e->getCode());
+			throw new HintException('Password change rejected.', \OC::$server->getL10N('user_ldap')->t('Password change rejected. Hint: ') . $e->getMessage(), (int)$e->getCode());
 		}
 	}
 
@@ -1092,26 +1087,23 @@ class Access extends LDAPUtility {
 	 */
 
 	/**
+	 * @param mixed[] $arguments
 	 * @return mixed
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function invokeLDAPMethod() {
-		$arguments = func_get_args();
-		$command = array_shift($arguments);
-		$cr = array_shift($arguments);
+	private function invokeLDAPMethod(string $command, ...$arguments) {
+		if ($command == 'controlPagedResultResponse') {
+			// php no longer supports call-time pass-by-reference
+			// thus cannot support controlPagedResultResponse as the third argument
+			// is a reference
+			throw new \InvalidArgumentException('Invoker does not support controlPagedResultResponse, call LDAP Wrapper directly instead.');
+		}
 		if (!method_exists($this->ldap, $command)) {
 			return null;
 		}
-		array_unshift($arguments, $cr);
-		// php no longer supports call-time pass-by-reference
-		// thus cannot support controlPagedResultResponse as the third argument
-		// is a reference
+		array_unshift($arguments, $this->connection->getConnectionResource());
 		$doMethod = function () use ($command, &$arguments) {
-			if ($command == 'controlPagedResultResponse') {
-				throw new \InvalidArgumentException('Invoker does not support controlPagedResultResponse, call LDAP Wrapper directly instead.');
-			} else {
-				return call_user_func_array([$this->ldap, $command], $arguments);
-			}
+			return call_user_func_array([$this->ldap, $command], $arguments);
 		};
 		try {
 			$ret = $doMethod();
@@ -1172,8 +1164,7 @@ class Access extends LDAPUtility {
 			return false;
 		}
 
-		$sr = $this->invokeLDAPMethod('search', $cr, $base, $filter, $attr);
-		// cannot use $cr anymore, might have changed in the previous call!
+		$sr = $this->invokeLDAPMethod('search', $base, $filter, $attr);
 		$error = $this->ldap->errno($this->connection->getConnectionResource());
 		if (!$this->ldap->isResource($sr) || $error !== 0) {
 			$this->logger->error('Attempt for Paging?  ' . print_r($pagedSearchOK, true), ['app' => 'user_ldap']);
@@ -1308,7 +1299,7 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	private function countEntriesInSearchResults($sr): int {
-		return (int)$this->invokeLDAPMethod('countEntries', $this->connection->getConnectionResource(), $sr);
+		return (int)$this->invokeLDAPMethod('countEntries', $sr);
 	}
 
 	/**
@@ -1349,7 +1340,6 @@ class Access extends LDAPUtility {
 				return [];
 			}
 			[$sr, $pagedSearchOK] = $search;
-			$cr = $this->connection->getConnectionResource();
 
 			if ($skipHandling) {
 				//i.e. result do not need to be fetched, we just need the cookie
@@ -1359,7 +1349,7 @@ class Access extends LDAPUtility {
 				return [];
 			}
 
-			$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $cr, $sr));
+			$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $sr));
 			$iFoundItems = max($iFoundItems, $findings['count']);
 			unset($findings['count']);
 
@@ -1994,8 +1984,7 @@ class Access extends LDAPUtility {
 		if ($this->lastCookie === '') {
 			return;
 		}
-		$cr = $this->connection->getConnectionResource();
-		$this->invokeLDAPMethod('controlPagedResult', $cr, 0, false);
+		$this->invokeLDAPMethod('controlPagedResult', 0, false);
 		$this->getPagedSearchResultState();
 		$this->lastCookie = '';
 	}
@@ -2082,7 +2071,7 @@ class Access extends LDAPUtility {
 				$this->abandonPagedSearch();
 			}
 			$pagedSearchOK = true === $this->invokeLDAPMethod(
-					'controlPagedResult', $this->connection->getConnectionResource(), $limit, false
+					'controlPagedResult', $limit, false
 				);
 			if ($pagedSearchOK) {
 				$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
@@ -2102,7 +2091,6 @@ class Access extends LDAPUtility {
 			// be returned.
 			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
 			$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
-				$this->connection->getConnectionResource(),
 				$pageSize, false);
 		}
 
