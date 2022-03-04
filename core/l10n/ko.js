@@ -75,7 +75,6 @@ OC.L10N.register(
     "You are currently running PHP {version}. Upgrade your PHP version to take advantage of {linkstart}performance and security updates provided by the PHP Group ↗{linkend} as soon as your distribution supports it." : "현재 PHP {version}(으)로 실행중입니다. PHP 버전을 업그레이드 하여 지원중인 {linkstart} PHP 그룹의 성능 및 보안 업데이트 ↗{linkend} 혜택을 누리십시오.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23이 PHP 7.3를 지원하는 마지막 릴리즈입니다. Nextcloud 24은 PHP 7.4 이상이 필요합니다.",
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the {linkstart}documentation ↗{linkend}." : "역방향 프록시 헤더 설정이 올바르지 않거나 신뢰하는 프록시를 통해 Nextcloud에 접근하고 있을 수 있습니다. 만약 Nextcloud를 신뢰하는 프록시를 통해 접근하고 있지 않다면 이는 보안 문제이며 공격자가 Nextcloud에 보이는 IP 주소를 속이고 있을 수 있습니다. 자세한 내용은 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">문서</a>를 참고하십시오.",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcache 모듈이 제대로 설정되지 않음:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP 함수 \"set_time_limit\"을 사용할 수 없습니다. 스크립트가 실행 중간에 중지되어 설치를 깨트릴 수도 있습니다. 이 함수를 활성화하는 것을 추천합니다.",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "PHP에 Freetype 지원이 없습니다. 프로필 사진과 설정 인터페이스가 올바르게 표시되지 않을 수도 있습니다.",
     "Missing index \"{indexName}\" in table \"{tableName}\"." : "테이블 \"{tableName}\"에 인덱스 \"{indexName}\"이(가) 없습니다.",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "호환되지 않아 앱을 설치할 수 없습니다.",
     "Can't install this app" : "앱을 설치할 수 없음",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache 모듈이 로드되지 않았습니다. {linkstart}더 나은 성능을 위해 ↗{linkend} 이를 PHP에 로드하는 것이 권장됩니다.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 모듈이 바르게 설정되지 않았습니다.  {linkstart}더 나은 성능을 위해 ↗{linkend} 다음의 설정을 <code>php.ini</code>에서 사용하십시오:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 모듈이 바르게 설정되지 않았습니다.  {linkstart}더 나은 성능을 위해 ↗{linkend} 다음의 설정을 <code>php.ini</code>에서 사용하십시오:",
+    "The PHP OPcache module is not properly configured:" : "PHP OPcache 모듈이 제대로 설정되지 않음:"
 },
 "nplurals=1; plural=0;");

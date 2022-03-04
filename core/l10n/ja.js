@@ -86,7 +86,6 @@ OC.L10N.register(
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the {linkstart}documentation ↗{linkend}." : "リバースプロキシヘッダーの構成が正しくないか、信頼できるプロキシからNextcloudにアクセスしています。そうでない場合、これはセキュリティに問題があり、攻撃者がNextcloudを表示できるようにIPアドレスを偽装することができます。詳細については、{linkstart}ドキュメント↗{linkend}をご覧ください。",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the {linkstart}memcached wiki about both modules ↗{linkend}." : "Memcachedが分散キャッシュとして設定されていますが、間違ったPHPモジュール \"memcache\" がインストールされています。 \\OC\\Memcache\\Memcachedは \"memcached\" のみをサポートし、\"memcache\" はサポートしません。は、{linkstart} 両方のモジュールについてはmemcached wiki↗{linkend}を参照してください。",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})" : "一部のファイルは整合性チェックに合格していません。この問題を解決する方法の詳細については、{linkstart1}ドキュメント↗{linkend}をご覧ください。 ({linkstart2}無効なファイルのリスト…{linkend} / {linkstart3}再スキャン…{linkend})",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcacheモジュールが適切に構成されていません: ",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP 関数 \"set_time_limit\" は使用できません。これにより実行スクリプトが途中で停止されて、インストールを破壊する可能性があります。この機能を有効にすることを強くお勧めします。",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "プロフィール写真と設定インターフェースが壊れているため、PHPはFreeTypeをサポートしていません。",
     "Missing index \"{indexName}\" in table \"{tableName}\"." : "テーブル \"{tableName}\"のインデックス \"{indexName}\"が見つかりません。",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "アプリの互換性がないため、インストールできません",
     "Can't install this app" : "このアプリはインストールできません",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcacheモジュールがロードされていません。 {linkstart}パフォーマンスを向上させるには、↗{linkend}をPHPインストールにロードすることをお勧めします。",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache モジュールが正しく設定されていません。{linkstart}パフォーマンスを向上させるためには、{linkend} <code>php.ini</code>で以下の設定を使用することを推奨します:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache モジュールが正しく設定されていません。{linkstart}パフォーマンスを向上させるためには、{linkend} <code>php.ini</code>で以下の設定を使用することを推奨します:",
+    "The PHP OPcache module is not properly configured:" : "PHP OPcacheモジュールが適切に構成されていません: "
 },
 "nplurals=1; plural=0;");
