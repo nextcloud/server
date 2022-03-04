@@ -29,6 +29,18 @@ namespace OCP\DB;
 use PDO;
 
 /**
+ * This interface represents the result of a database query.
+ *
+ * Usage:
+ *
+ * ```php
+ * $qb = $this->db->getQueryBuilder();
+ * $qb->select(...);
+ * $result = $query->executeQuery();
+ * ```
+ *
+ * This interface must not be implemented in your application.
+ *
  * @since 21.0.0
  */
 interface IResult {

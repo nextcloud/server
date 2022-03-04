@@ -30,6 +30,15 @@ use Doctrine\DBAL\ParameterType;
 use PDO;
 
 /**
+ * This interface allows you to prepare a database query.
+ *
+ * This interface must not be implemented in your application but
+ * instead obtained from IDBConnection::prepare.
+ *
+ * ```php
+ * $prepare = $this->db->prepare($query->getSql());
+ * ```
+ *
  * @since 21.0.0
  */
 interface IPreparedStatement {
