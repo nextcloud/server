@@ -55,6 +55,56 @@ class AppConfig implements IAppConfig {
 			'/^private_key$/',
 			'/^public_key$/',
 		],
+		'integration_dropbox' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+		],
+		'integration_github' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+		],
+		'integration_gitlab' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+			'/^oauth_instance_url$/',
+		],
+		'integration_google' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+		],
+		'integration_jira' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+			'/^forced_instance_url$/',
+		],
+		'integration_onedrive' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+		],
+		'integration_openproject' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+			'/^oauth_instance_url$/',
+		],
+		'integration_reddit' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+		],
+		'integration_suitecrm' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+			'/^oauth_instance_url$/',
+		],
+		'integration_twitter' => [
+			'/^consumer_key$/',
+			'/^consumer_secret$/',
+			'/^followed_user$/',
+		],
+		'integration_zammad' => [
+			'/^client_id$/',
+			'/^client_secret$/',
+			'/^oauth_instance_url$/',
+		],
 		'notify_push' => [
 			'/^cookie$/',
 		],
