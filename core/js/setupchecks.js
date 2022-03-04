@@ -342,10 +342,9 @@
 							listOfOPcacheRecommendations += "<li>" + element + "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP OPcache module is not properly configured:'
-							) + "<ul>" + listOfOPcacheRecommendations + "</ul>",
+							msg: t('core', 'The PHP OPcache module is not properly configured. See the {linkstart}documentation ↗{linkend} for more information.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-opcache') + '">')
+								.replace('{linkend}', '</a>') + '<ul>' + listOfOPcacheRecommendations + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
