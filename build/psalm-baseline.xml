@@ -2802,23 +2802,12 @@
       <code>$userId</code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Avatar/GuestAvatar.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>InMemoryFile</code>
-    </ImplementedReturnTypeMismatch>
-  </file>
   <file src="lib/private/Avatar/PlaceholderAvatar.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>ISimpleFile</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidScalarArgument occurrences="1">
       <code>$data</code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Avatar/UserAvatar.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>ISimpleFile</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidScalarArgument occurrences="3">
       <code>$data</code>
       <code>$data</code>
