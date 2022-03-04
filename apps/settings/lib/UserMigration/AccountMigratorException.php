@@ -24,9 +24,9 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Accounts;
+namespace OCA\Settings\UserMigration;
 
-use Exception;
+use OCP\UserMigration\UserMigrationException;
 
-class AccountMigratorException extends Exception {
+class AccountMigratorException extends UserMigrationException {
 }

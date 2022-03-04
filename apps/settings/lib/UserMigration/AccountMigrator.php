@@ -24,9 +24,12 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Accounts;
+namespace OCA\Settings\UserMigration;
 
 use InvalidArgumentException;
+use OC\Accounts\AccountProperty;
+use OC\Accounts\AccountPropertyCollection;
+use OC\Accounts\TAccountsHelper;
 use OC\NotSquareException;
 use OCP\Accounts\IAccountManager;
 use OCP\IAvatarManager;
