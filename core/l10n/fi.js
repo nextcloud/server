@@ -68,7 +68,6 @@ OC.L10N.register(
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Tietokantaasi ei suoriteta \"READ COMMITTED\"-transaktioeristystasolla. Tämä saattaa aiheuttaa ongelmia, kun useita toimintoja suoritetaan rinnakkaisesti.",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Cron-työtä ei voitu suorittaa komentorivin kautta. Seuraavat tekniset virheet havaittiin:",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 on viimeinen julkaiusu, joka tukee PHP:n versiota 7.3. Nextcloud 24 vaatii vähintään PHP:n version 7.4.",
-    "The PHP OPcache module is not properly configured:" : "PHP:n OPcache-moduulia ei ole määritetty oikein:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP-funktio \"set_time_limit\" ei ole käytettävissä. Tämä saattaa johtaa siihen, että skriptien suoritus päättyy ennenaikaisesti ja Nextcloud-asennus rikkoutuu. Funktion käyttäminen on erittäin suositeltavaa.",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "PHP-asennuksessasi ei ole FreeType-tukea, ja siitä aiheutuu profiilikuvien sekä asetuskäyttöliittymän rikkoutuminen.",
     "Missing index \"{indexName}\" in table \"{tableName}\"." : "Puuttuva indeksi \"{indexName}\" taulussa \"{tableName}\".",
@@ -369,6 +368,7 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Salasanan vaihtaminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
-    "Can't install this app" : "Tätä sovellusta ei voi asentaa"
+    "Can't install this app" : "Tätä sovellusta ei voi asentaa",
+    "The PHP OPcache module is not properly configured:" : "PHP:n OPcache-moduulia ei ole määritetty oikein:"
 },
 "nplurals=2; plural=(n != 1);");

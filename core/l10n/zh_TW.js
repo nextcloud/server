@@ -87,7 +87,6 @@ OC.L10N.register(
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the {linkstart}documentation ↗{linkend}." : "偵測到您的反向代理標頭設定不正確，但也有可能是因為您目前正透過信任的代理伺服器存取 Nextcloud。若您目前不是透過信任的代理伺服器存取 Nextcloud，這就是一個安全性問題，允許攻擊者對 Nextcloud 假冒 IP 位址。更多資訊請查閱{linkstart}文件 ↗{linkend}。",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the {linkstart}memcached wiki about both modules ↗{linkend}." : "Memcached是用於分散式緩存的設置，但是目前安裝了錯誤的PHP模組為「memcache」。\\OC\\Memcache\\Memcached僅支援「memcached」而不是「memcache」。請參閱 {linkstart}memcached wiki了解兩種模組資訊 ↗{linkend}。",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})" : "部份檔案未通過完整性檢查。更多關於如何解決此問題的資訊可在{linkstart1}文件 ↗{linkend}中找到。（{linkstart2}無效檔案列表……{linkend} / {linkstart3}重新掃描……{linkend}）",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcache 模組設定不正確：",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "無法取得 PHP 中的 \"set_time_limit\" 函式。這可能導致執行過程被終止並造成不完整安裝。我們強烈建議啟用該函式。",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "您的 PHP 並未啟用 FreeType 支援，導致大頭貼產生器和設定界面無法使用。",
     "Missing index \"{indexName}\" in table \"{tableName}\"." : "在資料表 \"{tableName}\" 中，找不到索引值 \"{indexName}\" 。",
@@ -424,6 +423,7 @@ OC.L10N.register(
     "Can't install this app" : "無法安裝這個應用程式",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP 的 OPcache 模組並未被載入。{linkstart}為了提供更好的效能，建議 ↗{linkend}將此 PHP 模組載入。",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP 的 OPcache 模組並未被妥善設定。{linkstart}為了有更好的效能表現 ↗{linkend}，我們建議在 <code>php.ini</code> 設定檔中使用以下設定：",
+    "The PHP OPcache module is not properly configured:" : "PHP OPcache 模組設定不正確：",
     "You haven't added any info yet" : "您尚未新增任何資訊",
     "{user} hasn't added any info yet" : "{user} 尚未新增任何資訊"
 },
