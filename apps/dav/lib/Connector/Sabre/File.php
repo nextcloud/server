@@ -183,7 +183,23 @@ class File extends Node implements IFile {
 		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
 		try {
 			if (!$needsPartFile) {
-				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+				try {
+					$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+				} catch (LockedException $e) {
+					// during very large uploads, the shared lock we got at the start might have been expired
+					// meaning that the above lock can fail not just only because somebody else got a shared lock
+					// or because there is no existing shared lock to make exclusive
+					//
+					// Thus we try to get a new exclusive lock, if the original lock failed because of a different shared
+					// lock this will still fail, if our original shared lock expired the new lock will be successful and
+					// the entire operation will be safe
+
+					try {
+						$this->acquireLock(ILockingProvider::LOCK_EXCLUSIVE);
+					} catch (LockedException $ex) {
+						throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+					}
+				}
 			}
 
 			if (!is_resource($data)) {

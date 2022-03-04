@@ -43,6 +43,7 @@ use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -173,7 +174,7 @@ class AvatarManager implements IAvatarManager {
 			$folder->delete();
 		} catch (NotFoundException $e) {
 			$this->logger->debug("No cache for the user $userId. Ignoring avatar deletion");
-		} catch (NotPermittedException $e) {
+		} catch (NotPermittedException | StorageNotAvailableException $e) {
 			$this->logger->error("Unable to delete user avatars for $userId. gnoring avatar deletion");
 		} catch (NoUserException $e) {
 			$this->logger->debug("User $userId not found. gnoring avatar deletion");
