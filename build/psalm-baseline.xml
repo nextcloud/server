@@ -3476,9 +3476,6 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidOperand occurrences="2">
       <code>!$permissions</code>
       <code>$this-&gt;copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file)</code>
@@ -3493,9 +3490,6 @@
       <code>$storage-&gt;updater</code>
       <code>$storage-&gt;updater</code>
     </NoInterfaceProperties>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;getStorageCache()-&gt;getAvailability()</code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/DAV.php">
     <InvalidClass occurrences="2">
