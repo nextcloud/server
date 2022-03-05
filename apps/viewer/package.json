@@ -70,7 +70,7 @@
 		"@nextcloud/browserslist-config": "^2.2.0",
 		"@nextcloud/eslint-config": "^7.0.2",
 		"@nextcloud/stylelint-config": "^2.1.2",
-		"@nextcloud/webpack-vue-config": "^4.3.2",
+		"@nextcloud/webpack-vue-config": "^5.0.0",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
 		"cypress": "^9.5.1",
 		"cypress-image-snapshot": "^4.0.1",
