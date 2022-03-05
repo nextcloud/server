@@ -709,20 +709,6 @@ Raw output
 			$recommendedPHPModules[] = 'intl';
 		}
 
-		if (!extension_loaded('bcmath')) {
-			$recommendedPHPModules[] = 'bcmath';
-		}
-
-		if (!extension_loaded('gmp')) {
-			$recommendedPHPModules[] = 'gmp';
-		}
-
-		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
-			if (!extension_loaded('imagick')) {
-				$recommendedPHPModules[] = 'imagick';
-			}
-		}
-
 		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
 			// on previous version argon2 wasn't part of the "standard" extension
@@ -732,6 +718,25 @@ Raw output
 		}
 
 		return $recommendedPHPModules;
+	}
+
+	protected function isImagickEnabled(): bool {
+		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
+			if (!extension_loaded('imagick')) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected function areWebauthnExtensionsEnabled(): bool {
+		if (!extension_loaded('bcmath')) {
+			return false;
+		}
+		if (!extension_loaded('gmp')) {
+			return false;
+		}
+		return true;
 	}
 
 	protected function isMysqlUsedWithoutUTF8MB4(): bool {
@@ -865,6 +870,8 @@ Raw output
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
+				'isImagickEnabled' => $this->isImagickEnabled(),
+				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
 				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),

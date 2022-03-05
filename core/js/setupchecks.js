@@ -423,6 +423,24 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
+					if (!data.isImagickEnabled) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
+					if (!data.areWebauthnExtensionsEnabled) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
 					if (data.imageMagickLacksSVGSupport) {
 						messages.push({
 							msg: t(
