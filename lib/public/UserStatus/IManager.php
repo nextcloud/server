@@ -26,7 +26,11 @@ declare(strict_types=1);
 namespace OCP\UserStatus;
 
 /**
- * Interface IManager
+ * This interface allows to manage the user status.
+ *
+ * This interface must not be implemented in your application but
+ * instead should be used as a service and injected in your code with
+ * dependency injection.
  *
  * @since 20.0.0
  */
