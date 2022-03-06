@@ -121,6 +121,8 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Crittografia non pronta: %1$s",
     "Failed to open file: %1$s" : "Apertura del file non riuscito: %1$s",
     "Failed to unlink: %1$s" : "Scollegamento fallito: %1$s",
+    "Invalid chunk name" : "Nome non valido per lo spezzone",
+    "Could not rename part file assembled from chunks" : "Non è possibile rinominare il file assemblato da più spezzoni",
     "Failed to write file contents: %1$s" : "Scrittura del contenuto del file non riuscita: %1$s",
     "File not found: %1$s" : "File non trovato: %1$s",
     "System is in maintenance mode." : "Il sistema è in modalità di manutenzione.",
