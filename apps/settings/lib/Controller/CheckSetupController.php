@@ -799,7 +799,7 @@ Raw output
 	 * @return bool
 	 */
 	protected function hasRecommendedUMask(): bool {
-		return ((umask() & 0700) === 0700);
+		return ((umask() & 0700) === 0000);
 	}
 
 	/**
