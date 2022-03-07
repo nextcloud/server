@@ -27,6 +27,7 @@ import users from './users'
 import apps from './apps'
 import settings from './settings'
 import oc from './oc'
+import { showError } from '@nextcloud/dialogs'
 
 Vue.use(Vuex)
 
@@ -36,9 +37,9 @@ const mutations = {
 	API_FAILURE(state, error) {
 		try {
 			const message = error.error.response.data.ocs.meta.message
-			OC.Notification.showHtml(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + message, { timeout: 7 })
+			showError(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + message, { isHTML: true })
 		} catch (e) {
-			OC.Notification.showTemporary(t('settings', 'An error occured during the request. Unable to proceed.'))
+			showError(t('settings', 'An error occured during the request. Unable to proceed.'))
 		}
 		console.error(state, error)
 	},
