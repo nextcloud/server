@@ -28,7 +28,11 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
 /**
- * Interface ISimpleFile
+ * This interface allows to manage simple files.
+ *
+ * This interface must not be implemented in your application but
+ * instead should be used as a service and injected in your code with
+ * dependency injection.
  *
  * @since 11.0.0
  */
