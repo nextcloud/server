@@ -372,6 +372,8 @@ class Local extends \OC\Files\Storage\Common {
 			return parent::copy($path1, $path2);
 		} else {
 			$oldMask = umask($this->defUMask);
+			// support Write-Once-Read-Many filesystems
+			$this->unlink($path2);
 			$result = copy($this->getSourcePath($path1), $this->getSourcePath($path2));
 			umask($oldMask);
 			return $result;
