@@ -128,6 +128,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * {@inheritDoc}
+	 * @since 24.0.0
 	 */
 	public function getExtension(): string {
 		return \pathinfo($this->name, PATHINFO_EXTENSION);
