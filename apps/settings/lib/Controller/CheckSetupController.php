@@ -26,6 +26,7 @@
  * @author Timo Förster <tfoerster@webfoersterei.de>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author MichaIng <micha@dietpi.com>
+ * @author Björn Gottschall <github.mail@bgottschall.de>
  *
  * @license AGPL-3.0
  *
@@ -794,6 +795,14 @@ Raw output
 	}
 
 	/**
+	 * Checks if the process umask has owner read/write/execute permissions
+	 * @return bool
+	 */
+	protected function hasRecommendedUMask(): bool {
+		return ((umask() & 0700) === 0700);
+	}
+
+	/**
 	 * @return DataResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
@@ -850,6 +859,7 @@ Raw output
 				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
 				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
+				'hasRecommendedUMask' => $this->hasRecommendedUMask(),
 			]
 		);
 	}
