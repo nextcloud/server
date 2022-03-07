@@ -225,6 +225,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			while ($file = readdir($dir)) {
 				if (!Filesystem::isIgnoredDir($file)) {
 					if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
+						closedir($dir);
 						return false;
 					}
 				}
