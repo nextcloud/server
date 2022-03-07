@@ -191,6 +191,17 @@ class NewSimpleFile implements ISimpleFile {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public function getExtension(): string {
+		if ($this->file) {
+			return $this->file->getExtension();
+		} else {
+			return \pathinfo($this->name, PATHINFO_EXTENSION);
+		}
+	}
+
+	/**
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @return resource

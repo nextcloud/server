@@ -28,7 +28,11 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
 /**
- * Interface ISimpleFile
+ * This interface allows to manage simple files.
+ *
+ * This interface must not be implemented in your application but
+ * instead should be used as a service and injected in your code with
+ * dependency injection.
  *
  * @since 11.0.0
  */
@@ -101,6 +105,11 @@ interface ISimpleFile {
 	 * @since 11.0.0
 	 */
 	public function getMimeType();
+
+	/**
+	 * @since 24.0.0
+	 */
+	public function getExtension(): string;
 
 	/**
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
