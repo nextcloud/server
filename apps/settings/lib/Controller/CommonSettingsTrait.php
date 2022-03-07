@@ -134,7 +134,12 @@ trait CommonSettingsTrait {
 	}
 
 	private function getIndexResponse($type, $section) {
-		$this->navigationManager->setActiveEntry('settings');
+		if ($type === 'personal') {
+			$this->navigationManager->setActiveEntry('settings');
+		} elseif ($type === 'admin') {
+			$this->navigationManager->setActiveEntry('admin_settings');
+		}
+
 		$templateParams = [];
 		$templateParams = array_merge($templateParams, $this->getNavigationParameters($type, $section));
 		$templateParams = array_merge($templateParams, $this->getSettings($section));

@@ -211,17 +211,37 @@ class NavigationManager implements INavigationManager {
 					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
 					'name' => $l->t('Apps'),
 				]);
-			}
 
-			// Personal and (if applicable) admin settings
-			$this->add([
-				'type' => 'settings',
-				'id' => 'settings',
-				'order' => 2,
-				'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-				'name' => $l->t('Settings'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-			]);
+				// Personal settings
+				$this->add([
+					'type' => 'settings',
+					'id' => 'settings',
+					'order' => 2,
+					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
+					'name' => $l->t('Personal settings'),
+					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
+				]);
+
+				// Admin settings
+				$this->add([
+					'type' => 'settings',
+					'id' => 'admin_settings',
+					'order' => 3,
+					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
+					'name' => $l->t('Admin settings'),
+					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
+				]);
+			} else {
+				// Personal settings
+				$this->add([
+					'type' => 'settings',
+					'id' => 'settings',
+					'order' => 2,
+					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
+					'name' => $l->t('Settings'),
+					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
+				]);
+			}
 
 			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
 			if ($logoutUrl !== '') {
