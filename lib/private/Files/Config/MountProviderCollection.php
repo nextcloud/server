@@ -75,16 +75,15 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
-	 * Get all configured mount points for the user
-	 *
-	 * @param \OCP\IUser $user
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @param IUser $user
+	 * @param IMountProvider[] $providers
+	 * @return IMountPoint[]
 	 */
-	public function getMountsForUser(IUser $user) {
+	private function getMountsForFromProviders(IUser $user, array $providers): array {
 		$loader = $this->loader;
 		$mounts = array_map(function (IMountProvider $provider) use ($user, $loader) {
 			return $provider->getMountsForUser($user, $loader);
-		}, $this->providers);
+		}, $providers);
 		$mounts = array_filter($mounts, function ($result) {
 			return is_array($result);
 		});
@@ -92,6 +91,17 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 			return array_merge($mounts, $providerMounts);
 		}, []);
 		return $this->filterMounts($user, $mounts);
+	}
+
+	public function getMountsForUser(IUser $user): array {
+		return $this->getMountsForFromProviders($user, $this->providers);
+	}
+
+	public function getMountsFromProvider(IUser $user, string $mountProviderClass): array {
+		$providers = array_filter($this->providers, function (IMountProvider $mountProvider) use ($mountProviderClass) {
+			return get_class($mountProvider) === $mountProviderClass;
+		});
+		return $this->getMountsForFromProviders($user, $providers);
 	}
 
 	public function addMountForUser(IUser $user, IMountManager $mountManager) {
