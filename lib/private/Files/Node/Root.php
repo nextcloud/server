@@ -38,6 +38,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
@@ -380,16 +381,19 @@ class Root extends Folder implements IRootFolder {
 		$userId = $userObject->getUID();
 
 		if (!$this->userFolderCache->hasKey($userId)) {
-			\OC\Files\Filesystem::initMountPoints($userId);
-
-			try {
-				$folder = $this->get('/' . $userId . '/files');
-			} catch (NotFoundException $e) {
-				if (!$this->nodeExists('/' . $userId)) {
-					$this->newFolder('/' . $userId);
+			$folder = new LazyFolder(function () use ($userId) {
+				try {
+					return $this->get('/' . $userId . '/files');
+				} catch (NotFoundException $e) {
+					if (!$this->nodeExists('/' . $userId)) {
+						$this->newFolder('/' . $userId);
+					}
+					return $this->newFolder('/' . $userId . '/files');
 				}
-				$folder = $this->newFolder('/' . $userId . '/files');
-			}
+			}, [
+				'path' => '/' . $userId . '/files',
+				'permissions' => Constants::PERMISSION_ALL,
+			]);
 
 			$this->userFolderCache->set($userId, $folder);
 		}
