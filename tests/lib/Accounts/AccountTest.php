@@ -120,11 +120,25 @@ class AccountTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),
-			IAccountManager::PROPERTY_EMAIL => new AccountProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::SCOPE_LOCAL, IAccountManager::VERIFIED, '')
+			IAccountManager::PROPERTY_EMAIL => new AccountProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::SCOPE_LOCAL, IAccountManager::VERIFIED, ''),
+			IAccountManager::COLLECTION_EMAIL => [
+				new AccountProperty(IAccountManager::COLLECTION_EMAIL, 'apple@orange.com', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED, ''),
+				new AccountProperty(IAccountManager::COLLECTION_EMAIL, 'banana@orange.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::VERIFICATION_IN_PROGRESS, ''),
+				new AccountProperty(IAccountManager::COLLECTION_EMAIL, 'kiwi@watermelon.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::VERIFIED, ''),
+			],
 		];
+
 		$account = new Account($user);
 		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED);
 		$account->setProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::SCOPE_LOCAL, IAccountManager::VERIFIED);
+
+		$col = new AccountPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+		$col->setProperties([
+			new AccountProperty($col->getName(), 'apple@orange.com', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED, ''),
+			new AccountProperty($col->getName(), 'banana@orange.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::VERIFICATION_IN_PROGRESS, ''),
+			new AccountProperty($col->getName(), 'kiwi@watermelon.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::VERIFIED, ''),
+		]);
+		$account->setPropertyCollection($col);
 
 		$this->assertEquals($properties, $account->jsonSerialize());
 	}
