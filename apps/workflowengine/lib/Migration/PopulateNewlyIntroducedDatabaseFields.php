@@ -57,7 +57,7 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		$qb = $this->dbc->getQueryBuilder();
 
 		$insertQuery = $qb->insert('flow_operations_scope');
-		while ($id = $ids->fetchOne()) {
+		while (($id = $ids->fetchOne()) !== false) {
 			$insertQuery->values(['operation_id' => $qb->createNamedParameter($id), 'type' => IManager::SCOPE_ADMIN]);
 			$insertQuery->execute();
 		}
