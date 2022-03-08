@@ -46,8 +46,8 @@ class MetaData {
 	protected $metaData = [];
 	/** @var GroupManager */
 	protected $groupManager;
-	/** @var bool */
-	protected $sorting = false;
+	/** @var int */
+	protected $sorting = self::SORT_NONE;
 	/** @var IUserSession */
 	protected $userSession;
 
