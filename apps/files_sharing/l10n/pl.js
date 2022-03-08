@@ -154,7 +154,7 @@ OC.L10N.register(
     "Allow upload and editing" : "Zezwalaj na wysyłanie i edytowanie",
     "File drop (upload only)" : "Upuszczanie pliku (tylko wysyłanie)",
     "Custom permissions" : "Uprawnienia niestandardowe",
-    "Read" : "Odczytaj",
+    "Read" : "Czytaj",
     "Upload" : "Wyślij",
     "Edit" : "Edytuj",
     "Bundled permissions" : "Uprawnienia w pakiecie",
