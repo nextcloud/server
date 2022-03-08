@@ -74,7 +74,7 @@ class JSResourceLocator extends ResourceLocator {
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$script.'.js')
-			|| $this->appendIfExist($this->serverroot, "dist/core-$scriptName.js")
+			|| (strpos($scriptName, '/') === -1 && $this->appendIfExist($this->serverroot, "dist/core-$scriptName.js"))
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
 		) {
 			return;
