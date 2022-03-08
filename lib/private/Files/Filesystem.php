@@ -46,6 +46,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 
 class Filesystem {
 
@@ -324,6 +325,18 @@ class Filesystem {
 		if (self::$defaultInstance) {
 			return false;
 		}
+		self::initInternal($root);
+
+		//load custom mount config
+		self::initMountPoints($user);
+
+		return true;
+	}
+
+	public static function initInternal($root) {
+		if (self::$defaultInstance) {
+			return false;
+		}
 		self::getLoader();
 		self::$defaultInstance = new View($root);
 		/** @var IEventDispatcher $eventDispatcher */
@@ -337,9 +350,6 @@ class Filesystem {
 		if (!self::$mounts) {
 			self::$mounts = \OC::$server->getMountManager();
 		}
-
-		//load custom mount config
-		self::initMountPoints($user);
 
 		self::$loaded = true;
 
@@ -378,6 +388,15 @@ class Filesystem {
 	 * @return View
 	 */
 	public static function getView() {
+		if (!self::$defaultInstance) {
+			/** @var IUserSession $session */
+			$session = \OC::$server->get(IUserSession::class);
+			$user = $session->getUser();
+			if ($user) {
+				$userDir = '/' . $user->getUID() . '/files';
+				self::initInternal($userDir);
+			}
+		}
 		return self::$defaultInstance;
 	}
 
@@ -736,7 +755,7 @@ class Filesystem {
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public static function getFileInfo($path, $includeMountPoints = true) {
-		return self::$defaultInstance->getFileInfo($path, $includeMountPoints);
+		return self::getView()->getFileInfo($path, $includeMountPoints);
 	}
 
 	/**
