@@ -259,7 +259,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 
 		$result = $select->executeQuery();
 		$idList = [];
-		while ($id = $result->fetchOne()) {
+		while (($id = $result->fetchOne()) !== false) {
 			$idList[] = $id;
 		}
 		$result->closeCursor();
