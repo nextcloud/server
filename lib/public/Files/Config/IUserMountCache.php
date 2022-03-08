@@ -25,6 +25,7 @@
 namespace OCP\Files\Config;
 
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 
 /**
@@ -125,4 +126,26 @@ interface IUserMountCache {
 	 * @since 20.0.0
 	 */
 	public function clear(): void;
+
+	/**
+	 * Get all cached mounts for a user
+	 *
+	 * @param IUser $user
+	 * @param string $path
+	 * @return ICachedMountInfo
+	 * @throws NotFoundException
+	 * @since 24.0.0
+	 */
+	public function getMountForPath(IUser $user, string $path): ICachedMountInfo;
+
+	/**
+	 * Get all cached mounts for a user inside a path
+	 *
+	 * @param IUser $user
+	 * @param string $path
+	 * @return ICachedMountInfo[]
+	 * @throws NotFoundException
+	 * @since 24.0.0
+	 */
+	public function getMountsInForPath(IUser $user, string $path): array;
 }

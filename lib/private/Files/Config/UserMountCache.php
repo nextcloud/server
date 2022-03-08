@@ -446,4 +446,37 @@ class UserMountCache implements IUserMountCache {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
+
+	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
+		$mounts = $this->getMountsForUser($user);
+		$mountPoints = array_map(function (ICachedMountInfo $mount) {
+			return $mount->getMountPoint();
+		}, $mounts);
+		$mounts = array_combine($mountPoints, $mounts);
+
+		$current = $path;
+		while (true) {
+			$mountPoint = $current . '/';
+			if (isset($mounts[$mountPoint])) {
+				return $mounts[$mountPoint];
+			} elseif ($current === '') {
+				break;
+			}
+
+			$current = dirname($current);
+			if ($current === '.' || $current === '/') {
+				$current = '';
+			}
+		}
+
+		throw new NotFoundException("No cached mount for path " . $path);
+	}
+
+	public function getMountsInForPath(IUser $user, string $path): array {
+		$path = rtrim($path, '/') . '/';
+		$mounts = $this->getMountsForUser($user);
+		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {
+			return $mount->getMountPoint() !== $path && strpos($mount->getMountPoint(), $path) === 0;
+		});
+	}
 }
