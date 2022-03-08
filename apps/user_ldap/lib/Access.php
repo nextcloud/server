@@ -982,7 +982,7 @@ class Access extends LDAPUtility {
 	public function countUsers(string $filter, array $attr = ['dn'], int $limit = null, int $offset = null) {
 		$result = false;
 		foreach ($this->connection->ldapBaseUsers as $base) {
-			$count = $this->count($filter, [$base], $attr, $limit, $offset ?? 0);
+			$count = $this->count($filter, [$base], $attr, $limit ?? 0, $offset ?? 0);
 			$result = is_int($count) ? (int)$result + $count : $result;
 		}
 		return $result;
@@ -1013,7 +1013,7 @@ class Access extends LDAPUtility {
 	public function countGroups(string $filter, array $attr = ['dn'], int $limit = null, int $offset = null) {
 		$result = false;
 		foreach ($this->connection->ldapBaseGroups as $base) {
-			$count = $this->count($filter, [$base], $attr, $limit, $offset ?? 0);
+			$count = $this->count($filter, [$base], $attr, $limit ?? 0, $offset ?? 0);
 			$result = is_int($count) ? (int)$result + $count : $result;
 		}
 		return $result;
@@ -1028,7 +1028,7 @@ class Access extends LDAPUtility {
 	public function countObjects(int $limit = null, int $offset = null) {
 		$result = false;
 		foreach ($this->connection->ldapBase as $base) {
-			$count = $this->count('objectclass=*', [$base], ['dn'], $limit, $offset ?? 0);
+			$count = $this->count('objectclass=*', [$base], ['dn'], $limit ?? 0, $offset ?? 0);
 			$result = is_int($count) ? (int)$result + $count : $result;
 		}
 		return $result;
@@ -1187,8 +1187,8 @@ class Access extends LDAPUtility {
 	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param ?string[] $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
-	 * @param ?int $limit optional, maximum results to be counted
-	 * @param int $offset optional, a starting point
+	 * @param int $limit maximum results to be counted, 0 means no limit
+	 * @param int $offset a starting point, defaults to 0
 	 * @param bool $skipHandling indicates whether the pages search operation is
 	 * completed
 	 * @return int|false Integer or false if the search could not be initialized
@@ -1198,7 +1198,7 @@ class Access extends LDAPUtility {
 		string $filter,
 		array $bases,
 		array $attr = null,
-		?int $limit = null,
+		int $limit = 0,
 		int $offset = 0,
 		bool $skipHandling = false
 	) {
@@ -1208,7 +1208,7 @@ class Access extends LDAPUtility {
 		]);
 
 		$limitPerPage = (int)$this->connection->ldapPagingSize;
-		if (!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
+		if ($limit < $limitPerPage && $limit > 0) {
 			$limitPerPage = $limit;
 		}
 
@@ -1237,7 +1237,7 @@ class Access extends LDAPUtility {
 				 * Continue now depends on $hasMorePages value
 				 */
 				$continue = $pagedSearchOK && $hasMorePages;
-			} while ($continue && (is_null($limit) || $limit <= 0 || $limit > $counter));
+			} while ($continue && ($limit <= 0 || $limit > $counter));
 		}
 
 		return $counter;
