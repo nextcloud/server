@@ -733,9 +733,8 @@ code {
 
 	.dirtree {
 		flex-wrap: wrap;
-		padding-left: 12px;
-		padding-right: 0px;
 		box-sizing: border-box;
+		padding-right: 140px;
 
 		div:first-child a {
 			background-image: var(--icon-home-000);
@@ -810,12 +809,11 @@ code {
 		}
 
 		.menu {
-			top:100%;
-			margin:10px;
-			margin-left: 1px;
+			top: 100%;
+			margin-top: 10px;
 			form {
-				display:flex;
-				margin:10px;
+				display: flex;
+				margin: 10px;
 			}
 		}
 
