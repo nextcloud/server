@@ -474,7 +474,7 @@ Raw output
 	protected function getOpcacheSetupRecommendations(): array {
 		// If the module is not loaded, return directly to skip inapplicable checks
 		if (!extension_loaded('Zend OPcache')) {
-			return ['The PHP OPcache module is not loaded. <a target="_blank" rel="noreferrer noopener" class="external" href="' . $this->urlGenerator->linkToDocs('admin-php-opcache') . '">For better performance it is recommended</a> to load it into your PHP installation.'];
+			return ['The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.'];
 		}
 
 		$recommendations = [];

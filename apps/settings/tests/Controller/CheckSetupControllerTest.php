@@ -582,9 +582,6 @@ class CheckSetupControllerTest extends TestCase {
 				if ($key === 'admin-code-integrity') {
 					return 'http://docs.example.org/server/go.php?to=admin-code-integrity';
 				}
-				if ($key === 'admin-php-opcache') {
-					return 'http://docs.example.org/server/go.php?to=admin-php-opcache';
-				}
 				if ($key === 'admin-db-conversion') {
 					return 'http://docs.example.org/server/go.php?to=admin-db-conversion';
 				}
