@@ -44,6 +44,7 @@ echo "Using database $DATABASENAME"
 cat > ./tests/autoconfig-sqlite.php <<DELIM
 <?php
 \$AUTOCONFIG = array (
+  'secret' => 'actually-not-secret',
   'installed' => false,
   'dbtype' => 'sqlite',
   'dbtableprefix' => 'oc_',
@@ -56,6 +57,7 @@ DELIM
 cat > ./tests/autoconfig-mysql.php <<DELIM
 <?php
 \$AUTOCONFIG = array (
+  'secret' => 'actually-not-secret',
   'installed' => false,
   'dbtype' => 'mysql',
   'dbtableprefix' => 'oc_',
@@ -72,6 +74,7 @@ DELIM
 cat > ./tests/autoconfig-pgsql.php <<DELIM
 <?php
 \$AUTOCONFIG = array (
+  'secret' => 'actually-not-secret',
   'installed' => false,
   'dbtype' => 'pgsql',
   'dbtableprefix' => 'oc_',
@@ -88,6 +91,7 @@ DELIM
 cat > ./tests/autoconfig-oracle.php <<DELIM
 <?php
 \$AUTOCONFIG = array (
+  'secret' => 'actually-not-secret',
   'installed' => false,
   'dbtype' => 'oci',
   'dbtableprefix' => 'oc_',
