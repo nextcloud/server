@@ -45,6 +45,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -57,7 +58,12 @@ class SetupManager {
 	private MountProviderCollection $mountProviderCollection;
 	private IMountManager $mountManager;
 	private IUserManager $userManager;
+	// List of users for which at least one mount is setup
 	private array $setupUsers = [];
+	// List of users for which all mounts are setup
+	private array $setupUsersComplete = [];
+	/** @var array<string, string[]> */
+	private array $setupUserMountProviders = [];
 	private IEventDispatcher $eventDispatcher;
 	private IUserMountCache $userMountCache;
 	private ILockdownManager $lockdownManager;
@@ -83,6 +89,14 @@ class SetupManager {
 		$this->lockdownManager = $lockdownManager;
 		$this->userSession = $userSession;
 		$this->listeningForProviders = false;
+	}
+
+	private function isSetupStarted(IUser $user): bool {
+		return in_array($user->getUID(), $this->setupUsers, true);
+	}
+
+	private function isSetupComplete(IUser $user): bool {
+		return in_array($user->getUID(), $this->setupUsersComplete, true);
 	}
 
 	private function setupBuiltinWrappers() {
@@ -159,15 +173,25 @@ class SetupManager {
 	 * Setup the full filesystem for the specified user
 	 */
 	public function setupForUser(IUser $user): void {
-		$this->setupRoot();
+		if ($this->isSetupComplete($user)) {
+			return;
+		}
+		$this->setupUsersComplete[] = $user->getUID();
 
+		$this->setupForUserWith($user, function () use ($user) {
+			$this->mountProviderCollection->addMountForUser($user, $this->mountManager);
+		});
+		$this->userFullySetup($user);
+	}
+
+	/**
+	 * part of the user setup that is run only once per user
+	 */
+	private function oneTimeUserSetup(IUser $user) {
 		if (in_array($user->getUID(), $this->setupUsers, true)) {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
-
-		$this->eventLogger->start('setup_fs', 'Setup filesystem');
-
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user->getUID()]);
@@ -176,7 +200,7 @@ class SetupManager {
 
 		$userDir = '/' . $user->getUID() . '/files';
 
-		Filesystem::init($user, $userDir);
+		Filesystem::initInternal($userDir);
 
 		if ($this->lockdownManager->canAccessFilesystem()) {
 			// home mounts are handled separate since we need to ensure this is mounted before we call the other mount providers
@@ -187,13 +211,6 @@ class SetupManager {
 				$homeMount->getStorage()->mkdir('');
 				$homeMount->getStorage()->getScanner()->scan('');
 			}
-
-			// Chance to mount for other storages
-			$mounts = $this->mountProviderCollection->addMountForUser($user, $this->mountManager);
-			$mounts[] = $homeMount;
-			$this->userMountCache->registerMounts($user, $mounts);
-
-			$this->listenForNewMountProviders();
 		} else {
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),
@@ -203,9 +220,43 @@ class SetupManager {
 				new NullStorage([]),
 				'/' . $user->getUID() . '/files'
 			));
+			$this->setupUsersComplete[] = $user->getUID();
+		}
+
+		$this->listenForNewMountProviders();
+	}
+
+	private function userFullySetup(IUser $user) {
+		$userRoot = '/' . $user->getUID() . '/';
+		$mounts = $this->mountManager->getAll();
+		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
+			return strpos($mount->getMountPoint(), $userRoot) === 0;
+		});
+		$this->userMountCache->registerMounts($user, $mounts);
+	}
+
+	/**
+	 * @param IUser $user
+	 * @param IMountPoint $mounts
+	 * @return void
+	 * @throws \OCP\HintException
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	private function setupForUserWith(IUser $user, callable $mountCallback): void {
+		$this->setupRoot();
+
+		if (!$this->isSetupStarted($user)) {
+			$this->oneTimeUserSetup($user);
+		}
+
+		$this->eventLogger->start('setup_fs', 'Setup filesystem');
+
+		if ($this->lockdownManager->canAccessFilesystem()) {
+			$mountCallback();
 		}
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $user->getUID()]);
 
+		$userDir = '/' . $user->getUID() . '/files';
 		OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user->getUID(), 'user_dir' => $userDir]);
 
 		$this->eventLogger->end('setup_fs');
@@ -242,7 +293,7 @@ class SetupManager {
 	/**
 	 * Set up the filesystem for the specified path
 	 */
-	public function setupForPath(string $path): void {
+	public function setupForPath(string $path, bool $includeChildren = false): void {
 		if (substr_count($path, '/') < 2) {
 			if ($user = $this->userSession->getUser()) {
 				$this->setupForUser($user);
@@ -264,11 +315,51 @@ class SetupManager {
 			return;
 		}
 
-		$this->setupForUser($user);
+		if ($this->isSetupComplete($user)) {
+			return;
+		}
+
+		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
+			$this->setupUserMountProviders[$user->getUID()] = [];
+		}
+		$setupProviders = &$this->setupUserMountProviders[$user->getUID()];
+
+		try {
+			$cachedMount = $this->userMountCache->getMountForPath($user, $path);
+		} catch (NotFoundException $e) {
+			$this->setupForUser($user);
+			return;
+		}
+
+		$mounts = [];
+		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
+			$setupProviders[] = $cachedMount->getMountProvider();
+			$mounts = $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider());
+		}
+
+		if ($includeChildren) {
+			$subCachedMounts = $this->userMountCache->getMountsInForPath($user, $path);
+			foreach ($subCachedMounts as $cachedMount) {
+				if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
+					$setupProviders[] = $cachedMount->getMountProvider();
+					$mounts = array_merge($mounts, $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider()));
+				}
+			}
+		}
+
+		if (count($mounts)) {
+			$this->setupForUserWith($user, function () use ($mounts) {
+				array_walk($mounts, [$this->mountManager, 'addMount']);
+			});
+		} elseif (!$this->isSetupStarted($user)) {
+			$this->oneTimeUserSetup($user);
+		}
 	}
 
 	public function tearDown() {
 		$this->setupUsers = [];
+		$this->setupUsersComplete = [];
+		$this->setupUserMountProviders = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
 		$this->eventDispatcher->dispatchTyped(new FilesystemTornDownEvent());
