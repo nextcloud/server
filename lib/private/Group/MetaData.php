@@ -30,6 +30,7 @@
 namespace OC\Group;
 
 use OC\Group\Manager as GroupManager;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 
@@ -54,17 +55,15 @@ class MetaData {
 	/**
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
 	 */
 	public function __construct(
-			$user,
-			$isAdmin,
+			string $user,
+			bool $isAdmin,
 			IGroupManager $groupManager,
 			IUserSession $userSession
 			) {
 		$this->user = $user;
-		$this->isAdmin = (bool)$isAdmin;
+		$this->isAdmin = $isAdmin;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 	}
@@ -77,9 +76,8 @@ class MetaData {
 	 * @param string $groupSearch only effective when instance was created with
 	 * isAdmin being true
 	 * @param string $userSearch the pattern users are search for
-	 * @return array
 	 */
-	public function get($groupSearch = '', $userSearch = '') {
+	public function get(string $groupSearch = '', string $userSearch = ''): array {
 		$key = $groupSearch . '::' . $userSearch;
 		if (isset($this->metaData[$key])) {
 			return $this->metaData[$key];
@@ -122,10 +120,8 @@ class MetaData {
 
 	/**
 	 * sets the sort mode, see SORT_* constants for supported modes
-	 *
-	 * @param int $sortMode
 	 */
-	public function setSorting($sortMode) {
+	public function setSorting(int $sortMode): void {
 		switch ($sortMode) {
 			case self::SORT_USERCOUNT:
 			case self::SORT_GROUPNAME:
@@ -144,7 +140,7 @@ class MetaData {
 	 * @param int $sortIndex the sort key index, by reference
 	 * @param array $data the group's meta data as returned by generateGroupMetaData()
 	 */
-	private function addEntry(&$entries, &$sortKeys, &$sortIndex, $data) {
+	private function addEntry(array &$entries, array &$sortKeys, int &$sortIndex, array $data): void {
 		$entries[] = $data;
 		if ($this->sorting === self::SORT_USERCOUNT) {
 			$sortKeys[$sortIndex] = $data['usercount'];
@@ -157,11 +153,9 @@ class MetaData {
 
 	/**
 	 * creates an array containing the group meta data
-	 * @param \OCP\IGroup $group
-	 * @param string $userSearch
 	 * @return array with the keys 'id', 'name', 'usercount' and 'disabled'
 	 */
-	private function generateGroupMetaData(\OCP\IGroup $group, $userSearch) {
+	private function generateGroupMetaData(IGroup $group, string $userSearch): array {
 		return [
 			'id' => $group->getGID(),
 			'name' => $group->getDisplayName(),
@@ -176,9 +170,8 @@ class MetaData {
 	 * sorts the result array, if applicable
 	 * @param array $entries the result array, by reference
 	 * @param array $sortKeys the array containing the sort keys
-	 * @param return null
 	 */
-	private function sort(&$entries, $sortKeys) {
+	private function sort(array &$entries, array $sortKeys): void {
 		if ($this->sorting === self::SORT_USERCOUNT) {
 			array_multisort($sortKeys, SORT_DESC, $entries);
 		} elseif ($this->sorting === self::SORT_GROUPNAME) {
@@ -188,10 +181,9 @@ class MetaData {
 
 	/**
 	 * returns the available groups
-	 * @param string $search a search string
-	 * @return \OCP\IGroup[]
+	 * @return IGroup[]
 	 */
-	public function getGroups($search = '') {
+	public function getGroups(string $search = ''): array {
 		if ($this->isAdmin) {
 			return $this->groupManager->search($search);
 		} else {
