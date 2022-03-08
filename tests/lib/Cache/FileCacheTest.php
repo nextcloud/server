@@ -23,6 +23,7 @@
 namespace Test\Cache;
 
 use OC\Files\Storage\Local;
+use OCP\Files\Mount\IMountManager;
 use Test\Traits\UserTrait;
 
 /**
@@ -68,15 +69,12 @@ class FileCacheTest extends TestCache {
 		//clear all proxies and hooks so we can do clean testing
 		\OC_Hook::clear('OC_Filesystem');
 
-		//set up temporary storage
-		$this->storage = \OC\Files\Filesystem::getStorage('/');
-		\OC\Files\Filesystem::clearMounts();
+		/** @var IMountManager $manager */
+		$manager = \OC::$server->get(IMountManager::class);
+		$manager->removeMount('/test');
+
 		$storage = new \OC\Files\Storage\Temporary([]);
-		\OC\Files\Filesystem::mount($storage, [], '/');
-		$datadir = str_replace('local::', '', $storage->getId());
-		$config = \OC::$server->getConfig();
-		$this->datadir = $config->getSystemValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');
-		$config->setSystemValue('cachedirectory', $datadir);
+		\OC\Files\Filesystem::mount($storage, [], '/test/cache');
 
 		//set up the users dir
 		$this->rootView = new \OC\Files\View('');
@@ -94,16 +92,11 @@ class FileCacheTest extends TestCache {
 		}
 
 		\OC_User::setUserId($this->user);
-		\OC::$server->getConfig()->setSystemValue('cachedirectory', $this->datadir);
 
 		if ($this->instance) {
 			$this->instance->clear();
 			$this->instance = null;
 		}
-
-		// Restore the original mount point
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->storage, [], '/');
 
 		parent::tearDown();
 	}

@@ -26,26 +26,30 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Mount;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
+use OC\Files\SetupManagerFactory;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
-	private $mounts = [];
+	private array $mounts = [];
+	/** @var CappedMemoryCache<IMountPoint> */
+	private CappedMemoryCache $pathCache;
+	/** @var CappedMemoryCache<IMountPoint[]> */
+	private CappedMemoryCache $inPathCache;
+	private SetupManager $setupManager;
 
-	/** @var CappedMemoryCache */
-	private $pathCache;
-
-	/** @var CappedMemoryCache */
-	private $inPathCache;
-
-	public function __construct() {
+	public function __construct(SetupManagerFactory $setupManagerFactory) {
 		$this->pathCache = new CappedMemoryCache();
 		$this->inPathCache = new CappedMemoryCache();
+		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
 	/**
@@ -81,26 +85,14 @@ class Manager implements IMountManager {
 		$this->inPathCache->clear();
 	}
 
-	private function setupForFind(string $path) {
-		if (strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0) {
-			// for appdata, we only setup the root bits, not the user bits
-			\OC_Util::setupRootFS();
-		} elseif (strpos($path, '/files_external/uploads/') === 0) {
-			// for OC\Security\CertificateManager, we only setup the root bits, not the user bits
-			\OC_Util::setupRootFS();
-		} else {
-			\OC_Util::setupFS();
-		}
-	}
-
 	/**
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return MountPoint|null
+	 * @return IMountPoint
 	 */
-	public function find(string $path) {
-		$this->setupForFind($path);
+	public function find(string $path): IMountPoint {
+		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
 
 		if (isset($this->pathCache[$path])) {
@@ -113,10 +105,8 @@ class Manager implements IMountManager {
 			if (isset($this->mounts[$mountPoint])) {
 				$this->pathCache[$path] = $this->mounts[$mountPoint];
 				return $this->mounts[$mountPoint];
-			}
-
-			if ($current === '') {
-				return null;
+			} elseif ($current === '') {
+				break;
 			}
 
 			$current = dirname($current);
@@ -124,16 +114,18 @@ class Manager implements IMountManager {
 				$current = '';
 			}
 		}
+
+		throw new NotFoundException("No mount for path " . $path . " existing mounts: " . implode(",", array_keys($this->mounts)));
 	}
 
 	/**
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findIn(string $path): array {
-		$this->setupForFind($path);
+		$this->setupManager->setupForPath($path);
 		$path = $this->formatPath($path);
 
 		if (isset($this->inPathCache[$path])) {
@@ -163,7 +155,7 @@ class Manager implements IMountManager {
 	 * Find mounts by storage id
 	 *
 	 * @param string $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByStorageId(string $id): array {
 		\OC_Util::setupFS();
@@ -180,7 +172,7 @@ class Manager implements IMountManager {
 	}
 
 	/**
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getAll(): array {
 		return $this->mounts;
@@ -190,7 +182,7 @@ class Manager implements IMountManager {
 	 * Find mounts by numeric storage id
 	 *
 	 * @param int $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByNumericId(int $id): array {
 		$storageId = \OC\Files\Cache\Storage::getStorageId($id);
@@ -207,5 +199,9 @@ class Manager implements IMountManager {
 			$path .= '/';
 		}
 		return $path;
+	}
+
+	public function getSetupManager(): SetupManager {
+		return $this->setupManager;
 	}
 }

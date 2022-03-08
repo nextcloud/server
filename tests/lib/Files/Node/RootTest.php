@@ -13,6 +13,7 @@ use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Node\Folder;
 use OC\Files\View;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -33,6 +34,8 @@ class RootTest extends \Test\TestCase {
 	private $logger;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,6 +49,7 @@ class RootTest extends \Test\TestCase {
 			->getMock();
 		$this->logger = $this->createMock(ILogger::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	protected function getFileInfo($data) {
@@ -71,7 +75,8 @@ class RootTest extends \Test\TestCase {
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$view->expects($this->once())
@@ -107,7 +112,8 @@ class RootTest extends \Test\TestCase {
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$view->expects($this->once())
@@ -135,7 +141,8 @@ class RootTest extends \Test\TestCase {
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$root->get('/../foo');
@@ -157,7 +164,8 @@ class RootTest extends \Test\TestCase {
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$root->get('/bar/foo');
@@ -170,7 +178,8 @@ class RootTest extends \Test\TestCase {
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 		$user = $this->createMock(IUser::class);
 		$user
@@ -210,7 +219,8 @@ class RootTest extends \Test\TestCase {
 			null,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 		$this->userManager
 			->expects($this->once())

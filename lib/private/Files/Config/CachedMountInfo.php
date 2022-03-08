@@ -28,38 +28,13 @@ use OCP\Files\Node;
 use OCP\IUser;
 
 class CachedMountInfo implements ICachedMountInfo {
-	/**
-	 * @var IUser
-	 */
-	protected $user;
-
-	/**
-	 * @var int
-	 */
-	protected $storageId;
-
-	/**
-	 * @var int
-	 */
-	protected $rootId;
-
-	/**
-	 * @var string
-	 */
-	protected $mountPoint;
-
-	/**
-	 * @var int|null
-	 */
-	protected $mountId;
-
-	/**
-	 * @var string
-	 */
-	protected $rootInternalPath;
-
-	/** @var string */
-	protected $mountProvider;
+	protected IUser $user;
+	protected int $storageId;
+	protected int $rootId;
+	protected string $mountPoint;
+	protected ?int $mountId;
+	protected string $rootInternalPath;
+	protected string $mountProvider;
 
 	/**
 	 * CachedMountInfo constructor.
@@ -95,28 +70,28 @@ class CachedMountInfo implements ICachedMountInfo {
 	/**
 	 * @return IUser
 	 */
-	public function getUser() {
+	public function getUser(): IUser {
 		return $this->user;
 	}
 
 	/**
 	 * @return int the numeric storage id of the mount
 	 */
-	public function getStorageId() {
+	public function getStorageId(): int {
 		return $this->storageId;
 	}
 
 	/**
 	 * @return int the fileid of the root of the mount
 	 */
-	public function getRootId() {
+	public function getRootId(): int {
 		return $this->rootId;
 	}
 
 	/**
-	 * @return Node the root node of the mount
+	 * @return Node|null the root node of the mount
 	 */
-	public function getMountPointNode() {
+	public function getMountPointNode(): ?Node {
 		// TODO injection etc
 		Filesystem::initMountPoints($this->getUser()->getUID());
 		$userNode = \OC::$server->getUserFolder($this->getUser()->getUID());
@@ -131,7 +106,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	/**
 	 * @return string the mount point of the mount for the user
 	 */
-	public function getMountPoint() {
+	public function getMountPoint(): string {
 		return $this->mountPoint;
 	}
 
@@ -141,7 +116,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	 * @return int|null mount id or null if not applicable
 	 * @since 9.1.0
 	 */
-	public function getMountId() {
+	public function getMountId(): ?int {
 		return $this->mountId;
 	}
 
@@ -150,7 +125,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	 *
 	 * @return string
 	 */
-	public function getRootInternalPath() {
+	public function getRootInternalPath(): string {
 		return $this->rootInternalPath;
 	}
 

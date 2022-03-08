@@ -11,6 +11,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
@@ -19,6 +20,7 @@ use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -104,9 +106,10 @@ class ViewTest extends \Test\TestCase {
 		$this->groupObject->addUser($this->userObject);
 
 		self::loginAsUser($this->user);
-		// clear mounts but somehow keep the root storage
-		// that was initialized above...
-		Filesystem::clearMounts();
+
+		/** @var IMountManager $manager */
+		$manager = \OC::$server->get(IMountManager::class);
+		$manager->removeMount('/test');
 
 		$this->tempStorage = null;
 	}
@@ -124,6 +127,10 @@ class ViewTest extends \Test\TestCase {
 		}
 
 		self::logout();
+
+		/** @var SetupManager $setupManager */
+		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager->setupRoot();
 
 		$this->userObject->delete();
 		$this->groupObject->delete();
@@ -224,11 +231,13 @@ class ViewTest extends \Test\TestCase {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
+
 		Filesystem::mount($storage1, [], '/');
 		Filesystem::mount($storage2, [], '/substorage');
 		Filesystem::mount($storage3, [], '/folder/anotherstorage');
 
 		$rootView = new View('');
+
 
 		$cachedData = $rootView->getFileInfo('/foo.txt');
 		/** @var int $id1 */
@@ -316,7 +325,6 @@ class ViewTest extends \Test\TestCase {
 
 	public function testCacheIncompleteFolder() {
 		$storage1 = $this->getTestStorage(false);
-		Filesystem::clearMounts();
 		Filesystem::mount($storage1, [], '/incomplete');
 		$rootView = new View('/incomplete');
 

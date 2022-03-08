@@ -38,13 +38,12 @@
 namespace OC\Files;
 
 use OC\Cache\CappedMemoryCache;
-use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\MountPoint;
-use OC\Lockdown\Filesystem\NullStorage;
-use OCP\Files\Config\IMountProvider;
+use OC\User\NoUserException;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -259,11 +258,7 @@ class Filesystem {
 			\OC_Util::setupFS();
 		}
 		$mount = self::$mounts->find($path);
-		if ($mount) {
-			return $mount->getMountPoint();
-		} else {
-			return '';
-		}
+		return $mount->getMountPoint();
 	}
 
 	/**
@@ -319,11 +314,7 @@ class Filesystem {
 	 */
 	public static function resolvePath($path) {
 		$mount = self::getMountManager()->find($path);
-		if ($mount) {
-			return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
-		} else {
-			return [null, null];
-		}
+		return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
 	}
 
 	public static function init($user, $root) {
@@ -332,6 +323,13 @@ class Filesystem {
 		}
 		self::getLoader();
 		self::$defaultInstance = new View($root);
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
+			self::$defaultInstance = null;
+			self::$usersSetup = [];
+			self::$loaded = false;
+		});
 
 		if (!self::$mounts) {
 			self::$mounts = \OC::$server->getMountManager();
@@ -358,106 +356,16 @@ class Filesystem {
 	 * @throws \OC\User\NoUserException if the user is not available
 	 */
 	public static function initMountPoints($user = '') {
-		$userManager = \OC::$server->getUserManager();
-		if (is_string($user)) {
-			if ($user === '') {
-				$user = \OC_User::getUser();
-			}
+		/** @var IUserManager $userManager */
+		$userManager = \OC::$server->get(IUserManager::class);
 
-			$userObject = $userManager->get($user);
-		} elseif ($user instanceof IUser) {
-			$userObject = $user;
-			$user = $userObject->getUID();
+		$userObject = ($user instanceof IUser) ? $user : $userManager->get($user);
+		if ($userObject) {
+			/** @var SetupManager $setupManager */
+			$setupManager = \OC::$server->get(SetupManager::class);
+			$setupManager->setupForUser($userObject);
 		} else {
-			$userObject = null;
-		}
-
-		if ($userObject === null || $user === false || $user === '') {
-			throw new \OC\User\NoUserException('Attempted to initialize mount points for null user and no user in session');
-		}
-
-		if (isset(self::$usersSetup[$user])) {
-			return;
-		}
-
-		self::$usersSetup[$user] = true;
-
-		if (is_null($userObject)) {
-			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, ILogger::ERROR);
-			// reset flag, this will make it possible to rethrow the exception if called again
-			unset(self::$usersSetup[$user]);
-			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
-		}
-
-		$realUid = $userObject->getUID();
-		// workaround in case of different casings
-		if ($user !== $realUid) {
-			$stack = json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 50));
-			\OCP\Util::writeLog('files', 'initMountPoints() called with wrong user casing. This could be a bug. Expected: "' . $realUid . '" got "' . $user . '". Stack: ' . $stack, ILogger::WARN);
-			$user = $realUid;
-
-			// again with the correct casing
-			if (isset(self::$usersSetup[$user])) {
-				return;
-			}
-
-			self::$usersSetup[$user] = true;
-		}
-
-		if (\OC::$server->getLockdownManager()->canAccessFilesystem()) {
-			/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
-			$mountConfigManager = \OC::$server->getMountProviderCollection();
-
-			// home mounts are handled seperate since we need to ensure this is mounted before we call the other mount providers
-			$homeMount = $mountConfigManager->getHomeMountForUser($userObject);
-			self::getMountManager()->addMount($homeMount);
-
-			if ($homeMount->getStorageRootId() === -1) {
-				$homeMount->getStorage()->mkdir('');
-				$homeMount->getStorage()->getScanner()->scan('');
-			}
-
-			\OC\Files\Filesystem::getStorage($user);
-
-			// Chance to mount for other storages
-			if ($userObject) {
-				$mounts = $mountConfigManager->addMountForUser($userObject, self::getMountManager());
-				$mounts[] = $homeMount;
-				$mountConfigManager->registerMounts($userObject, $mounts);
-			}
-
-			self::listenForNewMountProviders($mountConfigManager, $userManager);
-		} else {
-			self::getMountManager()->addMount(new MountPoint(
-				new NullStorage([]),
-				'/' . $user
-			));
-			self::getMountManager()->addMount(new MountPoint(
-				new NullStorage([]),
-				'/' . $user . '/files'
-			));
-		}
-		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $user]);
-	}
-
-	/**
-	 * Get mounts from mount providers that are registered after setup
-	 *
-	 * @param MountProviderCollection $mountConfigManager
-	 * @param IUserManager $userManager
-	 */
-	private static function listenForNewMountProviders(MountProviderCollection $mountConfigManager, IUserManager $userManager) {
-		if (!self::$listeningForProviders) {
-			self::$listeningForProviders = true;
-			$mountConfigManager->listen('\OC\Files\Config', 'registerMountProvider', function (IMountProvider $provider) use ($userManager) {
-				foreach (Filesystem::$usersSetup as $user => $setup) {
-					$userObject = $userManager->get($user);
-					if ($userObject) {
-						$mounts = $provider->getMountsForUser($userObject, Filesystem::getLoader());
-						array_walk($mounts, [self::$mounts, 'addMount']);
-					}
-				}
-			});
+			throw new NoUserException();
 		}
 	}
 
@@ -474,8 +382,7 @@ class Filesystem {
 	 * tear down the filesystem, removing all storage providers
 	 */
 	public static function tearDown() {
-		self::clearMounts();
-		self::$defaultInstance = null;
+		\OC_Util::tearDownFS();
 	}
 
 	/**
@@ -490,16 +397,6 @@ class Filesystem {
 			return null;
 		}
 		return self::$defaultInstance->getRoot();
-	}
-
-	/**
-	 * clear all mounts and storage backends
-	 */
-	public static function clearMounts() {
-		if (self::$mounts) {
-			self::$usersSetup = [];
-			self::$mounts->clear();
-		}
 	}
 
 	/**
