@@ -729,6 +729,10 @@ class ShareController extends AuthPublicShareController {
 		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$userPath = $userFolder->getRelativePath($userNode->getPath());
 		$ownerPath = $ownerFolder->getRelativePath($node->getPath());
+		$remoteAddress = $this->request->getRemoteAddress();
+		$dateTime = new \DateTime();
+		$dateTime = $dateTime->format('Y-m-d H');
+		$remoteAddressHash = md5($dateTime . '-' . $remoteAddress);
 
 		$parameters = [$userPath];
 
@@ -742,8 +746,10 @@ class ShareController extends AuthPublicShareController {
 		} else {
 			if ($node instanceof \OCP\Files\File) {
 				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+				$parameters[] = $remoteAddressHash;
 			} else {
 				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
+				$parameters[] = $remoteAddressHash;
 			}
 		}
 
