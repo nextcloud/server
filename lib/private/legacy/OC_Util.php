@@ -969,11 +969,13 @@ class OC_Util {
 			];
 		}
 
-		if ($config->getValue('secret', '') === '' && !\OC::$CLI) {
-			$errors[] = [
-				'error' => $l->t('The required \'secret\' config variable is not configued in the config.php file.'),
-				'hint' => $l->t('Please ask your server administrator to check the Nextcloud configuration.')
-			];
+		foreach (['secret', 'instanceid', 'passwordsalt'] as $requiredConfig) {
+			if ($config->getValue($requiredConfig, '') === '' && !\OC::$CLI) {
+				$errors[] = [
+					'error' => $l->t('The required \'' . $requiredConfig . '\' config variable is not configued in the config.php file.'),
+					'hint' => $l->t('Please ask your server administrator to check the Nextcloud configuration.')
+				];
+			}
 		}
 
 		$errors = array_merge($errors, self::checkDatabaseVersion());
