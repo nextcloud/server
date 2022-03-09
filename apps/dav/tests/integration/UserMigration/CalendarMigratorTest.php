@@ -117,7 +117,7 @@ class CalendarMigratorTest extends TestCase {
 
 		$this->invokePrivate($this->migrator, 'importCalendar', [$user, $filename, $initialCalendarUri, $importCalendar, $this->output]);
 
-		$calendarExports = $this->invokePrivate($this->migrator, 'getCalendarExports', [$user]);
+		$calendarExports = $this->invokePrivate($this->migrator, 'getCalendarExports', [$user, $this->output]);
 		$this->assertCount(1, $calendarExports);
 
 		/** @var VCalendar $exportCalendar */

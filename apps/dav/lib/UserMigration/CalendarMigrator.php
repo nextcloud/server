@@ -106,13 +106,13 @@ class CalendarMigrator implements IMigrator {
 	 * @throws CalendarMigratorException
 	 * @throws InvalidCalendarException
 	 */
-	private function getCalendarExportData(IUser $user, ICalendar $calendar): array {
+	private function getCalendarExportData(IUser $user, ICalendar $calendar, OutputInterface $output): array {
 		$userId = $user->getUID();
 		$calendarId = $calendar->getKey();
 		$calendarInfo = $this->calDavBackend->getCalendarById($calendarId);
 
 		if (empty($calendarInfo)) {
-			throw new CalendarMigratorException("Invalid info for calendar ID: $calendarId");
+			throw new CalendarMigratorException("Invalid info for calendar ID $calendarId");
 		}
 
 		$uri = $calendarInfo['uri'];
@@ -155,6 +155,12 @@ class CalendarMigrator implements IMigrator {
 			$blobs,
 		);
 
+		$problems = $mergedCalendar->validate();
+		if (!empty($problems)) {
+			$output->writeln('Skipping calendar "' . $properties['{DAV:}displayname'] . '" containing invalid calendar data');
+			throw new InvalidCalendarException();
+		}
+
 		return [
 			'name' => $calendarNode->getName(),
 			'vCalendar' => $mergedCalendar,
@@ -166,13 +172,13 @@ class CalendarMigrator implements IMigrator {
 	 *
 	 * @throws CalendarMigratorException
 	 */
-	private function getCalendarExports(IUser $user): array {
+	private function getCalendarExports(IUser $user, OutputInterface $output): array {
 		$principalUri = $this->getPrincipalUri($user);
 
 		return array_values(array_filter(array_map(
-			function (ICalendar $calendar) use ($user) {
+			function (ICalendar $calendar) use ($user, $output) {
 				try {
-					return $this->getCalendarExportData($user, $calendar);
+					return $this->getCalendarExportData($user, $calendar, $output);
 				} catch (InvalidCalendarException $e) {
 					// Allow this exception as invalid (e.g. deleted) calendars are not to be exported
 					return null;
@@ -213,12 +219,10 @@ class CalendarMigrator implements IMigrator {
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$output->writeln('Exporting calendars into ' . CalendarMigrator::EXPORT_ROOT . '…');
 
-		$userId = $user->getUID();
-
-		$calendarExports = $this->getCalendarExports($user);
+		$calendarExports = $this->getCalendarExports($user, $output);
 
 		if (empty($calendarExports)) {
-			$output->writeln("User <$userId> has no calendars to export");
+			$output->writeln('No calendars to export…');
 		}
 
 		/**
@@ -414,7 +418,12 @@ class CalendarMigrator implements IMigrator {
 
 		$output->writeln('Importing calendars from ' . CalendarMigrator::EXPORT_ROOT . '…');
 
-		foreach ($importSource->getFolderListing(CalendarMigrator::EXPORT_ROOT) as $filename) {
+		$calendarImports = $importSource->getFolderListing(CalendarMigrator::EXPORT_ROOT);
+		if (empty($calendarImports)) {
+			$output->writeln('No calendars to import…');
+		}
+
+		foreach ($calendarImports as $filename) {
 			$importPath = CalendarMigrator::EXPORT_ROOT . $filename;
 			try {
 				/** @var VCalendar $vCalendar */
@@ -423,17 +432,17 @@ class CalendarMigrator implements IMigrator {
 					VObjectReader::OPTION_FORGIVING,
 				);
 			} catch (Throwable $e) {
-				throw new CalendarMigratorException("Failed to read file: \"$importPath\"", 0, $e);
+				throw new CalendarMigratorException("Failed to read file \"$importPath\"", 0, $e);
 			}
 
 			$problems = $vCalendar->validate();
 			if (!empty($problems)) {
-				throw new CalendarMigratorException("Invalid calendar data contained in: \"$importPath\"");
+				throw new CalendarMigratorException("Invalid calendar data contained in \"$importPath\"");
 			}
 
 			$splitFilename = explode('_', $filename, 2);
 			if (count($splitFilename) !== 2) {
-				throw new CalendarMigratorException("Invalid filename: \"$filename\", expected filename of the format: \"<calendar_name>_YYYY-MM-DD" . CalendarMigrator::FILENAME_EXT . '"');
+				throw new CalendarMigratorException("Invalid filename \"$filename\", expected filename of the format \"<calendar_name>_YYYY-MM-DD" . CalendarMigrator::FILENAME_EXT . '"');
 			}
 			[$initialCalendarUri, $suffix] = $splitFilename;
 
