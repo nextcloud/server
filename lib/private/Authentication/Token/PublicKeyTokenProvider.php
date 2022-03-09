@@ -185,6 +185,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		$this->mapper->invalidate($this->hashToken($token));
+		$this->mapper->invalidate($this->hashTokenWithEmptySecret($token));
 	}
 
 	public function invalidateTokenById(string $uid, int $id) {
@@ -301,9 +302,14 @@ class PublicKeyTokenProvider implements IProvider {
 		try {
 			return $this->crypto->decrypt($cipherText, $token . $secret);
 		} catch (\Exception $ex) {
-			// Delete the invalid token
-			$this->invalidateToken($token);
-			throw new InvalidTokenException("Could not decrypt token password: " . $ex->getMessage(), 0, $ex);
+			// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
+			try {
+				return $this->crypto->decrypt($cipherText, $token);
+			} catch (\Exception $ex2) {
+				// Delete the invalid token
+				$this->invalidateToken($token);
+				throw new InvalidTokenException("Could not decrypt token password: " . $ex->getMessage(), 0, $ex2);
+			}
 		}
 	}
 
@@ -324,6 +330,13 @@ class PublicKeyTokenProvider implements IProvider {
 	private function hashToken(string $token): string {
 		$secret = $this->config->getSystemValue('secret');
 		return hash('sha512', $token . $secret);
+	}
+
+	/**
+	 * @depreacted Fallback for instances where the secret might not have been set by accident
+	 */
+	private function hashTokenWithEmptySecret(string $token): string {
+		return hash('sha512', $token);
 	}
 
 	/**

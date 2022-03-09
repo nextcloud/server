@@ -125,6 +125,15 @@ class Crypto implements ICrypto {
 		if ($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
+		try {
+			return $this->decryptWithoutSecret($authenticatedCiphertext, $password);
+		} catch (Exception $e) {
+			// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
+			return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+		}
+	}
+
+	private function decryptWithoutSecret(string $authenticatedCiphertext, string $password = ''): string {
 		$hmacKey = $encryptionKey = $password;
 
 		$parts = explode('|', $authenticatedCiphertext);
