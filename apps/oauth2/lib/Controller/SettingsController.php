@@ -39,17 +39,15 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
-use OCP\Util;
+use OCP\Validator\Constraints\Url;
+use OCP\Validator\IValidator;
 
 class SettingsController extends Controller {
-	/** @var ClientMapper */
-	private $clientMapper;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var AccessTokenMapper  */
-	private $accessTokenMapper;
-	/** @var IL10N */
-	private $l;
+	private ClientMapper $clientMapper;
+	private ISecureRandom $secureRandom;
+	private AccessTokenMapper $accessTokenMapper;
+	private IL10N $l;
+	private IValidator $validator;
 
 	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -58,18 +56,20 @@ class SettingsController extends Controller {
 								ClientMapper $clientMapper,
 								ISecureRandom $secureRandom,
 								AccessTokenMapper $accessTokenMapper,
-								IL10N $l
+								IL10N $l,
+								IValidator $validator
 	) {
 		parent::__construct($appName, $request);
 		$this->secureRandom = $secureRandom;
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->l = $l;
+		$this->validator = $validator;
 	}
 
 	public function addClient(string $name,
 							  string $redirectUri): JSONResponse {
-		if (!Util::isValidUrl($redirectUri)) {
+		if (count($this->validator->validate($redirectUri, [new Url()])) > 0) {
 			return new JSONResponse(['message' => $this->l->t('Your redirect URL needs to be a full URL for example: https://yourdomain.com/path')], Http::STATUS_BAD_REQUEST);
 		}
 
