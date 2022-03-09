@@ -381,19 +381,23 @@ class Root extends Folder implements IRootFolder {
 		$userId = $userObject->getUID();
 
 		if (!$this->userFolderCache->hasKey($userId)) {
-			$folder = new LazyFolder(function () use ($userId) {
+			if ($this->mountManager->getSetupManager()->isSetupComplete($userObject)) {
 				try {
-					return $this->get('/' . $userId . '/files');
+					$folder = $this->get('/' . $userId . '/files');
+					if ($folder instanceof \OCP\Files\Folder) {
+						return $folder;
+					} else {
+						throw new \Exception("User folder for $userId exists as a file");
+					}
 				} catch (NotFoundException $e) {
 					if (!$this->nodeExists('/' . $userId)) {
 						$this->newFolder('/' . $userId);
 					}
 					return $this->newFolder('/' . $userId . '/files');
 				}
-			}, [
-				'path' => '/' . $userId . '/files',
-				'permissions' => Constants::PERMISSION_ALL,
-			]);
+			} else {
+				$folder = new LazyUserFolder($this, $userObject);
+			}
 
 			$this->userFolderCache->set($userId, $folder);
 		}

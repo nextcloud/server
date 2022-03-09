@@ -95,7 +95,7 @@ class SetupManager {
 		return in_array($user->getUID(), $this->setupUsers, true);
 	}
 
-	private function isSetupComplete(IUser $user): bool {
+	public function isSetupComplete(IUser $user): bool {
 		return in_array($user->getUID(), $this->setupUsersComplete, true);
 	}
 
