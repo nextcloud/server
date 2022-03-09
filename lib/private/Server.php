@@ -256,6 +256,8 @@ use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\BackendService;
+use OCP\Validator\IValidator as IValidationValidator;
+use OC\Validator\Validator as ValidationValidator;
 
 /**
  * Class Server
@@ -1192,7 +1194,8 @@ class Server extends ServerContainer implements IServerContainer {
 						$this->get(ITempManager::class)
 					),
 					$c->get(IAppManager::class),
-					$c->get(INavigationManager::class)
+					$c->get(INavigationManager::class),
+					$c->get(IValidationValidator::class)
 				);
 			}
 			return new \OC_Defaults();
@@ -1399,6 +1402,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IInitialStateService::class, InitialStateService::class);
 
 		$this->registerAlias(\OCP\UserStatus\IManager::class, \OC\UserStatus\Manager::class);
+
+		$this->registerService(IValidationValidator::class, function (ContainerInterface $c): IValidationValidator {
+			return new ValidationValidator();
+		});
 
 		$this->connectDispatcher();
 	}

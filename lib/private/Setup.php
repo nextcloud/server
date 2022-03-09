@@ -59,25 +59,21 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Validator\Constraints\Url;
+use OCP\Validator\IValidator;
 use Psr\Log\LoggerInterface;
 use OCP\Util;
 
 class Setup {
-	/** @var SystemConfig */
-	protected $config;
-	/** @var IniGetWrapper */
-	protected $iniWrapper;
-	/** @var IL10N */
-	protected $l10n;
-	/** @var Defaults */
-	protected $defaults;
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var ISecureRandom */
-	protected $random;
-	/** @var Installer */
-	protected $installer;
+	protected SystemConfig $config;
+	protected IniGetWrapper $iniWrapper;
+	protected IL10N  $l10n;
+	protected Defaults  $defaults;
+	protected LoggerInterface  $logger;
+	protected ISecureRandom $random;
+	protected Installer $installer;
 
 	public function __construct(
 		SystemConfig $config,
@@ -476,7 +472,9 @@ class Setup {
 			if ($webRoot === '') {
 				throw new InvalidArgumentException('overwrite.cli.url is empty');
 			}
-			if (!Util::isValidUrl($webRoot)) {
+			/** @var IValidator $validator */
+			$validator = \OC::$server->get(IValidator::class);
+			if (count($validator->validate($webRoot, [new Url()])) > 0) {
 				throw new InvalidArgumentException('invalid value for overwrite.cli.url');
 			}
 			$webRoot = rtrim((parse_url($webRoot, PHP_URL_PATH) ?? ''), '/');
@@ -505,11 +503,11 @@ class Setup {
 		$setupHelper = new \OC\Setup(
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
-			\OC::$server->query(Defaults::class),
+			\OC::$server->get(IFactory::class)->get('lib'),
+			\OC::$server->get(Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
+			\OC::$server->get(ISecureRandom::class),
+			\OC::$server->get(Installer::class)
 		);
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());

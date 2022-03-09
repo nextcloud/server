@@ -34,6 +34,7 @@
  */
 namespace OCA\Theming\Tests;
 
+use OC\Validator\Validator;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -46,6 +47,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use OCP\Validator\IValidator;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
@@ -98,7 +100,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->util,
 			$this->imageManager,
 			$this->appManager,
-			$this->navigationManager
+			$this->navigationManager,
+			new Validator()
 		);
 	}
 

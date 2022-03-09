@@ -50,6 +50,10 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\Util as OCPUtil;
+use OCP\Validator\Constraints\CssColor;
+use OCP\Validator\Constraints\NotBlank;
+use OCP\Validator\Constraints\Url;
+use OCP\Validator\IValidator;
 
 class ThemingDefaults extends \OC_Defaults {
 
@@ -91,6 +95,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private $AndroidClientUrl;
 	/** @var string */
 	private $FDroidClientUrl;
+	private IValidator $validator;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -110,7 +115,8 @@ class ThemingDefaults extends \OC_Defaults {
 								Util $util,
 								ImageManager $imageManager,
 								IAppManager $appManager,
-								INavigationManager $navigationManager
+								INavigationManager $navigationManager,
+								IValidator $validator
 	) {
 		parent::__construct();
 		$this->config = $config;
@@ -121,6 +127,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->util = $util;
 		$this->appManager = $appManager;
 		$this->navigationManager = $navigationManager;
+		$this->validator = $validator;
 
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
@@ -209,9 +216,10 @@ class ThemingDefaults extends \OC_Defaults {
 		$legalLinks = '';
 		$divider = '';
 		foreach ($links as $link) {
-			if ($link['url'] !== ''
-				&& OCPUtil::isValidUrl($link['url'])
-			) {
+			if ($this->validator->isValid($link['url'], [
+				new NotBlank(),
+				new Url(),
+			])) {
 				$legalLinks .= $divider . '<a href="' . $link['url'] . '" class="legal" target="_blank"' .
 					' rel="noreferrer noopener">' . $link['text'] . '</a>';
 				$divider = ' · ';
@@ -231,7 +239,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getColorPrimary() {
 		$color = $this->config->getAppValue('theming', 'color', $this->color);
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+		if (!$this->validator->isValid($color, [new CssColor()])) {
 			$color = '#0082c9';
 		}
 		return $color;

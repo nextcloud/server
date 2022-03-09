@@ -35,6 +35,7 @@ namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
 use OC\Template\SCSSCacher;
+use OC\Validator\Validator;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
@@ -50,6 +51,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\Validator\IValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -107,7 +109,8 @@ class ThemingControllerTest extends TestCase {
 			$this->scssCacher,
 			$this->urlGenerator,
 			$this->appManager,
-			$this->imageManager
+			$this->imageManager,
+			new Validator()
 		);
 
 		parent::setUp();
@@ -139,7 +142,7 @@ class ThemingControllerTest extends TestCase {
 			->method('set')
 			->with($setting, $value);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($str) {
 				return $str;
@@ -170,18 +173,18 @@ class ThemingControllerTest extends TestCase {
 
 	public function dataUpdateStylesheetError() {
 		return [
-			['name', str_repeat('a', 251), 'The given name is too long'],
-			['url', 'http://example.com/' . str_repeat('a', 501), 'The given web address is too long'],
-			['url', str_repeat('a', 501), 'The given web address is not a valid URL'],
-			['url', 'javascript:alert(1)', 'The given web address is not a valid URL'],
-			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
-			['color', '0082C9', 'The given color is invalid'],
-			['color', '#0082Z9', 'The given color is invalid'],
-			['color', 'Nextcloud', 'The given color is invalid'],
-			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
-			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
-			['imprintUrl', 'javascript:foo', 'The given legal notice address is not a valid URL'],
-			['privacyUrl', '#0082Z9', 'The given privacy policy address is not a valid URL'],
+			['name', str_repeat('a', 251), 'The given name is too long.'],
+			['url', 'http://example.com/' . str_repeat('a', 501), 'The given web address is too long.'],
+			['url', str_repeat('a', 501), 'The given web address is too long. The given web address is not a valid URL.'],
+			['url', 'javascript:alert(1)', 'The given web address is not a valid URL.'],
+			['slogan', str_repeat('a', 501), 'The given slogan is too long.'],
+			['color', '0082C9', 'The given color is invalid.'],
+			['color', '#0082Z9', 'The given color is invalid.'],
+			['color', 'Nextcloud', 'The given color is invalid.'],
+			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL.'],
+			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL.'],
+			['imprintUrl', 'javascript:foo', 'The given legal notice address is not a valid URL.'],
+			['privacyUrl', '#0082Z9', 'The given privacy policy address is not a valid URL.'],
 		];
 	}
 

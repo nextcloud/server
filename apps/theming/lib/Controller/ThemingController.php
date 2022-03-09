@@ -54,7 +54,11 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Util;
+use OCP\Validator\Constraints\CssColor;
+use OCP\Validator\Constraints\Length;
+use OCP\Validator\Constraints\Url;
+use OCP\Validator\IValidator;
+use OCP\Validator\Violation;
 
 /**
  * Class ThemingController
@@ -64,39 +68,19 @@ use OCP\Util;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var ITempManager */
-	private $tempManager;
-	/** @var IAppData */
-	private $appData;
-	/** @var SCSSCacher */
-	private $scssCacher;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var ImageManager */
-	private $imageManager;
+	private ThemingDefaults $themingDefaults;
+	private IL10N $l10n;
+	private IConfig $config;
+	private ITempManager $tempManager;
+	private IAppData $appData;
+	private SCSSCacher $scssCacher;
+	private IURLGenerator $urlGenerator;
+	private IAppManager $appManager;
+	private ImageManager $imageManager;
+	private IValidator $validator;
 
 	/**
 	 * ThemingController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param ThemingDefaults $themingDefaults
-	 * @param IL10N $l
-	 * @param ITempManager $tempManager
-	 * @param IAppData $appData
-	 * @param SCSSCacher $scssCacher
-	 * @param IURLGenerator $urlGenerator
-	 * @param IAppManager $appManager
-	 * @param ImageManager $imageManager
 	 */
 	public function __construct(
 		$appName,
@@ -109,7 +93,8 @@ class ThemingController extends Controller {
 		SCSSCacher $scssCacher,
 		IURLGenerator $urlGenerator,
 		IAppManager $appManager,
-		ImageManager $imageManager
+		ImageManager $imageManager,
+		IValidator $validator
 	) {
 		parent::__construct($appName, $request);
 
@@ -122,6 +107,7 @@ class ThemingController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->appManager = $appManager;
 		$this->imageManager = $imageManager;
+		$this->validator = $validator;
 	}
 
 	/**
@@ -133,52 +119,64 @@ class ThemingController extends Controller {
 	 */
 	public function updateStylesheet($setting, $value) {
 		$value = trim($value);
-		$error = null;
+		$violations = [];
 		switch ($setting) {
 			case 'name':
-				if (strlen($value) > 250) {
-					$error = $this->l10n->t('The given name is too long');
-				}
+				$violations = $this->validator->validate($value, [
+					new Length([
+						'max' => 250,
+						'maxMessage' => $this->l10n->t('The given name is too long'),
+					])
+				]);
 				break;
 			case 'url':
-				if (strlen($value) > 500) {
-					$error = $this->l10n->t('The given web address is too long');
-				}
-				if (!Util::isValidUrl($value)) {
-					$error = $this->l10n->t('The given web address is not a valid URL');
-				}
+				$violations = $this->validator->validate($value, [
+					new Length([
+						'max' => 500,
+						'maxMessage' => $this->l10n->t('The given web address is too long'),
+					]),
+					new Url(false, ['http', 'https'], $this->l10n->t('The given web address is not a valid URL')),
+				]);
+
 				break;
 			case 'imprintUrl':
-				if (strlen($value) > 500) {
-					$error = $this->l10n->t('The given legal notice address is too long');
-				}
-				if (!Util::isValidUrl($value)) {
-					$error = $this->l10n->t('The given legal notice address is not a valid URL');
-				}
+				$violations = $this->validator->validate($value, [
+					new Length([
+						'max' => 500,
+						'maxMessage' => $this->l10n->t('The given legal notice address is too long'),
+					]),
+					new Url(false, ['http', 'https'], $this->l10n->t('The given legal notice address is not a valid URL')),
+				]);
 				break;
 			case 'privacyUrl':
-				if (strlen($value) > 500) {
-					$error = $this->l10n->t('The given privacy policy address is too long');
-				}
-				if (!Util::isValidUrl($value)) {
-					$error = $this->l10n->t('The given privacy policy address is not a valid URL');
-				}
+				$violations = $this->validator->validate($value, [
+					new Length([
+						'max' => 500,
+						'maxMessage' => $this->l10n->t('The given privacy policy address is too long'),
+					]),
+					new Url(false, ['http', 'https'], $this->l10n->t('The given privacy policy address is not a valid URL')),
+				]);
 				break;
 			case 'slogan':
-				if (strlen($value) > 500) {
-					$error = $this->l10n->t('The given slogan is too long');
-				}
+				$violations = $this->validator->validate($value, [
+					new Length([
+						'max' => 500,
+						'maxMessage' => $this->l10n->t('The given slogan is too long'),
+					])
+				]);
 				break;
 			case 'color':
-				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
-					$error = $this->l10n->t('The given color is invalid');
-				}
+				$violations = $this->validator->validate($value, [
+					new CssColor(['message' => $this->l10n->t('The given color is invalid')]),
+				]);
 				break;
 		}
-		if ($error !== null) {
+		if (count($violations) > 0) {
 			return new DataResponse([
 				'data' => [
-					'message' => $error,
+					'message' => implode('. ', array_map(function (Violation $violation): string {
+						return $violation->getMessage();
+					}, $violations)) . '.',
 				],
 				'status' => 'error'
 			], Http::STATUS_BAD_REQUEST);
