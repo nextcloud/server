@@ -732,14 +732,26 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if ($this->versioningEnabled === null) {
 			$cached = $this->memCache->get('versioning-enabled::' . $this->getBucket());
 			if ($cached === null) {
-				$result = $this->getConnection()->getBucketVersioning(['Bucket' => $this->getBucket()]);
-				$this->versioningEnabled = $result->get('Status') === 'Enabled';
+				$this->versioningEnabled = $this->getVersioningStatusFromBucket();
 				$this->memCache->set('versioning-enabled::' . $this->getBucket(), $this->versioningEnabled, 60);
 			} else {
 				$this->versioningEnabled = $cached;
 			}
 		}
 		return $this->versioningEnabled;
+	}
+
+	protected function getVersioningStatusFromBucket(): bool {
+		try {
+			$result = $this->getConnection()->getBucketVersioning(['Bucket' => $this->getBucket()]);
+			return $result->get('Status') === 'Enabled';
+		} catch (S3Exception $s3Exception) {
+			// This is needed for compatibility with Storj gateway which does not support versioning yet
+			if ($s3Exception->getAwsErrorCode() === 'NotImplemented') {
+				return false;
+			}
+			throw $s3Exception;
+		}
 	}
 
 	public function hasUpdated($path, $time) {
