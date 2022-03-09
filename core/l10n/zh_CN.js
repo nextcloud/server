@@ -422,7 +422,6 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "无法安装此应用，因为不兼容",
     "Can't install this app" : "无法安装此应用",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "未加载 PHP OPcache 模块。{linkstart} 为了更佳性能，建议 ↗{linkend} 将其加载到你的 PHP 安装。",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "未正确配置 PHP OPcache 模块。 {linkstart}为了更佳性能，建议 ↗{linkend}使用 <code>php.ini</code>中的下列设置：",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcache 模块配置不正确："
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "未正确配置 PHP OPcache 模块。 {linkstart}为了更佳性能，建议 ↗{linkend}使用 <code>php.ini</code>中的下列设置："
 },
 "nplurals=1; plural=0;");

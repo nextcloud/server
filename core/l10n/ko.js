@@ -397,7 +397,6 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "호환되지 않아 앱을 설치할 수 없습니다.",
     "Can't install this app" : "앱을 설치할 수 없음",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache 모듈이 로드되지 않았습니다. {linkstart}더 나은 성능을 위해 ↗{linkend} 이를 PHP에 로드하는 것이 권장됩니다.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 모듈이 바르게 설정되지 않았습니다.  {linkstart}더 나은 성능을 위해 ↗{linkend} 다음의 설정을 <code>php.ini</code>에서 사용하십시오:",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcache 모듈이 제대로 설정되지 않음:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 모듈이 바르게 설정되지 않았습니다.  {linkstart}더 나은 성능을 위해 ↗{linkend} 다음의 설정을 <code>php.ini</code>에서 사용하십시오:"
 },
 "nplurals=1; plural=0;");

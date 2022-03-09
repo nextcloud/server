@@ -417,7 +417,6 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "Kan deze app niet installeren omdat deze niet compatible is",
     "Can't install this app" : "Kan deze app niet installeren",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "De PHP OPcache is niet geladen.  {linkstart}Voor betere prestaties  adviseren we ↗{linkend}  die te laden in je php.ini instellingen.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "De PHP OPcache is niet correct geconfigureerd. {linkstart}Voor betere prestaties wordt aanbevolen ↗ {linked} om de volgende instellingen in de <code>php.ini</code> te gebruiken:",
-    "The PHP OPcache module is not properly configured:" : "De PHP OPcache module is niet correct geconfigureerd:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "De PHP OPcache is niet correct geconfigureerd. {linkstart}Voor betere prestaties wordt aanbevolen ↗ {linked} om de volgende instellingen in de <code>php.ini</code> te gebruiken:"
 },
 "nplurals=2; plural=(n != 1);");
