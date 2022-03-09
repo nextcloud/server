@@ -86,6 +86,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 			$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 			$policy->addAllowedFontDomain('mydomain.com');
 			$policy->addAllowedImageDomain('anotherdomain.de');
+			$policy->useStrictDynamic(true);
 
 			$e->addPolicy($policy);
 		});
@@ -117,6 +118,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$expected->addAllowedImageDomain('example.org');
 		$expected->addAllowedChildSrcDomain('childdomain');
 		$expected->addAllowedFormActionDomain('thirdDomain');
+		$expected->useStrictDynamic(true);
 		$expectedStringPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: anotherdomain.de example.org;font-src 'self' data: mydomain.com example.com anotherFontDomain;connect-src 'self';media-src 'self';child-src childdomain;frame-ancestors 'self';form-action 'self' thirdDomain";
 
 		$this->assertEquals($expected, $this->contentSecurityPolicyManager->getDefaultPolicy());
