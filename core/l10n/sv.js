@@ -402,7 +402,6 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
     "Can't install this app" : "Appen kan inte installeras",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache-modulen är inte korrekt konfigurerad. {linkstart}För bättre prestanda rekommenderas ↗{linkend} att använda följande inställningar i <code>php.ini</code>:",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcache-modulen är inte korrekt konfigurerad:",
     "You haven't added any info yet" : "Du har inte angivit någon information ännu",
     "{user} hasn't added any info yet" : "{user} har inte angivit någon information ännu"
 },

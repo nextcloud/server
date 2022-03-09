@@ -420,7 +420,6 @@
     "Can't install this app because it is not compatible" : "Denne app kan ikke installeres fordi den ikke er kompatibel",
     "Can't install this app" : "Kan ikke installere denne app",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache-modulet er ikke indlæst. {linkstart}For bedre ydeevne anbefales det ↗{linked} at indlæse det i din PHP-installation.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache-modulet er ikke korrekt konfigureret. {linkstart}For bedre ydeevne anbefales det ↗{linkend} at bruge følgende indstillinger i <code>php.ini</code>:",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcache-modulet er ikke korrekt konfigureret:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache-modulet er ikke korrekt konfigureret. {linkstart}For bedre ydeevne anbefales det ↗{linkend} at bruge følgende indstillinger i <code>php.ini</code>:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

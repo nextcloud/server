@@ -421,7 +421,6 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "アプリの互換性がないため、インストールできません",
     "Can't install this app" : "このアプリはインストールできません",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcacheモジュールがロードされていません。 {linkstart}パフォーマンスを向上させるには、↗{linkend}をPHPインストールにロードすることをお勧めします。",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache モジュールが正しく設定されていません。{linkstart}パフォーマンスを向上させるためには、{linkend} <code>php.ini</code>で以下の設定を使用することを推奨します:",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcacheモジュールが適切に構成されていません: "
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache モジュールが正しく設定されていません。{linkstart}パフォーマンスを向上させるためには、{linkend} <code>php.ini</code>で以下の設定を使用することを推奨します:"
 },
 "nplurals=1; plural=0;");

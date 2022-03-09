@@ -422,7 +422,6 @@
     "Can't install this app" : "Impossible d'installer cette appli",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Le module PHP OPcache n'est pas chargé. {linkstart}Pour de meilleures performances, il est recommandé ↗{linkend} de le charger dans votre installation php.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Le module PHP OPcache n'est pas bien configuré. {linkstart}Pour de meilleures performances, il est recommandé ↗{linkend} d'utiliser les paramètres suivants dans le fichier <code>php.ini</code>:",
-    "The PHP OPcache module is not properly configured:" : "Le module PHP OPcache n'est pas correctement configuré :",
     "You haven't added any info yet" : "Vous n'avez pas encore ajouté de données",
     "{user} hasn't added any info yet" : "{user} n'a pas encore ajouté de données"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
