@@ -358,7 +358,6 @@ const Dialogs = {
 				$form.submit()
 			})
 
-
 			/**
 			 * Checks whether the given file name is valid.
 			 *
