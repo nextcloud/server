@@ -587,9 +587,17 @@ form .warning input[type='checkbox']+label {
 	display: inline-block;
 	text-align: center;
 	box-sizing: border-box;
+	border: 2px solid #ffffff;
 	background-color: #0082c9;
-	color: white;
+	color: #ffffff;
 	border-radius: 100px; /* --border-radius-pill */
+}
+
+.alternative-logins a.button:focus,
+.alternative-logins li a:focus {
+	border: 2px solid #000000;
+	background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+	background-position: initial;
 }
 
 /* fixes for update page TODO should be fixed some time in a proper way */
