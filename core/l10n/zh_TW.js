@@ -424,7 +424,6 @@ OC.L10N.register(
     "Can't install this app" : "無法安裝這個應用程式",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP 的 OPcache 模組並未被載入。{linkstart}為了提供更好的效能，建議 ↗{linkend}將此 PHP 模組載入。",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP 的 OPcache 模組並未被妥善設定。{linkstart}為了有更好的效能表現 ↗{linkend}，我們建議在 <code>php.ini</code> 設定檔中使用以下設定：",
-    "The PHP OPcache module is not properly configured:" : "PHP OPcache 模組設定不正確：",
     "You haven't added any info yet" : "您尚未新增任何資訊",
     "{user} hasn't added any info yet" : "{user} 尚未新增任何資訊"
 },
