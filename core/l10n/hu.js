@@ -423,7 +423,6 @@ OC.L10N.register(
     "Can't install this app" : "Az alkalmazás nem telepíthető",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "A PHP OPcache modul nincs betöltve. {linkstart}A jobb teljesítmény érdekében javasoljuk, hogy ↗{link} töltse be a PHP telepítésébe.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "A PHP OPcache modul nincs megfelelően konfigurálva. {linkstart}A jobb teljesítmény érdekében ↗{linkend} ajánlott a következő beállításokat használni a <code>php.ini</code> fájlban:",
-    "The PHP OPcache module is not properly configured:" : "A PHP OPcache modul nincs helyesen beállítva:",
     "You haven't added any info yet" : "Még nem adott hozzá információkat",
     "{user} hasn't added any info yet" : "{user} még nem adott hozzá információkat"
 },

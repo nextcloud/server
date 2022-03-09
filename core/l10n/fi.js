@@ -368,7 +368,6 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Salasanan vaihtaminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
-    "Can't install this app" : "Tätä sovellusta ei voi asentaa",
-    "The PHP OPcache module is not properly configured:" : "PHP:n OPcache-moduulia ei ole määritetty oikein:"
+    "Can't install this app" : "Tätä sovellusta ei voi asentaa"
 },
 "nplurals=2; plural=(n != 1);");

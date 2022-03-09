@@ -421,7 +421,6 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "Приложение не может быть установлено, так как оно несовместимо",
     "Can't install this app" : "Это приложение не может быть установлено",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Не загружен PHP-модуль OPcache. Рекомендуется настроить этот модуль для {linkstart}улучшения производительности ↗{linkend}.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Система кеширования PHP OPcache не настроена верно. {linkstart}Для обеспечения лучшей производительности рекомендуется ↗{linkend} задать в файле <code>php.ini</code> следующие параметры:",
-    "The PHP OPcache module is not properly configured:" : "Модуль PHP OPcache настроен некорректно:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Система кеширования PHP OPcache не настроена верно. {linkstart}Для обеспечения лучшей производительности рекомендуется ↗{linkend} задать в файле <code>php.ini</code> следующие параметры:"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

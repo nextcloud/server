@@ -424,7 +424,6 @@ OC.L10N.register(
     "Can't install this app" : "Nie można zainstalować tej aplikacji",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Moduł PHP OPcache nie jest wczytany. {linkstart}Dla lepszej wydajności zaleca się ↗{linkend} ponowne wczytanie w instalacji PHP.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Moduł PHP OPcache nie jest poprawnie skonfigurowany. {linkstart}Dla lepszej wydajności zaleca się ↗{linkend} użycie następujących ustawień w <code>php.ini</code>:",
-    "The PHP OPcache module is not properly configured:" : "Moduł PHP OPcache nie jest poprawnie skonfigurowany:",
     "You haven't added any info yet" : "Nie dodałeś jeszcze żadnych informacji",
     "{user} hasn't added any info yet" : "{user} nie dodał jeszcze żadnych informacji"
 },
