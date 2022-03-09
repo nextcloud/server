@@ -248,7 +248,7 @@ a.button {
 	font-size: 20px;
 	margin: 5px;
 	padding: 11px 10px 9px;
-	outline: none;
+	/* outline: none; */
 	border-radius: 3px; /* --border-radius */
 	-webkit-appearance: none;
 }
