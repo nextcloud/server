@@ -314,6 +314,9 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Upload\\UploadFile' => __DIR__ . '/..' . '/../lib/Upload/UploadFile.php',
         'OCA\\DAV\\Upload\\UploadFolder' => __DIR__ . '/..' . '/../lib/Upload/UploadFolder.php',
         'OCA\\DAV\\Upload\\UploadHome' => __DIR__ . '/..' . '/../lib/Upload/UploadHome.php',
+        'OCA\\DAV\\UserMigration\\CalendarMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigrator.php',
+        'OCA\\DAV\\UserMigration\\CalendarMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigratorException.php',
+        'OCA\\DAV\\UserMigration\\InvalidCalendarException' => __DIR__ . '/..' . '/../lib/UserMigration/InvalidCalendarException.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
