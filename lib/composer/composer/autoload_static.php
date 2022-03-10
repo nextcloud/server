@@ -1022,6 +1022,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Migrations\\Version23000Date20210930122352' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20210930122352.php',
         'OC\\Core\\Migrations\\Version23000Date20211203110726' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20211203110726.php',
         'OC\\Core\\Migrations\\Version23000Date20211213203940' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20211213203940.php',
+        'OC\\Core\\Migrations\\Version24000Date20211213081506' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211213081506.php',
+        'OC\\Core\\Migrations\\Version24000Date20211213081604' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211213081604.php',
         'OC\\Core\\Migrations\\Version24000Date20211230140012' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211230140012.php',
         'OC\\Core\\Migrations\\Version24000Date20220131153041' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220131153041.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
