@@ -614,15 +614,14 @@ Raw output
 	}
 
 	protected function getSuggestedOverwriteCliURL(): string {
-		$suggestedOverwriteCliUrl = '';
-		if ($this->config->getSystemValue('overwrite.cli.url', '') === '') {
-			$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
-			if (!$this->config->getSystemValue('config_is_read_only', false)) {
-				// Set the overwrite URL when it was not set yet.
-				$this->config->setSystemValue('overwrite.cli.url', $suggestedOverwriteCliUrl);
-				$suggestedOverwriteCliUrl = '';
-			}
+		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
+		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
+
+		// Check correctness by checking if it is a valid URL
+		if (filter_var($currentOverwriteCliUrl, FILTER_VALIDATE_URL)) {
+			$suggestedOverwriteCliUrl = '';
 		}
+
 		return $suggestedOverwriteCliUrl;
 	}
 
