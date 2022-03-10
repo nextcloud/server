@@ -89,7 +89,7 @@ class UserMountCache implements IUserMountCache {
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
-	public function registerMounts(IUser $user, array $mounts) {
+	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null) {
 		// filter out non-proper storages coming from unit tests
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
 			return $mount instanceof SharedMount || $mount->getStorage() && $mount->getStorage()->getCache();
@@ -110,6 +110,11 @@ class UserMountCache implements IUserMountCache {
 		$newMounts = array_combine($newMountRootIds, $newMounts);
 
 		$cachedMounts = $this->getMountsForUser($user);
+		if (is_array($mountProviderClasses)) {
+			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses) {
+				return in_array($mountInfo->getMountProvider(), $mountProviderClasses);
+			});
+		}
 		$cachedMountRootIds = array_map(function (ICachedMountInfo $mount) {
 			return $mount->getRootId();
 		}, $cachedMounts);

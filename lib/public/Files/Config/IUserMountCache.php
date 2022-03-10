@@ -39,9 +39,10 @@ interface IUserMountCache {
 	 *
 	 * @param IUser $user
 	 * @param IMountPoint[] $mounts
+	 * @param array|null $mountProviderClasses
 	 * @since 9.0.0
 	 */
-	public function registerMounts(IUser $user, array $mounts);
+	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null);
 
 	/**
 	 * Get all cached mounts for a user

@@ -323,6 +323,7 @@ class SetupManager {
 			$this->setupUserMountProviders[$user->getUID()] = [];
 		}
 		$setupProviders = &$this->setupUserMountProviders[$user->getUID()];
+		$currentProviders = [];
 
 		try {
 			$cachedMount = $this->userMountCache->getMountForPath($user, $path);
@@ -334,6 +335,7 @@ class SetupManager {
 		$mounts = [];
 		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
 			$setupProviders[] = $cachedMount->getMountProvider();
+			$currentProviders[] = $cachedMount->getMountProvider();
 			$mounts = $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider());
 		}
 
@@ -342,12 +344,14 @@ class SetupManager {
 			foreach ($subCachedMounts as $cachedMount) {
 				if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
 					$setupProviders[] = $cachedMount->getMountProvider();
+					$currentProviders[] = $cachedMount->getMountProvider();
 					$mounts = array_merge($mounts, $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider()));
 				}
 			}
 		}
 
 		if (count($mounts)) {
+			$this->userMountCache->registerMounts($user, $mounts, $currentProviders);
 			$this->setupForUserWith($user, function () use ($mounts) {
 				array_walk($mounts, [$this->mountManager, 'addMount']);
 			});
