@@ -84,6 +84,9 @@ use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\Security\ISecureRandom;
+use OCP\Validator\Constraints\Url;
+use OCP\Validator\Constraints\NotBlank;
+use OCP\Validator\IValidator;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -125,6 +128,7 @@ class CheckSetupController extends Controller {
 	private $appManager;
 	/** @var IServerContainer */
 	private $serverContainer;
+	private IValidator $validator;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -145,7 +149,8 @@ class CheckSetupController extends Controller {
 								ITempManager $tempManager,
 								IManager $manager,
 								IAppManager $appManager,
-								IServerContainer $serverContainer
+								IServerContainer $serverContainer,
+								IValidator $validator
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
@@ -166,6 +171,7 @@ class CheckSetupController extends Controller {
 		$this->manager = $manager;
 		$this->appManager = $appManager;
 		$this->serverContainer = $serverContainer;
+		$this->validator = $validator;
 	}
 
 	/**
@@ -618,7 +624,10 @@ Raw output
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
 
 		// Check correctness by checking if it is a valid URL
-		if (filter_var($currentOverwriteCliUrl, FILTER_VALIDATE_URL)) {
+		if ($this->validator->isValid($currentOverwriteCliUrl, [
+			new NotBlank(),
+			new Url(),
+		])) {
 			$suggestedOverwriteCliUrl = '';
 		}
 
