@@ -28,6 +28,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
+use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
@@ -41,6 +42,7 @@ class SetupManagerFactory {
 	private ILockdownManager $lockdownManager;
 	private IUserSession $userSession;
 	private ?SetupManager $setupManager;
+	private ICacheFactory $cacheFactory;
 
 	public function __construct(
 		IEventLogger $eventLogger,
@@ -49,7 +51,8 @@ class SetupManagerFactory {
 		IEventDispatcher $eventDispatcher,
 		IUserMountCache $userMountCache,
 		ILockdownManager $lockdownManager,
-		IUserSession $userSession
+		IUserSession $userSession,
+		ICacheFactory $cacheFactory
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
@@ -58,6 +61,7 @@ class SetupManagerFactory {
 		$this->userMountCache = $userMountCache;
 		$this->lockdownManager = $lockdownManager;
 		$this->userSession = $userSession;
+		$this->cacheFactory = $cacheFactory;
 		$this->setupManager = null;
 	}
 
@@ -72,6 +76,7 @@ class SetupManagerFactory {
 				$this->userMountCache,
 				$this->lockdownManager,
 				$this->userSession,
+				$this->cacheFactory
 			);
 		}
 		return $this->setupManager;
