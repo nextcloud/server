@@ -107,8 +107,14 @@ class PublicKeyTokenProvider implements IProvider {
 				$token = $this->mapper->getToken($this->hashToken($tokenId));
 				$this->cache[$token->getToken()] = $token;
 			} catch (DoesNotExistException $ex) {
-				$this->cache[$tokenHash] = $ex;
-				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
+				try {
+					$token = $this->mapper->getToken($this->hashTokenWithEmptySecret($tokenId));
+					$this->cache[$token->getToken()] = $token;
+					$this->rotate($token, $tokenId, $tokenId);
+				} catch (DoesNotExistException $ex2) {
+					$this->cache[$tokenHash] = $ex2;
+					throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
+				}
 			}
 		}
 
