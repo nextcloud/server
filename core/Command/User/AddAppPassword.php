@@ -109,8 +109,10 @@ class AddAppPassword extends Command {
 			return 1;
 		}
 
-		$output->writeln('<info>The password is not validated so what you provide is what gets recorded in the token</info>');
-
+		if (!$this->userManager->checkPassword($user->getUID(), $password)) {
+			$output->writeln('<error>The provided password is invalid</error>');
+			return 1;
+		}
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 		$generatedToken = $this->tokenProvider->generateToken(
