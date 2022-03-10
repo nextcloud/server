@@ -220,9 +220,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testInvalidateToken() {
-		$this->mapper->expects($this->once())
+		$this->mapper->expects($this->at(0))
 			->method('invalidate')
 			->with(hash('sha512', 'token7'.'1f4h9s'));
+		$this->mapper->expects($this->at(1))
+			->method('invalidate')
+			->with(hash('sha512', 'token7'));
 
 		$this->tokenProvider->invalidateToken('token7');
 	}
@@ -355,10 +358,19 @@ class PublicKeyTokenProviderTest extends TestCase {
 	public function testGetInvalidToken() {
 		$this->expectException(InvalidTokenException::class);
 
-		$this->mapper->method('getToken')
+		$this->mapper->expects($this->at(0))
+			->method('getToken')
 			->with(
-				$this->callback(function (string $token) {
+				$this->callback(function (string $token): bool {
 					return hash('sha512', 'unhashedToken'.'1f4h9s') === $token;
+				})
+			)->willThrowException(new DoesNotExistException('nope'));
+
+		$this->mapper->expects($this->at(1))
+			->method('getToken')
+			->with(
+				$this->callback(function (string $token): bool {
+					return hash('sha512', 'unhashedToken') === $token;
 				})
 			)->willThrowException(new DoesNotExistException('nope'));
 
