@@ -2824,11 +2824,6 @@
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Cache/CappedMemoryCache.php">
-    <InvalidReturnType occurrences="1">
-      <code>set</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Cache/File.php">
     <LessSpecificImplementedReturnType occurrences="2">
       <code>bool|mixed</code>
@@ -3196,14 +3191,6 @@
       <code>$searchQuery</code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Files/Config/CachedMountInfo.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>Node</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand occurrences="1">
       <code>$user</code>
@@ -3248,10 +3235,6 @@
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
-    <RedundantCondition occurrences="2">
-      <code>$userObject</code>
-      <code>$userObject</code>
-    </RedundantCondition>
     <TooManyArguments occurrences="1">
       <code>addStorageWrapper</code>
     </TooManyArguments>
@@ -3402,23 +3385,11 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>Node</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="7">
-      <code>\OC\Files\Mount\MountPoint</code>
+    <InvalidNullableReturnType occurrences="1">
       <code>\OC\User\User</code>
-      <code>array</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>string</code>
     </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="7">
-      <code>$this-&gt;mountManager-&gt;find($mountPoint)</code>
+    <NullableReturnStatement occurrences="1">
       <code>$this-&gt;user</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
     </NullableReturnStatement>
     <UndefinedMethod occurrences="1">
       <code>remove</code>
@@ -3748,36 +3719,15 @@
       <code>int</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Utils/Scanner.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$mounts</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\OC\Files\Mount\MountPoint[]</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Files/View.php">
-    <InvalidArgument occurrences="3">
-      <code>$mount</code>
-      <code>$mount</code>
-    </InvalidArgument>
-    <InvalidNullableReturnType occurrences="2">
-      <code>\OCP\Files\Mount\IMountPoint</code>
+    <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="1">
-      <code>$results</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\OC\Files\Mount\MountPoint</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$fileId</code>
       <code>$mtime</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="6">
-      <code>$mount</code>
-      <code>Filesystem::getMountManager()-&gt;find($this-&gt;getAbsolutePath($path))</code>
+    <NullableReturnStatement occurrences="4">
       <code>null</code>
       <code>null</code>
       <code>null</code>
@@ -4715,10 +4665,6 @@
     </UndefinedClass>
   </file>
   <file src="lib/private/legacy/OC_Util.php">
-    <InternalMethod occurrences="2">
-      <code>\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($prevLogging)</code>
-      <code>\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false)</code>
-    </InternalMethod>
     <InvalidReturnStatement occurrences="1">
       <code>OC_Helper::computerFileSize($userQuota)</code>
     </InvalidReturnStatement>
@@ -4733,9 +4679,6 @@
       <code>is_bool($setting[1])</code>
       <code>is_int($expected)</code>
     </TypeDoesNotContainType>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>clearCache</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
