@@ -43,6 +43,8 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	private $dbc;
 	/** @var LoggerInterface */
 	private $logger;
+	/** @var string[] */
+	private $hashColumnAddedToTables = [];
 
 	public function __construct(IDBConnection $dbc, LoggerInterface $logger) {
 		$this->dbc = $dbc;
@@ -89,6 +91,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					'length' => 64,
 				]);
 				$changeSchema = true;
+				$this->hashColumnAddedToTables[] = $tableName;
 			}
 			$column = $table->getColumn('ldap_dn');
 			if ($tableName === 'ldap_user_mapping') {
@@ -109,7 +112,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					$table->addUniqueIndex(['directory_uuid'], 'ldap_user_directory_uuid');
 					$changeSchema = true;
 				}
-			} else if (!$schema->hasTable('ldap_group_mapping_backup')) {
+			} elseif (!$schema->hasTable('ldap_group_mapping_backup')) {
 				// We need to copy the table twice to be able to change primary key, prepare the backup table
 				$table2 = $schema->createTable('ldap_group_mapping_backup');
 				$table2->addColumn('ldap_dn', Types::STRING, [
@@ -177,9 +180,16 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 
 	protected function getSelectQuery(string $table): IQueryBuilder {
 		$qb = $this->dbc->getQueryBuilder();
-		$qb->select('owncloud_name', 'ldap_dn', 'ldap_dn_hash')
-			->from($table)
-			->where($qb->expr()->isNull('ldap_dn_hash'));
+		$qb->select('owncloud_name', 'ldap_dn')
+			->from($table);
+
+		// when added we may run into risk that it's read from a DB node
+		// where the column is not present. Then the where clause is also
+		// not necessary since all rows qualify.
+		if (!in_array($table, $this->hashColumnAddedToTables, true)) {
+			$qb->where($qb->expr()->isNull('ldap_dn_hash'));
+		}
+
 		return $qb;
 	}
 
@@ -260,7 +270,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	 * @return Generator<string>
 	 * @throws \OCP\DB\Exception
 	 */
-	protected function getDuplicatedUuids(string $table): Generator{
+	protected function getDuplicatedUuids(string $table): Generator {
 		$select = $this->dbc->getQueryBuilder();
 		$select->select('directory_uuid')
 			->from($table)
