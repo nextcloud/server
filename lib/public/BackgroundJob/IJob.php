@@ -35,11 +35,11 @@ use OCP\ILogger;
  */
 interface IJob {
 	/**
-	 * @since 24.0.0
+	 * @since 22.2.6
 	 */
 	public const TIME_INSENSITIVE = 0;
 	/**
-	 * @since 24.0.0
+	 * @since 22.2.6
 	 */
 	public const TIME_SENSITIVE = 1;
 

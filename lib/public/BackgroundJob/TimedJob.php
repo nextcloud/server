@@ -57,7 +57,7 @@ abstract class TimedJob extends Job {
 	 * the scheduled interval, of if it is okay to be delayed until a later time.
 	 *
 	 * @return bool
-	 * @since 24.0.0
+	 * @since 22.2.6
 	 */
 	public function isTimeSensitive(): bool {
 		return $this->timeSensitivity === IJob::TIME_SENSITIVE;
@@ -71,7 +71,7 @@ abstract class TimedJob extends Job {
 	 * @param int $sensitivity
 	 * @psalm-param IJob::TIME_* $sensitivity
 	 * @return void
-	 * @since 24.0.0
+	 * @since 22.2.6
 	 */
 	public function setTimeSensitivity(int $sensitivity): void {
 		if ($sensitivity !== IJob::TIME_SENSITIVE &&
