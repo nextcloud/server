@@ -993,6 +993,8 @@ return array(
     'OC\\Core\\Migrations\\Version23000Date20210930122352' => $baseDir . '/core/Migrations/Version23000Date20210930122352.php',
     'OC\\Core\\Migrations\\Version23000Date20211203110726' => $baseDir . '/core/Migrations/Version23000Date20211203110726.php',
     'OC\\Core\\Migrations\\Version23000Date20211213203940' => $baseDir . '/core/Migrations/Version23000Date20211213203940.php',
+    'OC\\Core\\Migrations\\Version24000Date20211213081506' => $baseDir . '/core/Migrations/Version24000Date20211213081506.php',
+    'OC\\Core\\Migrations\\Version24000Date20211213081604' => $baseDir . '/core/Migrations/Version24000Date20211213081604.php',
     'OC\\Core\\Migrations\\Version24000Date20211230140012' => $baseDir . '/core/Migrations/Version24000Date20211230140012.php',
     'OC\\Core\\Migrations\\Version24000Date20220131153041' => $baseDir . '/core/Migrations/Version24000Date20220131153041.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
