@@ -2,7 +2,7 @@
 # later. See the COPYING file.
 app_name=$(notdir $(CURDIR))
 
-all: dev-setup lint build-js-production test
+all: dev-setup lint build-js-production
 
 # Dev env management
 dev-setup: clean clean-dev npm-init
@@ -24,15 +24,6 @@ watch-js:
 	npm run watch
 
 # Testing
-test:
-	npm run test
-
-test-watch:
-	npm run test:watch
-
-test-coverage:
-	npm run test:coverage
-
 test-cypress:
 	./cypress/start.sh
 	npm run cypress:gui
