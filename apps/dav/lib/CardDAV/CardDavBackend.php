@@ -1111,17 +1111,17 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}, $matches);
 
 		$cards = [];
-		foreach (array_chunk($matches, 1000) as $matche) {
-			$query = $this->db->getQueryBuilder();
-			$query->select('c.addressbookid', 'c.carddata', 'c.uri')
-				->from($this->dbCardsTable, 'c')
-				->where($query->expr()->in('c.id', $query->createNamedParameter($matche, IQueryBuilder::PARAM_INT_ARRAY)));
+		$query = $this->db->getQueryBuilder();
+		$query->select('c.addressbookid', 'c.carddata', 'c.uri')
+			->from($this->dbCardsTable, 'c')
+			->where($query->expr()->in('c.id', $query->createParameter('matches')));
 
+		foreach (array_chunk($matches, 1000) as $matchesChunk) {
+			$query->setParameter('matches', $matchesChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$result = $query->execute();
 			$cards = array_merge($cards, $result->fetchAll());
 			$result->closeCursor();
 		}
-
 
 		return array_map(function ($array) {
 			$array['addressbookid'] = (int) $array['addressbookid'];
