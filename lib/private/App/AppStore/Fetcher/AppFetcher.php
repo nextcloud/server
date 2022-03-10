@@ -183,7 +183,9 @@ class AppFetcher extends Fetcher {
 
 
 	public function get($allowUnstable = false) {
-		$apps = parent::get($allowUnstable);
+		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
+
+		$apps = parent::get($allowPreReleases);
 		$allowList = $this->config->getSystemValue('appsallowlist');
 
 		// If the admin specified a allow list, filter apps from the appstore
