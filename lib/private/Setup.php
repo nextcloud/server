@@ -474,7 +474,7 @@ class Setup {
 			}
 			/** @var IValidator $validator */
 			$validator = \OC::$server->get(IValidator::class);
-			if (count($validator->validate($webRoot, [new Url()])) > 0) {
+			if ($validator->isValid($webRoot, [new Url()])) {
 				throw new InvalidArgumentException('invalid value for overwrite.cli.url');
 			}
 			$webRoot = rtrim((parse_url($webRoot, PHP_URL_PATH) ?? ''), '/');

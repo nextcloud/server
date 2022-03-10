@@ -26,7 +26,7 @@ use OCP\IL10N;
 use OCP\L10N\IFactory;
 
 /**
- * Abstract class for validatoin constraint.
+ * Abstract class for validation constraint.
  *
  * For the moment, you must not extends this class inside your Nextcloud application.
  * Instead use the already existing public constraints or contribute new constraints

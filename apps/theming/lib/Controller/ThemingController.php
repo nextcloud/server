@@ -81,6 +81,7 @@ class ThemingController extends Controller {
 
 	/**
 	 * ThemingController constructor.
+	 * @string $appName
 	 */
 	public function __construct(
 		$appName,
@@ -174,9 +175,7 @@ class ThemingController extends Controller {
 		if (count($violations) > 0) {
 			return new DataResponse([
 				'data' => [
-					'message' => implode('. ', array_map(function (Violation $violation): string {
-						return $violation->getMessage();
-					}, $violations)) . '.',
+					'message' => implode('. ', array_map(fn (Violation $violation) => $violation->getMessage(), $violations)) . '.',
 				],
 				'status' => 'error'
 			], Http::STATUS_BAD_REQUEST);

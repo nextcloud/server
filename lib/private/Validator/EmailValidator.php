@@ -33,7 +33,7 @@ class EmailValidator implements IConstraintValidator {
 			throw new \RuntimeException('Email validator called with a wrong constraint');
 		}
 
-		if ($value === null || '' == $value) {
+		if ($value === null || $value == '') {
 			return [];
 		}
 
@@ -42,7 +42,7 @@ class EmailValidator implements IConstraintValidator {
 		}
 
 		$value = (string) $value;
-		if ('' === $value) {
+		if ($value === '') {
 			return [];
 		}
 
