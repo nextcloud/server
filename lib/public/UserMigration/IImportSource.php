@@ -32,6 +32,7 @@ use OCP\Files\Folder;
  * @since 24.0.0
  */
 interface IImportSource {
+	public const PATH_USER = 'user.json';
 
 	/**
 	 * Reads a file from the export
@@ -95,6 +96,13 @@ interface IImportSource {
 	 * @since 24.0.0
 	 */
 	public function getMigratorVersion(string $migrator): ?int;
+
+	/**
+	 * Get original uid of the imported account
+	 *
+	 * @since 24.0.0
+	 */
+	public function getOriginalUid(): string;
 
 	/**
 	 * Called after import is complete
