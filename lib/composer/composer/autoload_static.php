@@ -1000,6 +1000,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Migrations\\Version21000Date20210309185127' => __DIR__ . '/../../..' . '/core/Migrations/Version21000Date20210309185127.php',
         'OC\\Core\\Migrations\\Version22000Date20210216080825' => __DIR__ . '/../../..' . '/core/Migrations/Version22000Date20210216080825.php',
         'OC\\Core\\Migrations\\Version23000Date20210906132259' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20210906132259.php',
+        'OC\\Core\\Migrations\\Version24000Date20211213081506' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211213081506.php',
+        'OC\\Core\\Migrations\\Version24000Date20211213081604' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211213081604.php',
         'OC\\Core\\Migrations\\Version24000Date20211230140012' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211230140012.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\Service\\LoginFlowV2Service' => __DIR__ . '/../../..' . '/core/Service/LoginFlowV2Service.php',
