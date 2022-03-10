@@ -78,7 +78,7 @@ class AccountMigrator implements IMigrator {
 			$exportFilename = AccountMigrator::EXPORT_AVATAR_BASENAME . '.' . $avatarFile->getExtension();
 
 			$output->writeln('Exporting avatar to ' . $exportFilename . '…');
-			if ($exportDestination->addFileContents($exportFilename, $avatarFile->getContent()) === false) {
+			if ($exportDestination->addFileAsStream($exportFilename, $avatarFile->read()) === false) {
 				throw new AccountMigratorException('Could not export avatar');
 			}
 		}
@@ -135,9 +135,9 @@ class AccountMigrator implements IMigrator {
 			$importFilename = reset($avatarFiles);
 
 			$output->writeln('Importing avatar from ' . $importFilename . '…');
-			$data = $importSource->getFileContents($importFilename);
+			$stream = $importSource->getFileAsStream($importFilename);
 			$image = new \OC_Image();
-			$image->loadFromData($data);
+			$image->loadFromFileHandle($stream);
 
 			try {
 				$avatar = $this->avatarManager->getAvatar($user->getUID());
