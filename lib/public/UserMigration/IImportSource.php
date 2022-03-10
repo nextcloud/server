@@ -65,7 +65,7 @@ interface IImportSource {
 	public function getFolderListing(string $path): array;
 
 	/**
-	 * Test if a path exists
+	 * Test if a path exists, which may be a file or a folder
 	 *
 	 * @since 24.0.0
 	 */
