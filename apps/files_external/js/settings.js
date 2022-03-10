@@ -659,6 +659,7 @@ MountConfigListView.prototype = _.extend({
 		}
 
 		this._encryptionEnabled = options.encryptionEnabled;
+		this._canCreateLocal = options.canCreateLocal;
 
 		// read the backend config that was carefully crammed
 		// into the data-configurations attribute of the select
@@ -825,10 +826,13 @@ MountConfigListView.prototype = _.extend({
 		$tr.addClass(backend.identifier);
 		$tr.find('.backend').data('identifier', backend.identifier);
 
-		if (backend.invalid) {
+		if (backend.invalid || (backend.identifier === 'local' && !this._canCreateLocal)) {
 			$tr.find('[name=mountPoint]').prop('disabled', true);
 			$tr.find('.applicable,.mountOptionsToggle').empty();
-			this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+			$tr.find('.save').empty();
+			if (backend.invalid) {
+				this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+			}
 			return $tr;
 		}
 
@@ -970,6 +974,7 @@ MountConfigListView.prototype = _.extend({
 					var storageConfig = new self._storageConfigClass();
 					_.extend(storageConfig, storageParams);
 					var $tr = self.newStorage(storageConfig, onCompletion);
+
 					self.recheckStorageConfig($tr);
 				});
 				onCompletion.resolve();
@@ -1313,9 +1318,11 @@ MountConfigListView.prototype = _.extend({
 
 window.addEventListener('DOMContentLoaded', function() {
 	var enabled = $('#files_external').attr('data-encryption-enabled');
+	var canCreateLocal = $('#files_external').attr('data-can-create-local');
 	var encryptionEnabled = (enabled ==='true')? true: false;
 	var mountConfigListView = new MountConfigListView($('#externalStorage'), {
-		encryptionEnabled: encryptionEnabled
+		encryptionEnabled: encryptionEnabled,
+		canCreateLocal: (canCreateLocal === 'true') ? true: false,
 	});
 	mountConfigListView.loadStorages();
 

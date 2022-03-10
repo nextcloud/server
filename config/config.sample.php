@@ -1773,6 +1773,19 @@ $CONFIG = [
 'external_storage.auth_availability_delay' => 1800,
 
 /**
+ * Allows to create external storages of type "Local" in the web interface and APIs.
+ *
+ * When disable, it is still possible to create local storages with occ using
+ * the following command:
+ *
+ * % php occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
+ *
+ * Defaults to ``true``
+ *
+ */
+'files_external_allow_create_new_local' => true,
+
+/**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
  * NFS mounts in data/) is checked for changes made outside Nextcloud. This
  * does not apply to external storage.
