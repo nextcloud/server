@@ -64,6 +64,13 @@ interface IImportSource {
 	public function getFolderListing(string $path): array;
 
 	/**
+	 * Test if a path exists
+	 *
+	 * @since 24.0.0
+	 */
+	public function pathExists(string $path): bool;
+
+	/**
 	 * Copy files from the export to a Folder
 	 *
 	 * Folder $destination folder to copy into
