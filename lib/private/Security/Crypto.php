@@ -122,14 +122,19 @@ class Crypto implements ICrypto {
 	 * @throws Exception If the decryption failed
 	 */
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
-		if ($password === '') {
-			$password = $this->config->getSystemValue('secret');
-		}
+		$secret = $this->config->getSystemValue('secret');
 		try {
+			if ($password === '') {
+				return $this->decryptWithoutSecret($authenticatedCiphertext, $secret);
+			}
 			return $this->decryptWithoutSecret($authenticatedCiphertext, $password);
 		} catch (Exception $e) {
-			// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
-			return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+			if ($password === '') {
+				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
+				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+			}
+
+			throw $e;
 		}
 	}
 
