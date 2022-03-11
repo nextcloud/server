@@ -294,7 +294,7 @@ class StatusService {
 
 		$userStatus->setStatus($status);
 		$userStatus->setStatusTimestamp($this->timeFactory->getTime());
-		$userStatus->setIsUserDefined(false);
+		$userStatus->setIsUserDefined(true);
 		$userStatus->setIsBackup(false);
 		$userStatus->setMessageId($messageId);
 		$userStatus->setCustomIcon(null);
