@@ -90,8 +90,8 @@ class AppFetcher extends Fetcher {
 			return [];
 		}
 
-		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
-		$allowNightly = $allowUnstable || $this->getChannel() === 'daily';
+		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
+		$allowNightly = $allowUnstable || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 
 		foreach ($response['data'] as $dataKey => $app) {
 			$releases = [];
@@ -183,7 +183,9 @@ class AppFetcher extends Fetcher {
 
 
 	public function get($allowUnstable = false) {
-		$apps = parent::get($allowUnstable);
+		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
+
+		$apps = parent::get($allowPreReleases);
 		$allowList = $this->config->getSystemValue('appsallowlist');
 
 		// If the admin specified a allow list, filter apps from the appstore

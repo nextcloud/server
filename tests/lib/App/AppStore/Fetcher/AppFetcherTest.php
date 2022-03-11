@@ -1854,15 +1854,21 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->registry = $this->createMock(IRegistry::class);
 
-		$this->fetcher = new AppFetcher(
-			$factory,
-			$this->clientService,
-			$this->timeFactory,
-			$this->config,
-			$this->compareVersion,
-			$this->logger,
-			$this->registry
-		);
+		$this->fetcher = $this->getMockBuilder(AppFetcher::class)
+			->setMethods(['getChannel'])
+			->setConstructorArgs([
+				$factory,
+				$this->clientService,
+				$this->timeFactory,
+				$this->config,
+				$this->compareVersion,
+				$this->logger,
+				$this->registry,
+			])
+			->getMock();
+
+		$this->fetcher->method('getChannel')
+			->willReturn('stable');
 	}
 
 	public function testGetWithFilter() {
