@@ -27,9 +27,9 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Listener;
 
+use OC\Profile\ProfileManager;
 use OCA\UserStatus\AppInfo\Application;
 use OCA\UserStatus\Service\JSDataService;
-use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\Event;
@@ -38,10 +38,9 @@ use OCP\IInitialStateService;
 use OCP\IUserSession;
 
 class BeforeTemplateRenderedListener implements IEventListener {
-	use \OC\Profile\TProfileHelper;
 
-	/** @var IAccountManager */
-	private $accountManager;
+	/** @var ProfileManager */
+	private $profileManager;
 
 	/** @var IUserSession */
 	private $userSession;
@@ -55,18 +54,18 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	/**
 	 * BeforeTemplateRenderedListener constructor.
 	 *
-	 * @param IAccountManager $accountManager
+	 * @param ProfileManager $profileManager
 	 * @param IUserSession $userSession
 	 * @param IInitialStateService $initialState
 	 * @param JSDataService $jsDataService
 	 */
 	public function __construct(
-		IAccountManager $accountManager,
+		ProfileManager $profileManager,
 		IUserSession $userSession,
 		IInitialStateService $initialState,
 		JSDataService $jsDataService
 	) {
-		$this->accountManager = $accountManager;
+		$this->profileManager = $profileManager;
 		$this->userSession = $userSession;
 		$this->initialState = $initialState;
 		$this->jsDataService = $jsDataService;
@@ -80,7 +79,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		if ($user === null) {
 			return;
 		}
-		$account = $this->accountManager->getAccount($user);
 
 		if (!($event instanceof BeforeTemplateRenderedEvent)) {
 			// Unrelated
@@ -95,8 +93,8 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			return $this->jsDataService;
 		});
 
-		$this->initialState->provideLazyInitialState(Application::APP_ID, 'profileEnabled', function () use ($account) {
-			return ['profileEnabled' => $this->isProfileEnabled($account)];
+		$this->initialState->provideLazyInitialState(Application::APP_ID, 'profileEnabled', function () use ($user) {
+			return ['profileEnabled' => $this->profileManager->isProfileEnabled($user)];
 		});
 
 		\OCP\Util::addScript('user_status', 'user-status-menu');

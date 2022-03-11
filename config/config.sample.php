@@ -2085,4 +2085,11 @@ $CONFIG = [
  * Also, it might log sensitive data into a plain text file.
  */
 'ldap_log_file' => '',
+
+/**
+ * Enable profile globally
+ *
+ * Defaults to ``true``
+ */
+'profile.enabled' => true,
 ];
