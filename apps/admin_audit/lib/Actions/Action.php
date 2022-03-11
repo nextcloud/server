@@ -28,13 +28,13 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\Actions;
 
-use Psr\Log\LoggerInterface;
+use OCA\AdminAudit\IAuditLogger;
 
 class Action {
-	/** @var LoggerInterface */
+	/** @var IAuditLogger */
 	private $logger;
 
-	public function __construct(LoggerInterface $logger) {
+	public function __construct(IAuditLogger $logger) {
 		$this->logger = $logger;
 	}
 

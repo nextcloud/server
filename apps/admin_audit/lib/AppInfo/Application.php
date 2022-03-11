@@ -48,6 +48,8 @@ use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\UserManagement;
 use OCA\AdminAudit\Actions\Versions;
+use OCA\AdminAudit\AuditLogger;
+use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
 use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
@@ -65,6 +67,7 @@ use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Log\ILogFactory;
 use OCP\Share;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -79,14 +82,16 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerService(IAuditLogger::class, function (ContainerInterface $c) {
+			return new AuditLogger($c->get(ILogFactory::class), $c->get(Iconfig::class));
+		});
+
 		$context->registerEventListener(CriticalActionPerformedEvent::class, CriticalActionPerformedEventListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		/** @var LoggerInterface $logger */
-		$logger = $context->injectFn(
-			Closure::fromCallable([$this, 'getLogger'])
-		);
+		/** @var IAuditLogger $logger */
+		$logger = $context->getAppContainer()->get(IAuditLogger::class);
 
 		/*
 		 * TODO: once the hooks are migrated to lazy events, this should be done
@@ -95,26 +100,10 @@ class Application extends App implements IBootstrap {
 		$this->registerHooks($logger, $context->getServerContainer());
 	}
 
-	private function getLogger(IConfig $config,
-							   ILogFactory $logFactory): LoggerInterface {
-		$auditType = $config->getSystemValueString('log_type_audit', 'file');
-		$defaultTag = $config->getSystemValueString('syslog_tag', 'Nextcloud');
-		$auditTag = $config->getSystemValueString('syslog_tag_audit', $defaultTag);
-		$logFile = $config->getSystemValueString('logfile_audit', '');
-
-		if ($auditType === 'file' && !$logFile) {
-			$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
-			// Legacy way was appconfig, now it's paralleled with the normal log config
-			$logFile = $config->getAppValue('admin_audit', 'logfile', $default);
-		}
-
-		return $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
-	}
-
 	/**
 	 * Register hooks in order to log them
 	 */
-	private function registerHooks(LoggerInterface $logger,
+	private function registerHooks(IAuditLogger $logger,
 									 IServerContainer $serverContainer): void {
 		$this->userManagementHooks($logger, $serverContainer->get(IUserSession::class));
 		$this->groupHooks($logger, $serverContainer->get(IGroupManager::class));
@@ -134,7 +123,7 @@ class Application extends App implements IBootstrap {
 		$this->securityHooks($logger, $eventDispatcher);
 	}
 
-	private function userManagementHooks(LoggerInterface $logger,
+	private function userManagementHooks(IAuditLogger $logger,
 										 IUserSession $userSession): void {
 		$userActions = new UserManagement($logger);
 
@@ -148,7 +137,7 @@ class Application extends App implements IBootstrap {
 		$userSession->listen('\OC\User', 'postUnassignedUserId', [$userActions, 'unassign']);
 	}
 
-	private function groupHooks(LoggerInterface $logger,
+	private function groupHooks(IAuditLogger $logger,
 								IGroupManager $groupManager): void {
 		$groupActions = new GroupManagement($logger);
 
@@ -159,7 +148,7 @@ class Application extends App implements IBootstrap {
 		$groupManager->listen('\OC\Group', 'postCreate', [$groupActions, 'createGroup']);
 	}
 
-	private function sharingHooks(LoggerInterface $logger): void {
+	private function sharingHooks(IAuditLogger $logger): void {
 		$shareActions = new Sharing($logger);
 
 		Util::connectHook(Share::class, 'post_shared', $shareActions, 'shared');
@@ -171,7 +160,7 @@ class Application extends App implements IBootstrap {
 		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
 	}
 
-	private function authHooks(LoggerInterface $logger): void {
+	private function authHooks(IAuditLogger $logger): void {
 		$authActions = new Auth($logger);
 
 		Util::connectHook('OC_User', 'pre_login', $authActions, 'loginAttempt');
@@ -179,7 +168,7 @@ class Application extends App implements IBootstrap {
 		Util::connectHook('OC_User', 'logout', $authActions, 'logout');
 	}
 
-	private function appHooks(LoggerInterface $logger,
+	private function appHooks(IAuditLogger $logger,
 							  EventDispatcherInterface $eventDispatcher): void {
 		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
@@ -195,7 +184,7 @@ class Application extends App implements IBootstrap {
 		});
 	}
 
-	private function consoleHooks(LoggerInterface $logger,
+	private function consoleHooks(IAuditLogger $logger,
 								  EventDispatcherInterface $eventDispatcher): void {
 		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function (ConsoleEvent $event) use ($logger) {
 			$appActions = new Console($logger);
@@ -203,7 +192,7 @@ class Application extends App implements IBootstrap {
 		});
 	}
 
-	private function fileHooks(LoggerInterface $logger,
+	private function fileHooks(IAuditLogger $logger,
 							   EventDispatcherInterface $eventDispatcher): void {
 		$fileActions = new Files($logger);
 		$eventDispatcher->addListener(
@@ -265,19 +254,19 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function versionsHooks(LoggerInterface $logger): void {
+	private function versionsHooks(IAuditLogger $logger): void {
 		$versionsActions = new Versions($logger);
 		Util::connectHook('\OCP\Versions', 'rollback', $versionsActions, 'rollback');
 		Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete');
 	}
 
-	private function trashbinHooks(LoggerInterface $logger): void {
+	private function trashbinHooks(IAuditLogger $logger): void {
 		$trashActions = new Trashbin($logger);
 		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
 		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
 	}
 
-	private function securityHooks(LoggerInterface $logger,
+	private function securityHooks(IAuditLogger $logger,
 								   EventDispatcherInterface $eventDispatcher): void {
 		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function (GenericEvent $event) use ($logger) {
 			$security = new Security($logger);
