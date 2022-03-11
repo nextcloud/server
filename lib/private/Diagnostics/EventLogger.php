@@ -60,12 +60,13 @@ class EventLogger implements IEventLogger {
 	}
 
 	public function isLoggingActivated(): bool {
-		if ($this->config->getValue('debug', false)) {
+		$systemValue = (bool)$this->config->getValue('diagnostics.logging', false);
+
+		if ($systemValue && $this->config->getValue('debug', false)) {
 			return true;
 		}
 
 		$isDebugLevel = $this->internalLogger->getLogLevel([]) === Log::DEBUG;
-		$systemValue = (bool)$this->config->getValue('diagnostics.logging', false);
 		return $systemValue && $isDebugLevel;
 	}
 
