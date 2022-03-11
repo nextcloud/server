@@ -2030,15 +2030,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
-    <InvalidOperand occurrences="1">
-      <code>$isUnmapped</code>
-    </InvalidOperand>
-    <InvalidReturnStatement occurrences="1">
-      <code>$result</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
     <RedundantCondition occurrences="1">
       <code>isset($qb)</code>
     </RedundantCondition>
@@ -3805,12 +3796,6 @@
       <code>getGroupDetails</code>
       <code>isAdmin</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Group/MetaData.php">
-    <InvalidPropertyAssignmentValue occurrences="2">
-      <code>$sortMode</code>
-      <code>self::SORT_NONE</code>
-    </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/Http/Client/Response.php">
     <InvalidNullableReturnType occurrences="1">
