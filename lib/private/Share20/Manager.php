@@ -342,7 +342,7 @@ class Manager implements IManager {
 		}
 
 		// Check that we do not share with more permissions than we have
-		if ($share->getPermissions() & ~$permissions) {
+		if (($share->getPermissions() & ~$permissions) !== 0) {
 			$path = $userFolder->getRelativePath($share->getNode()->getPath());
 			$message_t = $this->l->t('Cannot increase permissions of %s', [$path]);
 			throw new GenericShareException($message_t, $message_t, 404);
