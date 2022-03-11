@@ -34,6 +34,7 @@ use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\User\Backend\ICountUsersBackend;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
@@ -189,6 +190,7 @@ class Registry implements IRegistry {
 		$backends = $this->userManager->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->implementsActions(Backend::COUNT_USERS)) {
+				/** @var ICountUsersBackend $backend */
 				$backendUsers = $backend->countUsers();
 				if ($backendUsers !== false) {
 					$userCount += $backendUsers;
