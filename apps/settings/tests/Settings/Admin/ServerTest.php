@@ -92,6 +92,10 @@ class ServerTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'cronErrors')
 			->willReturn('');
+		$this->profileManager
+			->expects($this->exactly(2))
+			->method('isProfileEnabled')
+			->willReturn(true);
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/server',

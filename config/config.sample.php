@@ -2097,4 +2097,11 @@ $CONFIG = [
  * Limit diagnostics event logging to events longer than the configured threshold in ms
  */
 'diagnostics.logging.threshold' => 0,
+
+/**
+ * Enable profile globally
+ *
+ * Defaults to ``true``
+ */
+'profile.enabled' => true,
 ];
