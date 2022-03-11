@@ -41,6 +41,8 @@ use OCP\L10N\ILanguageIterator;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 use Test\TestCase;
+use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class AdminTest extends TestCase {
 	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
@@ -57,6 +59,10 @@ class AdminTest extends TestCase {
 	private $dateTimeFormatter;
 	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $subscriptionRegistry;
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $userManager;
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -67,13 +73,58 @@ class AdminTest extends TestCase {
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->admin = new Admin(
-			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->l10nFactory, $this->subscriptionRegistry
+			$this->config, 
+			$this->updateChecker, 
+			$this->groupManager, 
+			$this->dateTimeFormatter, 
+			$this->l10nFactory, 
+			$this->subscriptionRegistry,
+			$this->userManager,
+			$this->logger
 		);
 	}
 
 	public function testGetFormWithUpdate() {
+		$backend1 = $this->createMock(UserInterface::class);
+		$backend2 = $this->createMock(UserInterface::class);
+		$backend3 = $this->createMock(UserInterface::class);
+		$backend1
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(false);
+		$backend2
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(true);
+		$backend3
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(true);
+		$backend1
+			->expects($this->never())
+			->method('countUsers');
+		$backend2
+			->expects($this->once())
+			->method('countUsers')
+			->with()
+			->willReturn(false);
+		$backend3
+			->expects($this->once())
+			->method('countUsers')
+			->with()
+			->willReturn(5);
+		$this->userManager
+			->expects($this->once())
+			->method('getBackends')
+			->with()
+			->willReturn([$backend1, $backend2, $backend3]);
 		$channels = [
 			'daily',
 			'beta',
@@ -145,6 +196,7 @@ class AdminTest extends TestCase {
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
 				'webUpdaterEnabled' => true,
+				'isWebUpdaterRecommended' => true,
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => true,
@@ -161,6 +213,42 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdateAndChangedUpdateServer() {
+		$backend1 = $this->createMock(UserInterface::class);
+		$backend2 = $this->createMock(UserInterface::class);
+		$backend3 = $this->createMock(UserInterface::class);
+		$backend1
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(false);
+		$backend2
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(true);
+		$backend3
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(true);
+		$backend1
+			->expects($this->never())
+			->method('countUsers');
+		$backend2
+			->expects($this->once())
+			->method('countUsers')
+			->with()
+			->willReturn(false);
+		$backend3
+			->expects($this->once())
+			->method('countUsers')
+			->with()
+			->willReturn(5);
+		$this->userManager
+			->expects($this->once())
+			->method('getBackends')
+			->with()
+			->willReturn([$backend1, $backend2, $backend3]);
 		$channels = [
 			'daily',
 			'beta',
@@ -232,6 +320,7 @@ class AdminTest extends TestCase {
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
 				'webUpdaterEnabled' => false,
+				'isWebUpdaterRecommended' => true,
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => false,
@@ -248,6 +337,42 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdateAndCustomersUpdateServer() {
+		$backend1 = $this->createMock(UserInterface::class);
+		$backend2 = $this->createMock(UserInterface::class);
+		$backend3 = $this->createMock(UserInterface::class);
+		$backend1
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(false);
+		$backend2
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(true);
+		$backend3
+			->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::COUNT_USERS)
+			->willReturn(true);
+		$backend1
+			->expects($this->never())
+			->method('countUsers');
+		$backend2
+			->expects($this->once())
+			->method('countUsers')
+			->with()
+			->willReturn(false);
+		$backend3
+			->expects($this->once())
+			->method('countUsers')
+			->with()
+			->willReturn(5);
+		$this->userManager
+			->expects($this->once())
+			->method('getBackends')
+			->with()
+			->willReturn([$backend1, $backend2, $backend3]);
 		$channels = [
 			'daily',
 			'beta',
@@ -319,6 +444,7 @@ class AdminTest extends TestCase {
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
 				'webUpdaterEnabled' => true,
+				'isWebUpdaterRecommended' => true,
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => true,
