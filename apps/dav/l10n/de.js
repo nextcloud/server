@@ -136,6 +136,7 @@ OC.L10N.register(
     "Completed on %s" : "Erledigt am %s",
     "Due on %s by %s" : "Fällig am %s von %s",
     "Due on %s" : "Fällig am %s",
+    "Migrated calendar (%1$s)" : "Migrierter Kalender (%1$s)",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-Endpunkt",
     "Availability" : "Verfügbarkeit",
