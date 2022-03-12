@@ -136,6 +136,7 @@ OC.L10N.register(
     "Completed on %s" : "完成於 %s",
     "Due on %s by %s" : "完成日期為 %s %s",
     "Due on %s" : "完成日期 %s",
+    "Migrated calendar (%1$s)" : "遷移的日曆（%1$s）",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV 端點",
     "Availability" : "可得性",

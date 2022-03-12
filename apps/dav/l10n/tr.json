@@ -134,6 +134,7 @@
     "Completed on %s" : "%s tarihinde tamamlandı",
     "Due on %s by %s" : "%s tarihine kadar %s tarafından",
     "Due on %s" : "%s tarihine kadar",
+    "Migrated calendar (%1$s)" : "Aktarılmış takvim (%1$s)",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV bağlantı noktası",
     "Availability" : "Kullanılabilirlik",
