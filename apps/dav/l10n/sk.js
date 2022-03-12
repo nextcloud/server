@@ -136,6 +136,7 @@ OC.L10N.register(
     "Completed on %s" : "Dokončené %s",
     "Due on %s by %s" : "Termín od %s do %s",
     "Due on %s" : "Termín do %s",
+    "Migrated calendar (%1$s)" : "Migrovaný kalendár (%1$s)",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Koncový bod WebDAV",
     "Availability" : "Dostupnosť",
