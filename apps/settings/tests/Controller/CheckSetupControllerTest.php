@@ -197,6 +197,8 @@ class CheckSetupControllerTest extends TestCase {
 				'isSqliteUsed',
 				'isPHPMailerUsed',
 				'getAppDirsWithDifferentOwner',
+				'isImagickEnabled',
+				'areWebauthnExtensionsEnabled',
 				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
