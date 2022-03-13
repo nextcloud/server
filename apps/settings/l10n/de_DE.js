@@ -43,6 +43,7 @@ OC.L10N.register(
     "You changed your email address" : "Sie haben Ihre E-Mail-Adresse geändert",
     "Your email address was changed by an administrator" : "Ihre E-Mail-Adresse wurde von einem Administrator geändert",
     "You created app password \"{token}\"" : "Sie haben das App-Passwort \"{token}\" erstellt",
+    "An administrator created app password \"{token}\"" : "Ein vom Administrator erstelltes App-Passwort \"{token}\"",
     "You deleted app password \"{token}\"" : "Sie haben das App-Passwort \"{token}\" entfernt",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Sie haben App-Passwort \"{token}\" in \"{newToken}\" umbenannt",
     "You granted filesystem access to app password \"{token}\"" : "Sie haben Dateisystemzugriff für App-Passwort \"{token}\" erlaubt",
