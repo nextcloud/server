@@ -41,6 +41,7 @@
     "You changed your email address" : "E-posta adresinizi değiştirdiniz",
     "Your email address was changed by an administrator" : "E-posta adresiniz bir yönetici tarafından değiştirildi",
     "You created app password \"{token}\"" : "\"{token}\" uygulama parolasını oluşturdunuz",
+    "An administrator created app password \"{token}\"" : "Bir yönetici \"{token}\" uygulama parolasını oluşturdu",
     "You deleted app password \"{token}\"" : "\"{token}\" uygulama parolasını sildiniz",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "\"{token}\" olan uygulama parolasını \"{newToken}\" olarak yeniden adlandırdınız",
     "You granted filesystem access to app password \"{token}\"" : "\"{token}\" uygulama parolasına dosya sistemi erişim izni verdiniz",
