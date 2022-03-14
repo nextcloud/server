@@ -4317,8 +4317,7 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Support/Subscription/Registry.php">
-    <UndefinedInterfaceMethod occurrences="2">
-      <code>countUsers</code>
+    <UndefinedInterfaceMethod occurrences="1">
       <code>getSupportedApps</code>
     </UndefinedInterfaceMethod>
   </file>
