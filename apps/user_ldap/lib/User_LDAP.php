@@ -48,9 +48,11 @@ use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\IUserBackend;
+use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP, ICountUsersBackend {
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend {
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
 
