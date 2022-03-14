@@ -51,7 +51,6 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Validator\IValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 

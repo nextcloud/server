@@ -81,7 +81,7 @@ class ThemingController extends Controller {
 
 	/**
 	 * ThemingController constructor.
-	 * @string $appName
+	 * @param string $appName
 	 */
 	public function __construct(
 		$appName,
