@@ -21,6 +21,10 @@
 
 namespace OCP\Validator\Constraints;
 
+use Egulias\EmailValidator\Validation\NoRFCWarningsValidation;
+use Egulias\EmailValidator\EmailValidator as EguliasEmailValidator;
+use OCP\Validator\Violation;
+
 class Email extends Constraint {
 	private string $message;
 	/**
@@ -34,5 +38,29 @@ class Email extends Constraint {
 
 	public function getMessage(): string {
 		return $this->message;
+	}
+
+	public function validate($value): array {
+		if ($value === null || $value == '') {
+			return [];
+		}
+
+		if (!is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
+			throw new \RuntimeException('The EmailValidator can only validate scalar values or object convertible to string.');
+		}
+
+		$value = (string) $value;
+		if ($value === '') {
+			return [];
+		}
+
+		$internalValidator = new EguliasEmailValidator();
+		if (!$internalValidator->isValid($value, new NoRFCWarningsValidation())) {
+			return [
+				(new Violation($this->getMessage()))->addParameter('{{ value }}', $value)
+			];
+		}
+
+		return [];
 	}
 }

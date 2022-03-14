@@ -21,6 +21,8 @@
 
 namespace OCP\Validator\Constraints;
 
+use OCP\Validator\Violation;
+
 class NotBlank extends Constraint {
 	private string $message;
 	private bool $allowNull;
@@ -41,5 +43,18 @@ class NotBlank extends Constraint {
 
 	public function getMessage(): string {
 		return $this->message;
+	}
+
+	public function validate($value): array {
+		if ($this->allowNull() && null === $value) {
+			return [];
+		}
+
+		if (false === $value || (empty($value) && '0' != $value)) {
+			return [
+				(new Violation($this->getMessage()))
+			];
+		}
+		return [];
 	}
 }

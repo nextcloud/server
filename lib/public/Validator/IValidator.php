@@ -28,7 +28,7 @@ interface IValidator {
 	 * Validate a value according to one or more constraints.
 	 *
 	 * @param mixed $value The value to validate
-	 * @param Constraint[] $constraints The validator constraints for the value
+	 * @param IConstraintValidator[] $constraints The validator constraints for the value
 	 * @return Violation[] An array of constraints violations. Empty if the value
 	 *                     is conforming to every constrains.
 	 */
@@ -38,7 +38,7 @@ interface IValidator {
 	 * Validate a value according to one or more constraints. This
 	 *
 	 * @param mixed $value The value to validate
-	 * @param Constraint[] $constraints The validator constraints for the value
+	 * @param IConstraintValidator[] $constraints The validator constraints for the value
 	 * @return bool Whether the value is valid
 	 */
 	public function isValid($value, array $constraints): bool;

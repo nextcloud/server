@@ -19,27 +19,14 @@
  *
  */
 
-namespace OC\Validator;
+namespace OCP\Validator;
 
 use OCP\Validator\Constraints\Constraint;
-use OCP\Validator\Constraints\NotBlank;
-use OCP\Validator\Violation;
 
-class NotBlankValidator implements IConstraintValidator {
-	public function validate($value, Constraint $constraint): array {
-		if (!$constraint instanceof NotBlank) {
-			throw new \RuntimeException();
-		}
-
-		if ($constraint->allowNull() && null === $value) {
-			return [];
-		}
-
-		if (false === $value || (empty($value) && '0' != $value)) {
-			return [
-				(new Violation($constraint->getMessage()))
-			];
-		}
-		return [];
-	}
+interface IConstraintValidator {
+	/**
+	 * @param mixed The value to validate
+	 * @return Violation[] An array of violations
+	 */
+	public function validate($value): array;
 }

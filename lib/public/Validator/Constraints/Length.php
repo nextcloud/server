@@ -21,6 +21,8 @@
 
 namespace OCP\Validator\Constraints;
 
+use OCP\Validator\Violation;
+
 /**
  * Length constrains for strings
  *
@@ -83,5 +85,42 @@ class Length extends Constraint {
 
 	public function getExactMessage(): string {
 		return $this->exactMessage;
+	}
+
+	public function validate($value): array {
+		if (!is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
+			throw new \RuntimeException('The LengthValidator can only validate scalar values or object convertible to string.');
+		}
+
+		$stringValue = (string)$value;
+		$length = mb_strlen($stringValue);
+
+		if ($this->getExact() !== null && $this->getExact() !== $length) {
+			return [
+				(new Violation($this->getExactMessage()))
+					->addParameter('{{ limit }}', (string)$this->getMax())
+					->addParameter('{{ value }}', $stringValue)
+					->addParameter('{{ stringLength }}', (string)$length),
+			];
+		}
+
+		if ($this->getMin() !== null && $this->getMin() > $length) {
+			return [
+				(new Violation($this->getMinMessage()))
+					->addParameter('{{ limit }}', (string)$this->getMax())
+					->addParameter('{{ value }}', $stringValue)
+					->addParameter('{{ stringLength }}', (string)$length),
+			];
+		}
+		if ($this->getMax() !== null && $this->getMax() < $length) {
+			return [
+				(new Violation($this->getMaxMessage()))
+					->addParameter('{{ limit }}', (string)$this->getMax())
+					->addParameter('{{ value }}', $stringValue)
+					->addParameter('{{ stringLength }}', (string)$length),
+			];
+		}
+
+		return [];
 	}
 }

@@ -29,20 +29,14 @@ class Validator implements IValidator {
 		/** @var Violation[] $violations */
 		$violations = [];
 		foreach ($constraints as $constraint) {
-			$validatorClass = $constraint->validatedBy();
-			/** @var IConstraintValidator $validator */
-			$validator = new $validatorClass();
-			$violations = array_merge($violations, $validator->validate($value, $constraint));
+			$violations = array_merge($violations, $constraint->validate($value));
 		}
 		return $violations;
 	}
 
 	public function isValid($value, array $constraints): bool {
 		foreach ($constraints as $constraint) {
-			$validatorClass = $constraint->validatedBy();
-			/** @var IConstraintValidator $validator */
-			$validator = new $validatorClass();
-			if (count($validator->validate($value, $constraint)) > 0) {
+			if (count($constraint->validate($value)) > 0) {
 				return false;
 			}
 		}

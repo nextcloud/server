@@ -47,7 +47,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
-use OCP\Validator\IValidator;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
