@@ -184,16 +184,6 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
-	 * Cache mounts for user
-	 *
-	 * @param IUser $user
-	 * @param IMountPoint[] $mountPoints
-	 */
-	public function registerMounts(IUser $user, array $mountPoints) {
-		$this->mountCache->registerMounts($user, $mountPoints);
-	}
-
-	/**
 	 * Get the mount cache which can be used to search for mounts without setting up the filesystem
 	 *
 	 * @return IUserMountCache
@@ -221,5 +211,11 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 			return array_merge($mounts, $providerMounts);
 		}, []);
 		return $mounts;
+	}
+
+	public function clearProviders() {
+		$this->providers = [];
+		$this->homeProviders = [];
+		$this->rootProviders = [];
 	}
 }

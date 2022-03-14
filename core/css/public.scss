@@ -1,34 +1,8 @@
+$footer-height: 65px;
+
 #body-public {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-
-	#content {
-		flex-grow: 2;
-		min-height: initial;
-
-		/** Center the shared content inside the page */
-		&.app-files_sharing {
-			#app-content {
-				min-height: 100%;
-				display: flex;
-			}
-
-			#files-public-content {
-				flex-grow: 2;
-				display: grid;
-			}
-
-			#preview {
-				justify-self: center;
-				align-self: center;
-				padding-left: 1rem;
-				padding-right: 1rem;
-			}
-		}
-	}
-
 	.header-right {
+
 		#header-primary-action a {
 			color: var(--color-primary-text);
 		}
@@ -59,6 +33,12 @@
 				}
 			}
 		}
+	}
+
+	#content {
+		// 100% - footer
+		min-height: calc(100% - #{$footer-height});
+
 	}
 
 	/** don't apply content header padding on the base layout */
@@ -92,8 +72,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		height: $footer-height;
 		flex-direction: column;
-		padding: 0.5rem;
 		p {
 			text-align: center;
 			color: var(--color-text-lighter);

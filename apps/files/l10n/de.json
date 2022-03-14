@@ -18,7 +18,7 @@
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nicht genügend freier Speicherplatz, Du möchtest{size1} hochladen, es sind jedoch nur noch {size2} verfügbar.",
     "Target folder \"{dir}\" does not exist any more" : "Ziel-Verzeichnis \"{dir}\" existiert nicht mehr",
     "Not enough free space" : "Nicht genügend freier Speicherplatz",
-    "An unknown error has occurred" : "Unbekannter Fehler aufgetreten",
+    "An unknown error has occurred" : "Es ist ein unbekannter Fehler aufgetreten",
     "Uploading …" : "Lade hoch…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} von {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Hochladen von Daten dieser Art wird nicht unterstützt.",

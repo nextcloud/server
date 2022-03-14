@@ -114,11 +114,16 @@ class AvatarController extends Controller {
 	 * @return JSONResponse|FileDisplayResponse
 	 */
 	public function getAvatar($userId, $size) {
-		// min/max size
-		if ($size > 2048) {
-			$size = 2048;
-		} elseif ($size <= 0) {
+		if ($size <= 64) {
+			if ($size !== 64) {
+				$this->logger->debug('Avatar requested in deprecated size ' . $size);
+			}
 			$size = 64;
+		} else {
+			if ($size !== 512) {
+				$this->logger->debug('Avatar requested in deprecated size ' . $size);
+			}
+			$size = 512;
 		}
 
 		try {
@@ -134,7 +139,7 @@ class AvatarController extends Controller {
 		}
 
 		// Cache for 1 day
-		$response->cacheFor(60 * 60 * 24);
+		$response->cacheFor(60 * 60 * 24, false, true);
 		return $response;
 	}
 

@@ -36,7 +36,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "نسخة تجريبية فقط لاختبار الميزات الجديدة ، وليس لبيئات الإنتاجية.",
     "Apps missing updates" : "التطبيقات تفقد تحديثات",
     "Apps with available updates" : "يتوفر تحديثات للتطبيقات",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "لاحظ أنه بعد نزول إصدار جديد، قد يستغرق الأمر بعض الوقت قبل ظهوره هنا. نطرح إصدارات جديدة موزعة بمرور الوقت على مستخدمينا وأحيانًا نتخطى إصدارًا عند اكتشاف مشاكل.",
     "Only notification for app updates are available." : "يتوفر إشعار فقط عن تحديثات التطبيق.",
     "Checking apps for compatible updates" : "التحقق من التطبيقات للحصول على تحديثات متوافقة",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "تعذر الاتصال بمتجر التطبيقات أو أن متجر التطبيقات لم يُرجع أي تحديثات على الإطلاق. ابحث يدويًا عن التحديثات أو تأكد من وصول الخادم إلى الإنترنت ويمكنه الاتصال بمتجر التطبيقات.",

@@ -63,19 +63,28 @@ class Downloads extends Base {
 
 	/**
 	 * @param IEvent $event
+	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event) {
+	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
 		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
 			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
-			$subject = $this->l->t('{file} downloaded via public link');
+			if (!isset($parsedParameters['remote-address-hash']['type'])) {
+				$subject = $this->l->t('{file} downloaded via public link');
+				$this->setSubjects($event, $subject, $parsedParameters);
+			} else {
+				$subject = $this->l->t('{file} downloaded via public link');
+				$this->setSubjects($event, $subject, $parsedParameters);
+				$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
+			}
 		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED ||
 			$event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
 			$subject = $this->l->t('{email} downloaded {file}');
+			$this->setSubjects($event, $subject, $parsedParameters);
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -85,7 +94,6 @@ class Downloads extends Base {
 		} else {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.svg')));
 		}
-		$this->setSubjects($event, $subject, $parsedParameters);
 
 		return $event;
 	}
@@ -102,6 +110,17 @@ class Downloads extends Base {
 		switch ($subject) {
 			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
 			case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
+				if (isset($parameters[1])) {
+					return [
+						'file' => $this->getFile($parameters[0], $event),
+						'remote-address-hash' => [
+							'type' => 'highlight',
+							'id' => $parameters[1],
+							'name' => $parameters[1],
+							'link' => '',
+						],
+					];
+				}
 				return [
 					'file' => $this->getFile($parameters[0], $event),
 				];

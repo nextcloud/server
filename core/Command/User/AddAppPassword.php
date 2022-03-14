@@ -23,10 +23,11 @@
  */
 namespace OC\Core\Command\User;
 
+use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUserManager;
-use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -44,17 +45,17 @@ class AddAppPassword extends Command {
 	protected $tokenProvider;
 	/** @var ISecureRandom */
 	private $random;
-	/** @var ICrypto */
-	private $crypto;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
 	public function __construct(IUserManager $userManager,
 								IProvider $tokenProvider,
 								ISecureRandom $random,
-								ICrypto $crypto) {
+								IEventDispatcher $eventDispatcher) {
 		$this->tokenProvider = $tokenProvider;
 		$this->userManager = $userManager;
 		$this->random = $random;
-		$this->crypto = $crypto;
+		$this->eventDispatcher = $eventDispatcher;
 		parent::__construct();
 	}
 
@@ -108,11 +109,13 @@ class AddAppPassword extends Command {
 			return 1;
 		}
 
-		$output->writeln('<info>The password is not validated so what you provide is what gets recorded in the token</info>');
-
+		if (!$this->userManager->checkPassword($user->getUID(), $password)) {
+			$output->writeln('<error>The provided password is invalid</error>');
+			return 1;
+		}
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
-		$this->tokenProvider->generateToken(
+		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
 			$user->getUID(),
@@ -120,6 +123,10 @@ class AddAppPassword extends Command {
 			'cli',
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
+		);
+
+		$this->eventDispatcher->dispatchTyped(
+			new AppPasswordCreatedEvent($generatedToken)
 		);
 
 		$output->writeln('app password:');

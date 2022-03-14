@@ -1,10 +1,9 @@
 <?php
 
-vendor_script('user_ldap', 'ui-multiselect/src/jquery.multiselect');
-
 vendor_style('user_ldap', 'ui-multiselect/jquery.multiselect');
 
 script('user_ldap', [
+	'vendor/ui-multiselect/src/jquery.multiselect',
 	'wizard/controller',
 	'wizard/configModel',
 	'wizard/view',

@@ -321,9 +321,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "กำลังตรวจสอบว่า Schema ฐานข้อมูลสำหรับ %s สามารถอัปเดตได้หรือไม่ (อาจใช้เวลานาน ขึ้นอยู่กับขนาดของฐานข้อมูล)",
     "Checked database schema update" : "ตรวจสอบการอัปเดต Schema ฐานข้อมูลแล้ว",
     "Checking updates of apps" : "กำลังตรวจสอบการอัปเดตของแอป",
-    "Checking for update of app \"%s\" in appstore" : "กำลังตรวจสอบอัปเดตของแอป \"%s\" ในร้านค้าแอป",
     "Update app \"%s\" from appstore" : "อัปเดตแอป \"%s\" จากร้านค้าแอป",
-    "Checked for update of app \"%s\" in appstore" : "ตรวจสอบอัปเดตของแอป \"%s\" จากร้านค้าแอปแล้ว",
     "Checked database schema update for apps" : "ตรวจสอบการอัปเดต Schema ฐานข้อมูลสำหรับแอปแล้ว",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 เป็นรุ่นสุดท้ายที่รองรับ PHP 7.2 ส่วน Nextcloud 21 ต้องการ PHP 7.3 เป็นขั้นต่ำ",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "สำหรับข้อมูลเพิ่มเติม ดู<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">เอกสารประกอบ</a>",
@@ -334,9 +332,6 @@
     "Password can not be changed. Please contact your administrator." : "ไม่สามารถเปลี่ยนรหัสผ่าน กรุณาติดต่อผู้ดูแลระบบ",
     "Could not fetch list of apps from the app store." : "ไม่สามารถดึงรายการแอปจากร้านค้าแอป",
     "Can't install this app because it is not compatible" : "ไม่สามารถติดตั้งแอปนี้ เนื่องจากแอปนี้เข้ากันไม่ได้",
-    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "ปฏิทิน, รายชื่อ, Talk, Mail และการแก้ไขร่วมกัน",
-    "Finish setup" : "ตั้งค่าให้เสร็จ",
-    "Finishing …" : "กำลังเสร็จสิ้น ..."
+    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

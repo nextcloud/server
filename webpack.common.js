@@ -80,6 +80,7 @@ module.exports = {
 				loader: 'vue-loader',
 				exclude: BabelLoaderExcludeNodeModulesExcept([
 					'vue-material-design-icons',
+					'emoji-mart-vue-fast',
 				]),
 			},
 			{
@@ -108,10 +109,7 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf)$/,
-				loader: 'url-loader',
-				options: {
-					name: '[name].[ext]?[hash]',
-				},
+				type: 'asset/inline',
 			},
 			{
 				test: /\.handlebars/,
@@ -144,6 +142,11 @@ module.exports = {
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			jQuery: 'jquery',
+			// Shim ICAL to prevent using the global object (window.ICAL).
+			// The library ical.js heavily depends on instanceof checks which will
+			// break if two separate versions of the library are used (e.g. bundled one
+			// and global one).
+			ICAL: 'ical.js',
 		}),
 	],
 	resolve: {

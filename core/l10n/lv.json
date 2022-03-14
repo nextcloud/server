@@ -245,9 +245,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Pārbauda vai datu bāzes shēma var būt atjaunināma (tas var prasīt laiku atkarībā no datu bāzes izmēriem)",
     "Checked database schema update" : "Pārbaudīts datu bāzes shēmas atjauninājums",
     "Checking updates of apps" : "Pārbauda lietotņu atjauninājumus",
-    "Checking for update of app \"%s\" in appstore" : "Meklē atjauninājumus lietotnei \"%s\"",
     "Update app \"%s\" from appstore" : "Atjaunināt lietotni \"%s\"",
-    "Checked for update of app \"%s\" in appstore" : "Meklēti atjauninājumi lietotnei \"%s\"",
     "Checked database schema update for apps" : "Pārbaudīts datu bāzes shēmas atjauninājums lietotnēm.",
     "Please check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Lūdzu pārbaudiet <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Instalācijas dokumentāciju </a> priekš PHP konfigurācijas piezīmēm un PHP konfigurācijai jūsu serverī, itsevisķi izmantojot php-fpm.",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems. See the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation ↗</a> for more information." : "Transakciju datņu slēgšana ir izslēgta, tas var radīt problēmas ar race kondīcijām. Iespējo \"filelocking.enabled\" config.php datnē, lai novērstu šīs problēmas. Skatiet <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentāciju</a>priekš papildus informācijas.",
@@ -260,8 +258,6 @@
     "Password can not be changed. Please contact your administrator." : "Paroli, nevar nomainīt. Lūdzu kontaktēties ar savu administratoru.",
     "Could not fetch list of apps from the app store." : "Nevarēja ielādēt lietotņu sarakstu no lietotņu veikala.",
     "Can't install this app because it is not compatible" : "Nevar instalēt šo lietotni, jo tā nav savietojama",
-    "Can't install this app" : "Nevar instalēt šo lietotni",
-    "Finish setup" : "Pabeigt iestatīšanu",
-    "Finishing …" : "Pabeidz ..."
+    "Can't install this app" : "Nevar instalēt šo lietotni"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

@@ -136,6 +136,9 @@ OC.L10N.register(
     "Sharing" : "שיתוף",
     "Accept user and group shares by default" : "לקבל את שיתופי המשתמשים והקבוצות כבררת מחדל",
     "Allow editing" : "לאפשר עריכה",
+    "Read only" : "קריאה בלבד",
+    "Allow upload and editing" : "לאפשר העלאה ועריכה",
+    "File drop (upload only)" : "השלכת קבצים (העלאה בלבד)",
     "Allow creating" : "לאפשר יצירה",
     "Allow deleting" : "לאפשר מחיקה",
     "Allow resharing" : "לאפשר שיתוף מחדש",
@@ -168,9 +171,6 @@ OC.L10N.register(
     "Create share" : "צור שיתוף",
     "Cancel" : "ביטול",
     "Share label" : "שתף תווית",
-    "Read only" : "קריאה בלבד",
-    "Allow upload and editing" : "לאפשר העלאה ועריכה",
-    "File drop (upload only)" : "השלכת קבצים (העלאה בלבד)",
     "Hide download" : "הסתרת הורדה",
     "Password protect" : "הגנה בססמה",
     "Video verification" : "אימות וידאו",
@@ -231,7 +231,6 @@ OC.L10N.register(
     "invalid permissions" : "הרשאות שגויות",
     "Can't change permissions for public share links" : "לא ניתן לשנות הרשאות לקישורי שיתוף ציבוריים",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
-    "Name, email, or federated cloud ID …" : "שם, דוא\"ל או ID ענן מאוחד...",
     "Download %s" : "הורדה %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

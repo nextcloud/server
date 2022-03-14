@@ -195,6 +195,14 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
+					if (!data.wasEmailTestSuccessful) {
+						messages.push({
+							msg: t('core', 'You have not set or verified your email server configuration, yet. Please head over to the {mailSettingsStart}Basic settings{mailSettingsEnd} in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',)
+							.replace('{mailSettingsStart}', '<a href="' + OC.generateUrl('/settings/admin') + '">')
+							.replace('{mailSettingsEnd}', '</a>'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
 					if (!data.hasValidTransactionIsolationLevel) {
 						messages.push({
 							msg: t('core', 'Your database does not run with "READ COMMITTED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.'),
@@ -217,7 +225,7 @@
 					}
 					if (data.suggestedOverwriteCliURL !== '') {
 						messages.push({
-							msg: t('core', 'If your installation is not installed at the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (suggestion: "{suggestedOverwriteCliURL}")', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
+							msg: t('core', 'Please make sure to set the "overwrite.cli.url" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: "{suggestedOverwriteCliURL}". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -334,10 +342,9 @@
 							listOfOPcacheRecommendations += "<li>" + element + "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP OPcache module is not properly configured:'
-							) + "<ul>" + listOfOPcacheRecommendations + "</ul>",
+							msg: t('core', 'The PHP OPcache module is not properly configured. See the {linkstart}documentation ↗{linkend} for more information.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-opcache') + '">')
+								.replace('{linkend}', '</a>') + '<ul>' + listOfOPcacheRecommendations + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
@@ -413,6 +420,24 @@
 								'core',
 								'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.'
 							) + "<ul><code>" + listOfRecommendedPHPModules + "</code></ul>",
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
+					if (!data.isImagickEnabled) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
+					if (!data.areWebauthnExtensionsEnabled) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.'
+							),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -514,6 +539,7 @@
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\CheckUserCertificates', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SupportedDatabase', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LdapInvalidUuids', messages)
 
 				} else {
 					messages.push({

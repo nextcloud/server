@@ -458,7 +458,7 @@ class ViewControllerTest extends TestCase {
 			->willReturn('/apps/files/?dir=/test/sub');
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub');
-		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
+		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 
 	public function testShowFileRouteWithFile() {
@@ -498,7 +498,7 @@ class ViewControllerTest extends TestCase {
 			->willReturn('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
-		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
+		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 
 	public function testShowFileRouteWithInvalidFileId() {
@@ -518,7 +518,7 @@ class ViewControllerTest extends TestCase {
 			->with('files.view.index', ['fileNotFound' => true])
 			->willReturn('redirect.url');
 
-		$response = $this->viewController->index('MyDir', 'MyView', '123');
+		$response = $this->viewController->index('', 'MyView', '123');
 		$this->assertInstanceOf('OCP\AppFramework\Http\RedirectResponse', $response);
 		$this->assertEquals('redirect.url', $response->getRedirectURL());
 	}
@@ -575,6 +575,6 @@ class ViewControllerTest extends TestCase {
 			->willReturn('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
 
 		$expected = new Http\RedirectResponse('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
-		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
+		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 }

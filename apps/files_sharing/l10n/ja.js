@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "ノードをロックできませんでした",
     "Could not lock path" : "パスをロックできませんでした",
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
-    "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talkが有効になっていないため、ファイルまたはフォルダーを共有するための「NextcloudTalkによるパスワードの送信」ができませんでした。",
     "shared by %s" : "%s が共有",
     "Download all files" : "すべてのファイルをダウンロード",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "無効なパスが選択されました",
     "Unknown error" : "不明なエラー",
     "Allow editing" : "編集を許可",
+    "Read only" : "読み込み専用",
+    "Allow upload and editing" : "アップロードと編集を許可",
+    "File drop (upload only)" : "ファイルドロップ(アップロードのみ)",
     "Allow creating" : "作成許可",
     "Allow deleting" : "削除許可",
     "Allow resharing" : "再共有を許可する",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "共有を作成",
     "Cancel" : "キャンセル",
     "Share label" : "共有ラベル",
-    "Read only" : "読み込み専用",
-    "Allow upload and editing" : "アップロードと編集を許可",
-    "File drop (upload only)" : "ファイルドロップ(アップロードのみ)",
     "Hide download" : "ダウンロードを隠す",
     "Password protect" : "パスワード保護",
     "Video verification" : "ビデオ通話によるパスワード通知",
@@ -247,7 +246,7 @@ OC.L10N.register(
     "invalid permissions" : "無効なパーミッション",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
-    "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…",
-    "Download %s" : "%s をダウンロード"
+    "Download %s" : "%s をダウンロード",
+    "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません"
 },
 "nplurals=1; plural=0;");

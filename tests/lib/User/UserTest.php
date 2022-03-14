@@ -10,9 +10,11 @@
 namespace Test\User;
 
 use OC\AllConfig;
+use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Hooks\PublicEmitter;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
@@ -214,6 +216,16 @@ class UserTest extends TestCase {
 	}
 
 	public function testDeleteWithDifferentHome() {
+
+		/** @var ObjectHomeMountProvider $homeProvider */
+		$homeProvider = \OC::$server->get(ObjectHomeMountProvider::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('foo');
+		if ($homeProvider->getHomeMountForUser($user, $this->createMock(IStorageFactory::class)) !== null) {
+			$this->markTestSkipped("Skipping test for non local home storage");
+		}
+
 		/**
 		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */

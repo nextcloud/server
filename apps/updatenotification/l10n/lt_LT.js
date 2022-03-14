@@ -32,7 +32,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Išankstinės laidos versija, skirta tik naujų ypatybių išbandymui, o ne darbinėms aplinkoms.",
     "Apps missing updates" : "Programėlės, kurioms trūksta atnaujinimų",
     "Apps with available updates" : "Programėlės su prieinamais atnaujinimais",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Turėkite omenyje, kad po naujos versijos išleidimo, gali praeiti šiek tiek laiko, kol ji čia taps matoma. Mes išleidžiame naujas versijas paskirstytas pagal laiką savo naudotojams ir, kartais, pastebėjus klaidas, praleidžiame versiją.",
     "Only notification for app updates are available." : "Yra prieinami tik pranešimai apie programėlių atnaujinimus.",
     "Checking apps for compatible updates" : "Tikrinama, ar yra suderinamų programėlių atnaujinimų",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nepavyko prisijungti prie programėlių parduotuvės arba programėlių parduotuvė negrąžino visiškai jokių atnaujinimų. Atlikite rankinę atnaujinimų paiešką arba įsitikinkite, kad jūsų serveris turi prieigą prie interneto ir gali prisijungti prie programėlių parduotuvės.",

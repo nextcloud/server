@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "No at fatu a blocare su nodu",
     "Could not lock path" : "No at fatu a blocare su percursu",
     "Wrong or no update parameter given" : "Su paràmetru frunidu est isballiadu o no agiornadu",
-    "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"S'imbiu de sa crae dae Nextcloud Talk\" pro cumpartzire un'archìviu o cartella est faddida ca Nextcloud Talk est disativadu.",
     "shared by %s" : "cumpartzidu dae %s",
     "Download all files" : "Iscàrriga totu is archìvios",
@@ -142,6 +141,9 @@ OC.L10N.register(
     "Sharing" : "Cumpartzidura",
     "Accept user and group shares by default" : "Atzeta is cumpartziduras de utentes e grupos comente modalidade predefinida",
     "Allow editing" : "Cunsenti sa modìfica",
+    "Read only" : "Isceti letura",
+    "Allow upload and editing" : "Permite carrigamentu e modìficas",
+    "File drop (upload only)" : "Trìsina documentu (isceti pro carrigare)",
     "Allow creating" : "Permite sa creatzione",
     "Allow deleting" : "Permite sa cantzelladura",
     "Allow resharing" : "Permite sa re-cumpartzidura",
@@ -174,9 +176,6 @@ OC.L10N.register(
     "Create share" : "Crea cumpartzidura",
     "Cancel" : "Annulla",
     "Share label" : "Cumpartzi eticheta",
-    "Read only" : "Isceti letura",
-    "Allow upload and editing" : "Permite carrigamentu e modìficas",
-    "File drop (upload only)" : "Trìsina documentu (isceti pro carrigare)",
     "Hide download" : "Cua iscarrigamentu",
     "Password protect" : "Bàrdia crae",
     "Video verification" : "Verìfica vìdeu",
@@ -240,7 +239,7 @@ OC.L10N.register(
     "invalid permissions" : "permissos non bàlidos",
     "Can't change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
-    "Name, email, or federated cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ...",
-    "Download %s" : "Iscàrriga%s"
+    "Download %s" : "Iscàrriga%s",
+    "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos"
 },
 "nplurals=2; plural=(n != 1);");

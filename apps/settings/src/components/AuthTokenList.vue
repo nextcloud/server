@@ -33,7 +33,7 @@
 			<AuthToken v-for="token in sortedTokens"
 				:key="token.id"
 				:token="token"
-				@toggleScope="toggleScope"
+				@toggle-scope="toggleScope"
 				@rename="rename"
 				@delete="onDelete"
 				@wipe="onWipe" />

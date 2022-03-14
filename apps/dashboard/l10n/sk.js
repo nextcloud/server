@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Predvolené obrázky",
     "Plain background" : "Obyčajné pozadie",
     "Insert from {productName}" : "Vložiť z {productName}",
-    "Get more widgets from the app store" : "Získať viac miniaplikácií z Obchodu s aplikáciami",
-    "Good night, {name}" : "Dobrý večer, {name}",
-    "Good night" : "Dobrý večer",
-    "Pick from files" : "Vybrať zo súborov"
+    "Get more widgets from the app store" : "Získať viac miniaplikácií z Obchodu s aplikáciami"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

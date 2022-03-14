@@ -52,4 +52,15 @@ interface ISettableProvider extends IProvider {
 	 * @param string $status The expected current status.
 	 */
 	public function revertUserStatus(string $userId, string $messageId, string $status): void;
+
+	/**
+	 * Revert an automatically set user status. For example after leaving a call,
+	 * change back to the previously set status. If the user has already updated
+	 * their status, this method does nothing.
+	 *
+	 * @param string[] $userIds The users for which we want to update the status.
+	 * @param string $messageId The expected current messageId.
+	 * @param string $status The expected current status.
+	 */
+	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void;
 }

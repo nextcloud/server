@@ -22,7 +22,6 @@
     "There was an error saving the mode." : "Грешка при зачувување.",
     "There was an error using personal address." : "Настана грешка при користење на сопствена адреса.",
     "Set location for weather" : "Поставете локација за временска прогноза",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Временска прогноза интегрирана во апликацијата Табла.\nПозицијата на корисникот може автоматски да се одреди или рачно да се дефинира. Потоа се прикажува предвидување од 6 часа.\nОвој статус може да се интегрира и на други места, како што е апликацијата „Календар“.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Ведро небо во {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Облачно во {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Јасен ден во {time}",

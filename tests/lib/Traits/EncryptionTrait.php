@@ -9,12 +9,13 @@
 namespace Test\Traits;
 
 use OC\Encryption\EncryptionWrapper;
-use OC\Files\Filesystem;
+use OC\Files\SetupManager;
 use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\Encryption\IManager;
+use OCP\IUserManager;
 
 /**
  * Enables encryption
@@ -30,6 +31,11 @@ trait EncryptionTrait {
 	private $encryptionWasEnabled;
 
 	private $originalEncryptionModule;
+
+	/** @var IUserManager */
+	private $userManager;
+	/** @var SetupManager */
+	private $setupManager;
 
 	/**
 	 * @var \OCP\IConfig
@@ -47,18 +53,20 @@ trait EncryptionTrait {
 		// needed for fully logout
 		\OC::$server->getUserSession()->setUser(null);
 
-		Filesystem::tearDown();
+		$this->setupManager->tearDown();
+
 		\OC_User::setUserId($user);
 		$this->postLogin();
 		\OC_Util::setupFS($user);
-		if (\OC::$server->getUserManager()->userExists($user)) {
+		if ($this->userManager->userExists($user)) {
 			\OC::$server->getUserFolder($user);
 		}
 	}
 
 	protected function setupForUser($name, $password) {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($name);
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($this->userManager->get($name));
+
 		$container = $this->encryptionApp->getContainer();
 		/** @var KeyManager $keyManager */
 		$keyManager = $container->query(KeyManager::class);
@@ -85,6 +93,9 @@ trait EncryptionTrait {
 		if (!$isReady) {
 			$this->markTestSkipped('Encryption not ready');
 		}
+
+		$this->userManager = \OC::$server->get(IUserManager::class);
+		$this->setupManager = \OC::$server->get(SetupManager::class);
 
 		\OC_App::loadApp('encryption');
 

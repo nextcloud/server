@@ -29,7 +29,6 @@ OC.L10N.register(
     "Beta" : "Бета",
     "Apps missing updates" : "Відсутні оновлення для застосунків",
     "Apps with available updates" : "Застосунки з доступними оновленнями",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Зауважте, що після виходу нової збірки може минути певний час, до того як вона буде доступна тут. Ми випускаємо нові версії, які з часом надходять користувачам для оновлення, іноді можемо пропускати версії, які містять помилки.",
     "Only notification for app updates are available." : "Доступні лише сповіщення про оновлення для застосунків.",
     "Checking apps for compatible updates" : "Перевірка застосунків на сумісні оновлення"
 },

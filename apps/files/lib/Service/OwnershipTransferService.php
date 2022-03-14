@@ -144,13 +144,12 @@ class OwnershipTransferService {
 			throw new TransferOwnershipException("Unknown path provided: $path", 1);
 		}
 
-		if ($move && (
-				!$view->is_dir($finalTarget) || (
-					!$firstLogin &&
-					count($view->getDirectoryContent($finalTarget)) > 0
-				)
-			)
-		) {
+		if ($move && !$view->is_dir($finalTarget)) {
+			// Initialize storage
+			\OC_Util::setupFS($destinationUser->getUID());
+		}
+
+		if ($move && !$firstLogin && count($view->getDirectoryContent($finalTarget)) > 0) {
 			throw new TransferOwnershipException("Destination path does not exists or is not empty", 1);
 		}
 
@@ -444,13 +443,17 @@ class OwnershipTransferService {
 		$output->writeln("Restoring incoming shares ...");
 		$progress = new ProgressBar($output, count($sourceShares));
 		$prefix = "$destinationUid/files";
+		$finalShareTarget = '';
 		if (substr($finalTarget, 0, strlen($prefix)) === $prefix) {
 			$finalShareTarget = substr($finalTarget, strlen($prefix));
 		}
 		foreach ($sourceShares as $share) {
 			try {
 				// Only restore if share is in given path.
-				$pathToCheck = '/' . trim($path) . '/';
+				$pathToCheck = '/';
+				if (trim($path, '/') !== '') {
+					$pathToCheck = '/' . trim($path) . '/';
+				}
 				if (substr($share->getTarget(), 0, strlen($pathToCheck)) !== $pathToCheck) {
 					continue;
 				}

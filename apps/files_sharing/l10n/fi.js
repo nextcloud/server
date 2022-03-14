@@ -137,6 +137,9 @@ OC.L10N.register(
     "Invalid path selected" : "Virheellinen polku valittu",
     "Unknown error" : "Tuntematon virhe",
     "Allow editing" : "Salli muokkaus",
+    "Read only" : "Vain luku",
+    "Allow upload and editing" : "Salli lähetys ja muokkaus",
+    "File drop (upload only)" : "Tiedostojen pudotus (vain lähetys)",
     "Allow creating" : "Salli luominen",
     "Allow deleting" : "Salli poistaminen",
     "Allow resharing" : "Salli uudelleenjakaminen",
@@ -169,9 +172,6 @@ OC.L10N.register(
     "Create share" : "Luo jako",
     "Cancel" : "Peruuta",
     "Share label" : "Jaon nimi",
-    "Read only" : "Vain luku",
-    "Allow upload and editing" : "Salli lähetys ja muokkaus",
-    "File drop (upload only)" : "Tiedostojen pudotus (vain lähetys)",
     "Hide download" : "Piilota lataus",
     "Password protect" : "Suojaa salasanalla",
     "Video verification" : "Videovarmistus",
@@ -231,7 +231,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "invalid permissions" : "vialliset oikeudet",
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
-    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
     "Download %s" : "Lataa %s"
 },
 "nplurals=2; plural=(n != 1);");

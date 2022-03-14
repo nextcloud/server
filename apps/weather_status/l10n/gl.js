@@ -24,7 +24,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Produciuse un erro ao gardar o modo.",
     "There was an error using personal address." : "Produciuse un erro ao usar o enderezo persoal.",
     "Set location for weather" : "Estabelecer a localización para as previsións meteorolóxicas",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estado meteorolóxico integrado na aplicación do Taboleiro.\n    A localización do usuario pódese determinar automaticamente ou definir manualmente. A seguir amósase unha previsión de 6 horas.\n    Este estado tamén se pode integrar noutros lugares como a aplicación Calendario.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit}, ceo despexado ás {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit}, nubrado ás {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit}, día claro ás {time}",

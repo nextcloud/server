@@ -206,6 +206,13 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'job_lastcheck_reserved');
 					}
 				}
+
+				if ($schema->hasTable('direct_edit')) {
+					$table = $schema->getTable('direct_edit');
+					if (!$table->hasIndex('direct_edit_timestamp')) {
+						$subject->addHintForMissingSubject($table->getName(), 'direct_edit_timestamp');
+					}
+				}
 			}
 		);
 

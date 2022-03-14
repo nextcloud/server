@@ -151,6 +151,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\Directory' => $baseDir . '/../lib/Connector/Sabre/Directory.php',
     'OCA\\DAV\\Connector\\Sabre\\DummyGetResponsePlugin' => $baseDir . '/../lib/Connector/Sabre/DummyGetResponsePlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\ExceptionLoggerPlugin' => $baseDir . '/../lib/Connector/Sabre/ExceptionLoggerPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\Exception\\BadGateway' => $baseDir . '/../lib/Connector/Sabre/Exception/BadGateway.php',
     'OCA\\DAV\\Connector\\Sabre\\Exception\\EntityTooLarge' => $baseDir . '/../lib/Connector/Sabre/Exception/EntityTooLarge.php',
     'OCA\\DAV\\Connector\\Sabre\\Exception\\FileLocked' => $baseDir . '/../lib/Connector/Sabre/Exception/FileLocked.php',
     'OCA\\DAV\\Connector\\Sabre\\Exception\\Forbidden' => $baseDir . '/../lib/Connector/Sabre/Exception/Forbidden.php',
@@ -298,4 +299,7 @@ return array(
     'OCA\\DAV\\Upload\\UploadFile' => $baseDir . '/../lib/Upload/UploadFile.php',
     'OCA\\DAV\\Upload\\UploadFolder' => $baseDir . '/../lib/Upload/UploadFolder.php',
     'OCA\\DAV\\Upload\\UploadHome' => $baseDir . '/../lib/Upload/UploadHome.php',
+    'OCA\\DAV\\UserMigration\\CalendarMigrator' => $baseDir . '/../lib/UserMigration/CalendarMigrator.php',
+    'OCA\\DAV\\UserMigration\\CalendarMigratorException' => $baseDir . '/../lib/UserMigration/CalendarMigratorException.php',
+    'OCA\\DAV\\UserMigration\\InvalidCalendarException' => $baseDir . '/../lib/UserMigration/InvalidCalendarException.php',
 );

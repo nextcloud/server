@@ -104,7 +104,7 @@ class IconControllerTest extends TestCase {
 			->with('icon-core-filetypes_folder.svg')
 			->willReturn($file);
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
-		$expected->cacheFor(86400);
+		$expected->cacheFor(86400, false, true);
 		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 

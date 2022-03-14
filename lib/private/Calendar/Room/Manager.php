@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -24,26 +27,30 @@
  */
 namespace OC\Calendar\Room;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Calendar\Room\IBackend;
+use OCP\Calendar\Room\IManager;
 use OCP\IServerContainer;
 
-class Manager implements \OCP\Calendar\Room\IManager {
+class Manager implements IManager {
+	private Coordinator $bootstrapCoordinator;
 
-	/** @var IServerContainer */
-	private $server;
+	private IServerContainer $server;
 
-	/** @var string[] holds all registered resource backends */
-	private $backends = [];
-
-	/** @var IBackend[] holds all backends that have been initialized already */
-	private $initializedBackends = [];
+	private bool $bootstrapBackendsLoaded = false;
 
 	/**
-	 * Manager constructor.
-	 *
-	 * @param IServerContainer $server
+	 * @var string[] holds all registered resource backends
+	 * @psalm-var class-string<IBackend>[]
 	 */
-	public function __construct(IServerContainer $server) {
+	private array $backends = [];
+
+	/** @var IBackend[] holds all backends that have been initialized already */
+	private array $initializedBackends = [];
+
+	public function __construct(Coordinator $bootstrapCoordinator,
+								IServerContainer $server) {
+		$this->bootstrapCoordinator = $bootstrapCoordinator;
 		$this->server = $server;
 	}
 
@@ -69,17 +76,41 @@ class Manager implements \OCP\Calendar\Room\IManager {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
 
+	private function fetchBootstrapBackends(): void {
+		if ($this->bootstrapBackendsLoaded) {
+			return;
+		}
+
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+		if ($context === null) {
+			// Too soon
+			return;
+		}
+
+		foreach ($context->getCalendarRoomBackendRegistrations() as $registration) {
+			$this->backends[] = $registration->getService();
+		}
+	}
+
 	/**
 	 * @return IBackend[]
 	 * @throws \OCP\AppFramework\QueryException
 	 * @since 14.0.0
 	 */
 	public function getBackends():array {
+		$this->fetchBootstrapBackends();
+
 		foreach ($this->backends as $backend) {
 			if (isset($this->initializedBackends[$backend])) {
 				continue;
 			}
 
+			/**
+			 * @todo fetch from the app container
+			 *
+			 * The backend might have services injected that can't be build from the
+			 * server container.
+			 */
 			$this->initializedBackends[$backend] = $this->server->query($backend);
 		}
 

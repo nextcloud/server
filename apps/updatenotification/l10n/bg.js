@@ -44,7 +44,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Версия само за тестване на нови функционалности, която не е подходяща за ползване в производствена среда.",
     "Apps missing updates" : "Приложения без актуализация",
     "Apps with available updates" : "Приложенията, с налични актуализации",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "След издаването на нова версия обикновено няма да получите веднага известие. Потребителите се известяват на интервали, което може да доведе до пропускане на версия ако се появят проблеми.",
     "Only notification for app updates are available." : "Налични са само известия за актуализации на приложенията.",
     "Checking apps for compatible updates" : "Проверка на приложенията за съвместими актуализации",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Свързването с магазина за приложения не е възможно или няма актуализации. Потърсете ръчно за актуализации или се уверете, че сървъра има връзка с Интернет и може да се свързва с магазина за приложения.",

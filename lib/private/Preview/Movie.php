@@ -99,11 +99,14 @@ class Movie extends ProviderV2 {
 		foreach ($sizeAttempts as $size) {
 			$absPath = $this->getLocalFile($file, $size);
 
-			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
-			if ($result === null) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
+			$result = null;
+			if (is_string($absPath)) {
+				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
 				if ($result === null) {
-					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
+					if ($result === null) {
+						$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+					}
 				}
 			}
 
@@ -117,25 +120,18 @@ class Movie extends ProviderV2 {
 		return $result;
 	}
 
-	/**
-	 * @param int $maxX
-	 * @param int $maxY
-	 * @param string $absPath
-	 * @param int $second
-	 * @return null|\OCP\IImage
-	 */
-	private function generateThumbNail($maxX, $maxY, $absPath, $second): ?IImage {
+	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
 		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
 		if ($binaryType === 'avconv') {
-			$cmd = $this->binary . ' -y -ss ' . escapeshellarg($second) .
+			$cmd = $this->binary . ' -y -ss ' . escapeshellarg((string)$second) .
 				' -i ' . escapeshellarg($absPath) .
 				' -an -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 				' 2>&1';
 		} elseif ($binaryType === 'ffmpeg') {
-			$cmd = $this->binary . ' -y -ss ' . escapeshellarg($second) .
+			$cmd = $this->binary . ' -y -ss ' . escapeshellarg((string)$second) .
 				' -i ' . escapeshellarg($absPath) .
 				' -f mjpeg -vframes 1' .
 				' ' . escapeshellarg($tmpPath) .
@@ -159,8 +155,10 @@ class Movie extends ProviderV2 {
 			}
 		}
 
-		$logger = \OC::$server->get(LoggerInterface::class);
-		$logger->error('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
+		if ($second === 0) {
+			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger->error('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
+		}
 
 		unlink($tmpPath);
 		return null;

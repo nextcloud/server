@@ -84,7 +84,6 @@ class InvitationResponseServer {
 		$acl->principalCollectionSet = [
 			'principals/users', 'principals/groups'
 		];
-		$acl->defaultUsernamePath = 'principals/users';
 		$this->server->addPlugin($acl);
 
 		// calendar plugins

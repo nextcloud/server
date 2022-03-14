@@ -126,7 +126,7 @@ trait S3ObjectTrait {
 			if ($e->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
-			throw $e;
+			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway("Error while uploading to S3 bucket", 0, $e);
 		}
 	}
 

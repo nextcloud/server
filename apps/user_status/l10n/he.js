@@ -32,7 +32,6 @@ OC.L10N.register(
     "4 hours" : "4 שעות",
     "Mute all notifications" : "השתקת כל ההתראות",
     "Appear offline" : "להופיע במצב בלתי מקוון",
-    "Clear status after" : "לפנות את המצב לאחר",
     "What's your status?" : "מה המצב שלך?"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

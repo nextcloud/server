@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 tuntia",
     "Mute all notifications" : "Mykistä kaikki ilmoitukset",
     "Appear offline" : "Näytä olevan poissa",
-    "Clear status after" : "Tyhjennä tilatieto",
     "What's your status?" : "Mikä on tilatietosi?"
 },
 "nplurals=2; plural=(n != 1);");

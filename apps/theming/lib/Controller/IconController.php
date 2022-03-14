@@ -96,7 +96,7 @@ class IconController extends Controller {
 			$iconFile = $this->imageManager->setCachedImage('icon-' . $app . '-' . str_replace('/', '_',$image), $icon);
 		}
 		$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
-		$response->cacheFor(86400);
+		$response->cacheFor(86400, false, true);
 		return $response;
 	}
 

@@ -353,27 +353,37 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 			$result = $query->execute();
 
-			while ($row = $result->fetch()) {
-				$progress->advance();
-				if (!$parametersCreated) {
-					foreach ($row as $key => $value) {
-						$insertQuery->setValue($key, $insertQuery->createParameter($key));
-					}
-					$parametersCreated = true;
-				}
+			try {
+				$toDB->beginTransaction();
 
-				foreach ($row as $key => $value) {
-					$type = $this->getColumnType($table, $key);
-					if ($type !== false) {
-						$insertQuery->setParameter($key, $value, $type);
-					} else {
-						$insertQuery->setParameter($key, $value);
+				while ($row = $result->fetch()) {
+					$progress->advance();
+					if (!$parametersCreated) {
+						foreach ($row as $key => $value) {
+							$insertQuery->setValue($key, $insertQuery->createParameter($key));
+						}
+						$parametersCreated = true;
 					}
+
+					foreach ($row as $key => $value) {
+						$type = $this->getColumnType($table, $key);
+						if ($type !== false) {
+							$insertQuery->setParameter($key, $value, $type);
+						} else {
+							$insertQuery->setParameter($key, $value);
+						}
+					}
+					$insertQuery->execute();
 				}
-				$insertQuery->execute();
+				$result->closeCursor();
+
+				$toDB->commit();
+			} catch (\Throwable $e) {
+				$toDB->rollBack();
+				throw $e;
 			}
-			$result->closeCursor();
 		}
+
 		$progress->finish();
 		$output->writeln('');
 	}

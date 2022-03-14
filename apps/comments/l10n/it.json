@@ -27,16 +27,6 @@
     "An error occurred while trying to delete the comment" : "Si è verificato un errore durante il tentativo di eliminare il commento",
     "An error occurred while trying to create the comment" : "Si è verificato un errore durante il tentativo di creare il commento",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Sei stato menzionato su \"{file}\", in un commento di un utente che è stato eliminato",
-    "{user} mentioned you in a comment on “{file}”" : "{user} ti ha menzionato in un commento su \"{file}\".",
-    "New comment …" : "Nuovo commento...",
-    "Post" : "Commento",
-    "Cancel" : "Annulla",
-    "[Deleted user]" : "[Utente eliminato]",
-    "More comments …" : "Altri commenti...",
-    "Save" : "Salva",
-    "Allowed characters {count} of {max}" : "Caratteri consentiti {count} di {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Si è verificato un errore durante il recupero del commento con ID {id}",
-    "Error occurred while updating comment with id {id}" : "Si è verificato un errore durante il tentativo di aggiornamento del commento con id {id}",
-    "Error occurred while posting comment" : "Si è verificato un errore durante la pubblicazione del commento."
+    "{user} mentioned you in a comment on “{file}”" : "{user} ti ha menzionato in un commento su \"{file}\"."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

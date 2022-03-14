@@ -150,7 +150,7 @@ class BirthdayService {
 			$calendar = $this->ensureCalendarExists($principalUri);
 			foreach (['', '-death', '-anniversary'] as $tag) {
 				$objectUri = $book['uri'] . '-' . $cardUri . $tag .'.ics';
-				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 			}
 		}
 	}
@@ -306,7 +306,7 @@ class BirthdayService {
 		$calendarObjects = $this->calDavBackEnd->getCalendarObjects($calendar['id'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
 
 		foreach ($calendarObjects as $calendarObject) {
-			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $calendarObject['uri'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
+			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $calendarObject['uri'], CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 		}
 	}
 
@@ -384,7 +384,7 @@ class BirthdayService {
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
 		if ($calendarData === null) {
 			if ($existing !== null) {
-				$this->calDavBackEnd->deleteCalendarObject($calendarId, $objectUri);
+				$this->calDavBackEnd->deleteCalendarObject($calendarId, $objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 			}
 		} else {
 			if ($existing === null) {
@@ -398,7 +398,7 @@ class BirthdayService {
 					if ($existing2path !== null && array_key_exists('uri', $calendarInfo)) {
 						// delete the old birthday entry first so that we do not get duplicate UIDs
 						$existing2objectUri = substr($existing2path, strlen($calendarInfo['uri']) + 1);
-						$this->calDavBackEnd->deleteCalendarObject($calendarId, $existing2objectUri);
+						$this->calDavBackEnd->deleteCalendarObject($calendarId, $existing2objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 					}
 				}
 

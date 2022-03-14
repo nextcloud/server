@@ -25,14 +25,21 @@ namespace Test;
 use DOMDocument;
 use DOMNode;
 use OC\Command\QueueBus;
+use OC\Files\Config\MountProviderCollection;
 use OC\Files\Filesystem;
+use OC\Files\Mount\CacheMountProvider;
+use OC\Files\Mount\LocalHomeMountProvider;
+use OC\Files\Mount\RootMountProvider;
+use OC\Files\SetupManager;
 use OC\Template\Base;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** @var \OC\Command\QueueBus */
@@ -275,6 +282,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
+
+		/** @var SetupManager $setupManager */
+		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager->tearDown();
+
+		/** @var MountProviderCollection $mountProviderCollection */
+		$mountProviderCollection = \OC::$server->get(MountProviderCollection::class);
+		$mountProviderCollection->clearProviders();
+
+		/** @var IConfig $config */
+		$config = \OC::$server->get(IConfig::class);
+		$mountProviderCollection->registerProvider(new CacheMountProvider($config));
+		$mountProviderCollection->registerHomeProvider(new LocalHomeMountProvider());
+		$mountProviderCollection->registerRootProvider(new RootMountProvider($config, \OC::$server->get(LoggerInterface::class)));
+
+		$setupManager->setupRoot();
 
 		parent::tearDownAfterClass();
 	}

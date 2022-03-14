@@ -133,7 +133,6 @@
     "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Tavaliselt saab selle lahendada andes veebiserverile seatete kataloogile \"config\" kirjutusõigused",
     "Can't create or write into the data directory %s" : "Ei suuda luua või kirjutada andmete kataloogi %s",
-    "Invalid Federated Cloud ID" : "Vigane liitpilve ID",
     "Can’t increase permissions of %s" : "Ei saa %s õigusi suurendada",
     "Files can’t be shared with delete permissions" : "Faile ei saa jagada kustutamise õigusega",
     "Files can’t be shared with create permissions" : "Faile ei saa jagada loomise õigusega",

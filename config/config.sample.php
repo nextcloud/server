@@ -767,6 +767,10 @@ $CONFIG = [
  * connection. If none of these hosts are reachable, the administration panel
  * will show a warning. Set to an empty list to not do any such checks (warning
  * will still be shown).
+ * If no protocol is provided, both http and https will be tested.
+ * For example, 'http://www.nextcloud.com' and 'https://www.nextcloud.com'
+ * will be tested for 'www.nextcloud.com'
+ * If a protocol is provided, only this one will be tested.
  *
  * Defaults to the following domains:
  *
@@ -1067,9 +1071,10 @@ $CONFIG = [
 'preview_max_y' => 4096,
 
 /**
- * max file size for generating image previews with imagegd (default behavior)
+ * Max file size for generating image previews with imagegd (default behavior).
  * If the image is bigger, it'll try other preview generators, but will most
- * likely show the default mimetype icon. Set to -1 for no limit.
+ * likely either show the default mimetype icon or not display the image at all.
+ * Set to ``-1`` for no limit and try to generate image previews on all file sizes.
  *
  * Defaults to ``50`` megabytes
  */
@@ -1213,6 +1218,20 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'maintenance' => false,
+
+/**
+ * UTC Hour for maintenance windows
+ *
+ * Some background jobs only run once a day. When an hour is defined for this config,
+ * the background jobs which advertise themselves as not time sensitive will be
+ * delayed during the "working" hours and only run in the 4 hours after the given time.
+ * This is e.g. used for activity expiration, suspicious login training and update checks.
+ *
+ * A value of 1 e.g. will only run these background jobs between 01:00am UTC and 05:00am UTC.
+ *
+ * Defaults to ``100`` which disables the feature
+ */
+'maintenance_window_start' => 1,
 
 
 /**
@@ -2064,4 +2083,18 @@ $CONFIG = [
  * Also, it might log sensitive data into a plain text file.
  */
 'ldap_log_file' => '',
+
+/**
+ * Enable diagnostics event logging
+ *
+ * If enabled the timings of common execution steps will be logged to the
+ * Nextcloud log at debug level. log.condition is useful to enable this on
+ * production systems to only log under some conditions
+ */
+'diagnostics.logging' => true,
+
+/**
+ * Limit diagnostics event logging to events longer than the configured threshold in ms
+ */
+'diagnostics.logging.threshold' => 0,
 ];

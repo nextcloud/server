@@ -29,16 +29,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "嘗試刪除此留言時錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "一個已被刪除的用戶在 “{file}” 的留言中提到你",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的留言中提到你",
-    "New comment …" : "新增留言",
-    "Post" : "送出",
-    "Cancel" : "取消",
-    "[Deleted user]" : "[已刪除的用戶]",
-    "More comments …" : "更多留言…",
-    "Save" : "儲存",
-    "Allowed characters {count} of {max}" : "已輸入 {count} / {max}",
-    "Error occurred while retrieving comment with ID {id}" : "在擷取留言（ID {id}）時發生錯誤",
-    "Error occurred while updating comment with id {id}" : "編輯留言（ID {id}）時發生錯誤",
-    "Error occurred while posting comment" : "張貼留言時發生錯誤"
+    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的留言中提到你"
 },
 "nplurals=1; plural=0;");

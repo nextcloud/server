@@ -47,7 +47,7 @@ OC.L10N.register(
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>" : "Benutzer nicht gefunden. Bitte überprüfe Deine Anmelde-Attribute und Deinen Benutzernamen. Gültige Filter (zum Kopieren und Einfügen bei der Überprüfung auf der Kommandozeile): <br/>",
     "User found and settings verified." : "Benutzer gefunden und Einstellungen überprüft.",
     "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Erwäge es, Deine Suche einzugrenzen, da sie viele Benutzer umfaßte. Nur der erste wird sich anmelden können.",
-    "An unspecified error occurred. Please check log and settings." : "Ein nicht näher spezifizierter Fehler ist aufgetreten. Bitte prüfe die Logdatei und Einstellungen.",
+    "An unspecified error occurred. Please check log and settings." : "Es ist ein nicht näher spezifizierter Fehler aufgetreten. Bitte prüfe die Logdatei und Einstellungen.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Der Suchfilter ist ungültig, möglicherweise bestehen Eingabefehler wie z.B. eine ungerade Anzahl von geöffneten und geschlossenen Klammern. Bitte überarbeiten.",
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "Es ist ein Verbindungsfehler zum LDAP/AD aufgetreten. Bitte Host, Port und Anmeldeinformationen überprüfen.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Der \"%u id\" Platzhalter fehlt. Er wird durch den Anmeldenamen ersetzt, wenn LDAP/AD abgefragt wird.",

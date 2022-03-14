@@ -44,7 +44,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "本番環境ではなく、新機能のテスト専用のプレリリース版です。",
     "Apps missing updates" : "アプリのアップデートがありません",
     "Apps with available updates" : "アップデート可能なアプリ",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "新しいリリースの後、公開されるまでには時間がかかります。\n新しいバージョンを公開して配布しますが、問題が発見されたときにバージョンをスキップすることがあります。",
     "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
     "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",

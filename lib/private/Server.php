@@ -91,9 +91,11 @@ use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Files\Mount\ObjectStorePreviewCacheMountProvider;
+use OC\Files\Mount\RootMountProvider;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
+use OC\Files\SetupManager;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Template\TemplateManager;
 use OC\Files\Type\Loader;
@@ -215,6 +217,7 @@ use OCP\L10N\IFactory;
 use OCP\LDAP\ILDAPProvider;
 use OCP\LDAP\ILDAPProviderFactory;
 use OCP\Lock\ILockingProvider;
+use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
 use OCP\Remote\Api\IApiFactory;
@@ -422,7 +425,8 @@ class Server extends ServerContainer implements IServerContainer {
 				null,
 				$c->get(IUserMountCache::class),
 				$this->get(ILogger::class),
-				$this->get(IUserManager::class)
+				$this->get(IUserManager::class),
+				$this->get(IEventDispatcher::class),
 			);
 
 			$previewConnector = new \OC\Preview\WatcherConnector(
@@ -718,7 +722,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService('RedisFactory', function (Server $c) {
 			$systemConfig = $c->get(SystemConfig::class);
-			return new RedisFactory($systemConfig);
+			return new RedisFactory($systemConfig, $c->getEventLogger());
 		});
 
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
@@ -871,12 +875,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('HttpClientService', IClientService::class);
 		$this->registerService(IEventLogger::class, function (ContainerInterface $c) {
-			$eventLogger = new EventLogger();
-			if ($c->get(SystemConfig::class)->getValue('debug', false)) {
-				// In debug mode, module is being activated by default
-				$eventLogger->activate();
-			}
-			return $eventLogger;
+			return new EventLogger($c->get(SystemConfig::class), $c->get(LoggerInterface::class), $c->get(Log::class));
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('EventLogger', IEventLogger::class);
@@ -952,6 +951,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager->registerProvider(new CacheMountProvider($config));
 			$manager->registerHomeProvider(new LocalHomeMountProvider());
 			$manager->registerHomeProvider(new ObjectHomeMountProvider($config));
+			$manager->registerRootProvider(new RootMountProvider($config, $c->get(LoggerInterface::class)));
 			$manager->registerRootProvider(new ObjectStorePreviewCacheMountProvider($logger, $config));
 
 			return $manager;
@@ -1094,6 +1094,11 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('LockingProvider', ILockingProvider::class);
 
+		$this->registerAlias(ILockdownManager::class, 'LockdownManager');
+		$this->registerService(SetupManager::class, function ($c) {
+			// create the setupmanager through the mount manager to resolve the cyclic dependency
+			return $c->get(\OC\Files\Mount\Manager::class)->getSetupManager();
+		});
 		$this->registerAlias(IMountManager::class, \OC\Files\Mount\Manager::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('MountManager', IMountManager::class);

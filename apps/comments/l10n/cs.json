@@ -27,16 +27,6 @@
     "An error occurred while trying to delete the comment" : "Došlo k chybě při pokusu o smazání komentáře",
     "An error occurred while trying to create the comment" : "Došlo k chybě při pokusu o vytvoření komentáře",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Byli jste zmíněni v souboru „{file}“, v komentáři od uživatele, který byl později smazán",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil(a) v komentáři u „{file}“",
-    "New comment …" : "Nový komentář…",
-    "Post" : "Zveřejnit",
-    "Cancel" : "Storno",
-    "[Deleted user]" : "[Smazaný uživatel]",
-    "More comments …" : "Více komentářů…",
-    "Save" : "Uložit",
-    "Allowed characters {count} of {max}" : "Využito {count} znaků z {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Došlo k chybě při načítání komentáře s identifikátorem {id}",
-    "Error occurred while updating comment with id {id}" : "Došlo k chybě při aktualizování komentáře s id {id}",
-    "Error occurred while posting comment" : "Došlo k chybě při zveřejňování komentáře"
+    "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil(a) v komentáři u „{file}“"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

@@ -28,7 +28,7 @@ import { generateUrl } from '@nextcloud/router'
 
 // Dynamic loading
 const Users = () => import(/* webpackChunkName: 'settings-users' */'./views/Users')
-const Apps = () => import(/* webpackChunkName: 'settings-apps' */'./views/Apps')
+const Apps = () => import(/* webpackChunkName: 'settings-apps-view' */'./views/Apps')
 
 Vue.use(Router)
 

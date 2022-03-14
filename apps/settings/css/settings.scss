@@ -1021,6 +1021,9 @@ span.version {
 }
 
 .apps-list {
+	$toolbar-padding: 8px;
+	$toolbar-height: 44px + $toolbar-padding * 2;
+
 	.section {
 		cursor: pointer;
 	}
@@ -1033,9 +1036,17 @@ span.version {
 		margin-left: 10px;
 	}
 
-	.counter {
-		padding-left: $header-height - 10px;
-		margin: 10px;
+	.toolbar {
+		height: $toolbar-height;
+		padding: $toolbar-padding;
+		// Leave room for app-navigation-toggle
+		padding-left: $toolbar-height;
+		width: 100%;
+		background-color: var(--color-main-background);
+		position: fixed;
+		z-index: 1;
+		display: flex;
+		align-items: center;
 	}
 
 	&.installed {
@@ -1043,6 +1054,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
+			margin-top: $toolbar-height;
 		}
 
 		margin-bottom: 100px;
@@ -1556,7 +1568,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 			/* various */
 			&#grid-header {
-				@include position('sticky');
+				position: sticky;
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 100; /* above multiselect */
@@ -1748,4 +1760,19 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			user-select: none;
 		}
 	}
+}
+
+.animated {
+    animation: blink-animation 1s steps(5, start) 4;
+}
+
+@keyframes blink-animation {
+  to {
+    opacity: 0.6;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    opacity: 1;
+  }
 }

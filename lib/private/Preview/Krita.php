@@ -39,11 +39,11 @@ class Krita extends Bundled {
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$image = $this->extractThumbnail($file, 'mergedimage.png');
-		if ($image->valid()) {
+		if (($image !== null) && $image->valid()) {
 			return $image;
 		}
 		$image = $this->extractThumbnail($file, 'preview.png');
-		if ($image->valid()) {
+		if (($image !== null) && $image->valid()) {
 			return $image;
 		}
 		return null;

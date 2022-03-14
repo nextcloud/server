@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Não foi possível bloquear o nó",
     "Could not lock path" : "Não foi possível bloquear o caminho",
     "Wrong or no update parameter given" : "O parâmetro da atualização fornecido está errado ou não existe",
-    "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "O \"envio da senha pelo Bate Papo Nextcloud\" para compartilhar um arquivo ou pasta falhou porque o Bate Papo Nextcloud não está habilitado. ",
     "shared by %s" : "compartilhado por %s",
     "Download all files" : "Baixar todos os arquivos",
@@ -149,6 +148,9 @@ OC.L10N.register(
     "Invalid path selected" : "Caminho inválido selecionado",
     "Unknown error" : "Erro desconhecido",
     "Allow editing" : "Permitir edição",
+    "Read only" : "Somente leitura",
+    "Allow upload and editing" : "Permitir envio e edição",
+    "File drop (upload only)" : "Soltar arquivo (somente envio)",
     "Allow creating" : "Permitir criar",
     "Allow deleting" : "Permitir excluir",
     "Allow resharing" : "Permitir recompartilhar",
@@ -181,9 +183,6 @@ OC.L10N.register(
     "Create share" : "Criar compartilhamento",
     "Cancel" : "Cancelar",
     "Share label" : "Compartilhar etiqueta",
-    "Read only" : "Somente leitura",
-    "Allow upload and editing" : "Permitir envio e edição",
-    "File drop (upload only)" : "Soltar arquivo (somente envio)",
     "Hide download" : "Ocultar download",
     "Password protect" : "Proteger com senha",
     "Video verification" : "Verificação de vídeo",
@@ -247,7 +246,7 @@ OC.L10N.register(
     "invalid permissions" : "permissões inválidas",
     "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
-    "Name, email, or federated cloud ID …" : "Nome, e-mail, ou ID da nuvem federada...",
-    "Download %s" : "Baixar %s"
+    "Download %s" : "Baixar %s",
+    "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público"
 },
 "nplurals=2; plural=(n > 1);");

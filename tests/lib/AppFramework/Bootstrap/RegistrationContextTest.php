@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -161,6 +162,32 @@ class RegistrationContextTest extends TestCase {
 		$this->context->delegateMiddlewareRegistrations([
 			'myapp' => $app,
 		]);
+	}
+
+	public function testRegisterUserMigrator(): void {
+		$appIdA = 'myapp';
+		$migratorClassA = 'OCA\App\UserMigration\AppMigrator';
+
+		$appIdB = 'otherapp';
+		$migratorClassB = 'OCA\OtherApp\UserMigration\OtherAppMigrator';
+
+		$serviceRegistrationA = new ServiceRegistration($appIdA, $migratorClassA);
+		$serviceRegistrationB = new ServiceRegistration($appIdB, $migratorClassB);
+
+		$this->context
+			->for($appIdA)
+			->registerUserMigrator($migratorClassA);
+		$this->context
+			->for($appIdB)
+			->registerUserMigrator($migratorClassB);
+
+		$this->assertEquals(
+			[
+				$serviceRegistrationA,
+				$serviceRegistrationB,
+			],
+			$this->context->getUserMigrators(),
+		);
 	}
 
 	public function dataProvider_TrueFalse() {

@@ -166,7 +166,7 @@ OC.L10N.register(
     "New owner" : "Nový vlastník",
     "Search users" : "Hledat uživatele",
     "Choose a file or folder to transfer" : "Zvolte soubor nebo složku k převedení",
-    "Transfer" : "Převedení",
+    "Transfer" : "Převést",
     "Transfer {path} to {userid}" : "Převést {path} na {userid}",
     "Invalid path selected" : "Vybrán neplatný popis umístění",
     "Ownership transfer request sent" : "Žádost o převedení vlastnictví zaslána",

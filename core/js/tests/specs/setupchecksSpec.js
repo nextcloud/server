@@ -226,6 +226,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -248,6 +249,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -283,6 +286,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -305,6 +309,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -341,6 +347,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -363,6 +370,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -396,6 +405,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -419,6 +429,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -450,6 +462,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -473,6 +486,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -492,6 +507,63 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		it('should return an info if the mail server config was not set or verified, yet', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'You have not set or verified your email server configuration, yet. Please head over to the <a href="http://localhost/index.php/settings/admin">Basic settings</a> in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
 		it('should return a warning if there are app directories with wrong permissions', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -504,6 +576,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -529,6 +602,8 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [
 						'/some/path'
 					],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -560,6 +635,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -583,6 +659,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -614,6 +692,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -637,6 +716,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -668,6 +749,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -691,6 +773,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: false,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -742,6 +826,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -766,6 +851,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -797,6 +884,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -809,7 +897,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -821,6 +908,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -833,7 +922,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache module is not properly configured:<ul><li>recommendation1</li><li>recommendation2</li></ul>',
+						msg: 'The PHP OPcache module is not properly configured. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-php-opcache">documentation ↗</a> for more information.<ul><li>recommendation1</li><li>recommendation2</li></ul>',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -852,6 +941,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -864,7 +954,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: false,
 					missingIndexes: [],
@@ -876,6 +965,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -907,6 +998,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -930,6 +1022,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
@@ -965,6 +1059,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -988,6 +1083,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1020,6 +1117,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1043,6 +1141,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1072,6 +1172,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1095,6 +1196,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1114,7 +1217,8 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an info if there is no default phone region', function(done) {
+		
+		it('should return an error if imagick is not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
 			suite.server.requests[0].respond(
@@ -1126,6 +1230,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1149,6 +1254,123 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: false,
+					areWebauthnExtensionsEnabled: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		
+		it('should return an error if gmp or bcmath are not enabled', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: false,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		it('should return an info if there is no default phone region', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1180,6 +1402,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1203,6 +1426,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,

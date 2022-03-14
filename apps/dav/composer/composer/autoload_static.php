@@ -166,6 +166,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\Directory' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Directory.php',
         'OCA\\DAV\\Connector\\Sabre\\DummyGetResponsePlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/DummyGetResponsePlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\ExceptionLoggerPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ExceptionLoggerPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\Exception\\BadGateway' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/BadGateway.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\EntityTooLarge' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/EntityTooLarge.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\FileLocked' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/FileLocked.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\Forbidden' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/Forbidden.php',
@@ -313,6 +314,9 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Upload\\UploadFile' => __DIR__ . '/..' . '/../lib/Upload/UploadFile.php',
         'OCA\\DAV\\Upload\\UploadFolder' => __DIR__ . '/..' . '/../lib/Upload/UploadFolder.php',
         'OCA\\DAV\\Upload\\UploadHome' => __DIR__ . '/..' . '/../lib/Upload/UploadHome.php',
+        'OCA\\DAV\\UserMigration\\CalendarMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigrator.php',
+        'OCA\\DAV\\UserMigration\\CalendarMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigratorException.php',
+        'OCA\\DAV\\UserMigration\\InvalidCalendarException' => __DIR__ . '/..' . '/../lib/UserMigration/InvalidCalendarException.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

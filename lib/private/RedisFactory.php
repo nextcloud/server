@@ -26,6 +26,8 @@
  */
 namespace OC;
 
+use OCP\Diagnostics\IEventLogger;
+
 class RedisFactory {
 	public const REDIS_MINIMAL_VERSION = '3.1.3';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
@@ -33,16 +35,18 @@ class RedisFactory {
 	/** @var  \Redis|\RedisCluster */
 	private $instance;
 
-	/** @var  SystemConfig */
-	private $config;
+	private SystemConfig $config;
+
+	private IEventLogger $eventLogger;
 
 	/**
 	 * RedisFactory constructor.
 	 *
 	 * @param SystemConfig $config
 	 */
-	public function __construct(SystemConfig $config) {
+	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
 		$this->config = $config;
+		$this->eventLogger = $eventLogger;
 	}
 
 	private function create() {
@@ -88,9 +92,9 @@ class RedisFactory {
 
 			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth, $connectionParameters);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth, $connectionParameters);
 			} else {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth);
 			}
 
 			if (isset($config['failover_mode'])) {
@@ -113,15 +117,24 @@ class RedisFactory {
 				$port = null;
 			}
 
+			$this->eventLogger->start('connect:redis', 'Connect to redis and send AUTH, SELECT');
 			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
 				// Non-clustered redis requires connection parameters to be wrapped inside `stream`
 				$connectionParameters = [
 					'stream' => $this->getSslContext($config)
 				];
-				$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				/**
+				 * even though the stubs and documentation don't want you to know this,
+				 * pconnect does have the same $connectionParameters argument connect has
+				 *
+				 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
+				 *
+				 * @psalm-suppress TooManyArguments
+				 */
+				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
 			} else {
-				$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout);
+				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout);
 			}
 
 
@@ -133,6 +146,7 @@ class RedisFactory {
 			if (isset($config['dbindex'])) {
 				$this->instance->select($config['dbindex']);
 			}
+			$this->eventLogger->end('connect:redis');
 		}
 	}
 

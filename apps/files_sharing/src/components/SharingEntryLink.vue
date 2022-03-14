@@ -150,39 +150,12 @@
 						@submit="onLabelSubmit">
 						{{ t('files_sharing', 'Share label') }}
 					</ActionInput>
-					<!-- folder -->
-					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
-						<ActionRadio :checked="sharePermissions === publicUploadRValue"
-							:value="publicUploadRValue"
-							:name="randomId"
-							:disabled="saving"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'Read only') }}
-						</ActionRadio>
-						<ActionRadio :checked="sharePermissions === publicUploadRWValue"
-							:value="publicUploadRWValue"
-							:disabled="saving"
-							:name="randomId"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'Allow upload and editing') }}
-						</ActionRadio>
-						<ActionRadio :checked="sharePermissions === publicUploadWValue"
-							:value="publicUploadWValue"
-							:disabled="saving"
-							:name="randomId"
-							class="sharing-entry__action--public-upload"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'File drop (upload only)') }}
-						</ActionRadio>
-					</template>
 
-					<!-- file -->
-					<ActionCheckbox v-if="!isFolder"
-						:checked.sync="canUpdate"
-						:disabled="saving"
-						@change="queueUpdate('permissions')">
-						{{ t('files_sharing', 'Allow editing') }}
-					</ActionCheckbox>
+					<SharePermissionsEditor :can-reshare="canReshare"
+						:share.sync="share"
+						:file-info="fileInfo" />
+
+					<ActionSeparator />
 
 					<ActionCheckbox :checked.sync="share.hideDownload"
 						:disabled="saving"
@@ -282,6 +255,8 @@
 						@submit="onNoteSubmit" />
 				</template>
 
+				<ActionSeparator />
+
 				<!-- external actions -->
 				<ExternalShareAction v-for="action in externalLinkActions"
 					:id="action.id"
@@ -336,14 +311,15 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionText from '@nextcloud/vue/dist/Components/ActionText'
+import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import ExternalShareAction from './ExternalShareAction'
+import SharePermissionsEditor from './SharePermissionsEditor'
 import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import SharesMixin from '../mixins/SharesMixin'
@@ -355,13 +331,14 @@ export default {
 		Actions,
 		ActionButton,
 		ActionCheckbox,
-		ActionRadio,
 		ActionInput,
 		ActionLink,
 		ActionText,
 		ActionTextEditable,
+		ActionSeparator,
 		Avatar,
 		ExternalShareAction,
+		SharePermissionsEditor,
 	},
 
 	directives: {
@@ -385,37 +362,12 @@ export default {
 			// Are we waiting for password/expiration date
 			pending: false,
 
-			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
-			publicUploadRValue: OC.PERMISSION_READ,
-			publicUploadWValue: OC.PERMISSION_CREATE,
-
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 		}
 	},
 
 	computed: {
-		/**
-		 * Return the current share permissions
-		 * We always ignore the SHARE permission as this is used for the
-		 * federated sharing.
-		 *
-		 * @return {number}
-		 */
-		sharePermissions() {
-			return this.share.permissions & ~OC.PERMISSION_SHARE
-		},
-		/**
-		 * Generate a unique random id for this SharingEntryLink only
-		 * This allows ActionRadios to have the same name prop
-		 * but not to impact others SharingEntryLink
-		 *
-		 * @return {string}
-		 */
-		randomId() {
-			return Math.random().toString(27).substr(2)
-		},
-
 		/**
 		 * Link share label
 		 *
@@ -580,46 +532,10 @@ export default {
 			return this.config.isDefaultExpireDateEnforced && this.share && !this.share.id
 		},
 
-		/**
-		 * Can the recipient edit the file ?
-		 *
-		 * @return {boolean}
-		 */
-		canUpdate: {
-			get() {
-				return this.share.hasUpdatePermission
-			},
-			set(enabled) {
-				this.share.permissions = enabled
-					? OC.PERMISSION_READ | OC.PERMISSION_UPDATE
-					: OC.PERMISSION_READ
-			},
-		},
-
 		// if newPassword exists, but is empty, it means
 		// the user deleted the original password
 		hasUnsavedPassword() {
 			return this.share.newPassword !== undefined
-		},
-
-		/**
-		 * Is the current share a folder ?
-		 * TODO: move to a proper FileInfo model?
-		 *
-		 * @return {boolean}
-		 */
-		isFolder() {
-			return this.fileInfo.type === 'dir'
-		},
-
-		/**
-		 * Does the current file/folder have create permissions
-		 * TODO: move to a proper FileInfo model?
-		 *
-		 * @return {boolean}
-		 */
-		fileHasCreatePermission() {
-			return !!(this.fileInfo.permissions & OC.PERMISSION_CREATE)
 		},
 
 		/**
@@ -807,17 +723,6 @@ export default {
 			} finally {
 				this.loading = false
 			}
-		},
-
-		/**
-		 * On permissions change
-		 *
-		 * @param {Event} event js event
-		 */
-		togglePermissions(event) {
-			const permissions = parseInt(event.target.value, 10)
-			this.share.permissions = permissions
-			this.queueUpdate('permissions')
 		},
 
 		/**

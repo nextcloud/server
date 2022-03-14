@@ -16,16 +16,6 @@
     "_%n unread comment_::_%n unread comments_" : ["%n ongelese kommentaar","%n ongelese kommentare"],
     "Comment" : "Kommentaar",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Jy is genoem op “{lêer}”, in die kommentaar van 'n gebruiker wat intussen geskrap is.",
-    "{user} mentioned you in a comment on “{file}”" : "{gebruiker} het u in ’n kommentaar oor “{lêer}” genoem",
-    "New comment …" : "Nuwe kommentaar…",
-    "Post" : "Plaas",
-    "Cancel" : "Kanselleer",
-    "[Deleted user]" : "[Geskrapte gebruiker]",
-    "More comments …" : "Nog kommentare …",
-    "Save" : "Bewaar",
-    "Allowed characters {count} of {max}" : "Toegelate karakters {telling} van {maks}",
-    "Error occurred while retrieving comment with ID {id}" : "’n Fout het voorgekom toe kommentaar met ID {id} opgehaal is",
-    "Error occurred while updating comment with id {id}" : "’n Fout het voorgekom toe kommentaar met ID {id} bygewerk is",
-    "Error occurred while posting comment" : "’n Fout het voorgekom toe kommentaar geplaas is"
+    "{user} mentioned you in a comment on “{file}”" : "{gebruiker} het u in ’n kommentaar oor “{lêer}” genoem"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

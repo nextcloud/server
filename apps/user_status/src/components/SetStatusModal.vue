@@ -51,9 +51,9 @@
 					@change="setMessage"
 					@submit="saveStatus" />
 			</div>
-			<PredefinedStatusesList @selectStatus="selectPredefinedMessage" />
+			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
-				@selectClearAt="setClearAt" />
+				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
 				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
@@ -233,29 +233,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// TODO: can be removed once migrated to @nextcloud-vue >= 5.0
-::v-deep {
-	.modal-wrapper {
-		.prev, .next {
-			display: none !important;
-		}
-
-		.modal-container {
-			max-height: 100% !important;
-		}
-	}
-
-	.modal-header .modal-title {
-		display: none;
-	}
-}
 
 .set-status-modal {
-	min-height: 200px;
 	padding: 8px 20px 20px 20px;
-	// Enable scrollbar for too long content, same way as in Dashboard customize
-	max-height: 95vh;
-	overflow: auto;
 
 	&__header {
 		text-align: center;

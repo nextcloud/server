@@ -32,7 +32,7 @@ foreach ($directories as $dir) {
 	$it = new \RecursiveDirectoryIterator($dir);
 
 	foreach (new RecursiveIteratorIterator($it) as $file) {
-		if ($file->getExtension() === 'map') {
+		if (($file->getExtension() === 'map') || $file->isDir()) {
 			continue;
 		}
 		$content = file_get_contents($file->getPathname());

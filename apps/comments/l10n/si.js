@@ -15,15 +15,6 @@ OC.L10N.register(
     "Unable to load the comments list" : "අදහස් ලැයිස්තුව පූරණය කළ නොහැකිය",
     "Comment" : "අදහස",
     "An error occurred while trying to edit the comment" : "අදහස සංස්කරණය කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇතිවිය",
-    "An error occurred while trying to create the comment" : "අදහස සෑදීමට උත්සාහ කිරීමේදී දෝෂයක් ඇතිවිය",
-    "New comment …" : "නව අදහසක්…",
-    "Post" : "පළ කරන්න",
-    "Cancel" : "අවලංගු කරන්න",
-    "More comments …" : "තවත් අදහස්…",
-    "Save" : "සුරකින්න",
-    "Allowed characters {count} of {max}" : "අවසර ලත් අක්ෂර {max} න් {count}",
-    "Error occurred while retrieving comment with ID {id}" : "{id} සමඟ අදහස් ලබා ගැනීමේදී දෝෂයක් ඇතිවිය",
-    "Error occurred while updating comment with id {id}" : "{id} සමඟ අදහස් යාවත්කාලීන කිරීමේදී දෝෂයක් ඇතිවිය",
-    "Error occurred while posting comment" : "අදහස් පළ කිරීමේදී දෝෂයක් ඇතිවිය"
+    "An error occurred while trying to create the comment" : "අදහස සෑදීමට උත්සාහ කිරීමේදී දෝෂයක් ඇතිවිය"
 },
 "nplurals=2; plural=(n != 1);");

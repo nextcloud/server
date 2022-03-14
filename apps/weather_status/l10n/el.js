@@ -24,7 +24,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Παρουσιάστηκε σφάλμα κατά την αποθήκευση της λειτουργίας.",
     "There was an error using personal address." : "Παρουσιάστηκε σφάλμα κατά τη χρήση της προσωπικής διεύθυνσης.",
     "Set location for weather" : "Ορισμός τοποθεσίας καιρού",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Η κατάσταση καιρού ενσωματώνεται στην εφαρμογή Πίνακας ελέγχου.\n    Η θέση του χρήστη μπορεί να προσδιοριστεί αυτόματα ή να καθοριστεί χειροκίνητα. Στη συνέχεια εμφανίζεται μια πρόβλεψη 6 ωρών.\n    Αυτή η κατάσταση μπορεί επίσης να ενσωματωθεί σε άλλα μέρη όπως στην εφαρμογή Ημερολόγιο.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Καθαρός ουρανός στις {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Συννεφιά στις {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Αίθρια ημέρα στις {time}",

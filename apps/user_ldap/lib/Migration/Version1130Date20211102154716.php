@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\User_LDAP\Migration;
 
 use Closure;
+use Generator;
 use OCP\DB\Exception;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -42,6 +43,8 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	private $dbc;
 	/** @var LoggerInterface */
 	private $logger;
+	/** @var string[] */
+	private $hashColumnAddedToTables = [];
 
 	public function __construct(IDBConnection $dbc, LoggerInterface $logger) {
 		$this->dbc = $dbc;
@@ -50,6 +53,23 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 
 	public function getName() {
 		return 'Adjust LDAP user and group ldap_dn column lengths and add ldap_dn_hash columns';
+	}
+
+	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+		foreach (['ldap_user_mapping', 'ldap_group_mapping'] as $tableName) {
+			$this->processDuplicateUUIDs($tableName);
+		}
+
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
+		if ($schema->hasTable('ldap_group_mapping_backup')) {
+			// Previous upgrades of a broken release might have left an incomplete
+			// ldap_group_mapping_backup table. No need to recreate, but it
+			// should be empty.
+			// TRUNCATE is not available from Query Builder, but faster than DELETE FROM.
+			$sql = $this->dbc->getDatabasePlatform()->getTruncateTableSQL('ldap_group_mapping_backup', false);
+			$this->dbc->executeStatement($sql);
+		}
 	}
 
 	/**
@@ -71,6 +91,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					'length' => 64,
 				]);
 				$changeSchema = true;
+				$this->hashColumnAddedToTables[] = $tableName;
 			}
 			$column = $table->getColumn('ldap_dn');
 			if ($tableName === 'ldap_user_mapping') {
@@ -91,7 +112,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					$table->addUniqueIndex(['directory_uuid'], 'ldap_user_directory_uuid');
 					$changeSchema = true;
 				}
-			} else {
+			} elseif (!$schema->hasTable('ldap_group_mapping_backup')) {
 				// We need to copy the table twice to be able to change primary key, prepare the backup table
 				$table2 = $schema->createTable('ldap_group_mapping_backup');
 				$table2->addColumn('ldap_dn', Types::STRING, [
@@ -159,9 +180,16 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 
 	protected function getSelectQuery(string $table): IQueryBuilder {
 		$qb = $this->dbc->getQueryBuilder();
-		$qb->select('owncloud_name', 'ldap_dn', 'ldap_dn_hash')
-			->from($table)
-			->where($qb->expr()->isNull('ldap_dn_hash'));
+		$qb->select('owncloud_name', 'ldap_dn')
+			->from($table);
+
+		// when added we may run into risk that it's read from a DB node
+		// where the column is not present. Then the where clause is also
+		// not necessary since all rows qualify.
+		if (!in_array($table, $this->hashColumnAddedToTables, true)) {
+			$qb->where($qb->expr()->isNull('ldap_dn_hash'));
+		}
+
 		return $qb;
 	}
 
@@ -171,5 +199,88 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 			->set('ldap_dn_hash', $qb->createParameter('dn_hash'))
 			->where($qb->expr()->eq('owncloud_name', $qb->createParameter('name')));
 		return $qb;
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	protected function processDuplicateUUIDs(string $table): void {
+		$uuids = $this->getDuplicatedUuids($table);
+		$idsWithUuidToInvalidate = [];
+		foreach ($uuids as $uuid) {
+			array_push($idsWithUuidToInvalidate, ...$this->getNextcloudIdsByUuid($table, $uuid));
+		}
+		$this->invalidateUuids($table, $idsWithUuidToInvalidate);
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	protected function invalidateUuids(string $table, array $idList): void {
+		$update = $this->dbc->getQueryBuilder();
+		$update->update($table)
+			->set('directory_uuid', $update->createParameter('invalidatedUuid'))
+			->where($update->expr()->eq('owncloud_name', $update->createParameter('nextcloudId')));
+
+		while ($nextcloudId = array_shift($idList)) {
+			$update->setParameter('nextcloudId', $nextcloudId);
+			$update->setParameter('invalidatedUuid', 'invalidated_' . \bin2hex(\random_bytes(6)));
+			try {
+				$update->executeStatement();
+				$this->logger->warning(
+					'LDAP user or group with ID {nid} has a duplicated UUID value which therefore was invalidated. You may double-check your LDAP configuration and trigger an update of the UUID.',
+					[
+						'app' => 'user_ldap',
+						'nid' => $nextcloudId,
+					]
+				);
+			} catch (Exception $e) {
+				// Catch possible, but unlikely duplications if new invalidated errors.
+				// There is the theoretical chance of an infinity loop is, when
+				// the constraint violation has a different background. I cannot
+				// think of one at the moment.
+				if ($e->getReason() !== Exception::REASON_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+				$idList[] = $nextcloudId;
+			}
+		}
+	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 * @return array<string>
+	 */
+	protected function getNextcloudIdsByUuid(string $table, string $uuid): array {
+		$select = $this->dbc->getQueryBuilder();
+		$select->select('owncloud_name')
+			->from($table)
+			->where($select->expr()->eq('directory_uuid', $select->createNamedParameter($uuid)));
+
+		$result = $select->executeQuery();
+		$idList = [];
+		while (($id = $result->fetchOne()) !== false) {
+			$idList[] = $id;
+		}
+		$result->closeCursor();
+		return $idList;
+	}
+
+	/**
+	 * @return Generator<string>
+	 * @throws \OCP\DB\Exception
+	 */
+	protected function getDuplicatedUuids(string $table): Generator {
+		$select = $this->dbc->getQueryBuilder();
+		$select->select('directory_uuid')
+			->from($table)
+			->groupBy('directory_uuid')
+			->having($select->expr()->gt($select->func()->count('owncloud_name'), $select->createNamedParameter(1)));
+
+		$result = $select->executeQuery();
+		while (($uuid = $result->fetchOne()) !== false) {
+			yield $uuid;
+		}
+		$result->closeCursor();
 	}
 }
