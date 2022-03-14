@@ -79,7 +79,7 @@ class CssColor extends Constraint {
 	 * @param string|null $message The violation message displayed to the user
 	 * @param array|null $formats The list of allowed color formats, by default all
 	 */
-	public function __construct(?string $message, ?array $formats) {
+	public function __construct(?string $message = null, ?array $formats = null) {
 		parent::__construct();
 		$this->message = $message ?? $this->l10n->t('"{{ value }}" is not a valid email address');
 		$this->formats = $formats ?? [
