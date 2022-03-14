@@ -168,7 +168,7 @@ class ThemingController extends Controller {
 				break;
 			case 'color':
 				$violations = $this->validator->validate($value, [
-					new CssColor(['message' => $this->l10n->t('The given color is invalid')]),
+					new CssColor($this->l10n->t('The given color is invalid')),
 				]);
 				break;
 		}
