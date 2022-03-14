@@ -39,6 +39,7 @@ use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
+use OCP\ICertificateManager;
 use OCP\ILogger;
 
 trait S3ConnectionTrait {
@@ -121,6 +122,9 @@ trait S3ConnectionTrait {
 			)
 		);
 
+		/** @var ICertificateManager $certManager */
+		$certManager = \OC::$server->get(ICertificateManager::class);
+
 		$options = [
 			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
 			'credentials' => $provider,
@@ -130,9 +134,10 @@ trait S3ConnectionTrait {
 			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider()),
 			'csm' => false,
 			'use_arn_region' => false,
+			'http' => ['verify' => $certManager->getAbsoluteBundlePath()],
 		];
 		if ($this->getProxy()) {
-			$options['http'] = [ 'proxy' => $this->getProxy() ];
+			$options['http']['proxy'] = $this->getProxy();
 		}
 		if (isset($this->params['legacy_auth']) && $this->params['legacy_auth']) {
 			$options['signature_version'] = 'v2';
