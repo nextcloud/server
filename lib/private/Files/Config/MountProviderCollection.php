@@ -104,14 +104,19 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		return $this->getMountsForFromProviders($user, $providers);
 	}
 
-	public function addMountForUser(IUser $user, IMountManager $mountManager) {
+	public function addMountForUser(IUser $user, IMountManager $mountManager, callable $providerFilter = null) {
 		// shared mount provider gets to go last since it needs to know existing files
 		// to check for name collisions
 		$firstMounts = [];
-		$firstProviders = array_filter($this->providers, function (IMountProvider $provider) {
+		if ($providerFilter) {
+			$providers = array_filter($this->providers, $providerFilter);
+		} else {
+			$providers = $this->providers;
+		}
+		$firstProviders = array_filter($providers, function (IMountProvider $provider) {
 			return (get_class($provider) !== 'OCA\Files_Sharing\MountProvider');
 		});
-		$lastProviders = array_filter($this->providers, function (IMountProvider $provider) {
+		$lastProviders = array_filter($providers, function (IMountProvider $provider) {
 			return (get_class($provider) === 'OCA\Files_Sharing\MountProvider');
 		});
 		foreach ($firstProviders as $provider) {

@@ -204,8 +204,14 @@ class SetupManager {
 		}
 		$this->setupUsersComplete[] = $user->getUID();
 
+		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
+			$this->setupUserMountProviders[$user->getUID()] = [];
+		}
+
 		$this->setupForUserWith($user, function () use ($user) {
-			$this->mountProviderCollection->addMountForUser($user, $this->mountManager);
+			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (IMountProvider $provider) use ($user) {
+				return !in_array(get_class($provider), $this->setupUserMountProviders[$user->getUID()]);
+			});
 		});
 		$this->userFullySetup($user);
 	}
