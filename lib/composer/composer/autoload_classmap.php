@@ -549,6 +549,7 @@ return array(
     'OCP\\UserMigration\\IImportSource' => $baseDir . '/lib/public/UserMigration/IImportSource.php',
     'OCP\\UserMigration\\IMigrator' => $baseDir . '/lib/public/UserMigration/IMigrator.php',
     'OCP\\UserMigration\\TMigratorBasicVersionHandling' => $baseDir . '/lib/public/UserMigration/TMigratorBasicVersionHandling.php',
+    'OCP\\UserMigration\\UserMigrationException' => $baseDir . '/lib/public/UserMigration/UserMigrationException.php',
     'OCP\\UserStatus\\IManager' => $baseDir . '/lib/public/UserStatus/IManager.php',
     'OCP\\UserStatus\\IProvider' => $baseDir . '/lib/public/UserStatus/IProvider.php',
     'OCP\\UserStatus\\IUserStatus' => $baseDir . '/lib/public/UserStatus/IUserStatus.php',

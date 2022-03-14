@@ -26,5 +26,8 @@ declare(strict_types=1);
 
 namespace OCP\UserMigration;
 
+/**
+ * @since 24.0.0
+ */
 class UserMigrationException extends \Exception {
 }

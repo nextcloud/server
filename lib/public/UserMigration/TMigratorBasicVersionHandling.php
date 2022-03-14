@@ -28,6 +28,7 @@ namespace OCP\UserMigration;
 
 /**
  * Basic version handling: we can import older versions but not newer ones
+ * @since 24.0.0
  */
 trait TMigratorBasicVersionHandling {
 	protected int $version = 1;
