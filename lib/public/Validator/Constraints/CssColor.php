@@ -24,6 +24,9 @@ namespace OCP\Validator\Constraints;
 
 use OCP\Validator\Violation;
 
+/**
+ * Constraint that validate that a value is a CSS3 compatible color.
+ */
 class CssColor extends Constraint {
 	public const HEX_LONG = 'hex_long';
 	public const HEX_LONG_WITH_ALPHA = 'hex_long_with_alpha';
@@ -73,25 +76,26 @@ class CssColor extends Constraint {
 	private array $formats;
 
 	/**
-	 * @param array{formats?: string[], message?: string} $options
+	 * @param string|null $message The violation message displayed to the user
+	 * @param array|null $formats The list of allowed color formats, by default all
 	 */
-	public function __construct(array $options = []) {
+	public function __construct(?string $message, ?array $formats) {
 		parent::__construct();
-		$this->message = $options['message'] ?? $this->l10n->t('"{{ value }}" is not a valid email address');
-		$this->formats = $options['formats'] ?? [
-				self::HEX_LONG,
-				self::HEX_LONG_WITH_ALPHA,
-				self::HEX_SHORT,
-				self::HEX_SHORT_WITH_ALPHA,
-				self::BASIC_NAMED_COLORS,
-				self::EXTENDED_NAMED_COLORS,
-				self::SYSTEM_COLORS,
-				self::KEYWORDS,
-				self::RGB,
-				self::RGBA,
-				self::HSL,
-				self::HSLA,
-			];
+		$this->message = $message ?? $this->l10n->t('"{{ value }}" is not a valid email address');
+		$this->formats = $formats ?? [
+			self::HEX_LONG,
+			self::HEX_LONG_WITH_ALPHA,
+			self::HEX_SHORT,
+			self::HEX_SHORT_WITH_ALPHA,
+			self::BASIC_NAMED_COLORS,
+			self::EXTENDED_NAMED_COLORS,
+			self::SYSTEM_COLORS,
+			self::KEYWORDS,
+			self::RGB,
+			self::RGBA,
+			self::HSL,
+			self::HSLA,
+		];
 	}
 
 	public function getMessage(): string {

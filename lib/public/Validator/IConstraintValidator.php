@@ -21,8 +21,6 @@
 
 namespace OCP\Validator;
 
-use OCP\Validator\Constraints\Constraint;
-
 interface IConstraintValidator {
 	/**
 	 * @param mixed The value to validate

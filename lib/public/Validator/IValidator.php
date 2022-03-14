@@ -21,8 +21,6 @@
 
 namespace OCP\Validator;
 
-use OCP\Validator\Constraints\Constraint;
-
 interface IValidator {
 	/**
 	 * Validate a value according to one or more constraints.

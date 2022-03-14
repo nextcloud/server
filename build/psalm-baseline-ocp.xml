@@ -16,6 +16,11 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
+  <file src="lib/public/Validator/Constraints/Constraint.php">
+    <UndefinedClass occurrences="1">
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>

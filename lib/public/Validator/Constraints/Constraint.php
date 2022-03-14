@@ -24,12 +24,11 @@ namespace OCP\Validator\Constraints;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\Validator\IConstraintValidator;
-use OCP\Validator\Violation;
 
 /**
  * Abstract class for validation constraint.
  */
-abstract class Constraint implements IConstraintValidator{
+abstract class Constraint implements IConstraintValidator {
 	protected IL10N $l10n;
 
 	public function __construct() {
