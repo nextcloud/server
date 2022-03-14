@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\UserMigration;
 
-use Exception;
+use OCP\UserMigration\UserMigrationException;
 
-class CalendarMigratorException extends Exception {
+class CalendarMigratorException extends UserMigrationException {
 }
