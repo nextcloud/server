@@ -43,6 +43,7 @@ OC.L10N.register(
     "You changed your email address" : "您已更改您的電子郵件地址",
     "Your email address was changed by an administrator" : "您的電子郵件已被管理員變更",
     "You created app password \"{token}\"" : "您建立了應用程式密碼「{token}」",
+    "An administrator created app password \"{token}\"" : "管理員建立了應用程式密碼「{token}」",
     "You deleted app password \"{token}\"" : "您刪除了應用程式密碼「{token}」",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "您已將應用程式密碼「{token}」重新命名為「{newToken}」",
     "You granted filesystem access to app password \"{token}\"" : "您授予了應用程式密碼「{token}」檔案系統的存取權限",
