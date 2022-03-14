@@ -1,6 +1,3 @@
-import $ from 'jquery'
-import 'jquery-ui-dist/jquery-ui'
-
 window.addEventListener('DOMContentLoaded', () => {
 	$('#excludedGroups,#linksExcludedGroups').each((index, element) => {
 		OC.Settings.setupGroupsSelect($(element))
