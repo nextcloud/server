@@ -38,6 +38,7 @@ interface IMigrator {
 	/**
 	 * Export user data
 	 *
+	 * @throws UserMigrationException
 	 * @since 24.0.0
 	 */
 	public function export(
@@ -49,6 +50,7 @@ interface IMigrator {
 	/**
 	 * Import user data
 	 *
+	 * @throws UserMigrationException
 	 * @since 24.0.0
 	 */
 	public function import(
