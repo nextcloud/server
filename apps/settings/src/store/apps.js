@@ -283,15 +283,15 @@ const actions = {
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
 
-	updateApp(context, { appId }) {
+	updateApp(context, { appId, version }) {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', appId)
 			context.commit('startLoading', 'install')
-			return api.get(generateUrl(`settings/apps/update/${appId}`))
+			return api.get(generateUrl(`settings/apps/update/${appId}/${version}`))
 				.then((response) => {
 					context.commit('stopLoading', 'install')
 					context.commit('stopLoading', appId)
-					context.commit('updateApp', appId)
+					context.commit('updateApp', appId, version)
 					return true
 				})
 				.catch((error) => {

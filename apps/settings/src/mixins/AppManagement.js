@@ -135,8 +135,8 @@ export default {
 				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
 		},
-		update(appId) {
-			this.$store.dispatch('updateApp', { appId })
+		update(appId, version = '') {
+			this.$store.dispatch('updateApp', { appId, version })
 				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
 		},

@@ -50,7 +50,7 @@ return [
 		['name' => 'AppSettings#enableApps', 'url' => '/settings/apps/enable', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'AppSettings#disableApp', 'url' => '/settings/apps/disable/{appId}', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'AppSettings#disableApps', 'url' => '/settings/apps/disable', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'AppSettings#updateApp', 'url' => '/settings/apps/update/{appId}', 'verb' => 'GET' , 'root' => ''],
+		['name' => 'AppSettings#updateApp', 'url' => '/settings/apps/update/{appId}/{version}', 'verb' => 'GET' , 'defaults' => ['appId' => '', 'version' => ''],'root' => ''],
 		['name' => 'AppSettings#uninstallApp', 'url' => '/settings/apps/uninstall/{appId}', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps/{category}', 'verb' => 'GET', 'defaults' => ['category' => ''] , 'root' => ''],
 		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps/{category}/{id}', 'verb' => 'GET', 'defaults' => ['category' => '', 'id' => ''] , 'root' => ''],

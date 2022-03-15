@@ -527,12 +527,12 @@ class AppSettingsController extends Controller {
 	 * @param string $appId
 	 * @return JSONResponse
 	 */
-	public function updateApp(string $appId): JSONResponse {
+	public function updateApp(string $appId, string $version = ''): JSONResponse {
 		$appId = OC_App::cleanAppId($appId);
 
 		$this->config->setSystemValue('maintenance', true);
 		try {
-			$result = $this->installer->updateAppstoreApp($appId);
+			$result = $this->installer->updateAppstoreApp($appId, false, $version);
 			$this->config->setSystemValue('maintenance', false);
 		} catch (\Exception $ex) {
 			$this->config->setSystemValue('maintenance', false);

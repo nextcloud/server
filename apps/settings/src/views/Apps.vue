@@ -123,11 +123,14 @@
 			<AppSidebarTab v-if="app.appstoreData && app.releases[0].translations.en.changelog"
 				id="desca"
 				icon="icon-category-organization"
-				:name="t('settings', 'Changelog')"
+				:name="t('settings', 'Versions')"
 				:order="1">
 				<div v-for="release in app.appstoreData.allreleases" :key="release.version" class="app-sidebar-tabs__release">
-					<h2>{{ release.version }}</h2>
-					<!--<Markdown v-if="changelog(release)" :text="changelog(release)" />-->
+					<input
+					class="update primary"
+					type="button"
+					:value="release.version"
+					@click="update(app.id, release.version)">
 				</div>
 			</AppSidebarTab>
 		</AppSidebar>

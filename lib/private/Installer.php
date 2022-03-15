@@ -188,10 +188,10 @@ class Installer {
 	 * @param bool [$allowUnstable] Allow unstable releases
 	 * @return bool
 	 */
-	public function updateAppstoreApp($appId, $allowUnstable = false) {
-		if ($this->isUpdateAvailable($appId, $allowUnstable)) {
+	public function updateAppstoreApp($appId, $allowUnstable = false, $version = '') {
+		if ($this->isUpdateAvailable($appId, $allowUnstable) || $version !== '') {
 			try {
-				$this->downloadApp($appId, $allowUnstable);
+				$this->downloadApp($appId, $allowUnstable, $version);
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), [
 					'exception' => $e,
@@ -224,7 +224,7 @@ class Installer {
 	 *
 	 * @throws \Exception If the installation was not successful
 	 */
-	public function downloadApp($appId, $allowUnstable = false) {
+	public function downloadApp($appId, $allowUnstable = false, $targetVersion = '') {
 		$appId = strtolower($appId);
 
 		$apps = $this->appFetcher->get($allowUnstable);
@@ -293,11 +293,34 @@ class Installer {
 				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
 				$timeout = $this->isCLI ? 0 : 120;
 				$client = $this->clientService->newClient();
-				$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
 
-				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
-				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
+				$verified = false;
+
+				if ($targetVersion !== '') {
+					$done = false;
+					foreach ($app['allreleases'] as $release) {
+						if ($release['version'] === $targetVersion) {
+							$client->get($release['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
+
+							// Check if the signature actually matches the downloaded content
+							$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($release['signature']), $certificate, OPENSSL_ALGO_SHA512);
+
+							$done = true;
+							break;
+						}
+					}
+					if (!$done) {
+						throw new \Exception("Could not find app version.");
+					}
+				}
+				else {
+					$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
+					
+					// Check if the signature actually matches the downloaded content
+					$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
+				}
+
 				// PHP 8+ deprecates openssl_free_key and automatically destroys the key instance when it goes out of scope
 				if ((PHP_VERSION_ID < 80000)) {
 					openssl_free_key($certificate);
@@ -350,18 +373,18 @@ class Installer {
 					}
 
 					// Check if the version is lower than before
-					$currentVersion = OC_App::getAppVersion($appId);
-					$newVersion = (string)$xml->version;
-					if (version_compare($currentVersion, $newVersion) === 1) {
-						throw new \Exception(
-							sprintf(
-								'App for id %s has version %s and tried to update to lower version %s',
-								$appId,
-								$currentVersion,
-								$newVersion
-							)
-						);
-					}
+					// $currentVersion = OC_App::getAppVersion($appId);
+					// $newVersion = (string)$xml->version;
+					// if (version_compare($currentVersion, $newVersion) === 1) {
+					// 	throw new \Exception(
+					// 		sprintf(
+					// 			'App for id %s has version %s and tried to update to lower version %s',
+					// 			$appId,
+					// 			$currentVersion,
+					// 			$newVersion
+					// 		)
+					// 	);
+					// }
 
 					$baseDir = OC_App::getInstallPath() . '/' . $appId;
 					// Remove old app with the ID if existent
