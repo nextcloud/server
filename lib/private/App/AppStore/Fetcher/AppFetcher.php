@@ -164,6 +164,8 @@ class AppFetcher extends Fetcher {
 					}
 				}
 			}
+
+			$response['data'][$dataKey]['allreleases'] = $releases;
 		}
 
 		$response['data'] = array_values(array_filter($response['data']));

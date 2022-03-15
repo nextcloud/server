@@ -125,9 +125,9 @@
 				icon="icon-category-organization"
 				:name="t('settings', 'Changelog')"
 				:order="1">
-				<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
+				<div v-for="release in app.appstoreData.allreleases" :key="release.version" class="app-sidebar-tabs__release">
 					<h2>{{ release.version }}</h2>
-					<Markdown v-if="changelog(release)" :text="changelog(release)" />
+					<!--<Markdown v-if="changelog(release)" :text="changelog(release)" />-->
 				</div>
 			</AppSidebarTab>
 		</AppSidebar>
