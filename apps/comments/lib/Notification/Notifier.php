@@ -38,20 +38,11 @@ use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	protected $l10nFactory;
-
-	/** @var IRootFolder  */
-	protected $rootFolder;
-
-	/** @var ICommentsManager  */
-	protected $commentsManager;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IUserManager */
-	protected $userManager;
+	protected IFactory $l10nFactory;
+	protected IRootFolder $rootFolder;
+	protected ICommentsManager $commentsManager;
+	protected IURLGenerator $url;
+	protected IUserManager $userManager;
 
 	public function __construct(
 		IFactory $l10nFactory,

@@ -46,6 +46,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\ISearch;
 use OCP\IServerContainer;
+use OCP\Comments\ICommentsManager;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'comments';
@@ -84,9 +85,9 @@ class Application extends App implements IBootstrap {
 		$context->getServerContainer()->get(ISearch::class)->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
 	}
 
-	protected function registerCommentsEventHandler(IServerContainer $container) {
-		$container->getCommentsManager()->registerEventHandler(function () {
-			return $this->getContainer()->query(EventHandler::class);
+	protected function registerCommentsEventHandler(IServerContainer $container): void {
+		$container->get(ICommentsManager::class)->registerEventHandler(function (): EventHandler {
+			return $this->getContainer()->get(EventHandler::class);
 		});
 	}
 }
