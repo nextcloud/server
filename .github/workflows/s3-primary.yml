@@ -49,6 +49,13 @@ jobs:
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           php -f index.php
 
+      - name: Wait for S3
+        run: |
+          sleep 10
+          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 1 http://localhost:9000/minio/health/ready
+          sleep 10
+          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 1 http://localhost:9000/minio/health/ready
+
       - name: PHPUnit
         working-directory: tests
         run: phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
