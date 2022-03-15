@@ -45,12 +45,14 @@ class Version24000Date20211222112246 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
+		$action = false;
 		$comments = $schema->getTable('comments');
 		if (!$comments->hasColumn('reactions')) {
 			$comments->addColumn('reactions', Types::STRING, [
 				'notnull' => false,
 				'length' => 4000,
 			]);
+			$action = true;
 		}
 
 		if (!$schema->hasTable(self::TABLE_NAME)) {
@@ -89,8 +91,8 @@ class Version24000Date20211222112246 extends SimpleMigrationStep {
 			$table->addIndex(['reaction'], 'comment_reaction');
 			$table->addIndex(['parent_id'], 'comment_reaction_parent_id');
 			$table->addUniqueIndex(['parent_id', 'actor_type', 'actor_id', 'reaction'], 'comment_reaction_unique');
-			return $schema;
+			$action = true;
 		}
-		return null;
+		return $action ? $schema : null;
 	}
 }
