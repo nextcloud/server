@@ -55,12 +55,19 @@
 			<ClearAtSelect :clear-at="clearAt"
 				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
-				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">
+				<ButtonVue wide="true"
+					:text="$t('user_status', 'Clear status message')"
+					:disabled="isSavingStatus"
+					@click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
-				</button>
-				<button class="status-buttons__primary primary" :disabled="isSavingStatus" @click="saveStatus">
+				</ButtonVue>
+				<ButtonVue wide="true"
+					type="primary"
+					:text="$t('user_status', 'Set status message')"
+					:disabled="isSavingStatus"
+					@click="saveStatus">
 					{{ $t('user_status', 'Set status message') }}
-				</button>
+				</ButtonVue>
 			</div>
 		</div>
 	</Modal>
@@ -70,7 +77,7 @@
 import { showError } from '@nextcloud/dialogs'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-
+import ButtonVue from '@nextcloud/vue/dist/Components/Button'
 import { getAllStatusOptions } from '../services/statusOptionsService'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
 import PredefinedStatusesList from './PredefinedStatusesList'
@@ -88,6 +95,7 @@ export default {
 		Modal,
 		OnlineStatusSelect,
 		PredefinedStatusesList,
+		ButtonVue,
 	},
 	mixins: [OnlineStatusMixin],
 
@@ -267,10 +275,9 @@ export default {
 
 	.status-buttons {
 		display: flex;
-
-		button {
-			flex-basis: 50%;
-		}
+		padding: 3px;
+		padding-left:0;
+		gap: 3px;
 	}
 }
 
