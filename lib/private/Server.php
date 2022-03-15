@@ -144,6 +144,7 @@ use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
+use OC\Talk\Broker;
 use OC\Template\JSCombiner;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
@@ -234,6 +235,7 @@ use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Share\IShareHelper;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\Talk\IBroker;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
@@ -1399,6 +1401,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IInitialStateService::class, InitialStateService::class);
 
 		$this->registerAlias(\OCP\UserStatus\IManager::class, \OC\UserStatus\Manager::class);
+
+		$this->registerAlias(IBroker::class, Broker::class);
 
 		$this->connectDispatcher();
 	}
