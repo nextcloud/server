@@ -56,6 +56,7 @@
 				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
 				<ButtonVue wide="true"
+					type="tertiary"
 					:text="$t('user_status', 'Clear status message')"
 					:disabled="isSavingStatus"
 					@click="clearStatus">

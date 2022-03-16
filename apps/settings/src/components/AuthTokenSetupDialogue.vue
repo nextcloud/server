@@ -26,7 +26,8 @@
 			:disabled="loading"
 			:placeholder="t('settings', 'App name')"
 			@keydown.enter="submit">
-		<Button :disabled="loading"
+		<Button type="primary"
+			:disabled="loading"
 			@click="submit">
 			{{ t('settings', 'Create new app password') }}
 		</Button>
@@ -58,7 +59,8 @@
 				class="icon icon-clippy"
 				@mouseover="hoveringCopyButton = true"
 				@mouseleave="hoveringCopyButton = false" />
-			<Button @click="reset">
+			<Button type="primary"
+				@click="reset">
 				{{ t('settings', 'Done') }}
 			</Button>
 		</div>
