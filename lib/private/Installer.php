@@ -316,7 +316,7 @@ class Installer {
 				}
 				else {
 					$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
-					
+
 					// Check if the signature actually matches the downloaded content
 					$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
 				}
@@ -373,18 +373,20 @@ class Installer {
 					}
 
 					// Check if the version is lower than before
-					// $currentVersion = OC_App::getAppVersion($appId);
-					// $newVersion = (string)$xml->version;
-					// if (version_compare($currentVersion, $newVersion) === 1) {
-					// 	throw new \Exception(
-					// 		sprintf(
-					// 			'App for id %s has version %s and tried to update to lower version %s',
-					// 			$appId,
-					// 			$currentVersion,
-					// 			$newVersion
-					// 		)
-					// 	);
-					// }
+					if ($targetVersion === '') {
+						$currentVersion = OC_App::getAppVersion($appId);
+						$newVersion = (string)$xml->version;
+						if (version_compare($currentVersion, $newVersion) === 1) {
+							throw new \Exception(
+								sprintf(
+									'App for id %s has version %s and tried to update to lower version %s',
+									$appId,
+									$currentVersion,
+									$newVersion
+								)
+							);
+						}
+					}
 
 					$baseDir = OC_App::getInstallPath() . '/' . $appId;
 					// Remove old app with the ID if existent

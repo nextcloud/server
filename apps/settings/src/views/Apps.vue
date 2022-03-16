@@ -125,12 +125,12 @@
 				icon="icon-category-organization"
 				:name="t('settings', 'Versions')"
 				:order="1">
-				<div v-for="release in app.appstoreData.allreleases" :key="release.version" class="app-sidebar-tabs__release">
+				<div v-for="release in app.appstoreData.allreleases" class="app-sidebar-tabs__release">
 					<input
-					class="update primary"
-					type="button"
-					:value="release.version"
-					@click="update(app.id, release.version)">
+						class="update primary"
+						type="button"
+						:value="'Install ' + release.version"
+						@click="update(app.id, release.version)">
 				</div>
 			</AppSidebarTab>
 		</AppSidebar>
