@@ -634,8 +634,8 @@ class MigrationService {
 				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength >= 23) {
 					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" is too long.');
 				}
-			} elseif (!$primaryKey instanceof Index && !$sourceTable instanceof Table) {
-				throw new \InvalidArgumentException('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups.');
+				// } elseif (!$primaryKey instanceof Index && !$sourceTable instanceof Table) {
+				// throw new \InvalidArgumentException('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups.');
 			}
 		}
 
