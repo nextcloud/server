@@ -83,6 +83,26 @@ abstract class QBMapper {
 		return $this->tableName;
 	}
 
+	/**
+	 * Locate one row by its primary key and throw when nothing is found
+	 *
+	 * @param IQueryBuilder $query
+	 * @return Entity the result
+	 * @psalm-return T the result
+	 * @throws DoesNotExistException if the item does not exist
+	 *
+	 * @since 25.0.0
+	 */
+	public function findById(int $id): Entity {
+		$qb = $this->db->getQueryBuilder();
+		$select = $qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT)
+			);
+		return $this->findEntity($select);
+	}
+
 
 	/**
 	 * Deletes an entity from the table
