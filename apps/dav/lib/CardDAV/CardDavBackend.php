@@ -139,7 +139,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from('addressbooks')
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = (int) $result->fetchOne();
 		$result->closeCursor();
 		return $column;
@@ -1130,15 +1130,18 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return (int)$match['cardid'];
 		}, $matches);
 
+		$cards = [];
 		$query = $this->db->getQueryBuilder();
 		$query->select('c.addressbookid', 'c.carddata', 'c.uri')
 			->from($this->dbCardsTable, 'c')
-			->where($query->expr()->in('c.id', $query->createNamedParameter($matches, IQueryBuilder::PARAM_INT_ARRAY)));
+			->where($query->expr()->in('c.id', $query->createParameter('matches')));
 
-		$result = $query->execute();
-		$cards = $result->fetchAll();
-
-		$result->closeCursor();
+		foreach (array_chunk($matches, 1000) as $matchesChunk) {
+			$query->setParameter('matches', $matchesChunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$result = $query->executeQuery();
+			$cards = array_merge($cards, $result->fetchAll());
+			$result->closeCursor();
+		}
 
 		return array_map(function ($array) {
 			$array['addressbookid'] = (int) $array['addressbookid'];
