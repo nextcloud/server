@@ -42,6 +42,17 @@
   -moz-user-select: none;
   -ms-user-select: none;
 }
+#header a:focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
+#navigation a:focus-visible,
+#navigation button:not(.button-vue):focus-visible,
+#navigation div[role=button]:focus-visible,
+#expanddiv a:focus-visible,
+#expanddiv button:not(.button-vue):focus-visible,
+#expanddiv div[role=button]:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary-text);
+  border-radius: var(--border-radius);
+  outline: none;
+}
 
 /* removed until content-focusing issue is fixed */
 #skip-to-content a {
@@ -78,19 +89,17 @@
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-  padding: 7px 0;
+  padding: 5px 0;
   padding-left: 86px;
   position: relative;
-  height: 100%;
+  height: calc(100% - 4px);
   box-sizing: border-box;
   opacity: 1;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
-}
-#nextcloud:focus {
-  opacity: 0.75;
+  margin: 2px;
 }
 #nextcloud:hover, #nextcloud:active {
   opacity: 1;
@@ -169,6 +178,12 @@
 #header .header-right > div > .menu.settings-menu > ul li a:active,
 #header .header-right > div > .menu.settings-menu > ul li a.active {
   background-color: var(--color-primary-light);
+}
+#header .header-left > nav > .menu #apps > ul li a:focus-visible, #header .header-left > nav > .menu.settings-menu > ul li a:focus-visible,
+#header .header-right > div > .menu #apps > ul li a:focus-visible,
+#header .header-right > div > .menu.settings-menu > ul li a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  outline: none;
 }
 #header .header-left > nav > .menu #apps > ul li a span, #header .header-left > nav > .menu.settings-menu > ul li a span,
 #header .header-right > div > .menu #apps > ul li a span,
@@ -252,11 +267,19 @@
   justify-content: center;
   align-items: center;
   width: 50px;
-  height: 100%;
+  height: 44px;
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.85;
   padding: 0;
-  margin: 0;
+  margin: 2px 0;
+}
+#header .header-right > div > .menutoggle:focus,
+#header .header-right > form > .menutoggle:focus {
+  opacity: 1;
+}
+#header .header-right > div > .menutoggle:focus-visible,
+#header .header-right > form > .menutoggle:focus-visible {
+  outline: none;
 }
 
 /* hover effect for app switcher label */
@@ -366,7 +389,7 @@ nav[role=navigation] {
 #settings #expand {
   opacity: 1;
   /* override icon opacity */
-  padding-right: 12px;
+  margin-right: 12px;
   /* Profile picture in header */
   /* show triangle below user menu if active */
 }
@@ -453,13 +476,14 @@ nav[role=navigation] {
   position: relative;
   display: flex;
   margin: 0;
-  height: 50px;
+  height: 44px;
   width: 50px;
   align-items: center;
   justify-content: center;
-  opacity: 0.6;
+  opacity: 0.85;
   letter-spacing: -0.5px;
   font-size: 12px;
+  margin: 2px;
 }
 #appmenu li:hover a,
 #appmenu li a:focus,
@@ -565,7 +589,7 @@ nav[role=navigation] {
   border-width: 10px;
   transform: translateX(-50%);
   left: 50%;
-  bottom: 0;
+  bottom: -5px;
   display: none;
 }
 #appmenu li a.active::before,

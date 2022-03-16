@@ -1686,7 +1686,9 @@
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
 					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
-					'<span class="hidden-visually">' + t('files', 'Select') + '</span>' +
+					'<span class="hidden-visually">' + (fileData.type === 'dir' ?
+						t('files', 'Select directory "{dirName}"', {dirName: name}) :
+						t('files', 'Select file "{fileName}"', {fileName: name})) + '</span>' +
 					'</label>'
 				);
 

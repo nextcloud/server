@@ -461,6 +461,11 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 #show + label:hover, #dbpassword-toggle + label:hover, #personal-show + label:hover {
   opacity: 1;
 }
+#show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
+	box-shadow: var(--color-primary) 0 0 0 2px;
+	opacity: 1;
+	border-radius: 9999px;
+}
 #pass2, input[name='personal-password-clone'] {
 	padding: .6em 2.5em .4em .4em;
 	width: 8em;

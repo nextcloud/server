@@ -61,6 +61,7 @@
     "debounce": "^1.2.1",
     "dompurify": "^2.3.6",
     "escape-html": "^1.0.3",
+    "focus-visible": "^5.2.0",
     "handlebars": "^4.7.7",
     "ical.js": "^1.4.0",
     "jquery": "~3.6",

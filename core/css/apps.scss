@@ -124,7 +124,7 @@ kbd {
 	> ul {
 		position: relative;
 		height: 100%;
-		width: inherit;
+		width: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
 		box-sizing: border-box;
@@ -161,6 +161,11 @@ kbd {
 				> a {
 					background-color: var(--color-background-hover);
 				}
+			}
+			a:focus-visible {
+				border-radius: var(--border-radius);
+				box-shadow: var(--color-primary) inset 0 0 0 2px;
+				outline: none;
 			}
 			&.active,
 			a:active,
@@ -283,6 +288,9 @@ kbd {
 
 				&.svg {
 					padding: 0 12px 0 44px;
+					:focus-visible {
+						padding: 0 8px 0 42px;
+					}
 				}
 				&:first-child img {
 				    margin-right: 11px;
@@ -373,6 +381,13 @@ kbd {
 			/* Needed for IE11; otherwise the button appears to the right of the
 			 * link. */
 			left: 0;
+
+			&:focus-visible {
+				opacity: 1;
+				border-width: 0;
+				box-shadow: inset 0 0 0 2px var(--color-primary);
+				background: none;
+			}
 		}
 		&:before {
 			position: absolute;
@@ -763,6 +778,12 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 		left: 0;
 		display: block;
 		filter: var(--background-invert-if-dark);
+	}
+
+	&:focus-visible {
+		box-shadow: 0 0 0 2px inset var(--color-primary) !important;
+		border-radius: var(--border-radius);
+		background-position: 12px center;
 	}
 }
 

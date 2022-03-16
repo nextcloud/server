@@ -147,6 +147,15 @@ div[contenteditable=true]:not(:disabled):not(.primary):active,
   background-color: var(--color-main-background);
   color: var(--color-text-light);
 }
+div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visible,
+select:not(:disabled):not(.primary):focus-visible,
+button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
+input:not([type=range]):not(:disabled):not(.primary):focus-visible,
+textarea:not(:disabled):not(.primary):focus-visible,
+div[contenteditable=true]:not(:disabled):not(.primary):focus-visible,
+.pager li a:not(:disabled):not(.primary):focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
 div.select2-drop .select2-search input:disabled,
 select:disabled,
 button:not(.button-vue):disabled, .button:disabled,
