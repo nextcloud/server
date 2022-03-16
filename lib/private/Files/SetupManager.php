@@ -57,6 +57,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Share\Events\ShareCreatedEvent;
+use Psr\Log\LoggerInterface;
 
 class SetupManager {
 	private bool $rootSetup = false;
@@ -75,6 +76,7 @@ class SetupManager {
 	private ILockdownManager $lockdownManager;
 	private IUserSession $userSession;
 	private ICache $cache;
+	private LoggerInterface $logger;
 	private bool $listeningForProviders;
 
 	public function __construct(
@@ -86,7 +88,8 @@ class SetupManager {
 		IUserMountCache $userMountCache,
 		ILockdownManager $lockdownManager,
 		IUserSession $userSession,
-		ICacheFactory $cacheFactory
+		ICacheFactory $cacheFactory,
+		LoggerInterface $logger
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
@@ -95,6 +98,7 @@ class SetupManager {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->userMountCache = $userMountCache;
 		$this->lockdownManager = $lockdownManager;
+		$this->logger = $logger;
 		$this->userSession = $userSession;
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -378,7 +382,13 @@ class SetupManager {
 		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
 			$setupProviders[] = $cachedMount->getMountProvider();
 			$currentProviders[] = $cachedMount->getMountProvider();
-			$mounts = $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider());
+			if ($cachedMount->getMountProvider()) {
+				$mounts = $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider());
+			} else {
+				$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
+				$this->setupForUser($user);
+				return;
+			}
 		}
 
 		if ($includeChildren) {
@@ -387,7 +397,13 @@ class SetupManager {
 				if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
 					$setupProviders[] = $cachedMount->getMountProvider();
 					$currentProviders[] = $cachedMount->getMountProvider();
-					$mounts = array_merge($mounts, $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider()));
+					if ($cachedMount->getMountProvider()) {
+						$mounts = array_merge($mounts, $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider()));
+					} else {
+						$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
+						$this->setupForUser($user);
+						return;
+					}
 				}
 			}
 		}

@@ -32,6 +32,7 @@ use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
+use Psr\Log\LoggerInterface;
 
 class SetupManagerFactory {
 	private IEventLogger $eventLogger;
@@ -43,6 +44,7 @@ class SetupManagerFactory {
 	private IUserSession $userSession;
 	private ?SetupManager $setupManager;
 	private ICacheFactory $cacheFactory;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		IEventLogger $eventLogger,
@@ -52,7 +54,8 @@ class SetupManagerFactory {
 		IUserMountCache $userMountCache,
 		ILockdownManager $lockdownManager,
 		IUserSession $userSession,
-		ICacheFactory $cacheFactory
+		ICacheFactory $cacheFactory,
+		LoggerInterface $logger
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
@@ -62,6 +65,7 @@ class SetupManagerFactory {
 		$this->lockdownManager = $lockdownManager;
 		$this->userSession = $userSession;
 		$this->cacheFactory = $cacheFactory;
+		$this->logger = $logger;
 		$this->setupManager = null;
 	}
 
@@ -76,7 +80,8 @@ class SetupManagerFactory {
 				$this->userMountCache,
 				$this->lockdownManager,
 				$this->userSession,
-				$this->cacheFactory
+				$this->cacheFactory,
+				$this->logger
 			);
 		}
 		return $this->setupManager;
