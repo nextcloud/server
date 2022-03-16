@@ -31,6 +31,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -57,6 +58,9 @@ class DeleteCalendarTest extends TestCase {
 
 	/** @var DeleteCalendar */
 	private $command;
+	
+	/** @var MockObject|LoggerInterface */
+	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,12 +69,14 @@ class DeleteCalendarTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->command = new DeleteCalendar(
 			$this->calDav,
 			$this->config,
 			$this->l10n,
 			$this->userManager,
+			$this->logger
 		);
 	}
 

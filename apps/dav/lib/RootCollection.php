@@ -47,6 +47,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
@@ -54,6 +55,7 @@ class RootCollection extends SimpleCollection {
 		$l10n = \OC::$server->getL10N('dav');
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
+		$psrLogger = \OC::$server->get(LoggerInterface::class);
 		$userManager = \OC::$server->getUserManager();
 		$userSession = \OC::$server->getUserSession();
 		$groupManager = \OC::$server->getGroupManager();
@@ -107,15 +109,15 @@ class RootCollection extends SimpleCollection {
 			$legacyDispatcher,
 			$config
 		);
-		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
+		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $psrLogger);
 		$userCalendarRoot->disableListing = $disableListing;
 
-		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources');
+		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources', $psrLogger);
 		$resourceCalendarRoot->disableListing = $disableListing;
-		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms');
+		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $psrLogger);
 		$roomCalendarRoot->disableListing = $disableListing;
 
-		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config);
+		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $psrLogger);
 		$publicCalendarRoot->disableListing = $disableListing;
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(

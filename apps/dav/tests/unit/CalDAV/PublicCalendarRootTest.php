@@ -42,6 +42,7 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -83,6 +84,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = \OC::$server->getSecureRandom();
 		$this->logger = $this->createMock(ILogger::class);
+		$this->psrLogger = $this->createMock(LoggerInterface::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$config = $this->createMock(IConfig::class);
@@ -111,7 +113,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend,
-			$this->l10n, $this->config);
+			$this->l10n, $this->config, $this->psrLogger);
 	}
 
 	protected function tearDown(): void {
@@ -165,11 +167,11 @@ class PublicCalendarRootTest extends TestCase {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
-		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config);
+		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->psrLogger);
 		$publicUri = $calendar->setPublishStatus(true);
 
 		$calendarInfo = $this->backend->getPublicCalendar($publicUri);
-		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config);
+		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->psrLogger);
 
 		return $calendar;
 	}

@@ -134,6 +134,8 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 				return vsprintf($text, $parameters);
 			});
 
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+
 		$config = $this->createMock(IConfig::class);
 
 		$this->userManager->expects($this->any())
@@ -147,14 +149,14 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config, $logger);
 		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
 		$this->backend->updateShares($calendar, $add, []);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config, $logger);
 		$acl = $calendar->getACL();
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
@@ -500,8 +502,8 @@ EOD;
 		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
 		$config = $this->createMock(IConfig::class);
-
-		$calendar = new Calendar($this->backend, $calendarInfo, $l10n, $config);
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$calendar = new Calendar($this->backend, $calendarInfo, $l10n, $config, $logger);
 		$calendar->setPublishStatus(true);
 		$this->assertNotEquals(false, $calendar->getPublishStatus());
 
@@ -1237,7 +1239,9 @@ EOD;
 
 		$sharerCalendars = $this->backend->getCalendarsForUser($sharer);
 		$this->assertCount(1, $sharerCalendars);
-		$sharerCalendar = new Calendar($this->backend, $sharerCalendars[0], $l10n, $config);
+
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$sharerCalendar = new Calendar($this->backend, $sharerCalendars[0], $l10n, $config, $logger);
 		$this->backend->updateShares($sharerCalendar, [
 			[
 				'href' => 'principal:' . $me,
