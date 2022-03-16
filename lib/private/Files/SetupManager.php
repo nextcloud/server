@@ -48,6 +48,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 
 class SetupManager {
@@ -60,6 +61,7 @@ class SetupManager {
 	private IEventDispatcher $eventDispatcher;
 	private IUserMountCache $userMountCache;
 	private ILockdownManager $lockdownManager;
+	private IUserSession $userSession;
 	private bool $listeningForProviders;
 
 	public function __construct(
@@ -69,7 +71,8 @@ class SetupManager {
 		IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,
 		IUserMountCache $userMountCache,
-		ILockdownManager $lockdownManager
+		ILockdownManager $lockdownManager,
+		IUserSession $userSession
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
@@ -78,6 +81,7 @@ class SetupManager {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->userMountCache = $userMountCache;
 		$this->lockdownManager = $lockdownManager;
+		$this->userSession = $userSession;
 		$this->listeningForProviders = false;
 	}
 
@@ -239,7 +243,14 @@ class SetupManager {
 	 * Set up the filesystem for the specified path
 	 */
 	public function setupForPath(string $path): void {
-		if (substr_count($path, '/') < 2 || strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0 || strpos($path, '/files_external/') === 0) {
+		if (substr_count($path, '/') < 2) {
+			if ($user = $this->userSession->getUser()) {
+				$this->setupForUser($user);
+			} else {
+				$this->setupRoot();
+			}
+			return;
+		} elseif (strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0 || strpos($path, '/files_external/') === 0) {
 			$this->setupRoot();
 			return;
 		} else {
