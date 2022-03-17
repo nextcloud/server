@@ -30,16 +30,15 @@ use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 
 class Collation implements IRepairStep {
 	/**  @var IConfig */
 	protected $config;
 
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -48,12 +47,14 @@ class Collation implements IRepairStep {
 	protected $ignoreFailures;
 
 	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param IDBConnection $connection
 	 * @param bool $ignoreFailures
 	 */
-	public function __construct(IConfig $config, ILogger $logger, IDBConnection $connection, $ignoreFailures) {
+	public function __construct(
+		IConfig $config,
+		LoggerInterface $logger,
+		IDBConnection $connection,
+		$ignoreFailures
+	) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->logger = $logger;
@@ -83,7 +84,7 @@ class Collation implements IRepairStep {
 				$query->execute();
 			} catch (DriverException $e) {
 				// Just log this
-				$this->logger->logException($e);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				if (!$this->ignoreFailures) {
 					throw $e;
 				}
@@ -95,7 +96,7 @@ class Collation implements IRepairStep {
 				$query->execute();
 			} catch (DriverException $e) {
 				// Just log this
-				$this->logger->logException($e);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				if (!$this->ignoreFailures) {
 					throw $e;
 				}

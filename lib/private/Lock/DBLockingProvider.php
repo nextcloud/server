@@ -31,9 +31,9 @@ use OC\DB\QueryBuilder\Literal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Locking provider that stores the locks in the database
@@ -44,10 +44,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 */
 	private $connection;
 
-	/**
-	 * @var \OCP\ILogger
-	 */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/**
 	 * @var \OCP\AppFramework\Utility\ITimeFactory
@@ -104,15 +101,11 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	/**
-	 * @param \OCP\IDBConnection $connection
-	 * @param \OCP\ILogger $logger
-	 * @param \OCP\AppFramework\Utility\ITimeFactory $timeFactory
-	 * @param int $ttl
 	 * @param bool $cacheSharedLocks
 	 */
 	public function __construct(
 		IDBConnection $connection,
-		ILogger $logger,
+		LoggerInterface $logger,
 		ITimeFactory $timeFactory,
 		int $ttl = 3600,
 		$cacheSharedLocks = true

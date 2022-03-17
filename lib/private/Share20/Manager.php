@@ -57,7 +57,6 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -75,6 +74,7 @@ use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -85,8 +85,7 @@ class Manager implements IManager {
 
 	/** @var IProviderFactory */
 	private $factory;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var IConfig */
 	private $config;
 	/** @var ISecureRandom */
@@ -125,7 +124,7 @@ class Manager implements IManager {
 	private $knownUserService;
 
 	public function __construct(
-		ILogger $logger,
+		LoggerInterface $logger,
 		IConfig $config,
 		ISecureRandom $secureRandom,
 		IHasher $hasher,
@@ -951,7 +950,7 @@ class Manager implements IManager {
 				return;
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['message' => 'Share notification mail could not be sent']);
+			$this->logger->error('Share notification mail could not be sent', ['exception' => $e]);
 		}
 	}
 

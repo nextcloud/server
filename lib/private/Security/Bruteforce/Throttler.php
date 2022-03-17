@@ -36,8 +36,8 @@ use OC\Security\Normalizer\IpAddress;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Throttler implements the bruteforce protection for security actions in
@@ -62,22 +62,15 @@ class Throttler {
 	private $db;
 	/** @var ITimeFactory */
 	private $timeFactory;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var IConfig */
 	private $config;
 	/** @var bool */
 	private $hasAttemptsDeleted = false;
 
-	/**
-	 * @param IDBConnection $db
-	 * @param ITimeFactory $timeFactory
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 */
 	public function __construct(IDBConnection $db,
 								ITimeFactory $timeFactory,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IConfig $config) {
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;

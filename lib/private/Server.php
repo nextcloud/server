@@ -2360,8 +2360,8 @@ class Server extends ServerContainer implements IServerContainer {
 	private function registerDeprecatedAlias(string $alias, string $target) {
 		$this->registerService($alias, function (ContainerInterface $container) use ($target, $alias) {
 			try {
-				/** @var ILogger $logger */
-				$logger = $container->get(ILogger::class);
+				/** @var LoggerInterface $logger */
+				$logger = $container->get(LoggerInterface::class);
 				$logger->debug('The requested alias "' . $alias . '" is deprecated. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
 			} catch (ContainerExceptionInterface $e) {
 				// Could not get logger. Continue

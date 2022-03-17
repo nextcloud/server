@@ -24,7 +24,7 @@
  */
 namespace OC\Route;
 
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CachingRouter extends Router {
 	/**
@@ -34,9 +34,8 @@ class CachingRouter extends Router {
 
 	/**
 	 * @param \OCP\ICache $cache
-	 * @param ILogger $logger
 	 */
-	public function __construct($cache, ILogger $logger) {
+	public function __construct($cache, LoggerInterface $logger) {
 		$this->cache = $cache;
 		parent::__construct($logger);
 	}

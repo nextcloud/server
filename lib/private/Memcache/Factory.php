@@ -33,8 +33,8 @@ namespace OC\Memcache;
 
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\ILogger;
 use OCP\IMemcache;
+use Psr\Log\LoggerInterface;
 
 class Factory implements ICacheFactory {
 	public const NULL_CACHE = NullCache::class;
@@ -44,10 +44,7 @@ class Factory implements ICacheFactory {
 	 */
 	private $globalPrefix;
 
-	/**
-	 * @var ILogger $logger
-	 */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/**
 	 * @var string $localCacheClass
@@ -67,16 +64,14 @@ class Factory implements ICacheFactory {
 	/** @var string */
 	private $logFile;
 
-	/**
-	 * @param string $globalPrefix
-	 * @param ILogger $logger
-	 * @param string|null $localCacheClass
-	 * @param string|null $distributedCacheClass
-	 * @param string|null $lockingCacheClass
-	 * @param string $logFile
-	 */
-	public function __construct(string $globalPrefix, ILogger $logger,
-		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null, string $logFile = '') {
+	public function __construct(
+		string $globalPrefix,
+		LoggerInterface $logger,
+		?string $localCacheClass = null,
+		?string $distributedCacheClass = null,
+		?string $lockingCacheClass = null,
+		string $logFile = ''
+	) {
 		$this->logger = $logger;
 		$this->logFile = $logFile;
 		$this->globalPrefix = $globalPrefix;

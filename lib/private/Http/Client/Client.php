@@ -39,7 +39,6 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
 use OCP\IConfig;
-use OCP\ILogger;
 
 /**
  * Class Client
@@ -51,8 +50,6 @@ class Client implements IClient {
 	private $client;
 	/** @var IConfig */
 	private $config;
-	/** @var ILogger */
-	private $logger;
 	/** @var ICertificateManager */
 	private $certificateManager;
 	/** @var LocalAddressChecker */
@@ -60,13 +57,11 @@ class Client implements IClient {
 
 	public function __construct(
 		IConfig $config,
-		ILogger $logger,
 		ICertificateManager $certificateManager,
 		GuzzleClient $client,
 		LocalAddressChecker $localAddressChecker
 	) {
 		$this->config = $config;
-		$this->logger = $logger;
 		$this->client = $client;
 		$this->certificateManager = $certificateManager;
 		$this->localAddressChecker = $localAddressChecker;

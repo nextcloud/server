@@ -27,12 +27,12 @@ declare(strict_types=1);
  */
 namespace OC\EventDispatcher;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
-use function is_callable;
 use OCP\EventDispatcher\Event;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use function is_callable;
 use function is_object;
 use function is_string;
 
@@ -43,13 +43,12 @@ class SymfonyAdapter implements EventDispatcherInterface {
 
 	/** @var EventDispatcher */
 	private $eventDispatcher;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public function __construct(EventDispatcher $eventDispatcher, ILogger $logger) {
+	public function __construct(EventDispatcher $eventDispatcher, LoggerInterface $logger) {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
 	}

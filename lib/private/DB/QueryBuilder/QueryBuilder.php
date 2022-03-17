@@ -53,7 +53,7 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
 
@@ -63,8 +63,7 @@ class QueryBuilder implements IQueryBuilder {
 	/** @var SystemConfig */
 	private $systemConfig;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var \Doctrine\DBAL\Query\QueryBuilder */
 	private $queryBuilder;
@@ -83,9 +82,8 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @param ConnectionAdapter $connection
 	 * @param SystemConfig $systemConfig
-	 * @param ILogger $logger
 	 */
-	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, ILogger $logger) {
+	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->systemConfig = $systemConfig;
 		$this->logger = $logger;
@@ -229,8 +227,7 @@ class QueryBuilder implements IQueryBuilder {
 				}
 			} catch (\Error $e) {
 				// likely an error during conversion of $value to string
-				$this->logger->debug('DB QueryBuilder: error trying to log SQL query');
-				$this->logger->logException($e);
+				$this->logger->debug('DB QueryBuilder: error trying to log SQL query', ['exception' => $e]);
 			}
 		}
 
@@ -245,11 +242,10 @@ class QueryBuilder implements IQueryBuilder {
 
 			if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
 				$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-				$this->logger->logException($exception, [
-					'message' => 'Query is selecting * and specific values in the same query. This is not supported in Oracle.',
+				$this->logger->error($exception->getMessage(), [
 					'query' => $this->getSQL(),
-					'level' => ILogger::ERROR,
 					'app' => 'core',
+					'exception' => $exception,
 				]);
 			}
 		}
@@ -266,21 +262,19 @@ class QueryBuilder implements IQueryBuilder {
 
 		if ($hasTooLargeArrayParameter) {
 			$exception = new QueryException('More than 1000 expressions in a list are not allowed on Oracle.');
-			$this->logger->logException($exception, [
-				'message' => 'More than 1000 expressions in a list are not allowed on Oracle.',
+			$this->logger->error($exception->getMessage(), [
 				'query' => $this->getSQL(),
-				'level' => ILogger::ERROR,
 				'app' => 'core',
+				'exception' => $exception,
 			]);
 		}
 
 		if ($numberOfParameters > 65535) {
 			$exception = new QueryException('The number of parameters must not exceed 65535. Restriction by PostgreSQL.');
-			$this->logger->logException($exception, [
-				'message' => 'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',
+			$this->logger->error($exception->getMessage(), [
 				'query' => $this->getSQL(),
-				'level' => ILogger::ERROR,
 				'app' => 'core',
+				'exception' => $exception,
 			]);
 		}
 

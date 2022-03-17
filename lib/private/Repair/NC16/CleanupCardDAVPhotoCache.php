@@ -30,9 +30,9 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 /**
@@ -52,10 +52,9 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 	/** @var IAppData */
 	private $appData;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
-	public function __construct(IConfig $config, IAppData $appData, ILogger $logger) {
+	public function __construct(IConfig $config, IAppData $appData, LoggerInterface $logger) {
 		$this->config = $config;
 		$this->appData = $appData;
 		$this->logger = $logger;
@@ -71,7 +70,7 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 		} catch (NotFoundException $e) {
 			return;
 		} catch (RuntimeException $e) {
-			$this->logger->logException($e, ['message' => 'Failed to fetch directory listing in CleanupCardDAVPhotoCache']);
+			$this->logger->error('Failed to fetch directory listing in CleanupCardDAVPhotoCache', ['exception' => $e]);
 			return;
 		}
 
@@ -90,7 +89,7 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 				/** @var ISimpleFolder $folder */
 				$folder->getFile('photo.')->delete();
 			} catch (\Exception $e) {
-				$this->logger->logException($e);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				$output->warning('Could not delete file "dav-photocache/' . $folder->getName() . '/photo."');
 			}
 		}

@@ -31,18 +31,17 @@ use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Mount provider for object store app data folder for previews
  */
 class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(ILogger $logger, IConfig $config) {
+	public function __construct(LoggerInterface $logger, IConfig $config) {
 		$this->logger = $logger;
 		$this->config = $config;
 	}

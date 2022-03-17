@@ -48,7 +48,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Scanner
@@ -71,8 +71,7 @@ class Scanner extends PublicEmitter {
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/**
 	 * Whether to use a DB transaction
@@ -92,9 +91,8 @@ class Scanner extends PublicEmitter {
 	 * @param string $user
 	 * @param IDBConnection|null $db
 	 * @param IEventDispatcher $dispatcher
-	 * @param ILogger $logger
 	 */
-	public function __construct($user, $db, IEventDispatcher $dispatcher, ILogger $logger) {
+	public function __construct($user, $db, IEventDispatcher $dispatcher, LoggerInterface $logger) {
 		$this->user = $user;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
@@ -263,8 +261,7 @@ class Scanner extends PublicEmitter {
 				}
 				$propagator->commitBatch();
 			} catch (StorageNotAvailableException $e) {
-				$this->logger->error('Storage ' . $storage->getId() . ' not available');
-				$this->logger->logException($e);
+				$this->logger->error('Storage ' . $storage->getId() . ' not available', ['exception' => $e]);
 				$this->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [$e]);
 			}
 			if ($this->useTransaction) {

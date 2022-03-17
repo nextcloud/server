@@ -29,15 +29,14 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\ILogger;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class CleanPreviewsBackgroundJob extends QueuedJob {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var IJobList */
 	private $jobList;
@@ -50,15 +49,9 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 
 	/**
 	 * CleanPreviewsBackgroundJob constructor.
-	 *
-	 * @param IRootFolder $rootFolder
-	 * @param ILogger $logger
-	 * @param IJobList $jobList
-	 * @param ITimeFactory $timeFactory
-	 * @param IUserManager $userManager
 	 */
 	public function __construct(IRootFolder $rootFolder,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IJobList $jobList,
 								ITimeFactory $timeFactory,
 								IUserManager $userManager) {

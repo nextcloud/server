@@ -44,9 +44,9 @@ use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Root
@@ -73,7 +73,7 @@ class Root extends Folder implements IRootFolder {
 	private ?IUser $user;
 	private CappedMemoryCache $userFolderCache;
 	private IUserMountCache $userMountCache;
-	private ILogger $logger;
+	private LoggerInterface $logger;
 	private IUserManager $userManager;
 	private IEventDispatcher $eventDispatcher;
 
@@ -81,16 +81,13 @@ class Root extends Folder implements IRootFolder {
 	 * @param Manager $manager
 	 * @param View $view
 	 * @param IUser|null $user
-	 * @param IUserMountCache $userMountCache
-	 * @param ILogger $logger
-	 * @param IUserManager $userManager
 	 */
 	public function __construct(
 		$manager,
 		$view,
 		$user,
 		IUserMountCache $userMountCache,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IUserManager $userManager,
 		IEventDispatcher $eventDispatcher
 	) {

@@ -41,7 +41,6 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
@@ -49,6 +48,7 @@ use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -73,8 +73,7 @@ class Mailer implements IMailer {
 	private $instance = null;
 	/** @var IConfig */
 	private $config;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var Defaults */
 	private $defaults;
 	/** @var IURLGenerator */
@@ -86,16 +85,8 @@ class Mailer implements IMailer {
 	/** @var IFactory */
 	private $l10nFactory;
 
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param Defaults $defaults
-	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l10n
-	 * @param IEventDispatcher $dispatcher
-	 */
 	public function __construct(IConfig $config,
-						 ILogger $logger,
+						 LoggerInterface $logger,
 						 Defaults $defaults,
 						 IURLGenerator $urlGenerator,
 						 IL10N $l10n,
