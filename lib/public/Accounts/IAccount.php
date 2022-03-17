@@ -76,6 +76,40 @@ interface IAccount extends \JsonSerializable {
 	 *
 	 * @param array<string, array<string, string>>|array<string, array<int, array<string, string>>> $properties
 	 *
+	 * e.g. `[
+	 *   'displayname' => [
+	 *     'name' => 'displayname',
+	 *     'value' => 'Jonathan Smith',
+	 *     'scope' => 'v2-federated',
+	 *     'verified' => '0',
+	 *     'verificationData' => '',
+	 *   ],
+	 *   'email' => [
+	 *     'name' => 'email',
+	 *     'value' => 'jonathan@example.org',
+	 *     'scope' => 'v2-federated',
+	 *     'verified' => '0',
+	 *     'verificationData' => '',
+	 *   ],
+	 *   // ...
+	 *   'additional_mail' => [
+	 *     [
+	 *       'name' => 'additional_mail',
+	 *       'value' => 'jon@example.org',
+	 *       'scope' => 'v2-local',
+	 *       'verified' => '0',
+	 *       'verificationData' => '',
+	 *     ],
+	 *     [
+	 *       'name' => 'additional_mail',
+	 *       'value' => 'jon@earth.org',
+	 *       'scope' => 'v2-local',
+	 *       'verified' => '0',
+	 *       'verificationData' => '',
+	 *     ],
+	 *   ],
+	 * ]`
+	 *
 	 * @since 24.0.0
 	 */
 	public function setAllPropertiesFromJson(array $properties): IAccount;
