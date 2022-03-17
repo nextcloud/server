@@ -36,7 +36,6 @@
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
-use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Encoding;
 use OC\Hooks\BasicEmitter;
@@ -140,8 +139,8 @@ class Scanner extends BasicEmitter implements IScanner {
 				return null;
 			}
 		}
-		// only proceed if $file is not a partial file nor a blacklisted file
-		if (!self::isPartialFile($file) and !Filesystem::isFileBlacklisted($file)) {
+		// only proceed if $file is not a partial file, blacklist is handled by the storage
+		if (!self::isPartialFile($file)) {
 
 			//acquire a lock
 			if ($lock) {
