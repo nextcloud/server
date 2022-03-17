@@ -666,8 +666,21 @@ class DefaultShareProvider implements IShareProvider {
 			);
 		}
 
+		// todo? maybe get these from the oc_mounts table
+		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node) {
+			return $node->getInternalPath() === '';
+		});
+		$childMountRootIds = array_map(function (Node $node) {
+			return $node->getId();
+		}, $childMountNodes);
+
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
-		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
+		$qb->andWhere(
+			$qb->expr()->orX(
+				$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+				$qb->expr()->in('f.fileid', $qb->createNamedParameter($childMountRootIds, IQueryBuilder::PARAM_INT_ARRAY))
+			)
+		);
 
 		$qb->orderBy('id');
 
