@@ -4,7 +4,12 @@
 	<id>dashboard</id>
 	<name>Dashboard</name>
 	<summary>Dashboard app</summary>
-	<description><![CDATA[Show something]]></description>
+	<description><![CDATA[Start your day informed
+
+The Nextcloud Dashboard is your starting point of the day, giving you an
+overview of your upcoming appointments, urgent emails, chat messages,
+incoming tickets, latest tweets and much more! Users can add the widgets
+they like and change the background to their liking.]]></description>
 	<version>7.4.0</version>
 	<licence>agpl</licence>
 	<author>Julius Härtl</author>
