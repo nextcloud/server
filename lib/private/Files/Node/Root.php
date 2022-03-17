@@ -38,7 +38,6 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
-use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;

@@ -464,7 +464,7 @@ class SetupManager {
 		];
 
 		foreach ($genericEvents as $genericEvent) {
-			$this->eventDispatcher->addListener($genericEvent, function($event) {
+			$this->eventDispatcher->addListener($genericEvent, function ($event) {
 				$this->cache->clear();
 			});
 		}

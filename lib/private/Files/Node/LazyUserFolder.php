@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OC\Files\Node;
 
-
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -36,7 +35,7 @@ class LazyUserFolder extends LazyFolder {
 	public function __construct(IRootFolder $rootFolder, IUser $user) {
 		$this->rootFolder = $rootFolder;
 		$this->user = $user;
-		parent::__construct(function() use ($user) {
+		parent::__construct(function () use ($user) {
 			try {
 				return $this->rootFolder->get('/' . $user->getUID() . '/files');
 			} catch (NotFoundException $e) {
@@ -54,6 +53,4 @@ class LazyUserFolder extends LazyFolder {
 	public function get($path) {
 		return $this->rootFolder->get('/' . $this->user->getUID() . '/files/' . rtrim($path, '/'));
 	}
-
-
 }
