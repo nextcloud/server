@@ -66,6 +66,9 @@ class Filesystem {
 
 	private static $listeningForProviders = false;
 
+	/** @var string[]|null */
+	private static $blacklist = null;
+
 	/**
 	 * classname which used for hooks handling
 	 * used as signalclass in OC_Hooks::emit()
@@ -492,9 +495,12 @@ class Filesystem {
 	public static function isFileBlacklisted($filename) {
 		$filename = self::normalizePath($filename);
 
-		$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+		if (self::$blacklist === null) {
+			self::$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+		}
+
 		$filename = strtolower(basename($filename));
-		return in_array($filename, $blacklist);
+		return in_array($filename, self::$blacklist);
 	}
 
 	/**
