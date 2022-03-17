@@ -43,6 +43,7 @@ use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\InvalidArgumentException;
+use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\OutOfSpaceException;
 use Icewind\SMB\Exception\TimedOutException;
@@ -84,7 +85,7 @@ class SMB extends Common implements INotifyStorage {
 	protected $root;
 
 	/**
-	 * @var \Icewind\SMB\IFileInfo[]
+	 * @var IFileInfo[]
 	 */
 	protected $statCache;
 
@@ -179,20 +180,24 @@ class SMB extends Common implements INotifyStorage {
 
 	/**
 	 * @param string $path
-	 * @return \Icewind\SMB\IFileInfo
+	 * @return IFileInfo
 	 * @throws StorageAuthException
 	 */
 	protected function getFileInfo($path) {
 		try {
 			$path = $this->buildPath($path);
-			if (!isset($this->statCache[$path])) {
-				$this->statCache[$path] = $this->share->stat($path);
+			$cached = $this->statCache[$path] ?? null;
+			if ($cached instanceof IFileInfo) {
+				return $cached;
+			} else {
+				$stat = $this->share->stat($path);
+				$this->statCache[$path] = $stat;
+				return $stat;
 			}
-			return $this->statCache[$path];
 		} catch (ConnectException $e) {
 			$this->throwUnavailable($e);
 		} catch (ForbiddenException $e) {
-			// with php-smbclient, this exceptions is thrown when the provided password is invalid.
+			// with php-smbclient, this exception is thrown when the provided password is invalid.
 			// Possible is also ForbiddenException with a different error code, so we check it.
 			if ($e->getCode() === 1) {
 				$this->throwUnavailable($e);
@@ -203,6 +208,7 @@ class SMB extends Common implements INotifyStorage {
 
 	/**
 	 * @param \Exception $e
+	 * @return never
 	 * @throws StorageAuthException
 	 */
 	protected function throwUnavailable(\Exception $e) {
@@ -230,7 +236,7 @@ class SMB extends Common implements INotifyStorage {
 
 	/**
 	 * @param string $path
-	 * @return \Icewind\SMB\IFileInfo[]
+	 * @return \Generator<IFileInfo>
 	 * @throws StorageNotAvailableException
 	 */
 	protected function getFolderContents($path): iterable {
@@ -241,6 +247,8 @@ class SMB extends Common implements INotifyStorage {
 			} catch (ForbiddenException $e) {
 				$this->logger->critical($e->getMessage(), ['exception' => $e]);
 				throw new NotPermittedException();
+			} catch (InvalidTypeException $e) {
+				return;
 			}
 			foreach ($files as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
@@ -281,7 +289,7 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	/**
-	 * @param \Icewind\SMB\IFileInfo $info
+	 * @param IFileInfo $info
 	 * @return array
 	 */
 	protected function formatInfo($info) {
@@ -613,7 +621,7 @@ class SMB extends Common implements INotifyStorage {
 			return false;
 		}
 		$names = array_map(function ($info) {
-			/** @var \Icewind\SMB\IFileInfo $info */
+			/** @var IFileInfo $info */
 			return $info->getName();
 		}, iterator_to_array($files));
 		return IteratorDirectory::wrap($names);
