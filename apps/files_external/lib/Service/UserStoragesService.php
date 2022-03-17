@@ -32,6 +32,7 @@ use OC\Files\Filesystem;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\IUserSession;
 
@@ -49,15 +50,17 @@ class UserStoragesService extends StoragesService {
 	 * @param DBConfigService $dbConfig
 	 * @param IUserSession $userSession user session
 	 * @param IUserMountCache $userMountCache
+	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IUserMountCache $userMountCache
+		IUserMountCache $userMountCache,
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->userSession = $userSession;
-		parent::__construct($backendService, $dbConfig, $userMountCache);
+		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
 	}
 
 	protected function readDBConfig() {

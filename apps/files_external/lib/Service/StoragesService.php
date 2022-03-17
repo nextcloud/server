@@ -40,7 +40,9 @@ use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 
@@ -62,15 +64,24 @@ abstract class StoragesService {
 	 */
 	protected $userMountCache;
 
+	protected IEventDispatcher $eventDispatcher;
+
 	/**
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfigService
 	 * @param IUserMountCache $userMountCache
+	 * @param IEventDispatcher $eventDispatcher
 	 */
-	public function __construct(BackendService $backendService, DBConfigService $dbConfigService, IUserMountCache $userMountCache) {
+	public function __construct(
+		BackendService $backendService,
+		DBConfigService $dbConfigService,
+		IUserMountCache $userMountCache,
+		IEventDispatcher $eventDispatcher
+	) {
 		$this->backendService = $backendService;
 		$this->dbConfig = $dbConfigService;
 		$this->userMountCache = $userMountCache;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	protected function readDBConfig() {
@@ -339,6 +350,7 @@ abstract class StoragesService {
 	 * @param array $applicableArray array of applicable users/groups for which to trigger the hook
 	 */
 	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray) {
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 		foreach ($applicableArray as $applicable) {
 			\OCP\Util::emitHook(
 				Filesystem::CLASSNAME,
