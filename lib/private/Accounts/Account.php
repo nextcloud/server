@@ -104,9 +104,16 @@ class Account implements IAccount {
 		return $result;
 	}
 
-	/** @return IAccountPropertyCollection[]|IAccountProperty[] */
+	/** @return array<string, IAccountProperty|array<int, IAccountProperty>> */
 	public function jsonSerialize(): array {
-		return $this->properties;
+		$properties = $this->properties;
+		foreach ($properties as $propertyName => $propertyObject) {
+			if ($propertyObject instanceof IAccountPropertyCollection) {
+				// Override collection serialization to discard duplicate name
+				$properties[$propertyName] = $propertyObject->jsonSerialize()[$propertyName];
+			}
+		}
+		return $properties;
 	}
 
 	public function getUser(): IUser {
