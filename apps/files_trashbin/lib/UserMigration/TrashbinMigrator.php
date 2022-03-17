@@ -104,23 +104,23 @@ class TrashbinMigrator implements IMigrator {
 				throw new UserMigrationException("Could not import trashbin.");
 			}
 			$locations = json_decode($importSource->getFileContents(static::PATH_LOCATIONS), true, 512, JSON_THROW_ON_ERROR);
-			$insert = $this->dbc->getQueryBuilder();
-			$insert->insert('files_trash')
+			$qb = $this->dbc->getQueryBuilder();
+			$qb->insert('files_trash')
 				->values([
-					'id' => $insert->createParameter('id'),
-					'timestamp' => $insert->createParameter('timestamp'),
-					'location' => $insert->createParameter('location'),
-					'user' => $insert->createNamedParameter($uid),
+					'id' => $qb->createParameter('id'),
+					'timestamp' => $qb->createParameter('timestamp'),
+					'location' => $qb->createParameter('location'),
+					'user' => $qb->createNamedParameter($uid),
 				]);
 			foreach ($locations as $id => $fileLocations) {
 				foreach ($fileLocations as $timestamp => $location) {
-					$insert
+					$qb
 						->setParameter('id', $id)
 						->setParameter('timestamp', $timestamp)
 						->setParameter('location', $location)
 						;
 
-					$insert->executeStatement();
+					$qb->executeStatement();
 				}
 			}
 		} else {
