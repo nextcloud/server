@@ -25,7 +25,10 @@
  */
 namespace OCA\Settings\Settings\Admin;
 
+use OC\Profile\ProfileManager;
+use OC\Profile\TProfileHelper;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -33,9 +36,14 @@ use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 
 class Server implements IDelegatedSettings {
+	use TProfileHelper;
 
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IInitialState */
+	private $initialStateService;
+	/** @var ProfileManager */
+	private $profileManager;
 	/** @var ITimeFactory */
 	private $timeFactory;
 	/** @var IConfig */
@@ -44,10 +52,14 @@ class Server implements IDelegatedSettings {
 	private $l;
 
 	public function __construct(IDBConnection $connection,
+								IInitialState $initialStateService,
+								ProfileManager $profileManager,
 								ITimeFactory $timeFactory,
 								IConfig $config,
 								IL10N $l) {
 		$this->connection = $connection;
+		$this->initialStateService = $initialStateService;
+		$this->profileManager = $profileManager;
 		$this->timeFactory = $timeFactory;
 		$this->config = $config;
 		$this->l = $l;
@@ -65,7 +77,11 @@ class Server implements IDelegatedSettings {
 			'cronErrors' => $this->config->getAppValue('core', 'cronErrors'),
 			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
 			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
+			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
 		];
+
+		$this->initialStateService->provideInitialState('profileEnabledGlobally', $this->profileManager->isProfileEnabled());
+		$this->initialStateService->provideInitialState('profileEnabledByDefault', $this->isProfileEnabledByDefault($this->config));
 
 		return new TemplateResponse('settings', 'settings/admin/server', $parameters, '');
 	}
