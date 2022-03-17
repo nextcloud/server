@@ -354,7 +354,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 			return new Encryption\Manager(
 				$c->get(\OCP\IConfig::class),
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				$c->getL10N('core'),
 				new View(),
 				$util,
@@ -428,7 +428,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$view,
 				null,
 				$c->get(IUserMountCache::class),
-				$this->get(ILogger::class),
+				$this->get(LoggerInterface::class),
 				$this->get(IUserManager::class),
 				$this->get(IEventDispatcher::class),
 			);
@@ -466,7 +466,11 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\IUserManager::class, \OC\User\Manager::class);
 
 		$this->registerService(\OCP\IGroupManager::class, function (ContainerInterface $c) {
-			$groupManager = new \OC\Group\Manager($this->get(IUserManager::class), $c->get(SymfonyAdapter::class), $this->get(ILogger::class));
+			$groupManager = new \OC\Group\Manager(
+				$this->get(IUserManager::class),
+				$c->get(SymfonyAdapter::class),
+				$this->get(LoggerInterface::class)
+			);
 			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
@@ -547,7 +551,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OCP\IConfig::class),
 				$c->get(ISecureRandom::class),
 				$c->getLockdownManager(),
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class)
 			);
 			/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
@@ -687,7 +691,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('UserCache', ICache::class);
 
 		$this->registerService(Factory::class, function (Server $c) {
-			$arrayCacheFactory = new \OC\Memcache\Factory('', $c->get(ILogger::class),
+			$arrayCacheFactory = new \OC\Memcache\Factory(
+				'',
+				$c->get(LoggerInterface::class),
 				ArrayCache::class,
 				ArrayCache::class,
 				ArrayCache::class
@@ -711,7 +717,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
 				$prefix = md5($instanceId . '-' . $version . '-' . $path);
-				return new \OC\Memcache\Factory($prefix, $c->get(ILogger::class),
+				return new \OC\Memcache\Factory(
+					$prefix,
+					$c->get(LoggerInterface::class),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
 					$config->getSystemValue('memcache.locking', null),
@@ -792,7 +800,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Router::class, function (Server $c) {
 			$cacheFactory = $c->get(ICacheFactory::class);
-			$logger = $c->get(ILogger::class);
+			$logger = $c->get(LoggerInterface::class);
 			if ($cacheFactory->isLocalCacheAvailable()) {
 				$router = new \OC\Route\CachingRouter($cacheFactory->createLocal('route'), $logger);
 			} else {
@@ -863,7 +871,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IClientService::class, ClientService::class);
 		$this->registerService(LocalAddressChecker::class, function (ContainerInterface $c) {
 			return new LocalAddressChecker(
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 			);
 		});
 		$this->registerService(NegativeDnsCache::class, function (ContainerInterface $c) {
@@ -934,7 +942,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$mountCache = new UserMountCache(
 				$c->get(IDBConnection::class),
 				$c->get(IUserManager::class),
-				$c->get(ILogger::class)
+				$c->get(LoggerInterface::class)
 			);
 			$listener = new UserMountCacheListener($mountCache);
 			$listener->listen($c->get(IUserManager::class));
@@ -951,7 +959,7 @@ class Server extends ServerContainer implements IServerContainer {
 			// builtin providers
 
 			$config = $c->get(\OCP\IConfig::class);
-			$logger = $c->get(ILogger::class);
+			$logger = $c->get(LoggerInterface::class);
 			$manager->registerProvider(new CacheMountProvider($config));
 			$manager->registerHomeProvider(new LocalHomeMountProvider());
 			$manager->registerHomeProvider(new ObjectHomeMountProvider($config));
@@ -1054,7 +1062,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IMailer::class, function (Server $c) {
 			return new Mailer(
 				$c->get(\OCP\IConfig::class),
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				$c->get(Defaults::class),
 				$c->get(IURLGenerator::class),
 				$c->getL10N('lib'),
@@ -1094,7 +1102,7 @@ class Server extends ServerContainer implements IServerContainer {
 				}
 				return new DBLockingProvider(
 					$c->get(IDBConnection::class),
-					$c->get(ILogger::class),
+					$c->get(LoggerInterface::class),
 					new TimeFactory(),
 					$ttl,
 					!\OC::$CLI
@@ -1117,7 +1125,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IMimeTypeDetector::class, function (ContainerInterface $c) {
 			return new \OC\Files\Type\Detection(
 				$c->get(IURLGenerator::class),
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				\OC::$configDir,
 				\OC::$SERVERROOT . '/resources/config/'
 			);
@@ -1214,7 +1222,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IURLGenerator::class),
 				$this->get(ICacheFactory::class),
 				$c->get(SystemConfig::class),
-				$c->get(ILogger::class)
+				$c->get(LoggerInterface::class)
 			);
 		});
 		$this->registerAlias(\OCP\EventDispatcher\IEventDispatcher::class, \OC\EventDispatcher\EventDispatcher::class);
@@ -1263,7 +1271,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$factory = new $factoryClass($this);
 
 			$manager = new \OC\Share20\Manager(
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(ISecureRandom::class),
 				$c->get(IHasher::class),
@@ -1342,7 +1350,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IAppManager::class),
 				$c->get(IClientService::class),
 				$c->get(ICloudIdManager::class),
-				$c->get(ILogger::class)
+				$c->get(LoggerInterface::class)
 			);
 		});
 
@@ -1451,7 +1459,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		// Delete avatar on user deletion
 		$dispatcher->addListener('OCP\IUser::preDelete', function (GenericEvent $e) {
-			$logger = $this->get(ILogger::class);
+			$logger = $this->get(LoggerInterface::class);
 			$manager = $this->getAvatarManager();
 			/** @var IUser $user */
 			$user = $e->getSubject();
