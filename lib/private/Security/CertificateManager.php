@@ -61,6 +61,8 @@ class CertificateManager implements ICertificateManager {
 	/** @var ISecureRandom */
 	protected $random;
 
+	private ?string $bundlePath = null;
+
 	/**
 	 * @param \OC\Files\View $view relative to data/
 	 * @param IConfig $config
@@ -190,6 +192,7 @@ class CertificateManager implements ICertificateManager {
 		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
 			throw new \Exception('Filename is not valid');
 		}
+		$this->bundlePath = null;
 
 		$dir = $this->getPathToCertificates() . 'uploads/';
 		if (!$this->view->file_exists($dir)) {
@@ -217,6 +220,8 @@ class CertificateManager implements ICertificateManager {
 		if (!Filesystem::isValidPath($name)) {
 			return false;
 		}
+		$this->bundlePath = null;
+
 		$path = $this->getPathToCertificates() . 'uploads/';
 		if ($this->view->file_exists($path . $name)) {
 			$this->view->unlink($path . $name);
