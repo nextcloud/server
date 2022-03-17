@@ -72,6 +72,49 @@ interface IAccount extends \JsonSerializable {
 	public function getProperties(): array;
 
 	/**
+	 * Set all properties of an account
+	 *
+	 * @param array<string, array<string, string>>|array<string, array<int, array<string, string>>> $properties
+	 *
+	 * e.g. `[
+	 *   'displayname' => [
+	 *     'name' => 'displayname',
+	 *     'value' => 'Jonathan Smith',
+	 *     'scope' => 'v2-federated',
+	 *     'verified' => '0',
+	 *     'verificationData' => '',
+	 *   ],
+	 *   'email' => [
+	 *     'name' => 'email',
+	 *     'value' => 'jonathan@example.org',
+	 *     'scope' => 'v2-federated',
+	 *     'verified' => '0',
+	 *     'verificationData' => '',
+	 *   ],
+	 *   // ...
+	 *   'additional_mail' => [
+	 *     [
+	 *       'name' => 'additional_mail',
+	 *       'value' => 'jon@example.org',
+	 *       'scope' => 'v2-local',
+	 *       'verified' => '0',
+	 *       'verificationData' => '',
+	 *     ],
+	 *     [
+	 *       'name' => 'additional_mail',
+	 *       'value' => 'jon@earth.org',
+	 *       'scope' => 'v2-local',
+	 *       'verified' => '0',
+	 *       'verificationData' => '',
+	 *     ],
+	 *   ],
+	 * ]`
+	 *
+	 * @since 24.0.0
+	 */
+	public function setAllPropertiesFromJson(array $properties): IAccount;
+
+	/**
 	 * Get all properties of an account. Array indices are numeric. To get
 	 * the property name, call getName() against the value.
 	 *
