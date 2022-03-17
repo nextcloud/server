@@ -43,6 +43,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
+use Psr\Log\LoggerInterface;
 
 class MigrationService {
 
@@ -73,7 +74,7 @@ class MigrationService {
 		$this->connection = $connection;
 		$this->output = $output;
 		if (null === $this->output) {
-			$this->output = new SimpleOutput(\OC::$server->getLogger(), $appName);
+			$this->output = new SimpleOutput(\OC::$server->get(LoggerInterface::class), $appName);
 		}
 
 		if ($appName === 'core') {

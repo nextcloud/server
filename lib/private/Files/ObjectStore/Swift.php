@@ -32,6 +32,7 @@ use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
+use Psr\Log\LoggerInterface;
 
 const SWIFT_SEGMENT_SIZE = 1073741824; // 1GB
 
@@ -48,7 +49,7 @@ class Swift implements IObjectStore {
 		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(
 			\OC::$server->getMemCacheFactory()->createDistributed('swift::'),
 			$params,
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 		$this->params = $params;
 	}

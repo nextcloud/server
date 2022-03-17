@@ -30,8 +30,8 @@ use OC\Migration\ConsoleOutput;
 use OC\Repair\Collation;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,16 +46,14 @@ class ConvertMysqlToMB4 extends Command {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
-	/**
-	 * @param IConfig $config
-	 * @param IDBConnection $connection
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 */
-	public function __construct(IConfig $config, IDBConnection $connection, IURLGenerator $urlGenerator, ILogger $logger) {
+	public function __construct(
+		IConfig $config,
+		IDBConnection $connection,
+		IURLGenerator $urlGenerator,
+		LoggerInterface $logger
+	) {
 		$this->config = $config;
 		$this->connection = $connection;
 		$this->urlGenerator = $urlGenerator;

@@ -48,9 +48,9 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Files\ObjectStore\SwiftFactory;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageBadConfigException;
-use OCP\ILogger;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Models\StorageObject;
+use Psr\Log\LoggerInterface;
 
 class Swift extends \OC\Files\Storage\Common {
 	/** @var SwiftFactory */
@@ -138,8 +138,8 @@ class Swift extends \OC\Files\Storage\Common {
 		} catch (BadResponseError $e) {
 			// Expected response is "404 Not Found", so only log if it isn't
 			if ($e->getResponse()->getStatusCode() !== 404) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 			}
@@ -204,7 +204,7 @@ class Swift extends \OC\Files\Storage\Common {
 		$this->connectionFactory = new SwiftFactory(
 			\OC::$server->getMemCacheFactory()->createDistributed('swift/'),
 			$this->params,
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 		$this->objectStore = new \OC\Files\ObjectStore\Swift($this->params, $this->connectionFactory);
 		$this->bucket = $params['bucket'];
@@ -232,8 +232,8 @@ class Swift extends \OC\Files\Storage\Common {
 			// with all properties
 			$this->objectCache->remove($path);
 		} catch (BadResponseError $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -276,8 +276,8 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->objectStore->deleteObject($path . '/');
 			$this->objectCache->remove($path . '/');
 		} catch (BadResponseError $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -314,8 +314,8 @@ class Swift extends \OC\Files\Storage\Common {
 
 			return IteratorDirectory::wrap($files);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -337,8 +337,8 @@ class Swift extends \OC\Files\Storage\Common {
 				return false;
 			}
 		} catch (BadResponseError $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -391,8 +391,8 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->objectCache->remove($path . '/');
 		} catch (BadResponseError $e) {
 			if ($e->getResponse()->getStatusCode() !== 404) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 				throw $e;
@@ -415,8 +415,8 @@ class Swift extends \OC\Files\Storage\Common {
 				try {
 					return $this->objectStore->readObject($path);
 				} catch (BadResponseError $e) {
-					\OC::$server->getLogger()->logException($e, [
-						'level' => ILogger::ERROR,
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+						'exception' => $e,
 						'app' => 'files_external',
 					]);
 					return false;
@@ -502,8 +502,8 @@ class Swift extends \OC\Files\Storage\Common {
 				$this->objectCache->remove($path2);
 				$this->objectCache->remove($path2 . '/');
 			} catch (BadResponseError $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 				return false;
@@ -518,8 +518,8 @@ class Swift extends \OC\Files\Storage\Common {
 				$this->objectCache->remove($path2);
 				$this->objectCache->remove($path2 . '/');
 			} catch (BadResponseError $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 				return false;
