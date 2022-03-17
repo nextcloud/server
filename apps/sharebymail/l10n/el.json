@@ -23,6 +23,9 @@
     "Password to access %1$s was sent to you" : "Σας έχει αποσταλεί το συνθηματικό για πρόσβαση στο %1$s",
     "Password to access {file} was sent to you" : "Σας έχει αποσταλεί στο συνθηματικό για πρόσβαση {file}",
     "Share by mail" : "Διαμοιρασμός με ηλεκτρονική αλληλογραφία",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Αποτυχία διαμοιρασμού του %1$s, διότι το αντικείμενο διαμοιράζεται ήδη με τον χρήστη %2$s",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Δεν μπορούμε να σας στείλουμε τον κωδικό πρόσβασης που δημιουργείται αυτόματα. Ορίστε μια έγκυρη διεύθυνση email στις προσωπικές σας ρυθμίσεις και δοκιμάστε ξανά.",
+    "Failed to send share by email. Got an invalid email address" : "Αποτυχία αποστολής της κοινής χρήσης μέσω email. Λάβαμε μια μη έγκυρη διεύθυνση email",
     "Failed to send share by email" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου",
     "%1$s shared »%2$s« with you" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς.",
     "%1$s shared »%2$s« with you." : "%1$s διαμοιράστηκε »%2$s« με εσάς.",
@@ -45,6 +48,7 @@
     "Share provider which allows you to share files by mail" : "Πάροχος διαμοιρασμού που σας επιτρέπει να διαμοιράζεστε αρχεία μέσω mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
+    "Reply to initiator" : "Απάντηση στον αποστολέα",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Δεν μπορούμε να σας στείλουμε αυτοδημιουργημένο συνθηματικό. Παρακαλούμε βάλτε μία έγκυρη διεύθυνση email στις προσωπικές σας ρυθμίσεις και προσπαθήστε ξανά.",
     "Enforce password protection" : "Επιβάλετε προστασία συνθηματικού"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
