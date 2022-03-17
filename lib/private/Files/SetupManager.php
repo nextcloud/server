@@ -103,22 +103,7 @@ class SetupManager {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
 
-		$this->eventDispatcher->addListener(UserAddedEvent::class, function(UserAddedEvent $event) {
-			$this->cache->remove($event->getUser()->getUID());
-		});
-		$this->eventDispatcher->addListener(UserRemovedEvent::class, function(UserRemovedEvent $event) {
-			$this->cache->remove($event->getUser()->getUID());
-		});
-		$eventDispatcher->addListener(ShareCreatedEvent::class, function(ShareCreatedEvent $event) {
-			$this->cache->remove($event->getShare()->getSharedWith());
-		});
-		$eventDispatcher->addListener(InvalidateMountCacheEvent::class, function(InvalidateMountCacheEvent $event) {
-			if ($user = $event->getUser()) {
-				$this->cache->remove($user->getUID());
-			} else {
-				$this->cache->clear();
-			}
-		});
+		$this->setupListeners();
 	}
 
 	private function isSetupStarted(IUser $user): bool {
@@ -213,7 +198,9 @@ class SetupManager {
 		}
 
 		$this->setupForUserWith($user, function () use ($user) {
-			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (IMountProvider $provider) use ($user) {
+			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
+				IMountProvider $provider
+			) use ($user) {
 				return !in_array(get_class($provider), $this->setupUserMountProviders[$user->getUID()]);
 			});
 		});
@@ -433,7 +420,9 @@ class SetupManager {
 	private function listenForNewMountProviders() {
 		if (!$this->listeningForProviders) {
 			$this->listeningForProviders = true;
-			$this->mountProviderCollection->listen('\OC\Files\Config', 'registerMountProvider', function (IMountProvider $provider) {
+			$this->mountProviderCollection->listen('\OC\Files\Config', 'registerMountProvider', function (
+				IMountProvider $provider
+			) {
 				foreach ($this->setupUsers as $userId) {
 					$user = $this->userManager->get($userId);
 					if ($user) {
@@ -441,6 +430,42 @@ class SetupManager {
 						array_walk($mounts, [$this->mountManager, 'addMount']);
 					}
 				}
+			});
+		}
+	}
+
+	private function setupListeners() {
+		// note that this event handling is intentionally pessimistic
+		// clearing the cache to often is better than not enough
+
+		$this->eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event) {
+			$this->cache->remove($event->getUser()->getUID());
+		});
+		$this->eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) {
+			$this->cache->remove($event->getUser()->getUID());
+		});
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+			$this->cache->remove($event->getShare()->getSharedWith());
+		});
+		$this->eventDispatcher->addListener(InvalidateMountCacheEvent::class, function (InvalidateMountCacheEvent $event
+		) {
+			if ($user = $event->getUser()) {
+				$this->cache->remove($user->getUID());
+			} else {
+				$this->cache->clear();
+			}
+		});
+
+		$genericEvents = [
+			'\OCA\Circles::onCircleCreation',
+			'\OCA\Circles::onCircleDestruction',
+			'\OCA\Circles::onMemberNew',
+			'\OCA\Circles::onMemberLeaving',
+		];
+
+		foreach ($genericEvents as $genericEvent) {
+			$this->eventDispatcher->addListener($genericEvent, function($event) {
+				$this->cache->clear();
 			});
 		}
 	}
