@@ -78,10 +78,25 @@ class Connection extends LDAPUtility {
 	 * @var resource|\LDAP\Connection|null
 	 */
 	private $ldapConnectionRes = null;
+
+	/**
+	 * @var string
+	 */
 	private $configPrefix;
+
+	/**
+	 * @var ?string
+	 */
 	private $configID;
+
+	/**
+	 * @var bool
+	 */
 	private $configured = false;
-	//whether connection should be kept on __destruct
+
+	/**
+	 * @var bool whether connection should be kept on __destruct
+	 */
 	private $dontDestruct = false;
 
 	/**
@@ -94,16 +109,27 @@ class Connection extends LDAPUtility {
 	 */
 	public $hasGidNumber = true;
 
-	//cache handler
-	protected $cache;
+	/**
+	 * @var \OCP\ICache|null
+	 */
+	protected $cache = null;
 
 	/** @var Configuration settings handler **/
 	protected $configuration;
 
+	/**
+	 * @var bool
+	 */
 	protected $doNotValidate = false;
 
+	/**
+	 * @var bool
+	 */
 	protected $ignoreValidation = false;
 
+	/**
+	 * @var array{dn?: mixed, hash?: string, result?: bool}
+	 */
 	protected $bindResult = [];
 
 	/** @var LoggerInterface */
@@ -111,16 +137,14 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * Constructor
-	 * @param ILDAPWrapper $ldap
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
-	public function __construct(ILDAPWrapper $ldap, $configPrefix = '', $configID = 'user_ldap') {
+	public function __construct(ILDAPWrapper $ldap, string $configPrefix = '', ?string $configID = 'user_ldap') {
 		parent::__construct($ldap);
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
-		$this->configuration = new Configuration($configPrefix,
-												 !is_null($configID));
+		$this->configuration = new Configuration($configPrefix, !is_null($configID));
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
@@ -304,9 +328,9 @@ class Connection extends LDAPUtility {
 	 * set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param array $config array that holds the config parameters in an associated array
 	 * @param array &$setParameters optional; array where the set fields will be given to
-	 * @return boolean true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
+	 * @return bool true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
 	 */
-	public function setConfiguration($config, &$setParameters = null) {
+	public function setConfiguration($config, &$setParameters = null): bool {
 		if (is_null($setParameters)) {
 			$setParameters = [];
 		}

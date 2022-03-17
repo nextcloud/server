@@ -280,12 +280,9 @@ abstract class AbstractMapping {
 	/**
 	 * Searches mapped names by the giving string in the name column
 	 *
-	 * @param string $search
-	 * @param string $prefixMatch
-	 * @param string $postfixMatch
 	 * @return string[]
 	 */
-	public function getNamesBySearch($search, $prefixMatch = "", $postfixMatch = "") {
+	public function getNamesBySearch(string $search, string $prefixMatch = "", string $postfixMatch = ""): array {
 		$statement = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `' . $this->getTableName() . '`
