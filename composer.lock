@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "bamarni/composer-bin-plugin",
-            "version": "1.4.1",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bamarni/composer-bin-plugin.git",
-                "reference": "9329fb0fbe29e0e1b2db8f4639a193e4f5406225"
+                "reference": "49934ffea764864788334c1485fbb08a4b852031"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bamarni/composer-bin-plugin/zipball/9329fb0fbe29e0e1b2db8f4639a193e4f5406225",
-                "reference": "9329fb0fbe29e0e1b2db8f4639a193e4f5406225",
+                "url": "https://api.github.com/repos/bamarni/composer-bin-plugin/zipball/49934ffea764864788334c1485fbb08a4b852031",
+                "reference": "49934ffea764864788334c1485fbb08a4b852031",
                 "shasum": ""
             },
             "require": {
@@ -53,9 +53,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bamarni/composer-bin-plugin/issues",
-                "source": "https://github.com/bamarni/composer-bin-plugin/tree/master"
+                "source": "https://github.com/bamarni/composer-bin-plugin/tree/v1.5.0"
             },
-            "time": "2020-05-03T08:27:20+00:00"
+            "time": "2022-02-22T21:01:25+00:00"
         }
     ],
     "aliases": [],
@@ -76,5 +76,5 @@
     "platform-overrides": {
         "php": "7.4"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

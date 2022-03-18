@@ -31,6 +31,7 @@ use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -61,11 +62,12 @@ class AddMissingColumns extends Command {
 	protected function configure() {
 		$this
 			->setName('db:add-missing-columns')
-			->setDescription('Add missing optional columns to the database tables');
+			->setDescription('Add missing optional columns to the database tables')
+			->addOption('dry-run', null, InputOption::VALUE_NONE, "Output the SQL queries instead of running them.");
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$this->addCoreColumns($output);
+		$this->addCoreColumns($output, $input->getOption('dry-run'));
 
 		// Dispatch event so apps can also update columns if needed
 		$event = new GenericEvent($output);
@@ -77,9 +79,10 @@ class AddMissingColumns extends Command {
 	 * add missing indices to the share table
 	 *
 	 * @param OutputInterface $output
+	 * @param bool $dryRun If true, will return the sql queries instead of running them.
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
-	private function addCoreColumns(OutputInterface $output) {
+	private function addCoreColumns(OutputInterface $output, bool $dryRun): void {
 		$output->writeln('<info>Check columns of the comments table.</info>');
 
 		$schema = new SchemaWrapper($this->connection);
@@ -93,7 +96,10 @@ class AddMissingColumns extends Command {
 					'notnull' => false,
 					'length' => 64,
 				]);
-				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
+				if ($dryRun && $sqlQueries !== null) {
+					$output->writeln($sqlQueries);
+				}
 				$updated = true;
 				$output->writeln('<info>Comments table updated successfully.</info>');
 			}

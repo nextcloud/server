@@ -26,7 +26,7 @@
 			{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}
 		</p>
 		<AuthTokenList :tokens="tokens"
-			@toggleScope="toggleTokenScope"
+			@toggle-scope="toggleTokenScope"
 			@rename="rename"
 			@delete="deleteToken"
 			@wipe="wipeToken" />

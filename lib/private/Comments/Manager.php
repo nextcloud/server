@@ -611,12 +611,15 @@ class Manager implements ICommentsManager {
 
 		$query->select('*')
 			->from('comments')
-			->where($query->expr()->iLike('message', $query->createNamedParameter(
-				'%' . $this->dbConn->escapeLikeParameter($search). '%'
-			)))
 			->orderBy('creation_timestamp', 'DESC')
 			->addOrderBy('id', 'DESC')
 			->setMaxResults($limit);
+
+		if ($search !== '') {
+			$query->where($query->expr()->iLike('message', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search). '%'
+			)));
+		}
 
 		if ($objectType !== '') {
 			$query->andWhere($query->expr()->eq('object_type', $query->createNamedParameter($objectType)));
@@ -969,7 +972,7 @@ class Manager implements ICommentsManager {
 	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
 	 * use reactions
 	 *
-	 * @param integer $parentId
+	 * @param int $parentId
 	 * @param string $actorType
 	 * @param string $actorId
 	 * @param string $reaction
@@ -997,14 +1000,46 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
-	 * Retrieve all reactions with specific reaction of a message
+	 * Retrieve all reactions of a message
 	 *
-	 * @param integer $parentId
-	 * @param string $reaction
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
 	 * @return IComment[]
+	 * @throws PreConditionNotMetException
 	 * @since 24.0.0
 	 */
-	public function retrieveAllReactionsWithSpecificReaction(int $parentId, string $reaction): ?array {
+	public function retrieveAllReactions(int $parentId): array {
+		$this->throwIfNotSupportReactions();
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb
+			->select('message_id')
+			->from('reactions')
+			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($parentId)))
+			->executeQuery();
+
+		$commentIds = [];
+		while ($data = $result->fetch()) {
+			$commentIds[] = $data['message_id'];
+		}
+
+		return $this->getCommentsById($commentIds);
+	}
+
+	/**
+	 * Retrieve all reactions with specific reaction of a message
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
+	 * @param string $reaction
+	 * @return IComment[]
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	public function retrieveAllReactionsWithSpecificReaction(int $parentId, string $reaction): array {
 		$this->throwIfNotSupportReactions();
 		$qb = $this->dbConn->getQueryBuilder();
 		$result = $qb
@@ -1029,7 +1064,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * Support reactions
 	 *
-	 * @return boolean
+	 * @return bool
 	 * @since 24.0.0
 	 */
 	public function supportReactions(): bool {
@@ -1047,38 +1082,9 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
-	 * Retrieve all reactions of a message
-	 *
-	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
-	 * use reactions
-	 *
-	 * @param integer $parentId
-	 * @param string $reaction
-	 * @throws PreConditionNotMetException
-	 * @return IComment[]
-	 * @since 24.0.0
-	 */
-	public function retrieveAllReactions(int $parentId): array {
-		$this->throwIfNotSupportReactions();
-		$qb = $this->dbConn->getQueryBuilder();
-		$result = $qb
-			->select('message_id')
-			->from('reactions')
-			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($parentId)))
-			->executeQuery();
-
-		$commentIds = [];
-		while ($data = $result->fetch()) {
-			$commentIds[] = $data['message_id'];
-		}
-
-		return $this->getCommentsById($commentIds);
-	}
-
-	/**
 	 * Get all comments on list
 	 *
-	 * @param integer[] $commentIds
+	 * @param int[] $commentIds
 	 * @return IComment[]
 	 * @since 24.0.0
 	 */

@@ -73,6 +73,11 @@ interface IQueryBuilder {
 	 */
 	public const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
 
+	/**
+	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL
+	 * database server.
+	 */
+	public const MAX_ROW_DELETION = 100000;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix

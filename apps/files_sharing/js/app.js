@@ -169,6 +169,7 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.overview',
+				fileActions: this._createFileActions(),
 				config: OCA.Files.App.getFilesConfig(),
 				isOverview: true,
 				// The file list is created when a "show" event is handled, so

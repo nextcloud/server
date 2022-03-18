@@ -89,6 +89,7 @@ class Version18000Date20191014105105 extends SimpleMigrationStep {
 
 		$table->setPrimaryKey(['id']);
 		$table->addIndex(['token']);
+		$table->addIndex(['timestamp'], 'direct_edit_timestamp');
 
 		return $schema;
 	}

@@ -232,7 +232,7 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
-	private function getLogLevel($context) {
+	public function getLogLevel($context) {
 		$logCondition = $this->config->getValue('log.condition', []);
 
 		/**
@@ -308,7 +308,13 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
-		$serializer = new ExceptionSerializer($this->config);
+		// if an error is raised before the autoloader is properly setup, we can't serialize exceptions
+		try {
+			$serializer = new ExceptionSerializer($this->config);
+		} catch (\Throwable $e) {
+			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
+			return;
+		}
 		$data = $serializer->serializeException($exception);
 		$data['CustomMessage'] = $this->interpolateMessage($context, $context['message'] ?? '--');
 

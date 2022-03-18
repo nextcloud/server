@@ -30,97 +30,84 @@
 namespace OC\Archive;
 
 abstract class Archive {
-	/**
-	 * @param $source
-	 */
-	abstract public function __construct($source);
+	abstract public function __construct(string $source);
+
 	/**
 	 * add an empty folder to the archive
-	 * @param string $path
-	 * @return bool
 	 */
-	abstract public function addFolder($path);
+	abstract public function addFolder(string $path): bool;
+
 	/**
 	 * add a file to the archive
-	 * @param string $path
 	 * @param string $source either a local file or string data
-	 * @return bool
 	 */
-	abstract public function addFile($path, $source = '');
+	abstract public function addFile(string $path, string $source = ''): bool;
+
 	/**
 	 * rename a file or folder in the archive
-	 * @param string $source
-	 * @param string $dest
-	 * @return bool
 	 */
-	abstract public function rename($source, $dest);
+	abstract public function rename(string $source, string $dest): bool;
+
 	/**
 	 * get the uncompressed size of a file in the archive
-	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
-	abstract public function filesize($path);
+	abstract public function filesize(string $path);
+
 	/**
 	 * get the last modified time of a file in the archive
-	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
-	abstract public function mtime($path);
+	abstract public function mtime(string $path);
+
 	/**
 	 * get the files in a folder
 	 * @param string $path
 	 * @return array
 	 */
-	abstract public function getFolder($path);
+	abstract public function getFolder(string $path): array;
+
 	/**
 	 * get all files in the archive
-	 * @return array
 	 */
-	abstract public function getFiles();
+	abstract public function getFiles(): array;
+
 	/**
 	 * get the content of a file
-	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
-	abstract public function getFile($path);
+	abstract public function getFile(string $path);
+
 	/**
 	 * extract a single file from the archive
-	 * @param string $path
-	 * @param string $dest
-	 * @return bool
 	 */
-	abstract public function extractFile($path, $dest);
+	abstract public function extractFile(string $path, string $dest): bool;
+
 	/**
 	 * extract the archive
-	 * @param string $dest
-	 * @return bool
 	 */
-	abstract public function extract($dest);
+	abstract public function extract(string $dest): bool;
+
 	/**
 	 * check if a file or folder exists in the archive
-	 * @param string $path
-	 * @return bool
 	 */
-	abstract public function fileExists($path);
+	abstract public function fileExists(string $path): bool;
+
 	/**
 	 * remove a file or folder from the archive
-	 * @param string $path
-	 * @return bool
 	 */
-	abstract public function remove($path);
+	abstract public function remove(string $path): bool;
+
 	/**
 	 * get a file handler
-	 * @param string $path
-	 * @param string $mode
 	 * @return bool|resource
 	 */
-	abstract public function getStream($path, $mode);
+	abstract public function getStream(string $path, string $mode);
+
 	/**
 	 * add a folder and all its content
-	 * @param string $path
-	 * @param string $source
 	 */
-	public function addRecursive($path, $source) {
+	public function addRecursive(string $path, string $source): void {
 		$dh = opendir($source);
 		if (is_resource($dh)) {
 			$this->addFolder($path);

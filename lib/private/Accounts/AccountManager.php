@@ -40,6 +40,7 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use OC\Profile\TProfileHelper;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -78,6 +79,8 @@ use function json_last_error;
  */
 class AccountManager implements IAccountManager {
 	use TAccountsHelper;
+
+	use TProfileHelper;
 
 	/** @var  IDBConnection database connection */
 	private $connection;
@@ -722,7 +725,7 @@ class AccountManager implements IAccountManager {
 
 			[
 				'name' => self::PROPERTY_PROFILE_ENABLED,
-				'value' => '1',
+				'value' => $this->isProfileEnabledByDefault($this->config) ? '1' : '0',
 			],
 		];
 	}

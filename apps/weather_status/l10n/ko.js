@@ -24,7 +24,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "모드 저장에 오류가 있습니다.",
     "There was an error using personal address." : "개인 주소를 사용하는 동안 오류가 발생했습니다.",
     "Set location for weather" : "날씨 위치 설정",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "날씨 현황이 대시보드 앱에 통합되었습니다.\n사용자의 현재 위치를 자동 혹은 수동으로 지정할 수 있습니다. 그 후 6시간의 일기예보가 표시됩니다.\n날씨 현황은 달력 앱과 같이 다른 곳에서도 통합될 수 있습니다.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit}, {time}에 맑음",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit}, {time}에 구름",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit}, 낮 {time}시에 맑음",

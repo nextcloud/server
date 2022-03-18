@@ -1016,6 +1016,10 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute')
 			->willReturn(false);
 
+		$this->access->expects($this->once())
+			->method('username2dn')
+			->willReturn($this->dn);
+
 		// asks for "enforce_home_folder_naming_rule"
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -1037,6 +1041,10 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->once())
 			->method('readAttribute')
 			->willReturn(false);
+
+		$this->access->expects($this->once())
+			->method('username2dn')
+			->willReturn($this->dn);
 
 		// asks for "enforce_home_folder_naming_rule"
 		$this->config->expects($this->once())

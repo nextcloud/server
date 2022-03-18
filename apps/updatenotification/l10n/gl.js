@@ -43,7 +43,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Unha versión preliminar só para probar funcionalidades novas, non para contornos de produción",
     "Apps missing updates" : "Aplicacións con actualizacións non dispoñíbeis",
     "Apps with available updates" : "Aplicacións con actualizacións dispoñíbeis",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Teña en conta que após a publicación dunha nova versión pode levar algún tempo antes de que se amose aiquí. Programamos novas versións ao longo do tempo para os nosos usuarios e por veces omitimos unha versión cando se atopan incidentes.",
     "Only notification for app updates are available." : "Só están dispoñíbeis as notificacións para actualizacións de aplicacións.",
     "Checking apps for compatible updates" : "Comprobando as actualizacións compatíbeis das aplicacións",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Non foi posíbel conectar coa tenda de aplicacións ou esta non devolveu ningunha actualización. Busque as actualizacións  manualmente ou asegúrese de que o seu servidor ten acceso á Internet e pode conectarse coa tenda de aplicacións.",

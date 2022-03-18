@@ -121,7 +121,6 @@ OC.L10N.register(
     "Could not lock node" : "گره را نمی توان قفل کرد",
     "Could not lock path" : "امکان قفل کردن مسیر وجود ندارد.",
     "Wrong or no update parameter given" : "اشتباهی و یا پارامتر بروزرسانی داده نشد",
-    "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست.",
     "shared by %s" : "اشتراک گذاری شده به میزان %s",
     "Download all files" : "دانلود همه فایل ها",
     "Direct link" : "لینک مستقیم",
@@ -143,6 +142,9 @@ OC.L10N.register(
     "Invalid path selected" : "مسیر انتخاب شده نامعتبر است",
     "Unknown error" : "خطای ناشناخته",
     "Allow editing" : "اجازه‌ی ویرایش",
+    "Read only" : "فقط خواندنی",
+    "Allow upload and editing" : "اجازه آپلود و ویرایش",
+    "File drop (upload only)" : "انداختن فایل (فقط آپلود)",
     "Allow creating" : "اجازه ایجاد",
     "Allow deleting" : "اجازه حذف",
     "Allow resharing" : "مجوز اشتراک گذاری مجدد",
@@ -173,9 +175,6 @@ OC.L10N.register(
     "Expiration date (enforced)" : "تاریخ انقضا (اجباری)",
     "Create share" : "ساختن اشتراک",
     "Cancel" : "لغو",
-    "Read only" : "فقط خواندنی",
-    "Allow upload and editing" : "اجازه آپلود و ویرایش",
-    "File drop (upload only)" : "انداختن فایل (فقط آپلود)",
     "Hide download" : "پنهان کردن بارگیری",
     "Password protect" : "نگهداری کردن رمز عبور",
     "Video verification" : "تأیید صحت ویدیو",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "invalid permissions" : "مجوزات نامعتبر",
     "Can't change permissions for public share links" : "مجوزها برای پیوندهای اشتراک عمومی قابل تغییر نیست",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد",
-    "Download %s" : "دانلود %s"
+    "Download %s" : "دانلود %s",
+    "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست."
 },
 "nplurals=2; plural=(n > 1);");

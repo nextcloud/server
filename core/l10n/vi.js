@@ -213,14 +213,10 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Đang kiểm tra xem lược đồ cơ sở dữ liệu có thể được cập nhật hay không (việc này có thể mất nhiều thời gian do phụ thuộc vào kích cỡ của cơ sở dữ liệu)",
     "Checked database schema update" : "Cập nhật lược đồ cơ sở dữ liệu đã được kiểm tra",
     "Checking updates of apps" : "Đang kiểm tra các bản cập nhật của các ứng dụng",
-    "Checking for update of app \"%s\" in appstore" : "Đang kiểm tra cập nhật của ứng dụng %s trong appstore ",
     "Update app \"%s\" from appstore" : "Cập nhật ứng dụng \"%s\" từ appstore",
-    "Checked for update of app \"%s\" in appstore" : "Đã kiểm tra bản cập nhật của ứng dụng \"%s\" trong kho ứng dụng",
     "Checked database schema update for apps" : "Bản cập nhật lược đồ cơ sở dữ liệu cho các ứng dụng đã được kiểm tra",
     "Continue to Nextcloud" : "Tiếp tục đến Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Cập nhật thành công. Đang chuyển hướng bạn tới Nextcloud trong %ngiây."],
-    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống.",
-    "Finish setup" : "Cài đặt hoàn tất",
-    "Finishing …" : "Đang hoàn thành ..."
+    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống."
 },
 "nplurals=1; plural=0;");

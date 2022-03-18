@@ -29,6 +29,7 @@
 namespace OCP\Comments;
 
 use OCP\IUser;
+use OCP\PreConditionNotMetException;
 
 /**
  * Interface ICommentsManager
@@ -299,6 +300,58 @@ interface ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function delete($id);
+
+	/**
+	 * Get comment related with user reaction
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
+	 * @param string $actorType
+	 * @param string $actorId
+	 * @param string $reaction
+	 * @return IComment
+	 * @throws NotFoundException
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	public function getReactionComment(int $parentId, string $actorType, string $actorId, string $reaction): IComment;
+
+	/**
+	 * Retrieve all reactions of a message
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
+	 * @return IComment[]
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	public function retrieveAllReactions(int $parentId): array;
+
+	/**
+	 * Retrieve all reactions with specific reaction of a message
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
+	 * @param string $reaction
+	 * @return IComment[]
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	public function retrieveAllReactionsWithSpecificReaction(int $parentId, string $reaction): array;
+
+	/**
+	 * Support reactions
+	 *
+	 * @return bool
+	 * @since 24.0.0
+	 */
+	public function supportReactions(): bool;
 
 	/**
 	 * saves the comment permanently

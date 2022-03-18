@@ -26,9 +26,6 @@ OC.L10N.register(
     "Default images" : "Imatges predeterminades",
     "Plain background" : "Fons senzill",
     "Insert from {productName}" : "Insereix des de {productName}",
-    "Get more widgets from the app store" : "Obtenir més ginys de la botiga d'aplicacions",
-    "Good night, {name}" : "Bona nit, {name}",
-    "Good night" : "Bona nit",
-    "Pick from files" : "Tria entre fitxers"
+    "Get more widgets from the app store" : "Obtenir més ginys de la botiga d'aplicacions"
 },
 "nplurals=2; plural=(n != 1);");

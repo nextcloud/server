@@ -27,7 +27,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor asegurate que en tu config.php no se establezca <samp>appstoreenabled</samp> como falso.",
     "Apps missing updates" : "Aplicaciones con actualizaciones faltantes",
     "Apps with available updates" : "Aplicaciones con actualizaciones disponibles",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota que después una nueva publicación puede tomar algo de tiempo antes de que se muestre aquí. Distribuimos nuevas versiones para que sean distribuidas a través del tiempo para nuestros usuarios y algunas veces omitimos una versión cuando encontramos detalles.",
     "Only notification for app updates are available." : "Sólo se tienen disponibles notificaciones de actualizaciones de la aplicación.",
     "Checking apps for compatible updates" : "Verificando si las aplicaciones tienen actualizaciones compatibles",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No fue posible conectarse a la appstore o bien la appstore no regresó ninguna actualización. Busca manualmente o asegurate que tu servidor teng acceso a Internet y pueda conectarse a la appstore. ",

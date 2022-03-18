@@ -66,11 +66,10 @@
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
-use OC\Files\Storage\LocalRootStorage;
+use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Share\IManager;
@@ -80,8 +79,6 @@ class OC_Util {
 	public static $scripts = [];
 	public static $styles = [];
 	public static $headers = [];
-	private static $rootMounted = false;
-	private static $fsSetup = false;
 
 	/** @var array Local cache of version.php */
 	private static $versionCache = null;
@@ -90,244 +87,31 @@ class OC_Util {
 		return \OC::$server->getAppManager();
 	}
 
-	private static function initLocalStorageRootFS() {
-		// mount local file backend as root
-		$configDataDirectory = \OC::$server->getSystemConfig()->getValue("datadirectory", OC::$SERVERROOT . "/data");
-		//first set up the local "root" storage
-		\OC\Files\Filesystem::initMountManager();
-		if (!self::$rootMounted) {
-			\OC\Files\Filesystem::mount(LocalRootStorage::class, ['datadir' => $configDataDirectory], '/');
-			self::$rootMounted = true;
-		}
-	}
-
 	/**
-	 * mounting an object storage as the root fs will in essence remove the
-	 * necessity of a data folder being present.
-	 * TODO make home storage aware of this and use the object storage instead of local disk access
+	 * Setup the file system
 	 *
-	 * @param array $config containing 'class' and optional 'arguments'
-	 * @suppress PhanDeprecatedFunction
-	 */
-	private static function initObjectStoreRootFS($config) {
-		// check misconfiguration
-		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
-		}
-		if (!isset($config['arguments'])) {
-			$config['arguments'] = [];
-		}
-
-		// instantiate object store implementation
-		$name = $config['class'];
-		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
-			$segments = explode('\\', $name);
-			OC_App::loadApp(strtolower($segments[1]));
-		}
-		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
-		// mount with plain / root object store implementation
-		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
-
-		// mount object storage as root
-		\OC\Files\Filesystem::initMountManager();
-		if (!self::$rootMounted) {
-			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
-			self::$rootMounted = true;
-		}
-	}
-
-	/**
-	 * mounting an object storage as the root fs will in essence remove the
-	 * necessity of a data folder being present.
-	 *
-	 * @param array $config containing 'class' and optional 'arguments'
-	 * @suppress PhanDeprecatedFunction
-	 */
-	private static function initObjectStoreMultibucketRootFS($config) {
-		// check misconfiguration
-		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
-		}
-		if (!isset($config['arguments'])) {
-			$config['arguments'] = [];
-		}
-
-		// instantiate object store implementation
-		$name = $config['class'];
-		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
-			$segments = explode('\\', $name);
-			OC_App::loadApp(strtolower($segments[1]));
-		}
-
-		if (!isset($config['arguments']['bucket'])) {
-			$config['arguments']['bucket'] = '';
-		}
-		// put the root FS always in first bucket for multibucket configuration
-		$config['arguments']['bucket'] .= '0';
-
-		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
-		// mount with plain / root object store implementation
-		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
-
-		// mount object storage as root
-		\OC\Files\Filesystem::initMountManager();
-		if (!self::$rootMounted) {
-			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
-			self::$rootMounted = true;
-		}
-	}
-
-	/**
-	 * Can be set up
-	 *
-	 * @param string $user
+	 * @param string|null $user
 	 * @return boolean
 	 * @description configure the initial filesystem based on the configuration
 	 * @suppress PhanDeprecatedFunction
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function setupFS($user = '') {
-		//setting up the filesystem twice can only lead to trouble
-		if (self::$fsSetup) {
-			return false;
-		}
-
-		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
-
+	public static function setupFS(?string $user = '') {
 		// If we are not forced to load a specific user we load the one that is logged in
-		if ($user === null) {
-			$user = '';
-		} elseif ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
-			$user = OC_User::getUser();
-		}
-
-		// load all filesystem apps before, so no setup-hook gets lost
-		OC_App::loadApps(['filesystem']);
-
-		// the filesystem will finish when $user is not empty,
-		// mark fs setup here to avoid doing the setup from loading
-		// OC_Filesystem
-		if ($user != '') {
-			self::$fsSetup = true;
-		}
-
-		\OC\Files\Filesystem::initMountManager();
-
-		$prevLogging = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
-		\OC\Files\Filesystem::addStorageWrapper('mount_options', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
-				/** @var \OC\Files\Storage\Common $storage */
-				$storage->setMountOptions($mount->getOptions());
-			}
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if (!$mount->getOption('enable_sharing', true)) {
-				return new \OC\Files\Storage\Wrapper\PermissionsMask([
-					'storage' => $storage,
-					'mask' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE
-				]);
-			}
-			return $storage;
-		});
-
-		// install storage availability wrapper, before most other wrappers
-		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, \OCP\Files\Storage\IStorage $storage) {
-			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
-				return new \OC\Files\Storage\Wrapper\Availability(['storage' => $storage]);
-			}
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
-				return new \OC\Files\Storage\Wrapper\Encoding(['storage' => $storage]);
-			}
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
-			// set up quota for home storages, even for other users
-			// which can happen when using sharing
-
-			/**
-			 * @var \OC\Files\Storage\Storage $storage
-			 */
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
-				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
-			) {
-				/** @var \OC\Files\Storage\Home $storage */
-				if (is_object($storage->getUser())) {
-					$quota = OC_Util::getUserQuota($storage->getUser());
-					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => $quota, 'root' => 'files']);
-					}
-				}
-			}
-
-			return $storage;
-		});
-
-		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			/*
-			 * Do not allow any operations that modify the storage
-			 */
-			if ($mount->getOption('readonly', false)) {
-				return new \OC\Files\Storage\Wrapper\PermissionsMask([
-					'storage' => $storage,
-					'mask' => \OCP\Constants::PERMISSION_ALL & ~(
-						\OCP\Constants::PERMISSION_UPDATE |
-						\OCP\Constants::PERMISSION_CREATE |
-						\OCP\Constants::PERMISSION_DELETE
-					),
-				]);
-			}
-			return $storage;
-		});
-
-		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user]);
-
-		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
-
-		//check if we are using an object storage
-		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
-		$objectStoreMultibucket = \OC::$server->getSystemConfig()->getValue('objectstore_multibucket', null);
-
-		// use the same order as in ObjectHomeMountProvider
-		if (isset($objectStoreMultibucket)) {
-			self::initObjectStoreMultibucketRootFS($objectStoreMultibucket);
-		} elseif (isset($objectStore)) {
-			self::initObjectStoreRootFS($objectStore);
+		if ($user === '') {
+			$userObject = \OC::$server->get(\OCP\IUserSession::class)->getUser();
 		} else {
-			self::initLocalStorageRootFS();
+			$userObject = \OC::$server->get(\OCP\IUserManager::class)->get($user);
 		}
 
-		/** @var \OCP\Files\Config\IMountProviderCollection $mountProviderCollection */
-		$mountProviderCollection = \OC::$server->query(\OCP\Files\Config\IMountProviderCollection::class);
-		$rootMountProviders = $mountProviderCollection->getRootMounts();
+		/** @var SetupManager $setupManager */
+		$setupManager = \OC::$server->get(SetupManager::class);
 
-		/** @var \OC\Files\Mount\Manager $mountManager */
-		$mountManager = \OC\Files\Filesystem::getMountManager();
-		foreach ($rootMountProviders as $rootMountProvider) {
-			$mountManager->addMount($rootMountProvider);
+		if ($userObject) {
+			$setupManager->setupForUser($userObject);
+		} else {
+			$setupManager->setupRoot();
 		}
-
-		if ($user != '' && !\OC::$server->getUserManager()->userExists($user)) {
-			\OC::$server->getEventLogger()->end('setup_fs');
-			return false;
-		}
-
-		//if we aren't logged in, there is no use to set up the filesystem
-		if ($user != "") {
-			$userDir = '/' . $user . '/files';
-
-			//jail the user into his "home" directory
-			\OC\Files\Filesystem::init($user, $userDir);
-
-			OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user, 'user_dir' => $userDir]);
-		}
-		\OC::$server->getEventLogger()->end('setup_fs');
 		return true;
 	}
 
@@ -481,10 +265,9 @@ class OC_Util {
 	 * @suppress PhanUndeclaredMethod
 	 */
 	public static function tearDownFS() {
-		\OC\Files\Filesystem::tearDown();
-		\OC::$server->getRootFolder()->clearCache();
-		self::$fsSetup = false;
-		self::$rootMounted = false;
+		/** @var SetupManager $setupManager */
+		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager->tearDown();
 	}
 
 	/**

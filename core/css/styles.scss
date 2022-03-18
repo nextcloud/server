@@ -381,26 +381,7 @@ body {
 }
 
 /* fixes for update page TODO should be fixed some time in a proper way */
-/* this is just for an error while updating the ownCloud instance */
-
-/* Alternative Logins */
-
-#alternative-logins {
-	legend {
-		margin-bottom: 10px;
-	}
-	li {
-		height: 40px;
-		display: inline-block;
-		white-space: nowrap;
-	}
-}
-
-/* Log in and install button */
-
-#remember_login {
-	margin: 18px 5px 0 16px !important;
-}
+/* this is just for an error while updating the Nextcloud instance */
 
 /* Sticky footer */
 
@@ -733,9 +714,8 @@ code {
 
 	.dirtree {
 		flex-wrap: wrap;
-		padding-left: 12px;
-		padding-right: 0px;
 		box-sizing: border-box;
+		padding-right: 140px;
 
 		div:first-child a {
 			background-image: var(--icon-home-000);
@@ -810,12 +790,11 @@ code {
 		}
 
 		.menu {
-			top:100%;
-			margin:10px;
-			margin-left: 1px;
+			top: 100%;
+			margin-top: 10px;
 			form {
-				display:flex;
-				margin:10px;
+				display: flex;
+				margin: 10px;
 			}
 		}
 
@@ -1202,6 +1181,13 @@ div.crumb {
 			order: 3;
 		}
 	}
+	&.active {
+		font-weight: bold;
+		// Allow multiple span next to the main 'a'
+		a ~ span {
+			padding-left: 0;
+		}
+	}
 	> a,
 	> span {
 		position: relative;
@@ -1225,14 +1211,6 @@ div.crumb {
 		width: 44px;
 	}
 	&:not(:first-child) a {
-	}
-	&:last-child {
-		font-weight: bold;
-		margin-right: 10px;
-		// Allow multiple span next to the main 'a'
-		a ~ span {
-			padding-left: 0;
-		}
 	}
 	&:hover, &:focus, a:focus, &:active {
 		opacity: 1;

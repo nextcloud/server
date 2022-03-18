@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Заглушаване на всички известия",
     "Appear offline" : "Показване като офлайн",
-    "Clear status after" : "Изчистване на състоянието след",
     "What's your status?" : "Какъв е вашият статус?"
 },
 "nplurals=2; plural=(n != 1);");

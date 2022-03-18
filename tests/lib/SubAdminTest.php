@@ -49,6 +49,8 @@ class SubAdminTest extends \Test\TestCase {
 	private $groups;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->users = [];
 		$this->groups = [];
 

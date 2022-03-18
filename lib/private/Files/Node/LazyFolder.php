@@ -38,7 +38,7 @@ class LazyFolder implements \OCP\Files\Folder {
 	private $folderClosure;
 
 	/** @var LazyFolder | null */
-	private $folder = null;
+	protected $folder = null;
 
 	/**
 	 * LazyFolder constructor.

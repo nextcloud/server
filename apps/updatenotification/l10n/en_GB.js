@@ -36,7 +36,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "A pre-release version only for testing new features, not for production environments.",
     "Apps missing updates" : "Apps missing updates",
     "Apps with available updates" : "Apps with available updates",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.",
     "Only notification for app updates are available." : "Only notification for app updates are available.",
     "Checking apps for compatible updates" : "Checking apps for compatible updates",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.",

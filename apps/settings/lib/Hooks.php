@@ -28,6 +28,7 @@ namespace OCA\Settings;
 
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -55,6 +56,8 @@ class Hooks {
 	protected $config;
 	/** @var IFactory */
 	protected $languageFactory;
+	/** @var Defaults */
+	protected $defaults;
 
 	public function __construct(IActivityManager $activityManager,
 								IGroupManager $groupManager,
@@ -63,7 +66,8 @@ class Hooks {
 								IURLGenerator $urlGenerator,
 								IMailer $mailer,
 								IConfig $config,
-								IFactory $languageFactory) {
+								IFactory $languageFactory,
+				   				Defaults $defaults) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
@@ -72,6 +76,7 @@ class Hooks {
 		$this->mailer = $mailer;
 		$this->config = $config;
 		$this->languageFactory = $languageFactory;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -93,6 +98,7 @@ class Hooks {
 			->setType('personal_settings')
 			->setAffectedUser($user->getUID());
 
+		$instanceName = $this->defaults->getName();
 		$instanceUrl = $this->urlGenerator->getAbsoluteURL('/');
 		$language = $this->languageFactory->getUserLanguage($user);
 		$l = $this->languageFactory->get('settings', $language);
@@ -131,7 +137,7 @@ class Hooks {
 				'instanceUrl' => $instanceUrl,
 			]);
 
-			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();
 			$template->addHeading($l->t('Password changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));

@@ -37,7 +37,11 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 
 /**
- * Interface IManager
+ * This interface allows to manage sharing files between users and groups.
+ *
+ * This interface must not be implemented in your application but
+ * instead should be used as a service and injected in your code with
+ * dependency injection.
  *
  * @since 9.0.0
  */

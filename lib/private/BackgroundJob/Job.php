@@ -29,6 +29,9 @@ use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
 
+/**
+ * @deprecated internal class, use \OCP\BackgroundJob\Job
+ */
 abstract class Job implements IJob {
 	/** @var int */
 	protected $id;

@@ -46,7 +46,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível."],
     "Apps missing updates" : "Aplicativos faltando atualizações",
     "Apps with available updates" : "Aplicativos com atualizações disponíveis",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Observe que uma nova versão pode levar um tempo até aparecer aqui. Lançamos novas versões distribuídas ao longo do tempo para nossos usuários e às vezes pulamos uma versão quando problemas são encontrados.",
     "Only notification for app updates are available." : "Só está disponível notificação para atualizações de aplicativos.",
     "Checking apps for compatible updates" : "Verificando atualização dos aplicativos",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Não foi possível conectar a appstore ou não havia atualização. Procure manualmente por atualizações ou verifique se o servidor tem acesso à internet.",

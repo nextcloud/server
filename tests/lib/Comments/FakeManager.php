@@ -2,6 +2,7 @@
 
 namespace Test\Comments;
 
+use OC\Comments\Comment;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;
@@ -59,6 +60,22 @@ class FakeManager implements ICommentsManager {
 	}
 
 	public function delete($id) {
+	}
+
+	public function getReactionComment(int $parentId, string $actorType, string $actorId, string $reaction): IComment {
+		return new Comment();
+	}
+
+	public function retrieveAllReactions(int $parentId): array {
+		return [];
+	}
+
+	public function retrieveAllReactionsWithSpecificReaction(int $parentId, string $reaction): array {
+		return [];
+	}
+
+	public function supportReactions(): bool {
+		return false;
 	}
 
 	public function save(IComment $comment) {

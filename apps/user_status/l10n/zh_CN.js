@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 小时",
     "Mute all notifications" : "静音所有通知",
     "Appear offline" : "显示为离线",
-    "Clear status after" : "清除状态于",
     "What's your status?" : "您现在是什么状态？"
 },
 "nplurals=1; plural=0;");

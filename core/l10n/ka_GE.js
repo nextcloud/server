@@ -218,9 +218,7 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "მოწმდება შესაძლებელია თუ არა მონაცემთა ბაზის სქემის განახლება (მონაცემთა ბაზის ზომასთან დამოკიდებულებით, ამ პროცესმა შეიძლება გასტანოს გარკვეული პერიოდი)",
     "Checked database schema update" : "შემოწმდა მონაცემთა ბაზის სქემის განახლება",
     "Checking updates of apps" : "მოწმდება აპლიკაციის განახლებები",
-    "Checking for update of app \"%s\" in appstore" : "Appstore-ში მოწდება აპლიკაციის \"%s\" განახლება",
     "Update app \"%s\" from appstore" : "Appstore-იდან ნახლდება აპლიკაცია \"%s\"",
-    "Checked for update of app \"%s\" in appstore" : "Appstore-ში დამოწმდა აპლიკაციის \"%s\" განახლება",
     "Checked database schema update for apps" : "დამოწმდა აპლიკაციებისთვის მონაცემთა ბაზის სქემის განახლება",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "\"{url}\"-ის გასახსნელად თქვენი ვებ-სერვერი არაა სწორად კონფიგურირებული. შეგიძლიათ იხილოთ მეტი ინფორმაცია <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">დოკუმენტაციაში</a>.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "ამ სერვერს არ გააჩნია მოქმედი ინტერნეტ კავშირი: მიუწვდომელია მრავალი წერტილი. ეს ნიშნავს, რომ ფუნქციები როგორებიცაა ექსტერნალური საცავის დაყენება, შეტყობინებები განახლებებზე ან მესამე მხარის აპლიკაციების ინსტალაცია არ იმუშავებს. შესაძლოა ფაილებთან დისტანციური წვდომა და საფოსტო შეტყობინებების გაგზავნაც არ მუშაობდეს. ყველა ფუნქციის მუშაობისთვის, ამ სერვერზე ჩართეთ ინტერნეტ კავშირი.",
@@ -233,8 +231,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან.",
     "Continue to Nextcloud" : "გაგრძლება Nextcloud-ისკენ",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["განახლება წარმატებით დასრულდა. Nextcloud-ისკენ გადაგამისამართებთ %n წამში.","განახლება წარმატებით დასრულდა. Nextcloud-ისკენ გადაგამისამართებთ %n წამში."],
-    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს.",
-    "Finish setup" : "კონფიგურაციის დასრულება",
-    "Finishing …" : "სრულდება ..."
+    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს."
 },
 "nplurals=2; plural=(n!=1);");

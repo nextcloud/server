@@ -222,10 +222,10 @@ export default {
 					active: this.activeTab,
 					background: this.background,
 					class: {
-						'app-sidebar--has-preview': this.fileInfo.hasPreview,
+						'app-sidebar--has-preview': this.fileInfo.hasPreview && !this.isFullScreen,
 						'app-sidebar--full': this.isFullScreen,
 					},
-					compact: !this.fileInfo.hasPreview,
+					compact: !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
 					starred: this.fileInfo.isFavourited,
 					subtitle: this.subtitle,
@@ -300,7 +300,7 @@ export default {
 		},
 
 		getPreviewIfAny(fileInfo) {
-			if (fileInfo.hasPreview) {
+			if (fileInfo.hasPreview && !this.isFullScreen) {
 				return OC.generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
 			return this.getIconUrl(fileInfo)

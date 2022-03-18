@@ -20,16 +20,6 @@ OC.L10N.register(
     "Comment" : "Comentari",
     "Comment deleted" : "Comentari suprimit",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat esmentats a \"{file}\" en un comentari d'un usuari que ja no existeix",
-    "{user} mentioned you in a comment on “{file}”" : "{user} us ha esmentat en un comentari de “{file}”",
-    "New comment …" : "Nou comentari...",
-    "Post" : "Publica",
-    "Cancel" : "Cancel·la",
-    "[Deleted user]" : "[Usuari suprimit]",
-    "More comments …" : "Més comentaris...",
-    "Save" : "Desa",
-    "Allowed characters {count} of {max}" : "{count} caràcters permesos de {max}",
-    "Error occurred while retrieving comment with ID {id}" : "S'ha produït un error en recuperar el comentari amb l'ID {id}",
-    "Error occurred while updating comment with id {id}" : "Hi ha hagut un error en actualitzar el comentari amb id {id}",
-    "Error occurred while posting comment" : "Hi ha hagut un error en publicar el comentari"
+    "{user} mentioned you in a comment on “{file}”" : "{user} us ha esmentat en un comentari de “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

@@ -32,7 +32,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Creates a JPG preview using ImageMagick via the PECL extension
@@ -63,17 +63,26 @@ class HEIC extends ProviderV2 {
 		}
 
 		$tmpPath = $this->getLocalFile($file);
+		if ($tmpPath === false) {
+			\OC::$server->get(LoggerInterface::class)->error(
+				'Failed to get thumbnail for: ' . $file->getPath(),
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		// Creates \Imagick object from the heic file
 		try {
 			$bp = $this->getResizedPreview($tmpPath, $maxX, $maxY);
 			$bp->setFormat('jpg');
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'File: ' . $file->getPath() . ' Imagick says:',
-				'level' => ILogger::ERROR,
-				'app' => 'core',
-			]);
+			\OC::$server->get(LoggerInterface::class)->error(
+				'File: ' . $file->getPath() . ' Imagick says:',
+				[
+					'exception' => $e,
+					'app' => 'core',
+				]
+			);
 			return null;
 		}
 
@@ -109,7 +118,7 @@ class HEIC extends ProviderV2 {
 		$bp->setImageFormat('jpg');
 
 		$bp = $this->resize($bp, $maxX, $maxY);
-		
+
 		return $bp;
 	}
 

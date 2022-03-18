@@ -40,6 +40,7 @@ OC.L10N.register(
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Your web server is not yet properly set up to allow file synchronisation, because the WebDAV interface seems to be broken.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel.",
+    "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"{suggestedOverwriteCliURL}\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"{suggestedOverwriteCliURL}\". Otherwise there might be problems with the URL generated via cron. (It is possible however that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this just in case.)",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "It was not possible to execute the cron job via CLI. The following technical errors have appeared:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.",
@@ -230,9 +231,7 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Checking whether the database schema can be updated (this can take a long time depending on the database size)",
     "Checked database schema update" : "Checked database schema update",
     "Checking updates of apps" : "Checking updates of apps",
-    "Checking for update of app \"%s\" in appstore" : "Checking for update of app \"%s\" in appstore",
     "Update app \"%s\" from appstore" : "Update app \"%s\" from appstore",
-    "Checked for update of app \"%s\" in appstore" : "Checked for update of app \"%s\" in appstore",
     "Checked database schema update for apps" : "Checked database schema update for apps",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>.",
     "Check the background job settings" : "Check the background job settings",
@@ -246,8 +245,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.",
     "Continue to Nextcloud" : "Continue to Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["The update was successful. Redirecting you to Nextcloud in %n second.","The update was successful. Redirecting you to Nextcloud in %n seconds."],
-    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator.",
-    "Finish setup" : "Finish setup",
-    "Finishing …" : "Finishing …"
+    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator."
 },
 "nplurals=2; plural=(n != 1);");

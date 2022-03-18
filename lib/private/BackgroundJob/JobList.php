@@ -29,6 +29,7 @@
  */
 namespace OC\BackgroundJob;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\AutoloadNotAllowedException;
@@ -111,10 +112,25 @@ class JobList implements IJobList {
 		$query->delete('jobs')
 			->where($query->expr()->eq('class', $query->createNamedParameter($class)));
 		if (!is_null($argument)) {
-			$argument = json_encode($argument);
-			$query->andWhere($query->expr()->eq('argument', $query->createNamedParameter($argument)));
+			$argumentJson = json_encode($argument);
+			$query->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
 		}
-		$query->execute();
+
+		// Add galera safe delete chunking if using mysql
+		// Stops us hitting wsrep_max_ws_rows when large row counts are deleted
+		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+			// Then use chunked delete
+			$max = IQueryBuilder::MAX_ROW_DELETION;
+
+			$query->setMaxResults($max);
+
+			do {
+				$deleted = $query->execute();
+			} while ($deleted === $max);
+		} else {
+			// Dont use chunked delete - let the DB handle the large row count natively
+			$query->execute();
+		}
 	}
 
 	/**
@@ -184,9 +200,10 @@ class JobList implements IJobList {
 	/**
 	 * get the next job in the list
 	 *
+	 * @param bool $onlyTimeSensitive
 	 * @return IJob|null
 	 */
-	public function getNext() {
+	public function getNext(bool $onlyTimeSensitive = true): ?IJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
@@ -194,6 +211,10 @@ class JobList implements IJobList {
 			->andWhere($query->expr()->lte('last_checked', $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT)))
 			->orderBy('last_checked', 'ASC')
 			->setMaxResults(1);
+
+		if ($onlyTimeSensitive) {
+			$query->andWhere($query->expr()->eq('time_sensitive', $query->createNamedParameter(IJob::TIME_SENSITIVE, IQueryBuilder::PARAM_INT)));
+		}
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('jobs')
@@ -215,7 +236,7 @@ class JobList implements IJobList {
 
 			if ($count === 0) {
 				// Background job already executed elsewhere, try again.
-				return $this->getNext();
+				return $this->getNext($onlyTimeSensitive);
 			}
 			$job = $this->buildJob($row);
 
@@ -229,7 +250,7 @@ class JobList implements IJobList {
 				$reset->execute();
 
 				// Background job from disabled app, try again.
-				return $this->getNext();
+				return $this->getNext($onlyTimeSensitive);
 			}
 
 			return $job;
@@ -333,6 +354,12 @@ class JobList implements IJobList {
 		$query->update('jobs')
 			->set('last_run', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
+
+		if ($job instanceof \OCP\BackgroundJob\TimedJob
+			&& !$job->isTimeSensitive()) {
+			$query->set('time_sensitive', $query->createNamedParameter(IJob::TIME_INSENSITIVE));
+		}
+
 		$query->execute();
 	}
 

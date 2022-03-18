@@ -30,9 +30,11 @@ use OCP\IImage;
  * Extracts a preview from files that embed them in an ZIP archive
  */
 abstract class Bundled extends ProviderV2 {
-	protected function extractThumbnail(File $file, $path): ?IImage {
+	protected function extractThumbnail(File $file, string $path): ?IImage {
 		$sourceTmp = \OC::$server->getTempManager()->getTemporaryFile();
 		$targetTmp = \OC::$server->getTempManager()->getTemporaryFile();
+		$this->tmpFiles[] = $sourceTmp;
+		$this->tmpFiles[] = $targetTmp;
 
 		try {
 			$content = $file->fopen('r');
@@ -46,7 +48,7 @@ abstract class Bundled extends ProviderV2 {
 			$image->fixOrientation();
 
 			return $image;
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			return null;
 		}
 	}

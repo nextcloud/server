@@ -222,22 +222,20 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 				// we remove the invalid storage
 				$this->manager->removeShare($this->mountPoint);
 				$this->manager->getMountManager()->removeMount($this->mountPoint);
-				throw new StorageInvalidException();
+				throw new StorageInvalidException("Remote share not found", 0, $e);
 			} else {
 				// Nextcloud instance is gone, likely to be a temporary server configuration error
-				throw new StorageNotAvailableException();
+				throw new StorageNotAvailableException("No nextcloud instance found at remote", 0, $e);
 			}
 		} catch (ForbiddenException $e) {
 			// auth error, remove share for now (provide a dialog in the future)
 			$this->manager->removeShare($this->mountPoint);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
-			throw new StorageInvalidException();
+			throw new StorageInvalidException("Auth error when getting remote share");
 		} catch (\GuzzleHttp\Exception\ConnectException $e) {
-			throw new StorageNotAvailableException();
+			throw new StorageNotAvailableException("Failed to connect to remote instance", 0, $e);
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
-			throw new StorageNotAvailableException();
-		} catch (\Exception $e) {
-			throw $e;
+			throw new StorageNotAvailableException("Error while sending request to remote instance", 0, $e);
 		}
 	}
 

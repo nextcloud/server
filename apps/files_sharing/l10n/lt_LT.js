@@ -141,6 +141,9 @@ OC.L10N.register(
     "Choose a default folder for accepted shares" : "Pasirinkite numatytąjį aplanką priimtiems viešiniams",
     "Unknown error" : "Nežinoma klaida",
     "Allow editing" : "Leisti redaguoti",
+    "Read only" : "Tik skaitymui",
+    "Allow upload and editing" : "Leisti įkelti ir redaguoti",
+    "File drop (upload only)" : "Failų įmetimas (tik įkėlimas)",
     "Allow creating" : "Leisti sukūrimą",
     "Allow deleting" : "Leisti ištrynimą",
     "Allow resharing" : "Leisti bendrinti iš naujo",
@@ -173,9 +176,6 @@ OC.L10N.register(
     "Create share" : "Sukurti viešinį",
     "Cancel" : "Atsisakyti",
     "Share label" : "Bendrinti žymeklį",
-    "Read only" : "Tik skaitymui",
-    "Allow upload and editing" : "Leisti įkelti ir redaguoti",
-    "File drop (upload only)" : "Failų įmetimas (tik įkėlimas)",
     "Hide download" : "Slėpti atsisiuntimą",
     "Password protect" : "Apsaugoti slaptažodžiu",
     "Video verification" : "Video patikrinimas",
@@ -237,7 +237,6 @@ OC.L10N.register(
     "invalid permissions" : "neteisingi leidimai",
     "Can't change permissions for public share links" : "Negalima keisti leidimų viešai bendrinamoms nuorodoms",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
-    "Name, email, or federated cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
     "Download %s" : "Atsisiųsti %s"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

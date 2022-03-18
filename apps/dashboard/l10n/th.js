@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "รูปภาพเริ่มต้น",
     "Plain background" : "พื้นหลังเปล่า",
     "Insert from {productName}" : "แทรกจาก {productName}",
-    "Get more widgets from the app store" : "เพิ่มวิดเจ็ตจาก App Store",
-    "Good night, {name}" : "ราตรีสวัสดิ์ {name}",
-    "Good night" : "ราตรีสวัสดิ์",
-    "Pick from files" : "เลือกจากไฟล์"
+    "Get more widgets from the app store" : "เพิ่มวิดเจ็ตจาก App Store"
 },
 "nplurals=1; plural=0;");

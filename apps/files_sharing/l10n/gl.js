@@ -136,6 +136,9 @@ OC.L10N.register(
     "Sharing" : "Compartindo",
     "Accept user and group shares by default" : "Aceptar, por omisión, as comparticións de usuarios e grupos",
     "Allow editing" : "Permitir a edición",
+    "Read only" : "Só lectura",
+    "Allow upload and editing" : "Permitir o envío e a edición",
+    "File drop (upload only)" : "Soltar ficheiro (só envíos) ",
     "Allow creating" : "Permitir a creación",
     "Allow deleting" : "Permitir a eliminación",
     "Allow resharing" : "Permitir compartir",
@@ -168,9 +171,6 @@ OC.L10N.register(
     "Create share" : "Crear elemento compartido",
     "Cancel" : "Cancelar",
     "Share label" : "Compartir a etiqueta",
-    "Read only" : "Só lectura",
-    "Allow upload and editing" : "Permitir o envío e a edición",
-    "File drop (upload only)" : "Soltar ficheiro (só envíos) ",
     "Hide download" : "Agochar a descarga",
     "Password protect" : "Protexido con contrasinal",
     "Video verification" : "Verificación de vídeo",
@@ -234,7 +234,6 @@ OC.L10N.register(
     "invalid permissions" : "permisos incorrectos",
     "Can't change permissions for public share links" : "Non é posíbel cambiar os permisos das ligazóns de recursos compartidos públicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
-    "Name, email, or federated cloud ID …" : "Nome, correo ou ID da nube federada...",
     "Download %s" : "Descargar %s"
 },
 "nplurals=2; plural=(n != 1);");

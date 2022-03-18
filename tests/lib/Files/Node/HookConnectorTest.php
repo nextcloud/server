@@ -78,7 +78,8 @@ class HookConnectorTest extends TestCase {
 			\OC::$server->getUserManager()->get($this->userId),
 			\OC::$server->getUserMountCache(),
 			$this->createMock(ILogger::class),
-			$this->createMock(IUserManager::class)
+			$this->createMock(IUserManager::class),
+			$this->createMock(IEventDispatcher::class)
 		);
 		$this->legacyDispatcher = \OC::$server->getEventDispatcher();
 		$this->eventDispatcher = \OC::$server->query(IEventDispatcher::class);

@@ -228,7 +228,12 @@ class Util {
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
-		return $sortedScripts ? array_unique(array_merge(...array_values(($sortedScripts)))) : [];
+		$sortedScripts = $sortedScripts ? array_merge(...array_values(($sortedScripts))) : [];
+
+		// Override core-common and core-main order
+		array_unshift($sortedScripts, 'core/js/common', 'core/js/main');
+
+		return array_unique($sortedScripts);
 	}
 
 	/**

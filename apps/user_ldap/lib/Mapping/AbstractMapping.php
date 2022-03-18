@@ -175,7 +175,7 @@ abstract class AbstractMapping {
 	 * @param $fdn
 	 * @return bool
 	 */
-	public function setUUIDbyDN($uuid, $fdn) {
+	public function setUUIDbyDN($uuid, $fdn): bool {
 		$statement = $this->dbc->prepare('
 			UPDATE `' . $this->getTableName() . '`
 			SET `directory_uuid` = ?
@@ -280,12 +280,9 @@ abstract class AbstractMapping {
 	/**
 	 * Searches mapped names by the giving string in the name column
 	 *
-	 * @param string $search
-	 * @param string $prefixMatch
-	 * @param string $postfixMatch
 	 * @return string[]
 	 */
-	public function getNamesBySearch($search, $prefixMatch = "", $postfixMatch = "") {
+	public function getNamesBySearch(string $search, string $prefixMatch = "", string $postfixMatch = ""): array {
 		$statement = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `' . $this->getTableName() . '`
@@ -329,26 +326,24 @@ abstract class AbstractMapping {
 		return $this->getXbyY('directory_uuid', 'ldap_dn_hash', $this->getDNHash($dn));
 	}
 
-	/**
-	 * gets a piece of the mapping list
-	 *
-	 * @param int $offset
-	 * @param int $limit
-	 * @return array
-	 */
-	public function getList($offset = null, $limit = null) {
-		$query = $this->dbc->prepare('
-			SELECT
-				`ldap_dn` AS `dn`,
-				`owncloud_name` AS `name`,
-				`directory_uuid` AS `uuid`
-			FROM `' . $this->getTableName() . '`',
-			$limit,
-			$offset
-		);
+	public function getList(int $offset = 0, int $limit = null, bool $invalidatedOnly = false): array {
+		$select = $this->dbc->getQueryBuilder();
+		$select->selectAlias('ldap_dn', 'dn')
+			->selectAlias('owncloud_name', 'name')
+			->selectAlias('directory_uuid', 'uuid')
+			->from($this->getTableName())
+			->setMaxResults($limit)
+			->setFirstResult($offset);
 
-		$query->execute();
-		return $query->fetchAll();
+		if ($invalidatedOnly) {
+			$select->where($select->expr()->like('directory_uuid', $select->createNamedParameter('invalidated_%')));
+		}
+
+		$result = $select->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+
+		return $entries;
 	}
 
 	/**
@@ -440,14 +435,14 @@ abstract class AbstractMapping {
 		$picker = $this->dbc->getQueryBuilder();
 		$picker->select('owncloud_name')
 			->from($this->getTableName());
-		$cursor = $picker->execute();
+		$cursor = $picker->executeQuery();
 		$result = true;
-		while ($id = $cursor->fetchOne()) {
+		while (($id = $cursor->fetchOne()) !== false) {
 			$preCallback($id);
 			if ($isUnmapped = $this->unmap($id)) {
 				$postCallback($id);
 			}
-			$result &= $isUnmapped;
+			$result = $result && $isUnmapped;
 		}
 		$cursor->closeCursor();
 		return $result;
@@ -458,10 +453,21 @@ abstract class AbstractMapping {
 	 *
 	 * @return int
 	 */
-	public function count() {
-		$qb = $this->dbc->getQueryBuilder();
-		$query = $qb->select($qb->func()->count('ldap_dn_hash'))
+	public function count(): int {
+		$query = $this->dbc->getQueryBuilder();
+		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName());
+		$res = $query->execute();
+		$count = $res->fetchOne();
+		$res->closeCursor();
+		return (int)$count;
+	}
+
+	public function countInvalidated(): int {
+		$query = $this->dbc->getQueryBuilder();
+		$query->select($query->func()->count('ldap_dn_hash'))
+			->from($this->getTableName())
+			->where($query->expr()->like('directory_uuid', $query->createNamedParameter('invalidated_%')));
 		$res = $query->execute();
 		$count = $res->fetchOne();
 		$res->closeCursor();

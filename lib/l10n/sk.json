@@ -256,7 +256,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Alebo, ak preferujete ponechať súbor config.php iba na čítanie, nastavte v ňom parameter \"config_is_read_only\" na true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s nastaveniami.",
     "Can't create or write into the data directory %s" : "Nemožno vytvoriť alebo zapisovať do priečinka dát %s",
-    "Invalid Federated Cloud ID" : "Neplatné združené Cloud ID",
     "Can’t increase permissions of %s" : "Nie je možné navýšiť oprávnenia pre %s",
     "Files can’t be shared with delete permissions" : "Súbory nie je možné sprístupňovať s oprávneniami na odstránenie",
     "Files can’t be shared with create permissions" : "Súbory nie je možné sprístupňovať s oprávneniami na vytváranie",

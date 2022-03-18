@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2021 Christopher Ng <chrng8@gmail.com>
+ * @copyright 2022 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
  *
@@ -26,19 +26,12 @@ declare(strict_types=1);
 
 namespace OC\Profile;
 
-use OCP\Accounts\IAccount;
-use OCP\Accounts\IAccountManager;
+use OCP\IConfig;
 
 trait TProfileHelper {
-
-	/**
-	 * Returns whether the profile is enabled for the account
-	 *
-	 * @since 23.0.0
-	 */
-	protected function isProfileEnabled(IAccount $account): ?bool {
+	protected function isProfileEnabledByDefault(IConfig $config): ?bool {
 		return filter_var(
-			$account->getProperty(IAccountManager::PROPERTY_PROFILE_ENABLED)->getValue(),
+			$config->getAppValue('settings', 'profile_enabled_by_default', '1'),
 			FILTER_VALIDATE_BOOLEAN,
 			FILTER_NULL_ON_FAILURE,
 		);

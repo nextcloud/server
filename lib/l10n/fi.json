@@ -201,7 +201,6 @@
     "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Tämän voi yleensä korjata antamalla http-palvelimelle kirjoitusoikeuden asetushakemistoon",
     "Can't create or write into the data directory %s" : "Ei voi luoda tai kirjoittaa data-hakemistoon %s",
-    "Invalid Federated Cloud ID" : "Virheellinen federoidun pilven tunniste",
     "Files can’t be shared with delete permissions" : "Tiedostoja ei voi jakaa poistamisoikeuksilla",
     "Files can’t be shared with create permissions" : "Tiedostoja ei voi jakaa luomisoikeuksilla",
     "Can't read file" : "Tiedostoa ei voi lukea",

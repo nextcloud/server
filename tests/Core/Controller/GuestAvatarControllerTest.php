@@ -77,7 +77,7 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 
 		$this->avatar->expects($this->once())
 			->method('getFile')
-			->with(128)
+			->with(512)
 			->willReturn($this->file);
 
 		$this->file->method('getMimeType')

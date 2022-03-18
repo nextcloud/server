@@ -115,7 +115,11 @@ class Provider implements IProvider {
 		} elseif ($event->getSubject() === self::EMAIL_CHANGED) {
 			$subject = $this->l->t('Your email address was changed by an administrator');
 		} elseif ($event->getSubject() === self::APP_TOKEN_CREATED) {
-			$subject = $this->l->t('You created app password "{token}"');
+			if ($event->getAffectedUser() === $event->getAuthor()) {
+				$subject = $this->l->t('You created app password "{token}"');
+			} else {
+				$subject = $this->l->t('An administrator created app password "{token}"');
+			}
 		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_RENAMED) {

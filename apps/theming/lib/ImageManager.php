@@ -78,10 +78,8 @@ class ImageManager {
 
 	public function getImageUrl(string $key, bool $useSvg = true): string {
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
-		try {
-			$image = $this->getImage($key, $useSvg);
+		if ($this->hasImage($key)) {
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
-		} catch (NotFoundException $e) {
 		}
 
 		switch ($key) {
@@ -130,6 +128,11 @@ class ImageManager {
 			}
 		}
 		return $folder->getFile($key);
+	}
+
+	public function hasImage(string $key): bool {
+		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
+		return $mimeSetting !== '';
 	}
 
 	/**

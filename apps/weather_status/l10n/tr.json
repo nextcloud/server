@@ -44,7 +44,6 @@
     "There was an error saving the mode." : "Kip kaydedilirken bir sorun çıktı.",
     "There was an error using personal address." : "Kişisel adres kullanılırken bir sorun çıktı.",
     "Set location for weather" : "Hava durumu için konumu ayarlayın",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Pano uygulaması ile bütünleşik hava durumu.\n    Kullanıcının konumu el ile de ayarlanabileceği gibi otomatik olarak da algılanabilir. 6 saatlik tahmin görüntülenir.\n    Hava durumu Takvim gibi diğer uygulamalarla da kullanılabilir.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Açık {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Bulutlu {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Gündüz {time}",

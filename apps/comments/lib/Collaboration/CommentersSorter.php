@@ -28,8 +28,7 @@ use OCP\Comments\ICommentsManager;
 
 class CommentersSorter implements ISorter {
 
-	/** @var ICommentsManager */
-	private $commentsManager;
+	private ICommentsManager $commentsManager;
 
 	public function __construct(ICommentsManager $commentsManager) {
 		$this->commentsManager = $commentsManager;
@@ -77,12 +76,7 @@ class CommentersSorter implements ISorter {
 		}
 	}
 
-	/**
-	 * @param $type
-	 * @param $id
-	 * @return array
-	 */
-	protected function retrieveCommentsInformation($type, $id) {
+	protected function retrieveCommentsInformation(string $type, string $id): array {
 		$comments = $this->commentsManager->getForObject($type, $id);
 		if (count($comments) === 0) {
 			return [];
@@ -102,12 +96,12 @@ class CommentersSorter implements ISorter {
 		return $actors;
 	}
 
-	protected function compare(array $a, array $b, array $commenters) {
+	protected function compare(array $a, array $b, array $commenters): int {
 		$a = $a['value']['shareWith'];
 		$b = $b['value']['shareWith'];
 
-		$valueA = isset($commenters[$a]) ? $commenters[$a] : 0;
-		$valueB = isset($commenters[$b]) ? $commenters[$b] : 0;
+		$valueA = $commenters[$a] ?? 0;
+		$valueB = $commenters[$b] ?? 0;
 
 		return $valueB - $valueA;
 	}

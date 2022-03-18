@@ -30,27 +30,37 @@ namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\EventReminderJob;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EventReminderJobTest extends TestCase {
 
-	/** @var ReminderService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
+	private $time;
+
+	/** @var ReminderService|MockObject */
 	private $reminderService;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var EventReminderJob|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var EventReminderJob|MockObject */
 	private $backgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->time = $this->createMock(ITimeFactory::class);
 		$this->reminderService = $this->createMock(ReminderService::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		$this->backgroundJob = new EventReminderJob($this->reminderService, $this->config);
+		$this->backgroundJob = new EventReminderJob(
+			$this->time,
+			$this->reminderService,
+			$this->config,
+		);
 	}
 
 	public function data(): array {

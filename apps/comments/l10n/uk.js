@@ -20,16 +20,6 @@ OC.L10N.register(
     "Comment" : "Коментар",
     "Comment deleted" : "Коментар вилучено",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Вас було згадано у “{file}” у коментарі користувача, якого було пізніше вилучено",
-    "{user} mentioned you in a comment on “{file}”" : "{user} згадав Вас у коментарі про “{file}”",
-    "New comment …" : "Новий коментар...",
-    "Post" : "Відправити",
-    "Cancel" : "Скасувати",
-    "[Deleted user]" : "[Користувача вилучено]",
-    "More comments …" : "Більше коментарів ...",
-    "Save" : "Зберегти",
-    "Allowed characters {count} of {max}" : "Доступно символів {count} з {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Помилка під час відповіді на коментар ID {id}",
-    "Error occurred while updating comment with id {id}" : "Помилка під час оновлення коментаря з id {id}",
-    "Error occurred while posting comment" : "Помилка під час написання коментаря"
+    "{user} mentioned you in a comment on “{file}”" : "{user} згадав Вас у коментарі про “{file}”"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

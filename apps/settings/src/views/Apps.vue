@@ -75,8 +75,8 @@
 				</template>
 
 				<AppNavigationItem id="app-developer-docs"
-					href="settings.developerDocumentation"
-					:title="t('settings', 'Developer documentation') + ' ↗'" />
+					:title="t('settings', 'Developer documentation') + ' ↗'"
+					@click="openDeveloperDocumentation" />
 			</template>
 		</AppNavigation>
 
@@ -106,6 +106,9 @@
 						class="official icon-checkmark">
 						{{ t('settings', 'Featured') }}</span>
 					<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
+				</div>
+				<div class="app-version">
+					<p>{{ app.version }}</p>
 				</div>
 			</template>
 
@@ -299,6 +302,9 @@ export default {
 				params: { category: this.category },
 			})
 		},
+		openDeveloperDocumentation() {
+			window.open(this.settings.developerDocumentation)
+		},
 	},
 }
 </script>
@@ -315,6 +321,12 @@ export default {
 			background-size: 32px;
 
 			filter: invert(1);
+		}
+	}
+
+	.app-sidebar-header__description {
+		.app-version {
+			padding-left: 10px;
 		}
 	}
 
@@ -352,19 +364,25 @@ export default {
 	}
 }
 
-	.app-sidebar-tabs__release {
-		h2 {
-			border-bottom: 1px solid var(--color-border);
-		}
+// Align the appNavigation toggle with the apps header toolbar
+.app-navigation::v-deep button.app-navigation-toggle {
+	top: 8px;
+	right: -8px;
+}
 
-		// Overwrite changelog heading styles
-		::v-deep {
-			h3 {
-				font-size: 20px;
-			}
-			h4 {
-				font-size: 17px;
-			}
+.app-sidebar-tabs__release {
+	h2 {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	// Overwrite changelog heading styles
+	::v-deep {
+		h3 {
+			font-size: 20px;
+		}
+		h4 {
+			font-size: 17px;
 		}
 	}
+}
 </style>

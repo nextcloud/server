@@ -47,6 +47,10 @@
     Header set Cache-Control "max-age=15778463"
   </FilesMatch>
 
+  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)(\?v=.*)?$">
+    Header set Cache-Control "max-age=15778463, immutable"
+  </FilesMatch>
+
   # Let browsers cache WOFF files for a week
   <FilesMatch "\.woff2?$">
     Header set Cache-Control "max-age=604800"

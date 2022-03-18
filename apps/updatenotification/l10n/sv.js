@@ -44,7 +44,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
     "Apps missing updates" : "Appar som saknar uppdateringar",
     "Apps with available updates" : "Appar med tillgängliga uppdateringar",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Notera att när en ny version släppts kan det ta lite tid innan den dyker upp här. Vi rullar ut nya versioner till våra användare vid utspridda tillfällen och hoppar ibland över versioner när problem hittas.",
     "Only notification for app updates are available." : "Endast notifikation för appuppdateringar är tillgängliga.",
     "Checking apps for compatible updates" : "Kontrollera appar för kompatibla uppdateringar",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Kunde inte ansluta till appbutiken eller så returnerades inga uppdateringar alls. Sök manuellt för uppdateringar och säkerställ att din server har tillgång till internet och kan ansluta till appbutiken.",

@@ -10,6 +10,7 @@ namespace Test\Files\Cache;
 
 use OC\Files\Filesystem as Filesystem;
 use OC\Files\View;
+use OCP\Files\Mount\IMountManager;
 
 /**
  * Class UpdaterLegacyTest
@@ -61,7 +62,10 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
 
-		Filesystem::clearMounts();
+		/** @var IMountManager $manager */
+		$manager = \OC::$server->get(IMountManager::class);
+		$manager->removeMount('/' . self::$user);
+
 		Filesystem::mount($this->storage, [], '/' . self::$user . '/files');
 
 		\OC_Hook::clear('OC_Filesystem');

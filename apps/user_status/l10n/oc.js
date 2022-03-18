@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 oras",
     "Mute all notifications" : "Amudir totas las notificacions",
     "Appear offline" : "Aparéisser fòra linha",
-    "Clear status after" : "Escafar l’estat aprèp",
     "What's your status?" : "Quin es vòstre estat ?"
 },
 "nplurals=2; plural=(n > 1);");

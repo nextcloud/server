@@ -51,16 +51,23 @@
 					@change="setMessage"
 					@submit="saveStatus" />
 			</div>
-			<PredefinedStatusesList @selectStatus="selectPredefinedMessage" />
+			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
-				@selectClearAt="setClearAt" />
+				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
-				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">
+				<ButtonVue wide="true"
+					:text="$t('user_status', 'Clear status message')"
+					:disabled="isSavingStatus"
+					@click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
-				</button>
-				<button class="status-buttons__primary primary" :disabled="isSavingStatus" @click="saveStatus">
+				</ButtonVue>
+				<ButtonVue wide="true"
+					type="primary"
+					:text="$t('user_status', 'Set status message')"
+					:disabled="isSavingStatus"
+					@click="saveStatus">
 					{{ $t('user_status', 'Set status message') }}
-				</button>
+				</ButtonVue>
 			</div>
 		</div>
 	</Modal>
@@ -70,7 +77,7 @@
 import { showError } from '@nextcloud/dialogs'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-
+import ButtonVue from '@nextcloud/vue/dist/Components/Button'
 import { getAllStatusOptions } from '../services/statusOptionsService'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
 import PredefinedStatusesList from './PredefinedStatusesList'
@@ -88,6 +95,7 @@ export default {
 		Modal,
 		OnlineStatusSelect,
 		PredefinedStatusesList,
+		ButtonVue,
 	},
 	mixins: [OnlineStatusMixin],
 
@@ -233,29 +241,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// TODO: can be removed once migrated to @nextcloud-vue >= 5.0
-::v-deep {
-	.modal-wrapper {
-		.prev, .next {
-			display: none !important;
-		}
-
-		.modal-container {
-			max-height: 100% !important;
-		}
-	}
-
-	.modal-header .modal-title {
-		display: none;
-	}
-}
 
 .set-status-modal {
-	min-height: 200px;
 	padding: 8px 20px 20px 20px;
-	// Enable scrollbar for too long content, same way as in Dashboard customize
-	max-height: 95vh;
-	overflow: auto;
 
 	&__header {
 		text-align: center;
@@ -287,10 +275,9 @@ export default {
 
 	.status-buttons {
 		display: flex;
-
-		button {
-			flex-basis: 50%;
-		}
+		padding: 3px;
+		padding-left:0;
+		gap: 3px;
 	}
 }
 

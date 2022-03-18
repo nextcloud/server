@@ -52,6 +52,7 @@ use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
+use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidDirectoryException;
@@ -702,6 +703,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
+		if (Filesystem::isFileBlacklisted($path)) {
+			throw new ForbiddenException('Invalid path: ' . $path, false);
+		}
+
 		$permissions = $this->getPermissions($path);
 		if (!$permissions & \OCP\Constants::PERMISSION_READ) {
 			//can't read, nothing we can do
@@ -880,7 +885,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (is_resource($dh)) {
 			$basePath = rtrim($directory, '/');
 			while (($file = readdir($dh)) !== false) {
-				if (!Filesystem::isIgnoredDir($file) && !Filesystem::isFileBlacklisted($file)) {
+				if (!Filesystem::isIgnoredDir($file)) {
 					$childPath = $basePath . '/' . trim($file, '/');
 					$metadata = $this->getMetaData($childPath);
 					if ($metadata !== null) {

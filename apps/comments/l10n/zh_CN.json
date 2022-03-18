@@ -25,16 +25,6 @@
     "An error occurred while trying to delete the comment" : "删除评论时出错",
     "An error occurred while trying to create the comment" : "创建评论时出错",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "用户在“ {file}”中的评论中提到了您，此评论已被删除",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您",
-    "New comment …" : "新评论 ...",
-    "Post" : "发布",
-    "Cancel" : "取消",
-    "[Deleted user]" : "[已删除的用户]",
-    "More comments …" : "更多评论 ...",
-    "Save" : "保存",
-    "Allowed characters {count} of {max}" : "当前字数： {count}，最多允许：{max}",
-    "Error occurred while retrieving comment with ID {id}" : "检索 ID 为 {id} 的评论时发生错误",
-    "Error occurred while updating comment with id {id}" : "更新 id 为 {id} 的评论出错",
-    "Error occurred while posting comment" : "发表评论时发生错误"
+    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

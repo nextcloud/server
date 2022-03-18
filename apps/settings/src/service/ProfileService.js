@@ -45,3 +45,27 @@ export const saveProfileParameterVisibility = async (paramId, visibility) => {
 
 	return res.data
 }
+
+/**
+ * Save profile default
+ *
+ * @param {boolean} isEnabled the default
+ * @return {object}
+ */
+export const saveProfileDefault = async (isEnabled) => {
+	// Convert to string for compatibility
+	isEnabled = isEnabled ? '1' : '0'
+
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'settings',
+		key: 'profile_enabled_by_default',
+	})
+
+	await confirmPassword()
+
+	const res = await axios.post(url, {
+		value: isEnabled,
+	})
+
+	return res.data
+}

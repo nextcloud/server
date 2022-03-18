@@ -32,7 +32,6 @@ OC.L10N.register(
     "4 hours" : "4 oras",
     "Mute all notifications" : "Istuda totu is notìficas",
     "Appear offline" : "Mustra•ti foras de lìnia",
-    "Clear status after" : "Lìmpia s'istadu a pustis",
     "What's your status?" : "Cale est s'istadu tuo?"
 },
 "nplurals=2; plural=(n != 1);");

@@ -104,14 +104,12 @@ class Group_LDAPTest extends TestCase {
 		$lw = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMockBuilder(Connection::class)
 			->setMethods($conMethods)
-			->setConstructorArgs([$lw, null, null])
+			->setConstructorArgs([$lw, '', null])
 			->getMock();
 
 		$access = $this->createMock(Access::class);
 
-		$access->expects($this->any())
-			->method('getConnection')
-			->willReturn($connector);
+		$access->connection = $connector;
 
 		$access->userManager = $this->createMock(Manager::class);
 
@@ -133,6 +131,8 @@ class Group_LDAPTest extends TestCase {
 			->willReturnCallback(function ($name) {
 				if ($name === 'ldapDynamicGroupMemberURL') {
 					return '';
+				} elseif ($name === 'ldapBaseGroups') {
+					return [];
 				}
 				return 1;
 			});
@@ -953,6 +953,8 @@ class Group_LDAPTest extends TestCase {
 						return 'member';
 					case 'ldapGroupFilter':
 						return $groupFilter;
+					case 'ldapBaseGroups':
+						return [];
 				}
 				return 1;
 			});
@@ -1321,16 +1323,16 @@ class Group_LDAPTest extends TestCase {
 			});
 
 		$access->connection = $this->createMock(Connection::class);
-		if (count($groupsInfo) > 1) {
-			$access->connection->expects($this->any())
-				->method('__get')
-				->willReturnCallback(function ($name) {
-					if ($name === 'ldapNestedGroups') {
-						return 1;
-					}
-					return null;
-				});
-		}
+		$access->connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($name) {
+				if ($name === 'ldapNestedGroups') {
+					return 1;
+				} elseif ($name === 'ldapGroupMemberAssocAttr') {
+					return 'attr';
+				}
+				return null;
+			});
 
 		/** @var GroupPluginManager $pluginManager */
 		$pluginManager = $this->createMock(GroupPluginManager::class);
@@ -1372,6 +1374,10 @@ class Group_LDAPTest extends TestCase {
 				}
 				return null;
 			});
+
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->willReturn('fakedn');
 
 		/** @var GroupPluginManager $pluginManager */
 		$pluginManager = $this->createMock(GroupPluginManager::class);

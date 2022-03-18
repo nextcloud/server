@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Изображения по подразбиране",
     "Plain background" : "Обикновен фон",
     "Insert from {productName}" : "Вмъкване от {productName}",
-    "Get more widgets from the app store" : "Вземете повече приспособления от  app store",
-    "Good night, {name}" : "Лека нощ, {name}",
-    "Good night" : "Лека нощ",
-    "Pick from files" : "Избери от Файловете"
+    "Get more widgets from the app store" : "Вземете повече приспособления от  app store"
 },
 "nplurals=2; plural=(n != 1);");

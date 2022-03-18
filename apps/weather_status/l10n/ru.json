@@ -44,7 +44,6 @@
     "There was an error saving the mode." : "Не удалось сохранить режим.",
     "There was an error using personal address." : "Не удалось использовать личный адрес.",
     "Set location for weather" : "Задать местоположение",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Текущая погода — виджет для встраивания.\n    Доступен шестичасовой прогноз погоды для выбранного местоположения, которое может быть определено автоматически или указано пользователем.\n Информация о текущей погоде также может быть использована в других приложениях, например, в приложении Календарь.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit}, ясно в {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit}, облачно в {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit}, безоблачно в {time}",

@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Irudi lehenetsiak",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
-    "Get more widgets from the app store" : "Eskuratu widget gehiago aplikazio-dendatik",
-    "Good night, {name}" : "Gabon, {name}",
-    "Good night" : "Gabon",
-    "Pick from files" : "Aukeratu fitxategietatik"
+    "Get more widgets from the app store" : "Eskuratu widget gehiago aplikazio-dendatik"
 },
 "nplurals=2; plural=(n != 1);");

@@ -511,6 +511,12 @@ class AccountManagerTest extends TestCase {
 	public function testAddMissingDefaults() {
 		$user = $this->createMock(IUser::class);
 
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('settings', 'profile_enabled_by_default', '1')
+			->willReturn('1');
+
 		$input = [
 			[
 				'name' => IAccountManager::PROPERTY_DISPLAYNAME,

@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 시간",
     "Mute all notifications" : "모든 알림을 무시합니다",
     "Appear offline" : "접속 안함으로 표시",
-    "Clear status after" : "상태 메시지 지우기 예약",
     "What's your status?" : "지금 무엇을 하나요?"
 },
 "nplurals=1; plural=0;");

@@ -61,8 +61,8 @@ class CacheMountProvider implements IMountProvider {
 			}
 
 			return [
-				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir, $loader]),
-				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/uploads', ['datadir' => $cacheDir . '/uploads', $loader])
+				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir], $loader, null, null, self::class),
+				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/uploads', ['datadir' => $cacheDir . '/uploads'], $loader, null, null, self::class)
 			];
 		} else {
 			return [];

@@ -167,8 +167,7 @@ $invert: luma($color-primary) > 0.6;
 	}
 }
 
-input.primary,
-.alternative-logins a, {
+input.primary {
 	background-color: $color-primary-element;
 	border: 1px solid $color-primary-text;
 	color: $color-primary-text;
@@ -202,17 +201,15 @@ input.primary,
 			}
 		}
 
-		input,
-		.alternative-logins a {
+		input {
 			border: 1px solid nc-lighten($color-primary-text, 50%);
 		}
 		input.primary,
-		button.primary,
-		.alternative-logins a {
+		button.primary {
 			background-color: $color-primary;
 			color: $color-primary-text;
 		}
-		a,
+		:not(div.alternative-logins) > a,
 		label,
 		footer p,
 		.alternative-logins legend,
@@ -257,7 +254,7 @@ input.primary,
 	}
 	#body-login {
 
-		a, label, p {
+		:not(.alternative-logins) a, label, p {
 			color: $color-primary-text;
 		}
 

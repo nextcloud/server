@@ -29,16 +29,6 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Đã xảy ra lỗi khi cố gắng xóa bình luận",
     "An error occurred while trying to create the comment" : "Đã xảy ra lỗi khi cố gắng tạo bình luận",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Bạn đã được nhắc đến ở “{file}”, trong một bình luận bởi một người dùng mà họ đã bị xóa ",
-    "{user} mentioned you in a comment on “{file}”" : "{user} đề cập tới bạn trong một bình luận về “{file}”",
-    "New comment …" : "Tạo bình luận mới",
-    "Post" : "Đăng",
-    "Cancel" : "Hủy",
-    "[Deleted user]" : "[Người dùng bị xoá]",
-    "More comments …" : "Xem thêm các bình luận...",
-    "Save" : "Lưu",
-    "Allowed characters {count} of {max}" : "Số  ký tự được còn lại là {count} trong tổng số {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Xảy ra lỗi khi trích xuất bình luận của ID{id}",
-    "Error occurred while updating comment with id {id}" : "Có lỗi xảy ra khi cập nhật bình luận có id {id}",
-    "Error occurred while posting comment" : "Có lỗi xảy ra khi đăng bình luận"
+    "{user} mentioned you in a comment on “{file}”" : "{user} đề cập tới bạn trong một bình luận về “{file}”"
 },
 "nplurals=1; plural=0;");

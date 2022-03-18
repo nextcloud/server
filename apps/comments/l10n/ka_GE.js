@@ -17,15 +17,6 @@ OC.L10N.register(
     "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი","%n წაუკუთხავი კომენტარი"],
     "Comment" : "კომენტარის დამატება",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "თქვენ მოგიხსენიეს “{file}”-ში, ახლა უკვე გაუქმებული მომხმარებლის კომენტარში",
-    "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში",
-    "New comment …" : "ახალი კომენტარი ...",
-    "Post" : "პოსტი",
-    "Cancel" : "უარყოფა",
-    "[Deleted user]" : "[გაუქმებული მომხმარებელი]",
-    "More comments …" : "მეტი კომენტარი ...",
-    "Save" : "შენახვა",
-    "Allowed characters {count} of {max}" : "დაშვებული სიმბოლოები {count} {max}-იდან",
-    "Error occurred while updating comment with id {id}" : "კომენტარის id-იდ {id}-ის ცვლილებისას წარმოიშვა შეცდომა",
-    "Error occurred while posting comment" : "კომენტარის გამოქვეყნებისას წარმოიშვა შეცდომა"
+    "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში"
 },
 "nplurals=2; plural=(n!=1);");

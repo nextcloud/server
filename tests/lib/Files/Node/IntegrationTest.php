@@ -11,9 +11,11 @@ namespace Test\Files\Node;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
-use OC\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Mount\IMountManager;
 use OCP\ILogger;
 use OCP\IUserManager;
+use Test\Traits\UserTrait;
 
 /**
  * Class IntegrationTest
@@ -23,6 +25,8 @@ use OCP\IUserManager;
  * @package Test\Files\Node
  */
 class IntegrationTest extends \Test\TestCase {
+	use UserTrait;
+
 	/**
 	 * @var \OC\Files\Node\Root $root
 	 */
@@ -41,11 +45,12 @@ class IntegrationTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$manager = \OC\Files\Filesystem::getMountManager();
+		/** @var IMountManager $manager */
+		$manager = \OC::$server->get(IMountManager::class);
 
 		\OC_Hook::clear('OC_Filesystem');
 
-		$user = new User($this->getUniqueID('user'), new \Test\Util\User\Dummy, \OC::$server->getEventDispatcher());
+		$user = $this->createUser($this->getUniqueID('user'), '');
 		$this->loginAsUser($user->getUID());
 
 		$this->view = new View();
@@ -55,7 +60,8 @@ class IntegrationTest extends \Test\TestCase {
 			$user,
 			\OC::$server->getUserMountCache(),
 			$this->createMock(ILogger::class),
-			$this->createMock(IUserManager::class)
+			$this->createMock(IUserManager::class),
+			$this->createMock(IEventDispatcher::class)
 		);
 		$storage = new Temporary([]);
 		$subStorage = new Temporary([]);
@@ -63,6 +69,7 @@ class IntegrationTest extends \Test\TestCase {
 		$this->storages[] = $subStorage;
 		$this->root->mount($storage, '/');
 		$this->root->mount($subStorage, '/substorage/');
+		$manager->removeMount('/' . $user->getUID());
 	}
 
 	protected function tearDown(): void {

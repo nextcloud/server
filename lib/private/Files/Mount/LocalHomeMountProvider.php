@@ -38,6 +38,6 @@ class LocalHomeMountProvider implements IHomeMountProvider {
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 		$arguments = ['user' => $user];
-		return new MountPoint('\OC\Files\Storage\Home', '/' . $user->getUID(), $arguments, $loader);
+		return new MountPoint('\OC\Files\Storage\Home', '/' . $user->getUID(), $arguments, $loader, null, null, self::class);
 	}
 }

@@ -29,17 +29,12 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 
 class Listener {
-	/** @var IManager */
-	protected $notificationManager;
 
-	/** @var IUserManager */
-	protected $userManager;
+	protected IManager $notificationManager;
+	protected IUserManager $userManager;
 
 	/**
 	 * Listener constructor.
-	 *
-	 * @param IManager $notificationManager
-	 * @param IUserManager $userManager
 	 */
 	public function __construct(
 		IManager $notificationManager,

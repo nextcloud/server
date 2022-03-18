@@ -136,6 +136,9 @@ OC.L10N.register(
     "Sharing" : "Дељење",
     "Accept user and group shares by default" : "Подразумевано прихвати дељења корисника и група",
     "Allow editing" : "Дозволи уређивање",
+    "Read only" : "Само за читање",
+    "Allow upload and editing" : "Дозволи отпремање и уређивање",
+    "File drop (upload only)" : "Превлачење фајлова (само за отпремање)",
     "Allow creating" : "Дозволи креирање",
     "Allow deleting" : "Дозволи брисање",
     "Allow resharing" : "Дозволи дељење даље",
@@ -167,9 +170,6 @@ OC.L10N.register(
     "Expiration date (enforced)" : "Захтевано постављање датума истека",
     "Cancel" : "Одустани",
     "Share label" : "Подели ознаки",
-    "Read only" : "Само за читање",
-    "Allow upload and editing" : "Дозволи отпремање и уређивање",
-    "File drop (upload only)" : "Превлачење фајлова (само за отпремање)",
     "Hide download" : "Сакриј преузимање",
     "Password protect" : "Заштићено лозинком",
     "Video verification" : "Видео потврда",
@@ -228,7 +228,6 @@ OC.L10N.register(
     "invalid permissions" : "Неисправне дозволе",
     "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
-    "Name, email, or federated cloud ID …" : "Име, адреса е-поште или ID здруженог облака…",
     "Download %s" : "Преузми %s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

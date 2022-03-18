@@ -24,7 +24,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Грешка приликом чувања режима.",
     "There was an error using personal address." : "Грешка приликом коришћења личне адресе.",
     "Set location for weather" : "Постави локацију за прогнозу",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Временска прогноза интегрисана на контролној табли.\n    Корисничка позиција се може аутоматски одредити или ручно подесити. Затим се приказује прогноза за наредних 6 сати.\n    Овај статус се такође може интегрисати на друга места, као што је Календар.",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Без облака у {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Облачно у {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Миран дан у {time}",
