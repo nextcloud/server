@@ -1394,18 +1394,9 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
-    <InvalidArgument occurrences="1">
-      <code>$files</code>
-    </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>\Icewind\SMB\IFileInfo</code>
-    </InvalidNullableReturnType>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>new CappedMemoryCache()</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnType occurrences="1">
-      <code>\Icewind\SMB\IFileInfo[]</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="7">
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>
@@ -1930,24 +1921,6 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>$e-&gt;getCode()</code>
-    </InvalidScalarArgument>
-    <NullArgument occurrences="1">
-      <code>$cookie</code>
-    </NullArgument>
-    <RedundantCondition occurrences="3">
-      <code>!is_null($limit)</code>
-      <code>$limit === 0</code>
-      <code>is_array($result)</code>
-    </RedundantCondition>
-    <TypeDoesNotContainNull occurrences="1">
-      <code>is_null($findings)</code>
-    </TypeDoesNotContainNull>
-    <TypeDoesNotContainType occurrences="2">
-      <code>!is_null($attr) &amp;&amp; !is_array($attr)</code>
-      <code>count($usedNames) === 0</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="apps/user_ldap/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1">
@@ -1957,16 +1930,7 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/user_ldap/lib/Configuration.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>time()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/user_ldap/lib/Connection.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>LDAP_OPT_PROTOCOL_VERSION</code>
-      <code>LDAP_OPT_REFERRALS</code>
-    </InvalidScalarArgument>
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
@@ -2057,8 +2021,7 @@
     <InvalidReturnType occurrences="1">
       <code>null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
-      <code>$this-&gt;getHomePath($ldapEntry[$attr][0])</code>
+    <InvalidScalarArgument occurrences="2">
       <code>1</code>
       <code>true</code>
     </InvalidScalarArgument>
@@ -2067,9 +2030,6 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidScalarArgument occurrences="1">
-      <code>$path</code>
-    </InvalidScalarArgument>
     <MoreSpecificImplementedParamType occurrences="2">
       <code>$limit</code>
       <code>$offset</code>
@@ -2096,15 +2056,9 @@
       <code>private function detectGroupMemberAssoc() {</code>
       <code>private function getAttributeValuesFromEntry($result, $attribute, &amp;$known) {</code>
     </InvalidDocblock>
-    <InvalidScalarArgument occurrences="8">
+    <InvalidScalarArgument occurrences="2">
       <code>$port</code>
       <code>$port</code>
-      <code>LDAP_OPT_NETWORK_TIMEOUT</code>
-      <code>LDAP_OPT_NETWORK_TIMEOUT</code>
-      <code>LDAP_OPT_PROTOCOL_VERSION</code>
-      <code>LDAP_OPT_PROTOCOL_VERSION</code>
-      <code>LDAP_OPT_REFERRALS</code>
-      <code>LDAP_OPT_REFERRALS</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>!isset($item['cn']) &amp;&amp; !is_array($item['cn'])</code>
