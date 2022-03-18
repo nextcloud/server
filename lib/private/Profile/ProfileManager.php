@@ -40,6 +40,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
@@ -53,6 +54,9 @@ class ProfileManager {
 
 	/** @var IAppManager */
 	private $appManager;
+
+	/** @var IConfig */
+	private $config;
 
 	/** @var ProfileConfigMapper */
 	private $configMapper;
@@ -106,6 +110,7 @@ class ProfileManager {
 	public function __construct(
 		IAccountManager $accountManager,
 		IAppManager $appManager,
+		IConfig $config,
 		ProfileConfigMapper $configMapper,
 		ContainerInterface $container,
 		KnownUserService $knownUserService,
@@ -115,12 +120,31 @@ class ProfileManager {
 	) {
 		$this->accountManager = $accountManager;
 		$this->appManager = $appManager;
+		$this->config = $config;
 		$this->configMapper = $configMapper;
 		$this->container = $container;
 		$this->knownUserService = $knownUserService;
 		$this->l10nFactory = $l10nFactory;
 		$this->logger = $logger;
 		$this->coordinator = $coordinator;
+	}
+
+	/**
+	 * If no user is passed as an argument return whether profile is enabled globally in `config.php`
+	 */
+	public function isProfileEnabled(?IUser $user = null): ?bool {
+		$profileEnabledGlobally = $this->config->getSystemValueBool('profile.enabled', true);
+
+		if (empty($user) || !$profileEnabledGlobally) {
+			return $profileEnabledGlobally;
+		}
+
+		$account = $this->accountManager->getAccount($user);
+		return filter_var(
+			$account->getProperty(IAccountManager::PROPERTY_PROFILE_ENABLED)->getValue(),
+			FILTER_VALIDATE_BOOLEAN,
+			FILTER_NULL_ON_FAILURE,
+		);
 	}
 
 	/**

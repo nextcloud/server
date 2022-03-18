@@ -31,8 +31,10 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Tests\Settings\Admin;
 
+use OC\Profile\ProfileManager;
 use OCA\Settings\Settings\Admin\Server;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -48,6 +50,10 @@ class ServerTest extends TestCase {
 	private $admin;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IInitialState */
+	private $initialStateService;
+	/** @var ProfileManager */
+	private $profileManager;
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 	/** @var IConfig|MockObject */
@@ -58,6 +64,8 @@ class ServerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->initialStateService = $this->createMock(IInitialState::class);
+		$this->profileManager = $this->createMock(ProfileManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
@@ -66,6 +74,8 @@ class ServerTest extends TestCase {
 			->onlyMethods(['cronMaxAge'])
 			->setConstructorArgs([
 				$this->connection,
+				$this->initialStateService,
+				$this->profileManager,
 				$this->timeFactory,
 				$this->config,
 				$this->l10n,
@@ -92,6 +102,10 @@ class ServerTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'cronErrors')
 			->willReturn('');
+		$this->profileManager
+			->expects($this->exactly(2))
+			->method('isProfileEnabled')
+			->willReturn(true);
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/server',
@@ -102,6 +116,7 @@ class ServerTest extends TestCase {
 				'cronMaxAge' => 1337,
 				'cli_based_cron_possible' => true,
 				'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '', // to not explode here because of posix extension not being disabled - which is already checked in the line above
+				'profileEnabledGlobally' => true,
 			],
 			''
 		);
