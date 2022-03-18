@@ -13,7 +13,7 @@ OC.L10N.register(
     "Error while emptying trash bin" : "Błąd podczas opróżniania kosza",
     "Error while removing files from trash bin" : "Błąd podczas usuwania plików z kosza",
     "This operation is forbidden" : "Ta operacja jest niedozwolona",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Ten katalog jest niedostępny, proszę sprawdzić logi lub skontaktować się z administratorem",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ten katalog jest niedostępny, sprawdź logi lub skontaktuj się z administratorem",
     "No deleted files" : "Brak usuniętych plików",
     "You will be able to recover deleted files from here" : "Stąd będziesz mógł odzyskać usunięte pliki",
     "No entries found in this folder" : "Brak plików w tym katalogu",
