@@ -27,8 +27,6 @@ declare(strict_types=1);
 namespace OCA\Settings\UserMigration;
 
 use InvalidArgumentException;
-use OC\Accounts\AccountProperty;
-use OC\Accounts\AccountPropertyCollection;
 use OC\Accounts\TAccountsHelper;
 use OC\NotSquareException;
 use OCP\Accounts\IAccountManager;
@@ -97,24 +95,10 @@ class AccountMigrator implements IMigrator {
 
 		$account = $this->accountManager->getAccount($user);
 
-		/** @var array<string, array> $data */
+		/** @var array<string, array<string, string>>|array<string, array<int, array<string, string>>> $data */
 		$data = json_decode($importSource->getFileContents(AccountMigrator::EXPORT_ACCOUNT_FILE), true, 512, JSON_THROW_ON_ERROR);
 
-		foreach ($data as $propertyName => $propertyData) {
-			if ($this->isCollection($propertyName)) {
-				$collection = new AccountPropertyCollection($propertyName);
-				/** @var array<int, array{name: string, value: string, scope: string, verified: string, verificationData: string}> $collectionData */
-				$collectionData = $propertyData[$propertyName];
-				foreach ($collectionData as ['value' => $value, 'scope' => $scope, 'verified' => $verified, 'verificationData' => $verificationData]) {
-					$collection->addProperty(new AccountProperty($collection->getName(), $value, $scope, $verified, $verificationData));
-				}
-				$account->setPropertyCollection($collection);
-			} else {
-				/** @var array{name: string, value: string, scope: string, verified: string, verificationData: string} $propertyData */
-				['value' => $value, 'scope' => $scope, 'verified' => $verified, 'verificationData' => $verificationData] = $propertyData;
-				$account->setProperty($propertyName, $value, $scope, $verified, $verificationData);
-			}
-		}
+		$account->setAllPropertiesFromJson($data);
 
 		try {
 			$this->accountManager->updateAccount($account);
