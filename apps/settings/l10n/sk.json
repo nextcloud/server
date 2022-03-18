@@ -41,6 +41,7 @@
     "You changed your email address" : "Zmenili ste si emailovú adresu",
     "Your email address was changed by an administrator" : "Vaša emailová adresa bola zmenená administrátorom",
     "You created app password \"{token}\"" : "Vytvorili ste heslo pre aplikáciu \"{token}\"",
+    "An administrator created app password \"{token}\"" : "Administrátor vytvoril heslo pre aplikáciu \"{token}\"",
     "You deleted app password \"{token}\"" : "Vymazali ste heslo pre aplikáciu \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Premenovali ste heslo aplikácie \"{token}\" na \"{newToken}\"",
     "You granted filesystem access to app password \"{token}\"" : "Povolili ste prístup k súborovému systému aplikácii, používajúcej heslo \"{token}\"",
