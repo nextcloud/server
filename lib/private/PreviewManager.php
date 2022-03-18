@@ -387,6 +387,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
+		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
 
 		// SVG, Office and Bitmap require imagick
 		if (extension_loaded('imagick')) {
