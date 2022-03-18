@@ -611,12 +611,15 @@ class Manager implements ICommentsManager {
 
 		$query->select('*')
 			->from('comments')
-			->where($query->expr()->iLike('message', $query->createNamedParameter(
-				'%' . $this->dbConn->escapeLikeParameter($search). '%'
-			)))
 			->orderBy('creation_timestamp', 'DESC')
 			->addOrderBy('id', 'DESC')
 			->setMaxResults($limit);
+
+		if ($search !== '') {
+			$query->where($query->expr()->iLike('message', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search). '%'
+			)));
+		}
 
 		if ($objectType !== '') {
 			$query->andWhere($query->expr()->eq('object_type', $query->createNamedParameter($objectType)));
