@@ -73,6 +73,9 @@
 <script>
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
+
+const userSyncCalendarsDocUrl = loadState('dav', 'userSyncCalendarsDocUrl', '#')
 
 export default {
 	name: 'CalDavSettings',
@@ -84,7 +87,7 @@ export default {
 			)
 			return translated
 				.replace('{calendarappstoreopen}', '<a target="_blank" href="../apps/office/calendar">')
-				.replace('{calendardocopen}', '<a target="_blank" :href="userSyncCalendarsUrl" rel="noreferrer noopener">')
+				.replace('{calendardocopen}', `<a target="_blank" href="${userSyncCalendarsDocUrl}" rel="noreferrer noopener">`)
 				.replace(/\{linkclose\}/g, '</a>')
 		},
 		sendInvitationsHelpText() {

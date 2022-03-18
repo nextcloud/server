@@ -29,6 +29,7 @@ use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 
 class CalDAVSettings implements IDelegatedSettings {
@@ -38,6 +39,8 @@ class CalDAVSettings implements IDelegatedSettings {
 
 	/** @var IInitialState */
 	private $initialState;
+
+	private IURLGenerator $urlGenerator;
 
 	private const defaults = [
 		'sendInvitations' => 'yes',
@@ -52,12 +55,14 @@ class CalDAVSettings implements IDelegatedSettings {
 	 * @param IConfig $config
 	 * @param IInitialState $initialState
 	 */
-	public function __construct(IConfig $config, IInitialState $initialState) {
+	public function __construct(IConfig $config, IInitialState $initialState, IURLGenerator $urlGenerator) {
 		$this->config = $config;
 		$this->initialState = $initialState;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function getForm(): TemplateResponse {
+		$this->initialState->provideInitialState('userSyncCalendarsDocUrl', $this->urlGenerator->linkToDocs('user-sync-calendars'));
 		foreach (self::defaults as $key => $default) {
 			$value = $this->config->getAppValue(Application::APP_ID, $key, $default);
 			$this->initialState->provideInitialState($key, $value === 'yes');

@@ -13,6 +13,11 @@ jest.mock('@nextcloud/router', () => {
 		},
 	}
 })
+jest.mock('@nextcloud/initial-state', () => {
+	return {
+		loadState: jest.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
+	}
+})
 
 describe('CalDavSettings', () => {
 	const originalOC = global.OC
