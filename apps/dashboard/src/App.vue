@@ -34,7 +34,7 @@
 				@keyup.space="showModal">{{ t('dashboard', 'Customize') }}</a>
 		</div>
 
-		<Modal v-if="modal" size="normal" @close="closeModal">
+		<Modal v-if="modal" size="large" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
 				<ol class="panels">
