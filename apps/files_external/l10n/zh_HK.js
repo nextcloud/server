@@ -22,6 +22,7 @@ OC.L10N.register(
     "Read only" : "唯讀",
     "Delete" : "刪除",
     "Admin defined" : "管理員定義",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "由於配置的存儲數量過多，自動狀態檢查被禁用，點擊查看狀態",
     "Are you sure you want to delete this external storage?" : "您確定要刪除此外部儲存嗎？",
     "Delete storage?" : "刪除空間",
     "Saved" : "已儲存",

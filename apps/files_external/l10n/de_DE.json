@@ -20,6 +20,7 @@
     "Read only" : "Schreibgeschützt",
     "Delete" : "Löschen",
     "Admin defined" : "Vom Administrator festgelegt",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Die automatische Statusprüfung ist aufgrund der großen Anzahl konfigurierter Speicher deaktiviert, klicken Sie hier, um den Status zu prüfen",
     "Are you sure you want to delete this external storage?" : "Soll dieser externer Speicher wirklich gelöscht werden?",
     "Delete storage?" : "Speicher löschen?",
     "Saved" : "Gespeichert",

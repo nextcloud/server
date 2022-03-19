@@ -22,6 +22,7 @@ OC.L10N.register(
     "Read only" : "Salt okunur",
     "Delete" : "Sil",
     "Admin defined" : "Yönetici ayarlamış",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Çok sayıda depolama yapılandırılmış olduğundan otomatik durum denetimi devre dışı bırakıldı. Durumu denetlemek için tıklayın",
     "Are you sure you want to delete this external storage?" : "Bu dış depolamayı silmek istediğinize emin misiniz?",
     "Delete storage?" : "Depolama silinsin mi?",
     "Saved" : "Kaydedildi",

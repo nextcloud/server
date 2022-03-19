@@ -22,6 +22,7 @@ OC.L10N.register(
     "Read only" : "Tylko do odczytu",
     "Delete" : "Usuń",
     "Admin defined" : "Zdefiniowane przez Administratora",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatyczne sprawdzanie statusu jest wyłączone z powodu dużej liczby skonfigurowanych magazynów, kliknij, aby sprawdzić status",
     "Are you sure you want to delete this external storage?" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?",
     "Delete storage?" : "Usunąć magazyn?",
     "Saved" : "Zapisano",
