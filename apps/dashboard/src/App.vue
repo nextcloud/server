@@ -564,20 +564,30 @@ export default {
 	}
 	li {
 		label {
+			position: relative;
 			display: block;
-			padding: 48px 8px 16px 8px;
+			padding: 48px 16px 14px 16px;
 			margin: 8px;
-			width: 160px;
+			width: 140px;
 			background-color: var(--color-background-hover);
 			border: 2px solid var(--color-main-background);
 			border-radius: var(--border-radius-large);
 			background-size: 24px;
-			background-position: center 16px;
-			text-align: center;
+			background-position: 16px 16px;
+			text-align: left;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 
 			&:hover {
 				border-color: var(--color-primary);
 			}
+		}
+
+		input[type='checkbox'].checkbox + label:before {
+			position: absolute;
+			right: 12px;
+			top: 16px;
 		}
 
 		input:focus + label {
