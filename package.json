@@ -38,7 +38,7 @@
     "@nextcloud/jcrop": "^0.10.0",
     "@nextcloud/l10n": "^1.4.1",
     "@nextcloud/logger": "^2.1.0",
-    "@nextcloud/moment": "^1.1.1",
+    "@nextcloud/moment": "^1.2.0",
     "@nextcloud/password-confirmation": "^1.0.1",
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.0.0",
