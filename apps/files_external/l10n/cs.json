@@ -20,6 +20,7 @@
     "Read only" : "Pouze pro čtení",
     "Delete" : "Smazat",
     "Admin defined" : "Nastaveno správcem",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatické zjišťování stavu je vypnuté z důvodu velkého počtu nastavených úložišť – pokud chcete stav zjistit jednorázově, klikněte",
     "Are you sure you want to delete this external storage?" : "Opravdu chcete smazat toto vnější úložiště?",
     "Delete storage?" : "Odstranit úložiště?",
     "Saved" : "Uloženo",
