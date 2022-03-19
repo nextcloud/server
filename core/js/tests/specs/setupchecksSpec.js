@@ -1492,12 +1492,8 @@ describe('OC.SetupChecks tests', function() {
 				}, {
 					msg: 'The "X-Robots-Tag" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-
 				}, {
 					msg: 'The "X-Frame-Options" HTTP header is not set to "SAMEORIGIN". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}, {
-					msg: 'The "X-Download-Options" HTTP header is not set to "noopen". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
 					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
@@ -1524,7 +1520,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000;preload',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				}
@@ -1556,7 +1551,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer'
 				}
@@ -1579,7 +1573,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1600,7 +1593,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1621,7 +1613,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1647,7 +1638,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1675,7 +1665,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1696,7 +1685,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer-when-downgrade',
 				});
@@ -1717,7 +1705,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin',
 				});
@@ -1738,7 +1725,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin-when-cross-origin',
 				});
@@ -1759,7 +1745,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'same-origin',
 				});
@@ -1780,7 +1765,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin',
 				});
@@ -1806,7 +1790,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin-when-cross-origin',
 				});
@@ -1832,7 +1815,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'unsafe-url',
 				});
@@ -1860,7 +1842,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1907,7 +1888,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1933,7 +1913,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1959,7 +1938,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1984,7 +1962,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});
@@ -2005,7 +1982,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});
@@ -2026,7 +2002,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});
@@ -2047,7 +2022,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});

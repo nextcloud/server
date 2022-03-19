@@ -24,9 +24,6 @@
     Header onsuccess unset X-Content-Type-Options
     Header always set X-Content-Type-Options "nosniff"
 
-    Header onsuccess unset X-Download-Options
-    Header always set X-Download-Options "noopen"
-
     Header onsuccess unset X-Frame-Options
     Header always set X-Frame-Options "SAMEORIGIN"
 
