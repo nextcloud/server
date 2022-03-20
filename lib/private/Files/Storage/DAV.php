@@ -587,7 +587,7 @@ class DAV extends Common {
 				return false;
 			}
 			return [
-				'mtime' => isset($response['{DAV:getlastmodified']) ? strtotime($response['{DAV:}getlastmodified']) : false,
+				'mtime' => isset($response['{DAV:}getlastmodified']) ? strtotime($response['{DAV:}getlastmodified']) : false,
 				'size' => (int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
 			];
 		} catch (\Exception $e) {
