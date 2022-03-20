@@ -33,8 +33,8 @@ OC.L10N.register(
     "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Ελαφρά βροχόπτωση στις {time}",
     "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Βροχή στις {time}",
     "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Δυνατή βροχή στις {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Καταιονισμός στις {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Ελαφρύς καταιονισμός στις {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Βαρύς καταιονισμός στις {time}"
+    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Βροχόπτωση στις {time}",
+    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Ελαφρά βροχόπτωση στις {time}",
+    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Έντονη βροχόπτωση στις {time}"
 },
 "nplurals=2; plural=(n != 1);");
