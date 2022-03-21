@@ -28,12 +28,12 @@ use OC\Core\Events\PasswordResetEvent;
 use OC\Mail\Message;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -72,12 +72,12 @@ class LostControllerTest extends TestCase {
 	private $encryptionManager;
 	/** @var IRequest|MockObject */
 	private $request;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var Manager|MockObject */
 	private $twofactorManager;
-	/** @var IInitialStateService|MockObject */
-	private $initialStateService;
+	/** @var IInitialState|MockObject */
+	private $initialState;
 	/** @var IVerificationToken|MockObject */
 	private $verificationToken;
 	/** @var IEventDispatcher|MockObject */
@@ -126,7 +126,7 @@ class LostControllerTest extends TestCase {
 			->willReturn(true);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->twofactorManager = $this->createMock(Manager::class);
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->verificationToken = $this->createMock(IVerificationToken::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->lostController = new LostController(
@@ -142,7 +142,7 @@ class LostControllerTest extends TestCase {
 			$this->mailer,
 			$this->logger,
 			$this->twofactorManager,
-			$this->initialStateService,
+			$this->initialState,
 			$this->verificationToken,
 			$this->eventDispatcher
 		);
@@ -176,6 +176,18 @@ class LostControllerTest extends TestCase {
 		$this->verificationToken->expects($this->once())
 			->method('check')
 			->with('MySecretToken', $this->existingUser, 'lostpassword', 'test@example.com');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.lost.setPassword', ['userId' => 'ValidTokenUser', 'token' => 'MySecretToken'])
+			->willReturn('https://example.tld/index.php/lostpassword/set/sometoken/someuser');
+		$this->initialState
+			->expects($this->exactly(2))
+			->method('provideInitialState')
+			->withConsecutive(
+				['resetPasswordUser', 'ValidTokenUser'],
+				['resetPasswordTarget', 'https://example.tld/index.php/lostpassword/set/sometoken/someuser']
+			);
 
 		$response = $this->lostController->resetform('MySecretToken', 'ValidTokenUser');
 		$expectedResponse = new TemplateResponse('core',
