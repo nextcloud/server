@@ -118,6 +118,10 @@ class ReminderService {
 				? stream_get_contents($reminder['calendardata'])
 				: $reminder['calendardata'];
 
+			if (!$calendarData) {
+				continue;
+			}
+
 			$vcalendar = $this->parseCalendarData($calendarData);
 			if (!$vcalendar) {
 				$this->backend->removeReminder($reminder['id']);
@@ -190,6 +194,10 @@ class ReminderService {
 		$calendarData = is_resource($objectData['calendardata'])
 			? stream_get_contents($objectData['calendardata'])
 			: $objectData['calendardata'];
+
+		if (!$calendarData) {
+			return;
+		}
 
 		/** @var VObject\Component\VCalendar $vcalendar */
 		$vcalendar = $this->parseCalendarData($calendarData);

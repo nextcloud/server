@@ -331,8 +331,11 @@ class Application extends App implements IBootstrap {
 				]);
 
 				/** @var CalDavBackend $calDavBackend */
-				$calDavBackend = $container->query(CalDavBackend::class);
+				$calDavBackend = $container->get(CalDavBackend::class);
 				$calDavBackend->purgeAllCachedEventsForSubscription($subscriptionData['id']);
+				/** @var ReminderBackend $calDavBackend */
+				$reminderBackend = $container->get(ReminderBackend::class);
+				$reminderBackend->cleanRemindersForCalendar((int) $subscriptionData['id']);
 			}
 		);
 
