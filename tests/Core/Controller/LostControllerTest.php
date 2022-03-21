@@ -53,9 +53,7 @@ use Test\TestCase;
  * @package OC\Core\Controller
  */
 class LostControllerTest extends TestCase {
-
-	/** @var LostController */
-	private $lostController;
+	private LostController $lostController;
 	/** @var IUser */
 	private $existingUser;
 	/** @var IURLGenerator | MockObject */
@@ -117,18 +115,12 @@ class LostControllerTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
-		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
-			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()->getMock();
-		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
-			->disableOriginalConstructor()->getMock();
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()->getMock();
-		$this->encryptionManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()->getMock();
+		$this->defaults = $this->createMock(Defaults::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->encryptionManager = $this->createMock(IManager::class);
 		$this->encryptionManager->expects($this->any())
 			->method('isEnabled')
 			->willReturn(true);
@@ -252,11 +244,11 @@ class LostControllerTest extends TestCase {
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('setTo')
 			->with(['test@example.com' => 'Existing User']);
 		$message
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
 
@@ -269,20 +261,20 @@ class LostControllerTest extends TestCase {
 			->willReturn('text body');
 
 		$message
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
 
 		$this->mailer
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$this->mailer
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('send')
 			->with($message);
 
@@ -314,11 +306,11 @@ class LostControllerTest extends TestCase {
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('setTo')
 			->with(['test@example.com' => 'Existing User']);
 		$message
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
 
@@ -331,20 +323,20 @@ class LostControllerTest extends TestCase {
 			->willReturn('text body');
 
 		$message
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
 
 		$this->mailer
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$this->mailer
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('send')
 			->with($message);
 
@@ -370,11 +362,11 @@ class LostControllerTest extends TestCase {
 			->willReturn('https://example.tld/index.php/lostpassword/');
 		$message = $this->createMock(Message::class);
 		$message
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('setTo')
 			->with(['test@example.com' => 'Existing User']);
 		$message
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
 
@@ -387,20 +379,20 @@ class LostControllerTest extends TestCase {
 			->willReturn('text body');
 
 		$message
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
 
 		$this->mailer
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$this->mailer
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('send')
 			->with($message)
 			->will($this->throwException(new \Exception()));
