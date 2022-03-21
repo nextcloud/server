@@ -57,7 +57,21 @@
 				{{ $t('dav', 'Notifications are sent via background jobs, so these must occur often enough.') }}
 			</em>
 		</p>
-		<p>
+		<p class="indented">
+			<input id="caldavSendEventRemindersToSharedGroupMembers"
+				v-model="sendEventRemindersToSharedGroupMembers"
+				type="checkbox"
+				class="checkbox"
+				:disabled="!sendEventReminders">
+			<label for="caldavSendEventRemindersToSharedGroupMembers">
+				{{ $t('dav', 'Send reminder notifications to calendar sharees as well' ) }}
+			</label>
+			<br>
+			<em>
+				{{ $t('dav', 'Reminders are always sent to organizers and attendees.' ) }}
+			</em>
+		</p>
+		<p class="indented">
 			<input id="caldavSendEventRemindersPush"
 				v-model="sendEventRemindersPush"
 				type="checkbox"
@@ -69,6 +83,12 @@
 		</p>
 	</div>
 </template>
+
+<style lang="scss" scoped>
+	.indented {
+		padding-left: 28px;
+	}
+</style>
 
 <script>
 import axios from '@nextcloud/axios'
@@ -117,6 +137,13 @@ export default {
 		},
 		sendEventReminders(value) {
 			OCP.AppConfig.setValue('dav', 'sendEventReminders', value ? 'yes' : 'no')
+		},
+		sendEventRemindersToSharedGroupMembers(value) {
+			OCP.AppConfig.setValue(
+				'dav',
+				'sendEventRemindersToSharedGroupMembers',
+				value ? 'yes' : 'no'
+			)
 		},
 		sendEventRemindersPush(value) {
 			OCP.AppConfig.setValue('dav', 'sendEventRemindersPush', value ? 'yes' : 'no')

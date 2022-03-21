@@ -34,6 +34,7 @@ use OCA\DAV\CalDAV\Reminder\INotificationProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -62,6 +63,9 @@ class ReminderServiceTest extends TestCase {
 
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject  */
 	private $timeFactory;
+
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $config;
 
 	/** @var ReminderService */
 	private $reminderService;
@@ -194,6 +198,7 @@ EOD;
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->caldavBackend->method('getShares')->willReturn([]);
 
@@ -202,7 +207,8 @@ EOD;
 			$this->userManager,
 			$this->groupManager,
 			$this->caldavBackend,
-			$this->timeFactory);
+			$this->timeFactory,
+			$this->config);
 	}
 
 	public function testOnCalendarObjectDelete():void {
