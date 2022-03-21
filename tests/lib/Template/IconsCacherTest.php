@@ -110,8 +110,7 @@ class IconsCacherTest extends \Test\TestCase {
 		";
 		$expected = "
 			icon.test {
-
-				background-image: var(--icon-test);
+				\n				background-image: var(--icon-test);
 			}
 		";
 
@@ -133,8 +132,7 @@ class IconsCacherTest extends \Test\TestCase {
 		";
 		$expected = "
 			icon.test {
-
-				background-image: var(--icon-test);
+				\n				background-image: var(--icon-test);
 			}
 		";
 

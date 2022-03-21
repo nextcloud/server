@@ -79,7 +79,7 @@ class RootCollectionTest extends \Test\TestCase {
 				\OC::$server,
 				$this->createMock(LoggerInterface::class)
 			),
-			$this->logger
+			$this->createMock(LoggerInterface::class)
 		);
 
 		$this->collection = new \OCA\DAV\Comments\RootCollection(
