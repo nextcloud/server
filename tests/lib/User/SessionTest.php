@@ -24,7 +24,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\ISession;
@@ -33,6 +32,7 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OC\Security\CSRF\CsrfTokenManager;
 
@@ -57,7 +57,7 @@ class SessionTest extends \Test\TestCase {
 	private $userSession;
 	/** @var ILockdownManager|MockObject */
 	private $lockdownManager;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
@@ -76,7 +76,7 @@ class SessionTest extends \Test\TestCase {
 		$this->manager = $this->createMock(Manager::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->lockdownManager = $this->createMock(ILockdownManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([

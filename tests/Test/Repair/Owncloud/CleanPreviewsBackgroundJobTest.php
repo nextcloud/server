@@ -29,15 +29,15 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\ILogger;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CleanPreviewsBackgroundJobTest extends TestCase {
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
 	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
@@ -56,7 +56,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		parent::setUp();
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->userManager = $this->createMock(IUserManager::class);

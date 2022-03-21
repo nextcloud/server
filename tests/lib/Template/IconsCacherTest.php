@@ -32,11 +32,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class IconsCacherTest extends \Test\TestCase {
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
@@ -46,7 +46,7 @@ class IconsCacherTest extends \Test\TestCase {
 	private $timeFactory;
 
 	protected function setUp(): void {
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appData = $this->createMock(AppData::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
@@ -110,7 +110,7 @@ class IconsCacherTest extends \Test\TestCase {
 		";
 		$expected = "
 			icon.test {
-				
+
 				background-image: var(--icon-test);
 			}
 		";
@@ -133,7 +133,7 @@ class IconsCacherTest extends \Test\TestCase {
 		";
 		$expected = "
 			icon.test {
-				
+
 				background-image: var(--icon-test);
 			}
 		";

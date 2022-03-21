@@ -28,7 +28,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Security\Bruteforce\Throttler;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -42,14 +42,14 @@ class ThrottlerTest extends TestCase {
 	private $throttler;
 	/** @var IDBConnection */
 	private $dbConnection;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
 		$this->dbConnection = $this->createMock(IDBConnection::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->throttler = new Throttler(

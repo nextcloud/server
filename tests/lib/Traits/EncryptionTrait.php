@@ -16,6 +16,7 @@ use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\Encryption\IManager;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Enables encryption
@@ -82,7 +83,7 @@ trait EncryptionTrait {
 		$encryptionWrapper = new EncryptionWrapper(
 			new ArrayCache(),
 			\OC::$server->getEncryptionManager(),
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 
 		$this->registerStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage']);

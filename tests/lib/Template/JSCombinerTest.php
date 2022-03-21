@@ -32,8 +32,8 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class JSCombinerTest extends \Test\TestCase {
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
@@ -46,7 +46,7 @@ class JSCombinerTest extends \Test\TestCase {
 	protected $depsCache;
 	/** @var JSCombiner */
 	protected $jsCombiner;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
@@ -62,7 +62,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$this->cacheFactory->expects($this->at(0))
 			->method('createDistributed')
 			->willReturn($this->depsCache);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->jsCombiner = new JSCombiner(
 			$this->appData,
 			$this->urlGenerator,

@@ -28,8 +28,8 @@ use OC\Template\JSCombiner;
 use OC\Template\JSResourceLocator;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class JSResourceLocatorTest extends \Test\TestCase {
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
@@ -40,7 +40,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 	protected $config;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -50,7 +50,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	private function jsResourceLocator() {

@@ -17,7 +17,6 @@ use OC\Http\Client\DnsPinMiddleware;
 use OC\Http\Client\LocalAddressChecker;
 use OCP\ICertificateManager;
 use OCP\IConfig;
-use OCP\ILogger;
 
 /**
  * Class ClientServiceTest
@@ -28,7 +27,6 @@ class ClientServiceTest extends \Test\TestCase {
 		$config = $this->createMock(IConfig::class);
 		/** @var ICertificateManager $certificateManager */
 		$certificateManager = $this->createMock(ICertificateManager::class);
-		$logger = $this->createMock(ILogger::class);
 		$dnsPinMiddleware = $this->createMock(DnsPinMiddleware::class);
 		$dnsPinMiddleware
 			->expects($this->atLeastOnce())
@@ -39,7 +37,6 @@ class ClientServiceTest extends \Test\TestCase {
 
 		$clientService = new ClientService(
 			$config,
-			$logger,
 			$certificateManager,
 			$dnsPinMiddleware,
 			$localAddressChecker
@@ -53,7 +50,6 @@ class ClientServiceTest extends \Test\TestCase {
 		$this->assertEquals(
 			new Client(
 				$config,
-				$logger,
 				$certificateManager,
 				$guzzleClient,
 				$localAddressChecker

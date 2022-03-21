@@ -33,8 +33,8 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
-use OCP\ILogger;
 use Test\TestCase;
+use Psr\Log\LoggerInterface;
 
 class ChangesCheckTest extends TestCase {
 	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
@@ -46,7 +46,7 @@ class ChangesCheckTest extends TestCase {
 	/** @var ChangesMapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -54,7 +54,7 @@ class ChangesCheckTest extends TestCase {
 
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->mapper = $this->createMock(ChangesMapper::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->checker = new ChangesCheck($this->clientService, $this->mapper, $this->logger);
 	}

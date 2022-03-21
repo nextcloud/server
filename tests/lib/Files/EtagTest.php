@@ -11,6 +11,7 @@ namespace Test\Files;
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCA\Files_Sharing\AppInfo\Application;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class EtagTest
@@ -69,7 +70,7 @@ class EtagTest extends \Test\TestCase {
 		$files = ['/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt'];
 		$originalEtags = $this->getEtags($files);
 
-		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->getLogger());
+		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
 		$scanner->backgroundScan('/');
 
 		$newEtags = $this->getEtags($files);

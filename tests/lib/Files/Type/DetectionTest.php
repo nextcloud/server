@@ -22,8 +22,8 @@
 namespace Test\Files\Type;
 
 use OC\Files\Type\Detection;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class DetectionTest extends \Test\TestCase {
 	/** @var Detection */
@@ -33,7 +33,7 @@ class DetectionTest extends \Test\TestCase {
 		parent::setUp();
 		$this->detection = new Detection(
 			\OC::$server->getURLGenerator(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$SERVERROOT . '/config/',
 			\OC::$SERVERROOT . '/resources/config/'
 		);
@@ -151,8 +151,8 @@ class DetectionTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		/** @var ILogger $logger */
-		$logger = $this->createMock(ILogger::class);
+		/** @var LoggerInterface $logger */
+		$logger = $this->createMock(LoggerInterface::class);
 
 		//Only call the url generator once
 		$urlGenerator->expects($this->once())

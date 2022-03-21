@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace Test\Route;
 
 use OC\Route\Router;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -34,8 +34,8 @@ use Test\TestCase;
  */
 class RouterTest extends TestCase {
 	public function testGenerateConsecutively(): void {
-		/** @var ILogger $logger */
-		$logger = $this->createMock(ILogger::class);
+		/** @var LoggerInterface $logger */
+		$logger = $this->createMock(LoggerInterface::class);
 		$router = new Router($logger);
 
 		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
