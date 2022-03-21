@@ -156,10 +156,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	}
 
 	public function getCalendarId(): int {
-		return (int)$this->objectData['calendarId'];
+		return (int)$this->objectData['calendarid'];
 	}
 
 	public function getPrincipalUri(): string {
-		return $this->objectData['principaluri'];
+		return $this->calendarInfo['principaluri'];
 	}
 }
