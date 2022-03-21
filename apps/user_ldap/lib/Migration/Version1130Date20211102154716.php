@@ -45,6 +45,8 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	private $dbc;
 	/** @var LoggerInterface */
 	private $logger;
+	/** @var string[] */
+	private $hashColumnAddedToTables = [];
 
 	public function __construct(IDBConnection $dbc, LoggerInterface $logger) {
 		$this->dbc = $dbc;
@@ -91,6 +93,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					'length' => 64,
 				]);
 				$changeSchema = true;
+				$this->hashColumnAddedToTables[] = $tableName;
 			}
 			$column = $table->getColumn('ldap_dn');
 			if ($tableName === 'ldap_user_mapping') {
@@ -179,9 +182,16 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 
 	protected function getSelectQuery(string $table): IQueryBuilder {
 		$qb = $this->dbc->getQueryBuilder();
-		$qb->select('owncloud_name', 'ldap_dn', 'ldap_dn_hash')
-			->from($table)
-			->where($qb->expr()->isNull('ldap_dn_hash'));
+		$qb->select('owncloud_name', 'ldap_dn')
+			->from($table);
+
+		// when added we may run into risk that it's read from a DB node
+		// where the column is not present. Then the where clause is also
+		// not necessary since all rows qualify.
+		if (!in_array($table, $this->hashColumnAddedToTables, true)) {
+			$qb->where($qb->expr()->isNull('ldap_dn_hash'));
+		}
+
 		return $qb;
 	}
 
