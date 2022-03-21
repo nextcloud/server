@@ -20,6 +20,7 @@
     "Read only" : "唯讀",
     "Delete" : "刪除",
     "Admin defined" : "管理員自訂",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "因為設定的儲存空間數量過多，自動狀態檢查被停用，點擊以檢查狀態",
     "Are you sure you want to delete this external storage?" : "確定刪除這個外部儲存空間嗎？",
     "Delete storage?" : "刪除儲存空間？",
     "Saved" : "已儲存",
