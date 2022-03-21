@@ -82,9 +82,6 @@ class DatabaseBackend implements IBackend {
 			->from(self::TABLE_NAME)
 			->where(
 				$qb->expr()->eq('hash', $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->gte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE))
 			);
 
 		$cursor = $qb->execute();
