@@ -21,7 +21,7 @@ exports[`CalDavSettings interactions 1`] = `
       </a>
       , or 
       <a
-        :href="userSyncCalendarsUrl"
+        href="https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars"
         rel="noreferrer noopener"
         target="_blank"
       >
