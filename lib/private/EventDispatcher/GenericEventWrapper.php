@@ -30,7 +30,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class GenericEventWrapper extends GenericEvent {
-
 	private LoggerInterface $logger;
 
 	/** @var GenericEvent */

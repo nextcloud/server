@@ -48,7 +48,6 @@ use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 
 class SCSSCacher {
-
 	protected LoggerInterface $logger;
 
 	/** @var IAppData */

@@ -8,7 +8,6 @@ use OC\Encryption\Util;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
-use OC\Log;
 use OC\Memcache\ArrayCache;
 use OC\User\Manager;
 use OCP\Encryption\IEncryptionModule;

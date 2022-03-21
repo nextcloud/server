@@ -33,7 +33,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\Migration
  */
 class SimpleOutput implements IOutput {
-
 	private LoggerInterface $logger;
 	private $appName;
 

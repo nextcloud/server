@@ -40,7 +40,6 @@ use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class IconsCacher {
-
 	protected LoggerInterface $logger;
 
 	/** @var IAppData */
