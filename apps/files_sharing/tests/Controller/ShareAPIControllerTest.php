@@ -1584,7 +1584,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function testCreateShareInvalidPath() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSNotFoundException::class);
-		$this->expectExceptionMessage('Wrong path, file/folder doesn\'t exist');
+		$this->expectExceptionMessage('Wrong path, file/folder does not exist');
 
 		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
 		$this->rootFolder->expects($this->once())
