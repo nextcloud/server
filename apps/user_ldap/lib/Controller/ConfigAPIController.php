@@ -117,6 +117,7 @@ class ConfigAPIController extends OCSController {
 		try {
 			$configPrefix = $this->ldapHelper->getNextServerConfigurationPrefix();
 			$configHolder = new Configuration($configPrefix);
+			$configHolder->ldapConfigurationActive = false;
 			$configHolder->saveConfiguration();
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
