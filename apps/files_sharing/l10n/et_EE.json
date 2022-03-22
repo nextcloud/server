@@ -89,7 +89,6 @@
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "Could not delete share" : "Ei saanud jagamist eemaldada",
     "Please specify a file or folder path" : "Palun määra faili või kausta rada",
-    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
     "Could not create share" : "Ei saanud jagamist luua",
     "Please specify a valid user" : "Palun määra kehtiv kasutaja",
     "Group sharing is disabled by the administrator" : "Grupiga jagamine on administraatori poolt keelatud",
@@ -167,6 +166,7 @@
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
+    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
     "invalid permissions" : "valed õigused",
     "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
     "Download %s" : "Laadi alla %s"
