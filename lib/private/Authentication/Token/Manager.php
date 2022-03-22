@@ -61,6 +61,10 @@ class Manager implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+		if (mb_strlen($name) > 128) {
+			throw new InvalidTokenException('The given name is too long');
+		}
+
 		try {
 			return $this->publicKeyTokenProvider->generateToken(
 				$token,
