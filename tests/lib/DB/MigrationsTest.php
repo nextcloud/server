@@ -610,6 +610,7 @@ class MigrationsTest extends \Test\TestCase {
 
 
 	public function testEnsureOracleConstraintsNoPrimaryKey() {
+		$this->markTestSkipped('Test disabled for now due to multiple reasons, see https://github.com/nextcloud/server/pull/31580#issuecomment-1069182234 for details.');
 		$this->expectException(\InvalidArgumentException::class);
 
 		$table = $this->createMock(Table::class);
