@@ -29,6 +29,7 @@ namespace OCA\Settings\UserMigration;
 use InvalidArgumentException;
 use OC\Accounts\TAccountsHelper;
 use OC\NotSquareException;
+use OCA\Settings\AppInfo\Application;
 use OCP\Accounts\IAccountManager;
 use OCP\IAvatarManager;
 use OCP\IUser;
@@ -48,9 +49,11 @@ class AccountMigrator implements IMigrator {
 
 	private IAvatarManager $avatarManager;
 
-	private const EXPORT_ACCOUNT_FILE = 'account.json';
+	private const PATH_ROOT = Application::APP_ID . '/';
 
-	private const EXPORT_AVATAR_BASENAME = 'avatar';
+	private const PATH_ACCOUNT_FILE = AccountMigrator::PATH_ROOT . 'account.json';
+
+	private const AVATAR_BASENAME = 'avatar';
 
 	public function __construct(
 		IAccountManager $accountManager,
@@ -64,19 +67,20 @@ class AccountMigrator implements IMigrator {
 	 * {@inheritDoc}
 	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
-		$output->writeln('Exporting account information in ' . AccountMigrator::EXPORT_ACCOUNT_FILE . '…');
+		$output->writeln('Exporting account information in ' . AccountMigrator::PATH_ACCOUNT_FILE . '…');
 
-		if ($exportDestination->addFileContents(AccountMigrator::EXPORT_ACCOUNT_FILE, json_encode($this->accountManager->getAccount($user))) === false) {
+		$account = $this->accountManager->getAccount($user);
+		if ($exportDestination->addFileContents(AccountMigrator::PATH_ACCOUNT_FILE, json_encode($account)) === false) {
 			throw new AccountMigratorException('Could not export account information');
 		}
 
 		$avatar = $this->avatarManager->getAvatar($user->getUID());
 		if ($avatar->isCustomAvatar()) {
 			$avatarFile = $avatar->getFile(-1);
-			$exportFilename = AccountMigrator::EXPORT_AVATAR_BASENAME . '.' . $avatarFile->getExtension();
+			$exportPath = AccountMigrator::PATH_ROOT . AccountMigrator::AVATAR_BASENAME . '.' . $avatarFile->getExtension();
 
-			$output->writeln('Exporting avatar to ' . $exportFilename . '…');
-			if ($exportDestination->addFileAsStream($exportFilename, $avatarFile->read()) === false) {
+			$output->writeln('Exporting avatar to ' . $exportPath . '…');
+			if ($exportDestination->addFileAsStream($exportPath, $avatarFile->read()) === false) {
 				throw new AccountMigratorException('Could not export avatar');
 			}
 		}
@@ -91,13 +95,12 @@ class AccountMigrator implements IMigrator {
 			return;
 		}
 
-		$output->writeln('Importing account information from ' . AccountMigrator::EXPORT_ACCOUNT_FILE . '…');
+		$output->writeln('Importing account information from ' . AccountMigrator::PATH_ACCOUNT_FILE . '…');
 
 		$account = $this->accountManager->getAccount($user);
 
 		/** @var array<string, array<string, string>>|array<string, array<int, array<string, string>>> $data */
-		$data = json_decode($importSource->getFileContents(AccountMigrator::EXPORT_ACCOUNT_FILE), true, 512, JSON_THROW_ON_ERROR);
-
+		$data = json_decode($importSource->getFileContents(AccountMigrator::PATH_ACCOUNT_FILE), true, 512, JSON_THROW_ON_ERROR);
 		$account->setAllPropertiesFromJson($data);
 
 		try {
@@ -106,20 +109,21 @@ class AccountMigrator implements IMigrator {
 			throw new AccountMigratorException('Failed to import account information');
 		}
 
+		/** @var array<int, string> $avatarFiles */
 		$avatarFiles = array_filter(
-			$importSource->getFolderListing(''),
-			fn (string $filename) => pathinfo($filename, PATHINFO_FILENAME) === AccountMigrator::EXPORT_AVATAR_BASENAME,
+			$importSource->getFolderListing(AccountMigrator::PATH_ROOT),
+			fn (string $filename) => pathinfo($filename, PATHINFO_FILENAME) === AccountMigrator::AVATAR_BASENAME,
 		);
 
 		if (!empty($avatarFiles)) {
-			if (count($avatarFiles) >= 2) {
+			if (count($avatarFiles) > 1) {
 				$output->writeln('Expected single avatar image file, using first file found');
 			}
 
-			$importFilename = reset($avatarFiles);
+			$importPath = AccountMigrator::PATH_ROOT . reset($avatarFiles);
 
-			$output->writeln('Importing avatar from ' . $importFilename . '…');
-			$stream = $importSource->getFileAsStream($importFilename);
+			$output->writeln('Importing avatar from ' . $importPath . '…');
+			$stream = $importSource->getFileAsStream($importPath);
 			$image = new \OC_Image();
 			$image->loadFromFileHandle($stream);
 
