@@ -671,6 +671,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
 				\OCA\Settings\SetupChecks\LdapInvalidUuids::class => ['pass' => true, 'description' =>  'Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.', 'severity' => 'warning'],
+				'hasRecommendedUMask' => true,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
