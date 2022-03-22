@@ -658,7 +658,6 @@
 					'X-Content-Type-Options': ['nosniff'],
 					'X-Robots-Tag': ['none'],
 					'X-Frame-Options': ['SAMEORIGIN', 'DENY'],
-					'X-Download-Options': ['noopen'],
 					'X-Permitted-Cross-Domain-Policies': ['none'],
 				};
 				for (var header in securityHeaders) {
