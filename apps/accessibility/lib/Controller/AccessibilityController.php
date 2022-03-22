@@ -58,9 +58,6 @@ class AccessibilityController extends Controller {
 	private ?string $injectedVariables = null;
 	private string $appRoot;
 
-	/**
-	 * @param string $appName
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
