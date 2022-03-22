@@ -241,6 +241,8 @@ input, textarea, select, button, div[contenteditable=true] {
 }
 input,
 input:not([type='range']),
+input:not([type='text']),
+input:not([type='password']),
 a.button {
 	font-size: 20px;
 	margin: 5px;
@@ -285,6 +287,10 @@ input[type='email'] {
 	box-sizing: content-box;
 	border: none;
 	font-weight: normal;
+}
+input[type='text']:focus-visible,
+input[type='password']:focus-visible {
+	outline: var(--color-primary) auto 2px;
 }
 input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
 	width: 219px;
