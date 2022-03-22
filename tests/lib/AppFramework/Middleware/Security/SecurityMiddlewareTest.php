@@ -42,9 +42,9 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IRequestId;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -500,7 +500,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 						'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp'
 					]
 			],
-			$this->createMock(ISecureRandom::class),
+			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
 		$this->middleware = $this->getMiddleware(false, false, false);
@@ -534,7 +534,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 					'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp',
 				],
 			],
-			$this->createMock(ISecureRandom::class),
+			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
 
@@ -580,7 +580,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 						'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp'
 					]
 			],
-			$this->createMock(ISecureRandom::class),
+			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
 		$this->middleware = $this->getMiddleware(false, false, false);

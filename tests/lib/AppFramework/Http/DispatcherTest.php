@@ -37,6 +37,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use OCP\IRequestId;
 
 class TestController extends Controller {
 	/**
@@ -316,12 +317,8 @@ class DispatcherTest extends \Test\TestCase {
 				],
 				'method' => 'POST'
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher, $this->reflector,
@@ -351,12 +348,8 @@ class DispatcherTest extends \Test\TestCase {
 				],
 				'method' => 'POST',
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher, $this->reflector,
@@ -389,12 +382,8 @@ class DispatcherTest extends \Test\TestCase {
 				],
 				'method' => 'GET'
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher, $this->reflector,
@@ -426,12 +415,8 @@ class DispatcherTest extends \Test\TestCase {
 				],
 				'method' => 'GET'
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher, $this->reflector,
@@ -464,12 +449,8 @@ class DispatcherTest extends \Test\TestCase {
 				],
 				'method' => 'PUT'
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher, $this->reflector,
@@ -504,12 +485,8 @@ class DispatcherTest extends \Test\TestCase {
 				],
 				'method' => 'POST'
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher, $this->reflector,
