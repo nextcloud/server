@@ -28,9 +28,9 @@ namespace OCA\User_LDAP;
 use OC\User\Backend;
 
 class UserPluginManager {
-	private $respondToActions = 0;
+	private int $respondToActions = 0;
 
-	private $which = [
+	private array $which = [
 		Backend::CREATE_USER => null,
 		Backend::SET_PASSWORD => null,
 		Backend::GET_HOME => null,
@@ -41,8 +41,7 @@ class UserPluginManager {
 		'deleteUser' => null
 	];
 
-	/** @var bool */
-	private $suppressDeletion = false;
+	private bool $suppressDeletion = false;
 
 	/**
 	 * @return int All implemented actions, except for 'deleteUser'

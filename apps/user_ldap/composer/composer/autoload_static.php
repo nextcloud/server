@@ -29,6 +29,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Command\\CheckUser' => __DIR__ . '/..' . '/../lib/Command/CheckUser.php',
         'OCA\\User_LDAP\\Command\\CreateEmptyConfig' => __DIR__ . '/..' . '/../lib/Command/CreateEmptyConfig.php',
         'OCA\\User_LDAP\\Command\\DeleteConfig' => __DIR__ . '/..' . '/../lib/Command/DeleteConfig.php',
+        'OCA\\User_LDAP\\Command\\ResetGroup' => __DIR__ . '/..' . '/../lib/Command/ResetGroup.php',
         'OCA\\User_LDAP\\Command\\ResetUser' => __DIR__ . '/..' . '/../lib/Command/ResetUser.php',
         'OCA\\User_LDAP\\Command\\Search' => __DIR__ . '/..' . '/../lib/Command/Search.php',
         'OCA\\User_LDAP\\Command\\SetConfig' => __DIR__ . '/..' . '/../lib/Command/SetConfig.php',
