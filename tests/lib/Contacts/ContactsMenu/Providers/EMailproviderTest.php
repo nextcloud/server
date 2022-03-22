@@ -29,18 +29,18 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\ILinkAction;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EMailproviderTest extends TestCase {
 
-	/** @var IActionFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IActionFactory|MockObject */
 	private $actionFactory;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var EMailProvider */
-	private $provider;
+	private EMailProvider $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -80,7 +80,6 @@ class EMailproviderTest extends TestCase {
 
 	public function testProcessEmptyAddress() {
 		$entry = $this->createMock(IEntry::class);
-		$action = $this->createMock(ILinkAction::class);
 		$iconUrl = 'https://example.com/img/actions/icon.svg';
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')

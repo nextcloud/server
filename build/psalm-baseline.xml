@@ -2818,14 +2818,6 @@
       <code>$this-&gt;application</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Contacts/ContactsMenu/Manager.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>IEntry</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$entry</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/ContactsManager.php">
     <InvalidNullableReturnType occurrences="3">
       <code>IAddressBook</code>
