@@ -28,6 +28,7 @@ use OCP\GroupInterface;
 class GroupPluginManager {
 	private int $respondToActions = 0;
 
+	/** @var array<int, ?ILDAPGroupPlugin> */
 	private array $which = [
 		GroupInterface::CREATE_GROUP => null,
 		GroupInterface::DELETE_GROUP => null,
