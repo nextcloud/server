@@ -31,10 +31,8 @@ use OCP\IConfig;
 use OCP\IUserSession;
 
 class JSDataService extends InitialStateProvider {
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IConfig */
-	private $config;
+	private IUserSession $userSession;
+	private IConfig $config;
 
 	public function __construct(
 		IUserSession $userSession,
