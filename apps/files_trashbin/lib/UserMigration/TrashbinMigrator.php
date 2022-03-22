@@ -42,8 +42,8 @@ class TrashbinMigrator implements IMigrator {
 
 	use TMigratorBasicVersionHandling;
 
-	protected const PATH_FILES = Application::APP_ID.'/files';
-	protected const PATH_LOCATIONS = Application::APP_ID.'/locations.json';
+	protected const PATH_FILES_FOLDER = Application::APP_ID.'/files';
+	protected const PATH_LOCATIONS_FILE = Application::APP_ID.'/locations.json';
 
 	protected IRootFolder $root;
 
@@ -68,11 +68,11 @@ class TrashbinMigrator implements IMigrator {
 		try {
 			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
 			$output->writeln("Exporting trashbin…");
-			if ($exportDestination->copyFolder($trashbinFolder, static::PATH_FILES) === false) {
+			if ($exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER) === false) {
 				throw new UserMigrationException("Could not export trashbin.");
 			}
 			$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($uid);
-			if ($exportDestination->addFileContents(static::PATH_LOCATIONS, json_encode($originalLocations)) === false) {
+			if ($exportDestination->addFileContents(static::PATH_LOCATIONS_FILE, json_encode($originalLocations)) === false) {
 				throw new UserMigrationException("Could not export trashbin.");
 			}
 		} catch (NotFoundException $e) {
@@ -93,17 +93,17 @@ class TrashbinMigrator implements IMigrator {
 
 		$uid = $user->getUID();
 
-		if ($importSource->pathExists(static::PATH_FILES)) {
+		if ($importSource->pathExists(static::PATH_FILES_FOLDER)) {
 			try {
 				$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
 			} catch (NotFoundException $e) {
 				$trashbinFolder = $this->root->newFolder('/'.$uid.'/files_trashbin');
 			}
 			$output->writeln("Importing trashbin files…");
-			if ($importSource->copyToFolder($trashbinFolder, static::PATH_FILES) === false) {
+			if ($importSource->copyToFolder($trashbinFolder, static::PATH_FILES_FOLDER) === false) {
 				throw new UserMigrationException("Could not import trashbin.");
 			}
-			$locations = json_decode($importSource->getFileContents(static::PATH_LOCATIONS), true, 512, JSON_THROW_ON_ERROR);
+			$locations = json_decode($importSource->getFileContents(static::PATH_LOCATIONS_FILE), true, 512, JSON_THROW_ON_ERROR);
 			$qb = $this->dbc->getQueryBuilder();
 			$qb->insert('files_trash')
 				->values([
