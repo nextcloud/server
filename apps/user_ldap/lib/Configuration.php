@@ -56,10 +56,9 @@ class Configuration {
 	 */
 	protected $configRead = false;
 	/**
-	 * @var string[] pre-filled with one reference key so that at least one entry is written on save request and
-	 *               the config ID is registered
+	 * @var string[]
 	 */
-	protected $unsavedChanges = ['ldapConfigurationActive' => 'ldapConfigurationActive'];
+	protected array $unsavedChanges = [];
 
 	/**
 	 * @var array<string, mixed> settings
