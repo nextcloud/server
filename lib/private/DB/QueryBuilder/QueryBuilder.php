@@ -227,7 +227,7 @@ class QueryBuilder implements IQueryBuilder {
 				}
 			} catch (\Error $e) {
 				// likely an error during conversion of $value to string
-				$this->logger->debug('DB QueryBuilder: error trying to log SQL query', ['exception' => $e]);
+				$this->logger->error('DB QueryBuilder: error trying to log SQL query', ['exception' => $e]);
 			}
 		}
 
