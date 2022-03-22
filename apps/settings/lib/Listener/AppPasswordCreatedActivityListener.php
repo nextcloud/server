@@ -31,6 +31,7 @@ use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -40,12 +41,17 @@ class AppPasswordCreatedActivityListener implements IEventListener {
 	/** @var IActivityManager */
 	private $activityManager;
 
+	/** @var IUserSession */
+	private $userSession;
+
 	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(IActivityManager $activityManager,
+								IUserSession $userSession,
 								LoggerInterface $logger) {
 		$this->activityManager = $activityManager;
+		$this->userSession = $userSession;
 		$this->logger = $logger;
 	}
 
@@ -58,7 +64,7 @@ class AppPasswordCreatedActivityListener implements IEventListener {
 		$activity->setApp('settings')
 			->setType('security')
 			->setAffectedUser($event->getToken()->getUID())
-			->setAuthor($event->getToken()->getUID())
+			->setAuthor($this->userSession->getUser() ? $this->userSession->getUser()->getUID() : '')
 			->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $event->getToken()->getName()])
 			->setObject('app_token', $event->getToken()->getId());
 
