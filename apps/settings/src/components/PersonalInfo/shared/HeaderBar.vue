@@ -35,25 +35,32 @@
 		</template>
 
 		<template v-if="isEditable && isMultiValueSupported">
-			<AddButton class="add-button"
+			<Button type="tertiary"
 				:disabled="!isValidSection"
-				@click.stop.prevent="onAddAdditional" />
+				:aria-label="t('settings', 'Add additional email')"
+				@click.stop.prevent="onAddAdditional">
+				<template #icon>
+					<Plus :size="20" />
+				</template>
+				{{ t('settings', 'Add') }}
+			</Button>
 		</template>
 	</h3>
 </template>
 
 <script>
-import AddButton from './AddButton'
 import FederationControl from './FederationControl'
-
+import Button from '@nextcloud/vue/dist/Components/Button'
+import Plus from 'vue-material-design-icons/Plus'
 import { ACCOUNT_PROPERTY_READABLE_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM, PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 export default {
 	name: 'HeaderBar',
 
 	components: {
-		AddButton,
 		FederationControl,
+		Button,
+		Plus,
 	},
 
 	props: {
@@ -137,7 +144,7 @@ export default {
 		margin: -12px 0 0 8px;
 	}
 
-	.add-button {
-		margin: -12px 0 0 auto !important;
+	.button-vue  {
+		margin: -6px 0 0 auto !important;
 	}
 </style>
