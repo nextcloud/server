@@ -71,7 +71,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
     "Could not delete share" : "Could not delete share",
     "Please specify a file or folder path" : "Please specify a file or folder path",
-    "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
     "Could not create share" : "Could not create share",
     "Please specify a valid user" : "Please specify a valid user",
     "Group sharing is disabled by the administrator" : "Group sharing is disabled by the administrator",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Select or drop files" : "Select or drop files",
     "Uploaded files:" : "Uploaded files:",
     "Add to your Nextcloud" : "Add to your Nextcloud",
+    "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
     "invalid permissions" : "invalid permissions",
     "Can't change permissions for public share links" : "Can't change permissions for public share links",
     "Download %s" : "Download %s"

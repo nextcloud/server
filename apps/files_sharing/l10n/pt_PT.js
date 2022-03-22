@@ -72,7 +72,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",
     "Could not delete share" : "Não foi possível eliminar a partilha",
     "Please specify a file or folder path" : "Por favor, especifique um ficheiro ou caminho de pasta",
-    "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "Could not create share" : "Não foi possível criar partilha",
     "Please specify a valid user" : "Por favor, especifique um utilizador válido",
     "Group sharing is disabled by the administrator" : "A partilha em grupo está desativada pelo administrador",
@@ -143,6 +142,7 @@ OC.L10N.register(
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploaded files:" : "Ficheiros enviados:",
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
+    "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "invalid permissions" : "permissões inválidas",
     "Can't change permissions for public share links" : "Não é possível alterar as permissões para as hiperligações de partilha pública",
     "Download %s" : "Transferir %s"

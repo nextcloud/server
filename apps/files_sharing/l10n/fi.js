@@ -101,7 +101,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "Could not delete share" : "Jaon poistaminen epäonnistui",
     "Please specify a file or folder path" : "Määritä tiedoston tai kansion polku",
-    "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "Could not create share" : "Jaon luominen epäonnistui",
     "Invalid permissions" : "Virheelliset käyttöoikeudet",
     "Please specify a valid user" : "Määritä kelvollinen käyttäjä",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
+    "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "invalid permissions" : "vialliset oikeudet",
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
     "Download %s" : "Lataa %s"

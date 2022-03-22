@@ -70,7 +70,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "არასწორი გაზიარების ID, გაზიარება არ არსებობს",
     "Could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა",
     "Please specify a file or folder path" : "გთხოვთ მიუთითოთ ფაილის ან დირექტორიის მისამართი",
-    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
     "Could not create share" : "გაზიარება ვერ შეიქმნა",
     "Please specify a valid user" : "გთხოვთ მიუთითოთ სწორი მომხმარებელი",
     "Group sharing is disabled by the administrator" : "ჯგუფური გაზიარება ადმინისტრატორის მიერ არაა ამოქმედებული",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
+    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
     "invalid permissions" : "არასწორი უფლებები",
     "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა",
     "Download %s" : "%s-ის ჩამოტვირთვა"
