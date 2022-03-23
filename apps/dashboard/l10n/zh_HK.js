@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "儀表板",
     "Dashboard app" : "儀表板應用程式",
-    "Show something" : "顯示一些東西",
     "Customize" : "自訂",
     "Edit widgets" : "編輯小工具",
     "Get more widgets from the App Store" : "從 App Store 取得更多小工具",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "默認圖像",
     "Plain background" : "簡單背景",
     "Insert from {productName}" : "插入自 {productName}",
+    "Show something" : "顯示一些東西",
     "Get more widgets from the app store" : "從應用商店取得更多小工具"
 },
 "nplurals=1; plural=0;");

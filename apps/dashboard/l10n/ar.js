@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "لوحة التحكم",
     "Dashboard app" : "تطبيق لوحة التحكم",
-    "Show something" : "أظهر شي ما",
     "Customize" : "تعديل",
     "Edit widgets" : "تعديل الودجات",
     "Change background image" : "تغييرصورة الخلفية",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Default images" : "الصور الإفتراضية",
     "Plain background" : "خلفية سادة",
     "Insert from {productName}" : "اضف من {productName}",
+    "Show something" : "أظهر شي ما",
     "Get more widgets from the app store" : "احصل على ودجات من متجر التطبيقات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

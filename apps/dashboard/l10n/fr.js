@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Tableau de bord",
     "Dashboard app" : "Application Tableau de bord",
-    "Show something" : "Montre quelque chose",
     "Customize" : "Personnaliser",
     "Edit widgets" : "Modifier les widgets",
     "Get more widgets from the App Store" : "Obtenez plus de widgets depuis l'App Store",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Images par défaut",
     "Plain background" : "Fond uni",
     "Insert from {productName}" : "Insérer depuis {productName}",
+    "Show something" : "Montre quelque chose",
     "Get more widgets from the app store" : "Obtenez plus de widgets de l'App Store"
 },
 "nplurals=2; plural=(n > 1);");
