@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Neteisingas dalinamų duomenų ID",
     "Could not delete share" : "Nepavyko nustoti dalintis duomenimis",
     "Please specify a file or folder path" : "Nurodykite kelią iki duomenų",
+    "Wrong path, file/folder does not exist" : "Neteisingas kelias, failo/aplanko nėra",
     "Could not create share" : "Nepavyko sukurti viešinio",
     "Invalid permissions" : "Neteisingi leidimai",
     "Please specify a valid user" : "Nurodykite naudotoją",

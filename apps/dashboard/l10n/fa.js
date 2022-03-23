@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "پیشخوان",
     "Dashboard app" : "برنامه پیشخوان",
-    "Show something" : "نمایش چیزی",
     "Customize" : "سفارشی‌سازی",
     "Edit widgets" : "ویرایش ابزارک‌ها",
     "Get more widgets from the App Store" : "ویجت های بیشتر را از اپ استور دریافت کنید",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "Default images" : "تصاویر پیش‌فرض",
     "Plain background" : "تصویر زمینه ساده",
     "Insert from {productName}" : "درج از {productName}",
+    "Show something" : "نمایش چیزی",
     "Get more widgets from the app store" : "ابزارک‌های بیشتر را از فروشگاه برنامه دریافت کنید"
 },
 "nplurals=2; plural=(n > 1);");

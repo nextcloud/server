@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
     "Could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Please specify a file or folder path" : "Por favor, especifica la ubicación de un archivo o carpeta",
+    "Wrong path, file/folder does not exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "No se ha podido compartir",
     "Invalid permissions" : "Permisos no válidos",
     "Please specify a valid user" : "Por favor, especifica un usuario válido",

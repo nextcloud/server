@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
     "Could not delete share" : "Freigabe konnte nicht gelöscht werden",
     "Please specify a file or folder path" : "Bitte Datei oder Ordner-Pfad eingeben",
+    "Wrong path, file/folder does not exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
     "Could not create share" : "Freigabe konnte nicht erstellt werden",
     "Invalid permissions" : "Ungültige Berechtigungen",
     "Please specify a valid user" : "Bitte geben Sie einen gültigen Benutzer an",

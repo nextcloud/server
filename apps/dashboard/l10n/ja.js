@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "ダッシュボード",
     "Dashboard app" : "ダッシュボードアプリ",
-    "Show something" : "何か表示されます",
     "Customize" : "カスタマイズ",
     "Edit widgets" : "ウィジェットを編集",
     "Change background image" : "背景画像を変更",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Default images" : "デフォルトの画像",
     "Plain background" : "シンプルな背景",
     "Insert from {productName}" : "{productName} から挿入",
+    "Show something" : "何か表示されます",
     "Get more widgets from the app store" : "アプリストアで他のウィジェットを入手"
 },
 "nplurals=1; plural=0;");

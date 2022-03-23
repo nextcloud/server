@@ -161,6 +161,8 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "因此，啟用後不會立即可用，但會在一段時間後顯示。",
     "Send notifications for events" : "傳送活動通知",
     "Notifications are sent via background jobs, so these must occur often enough." : "通知會透過背景作業傳送，因此這些會經常發生。",
+    "Send reminder notifications to calendar sharees as well" : "也向共享行事曆傳送提醒通知",
+    "Reminders are always sent to organizers and attendees." : "一律傳送提醒給舉辦者與參與者。",
     "Enable notifications for events via push" : "啟用推播活動通知",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "也安裝{calendarappstoreopen}日曆應用程式{linkclose}，或{calendardocopen}連結您的電腦或行動裝置以供同步 ↗{linkclose}。",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "請確定您正確設定了{emailopen}電子郵件伺服器{linkclose}。",

@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
     "Could not delete share" : "Paylaşım silinemedi",
     "Please specify a file or folder path" : "Lütfen bir dosya ya da klasör yolu belirtin",
+    "Wrong path, file/folder does not exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Could not create share" : "Paylaşılamadı",
     "Invalid permissions" : "İzinler geçersiz",
     "Please specify a valid user" : "Lütfen geçerli bir kullanıcı belirtin",

@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "錯誤的分享 ID，分享不存在",
     "Could not delete share" : "無法刪除分享",
     "Please specify a file or folder path" : "請指定檔案或資料夾路徑",
+    "Wrong path, file/folder does not exist" : "錯誤的路徑，該檔案或資料夾不存在",
     "Could not create share" : "無法建立分享",
     "Invalid permissions" : "無效的權限",
     "Please specify a valid user" : "請指定有效使用者",

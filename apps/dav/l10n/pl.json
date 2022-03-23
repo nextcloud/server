@@ -159,6 +159,8 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "Dlatego nie będą dostępne natychmiast po włączeniu, ale pojawią się po pewnym czasie.",
     "Send notifications for events" : "Wysyłaj powiadomienia o wydarzeniach",
     "Notifications are sent via background jobs, so these must occur often enough." : "Powiadomienia są wysyłane za pośrednictwem zadań w tle, więc muszą one występować wystarczająco często.",
+    "Send reminder notifications to calendar sharees as well" : "Wysyłaj przypomnienia również do udostępnionych kalendarzy",
+    "Reminders are always sent to organizers and attendees." : "Przypomnienia są zawsze wysyłane do organizatorów i uczestników.",
     "Enable notifications for events via push" : "Włącz powiadomienia o zdarzeniach poprzez Push",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Zainstaluj także {calendarappstoreopen}aplikację Kalendarz{linkclose} lub {calendardocopen}połącz swój komputer i telefon komórkowy, aby zsynchronizować ↗{linkclose}.",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Upewnij się, że poprawnie skonfigurowałeś {emailopen}serwer poczty{linkclose}.",

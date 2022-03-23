@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Pannellu de controllu",
     "Dashboard app" : "Aplicatzione de su pannellu de controllu",
-    "Show something" : "Mustra calicuna cosa",
     "Customize" : "Personaliza",
     "Edit widgets" : "Modìfica ordìngios",
     "Get more widgets from the App Store" : "Otene àteros trastos dae sa butega de is aplicatziones",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Imàgines predefinidas",
     "Plain background" : "Isfundu simpre",
     "Insert from {productName}" : "Inserta dae {productName}",
+    "Show something" : "Mustra calicuna cosa",
     "Get more widgets from the app store" : "Otene àteros trastos dae sa butega de is aplicatziones"
 },
 "nplurals=2; plural=(n != 1);");

@@ -89,10 +89,13 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of 512MB." : "Το όριο μνήμης της PHP είναι κάτω της προτεινόμενης 512 ΜΒ.",
     "Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:" : "Ορισμένοι κατάλογοι εφαρμογών ανήκουν σε διαφορετικό χρήστη από αυτόν του διακομιστή ιστού. Αυτό μπορεί να συμβεί αν οι εφαρμογές έχουν εγκατασταθεί με μη αυτόματο τρόπο. Ελέγξτε τα δικαιώματα των ακόλουθων καταλόγων εφαρμογών:",
     "This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path." : "Η υπηρεσία χρησιμοποιεί ως κύριο τρόπο αποθήκευσης την S3 κατάσταση. Τα μεταφορτωμένα αρχεία αποθηκεύονται προσωρινά στον διακομιστή και επομένως συνιστάται να διατίθενται 50 GB ελεύθερου χώρου στον κατάλογο Temp της PHP. Ελέγξτε τα αρχεία καταγραφής για πλήρεις λεπτομέρειες σχετικά με τη διαδρομή και τον διαθέσιμο χώρο. Για να το βελτιώσετε, παρακαλούμε αλλάξτε τον προσωρινό κατάλογο στο php.ini ή διαθέστε περισσότερο χώρο σε αυτή τη διαδρομή.",
+    "The temporary directory of this instance points to an either non-existing or non-writable directory." : "Ο προσωρινός κατάλογος αυτής της εγκατάστασης οδηγεί σε έναν κατάλογο είτε ανύπαρκτο είτε μη εγγράψιμο.",
     "Error occurred while checking server setup" : "Παρουσιάστηκε σφάλμα κατά τον έλεγχο των ρυθμίσεων του διακομιστή σας",
+    "For more details see the {linkstart}documentation ↗{linkend}." : "Για περισσότερες λεπτομέρειες, ανατρέξτε στη {linkstart}τεκμηρίωση ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "H HTTP επικεφαλίδα \"{header}\" δεν έχει ρυθμιστεί ως \"{expected}\". Αυτό αποτελεί κίνδυνο ασφάλειας ή ιδιωτικότητας και συστήνουμε τη προσαρμογή αυτής της ρύθμισης.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "H HTTP  επικεφαλίδα \"{header}\"  δεν έχει ρυθμιστεί ως \"{expected}\". Κάποιες δυνατότητες ίσως να μην λειτουργούν σωστά και συστήνουμε τον έλεγχο ρυθμίσεων.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "H \"{header}\" κεφαλίδα HTTP δεν περιέχει \"{expected}\". Αυτό αποτελεί κίνδυνο ασφάλειας ή ιδιωτικότητας και συστήνουμε τη προσαρμογή αυτής της ρύθμισης.",
+    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Ανασφαλής πρόσβαση στον ιστότοπο μέσω HTTP. Σας συμβουλεύουμε ανεπιφύλακτα να ρυθμίσετε τον διακομιστή σας ώστε να απαιτεί HTTPS, όπως περιγράφεται στις {linkstart}συμβουλές ασφαλείας ↗{linkend}.",
     "unknown text" : "άγνωστο κείμενο",
     "Hello world!" : "Γεια σου κόσμε!",
     "sunny" : "ηλιόλουστη",
@@ -155,6 +158,9 @@ OC.L10N.register(
     "Back" : "Πίσω",
     "Login form is disabled." : "Η φόρμα σύνδεσης είναι απενεργοποιημένη.",
     "Edit Profile" : "Επεξεργασία προφίλ",
+    "The headline and about sections will show up here" : "Ο \"τίτλος\" και οι ενότητες \"σχετικά με\" θα εμφανιστούν εδώ",
+    "You have not added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
+    "{user} has not added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες",
     "Reset search" : "Επαναφορά αναζήτησης",
     "Search for {name} only" : "Αναζήτηση για {Όνομα} μόνο ",
     "No results for {query}" : "Κανένα αποτέλεσμα για {query}",
@@ -392,6 +398,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Το συνθηματικό σας δεν μπορεί να αλλάξει. Παρακαλώ επικοινωνήστε με το διαχειριστή.",
     "Could not fetch list of apps from the app store." : "Δεν μπορεί να ληφθεί η λίστα εφαρμογών από το app store.",
     "Can't install this app because it is not compatible" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί, δεν είναι συμβατή",
-    "Can't install this app" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί"
+    "Can't install this app" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί",
+    "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
+    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες"
 },
 "nplurals=2; plural=(n != 1);");
