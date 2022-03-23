@@ -322,6 +322,10 @@ class ClientFlowLoginController extends Controller {
 			$clientName = $client->getName();
 		}
 
+		if (mb_strlen($clientName) > 128) {
+			$clientName = mb_substr($clientName, 0, 120) . '…';
+		}
+
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 		$uid = $this->userSession->getUser()->getUID();
 		$generatedToken = $this->tokenProvider->generateToken(

@@ -99,6 +99,9 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 		}
 
 		$userAgent = $this->request->getHeader('USER_AGENT');
+		if (mb_strlen($userAgent) > 128) {
+			$userAgent = mb_substr($userAgent, 0, 120) . '…';
+		}
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 

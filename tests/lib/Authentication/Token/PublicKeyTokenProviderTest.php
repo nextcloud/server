@@ -80,10 +80,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
@@ -94,6 +91,22 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($name, $actual->getName());
 		$this->assertSame(IToken::DO_NOT_REMEMBER, $actual->getRemember());
 		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
+	}
+
+	public function testGenerateTokenInvalidName() {
+		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
+
+		$token = 'token';
+		$uid = 'user';
+		$user = 'User';
+		$password = 'passme';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$type = IToken::PERMANENT_TOKEN;
+
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 	}
 
 	public function testUpdateToken() {
@@ -137,10 +150,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
@@ -167,10 +177,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
@@ -183,10 +190,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
@@ -246,12 +250,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 				['session_lifetime', $defaultSessionLifetime, 150],
 				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],
 			]);
-		$this->mapper->expects($this->at(0))
+		$this->mapper->expects($this->exactly(2))
 			->method('invalidateOld')
-			->with($this->time - 150);
-		$this->mapper->expects($this->at(1))
-			->method('invalidateOld')
-			->with($this->time - 300);
+			->withConsecutive(
+				[$this->time - 150],
+				[$this->time - 300]
+			);
 
 		$this->tokenProvider->invalidateOldTokens();
 	}
@@ -261,21 +265,18 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = null;
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$oldToken = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
 		$this->mapper
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getToken')
 			->with(hash('sha512', 'oldId' . '1f4h9s'))
 			->willReturn($oldToken);
 		$this->mapper
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name) {
 				return $token->getUID() === $uid &&
@@ -286,7 +287,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 					$token->getPassword() === null;
 			}));
 		$this->mapper
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('delete')
 			->with($this->callback(function ($token) use ($oldToken) {
 				return $token === $oldToken;
@@ -300,21 +301,18 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = 'password';
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$oldToken = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
 		$this->mapper
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getToken')
 			->with(hash('sha512', 'oldId' . '1f4h9s'))
 			->willReturn($oldToken);
 		$this->mapper
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name) {
 				return $token->getUID() === $uid &&
@@ -326,7 +324,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 					$this->tokenProvider->getPassword($token, 'newId') === 'password';
 			}));
 		$this->mapper
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('delete')
 			->with($this->callback(function ($token) use ($oldToken) {
 				return $token === $oldToken;
@@ -370,10 +368,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
@@ -438,10 +433,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = 'password';
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
@@ -456,10 +448,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$uid = 'user';
 		$user = 'User';
 		$password = null;
-		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
-			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
