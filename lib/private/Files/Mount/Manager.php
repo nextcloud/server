@@ -81,6 +81,15 @@ class Manager implements IMountManager {
 		$this->inPathCache->clear();
 	}
 
+	private function setupForFind(string $path) {
+		if (strpos($path, '/appdata_' . \OC_Util::getInstanceId()) === 0) {
+			// for appdata, we only setup the root bits, not the user bits
+			\OC_Util::setupRootFS();
+		} else {
+			\OC_Util::setupFS();
+		}
+	}
+
 	/**
 	 * Find the mount for $path
 	 *
@@ -88,7 +97,7 @@ class Manager implements IMountManager {
 	 * @return MountPoint|null
 	 */
 	public function find(string $path) {
-		\OC_Util::setupFS();
+		$this->setupForFind($path);
 		$path = Filesystem::normalizePath($path);
 
 		if (isset($this->pathCache[$path])) {
@@ -121,7 +130,7 @@ class Manager implements IMountManager {
 	 * @return MountPoint[]
 	 */
 	public function findIn(string $path): array {
-		\OC_Util::setupFS();
+		$this->setupForFind($path);
 		$path = $this->formatPath($path);
 
 		if (isset($this->inPathCache[$path])) {
