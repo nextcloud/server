@@ -44,6 +44,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Files\FileInfo;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files\Helper;
@@ -469,12 +470,22 @@ class ShareAPIController extends OCSController {
 
 		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
 		try {
-			$path = $userFolder->get($path);
+			/** @var \OC\Files\Node\Node $node */
+			$node = $userFolder->get($path);
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException($this->l->t('Wrong path, file/folder does not exist'));
 		}
 
-		$share->setNode($path);
+		// a user can have access to a file through different paths, with differing permissions
+		// combine all permissions to determine if the user can share this file
+		$nodes = $userFolder->getById($node->getId());
+		foreach ($nodes as $nodeById) {
+			/** @var FileInfo $fileInfo */
+			$fileInfo = $node->getFileInfo();
+			$fileInfo['permissions'] |= $nodeById->getPermissions();
+		}
+
+		$share->setNode($node);
 
 		try {
 			$this->lock($share->getNode());
@@ -489,7 +500,7 @@ class ShareAPIController extends OCSController {
 		// Shares always require read permissions
 		$permissions |= Constants::PERMISSION_READ;
 
-		if ($path instanceof \OCP\Files\File) {
+		if ($node instanceof \OCP\Files\File) {
 			// Single file shares should never have delete or create permissions
 			$permissions &= ~Constants::PERMISSION_DELETE;
 			$permissions &= ~Constants::PERMISSION_CREATE;
@@ -500,8 +511,8 @@ class ShareAPIController extends OCSController {
 		 * We check the permissions via webdav. But the permissions of the mount point
 		 * do not equal the share permissions. Here we fix that for federated mounts.
 		 */
-		if ($path->getStorage()->instanceOfStorage(Storage::class)) {
-			$permissions &= ~($permissions & ~$path->getPermissions());
+		if ($node->getStorage()->instanceOfStorage(Storage::class)) {
+			$permissions &= ~($permissions & ~$node->getPermissions());
 		}
 
 		if ($shareType === IShare::TYPE_USER) {
@@ -537,7 +548,7 @@ class ShareAPIController extends OCSController {
 				}
 
 				// Public upload can only be set for folders
-				if ($path instanceof \OCP\Files\File) {
+				if ($node instanceof \OCP\Files\File) {
 					throw new OCSNotFoundException($this->l->t('Public upload is only possible for publicly shared folders'));
 				}
 
@@ -573,7 +584,7 @@ class ShareAPIController extends OCSController {
 
 			if ($sendPasswordByTalk === 'true') {
 				if (!$this->appManager->isEnabledForUser('spreed')) {
-					throw new OCSForbiddenException($this->l->t('Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled', [$path->getPath()]));
+					throw new OCSForbiddenException($this->l->t('Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled', [$node->getPath()]));
 				}
 
 				$share->setSendPasswordByTalk(true);
@@ -590,7 +601,7 @@ class ShareAPIController extends OCSController {
 			}
 		} elseif ($shareType === IShare::TYPE_REMOTE) {
 			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$path->getPath(), $shareType]));
+				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
 			}
 
 			if ($shareWith === null) {
@@ -609,7 +620,7 @@ class ShareAPIController extends OCSController {
 			}
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
 			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$path->getPath(), $shareType]));
+				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
 			}
 
 			if ($shareWith === null) {
@@ -643,13 +654,13 @@ class ShareAPIController extends OCSController {
 			try {
 				$this->getRoomShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
 			} catch (QueryException $e) {
-				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$path->getPath()]));
+				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$node->getPath()]));
 			}
 		} elseif ($shareType === IShare::TYPE_DECK) {
 			try {
 				$this->getDeckShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
 			} catch (QueryException $e) {
-				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$path->getPath()]));
+				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$node->getPath()]));
 			}
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
