@@ -81,6 +81,7 @@ use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
 use OCA\DAV\UserMigration\CalendarMigrator;
+use OCA\DAV\UserMigration\ContactsMigrator;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -168,6 +169,7 @@ class Application extends App implements IBootstrap {
 		$context->registerCalendarProvider(CalendarProvider::class);
 
 		$context->registerUserMigrator(CalendarMigrator::class);
+		$context->registerUserMigrator(ContactsMigrator::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -301,5 +301,8 @@ return array(
     'OCA\\DAV\\Upload\\UploadHome' => $baseDir . '/../lib/Upload/UploadHome.php',
     'OCA\\DAV\\UserMigration\\CalendarMigrator' => $baseDir . '/../lib/UserMigration/CalendarMigrator.php',
     'OCA\\DAV\\UserMigration\\CalendarMigratorException' => $baseDir . '/../lib/UserMigration/CalendarMigratorException.php',
+    'OCA\\DAV\\UserMigration\\ContactsMigrator' => $baseDir . '/../lib/UserMigration/ContactsMigrator.php',
+    'OCA\\DAV\\UserMigration\\ContactsMigratorException' => $baseDir . '/../lib/UserMigration/ContactsMigratorException.php',
+    'OCA\\DAV\\UserMigration\\InvalidAddressBookException' => $baseDir . '/../lib/UserMigration/InvalidAddressBookException.php',
     'OCA\\DAV\\UserMigration\\InvalidCalendarException' => $baseDir . '/../lib/UserMigration/InvalidCalendarException.php',
 );
