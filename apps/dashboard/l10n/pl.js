@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Pulpit",
     "Dashboard app" : "Aplikacja Pulpit",
-    "Show something" : "Pokaż coś",
     "Customize" : "Dostosuj",
     "Edit widgets" : "Edytuj widżety",
     "Get more widgets from the App Store" : "Pobierz więcej widżetów ze sklepu z aplikacjami",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Obrazy domyślne",
     "Plain background" : "Zwykłe tło",
     "Insert from {productName}" : "Wstaw z {productName}",
+    "Show something" : "Pokaż coś",
     "Get more widgets from the app store" : "Pobierz więcej widżetów ze sklepu z aplikacjami"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

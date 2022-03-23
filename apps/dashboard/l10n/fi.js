@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Konsoli",
     "Dashboard app" : "Konsolisovellus",
-    "Show something" : "Näytä jotain",
     "Customize" : "Mukauta",
     "Edit widgets" : "Muokkaa pienoissovelluksia",
     "Change background image" : "Vaihda taustakuva",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Pick from Files" : "Valitse tiedostoista",
     "Default images" : "Oletuskuvat",
     "Plain background" : "Yksinkertainen tausta",
+    "Show something" : "Näytä jotain",
     "Get more widgets from the app store" : "Hae lisää pienoissovelluksia sovelluskaupasta"
 },
 "nplurals=2; plural=(n != 1);");

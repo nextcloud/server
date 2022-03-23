@@ -99,6 +99,7 @@
     "Wrong share ID, share doesn't exist" : "Złe ID udostępnienia, udostępnienie nie istnieje",
     "Could not delete share" : "Nie można usunąć udostępniania",
     "Please specify a file or folder path" : "Podaj ścieżkę do pliku lub katalogu",
+    "Wrong path, file/folder does not exist" : "Błędna ścieżka, plik/katalog nie istnieje",
     "Could not create share" : "Nie można utworzyć udostępnienia",
     "Invalid permissions" : "Nieprawidłowe uprawnienia",
     "Please specify a valid user" : "Podaj prawidłowego użytkownika",

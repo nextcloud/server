@@ -161,6 +161,8 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Etkinleştirildikten hemen sonra görüntülenmez, bir süre sonra görüntülenir.",
     "Send notifications for events" : "Etkinlik bildirimleri gönderilsin",
     "Notifications are sent via background jobs, so these must occur often enough." : "Bildirimler arka plan işlemleri tarafından gönderilir. Bu nedenle sıklık değeri uygun şekilde ayarlanmalıdır.",
+    "Send reminder notifications to calendar sharees as well" : "Takvim paylaşımlarına da hatırlatma bildirimleri gönderilsin",
+    "Reminders are always sent to organizers and attendees." : "Bu seçenek etkinleştirildiğinde, hatırlatıcılar her zaman düzenleyici ve katılımcılara gönderilir.",
     "Enable notifications for events via push" : "Anında etkinlik bildirimleri kullanılsın",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Ayrıca {calendarappstoreopen}Takvim Uygulamasını{linkclose} kurun ya da {calendardocopen}bilgisayarınızı ya da taşınabilir aygıtınızı eşitlemek üzere bağlayın  ↗{linkclose}.",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Lütfen {emailopen}e-posta sunucusunu{linkclose} doğru ayarladığınızdan emin olun.",

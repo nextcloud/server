@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Pano",
     "Dashboard app" : "Pano uygulaması",
-    "Show something" : "Bir şeyler görüntüle",
     "Customize" : "Özelleştir",
     "Edit widgets" : "Pano bileşenlerini düzenle",
     "Get more widgets from the App Store" : "Uygulama mağazasından başka pano bileşenleri alın",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Varsayılan görseller",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
+    "Show something" : "Bir şeyler görüntüle",
     "Get more widgets from the app store" : "Uygulama mağazasından başka pano bileşenleri alın"
 },
 "nplurals=2; plural=(n > 1);");

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Informačný panel",
     "Dashboard app" : "Applikácia Informačný panel",
-    "Show something" : "Ukáž niečo",
     "Customize" : "Prispôsobiť",
     "Edit widgets" : "Upraviť miniaplikácie",
     "Get more widgets from the App Store" : "Získať viac miniaplikácií z Obchodu s aplikáciami",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Predvolené obrázky",
     "Plain background" : "Obyčajné pozadie",
     "Insert from {productName}" : "Vložiť z {productName}",
+    "Show something" : "Ukáž niečo",
     "Get more widgets from the app store" : "Získať viac miniaplikácií z Obchodu s aplikáciami"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

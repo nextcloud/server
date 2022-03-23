@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Πίνακας ελέγχου",
     "Dashboard app" : "Εφαρμογή Πίνακα Ελέγχου",
-    "Show something" : "Δείξε οτιδήποτε",
     "Customize" : "Προσαρμογή",
     "Edit widgets" : "Επεξεργασία μικροεφαρμογών",
     "Get more widgets from the App Store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
+    "Show something" : "Δείξε οτιδήποτε",
     "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store"
 },
 "nplurals=2; plural=(n != 1);");

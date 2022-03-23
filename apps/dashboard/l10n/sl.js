@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Nadzorna plošča",
     "Dashboard app" : "Program Nadzorna plošča",
-    "Show something" : "Pokaži karkoli",
     "Customize" : "Prilagodi",
     "Edit widgets" : "Izbor gradnikov",
     "Change background image" : "Izbor slike ozadja",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Default images" : "Privzete slike",
     "Plain background" : "Enostavno ozadje",
     "Insert from {productName}" : "Vstavi iz {productName}",
+    "Show something" : "Pokaži karkoli",
     "Get more widgets from the app store" : "Pridobi več gradnikov iz zbirke"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
