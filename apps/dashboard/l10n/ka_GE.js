@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "მთავარი დაფა",
     "Dashboard app" : "დეშბორდის აპი",
-    "Show something" : "აჩვენე რამე",
     "Customize" : "პერსონალიზაცია",
     "Edit widgets" : "ვიჯეტების დაედითება",
     "Change background image" : "შეცვალე უკანა ფონის სურათი",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "Default images" : "საწყისი სურათები",
     "Plain background" : "ცარიელი ფონი",
     "Insert from {productName}" : "შეავსეთ {productName}-დან",
+    "Show something" : "აჩვენე რამე",
     "Get more widgets from the app store" : "გადმოწერე მეტი ვიჯეტები app store-დან."
 },
 "nplurals=2; plural=(n!=1);");

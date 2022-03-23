@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard-App",
-    "Show something" : "Zeige etwas an",
     "Customize" : "Anpassen",
     "Edit widgets" : "Widgets bearbeiten",
     "Get more widgets from the App Store" : "Hole Dir weitere Widgets aus dem App-Store",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Standardbilder",
     "Plain background" : "Einfacher Hintergrund",
     "Insert from {productName}" : "Von {productName} einfügen",
+    "Show something" : "Zeige etwas an",
     "Get more widgets from the app store" : "Hole Dir weitere Widgets aus dem App Store"
 },
 "nplurals=2; plural=(n != 1);");

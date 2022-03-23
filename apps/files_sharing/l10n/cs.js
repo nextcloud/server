@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
     "Could not delete share" : "Sdílení se nedaří smazat",
     "Please specify a file or folder path" : "Zadejte popis umístění souboru či složky",
+    "Wrong path, file/folder does not exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
     "Could not create share" : "Nelze vytvořit sdílení",
     "Invalid permissions" : "Neplatná oprávnění",
     "Please specify a valid user" : "Zadejte platného uživatele",

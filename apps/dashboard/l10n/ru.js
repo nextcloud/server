@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Виджеты",
     "Dashboard app" : "Приложение Виджеты",
-    "Show something" : "Показать",
     "Customize" : "Настроить",
     "Edit widgets" : "Редактировать виджеты",
     "Get more widgets from the App Store" : "Загрузить виджеты из магазина приложений",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Изображения по умолчанию",
     "Plain background" : "Обычный фон",
     "Insert from {productName}" : "Вставить из {productName}",
+    "Show something" : "Показать",
     "Get more widgets from the app store" : "Загрузить виджеты из магазина приложений"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

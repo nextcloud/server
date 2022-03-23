@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Irányítópult",
     "Dashboard app" : "Irányítópult alkalmazás",
-    "Show something" : "Mutasson valamit",
     "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
     "Get more widgets from the App Store" : "További modulok letöltése az alkalmazástárból.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Alapértelmezett képek",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés innen: {productName}-",
+    "Show something" : "Mutasson valamit",
     "Get more widgets from the app store" : "Töltsön le további modulokat az alkalmazástárból"
 },
 "nplurals=2; plural=(n != 1);");
