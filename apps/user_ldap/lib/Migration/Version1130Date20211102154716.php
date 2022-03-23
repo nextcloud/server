@@ -95,8 +95,8 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 			}
 			$column = $table->getColumn('ldap_dn');
 			if ($tableName === 'ldap_user_mapping') {
-				if ($column->getLength() < 4096) {
-					$column->setLength(4096);
+				if ($column->getLength() < 4000) {
+					$column->setLength(4000);
 					$changeSchema = true;
 				}
 
@@ -117,7 +117,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 				$table2 = $schema->createTable('ldap_group_mapping_backup');
 				$table2->addColumn('ldap_dn', Types::STRING, [
 					'notnull' => true,
-					'length' => 4096,
+					'length' => 4000,
 					'default' => '',
 				]);
 				$table2->addColumn('owncloud_name', Types::STRING, [
