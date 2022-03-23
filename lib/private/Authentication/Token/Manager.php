@@ -49,7 +49,7 @@ class Manager implements IProvider {
 	 * @param string $uid
 	 * @param string $loginName
 	 * @param string|null $password
-	 * @param string $name
+	 * @param string $name Name will be trimmed to 120 chars when longer
 	 * @param int $type token type
 	 * @param int $remember whether the session token should be used for remember-me
 	 * @return IToken
@@ -62,7 +62,7 @@ class Manager implements IProvider {
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
 		if (mb_strlen($name) > 128) {
-			throw new InvalidTokenException('The given name is too long');
+			$name = mb_substr($name, 0, 120) . '…';
 		}
 
 		try {
