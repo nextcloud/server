@@ -151,4 +151,10 @@ class Swift implements IObjectStore {
 			'destination' => $this->getContainer()->name . '/' . $to
 		]);
 	}
+
+	public function headObject(string $urn) {
+		return $this->getContainer()
+			->getObject($urn)
+			->getMetadata();
+	}
 }

@@ -133,4 +133,10 @@ class Azure implements IObjectStore {
 	public function copyObject($from, $to) {
 		$this->getBlobClient()->copyBlob($this->containerName, $to, $this->containerName, $from);
 	}
+
+	public function headObject(string $urn) {
+		return $this->getBlobClient()
+			->getBlobMetadata($this->containerName, $urn)
+			->getMetadata();
+	}
 }

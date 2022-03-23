@@ -56,4 +56,8 @@ class FailWriteObjectStore implements IObjectStore {
 	public function copyObject($from, $to) {
 		$this->objectStore->copyObject($from, $to);
 	}
+
+	public function headObject(string $urn) {
+		return $this->objectStore->headObject($urn);
+	}
 }

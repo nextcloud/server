@@ -91,4 +91,8 @@ class StorageObjectStore implements IObjectStore {
 	public function copyObject($from, $to) {
 		$this->storage->copy($from, $to);
 	}
+
+	public function headObject(string $urn) {
+		return [];
+	}
 }

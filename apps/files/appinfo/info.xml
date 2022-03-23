@@ -35,6 +35,7 @@
 		<command>OCA\Files\Command\TransferOwnership</command>
 		<command>OCA\Files\Command\ScanAppData</command>
 		<command>OCA\Files\Command\RepairTree</command>
+		<command>OCA\Files\Command\RepairMtime</command>
 	</commands>
 
 	<activity>
