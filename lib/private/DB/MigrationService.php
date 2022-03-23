@@ -594,6 +594,10 @@ class MigrationService {
 				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && $thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
 					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
 				}
+
+				if ($thing->getLength() > 4000 && $thing->getType()->getName() === Types::STRING) {
+					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type String, but exceeding the 4.000 length limit.');
+				}
 			}
 
 			foreach ($table->getIndexes() as $thing) {
