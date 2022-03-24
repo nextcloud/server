@@ -3,6 +3,7 @@
 namespace Test\Comments;
 
 use OC\Comments\Comment;
+use OC\Comments\EmojiHelper;
 use OC\Comments\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\IComment;
@@ -74,6 +75,7 @@ class ManagerTest extends TestCase {
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(ITimeFactory::class),
+			new EmojiHelper($this->connection),
 			$this->createMock(IInitialStateService::class)
 		);
 	}
@@ -1181,15 +1183,13 @@ class ManagerTest extends TestCase {
 
 	public function providerTestReactionMessageSize(): array {
 		return [
-			['a', true],
-			['1', true],
-			['12', true],
-			['123', false],
+			['a', false],
+			['1', false],
 			['👍', true],
-			['👍👍', true],
+			['👍👍', false],
 			['👍🏽', true],
-			['👍🏽👍', false],
-			['👍🏽👍🏽', false],
+			['👨🏽‍💻', true],
+			['👨🏽‍💻👍', false],
 		];
 	}
 
