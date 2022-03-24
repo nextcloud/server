@@ -37,6 +37,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
+use OCP\IEmojiHelper;
 use OCP\IUser;
 use OCP\UserStatus\IUserStatus;
 
@@ -56,8 +57,7 @@ class StatusService {
 	/** @var PredefinedStatusService */
 	private $predefinedStatusService;
 
-	/** @var EmojiService */
-	private $emojiService;
+	private IEmojiHelper $emojiHelper;
 
 	/** @var bool */
 	private $shareeEnumeration;
@@ -95,24 +95,15 @@ class StatusService {
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
-	/**
-	 * StatusService constructor.
-	 *
-	 * @param UserStatusMapper $mapper
-	 * @param ITimeFactory $timeFactory
-	 * @param PredefinedStatusService $defaultStatusService
-	 * @param EmojiService $emojiService
-	 * @param IConfig $config
-	 */
 	public function __construct(UserStatusMapper $mapper,
 								ITimeFactory $timeFactory,
 								PredefinedStatusService $defaultStatusService,
-								EmojiService $emojiService,
+								IEmojiHelper $emojiHelper,
 								IConfig $config) {
 		$this->mapper = $mapper;
 		$this->timeFactory = $timeFactory;
 		$this->predefinedStatusService = $defaultStatusService;
-		$this->emojiService = $emojiService;
+		$this->emojiHelper = $emojiHelper;
 		$this->shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
@@ -334,7 +325,7 @@ class StatusService {
 		}
 
 		// Check if statusIcon contains only one character
-		if ($statusIcon !== null && !$this->emojiService->isValidEmoji($statusIcon)) {
+		if ($statusIcon !== null && !$this->emojiHelper->isValidSingleEmoji($statusIcon)) {
 			throw new InvalidStatusIconException('Status-Icon is longer than one character');
 		}
 		// Check for maximum length of custom message

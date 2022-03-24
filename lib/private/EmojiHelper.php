@@ -24,42 +24,24 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\UserStatus\Service;
+namespace OC;
 
 use OCP\IDBConnection;
+use OCP\IEmojiHelper;
 
-/**
- * Class EmojiService
- *
- * @package OCA\UserStatus\Service
- */
-class EmojiService {
+class EmojiHelper implements IEmojiHelper {
+	private IDBConnection $db;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/**
-	 * EmojiService constructor.
-	 *
-	 * @param IDBConnection $db
-	 */
 	public function __construct(IDBConnection $db) {
 		$this->db = $db;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function doesPlatformSupportEmoji(): bool {
 		return $this->db->supports4ByteText() &&
 			\class_exists(\IntlBreakIterator::class);
 	}
 
-	/**
-	 * @param string $emoji
-	 * @return bool
-	 */
-	public function isValidEmoji(string $emoji): bool {
+	public function isValidSingleEmoji(string $emoji): bool {
 		$intlBreakIterator = \IntlBreakIterator::createCharacterInstance();
 		$intlBreakIterator->setText($emoji);
 

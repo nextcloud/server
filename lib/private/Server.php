@@ -1431,6 +1431,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IInitialStateService::class, InitialStateService::class);
 
+		$this->registerAlias(\OCP\IEmojiHelper::class, \OC\EmojiHelper::class);
+
 		$this->registerAlias(\OCP\UserStatus\IManager::class, \OC\UserStatus\Manager::class);
 
 		$this->registerAlias(IBroker::class, Broker::class);
