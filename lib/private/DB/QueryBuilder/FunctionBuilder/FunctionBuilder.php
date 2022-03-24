@@ -97,7 +97,7 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function octetLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
-		return new QueryFunction('LENGTHB(' . $quotedName . ')' . $alias);
+		return new QueryFunction('OCTET_LENGTH(' . $quotedName . ')' . $alias);
 	}
 
 	public function charLength($field, $alias = ''): IQueryFunction {
