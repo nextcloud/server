@@ -67,7 +67,7 @@ class TrashbinMigrator implements IMigrator {
 
 		try {
 			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
-			$output->writeln("Exporting trashbin…");
+			$output->writeln("Exporting trashbin files…");
 			if ($exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER) === false) {
 				throw new UserMigrationException("Could not export trashbin.");
 			}
