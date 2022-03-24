@@ -808,6 +808,7 @@ return array(
     'OC\\Command\\FileAccess' => $baseDir . '/lib/private/Command/FileAccess.php',
     'OC\\Command\\QueueBus' => $baseDir . '/lib/private/Command/QueueBus.php',
     'OC\\Comments\\Comment' => $baseDir . '/lib/private/Comments/Comment.php',
+    'OC\\Comments\\EmojiHelper' => $baseDir . '/lib/private/Comments/EmojiHelper.php',
     'OC\\Comments\\Manager' => $baseDir . '/lib/private/Comments/Manager.php',
     'OC\\Comments\\ManagerFactory' => $baseDir . '/lib/private/Comments/ManagerFactory.php',
     'OC\\Config' => $baseDir . '/lib/private/Config.php',
