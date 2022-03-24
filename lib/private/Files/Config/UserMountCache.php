@@ -460,6 +460,8 @@ class UserMountCache implements IUserMountCache {
 		$mounts = array_combine($mountPoints, $mounts);
 
 		$current = $path;
+		// walk up the directory tree until we find a path that has a mountpoint set
+		// the loop will return if a mountpoint is found or break if none are found
 		while (true) {
 			$mountPoint = $current . '/';
 			if (isset($mounts[$mountPoint])) {
