@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Mahaia",
     "Dashboard app" : "Mahaia aplikazioa",
-    "Show something" : "Erakutsi zerbait",
     "Customize" : "Pertsonalizatu",
     "Edit widgets" : "Editatu trepetak",
     "Get more widgets from the App Store" : "Lortu widget gehiago App Store-tik",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Irudi lehenetsiak",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
+    "Show something" : "Erakutsi zerbait",
     "Get more widgets from the app store" : "Eskuratu widget gehiago aplikazio-dendatik"
 },
 "nplurals=2; plural=(n != 1);");

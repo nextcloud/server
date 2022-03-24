@@ -41,32 +41,13 @@ use OCP\PreConditionNotMetException;
 
 class ConfigController extends OCSController {
 
-	/** @var string */
-	protected $appName;
-
-	/** @var string */
-	protected $userId;
-
-	/** @var string */
-	protected $serverRoot;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var AccessibilityProvider */
-	private $accessibilityProvider;
+	protected string $userId;
+	private IConfig $config;
+	private IUserSession $userSession;
+	private AccessibilityProvider $accessibilityProvider;
 
 	/**
 	 * Config constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 * @param AccessibilityProvider $accessibilityProvider
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -74,7 +55,6 @@ class ConfigController extends OCSController {
 								IUserSession $userSession,
 								AccessibilityProvider $accessibilityProvider) {
 		parent::__construct($appName, $request);
-		$this->appName = $appName;
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->accessibilityProvider = $accessibilityProvider;
@@ -102,7 +82,8 @@ class ConfigController extends OCSController {
 	 *
 	 * Set theme or font config
 	 *
-	 * @param string $key theme or font
+	 * @param string $key the theme or font
+	 * @param string|false $value the value
 	 * @return DataResponse
 	 * @throws OCSBadRequestException|PreConditionNotMetException
 	 */

@@ -1,7 +1,6 @@
 { "translations": {
     "Dashboard" : "Πίνακας ελέγχου",
     "Dashboard app" : "Εφαρμογή Πίνακα Ελέγχου",
-    "Show something" : "Δείξε οτιδήποτε",
     "Customize" : "Προσαρμογή",
     "Edit widgets" : "Επεξεργασία μικροεφαρμογών",
     "Get more widgets from the App Store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
@@ -25,6 +24,7 @@
     "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
+    "Show something" : "Δείξε οτιδήποτε",
     "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

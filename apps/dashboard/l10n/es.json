@@ -1,7 +1,6 @@
 { "translations": {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "App Dashboard",
-    "Show something" : "Mostrar algo",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
     "Get more widgets from the App Store" : "Conseguir más widgets desde la tienda de Apps",
@@ -25,6 +24,7 @@
     "Default images" : "Imágenes predeterminadas",
     "Plain background" : "Fondo liso",
     "Insert from {productName}" : "Insertar desde {productName}",
+    "Show something" : "Mostrar algo",
     "Get more widgets from the app store" : "Conseguir más widgets desde la app store"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

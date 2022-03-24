@@ -21,7 +21,7 @@ exports[`CalDavSettings interactions 1`] = `
       </a>
       , or 
       <a
-        :href="userSyncCalendarsUrl"
+        href="https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars"
         rel="noreferrer noopener"
         target="_blank"
       >
@@ -126,7 +126,35 @@ exports[`CalDavSettings interactions 1`] = `
       </em>
     </p>
      
-    <p>
+    <p
+      class="indented"
+    >
+      <input
+        class="checkbox"
+        id="caldavSendEventRemindersToSharedGroupMembers"
+        type="checkbox"
+      />
+       
+      <label
+        for="caldavSendEventRemindersToSharedGroupMembers"
+      >
+        
+			Send reminder notifications to calendar sharees as well
+		
+      </label>
+       
+      <br />
+       
+      <em>
+        
+			Reminders are always sent to organizers and attendees.
+		
+      </em>
+    </p>
+     
+    <p
+      class="indented"
+    >
       <input
         class="checkbox"
         id="caldavSendEventRemindersPush"

@@ -13,6 +13,11 @@ jest.mock('@nextcloud/router', () => {
 		},
 	}
 })
+jest.mock('@nextcloud/initial-state', () => {
+	return {
+		loadState: jest.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
+	}
+})
 
 describe('CalDavSettings', () => {
 	const originalOC = global.OC
@@ -40,6 +45,7 @@ describe('CalDavSettings', () => {
 						sendInvitations: true,
 						generateBirthdayCalendar: true,
 						sendEventReminders: true,
+						sendEventRemindersToSharedGroupMembers: true,
 						sendEventRemindersPush: true,
 					}
 				},
@@ -61,6 +67,10 @@ describe('CalDavSettings', () => {
 			'Send notifications for events'
 		)
 		expect(sendEventReminders).toBeChecked()
+		const sendEventRemindersToSharedGroupMembers = TLUtils.getByLabelText(
+			'Send reminder notifications to calendar sharees as well'
+		)
+		expect(sendEventRemindersToSharedGroupMembers).toBeChecked()
 		const sendEventRemindersPush = TLUtils.getByLabelText(
 			'Enable notifications for events via push'
 		)
@@ -102,7 +112,10 @@ describe('CalDavSettings', () => {
 			'sendEventReminders',
 			'no'
 		)
+
+		expect(sendEventRemindersToSharedGroupMembers).toBeDisabled()
 		expect(sendEventRemindersPush).toBeDisabled()
+
 		OCP.AppConfig.setValue.mockClear()
 		await userEvent.click(sendEventReminders)
 		expect(sendEventReminders).toBeChecked()
@@ -111,6 +124,8 @@ describe('CalDavSettings', () => {
 			'sendEventReminders',
 			'yes'
 		)
+
+		expect(sendEventRemindersToSharedGroupMembers).toBeEnabled()
 		expect(sendEventRemindersPush).toBeEnabled()
 	})
 })

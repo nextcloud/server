@@ -48,35 +48,15 @@ use ScssPhp\ScssPhp\OutputStyle;
 
 class AccessibilityController extends Controller {
 
-	/** @var string */
-	protected $appName;
-
-	/** @var string */
-	protected $serverRoot;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ITimeFactory */
-	protected $timeFactory;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IconsCacher */
-	protected $iconsCacher;
-
-	/** @var \OC_Defaults */
-	private $defaults;
-
-	/** @var null|string */
-	private $injectedVariables;
-
-	/** @var string */
-	private $appRoot;
+	protected string $serverRoot;
+	private IConfig $config;
+	private LoggerInterface $logger;
+	protected ITimeFactory $timeFactory;
+	private IUserSession $userSession;
+	protected IconsCacher $iconsCacher;
+	private \OC_Defaults $defaults;
+	private ?string $injectedVariables = null;
+	private string $appRoot;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -104,8 +84,6 @@ class AccessibilityController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
-	 *
-	 * @return DataDisplayResponse
 	 */
 	public function getCss(): DataDisplayResponse {
 		$css = '';
@@ -186,8 +164,6 @@ class AccessibilityController extends Controller {
 
 	/**
 	 * Return an array with the user theme & font settings
-	 *
-	 * @return array
 	 */
 	private function getUserValues(): array {
 		$userTheme = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false);
@@ -210,10 +186,6 @@ class AccessibilityController extends Controller {
 
 	/**
 	 * Add the correct uri prefix to make uri valid again
-	 *
-	 * @param string $css
-	 * @param string $webDir
-	 * @return string
 	 */
 	private function rebaseUrls(string $css, string $webDir): string {
 		$re = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
@@ -226,9 +198,8 @@ class AccessibilityController extends Controller {
 	 * Remove all matches from the $rule regex
 	 *
 	 * @param string $css string to parse
-	 * @return string
 	 */
-	private function invertSvgIconsColor(string $css) {
+	private function invertSvgIconsColor(string $css): string {
 		return str_replace(
 			['color=000&', 'color=fff&', 'color=***&'],
 			['color=***&', 'color=000&', 'color=fff&'],

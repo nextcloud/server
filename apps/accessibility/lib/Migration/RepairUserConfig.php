@@ -35,17 +35,11 @@ use OCP\Migration\IRepairStep;
 
 class RepairUserConfig implements IRepairStep {
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IConfig */
-	protected $config;
+	protected IUserManager $userManager;
+	protected IConfig $config;
 
 	/**
 	 * MigrateUserConfig constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
 	 */
 	public function __construct(IConfig $config,
 								IUserManager $userManager) {

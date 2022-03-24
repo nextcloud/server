@@ -3924,9 +3924,6 @@
       <code>$maxPreviewImage</code>
       <code>IPreview::EVENT</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>ISimpleFile</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$file-&gt;getId()</code>
       <code>$file-&gt;getId()</code>
@@ -3949,14 +3946,6 @@
       <code>width</code>
       <code>width</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Preview/GeneratorHelper.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>bool|IImage</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$provider-&gt;getThumbnail($file, $maxWidth, $maxHeight)</code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement occurrences="1">

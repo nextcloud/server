@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Dasbor",
     "Dashboard app" : "Aplikasi dasbor",
-    "Show something" : "Tunjukkan sesuatu",
     "Customize" : "Sesuaikan",
     "Edit widgets" : "Edit widget",
     "Get more widgets from the App Store" : "Dapatkan lebih banyak widget dari App Store",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Gambar bawaan",
     "Plain background" : "Latar belakang polos",
     "Insert from {productName}" : "Sisipkan dari {productName}",
+    "Show something" : "Tunjukkan sesuatu",
     "Get more widgets from the app store" : "Dapatkan lebih banyak widget dari app store"
 },
 "nplurals=1; plural=0;");

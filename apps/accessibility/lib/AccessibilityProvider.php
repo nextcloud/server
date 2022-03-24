@@ -33,22 +33,10 @@ use OCP\IURLGenerator;
 
 class AccessibilityProvider {
 
-	/** @var string */
-	protected $appName;
+	protected string $appName;
+	private IURLGenerator $urlGenerator;
+	private IL10N $l;
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IL10N */
-	private $l;
-
-	/**
-	 * Account constructor.
-	 *
-	 * @param string $appName
-	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l
-	 */
 	public function __construct(string $appName,
 								IURLGenerator $urlGenerator,
 								IL10N $l) {
@@ -57,7 +45,10 @@ class AccessibilityProvider {
 		$this->l = $l;
 	}
 
-	public function getThemes() {
+	/**
+	 * @psalm-return array<array-key, array{id: string, img: string, title: string, enableLabel: string, text: string}>
+	 */
+	public function getThemes(): array {
 		return [
 			[
 				'id' => 'dark',
@@ -69,7 +60,10 @@ class AccessibilityProvider {
 		];
 	}
 
-	public function getHighContrast() {
+	/**
+	 * @psalm-return array{id: string, img: string, title: string, enableLabel: string, text: string}
+	 */
+	public function getHighContrast(): array {
 		return [
 			'id' => 'highcontrast',
 			'img' => $this->urlGenerator->imagePath($this->appName, 'mode-highcontrast.jpg'),
@@ -79,7 +73,10 @@ class AccessibilityProvider {
 		];
 	}
 
-	public function getFonts() {
+	/**
+	 * @psalm-return array<array-key, array{id: string, img: string, title: string, enableLabel: string, text: string}>
+	 */
+	public function getFonts(): array {
 		return [
 			[
 				'id' => 'fontdyslexic',

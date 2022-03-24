@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Panou",
     "Dashboard app" : "Panou de bord aplicație",
-    "Show something" : "Arată ceva",
     "Customize" : "Personalizează",
     "Edit widgets" : "Editează widget",
     "Get more widgets from the App Store" : "Obține mai multe widget-uri din App Store",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Imagini implicite",
     "Plain background" : "Fundal simplu",
     "Insert from {productName}" : "Introduce din {productName}",
+    "Show something" : "Arată ceva",
     "Get more widgets from the app store" : "Obține mai multe widgeturi din Magazinul de Aplicații"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

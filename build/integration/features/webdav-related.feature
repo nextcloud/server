@@ -249,7 +249,6 @@ Feature: webdav-related
 			|Content-Disposition|attachment; filename*=UTF-8''welcome.txt; filename="welcome.txt"|
 			|Content-Security-Policy|default-src 'none';|
 			|X-Content-Type-Options |nosniff|
-			|X-Download-Options|noopen|
 			|X-Frame-Options|SAMEORIGIN|
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|none|

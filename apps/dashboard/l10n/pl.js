@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Pulpit",
     "Dashboard app" : "Aplikacja Pulpit",
-    "Show something" : "Pokaż coś",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Rozpocznij dzień z informacjami\n\nPulpit nawigacyjny Nextcloud to Twój punkt początkowy dnia, dając Tobie\nprzegląd nadchodzących spotkań, pilnych wiadomości e-mail, wiadomości\nna czacie, zgłoszeń przychodzących, najnowszych tweetów i wiele więcej!\nUżytkownicy mogą dodawać widżety, które podobają się i zmieniać tło\nwedług własnych upodobań.",
     "Customize" : "Dostosuj",
     "Edit widgets" : "Edytuj widżety",
     "Get more widgets from the App Store" : "Pobierz więcej widżetów ze sklepu z aplikacjami",
@@ -27,6 +27,7 @@ OC.L10N.register(
     "Default images" : "Obrazy domyślne",
     "Plain background" : "Zwykłe tło",
     "Insert from {productName}" : "Wstaw z {productName}",
+    "Show something" : "Pokaż coś",
     "Get more widgets from the app store" : "Pobierz więcej widżetów ze sklepu z aplikacjami"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

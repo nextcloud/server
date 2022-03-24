@@ -44,7 +44,6 @@ Feature: carddav
         |Content-Type|text/vcard; charset=utf-8|
         |Content-Security-Policy|default-src 'none';|
         |X-Content-Type-Options |nosniff|
-        |X-Download-Options|noopen|
         |X-Frame-Options|SAMEORIGIN|
         |X-Permitted-Cross-Domain-Policies|none|
         |X-Robots-Tag|none|
@@ -59,7 +58,6 @@ Feature: carddav
       |Content-Type|image/jpeg|
       |Content-Security-Policy|default-src 'none';|
       |X-Content-Type-Options |nosniff|
-      |X-Download-Options|noopen|
       |X-Frame-Options|SAMEORIGIN|
       |X-Permitted-Cross-Domain-Policies|none|
       |X-Robots-Tag|none|

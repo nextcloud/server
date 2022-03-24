@@ -46,6 +46,7 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
+use OCA\Settings\UserMigration\AccountMigrator;
 use OCA\Settings\WellKnown\SecurityTxtHandler;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -131,6 +132,8 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+
+		$context->registerUserMigrator(AccountMigrator::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Tauler",
     "Dashboard app" : "Aplicació tauler",
-    "Show something" : "Mostra alguna cosa",
     "Customize" : "Personalitza",
     "Edit widgets" : "Edita els ginys",
     "Change background image" : "Canvia la imatge de fons",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Default images" : "Imatges predeterminades",
     "Plain background" : "Fons senzill",
     "Insert from {productName}" : "Insereix des de {productName}",
+    "Show something" : "Mostra alguna cosa",
     "Get more widgets from the app store" : "Obtenir més ginys de la botiga d'aplicacions"
 },
 "nplurals=2; plural=(n != 1);");

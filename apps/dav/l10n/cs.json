@@ -159,6 +159,8 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "A tedy nebudou zpřístupněny ihned po povolení, ale objeví se až se zpožděním.",
     "Send notifications for events" : "Posílat upozornění na události",
     "Notifications are sent via background jobs, so these must occur often enough." : "Upozornění jsou odesílána prostřednictvím úloh na pozadí – proto je třeba, aby tyto probíhaly dostatečně často.",
+    "Send reminder notifications to calendar sharees as well" : "Poslat připomínky také těm, kteří mají tento sdílený kalendář připojený",
+    "Reminders are always sent to organizers and attendees." : "Připomínky jsou vždy poslány organizátorům a účastníkům.",
     "Enable notifications for events via push" : "Upozorňovat na události prostřednictvím služby push",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Také nainstalujte {calendarappstoreopen}aplikaci Kalendář{linkclose}, nebo {calendardocopen}připojte svůj počítač a telefon pro synchronizaci ↗{linkclose}.",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Ověřte, že jste správně nastavili {emailopen}e-mailový server{linkclose}.",

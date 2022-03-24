@@ -153,7 +153,7 @@ OC.L10N.register(
     "No contacts found" : "No s'han trobat contactes",
     "Show all contacts …" : "Mostra tots els contactes…",
     "Install the Contacts app" : "Instal·la l'aplicació Contactes",
-    "Loading your contacts …" : "S'estan carregant els vostres contactes…",
+    "Loading your contacts …" : "S'estan carregant els contactes...",
     "Looking for {term} …" : "S'està cercant {term} …",
     "No" : "No",
     "Yes" : "Sí",
