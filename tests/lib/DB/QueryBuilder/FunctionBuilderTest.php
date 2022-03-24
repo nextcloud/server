@@ -352,6 +352,8 @@ class FunctionBuilderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->octetLength($query->createNamedParameter($str, IQueryBuilder::PARAM_STR)));
+		$query->from('appconfig')
+			->setMaxResults(1);
 
 		$result = $query->execute();
 		$column = $result->fetchOne();
@@ -375,6 +377,8 @@ class FunctionBuilderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->charLength($query->createNamedParameter($str, IQueryBuilder::PARAM_STR)));
+		$query->from('appconfig')
+			->setMaxResults(1);
 
 		$result = $query->execute();
 		$column = $result->fetchOne();
