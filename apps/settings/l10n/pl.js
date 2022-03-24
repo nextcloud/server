@@ -266,6 +266,7 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "Zmień poziom zakresu {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nie można zaktualizować zakresu federacji podstawowego {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Nie można zaktualizować zakresu federacji dodatkowego {accountProperty}",
+    "Add additional email" : "Dodaj dodatkowy e-mail",
     "Add" : "Dodaj",
     "You do not have permissions to see the details of this user" : "Nie masz uprawnień aby zobaczyć informacje o tym użytkowniku",
     "Add new password" : "Dodaj nowe hasło",
