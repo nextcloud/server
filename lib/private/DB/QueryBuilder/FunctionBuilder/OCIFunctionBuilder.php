@@ -72,4 +72,10 @@ class OCIFunctionBuilder extends FunctionBuilder {
 
 		return parent::least($x, $y);
 	}
+
+	public function octetLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTHB(' . $quotedName . ')' . $alias);
+	}
 }
