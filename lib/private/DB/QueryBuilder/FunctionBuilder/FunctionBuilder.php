@@ -94,6 +94,18 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction('COUNT(' . $quotedName . ')' . $alias);
 	}
 
+	public function octetLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTHB(' . $quotedName . ')' . $alias);
+	}
+
+	public function charLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTH(' . $quotedName . ')' . $alias);
+	}
+
 	public function max($field): IQueryFunction {
 		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($field) . ')');
 	}
