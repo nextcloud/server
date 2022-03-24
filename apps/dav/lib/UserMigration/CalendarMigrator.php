@@ -318,6 +318,9 @@ class CalendarMigrator implements IMigrator {
 		return $vCalendarObject;
 	}
 
+	/**
+	 * @throws InvalidCalendarException
+	 */
 	private function importCalendarObject(int $calendarId, VCalendar $vCalendarObject, OutputInterface $output): void {
 		try {
 			$this->calDavBackend->createCalendarObject(
@@ -330,11 +333,12 @@ class CalendarMigrator implements IMigrator {
 			// Rollback creation of calendar on error
 			$output->writeln('Error creating calendar object, rolling back creation of calendar…');
 			$this->calDavBackend->deleteCalendar($calendarId, true);
+			throw new InvalidCalendarException();
 		}
 	}
 
 	/**
-	 * @throws CalendarMigratorException
+	 * @throws InvalidCalendarException
 	 */
 	private function importCalendar(IUser $user, string $filename, string $initialCalendarUri, VCalendar $vCalendar, OutputInterface $output): void {
 		$principalUri = $this->getPrincipalUri($user);
@@ -446,15 +450,19 @@ class CalendarMigrator implements IMigrator {
 			}
 			[$initialCalendarUri, $suffix] = $splitFilename;
 
-			$this->importCalendar(
-				$user,
-				$filename,
-				$initialCalendarUri,
-				$vCalendar,
-				$output,
-			);
-
-			$vCalendar->destroy();
+			try {
+				$this->importCalendar(
+					$user,
+					$filename,
+					$initialCalendarUri,
+					$vCalendar,
+					$output,
+				);
+			} catch (InvalidCalendarException $e) {
+				// Allow this exception to skip a failed import
+			} finally {
+				$vCalendar->destroy();
+			}
 		}
 	}
 }
