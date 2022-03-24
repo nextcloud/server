@@ -134,7 +134,9 @@ class MountProvider implements IMountProvider {
 					],
 					$loader,
 					$view,
-					$foldersExistCache
+					$foldersExistCache,
+					$this->eventDispatcher,
+					$user
 				);
 
 				$event = new ShareMountedEvent($mount);
