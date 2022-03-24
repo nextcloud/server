@@ -27,8 +27,10 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\UserMigration;
 
 use OCA\Files_Trashbin\AppInfo\Application;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
@@ -36,7 +38,6 @@ use OCP\UserMigration\IMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use OCP\UserMigration\UserMigrationException;
 use Symfony\Component\Console\Output\OutputInterface;
-use OCP\IDBConnection;
 
 class TrashbinMigrator implements IMigrator {
 
@@ -67,6 +68,9 @@ class TrashbinMigrator implements IMigrator {
 
 		try {
 			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
+			if (!$trashbinFolder instanceof Folder) {
+				throw new UserMigrationException('Could not export trashbin, /'.$uid.'/files_trashbin is not a folder');
+			}
 			$output->writeln("Exporting trashbin files…");
 			if ($exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER) === false) {
 				throw new UserMigrationException("Could not export trashbin.");
@@ -96,6 +100,9 @@ class TrashbinMigrator implements IMigrator {
 		if ($importSource->pathExists(static::PATH_FILES_FOLDER)) {
 			try {
 				$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
+				if (!$trashbinFolder instanceof Folder) {
+					throw new UserMigrationException('Could not import trashbin, /'.$uid.'/files_trashbin is not a folder');
+				}
 			} catch (NotFoundException $e) {
 				$trashbinFolder = $this->root->newFolder('/'.$uid.'/files_trashbin');
 			}
