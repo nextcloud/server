@@ -52,6 +52,7 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -77,6 +78,7 @@ class SetupManager {
 	private IUserSession $userSession;
 	private ICache $cache;
 	private LoggerInterface $logger;
+	private IConfig $config;
 	private bool $listeningForProviders;
 
 	public function __construct(
@@ -89,7 +91,8 @@ class SetupManager {
 		ILockdownManager $lockdownManager,
 		IUserSession $userSession,
 		ICacheFactory $cacheFactory,
-		LoggerInterface $logger
+		LoggerInterface $logger,
+		IConfig $config
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
@@ -102,6 +105,7 @@ class SetupManager {
 		$this->userSession = $userSession;
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
+		$this->config = $config;
 
 		$this->setupListeners();
 	}
@@ -204,7 +208,7 @@ class SetupManager {
 				return !in_array(get_class($provider), $this->setupUserMountProviders[$user->getUID()]);
 			});
 		});
-		$this->userFullySetup($user);
+		$this->afterUserFullySetup($user);
 	}
 
 	/**
@@ -249,7 +253,10 @@ class SetupManager {
 		$this->listenForNewMountProviders();
 	}
 
-	private function userFullySetup(IUser $user) {
+	/**
+	 * Final housekeeping after a user has been fully setup
+	 */
+	private function afterUserFullySetup(IUser $user): void {
 		$userRoot = '/' . $user->getUID() . '/';
 		$mounts = $this->mountManager->getAll();
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
@@ -348,7 +355,11 @@ class SetupManager {
 		$cachedSetup = $this->cache->get($user->getUID());
 		if (!$cachedSetup) {
 			$this->setupForUser($user);
-			$this->cache->set($user->getUID(), true, 5 * 60);
+
+			$cacheDuration = $this->config->getSystemValueInt('fs_mount_cache_duration', 5 * 60);
+			if ($cacheDuration > 0) {
+				$this->cache->set($user->getUID(), true, $cacheDuration);
+			}
 			return;
 		}
 
@@ -379,7 +390,7 @@ class SetupManager {
 		}
 
 		if ($includeChildren) {
-			$subCachedMounts = $this->userMountCache->getMountsInForPath($user, $path);
+			$subCachedMounts = $this->userMountCache->getMountsInPath($user, $path);
 			foreach ($subCachedMounts as $cachedMount) {
 				if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
 					$setupProviders[] = $cachedMount->getMountProvider();
