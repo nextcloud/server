@@ -297,6 +297,9 @@ export default {
 			&:focus {
 				background-color: var(--color-background-hover);
 			}
+			&:focus {
+				border: 2px solid var(--color-main-text)!important;
+			}
 		}
 	}
 }

@@ -543,11 +543,15 @@ export default {
 	background-color: var(--color-background-translucent);
 	-webkit-backdrop-filter: var(--background-blur);
 	backdrop-filter: var(--background-blur);
+	opacity: 1 !important;
 
 	&:hover,
 	&:focus,
 	&:active {
-		background-color: var(--color-background-hover);
+		background-color: var(--color-background-hover)!important;
+	}
+	&:focus-visible {
+		border: 2px solid var(--color-main-text)!important;
 	}
 }
 
