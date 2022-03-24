@@ -477,7 +477,7 @@ class UserMountCache implements IUserMountCache {
 		throw new NotFoundException("No cached mount for path " . $path);
 	}
 
-	public function getMountsInForPath(IUser $user, string $path): array {
+	public function getMountsInPath(IUser $user, string $path): array {
 		$path = rtrim($path, '/') . '/';
 		$mounts = $this->getMountsForUser($user);
 		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {

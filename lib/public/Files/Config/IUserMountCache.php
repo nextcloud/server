@@ -148,5 +148,5 @@ interface IUserMountCache {
 	 * @throws NotFoundException
 	 * @since 24.0.0
 	 */
-	public function getMountsInForPath(IUser $user, string $path): array;
+	public function getMountsInPath(IUser $user, string $path): array;
 }
