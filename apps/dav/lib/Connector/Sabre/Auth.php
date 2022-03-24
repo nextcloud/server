@@ -235,7 +235,6 @@ class Auth extends AbstractBasic {
 				\OC_User::handleApacheAuth()
 			) {
 				$user = $this->userSession->getUser()->getUID();
-				\OC_Util::setupFS($user);
 				$this->currentUser = $user;
 				$this->session->close();
 				return [true, $this->principalPrefix . $user];

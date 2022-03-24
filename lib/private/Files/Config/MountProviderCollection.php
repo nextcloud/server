@@ -75,16 +75,15 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
-	 * Get all configured mount points for the user
-	 *
-	 * @param \OCP\IUser $user
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @param IUser $user
+	 * @param IMountProvider[] $providers
+	 * @return IMountPoint[]
 	 */
-	public function getMountsForUser(IUser $user) {
+	private function getUserMountsForProviders(IUser $user, array $providers): array {
 		$loader = $this->loader;
 		$mounts = array_map(function (IMountProvider $provider) use ($user, $loader) {
 			return $provider->getMountsForUser($user, $loader);
-		}, $this->providers);
+		}, $providers);
 		$mounts = array_filter($mounts, function ($result) {
 			return is_array($result);
 		});
@@ -94,14 +93,31 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		return $this->filterMounts($user, $mounts);
 	}
 
-	public function addMountForUser(IUser $user, IMountManager $mountManager) {
+	public function getMountsForUser(IUser $user): array {
+		return $this->getUserMountsForProviders($user, $this->providers);
+	}
+
+	public function getUserMountsForProviderClass(IUser $user, string $mountProviderClass): array {
+		$providers = array_filter(
+			$this->providers,
+			fn (IMountProvider $mountProvider) => (get_class($mountProvider) === $mountProviderClass)
+		);
+		return $this->getUserMountsForProviders($user, $providers);
+	}
+
+	public function addMountForUser(IUser $user, IMountManager $mountManager, callable $providerFilter = null) {
 		// shared mount provider gets to go last since it needs to know existing files
 		// to check for name collisions
 		$firstMounts = [];
-		$firstProviders = array_filter($this->providers, function (IMountProvider $provider) {
+		if ($providerFilter) {
+			$providers = array_filter($this->providers, $providerFilter);
+		} else {
+			$providers = $this->providers;
+		}
+		$firstProviders = array_filter($providers, function (IMountProvider $provider) {
 			return (get_class($provider) !== 'OCA\Files_Sharing\MountProvider');
 		});
-		$lastProviders = array_filter($this->providers, function (IMountProvider $provider) {
+		$lastProviders = array_filter($providers, function (IMountProvider $provider) {
 			return (get_class($provider) === 'OCA\Files_Sharing\MountProvider');
 		});
 		foreach ($firstProviders as $provider) {

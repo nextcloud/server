@@ -25,6 +25,8 @@ declare(strict_types=1);
  */
 namespace OC\Files\Node;
 
+use OCP\Constants;
+
 /**
  * Class LazyFolder
  *
@@ -40,13 +42,16 @@ class LazyFolder implements \OCP\Files\Folder {
 	/** @var LazyFolder | null */
 	protected $folder = null;
 
+	protected array $data;
+
 	/**
 	 * LazyFolder constructor.
 	 *
 	 * @param \Closure $folderClosure
 	 */
-	public function __construct(\Closure $folderClosure) {
+	public function __construct(\Closure $folderClosure, array $data = []) {
 		$this->folderClosure = $folderClosure;
+		$this->data = $data;
 	}
 
 	/**
@@ -181,6 +186,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getPath() {
+		if (isset($this->data['path'])) {
+			return $this->data['path'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -230,6 +238,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getPermissions() {
+		if (isset($this->data['permissions'])) {
+			return $this->data['permissions'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -237,6 +248,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isReadable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_READ) == Constants::PERMISSION_READ;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -244,6 +258,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isUpdateable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_UPDATE) == Constants::PERMISSION_UPDATE;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -251,6 +268,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isDeletable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_DELETE) == Constants::PERMISSION_DELETE;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -258,6 +278,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isShareable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_SHARE) == Constants::PERMISSION_SHARE;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

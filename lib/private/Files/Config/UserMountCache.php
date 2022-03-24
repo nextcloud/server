@@ -89,7 +89,7 @@ class UserMountCache implements IUserMountCache {
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
-	public function registerMounts(IUser $user, array $mounts) {
+	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null) {
 		// filter out non-proper storages coming from unit tests
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
 			return $mount instanceof SharedMount || $mount->getStorage() && $mount->getStorage()->getCache();
@@ -110,6 +110,11 @@ class UserMountCache implements IUserMountCache {
 		$newMounts = array_combine($newMountRootIds, $newMounts);
 
 		$cachedMounts = $this->getMountsForUser($user);
+		if (is_array($mountProviderClasses)) {
+			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses) {
+				return in_array($mountInfo->getMountProvider(), $mountProviderClasses);
+			});
+		}
 		$cachedMountRootIds = array_map(function (ICachedMountInfo $mount) {
 			return $mount->getRootId();
 		}, $cachedMounts);
@@ -445,5 +450,40 @@ class UserMountCache implements IUserMountCache {
 	public function clear(): void {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
+	}
+
+	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
+		$mounts = $this->getMountsForUser($user);
+		$mountPoints = array_map(function (ICachedMountInfo $mount) {
+			return $mount->getMountPoint();
+		}, $mounts);
+		$mounts = array_combine($mountPoints, $mounts);
+
+		$current = $path;
+		// walk up the directory tree until we find a path that has a mountpoint set
+		// the loop will return if a mountpoint is found or break if none are found
+		while (true) {
+			$mountPoint = $current . '/';
+			if (isset($mounts[$mountPoint])) {
+				return $mounts[$mountPoint];
+			} elseif ($current === '') {
+				break;
+			}
+
+			$current = dirname($current);
+			if ($current === '.' || $current === '/') {
+				$current = '';
+			}
+		}
+
+		throw new NotFoundException("No cached mount for path " . $path);
+	}
+
+	public function getMountsInPath(IUser $user, string $path): array {
+		$path = rtrim($path, '/') . '/';
+		$mounts = $this->getMountsForUser($user);
+		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {
+			return $mount->getMountPoint() !== $path && strpos($mount->getMountPoint(), $path) === 0;
+		});
 	}
 }

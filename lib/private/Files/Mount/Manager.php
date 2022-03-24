@@ -125,7 +125,7 @@ class Manager implements IMountManager {
 	 * @return IMountPoint[]
 	 */
 	public function findIn(string $path): array {
-		$this->setupManager->setupForPath($path);
+		$this->setupManager->setupForPath($path, true);
 		$path = $this->formatPath($path);
 
 		if (isset($this->inPathCache[$path])) {

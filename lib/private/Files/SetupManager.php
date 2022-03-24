@@ -42,14 +42,23 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
+use OCP\Share\Events\ShareCreatedEvent;
+use Psr\Log\LoggerInterface;
 
 class SetupManager {
 	private bool $rootSetup = false;
@@ -57,11 +66,19 @@ class SetupManager {
 	private MountProviderCollection $mountProviderCollection;
 	private IMountManager $mountManager;
 	private IUserManager $userManager;
+	// List of users for which at least one mount is setup
 	private array $setupUsers = [];
+	// List of users for which all mounts are setup
+	private array $setupUsersComplete = [];
+	/** @var array<string, string[]> */
+	private array $setupUserMountProviders = [];
 	private IEventDispatcher $eventDispatcher;
 	private IUserMountCache $userMountCache;
 	private ILockdownManager $lockdownManager;
 	private IUserSession $userSession;
+	private ICache $cache;
+	private LoggerInterface $logger;
+	private IConfig $config;
 	private bool $listeningForProviders;
 
 	public function __construct(
@@ -72,7 +89,10 @@ class SetupManager {
 		IEventDispatcher $eventDispatcher,
 		IUserMountCache $userMountCache,
 		ILockdownManager $lockdownManager,
-		IUserSession $userSession
+		IUserSession $userSession,
+		ICacheFactory $cacheFactory,
+		LoggerInterface $logger,
+		IConfig $config
 	) {
 		$this->eventLogger = $eventLogger;
 		$this->mountProviderCollection = $mountProviderCollection;
@@ -81,8 +101,21 @@ class SetupManager {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->userMountCache = $userMountCache;
 		$this->lockdownManager = $lockdownManager;
+		$this->logger = $logger;
 		$this->userSession = $userSession;
+		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
+		$this->config = $config;
+
+		$this->setupListeners();
+	}
+
+	private function isSetupStarted(IUser $user): bool {
+		return in_array($user->getUID(), $this->setupUsers, true);
+	}
+
+	public function isSetupComplete(IUser $user): bool {
+		return in_array($user->getUID(), $this->setupUsersComplete, true);
 	}
 
 	private function setupBuiltinWrappers() {
@@ -159,15 +192,33 @@ class SetupManager {
 	 * Setup the full filesystem for the specified user
 	 */
 	public function setupForUser(IUser $user): void {
-		$this->setupRoot();
+		if ($this->isSetupComplete($user)) {
+			return;
+		}
+		$this->setupUsersComplete[] = $user->getUID();
 
+		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
+			$this->setupUserMountProviders[$user->getUID()] = [];
+		}
+
+		$this->setupForUserWith($user, function () use ($user) {
+			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
+				IMountProvider $provider
+			) use ($user) {
+				return !in_array(get_class($provider), $this->setupUserMountProviders[$user->getUID()]);
+			});
+		});
+		$this->afterUserFullySetup($user);
+	}
+
+	/**
+	 * part of the user setup that is run only once per user
+	 */
+	private function oneTimeUserSetup(IUser $user) {
 		if (in_array($user->getUID(), $this->setupUsers, true)) {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
-
-		$this->eventLogger->start('setup_fs', 'Setup filesystem');
-
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user->getUID()]);
@@ -176,7 +227,7 @@ class SetupManager {
 
 		$userDir = '/' . $user->getUID() . '/files';
 
-		Filesystem::init($user, $userDir);
+		Filesystem::initInternal($userDir);
 
 		if ($this->lockdownManager->canAccessFilesystem()) {
 			// home mounts are handled separate since we need to ensure this is mounted before we call the other mount providers
@@ -187,13 +238,6 @@ class SetupManager {
 				$homeMount->getStorage()->mkdir('');
 				$homeMount->getStorage()->getScanner()->scan('');
 			}
-
-			// Chance to mount for other storages
-			$mounts = $this->mountProviderCollection->addMountForUser($user, $this->mountManager);
-			$mounts[] = $homeMount;
-			$this->userMountCache->registerMounts($user, $mounts);
-
-			$this->listenForNewMountProviders();
 		} else {
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),
@@ -203,9 +247,46 @@ class SetupManager {
 				new NullStorage([]),
 				'/' . $user->getUID() . '/files'
 			));
+			$this->setupUsersComplete[] = $user->getUID();
+		}
+
+		$this->listenForNewMountProviders();
+	}
+
+	/**
+	 * Final housekeeping after a user has been fully setup
+	 */
+	private function afterUserFullySetup(IUser $user): void {
+		$userRoot = '/' . $user->getUID() . '/';
+		$mounts = $this->mountManager->getAll();
+		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
+			return strpos($mount->getMountPoint(), $userRoot) === 0;
+		});
+		$this->userMountCache->registerMounts($user, $mounts);
+	}
+
+	/**
+	 * @param IUser $user
+	 * @param IMountPoint $mounts
+	 * @return void
+	 * @throws \OCP\HintException
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	private function setupForUserWith(IUser $user, callable $mountCallback): void {
+		$this->setupRoot();
+
+		if (!$this->isSetupStarted($user)) {
+			$this->oneTimeUserSetup($user);
+		}
+
+		$this->eventLogger->start('setup_fs', 'Setup filesystem');
+
+		if ($this->lockdownManager->canAccessFilesystem()) {
+			$mountCallback();
 		}
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $user->getUID()]);
 
+		$userDir = '/' . $user->getUID() . '/files';
 		OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user->getUID(), 'user_dir' => $userDir]);
 
 		$this->eventLogger->end('setup_fs');
@@ -242,7 +323,7 @@ class SetupManager {
 	/**
 	 * Set up the filesystem for the specified path
 	 */
-	public function setupForPath(string $path): void {
+	public function setupForPath(string $path, bool $includeChildren = false): void {
 		if (substr_count($path, '/') < 2) {
 			if ($user = $this->userSession->getUser()) {
 				$this->setupForUser($user);
@@ -264,11 +345,81 @@ class SetupManager {
 			return;
 		}
 
-		$this->setupForUser($user);
+		if ($this->isSetupComplete($user)) {
+			return;
+		}
+
+		// we perform a "cached" setup only after having done the full setup recently
+		// this is also used to trigger a full setup after handling events that are likely
+		// to change the available mounts
+		$cachedSetup = $this->cache->get($user->getUID());
+		if (!$cachedSetup) {
+			$this->setupForUser($user);
+
+			$cacheDuration = $this->config->getSystemValueInt('fs_mount_cache_duration', 5 * 60);
+			if ($cacheDuration > 0) {
+				$this->cache->set($user->getUID(), true, $cacheDuration);
+			}
+			return;
+		}
+
+		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
+			$this->setupUserMountProviders[$user->getUID()] = [];
+		}
+		$setupProviders = &$this->setupUserMountProviders[$user->getUID()];
+		$currentProviders = [];
+
+		try {
+			$cachedMount = $this->userMountCache->getMountForPath($user, $path);
+		} catch (NotFoundException $e) {
+			$this->setupForUser($user);
+			return;
+		}
+
+		$mounts = [];
+		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
+			$setupProviders[] = $cachedMount->getMountProvider();
+			$currentProviders[] = $cachedMount->getMountProvider();
+			if ($cachedMount->getMountProvider()) {
+				$mounts = $this->mountProviderCollection->getUserMountsForProviderClass($user, $cachedMount->getMountProvider());
+			} else {
+				$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
+				$this->setupForUser($user);
+				return;
+			}
+		}
+
+		if ($includeChildren) {
+			$subCachedMounts = $this->userMountCache->getMountsInPath($user, $path);
+			foreach ($subCachedMounts as $cachedMount) {
+				if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
+					$setupProviders[] = $cachedMount->getMountProvider();
+					$currentProviders[] = $cachedMount->getMountProvider();
+					if ($cachedMount->getMountProvider()) {
+						$mounts = array_merge($mounts, $this->mountProviderCollection->getUserMountsForProviderClass($user, $cachedMount->getMountProvider()));
+					} else {
+						$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
+						$this->setupForUser($user);
+						return;
+					}
+				}
+			}
+		}
+
+		if (count($mounts)) {
+			$this->userMountCache->registerMounts($user, $mounts, $currentProviders);
+			$this->setupForUserWith($user, function () use ($mounts) {
+				array_walk($mounts, [$this->mountManager, 'addMount']);
+			});
+		} elseif (!$this->isSetupStarted($user)) {
+			$this->oneTimeUserSetup($user);
+		}
 	}
 
 	public function tearDown() {
 		$this->setupUsers = [];
+		$this->setupUsersComplete = [];
+		$this->setupUserMountProviders = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
 		$this->eventDispatcher->dispatchTyped(new FilesystemTornDownEvent());
@@ -280,7 +431,9 @@ class SetupManager {
 	private function listenForNewMountProviders() {
 		if (!$this->listeningForProviders) {
 			$this->listeningForProviders = true;
-			$this->mountProviderCollection->listen('\OC\Files\Config', 'registerMountProvider', function (IMountProvider $provider) {
+			$this->mountProviderCollection->listen('\OC\Files\Config', 'registerMountProvider', function (
+				IMountProvider $provider
+			) {
 				foreach ($this->setupUsers as $userId) {
 					$user = $this->userManager->get($userId);
 					if ($user) {
@@ -288,6 +441,42 @@ class SetupManager {
 						array_walk($mounts, [$this->mountManager, 'addMount']);
 					}
 				}
+			});
+		}
+	}
+
+	private function setupListeners() {
+		// note that this event handling is intentionally pessimistic
+		// clearing the cache to often is better than not enough
+
+		$this->eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event) {
+			$this->cache->remove($event->getUser()->getUID());
+		});
+		$this->eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) {
+			$this->cache->remove($event->getUser()->getUID());
+		});
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+			$this->cache->remove($event->getShare()->getSharedWith());
+		});
+		$this->eventDispatcher->addListener(InvalidateMountCacheEvent::class, function (InvalidateMountCacheEvent $event
+		) {
+			if ($user = $event->getUser()) {
+				$this->cache->remove($user->getUID());
+			} else {
+				$this->cache->clear();
+			}
+		});
+
+		$genericEvents = [
+			'\OCA\Circles::onCircleCreation',
+			'\OCA\Circles::onCircleDestruction',
+			'\OCA\Circles::onMemberNew',
+			'\OCA\Circles::onMemberLeaving',
+		];
+
+		foreach ($genericEvents as $genericEvent) {
+			$this->eventDispatcher->addListener($genericEvent, function ($event) {
+				$this->cache->clear();
 			});
 		}
 	}

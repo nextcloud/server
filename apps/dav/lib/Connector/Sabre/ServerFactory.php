@@ -31,7 +31,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\Node\Folder;
+use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\Files\Mount\IMountManager;
