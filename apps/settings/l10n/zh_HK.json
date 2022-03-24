@@ -264,6 +264,7 @@
     "Change scope level of {accountProperty}" : "更改 {accountProperty} 的範圍",
     "Unable to update federation scope of the primary {accountProperty}" : "無法更新主要 {accountProperty} 的聯盟範圍",
     "Unable to update federation scope of additional {accountProperty}" : "無法更新額外 {accountProperty} 的聯盟範圍",
+    "Add additional email" : "添加額外電郵地址",
     "Add" : "新增",
     "You do not have permissions to see the details of this user" : "您沒有檢視此用戶詳細資料的權限",
     "Add new password" : "新增密碼",
