@@ -79,7 +79,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @param IMountProvider[] $providers
 	 * @return IMountPoint[]
 	 */
-	private function getMountsForFromProviders(IUser $user, array $providers): array {
+ 	private function getUserMountsForProviders(IUser $user, array $providers): array {
 		$loader = $this->loader;
 		$mounts = array_map(function (IMountProvider $provider) use ($user, $loader) {
 			return $provider->getMountsForUser($user, $loader);
@@ -94,14 +94,15 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	public function getMountsForUser(IUser $user): array {
-		return $this->getMountsForFromProviders($user, $this->providers);
+		return $this->getUserMountsForProviders($user, $this->providers);
 	}
 
-	public function getMountsFromProvider(IUser $user, string $mountProviderClass): array {
-		$providers = array_filter($this->providers, function (IMountProvider $mountProvider) use ($mountProviderClass) {
-			return get_class($mountProvider) === $mountProviderClass;
-		});
-		return $this->getMountsForFromProviders($user, $providers);
+ 	public function getUserMountsForProviderClass(IUser $user, string $mountProviderClass): array {
+		$providers = array_filter(
+			$this->providers,
+			fn (IMountProvider $mountProvider) => (get_class($mountProvider) === $mountProviderClass)
+		);
+		return $this->getUserMountsForProviders($user, $providers);
 	}
 
 	public function addMountForUser(IUser $user, IMountManager $mountManager, callable $providerFilter = null) {

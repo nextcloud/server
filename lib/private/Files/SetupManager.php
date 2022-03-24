@@ -381,7 +381,7 @@ class SetupManager {
 			$setupProviders[] = $cachedMount->getMountProvider();
 			$currentProviders[] = $cachedMount->getMountProvider();
 			if ($cachedMount->getMountProvider()) {
-				$mounts = $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider());
+				$mounts = $this->mountProviderCollection->getUserMountsForProviderClass($user, $cachedMount->getMountProvider());
 			} else {
 				$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
 				$this->setupForUser($user);
@@ -396,7 +396,7 @@ class SetupManager {
 					$setupProviders[] = $cachedMount->getMountProvider();
 					$currentProviders[] = $cachedMount->getMountProvider();
 					if ($cachedMount->getMountProvider()) {
-						$mounts = array_merge($mounts, $this->mountProviderCollection->getMountsFromProvider($user, $cachedMount->getMountProvider()));
+						$mounts = array_merge($mounts, $this->mountProviderCollection->getUserMountsForProviderClass($user, $cachedMount->getMountProvider()));
 					} else {
 						$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
 						$this->setupForUser($user);

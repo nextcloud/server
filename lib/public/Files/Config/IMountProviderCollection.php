@@ -46,7 +46,7 @@ interface IMountProviderCollection {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 * @since 24.0.0
 	 */
-	public function getMountsFromProvider(IUser $user, string $mountProviderClass);
+	public function getUserMountsForProviderClass(IUser $user, string $mountProviderClass);
 
 	/**
 	 * Get the configured home mount for this user

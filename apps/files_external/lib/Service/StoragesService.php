@@ -349,7 +349,7 @@ abstract class StoragesService {
 	 * @param string $mountType hook mount type param
 	 * @param array $applicableArray array of applicable users/groups for which to trigger the hook
 	 */
-	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray) {
+	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray): void {
 		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 		foreach ($applicableArray as $applicable) {
 			\OCP\Util::emitHook(
