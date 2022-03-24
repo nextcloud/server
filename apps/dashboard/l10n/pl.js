@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Pulpit",
     "Dashboard app" : "Aplikacja Pulpit",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Rozpocznij dzień z informacjami\n\nPulpit nawigacyjny Nextcloud to Twój punkt początkowy dnia, dając Tobie\nprzegląd nadchodzących spotkań, pilnych wiadomości e-mail, wiadomości\nna czacie, zgłoszeń przychodzących, najnowszych tweetów i wiele więcej!\nUżytkownicy mogą dodawać widżety, które podobają się i zmieniać tło\nwedług własnych upodobań.",
     "Customize" : "Dostosuj",
     "Edit widgets" : "Edytuj widżety",
     "Get more widgets from the App Store" : "Pobierz więcej widżetów ze sklepu z aplikacjami",

@@ -266,6 +266,7 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "{accountProperty} kapsam düzeyini değiştir",
     "Unable to update federation scope of the primary {accountProperty}" : "Birincil {accountProperty} birleşik kapsamı güncellenemedi",
     "Unable to update federation scope of additional {accountProperty}" : "Ek {accountProperty} birleşik kapsamı güncellenemedi",
+    "Add additional email" : "Ek e-posta adresi ekle",
     "Add" : "Ekle",
     "You do not have permissions to see the details of this user" : "Bu kullanıcının ayrıntılarını görüntüleme izniniz yok",
     "Add new password" : "Yeni parola ekle",
