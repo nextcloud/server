@@ -837,6 +837,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Command\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Command/FileAccess.php',
         'OC\\Command\\QueueBus' => __DIR__ . '/../../..' . '/lib/private/Command/QueueBus.php',
         'OC\\Comments\\Comment' => __DIR__ . '/../../..' . '/lib/private/Comments/Comment.php',
+        'OC\\Comments\\EmojiHelper' => __DIR__ . '/../../..' . '/lib/private/Comments/EmojiHelper.php',
         'OC\\Comments\\Manager' => __DIR__ . '/../../..' . '/lib/private/Comments/Manager.php',
         'OC\\Comments\\ManagerFactory' => __DIR__ . '/../../..' . '/lib/private/Comments/ManagerFactory.php',
         'OC\\Config' => __DIR__ . '/../../..' . '/lib/private/Config.php',
