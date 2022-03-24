@@ -35,8 +35,7 @@ use OCP\EventDispatcher\IEventListener;
  * @template-implements IEventListener<CardUpdatedEvent|CardDeletedEvent>
  */
 class ClearPhotoCacheListener implements IEventListener {
-	/** @var PhotoCache */
-	private $photoCache;
+	private PhotoCache $photoCache;
 
 	public function __construct(PhotoCache $photoCache) {
 		$this->photoCache = $photoCache;

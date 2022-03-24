@@ -46,18 +46,14 @@ class Invite implements XmlSerializable {
 
 	/**
 	 * The list of users a calendar has been shared to.
-	 *
-	 * @var array
 	 */
-	protected $users;
+	protected array $users;
 
 	/**
 	 * The organizer contains information about the person who shared the
 	 * object.
-	 *
-	 * @var array|null
 	 */
-	protected $organizer;
+	protected ?array $organizer;
 
 	/**
 	 * Creates the property.
@@ -82,8 +78,6 @@ class Invite implements XmlSerializable {
 	 *
 	 * If you wonder why these two structures are so different, I guess a
 	 * valid answer is that the current spec is still a draft.
-	 *
-	 * @param array $users
 	 */
 	public function __construct(array $users, array $organizer = null) {
 		$this->users = $users;

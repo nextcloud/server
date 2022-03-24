@@ -46,7 +46,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchProperties = [
+	private static array $searchProperties = [
 		'SUMMARY',
 		'LOCATION',
 		'DESCRIPTION',
@@ -58,7 +58,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchParameters = [
+	private static array $searchParameters = [
 		'ATTENDEE' => ['CN'],
 		'ORGANIZER' => ['CN'],
 	];
@@ -66,7 +66,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string
 	 */
-	private static $componentType = 'VEVENT';
+	private static string $componentType = 'VEVENT';
 
 	/**
 	 * @inheritDoc

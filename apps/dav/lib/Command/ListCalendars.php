@@ -35,17 +35,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCalendars extends Command {
+	protected IUserManager $userManager;
+	private CalDavBackend $caldav;
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var CalDavBackend */
-	private $caldav;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param CalDavBackend $caldav
-	 */
 	public function __construct(IUserManager $userManager, CalDavBackend $caldav) {
 		parent::__construct();
 		$this->userManager = $userManager;

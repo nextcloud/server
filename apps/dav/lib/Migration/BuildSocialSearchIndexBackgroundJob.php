@@ -22,7 +22,7 @@
  */
 namespace OCA\DAV\Migration;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\QueuedJob;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
@@ -30,21 +30,10 @@ use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var CardDavBackend */
-	private $davBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
+	private IDBConnection $db;
+	private CardDavBackend $davBackend;
+	private LoggerInterface $logger;
+	private IJobList $jobList;
 
 	/**
 	 * @param IDBConnection $db
@@ -62,12 +51,12 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		$this->davBackend = $davBackend;
 		$this->logger = $logger;
 		$this->jobList = $jobList;
-		$this->timeFactory = $timeFactory;
+		parent::__construct($timeFactory);
 	}
 
-	public function run($arguments) {
-		$offset = $arguments['offset'];
-		$stopAt = $arguments['stopAt'];
+	public function run($argument) {
+		$offset = $argument['offset'];
+		$stopAt = $argument['stopAt'];
 
 		$this->logger->info('Indexing social profile data (' . $offset .'/' . $stopAt . ')');
 
@@ -84,13 +73,8 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		}
 	}
 
-	/**
-	 * @param int $offset
-	 * @param int $stopAt
-	 * @return int
-	 */
-	private function buildIndex($offset, $stopAt) {
-		$startTime = $this->timeFactory->getTime();
+	private function buildIndex(int $offset, int $stopAt): int {
+		$startTime = $this->time->getTime();
 
 		// get contacts with social profiles
 		$query = $this->db->getQueryBuilder();
@@ -99,7 +83,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 			->orderBy('id', 'ASC')
 			->where($query->expr()->like('carddata', $query->createNamedParameter('%SOCIALPROFILE%')))
 			->setMaxResults(100);
-		$social_cards = $query->execute()->fetchAll();
+		$social_cards = $query->executeQuery()->fetchAll();
 
 		if (empty($social_cards)) {
 			return $stopAt;
@@ -111,7 +95,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 			$this->davBackend->updateCard($contact['addressbookid'], $contact['uri'], $contact['carddata']);
 
 			// stop after 15sec (to be continued with next chunk)
-			if (($this->timeFactory->getTime() - $startTime) > 15) {
+			if (($this->time->getTime() - $startTime) > 15) {
 				break;
 			}
 		}

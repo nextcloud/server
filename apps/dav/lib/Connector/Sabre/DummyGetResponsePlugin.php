@@ -63,7 +63,7 @@ class DummyGetResponsePlugin extends ServerPlugin {
 	public function httpGet(RequestInterface $request, ResponseInterface $response): bool {
 		$string = 'This is the WebDAV interface. It can only be accessed by ' .
 			'WebDAV clients such as the Nextcloud desktop sync client.';
-		$stream = fopen('php://memory','r+');
+		$stream = fopen('php://memory', 'r+');
 		fwrite($stream, $string);
 		rewind($stream);
 

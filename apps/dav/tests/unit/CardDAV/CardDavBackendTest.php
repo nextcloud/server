@@ -617,8 +617,8 @@ class CardDavBackendTest extends TestCase {
 		$qResult->closeCursor();
 
 		$this->assertCount(1, $result);
-		$this->assertSame(1 ,(int)$result[0]['addressbookid']);
-		$this->assertSame(2 ,(int)$result[0]['cardid']);
+		$this->assertSame(1, (int)$result[0]['addressbookid']);
+		$this->assertSame(2, (int)$result[0]['cardid']);
 	}
 
 	/**

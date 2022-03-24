@@ -29,6 +29,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropPatch;
 
@@ -43,23 +44,12 @@ use Sabre\DAV\PropPatch;
 class EntityCollection extends RootCollection implements IProperties {
 	public const PROPERTY_NAME_READ_MARKER = '{http://owncloud.org/ns}readMarker';
 
-	/** @var  string */
-	protected $id;
+	protected string $id;
+	protected LoggerInterface $logger;
 
-	/** @var  LoggerInterface */
-	protected $logger;
-
-	/**
-	 * @param string $id
-	 * @param string $name
-	 * @param ICommentsManager $commentsManager
-	 * @param IUserManager $userManager
-	 * @param IUserSession $userSession
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
-		$id,
-		$name,
+		string $id,
+		string $name,
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
@@ -84,7 +74,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 *
 	 * @return string
 	 */
-	public function getId() {
+	public function getId(): string {
 		return $this->id;
 	}
 
@@ -95,7 +85,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * exist.
 	 *
 	 * @param string $name
-	 * @return \Sabre\DAV\INode
+	 * @return INode
 	 * @throws NotFound
 	 */
 	public function getChild($name) {
@@ -116,9 +106,9 @@ class EntityCollection extends RootCollection implements IProperties {
 	/**
 	 * Returns an array with all the child nodes
 	 *
-	 * @return \Sabre\DAV\INode[]
+	 * @return INode[]
 	 */
-	public function getChildren() {
+	public function getChildren(): array {
 		return $this->findChildren();
 	}
 
@@ -131,7 +121,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param \DateTime|null $datetime
 	 * @return CommentNode[]
 	 */
-	public function findChildren($limit = 0, $offset = 0, \DateTime $datetime = null) {
+	public function findChildren(int $limit = 0, int $offset = 0, ?\DateTime $datetime = null): array {
 		$comments = $this->commentsManager->getForObject($this->name, $this->id, $limit, $offset, $datetime);
 		$result = [];
 		foreach ($comments as $comment) {
@@ -148,11 +138,8 @@ class EntityCollection extends RootCollection implements IProperties {
 
 	/**
 	 * Checks if a child-node with the specified name exists
-	 *
-	 * @param string $name
-	 * @return bool
 	 */
-	public function childExists($name) {
+	public function childExists(string $name): bool {
 		try {
 			$this->commentsManager->get($name);
 			return true;
@@ -163,11 +150,8 @@ class EntityCollection extends RootCollection implements IProperties {
 
 	/**
 	 * Sets the read marker to the specified date for the logged in user
-	 *
-	 * @param \DateTime $value
-	 * @return bool
 	 */
-	public function setReadMarker($value) {
+	public function setReadMarker(\DateTime $value): bool {
 		$dateTime = new \DateTime($value);
 		$user = $this->userSession->getUser();
 		$this->commentsManager->setReadMark($this->name, $this->id, $dateTime, $user);

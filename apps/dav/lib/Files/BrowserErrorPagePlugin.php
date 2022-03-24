@@ -33,8 +33,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class BrowserErrorPagePlugin extends ServerPlugin {
-	/** @var Server */
-	private $server;
+	private Server $server;
 
 	/**
 	 * This initializes the plugin.
@@ -56,7 +55,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 	 * @param IRequest $request
 	 * @return bool
 	 */
-	public static function isBrowserRequest(IRequest $request) {
+	public static function isBrowserRequest(IRequest $request): bool {
 		if ($request->getMethod() !== 'GET') {
 			return false;
 		}
@@ -91,9 +90,8 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 
 	/**
 	 * @codeCoverageIgnore
-	 * @return bool|string
 	 */
-	public function generateBody(int $httpCode) {
+	public function generateBody(int $httpCode): string {
 		$request = \OC::$server->get(IRequest::class);
 
 		$templateName = 'exception';

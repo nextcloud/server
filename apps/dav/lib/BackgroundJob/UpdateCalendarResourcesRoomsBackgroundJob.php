@@ -41,7 +41,6 @@ use OCP\Calendar\Room\IRoom;
 use OCP\IDBConnection;
 
 class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
-
 	private IResourceManager $resourceManager;
 	private IRoomManager $roomManager;
 	private IDBConnection $dbConnection;

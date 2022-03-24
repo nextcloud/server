@@ -37,18 +37,10 @@ use Sabre\CardDAV\Plugin;
 use Sabre\VObject\Reader;
 
 class Backend {
-
-	/** @var IActivityManager */
-	protected $activityManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IAppManager */
-	protected $appManager;
+	protected IActivityManager $activityManager;
+	protected IGroupManager $groupManager;
+	protected IUserSession $userSession;
+	protected IAppManager $appManager;
 
 	public function __construct(IActivityManager $activityManager,
 								IGroupManager $groupManager,

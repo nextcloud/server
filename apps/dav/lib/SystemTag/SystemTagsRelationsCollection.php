@@ -36,16 +36,6 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\SimpleCollection;
 
 class SystemTagsRelationsCollection extends SimpleCollection {
-
-	/**
-	 * SystemTagsRelationsCollection constructor.
-	 *
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param IEventDispatcher $dispatcher
-	 */
 	public function __construct(
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,

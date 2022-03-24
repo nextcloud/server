@@ -34,26 +34,12 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarObjectCreatedEvent extends Event {
-
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var array */
-	private $shares;
-
-	/** @var array */
-	private $objectData;
+	private int $calendarId;
+	private array $calendarData;
+	private array $shares;
+	private array $objectData;
 
 	/**
-	 * CalendarObjectCreatedEvent constructor.
-	 *
-	 * @param int $calendarId
-	 * @param array $calendarData
-	 * @param array $shares
-	 * @param array $objectData
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,

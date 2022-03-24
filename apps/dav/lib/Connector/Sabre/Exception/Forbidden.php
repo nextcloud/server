@@ -54,11 +54,11 @@ class Forbidden extends \Sabre\DAV\Exception\Forbidden {
 		$errorNode->setAttribute('xmlns:o', self::NS_OWNCLOUD);
 
 		// adding the retry node
-		$error = $errorNode->ownerDocument->createElementNS('o:','o:retry', var_export($this->retry, true));
+		$error = $errorNode->ownerDocument->createElementNS('o:', 'o:retry', var_export($this->retry, true));
 		$errorNode->appendChild($error);
 
 		// adding the message node
-		$error = $errorNode->ownerDocument->createElementNS('o:','o:reason', $this->getMessage());
+		$error = $errorNode->ownerDocument->createElementNS('o:', 'o:reason', $this->getMessage());
 		$errorNode->appendChild($error);
 	}
 }

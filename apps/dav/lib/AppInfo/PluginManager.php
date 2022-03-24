@@ -45,7 +45,6 @@ use function is_array;
  * to the Sabre server.
  */
 class PluginManager {
-
 	private ServerContainer $container;
 	private IAppManager $appManager;
 

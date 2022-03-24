@@ -32,17 +32,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var int */
-	private $progress = 0;
-
-	/** @var int[] */
-	private $orphanSubscriptionIds = [];
+	private IDBConnection $connection;
+	private IUserManager $userManager;
+	private int $progress = 0;
+	private array $orphanSubscriptionIds = [];
 
 	private const SUBSCRIPTIONS_CHUNK_SIZE = 1000;
 

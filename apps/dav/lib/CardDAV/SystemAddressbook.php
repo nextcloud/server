@@ -32,15 +32,14 @@ use OCP\IL10N;
 use Sabre\CardDAV\Backend\BackendInterface;
 
 class SystemAddressbook extends AddressBook {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
 	public function __construct(BackendInterface $carddavBackend, array $addressBookInfo, IL10N $l10n, IConfig $config) {
 		parent::__construct($carddavBackend, $addressBookInfo, $l10n);
 		$this->config = $config;
 	}
 
-	public function getChildren() {
+	public function getChildren(): array {
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';

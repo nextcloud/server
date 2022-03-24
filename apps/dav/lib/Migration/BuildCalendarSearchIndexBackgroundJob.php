@@ -23,7 +23,7 @@
  */
 namespace OCA\DAV\Migration;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\QueuedJob;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
@@ -31,21 +31,10 @@ use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
+	private IDBConnection $db;
+	private CalDavBackend $calDavBackend;
+	private LoggerInterface $logger;
+	private IJobList $jobList;
 
 	/**
 	 * @param IDBConnection $db
@@ -63,17 +52,17 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 		$this->calDavBackend = $calDavBackend;
 		$this->logger = $logger;
 		$this->jobList = $jobList;
-		$this->timeFactory = $timeFactory;
+		parent::__construct($timeFactory);
 	}
 
-	public function run($arguments) {
-		$offset = (int) $arguments['offset'];
-		$stopAt = (int) $arguments['stopAt'];
+	public function run($argument) {
+		$offset = (int) $argument['offset'];
+		$stopAt = (int) $argument['stopAt'];
 
 		$this->logger->info('Building calendar index (' . $offset .'/' . $stopAt . ')');
 
-		$startTime = $this->timeFactory->getTime();
-		while (($this->timeFactory->getTime() - $startTime) < 15) {
+		$startTime = $this->time->getTime();
+		while (($this->time->getTime() - $startTime) < 15) {
 			$offset = $this->buildIndex($offset, $stopAt);
 			if ($offset >= $stopAt) {
 				break;
@@ -91,11 +80,6 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 		}
 	}
 
-	/**
-	 * @param int $offset
-	 * @param int $stopAt
-	 * @return int
-	 */
 	private function buildIndex(int $offset, int $stopAt): int {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'calendarid', 'uri', 'calendardata'])

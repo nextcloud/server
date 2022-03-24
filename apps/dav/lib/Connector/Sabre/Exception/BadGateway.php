@@ -21,20 +21,22 @@
  */
 namespace OCA\DAV\Connector\Sabre\Exception;
 
+use Sabre\DAV\Exception;
+
 /**
  * Bad Gateway
  *
  * This exception is thrown whenever the server, while acting as a gateway or proxy, received an invalid response from the upstream server.
  *
  */
-class BadGateway extends \Sabre\DAV\Exception {
+class BadGateway extends Exception {
 
 	/**
 	 * Returns the HTTP status code for this exception
 	 *
 	 * @return int
 	 */
-	public function getHTTPCode() {
+	public function getHTTPCode(): int {
 		return 502;
 	}
 }

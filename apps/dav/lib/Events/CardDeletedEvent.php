@@ -34,26 +34,12 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CardDeletedEvent extends Event {
-
-	/** @var int */
-	private $addressBookId;
-
-	/** @var array */
-	private $addressBookData;
-
-	/** @var array */
-	private $shares;
-
-	/** @var array */
-	private $cardData;
+	private int $addressBookId;
+	private array $addressBookData;
+	private array $shares;
+	private array $cardData;
 
 	/**
-	 * CardDeletedEvent constructor.
-	 *
-	 * @param int $addressBookId
-	 * @param array $addressBookData
-	 * @param array $shares
-	 * @param array $cardData
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,

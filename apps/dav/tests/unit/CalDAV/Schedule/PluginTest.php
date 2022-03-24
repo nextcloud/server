@@ -346,7 +346,7 @@ class PluginTest extends TestCase {
 
 	// https://stackoverflow.com/a/56763373/10204399
 	protected function generate(array $yield_values): ReturnCallback {
-		return $this->returnCallback(function() use ($yield_values) {
+		return $this->returnCallback(function () use ($yield_values) {
 			foreach ($yield_values as $value) {
 				yield $value;
 			}

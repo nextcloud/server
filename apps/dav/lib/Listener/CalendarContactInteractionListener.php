@@ -52,20 +52,11 @@ use function substr;
 class CalendarContactInteractionListener implements IEventListener {
 	private const URI_USERS = 'principals/users/';
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var Principal */
-	private $principalConnector;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IEventDispatcher $dispatcher;
+	private IUserSession $userSession;
+	private Principal $principalConnector;
+	private IMailer $mailer;
+	private LoggerInterface $logger;
 
 	public function __construct(IEventDispatcher $dispatcher,
 								IUserSession $userSession,

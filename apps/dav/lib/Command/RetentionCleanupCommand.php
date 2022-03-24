@@ -31,8 +31,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionCleanupCommand extends Command {
-	/** @var RetentionService */
-	private $service;
+	private RetentionService $service;
 
 	public function __construct(RetentionService $service) {
 		parent::__construct('dav:retention:clean-up');

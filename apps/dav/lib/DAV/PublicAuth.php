@@ -29,7 +29,7 @@ use Sabre\HTTP\ResponseInterface;
 class PublicAuth implements BackendInterface {
 
 	/** @var string[] */
-	private $publicURLs;
+	private array $publicURLs;
 
 	public function __construct() {
 		$this->publicURLs = [

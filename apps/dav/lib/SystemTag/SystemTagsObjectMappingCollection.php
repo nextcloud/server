@@ -40,33 +40,11 @@ use Sabre\DAV\ICollection;
  * Collection containing tags by object id
  */
 class SystemTagsObjectMappingCollection implements ICollection {
-
-	/**
-	 * @var string
-	 */
-	private $objectId;
-
-	/**
-	 * @var string
-	 */
-	private $objectType;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	private $user;
+	private string $objectId;
+	private string $objectType;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IUser $user;
 
 
 	/**
@@ -79,8 +57,8 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 * @param ISystemTagObjectMapper $tagMapper tag mapper
 	 */
 	public function __construct(
-		$objectId,
-		$objectType,
+		string $objectId,
+		string $objectType,
 		IUser $user,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper
@@ -185,7 +163,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 *
 	 * @return int
 	 */
-	public function getLastModified() {
+	public function getLastModified(): ?int {
 		return null;
 	}
 
@@ -197,7 +175,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 *
 	 * @return SystemTagMappingNode
 	 */
-	private function makeNode(ISystemTag $tag) {
+	private function makeNode(ISystemTag $tag): SystemTagMappingNode {
 		return new SystemTagMappingNode(
 			$tag,
 			$this->objectId,

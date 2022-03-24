@@ -42,41 +42,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MoveCalendar extends Command {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IConfig $config */
-	private $config;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var SymfonyStyle */
-	private $io;
-
-	/** @var CalDavBackend */
-	private $calDav;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IUserManager $userManager;
+	private IGroupManager $groupManager;
+	private IShareManager $shareManager;
+	private IConfig $config;
+	private IL10N $l10n;
+	private SymfonyStyle $io;
+	private CalDavBackend $calDav;
+	private LoggerInterface $logger;
 
 	public const URI_USERS = 'principals/users/';
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IShareManager $shareManager
-	 * @param IConfig $config
-	 * @param IL10N $l10n
-	 * @param CalDavBackend $calDav
-	 */
 	public function __construct(
 		IUserManager $userManager,
 		IGroupManager $groupManager,

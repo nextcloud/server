@@ -32,15 +32,10 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class MultiGetExportPlugin extends DAV\ServerPlugin {
-
-	/** @var Server */
-	protected $server;
+	protected Server $server;
 
 	/**
 	 * Initializes the plugin and registers event handlers
-	 *
-	 * @param Server $server
-	 * @return void
 	 */
 	public function initialize(Server $server) {
 		$this->server = $server;

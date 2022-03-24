@@ -134,11 +134,11 @@ class FileTest extends TestCase {
 	}
 
 	/**
-<<<<<<< HEAD
+	 * <<<<<<< HEAD
 	 * @return MockObject|IStorage
-=======
+	 * =======
 	 * @return Storage|IStorage|MockObject
->>>>>>> 23922574b5 (Improve tests)
+	 * >>>>>>> 23922574b5 (Improve tests)
 	 */
 	private function getMockStorage() {
 		$storage = $this->createMock(IStorage::class);

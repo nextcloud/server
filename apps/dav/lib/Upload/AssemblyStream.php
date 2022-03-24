@@ -28,6 +28,7 @@
  */
 namespace OCA\DAV\Upload;
 
+use Icewind\Streams\File;
 use Sabre\DAV\IFile;
 
 /**
@@ -39,28 +40,21 @@ use Sabre\DAV\IFile;
  *
  * @package OCA\DAV\Upload
  */
-class AssemblyStream implements \Icewind\Streams\File {
+class AssemblyStream implements File {
 
 	/** @var resource */
 	private $context;
 
 	/** @var IFile[] */
-	private $nodes;
+	private array $nodes;
 
-	/** @var int */
-	private $pos = 0;
-
-	/** @var int */
-	private $size = 0;
+	private int $pos = 0;
+	private int $size = 0;
 
 	/** @var resource */
 	private $currentStream = null;
-
-	/** @var int */
-	private $currentNode = 0;
-
-	/** @var int */
-	private $currentNodeRead = 0;
+	private int $currentNode = 0;
+	private int $currentNodeRead = 0;
 
 	/**
 	 * @param string $path
@@ -69,7 +63,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param string &$opened_path
 	 * @return bool
 	 */
-	public function stream_open($path, $mode, $options, &$opened_path) {
+	public function stream_open($path, $mode, $options, &$opened_path): bool {
 		$this->loadContext('assembly');
 
 		$nodes = $this->nodes;

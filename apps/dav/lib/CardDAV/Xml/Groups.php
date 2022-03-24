@@ -32,10 +32,7 @@ class Groups implements XmlSerializable {
 	/** @var string[] of TYPE:CHECKSUM */
 	private $groups;
 
-	/**
-	 * @param string $groups
-	 */
-	public function __construct($groups) {
+	public function __construct(string $groups) {
 		$this->groups = $groups;
 	}
 

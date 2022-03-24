@@ -44,36 +44,16 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<UserCreatedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserChangedEvent>
  */
 class UserChangeListener implements IEventListener {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var CardDavBackend */
-	private $cardDavBackend;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var SyncService */
-	private $syncService;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IUser[] */
-	private $usersToDelete = [];
-
-	/** @var array */
-	private $calendarsToDelete = [];
-
-	/** @var array */
-	private $subscriptionsToDelete = [];
-
-	/** @var array */
-	private $addressBooksToDelete = [];
+	private IUserManager $userManager;
+	private CalDavBackend $calDavBackend;
+	private CardDavBackend $cardDavBackend;
+	private Defaults $defaults;
+	private SyncService $syncService;
+	private LoggerInterface $logger;
+	private array $usersToDelete = [];
+	private array $calendarsToDelete = [];
+	private array $subscriptionsToDelete = [];
+	private array $addressBooksToDelete = [];
 
 	private const USERS_PRINCIPAL_PREFIX = 'principals/users/';
 

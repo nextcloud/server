@@ -39,22 +39,12 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class DirectHome implements ICollection {
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var DirectMapper */
-	private $mapper;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var Throttler */
-	private $throttler;
-
-	/** @var IRequest */
-	private $request;
-	private $eventDispatcher;
+	private IRootFolder $rootFolder;
+	private DirectMapper $mapper;
+	private ITimeFactory $timeFactory;
+	private Throttler $throttler;
+	private IRequest $request;
+	private IEventDispatcher $eventDispatcher;
 
 	public function __construct(
 		IRootFolder $rootFolder,

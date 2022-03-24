@@ -28,7 +28,6 @@
  */
 namespace OCA\DAV\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -38,35 +37,16 @@ use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
 use Sabre\HTTP\ClientHttpException;
 use Sabre\VObject\Reader;
+use Sabre\Xml\ParseException;
 
 class SyncService {
+	private CardDavBackend $backend;
+	private IUserManager $userManager;
+	private LoggerInterface $logger;
+	private array $localSystemAddressBook;
+	private Converter $converter;
+	protected string $certPath;
 
-	/** @var CardDavBackend */
-	private $backend;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var array */
-	private $localSystemAddressBook;
-
-	/** @var Converter */
-	private $converter;
-
-	/** @var string */
-	protected $certPath;
-
-	/**
-	 * SyncService constructor.
-	 *
-	 * @param CardDavBackend $backend
-	 * @param IUserManager $userManager
-	 * @param LoggerInterface $logger
-	 * @param AccountManager $accountManager
-	 */
 	public function __construct(CardDavBackend $backend, IUserManager $userManager, LoggerInterface $logger, Converter $converter) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
@@ -76,18 +56,9 @@ class SyncService {
 	}
 
 	/**
-	 * @param string $url
-	 * @param string $userName
-	 * @param string $addressBookUrl
-	 * @param string $sharedSecret
-	 * @param string $syncToken
-	 * @param int $targetBookId
-	 * @param string $targetPrincipal
-	 * @param array $targetProperties
-	 * @return string
 	 * @throws \Exception
 	 */
-	public function syncRemoteAddressBook($url, $userName, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetProperties) {
+	public function syncRemoteAddressBook(string $url, string $userName, string $addressBookUrl, string $sharedSecret, string $syncToken, int $targetBookId, string $targetPrincipal, array $targetProperties): string {
 		// 1. create addressbook
 		$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetProperties);
 		$addressBookId = $book['id'];
@@ -125,13 +96,9 @@ class SyncService {
 	}
 
 	/**
-	 * @param string $principal
-	 * @param string $id
-	 * @param array $properties
-	 * @return array|null
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function ensureSystemAddressBookExists($principal, $id, $properties) {
+	public function ensureSystemAddressBookExists(string $principal, string $id, array $properties): ?array {
 		$book = $this->backend->getAddressBooksByUri($principal, $id);
 		if (!is_null($book)) {
 			return $book;
@@ -146,7 +113,7 @@ class SyncService {
 	 *
 	 * @return string
 	 */
-	protected function getCertPath() {
+	protected function getCertPath(): string {
 
 		// we already have a valid certPath
 		if ($this->certPath !== '') {
@@ -162,14 +129,7 @@ class SyncService {
 		return $this->certPath;
 	}
 
-	/**
-	 * @param string $url
-	 * @param string $userName
-	 * @param string $addressBookUrl
-	 * @param string $sharedSecret
-	 * @return Client
-	 */
-	protected function getClient($url, $userName, $sharedSecret) {
+	protected function getClient(string $url, string $userName, string $sharedSecret): Client {
 		$settings = [
 			'baseUri' => $url . '/',
 			'userName' => $userName,
@@ -186,15 +146,7 @@ class SyncService {
 		return $client;
 	}
 
-	/**
-	 * @param string $url
-	 * @param string $userName
-	 * @param string $addressBookUrl
-	 * @param string $sharedSecret
-	 * @param string $syncToken
-	 * @return array
-	 */
-	protected function requestSyncReport($url, $userName, $addressBookUrl, $sharedSecret, $syncToken) {
+	protected function requestSyncReport(string $url, string $userName, string $addressBookUrl, string $sharedSecret, string $syncToken): array {
 		$client = $this->getClient($url, $userName, $sharedSecret);
 
 		$body = $this->buildSyncCollectionRequestBody($syncToken);
@@ -206,23 +158,12 @@ class SyncService {
 		return $this->parseMultiStatus($response['body']);
 	}
 
-	/**
-	 * @param string $url
-	 * @param string $userName
-	 * @param string $sharedSecret
-	 * @param string $resourcePath
-	 * @return array
-	 */
-	protected function download($url, $userName, $sharedSecret, $resourcePath) {
+	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): array {
 		$client = $this->getClient($url, $userName, $sharedSecret);
 		return $client->request('GET', $resourcePath);
 	}
 
-	/**
-	 * @param string|null $syncToken
-	 * @return string
-	 */
-	private function buildSyncCollectionRequestBody($syncToken) {
+	private function buildSyncCollectionRequestBody(?string $syncToken): string {
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
 		$root = $dom->createElementNS('DAV:', 'd:sync-collection');
@@ -240,11 +181,9 @@ class SyncService {
 	}
 
 	/**
-	 * @param string $body
-	 * @return array
-	 * @throws \Sabre\Xml\ParseException
+	 * @throws ParseException
 	 */
-	private function parseMultiStatus($body) {
+	private function parseMultiStatus(string $body): array {
 		$xml = new Service();
 
 		/** @var MultiStatus $multiStatus */
@@ -258,9 +197,6 @@ class SyncService {
 		return ['response' => $result, 'token' => $multiStatus->getSyncToken()];
 	}
 
-	/**
-	 * @param IUser $user
-	 */
 	public function updateUser(IUser $user) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
@@ -305,7 +241,7 @@ class SyncService {
 	/**
 	 * @return array|null
 	 */
-	public function getLocalSystemAddressBook() {
+	public function getLocalSystemAddressBook(): ?array {
 		if (is_null($this->localSystemAddressBook)) {
 			$systemPrincipal = "principals/system/system";
 			$this->localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [

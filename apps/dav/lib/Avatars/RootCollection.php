@@ -1,6 +1,4 @@
-<?php	/**
-	 * @var IAppManager
-	 */
+<?php
 /**
  * @copyright Copyright (c) 2016 Thomas Müller <thomas.mueller@tmit.eu>
  *

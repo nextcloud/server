@@ -34,26 +34,12 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class AddressBookUpdatedEvent extends Event {
-
-	/** @var int */
-	private $addressBookId;
-
-	/** @var array */
-	private $addressBookData;
-
-	/** @var array */
-	private $shares;
-
-	/** @var array */
-	private $mutations;
+	private int $addressBookId;
+	private array $addressBookData;
+	private array $shares;
+	private array $mutations;
 
 	/**
-	 * AddressBookUpdatedEvent constructor.
-	 *
-	 * @param int $addressBookId
-	 * @param array $addressBookData
-	 * @param array $shares
-	 * @param array $mutations
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,

@@ -40,11 +40,8 @@ use function sprintf;
  * @template-implements IEventListener<CardCreatedEvent|CardUpdatedEvent|CardDeletedEvent>
  */
 class CardListener implements IEventListener {
-	/** @var ActivityBackend */
-	private $activityBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private ActivityBackend $activityBackend;
+	private LoggerInterface $logger;
 
 	public function __construct(ActivityBackend $activityBackend,
 								LoggerInterface $logger) {

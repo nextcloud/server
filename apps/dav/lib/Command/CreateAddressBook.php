@@ -32,17 +32,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateAddressBook extends Command {
+	private IUserManager $userManager;
+	private CardDavBackend $cardDavBackend;
 
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var CardDavBackend */
-	private $cardDavBackend;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param CardDavBackend $cardDavBackend
-	 */
 	public function __construct(IUserManager $userManager,
 						 CardDavBackend $cardDavBackend
 	) {

@@ -36,6 +36,7 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\UnsupportedMediaType;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -57,31 +58,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	public const GROUPS_PROPERTYNAME = '{http://owncloud.org/ns}groups';
 	public const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
 
-	/**
-	 * @var \Sabre\DAV\Server $server
-	 */
-	private $server;
+	private Server $server;
+	protected ISystemTagManager $tagManager;
+	protected IUserSession $userSession;
+	protected IGroupManager $groupManager;
 
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	protected $groupManager;
-
-	/**
-	 * @param ISystemTagManager $tagManager tag manager
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 */
 	public function __construct(ISystemTagManager $tagManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession) {
@@ -98,10 +79,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 *
-	 * @param \Sabre\DAV\Server $server
+	 * @param Server $server
 	 * @return void
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
 		$server->protectedProperties[] = self::ID_PROPERTYNAME;

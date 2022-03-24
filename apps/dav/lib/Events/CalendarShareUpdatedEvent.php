@@ -34,30 +34,13 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarShareUpdatedEvent extends Event {
-
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var array */
-	private $oldShares;
-
-	/** @var array */
-	private $added;
-
-	/** @var array */
-	private $removed;
+	private int $calendarId;
+	private array $calendarData;
+	private array $oldShares;
+	private array $added;
+	private array $removed;
 
 	/**
-	 * CalendarShareUpdatedEvent constructor.
-	 *
-	 * @param int $calendarId
-	 * @param array $calendarData
-	 * @param array $oldShares
-	 * @param array $added
-	 * @param array $removed
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,

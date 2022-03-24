@@ -114,7 +114,7 @@ $sendInvitations = $config->getAppValue('dav', 'sendInvitations', 'yes') === 'ye
 $principalCollection = new Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', \OC::$server->get(LoggerInterface::class));
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, \OC::$server->get(LoggerInterface::class), 'principals');
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [

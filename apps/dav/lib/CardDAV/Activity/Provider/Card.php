@@ -40,17 +40,10 @@ class Card extends Base {
 	public const SUBJECT_UPDATE = 'card_update';
 	public const SUBJECT_DELETE = 'card_delete';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var IAppManager */
-	protected $appManager;
+	protected IFactory $languageFactory;
+	protected IManager $activityManager;
+	protected IEventMerger $eventMerger;
+	protected IAppManager $appManager;
 
 	public function __construct(IFactory $languageFactory,
 								IURLGenerator $url,

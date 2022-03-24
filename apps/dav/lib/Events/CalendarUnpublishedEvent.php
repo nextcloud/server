@@ -34,18 +34,10 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarUnpublishedEvent extends Event {
-
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
+	private int $calendarId;
+	private array $calendarData;
 
 	/**
-	 * CalendarUnpublishedEvent constructor.
-	 *
-	 * @param int $calendarId
-	 * @param array $calendarData
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,

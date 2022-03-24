@@ -34,7 +34,6 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\ServerPlugin;
 
 class MaintenancePlugin extends ServerPlugin {
-
 	private IConfig $config;
 	private IL10N $l10n;
 

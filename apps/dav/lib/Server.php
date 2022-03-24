@@ -111,13 +111,13 @@ use SearchDAV\DAV\SearchPlugin;
 class Server {
 
 	/** @var IRequest */
-	private $request;
+	private IRequest $request;
 
 	/** @var  string */
-	private $baseUri;
+	private string $baseUri;
 
 	/** @var Connector\Sabre\Server  */
-	public $server;
+	public Connector\Sabre\Server $server;
 
 	/**
 	 * @throws ContainerExceptionInterface

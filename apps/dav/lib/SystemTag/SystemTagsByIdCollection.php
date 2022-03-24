@@ -35,21 +35,9 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class SystemTagsByIdCollection implements ICollection {
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
+	private ISystemTagManager $tagManager;
+	private IGroupManager $groupManager;
+	private IUserSession $userSession;
 
 	/**
 	 * SystemTagsByIdCollection constructor.
@@ -73,7 +61,7 @@ class SystemTagsByIdCollection implements ICollection {
 	 *
 	 * @return bool true if the user is an admin
 	 */
-	private function isAdmin() {
+	private function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
 			return $this->groupManager->isAdmin($user->getUID());

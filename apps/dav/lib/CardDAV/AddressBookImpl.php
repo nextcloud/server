@@ -40,18 +40,10 @@ use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
 class AddressBookImpl implements IAddressBook {
-
-	/** @var CardDavBackend */
-	private $backend;
-
-	/** @var array */
-	private $addressBookInfo;
-
-	/** @var AddressBook */
-	private $addressBook;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private CardDavBackend $backend;
+	private array $addressBookInfo;
+	private AddressBook $addressBook;
+	private IURLGenerator $urlGenerator;
 
 	/**
 	 * AddressBookImpl constructor.

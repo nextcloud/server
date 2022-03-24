@@ -27,16 +27,9 @@ use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
 class ShareRequest implements XmlDeserializable {
-	public $set = [];
+	public array $set = [];
+	public array $remove = [];
 
-	public $remove = [];
-
-	/**
-	 * Constructor
-	 *
-	 * @param array $set
-	 * @param array $remove
-	 */
 	public function __construct(array $set, array $remove) {
 		$this->set = $set;
 		$this->remove = $remove;

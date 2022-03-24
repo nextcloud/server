@@ -37,15 +37,9 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OCA\DAV\Events\SubscriptionCreatedEvent>
  */
 class SubscriptionCreationListener implements IEventListener {
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var RefreshWebcalService */
-	private $refreshWebcalService;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IJobList $jobList;
+	private RefreshWebcalService $refreshWebcalService;
+	private LoggerInterface $logger;
 
 	public function __construct(IJobList $jobList, RefreshWebcalService $refreshWebcalService,
 								LoggerInterface $logger) {

@@ -38,17 +38,10 @@ use OCP\AppFramework\Db\Entity;
  * @method void setExpiration(int $expiration)
  */
 class Direct extends Entity {
-	/** @var string */
-	protected $userId;
-
-	/** @var int */
-	protected $fileId;
-
-	/** @var string */
-	protected $token;
-
-	/** @var int */
-	protected $expiration;
+	protected string $userId;
+	protected int $fileId;
+	protected string $token;
+	protected int $expiration;
 
 	public function __construct() {
 		$this->addType('userId', 'string');

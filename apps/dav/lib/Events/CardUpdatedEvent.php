@@ -34,26 +34,12 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CardUpdatedEvent extends Event {
-
-	/** @var int */
-	private $addressBookId;
-
-	/** @var array */
-	private $addressBookData;
-
-	/** @var array */
-	private $shares;
-
-	/** @var array */
-	private $cardData;
+	private int $addressBookId;
+	private array $addressBookData;
+	private array $shares;
+	private array $cardData;
 
 	/**
-	 * CardUpdatedEvent constructor.
-	 *
-	 * @param int $addressBookId
-	 * @param array $addressBookData
-	 * @param array $shares
-	 * @param array $cardData
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,

@@ -36,52 +36,14 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class AppleProvisioningPlugin extends ServerPlugin {
+	protected Server $server;
+	protected IURLGenerator $urlGenerator;
+	protected IUserSession $userSession;
+	protected \OC_Defaults $themingDefaults;
+	protected IRequest $request;
+	protected IL10N $l10n;
+	protected \closure $uuidClosure;
 
-	/**
-	 * @var Server
-	 */
-	protected $server;
-
-	/**
-	 * @var IURLGenerator
-	 */
-	protected $urlGenerator;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var \OC_Defaults
-	 */
-	protected $themingDefaults;
-
-	/**
-	 * @var IRequest
-	 */
-	protected $request;
-
-	/**
-	 * @var IL10N
-	 */
-	protected $l10n;
-
-	/**
-	 * @var \closure
-	 */
-	protected $uuidClosure;
-
-	/**
-	 * AppleProvisioningPlugin constructor.
-	 *
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator
-	 * @param \OC_Defaults $themingDefaults
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param \closure $uuidClosure
-	 */
 	public function __construct(IUserSession $userSession, IURLGenerator $urlGenerator,
 								\OC_Defaults $themingDefaults, IRequest $request,
 								IL10N $l10n, \closure $uuidClosure) {
@@ -129,11 +91,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 
 		$absoluteURL = $this->urlGenerator->getBaseUrl();
 		$parsedUrl = parse_url($absoluteURL);
-		if (isset($parsedUrl['port'])) {
-			$serverPort = $parsedUrl['port'];
-		} else {
-			$serverPort = 443;
-		}
+		$serverPort = $parsedUrl['port'] ?? 443;
 		$server_url = $parsedUrl['host'];
 
 		$description = $this->themingDefaults->getName();

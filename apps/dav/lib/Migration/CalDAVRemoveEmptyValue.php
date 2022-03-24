@@ -34,15 +34,9 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\InvalidDataException;
 
 class CalDAVRemoveEmptyValue implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IDBConnection $db;
+	private CalDavBackend $calDavBackend;
+	private LoggerInterface $logger;
 
 	/**
 	 * @param IDBConnection $db

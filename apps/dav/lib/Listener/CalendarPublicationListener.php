@@ -35,12 +35,8 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OCA\DAV\Events\CalendarPublishedEvent>
  */
 class CalendarPublicationListener implements IEventListener {
-
-	/** @var Backend */
-	private $activityBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private Backend $activityBackend;
+	private LoggerInterface $logger;
 
 	public function __construct(Backend $activityBackend,
 								LoggerInterface $logger) {

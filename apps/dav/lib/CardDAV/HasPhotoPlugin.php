@@ -36,9 +36,7 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class HasPhotoPlugin extends ServerPlugin {
-
-	/** @var Server */
-	protected $server;
+	protected Server $server;
 
 	/**
 	 * Initializes the plugin and registers event handlers

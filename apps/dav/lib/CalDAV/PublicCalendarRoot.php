@@ -34,17 +34,8 @@ class PublicCalendarRoot extends Collection {
 	protected CalDavBackend $caldavBackend;
 	protected IL10N $l10n;
 	protected IConfig $config;
+	private LoggerInterface $logger;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/**
-	 * PublicCalendarRoot constructor.
-	 *
-	 * @param CalDavBackend $caldavBackend
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 */
 	public function __construct(CalDavBackend $caldavBackend, IL10N $l10n,
 						 IConfig $config, LoggerInterface $logger) {
 		$this->caldavBackend = $caldavBackend;

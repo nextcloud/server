@@ -34,8 +34,6 @@ use Sabre\DAV\Tree;
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
-
-	/** @var string */
 	private const TABLE_NAME = 'properties';
 
 	/**
@@ -59,33 +57,20 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Properties set by one user, readable by all others
 	 *
-	 * @var array[]
+	 * @var string[]
 	 */
 	private const PUBLISHED_READ_ONLY_PROPERTIES = [
 		'{urn:ietf:params:xml:ns:caldav}calendar-availability',
 	];
 
-	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
+	private Tree $tree;
+	private IDBConnection $connection;
+	private IUser $user;
 
 	/**
 	 * Properties cache
-	 *
-	 * @var array
 	 */
-	private $userCache = [];
+	private array $userCache = [];
 
 	/**
 	 * @param Tree $tree node tree
@@ -303,7 +288,7 @@ class CustomPropertiesBackend implements BackendInterface {
 					);
 				}
 			} else {
-				if ($propertyValue instanceOf \Sabre\DAV\Xml\Property\Complex) {
+				if ($propertyValue instanceof \Sabre\DAV\Xml\Property\Complex) {
 					$propertyValue = $propertyValue->getXml();
 				} elseif (!is_string($propertyValue)) {
 					$propertyValue = (string)$propertyValue;

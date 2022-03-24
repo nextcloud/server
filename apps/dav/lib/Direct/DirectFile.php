@@ -36,16 +36,10 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
 
 class DirectFile implements IFile {
-	/** @var Direct */
-	private $direct;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var File */
-	private $file;
-
-	private $eventDispatcher;
+	private Direct $direct;
+	private IRootFolder $rootFolder;
+	private File $file;
+	private IEventDispatcher $eventDispatcher;
 
 	public function __construct(Direct $direct, IRootFolder $rootFolder, IEventDispatcher $eventDispatcher) {
 		$this->direct = $direct;

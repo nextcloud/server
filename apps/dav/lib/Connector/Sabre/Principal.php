@@ -197,7 +197,7 @@ class Principal implements BackendInterface {
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getGroupMembership($principal, $needGroups = false) {
+	public function getGroupMembership($principal, bool $needGroups = false) {
 		[$prefix, $name] = \Sabre\Uri\split($principal);
 
 		if ($prefix !== $this->principalPrefix) {

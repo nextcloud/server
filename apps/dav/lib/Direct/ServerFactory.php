@@ -39,11 +39,9 @@ use OCP\IRequest;
 use OCP\L10N\IFactory;
 
 class ServerFactory {
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l10n;
-	private $eventDispatcher;
+	private IConfig $config;
+	private IL10N $l10n;
+	private IEventDispatcher $eventDispatcher;
 
 	public function __construct(IConfig $config, IFactory $l10nFactory, IEventDispatcher $eventDispatcher) {
 		$this->config = $config;

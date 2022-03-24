@@ -259,14 +259,18 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 		$this->proxyMapper->expects($this->exactly(2))
 			->method('insert')
 			->withConsecutive(
-				[$this->callback(function ($proxy) { return $this->callbackForTestSetGroupMemberSet($proxy, '/backend1-res2'); })],
-				[$this->callback(function ($proxy) { return $this->callbackForTestSetGroupMemberSet($proxy, '/backend2-res3'); })]
+				[$this->callback(function ($proxy) {
+					return $this->callbackForTestSetGroupMemberSet($proxy, '/backend1-res2');
+				})],
+				[$this->callback(function ($proxy) {
+					return $this->callbackForTestSetGroupMemberSet($proxy, '/backend2-res3');
+				})]
 			);
 
 		$this->principalBackend->setGroupMemberSet($this->principalPrefix . '/backend1-res1/calendar-proxy-write', [$this->principalPrefix . '/backend1-res2', $this->principalPrefix . '/backend2-res3']);
 	}
 
-	private function callbackForTestSetGroupMemberSet (Proxy $proxy, string $proxyId): bool {
+	private function callbackForTestSetGroupMemberSet(Proxy $proxy, string $proxyId): bool {
 		if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
 			return false;
 		}

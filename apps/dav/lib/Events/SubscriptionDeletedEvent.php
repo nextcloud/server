@@ -34,22 +34,11 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class SubscriptionDeletedEvent extends Event {
-
-	/** @var int */
-	private $subscriptionId;
-
-	/** @var array */
-	private $subscriptionData;
-
-	/** @var array */
-	private $shares;
+	private int $subscriptionId;
+	private array $subscriptionData;
+	private array $shares;
 
 	/**
-	 * SubscriptionDeletedEvent constructor.
-	 *
-	 * @param int $subscriptionId
-	 * @param array $subscriptionData
-	 * @param array $shares
 	 * @since 20.0.0
 	 */
 	public function __construct(int $subscriptionId,

@@ -32,7 +32,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
-use Sabre\DAV\Xml\Service;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;

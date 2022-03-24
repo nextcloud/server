@@ -39,18 +39,10 @@ use Sabre\VObject\Reader;
  * @package OCA\DAV\Search
  */
 abstract class ACalendarSearchProvider implements IProvider {
-
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IL10N */
-	protected $l10n;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var CalDavBackend */
-	protected $backend;
+	protected IAppManager $appManager;
+	protected IL10N $l10n;
+	protected IURLGenerator $urlGenerator;
+	protected CalDavBackend $backend;
 
 	/**
 	 * ACalendarSearchProvider constructor.

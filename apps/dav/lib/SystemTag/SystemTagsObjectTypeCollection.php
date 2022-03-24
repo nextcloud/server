@@ -38,49 +38,15 @@ use Sabre\DAV\ICollection;
  * Collection containing object ids by object type
  */
 class SystemTagsObjectTypeCollection implements ICollection {
+	private string $objectType;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IGroupManager $groupManager;
+	private IUserSession $userSession;
+	protected \Closure $childExistsFunction;
 
-	/**
-	 * @var string
-	 */
-	private $objectType;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var \Closure
-	 **/
-	protected $childExistsFunction;
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $objectType object type
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param \Closure $childExistsFunction
-	 */
 	public function __construct(
-		$objectType,
+		string $objectType,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,

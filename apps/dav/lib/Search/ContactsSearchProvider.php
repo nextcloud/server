@@ -40,23 +40,15 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class ContactsSearchProvider implements IProvider {
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var CardDavBackend */
-	private $backend;
+	private IAppManager $appManager;
+	private IL10N $l10n;
+	private IURLGenerator $urlGenerator;
+	private CardDavBackend $backend;
 
 	/**
 	 * @var string[]
 	 */
-	private static $searchProperties = [
+	private static array $searchProperties = [
 		'N',
 		'FN',
 		'NICKNAME',

@@ -34,30 +34,17 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 
 class Backend {
-
-	/** @var IDBConnection */
-	private $db;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var Principal */
-	private $principalBackend;
-	/** @var string */
-	private $resourceType;
+	private IDBConnection $db;
+	private IUserManager $userManager;
+	private IGroupManager $groupManager;
+	private Principal $principalBackend;
+	private string $resourceType;
 
 	public const ACCESS_OWNER = 1;
 	public const ACCESS_READ_WRITE = 2;
 	public const ACCESS_READ = 3;
 
-	/**
-	 * @param IDBConnection $db
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param Principal $principalBackend
-	 * @param string $resourceType
-	 */
-	public function __construct(IDBConnection $db, IUserManager $userManager, IGroupManager $groupManager, Principal $principalBackend, $resourceType) {
+	public function __construct(IDBConnection $db, IUserManager $userManager, IGroupManager $groupManager, Principal $principalBackend, string $resourceType) {
 		$this->db = $db;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -67,7 +54,7 @@ class Backend {
 
 	/**
 	 * @param IShareable $shareable
-	 * @param string[] $add
+	 * @param string[][] $add
 	 * @param string[] $remove
 	 */
 	public function updateShares(IShareable $shareable, array $add, array $remove) {
@@ -87,9 +74,9 @@ class Backend {
 
 	/**
 	 * @param IShareable $shareable
-	 * @param string $element
+	 * @param string[] $element
 	 */
-	private function shareWith($shareable, $element) {
+	private function shareWith(IShareable $shareable, array $element) {
 		$user = $element['href'];
 		$parts = explode(':', $user, 2);
 		if ($parts[0] !== 'principal') {
@@ -151,11 +138,7 @@ class Backend {
 			->execute();
 	}
 
-	/**
-	 * @param IShareable $shareable
-	 * @param string $element
-	 */
-	private function unshare($shareable, $element) {
+	private function unshare(IShareable $shareable, string $element) {
 		$parts = explode(':', $element, 2);
 		if ($parts[0] !== 'principal') {
 			return;

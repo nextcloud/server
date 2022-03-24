@@ -33,15 +33,9 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class BuildCalendarSearchIndex implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
+	private IDBConnection $db;
+	private IJobList $jobList;
+	private IConfig $config;
 
 	/**
 	 * @param IDBConnection $db

@@ -35,9 +35,9 @@ class ForbiddenTest extends TestCase {
 	public function testSerialization() {
 
 		// create xml doc
-		$DOM = new DOMDocument('1.0','utf-8');
+		$DOM = new DOMDocument('1.0', 'utf-8');
 		$DOM->formatOutput = true;
-		$error = $DOM->createElementNS('DAV:','d:error');
+		$error = $DOM->createElementNS('DAV:', 'd:error');
 		$error->setAttribute('xmlns:s', Server::NS_SABREDAV);
 		$DOM->appendChild($error);
 

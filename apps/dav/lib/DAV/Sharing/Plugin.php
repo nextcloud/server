@@ -41,14 +41,9 @@ class Plugin extends ServerPlugin {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.com/ns';
 
-	/** @var Auth */
-	private $auth;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var IConfig */
-	private $config;
+	private Auth $auth;
+	private IRequest $request;
+	private IConfig $config;
 
 	/**
 	 * Plugin constructor.
@@ -66,9 +61,9 @@ class Plugin extends ServerPlugin {
 	/**
 	 * Reference to SabreDAV server object.
 	 *
-	 * @var \Sabre\DAV\Server
+	 * @var Server
 	 */
-	protected $server;
+	protected Server $server;
 
 	/**
 	 * This method should return a list of server-features.
@@ -111,7 +106,7 @@ class Plugin extends ServerPlugin {
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = Invite::class;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
-		$this->server->on('propFind',    [$this, 'propFind']);
+		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
 	/**

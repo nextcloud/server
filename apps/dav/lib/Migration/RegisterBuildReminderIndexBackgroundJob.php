@@ -41,17 +41,9 @@ use OCP\Migration\IRepairStep;
  * @package OCA\DAV\Migration
  */
 class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var string */
+	private IDBConnection $db;
+	private IJobList $jobList;
+	private IConfig $config;
 	private const CONFIG_KEY = 'buildCalendarReminderIndex';
 
 	/**

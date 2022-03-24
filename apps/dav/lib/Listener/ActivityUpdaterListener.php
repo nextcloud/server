@@ -47,12 +47,8 @@ use function sprintf;
  * @template-implements IEventListener<CalendarCreatedEvent|CalendarUpdatedEvent|CalendarMovedToTrashEvent|CalendarRestoredEvent|CalendarDeletedEvent|CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent|CalendarObjectDeletedEvent>
  */
 class ActivityUpdaterListener implements IEventListener {
-
-	/** @var ActivityBackend */
-	private $activityBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private ActivityBackend $activityBackend;
+	private LoggerInterface $logger;
 
 	public function __construct(ActivityBackend $activityBackend,
 								LoggerInterface $logger) {

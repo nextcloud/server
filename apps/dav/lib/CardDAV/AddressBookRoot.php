@@ -23,20 +23,16 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use Sabre\CardDAV\Backend\BackendInterface as CardDAVBackendInterface;
+use Sabre\DAV\INode;
+use Sabre\DAVACL\PrincipalBackend\BackendInterface as DAVACLBackendInterface;
 use OCA\DAV\AppInfo\PluginManager;
 
 class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
+	private PluginManager $pluginManager;
 
-	/** @var PluginManager */
-	private $pluginManager;
-
-	/**
-	 * @param \Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend
-	 * @param \Sabre\CardDAV\Backend\BackendInterface $carddavBackend
-	 * @param string $principalPrefix
-	 */
-	public function __construct(\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend,
-								\Sabre\CardDAV\Backend\BackendInterface $carddavBackend,
+	public function __construct(DAVACLBackendInterface $principalBackend,
+								CardDAVBackendInterface $carddavBackend,
 								PluginManager $pluginManager,
 								$principalPrefix = 'principals') {
 		parent::__construct($principalBackend, $carddavBackend, $principalPrefix);
@@ -52,7 +48,7 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 *
 	 * @param array $principal
 	 *
-	 * @return \Sabre\DAV\INode
+	 * @return INode
 	 */
 	public function getChildForPrincipal(array $principal) {
 		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->pluginManager);

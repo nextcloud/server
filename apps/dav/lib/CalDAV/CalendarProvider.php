@@ -34,9 +34,7 @@ class CalendarProvider implements ICalendarProvider {
 	private CalDavBackend $calDavBackend;
 	private IL10N $l10n;
 	private IConfig $config;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
 
 	public function __construct(CalDavBackend $calDavBackend, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
 		$this->calDavBackend = $calDavBackend;

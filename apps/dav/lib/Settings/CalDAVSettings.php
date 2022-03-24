@@ -33,13 +33,8 @@ use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 
 class CalDAVSettings implements IDelegatedSettings {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IInitialState */
-	private $initialState;
-
+	private IConfig $config;
+	private IInitialState $initialState;
 	private IURLGenerator $urlGenerator;
 
 	private const defaults = [
@@ -50,12 +45,6 @@ class CalDAVSettings implements IDelegatedSettings {
 		'sendEventRemindersPush' => 'no',
 	];
 
-	/**
-	 * CalDAVSettings constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IInitialState $initialState
-	 */
 	public function __construct(IConfig $config, IInitialState $initialState, IURLGenerator $urlGenerator) {
 		$this->config = $config;
 		$this->initialState = $initialState;

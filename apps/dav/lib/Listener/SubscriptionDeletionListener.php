@@ -37,15 +37,9 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OCA\DAV\Events\SubscriptionDeletedEvent>
  */
 class SubscriptionDeletionListener implements IEventListener {
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var ReminderBackend */
-	private $reminderBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IJobList $jobList;
+	private ReminderBackend $reminderBackend;
+	private LoggerInterface $logger;
 
 	public function __construct(IJobList $jobList, ReminderBackend $reminderBackend,
 								LoggerInterface $logger) {

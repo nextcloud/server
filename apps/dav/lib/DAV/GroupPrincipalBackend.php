@@ -42,22 +42,11 @@ use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 class GroupPrincipalBackend implements BackendInterface {
 	public const PRINCIPAL_PREFIX = 'principals/groups';
 
-	/** @var IGroupManager */
-	private $groupManager;
+	private IGroupManager $groupManager;
+	private IUserSession $userSession;
+	private IShareManager $shareManager;
+	private IConfig $config;
 
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IShareManager */
-	private $shareManager;
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IGroupManager $IGroupManager
-	 * @param IUserSession $userSession
-	 * @param IShareManager $shareManager
-	 */
 	public function __construct(
 		IGroupManager $IGroupManager,
 		IUserSession $userSession,
@@ -104,7 +93,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		$elements = explode('/', $path,  3);
+		$elements = explode('/', $path, 3);
 		if ($elements[0] !== 'principals') {
 			return null;
 		}

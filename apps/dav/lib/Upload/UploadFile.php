@@ -29,9 +29,7 @@ use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\IFile;
 
 class UploadFile implements IFile {
-
-	/**  @var File */
-	private $file;
+	private File $file;
 
 	public function __construct(File $file) {
 		$this->file = $file;

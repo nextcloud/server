@@ -27,9 +27,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class FixBirthdayCalendarComponent implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $connection;
+	private IDBConnection $connection;
 
 	/**
 	 * FixBirthdayCalendarComponent constructor.

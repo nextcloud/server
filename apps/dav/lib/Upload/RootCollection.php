@@ -30,9 +30,7 @@ use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
-
-	/** @var CleanupService */
-	private $cleanupService;
+	private CleanupService $cleanupService;
 
 	public function __construct(PrincipalBackend\BackendInterface $principalBackend,
 								string $principalPrefix,

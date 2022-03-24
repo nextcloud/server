@@ -34,26 +34,12 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class SubscriptionUpdatedEvent extends Event {
-
-	/** @var int */
-	private $subscriptionId;
-
-	/** @var array */
-	private $subscriptionData;
-
-	/** @var array */
-	private $shares;
-
-	/** @var array */
-	private $mutations;
+	private int $subscriptionId;
+	private array $subscriptionData;
+	private array $shares;
+	private array $mutations;
 
 	/**
-	 * SubscriptionUpdatedEvent constructor.
-	 *
-	 * @param int $subscriptionId
-	 * @param array $subscriptionData
-	 * @param array $shares
-	 * @param array $mutations
 	 * @since 20.0.0
 	 */
 	public function __construct(int $subscriptionId,

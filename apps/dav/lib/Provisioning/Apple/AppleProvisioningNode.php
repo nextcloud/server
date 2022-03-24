@@ -32,7 +32,7 @@ use Sabre\DAV\PropPatch;
 class AppleProvisioningNode implements INode, IProperties {
 	public const FILENAME = 'apple-provisioning.mobileconfig';
 
-	protected $timeFactory;
+	protected ITimeFactory $timeFactory;
 
 	/**
 	 * @param ITimeFactory $timeFactory

@@ -49,7 +49,6 @@ use Sabre\VObject\Recur\NoInstancesException;
 use function strcasecmp;
 
 class ReminderService {
-
 	private Backend $backend;
 	private NotificationProviderManager $notificationProviderManager;
 	private IUserManager $userManager;

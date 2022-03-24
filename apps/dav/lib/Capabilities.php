@@ -25,7 +25,7 @@ namespace OCA\DAV;
 use OCP\Capabilities\ICapability;
 
 class Capabilities implements ICapability {
-	public function getCapabilities() {
+	public function getCapabilities(): array {
 		return [
 			'dav' => [
 				'chunking' => '1.0',

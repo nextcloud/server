@@ -35,18 +35,11 @@ use Sabre\DAV\IFile;
  *
  * @package OCA\DAV\Upload
  */
-class FutureFile implements \Sabre\DAV\IFile {
+class FutureFile implements IFile {
+	private Directory $root;
+	private string $name;
 
-	/** @var Directory */
-	private $root;
-	/** @var string */
-	private $name;
-
-	/**
-	 * @param Directory $root
-	 * @param string $name
-	 */
-	public function __construct(Directory $root, $name) {
+	public function __construct(Directory $root, string $name) {
 		$this->root = $root;
 		$this->name = $name;
 	}

@@ -251,7 +251,7 @@ class IMipPluginTest extends TestCase {
 	 * @dataProvider dataIncludeResponseButtons
 	 */
 	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons) {
-		$message = $this->_testMessage([],$recipient);
+		$message = $this->_testMessage([], $recipient);
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$this->_expectSend($recipient, true, $has_buttons);
@@ -288,7 +288,7 @@ class IMipPluginTest extends TestCase {
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage(['SUMMARY' => '']);
-		$this->_expectSend('frodo@hobb.it', true, true,'Invitation: Untitled event');
+		$this->_expectSend('frodo@hobb.it', true, true, 'Invitation: Untitled event');
 		$this->emailTemplate->expects($this->once())
 			->method('addHeading')
 			->with('Invitation');

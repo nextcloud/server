@@ -51,33 +51,18 @@ class PhotoCache {
 		'image/vnd.microsoft.icon' => 'ico',
 	];
 
-	/** @var IAppData */
-	protected $appData;
+	protected IAppData $appData;
+	protected LoggerInterface $logger;
 
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/**
-	 * PhotoCache constructor.
-	 *
-	 * @param IAppData $appData
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(IAppData $appData, LoggerInterface $logger) {
 		$this->appData = $appData;
 		$this->logger = $logger;
 	}
 
 	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
-	 * @param int $size
-	 * @param Card $card
-	 *
-	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	public function get($addressBookId, $cardUri, $size, Card $card) {
+	public function get(int $addressBookId, string $cardUri, int $size, Card $card): ISimpleFile {
 		$folder = $this->getFolder($addressBookId, $cardUri);
 
 		if ($this->isEmpty($folder)) {
@@ -95,17 +80,11 @@ class PhotoCache {
 		return $this->getFile($folder, $size);
 	}
 
-	/**
-	 * @param ISimpleFolder $folder
-	 * @return bool
-	 */
-	private function isEmpty(ISimpleFolder $folder) {
+	private function isEmpty(ISimpleFolder $folder): bool {
 		return $folder->getDirectoryListing() === [];
 	}
 
 	/**
-	 * @param ISimpleFolder $folder
-	 * @param Card $card
 	 * @throws NotPermittedException
 	 */
 	private function init(ISimpleFolder $folder, Card $card): void {
@@ -128,7 +107,7 @@ class PhotoCache {
 		$file->putContent($data['body']);
 	}
 
-	private function hasPhoto(ISimpleFolder $folder) {
+	private function hasPhoto(ISimpleFolder $folder): bool {
 		return !$folder->fileExists('nophoto');
 	}
 
@@ -269,11 +248,7 @@ class PhotoCache {
 		return false;
 	}
 
-	/**
-	 * @param string $cardData
-	 * @return \Sabre\VObject\Document
-	 */
-	private function readCard($cardData) {
+	private function readCard(string $cardData): Document {
 		return Reader::read($cardData);
 	}
 
@@ -281,11 +256,11 @@ class PhotoCache {
 	 * @param Binary $photo
 	 * @return string
 	 */
-	private function getBinaryType(Binary $photo) {
+	private function getBinaryType(Binary $photo): string {
 		$params = $photo->parameters();
 		if (isset($params['TYPE']) || isset($params['MEDIATYPE'])) {
 			/** @var Parameter $typeParam */
-			$typeParam = isset($params['TYPE']) ? $params['TYPE'] : $params['MEDIATYPE'];
+			$typeParam = $params['TYPE'] ?? $params['MEDIATYPE'];
 			$type = $typeParam->getValue();
 
 			if (strpos($type, 'image/') === 0) {
@@ -298,11 +273,9 @@ class PhotoCache {
 	}
 
 	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
 	 * @throws NotPermittedException
 	 */
-	public function delete($addressBookId, $cardUri) {
+	public function delete(int $addressBookId, string $cardUri) {
 		try {
 			$folder = $this->getFolder($addressBookId, $cardUri, false);
 			$folder->delete();

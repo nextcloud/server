@@ -35,9 +35,7 @@ use Sabre\DAV\Server;
  * @since 24.0.0
  */
 class SabreAddPluginEvent extends Event {
-
-	/** @var Server */
-	private $server;
+	private Server $server;
 
 	/**
 	 * @since 20.0.0

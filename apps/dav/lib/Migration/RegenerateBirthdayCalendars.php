@@ -30,12 +30,8 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RegenerateBirthdayCalendars implements IRepairStep {
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
+	private IJobList $jobList;
+	private IConfig $config;
 
 	/**
 	 * @param IJobList $jobList

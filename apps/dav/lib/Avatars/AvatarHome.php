@@ -32,19 +32,10 @@ use Sabre\DAV\ICollection;
 use Sabre\Uri;
 
 class AvatarHome implements ICollection {
+	private array $principalInfo;
+	private IAvatarManager $avatarManager;
 
-	/** @var array */
-	private $principalInfo;
-	/** @var IAvatarManager */
-	private $avatarManager;
-
-	/**
-	 * AvatarHome constructor.
-	 *
-	 * @param array $principalInfo
-	 * @param IAvatarManager $avatarManager
-	 */
-	public function __construct($principalInfo, IAvatarManager $avatarManager) {
+	public function __construct(array $principalInfo, IAvatarManager $avatarManager) {
 		$this->principalInfo = $principalInfo;
 		$this->avatarManager = $avatarManager;
 	}
@@ -59,8 +50,8 @@ class AvatarHome implements ICollection {
 
 	public function getChild($name) {
 		$elements = pathinfo($name);
-		$ext = isset($elements['extension']) ? $elements['extension'] : '';
-		$size = (int)(isset($elements['filename']) ? $elements['filename'] : '64');
+		$ext = $elements['extension'] ?? '';
+		$size = (int)($elements['filename'] ?? '64');
 		if (!in_array($ext, ['jpeg', 'png'], true)) {
 			throw new MethodNotAllowed('File format not allowed');
 		}

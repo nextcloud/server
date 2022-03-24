@@ -34,22 +34,11 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarDeletedEvent extends Event {
-
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var array  */
-	private $shares;
+	private int $calendarId;
+	private array $calendarData;
+	private array $shares;
 
 	/**
-	 * CalendarDeletedEvent constructor.
-	 *
-	 * @param int $calendarId
-	 * @param array $calendarData
-	 * @param array $shares
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,

@@ -34,35 +34,20 @@ use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 
 /**
  * DAV node representing a system tag, with the name being the tag id.
  */
-class SystemTagNode implements \Sabre\DAV\INode {
-
-	/**
-	 * @var ISystemTag
-	 */
-	protected $tag;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	protected $user;
+class SystemTagNode implements INode {
+	protected ISystemTag $tag;
+	protected ISystemTagManager $tagManager;
+	protected IUser $user;
 
 	/**
 	 * Whether to allow permissions for admins
-	 *
-	 * @var bool
 	 */
-	protected $isAdmin;
+	protected bool $isAdmin;
 
 	/**
 	 * Sets up the node, expects a full path name
@@ -72,7 +57,7 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 * @param bool $isAdmin whether to allow operations for admins
 	 * @param ISystemTagManager $tagManager tag manager
 	 */
-	public function __construct(ISystemTag $tag, IUser $user, $isAdmin, ISystemTagManager $tagManager) {
+	public function __construct(ISystemTag $tag, IUser $user, bool $isAdmin, ISystemTagManager $tagManager) {
 		$this->tag = $tag;
 		$this->user = $user;
 		$this->isAdmin = $isAdmin;

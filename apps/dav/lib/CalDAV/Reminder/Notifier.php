@@ -48,7 +48,6 @@ use OCP\Notification\INotifier;
  * @package OCA\DAV\CalDAV\Reminder
  */
 class Notifier implements INotifier {
-
 	private IFactory $l10nFactory;
 	private IURLGenerator $urlGenerator;
 	private IL10N $l10n;

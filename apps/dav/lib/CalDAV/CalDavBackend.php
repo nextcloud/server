@@ -338,7 +338,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['principaluri'] = (string) $row['principaluri'];
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 
 			$calendar = [
@@ -415,7 +415,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['displayname'] = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 			$calendar = [
 				'id' => $row['id'],
@@ -467,7 +467,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['principaluri'] = (string) $row['principaluri'];
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 			$calendar = [
 				'id' => $row['id'],
@@ -540,7 +540,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['displayname'] = $row['displayname'] . "($name)";
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 			$calendar = [
 				'id' => $row['id'],
@@ -608,7 +608,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$row['displayname'] = $row['displayname'] . ' ' . "($name)";
 		$components = [];
 		if ($row['components']) {
-			$components = explode(',',$row['components']);
+			$components = explode(',', $row['components']);
 		}
 		$calendar = [
 			'id' => $row['id'],
@@ -664,7 +664,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$row['principaluri'] = (string) $row['principaluri'];
 		$components = [];
 		if ($row['components']) {
-			$components = explode(',',$row['components']);
+			$components = explode(',', $row['components']);
 		}
 
 		$calendar = [
@@ -716,7 +716,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$row['principaluri'] = (string) $row['principaluri'];
 		$components = [];
 		if ($row['components']) {
-			$components = explode(',',$row['components']);
+			$components = explode(',', $row['components']);
 		}
 
 		$calendar = [
@@ -811,7 +811,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if (!($properties[$sccs] instanceof SupportedCalendarComponentSet)) {
 				throw new DAV\Exception('The ' . $sccs . ' property must be of type: \Sabre\CalDAV\Property\SupportedCalendarComponentSet');
 			}
-			$values['components'] = implode(',',$properties[$sccs]->getValue());
+			$values['components'] = implode(',', $properties[$sccs]->getValue());
 		} elseif (isset($properties['components'])) {
 			// Allow to provide components internally without having
 			// to create a SupportedCalendarComponentSet object

@@ -34,9 +34,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RemoveOrphanEventsAndContacts implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $connection;
+	private IDBConnection $connection;
 
 	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
@@ -53,23 +51,23 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 	 * @inheritdoc
 	 */
 	public function run(IOutput $output) {
-		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendars',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendars', 'calendarid');
 		$output->info(sprintf('%d events without a calendar have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarobjects_props', 'calendarobjects',  'objectid');
+		$orphanItems = $this->removeOrphanChildren('calendarobjects_props', 'calendarobjects', 'objectid');
 		$output->info(sprintf('%d properties without an events have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendars',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendars', 'calendarid');
 		$output->info(sprintf('%d changes without a calendar have been cleaned up', $orphanItems));
 
-		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendarsubscriptions',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendarsubscriptions', 'calendarid');
 		$output->info(sprintf('%d cached events without a calendar subscription have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendarsubscriptions',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendarsubscriptions', 'calendarid');
 		$output->info(sprintf('%d changes without a calendar subscription have been cleaned up', $orphanItems));
 
-		$orphanItems = $this->removeOrphanChildren('cards', 'addressbooks',  'addressbookid');
+		$orphanItems = $this->removeOrphanChildren('cards', 'addressbooks', 'addressbookid');
 		$output->info(sprintf('%d contacts without an addressbook have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('cards_properties', 'cards',  'cardid');
+		$orphanItems = $this->removeOrphanChildren('cards_properties', 'cards', 'cardid');
 		$output->info(sprintf('%d properties without a contact have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('addressbookchanges', 'addressbooks',  'addressbookid');
+		$orphanItems = $this->removeOrphanChildren('addressbookchanges', 'addressbooks', 'addressbookid');
 		$output->info(sprintf('%d changes without an addressbook have been cleaned up', $orphanItems));
 	}
 

@@ -55,7 +55,6 @@ use Sabre\VObject\Reader;
 use function \Sabre\Uri\split;
 
 class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
-
 	private IConfig $config;
 
 	/** @var ITip\Message[] */

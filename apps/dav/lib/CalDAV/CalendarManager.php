@@ -33,17 +33,8 @@ class CalendarManager {
 	private CalDavBackend $backend;
 	private IL10N $l10n;
 	private IConfig $config;
+	private LoggerInterface $logger;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/**
-	 * CalendarManager constructor.
-	 *
-	 * @param CalDavBackend $backend
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 */
 	public function __construct(CalDavBackend $backend, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
 		$this->backend = $backend;
 		$this->l10n = $l10n;

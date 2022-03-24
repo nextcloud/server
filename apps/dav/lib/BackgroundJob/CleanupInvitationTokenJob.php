@@ -31,7 +31,6 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
 
 class CleanupInvitationTokenJob extends TimedJob {
-
 	private IDBConnection $db;
 
 	public function __construct(IDBConnection $db, ITimeFactory $time) {

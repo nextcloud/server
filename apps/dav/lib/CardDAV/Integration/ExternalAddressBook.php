@@ -33,8 +33,6 @@ use Sabre\DAV;
  * @since 19.0.0
  */
 abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
-
-	/** @var string */
 	private const PREFIX = 'z-app-generated';
 
 	/**
@@ -49,12 +47,8 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	 *   URI has double dashes, it won't be split
 	 */
 	private const DELIMITER = '--';
-
-	/** @var string */
-	private $appId;
-
-	/** @var string */
-	private $uri;
+	private string $appId;
+	private string $uri;
 
 	/**
 	 * @param string $appId

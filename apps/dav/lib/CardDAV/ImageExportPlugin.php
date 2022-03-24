@@ -32,11 +32,8 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class ImageExportPlugin extends ServerPlugin {
-
-	/** @var Server */
-	protected $server;
-	/** @var PhotoCache */
-	private $cache;
+	protected Server $server;
+	private PhotoCache $cache;
 
 	/**
 	 * ImageExportPlugin constructor.

@@ -52,21 +52,10 @@ class CommentsPlugin extends ServerPlugin {
 	public const REPORT_PARAM_OFFSET = '{http://owncloud.org/ns}offset';
 	public const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
 
-	/** @var ICommentsManager  */
-	protected $commentsManager;
+	protected ICommentsManager $commentsManager;
+	private Server $server;
+	protected IUserSession $userSession;
 
-	/** @var \Sabre\DAV\Server $server */
-	private $server;
-
-	/** @var  \OCP\IUserSession */
-	protected $userSession;
-
-	/**
-	 * Comments plugin
-	 *
-	 * @param ICommentsManager $commentsManager
-	 * @param IUserSession $userSession
-	 */
 	public function __construct(ICommentsManager $commentsManager, IUserSession $userSession) {
 		$this->commentsManager = $commentsManager;
 		$this->userSession = $userSession;
@@ -247,7 +236,7 @@ class CommentsPlugin extends ServerPlugin {
 			throw new BadRequest('Invalid input values', 0, $e);
 		} catch (\OCP\Comments\MessageTooLongException $e) {
 			$msg = 'Message exceeds allowed character limit of ';
-			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0,	$e);
+			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0, $e);
 		}
 	}
 }

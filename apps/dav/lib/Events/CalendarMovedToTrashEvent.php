@@ -31,20 +31,11 @@ use OCP\EventDispatcher\Event;
  * @since 22.0.0
  */
 class CalendarMovedToTrashEvent extends Event {
-
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var array  */
-	private $shares;
+	private int $calendarId;
+	private array $calendarData;
+	private array $shares;
 
 	/**
-	 * @param int $calendarId
-	 * @param array $calendarData
-	 * @param array $shares
 	 * @since 22.0.0
 	 */
 	public function __construct(int $calendarId,

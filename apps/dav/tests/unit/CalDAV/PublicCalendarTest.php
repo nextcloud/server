@@ -66,7 +66,7 @@ class PublicCalendarTest extends CalendarTest {
 		$config = $this->createMock(IConfig::class);
 		/** @var  MockObject | LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config,$logger);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 		$children = $c->getChildren();
 		$this->assertEquals(2, count($children));
 		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
@@ -152,7 +152,7 @@ EOD;
 		$config = $this->createMock(IConfig::class);
 		/** @var  MockObject | LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config,$logger);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 
 		$this->assertEquals(count($c->getChildren()), 2);
 

@@ -60,20 +60,11 @@ use SearchDAV\Query\Query;
 use function array_slice;
 
 class FileSearchBackend implements ISearchBackend {
-	/** @var CachingTree */
-	private $tree;
-
-	/** @var IUser */
-	private $user;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var View */
-	private $view;
+	private CachingTree $tree;
+	private IUser $user;
+	private IRootFolder $rootFolder;
+	private IManager $shareManager;
+	private View $view;
 
 	/**
 	 * FileSearchBackend constructor.
@@ -98,11 +89,11 @@ class FileSearchBackend implements ISearchBackend {
 	 *
 	 * @return string
 	 */
-	public function getArbiterPath() {
+	public function getArbiterPath(): string {
 		return '';
 	}
 
-	public function isValidScope($href, $depth, $path) {
+	public function isValidScope($href, $depth, $path): bool {
 		// only allow scopes inside the dav server
 		if (is_null($path)) {
 			return false;
@@ -116,7 +107,7 @@ class FileSearchBackend implements ISearchBackend {
 		}
 	}
 
-	public function getPropertyDefinitionsForScope($href, $path) {
+	public function getPropertyDefinitionsForScope($href, $path): array {
 		// all valid scopes support the same schema
 
 		//todo dynamically load all propfind properties that are supported
@@ -151,7 +142,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @throws ContainerExceptionInterface
 	 * @throws NotFoundExceptionInterface
 	 */
-	public function search(Query $query) {
+	public function search(Query $query): array {
 		if (count($query->from) !== 1) {
 			throw new InvalidArgumentException('Searching more than one folder is not supported');
 		}

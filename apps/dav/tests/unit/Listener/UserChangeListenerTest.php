@@ -100,10 +100,10 @@ class UserChangeListenerTest extends TestCase {
 		$this->calDavBackend->expects($this->once())->method('createCalendar')->with(
 			'principals/users/newUser',
 			'personal', [
-			'{DAV:}displayname' => 'Personal',
-			'{http://apple.com/ns/ical/}calendar-color' => '#745bca',
-			'components' => 'VEVENT'
-		]);
+				'{DAV:}displayname' => 'Personal',
+				'{http://apple.com/ns/ical/}calendar-color' => '#745bca',
+				'components' => 'VEVENT'
+			]);
 
 		$this->cardDavBackend->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(0);
 		$this->cardDavBackend->expects($this->once())->method('createAddressBook')->with(

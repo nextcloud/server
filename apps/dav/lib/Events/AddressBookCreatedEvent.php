@@ -34,12 +34,8 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class AddressBookCreatedEvent extends Event {
-
-	/** @var int */
-	private $addressBookId;
-
-	/** @var array */
-	private $addressBookData;
+	private int $addressBookId;
+	private array $addressBookData;
 
 	/**
 	 * AddressBookCreatedEvent constructor.

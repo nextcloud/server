@@ -36,21 +36,15 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 abstract class Base implements IProvider {
-
-	/** @var IUserManager */
-	protected $userManager;
+	protected IUserManager $userManager;
 
 	/** @var string[]  */
-	protected $userDisplayNames = [];
-
-	/** @var IGroupManager */
-	protected $groupManager;
+	protected array $userDisplayNames = [];
+	protected IGroupManager $groupManager;
 
 	/** @var string[] */
-	protected $groupDisplayNames = [];
-
-	/** @var IURLGenerator */
-	protected $url;
+	protected array $groupDisplayNames = [];
+	protected IURLGenerator $url;
 
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,

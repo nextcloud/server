@@ -112,7 +112,7 @@ class PublishPlugin extends ServerPlugin {
 		$this->server = $server;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
-		$this->server->on('propFind',    [$this, 'propFind']);
+		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {

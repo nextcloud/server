@@ -32,57 +32,26 @@ use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 
 /**
  * Mapping node for system tag to object id
  */
-class SystemTagMappingNode implements \Sabre\DAV\INode {
-	/**
-	 * @var ISystemTag
-	 */
-	protected $tag;
-
-	/**
-	 * @var string
-	 */
-	private $objectId;
-
-	/**
-	 * @var string
-	 */
-	private $objectType;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	protected $user;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
+class SystemTagMappingNode implements INode {
+	protected ISystemTag $tag;
+	private string $objectId;
+	private string $objectType;
+	protected IUser $user;
+	protected ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
 
 	/**
 	 * Sets up the node, expects a full path name
-	 *
-	 * @param ISystemTag $tag system tag
-	 * @param string $objectId
-	 * @param string $objectType
-	 * @param IUser $user user
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
 	 */
 	public function __construct(
 		ISystemTag $tag,
-		$objectId,
-		$objectType,
+		string $objectId,
+		string $objectType,
 		IUser $user,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper
@@ -97,37 +66,29 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 
 	/**
 	 * Returns the object id of the relationship
-	 *
-	 * @return string object id
 	 */
-	public function getObjectId() {
+	public function getObjectId(): string {
 		return $this->objectId;
 	}
 
 	/**
 	 * Returns the object type of the relationship
-	 *
-	 * @return string object type
 	 */
-	public function getObjectType() {
+	public function getObjectType(): string {
 		return $this->objectType;
 	}
 
 	/**
 	 * Returns the system tag represented by this node
-	 *
-	 * @return ISystemTag system tag
 	 */
-	public function getSystemTag() {
+	public function getSystemTag(): ISystemTag {
 		return $this->tag;
 	}
 
 	/**
 	 *  Returns the id of the tag
-	 *
-	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->tag->getId();
 	}
 

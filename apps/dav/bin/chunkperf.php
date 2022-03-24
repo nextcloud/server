@@ -45,7 +45,7 @@ function request(Client $client, string $method, string $uploadUrl, string $data
 	$result = $client->request($method, $uploadUrl, $data, $headers);
 	$t1 = microtime(true);
 	echo $result['statusCode'] . " - " . ($t1 - $t0) . ' seconds' . PHP_EOL;
-	if (!in_array($result['statusCode'],  [200, 201])) {
+	if (!in_array($result['statusCode'], [200, 201])) {
 		echo $result['body'] . PHP_EOL;
 	}
 	return $result;

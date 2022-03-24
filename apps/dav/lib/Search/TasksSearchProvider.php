@@ -45,7 +45,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchProperties = [
+	private static array $searchProperties = [
 		'SUMMARY',
 		'DESCRIPTION',
 		'CATEGORIES',
@@ -54,12 +54,8 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchParameters = [];
-
-	/**
-	 * @var string
-	 */
-	private static $componentType = 'VTODO';
+	private static array $searchParameters = [];
+	private static string $componentType = 'VTODO';
 
 	/**
 	 * @inheritDoc

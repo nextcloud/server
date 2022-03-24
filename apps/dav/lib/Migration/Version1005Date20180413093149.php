@@ -48,7 +48,7 @@ class Version1005Date20180413093149 extends SimpleMigrationStep {
 		if (!$schema->hasTable('directlink')) {
 			$table = $schema->createTable('directlink');
 
-			$table->addColumn('id',Types::BIGINT, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 11,

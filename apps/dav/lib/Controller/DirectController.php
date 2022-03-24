@@ -40,24 +40,12 @@ use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 class DirectController extends OCSController {
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var string */
-	private $userId;
-
-	/** @var DirectMapper */
-	private $mapper;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private IRootFolder $rootFolder;
+	private string $userId;
+	private DirectMapper $mapper;
+	private ISecureRandom $random;
+	private ITimeFactory $timeFactory;
+	private IURLGenerator $urlGenerator;
 
 
 	public function __construct(string $appName,

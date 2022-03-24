@@ -36,44 +36,13 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class BirthdayCalendarController extends Controller {
+	protected IDBConnection $db;
+	protected IConfig $config;
+	protected IUserManager $userManager;
+	protected CalDavBackend $caldavBackend;
+	protected IJobList $jobList;
 
-	/**
-	 * @var IDBConnection
-	 */
-	protected $db;
-
-	/**
-	 * @var IConfig
-	 */
-	protected $config;
-
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
-
-	/**
-	 * @var CalDavBackend
-	 */
-	protected $caldavBackend;
-
-	/**
-	 * @var IJobList
-	 */
-	protected $jobList;
-
-	/**
-	 * BirthdayCalendar constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IDBConnection $db
-	 * @param IConfig $config
-	 * @param IJobList $jobList
-	 * @param IUserManager $userManager
-	 * @param CalDavBackend $calDavBackend
-	 */
-	public function __construct($appName, IRequest $request,
+	public function __construct(string $appName, IRequest $request,
 								IDBConnection $db, IConfig $config,
 								IJobList $jobList,
 								IUserManager $userManager,

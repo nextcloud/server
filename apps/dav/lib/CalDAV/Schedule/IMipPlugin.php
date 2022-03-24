@@ -507,16 +507,16 @@ class IMipPlugin extends SabreIMipPlugin {
 	private function addBulletList(IEMailTemplate $template, IL10N $l10n, VEvent $vevent) {
 		if ($vevent->SUMMARY) {
 			$template->addBodyListItem($vevent->SUMMARY, $l10n->t('Title:'),
-				$this->getAbsoluteImagePath('caldav/title.png'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/title.png'), '', '', self::IMIP_INDENT);
 		}
 		$meetingWhen = $this->generateWhenString($l10n, $vevent);
 		if ($meetingWhen) {
 			$template->addBodyListItem($meetingWhen, $l10n->t('Time:'),
-				$this->getAbsoluteImagePath('caldav/time.png'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/time.png'), '', '', self::IMIP_INDENT);
 		}
 		if ($vevent->LOCATION) {
 			$template->addBodyListItem($vevent->LOCATION, $l10n->t('Location:'),
-				$this->getAbsoluteImagePath('caldav/location.png'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/location.png'), '', '', self::IMIP_INDENT);
 		}
 		if ($vevent->URL) {
 			$url = $vevent->URL->getValue();
@@ -525,7 +525,7 @@ class IMipPlugin extends SabreIMipPlugin {
 					htmlspecialchars($url)),
 				$l10n->t('Link:'),
 				$this->getAbsoluteImagePath('caldav/link.png'),
-				$url,'',self::IMIP_INDENT);
+				$url, '', self::IMIP_INDENT);
 		}
 
 		$this->addAttendees($template, $l10n, $vevent);
@@ -533,7 +533,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		/* Put description last, like an email body, since it can be arbitrarily long */
 		if ($vevent->DESCRIPTION) {
 			$template->addBodyListItem($vevent->DESCRIPTION->getValue(), $l10n->t('Description:'),
-				$this->getAbsoluteImagePath('caldav/description.png'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/description.png'), '', '', self::IMIP_INDENT);
 		}
 	}
 
@@ -561,7 +561,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			/** @var Property\ICalendar\CalAddress $organizer */
 			$organizer = $vevent->ORGANIZER;
 			$organizerURI = $organizer->getNormalizedValue();
-			[,$organizerEmail] = explode(':',$organizerURI,2); # strip off scheme mailto:
+			[,$organizerEmail] = explode(':', $organizerURI, 2); # strip off scheme mailto:
 			/** @var string|null $organizerName */
 			$organizerName = isset($organizer['CN']) ? $organizer['CN'] : null;
 			$organizerHTML = sprintf('<a href="%s">%s</a>',
@@ -578,7 +578,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			}
 			$template->addBodyListItem($organizerHTML, $l10n->t('Organizer:'),
 				$this->getAbsoluteImagePath('caldav/organizer.png'),
-				$organizerText,'',self::IMIP_INDENT);
+				$organizerText, '', self::IMIP_INDENT);
 		}
 
 		$attendees = $vevent->select('ATTENDEE');
@@ -590,7 +590,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$attendeesText = [];
 		foreach ($attendees as $attendee) {
 			$attendeeURI = $attendee->getNormalizedValue();
-			[,$attendeeEmail] = explode(':',$attendeeURI,2); # strip off scheme mailto:
+			[,$attendeeEmail] = explode(':', $attendeeURI, 2); # strip off scheme mailto:
 			$attendeeName = $attendee['CN'] ?? null;
 			$attendeeHTML = sprintf('<a href="%s">%s</a>',
 				htmlspecialchars($attendeeURI),
@@ -605,9 +605,9 @@ class IMipPlugin extends SabreIMipPlugin {
 			$attendeesText[] = $attendeeText;
 		}
 
-		$template->addBodyListItem(implode('<br/>',$attendeesHTML), $l10n->t('Attendees:'),
+		$template->addBodyListItem(implode('<br/>', $attendeesHTML), $l10n->t('Attendees:'),
 			$this->getAbsoluteImagePath('caldav/attendees.png'),
-			implode("\n",$attendeesText),'',self::IMIP_INDENT);
+			implode("\n", $attendeesText), '', self::IMIP_INDENT);
 	}
 
 	/**

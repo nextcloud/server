@@ -32,9 +32,11 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\INode;
+use Sabre\DAV\IProperties;
 use Sabre\DAV\PropPatch;
 
-class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
+class CommentNode implements INode, IProperties {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
@@ -46,33 +48,14 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	public const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
 	public const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
-	/** @var  IComment */
-	public $comment;
+	public IComment $comment;
+	protected ICommentsManager $commentsManager;
+	protected LoggerInterface $logger;
+	/** list of properties with key being their name and value their setter */
+	protected array $properties = [];
+	protected IUserManager $userManager;
+	protected IUserSession $userSession;
 
-	/** @var ICommentsManager */
-	protected $commentsManager;
-
-	/** @var  LoggerInterface */
-	protected $logger;
-
-	/** @var array list of properties with key being their name and value their setter */
-	protected $properties = [];
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/**
-	 * CommentNode constructor.
-	 *
-	 * @param ICommentsManager $commentsManager
-	 * @param IComment $comment
-	 * @param IUserManager $userManager
-	 * @param IUserSession $userSession
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		ICommentsManager $commentsManager,
 		IComment $comment,
@@ -104,7 +87,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return array
 	 */
-	public static function getPropertyNames() {
+	public static function getPropertyNames(): array {
 		return [
 			'{http://owncloud.org/ns}id',
 			'{http://owncloud.org/ns}parentId',
@@ -182,12 +165,10 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	/**
 	 * update the comment's message
 	 *
-	 * @param $propertyValue
-	 * @return bool
 	 * @throws BadRequest
 	 * @throws \Exception
 	 */
-	public function updateComment($propertyValue) {
+	public function updateComment(string $propertyValue): bool {
 		$this->checkWriteAccessOnComment();
 		try {
 			$this->comment->setMessage($propertyValue);
@@ -279,10 +260,8 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * transforms a mentions array as returned from IComment->getMentions to an
 	 * array with DAV-compatible structure that can be assigned to the
 	 * PROPERTY_NAME_MENTION property.
-	 *
-	 * @return array
 	 */
-	protected function composeMentionsPropertyValue() {
+	protected function composeMentionsPropertyValue(): array {
 		return array_map(function ($mention) {
 			try {
 				$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);

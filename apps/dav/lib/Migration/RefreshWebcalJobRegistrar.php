@@ -33,12 +33,8 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RefreshWebcalJobRegistrar implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var IJobList */
-	private $jobList;
+	private IDBConnection $connection;
+	private IJobList $jobList;
 
 	/**
 	 * FixBirthdayCalendarComponent constructor.

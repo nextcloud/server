@@ -22,7 +22,6 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
-use Exception;
 use OCP\AppFramework\Http;
 use OCP\Files\FileInfo;
 use OCP\Lock\LockedException;

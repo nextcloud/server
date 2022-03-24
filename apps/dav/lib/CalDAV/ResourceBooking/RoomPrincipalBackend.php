@@ -34,7 +34,6 @@ use Psr\Log\LoggerInterface;
  * @package OCA\DAV\CalDAV\ResourceBooking
  */
 class RoomPrincipalBackend extends AbstractPrincipalBackend {
-
 	public function __construct(IDBConnection $dbConnection,
 								IUserSession $userSession,
 								IGroupManager $groupManager,

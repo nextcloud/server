@@ -67,7 +67,7 @@ class MultipartRequestParserTest extends TestCase {
 
 		$body .= '--'.$boundary."--";
 
-		$stream = fopen('php://temp','r+');
+		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);
 		rewind($stream);
 

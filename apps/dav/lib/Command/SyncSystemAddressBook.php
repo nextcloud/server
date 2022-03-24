@@ -30,13 +30,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncSystemAddressBook extends Command {
+	private SyncService $syncService;
 
-	/** @var SyncService */
-	private $syncService;
-
-	/**
-	 * @param SyncService $syncService
-	 */
 	public function __construct(SyncService $syncService) {
 		parent::__construct();
 		$this->syncService = $syncService;

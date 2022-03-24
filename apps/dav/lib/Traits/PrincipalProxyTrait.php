@@ -42,7 +42,7 @@ trait PrincipalProxyTrait {
 	 * @return string[]
 	 * @throws Exception
 	 */
-	public function getGroupMemberSet($principal) {
+	public function getGroupMemberSet($principal): array {
 		$members = [];
 
 		if ($this->isProxyPrincipal($principal)) {
@@ -69,13 +69,9 @@ trait PrincipalProxyTrait {
 
 	/**
 	 * Returns the list of groups a principal is a member of
-	 *
-	 * @param string $principal
-	 * @param bool $needGroups
-	 * @return array
 	 * @throws Exception
 	 */
-	public function getGroupMembership($principal, $needGroups = false) {
+	public function getGroupMembership(string $principal, bool $needGroups = false): array {
 		[$prefix, $name] = split($principal);
 
 		if ($prefix !== $this->principalPrefix) {
@@ -111,7 +107,7 @@ trait PrincipalProxyTrait {
 	 * @param string[] $members
 	 * @throws Exception|\OCP\DB\Exception
 	 */
-	public function setGroupMemberSet($principal, array $members) {
+	public function setGroupMemberSet(string $principal, array $members) {
 		[$principalUri, $target] = split($principal);
 
 		if ($target !== 'calendar-proxy-write' && $target !== 'calendar-proxy-read') {

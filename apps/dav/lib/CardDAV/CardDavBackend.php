@@ -68,22 +68,22 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public const PERSONAL_ADDRESSBOOK_NAME = 'Contacts';
 
 	/** @var Principal */
-	private $principalBackend;
+	private Principal $principalBackend;
 
 	/** @var string */
-	private $dbCardsTable = 'cards';
+	private string $dbCardsTable = 'cards';
 
 	/** @var string */
-	private $dbCardsPropertiesTable = 'cards_properties';
+	private string $dbCardsPropertiesTable = 'cards_properties';
 
 	/** @var IDBConnection */
-	private $db;
+	private IDBConnection $db;
 
 	/** @var Backend */
-	private $sharingBackend;
+	private Backend $sharingBackend;
 
 	/** @var array properties to index */
-	public static $indexProperties = [
+	public static array $indexProperties = [
 		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO',
 		'CLOUD', 'X-SOCIALPROFILE'];
@@ -91,25 +91,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * @var string[] Map of uid => display name
 	 */
-	protected $userDisplayNames;
+	protected array $userDisplayNames;
 
 	/** @var IUserManager */
-	private $userManager;
+	private IUserManager $userManager;
 
 	/** @var IEventDispatcher */
-	private $dispatcher;
+	private IEventDispatcher $dispatcher;
 
-	private $etagCache = [];
+	private array $etagCache = [];
 
-	/**
-	 * CardDavBackend constructor.
-	 *
-	 * @param IDBConnection $db
-	 * @param Principal $principalBackend
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IEventDispatcher $dispatcher
-	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,

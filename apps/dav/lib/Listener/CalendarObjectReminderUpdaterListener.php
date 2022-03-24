@@ -46,18 +46,10 @@ use function sprintf;
  * @template-implements IEventListener<CalendarMovedToTrashEvent|CalendarDeletedEvent|CalendarRestoredEvent|CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent|CalendarObjectDeletedEvent>
  */
 class CalendarObjectReminderUpdaterListener implements IEventListener {
-
-	/** @var ReminderBackend */
-	private $reminderBackend;
-
-	/** @var ReminderService */
-	private $reminderService;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private ReminderBackend $reminderBackend;
+	private ReminderService $reminderService;
+	private CalDavBackend $calDavBackend;
+	private LoggerInterface $logger;
 
 	public function __construct(ReminderBackend $reminderBackend,
 								ReminderService $reminderService,

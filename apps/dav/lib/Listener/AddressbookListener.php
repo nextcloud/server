@@ -40,11 +40,8 @@ use function sprintf;
  * @template-implements IEventListener<AddressBookCreatedEvent|AddressBookUpdatedEvent|AddressBookDeletedEvent|AddressBookShareUpdatedEvent>
  */
 class AddressbookListener implements IEventListener {
-	/** @var ActivityBackend */
-	private $activityBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private ActivityBackend $activityBackend;
+	private LoggerInterface $logger;
 
 	public function __construct(ActivityBackend $activityBackend,
 								LoggerInterface $logger) {

@@ -25,6 +25,7 @@ namespace OCA\DAV\Files\Sharing;
 
 use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -36,23 +37,23 @@ class PublicLinkCheckPlugin extends ServerPlugin {
 	/**
 	 * @var FileInfo
 	 */
-	private $fileInfo;
+	private FileInfo $fileInfo;
 
 	/**
 	 * @param FileInfo $fileInfo
 	 */
-	public function setFileInfo($fileInfo) {
+	public function setFileInfo(FileInfo $fileInfo) {
 		$this->fileInfo = $fileInfo;
 	}
 
 	/**
 	 * This initializes the plugin.
 	 *
-	 * @param \Sabre\DAV\Server $server Sabre server
+	 * @param Server $server Sabre server
 	 *
 	 * @return void
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(Server $server) {
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
 	}
 

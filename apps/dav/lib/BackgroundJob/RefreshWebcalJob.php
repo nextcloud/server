@@ -40,7 +40,6 @@ use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 
 class RefreshWebcalJob extends Job {
-
 	private RefreshWebcalService $refreshWebcalService;
 	private IConfig $config;
 	private LoggerInterface $logger;

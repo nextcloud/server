@@ -32,9 +32,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RemoveClassifiedEventActivity implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $connection;
+	private IDBConnection $connection;
 
 	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;

@@ -34,22 +34,11 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarPublishedEvent extends Event {
-
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var string */
-	private $publicUri;
+	private int $calendarId;
+	private array $calendarData;
+	private string $publicUri;
 
 	/**
-	 * CalendarPublishedEvent constructor.
-	 *
-	 * @param int $calendarId
-	 * @param array $calendarData
-	 * @param string $publicUri
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,

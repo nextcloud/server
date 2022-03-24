@@ -32,7 +32,7 @@ use OCP\Files\File;
  * @since 22.0.0
  */
 class BeforeFileDirectDownloadedEvent extends Event {
-	private $file;
+	private File $file;
 
 	public function __construct(File $file) {
 		parent::__construct();

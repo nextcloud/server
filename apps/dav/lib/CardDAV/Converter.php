@@ -35,9 +35,7 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
 
 class Converter {
-
-	/** @var IAccountManager */
-	private $accountManager;
+	private IAccountManager $accountManager;
 
 	public function __construct(IAccountManager $accountManager) {
 		$this->accountManager = $accountManager;

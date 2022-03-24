@@ -37,12 +37,8 @@ use function strpos;
  * @template-implements IEventListener<\OCA\DAV\Events\CalendarDeletedEvent>
  */
 class CalendarDeletionDefaultUpdaterListener implements IEventListener {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IConfig $config;
+	private LoggerInterface $logger;
 
 	public function __construct(IConfig $config,
 								LoggerInterface $logger) {

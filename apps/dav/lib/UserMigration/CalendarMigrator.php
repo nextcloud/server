@@ -54,7 +54,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
 class CalendarMigrator implements IMigrator {
-
 	use TMigratorBasicVersionHandling;
 
 	private CalDavBackend $calDavBackend;

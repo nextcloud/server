@@ -26,16 +26,13 @@ use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Query\Query;
 
 class LazySearchBackend implements ISearchBackend {
-	/**
-	 * @var ISearchBackend $backend
-	 */
-	private $backend = null;
+	private ?ISearchBackend $backend = null;
 
 	public function setBackend(ISearchBackend $backend) {
 		$this->backend = $backend;
 	}
 
-	public function getArbiterPath() {
+	public function getArbiterPath(): string {
 		if ($this->backend) {
 			return $this->backend->getArbiterPath();
 		} else {
@@ -51,7 +48,7 @@ class LazySearchBackend implements ISearchBackend {
 		}
 	}
 
-	public function getPropertyDefinitionsForScope($href, $path) {
+	public function getPropertyDefinitionsForScope($href, $path): array {
 		if ($this->backend) {
 			return $this->backend->getPropertyDefinitionsForScope($href, $path);
 		} else {
@@ -59,7 +56,7 @@ class LazySearchBackend implements ISearchBackend {
 		}
 	}
 
-	public function search(Query $query) {
+	public function search(Query $query): array {
 		if ($this->backend) {
 			return $this->backend->search($query);
 		} else {

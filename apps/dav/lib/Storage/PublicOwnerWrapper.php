@@ -28,9 +28,7 @@ namespace OCA\DAV\Storage;
 use OC\Files\Storage\Wrapper\Wrapper;
 
 class PublicOwnerWrapper extends Wrapper {
-
-	/** @var string */
-	private $owner;
+	private string $owner;
 
 	/**
 	 * @param array $arguments ['storage' => $storage, 'owner' => $owner]

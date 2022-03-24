@@ -228,7 +228,7 @@ class AddressBookImplTest extends TestCase {
 		$uri = 'bla.vcf';
 		$properties = ['URI' => $uri, 'UID' => $uid, 'FN' => 'John Doe', 'ADR' => [['type' => 'HOME', 'value' => ';;street;city;;;country']]];
 		$vCard = new vCard;
-		$textProperty = $vCard->createProperty('KEY','value');
+		$textProperty = $vCard->createProperty('KEY', 'value');
 
 		/** @var MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)

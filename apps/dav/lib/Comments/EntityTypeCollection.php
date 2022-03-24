@@ -29,6 +29,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 
 /**
  * Class EntityTypeCollection
@@ -42,26 +43,12 @@ use Sabre\DAV\Exception\NotFound;
  * @package OCA\DAV\Comments
  */
 class EntityTypeCollection extends RootCollection {
+	protected LoggerInterface $logger;
+	protected IUserManager $userManager;
+	protected \Closure $childExistsFunction;
 
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var \Closure */
-	protected $childExistsFunction;
-
-	/**
-	 * @param string $name
-	 * @param ICommentsManager $commentsManager
-	 * @param IUserManager $userManager
-	 * @param IUserSession $userSession
-	 * @param LoggerInterface $logger
-	 * @param \Closure $childExistsFunction
-	 */
 	public function __construct(
-		$name,
+		string $name,
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
@@ -69,7 +56,7 @@ class EntityTypeCollection extends RootCollection {
 		\Closure $childExistsFunction
 	) {
 		$name = trim($name);
-		if (empty($name) || !is_string($name)) {
+		if (empty($name)) {
 			throw new \InvalidArgumentException('"name" parameter must be non-empty string');
 		}
 		$this->name = $name;
@@ -87,7 +74,7 @@ class EntityTypeCollection extends RootCollection {
 	 * exist.
 	 *
 	 * @param string $name
-	 * @return \Sabre\DAV\INode
+	 * @return INode
 	 * @throws NotFound
 	 */
 	public function getChild($name) {
@@ -107,10 +94,10 @@ class EntityTypeCollection extends RootCollection {
 	/**
 	 * Returns an array with all the child nodes
 	 *
-	 * @return \Sabre\DAV\INode[]
+	 * @return INode[]
 	 * @throws MethodNotAllowed
 	 */
-	public function getChildren() {
+	public function getChildren(): array {
 		throw new MethodNotAllowed('No permission to list folder contents');
 	}
 
@@ -118,9 +105,8 @@ class EntityTypeCollection extends RootCollection {
 	 * Checks if a child-node with the specified name exists
 	 *
 	 * @param string $name
-	 * @return bool
 	 */
-	public function childExists($name) {
+	public function childExists($name): bool {
 		return call_user_func($this->childExistsFunction, $name);
 	}
 }

@@ -35,21 +35,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncBirthdayCalendar extends Command {
+	private BirthdayService $birthdayService;
+	private IConfig $config;
+	private IUserManager $userManager;
 
-	/** @var BirthdayService */
-	private $birthdayService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param BirthdayService $birthdayService
-	 */
 	public function __construct(IUserManager $userManager, IConfig $config,
 						 BirthdayService $birthdayService) {
 		parent::__construct();

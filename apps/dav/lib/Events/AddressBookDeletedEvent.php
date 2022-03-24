@@ -34,15 +34,9 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class AddressBookDeletedEvent extends Event {
-
-	/** @var int */
-	private $addressBookId;
-
-	/** @var array */
-	private $addressBookData;
-
-	/** @var array */
-	private $shares;
+	private int $addressBookId;
+	private array $addressBookData;
+	private array $shares;
 
 	/**
 	 * AddressBookDeletedEvent constructor.

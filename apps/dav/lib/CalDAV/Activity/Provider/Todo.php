@@ -28,7 +28,6 @@ use InvalidArgumentException;
 use OCP\Activity\IEvent;
 
 class Todo extends Event {
-
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_todo') {
 			throw new InvalidArgumentException();

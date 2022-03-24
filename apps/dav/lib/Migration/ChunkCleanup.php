@@ -37,15 +37,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ChunkCleanup implements IRepairStep {
-
-	/** @var IConfig */
-	private $config;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IJobList */
-	private $jobList;
+	private IConfig $config;
+	private IUserManager $userManager;
+	private IRootFolder $rootFolder;
+	private IJobList $jobList;
 
 	public function __construct(IConfig $config,
 								IUserManager $userManager,

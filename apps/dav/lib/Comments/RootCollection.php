@@ -39,33 +39,14 @@ use Sabre\DAV\INode;
 class RootCollection implements ICollection {
 
 	/** @var EntityTypeCollection[]|null */
-	private $entityTypeCollections;
+	private ?array $entityTypeCollections;
+	protected ICommentsManager $commentsManager;
+	protected string $name = 'comments';
+	protected LoggerInterface $logger;
+	protected IUserManager $userManager;
+	protected IUserSession $userSession;
+	protected IEventDispatcher $dispatcher;
 
-	/** @var ICommentsManager */
-	protected $commentsManager;
-
-	/** @var string */
-	protected $name = 'comments';
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IEventDispatcher */
-	protected $dispatcher;
-
-	/**
-	 * @param ICommentsManager $commentsManager
-	 * @param IUserManager $userManager
-	 * @param IUserSession $userSession
-	 * @param IEventDispatcher $dispatcher
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
@@ -119,7 +100,7 @@ class RootCollection implements ICollection {
 	 * @return null|string
 	 * @throws Forbidden
 	 */
-	public function createFile($name, $data = null) {
+	public function createFile($name, $data = null): ?string {
 		throw new Forbidden('Cannot create comments by id');
 	}
 
@@ -158,7 +139,7 @@ class RootCollection implements ICollection {
 	 * @return INode[]
 	 * @throws NotAuthenticated
 	 */
-	public function getChildren() {
+	public function getChildren(): ?array {
 		$this->initCollections();
 		return $this->entityTypeCollections;
 	}
@@ -170,7 +151,7 @@ class RootCollection implements ICollection {
 	 * @return bool
 	 * @throws NotAuthenticated
 	 */
-	public function childExists($name) {
+	public function childExists($name): bool {
 		$this->initCollections();
 		return isset($this->entityTypeCollections[$name]);
 	}

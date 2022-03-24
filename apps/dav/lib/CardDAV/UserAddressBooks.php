@@ -42,15 +42,9 @@ use function array_map;
 use Sabre\DAV\MkCol;
 
 class UserAddressBooks extends AddressBookHome {
-
-	/** @var IL10N|null */
-	protected $l10n;
-
-	/** @var IConfig|null */
-	protected $config;
-
-	/** @var PluginManager */
-	private $pluginManager;
+	protected ?IL10N $l10n;
+	protected ?IConfig $config;
+	private PluginManager $pluginManager;
 
 	public function __construct(Backend\BackendInterface $carddavBackend,
 								string $principalUri,
@@ -64,7 +58,7 @@ class UserAddressBooks extends AddressBookHome {
 	 *
 	 * @return IAddressBook[]
 	 */
-	public function getChildren() {
+	public function getChildren(): array {
 		if ($this->l10n === null) {
 			$this->l10n = \OC::$server->get(IFactory::class)->get('dav');
 		}

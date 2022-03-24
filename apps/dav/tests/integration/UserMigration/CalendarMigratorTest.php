@@ -43,7 +43,6 @@ use Test\TestCase;
  * @group DB
  */
 class CalendarMigratorTest extends TestCase {
-
 	private IUserManager $userManager;
 
 	private CalendarMigrator $migrator;

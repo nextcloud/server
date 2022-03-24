@@ -41,25 +41,10 @@ use Sabre\VObject\Reader;
 use function in_array;
 
 class InvitationResponseController extends Controller {
+	private IDBConnection $db;
+	private ITimeFactory $timeFactory;
+	private InvitationResponseServer $responseServer;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var InvitationResponseServer */
-	private $responseServer;
-
-	/**
-	 * InvitationResponseController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IDBConnection $db
-	 * @param ITimeFactory $timeFactory
-	 * @param InvitationResponseServer $responseServer
-	 */
 	public function __construct(string $appName, IRequest $request,
 								IDBConnection $db, ITimeFactory $timeFactory,
 								InvitationResponseServer $responseServer) {

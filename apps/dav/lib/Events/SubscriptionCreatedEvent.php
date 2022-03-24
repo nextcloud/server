@@ -34,18 +34,10 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class SubscriptionCreatedEvent extends Event {
-
-	/** @var int */
-	private $subscriptionId;
-
-	/** @var array */
-	private $subscriptionData;
+	private int $subscriptionId;
+	private array $subscriptionData;
 
 	/**
-	 * SubscriptionCreatedEvent constructor.
-	 *
-	 * @param int $subscriptionId
-	 * @param array $subscriptionData
 	 * @since 20.0.0
 	 */
 	public function __construct(int $subscriptionId,
