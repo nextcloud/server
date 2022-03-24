@@ -114,6 +114,37 @@ class ManagerTest extends TestCase {
 		$this->assertSame($token, $actual);
 	}
 
+	public function testGenerateTokenTooLongName() {
+		$token = $this->createMock(IToken::class);
+		$token->method('getName')
+			->willReturn(str_repeat('a', 120) . '…');
+
+
+		$this->publicKeyTokenProvider->expects($this->once())
+			->method('generateToken')
+			->with(
+				'token',
+				'uid',
+				'loginName',
+				'password',
+				str_repeat('a', 120) . '…',
+				IToken::TEMPORARY_TOKEN,
+				IToken::REMEMBER
+			)->willReturn($token);
+
+		$actual = $this->manager->generateToken(
+			'token',
+			'uid',
+			'loginName',
+			'password',
+			str_repeat('a', 200),
+			IToken::TEMPORARY_TOKEN,
+			IToken::REMEMBER
+		);
+
+		$this->assertSame(121, mb_strlen($actual->getName()));
+	}
+
 	public function tokenData(): array {
 		return [
 			[new PublicKeyToken()],

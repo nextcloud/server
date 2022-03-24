@@ -59,6 +59,9 @@ class Manager implements ICommentsManager {
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
+	/** @var EmojiHelper */
+	protected $emojiHelper;
+
 	/** @var IInitialStateService */
 	protected $initialStateService;
 
@@ -78,11 +81,13 @@ class Manager implements ICommentsManager {
 								LoggerInterface $logger,
 								IConfig $config,
 								ITimeFactory $timeFactory,
+								EmojiHelper $emojiHelper,
 								IInitialStateService $initialStateService) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
 		$this->config = $config;
 		$this->timeFactory = $timeFactory;
+		$this->emojiHelper = $emojiHelper;
 		$this->initialStateService = $initialStateService;
 	}
 
@@ -148,8 +153,9 @@ class Manager implements ICommentsManager {
 			throw new \UnexpectedValueException('Actor, Object and Verb information must be provided for saving');
 		}
 
-		if ($comment->getVerb() === 'reaction' && mb_strlen($comment->getMessage()) > 2) {
-			throw new \UnexpectedValueException('Reactions cannot be longer than 2 chars (emoji with skin tone have two chars)');
+		if ($comment->getVerb() === 'reaction' && !$this->emojiHelper->isValidEmoji($comment->getMessage())) {
+			// 4 characters: laptop + person + gender + skin color => "🧑🏽‍💻" is a single emoji from the picker
+			throw new \UnexpectedValueException('Reactions can only be a single emoji');
 		}
 
 		if ($comment->getId() === '') {

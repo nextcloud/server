@@ -59,14 +59,14 @@ class Manager {
 
 	/**
 	 * @param IUser $user
-	 * @param string $filter
+	 * @param string|null $filter
 	 * @return array
 	 */
 	public function getEntries(IUser $user, $filter) {
 		$maxAutocompleteResults = max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT));
 		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		$topEntries = [];
-		if (strlen($filter) >= $minSearchStringLength) {
+		if (strlen($filter ?? '') >= $minSearchStringLength) {
 			$entries = $this->store->getContacts($user, $filter, $maxAutocompleteResults);
 
 			$sortedEntries = $this->sortEntries($entries);

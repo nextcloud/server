@@ -107,7 +107,7 @@ class ContactsStore implements IContactsStore {
 		}
 
 		$allContacts = $this->contactsManager->search(
-			$filter ?: '',
+			$filter ?? '',
 			[
 				'FN',
 				'EMAIL'
@@ -146,7 +146,7 @@ class ContactsStore implements IContactsStore {
 	 *
 	 * @param IUser $self
 	 * @param Entry[] $entries
-	 * @param string $filter
+	 * @param string|null $filter
 	 * @return Entry[] the filtered contacts
 	 */
 	private function filterContacts(
