@@ -79,7 +79,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @param IMountProvider[] $providers
 	 * @return IMountPoint[]
 	 */
- 	private function getUserMountsForProviders(IUser $user, array $providers): array {
+	private function getUserMountsForProviders(IUser $user, array $providers): array {
 		$loader = $this->loader;
 		$mounts = array_map(function (IMountProvider $provider) use ($user, $loader) {
 			return $provider->getMountsForUser($user, $loader);
@@ -97,7 +97,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		return $this->getUserMountsForProviders($user, $this->providers);
 	}
 
- 	public function getUserMountsForProviderClass(IUser $user, string $mountProviderClass): array {
+	public function getUserMountsForProviderClass(IUser $user, string $mountProviderClass): array {
 		$providers = array_filter(
 			$this->providers,
 			fn (IMountProvider $mountProvider) => (get_class($mountProvider) === $mountProviderClass)
