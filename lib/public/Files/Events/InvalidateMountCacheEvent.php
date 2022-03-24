@@ -34,11 +34,21 @@ use OCP\IUser;
 class InvalidateMountCacheEvent extends Event {
 	private ?IUser $user;
 
+	/**
+	 * @param IUser|null $user user
+	 *
+	 * @since 24.0.0
+	 */
 	public function __construct(?IUser $user) {
 		parent::__construct();
 		$this->user = $user;
 	}
 
+	/**
+	 * @return IUser|null user
+	 *
+	 * @since 24.0.0
+	 */
 	public function getUser(): ?IUser {
 		return $this->user;
 	}
