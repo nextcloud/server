@@ -356,6 +356,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\Storage\\IDisableEncryptionStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IDisableEncryptionStorage.php',
         'OCP\\Files\\Storage\\ILockingStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/ILockingStorage.php',
         'OCP\\Files\\Storage\\INotifyStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/INotifyStorage.php',
+        'OCP\\Files\\Storage\\IReliableEtagStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IReliableEtagStorage.php',
         'OCP\\Files\\Storage\\IStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IStorage.php',
         'OCP\\Files\\Storage\\IStorageFactory' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IStorageFactory.php',
         'OCP\\Files\\Storage\\IWriteStreamStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IWriteStreamStorage.php',
