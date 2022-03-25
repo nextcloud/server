@@ -145,7 +145,7 @@ class Propagator implements IPropagator {
 			$this->batch[$internalPath] = [
 				'hash' => md5($internalPath),
 				'time' => $time,
-				'size' => $sizeDifference
+				'size' => $sizeDifference,
 			];
 		} else {
 			$this->batch[$internalPath]['size'] += $sizeDifference;
