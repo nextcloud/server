@@ -23,6 +23,7 @@
 	<div v-if="!adding">
 		<input v-model="deviceName"
 			type="text"
+			:maxlength="120"
 			:disabled="loading"
 			:placeholder="t('settings', 'App name')"
 			@keydown.enter="submit">
