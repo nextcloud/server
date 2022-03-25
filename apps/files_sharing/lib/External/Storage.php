@@ -373,6 +373,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		} elseif (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
 			// permissions provided by the OCM API
 			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions'], $path);
+		} elseif (isset($response['{http://owncloud.org/ns}permissions'])) {
+			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 		} else {
 			// use default permission if remote server doesn't provide the share permissions
 			$permissions = $this->getDefaultPermissions($path);
