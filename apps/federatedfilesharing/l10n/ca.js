@@ -38,6 +38,7 @@ OC.L10N.register(
     "Federated file sharing" : "Compartició federada de fitxers",
     "Provide federated file sharing across servers" : "Proporcioneu compartició de fitxers federats entre servidors",
     "Open documentation" : "Obre la documentació",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Ajusta com les persones poden compartir entre servidors. Això inclou també els recursos compartits entre usuaris d'aquest servidor si utilitzen compartició federada.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permet als usuaris d'aquest servidor enviar comparticions a altres servidors (aquest paràmetre també permet accés WebDAV a comparticions públiques)",
     "Allow users on this server to receive shares from other servers" : "Permet als usuaris d'aquest servidor rebre comparticions a d'altres servidors",
     "Allow users on this server to send shares to groups on other servers" : "Permet als usuaris d'aquest servidor enviar comparticions a grups d'altres servidors",
