@@ -166,6 +166,7 @@ OC.L10N.register(
     "Featured" : "Mises en avant",
     "Update to {update}" : "Mise à jour vers {update}",
     "Update all" : "Tout mettre à jour",
+    "All apps are up-to-date." : "Toutes les applications sont à jour.",
     "Results from other categories" : "Résultats d'autres catégories",
     "No apps found for your version" : "Pas d'application trouvée pour votre version",
     "Disable all" : "Tout désactiver",
