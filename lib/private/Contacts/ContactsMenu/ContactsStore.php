@@ -32,7 +32,7 @@
 namespace OC\Contacts\ContactsMenu;
 
 use OC\KnownUser\KnownUserService;
-use OCP\Accounts\IAccountManager;
+use OC\Profile\ProfileManager;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
@@ -44,16 +44,15 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
 
 class ContactsStore implements IContactsStore {
-	use \OC\Profile\TProfileHelper;
-
-	/** @var IAccountManager */
-	private $accountManager;
 
 	/** @var IManager */
 	private $contactsManager;
 
 	/** @var IConfig */
 	private $config;
+
+	/** @var ProfileManager */
+	private $profileManager;
 
 	/** @var IUserManager */
 	private $userManager;
@@ -71,18 +70,18 @@ class ContactsStore implements IContactsStore {
 	private $l10nFactory;
 
 	public function __construct(
-		IAccountManager $accountManager,
 		IManager $contactsManager,
 		IConfig $config,
+		ProfileManager $profileManager,
 		IUserManager $userManager,
 		IURLGenerator $urlGenerator,
 		IGroupManager $groupManager,
 		KnownUserService $knownUserService,
 		IL10NFactory $l10nFactory
 	) {
-		$this->accountManager = $accountManager;
 		$this->contactsManager = $contactsManager;
 		$this->config = $config;
+		$this->profileManager = $profileManager;
 		$this->userManager = $userManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->groupManager = $groupManager;
@@ -335,10 +334,9 @@ class ContactsStore implements IContactsStore {
 		// Provide profile parameters for core/src/OC/contactsmenu/contact.handlebars template
 		if (isset($contact['UID']) && isset($contact['FN'])) {
 			$targetUserId = $contact['UID'];
-			$user = $this->userManager->get($targetUserId);
-			if (!empty($user)) {
-				$account = $this->accountManager->getAccount($user);
-				if ($this->isProfileEnabled($account)) {
+			$targetUser = $this->userManager->get($targetUserId);
+			if (!empty($targetUser)) {
+				if ($this->profileManager->isProfileEnabled($targetUser)) {
 					$entry->setProfileTitle($this->l10nFactory->get('lib')->t('View profile'));
 					$entry->setProfileUrl($this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $targetUserId]));
 				}

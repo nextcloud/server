@@ -40,6 +40,7 @@ module.exports = {
 		]
 	},
 	entry: {
+		'settings-admin-basic-settings': path.join(__dirname, 'src', 'main-admin-basic-settings'),
 		'settings-apps-users-management': path.join(__dirname, 'src', 'main-apps-users-management'),
 		'settings-admin-security': path.join(__dirname, 'src', 'main-admin-security'),
 		'settings-admin-delegation': path.join(__dirname, 'src', 'main-admin-delegation'),

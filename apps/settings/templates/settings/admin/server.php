@@ -24,6 +24,9 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 
+script('settings', [
+	'vue-settings-admin-basic-settings',
+]);
 ?>
 
 <div class="section" id="backgroundjobs">
@@ -112,3 +115,7 @@
 		</fieldset>
 	</form>
 </div>
+
+<?php if ($_['profileEnabledGlobally']) : ?>
+	<div class="vue-admin-profile-settings"></div>
+<?php endif; ?>

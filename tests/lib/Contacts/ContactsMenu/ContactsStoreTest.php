@@ -27,7 +27,7 @@ namespace Tests\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\KnownUser\KnownUserService;
-use OCP\Accounts\IAccountManager;
+use OC\Profile\ProfileManager;
 use OCP\Contacts\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -39,12 +39,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsStoreTest extends TestCase {
-	/** @var IAccountManager */
-	private $accountManager;
 	/** @var ContactsStore */
 	private $contactsStore;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $contactsManager;
+	/** @var ProfileManager */
+	private $profileManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 	/** @var IURLGenerator */
@@ -61,18 +61,18 @@ class ContactsStoreTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->contactsManager = $this->createMock(IManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->profileManager = $this->createMock(ProfileManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->l10nFactory = $this->createMock(IL10NFactory::class);
 		$this->contactsStore = new ContactsStore(
-			$this->accountManager,
 			$this->contactsManager,
 			$this->config,
+			$this->profileManager,
 			$this->userManager,
 			$this->urlGenerator,
 			$this->groupManager,

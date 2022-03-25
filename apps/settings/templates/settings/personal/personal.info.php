@@ -239,24 +239,28 @@ script('settings', [
 				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
 			</form>
 		</div>
-		<div class="personal-settings-setting-box">
-			<div id="vue-organisation-section"></div>
-		</div>
-		<div class="personal-settings-setting-box">
-			<div id="vue-role-section"></div>
-		</div>
-		<div class="personal-settings-setting-box">
-			<div id="vue-headline-section"></div>
-		</div>
-		<div class="personal-settings-setting-box">
-			<div id="vue-biography-section"></div>
-		</div>
+		<?php if ($_['profileEnabledGlobally']) : ?>
+			<div class="personal-settings-setting-box">
+				<div id="vue-organisation-section"></div>
+			</div>
+			<div class="personal-settings-setting-box">
+				<div id="vue-role-section"></div>
+			</div>
+			<div class="personal-settings-setting-box">
+				<div id="vue-headline-section"></div>
+			</div>
+			<div class="personal-settings-setting-box">
+				<div id="vue-biography-section"></div>
+			</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="profile-settings-container">
-		<div class="personal-settings-setting-box">
-			<div id="vue-profile-section"></div>
-		</div>
+		<?php if ($_['profileEnabledGlobally']) : ?>
+			<div class="personal-settings-setting-box">
+				<div id="vue-profile-section"></div>
+			</div>
+		<?php endif; ?>
 		<div class="personal-settings-setting-box personal-settings-language-box">
 			<div id="vue-language-section"></div>
 		</div>
@@ -304,6 +308,8 @@ script('settings', [
 
 </div>
 
-<div class="personal-settings-section">
-	<div id="vue-profile-visibility-section"></div>
-</div>
+<?php if ($_['profileEnabledGlobally']) : ?>
+	<div class="personal-settings-section">
+		<div id="vue-profile-visibility-section"></div>
+	</div>
+<?php endif; ?>
