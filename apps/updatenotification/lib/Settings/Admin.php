@@ -202,7 +202,9 @@ class Admin implements ISettings {
 		return $this->getUserCount() < 100;
 	}
 
-	// Copied from https://github.com/nextcloud/server/blob/a06001e0851abc6073af678b742da3e1aa96eec9/lib/private/Support/Subscription/Registry.php#L187-L214
+	/**
+	 * @see https://github.com/nextcloud/server/blob/39494fbf794d982f6f6551c984e6ca4c4e947d01/lib/private/Support/Subscription/Registry.php#L188-L216 implementation reference
+	 */
 	private function getUserCount(): int {
 		$userCount = 0;
 		$backends = $this->userManager->getBackends();
@@ -213,22 +215,8 @@ class Admin implements ISettings {
 				$backendUsers = $backend->countUsers();
 				if ($backendUsers !== false) {
 					$userCount += $backendUsers;
-				} else {
-					// TODO what if the user count can't be determined?
-					$this->logger->warning('Can not determine user count for ' . get_class($backend), ['app' => 'updatenotification']);
 				}
 			}
-		}
-
-		$disabledUsers = $this->config->getUsersForUserValue('core', 'enabled', 'false');
-		$disabledUsersCount = count($disabledUsers);
-		$userCount = $userCount - $disabledUsersCount;
-
-		if ($userCount < 0) {
-			$userCount = 0;
-
-			// this should never happen
-			$this->logger->warning("Total user count was negative (users: $userCount, disabled: $disabledUsersCount)", ['app' => 'updatenotification']);
 		}
 
 		return $userCount;
