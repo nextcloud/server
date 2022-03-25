@@ -42,7 +42,7 @@ OC.L10N.register(
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "允許此伺服器上的使用者傳送分享到其他伺服器（此選項也允許 WebDAV 存取公開分享）",
     "Allow users on this server to receive shares from other servers" : "允許此伺服器上的使用者接收來自其他伺服器的分享",
     "Allow users on this server to send shares to groups on other servers" : "允許此伺服器上的使用者傳送分享在其他伺服器上的群組",
-    "Allow users on this server to receive group shares from other servers" : "允許此伺服氣上的使用者接收來自其他伺服器的群組分享",
+    "Allow users on this server to receive group shares from other servers" : "允許此伺服器上的使用者接收來自其他伺服器的群組分享",
     "Search global and public address book for users" : "搜尋全域與公開通訊錄中的使用者",
     "Allow users to publish their data to a global and public address book" : "允許使用者將其資料發佈到全域且公開的通訊錄",
     "Federated Cloud" : "聯盟式雲端",
