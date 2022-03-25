@@ -84,6 +84,7 @@
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Ryhmäkansio \"{mountPoint}\" on melkein täynnä ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Erillinen tallennustila \"{mountPoint}\" on melkein täynnä ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Tallennustila on melkein täynnä ({usedSpacePercent}%).",
+    "_matches \"{filter}\"_::_match \"{filter}\"_" : ["vastaa \"{filter}\"","vastaa \"{filter}\""],
     "View in folder" : "Näe kansiossa",
     "Copied!" : "Kopioitu!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopioi suora linkki (toimii vain käyttäjillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
