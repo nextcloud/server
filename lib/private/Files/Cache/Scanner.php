@@ -42,6 +42,7 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 
@@ -209,7 +210,7 @@ class Scanner extends BasicEmitter implements IScanner {
 							if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 								$data['size'] = $cacheData['size'];
 							}
-							if ($reuseExisting & self::REUSE_ETAG) {
+							if ($reuseExisting & self::REUSE_ETAG && !$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
 								$data['etag'] = $etag;
 							}
 						}

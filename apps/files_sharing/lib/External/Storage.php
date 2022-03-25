@@ -42,11 +42,12 @@ use OCP\Constants;
 use OCP\Federation\ICloudId;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
+use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\LocalServerException;
 
-class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
+class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, IReliableEtagStorage {
 	/** @var ICloudId */
 	private $cloudId;
 	/** @var string */
