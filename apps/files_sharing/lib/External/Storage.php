@@ -435,4 +435,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 		return $permissions;
 	}
+
+	public function free_space($path) {
+		return parent::free_space("");
+	}
 }
