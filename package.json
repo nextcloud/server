@@ -100,7 +100,7 @@
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/user-event": "^13.5.0",
     "@testing-library/vue": "^5.8.2",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.2.4",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "css-loader": "^5.2.7",
     "eslint-loader": "^4.0.2",
