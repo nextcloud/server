@@ -26,6 +26,8 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "Вам был отправлен пароль для доступа к «{file}»",
     "Share by mail" : "Поделиться по почте",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Не удалось предоставить доступ к %1$s, так как этот ресурс уже доступен пользователю %2$s",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Мы не можем отправить вам автоматически сгенерированный пароль. Укажите действующий адрес электронной почты в личных настройках и повторите попытку.",
+    "Failed to send share by email. Got an invalid email address" : "Не удалось отправить ссылку общего доступа по электронной почте. Получен неверный адрес электронной почты",
     "Failed to send share by email" : "Не удалось предоставить общий доступ по адресу электронной почты",
     "%1$s shared »%2$s« with you" : "%1$s предоставил(а) вам доступ к «%2$s»",
     "%1$s shared »%2$s« with you." : "%1$s предоставил(а) вам доступ к «%2$s».",
