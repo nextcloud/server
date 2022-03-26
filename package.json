@@ -103,7 +103,7 @@
     "@testing-library/vue": "^5.6.2",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.2.4",
     "babel-loader-exclude-node-modules-except": "^1.1.2",
     "css-loader": "^5.2.7",
     "eslint": "^6.8.0",
