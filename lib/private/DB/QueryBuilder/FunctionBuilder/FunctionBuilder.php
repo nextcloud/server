@@ -103,7 +103,7 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function charLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
-		return new QueryFunction('LENGTH(' . $quotedName . ')' . $alias);
+		return new QueryFunction('CHAR_LENGTH(' . $quotedName . ')' . $alias);
 	}
 
 	public function max($field): IQueryFunction {

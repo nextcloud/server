@@ -54,4 +54,10 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('LENGTH(CAST(' . $quotedName . ' as BLOB))' . $alias);
 	}
+
+	public function charLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTH(' . $quotedName . ')' . $alias);
+	}
 }
