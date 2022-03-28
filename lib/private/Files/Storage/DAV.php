@@ -588,7 +588,7 @@ class DAV extends Common {
 			}
 			return [
 				'mtime' => isset($response['{DAV:}getlastmodified']) ? strtotime($response['{DAV:}getlastmodified']) : null,
-				'size' => (int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
+				'size' => (int)($response['{DAV:}getcontentlength'] ?? 0),
 			];
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
