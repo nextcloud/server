@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Ei voida ladata tiedoston \"{file}\" tietoja",
     "Files" : "Tiedostot",
     "Details" : "Tiedot",
+    "Please select tag(s) to add to the selection" : "Valitse lisättävät tunnisteet valinnalle",
+    "Apply tag(s) to selection" : "Hyväksy tunnisteet valinnalle",
     "Select" : "Valitse",
     "Pending" : "Odottaa",
     "Unable to determine date" : "Päivämäärän määrittäminen epäonnistui",
