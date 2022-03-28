@@ -29,28 +29,38 @@ use OCP\Files\NotFoundException;
 use OCP\IUser;
 
 class LazyUserFolder extends LazyFolder {
-	private IRootFolder $rootFolder;
+	private IRootFolder $root;
 	private IUser $user;
+	private string $path;
 
 	public function __construct(IRootFolder $rootFolder, IUser $user) {
-		$this->rootFolder = $rootFolder;
+		$this->root = $rootFolder;
 		$this->user = $user;
+		$this->path = '/' . $user->getUID() . '/files';
 		parent::__construct(function () use ($user) {
 			try {
-				return $this->rootFolder->get('/' . $user->getUID() . '/files');
+				return $this->root->get('/' . $user->getUID() . '/files');
 			} catch (NotFoundException $e) {
-				if (!$this->rootFolder->nodeExists('/' . $user->getUID())) {
-					$this->rootFolder->newFolder('/' . $user->getUID());
+				if (!$this->root->nodeExists('/' . $user->getUID())) {
+					$this->root->newFolder('/' . $user->getUID());
 				}
-				return $this->rootFolder->newFolder('/' . $user->getUID() . '/files');
+				return $this->root->newFolder('/' . $user->getUID() . '/files');
 			}
 		}, [
-			'path' => '/' . $user->getUID() . '/files',
+			'path' => $this->path,
 			'permissions' => Constants::PERMISSION_ALL,
 		]);
 	}
 
 	public function get($path) {
-		return $this->rootFolder->get('/' . $this->user->getUID() . '/files/' . rtrim($path, '/'));
+		return $this->root->get('/' . $this->user->getUID() . '/files/' . ltrim($path, '/'));
+	}
+
+	/**
+	 * @param int $id
+	 * @return \OC\Files\Node\Node[]
+	 */
+	public function getById($id) {
+		return $this->root->getByIdInPath((int)$id, $this->getPath());
 	}
 }
