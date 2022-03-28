@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -16,15 +16,15 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -1413,6 +1413,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\Owncloud\\CleanPreviewsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php',
         'OC\\Repair\\Owncloud\\DropAccountTermsTable' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
         'OC\\Repair\\Owncloud\\InstallCoreBundle' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/InstallCoreBundle.php',
+        'OC\\Repair\\Owncloud\\MigrateOauthTables' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/MigrateOauthTables.php',
         'OC\\Repair\\Owncloud\\MoveAvatars' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/MoveAvatars.php',
         'OC\\Repair\\Owncloud\\MoveAvatarsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/MoveAvatarsBackgroundJob.php',
         'OC\\Repair\\Owncloud\\SaveAccountsTableData' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
