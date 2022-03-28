@@ -29,6 +29,7 @@ namespace OCA\Files_Sharing;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Share\IShare;
+use OCP\Files\Folder;
 
 class Updater {
 
@@ -62,9 +63,19 @@ class Updater {
 
 		$shareManager = \OC::$server->getShareManager();
 
+		// FIXME: should CIRCLES be included here ??
 		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_USER, $src, false, -1);
 		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_GROUP, $src, false, -1));
 		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_ROOM, $src, false, -1));
+
+		if ($src instanceof Folder) {
+			// also check children
+			$subShares = $shareManager->getSharesInFolder($userFolder->getOwner()->getUID(), $src, false);
+			// flatten the result
+			foreach ($subShares as $subShare) {
+				$shares = array_merge($shares, array_values($subShare));
+			}
+		}
 
 		// If the path we move is not a share we don't care
 		if (empty($shares)) {
@@ -82,6 +93,14 @@ class Updater {
 
 		//Ownership is moved over
 		foreach ($shares as $share) {
+			if (
+				$share->getShareType() !== IShare::TYPE_USER &&
+				$share->getShareType() !== IShare::TYPE_GROUP &&
+				$share->getShareType() !== IShare::TYPE_ROOM
+			) {
+				continue;
+			}
+
 			/** @var IShare $share */
 			if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
 				$shareManager->deleteShare($share);
