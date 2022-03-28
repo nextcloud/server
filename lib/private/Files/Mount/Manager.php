@@ -158,7 +158,6 @@ class Manager implements IMountManager {
 	 * @return IMountPoint[]
 	 */
 	public function findByStorageId(string $id): array {
-		\OC_Util::setupFS();
 		if (\strlen($id) > 64) {
 			$id = md5($id);
 		}
