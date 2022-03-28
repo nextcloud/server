@@ -13,6 +13,7 @@ use OC\Files\Mount\Manager;
 use OC\Files\View;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
@@ -70,7 +71,7 @@ abstract class NodeTest extends \Test\TestCase {
 	 * @param string $path
 	 * @return Node
 	 */
-	abstract protected function createTestNode($root, $view, $path);
+	abstract protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null);
 
 	/**
 	 * @return string
@@ -97,8 +98,11 @@ abstract class NodeTest extends \Test\TestCase {
 		return $storage;
 	}
 
-	protected function getFileInfo($data) {
-		return new FileInfo('', $this->getMockStorage(), '', $data, null);
+	protected function getFileInfo($data, $internalPath = '', $storage = null) {
+		$mount = $this->createMock(IMountPoint::class);
+		$mount->method('getStorage')
+			->willReturn($storage);
+		return new FileInfo('', $this->getMockStorage(), $internalPath, $data, $mount);
 	}
 
 	public function testDelete() {
@@ -165,17 +169,12 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1, 'mimetype' => 'text/plain']));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1, 'mimetype' => 'text/plain'], 'foo'));
 
 		$this->view->expects($this->once())
 			->method($this->getViewDeleteMethod())
 			->with('/bar/foo')
 			->willReturn(true);
-
-		$this->view->expects($this->any())
-			->method('resolvePath')
-			->with('/bar/foo')
-			->willReturn([null, 'foo']);
 
 		$node = $this->createTestNode($root, $this->view, '/bar/foo');
 		$node->delete();
@@ -318,13 +317,7 @@ abstract class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->view->expects($this->once())
-			->method('resolvePath')
-			->with('/bar/foo')
-			->willReturn([$storage, 'foo']);
-
-
-		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
+		$node = $this->createTestNode($this->root, $this->view, '/bar/foo', [], 'foo', $storage);
 		$this->assertEquals($storage, $node->getStorage());
 	}
 
@@ -349,9 +342,9 @@ abstract class NodeTest extends \Test\TestCase {
 			->getMock();
 
 		$this->view->expects($this->once())
-			->method('resolvePath')
+			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn([$storage, 'foo']);
+			->willReturn($this->getFileInfo([], 'foo'));
 
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
@@ -426,14 +419,9 @@ abstract class NodeTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->view->expects($this->any())
-			->method('resolvePath')
-			->with('/bar/foo')
-			->willReturn([null, 'foo']);
-
-		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL], 'foo'));
 
 		$node = $this->createTestNode($root, $this->view, '/bar/foo');
 		$node->touch(100);

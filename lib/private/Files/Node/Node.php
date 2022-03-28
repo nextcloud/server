@@ -154,12 +154,11 @@ class Node implements \OCP\Files\Node {
 		}
 	}
 
-	/**
-	 * @return \OC\Files\Storage\Storage
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function getStorage() {
-		[$storage,] = $this->view->resolvePath($this->path);
+		$storage = $this->getMountPoint()->getStorage();
+		if (!$storage) {
+			throw new \Exception("No storage for node");
+		}
 		return $storage;
 	}
 
@@ -174,8 +173,7 @@ class Node implements \OCP\Files\Node {
 	 * @return string
 	 */
 	public function getInternalPath() {
-		[, $internalPath] = $this->view->resolvePath($this->path);
-		return $internalPath;
+		return $this->getFileInfo()->getInternalPath();
 	}
 
 	/**
