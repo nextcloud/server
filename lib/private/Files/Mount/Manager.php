@@ -204,4 +204,22 @@ class Manager implements IMountManager {
 	public function getSetupManager(): SetupManager {
 		return $this->setupManager;
 	}
+
+	/**
+	 * Return all mounts in a path from a specific mount provider
+	 *
+	 * @param string $path
+	 * @param string[] $mountProviders
+	 * @return MountPoint[]
+	 */
+	public function getMountsByMountProvider(string $path, array $mountProviders) {
+		$this->getSetupManager()->setupForProvider($path, $mountProviders);
+		if (in_array('', $mountProviders)) {
+			return $this->mounts;
+		} else {
+			return array_filter($this->mounts, function ($mount) use ($mountProviders) {
+				return in_array($mount->getMountProvider(), $mountProviders);
+			});
+		}
+	}
 }

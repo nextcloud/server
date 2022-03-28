@@ -97,10 +97,10 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		return $this->getUserMountsForProviders($user, $this->providers);
 	}
 
-	public function getUserMountsForProviderClass(IUser $user, string $mountProviderClass): array {
+	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
 		$providers = array_filter(
 			$this->providers,
-			fn (IMountProvider $mountProvider) => (get_class($mountProvider) === $mountProviderClass)
+			fn (IMountProvider $mountProvider) => (in_array(get_class($mountProvider), $mountProviderClasses))
 		);
 		return $this->getUserMountsForProviders($user, $providers);
 	}
