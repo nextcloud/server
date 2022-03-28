@@ -36,6 +36,7 @@ use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Utils\PathHelper;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
@@ -76,17 +77,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return string|null
 	 */
 	public function getRelativePath($path) {
-		if ($this->path === '' or $this->path === '/') {
-			return $this->normalizePath($path);
-		}
-		if ($path === $this->path) {
-			return '/';
-		} elseif (strpos($path, $this->path . '/') !== 0) {
-			return null;
-		} else {
-			$path = substr($path, strlen($this->path));
-			return $this->normalizePath($path);
-		}
+		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
 
 	/**

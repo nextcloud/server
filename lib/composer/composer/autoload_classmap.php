@@ -1209,6 +1209,7 @@ return array(
     'OC\\Files\\Type\\Detection' => $baseDir . '/lib/private/Files/Type/Detection.php',
     'OC\\Files\\Type\\Loader' => $baseDir . '/lib/private/Files/Type/Loader.php',
     'OC\\Files\\Type\\TemplateManager' => $baseDir . '/lib/private/Files/Type/TemplateManager.php',
+    'OC\\Files\\Utils\\PathHelper' => $baseDir . '/lib/private/Files/Utils/PathHelper.php',
     'OC\\Files\\Utils\\Scanner' => $baseDir . '/lib/private/Files/Utils/Scanner.php',
     'OC\\Files\\View' => $baseDir . '/lib/private/Files/View.php',
     'OC\\ForbiddenException' => $baseDir . '/lib/private/ForbiddenException.php',

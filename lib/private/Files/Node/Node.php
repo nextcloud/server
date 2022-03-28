@@ -31,6 +31,7 @@ namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Utils\PathHelper;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -298,23 +299,7 @@ class Node implements \OCP\Files\Node {
 	 * @return string
 	 */
 	protected function normalizePath($path) {
-		if ($path === '' or $path === '/') {
-			return '/';
-		}
-		//no windows style slashes
-		$path = str_replace('\\', '/', $path);
-		//add leading slash
-		if ($path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		//remove duplicate slashes
-		while (strpos($path, '//') !== false) {
-			$path = str_replace('//', '/', $path);
-		}
-		//remove trailing slash
-		$path = rtrim($path, '/');
-
-		return $path;
+		return PathHelper::normalizePath($path);
 	}
 
 	/**

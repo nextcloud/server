@@ -33,8 +33,10 @@
 namespace OC\Files\Node;
 
 use OC\Cache\CappedMemoryCache;
+use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
