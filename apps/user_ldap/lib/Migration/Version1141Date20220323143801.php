@@ -48,19 +48,15 @@ class Version1141Date20220323143801 extends SimpleMigrationStep {
 	 */
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		foreach (['ldap_user_mapping', 'ldap_group_mapping'] as $tableName) {
-			$dnsTooLong = [];
-			$lengthExpr = $this->dbc->getDatabasePlatform()->getLengthExpression('ldap_dn');
-
 			$qb = $this->dbc->getQueryBuilder();
 			$qb->select('ldap_dn')
 				->from($tableName)
-				->where($qb->expr()->gt($qb->createFunction($lengthExpr), '255', IQueryBuilder::PARAM_INT));
+				->where($qb->expr()->gt($qb->func()->octetLength('ldap_dn'), '4000', IQueryBuilder::PARAM_INT));
 
+			$dnsTooLong = [];
 			$result = $qb->executeQuery();
-			while(($dn = $result->fetchOne()) !== false) {
-				if(mb_strlen($dn) > 4000) {
-					$dnsTooLong[] = $dn;
-				}
+			while (($dn = $result->fetchOne()) !== false) {
+				$dnsTooLong[] = $dn;
 			}
 			$result->closeCursor();
 			$this->shortenDNs($dnsTooLong, $tableName);
