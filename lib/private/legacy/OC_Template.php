@@ -38,6 +38,7 @@
  *
  */
 use OC\TemplateLayout;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Util;
 
@@ -283,10 +284,25 @@ class OC_Template extends \OC\Template\Base {
 	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printErrorPage($error_msg, $hint = '', $statusCode = 500) {
-		if (\OC::$server->getAppManager()->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
-			\OC_App::loadApp('theming');
-		}
+		if (\OC::$server->getAppManager()->isEnabledForUser('theming')) {
+			if (!\OC_App::isAppLoaded('theming')) {
+				\OC_App::loadApp('theming');
+			}
 
+			$linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
+				'theming.Theming.getStylesheet',
+				[
+					'v' =>1,
+				]
+			);
+			\OCP\Util::addHeader(
+				'link',
+				[
+					'rel' => 'stylesheet',
+					'href' => $linkToCSS,
+				]
+			);
+		}
 
 		if ($error_msg === $hint) {
 			// If the hint is the same as the message there is no need to display it twice.
