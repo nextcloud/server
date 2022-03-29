@@ -43,4 +43,5 @@ return array(
     'OCA\\Files_Trashbin\\Trash\\TrashItem' => $baseDir . '/../lib/Trash/TrashItem.php',
     'OCA\\Files_Trashbin\\Trash\\TrashManager' => $baseDir . '/../lib/Trash/TrashManager.php',
     'OCA\\Files_Trashbin\\Trashbin' => $baseDir . '/../lib/Trashbin.php',
+    'OCA\\Files_Trashbin\\UserMigration\\TrashbinMigrator' => $baseDir . '/../lib/UserMigration/TrashbinMigrator.php',
 );
