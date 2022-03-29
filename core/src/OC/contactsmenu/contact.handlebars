@@ -28,11 +28,11 @@
 		</a>
 	{{/if}}
 {{else}}
-	<div class="body">
+	<a class="body" href="{{contact.topAction.hyperlink}}">
 		<div class="full-name">{{contact.fullName}}</div>
 		<div class="last-message">{{contact.lastMessage}}</div>
 		<div class="email-address">{{contact.emailAddresses}}</div>
-	</div>
+	</a>
 {{/if}}
 {{#if contact.topAction}}
 <a class="top-action" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}">
