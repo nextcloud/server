@@ -51,19 +51,14 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param resource $link
-	 * @param string $dn
-	 * @param string $password
-	 * @return bool|mixed
+	 * {@inheritDoc}
 	 */
 	public function bind($link, $dn, $password) {
 		return $this->invokeLDAPMethod('bind', $link, $dn, $password);
 	}
 
 	/**
-	 * @param string $host
-	 * @param string $port
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function connect($host, $port) {
 		if (strpos($host, '://') === false) {
@@ -76,6 +71,9 @@ class LDAP implements ILDAPWrapper {
 		return $this->invokeLDAPMethod('connect', $host);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function controlPagedResultResponse($link, $result, &$cookie): bool {
 		$this->preFunctionCall(
 			$this->pagedResultsAdapter->getResponseCallFunc(),
@@ -93,10 +91,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param int $pageSize
-	 * @param bool $isCritical
-	 * @return mixed|true
+	 * {@inheritDoc}
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical) {
 		$fn = $this->pagedResultsAdapter->getRequestCallFunc();
@@ -116,25 +111,21 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param LDAP $result
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function countEntries($link, $result) {
 		return $this->invokeLDAPMethod('count_entries', $link, $result);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @return integer
+	 * {@inheritDoc}
 	 */
 	public function errno($link) {
 		return $this->invokeLDAPMethod('errno', $link);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @return string
+	 * {@inheritDoc}
 	 */
 	public function error($link) {
 		return $this->invokeLDAPMethod('error', $link);
@@ -152,56 +143,42 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param LDAP $result
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function firstEntry($link, $result) {
 		return $this->invokeLDAPMethod('first_entry', $link, $result);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param LDAP $result
-	 * @return array|mixed
+	 * {@inheritDoc}
 	 */
 	public function getAttributes($link, $result) {
 		return $this->invokeLDAPMethod('get_attributes', $link, $result);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param LDAP $result
-	 * @return mixed|string
+	 * {@inheritDoc}
 	 */
 	public function getDN($link, $result) {
 		return $this->invokeLDAPMethod('get_dn', $link, $result);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param LDAP $result
-	 * @return array|mixed
+	 * {@inheritDoc}
 	 */
 	public function getEntries($link, $result) {
 		return $this->invokeLDAPMethod('get_entries', $link, $result);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param resource $result
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function nextEntry($link, $result) {
 		return $this->invokeLDAPMethod('next_entry', $link, $result);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param string $baseDN
-	 * @param string $filter
-	 * @param array $attr
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function read($link, $baseDN, $filter, $attr) {
 		$this->pagedResultsAdapter->setReadArgs($link, $baseDN, $filter, $attr);
@@ -209,14 +186,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param string[] $baseDN
-	 * @param string $filter
-	 * @param array $attr
-	 * @param int $attrsOnly
-	 * @param int $limit
-	 * @return mixed
-	 * @throws \Exception
+	 * {@inheritDoc}
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0) {
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
@@ -239,47 +209,35 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param string $userDN
-	 * @param string $password
-	 * @return bool
+	 * {@inheritDoc}
 	 */
 	public function modReplace($link, $userDN, $password) {
 		return $this->invokeLDAPMethod('mod_replace', $link, $userDN, ['userPassword' => $password]);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param string $userDN
-	 * @param string $oldPassword
-	 * @param string $password
-	 * @return bool
+	 * {@inheritDoc}
 	 */
 	public function exopPasswd($link, $userDN, $oldPassword, $password) {
 		return $this->invokeLDAPMethod('exop_passwd', $link, $userDN, $oldPassword, $password);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param string $option
-	 * @param int $value
-	 * @return bool|mixed
+	 * {@inheritDoc}
 	 */
 	public function setOption($link, $option, $value) {
 		return $this->invokeLDAPMethod('set_option', $link, $option, $value);
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @return mixed|true
+	 * {@inheritDoc}
 	 */
 	public function startTls($link) {
 		return $this->invokeLDAPMethod('start_tls', $link);
 	}
 
 	/**
-	 * @param resource $link
-	 * @return bool|mixed
+	 * {@inheritDoc}
 	 */
 	public function unbind($link) {
 		return $this->invokeLDAPMethod('unbind', $link);
@@ -294,9 +252,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * Checks whether the submitted parameter is a resource
-	 * @param Resource $resource the resource variable to check
-	 * @return bool true if it is a resource, false otherwise
+	 * {@inheritDoc}
 	 */
 	public function isResource($resource) {
 		return is_resource($resource);
