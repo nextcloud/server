@@ -5,6 +5,7 @@
 		 timeoutForSmallTests="900"
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
+		 convertDeprecationsToExceptions="true"
 >
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
