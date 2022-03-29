@@ -32,3 +32,9 @@ clean:
 
 clean-git: clean
 	git checkout -- dist
+
+scss: dist/core-server.css apps/settings/css/settings.scss
+	node_modules/node-sass/bin/node-sass apps/settings/css/settings.scss dist/settings-setting-settingss.css
+
+dist/core-%.css: core/css/%.scss
+	node_modules/node-sass/bin/node-sass $< $@

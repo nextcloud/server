@@ -27,7 +27,6 @@ import $ from 'jquery'
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import './Polyfill/index'
-import '../css/server.scss'
 
 // If you remove the line below, tests won't pass
 // eslint-disable-next-line no-unused-vars

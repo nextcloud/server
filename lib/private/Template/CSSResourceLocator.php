@@ -82,7 +82,7 @@ class CSSResourceLocator extends ResourceLocator {
 		$app_path = realpath($app_path);
 
 		if (!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
-			$this->append($app_path, $style.'.css', $app_url);
+			$this->append($app_path, $style . '.css', $app_url);
 		}
 	}
 

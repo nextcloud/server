@@ -12,9 +12,6 @@ $getUserAvatar = static function (int $size) use ($_): string {
 	]);
 };
 
-// HACK
-$_['cssfiles'][] = ['href' => 'css/server.min.css'];
-
 ?><!DOCTYPE html>
 <html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >
 	<head data-user="<?php p($_['user_uid']); ?>" data-user-displayname="<?php p($_['user_displayname']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
