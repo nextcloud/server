@@ -29,6 +29,7 @@
 import api from './api'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
+import logger from '../logger'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -143,22 +144,59 @@ const mutations = {
 	},
 	deleteUser(state, userid) {
 		const userIndex = state.users.findIndex(user => user.id === userid)
+		this.commit('updateUserCounts', { user: state.users[userIndex], actionType: 'remove' })
 		state.users.splice(userIndex, 1)
 	},
 	addUserData(state, response) {
-		state.users.push(response.data.ocs.data)
+		const user = response.data.ocs.data
+		state.users.push(user)
+		this.commit('updateUserCounts', { user, actionType: 'create' })
 	},
 	enableDisableUser(state, { userid, enabled }) {
 		const user = state.users.find(user => user.id === userid)
 		user.enabled = enabled
-		// increment or not
-		if (state.userCount > 0) {
-			state.groups.find(group => group.id === 'disabled').usercount += enabled ? -1 : 1
-			state.userCount += enabled ? 1 : -1
-			user.groups.forEach(group => {
-				// Increment disabled count
-				state.groups.find(groupSearch => groupSearch.id === group).disabled += enabled ? -1 : 1
+		this.commit('updateUserCounts', { user, actionType: enabled ? 'enable' : 'disable' })
+	},
+	// update active/disabled counts, groups counts
+	updateUserCounts(state, { user, actionType }) {
+		const disabledGroup = state.groups.find(group => group.id === 'disabled')
+		switch (actionType) {
+		case 'enable':
+		case 'disable':
+			disabledGroup.usercount += user.enabled ? -1 : 1 // update Disabled Users count
+			state.userCount += user.enabled ? 1 : -1 // update Active Users count
+			user.groups.forEach(userGroup => {
+				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+				group.disabled += user.enabled ? -1 : 1 // update group disabled count
 			})
+			break
+		case 'create':
+			state.userCount++ // increment Active Users count
+
+			user.groups.forEach(userGroup => {
+				state.groups
+					.find(groupSearch => groupSearch.id === userGroup)
+				    .usercount++ // increment group total count
+			})
+			break
+		case 'remove':
+			if (user.enabled) {
+				state.userCount-- // decrement Active Users count
+				user.groups.forEach(userGroup => {
+					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					group.usercount-- // decrement group total count
+				})
+			} else {
+				disabledGroup.usercount-- // decrement Disabled Users count
+				user.groups.forEach(userGroup => {
+					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					group.disabled-- // decrement group disabled count
+				})
+			}
+			break
+		default:
+			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
+			// not throwing error to interupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {
