@@ -16,9 +16,9 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class NodeTest
@@ -36,7 +36,7 @@ abstract class NodeTest extends \Test\TestCase {
 	protected $root;
 	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userMountCache;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
@@ -56,7 +56,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->root = $this->getMockBuilder('\OC\Files\Node\Root')

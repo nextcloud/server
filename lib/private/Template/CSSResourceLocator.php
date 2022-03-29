@@ -31,7 +31,7 @@
  */
 namespace OC\Template;
 
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CSSResourceLocator extends ResourceLocator {
 
@@ -39,13 +39,12 @@ class CSSResourceLocator extends ResourceLocator {
 	protected $scssCacher;
 
 	/**
-	 * @param ILogger $logger
 	 * @param string $theme
 	 * @param array $core_map
 	 * @param array $party_map
 	 * @param SCSSCacher $scssCacher
 	 */
-	public function __construct(ILogger $logger, $theme, $core_map, $party_map, $scssCacher) {
+	public function __construct(LoggerInterface $logger, $theme, $core_map, $party_map, $scssCacher) {
 		$this->scssCacher = $scssCacher;
 
 		parent::__construct($logger, $theme, $core_map, $party_map);

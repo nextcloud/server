@@ -34,7 +34,7 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
 
@@ -44,8 +44,7 @@ class Manager implements IManager {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var Il10n */
 	protected $l;
@@ -59,15 +58,7 @@ class Manager implements IManager {
 	/** @var ArrayCache  */
 	protected $arrayCache;
 
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param IL10N $l10n
-	 * @param View $rootView
-	 * @param Util $util
-	 * @param ArrayCache $arrayCache
-	 */
-	public function __construct(IConfig $config, ILogger $logger, IL10N $l10n, View $rootView, Util $util, ArrayCache $arrayCache) {
+	public function __construct(IConfig $config, LoggerInterface $logger, IL10N $l10n, View $rootView, Util $util, ArrayCache $arrayCache) {
 		$this->encryptionModules = [];
 		$this->config = $config;
 		$this->logger = $logger;

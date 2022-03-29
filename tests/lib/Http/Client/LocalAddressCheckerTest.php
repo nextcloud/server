@@ -26,9 +26,9 @@ declare(strict_types=1);
 
 namespace Test\Http\Client;
 
-use OCP\ILogger;
 use OCP\Http\Client\LocalServerException;
 use OC\Http\Client\LocalAddressChecker;
+use Psr\Log\LoggerInterface;
 
 class LocalAddressCheckerTest extends \Test\TestCase {
 	/** @var LocalAddressChecker */
@@ -37,7 +37,7 @@ class LocalAddressCheckerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$this->localAddressChecker = new LocalAddressChecker($logger);
 	}
 

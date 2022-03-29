@@ -41,7 +41,6 @@ use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -60,6 +59,7 @@ use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -73,7 +73,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/** @var Manager */
 	protected $manager;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
 	/** @var IConfig|MockObject */
 	protected $config;
@@ -113,7 +113,7 @@ class ManagerTest extends \Test\TestCase {
 	protected $knownUserService;
 
 	protected function setUp(): void {
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->hasher = $this->createMock(IHasher::class);

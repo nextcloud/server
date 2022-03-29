@@ -13,8 +13,8 @@ use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
-use OCP\ILogger;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
 
 /**
@@ -59,7 +59,7 @@ class IntegrationTest extends \Test\TestCase {
 			$this->view,
 			$user,
 			\OC::$server->getUserMountCache(),
-			$this->createMock(ILogger::class),
+			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class)
 		);

@@ -36,8 +36,8 @@ use OC\Files\Filesystem;
 use OCP\ICertificate;
 use OCP\ICertificateManager;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 /**
  * Manage trusted certificates for users
@@ -53,25 +53,16 @@ class CertificateManager implements ICertificateManager {
 	 */
 	protected $config;
 
-	/**
-	 * @var ILogger
-	 */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var ISecureRandom */
 	protected $random;
 
 	private ?string $bundlePath = null;
 
-	/**
-	 * @param \OC\Files\View $view relative to data/
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param ISecureRandom $random
-	 */
 	public function __construct(\OC\Files\View $view,
 								IConfig $config,
-								ILogger $logger,
+								LoggerInterface $logger,
 								ISecureRandom $random) {
 		$this->view = $view;
 		$this->config = $config;
@@ -147,7 +138,8 @@ class CertificateManager implements ICertificateManager {
 		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 		if (strlen($defaultCertificates) < 1024) { // sanity check to verify that we have some content for our bundle
 			// log as exception so we have a stacktrace
-			$this->logger->logException(new \Exception('Shipped ca-bundle is empty, refusing to create certificate bundle'));
+			$e = new \Exception('Shipped ca-bundle is empty, refusing to create certificate bundle');
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 

@@ -41,16 +41,14 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IMemcache;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 
 class SCSSCacher {
-
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var IAppData */
 	protected $appData;
@@ -91,17 +89,9 @@ class SCSSCacher {
 	private $appConfig;
 
 	/**
-	 * @param ILogger $logger
-	 * @param Factory $appDataFactory
-	 * @param IURLGenerator $urlGenerator
-	 * @param IConfig $config
-	 * @param \OC_Defaults $defaults
 	 * @param string $serverRoot
-	 * @param ICacheFactory $cacheFactory
-	 * @param IconsCacher $iconsCacher
-	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(ILogger $logger,
+	public function __construct(LoggerInterface $logger,
 								Factory $appDataFactory,
 								IURLGenerator $urlGenerator,
 								IConfig $config,
@@ -340,7 +330,7 @@ class SCSSCacher {
 				'@import "functions.scss";' .
 				'@import "' . $fileNameSCSS . '";');
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'scss_cacher']);
+			$this->logger->error($e->getMessage(), ['app' => 'scss_cacher', 'exception' => $e]);
 
 			return false;
 		}
@@ -395,7 +385,7 @@ class SCSSCacher {
 				try {
 					$file->delete();
 				} catch (NotPermittedException $e) {
-					$this->logger->logException($e, ['message' => 'SCSSCacher::resetCache unable to delete file: ' . $file->getName(), 'app' => 'scss_cacher']);
+					$this->logger->error('SCSSCacher::resetCache unable to delete file: ' . $file->getName(), ['exception' => $e, 'app' => 'scss_cacher']);
 				}
 			}
 		}
@@ -431,7 +421,7 @@ class SCSSCacher {
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'scss_cacher']);
+			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'scss_cacher']);
 		}
 
 		return $variables;

@@ -30,7 +30,7 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class QueryBuilderTest
@@ -49,7 +49,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -57,7 +57,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->config = $this->createMock(SystemConfig::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->queryBuilder = new QueryBuilder($this->connection, $this->config, $this->logger);
 	}
 
@@ -176,7 +176,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataSelect() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			// select('column1')
@@ -244,7 +244,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataSelectAlias() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			['configvalue', 'cv', ['cv' => '99']],
@@ -353,7 +353,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataAddSelect() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			// addSelect('column1')
@@ -508,7 +508,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataFrom() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			[$qb->createFunction('(' . $qb->select('*')->from('test')->getSQL() . ')'), 'q', null, null, [
@@ -1212,7 +1212,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataGetTableName() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			['*PREFIX*table', null, '`*PREFIX*table`'],
@@ -1414,12 +1414,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
-			->method('logException')
-			->willReturnCallback(function ($e, $parameters) {
-				$this->assertInstanceOf(QueryException::class, $e);
+			->method('error')
+			->willReturnCallback(function ($message, $parameters) {
+				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'More than 1000 expressions in a list are not allowed on Oracle.',
-					$parameters['message']
+					$message
 				);
 			});
 		$this->config
@@ -1449,12 +1449,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
-			->method('logException')
-			->willReturnCallback(function ($e, $parameters) {
-				$this->assertInstanceOf(QueryException::class, $e);
+			->method('error')
+			->willReturnCallback(function ($message, $parameters) {
+				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',
-					$parameters['message']
+					$message
 				);
 			});
 		$this->config

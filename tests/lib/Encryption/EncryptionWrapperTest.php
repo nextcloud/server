@@ -25,7 +25,7 @@ use OC\Encryption\EncryptionWrapper;
 use OC\Encryption\Manager;
 use OC\Memcache\ArrayCache;
 use OCP\Files\Storage;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EncryptionWrapperTest extends TestCase {
@@ -33,7 +33,7 @@ class EncryptionWrapperTest extends TestCase {
 	/** @var  EncryptionWrapper */
 	private $instance;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OCP\ILogger */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
@@ -47,8 +47,7 @@ class EncryptionWrapperTest extends TestCase {
 
 		$this->arrayCache = $this->createMock(ArrayCache::class);
 		$this->manager = $this->createMock(Manager::class);
-		$this->logger = $this->createMock(ILogger::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->instance = new EncryptionWrapper($this->arrayCache, $this->manager, $this->logger);
 	}

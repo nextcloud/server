@@ -40,7 +40,6 @@ use GuzzleHttp\HandlerStack;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ICache;
-use OCP\ILogger;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Transport\Utils as TransportUtils;
@@ -50,13 +49,14 @@ use OpenStack\Identity\v3\Service as IdentityV3Service;
 use OpenStack\ObjectStore\v1\Models\Container;
 use OpenStack\OpenStack;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
 class SwiftFactory {
 	private $cache;
 	private $params;
 	/** @var Container|null */
 	private $container = null;
-	private $logger;
+	private LoggerInterface $logger;
 
 	public const DEFAULT_OPTIONS = [
 		'autocreate' => false,
@@ -65,7 +65,7 @@ class SwiftFactory {
 		'catalogType' => 'object-store'
 	];
 
-	public function __construct(ICache $cache, array $params, ILogger $logger) {
+	public function __construct(ICache $cache, array $params, LoggerInterface $logger) {
 		$this->cache = $cache;
 		$this->params = $params;
 		$this->logger = $logger;
@@ -203,7 +203,7 @@ class SwiftFactory {
 						$this->logger->debug('Cached token for swift expired');
 					}
 				} catch (\Exception $e) {
-					$this->logger->logException($e);
+					$this->logger->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 		}
@@ -279,7 +279,7 @@ class SwiftFactory {
 			/** @var RequestInterface $request */
 			$request = $e->getRequest();
 			$host = $request->getUri()->getHost() . ':' . $request->getUri()->getPort();
-			\OC::$server->getLogger()->error("Can't connect to object storage server at $host");
+			$this->logger->error("Can't connect to object storage server at $host", ['exception' => $e]);
 			throw new StorageNotAvailableException("Can't connect to object storage server at $host", StorageNotAvailableException::STATUS_ERROR, $e);
 		}
 	}

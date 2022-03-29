@@ -34,7 +34,7 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
 
@@ -44,8 +44,7 @@ class QuerySearchHelper {
 	private $connection;
 	/** @var SystemConfig */
 	private $systemConfig;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var SearchBuilder */
 	private $searchBuilder;
 	/** @var QueryOptimizer */
@@ -55,7 +54,7 @@ class QuerySearchHelper {
 		IMimeTypeLoader $mimetypeLoader,
 		IDBConnection $connection,
 		SystemConfig $systemConfig,
-		ILogger $logger,
+		LoggerInterface $logger,
 		SearchBuilder $searchBuilder,
 		QueryOptimizer $queryOptimizer
 	) {

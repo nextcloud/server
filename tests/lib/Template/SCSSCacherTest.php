@@ -37,11 +37,11 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class SCSSCacherTest extends \Test\TestCase {
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
@@ -68,7 +68,7 @@ class SCSSCacherTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appData = $this->createMock(AppData::class);
 		$this->iconsCacher = $this->createMock(IconsCacher::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

@@ -8,7 +8,6 @@ use OC\Encryption\Util;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
-use OC\Log;
 use OC\Memcache\ArrayCache;
 use OC\User\Manager;
 use OCP\Encryption\IEncryptionModule;
@@ -19,7 +18,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Files\Storage\Storage;
 
@@ -151,7 +150,7 @@ class EncryptionTest extends Storage {
 			->getMock();
 		$this->file->expects($this->any())->method('getAccessList')->willReturn([]);
 
-		$this->logger = $this->createMock(Log::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->sourceStorage = new Temporary([]);
 
@@ -584,7 +583,7 @@ class EncryptionTest extends Storage {
 					$this->arrayCache
 				]
 			)->getMock();
-		
+
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
 			->disableOriginalConstructor()->getMock();
 		$cache->expects($this->any())
@@ -607,9 +606,9 @@ class EncryptionTest extends Storage {
 			)
 			->setMethods(['getCache','readFirstBlock', 'parseRawHeader'])
 			->getMock();
-		
+
 		$instance->expects($this->once())->method('getCache')->willReturn($cache);
-		
+
 		$instance->expects($this->once())->method(('parseRawHeader'))
 			->willReturn([Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']);
 
@@ -989,7 +988,6 @@ class EncryptionTest extends Storage {
 	) {
 		$encryptionManager = $this->createMock(\OC\Encryption\Manager::class);
 		$util = $this->createMock(Util::class);
-		$logger = $this->createMock(ILogger::class);
 		$fileHelper = $this->createMock(IFile::class);
 		$uid = null;
 		$keyStorage = $this->createMock(IStorage::class);
@@ -1007,7 +1005,7 @@ class EncryptionTest extends Storage {
 					['mountPoint' => '', 'mount' => $mount, 'storage' => ''],
 					$encryptionManager,
 					$util,
-					$logger,
+					$this->logger,
 					$fileHelper,
 					$uid,
 					$keyStorage,

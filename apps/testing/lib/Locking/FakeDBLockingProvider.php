@@ -25,7 +25,7 @@ namespace OCA\Testing\Locking;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class FakeDBLockingProvider extends \OC\Lock\DBLockingProvider {
 	// Lock for 10 hours just to be sure
@@ -37,12 +37,11 @@ class FakeDBLockingProvider extends \OC\Lock\DBLockingProvider {
 	 */
 	protected $db;
 
-	/**
-	 * @param \OCP\IDBConnection $connection
-	 * @param \OCP\ILogger $logger
-	 * @param \OCP\AppFramework\Utility\ITimeFactory $timeFactory
-	 */
-	public function __construct(IDBConnection $connection, ILogger $logger, ITimeFactory $timeFactory) {
+	public function __construct(
+		IDBConnection $connection,
+		LoggerInterface $logger,
+		ITimeFactory $timeFactory
+	) {
 		parent::__construct($connection, $logger, $timeFactory);
 		$this->db = $connection;
 	}

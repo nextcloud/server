@@ -36,13 +36,11 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class IconsCacher {
-
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var IAppData */
 	protected $appData;
@@ -68,13 +66,9 @@ class IconsCacher {
 	private $cachedList;
 
 	/**
-	 * @param ILogger $logger
-	 * @param Factory $appDataFactory
-	 * @param IURLGenerator $urlGenerator
-	 * @param ITimeFactory $timeFactory
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function __construct(ILogger $logger,
+	public function __construct(LoggerInterface $logger,
 								Factory $appDataFactory,
 								IURLGenerator $urlGenerator,
 								ITimeFactory $timeFactory) {

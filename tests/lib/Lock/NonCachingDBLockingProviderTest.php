@@ -22,6 +22,7 @@
 namespace Test\Lock;
 
 use OCP\Lock\ILockingProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group DB
@@ -34,7 +35,7 @@ class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 	 */
 	protected function getInstance() {
 		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->getLogger(), $this->timeFactory, 3600, false);
+		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->get(LoggerInterface::class), $this->timeFactory, 3600, false);
 	}
 
 	public function testDoubleShared() {

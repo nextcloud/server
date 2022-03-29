@@ -57,6 +57,7 @@ use OCP\IUserSession;
 use OCP\Support\Subscription\IRegistry;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class TemplateLayout extends \OC_Template {
 	private static $versionHash = '';
@@ -345,7 +346,7 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		$locator = new \OC\Template\CSSResourceLocator(
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			$theme,
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
@@ -380,7 +381,7 @@ class TemplateLayout extends \OC_Template {
 		$theme = \OC_Util::getTheme();
 
 		$locator = new \OC\Template\JSResourceLocator(
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			$theme,
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],

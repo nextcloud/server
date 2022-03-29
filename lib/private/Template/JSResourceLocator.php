@@ -27,12 +27,14 @@
  */
 namespace OC\Template;
 
+use Psr\Log\LoggerInterface;
+
 class JSResourceLocator extends ResourceLocator {
 
 	/** @var JSCombiner */
 	protected $jsCombiner;
 
-	public function __construct(\OCP\ILogger $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
+	public function __construct(LoggerInterface $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
 		parent::__construct($logger, $theme, $core_map, $party_map);
 
 		$this->jsCombiner = $JSCombiner;

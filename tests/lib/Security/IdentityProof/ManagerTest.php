@@ -32,10 +32,10 @@ use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\ICrypto;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -49,7 +49,7 @@ class ManagerTest extends TestCase {
 	private $manager;
 	/** @var IConfig|MockObject */
 	private $config;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -63,7 +63,7 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->with('identityproof')
 			->willReturn($this->appData);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->manager = $this->getManager(['generateKeyPair']);

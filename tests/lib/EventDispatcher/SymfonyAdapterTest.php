@@ -30,8 +30,8 @@ use OC\EventDispatcher\GenericEventWrapper;
 use OC\EventDispatcher\SymfonyAdapter;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\GenericEvent;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -43,7 +43,7 @@ class SymfonyAdapterTest extends TestCase {
 	/** @var EventDispatcher|MockObject */
 	private $eventDispatcher;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	/** @var EventDispatcherInterface */
@@ -53,7 +53,7 @@ class SymfonyAdapterTest extends TestCase {
 		parent::setUp();
 
 		$this->eventDispatcher = $this->createMock(EventDispatcher::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->adapter = new SymfonyAdapter(
 			$this->eventDispatcher,

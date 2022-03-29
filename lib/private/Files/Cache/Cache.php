@@ -58,6 +58,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Metadata cache for a storage
@@ -128,7 +129,7 @@ class Cache implements ICache {
 		return new CacheQueryBuilder(
 			$this->connection,
 			\OC::$server->getSystemConfig(),
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 	}
 
@@ -590,7 +591,7 @@ class Cache implements ICache {
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
 				->where($query->expr()->in('fileid', $query->createParameter('childIds')));
-			
+
 			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$query->execute();

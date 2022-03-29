@@ -43,7 +43,7 @@ class RootCollectionTest extends \Test\TestCase {
 	protected $commentsManager;
 	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var \OCA\DAV\Comments\RootCollection */
 	protected $collection;
@@ -70,14 +70,14 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->dispatcher = new SymfonyAdapter(
 			new EventDispatcher(
 				new \Symfony\Component\EventDispatcher\EventDispatcher(),
 				\OC::$server,
-				$this->createMock(LoggerInterface::class)
+				$this->logger
 			),
 			$this->logger
 		);
@@ -87,7 +87,7 @@ class RootCollectionTest extends \Test\TestCase {
 			$this->userManager,
 			$this->userSession,
 			$this->dispatcher,
-			$this->logger
+			$this->createMock(ILogger::class)
 		);
 	}
 

@@ -34,8 +34,8 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class CSSResourceLocatorTest extends \Test\TestCase {
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
@@ -48,7 +48,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 	protected $themingDefaults;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var IconsCacher|\PHPUnit\Framework\MockObject\MockObject */
 	protected $iconsCacher;
@@ -60,7 +60,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appData = $this->createMock(AppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
