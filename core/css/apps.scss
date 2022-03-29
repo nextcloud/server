@@ -285,6 +285,8 @@ kbd {
 				    margin-right: 11px;
 				    width: 16px;
 				    height: 16px;
+					// Legacy invert if bright background
+					filter: var(--background-invert-if-bright);
 				}
 
 				/* counter can also be inside the link */

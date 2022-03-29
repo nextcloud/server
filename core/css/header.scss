@@ -449,6 +449,11 @@ nav[role='navigation'] {
 			// Make sure most app names don’t ellipsize
 			letter-spacing: -0.5px;
 			font-size: 12px;
+
+			// If the primary is too bright, invert the app icons
+			svg image {
+				filter: var(--primary-invert-if-bright);
+			}
 		}
 
 		/* focused app visual feedback */

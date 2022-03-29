@@ -44,8 +44,8 @@ return ['routes' => [
 		'verb' => 'POST'
 	],
 	[
-		'name' => 'Theming#getStylesheet',
-		'url' => '/styles',
+		'name' => 'Theming#getThemeVariables',
+		'url' => '/theme/{themeId}.css',
 		'verb' => 'GET',
 	],
 	[
