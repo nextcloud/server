@@ -445,7 +445,7 @@
 						messages.push({
 							msg: t(
 								'core',
-								'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'
+								'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it, but by enabling this support you are adding a potential security risk.'
 							),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
