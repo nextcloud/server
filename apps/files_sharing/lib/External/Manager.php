@@ -374,6 +374,7 @@ class Manager {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
 				$event = new FederatedShareAddedEvent($share['remote']);
 				$this->eventDispatcher->dispatchTyped($event);
+				$this->eventDispatcher->dispatchTyped(new Files\Events\InvalidateMountCacheEvent($this->userManager->get($this->uid)));
 				$result = true;
 			}
 		}
@@ -595,6 +596,8 @@ class Manager {
 			AND `user` = ?
 		');
 		$result = (bool)$query->execute([$target, $targetHash, $sourceHash, $this->uid]);
+
+		$this->eventDispatcher->dispatchTyped(new Files\Events\InvalidateMountCacheEvent($this->userManager->get($this->uid)));
 
 		return $result;
 	}
