@@ -336,6 +336,56 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertGreaterThan(1, $column);
 	}
 
+	public function octetLengthProvider() {
+		return [
+			['', 0],
+			['foobar', 6],
+			['fé', 3],
+			['šđčćž', 10],
+		];
+	}
+
+	/**
+	 * @dataProvider octetLengthProvider
+	 */
+	public function testOctetLength(string $str, int $bytes) {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->octetLength($query->createNamedParameter($str, IQueryBuilder::PARAM_STR)));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($bytes, $column);
+	}
+
+	public function charLengthProvider() {
+		return [
+			['', 0],
+			['foobar', 6],
+			['fé', 2],
+			['šđčćž', 5],
+		];
+	}
+
+	/**
+	 * @dataProvider charLengthProvider
+	 */
+	public function testCharLength(string $str, int $bytes) {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->charLength($query->createNamedParameter($str, IQueryBuilder::PARAM_STR)));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$result = $query->execute();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($bytes, $column);
+	}
+
 	private function setUpMinMax($value) {
 		$query = $this->connection->getQueryBuilder();
 

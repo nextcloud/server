@@ -48,4 +48,16 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 	public function least($x, $y): IQueryFunction {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
+
+	public function octetLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTH(CAST(' . $quotedName . ' as BLOB))' . $alias);
+	}
+
+	public function charLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTH(' . $quotedName . ')' . $alias);
+	}
 }

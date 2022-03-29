@@ -129,7 +129,7 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->select('owncloud_name', 'directory_uuid')
 			->from($table)
-			->where($qb->expr()->like('owncloud_name', $qb->createNamedParameter(str_repeat('_', 65) . '%'), Types::STRING));
+			->where($qb->expr()->gt($qb->func()->octetLength('owncloud_name'), '64', IQueryBuilder::PARAM_INT));
 		return $qb;
 	}
 

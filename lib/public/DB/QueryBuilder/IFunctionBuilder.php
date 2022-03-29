@@ -124,6 +124,24 @@ interface IFunctionBuilder {
 	public function count($count = '', $alias = ''): IQueryFunction;
 
 	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $field The input to be measured
+	 * @param string $alias Alias for the length
+	 *
+	 * @return IQueryFunction
+	 * @since 24.0.0
+	 */
+	public function octetLength($field, $alias = ''): IQueryFunction;
+
+	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $field The input to be measured
+	 * @param string $alias Alias for the length
+	 *
+	 * @return IQueryFunction
+	 * @since 24.0.0
+	 */
+	public function charLength($field, $alias = ''): IQueryFunction;
+
+	/**
 	 * Takes the maximum of all rows in a column
 	 *
 	 * If you want to get the maximum value of multiple columns in the same row, use `greatest` instead
