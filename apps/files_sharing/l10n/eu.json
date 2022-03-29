@@ -99,6 +99,7 @@
     "Wrong share ID, share doesn't exist" : "Partekatze ID okerra, partekatzea ez da existitzen",
     "Could not delete share" : "Ezin izan da partekatzea ezabatu",
     "Please specify a file or folder path" : "Zehaztu fitxategi edo karpetaren bide bat",
+    "Wrong path, file/folder does not exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Could not create share" : "Ezin izan da partekatzea sortu",
     "Invalid permissions" : "Baimen baliogabeak",
     "Please specify a valid user" : "Zehaztu baliozko erabiltzaile bat",
