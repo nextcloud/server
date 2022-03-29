@@ -50,7 +50,7 @@ class CalendarMigratorTest extends TestCase {
 
 	private OutputInterface $output;
 
-	private const ASSETS_DIR = __DIR__ . '/assets/';
+	private const ASSETS_DIR = __DIR__ . '/assets/calendars/';
 
 	protected function setUp(): void {
 		$app = new App(Application::APP_ID);
