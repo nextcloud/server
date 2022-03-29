@@ -222,11 +222,15 @@ class AddMissingIndices extends Command {
 			$table = $schema->getTable('cards');
 
 			if ($table->hasIndex('addressbookid_uri_index')) {
-				$output->writeln('<info>Renaming addressbookid_uri_index index to  to the cards table, this can take some time...</info>');
+				if ($table->hasIndex('cards_abiduri')) {
+					$table->dropIndex('addressbookid_uri_index');
+				} else {
+					$output->writeln('<info>Renaming addressbookid_uri_index index to cards_abiduri in the cards table, this can take some time...</info>');
 
-				foreach ($table->getIndexes() as $index) {
-					if ($index->getColumns() === ['addressbookid', 'uri']) {
-						$table->renameIndex('addressbookid_uri_index', 'cards_abiduri');
+					foreach ($table->getIndexes() as $index) {
+						if ($index->getColumns() === ['addressbookid', 'uri']) {
+							$table->renameIndex('addressbookid_uri_index', 'cards_abiduri');
+						}
 					}
 				}
 
