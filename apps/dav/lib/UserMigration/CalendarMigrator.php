@@ -318,7 +318,10 @@ class CalendarMigrator implements IMigrator {
 		return $vCalendarObject;
 	}
 
-	private function importCalendarObject(int $calendarId, VCalendar $vCalendarObject, OutputInterface $output): void {
+	/**
+	 * @throws InvalidCalendarException
+	 */
+	private function importCalendarObject(int $calendarId, VCalendar $vCalendarObject, string $filename, OutputInterface $output): void {
 		try {
 			$this->calDavBackend->createCalendarObject(
 				$calendarId,
@@ -327,14 +330,14 @@ class CalendarMigrator implements IMigrator {
 				CalDavBackend::CALENDAR_TYPE_CALENDAR,
 			);
 		} catch (Throwable $e) {
-			// Rollback creation of calendar on error
-			$output->writeln('Error creating calendar object, rolling back creation of calendar…');
+			$output->writeln("Error creating calendar object, rolling back creation of \"$filename\" calendar…");
 			$this->calDavBackend->deleteCalendar($calendarId, true);
+			throw new InvalidCalendarException();
 		}
 	}
 
 	/**
-	 * @throws CalendarMigratorException
+	 * @throws InvalidCalendarException
 	 */
 	private function importCalendar(IUser $user, string $filename, string $initialCalendarUri, VCalendar $vCalendar, OutputInterface $output): void {
 		$principalUri = $this->getPrincipalUri($user);
@@ -392,7 +395,7 @@ class CalendarMigrator implements IMigrator {
 					$vCalendarObject->add($component);
 				}
 			}
-			$this->importCalendarObject($calendarId, $vCalendarObject, $output);
+			$this->importCalendarObject($calendarId, $vCalendarObject, $filename, $output);
 		}
 
 		foreach ($ungroupedCalendarComponents as $component) {
@@ -401,7 +404,7 @@ class CalendarMigrator implements IMigrator {
 			foreach ($this->getRequiredImportComponents($vCalendar, $component) as $component) {
 				$vCalendarObject->add($component);
 			}
-			$this->importCalendarObject($calendarId, $vCalendarObject, $output);
+			$this->importCalendarObject($calendarId, $vCalendarObject, $filename, $output);
 		}
 	}
 
@@ -446,15 +449,19 @@ class CalendarMigrator implements IMigrator {
 			}
 			[$initialCalendarUri, $suffix] = $splitFilename;
 
-			$this->importCalendar(
-				$user,
-				$filename,
-				$initialCalendarUri,
-				$vCalendar,
-				$output,
-			);
-
-			$vCalendar->destroy();
+			try {
+				$this->importCalendar(
+					$user,
+					$filename,
+					$initialCalendarUri,
+					$vCalendar,
+					$output,
+				);
+			} catch (InvalidCalendarException $e) {
+				// Allow this exception to skip a failed import
+			} finally {
+				$vCalendar->destroy();
+			}
 		}
 	}
 }
