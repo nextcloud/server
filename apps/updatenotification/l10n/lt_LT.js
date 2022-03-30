@@ -1,7 +1,7 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Yra prieinama {version}. Gaukite daugiau informacijos apie tai kaip atnaujinti.",
+    "{version} is available. Get more information on how to update." : "Yra prieinama {version}. Gaukite daugiau informacijos apie tai, kaip atnaujinti.",
     "Channel updated" : "Kanalas atnaujintas",
     "Update notifications" : "Atnaujinimų pranešimai",
     "The update server could not be reached since %d days to check for new updates." : " Atnaujinimo serveris nepasiekiamas  %d dienas.",

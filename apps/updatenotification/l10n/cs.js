@@ -16,6 +16,7 @@ OC.L10N.register(
     "Apps missing compatible version" : "Aplikace, které neexistují v kompatibilní verzi",
     "View in store" : "Zobrazit v katalogu aplikací",
     "Apps with compatible version" : "Aplikace, které existují v kompatibilní verzi",
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Prosím mějte na paměti, že pro instance s více než 100 uživateli není doporučeno aktualizovat přes webový nástroj pro aktualizaci! V takovém případě namísto toho proveďte aktualizaci prostřednictvím příkazového řádku!",
     "Open updater" : "Otevřít nástroj pro aktualizaci",
     "Download now" : "Stáhnout nyní",
     "Please use the command line updater to update." : "Aktualizaci proveďte nástrojem z příkazového řádku.",
