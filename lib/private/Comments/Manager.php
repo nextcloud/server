@@ -1074,7 +1074,7 @@ class Manager implements ICommentsManager {
 	 * @since 24.0.0
 	 */
 	public function supportReactions(): bool {
-		return $this->dbConn->supports4ByteText();
+		return $this->emojiHelper->doesPlatformSupportEmoji();
 	}
 
 	/**
