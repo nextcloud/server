@@ -36,14 +36,14 @@
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
-use OC\Files\Storage\Wrapper\Jail;
-use OC\Files\Storage\Wrapper\Encoding;
-use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage\IReliableEtagStorage;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
+use OC\Files\Storage\Wrapper\Encoding;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Hooks\BasicEmitter;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Scanner
@@ -115,7 +115,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
-			\OCP\Util::writeLog(Scanner::class, "!!! Path '$path' is not accessible or present !!!", ILogger::DEBUG);
+			\OC::$server->get(LoggerInterface::class)->debug("!!! Path '$path' is not accessible or present !!!", ['app' => 'core']);
 		}
 		return $data;
 	}
@@ -425,7 +425,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$file = trim(\OC\Files\Filesystem::normalizePath($originalFile), '/');
 			if (trim($originalFile, '/') !== $file) {
 				// encoding mismatch, might require compatibility wrapper
-				\OC::$server->getLogger()->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
+				\OC::$server->get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
 				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
 				// skip this entry
 				continue;
@@ -456,10 +456,9 @@ class Scanner extends BasicEmitter implements IScanner {
 					\OC::$server->getDatabaseConnection()->rollback();
 					\OC::$server->getDatabaseConnection()->beginTransaction();
 				}
-				\OC::$server->getLogger()->logException($ex, [
-					'message' => 'Exception while scanning file "' . $child . '"',
-					'level' => ILogger::DEBUG,
+				\OC::$server->get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
 					'app' => 'core',
+					'exception' => $ex,
 				]);
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
