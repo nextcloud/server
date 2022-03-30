@@ -101,10 +101,12 @@ class Manager implements IManager {
 				$duration = $endTime - $startTime;
 				if ($duration > 1) {
 					\OC::$server->get(LoggerInterface::class)->error(
-						'Dashboard widget {widget} took {duration} seconds to load.', [
-						'widget' => $widget->getId(),
-						'duration' => round($duration, 2),
-					]);
+						'Dashboard widget {widget} took {duration} seconds to load.',
+						[
+							'widget' => $widget->getId(),
+							'duration' => round($duration, 2),
+						]
+					);
 				}
 			} catch (Throwable $e) {
 				\OC::$server->get(LoggerInterface::class)->critical(
