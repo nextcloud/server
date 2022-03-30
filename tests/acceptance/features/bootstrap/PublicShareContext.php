@@ -227,7 +227,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 * @Then I see that the shared file preview shows the text :text
 	 */
 	public function iSeeThatTheSharedFilePreviewShowsTheText($text) {
-		Assert::assertContains($text, $this->actor->find(self::textPreview(), 10)->getText());
+		Assert::assertStringContainsString($text, $this->actor->find(self::textPreview(), 10)->getText());
 	}
 
 	/**
