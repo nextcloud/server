@@ -1,6 +1,6 @@
 <?php
 
-vendor_style('user_ldap', 'ui-multiselect/jquery.multiselect');
+style('user_ldap', 	'vendor/ui-multiselect/jquery.multiselect');
 
 script('user_ldap', [
 	'vendor/ui-multiselect/src/jquery.multiselect',
