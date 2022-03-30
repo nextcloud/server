@@ -67,6 +67,7 @@ return array(
     'OCA\\User_LDAP\\Migration\\Version1130Date20220110154717' => $baseDir . '/../lib/Migration/Version1130Date20220110154717.php',
     'OCA\\User_LDAP\\Migration\\Version1130Date20220110154718' => $baseDir . '/../lib/Migration/Version1130Date20220110154718.php',
     'OCA\\User_LDAP\\Migration\\Version1130Date20220110154719' => $baseDir . '/../lib/Migration/Version1130Date20220110154719.php',
+    'OCA\\User_LDAP\\Migration\\Version1141Date20220323143801' => $baseDir . '/../lib/Migration/Version1141Date20220323143801.php',
     'OCA\\User_LDAP\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\User_LDAP\\PagedResults\\IAdapter' => $baseDir . '/../lib/PagedResults/IAdapter.php',
     'OCA\\User_LDAP\\PagedResults\\Php73' => $baseDir . '/../lib/PagedResults/Php73.php',
