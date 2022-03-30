@@ -50,7 +50,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\Security\ICrypto;
-use function Sabre\HTTP\decodePathSegment;
 
 /**
  * Class for accessing variables in the request.
@@ -785,7 +784,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getPathInfo() {
 		$pathInfo = $this->getRawPathInfo();
-		return decodePathSegment($pathInfo);
+		return \Sabre\HTTP\decodePath($pathInfo);
 	}
 
 	/**
