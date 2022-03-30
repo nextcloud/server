@@ -1092,7 +1092,7 @@ class Group_LDAPTest extends TestCase {
 		$pluginManager->expects($this->once())
 			->method('deleteGroup')
 			->with('gid')
-			->willReturn('result');
+			->willReturn(true);
 
 		$mapper = $this->getMockBuilder(GroupMapping::class)
 			->setMethods(['unmap'])
@@ -1108,7 +1108,7 @@ class Group_LDAPTest extends TestCase {
 
 		$ldap = new GroupLDAP($access, $pluginManager);
 
-		$this->assertEquals($ldap->deleteGroup('gid'), 'result');
+		$this->assertTrue($ldap->deleteGroup('gid'));
 	}
 
 

@@ -84,7 +84,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->createGroup('group');
 	}
 
-	
+
 	public function testCreateGroupNotRegistered() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements createGroup in this LDAP Backend.');
@@ -108,13 +108,13 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 			->method('deleteGroup')
 			->with(
 				$this->equalTo('group')
-			);
+			)->willReturn(true);
 
 		$pluginManager->register($plugin);
-		$pluginManager->deleteGroup('group');
+		$this->assertTrue($pluginManager->deleteGroup('group'));
 	}
 
-	
+
 	public function testDeleteGroupNotRegistered() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements deleteGroup in this LDAP Backend.');
@@ -145,7 +145,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->addToGroup('uid', 'gid');
 	}
 
-	
+
 	public function testAddToGroupNotRegistered() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements addToGroup in this LDAP Backend.');
@@ -176,7 +176,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->removeFromGroup('uid', 'gid');
 	}
 
-	
+
 	public function testRemoveFromGroupNotRegistered() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements removeFromGroup in this LDAP Backend.');
@@ -207,7 +207,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->countUsersInGroup('gid', 'search');
 	}
 
-	
+
 	public function testCountUsersInGroupNotRegistered() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements countUsersInGroup in this LDAP Backend.');
@@ -237,7 +237,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->getGroupDetails('gid');
 	}
 
-	
+
 	public function testgetGroupDetailsNotRegistered() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements getGroupDetails in this LDAP Backend.');

@@ -88,7 +88,7 @@ class GroupPluginManager {
 	}
 
 	public function canDeleteGroup(): bool {
-		return !$this->suppressDeletion && ($this->which[GroupInterface::DELETE_GROUP] !== null);
+		return !$this->suppressDeletion && $this->implementsActions(GroupInterface::DELETE_GROUP);
 	}
 
 	/**
@@ -102,11 +102,10 @@ class GroupPluginManager {
 
 	/**
 	 * Delete a group
-	 * @param string $gid Group Id of the group to delete
-	 * @return bool
+	 *
 	 * @throws \Exception
 	 */
-	public function deleteGroup($gid) {
+	public function deleteGroup(string $gid): bool {
 		$plugin = $this->which[GroupInterface::DELETE_GROUP];
 
 		if ($plugin) {
