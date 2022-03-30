@@ -871,7 +871,8 @@ span.ui-icon {
 #contactsmenu .menutoggle {
   background-size: 20px 20px;
   padding: 14px;
-  cursor: pointer; }
+  cursor: pointer;
+  filter: var(--primary-invert-if-bright); }
   #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
     opacity: 1 !important; }
 
@@ -2129,10 +2130,11 @@ label.infield {
         opacity: .7;
         margin-right: 10px;
         height: 16px;
-        width: 16px; }
+        width: 16px;
+        filter: var(--background-invert-if-dark); }
   #header .logo {
     display: inline-flex;
-    background-image: var(--image-logo);
+    background-image: var(--image-logoheader, var(--image-logo, url("../img/logo/logo.svg")));
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -2359,6 +2361,8 @@ nav[role='navigation'] {
       opacity: .6;
       letter-spacing: -0.5px;
       font-size: 12px; }
+      #appmenu li a svg image {
+        filter: var(--primary-invert-if-bright); }
     #appmenu li:hover a,
     #appmenu li a:focus,
     #appmenu li a.active {
@@ -2498,55 +2502,6 @@ nav[role='navigation'] {
   .skip-navigation:focus, .skip-navigation:active {
     top: var(--header-height); }
 
-/* SEARCHBOX --------------------------------------------------------------- */
-.searchbox {
-  position: relative;
-  display: flex;
-  align-items: center; }
-  .searchbox input[type='search'] {
-    position: relative;
-    font-size: 1.2em;
-    padding: 3px;
-    padding-left: 25px;
-    padding-right: 20px;
-    background-color: transparent;
-    color: var(--color-primary-text);
-    border: 0;
-    border-radius: var(--border-radius-pill);
-    height: 34px;
-    width: 0;
-    cursor: pointer;
-    transition: width 100ms, opacity 100ms;
-    opacity: .6; }
-    .searchbox input[type='search']:focus, .searchbox input[type='search']:active, .searchbox input[type='search']:valid {
-      background-position-x: 6px;
-      color: var(--color-primary-text);
-      width: 155px;
-      cursor: text;
-      background-color: transparent !important;
-      border: 1px solid var(--color-primary-text) !important; }
-    .searchbox input[type='search']:hover, .searchbox input[type='search']:focus, .searchbox input[type='search']:active {
-      opacity: 1; }
-    .searchbox input[type='search'] ~ .icon-close-white {
-      display: inline;
-      position: absolute;
-      width: 30px;
-      height: 100%;
-      right: 0;
-      top: 0;
-      margin: 0; }
-      .searchbox input[type='search'] ~ .icon-close-white, .searchbox input[type='search'] ~ .icon-close-white:focus, .searchbox input[type='search'] ~ .icon-close-white:active, .searchbox input[type='search'] ~ .icon-close-white:hover {
-        border: none;
-        background-color: transparent; }
-    .searchbox input[type='search']:not(:valid) ~ .icon-close-white {
-      display: none; }
-    .searchbox input[type='search']::-webkit-search-cancel-button {
-      -webkit-appearance: none; }
-  .searchbox .icon-search-force-white {
-    /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-    --icon-search-fffffe: url("../../svg/core/actions/search?color=#fffffe&v=1");
-    background-image: var(--icon-search-fffffe); }
-
 /* Empty content messages in the header e.g. notifications, contacts menu, … */
 header #emptycontent h2,
 header .emptycontent h2 {
@@ -2628,7 +2583,26 @@ header .emptycontent [class*='icon-'] {
     -ms-transform-origin: center;
     transform-origin: center;
     border: 2px solid var(--color-loading-light);
-    border-top-color: var(--color-loading-dark); }
+    border-top-color: var(--color-loading-dark);
+    filter: var(--background-invert-if-dark); }
+    .primary .loading:after,
+    .primary + .loading:after, .primary
+    .loading-small:after,
+    .primary +
+    .loading-small:after, .primary
+    .icon-loading:after,
+    .primary +
+    .icon-loading:after, .primary
+    .icon-loading-dark:after,
+    .primary +
+    .icon-loading-dark:after, .primary
+    .icon-loading-small:after,
+    .primary +
+    .icon-loading-small:after, .primary
+    .icon-loading-small-dark:after,
+    .primary +
+    .icon-loading-small-dark:after {
+      filter: var(--primary-invert-if-bright); }
 
 .icon-loading-dark:after,
 .icon-loading-small-dark:after {
@@ -3921,7 +3895,8 @@ kbd {
       #app-navigation:not(.vue) > ul > li a.selected > a,
       #app-navigation:not(.vue) > ul > li a.active,
       #app-navigation:not(.vue) > ul > li a.active > a {
-        background-color: var(--color-primary-light); }
+        background-color: var(--color-primary-light);
+        color: var(--color-primary-text); }
       #app-navigation:not(.vue) > ul > li.icon-loading-small:after {
         left: 22px;
         top: 22px; }
@@ -4013,7 +3988,8 @@ kbd {
         #app-navigation:not(.vue) > ul > li > ul > li > a:first-child img {
           margin-right: 11px;
           width: 16px;
-          height: 16px; }
+          height: 16px;
+          filter: var(--background-invert-if-dark); }
         #app-navigation:not(.vue) > ul > li > a > .app-navigation-entry-utils,
         #app-navigation:not(.vue) > ul > li > ul > li > a > .app-navigation-entry-utils {
           display: inline-block;
