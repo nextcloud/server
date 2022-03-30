@@ -122,7 +122,7 @@ class ContactsMigrator implements IMigrator {
 
 				$problems = $vCard->validate();
 				if (!empty($problems)) {
-					$output->writeln('Skipping contact "' . ($vCard->FN ?? null) . '" containing invalid contact data');
+					$output->writeln('Skipping contact "' . ($vCard->FN ?? 'null') . '" containing invalid contact data');
 					continue;
 				}
 				$vCards[] = $vCard;
@@ -240,7 +240,7 @@ class ContactsMigrator implements IMigrator {
 				$vCard->serialize(),
 			);
 		} catch (Throwable $e) {
-			$output->writeln("Error creating contact \"" . ($vCard->FN ?? null) . "\" from \"$filename\", skipping…");
+			$output->writeln("Error creating contact \"" . ($vCard->FN ?? 'null') . "\" from \"$filename\", skipping…");
 		}
 	}
 
@@ -334,7 +334,7 @@ class ContactsMigrator implements IMigrator {
 			while ($vCard = $vCardSplitter->getNext()) {
 				$problems = $vCard->validate();
 				if (!empty($problems)) {
-					$output->writeln('Skipping contact "' . ($vCard->FN ?? null) . '" containing invalid contact data');
+					$output->writeln('Skipping contact "' . ($vCard->FN ?? 'null') . '" containing invalid contact data');
 					continue;
 				}
 				$vCards[] = $vCard;
