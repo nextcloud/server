@@ -84,6 +84,10 @@
 			</template>
 		</div>
 
+		<div>
+			{{ t('updatenotification', 'You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.') }}
+		</div>
+
 		<h3 class="update-channel-selector">
 			{{ t('updatenotification', 'Update channel:') }}
 			<div v-click-outside="closeUpdateChannelMenu" class="update-menu">
