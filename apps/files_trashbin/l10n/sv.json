@@ -11,7 +11,7 @@
     "Error while emptying trash bin" : "Fel vid tömning av papperskorgen",
     "Error while removing files from trash bin" : "Fel vid borttagning av filer från papperskorgen",
     "This operation is forbidden" : "Denna åtgärd är förbjuden",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, vänligen kontrollera loggarna eller kontakta administratören",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
     "No deleted files" : "Inga borttagna filer",
     "You will be able to recover deleted files from here" : "Du kommer kunna återskapa borttagna filer härifrån",
     "No entries found in this folder" : "Inga filer hittades i denna mapp",

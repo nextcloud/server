@@ -14,6 +14,7 @@
     "Apps missing compatible version" : "應用程式缺少相容的版本",
     "View in store" : "在商店中檢視",
     "Apps with compatible version" : "有相容版本的應用程式",
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "請注意，不建議超過 100 個使用者的站台使用網頁更新程式！請改用命令列更新程式！",
     "Open updater" : "打開更新程式",
     "Download now" : "現在下載",
     "Please use the command line updater to update." : "請使用命令列更新程式來更新。",
