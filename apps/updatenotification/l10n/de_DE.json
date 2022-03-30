@@ -14,6 +14,7 @@
     "Apps missing compatible version" : "Für diese Apps fehlen kompatible Versionen",
     "View in store" : "Im Store anzeigen",
     "Apps with compatible version" : "Für diese Apps gibt es kompatible Versionen",
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Bitte beachten Sie, dass der Web Updater bei mehr als 100 Benutzern nicht empfohlen wird! Bitte verwenden Sie stattdessen den Befehlszeilen-Updater!",
     "Open updater" : "Updater öffnen",
     "Download now" : "Jetzt herunterladen",
     "Please use the command line updater to update." : "Verwenden Sie zum Aktualisieren den Befehlszeilen-Updater.",

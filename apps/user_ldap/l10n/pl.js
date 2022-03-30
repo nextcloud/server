@@ -44,7 +44,7 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Zmiana trybu włączy automatyczne odpytywanie LDAP-a. W zależności od jego wielkości może to trochę potrwać. Nadal chcesz zmienić tryb?",
     "Mode switch" : "Przełącznik trybów",
     "Select attributes" : "Wybierz atrybuty",
-    "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>" : "Użytkownik nie znaleziony. Sprawdź nazwę i atrybuty logowania. Filtr efektywny (aby skopiować i wkleić do wiersza poleceń): <br/>",
+    "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>" : "Użytkownik nie znaleziony. Sprawdź atrybuty logowania i nazwę użytkownika. Filtr efektywny (do kopiowania i wklejania w celu sprawdzenia poprawności w wierszu poleceń): <br/>",
     "User found and settings verified." : "Znaleziono użytkownika i zweryfikowano ustawienia.",
     "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Rozważ zawężenie wyszukiwania, gdyż obejmuje ono wielu użytkowników, z tylko pierwszy będzie mógł się zalogować.",
     "An unspecified error occurred. Please check log and settings." : "Wystąpił nieoczekiwany błąd. Sprawdź logi i ustawienia.",
