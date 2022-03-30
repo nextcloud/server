@@ -16,6 +16,7 @@ OC.L10N.register(
     "Apps missing compatible version" : "應用程式缺少兼容版本",
     "View in store" : "在商店中檢視",
     "Apps with compatible version" : "具有兼容版本的應用程式",
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "請注意，不建議使用超過 100 個用戶的網絡更新程序！ 請改用命令行更新程序！",
     "Open updater" : "打開更新程式",
     "Download now" : "立即下載",
     "Please use the command line updater to update." : "請使用命令行更新程序進行更新。",

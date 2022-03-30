@@ -260,6 +260,7 @@ OC.L10N.register(
     "Your role" : "Ο ρόλος σας",
     "Unable to update role" : "Δεν είναι δυνατή η ενημέρωση του ρόλου",
     "Change scope level of {accountProperty}" : "Αλλαγή επιπέδου εύρους του {accountProperty}",
+    "Add additional email" : "Προσθέστε επιπλέον email",
     "Add" : "Προσθήκη",
     "You do not have permissions to see the details of this user" : "Δεν έχετε δικαιώματα να δείτε λεπτομέρειες του χρήστη",
     "Add new password" : "Προσθήκη νέου κωδικού πρόσβασης",
