@@ -98,7 +98,7 @@ class ContactsMigrator implements IMigrator {
 			throw new InvalidAddressBookException();
 		}
 
-		['uri' => $uri] =  $addressBookInfo;
+		$uri = $addressBookInfo['uri'];
 
 		$path = CardDAVPlugin::ADDRESSBOOK_ROOT . "/users/$userId/$uri";
 
