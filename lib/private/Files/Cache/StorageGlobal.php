@@ -41,8 +41,10 @@ class StorageGlobal {
 	/** @var IDBConnection */
 	private $connection;
 
-	/** @var array[] */
+	/** @var array<string, array> */
 	private $cache = [];
+	/** @var array<int, array> */
+	private $numericIdCache = [];
 
 	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
@@ -68,7 +70,7 @@ class StorageGlobal {
 	 * @param string $storageId
 	 * @return array|null
 	 */
-	public function getStorageInfo($storageId) {
+	public function getStorageInfo(string $storageId): ?array {
 		if (!isset($this->cache[$storageId])) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
@@ -81,9 +83,33 @@ class StorageGlobal {
 
 			if ($row) {
 				$this->cache[$storageId] = $row;
+				$this->numericIdCache[(int)$row['numeric_id']] = $row;
 			}
 		}
-		return isset($this->cache[$storageId]) ? $this->cache[$storageId] : null;
+		return $this->cache[$storageId] ?? null;
+	}
+
+	/**
+	 * @param int $numericId
+	 * @return array|null
+	 */
+	public function getStorageInfoByNumericId(int $numericId): ?array {
+		if (!isset($this->numericIdCache[$numericId])) {
+			$builder = $this->connection->getQueryBuilder();
+			$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
+				->from('storages')
+				->where($builder->expr()->eq('numeric_id', $builder->createNamedParameter($numericId)));
+
+			$result = $query->execute();
+			$row = $result->fetch();
+			$result->closeCursor();
+
+			if ($row) {
+				$this->numericIdCache[$numericId] = $row;
+				$this->cache[$row['id']] = $row;
+			}
+		}
+		return $this->numericIdCache[$numericId] ?? null;
 	}
 
 	public function clearCache() {
