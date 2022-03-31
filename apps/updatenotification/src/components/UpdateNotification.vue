@@ -85,7 +85,7 @@
 		</div>
 
 		<div>
-			{{ t('updatenotification', 'You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.') }}
+			{{ t('updatenotification', 'You can change the update channel below which also affects the apps management page, e.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.') }}
 		</div>
 
 		<h3 class="update-channel-selector">
