@@ -35,15 +35,6 @@ class Version1016Date20220324154536 extends SimpleMigrationStep {
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 */
-	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
-		// FIXME do we need to check for 4000+ values?
-	}
-
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
@@ -55,8 +46,9 @@ class Version1016Date20220324154536 extends SimpleMigrationStep {
 
 		if ($column->getLength() > 4000) {
 			$column->setLength(4000);
+			return $schema;
 		}
 
-		return $schema;
+		return null;
 	}
 }
