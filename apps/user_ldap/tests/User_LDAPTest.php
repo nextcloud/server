@@ -815,13 +815,15 @@ class User_LDAPTest extends TestCase {
 
 	private function prepareAccessForGetDisplayName() {
 		$this->connection->expects($this->any())
-			   ->method('__get')
-			   ->willReturnCallback(function ($name) {
-			   	if ($name === 'ldapUserDisplayName') {
-			   		return 'displayname';
-			   	}
-			   	return null;
-			   });
+			->method('__get')
+			->willReturnCallback(function ($name) {
+				if ($name === 'ldapUserDisplayName') {
+					return 'displayname';
+				} elseif ($name === 'ldapUserDisplayName2') {
+					return 'displayname2';
+				}
+				return null;
+			});
 
 		$this->access->expects($this->any())
 			   ->method('readAttribute')

@@ -75,10 +75,25 @@ use Psr\Log\LoggerInterface;
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
+
+	/**
+	 * @var string
+	 */
 	private $configPrefix;
+
+	/**
+	 * @var ?string
+	 */
 	private $configID;
+
+	/**
+	 * @var bool
+	 */
 	private $configured = false;
-	//whether connection should be kept on __destruct
+
+	/**
+	 * @var bool whether connection should be kept on __destruct
+	 */
 	private $dontDestruct = false;
 
 	/**
@@ -91,16 +106,27 @@ class Connection extends LDAPUtility {
 	 */
 	public $hasGidNumber = true;
 
-	//cache handler
-	protected $cache;
+	/**
+	 * @var \OCP\ICache|null
+	 */
+	protected $cache = null;
 
 	/** @var Configuration settings handler **/
 	protected $configuration;
 
+	/**
+	 * @var bool
+	 */
 	protected $doNotValidate = false;
 
+	/**
+	 * @var bool
+	 */
 	protected $ignoreValidation = false;
 
+	/**
+	 * @var array{dn?: mixed, hash?: string, result?: bool}
+	 */
 	protected $bindResult = [];
 
 	/** @var LoggerInterface */
@@ -108,16 +134,14 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * Constructor
-	 * @param ILDAPWrapper $ldap
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
-	public function __construct(ILDAPWrapper $ldap, $configPrefix = '', $configID = 'user_ldap') {
+	public function __construct(ILDAPWrapper $ldap, string $configPrefix = '', ?string $configID = 'user_ldap') {
 		parent::__construct($ldap);
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
-		$this->configuration = new Configuration($configPrefix,
-												 !is_null($configID));
+		$this->configuration = new Configuration($configPrefix, !is_null($configID));
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();

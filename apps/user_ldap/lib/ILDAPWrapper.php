@@ -147,7 +147,7 @@ interface ILDAPWrapper {
 	/**
 	 * Read an entry
 	 * @param resource $link LDAP link resource
-	 * @param array $baseDN The DN of the entry to read from
+	 * @param string $baseDN The DN of the entry to read from
 	 * @param string $filter An LDAP filter
 	 * @param array $attr array of the attributes to read
 	 * @return resource an LDAP search result resource
@@ -178,8 +178,8 @@ interface ILDAPWrapper {
 	/**
 	 * Sets the value of the specified option to be $value
 	 * @param resource $link LDAP link resource
-	 * @param string $option a defined LDAP Server option
-	 * @param int $value the new value for the option
+	 * @param int $option a defined LDAP Server option
+	 * @param mixed $value the new value for the option
 	 * @return bool true on success, false otherwise
 	 */
 	public function setOption($link, $option, $value);
