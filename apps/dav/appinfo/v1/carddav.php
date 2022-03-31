@@ -36,6 +36,7 @@ use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\App\IAppManager;
+use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Plugin;
 
 $authBackend = new Auth(
@@ -95,9 +96,9 @@ $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
 $server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\PhotoCache(
 	\OC::$server->getAppDataDir('dav-photocache'),
-	\OC::$server->getLogger()
+	\OC::$server->get(LoggerInterface::class)
 )));
-$server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->getLogger()));
+$server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->get(LoggerInterface::class)));
 
 // And off we go!
 $server->exec();

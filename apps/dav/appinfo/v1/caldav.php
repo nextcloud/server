@@ -59,7 +59,7 @@ $principalBackend = new Principal(
 $db = \OC::$server->getDatabaseConnection();
 $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
-$logger = \OC::$server->getLogger();
+$logger = \OC::$server->get(LoggerInterface::class);
 $dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 $legacyDispatcher = \OC::$server->getEventDispatcher();
 $config = \OC::$server->get(\OCP\IConfig::class);
@@ -84,7 +84,7 @@ $sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitation
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', \OC::$server->get(LoggerInterface::class));
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [
@@ -115,7 +115,7 @@ $server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()
 if ($sendInvitations) {
 	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 }
-$server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
+$server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
 
 // And off we go!
 $server->exec();
