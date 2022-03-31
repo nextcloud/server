@@ -38,7 +38,7 @@ class Updater {
 	 */
 	public static function renameHook($params) {
 		self::renameChildren($params['oldpath'], $params['newpath']);
-		self::moveShareToShare($params['newpath']);
+		self::moveShareInOrOutOfShare($params['newpath']);
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Updater {
 	 *
 	 * @param string $path
 	 */
-	private static function moveShareToShare($path) {
+	private static function moveShareInOrOutOfShare($path): void {
 		$userFolder = \OC::$server->getUserFolder();
 
 		// If the user folder can't be constructed (e.g. link share) just return.
@@ -85,11 +85,6 @@ class Updater {
 		// Check if the destination is inside a share
 		$mountManager = \OC::$server->getMountManager();
 		$dstMount = $mountManager->find($src->getPath());
-		if (!($dstMount instanceof \OCA\Files_Sharing\SharedMount)) {
-			return;
-		}
-
-		$newOwner = $dstMount->getShare()->getShareOwner();
 
 		//Ownership is moved over
 		foreach ($shares as $share) {
@@ -101,13 +96,20 @@ class Updater {
 				continue;
 			}
 
-			/** @var IShare $share */
-			if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
-				$shareManager->deleteShare($share);
-				continue;
+			if ($dstMount instanceof \OCA\Files_Sharing\SharedMount) {
+				if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
+					$shareManager->deleteShare($share);
+					continue;
+				}
+				$newOwner = $dstMount->getShare()->getShareOwner();
+				$newPermissions = $share->getPermissions() & $dstMount->getShare()->getPermissions();
+			} else {
+				$newOwner = $userFolder->getOwner()->getUID();
+				$newPermissions = $share->getPermissions();
 			}
+
 			$share->setShareOwner($newOwner);
-			$share->setPermissions($share->getPermissions() & $dstMount->getShare()->getPermissions());
+			$share->setPermissions($newPermissions);
 			$shareManager->updateShare($share);
 		}
 	}
