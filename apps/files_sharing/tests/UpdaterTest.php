@@ -237,4 +237,121 @@ class UpdaterTest extends TestCase {
 		// cleanup
 		$this->shareManager->deleteShare($share);
 	}
+
+	/**
+	 * If a folder gets moved into shared folder, children shares should have their uid_owner and permissions adjusted
+	 * user1
+	 * 	|-folder1 --> shared with user2
+	 * user2
+	 * 	|-folder2 --> shared with user3 and moved into folder1
+	 * 	  |-subfolder1 --> shared with user3
+	 * 	  |-file1.txt --> shared with user3
+	 * 	  |-subfolder2
+	 * 	    |-file2.txt --> shared with user3
+	 */
+	public function testMovedIntoShareChangeOwner() {
+		// user1 creates folder1
+		$viewUser1 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$folder1 = 'folder1';
+		$viewUser1->mkdir($folder1);
+
+		// user1 shares folder1 to user2
+		$folder1Share = $this->share(
+			IShare::TYPE_USER,
+			$folder1,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE
+		);
+
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$viewUser2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		// Create user2 files
+		$folder2 = 'folder2';
+		$viewUser2->mkdir($folder2);
+		$file1 = 'folder2/file1.txt';
+		$viewUser2->touch($file1);
+		$subfolder1 = 'folder2/subfolder1';
+		$viewUser2->mkdir($subfolder1);
+		$subfolder2 = 'folder2/subfolder2';
+		$viewUser2->mkdir($subfolder2);
+		$file2 = 'folder2/subfolder2/file2.txt';
+		$viewUser2->touch($file2);
+
+		// user2 shares folder2 to user3
+		$folder2Share = $this->share(
+			IShare::TYPE_USER,
+			$folder2,
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER3,
+			\OCP\Constants::PERMISSION_ALL
+		);
+		// user2 shares folder2/file1 to user3
+		$file1Share = $this->share(
+			IShare::TYPE_USER,
+			$file1,
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER3,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE
+		);
+		// user2 shares subfolder1 to user3
+		$subfolder1Share = $this->share(
+			IShare::TYPE_USER,
+			$subfolder1,
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER3,
+			\OCP\Constants::PERMISSION_ALL
+		);
+		// user2 shares subfolder2/file2.txt to user3
+		$file2Share = $this->share(
+			IShare::TYPE_USER,
+			$file2,
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER3,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE
+		);
+
+		// user2 moves folder2 into folder1
+		$viewUser2->rename($folder2, $folder1.'/'.$folder2);
+		$folder2Share = $this->shareManager->getShareById($folder2Share->getFullId());
+		$file1Share = $this->shareManager->getShareById($file1Share->getFullId());
+		$subfolder1Share = $this->shareManager->getShareById($subfolder1Share->getFullId());
+		$file2Share = $this->shareManager->getShareById($file2Share->getFullId());
+
+		// Expect uid_owner of both shares to be user1
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $folder2Share->getShareOwner());
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $file1Share->getShareOwner());
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $subfolder1Share->getShareOwner());
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $file2Share->getShareOwner());
+		// Expect permissions to be limited by the permissions of the destination share
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $folder2Share->getPermissions());
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file1Share->getPermissions());
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $subfolder1Share->getPermissions());
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file2Share->getPermissions());
+
+		// user2 moves folder2 out of folder1
+		$viewUser2->rename($folder1.'/'.$folder2, $folder2);
+		$folder2Share = $this->shareManager->getShareById($folder2Share->getFullId());
+		$file1Share = $this->shareManager->getShareById($file1Share->getFullId());
+		$subfolder1Share = $this->shareManager->getShareById($subfolder1Share->getFullId());
+		$file2Share = $this->shareManager->getShareById($file2Share->getFullId());
+
+		// Expect uid_owner of both shares to be user2
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER2, $folder2Share->getShareOwner());
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER2, $file1Share->getShareOwner());
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER2, $subfolder1Share->getShareOwner());
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER2, $file2Share->getShareOwner());
+		// Expect permissions to not change
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $folder2Share->getPermissions());
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file1Share->getPermissions());
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $subfolder1Share->getPermissions());
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file2Share->getPermissions());
+
+		// cleanup
+		$this->shareManager->deleteShare($folder1Share);
+		$this->shareManager->deleteShare($folder2Share);
+		$this->shareManager->deleteShare($file1Share);
+		$this->shareManager->deleteShare($subfolder1Share);
+		$this->shareManager->deleteShare($file2Share);
+	}
 }
