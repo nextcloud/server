@@ -306,6 +306,7 @@ class Server {
 						\OC::$server->getShareManager(),
 						$view
 					));
+-					$logger = \OC::$server->get(LoggerInterface::class);
 					$this->server->addPlugin(
 						new BulkUploadPlugin($userFolder, $logger)
 					);
