@@ -29,6 +29,8 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Settings;
 
+use OC\User\Backend;
+use OCP\User\Backend\ICountUsersBackend;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -38,6 +40,8 @@ use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
 	/** @var IConfig */
@@ -52,6 +56,10 @@ class Admin implements ISettings {
 	private $l10nFactory;
 	/** @var IRegistry */
 	private $subscriptionRegistry;
+	/** @var IUserManager */
+	private $userManager;
+	/** @var LoggerInterface */
+	private $logger;
 
 	public function __construct(
 		IConfig $config,
@@ -59,7 +67,9 @@ class Admin implements ISettings {
 		IGroupManager $groupManager,
 		IDateTimeFormatter $dateTimeFormatter,
 		IFactory $l10nFactory,
-		IRegistry $subscriptionRegistry
+		IRegistry $subscriptionRegistry,
+		IUserManager $userManager,
+		LoggerInterface $logger
 	) {
 		$this->config = $config;
 		$this->updateChecker = $updateChecker;
@@ -67,6 +77,8 @@ class Admin implements ISettings {
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->l10nFactory = $l10nFactory;
 		$this->subscriptionRegistry = $subscriptionRegistry;
+		$this->userManager = $userManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -111,6 +123,7 @@ class Admin implements ISettings {
 			'downloadLink' => empty($updateState['downloadLink']) ? '' : $updateState['downloadLink'],
 			'changes' => $this->filterChanges($updateState['changes'] ?? []),
 			'webUpdaterEnabled' => !$this->config->getSystemValue('upgrade.disable-web', false),
+			'isWebUpdaterRecommended' => $this->isWebUpdaterRecommended(),
 			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
 			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
 			'isDefaultUpdateServerURL' => $isDefaultUpdateServerURL,
@@ -183,5 +196,29 @@ class Admin implements ISettings {
 	 */
 	public function getPriority(): int {
 		return 11;
+	}
+
+	private function isWebUpdaterRecommended(): bool {
+		return $this->getUserCount() < 100;
+	}
+
+	/**
+	 * @see https://github.com/nextcloud/server/blob/39494fbf794d982f6f6551c984e6ca4c4e947d01/lib/private/Support/Subscription/Registry.php#L188-L216 implementation reference
+	 */
+	private function getUserCount(): int {
+		$userCount = 0;
+		$backends = $this->userManager->getBackends();
+		foreach ($backends as $backend) {
+			// TODO: change below to 'if ($backend instanceof ICountUsersBackend) {'
+			if ($backend->implementsActions(Backend::COUNT_USERS)) {
+				/** @var ICountUsersBackend $backend */
+				$backendUsers = $backend->countUsers();
+				if ($backendUsers !== false) {
+					$userCount += $backendUsers;
+				}
+			}
+		}
+
+		return $userCount;
 	}
 }

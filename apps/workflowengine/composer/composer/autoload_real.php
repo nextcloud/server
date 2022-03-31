@@ -23,20 +23,11 @@ class ComposerAutoloaderInitWorkflowEngine
         }
 
         spl_autoload_register(array('ComposerAutoloaderInitWorkflowEngine', 'loadClassLoader'), true, true);
-        self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(\dirname(__FILE__)));
+        self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(__DIR__));
         spl_autoload_unregister(array('ComposerAutoloaderInitWorkflowEngine', 'loadClassLoader'));
 
-        $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
-        if ($useStaticLoader) {
-            require __DIR__ . '/autoload_static.php';
-
-            call_user_func(\Composer\Autoload\ComposerStaticInitWorkflowEngine::getInitializer($loader));
-        } else {
-            $classMap = require __DIR__ . '/autoload_classmap.php';
-            if ($classMap) {
-                $loader->addClassMap($classMap);
-            }
-        }
+        require __DIR__ . '/autoload_static.php';
+        \Composer\Autoload\ComposerStaticInitWorkflowEngine::getInitializer($loader)();
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);
