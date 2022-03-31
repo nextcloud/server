@@ -1331,7 +1331,7 @@ class Wizard extends LDAPUtility {
 								 $this->configuration->ldapAgentName,
 								 $this->configuration->ldapAgentPassword);
 		if ($lo === true) {
-			$this->$cr = $cr;
+			$this->cr = $cr;
 			return $cr;
 		}
 
