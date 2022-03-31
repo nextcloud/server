@@ -1119,7 +1119,7 @@ class ShareAPIController extends OCSController {
 				if (!$this->hasPermission($newPermissions, Constants::PERMISSION_READ) && (
 						$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
 					)) {
-					throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set.'));
+					throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set'));
 				}
 			}
 
