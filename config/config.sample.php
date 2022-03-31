@@ -1888,6 +1888,14 @@ $CONFIG = [
 'localstorage.umask' => 0022,
 
 /**
+ * This options allows storage systems that don't allow to modify existing files
+ * to overcome this limitation by removing the files before overwriting.
+ *
+ * Defaults to ``false``
+ */
+'localstorage.unlink_on_truncate' => false,
+
+/**
  * EXPERIMENTAL: option whether to include external storage in quota
  * calculation, defaults to false.
  *
