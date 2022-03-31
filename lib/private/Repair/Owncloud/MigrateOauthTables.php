@@ -55,23 +55,34 @@ class MigrateOauthTables implements IRepairStep {
 		$output->info("Update the oauth2_access_tokens table schema.");
 		$schema = new SchemaWrapper($this->db);
 		$table = $schema->getTable('oauth2_access_tokens');
-		$table->addColumn('hashed_code', 'string', [
-			'notnull' => true,
-			'length' => 128,
-		]);
-		$table->addColumn('encrypted_token', 'string', [
-			'notnull' => true,
-			'length' => 786,
-		]);
-		$table->addUniqueIndex(['hashed_code'], 'oauth2_access_hash_idx');
-		$table->addIndex(['client_id'], 'oauth2_access_client_id_idx');
-
+		if (!$table->hasColumn('hashed_code')) {
+			$table->addColumn('hashed_code', 'string', [
+				'notnull' => true,
+				'length' => 128,
+			]);
+		}
+		if (!$table->hasColumn('encrypted_token')) {
+			$table->addColumn('encrypted_token', 'string', [
+				'notnull' => true,
+				'length' => 786,
+			]);
+		}
+		if (!$table->hasIndex('oauth2_access_hash_idx')) {
+			$table->addUniqueIndex(['hashed_code'], 'oauth2_access_hash_idx');
+		}
+		if (!$table->hasIndex('oauth2_access_client_id_idx')) {
+			$table->addIndex(['client_id'], 'oauth2_access_client_id_idx');
+		}
 
 		$output->info("Update the oauth2_clients table schema.");
 		$schema = new SchemaWrapper($this->db);
 		$table = $schema->getTable('oauth2_clients');
-		$table->getColumn('name')->setLength(64);
-		$table->dropColumn('allow_subdomains');
+		if ($table->getColumn('name')->getLength() !== 64) {
+			$table->getColumn('name')->setLength(64);
+		}
+		if ($table->hasColumn('allow_subdomains')) {
+			$table->dropColumn('allow_subdomains');
+		}
 
 		if (!$schema->getTable('oauth2_clients')->hasColumn('client_identifier')) {
 			$table->addColumn('client_identifier', 'string', [
