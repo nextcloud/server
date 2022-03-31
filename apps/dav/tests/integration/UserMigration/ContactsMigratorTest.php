@@ -110,10 +110,10 @@ class ContactsMigratorTest extends TestCase {
 	/**
 	 * @dataProvider dataAssets
 	 *
-	 * @param array{displayName: string, description?: string} $metadata
+	 * @param array{displayName: string, description?: string} $importMetadata
 	 * @param VCard[] $importCards
 	 */
-	public function testImportExportAsset(string $userId, string $filename, string $initialAddressBookUri, array $metadata, array $importCards): void {
+	public function testImportExportAsset(string $userId, string $filename, string $initialAddressBookUri, array $importMetadata, array $importCards): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 
 		foreach ($importCards as $importCard) {
@@ -121,14 +121,16 @@ class ContactsMigratorTest extends TestCase {
 			$this->assertEmpty($problems);
 		}
 
-		$this->invokePrivate($this->migrator, 'importAddressBook', [$user, $filename, $initialAddressBookUri, $metadata, $importCards, $this->output]);
+		$this->invokePrivate($this->migrator, 'importAddressBook', [$user, $filename, $initialAddressBookUri, $importMetadata, $importCards, $this->output]);
 
 		$addressBookExports = $this->invokePrivate($this->migrator, 'getAddressBookExports', [$user, $this->output]);
 		$this->assertCount(1, $addressBookExports);
 
 		/** @var VCard[] $exportCards */
-		['vCards' => $exportCards] = reset($addressBookExports);
+		['displayName' => $displayName, 'description' => $description, 'vCards' => $exportCards] = reset($addressBookExports);
+		$exportMetadata = array_filter(['displayName' => $displayName, 'description' => $description]);
 
+		$this->assertEquals($importMetadata, $exportMetadata);
 		$this->assertEquals(count($importCards), count($exportCards));
 
 		for ($i = 0; $i < count($importCards); ++$i) {
