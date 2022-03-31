@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Irányítópult",
     "Dashboard app" : "Irányítópult alkalmazás",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Kezdje informáltan a napot\n\nA Nextcloud irányítópult a napja kezdőpontja, áttekintést nyújtva a közelgő találkozókról, sürgős levelekről, csevegőüzenetekről, hibajegyekről, a legfrissebb tweetekről és sok másról. A felhasználók modulokat adhatnak hozzá, és tetszés szerint változtathatják a hátteret.",
     "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
     "Get more widgets from the App Store" : "További modulok letöltése az alkalmazástárból.",

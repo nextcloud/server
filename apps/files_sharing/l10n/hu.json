@@ -99,6 +99,7 @@
     "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
     "Could not delete share" : "A megosztás nem törölhető",
     "Please specify a file or folder path" : "Adjon meg egy fájl- vagy mappaútvonalat",
+    "Wrong path, file/folder does not exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Could not create share" : "A megosztás nem hozható létre",
     "Invalid permissions" : "Érvénytelen jogosultságok",
     "Please specify a valid user" : "Adjon meg egy érvényes felhasználót",
