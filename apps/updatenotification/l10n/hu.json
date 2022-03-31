@@ -14,6 +14,7 @@
     "Apps missing compatible version" : "Az alkalmazásoknak nincs kompatibilis verziója",
     "View in store" : "Megtekintés a tárban",
     "Apps with compatible version" : "Alkalmazások kompatibilis verzióval",
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Vegye figyelembe, hogy a webes frissítő több mint 100 felhasználóval nem ajánlott. Használja helyette a parancssoros frissítőt.",
     "Open updater" : "Frissítő megnyitása",
     "Download now" : "Letöltés most",
     "Please use the command line updater to update." : "Az frissítéshez kérjük használja a parancssoros frissítéskezelőt.",
