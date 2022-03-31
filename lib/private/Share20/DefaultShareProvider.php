@@ -643,7 +643,10 @@ class DefaultShareProvider implements IShareProvider {
 
 	public function getSharesInFolder($userId, Folder $node, $reshares) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('*')
+		$qb->select('s.*',
+				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+				'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+				'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
 			->from('share', 's')
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
