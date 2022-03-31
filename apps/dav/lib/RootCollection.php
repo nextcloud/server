@@ -54,8 +54,7 @@ class RootCollection extends SimpleCollection {
 	public function __construct() {
 		$l10n = \OC::$server->getL10N('dav');
 		$random = \OC::$server->getSecureRandom();
-		$logger = \OC::$server->getLogger();
-		$psrLogger = \OC::$server->get(LoggerInterface::class);
+		$logger = \OC::$server->get(LoggerInterface::class);
 		$userManager = \OC::$server->getUserManager();
 		$userSession = \OC::$server->getUserSession();
 		$groupManager = \OC::$server->getGroupManager();
@@ -109,15 +108,15 @@ class RootCollection extends SimpleCollection {
 			$legacyDispatcher,
 			$config
 		);
-		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $psrLogger);
+		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $logger);
 		$userCalendarRoot->disableListing = $disableListing;
 
-		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources', $psrLogger);
+		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources', $logger);
 		$resourceCalendarRoot->disableListing = $disableListing;
-		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $psrLogger);
+		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $logger);
 		$roomCalendarRoot->disableListing = $disableListing;
 
-		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $psrLogger);
+		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $logger);
 		$publicCalendarRoot->disableListing = $disableListing;
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
@@ -137,7 +136,7 @@ class RootCollection extends SimpleCollection {
 			$userManager,
 			\OC::$server->getUserSession(),
 			\OC::$server->getEventDispatcher(),
-			\OC::$server->getLogger()
+			$logger
 		);
 
 		$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));

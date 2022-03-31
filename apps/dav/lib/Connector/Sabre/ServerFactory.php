@@ -38,20 +38,19 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\SabrePluginEvent;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	/** @var IConfig */
 	private $config;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var IDBConnection */
 	private $databaseConnection;
 	/** @var IUserSession */
@@ -69,19 +68,9 @@ class ServerFactory {
 	/** @var IL10N */
 	private $l10n;
 
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param IDBConnection $databaseConnection
-	 * @param IUserSession $userSession
-	 * @param IMountManager $mountManager
-	 * @param ITagManager $tagManager
-	 * @param IRequest $request
-	 * @param IPreview $previewManager
-	 */
 	public function __construct(
 		IConfig $config,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IDBConnection $databaseConnection,
 		IUserSession $userSession,
 		IMountManager $mountManager,

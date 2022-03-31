@@ -30,9 +30,9 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
 use Test\TestCase;
 
@@ -80,7 +80,7 @@ class SyncServiceTest extends TestCase {
 
 		/** @var IUserManager $userManager */
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 		$converter = $this->createMock(Converter::class);
 
 		$ss = new SyncService($backend, $userManager, $logger, $converter);
@@ -106,7 +106,7 @@ class SyncServiceTest extends TestCase {
 	public function testUpdateAndDeleteUser($activated, $createCalls, $updateCalls, $deleteCalls) {
 		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 
 		$backend->expects($this->exactly($createCalls))->method('createCard');
 		$backend->expects($this->exactly($updateCalls))->method('updateCard');
@@ -166,7 +166,7 @@ class SyncServiceTest extends TestCase {
 	 */
 	private function getSyncServiceMock($backend, $response) {
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 		$converter = $this->createMock(Converter::class);
 		/** @var SyncService | \PHPUnit\Framework\MockObject\MockObject $ss */
 		$ss = $this->getMockBuilder(SyncService::class)
