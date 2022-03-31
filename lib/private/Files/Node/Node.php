@@ -430,6 +430,15 @@ class Node implements \OCP\Files\Node {
 			if (!$this->view->rename($this->path, $targetPath)) {
 				throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
 			}
+
+			$mountPoint = $this->getMountPoint();
+			if ($mountPoint) {
+				// update the cached fileinfo with the new (internal) path
+				/** @var \OC\Files\FileInfo $oldFileInfo */
+				$oldFileInfo = $this->getFileInfo();
+				$this->fileInfo = new \OC\Files\FileInfo($targetPath, $oldFileInfo->getStorage(), $mountPoint->getInternalPath($targetPath), $oldFileInfo->getData(), $mountPoint, $oldFileInfo->getOwner());
+			}
+
 			$targetNode = $this->root->get($targetPath);
 			$this->sendHooks(['postRename'], [$this, $targetNode]);
 			$this->sendHooks(['postWrite'], [$targetNode]);
