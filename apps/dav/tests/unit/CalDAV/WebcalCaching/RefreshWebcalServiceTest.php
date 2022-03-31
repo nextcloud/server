@@ -24,7 +24,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\DAV\Tests\unit\BackgroundJob;
+namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use GuzzleHttp\HandlerStack;
 use OCA\DAV\CalDAV\CalDavBackend;
