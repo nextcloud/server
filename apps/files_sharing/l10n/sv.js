@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock path" : "Kunde inte låsa sökvägen",
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
     "Share must at least have READ or CREATE permissions" : "Delningen måste åtminstone ha LÄS- eller SKAPA-behörighet",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Delningen måste ha LÄS-behörighet om ÄNDRA- eller RADERA-behörighet är inställd.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Skicka lösenord via Nextcloud Talk\" för att dela en fil eller mapp misslyckades eftersom Nextcloud Talk inte är aktiverat.",
     "shared by %s" : "delad av %s",
     "Download all files" : "Hämta alla filer",
