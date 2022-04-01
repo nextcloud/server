@@ -124,7 +124,6 @@ OC.L10N.register(
     "Could not lock path" : "Ezin izan da bidea blokeatu",
     "Wrong or no update parameter given" : "Eguneraketa parametrorik ez da eman edo okerra da",
     "Share must at least have READ or CREATE permissions" : "Partekatzeak gutxienez IRAKURRI edo SORTU egiteko baimenak behar ditu",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Partekatzeak IRAKURRI egiteko baimenak behar ditu, EGUNERATU edo EZABATU baimenak baldin badauzka.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Nextcloud Talk-ek pasahitza bidaltzeak\" huts egin du ez dagoelako Nextcloud Talk gaituta fitxategi edo karpeta bat partekatzeko.",
     "shared by %s" : "%s erabiltzaileak partekatua",
     "Download all files" : "Deskargatu fitxategi guztiak",

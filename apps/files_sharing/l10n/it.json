@@ -121,7 +121,6 @@
     "Could not lock path" : "Impossibile bloccare il percorso",
     "Wrong or no update parameter given" : "Parametro fornito non valido o non di aggiornamento",
     "Share must at least have READ or CREATE permissions" : "La condivisione deve disporre almeno delle autorizzazioni READ o CREATE",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "La condivisione deve disporre dell'autorizzazione READ se l'autorizzazione è impostata su UPDATE o DELETE.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Invio della password da Nextcloud Talk\" per condividere un file o una cartella non è riuscito poiché Nextcloud Talk non è attivato.",
     "shared by %s" : "condiviso da %s",
     "Download all files" : "Scarica tutti i file",

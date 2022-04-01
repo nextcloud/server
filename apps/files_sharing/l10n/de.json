@@ -121,7 +121,6 @@
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
     "Share must at least have READ or CREATE permissions" : "Freigabe muss mindestens Lese- oder Erstell-Rechte haben",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Die Freigabe muss das Recht Lesen haben, wenn das Recht für Aktualisieren oder Löschen gesetzt ist.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Senden des Passwortes über Nextcloud Talk\" zum Teilen einer Datei  gescheitert, da Nextcloud Talk nicht verfügbar ist.",
     "shared by %s" : "von %s geteilt",
     "Download all files" : "Alle Dateien herunterladen",
