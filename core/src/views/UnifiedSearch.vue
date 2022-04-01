@@ -30,7 +30,7 @@
 		<!-- Header icon -->
 		<template #trigger>
 			<Magnify class="unified-search__trigger"
-				:size="20"
+				:size="22/* fit better next to other 20px icons */"
 				fill-color="var(--color-primary-text)" />
 		</template>
 
@@ -81,15 +81,17 @@
 			<!-- Loading placeholders -->
 			<SearchResultPlaceholders v-if="isLoading" />
 
-			<EmptyContent v-else-if="isValidQuery" icon="icon-search">
+			<EmptyContent v-else-if="isValidQuery">
 				<Highlight v-if="triggered" :text="t('core', 'No results for {query}', { query })" :search="query" />
 				<div v-else>
 					{{ t('core', 'Press enter to start searching') }}
 				</div>
+				<template #icon><Magnify /></template>
 			</EmptyContent>
 
-			<EmptyContent v-else-if="!isLoading || isShortQuery" icon="icon-search">
+			<EmptyContent v-else-if="!isLoading || isShortQuery">
 				{{ t('core', 'Start typing to search') }}
+				<template #icon><Magnify /></template>
 				<template v-if="isShortQuery" #desc>
 					{{ n('core',
 						'Please enter {minSearchLength} character or more to search',
@@ -677,11 +679,6 @@ $input-height: 34px;
 $input-padding: 6px;
 
 .unified-search {
-	&__trigger {
-		width: 20px;
-		height: 20px;
-	}
-
 	&__input-wrapper {
 		position: sticky;
 		// above search results
