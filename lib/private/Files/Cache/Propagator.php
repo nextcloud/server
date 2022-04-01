@@ -111,6 +111,7 @@ class Propagator implements IPropagator {
 
 			$builder->execute();
 		}
+		$this->storage->getCache()->clearInternalCache();
 	}
 
 	protected function getParents($path) {
@@ -195,5 +196,6 @@ class Propagator implements IPropagator {
 		$this->batch = [];
 
 		$this->connection->commit();
+		$this->storage->getCache()->clearInternalCache();
 	}
 }

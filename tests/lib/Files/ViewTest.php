@@ -217,7 +217,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($cachedData['encrypted']);
 		$id = $rootView->putFileInfo('/foo.txt', ['encrypted' => true]);
 		$cachedData = $rootView->getFileInfo('/foo.txt');
-		$this->assertTrue($cachedData['encrypted']);
+		$this->assertTrue((bool)$cachedData['encrypted']);
 		$this->assertEquals($cachedData['fileid'], $id);
 
 		$this->assertFalse($rootView->getFileInfo('/non/existing'));

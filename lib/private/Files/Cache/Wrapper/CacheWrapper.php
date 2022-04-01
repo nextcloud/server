@@ -31,6 +31,7 @@ namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\QuerySearchHelper;
+use OC\Cache\CappedMemoryCache;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchOperator;
@@ -50,6 +51,7 @@ class CacheWrapper extends Cache {
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->querySearchHelper = \OC::$server->get(QuerySearchHelper::class);
+		$this->internalCache = new CappedMemoryCache();
 	}
 
 	protected function getCache() {
