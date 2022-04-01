@@ -24,6 +24,7 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "Sprawdzanie aktualizacji nie zostało jeszcze zakończone. Odśwież stronę.",
     "Your version is up to date." : "Posiadasz aktualną wersję.",
     "A non-default update server is in use to be checked for updates:" : "Do sprawdzania aktualizacji nie są używane domyślne serwery aktualizacji:",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Możesz zmienić kanał aktualizacji poniżej, co wpływa również na stronę zarządzania aplikacjami. Np. po przejściu na kanał beta aktualizacje aplikacji beta będą dostępne na stronie zarządzania aplikacjami.",
     "Update channel:" : "Kanał aktualizacji:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Zawsze możesz zaktualizować do nowszej wersji. Ale nigdy nie możesz powrócić do wersji bardziej stabilnej.",
     "Notify members of the following groups about available updates:" : "Powiadom członków następujących grup o dostępnych aktualizacjach:",
