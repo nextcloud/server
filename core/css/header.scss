@@ -172,7 +172,7 @@
 	}
 	.logo {
 		display: inline-flex;
-		background-image: var(--image-logo);
+		background-image: var(--image-logoheader, var(--image-logo, url('../img/logo/logo.svg')));
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: center;

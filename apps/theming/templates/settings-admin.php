@@ -116,7 +116,7 @@ style('theming', 'settings-admin');
 				<label for="upload-login-logoheader"><span><?php p($l->t('Header logo')) ?></span></label>
 				<input id="upload-login-logoheader" class="fileupload" name="image" type="file">
 				<label for="upload-login-logoheader" class="button icon-upload svg" id="upload-login-logoheader" title="<?php p($l->t("Upload new header logo")) ?>"></label>
-				<div class="image-preview"></div>
+				<div id="theming-preview-logoheader" class="image-preview"></div>
 				<div data-setting="logoheaderMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 			</form>
 		</div>
@@ -127,7 +127,7 @@ style('theming', 'settings-admin');
 				<label for="upload-login-favicon"><span><?php p($l->t('Favicon')) ?></span></label>
 				<input id="upload-login-favicon" class="fileupload" name="image" type="file">
 				<label for="upload-login-favicon" class="button icon-upload svg" id="upload-login-favicon" title="<?php p($l->t("Upload new favicon")) ?>"></label>
-				<div class="image-preview"></div>
+				<div id="theming-preview-favicon" class="image-preview"></div>
 				<div data-setting="faviconMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 			</form>
 		</div>

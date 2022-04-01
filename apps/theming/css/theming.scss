@@ -45,18 +45,6 @@ $invert: luma($color-primary) > 0.6;
 	}
 }
 
-.nc-theming-main-background {
-	background-color: $color-primary;
-}
-
-.nc-theming-main-text {
-	color: $color-primary-text;
-}
-
-.nc-theming-contrast {
-	color: $color-primary-text;
-}
-
 @if ($invert) {
 	// too bright, use dark text to mix the primary
 	$color-primary-light: mix($color-primary, $color-main-text, 10%);
@@ -150,16 +138,6 @@ $invert: luma($color-primary) > 0.6;
 	#theming .advanced-option-logoheader .image-preview,
 	body:not(#body-login) #header .logo {
 		background-image: $image-logoheader;
-	}
-} @else {
-	#theming .advanced-option-favicon .image-preview {
-		background-image: none;
-	}
-}
-
-@if variable_exists('theming-favicon-mime') and $theming-favicon-mime != '' {
-	#theming .advanced-option-favicon .image-preview {
-		background-image: $image-favicon;
 	}
 } @else {
 	#theming .advanced-option-favicon .image-preview {
@@ -303,11 +281,5 @@ input.primary {
 	/* show border around quota bar in files app */
 	.app-files #quota .quota-container {
 		border: 1px solid #ebebeb;
-	}
-}
-
-@if ($has-legal-links == 'true') {
-	footer {
-		height: 92px;
 	}
 }

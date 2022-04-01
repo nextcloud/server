@@ -24,21 +24,32 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
+use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCA\Theming\ITheme;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 
 class DefaultTheme implements ITheme {
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
 	public IURLGenerator $urlGenerator;
+	public ImageManager $imageManager;
+	public IConfig $config;
+
 	public string $primaryColor;
 
-	public function __construct(Util $util, ThemingDefaults $themingDefaults, IURLGenerator $urlGenerator) {
+	public function __construct(Util $util,
+								ThemingDefaults $themingDefaults,
+								IURLGenerator $urlGenerator,
+								ImageManager $imageManager,
+								IConfig $config) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
+		$this->imageManager = $imageManager;
+		$this->config = $config;
 
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 	}
@@ -58,11 +69,7 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		// Logo variables
-		$logoSvgPath = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo());
-		$backgroundSvgPath = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getBackground());
-
-		return [
+		$variables = [
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
@@ -124,11 +131,6 @@ class DefaultTheme implements ITheme {
 			'--animation-slow' => '300ms',
 
 			// Default variables --------------------------------------------
-			'--image-logo' => "url('$logoSvgPath')",
-			'--image-login' => "url('$backgroundSvgPath')",
-			'--image-logoheader' => "url('$logoSvgPath')",
-			'--image-favicon' => "url('$logoSvgPath')",
-
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
 			// pill-style button, value is large so big buttons also have correct roundness
@@ -156,5 +158,22 @@ class DefaultTheme implements ITheme {
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'unset',
 			'--background-invert-if-bright' => 'unset',
 		];
+
+		// Register image variables only if custom-defined
+		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
+		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
+			if ($this->imageManager->hasImage($image)) {
+				// If primary as background has been request, let's not define the background image
+				if ($image === 'background' && $backgroundDeleted) {
+					$variables["--image-background-plain"] = true;
+					continue;
+				} else if ($image === 'background') {
+					$variables['--image-background-size'] = 'cover';
+				}
+				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
+			}
+		}
+
+		return $variables;
 	}
 }

@@ -15,20 +15,19 @@ a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
 
 body {
-	background-color: #ffffff;
 	font-weight: normal;
 	/* bring the default font size up to 14px */
 	font-size: .875em;
 	line-height: 1.6em;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-	color: #000;
+	color: var(--color-primary-text);
 	text-align: center;
-	background-color: #0082c9;
-	background-image: url('../img/background.png?v=2');
-	background-image: url('../img/background.png?v=2'), linear-gradient(40deg, #0082c9 0%, rgba(28,175,255,1) 100%);
+	background-color: var(--color-primary);
+	background-image: var(--image-background);
+	background-image: var(--image-background), linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
 	background-position: 50% 50%;
 	background-repeat: repeat;
-	background-size: 275px, contain;
+	background-size: var(--image-background-size, 275px, contain);
 	background-attachment: fixed; /* fix background gradient */
 	min-height: 100%; /* fix sticky footer */
 	height: auto;
@@ -36,7 +35,7 @@ body {
 
 /* Various fonts settings */
 #body-login a {
-	color: #fff;
+	color: var(--color-primary-text);
 	font-weight: 600;
 }
 #body-login a:not(.button):hover,
@@ -46,7 +45,7 @@ body {
 }
 
 #showAdvanced {
-	color: #fff;
+	color: var(--color-primary-text);
 }
 
 em {
@@ -80,13 +79,12 @@ body {
 }
 
 #header .logo {
-	background-image: url('../img/logo/logo.svg?v=1');
+	background-image: var(--image-logo);
 	background-repeat: no-repeat;
-	background-size: 175px;
+	background-size: contain;
 	background-position: center;
-	width: 256px;
-	min-height: 128px;
-	max-height: 200px;
+	width: 175px;
+	height: 130px;
 	margin: 0 auto;
 	position: relative;
 	left: unset;
@@ -185,7 +183,7 @@ form #datadirField legend {
 }
 
 .alternative-logins .button {
-	color: #ffffff;
+	color: var(--color-text-lighter);
 	padding: 12px 20px;
 }
 
@@ -263,9 +261,9 @@ select {
 	width: auto;
 	min-width: 25px;
 	padding: 12px;
-	background-color: white;
+	background-color: var(--color-main-background);
 	font-weight: bold;
-	color: #555;
+	color: var(--color-text-lighter);
 	border: none;
 	border-radius: 100px; /* --border-radius-pill */
 	cursor: pointer;
@@ -280,7 +278,7 @@ input[type='password'],
 input[type='email'] {
 	width: 249px;
 	background: #fff;
-	color: #555;
+	color: var(--color-text-lighter);
 	cursor: text;
 	font-family: inherit;
 	-webkit-appearance: textfield;
@@ -338,9 +336,9 @@ input::-moz-focus-inner {
 input.primary,
 button.primary,
 a.primary {
-	border: 1px solid #fff;
-	background-color: #0082c9;
-	color: #fff;
+	border: 1px solid var(--color-primary-text);
+	background-color: var(--color-primary);
+	color: var(--color-primary-text);
 	transition: color 100ms ease-in-out;
 }
 
@@ -350,8 +348,8 @@ button.primary:not(:disabled):hover,
 button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
 a.primary:not(:disabled):focus {
-	color: rgba(255, 255, 255, 1);
-	background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+	color: var(--color-primary-text);
+	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
 	background-position: initial;
 }
 
@@ -479,13 +477,13 @@ form fieldset legend,
 form fieldset .warning-info,
 form input[type='checkbox']+label {
 	text-align: center;
-	color: #fff;
+	color: var(--color-primary-text);
 }
 /* overrides another !important statement that sets this to unreadable black */
 form .warning input[type='checkbox']:hover+label,
 form .warning input[type='checkbox']:focus+label,
 form .warning input[type='checkbox']+label {
-	color: #fff !important;
+	color: var(--color-primary-text) !important;
 }
 
 .body-login-container.two-factor {
@@ -559,7 +557,7 @@ form .warning input[type='checkbox']+label {
 	display: inline-block;
 	font-weight: normal !important;
 	padding: 12px;
-	color: #fff;
+	color: var(--color-primary-text);
 	cursor: pointer;
 	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
 }
@@ -569,7 +567,7 @@ form .warning input[type='checkbox']+label {
 #forgot-password {
 	padding: 11px;
 	float: right;
-	color: #fff;
+	color: var(--color-primary-text);
 }
 
 /* Alternative Logins */
@@ -587,16 +585,16 @@ form .warning input[type='checkbox']+label {
 	display: inline-block;
 	text-align: center;
 	box-sizing: border-box;
-	border: 2px solid #ffffff;
-	background-color: #0082c9;
-	color: #ffffff;
+	border: 2px solid var(--color-primary-text);
+	background-color: var(--color-primary);
+	color: var(--color-primary-text);
 	border-radius: 100px; /* --border-radius-pill */
 }
 
 .alternative-logins a.button:focus,
 .alternative-logins li a:focus {
-	border: 2px solid #000000;
-	background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+	border: 2px solid var(--color-primary-hover);
+	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
 	background-position: initial;
 }
 
@@ -854,6 +852,7 @@ p.info {
 }
 .loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
 	position: relative;
+	filter: var(--background-invert-if-bright)
 }
 .loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
 	z-index: 2;
@@ -870,6 +869,9 @@ p.info {
 	-webkit-transform-origin: center;
 	-ms-transform-origin: center;
 	transform-origin: center;
+}
+.primary .loading,.primary+.loading,.primary .loading-small,.primary+.loading-small,.primary .icon-loading,.primary+.icon-loading,.primary .icon-loading-dark,.primary+.icon-loading-dark,.primary .icon-loading-small,.primary+.icon-loading-small,.primary .icon-loading-small-dark,.primary+.icon-loading-small-dark {
+    filter: var(--primary-invert-if-bright)
 }
 .loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
 	border: 2px solid rgba(150, 150, 150, 0.5);
@@ -920,7 +922,7 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 
 /* FOOTER */
 footer {
-	height: 70px;
+	min-height: 70px;
 	margin-top: auto;
 }
 

@@ -58,20 +58,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			return $serverContainer->query(JSDataService::class);
 		});
 
-		// $linkToCSS = $this->urlGenerator->linkToRoute(
-		// 	'theming.Theming.getStylesheet',
-		// 	[
-		// 		'v' => $this->config->getAppValue('theming', 'cachebuster', '0'),
-		// 	]
-		// );
-		// \OCP\Util::addHeader(
-		// 	'link',
-		// 	[
-		// 		'rel' => 'stylesheet',
-		// 		'href' => $linkToCSS,
-		// 	]
-		// );
-
 		$this->themeInjectionService->injectHeaders();
 
 		// Making sure to inject just after core
