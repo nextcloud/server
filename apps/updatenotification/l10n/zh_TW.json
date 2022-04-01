@@ -22,6 +22,7 @@
     "The update check is not yet finished. Please refresh the page." : "更新檢查未完成。請重新整理此頁面。",
     "Your version is up to date." : "您的版本是最新版。",
     "A non-default update server is in use to be checked for updates:" : "使用非預設的更新伺服器檢查更新：",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "您可以變更下方的更新頻道，這也會影響應用程式管理頁面。例如，切換到測試版頻道後，在應用程式管理頁更新應用程式時也會提供測試版。",
     "Update channel:" : "更新頻道：",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "您始終可以更新到較新的版本。但您無法降級到較穩定的版本。",
     "Notify members of the following groups about available updates:" : "有可用更新時通知這些群組的成員：",

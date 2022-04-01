@@ -24,6 +24,7 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "Güncelleme denetimi henüz tamamlanmadı. Lütfen sayfayı yenileyin.",
     "Your version is up to date." : "Sürümünüz güncel.",
     "A non-default update server is in use to be checked for updates:" : "Güncelleme denetimi için varsayılan sunucudan başka bir sunucu kullanılıyor:",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Uygulama yönetimi sayfasını da etkileyen aşağıdaki güncelleme kanalını değiştirebilirsiniz. Örneğin. beta kanalına geçtikten sonra, uygulama yönetimi sayfasında beta uygulama güncellemeleri sunulur.",
     "Update channel:" : "Güncelleme kanalı:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Her zaman bir üst sürüme güncelleyebilirsiniz ancak asla daha kararlı bir eski sürüme dönemezsiniz.",
     "Notify members of the following groups about available updates:" : "Yayınlanan güncellemeler şu grupların üyelerine bildirilsin:",
