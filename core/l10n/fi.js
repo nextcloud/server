@@ -76,7 +76,6 @@ OC.L10N.register(
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "Palvelimen php-imagick-moduulissa ei ole SVG-tukea. Parempaa yhteensopivuutta varten sen asentaminen on suositeltua.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite on parhaillaan käytössä tietokantaratkaisuna. Suuria asennuksia varten suosittelemme vaihtamaan toiseen tietokantaratkaisuun.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Tämä on suositeltavaa erityisesti silloin, kun työpöytäsovellusta käytetään tiedostojen synkronointiin.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Siirtyäksesi toiseen tietokantaan, käytä komentorivityökalua: 'occ db:convert-type', tai lue {linkstart}dokumentaatio ↗{linkend}.",
     "The PHP memory limit is below the recommended value of 512MB." : "PHP:n muistiraja on asetettu alle suositellun 512 megatavun arvon.",
     "The temporary directory of this instance points to an either non-existing or non-writable directory." : "Palvelimen väliaikaistiedostojen hakemiston polku viittaa olemattomaan tai kirjoitussuojattuun hakemistoon.",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Salasanan vaihtaminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
-    "Can't install this app" : "Tätä sovellusta ei voi asentaa"
+    "Can't install this app" : "Tätä sovellusta ei voi asentaa",
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Siirtyäksesi toiseen tietokantaan, käytä komentorivityökalua: 'occ db:convert-type', tai lue {linkstart}dokumentaatio ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");
