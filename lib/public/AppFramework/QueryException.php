@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -32,10 +33,10 @@ use Psr\Container\ContainerExceptionInterface;
 /**
  * Class QueryException
  *
- * The class extends `NotFoundExceptionInterface` since 20.0.0
+ * The class extends `NotFoundExceptionInterface` since 20.0.0.
+ * Wrongly depreciated between 20.0.0 and 25.0.0.
  *
  * @since 8.1.0
- * @deprecated 20.0.0 catch \Psr\Container\ContainerExceptionInterface
  */
 class QueryException extends Exception implements ContainerExceptionInterface {
 }
