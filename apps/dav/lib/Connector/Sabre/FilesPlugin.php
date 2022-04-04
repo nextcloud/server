@@ -34,6 +34,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OC\Metadata\IMetadataManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
@@ -41,6 +42,7 @@ use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
@@ -50,6 +52,7 @@ use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\Uri;
 
 class FilesPlugin extends ServerPlugin {
 
@@ -79,6 +82,7 @@ class FilesPlugin extends ServerPlugin {
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
+	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
 
 	/**
 	 * Reference to main server object
@@ -436,6 +440,29 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getUploadTime();
 			});
+
+			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
+				$propFind->handle(self::FILE_METADATA_SIZE, function () use ($node) {
+					if (!str_starts_with($node->getFileInfo()->getMimetype(), 'image')) {
+						return json_encode([]);
+					}
+
+					if ($node->hasMetadata('size')) {
+						$sizeMetadata = $node->getMetadata('size');
+					} else {
+						// This code path should not be called since we try to preload
+						// the metadata when loading the folder or the search results
+						// in one go
+						$metadataManager = \OC::$server->get(IMetadataManager::class);
+						$sizeMetadata = $metadataManager->fetchMetadataFor('size', [$node->getId()])[$node->getId()];
+
+						// TODO would be nice to display this in the profiler...
+						\OC::$server->get(LoggerInterface::class)->warning('Inefficient fetching of metadata');
+					}
+
+					return json_encode($sizeMetadata->getMetadata());
+				});
+			}
 		}
 
 		if ($node instanceof Directory) {
@@ -448,6 +475,32 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$requestProperties = $propFind->getRequestedProperties();
+
+			// TODO detect dynamically which metadata groups are requested and
+			// preload all of them and not just size
+			if ($this->config->getSystemValueBool('enable_file_metadata', true)
+				&& in_array(self::FILE_METADATA_SIZE, $requestProperties, true)) {
+				// Preloading of the metadata
+				$fileIds = [];
+				foreach ($node->getChildren() as $child) {
+					/** @var \OCP\Files\Node|Node $child */
+					if (str_starts_with($child->getFileInfo()->getMimeType(), 'image/')) {
+						/** @var File $child */
+						$fileIds[] = $child->getFileInfo()->getId();
+					}
+				}
+				/** @var IMetaDataManager $metadataManager */
+				$metadataManager = \OC::$server->get(IMetadataManager::class);
+				$preloadedMetadata = $metadataManager->fetchMetadataFor('size', $fileIds);
+				foreach ($node->getChildren() as $child) {
+					/** @var \OCP\Files\Node|Node $child */
+					if (str_starts_with($child->getFileInfo()->getMimeType(), 'image')) {
+						/** @var File $child */
+						$child->setMetadata('size', $preloadedMetadata[$child->getFileInfo()->getId()]);
+					}
+				}
+			}
+
 			if (in_array(self::SUBFILE_COUNT_PROPERTYNAME, $requestProperties, true)
 				|| in_array(self::SUBFOLDER_COUNT_PROPERTYNAME, $requestProperties, true)) {
 				$nbFiles = 0;

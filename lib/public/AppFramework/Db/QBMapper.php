@@ -253,6 +253,8 @@ abstract class QBMapper {
 				return IQueryBuilder::PARAM_LOB;
 			case 'datetime':
 				return IQueryBuilder::PARAM_DATE;
+			case 'json':
+				return IQueryBuilder::PARAM_JSON;
 		}
 
 		return IQueryBuilder::PARAM_STR;

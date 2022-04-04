@@ -120,6 +120,10 @@ abstract class Entity {
 					if (!$args[0] instanceof \DateTime) {
 						$args[0] = new \DateTime($args[0]);
 					}
+				} elseif ($type === 'json') {
+					if (!is_array($args[0])) {
+						$args[0] = json_decode($args[0], true);
+					}
 				} else {
 					settype($args[0], $type);
 				}

@@ -826,10 +826,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/dav/lib/Files/FileSearchBackend.php">
-    <InvalidArgument occurrences="2">
-      <code>$argument</code>
-      <code>$operator-&gt;arguments</code>
-    </InvalidArgument>
     <InvalidReturnStatement occurrences="1">
       <code>$value</code>
     </InvalidReturnStatement>
@@ -839,9 +835,6 @@
     <ParamNameMismatch occurrences="1">
       <code>$search</code>
     </ParamNameMismatch>
-    <UndefinedDocblockClass occurrences="1">
-      <code>$operator-&gt;arguments[0]-&gt;name</code>
-    </UndefinedDocblockClass>
     <UndefinedPropertyFetch occurrences="1">
       <code>$operator-&gt;arguments[0]-&gt;name</code>
     </UndefinedPropertyFetch>
@@ -855,9 +848,7 @@
     <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;backend-&gt;getArbiterPath()</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>isValidScope</code>
-    </InvalidReturnType>
+    <InvalidReturnType occurrences="1"/>
   </file>
   <file src="apps/dav/lib/Files/RootCollection.php">
     <UndefinedFunction occurrences="1">

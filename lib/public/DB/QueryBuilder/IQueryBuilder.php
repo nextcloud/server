@@ -65,6 +65,11 @@ interface IQueryBuilder {
 	public const PARAM_DATE = 'datetime';
 
 	/**
+	 * @since 24.0.0
+	 */
+	public const PARAM_JSON = 'json';
+
+	/**
 	 * @since 9.0.0
 	 */
 	public const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;

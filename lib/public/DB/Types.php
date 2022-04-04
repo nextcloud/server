@@ -110,4 +110,10 @@ final class Types {
 	 * @since 21.0.0
 	 */
 	public const TIME = 'time';
+
+	/**
+	 * @var string
+	 * @since 24.0.0
+	 */
+	public const JSON = 'json';
 }
