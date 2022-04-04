@@ -89,18 +89,26 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'jpeg';
 		}
 
-		$parameters = [
-			'width' => $maxX,
-			'height' => $maxY,
-			'stripmeta' => 'true',
-			'type' => $mimeType,
+		$operations = [
+			[
+				'operation' => 'autorotate',
+			],
+			[
+				'operation' => ($crop ? 'smartcrop' : 'fit'),
+				'params' => [
+					'width' => $maxX,
+					'height' => $maxY,
+					'stripmeta' => 'true',
+					'type' => $mimeType,
+					'norotation' => 'true',
+				]
+			]
 		];
-
 
 		try {
 			$response = $httpClient->post(
-				$imaginaryUrl . ($crop ? '/smartcrop' : '/fit'), [
-					'query' => $parameters,
+				$imaginaryUrl . '/pipeline', [
+					'query' => ['operations' => json_encode($operations)],
 					'stream' => true,
 					'content-type' => $file->getMimeType(),
 					'body' => $stream,
