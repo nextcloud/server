@@ -559,9 +559,13 @@ class MigrationService {
 	 * - Primary key names must be set or the table name 23 chars or shorter
 	 *
 	 * Data constraints:
+	 * - Tables need a primary key (Not specific to Oracle, but required for performant clustering support)
 	 * - Columns with "NotNull" can not have empty string as default value
 	 * - Columns with "NotNull" can not have number 0 as default value
 	 * - Columns with type "bool" (which is in fact integer of length 1) can not be "NotNull" as it can not store 0/false
+	 * - Columns with type "string" can not be longer than 4.000 characters, use "text" instead
+	 *
+	 * @see https://github.com/nextcloud/documentation/blob/master/developer_manual/basics/storage/database.rst
 	 *
 	 * @param Schema $sourceSchema
 	 * @param Schema $targetSchema
