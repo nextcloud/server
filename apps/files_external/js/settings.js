@@ -141,7 +141,7 @@ function addSelect2 ($elements, userListLimit) {
 			return element.name;
 		},
 		formatResult: function (element) {
-			var $result = $('<span><div class="avatardiv"/><span>'+escapeHTML(element.displayname)+'</span></span>');
+			var $result = $('<span><div class="avatardiv"></div><span>'+escapeHTML(element.displayname)+'</span></span>');
 			var $div = $result.find('.avatardiv')
 				.attr('data-type', element.type)
 				.attr('data-name', element.name)
