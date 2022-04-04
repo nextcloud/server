@@ -1055,6 +1055,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\DB\\AdapterOCI8' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterOCI8.php',
         'OC\\DB\\AdapterPgSql' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterPgSql.php',
         'OC\\DB\\AdapterSqlite' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterSqlite.php',
+        'OC\\DB\\BacktraceDebugStack' => __DIR__ . '/../../..' . '/lib/private/DB/BacktraceDebugStack.php',
         'OC\\DB\\Connection' => __DIR__ . '/../../..' . '/lib/private/DB/Connection.php',
         'OC\\DB\\ConnectionAdapter' => __DIR__ . '/../../..' . '/lib/private/DB/ConnectionAdapter.php',
         'OC\\DB\\ConnectionFactory' => __DIR__ . '/../../..' . '/lib/private/DB/ConnectionFactory.php',

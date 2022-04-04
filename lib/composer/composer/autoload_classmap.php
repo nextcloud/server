@@ -1026,6 +1026,7 @@ return array(
     'OC\\DB\\AdapterOCI8' => $baseDir . '/lib/private/DB/AdapterOCI8.php',
     'OC\\DB\\AdapterPgSql' => $baseDir . '/lib/private/DB/AdapterPgSql.php',
     'OC\\DB\\AdapterSqlite' => $baseDir . '/lib/private/DB/AdapterSqlite.php',
+    'OC\\DB\\BacktraceDebugStack' => $baseDir . '/lib/private/DB/BacktraceDebugStack.php',
     'OC\\DB\\Connection' => $baseDir . '/lib/private/DB/Connection.php',
     'OC\\DB\\ConnectionAdapter' => $baseDir . '/lib/private/DB/ConnectionAdapter.php',
     'OC\\DB\\ConnectionFactory' => $baseDir . '/lib/private/DB/ConnectionFactory.php',
