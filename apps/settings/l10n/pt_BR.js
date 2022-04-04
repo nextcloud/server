@@ -469,6 +469,7 @@ OC.L10N.register(
     "Remove image" : "Remover imagem",
     "png or jpg, max. 20 MB" : "png ou jpg, max. 20 MB",
     "Picture provided by original account" : "Imagem fornecida pela conta original",
+    "Please note that it can take up to 24 hours for the avatar to get updated everywhere." : "Observe que pode levar até 24 horas para que o avatar seja atualizado em todos os lugares.",
     "Choose as profile picture" : "Escolha como imagem de perfil",
     "You are a member of the following groups:" : "Você é membro dos seguintes grupos:",
     "You are using <strong>%s</strong>" : "Você está usando <strong>%s</strong>",
