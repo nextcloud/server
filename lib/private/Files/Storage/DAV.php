@@ -50,7 +50,6 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
-use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
