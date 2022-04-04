@@ -1099,6 +1099,7 @@ class View {
 					[Filesystem::signal_param_path => $this->getHookPath($path)]
 				);
 			}
+			/** @var Storage|null $storage */
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($storage) {
 				return $storage->hash($type, $internalPath, $raw);
