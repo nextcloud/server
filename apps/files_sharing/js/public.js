@@ -355,12 +355,12 @@ OCA.Sharing.PublicApp = {
 	},
 
 	_showTextPreview: function (data, previewHeight) {
-		var textDiv = $('<div/>').addClass('text-preview');
+		var textDiv = $('<div></div>').addClass('text-preview');
 		textDiv.text(data);
 		textDiv.appendTo('#imgframe');
 		var divHeight = textDiv.height();
 		if (data.length > 999) {
-			var ellipsis = $('<div/>').addClass('ellipsis');
+			var ellipsis = $('<div></div>').addClass('ellipsis');
 			ellipsis.html('(&#133;)');
 			ellipsis.appendTo('#imgframe');
 		}

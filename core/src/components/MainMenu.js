@@ -77,7 +77,7 @@ export const setUp = () => {
 			$app.find('div').remove() // prevent odd double-clicks
 			// no need for theming, loader is already inverted on dark mode
 			// but we need it over the primary colour
-			$app.prepend($('<div/>').addClass('icon-loading-small'))
+			$app.prepend($('<div></div>').addClass('icon-loading-small'))
 		} else {
 			// Close navigation when opening app in
 			// a new tab
@@ -103,7 +103,7 @@ export const setUp = () => {
 		if (event.which === 1 && !event.ctrlKey && !event.metaKey && $app.parent('#more-apps').length === 0) {
 			$app.find('svg').remove()
 			$app.find('div').remove() // prevent odd double-clicks
-			$app.prepend($('<div/>').addClass(
+			$app.prepend($('<div></div>').addClass(
 				OCA.Theming && OCA.Theming.inverted
 					? 'icon-loading-small'
 					: 'icon-loading-small-dark'
