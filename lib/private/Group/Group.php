@@ -354,8 +354,7 @@ class Group implements IGroup {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
-				$result = true;
-				$backend->deleteGroup($this->gid);
+				$result = $result || $backend->deleteGroup($this->gid);
 			}
 		}
 		if ($result) {
