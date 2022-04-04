@@ -34,11 +34,16 @@ namespace OC\AppFramework;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
+use OC\Diagnostics\EventLogger;
+use OCP\Profiler\IProfiler;
+use OC\Profiler\RoutingDataCollector;
+use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
-use OCP\AppFramework\QueryException;
+use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
+use OCP\IConfig;
 use OCP\IRequest;
 
 /**
@@ -114,20 +119,30 @@ class App {
 	 * @throws HintException
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
+		/** @var IProfiler $profiler */
+		$profiler = $container->get(IProfiler::class);
+		$config = $container->get(IConfig::class);
+		// Disable profiler on the profiler UI
+		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
+		if ($profiler->isEnabled()) {
+			\OC::$server->get(IEventLogger::class)->activate();
+			$profiler->add(new RoutingDataCollector($container['AppName'], $controllerName, $methodName));
+		}
+
 		if (!is_null($urlParams)) {
 			/** @var Request $request */
-			$request = $container->query(IRequest::class);
+			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($urlParams);
 		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
 			/** @var Request $request */
-			$request = $container->query(IRequest::class);
+			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
-			$controller = $container->query($controllerName);
+			$controller = $container->get($controllerName);
 		} catch (QueryException $e) {
 			if (strpos($controllerName, '\\Controller\\') !== false) {
 				// This is from a global registered app route that is not enabled.
@@ -157,6 +172,16 @@ class App {
 		] = $dispatcher->dispatch($controller, $methodName);
 
 		$io = $container[IOutput::class];
+
+		if ($profiler->isEnabled()) {
+			/** @var EventLogger $eventLogger */
+			$eventLogger = $container->get(IEventLogger::class);
+			$eventLogger->end('runtime');
+			$profile = $profiler->collect($container->get(IRequest::class), $response);
+			$profiler->saveProfile($profile);
+			$io->setHeader('X-Debug-Token:' . $profile->getToken());
+			$io->setHeader('Server-Timing: token;desc="' . $profile->getToken() . '"');
+		}
 
 		if (!is_null($httpHeaders)) {
 			$io->setHeader($httpHeaders);

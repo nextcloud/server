@@ -23,12 +23,13 @@ namespace Test\Memcache;
 
 use OC\Memcache\NullCache;
 use Psr\Log\LoggerInterface;
+use OCP\Profiler\IProfiler;
 
 class Test_Factory_Available_Cache1 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return true;
 	}
 }
@@ -37,7 +38,7 @@ class Test_Factory_Available_Cache2 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return true;
 	}
 }
@@ -46,7 +47,7 @@ class Test_Factory_Unavailable_Cache1 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return false;
 	}
 }
@@ -55,7 +56,7 @@ class Test_Factory_Unavailable_Cache2 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return false;
 	}
 }
@@ -119,7 +120,8 @@ class FactoryTest extends \Test\TestCase {
 	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
 		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache) {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$factory = new \OC\Memcache\Factory('abc', $logger, $localCache, $distributedCache, $lockingCache);
+		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
+		$factory = new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache, $lockingCache);
 		$this->assertTrue(is_a($factory->createLocal(), $expectedLocalCache));
 		$this->assertTrue(is_a($factory->createDistributed(), $expectedDistributedCache));
 		$this->assertTrue(is_a($factory->createLocking(), $expectedLockingCache));
@@ -132,6 +134,7 @@ class FactoryTest extends \Test\TestCase {
 		$this->expectException(\OCP\HintException::class);
 
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		new \OC\Memcache\Factory('abc', $logger, $localCache, $distributedCache);
+		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
+		new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache);
 	}
 }

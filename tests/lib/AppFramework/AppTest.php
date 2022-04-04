@@ -71,7 +71,7 @@ class AppTest extends \Test\TestCase {
 		$this->container[$this->controllerName] = $this->controller;
 		$this->container['Dispatcher'] = $this->dispatcher;
 		$this->container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
-		$this->container['urlParams'] = [];
+		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp';
 		$infoXmlPath = $this->appPath . '/appinfo/info.xml';
@@ -183,6 +183,7 @@ class AppTest extends \Test\TestCase {
 	public function testCoreApp() {
 		$this->container['AppName'] = 'core';
 		$this->container['OC\Core\Controller\Foo'] = $this->controller;
+		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -200,6 +201,7 @@ class AppTest extends \Test\TestCase {
 	public function testSettingsApp() {
 		$this->container['AppName'] = 'settings';
 		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
+		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -217,6 +219,7 @@ class AppTest extends \Test\TestCase {
 	public function testApp() {
 		$this->container['AppName'] = 'bar';
 		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
+		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())

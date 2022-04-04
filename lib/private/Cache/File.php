@@ -203,4 +203,8 @@ class File implements ICache {
 			}
 		}
 	}
+
+	public static function isAvailable(): bool {
+		return true;
+	}
 }

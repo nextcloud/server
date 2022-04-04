@@ -42,6 +42,7 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
+use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
@@ -55,6 +56,7 @@ use OCP\PreConditionNotMetException;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
+use OCP\Profiler\IProfiler;
 
 class Connection extends \Doctrine\DBAL\Connection {
 	/** @var string */
@@ -75,6 +77,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	/** @var int */
 	protected $queriesExecuted = 0;
+
+	/** @var DbDataCollector|null */
+	protected $dbDataCollector = null;
 
 	/**
 	 * Initializes a new instance of the Connection class.
@@ -102,6 +107,16 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
+
+		/** @var \OCP\Profiler\IProfiler */
+		$profiler = \OC::$server->get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$this->dbDataCollector = new DbDataCollector($this);
+			$profiler->add($this->dbDataCollector);
+			$debugStack = new DebugStack();
+			$this->dbDataCollector->setDebugStack($debugStack);
+			$this->_config->setSQLLogger($debugStack);
+		}
 	}
 
 	/**

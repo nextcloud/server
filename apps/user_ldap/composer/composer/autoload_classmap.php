@@ -26,6 +26,7 @@ return array(
     'OCA\\User_LDAP\\ConnectionFactory' => $baseDir . '/../lib/ConnectionFactory.php',
     'OCA\\User_LDAP\\Controller\\ConfigAPIController' => $baseDir . '/../lib/Controller/ConfigAPIController.php',
     'OCA\\User_LDAP\\Controller\\RenewPasswordController' => $baseDir . '/../lib/Controller/RenewPasswordController.php',
+    'OCA\\User_LDAP\\DataCollector\\LdapDataCollector' => $baseDir . '/../lib/DataCollector/LdapDataCollector.php',
     'OCA\\User_LDAP\\Events\\GroupBackendRegistered' => $baseDir . '/../lib/Events/GroupBackendRegistered.php',
     'OCA\\User_LDAP\\Events\\UserBackendRegistered' => $baseDir . '/../lib/Events/UserBackendRegistered.php',
     'OCA\\User_LDAP\\Exceptions\\AttributeNotSet' => $baseDir . '/../lib/Exceptions/AttributeNotSet.php',

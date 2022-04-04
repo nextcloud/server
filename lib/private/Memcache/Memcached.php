@@ -196,7 +196,7 @@ class Memcached extends Cache implements IMemcache {
 		return $result;
 	}
 
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return extension_loaded('memcached');
 	}
 

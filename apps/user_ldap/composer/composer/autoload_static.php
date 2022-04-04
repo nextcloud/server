@@ -41,6 +41,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\ConnectionFactory' => __DIR__ . '/..' . '/../lib/ConnectionFactory.php',
         'OCA\\User_LDAP\\Controller\\ConfigAPIController' => __DIR__ . '/..' . '/../lib/Controller/ConfigAPIController.php',
         'OCA\\User_LDAP\\Controller\\RenewPasswordController' => __DIR__ . '/..' . '/../lib/Controller/RenewPasswordController.php',
+        'OCA\\User_LDAP\\DataCollector\\LdapDataCollector' => __DIR__ . '/..' . '/../lib/DataCollector/LdapDataCollector.php',
         'OCA\\User_LDAP\\Events\\GroupBackendRegistered' => __DIR__ . '/..' . '/../lib/Events/GroupBackendRegistered.php',
         'OCA\\User_LDAP\\Events\\UserBackendRegistered' => __DIR__ . '/..' . '/../lib/Events/UserBackendRegistered.php',
         'OCA\\User_LDAP\\Exceptions\\AttributeNotSet' => __DIR__ . '/..' . '/../lib/Exceptions/AttributeNotSet.php',
