@@ -237,6 +237,7 @@ class Storage {
 				->from('mounts')
 				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 			$storageIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$storageIds = array_unique($storageIds);
 
 			$query = $db->getQueryBuilder();
 			$query->delete('filecache')
