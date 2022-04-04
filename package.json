@@ -127,7 +127,7 @@
     "karma-spec-reporter": "^0.0.33",
     "karma-viewport": "^1.0.8",
     "node-sass": "~7.0.1",
-    "puppeteer": "^13.5.1",
+    "puppeteer": "^13.5.2",
     "regextras": "^0.8.0",
     "sass": "^1.49.11",
     "sass-loader": "^12.6.0",
