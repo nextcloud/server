@@ -122,7 +122,7 @@
     "Could not lock path" : "無法鎖定路徑",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "Share must at least have READ or CREATE permissions" : "分享必須至少具有 READ 或 CREATE 權限",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "如果設置了 UPDATE 或 DELETE 權限，則分享必須具有 READ 權限。",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "如果設置了 UPDATE 或 DELETE 權限，則分享必須具有 READ 權限",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "“通過 Nextcloud Talk 發送密碼”共享檔案或資料夾失敗，因為 Nextcloud Talk 未啟用。",
     "shared by %s" : "分享自 %s",
     "Download all files" : "下載所有檔案",

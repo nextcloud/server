@@ -122,7 +122,7 @@
     "Could not lock path" : "Nie można zablokować ścieżki",
     "Wrong or no update parameter given" : "Brakujący lub błędny parametr aktualizacji",
     "Share must at least have READ or CREATE permissions" : "Udostępnienie musi mieć co najmniej uprawnienia do ODCZYTU lub TWORZENIA",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Udostępnienie musi mieć uprawnienie do ODCZYTU, jeśli ustawiono uprawnienie do AKTUALIZACJI lub USUWANIA.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "Udostępnienie musi mieć uprawnienie do ODCZYTU, jeśli ustawiono uprawnienie do AKTUALIZACJI lub USUWANIA",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Wysyłanie hasła przez Nextcloud Talk\" w celu udostępnienia pliku lub katalogu nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona.",
     "shared by %s" : "udostępnione przez %s",
     "Download all files" : "Pobierz wszystkie pliki",

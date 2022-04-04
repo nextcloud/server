@@ -2881,7 +2881,7 @@ class ShareAPIControllerTest extends TestCase {
 	 */
 	public function testUpdateLinkShareSetInvalidCRUDPermissions2($permissions) {
 		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
-		$this->expectExceptionMessage('Share must have READ permission if UPDATE or DELETE permission is set.');
+		$this->expectExceptionMessage('Share must have READ permission if UPDATE or DELETE permission is set');
 
 		$this->testUpdateLinkShareSetCRUDPermissions($permissions);
 	}

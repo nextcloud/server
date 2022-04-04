@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Πίνακας ελέγχου",
     "Dashboard app" : "Εφαρμογή Πίνακα Ελέγχου",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Ξεκινήστε τη μέρα σας ενημερωμένοι\n\nΤο Nextcloud Dashboard είναι το σημείο εκκίνησης της ημέρας, δίνοντάς σας μια επισκόπηση των επερχόμενων ραντεβού, των επειγόντων email, των μηνυμάτων συνομιλίας, και πολλά άλλα!\nΟι χρήστες μπορούν να προσθέσουν μικροεφαρμογές και να αλλάζουν το φόντο σύμφωνα με τις προτιμήσεις τους.",
     "Customize" : "Προσαρμογή",
     "Edit widgets" : "Επεξεργασία μικροεφαρμογών",
     "Get more widgets from the App Store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",

@@ -58,6 +58,7 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Trash\\TrashItem' => __DIR__ . '/..' . '/../lib/Trash/TrashItem.php',
         'OCA\\Files_Trashbin\\Trash\\TrashManager' => __DIR__ . '/..' . '/../lib/Trash/TrashManager.php',
         'OCA\\Files_Trashbin\\Trashbin' => __DIR__ . '/..' . '/../lib/Trashbin.php',
+        'OCA\\Files_Trashbin\\UserMigration\\TrashbinMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/TrashbinMigrator.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

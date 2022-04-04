@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock path" : "Nie je možné uzamknúť cestu",
     "Wrong or no update parameter given" : "Zlý alebo žiadny zadaný parameter aktualizácie",
     "Share must at least have READ or CREATE permissions" : "Zdieľanie musí mať aspoň povolenia READ alebo CREATE",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Ak je nastavené oprávnenie UPDATE alebo DELETE, zdieľanie musí mať povolenie READ.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Odoslanie hesla cez Nextcloud Talk\" pre zdieľanie súboru alebo priečinka zlyhalo, pretože Nextcloud Talk nie je zapnutý.",
     "shared by %s" : "Sprístupnil %s",
     "Download all files" : "Stiahnuť všetky súbory",

@@ -716,4 +716,44 @@ class MigrationsTest extends \Test\TestCase {
 
 		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
+
+
+	public function testEnsureOracleConstraintsStringLength4000() {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$column = $this->createMock(Column::class);
+		$column->expects($this->any())
+			->method('getName')
+			->willReturn('aaaa');
+		$column->expects($this->any())
+			->method('getType')
+			->willReturn(Type::getType('string'));
+		$column->expects($this->any())
+			->method('getLength')
+			->willReturn(4001);
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([$column]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects($this->any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects($this->any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
+	}
 }

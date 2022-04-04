@@ -1023,7 +1023,6 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
-      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -2637,11 +2636,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$default</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <UndefinedMethod occurrences="1">
-      <code>getName</code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/Archive/TAR.php">
     <UndefinedDocblockClass occurrences="1">

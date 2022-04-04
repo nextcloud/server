@@ -202,6 +202,6 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 			<?php print_unescaped($_['content']); ?>
 		</div>
-
+		<div id="profiler-toolbar"></div>
 	</body>
 </html>

@@ -355,9 +355,9 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function map($fdn, $name, $uuid) {
-		if (mb_strlen($fdn) > 4096) {
+		if (mb_strlen($fdn) > 4000) {
 			\OC::$server->getLogger()->error(
-				'Cannot map, because the DN exceeds 4096 characters: {dn}',
+				'Cannot map, because the DN exceeds 4000 characters: {dn}',
 				[
 					'app' => 'user_ldap',
 					'dn' => $fdn,

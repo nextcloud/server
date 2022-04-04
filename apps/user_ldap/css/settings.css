@@ -9,7 +9,8 @@
 }
 
 .tablerow {
-	display: table-row;
+	display: flex;
+	align-items: center;
 	white-space: nowrap;
 	text-align: left;
 }
@@ -225,4 +226,9 @@ select[multiple=multiple] + button {
 
 #ldapSettings div.ui-accordion-content {
 	background: white;
+}
+
+ul.ui-multiselect-checkboxes label {
+	display: flex;
+	align-items: center;
 }

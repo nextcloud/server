@@ -22,6 +22,7 @@ OC.L10N.register(
     "Read only" : "Csak olvasható",
     "Delete" : "Törlés",
     "Admin defined" : "Rendszergazda által definiálva",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Az automatikus állapotellenőrzés a beállított tárolók nagy száma miatt ki van kapcsolva, kattintson az állapot ellenőrzéséhez",
     "Are you sure you want to delete this external storage?" : "Biztos, hogy törli ezt a külső tárolót?",
     "Delete storage?" : "Tároló törlése?",
     "Saved" : "Mentve",

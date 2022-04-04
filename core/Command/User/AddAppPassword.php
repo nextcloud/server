@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020, NextCloud, Inc.
  *
@@ -41,10 +44,13 @@ class AddAppPassword extends Command {
 
 	/** @var IUserManager */
 	protected $userManager;
+
 	/** @var IProvider */
 	protected $tokenProvider;
+
 	/** @var ISecureRandom */
 	private $random;
+
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -72,13 +78,14 @@ class AddAppPassword extends Command {
 				'password-from-env',
 				null,
 				InputOption::VALUE_NONE,
-				'read password from environment variable NC_PASS/OC_PASS'
+				'Read password from environment variable NC_PASS/OC_PASS. Alternatively it will be asked for interactively or an app password without the login password will be created.'
 			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$username = $input->getArgument('user');
+		$password = null;
 
 		$user = $this->userManager->get($username);
 		if (is_null($user)) {
@@ -98,18 +105,13 @@ class AddAppPassword extends Command {
 
 			$question = new Question('Enter the user password: ');
 			$question->setHidden(true);
+			/** @var null|string $password */
 			$password = $helper->ask($input, $output, $question);
-
-			if ($password === null) {
-				$output->writeln("<error>Password cannot be empty!</error>");
-				return 1;
-			}
-		} else {
-			$output->writeln("<error>Interactive input or --password-from-env is needed for entering a new password!</error>");
-			return 1;
 		}
 
-		$output->writeln('<comment>The password has not been validated, some features might not work as intended.</comment>');
+		if ($password === null) {
+			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
+		}
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 		$generatedToken = $this->tokenProvider->generateToken(

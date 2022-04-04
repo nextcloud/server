@@ -59,6 +59,7 @@ class CreateEmptyConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $this->helper->getNextServerConfigurationPrefix();
 		$configHolder = new Configuration($configPrefix);
+		$configHolder->ldapConfigurationActive = false;
 		$configHolder->saveConfiguration();
 
 		$prose = '';

@@ -84,7 +84,6 @@ OC.L10N.register(
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "이 인스턴스의 모듈 php-imagick에 SVG 지원이 없습니다. 더 나은 호환성을 위해 설치를 권장합니다.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "현재 백엔드 데이터베이스로 SQLite를 사용하고 있습니다. 대규모의 파일을 관리하려고 한다면 다른 데이터베이스 백엔드로 전환할 것을 권장합니다.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "특히 파일 동기화를 위해 데스크톱 클라이언트를 사용할 예정인 경우 권장됩니다.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "다른 데이터 베이스로 마이그레션하기 위해서 다음 명령을 사용하세요: ''occ db:convert-type', 또는 다음 {linkstart}문서를 참조하세요 ↗{linkend}.",
     "The PHP memory limit is below the recommended value of 512MB." : "PHP 메모리 제한이 추천값인 512MB보다 작습니다.",
     "Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:" : "일부 앱 디렉터리를 웹 서버 사용자와 다른 사용자가 소유하고 있습니다. 수동으로 앱을 설치한 경우에 발생할 수 있습니다. 다음 앱 디렉터리의 사용 권한을 확인하십시오:",
     "This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path." : "이 인스턴스에서 S3 기반 객체 저장소를 주 저장소로 사용하고 있습니다. 업로드한 파일을 서버에 임시로 저장하기 때문에 PHP 임시 디렉터리에 최소 50 GB의 빈 공간을 두는 것을 추천합니다. 전체 경로와 사용 가능한 정보를 보려면 로그를 참조하십시오. 성능을 개선하려면 php.ini의 임시 디렉터리를 변경하거나, 해당 위치에서 사용할 수 있는 공간을 더 많이 할당하십시오.",
@@ -397,6 +396,7 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "호환되지 않아 앱을 설치할 수 없습니다.",
     "Can't install this app" : "앱을 설치할 수 없음",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache 모듈이 로드되지 않았습니다. {linkstart}더 나은 성능을 위해 ↗{linkend} 이를 PHP에 로드하는 것이 권장됩니다.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 모듈이 바르게 설정되지 않았습니다.  {linkstart}더 나은 성능을 위해 ↗{linkend} 다음의 설정을 <code>php.ini</code>에서 사용하십시오:"
+    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 모듈이 바르게 설정되지 않았습니다.  {linkstart}더 나은 성능을 위해 ↗{linkend} 다음의 설정을 <code>php.ini</code>에서 사용하십시오:",
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "다른 데이터 베이스로 마이그레션하기 위해서 다음 명령을 사용하세요: ''occ db:convert-type', 또는 다음 {linkstart}문서를 참조하세요 ↗{linkend}."
 },
 "nplurals=1; plural=0;");

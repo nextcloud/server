@@ -14,6 +14,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license AGPL-3.0
  *
@@ -32,7 +33,9 @@
  */
 namespace OCA\User_LDAP;
 
+use OCP\Profiler\IProfiler;
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\PagedResults\IAdapter;
 use OCA\User_LDAP\PagedResults\Php73;
@@ -45,9 +48,18 @@ class LDAP implements ILDAPWrapper {
 	/** @var IAdapter */
 	protected $pagedResultsAdapter;
 
+	private ?LdapDataCollector $dataCollector = null;
+
 	public function __construct(string $logFile = '') {
 		$this->pagedResultsAdapter = new Php73();
 		$this->logFile = $logFile;
+
+		/** @var IProfiler $profiler */
+		$profiler = \OC::$server->get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$this->dataCollector = new LdapDataCollector();
+			$profiler->add($this->dataCollector);
+		}
 	}
 
 	/**
@@ -295,24 +307,26 @@ class LDAP implements ILDAPWrapper {
 			if ($this->isResultFalse($result)) {
 				$this->postFunctionCall();
 			}
+			if ($this->dataCollector !== null) {
+				$this->dataCollector->stopLastLdapRequest();
+			}
 			return $result;
 		}
 		return null;
 	}
 
-	/**
-	 * @param string $functionName
-	 * @param array $args
-	 */
-	private function preFunctionCall($functionName, $args) {
+	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curFunc = $functionName;
 		$this->curArgs = $args;
 
+		if ($this->dataCollector !== null) {
+			$args = array_map(fn ($item) => (!$this->isResource($item) ? $item : '(resource)'), $this->curArgs);
+
+			$this->dataCollector->startLdapRequest($this->curFunc, $args);
+		}
+
 		if ($this->logFile !== '' && is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
-			$args = array_reduce($this->curArgs, static function (array $carry, $item): array {
-				$carry[] = !is_resource($item) ? $item : '(resource)';
-				return $carry;
-			}, []);
+			$args = array_map(fn ($item) => (!$this->isResource($item) ? $item : '(resource)'), $this->curArgs);
 			file_put_contents(
 				$this->logFile,
 				$this->curFunc . '::' . json_encode($args) . "\n",

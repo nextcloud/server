@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 {
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -16,15 +16,15 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -225,6 +225,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Dashboard\\RegisterWidgetEvent' => __DIR__ . '/../../..' . '/lib/public/Dashboard/RegisterWidgetEvent.php',
         'OCP\\Dashboard\\Service\\IEventsService' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Service/IEventsService.php',
         'OCP\\Dashboard\\Service\\IWidgetsService' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Service/IWidgetsService.php',
+        'OCP\\DataCollector\\AbstractDataCollector' => __DIR__ . '/../../..' . '/lib/public/DataCollector/AbstractDataCollector.php',
+        'OCP\\DataCollector\\IDataCollector' => __DIR__ . '/../../..' . '/lib/public/DataCollector/IDataCollector.php',
         'OCP\\Defaults' => __DIR__ . '/../../..' . '/lib/public/Defaults.php',
         'OCP\\Diagnostics\\IEvent' => __DIR__ . '/../../..' . '/lib/public/Diagnostics/IEvent.php',
         'OCP\\Diagnostics\\IEventLogger' => __DIR__ . '/../../..' . '/lib/public/Diagnostics/IEventLogger.php',
@@ -496,6 +498,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Preview\\IVersionedPreviewFile' => __DIR__ . '/../../..' . '/lib/public/Preview/IVersionedPreviewFile.php',
         'OCP\\Profile\\ILinkAction' => __DIR__ . '/../../..' . '/lib/public/Profile/ILinkAction.php',
         'OCP\\Profile\\ParameterDoesNotExistException' => __DIR__ . '/../../..' . '/lib/public/Profile/ParameterDoesNotExistException.php',
+        'OCP\\Profiler\\IProfile' => __DIR__ . '/../../..' . '/lib/public/Profiler/IProfile.php',
+        'OCP\\Profiler\\IProfiler' => __DIR__ . '/../../..' . '/lib/public/Profiler/IProfiler.php',
         'OCP\\Remote\\Api\\IApiCollection' => __DIR__ . '/../../..' . '/lib/public/Remote/Api/IApiCollection.php',
         'OCP\\Remote\\Api\\IApiFactory' => __DIR__ . '/../../..' . '/lib/public/Remote/Api/IApiFactory.php',
         'OCP\\Remote\\Api\\ICapabilitiesApi' => __DIR__ . '/../../..' . '/lib/public/Remote/Api/ICapabilitiesApi.php',
@@ -1054,6 +1058,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\DB\\Connection' => __DIR__ . '/../../..' . '/lib/private/DB/Connection.php',
         'OC\\DB\\ConnectionAdapter' => __DIR__ . '/../../..' . '/lib/private/DB/ConnectionAdapter.php',
         'OC\\DB\\ConnectionFactory' => __DIR__ . '/../../..' . '/lib/private/DB/ConnectionFactory.php',
+        'OC\\DB\\DbDataCollector' => __DIR__ . '/../../..' . '/lib/private/DB/DbDataCollector.php',
         'OC\\DB\\Exceptions\\DbalException' => __DIR__ . '/../../..' . '/lib/private/DB/Exceptions/DbalException.php',
         'OC\\DB\\MigrationException' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationException.php',
         'OC\\DB\\MigrationService' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationService.php',
@@ -1064,6 +1069,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\DB\\MySQLMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/MySQLMigrator.php',
         'OC\\DB\\MySqlTools' => __DIR__ . '/../../..' . '/lib/private/DB/MySqlTools.php',
         'OC\\DB\\OCSqlitePlatform' => __DIR__ . '/../../..' . '/lib/private/DB/OCSqlitePlatform.php',
+        'OC\\DB\\ObjectParameter' => __DIR__ . '/../../..' . '/lib/private/DB/ObjectParameter.php',
         'OC\\DB\\OracleConnection' => __DIR__ . '/../../..' . '/lib/private/DB/OracleConnection.php',
         'OC\\DB\\OracleMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/OracleMigrator.php',
         'OC\\DB\\PgSqlTools' => __DIR__ . '/../../..' . '/lib/private/DB/PgSqlTools.php',
@@ -1308,8 +1314,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Memcache\\CASTrait' => __DIR__ . '/../../..' . '/lib/private/Memcache/CASTrait.php',
         'OC\\Memcache\\Cache' => __DIR__ . '/../../..' . '/lib/private/Memcache/Cache.php',
         'OC\\Memcache\\Factory' => __DIR__ . '/../../..' . '/lib/private/Memcache/Factory.php',
+        'OC\\Memcache\\LoggerWrapperCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/LoggerWrapperCache.php',
         'OC\\Memcache\\Memcached' => __DIR__ . '/../../..' . '/lib/private/Memcache/Memcached.php',
         'OC\\Memcache\\NullCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/NullCache.php',
+        'OC\\Memcache\\ProfilerWrapperCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/ProfilerWrapperCache.php',
         'OC\\Memcache\\Redis' => __DIR__ . '/../../..' . '/lib/private/Memcache/Redis.php',
         'OC\\MemoryInfo' => __DIR__ . '/../../..' . '/lib/private/MemoryInfo.php',
         'OC\\Migration\\BackgroundRepair' => __DIR__ . '/../../..' . '/lib/private/Migration/BackgroundRepair.php',
@@ -1376,6 +1384,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Profile\\Actions\\WebsiteAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/WebsiteAction.php',
         'OC\\Profile\\ProfileManager' => __DIR__ . '/../../..' . '/lib/private/Profile/ProfileManager.php',
         'OC\\Profile\\TProfileHelper' => __DIR__ . '/../../..' . '/lib/private/Profile/TProfileHelper.php',
+        'OC\\Profiler\\FileProfilerStorage' => __DIR__ . '/../../..' . '/lib/private/Profiler/FileProfilerStorage.php',
+        'OC\\Profiler\\Profile' => __DIR__ . '/../../..' . '/lib/private/Profiler/Profile.php',
+        'OC\\Profiler\\Profiler' => __DIR__ . '/../../..' . '/lib/private/Profiler/Profiler.php',
+        'OC\\Profiler\\RoutingDataCollector' => __DIR__ . '/../../..' . '/lib/private/Profiler/RoutingDataCollector.php',
         'OC\\RedisFactory' => __DIR__ . '/../../..' . '/lib/private/RedisFactory.php',
         'OC\\Remote\\Api\\ApiBase' => __DIR__ . '/../../..' . '/lib/private/Remote/Api/ApiBase.php',
         'OC\\Remote\\Api\\ApiCollection' => __DIR__ . '/../../..' . '/lib/private/Remote/Api/ApiCollection.php',

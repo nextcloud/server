@@ -124,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Yol kilitlenemedi",
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
     "Share must at least have READ or CREATE permissions" : "Paylaşım için en az OKUMA ve OLUŞTURMA izinleri olmalıdır",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Paylaşım için GÜNCELLEME ya da SİLME izinleri ayarlanmış ise en az OKUMA izni olmalıdır.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "UPDATE ya da DELETE izinleri verilmiş ise paylaşıma READ izni verilmelidir",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talk etkinleştirilmemiş olduğundan, paylaşım parolası Nextcloud Talk ile gönderilemedi.",
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",

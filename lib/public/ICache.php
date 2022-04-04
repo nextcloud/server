@@ -76,4 +76,10 @@ interface ICache {
 	 * @since 6.0.0
 	 */
 	public function clear($prefix = '');
+
+	/**
+	 * Check if the cache implementation is available
+	 * @since 24.0.0
+	 */
+	public static function isAvailable(): bool;
 }
