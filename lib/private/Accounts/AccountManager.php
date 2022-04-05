@@ -41,6 +41,7 @@ use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
+use OC\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -116,6 +117,7 @@ class AccountManager implements IAccountManager {
 	private $crypto;
 	/** @var IFactory */
 	private $l10nfactory;
+	private CappedMemoryCache $internalCache;
 
 	public function __construct(
 		IDBConnection            $connection,
@@ -142,6 +144,7 @@ class AccountManager implements IAccountManager {
 		$this->crypto = $crypto;
 		// DIing IL10N results in a dependency loop
 		$this->l10nfactory = $factory;
+		$this->internalCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -763,7 +766,12 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function getAccount(IUser $user): IAccount {
-		return $this->parseAccountData($user, $this->getUser($user));
+		if ($this->internalCache->hasKey($user->getUID())) {
+			return $this->internalCache->get($user->getUID());
+		}
+		$account = $this->parseAccountData($user, $this->getUser($user));
+		$this->internalCache->set($user->getUID(), $account);
+		return $account;
 	}
 
 	public function updateAccount(IAccount $account): void {
@@ -813,5 +821,6 @@ class AccountManager implements IAccountManager {
 		}
 
 		$this->updateUser($account->getUser(), $data, true);
+		$this->internalCache->set($account->getUser()->getUID(), $account);
 	}
 }
