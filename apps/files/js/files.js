@@ -422,12 +422,12 @@ var createDragShadow = function(event) {
 
 	$(selectedFiles).each(function(i,elem) {
 		// TODO: refactor this with the table row creation code
-		var newtr = $('<tr/>')
+		var newtr = $('<tr></tr>')
 			.attr('data-dir', dir)
 			.attr('data-file', elem.name)
 			.attr('data-origin', elem.origin);
-		newtr.append($('<td class="filename" />').text(elem.name).css('background-size', 32));
-		newtr.append($('<td class="size" />').text(OC.Util.humanFileSize(elem.size)));
+		newtr.append($('<td class="filename"></td>').text(elem.name).css('background-size', 32));
+		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size)));
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename')

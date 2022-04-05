@@ -41,7 +41,7 @@ export const setUp = () => {
 			if (!$excludedPageClasses.includes($page.attr('class'))) {
 				$page.find('img').remove()
 				$page.find('div').remove() // prevent odd double-clicks
-				$page.prepend($('<div/>').addClass('icon-loading-small'))
+				$page.prepend($('<div></div>').addClass('icon-loading-small'))
 			}
 		} else {
 			// Close navigation when opening menu entry in

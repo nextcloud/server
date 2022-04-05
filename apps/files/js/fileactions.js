@@ -557,7 +557,7 @@
 			// recreate fileactions container
 			nameLinks = parent.children('a.name');
 			nameLinks.find('.fileactions, .nametext .action').remove();
-			nameLinks.append('<span class="fileactions" />');
+			nameLinks.append('<span class="fileactions"></span>');
 			var defaultAction = this.getDefaultFileAction(
 				this.getCurrentMimeType(),
 				this.getCurrentType(),
