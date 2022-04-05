@@ -173,4 +173,4 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
     "Calendar and tasks" : "Agenda et tâches"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
