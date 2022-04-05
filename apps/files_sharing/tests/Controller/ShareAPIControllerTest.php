@@ -1619,6 +1619,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$path->expects($this->once())
 			->method('lock')
@@ -1651,6 +1653,8 @@ class ShareAPIControllerTest extends TestCase {
 			->method('get')
 			->with('valid-path')
 			->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$path->expects($this->once())
 			->method('lock')
@@ -1683,6 +1687,8 @@ class ShareAPIControllerTest extends TestCase {
 			->method('get')
 			->with('valid-path')
 			->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 		$path->expects($this->once())
 			->method('lock')
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
@@ -1733,6 +1739,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
 
@@ -1787,6 +1795,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$path->expects($this->once())
 			->method('lock')
@@ -1844,6 +1854,8 @@ class ShareAPIControllerTest extends TestCase {
 			->method('get')
 			->with('valid-path')
 			->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$this->groupManager->method('groupExists')->with('validGroup')->willReturn(true);
 
@@ -1896,6 +1908,8 @@ class ShareAPIControllerTest extends TestCase {
 			->method('get')
 			->with('valid-path')
 			->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$this->groupManager->method('groupExists')->with('validGroup')->willReturn(true);
 
@@ -1926,6 +1940,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 
@@ -1945,6 +1961,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -1965,6 +1983,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -1984,6 +2004,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -2018,6 +2040,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -2052,6 +2076,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -2094,6 +2120,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getPath')->willReturn('valid-path');
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -2127,6 +2155,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -2168,6 +2198,8 @@ class ShareAPIControllerTest extends TestCase {
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
@@ -2216,6 +2248,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
 
@@ -2286,6 +2320,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
 
@@ -2338,6 +2374,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$path->expects($this->once())
 			->method('lock')
@@ -2421,6 +2459,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$path->expects($this->once())
 			->method('lock')
@@ -2461,6 +2501,8 @@ class ShareAPIControllerTest extends TestCase {
 				->method('get')
 				->with('valid-path')
 				->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$path->expects($this->once())
 			->method('lock')
@@ -2541,6 +2583,8 @@ class ShareAPIControllerTest extends TestCase {
 			->method('get')
 			->with('valid-path')
 			->willReturn($path);
+		$userFolder->method('getById')
+			->willReturn([]);
 
 		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
 
