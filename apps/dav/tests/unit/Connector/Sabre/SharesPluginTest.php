@@ -111,9 +111,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userFolder->expects($this->once())
-			->method('get')
-			->with('/subdir')
+		$sabreNode->method('getNode')
 			->willReturn($node);
 
 		$this->shareManager->expects($this->any())
@@ -180,16 +178,19 @@ class SharesPluginTest extends \Test\TestCase {
 		$node = $this->createMock(Folder::class);
 		$node->method('getId')
 			->willReturn(123);
-		$node1 = $this->createMock(File::class);
+		$node1 = $this->createMock(\OC\Files\Node\File::class);
 		$node1->method('getId')
 			->willReturn(111);
-		$node2 = $this->createMock(File::class);
+		$node2 = $this->createMock(\OC\Files\Node\File::class);
 		$node2->method('getId')
 			->willReturn(222);
 
-		$this->userFolder->method('get')
-			->with('/subdir')
+		$sabreNode->method('getNode')
 			->willReturn($node);
+		$sabreNode1->method('getNode')
+			->willReturn($node1);
+		$sabreNode2->method('getNode')
+			->willReturn($node2);
 
 		$dummyShares = array_map(function ($type) {
 			$share = $this->getMockBuilder(IShare::class)->getMock();

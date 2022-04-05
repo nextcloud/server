@@ -167,17 +167,14 @@ class ObjectTreeTest extends \Test\TestCase {
 		$fileInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$fileInfo->expects($this->once())
-			->method('getType')
+		$fileInfo->method('getType')
 			->willReturn($type);
-		$fileInfo->expects($this->once())
-			->method('getName')
+		$fileInfo->method('getName')
 			->willReturn($outputFileName);
 		$fileInfo->method('getStorage')
 			->willReturn($this->createMock(\OC\Files\Storage\Common::class));
 
-		$view->expects($this->once())
-			->method('getFileInfo')
+		$view->method('getFileInfo')
 			->with($fileInfoQueryPath)
 			->willReturn($fileInfo);
 

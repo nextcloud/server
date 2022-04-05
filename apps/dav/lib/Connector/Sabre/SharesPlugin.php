@@ -165,7 +165,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			// if we already cached the folder this file is in we know there are no shares for this file
 			if (array_search($parentPath, $this->cachedFolders) === false) {
 				try {
-					$node = $this->userFolder->get($sabreNode->getPath());
+					$node = $sabreNode->getNode();
 				} catch (NotFoundException $e) {
 					return [];
 				}
@@ -202,7 +202,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			)
 		) {
 			try {
-				$folderNode = $this->userFolder->get($sabreNode->getPath());
+				$folderNode = $sabreNode->getNode();
 			} catch (NotFoundException $e) {
 				// If the folder can't be properly found just return
 				return;
