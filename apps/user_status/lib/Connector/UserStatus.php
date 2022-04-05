@@ -46,12 +46,11 @@ class UserStatus implements IUserStatus {
 	/** @var DateTimeImmutable|null */
 	private $clearAt;
 
-	/**
-	 * UserStatus constructor.
-	 *
-	 * @param Db\UserStatus $status
-	 */
+	/** @var Db\UserStatus */
+	private $internalStatus;
+
 	public function __construct(Db\UserStatus $status) {
+		$this->internalStatus = $status;
 		$this->userId = $status->getUserId();
 		$this->status = $status->getStatus();
 		$this->message = $status->getCustomMessage();
@@ -98,5 +97,9 @@ class UserStatus implements IUserStatus {
 	 */
 	public function getClearAt(): ?DateTimeImmutable {
 		return $this->clearAt;
+	}
+
+	public function getInternal(): Db\UserStatus {
+		return $this->internalStatus;
 	}
 }

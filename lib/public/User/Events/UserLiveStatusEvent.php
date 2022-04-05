@@ -27,6 +27,7 @@ namespace OCP\User\Events;
 
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
+use OCP\UserStatus\IUserStatus;
 
 /**
  * @since 20.0.0
@@ -51,19 +52,12 @@ class UserLiveStatusEvent extends Event {
 	 */
 	public const STATUS_OFFLINE = 'offline';
 
-	/** @var IUser */
-	private $user;
-
-	/** @var string */
-	private $status;
-
-	/** @var int */
-	private $timestamp;
+	private IUser $user;
+	private string $status;
+	private int $timestamp;
+	private ?IUserStatus $userStatus = null;
 
 	/**
-	 * @param IUser $user
-	 * @param string $status
-	 * @param int $timestamp
 	 * @since 20.0.0
 	 */
 	public function __construct(IUser $user,
@@ -97,5 +91,20 @@ class UserLiveStatusEvent extends Event {
 	 */
 	public function getTimestamp(): int {
 		return $this->timestamp;
+	}
+
+	/**
+	 * Get the user status that might be available after processing the event
+	 * @since 24.0.0
+	 */
+	public function getUserStatus(): ?IUserStatus {
+		return $this->userStatus;
+	}
+
+	/**
+	 * @since 24.0.0
+	 */
+	public function setUserStatus(IUserStatus $userStatus) {
+		$this->userStatus = $userStatus;
 	}
 }
