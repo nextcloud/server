@@ -753,4 +753,8 @@ class File extends Node implements IFile {
 	public function hash(string $type) {
 		return $this->fileView->hash($type, $this->path);
 	}
+
+	public function getNode(): \OCP\Files\File {
+		return $this->node;
+	}
 }
