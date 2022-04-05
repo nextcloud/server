@@ -31,4 +31,4 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Vous avez été mentionné sur \"{file}\", dans un commentaire par un utilisateur qui a depuis été supprimé",
     "{user} mentioned you in a comment on “{file}”" : "{user} vous a mentionné⋅e dans un commentaire sur “{file}”"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

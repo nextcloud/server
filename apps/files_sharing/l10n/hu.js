@@ -124,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Nem sikerült zárolni az útvonalat",
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
     "Share must at least have READ or CREATE permissions" : "A megosztásnak legalább OLVASÁSI és LÉTREHOZÁSI engedéllyel kell rendelkeznie",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "A megosztásnak OLVASÁSI jogosultsággal kell rendelkeznie, ha a FRISSÍTÉSI vagy TÖRLÉSI jogosultság meg van adva",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "A „Jelszó kiküldése a Nextcloud Beszélgetéssel” nem sikerült a fájlnál vagy mappánál, mert a Nextcloud Beszélgetés nem engedélyezett.",
     "shared by %s" : "megosztotta: %s",
     "Download all files" : "Összes fájl letöltése",
