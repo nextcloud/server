@@ -1464,8 +1464,8 @@ class View {
 			return $content->getName();
 		}, $contents);
 		/**
-			* @var \OC\Files\FileInfo[] $fileInfos
-			*/
+		 * @var \OC\Files\FileInfo[] $fileInfos
+		 */
 		$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
 			if ($sharingDisabled) {
 				$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
