@@ -153,11 +153,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			} ?>"
 							 data-user="<?php p($_['user_uid']); ?>"
 							 data-displayname="<?php p($_['user_displayname']); ?>"
-			<?php if ($_['userStatus'] !== false) { ?>
-				data-userstatus="<?php p($_['userStatus']->getStatus()); ?>"
-				data-userstatus_message="<?php p($_['userStatus']->getMessage()); ?>"
-				data-userstatus_icon="<?php p($_['userStatus']->getIcon()); ?>"
-			<?php }
+			<?php
 			if ($_['userAvatarSet']) {
 				$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
 			<?php

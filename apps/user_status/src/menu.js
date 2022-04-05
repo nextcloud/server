@@ -27,6 +27,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import UserStatus from './UserStatus'
 import store from './store'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import { loadState } from '@nextcloud/initial-state'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
@@ -35,11 +36,12 @@ Vue.prototype.t = t
 Vue.prototype.$t = t
 
 const avatarDiv = document.getElementById('avatardiv-menu')
+const userStatusData = loadState('user_status', 'status')
 const propsData = {
 	preloadedUserStatus: {
-		message: avatarDiv.dataset.userstatus_message,
-		icon: avatarDiv.dataset.userstatus_icon,
-		status: avatarDiv.dataset.userstatus,
+		message: userStatusData.message,
+		icon: userStatusData.icon,
+		status: userStatusData.status
 	},
 	user: avatarDiv.dataset.user,
 	displayName: avatarDiv.dataset.displayname,
