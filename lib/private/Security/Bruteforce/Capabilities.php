@@ -28,9 +28,10 @@ declare(strict_types=1);
 namespace OC\Security\Bruteforce;
 
 use OCP\Capabilities\IPublicCapability;
+use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\IRequest;
 
-class Capabilities implements IPublicCapability {
+class Capabilities implements IPublicCapability, IInitialStateExcludedCapability {
 	/** @var IRequest */
 	private $request;
 

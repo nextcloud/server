@@ -31,6 +31,7 @@ namespace OC;
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IPublicCapability;
+use OCP\Capabilities\IInitialStateExcludedCapability;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
@@ -52,7 +53,7 @@ class CapabilitiesManager {
 	 * @throws \InvalidArgumentException
 	 * @return array
 	 */
-	public function getCapabilities(bool $public = false) : array {
+	public function getCapabilities(bool $public = false, bool $initialState = false) : array {
 		$capabilities = [];
 		foreach ($this->capabilities as $capability) {
 			try {
@@ -66,6 +67,11 @@ class CapabilitiesManager {
 
 			if ($c instanceof ICapability) {
 				if (!$public || $c instanceof IPublicCapability) {
+					if ($initialState && ($c instanceof IInitialStateExcludedCapability)) {
+						// Remove less important capabilities information that are expensive to query
+						// that we would otherwise inject to every page load
+						continue;
+					}
 					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
 				}
 			} else {
