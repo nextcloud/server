@@ -31,6 +31,7 @@ namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Utils\PathHelper;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -153,12 +154,11 @@ class Node implements \OCP\Files\Node {
 		}
 	}
 
-	/**
-	 * @return \OC\Files\Storage\Storage
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function getStorage() {
-		[$storage,] = $this->view->resolvePath($this->path);
+		$storage = $this->getMountPoint()->getStorage();
+		if (!$storage) {
+			throw new \Exception("No storage for node");
+		}
 		return $storage;
 	}
 
@@ -173,8 +173,7 @@ class Node implements \OCP\Files\Node {
 	 * @return string
 	 */
 	public function getInternalPath() {
-		[, $internalPath] = $this->view->resolvePath($this->path);
-		return $internalPath;
+		return $this->getFileInfo()->getInternalPath();
 	}
 
 	/**
@@ -298,23 +297,7 @@ class Node implements \OCP\Files\Node {
 	 * @return string
 	 */
 	protected function normalizePath($path) {
-		if ($path === '' or $path === '/') {
-			return '/';
-		}
-		//no windows style slashes
-		$path = str_replace('\\', '/', $path);
-		//add leading slash
-		if ($path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		//remove duplicate slashes
-		while (strpos($path, '//') !== false) {
-			$path = str_replace('//', '/', $path);
-		}
-		//remove trailing slash
-		$path = rtrim($path, '/');
-
-		return $path;
+		return PathHelper::normalizePath($path);
 	}
 
 	/**
@@ -447,6 +430,15 @@ class Node implements \OCP\Files\Node {
 			if (!$this->view->rename($this->path, $targetPath)) {
 				throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
 			}
+
+			$mountPoint = $this->getMountPoint();
+			if ($mountPoint) {
+				// update the cached fileinfo with the new (internal) path
+				/** @var \OC\Files\FileInfo $oldFileInfo */
+				$oldFileInfo = $this->getFileInfo();
+				$this->fileInfo = new \OC\Files\FileInfo($targetPath, $oldFileInfo->getStorage(), $mountPoint->getInternalPath($targetPath), $oldFileInfo->getData(), $mountPoint, $oldFileInfo->getOwner());
+			}
+
 			$targetNode = $this->root->get($targetPath);
 			$this->sendHooks(['postRename'], [$this, $targetNode]);
 			$this->sendHooks(['postWrite'], [$targetNode]);

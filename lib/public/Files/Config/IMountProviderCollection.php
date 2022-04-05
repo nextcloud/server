@@ -42,11 +42,11 @@ interface IMountProviderCollection {
 	 * Get the configured mount points for the user from a specific mount provider
 	 *
 	 * @param \OCP\IUser $user
-	 * @param class-string<IMountProvider> $mountProviderClass
+	 * @param class-string<IMountProvider>[] $mountProviderClasses
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 * @since 24.0.0
 	 */
-	public function getUserMountsForProviderClass(IUser $user, string $mountProviderClass);
+	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array;
 
 	/**
 	 * Get the configured home mount for this user

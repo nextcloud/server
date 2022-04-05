@@ -16,8 +16,12 @@ namespace Test\Files\Node;
  * @package Test\Files\Node
  */
 class FileTest extends NodeTest {
-	protected function createTestNode($root, $view, $path) {
-		return new \OC\Files\Node\File($root, $view, $path);
+	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
+		if ($data || $internalPath || $storage) {
+			return new \OC\Files\Node\File($root, $view, $path, $this->getFileInfo($data, $internalPath, $storage));
+		} else {
+			return new \OC\Files\Node\File($root, $view, $path);
+		}
 	}
 
 	protected function getNodeClass() {

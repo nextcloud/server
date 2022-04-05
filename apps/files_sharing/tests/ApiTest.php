@@ -383,6 +383,9 @@ class ApiTest extends TestCase {
 	}
 
 	public function testGetAllSharesWithMe() {
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
+		$this->logout();
+
 		$node1 = $this->userFolder->get($this->filename);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)
