@@ -28,4 +28,4 @@ OC.L10N.register(
     "Error while emptying trashbin" : "Erreur lors du vidage de la corbeille",
     "Error while removing files from trashbin" : "Erreur lors de la suppression des fichiers de la corbeille"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

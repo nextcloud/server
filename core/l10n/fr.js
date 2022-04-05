@@ -427,4 +427,4 @@ OC.L10N.register(
     "You haven't added any info yet" : "Vous n'avez pas encore ajouté de données",
     "{user} hasn't added any info yet" : "{user} n'a pas encore ajouté de données"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
