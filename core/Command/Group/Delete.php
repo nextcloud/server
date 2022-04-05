@@ -61,7 +61,7 @@ class Delete extends Base {
 			$output->writeln('<error>Group "' . $gid . '" could not be deleted.</error>');
 			return 1;
 		}
-		if (! $this->groupManager->groupExists($gid)) {
+		if (!$this->groupManager->groupExists($gid)) {
 			$output->writeln('<error>Group "' . $gid . '" does not exist.</error>');
 			return 1;
 		}

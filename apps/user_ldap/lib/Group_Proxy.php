@@ -28,10 +28,11 @@
  */
 namespace OCA\User_LDAP;
 
-use OCP\Group\Backend\INamedBackend;
+use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\INamedBackend;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend {
+class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend {
 	private $backends = [];
 	private $refBackend = null;
 
@@ -171,11 +172,8 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * delete a group
-	 *
-	 * @param string $gid gid of the group to delete
-	 * @return bool
 	 */
-	public function deleteGroup($gid) {
+	public function deleteGroup(string $gid): bool {
 		return $this->handleRequest(
 			$gid, 'deleteGroup', [$gid]);
 	}

@@ -14,6 +14,7 @@ return array(
     'OCA\\User_LDAP\\Command\\CheckUser' => $baseDir . '/../lib/Command/CheckUser.php',
     'OCA\\User_LDAP\\Command\\CreateEmptyConfig' => $baseDir . '/../lib/Command/CreateEmptyConfig.php',
     'OCA\\User_LDAP\\Command\\DeleteConfig' => $baseDir . '/../lib/Command/DeleteConfig.php',
+    'OCA\\User_LDAP\\Command\\ResetGroup' => $baseDir . '/../lib/Command/ResetGroup.php',
     'OCA\\User_LDAP\\Command\\ResetUser' => $baseDir . '/../lib/Command/ResetUser.php',
     'OCA\\User_LDAP\\Command\\Search' => $baseDir . '/../lib/Command/Search.php',
     'OCA\\User_LDAP\\Command\\SetConfig' => $baseDir . '/../lib/Command/SetConfig.php',
