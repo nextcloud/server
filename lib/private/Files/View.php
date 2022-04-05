@@ -1431,7 +1431,7 @@ class View {
 	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public function getDirectoryContent($directory, $mimetype_filter = '') {
+	public function getDirectoryContent($directory, $mimetype_filter = '', \OCP\Files\FileInfo $directoryInfo = null) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
@@ -1449,14 +1449,21 @@ class View {
 		$cache = $storage->getCache($internalPath);
 		$user = \OC_User::getUser();
 
-		$data = $this->getCacheEntry($storage, $internalPath, $directory);
+			if (!$directoryInfo) {
+				$data = $this->getCacheEntry($storage, $internalPath, $directory);
+				if (!$data instanceof ICacheEntry || !isset($data['fileid'])) {
+					return [];
+				}
+			} else {
+				$data = $directoryInfo;
+			}
 
-		if (!$data instanceof ICacheEntry || !isset($data['fileid']) || !($data->getPermissions() & Constants::PERMISSION_READ)) {
-			return [];
-		}
+			if (!($data->getPermissions() & Constants::PERMISSION_READ)) {
+				return [];
+			}
 
-		$folderId = $data['fileid'];
-		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+			$folderId = $data->getId();
+			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
 		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
 

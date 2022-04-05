@@ -78,6 +78,8 @@ class FolderTest extends NodeTest {
 				new FileInfo('/bar/foo/asd', null, 'foo/asd', ['fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'], null),
 				new FileInfo('/bar/foo/qwerty', null, 'foo/qwerty', ['fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory'], null),
 			]);
+		$view->method('getFileInfo')
+			->willReturn($this->createMock(FileInfo::class));
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$children = $node->getDirectoryListing();

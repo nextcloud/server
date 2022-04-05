@@ -78,7 +78,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	protected $shareManager;
 
-	protected \OC\Files\Node\Node $node;
+	protected \OCP\Files\Node $node;
 
 	/**
 	 * Sets up the node, expects a full path name
@@ -96,11 +96,15 @@ abstract class Node implements \Sabre\DAV\INode {
 		} else {
 			$this->shareManager = \OC::$server->getShareManager();
 		}
-		$root = \OC::$server->get(IRootFolder::class);
-		if ($info->getType()=== FileInfo::TYPE_FOLDER) {
-			$this->node = new Folder($root, $view, $this->path, $info);
+		if ($info instanceof Folder || $info instanceof File) {
+			$this->node = $info;
 		} else {
-			$this->node = new File($root, $view, $this->path, $info);
+			$root = \OC::$server->get(IRootFolder::class);
+			if ($info->getType() === FileInfo::TYPE_FOLDER) {
+				$this->node = new Folder($root, $view, $this->path, $info);
+			} else {
+				$this->node = new File($root, $view, $this->path, $info);
+			}
 		}
 	}
 

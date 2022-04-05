@@ -236,7 +236,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
 		}
 
-		if ($info['mimetype'] === 'httpd/unix-directory') {
+		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager);
@@ -264,7 +264,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				// the caller believe that the collection itself does not exist
 				throw new Forbidden('No read permissions');
 			}
-			$folderContent = $this->fileView->getDirectoryContent($this->path);
+			$folderContent = $this->getNode()->getDirectoryListing();
 		} catch (LockedException $e) {
 			throw new Locked();
 		}
