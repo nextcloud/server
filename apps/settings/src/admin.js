@@ -155,6 +155,10 @@ window.addEventListener('DOMContentLoaded', () => {
 		$('#shareapi_restrict_user_enumeration_combinewarning_setting').toggleClass('hidden', !this.checked)
 	})
 
+	$('#shareapi_restrict_user_enumeration_full_match').on('change', function() {
+		$('#shareapi_restrict_user_enumeration_full_match_userid_setting').toggleClass('hidden', !this.checked)
+	})
+
 	$('#allowLinks').change(function() {
 		$('#publicLinkSettings').toggleClass('hidden', !this.checked)
 		$('#setDefaultExpireDate').toggleClass('hidden', !(this.checked && $('#shareapiDefaultExpireDate')[0].checked))
