@@ -3216,7 +3216,6 @@
     </UndefinedThisPropertyAssignment>
   </file>
   <file src="lib/private/Files/Node/Folder.php">
-    <InvalidArgument occurrences="1"/>
     <InvalidReturnStatement occurrences="1">
       <code>new NonExistingFolder($this-&gt;root, $this-&gt;view, $path)</code>
     </InvalidReturnStatement>
@@ -3672,11 +3671,7 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <RedundantCondition occurrences="5">
-      <code>$result</code>
-      <code>$result &amp;&amp; in_array('delete', $hooks) and $result</code>
-      <code>Constants::PERMISSION_READ</code>
-      <code>Constants::PERMISSION_READ</code>
+    <RedundantCondition occurrences="1">
       <code>is_resource($source)</code>
     </RedundantCondition>
     <UndefinedDocblockClass occurrences="2">
