@@ -507,5 +507,5 @@
     "Change privacy level of email" : "Changer le niveau de confidentialité de l'e-mail",
     "For password reset and notifications" : "Pour la réinitialisation du mot de passe et les notifications",
     "Set as primary mail" : "Définir comme e-mail principal"
-},"pluralForm" :"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
