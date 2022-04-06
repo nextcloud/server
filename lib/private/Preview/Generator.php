@@ -137,9 +137,10 @@ class Generator {
 			$previewVersion = $file->getPreviewVersion() . '-';
 		}
 
+		// If imaginary is enabled, and we request a small thumbnail,
+		// let's not generate the max preview for performance reasons
 		if (count($specifications) === 1
-			&& (($specifications[0]['width'] === 250 && $specifications[0]['height'] === 250)
-				|| ($specifications[0]['width'] === 150 && $specifications[0]['height'] === 150))
+			&& ($specifications[0]['width'] <= 256 || $specifications[0]['height'] <= 256)
 			&& preg_match(Imaginary::supportedMimeTypes(), $mimeType)
 			&& $this->config->getSystemValueString('preview_imaginary_url', 'invalid') !== 'invalid') {
 			$crop = $specifications[0]['crop'] ?? false;
@@ -221,6 +222,10 @@ class Generator {
 		return $preview;
 	}
 
+	/**
+	 * Generate a small image straight away without generating a max preview first
+	 * Preview generated is 256x256
+	 */
 	private function getSmallImagePreview(ISimpleFolder $previewFolder, File $file, string $mimeType, string $prefix, bool $crop) {
 		$nodes = $previewFolder->getDirectoryListing();
 
