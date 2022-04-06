@@ -201,18 +201,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				!is_null($propFind->getStatus(self::SHAREES_PROPERTYNAME))
 			)
 		) {
-			try {
-				$folderNode = $sabreNode->getNode();
-			} catch (NotFoundException $e) {
-				// If the folder can't be properly found just return
-				return;
-			}
-
-			if (!($folderNode instanceof Folder)) {
-				// Safety check
-				return;
-			}
-
+			$folderNode = $sabreNode->getNode();
 			$this->cachedFolders[] = $sabreNode->getPath();
 			$childShares = $this->getSharesFolder($folderNode);
 			foreach ($childShares as $id => $shares) {

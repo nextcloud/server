@@ -1449,21 +1449,21 @@ class View {
 		$cache = $storage->getCache($internalPath);
 		$user = \OC_User::getUser();
 
-			if (!$directoryInfo) {
-				$data = $this->getCacheEntry($storage, $internalPath, $directory);
-				if (!$data instanceof ICacheEntry || !isset($data['fileid'])) {
-					return [];
-				}
-			} else {
-				$data = $directoryInfo;
-			}
-
-			if (!($data->getPermissions() & Constants::PERMISSION_READ)) {
+		if (!$directoryInfo) {
+			$data = $this->getCacheEntry($storage, $internalPath, $directory);
+			if (!$data instanceof ICacheEntry || !isset($data['fileid'])) {
 				return [];
 			}
+		} else {
+			$data = $directoryInfo;
+		}
 
-			$folderId = $data->getId();
-			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+		if (!($data->getPermissions() & Constants::PERMISSION_READ)) {
+			return [];
+		}
+
+		$folderId = $data->getId();
+		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
 		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
 
