@@ -47,12 +47,12 @@ interface ILockProvider {
 	 * @throws NoLockProviderException
 	 * @since 24.0.0
 	 */
-	public function lock(LockScope $lockInfo): ILock;
+	public function lock(LockContext $lockInfo): ILock;
 
 	/**
 	 * @throws PreConditionNotMetException
 	 * @throws NoLockProviderException
 	 * @since 24.0.0
 	 */
-	public function unlock(LockScope $lockInfo): void;
+	public function unlock(LockContext $lockInfo): void;
 }

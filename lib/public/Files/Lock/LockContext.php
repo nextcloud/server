@@ -29,13 +29,14 @@ namespace OCP\Files\Lock;
 use OCP\Files\Node;
 
 /**
- * Structure to identify a specific lock scope
+ * Structure to identify a specific lock context to request or
+ * describe a lock with the affected node and ownership information
  *
  * This is used to match a lock/unlock request or file operation to existing locks
  *
  * @since 24.0.0
  */
-final class LockScope {
+final class LockContext {
 	private Node $node;
 	private int $type;
 	private string $owner;

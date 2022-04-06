@@ -59,11 +59,11 @@ interface ILockManager extends ILockProvider {
 	 *
 	 * @since 24.0.0
 	 */
-	public function runInScope(LockScope $lock, callable $callback): void;
+	public function runInScope(LockContext $lock, callable $callback): void;
 
 	/**
 	 * @throws NoLockProviderException if there is no lock provider available
 	 * @since 24.0.0
 	 */
-	public function getLockInScope(): ?LockScope;
+	public function getLockInScope(): ?LockContext;
 }

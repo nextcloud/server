@@ -298,7 +298,7 @@ return array(
     'OCP\\Files\\Lock\\ILock' => $baseDir . '/lib/public/Files/Lock/ILock.php',
     'OCP\\Files\\Lock\\ILockManager' => $baseDir . '/lib/public/Files/Lock/ILockManager.php',
     'OCP\\Files\\Lock\\ILockProvider' => $baseDir . '/lib/public/Files/Lock/ILockProvider.php',
-    'OCP\\Files\\Lock\\LockScope' => $baseDir . '/lib/public/Files/Lock/LockScope.php',
+    'OCP\\Files\\Lock\\LockContext' => $baseDir . '/lib/public/Files/Lock/LockContext.php',
     'OCP\\Files\\Lock\\NoLockProviderException' => $baseDir . '/lib/public/Files/Lock/NoLockProviderException.php',
     'OCP\\Files\\Lock\\OwnerLockedException' => $baseDir . '/lib/public/Files/Lock/OwnerLockedException.php',
     'OCP\\Files\\Mount\\IMountManager' => $baseDir . '/lib/public/Files/Mount/IMountManager.php',

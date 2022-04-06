@@ -327,7 +327,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\Lock\\ILock' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/ILock.php',
         'OCP\\Files\\Lock\\ILockManager' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/ILockManager.php',
         'OCP\\Files\\Lock\\ILockProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/ILockProvider.php',
-        'OCP\\Files\\Lock\\LockScope' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/LockScope.php',
+        'OCP\\Files\\Lock\\LockContext' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/LockContext.php',
         'OCP\\Files\\Lock\\NoLockProviderException' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/NoLockProviderException.php',
         'OCP\\Files\\Lock\\OwnerLockedException' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/OwnerLockedException.php',
         'OCP\\Files\\Mount\\IMountManager' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMountManager.php',

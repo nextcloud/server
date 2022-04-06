@@ -5,12 +5,12 @@ namespace OC\Files\Lock;
 use OCP\Files\Lock\ILock;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Lock\ILockProvider;
-use OCP\Files\Lock\LockScope;
+use OCP\Files\Lock\LockContext;
 use OCP\PreConditionNotMetException;
 
 class LockManager implements ILockManager {
 	private ?ILockProvider $lockProvider = null;
-	private ?LockScope $lockInScope = null;
+	private ?LockContext $lockInScope = null;
 
 	public function registerLockProvider(ILockProvider $lockProvider): void {
 		if ($this->lockProvider) {
@@ -24,7 +24,7 @@ class LockManager implements ILockManager {
 		return $this->lockProvider !== null;
 	}
 
-	public function runInScope(LockScope $lock, callable $callback): void {
+	public function runInScope(LockContext $lock, callable $callback): void {
 		if (!$this->lockProvider) {
 			$callback();
 			return;
@@ -42,7 +42,7 @@ class LockManager implements ILockManager {
 		}
 	}
 
-	public function getLockInScope(): ?LockScope {
+	public function getLockInScope(): ?LockContext {
 		return $this->lockInScope;
 	}
 
@@ -54,7 +54,7 @@ class LockManager implements ILockManager {
 		return $this->lockProvider->getLocks($fileId);
 	}
 
-	public function lock(LockScope $lockInfo): ILock {
+	public function lock(LockContext $lockInfo): ILock {
 		if (!$this->lockProvider) {
 			throw new PreConditionNotMetException('No lock provider available');
 		}
@@ -62,7 +62,7 @@ class LockManager implements ILockManager {
 		return $this->lockProvider->lock($lockInfo);
 	}
 
-	public function unlock(LockScope $lockInfo): void {
+	public function unlock(LockContext $lockInfo): void {
 		if (!$this->lockProvider) {
 			throw new PreConditionNotMetException('No lock provider available');
 		}
