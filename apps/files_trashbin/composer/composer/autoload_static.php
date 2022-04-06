@@ -28,6 +28,7 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Command\\CleanUp' => __DIR__ . '/..' . '/../lib/Command/CleanUp.php',
         'OCA\\Files_Trashbin\\Command\\Expire' => __DIR__ . '/..' . '/../lib/Command/Expire.php',
         'OCA\\Files_Trashbin\\Command\\ExpireTrash' => __DIR__ . '/..' . '/../lib/Command/ExpireTrash.php',
+        'OCA\\Files_Trashbin\\Command\\RestoreAllFiles' => __DIR__ . '/..' . '/../lib/Command/RestoreAllFiles.php',
         'OCA\\Files_Trashbin\\Command\\Size' => __DIR__ . '/..' . '/../lib/Command/Size.php',
         'OCA\\Files_Trashbin\\Controller\\PreviewController' => __DIR__ . '/..' . '/../lib/Controller/PreviewController.php',
         'OCA\\Files_Trashbin\\Events\\MoveToTrashEvent' => __DIR__ . '/..' . '/../lib/Events/MoveToTrashEvent.php',
