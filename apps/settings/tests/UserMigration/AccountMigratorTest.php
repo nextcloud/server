@@ -58,7 +58,7 @@ class AccountMigratorTest extends TestCase {
 
 	private const ASSETS_DIR = __DIR__ . '/assets/';
 
-	private const REGEX_ACCOUNT_FILE = '/' . Application::APP_ID . '\/' . '[a-z]+\.json' . '/';
+	private const REGEX_ACCOUNT_FILE = '/^' . Application::APP_ID . '\/' . '[a-z]+\.json' . '$/';
 
 	protected function setUp(): void {
 		$app = new App(Application::APP_ID);
