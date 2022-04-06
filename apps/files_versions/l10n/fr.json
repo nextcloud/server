@@ -6,5 +6,5 @@
     "_%n byte_::_%n bytes_" : ["%n octet","%n octets"],
     "Restore" : "Restaurer",
     "No other versions available" : "Aucune autre version n'est disponible"
-},"pluralForm" :"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -54,4 +54,4 @@ OC.L10N.register(
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nous ne pouvons pas vous envoyer le mot de passe généré automatiquement. Veuillez renseigner une adresse e-mail valide dans vos paramètres personnels puis réessayer.",
     "Enforce password protection" : "Imposer la protection par mot de passe"
 },
-"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=2; plural=(n > 1);");
