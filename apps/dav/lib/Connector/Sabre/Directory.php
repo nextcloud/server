@@ -38,6 +38,7 @@ use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotPermittedException;
@@ -144,7 +145,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			$info = $this->fileView->getFileInfo($this->path . '/' . $name);
 			if (!$info) {
 				// use a dummy FileInfo which is acceptable here since it will be refreshed after the put is complete
-				$info = new \OC\Files\FileInfo($path, null, null, [], null);
+				$info = new \OC\Files\FileInfo($path, null, null, [
+					'type' => FileInfo::TYPE_FILE
+				], null);
 			}
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
 
@@ -233,7 +236,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
 		}
 
-		if ($info['mimetype'] === 'httpd/unix-directory') {
+		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager);
@@ -261,7 +264,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				// the caller believe that the collection itself does not exist
 				throw new Forbidden('No read permissions');
 			}
-			$folderContent = $this->fileView->getDirectoryContent($this->path);
+			$folderContent = $this->getNode()->getDirectoryListing();
 		} catch (LockedException $e) {
 			throw new Locked();
 		}
@@ -473,5 +476,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		}
 
 		return false;
+	}
+
+	public function getNode(): Folder {
+		return $this->node;
 	}
 }

@@ -29,6 +29,7 @@
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
+use OC\Files\Node\Node;
 use OC\Files\Storage\Wrapper\Quota;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\ForbiddenException;
@@ -82,9 +83,12 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->view = $this->createMock('OC\Files\View');
 		$this->info = $this->createMock('OC\Files\FileInfo');
-		$this->info->expects($this->any())
-			->method('isReadable')
+		$this->info->method('isReadable')
 			->willReturn(true);
+		$this->info->method('getType')
+			->willReturn(Node::TYPE_FOLDER);
+		$this->info->method('getName')
+			->willReturn("folder");
 	}
 
 	private function getDir($path = '/') {
@@ -186,17 +190,17 @@ class DirectoryTest extends \Test\TestCase {
 		$info2 = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$info1->expects($this->any())
-			->method('getName')
+		$info1->method('getName')
 			->willReturn('first');
-		$info1->expects($this->any())
-			->method('getEtag')
+		$info1->method('getPath')
+			->willReturn('folder/first');
+		$info1->method('getEtag')
 			->willReturn('abc');
-		$info2->expects($this->any())
-			->method('getName')
+		$info2->method('getName')
 			->willReturn('second');
-		$info2->expects($this->any())
-			->method('getEtag')
+		$info2->method('getPath')
+			->willReturn('folder/second');
+		$info2->method('getEtag')
 			->willReturn('def');
 
 		$this->view->expects($this->once())
@@ -403,8 +407,12 @@ class DirectoryTest extends \Test\TestCase {
 	private function moveTest($source, $destination, $updatables, $deletables) {
 		$view = new TestViewDirectory($updatables, $deletables);
 
-		$sourceInfo = new FileInfo($source, null, null, [], null);
-		$targetInfo = new FileInfo(dirname($destination), null, null, [], null);
+		$sourceInfo = new FileInfo($source, null, null, [
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+		$targetInfo = new FileInfo(dirname($destination), null, null, [
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)
@@ -429,8 +437,8 @@ class DirectoryTest extends \Test\TestCase {
 
 		$view = new TestViewDirectory($updatables, $deletables);
 
-		$sourceInfo = new FileInfo($source, null, null, [], null);
-		$targetInfo = new FileInfo(dirname($destination), null, null, [], null);
+		$sourceInfo = new FileInfo($source, null, null, ['type' => FileInfo::TYPE_FOLDER], null);
+		$targetInfo = new FileInfo(dirname($destination), null, null, ['type' => FileInfo::TYPE_FOLDER], null);
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)
