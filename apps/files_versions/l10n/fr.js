@@ -9,4 +9,4 @@ OC.L10N.register(
     "Restore" : "Restaurer",
     "No other versions available" : "Aucune autre version n'est disponible"
 },
-"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=2; plural=(n > 1);");

@@ -255,4 +255,4 @@ OC.L10N.register(
     "Download %s" : "Télécharger %s",
     "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés"
 },
-"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=2; plural=(n > 1);");
