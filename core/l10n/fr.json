@@ -424,5 +424,5 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Pour migrer vers une autre base de données, utiliser la ligne de commande : 'occ db:convert-type', ou se reporter à la {linkstart}documentation ↗{linkend}.",
     "You haven't added any info yet" : "Vous n'avez pas encore ajouté de données",
     "{user} hasn't added any info yet" : "{user} n'a pas encore ajouté de données"
-},"pluralForm" :"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

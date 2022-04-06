@@ -52,4 +52,4 @@ OC.L10N.register(
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Applications compatibles pour cette version de Nexctloud",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>  application n'a pas de version compatible avec cette version disponible de Nextcloud","<strong>%n</strong> applications n'ont pas de version compatible avec cette version disponible de Nextcloud"]
 },
-"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=2; plural=(n > 1);");

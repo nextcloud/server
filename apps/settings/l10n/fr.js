@@ -510,4 +510,4 @@ OC.L10N.register(
     "For password reset and notifications" : "Pour la réinitialisation du mot de passe et les notifications",
     "Set as primary mail" : "Définir comme e-mail principal"
 },
-"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=2; plural=(n > 1);");

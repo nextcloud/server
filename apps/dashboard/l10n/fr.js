@@ -29,4 +29,4 @@ OC.L10N.register(
     "Show something" : "Montre quelque chose",
     "Get more widgets from the app store" : "Obtenez plus de widgets de l'App Store"
 },
-"nplurals=3; plural=(n==0 || n==1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=2; plural=(n > 1);");
