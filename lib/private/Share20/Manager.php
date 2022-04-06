@@ -1783,9 +1783,21 @@ class Manager implements IManager {
 	/**
 	 * Is password on public link requires
 	 *
+	 * @param bool Check group membership exclusion
 	 * @return bool
 	 */
-	public function shareApiLinkEnforcePassword() {
+	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true) {
+		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
+		if ($excludedGroups !== '' && $checkGroupMembership) {
+			$excludedGroups = json_decode($excludedGroups);
+			$user = $this->userSession->getUser();
+			if ($user) {
+				$userGroups = $this->groupManager->getUserGroupIds($user);
+				if ((bool)array_intersect($excludedGroups, $userGroups)) {
+					return false;
+				}
+			}
+		}
 		return $this->config->getAppValue('core', 'shareapi_enforce_links_password', 'no') === 'yes';
 	}
 

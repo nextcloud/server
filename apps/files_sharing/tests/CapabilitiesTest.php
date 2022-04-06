@@ -139,6 +139,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertIsArray($result['public']);
@@ -149,6 +150,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
 		];
 		$result = $this->getResults($map);
@@ -161,6 +163,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		];
 		$result = $this->getResults($map);
@@ -174,6 +177,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_default_expire_date', 'no', 'no'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
@@ -188,6 +192,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_default_expire_date', 'no', 'yes'],
 			['core', 'shareapi_expire_after_n_days', '7', '7'],
 			['core', 'shareapi_enforce_expire_date', 'no', 'no'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
@@ -203,6 +208,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_default_expire_date', 'no', 'yes'],
 			['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
@@ -215,6 +221,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_allow_public_notification', 'no', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertTrue($result['public']['send_mail']);
@@ -225,6 +232,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_allow_public_notification', 'no', 'no'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertFalse($result['public']['send_mail']);
@@ -234,6 +242,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_resharing', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertTrue($result['resharing']);
@@ -243,6 +252,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_resharing', 'yes', 'no'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertFalse($result['resharing']);
@@ -253,6 +263,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertTrue($result['public']['upload']);
@@ -264,6 +275,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_allow_public_upload', 'yes', 'no'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$result = $this->getResults($map);
 		$this->assertFalse($result['public']['upload']);
