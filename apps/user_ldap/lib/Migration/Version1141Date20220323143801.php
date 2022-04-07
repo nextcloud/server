@@ -51,7 +51,7 @@ class Version1141Date20220323143801 extends SimpleMigrationStep {
 			$qb = $this->dbc->getQueryBuilder();
 			$qb->select('ldap_dn')
 				->from($tableName)
-				->where($qb->expr()->gt($qb->func()->octetLength('ldap_dn'), '4000', IQueryBuilder::PARAM_INT));
+				->where($qb->expr()->gt($qb->func()->octetLength('ldap_dn'), $qb->createNamedParameter('4000'), IQueryBuilder::PARAM_INT));
 
 			$dnsTooLong = [];
 			$result = $qb->executeQuery();
