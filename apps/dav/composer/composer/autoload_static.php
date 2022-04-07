@@ -318,6 +318,9 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Upload\\UploadHome' => __DIR__ . '/..' . '/../lib/Upload/UploadHome.php',
         'OCA\\DAV\\UserMigration\\CalendarMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigrator.php',
         'OCA\\DAV\\UserMigration\\CalendarMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/CalendarMigratorException.php',
+        'OCA\\DAV\\UserMigration\\ContactsMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/ContactsMigrator.php',
+        'OCA\\DAV\\UserMigration\\ContactsMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/ContactsMigratorException.php',
+        'OCA\\DAV\\UserMigration\\InvalidAddressBookException' => __DIR__ . '/..' . '/../lib/UserMigration/InvalidAddressBookException.php',
         'OCA\\DAV\\UserMigration\\InvalidCalendarException' => __DIR__ . '/..' . '/../lib/UserMigration/InvalidCalendarException.php',
     );
 
