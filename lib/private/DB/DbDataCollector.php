@@ -25,14 +25,13 @@ declare(strict_types = 1);
 
 namespace OC\DB;
 
-use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\Response;
 
 class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
-	protected ?DebugStack $debugStack = null;
+	protected ?BacktraceDebugStack $debugStack = null;
 	private Connection $connection;
 
 	/**
@@ -42,7 +41,7 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 		$this->connection = $connection;
 	}
 
-	public function setDebugStack(DebugStack $debugStack, $name = 'default'): void {
+	public function setDebugStack(BacktraceDebugStack $debugStack, $name = 'default'): void {
 		$this->debugStack = $debugStack;
 	}
 

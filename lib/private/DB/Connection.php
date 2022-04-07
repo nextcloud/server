@@ -42,7 +42,6 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
-use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
@@ -113,7 +112,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		if ($profiler->isEnabled()) {
 			$this->dbDataCollector = new DbDataCollector($this);
 			$profiler->add($this->dbDataCollector);
-			$debugStack = new DebugStack();
+			$debugStack = new BacktraceDebugStack();
 			$this->dbDataCollector->setDebugStack($debugStack);
 			$this->_config->setSQLLogger($debugStack);
 		}
