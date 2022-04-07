@@ -291,6 +291,7 @@ class FilesPlugin extends ServerPlugin {
 				$response->addHeader('OC-Checksum', $checksum);
 			}
 		}
+		$response->addHeader('X-Accel-Buffering', 'no');
 	}
 
 	/**
