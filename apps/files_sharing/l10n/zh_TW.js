@@ -124,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "無法鎖定路徑",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "Share must at least have READ or CREATE permissions" : "分享必須至少有 READ 或 CREATE 權限",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "若設定了 UPDATE 或 DELETE 權限，則分享必須有 READ 權限",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "「透過 Nextcloud Talk 傳送密碼」分享檔案或資料夾失敗，因為未啟用 Nextcloud Talk。",
     "shared by %s" : "分享自 %s",
     "Download all files" : "下載所有檔案",
