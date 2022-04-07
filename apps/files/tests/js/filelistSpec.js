@@ -3442,6 +3442,7 @@ describe('OCA.Files.FileList tests', function() {
 
 		beforeEach(function() {
 			fileListStub = sinon.stub(OCA.Files.FileList.prototype, 'changeDirectory');
+			fileList._currentDirectory = '/subdir';
 		});
 		afterEach(function() {
 			fileListStub.restore();

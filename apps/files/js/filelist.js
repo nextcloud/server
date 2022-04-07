@@ -791,7 +791,7 @@
 			if (e && _.isString(e.dir)) {
 				var currentDir = this.getCurrentDirectory();
 				// this._currentDirectory is NULL when fileList is first initialised
-				if( (this._currentDirectory || this.$el.find('#dir').val()) && currentDir === e.dir) {
+				if(this._currentDirectory && currentDir === e.dir) {
 					return;
 				}
 				this.changeDirectory(e.dir, true, true, undefined, true);
