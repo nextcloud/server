@@ -622,9 +622,6 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($sourceNode-&gt;getPath())</code>
     </UndefinedFunction>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>$info</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/FakeLockerPlugin.php">
     <TooManyArguments occurrences="1">
