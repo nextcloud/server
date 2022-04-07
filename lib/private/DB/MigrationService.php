@@ -583,20 +583,31 @@ class MigrationService {
 			}
 
 			foreach ($table->getColumns() as $thing) {
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
-				}
+				// If the table doesn't exists OR if the column doesn't exists in the table
+				if (!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) {
+					if (\strlen($thing->getName()) > 30) {
+						throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+					}
+	
+					if ($thing->getNotnull() && $thing->getDefault() === ''
+						&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
+						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+					}
+	
+					if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
+					}
 
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && $thing->getNotnull() && $thing->getDefault() === ''
-					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
-					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+					$sourceColumn = null;
+				} else {
+					$sourceColumn = $sourceTable->getColumn($thing->getName());
 				}
-
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && $thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
-					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
-				}
-
-				if ($thing->getLength() > 4000 && $thing->getType()->getName() === Types::STRING) {
+				
+				// If the column was just created OR the length changed OR the type changed
+				// we will NOT detect invalid length if the column is not modified
+				if (($sourceColumn === null || $sourceColumn->getLength() !== $thing->getLength() || $sourceColumn->getType()->getName() !== Types::STRING)
+					&& $thing->getLength() > 4000 && $thing->getType()->getName() === Types::STRING) {
+						var_dump($sourceColumn === null, $sourceColumn->getLength(), $thing->getLength(),  $sourceColumn->getName());
 					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type String, but exceeding the 4.000 length limit.');
 				}
 			}
