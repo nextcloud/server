@@ -838,10 +838,10 @@ export default {
 		}
 		::v-deep .modal-title,
 		::v-deep .modal-header .icons-menu {
-			button, a {
-				svg body.theme--light & {
-					color: var(--color-main-text) !important;
-				}
+			color: var(--color-main-text) !important;
+
+			button svg, a {
+				color: var(--color-main-text) !important;
 			}
 		}
 		::v-deep .modal-container {
