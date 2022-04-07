@@ -641,6 +641,7 @@ class OC_App {
 				$path_info = $request->getPathInfo();
 			} catch (Exception $e) {
 				// Can happen from unit tests because the script name is `./vendor/bin/phpunit` or something a like then.
+				\OC::$server->get(LoggerInterface::class)->error('Failed to detect current app from script path', ['exception' => $e]);
 				return '';
 			}
 			if ($path_info) {
