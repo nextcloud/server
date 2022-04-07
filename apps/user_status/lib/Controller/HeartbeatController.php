@@ -81,21 +81,21 @@ class HeartbeatController extends Controller {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
-		$this->eventDispatcher->dispatchTyped(
-			new UserLiveStatusEvent(
-				$user,
-				$status,
-				$this->timeFactory->getTime()
-			)
+		$event = new UserLiveStatusEvent(
+			$user,
+			$status,
+			$this->timeFactory->getTime()
 		);
 
-		try {
-			$userStatus = $this->service->findByUserId($user->getUID());
-		} catch (DoesNotExistException $ex) {
+		$this->eventDispatcher->dispatchTyped($event);
+
+		$userStatus = $event->getUserStatus();
+		if (!$userStatus) {
 			return new JSONResponse([], Http::STATUS_NO_CONTENT);
 		}
 
-		return new JSONResponse($this->formatStatus($userStatus));
+		/** @psalm-suppress UndefinedInterfaceMethod */
+		return new JSONResponse($this->formatStatus($userStatus->getInternal()));
 	}
 
 	private function formatStatus(UserStatus $status): array {
