@@ -23,6 +23,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Files\Node;
 
 use OC\Files\Utils\PathHelper;
@@ -310,6 +311,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getMimetype() {
+		if (isset($this->data['mimetype'])) {
+			return $this->data['mimetype'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -317,6 +321,10 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getMimePart() {
+		if (isset($this->data['mimetype'])) {
+			[$part,] = explode('/', $this->data['mimetype']);
+			return $part;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -331,6 +339,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getType() {
+		if (isset($this->data['type'])) {
+			return $this->data['type'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

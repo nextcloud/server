@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OC\Files\Node;
 
+use OCP\Files\FileInfo;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -49,6 +50,8 @@ class LazyUserFolder extends LazyFolder {
 		}, [
 			'path' => $this->path,
 			'permissions' => Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FOLDER,
+			'mimetype' => FileInfo::MIMETYPE_FOLDER,
 		]);
 	}
 

@@ -368,8 +368,12 @@ class SetupManager {
 		}
 
 		// for the user's home folder, it's always the home mount
-		if (rtrim($path) === "/" . $user->getUID() . "/files" && !$includeChildren) {
-			$this->oneTimeUserSetup($user);
+		if (rtrim($path) === "/" . $user->getUID() . "/files") {
+			if ($includeChildren) {
+				$this->setupForUser($user);
+			} else {
+				$this->oneTimeUserSetup($user);
+			}
 			return;
 		}
 
@@ -460,6 +464,7 @@ class SetupManager {
 
 		if (in_array('', $providers)) {
 			$this->setupForUser($user);
+			return;
 		}
 		$setupProviders = $this->setupUserMountProviders[$user->getUID()] ?? [];
 
