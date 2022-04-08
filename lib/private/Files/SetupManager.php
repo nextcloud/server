@@ -460,6 +460,7 @@ class SetupManager {
 
 		if (in_array('', $providers)) {
 			$this->setupForUser($user);
+			return;
 		}
 		$setupProviders = $this->setupUserMountProviders[$user->getUID()] ?? [];
 
