@@ -91,11 +91,7 @@ class AccountMigratorTest extends TestCase {
 				];
 			},
 			array_filter(
-				array_diff(
-					scandir(self::ASSETS_DIR),
-					// Exclude current and parent directories
-					['.', '..'],
-				),
+				scandir(self::ASSETS_DIR),
 				fn (string $filename) => pathinfo($filename, PATHINFO_EXTENSION) === 'json',
 			),
 		);
