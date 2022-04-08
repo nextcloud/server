@@ -91,4 +91,10 @@ interface IManager {
 	 * @return bool
 	 */
 	public function isEnabled(): bool;
+
+	/**
+	 * @since 24.0.0
+	 * @return IEditor[]
+	 */
+	public function getEditors(): array;
 }
