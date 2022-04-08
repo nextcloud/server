@@ -363,4 +363,25 @@ class ContactsMigrator implements IMigrator {
 			}
 		}
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getId(): string {
+		return 'contacts';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayName(): string {
+		return $this->l10n->t('Contacts');
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDescription(): string {
+		return $this->l10n->t('Contacts and groups');
+	}
 }
