@@ -24,6 +24,8 @@
 namespace OC\Files\Cache;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 
 /**
@@ -38,16 +40,17 @@ use OCP\IDBConnection;
  * @package OC\Files\Cache
  */
 class StorageGlobal {
-	/** @var IDBConnection */
-	private $connection;
+	private IDBConnection $connection;
+	private ICache $memCache;
 
 	/** @var array<string, array> */
 	private $cache = [];
 	/** @var array<int, array> */
 	private $numericIdCache = [];
 
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, ICacheFactory $cacheFactory) {
 		$this->connection = $connection;
+		$this->memCache = $cacheFactory->createLocal("storage_id::");
 	}
 
 	/**
@@ -72,19 +75,13 @@ class StorageGlobal {
 	 */
 	public function getStorageInfo(string $storageId): ?array {
 		if (!isset($this->cache[$storageId])) {
-			$builder = $this->connection->getQueryBuilder();
-			$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
-				->from('storages')
-				->where($builder->expr()->eq('id', $builder->createNamedParameter($storageId)));
-
-			$result = $query->execute();
-			$row = $result->fetch();
-			$result->closeCursor();
-
-			if ($row) {
-				$this->cache[$storageId] = $row;
-				$this->numericIdCache[(int)$row['numeric_id']] = $row;
+			$data = $this->memCache->get("id::$storageId");
+			if (!$data) {
+				$data = $this->getByIdFromDb($storageId);
+				$this->memCache->set("id::$storageId", $data);
 			}
+			$this->cache[$storageId] = $data;
+			$this->numericIdCache[(int)$data['numeric_id']] = $data;
 		}
 		return $this->cache[$storageId] ?? null;
 	}
@@ -95,24 +92,56 @@ class StorageGlobal {
 	 */
 	public function getStorageInfoByNumericId(int $numericId): ?array {
 		if (!isset($this->numericIdCache[$numericId])) {
-			$builder = $this->connection->getQueryBuilder();
-			$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
-				->from('storages')
-				->where($builder->expr()->eq('numeric_id', $builder->createNamedParameter($numericId)));
-
-			$result = $query->execute();
-			$row = $result->fetch();
-			$result->closeCursor();
-
-			if ($row) {
-				$this->numericIdCache[$numericId] = $row;
-				$this->cache[$row['id']] = $row;
+			$data = $this->memCache->get("numeric::$numericId");
+			if (!$data) {
+				$data = $this->getByNumericFromDb($numericId);
+				$this->memCache->set("numeric::$numericId", $data);
 			}
+			$this->numericIdCache[$numericId] = $data;
+			$this->cache[$data['id']] = $data;
 		}
 		return $this->numericIdCache[$numericId] ?? null;
 	}
 
+	private function getByIdFromDb(string $storageId): ?array {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
+			->from('storages')
+			->where($builder->expr()->eq('id', $builder->createNamedParameter($storageId)));
+
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+		if ($row) {
+			return $row;
+		} else {
+			return null;
+		}
+	}
+
+	private function getByNumericFromDb(int $numericId): ?array {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
+			->from('storages')
+			->where($builder->expr()->eq('numeric_id', $builder->createNamedParameter($numericId)));
+
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+		if ($row) {
+			return $row;
+		} else {
+			return null;
+		}
+	}
+
+	public function removeFromMemcache(int $numericId, string $id) {
+		$this->memCache->remove("id::$id");
+		$this->memCache->remove("numeric::$numericId");
+	}
+
 	public function clearCache() {
 		$this->cache = [];
+		$this->memCache->clear();
 	}
 }
