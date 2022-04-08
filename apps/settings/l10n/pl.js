@@ -451,6 +451,7 @@ OC.L10N.register(
     "Allow public uploads" : "Zezwalaj na publiczne wysyłanie",
     "Always ask for a password" : "Zawsze pytaj o hasło",
     "Enforce password protection" : "Wymuszaj zabezpieczenie hasłem",
+    "Exclude groups from password requirements:" : "Wyklucz grupy dla wymagań hasła:",
     "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
     "Exclude groups from creating link shares:" : "Wyklucz grupy z tworzenia udostępnionych linków:",
     "Allow resharing" : "Zezwalaj na udostępnianie dalej",
