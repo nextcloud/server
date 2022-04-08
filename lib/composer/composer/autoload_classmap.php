@@ -515,6 +515,7 @@ return array(
     'OCP\\Security\\ITrustedDomainHelper' => $baseDir . '/lib/public/Security/ITrustedDomainHelper.php',
     'OCP\\Security\\VerificationToken\\IVerificationToken' => $baseDir . '/lib/public/Security/VerificationToken/IVerificationToken.php',
     'OCP\\Security\\VerificationToken\\InvalidTokenException' => $baseDir . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
+    'OCP\\Server' => $baseDir . '/lib/public/Server.php',
     'OCP\\Session\\Exceptions\\SessionNotAvailableException' => $baseDir . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
     'OCP\\Settings\\IDelegatedSettings' => $baseDir . '/lib/public/Settings/IDelegatedSettings.php',
     'OCP\\Settings\\IIconSection' => $baseDir . '/lib/public/Settings/IIconSection.php',

@@ -1153,11 +1153,6 @@
       <code>$this-&gt;fileIsEncrypted</code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/files/lib/App.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>10 * 1024 * 1024</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/files/lib/Command/Scan.php">
     <NullArgument occurrences="1">
       <code>null</code>
@@ -4574,6 +4569,11 @@
       <code>is_bool($setting[1])</code>
       <code>is_int($expected)</code>
     </TypeDoesNotContainType>
+  </file>
+  <file src="lib/public/Server.php">
+    <InvalidThrow occurrences="2">
+      <code>ContainerExceptionInterface</code>
+    </InvalidThrow>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
