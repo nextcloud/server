@@ -41,6 +41,7 @@
     "You changed your email address" : "Você alterou seu e-mail",
     "Your email address was changed by an administrator" : "Seu e-mail foi alterado pelo administrador",
     "You created app password \"{token}\"" : "Você criou a senha de aplicativo \"{token}\"",
+    "An administrator created app password \"{token}\"" : "Um administrador criou a senha do aplicativo \"{token}\"",
     "You deleted app password \"{token}\"" : "Você excluiu a senha de aplicativo \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Você renomeou a senha do aplicativo \"{token}\" para \"{newToken}\"",
     "You granted filesystem access to app password \"{token}\"" : "Você concedeu acesso ao sistema de arquivos para a senha do aplicativo \"{token}\"",

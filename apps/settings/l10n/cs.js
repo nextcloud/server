@@ -451,6 +451,7 @@ OC.L10N.register(
     "Allow public uploads" : "Povolit veřejné nahrávání souborů",
     "Always ask for a password" : "Vždy se zeptat na heslo",
     "Enforce password protection" : "Vynutit ochranu heslem",
+    "Exclude groups from password requirements:" : "Z požadavků na heslo vynechat následující skupiny:",
     "Set default expiration date" : "Nastavit výchozí datum skončení platnosti",
     "Exclude groups from creating link shares:" : "Vyjmout skupiny z možnosti vytváření sdílení odkazem:",
     "Allow resharing" : "Povolit příjemcům tohoto sdílení, aby sami mohli sdílet dalším",
