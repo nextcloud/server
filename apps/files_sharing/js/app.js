@@ -303,7 +303,7 @@ OCA.Sharing.App = {
 				if (context.$file.attr('data-remote-id')) {
 					shareBase = 'remote_shares/pending'
 				}
-				$.post(OC.linkToOCS('apps/files_sharing/api/v1/shares/pending', 2) + shareId)
+				$.post(OC.linkToOCS('apps/files_sharing/api/v1/' + shareBase, 2) + shareId)
 					.success(function(result) {
 						context.fileList.remove(context.fileInfoModel.attributes.name)
 					}).fail(function() {
@@ -330,11 +330,11 @@ OCA.Sharing.App = {
 				const shareId = context.$file.data('shareId')
 				let shareBase = 'shares'
 				if (context.$file.attr('data-remote-id')) {
-					shareBase = 'remote_shares/pending'
+					shareBase = 'remote_shares'
 				}
 
 				$.ajax({
-					url: OC.linkToOCS('apps/files_sharing/api/v1/shares', 2) + shareId,
+					url: OC.linkToOCS('apps/files_sharing/api/v1/' + shareBase, 2) + shareId,
 					type: 'DELETE',
 				}).success(function(result) {
 					context.fileList.remove(context.fileInfoModel.attributes.name)
