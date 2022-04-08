@@ -479,7 +479,7 @@ MountOptionsDropdown.prototype = {
 			mountOptionsFilesystemCheckOnce: t('files_external', 'Never'),
 			mountOptionsFilesystemCheckDA: t('files_external', 'Once every direct access'),
 			mountOptionsReadOnlyLabel: t('files_external', 'Read only'),
-			deleteLabel: t('files_external', 'Delete')
+			deleteLabel: t('files_external', 'Disconnect')
 		}));
 		this.$el = $el;
 
@@ -1163,7 +1163,7 @@ MountConfigListView.prototype = _.extend({
 		}
 		var storage = new this._storageConfigClass(configId);
 
-		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage?', {
+		OC.dialogs.confirm(t('files_external', 'Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.', {
 				storage: this.mountPoint
 			}), t('files_external', 'Delete storage?'), function(confirm) {
 			if (confirm) {
