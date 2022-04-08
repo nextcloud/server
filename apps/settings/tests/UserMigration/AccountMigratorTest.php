@@ -82,6 +82,7 @@ class AccountMigratorTest extends TestCase {
 		return array_map(
 			function (string $filename) {
 				$dataPath = self::ASSETS_DIR . $filename;
+				// For each json file there is an avatar image with the same basename
 				$avatarBasename = pathinfo($filename, PATHINFO_FILENAME);
 				$avatarPath = self::ASSETS_DIR . (file_exists(self::ASSETS_DIR . "$avatarBasename.jpg") ? "$avatarBasename.jpg" : "$avatarBasename.png");
 				return [
