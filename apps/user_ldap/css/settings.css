@@ -207,25 +207,20 @@ select[multiple=multiple] + button {
 }
 
 .ldap_grey {
-	color: #none;
 }
 
 #ldapSettings {
-	background-color: none;
 	padding: 0;
 }
 
 #ldapSettings > fieldset {
-	background-color: none;
 }
 
 #ldapSettings ul.ui-tabs-nav .ui-tabs-active,
 #ldapSettings ul.ui-tabs-nav .ui-tabs-active > a {
-	background-color: none;
 }
 
 #ldapSettings div.ui-accordion-content {
-	background: none;
 }
 
 ul.ui-multiselect-checkboxes label {
