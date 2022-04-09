@@ -24,7 +24,7 @@
 	<Modal v-if="opened"
 		:clear-view-delay="-1"
 		class="templates-picker"
-		size="large"
+		size="normal"
 		@close="close">
 		<form class="templates-picker__form"
 			:style="style"
@@ -286,7 +286,6 @@ export default {
 	// Make sure we're relative for the loading emptycontent on top
 	::v-deep .modal-container {
 		position: relative;
-		height: fit-content;
 	}
 
 	&__loading {
