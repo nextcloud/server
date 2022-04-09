@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "Nikoli",
     "Once every direct access" : "Enkrat ob neposrednem dostopu",
     "Read only" : "Le za branje",
-    "Delete" : "Izbriši",
     "Admin defined" : "Skrbnik je določen",
-    "Are you sure you want to delete this external storage?" : "Ali ste prepričani, da želite izbrisati to  zunanjo shrambo?",
     "Delete storage?" : "Ali ste prepričani, da želite izbrisati shrambo?",
     "Saved" : "Shranjeno",
     "Saving …" : "Poteka shranjevanje ...",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
     "External storages" : "Zunanje shrambe",
     "(group)" : "(skupina)",
+    "Delete" : "Izbriši",
+    "Are you sure you want to delete this external storage?" : "Ali ste prepričani, da želite izbrisati to  zunanjo shrambo?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS z uporabo prijave OC"
 },

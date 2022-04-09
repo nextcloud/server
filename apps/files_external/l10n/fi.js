@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "Ei koskaan",
     "Once every direct access" : "Kerran aina suoran käytön yhteydessä",
     "Read only" : "Vain luku",
-    "Delete" : "Poista",
     "Admin defined" : "Ylläpitäjän määrittämä",
-    "Are you sure you want to delete this external storage?" : "Haluatko varmasti poistaa tämän erillisen tallennustilan?",
     "Delete storage?" : "Poistetaanko tallennustila?",
     "Saved" : "Tallennettu",
     "Saving …" : "Tallennetaan…",
@@ -132,6 +130,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja.",
     "External storages" : "Erilliset tallennustilat",
     "(group)" : "(ryhmä)",
+    "Delete" : "Poista",
+    "Are you sure you want to delete this external storage?" : "Haluatko varmasti poistaa tämän erillisen tallennustilan?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS käyttäen OC-kirjautumista"
 },

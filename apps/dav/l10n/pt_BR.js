@@ -161,6 +161,8 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Portanto, eles não estarão disponíveis imediatamente após a ativação, mas depois de algum tempo.",
     "Send notifications for events" : "Enviar notificações para eventos",
     "Notifications are sent via background jobs, so these must occur often enough." : "As notificações são enviadas via trabalhos em segundo plano, portanto, elas devem ocorrer com frequência suficiente.",
+    "Send reminder notifications to calendar sharees as well" : "Envie notificações de lembrete para compartilhamentos de calendário também",
+    "Reminders are always sent to organizers and attendees." : "Os lembretes são sempre enviados aos organizadores e participantes.",
     "Enable notifications for events via push" : "Ativar notificações para eventos via push",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Instale também o {calendarappstoreopen}aplicativo de calendário{linkclose} ou {calendardocopen}conecte sua área de trabalho e celular à sincronização ↗{linkclose}.",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Certifique-se de configurar corretamente {emailopen}o servidor de e-mail{linkclose}.",

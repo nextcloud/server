@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "Aldrei",
     "Once every direct access" : "Einu sinni við hvern beinan aðgang",
     "Read only" : "Skrifvarið",
-    "Delete" : "Eyða",
     "Admin defined" : "Skilgreindur kerfisstjóri",
-    "Are you sure you want to delete this external storage?" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?",
     "Delete storage?" : "Eyða geymslu?",
     "Saved" : "Vistað",
     "Saving …" : "Vista …",
@@ -127,6 +125,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
     "External storages" : "Utanáliggjandi gagnageymslur",
     "(group)" : "(hópur)",
+    "Delete" : "Eyða",
+    "Are you sure you want to delete this external storage?" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS með OC-innskráningu"
 },

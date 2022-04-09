@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "לעולם לא",
     "Once every direct access" : "פעם אחת כל כניסה ישירה",
     "Read only" : "קריאה בלבד",
-    "Delete" : "מחיקה",
     "Admin defined" : "הוגדר מנהל",
-    "Are you sure you want to delete this external storage?" : "למחוק את האחסון החיצוני הזה?",
     "Delete storage?" : "למחוק אחסון?",
     "Saved" : "נשמר",
     "Saving …" : "מתבצעת שמירה…",
@@ -133,6 +131,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה.",
     "External storages" : "התקני אחסון חיצוניים",
     "(group)" : "(קבוצה)",
+    "Delete" : "מחיקה",
+    "Are you sure you want to delete this external storage?" : "למחוק את האחסון החיצוני הזה?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS בשימוש עם כניסת OC"
 },

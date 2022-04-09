@@ -15,7 +15,6 @@
     "Never" : "Mitte kunagi",
     "Once every direct access" : "Kord iga otsese pöördumise korral",
     "Read only" : "kirjutuskaitstud",
-    "Delete" : "Kustuta",
     "Admin defined" : "Admini poolt määratud",
     "Saved" : "Salvestatud",
     "Save" : "Salvesta",
@@ -84,6 +83,7 @@
     "Advanced settings" : "Lisavalikud",
     "External storages" : "Välised andmehoidlad",
     "(group)" : "(grupp)",
+    "Delete" : "Kustuta",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
