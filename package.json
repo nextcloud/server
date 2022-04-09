@@ -62,7 +62,7 @@
     "jstimezonedetect": "^1.0.7",
     "lodash": "^4.17.21",
     "marked": "^2.0.7",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.34",
     "nextcloud-vue-collections": "^0.9.0",
     "p-limit": "^3.1.0",
