@@ -1227,11 +1227,6 @@
       <code>$legacyEvent</code>
     </InvalidArgument>
   </file>
-  <file src="apps/files/lib/Service/DirectEditingService.php">
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getEditors</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
     <InvalidIterator occurrences="1">
       <code>$encryptedFiles</code>
