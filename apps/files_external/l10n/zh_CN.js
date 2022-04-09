@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "从不",
     "Once every direct access" : "每次访问时",
     "Read only" : "只读",
-    "Delete" : "删除",
     "Admin defined" : "管理员定义",
-    "Are you sure you want to delete this external storage?" : "您确定要删除这个外部存储吗？",
     "Delete storage?" : "删除存储？",
     "Saved" : "已保存",
     "Saving …" : "正在保存…",
@@ -137,6 +135,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。",
     "External storages" : "外部存储",
     "(group)" : "（分组）",
+    "Delete" : "删除",
+    "Are you sure you want to delete this external storage?" : "您确定要删除这个外部存储吗？",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息"
 },

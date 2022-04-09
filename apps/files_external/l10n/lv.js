@@ -18,7 +18,6 @@ OC.L10N.register(
     "Check for changes" : "Pārbaudīt, vai nav izmaiņu",
     "Never" : "Nekad",
     "Read only" : "Tikai lasāms",
-    "Delete" : "Dzēst",
     "Admin defined" : "Administrators definētās",
     "Saved" : "Saglabāts",
     "Saving …" : "Saglabā ...",
@@ -79,6 +78,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
     "External storages" : "Ārējās krātuves",
     "(group)" : "(grupa)",
+    "Delete" : "Dzēst",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS lietojot OC lietotāju"
 },

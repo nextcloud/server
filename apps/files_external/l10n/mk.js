@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "Никогаш",
     "Once every direct access" : "Еднаш секој пристап",
     "Read only" : "Само читај",
-    "Delete" : "Избриши",
     "Admin defined" : "Дефинирано од администраторот",
-    "Are you sure you want to delete this external storage?" : "Дали си сигурен дека сакаш да го избришеш ова надворешно складиште?",
     "Delete storage?" : "Избриши складиште?",
     "Saved" : "Снимено",
     "Saving …" : "Зачувува ...",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
     "External storages" : "Надворешни складишта",
     "(group)" : "(group)",
+    "Delete" : "Избриши",
+    "Are you sure you want to delete this external storage?" : "Дали си сигурен дека сакаш да го избришеш ова надворешно складиште?",
     "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

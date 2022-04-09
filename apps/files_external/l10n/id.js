@@ -19,7 +19,6 @@ OC.L10N.register(
     "Never" : "Jangan pernah",
     "Once every direct access" : "Setiap kali akses langsung",
     "Read only" : "Hanya baca",
-    "Delete" : "Hapus",
     "Admin defined" : "Terdefinisi Admin",
     "Saved" : "Disimpan",
     "Saving …" : "Menyimpan ...",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
     "External storages" : "Penyimpanan Eksternal",
     "(group)" : "(grup)",
+    "Delete" : "Hapus",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS menggunakan OC login"
 },

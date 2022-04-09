@@ -19,7 +19,6 @@ OC.L10N.register(
     "Never" : "Nunca",
     "Once every direct access" : "Uma vez em cada acesso direto",
     "Read only" : "Apenas leitura",
-    "Delete" : "Apagar",
     "Admin defined" : "Administrador definido",
     "Delete storage?" : "Apagar armazenamento?",
     "Saved" : "Guardado",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
     "External storages" : "Armazenamento externo",
     "(group)" : "(grupo)",
+    "Delete" : "Apagar",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS utilizando o início de sessão OC"
 },

@@ -19,7 +19,6 @@ OC.L10N.register(
     "Never" : "არასდროს",
     "Once every direct access" : "ყოველთვის პირდაპირი წვდომისას",
     "Read only" : "მხოლოდ-კითხვადი",
-    "Delete" : "წაშლა",
     "Admin defined" : "განსაზღვრულია ადმინისტრატორის მიერ",
     "Delete storage?" : "გავაუქმოთ საცავი?",
     "Saved" : "შენახულია",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
     "External storages" : "გარე საცავები",
     "(group)" : "(ჯგუფი)",
+    "Delete" : "წაშლა",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS OC ლოგინით"
 },

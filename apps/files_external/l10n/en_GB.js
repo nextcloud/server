@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "Never",
     "Once every direct access" : "Once every direct access",
     "Read only" : "Read only",
-    "Delete" : "Delete",
     "Admin defined" : "Admin defined",
-    "Are you sure you want to delete this external storage?" : "Are you sure you want to delete this external storage?",
     "Delete storage?" : "Delete storage?",
     "Saved" : "Saved",
     "Save" : "Save",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Allow users to mount external storage",
     "External storages" : "External storages",
     "(group)" : "(group)",
+    "Delete" : "Delete",
+    "Are you sure you want to delete this external storage?" : "Are you sure you want to delete this external storage?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS using OC login"
 },

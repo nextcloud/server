@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "никад",
     "Once every direct access" : "једном при сваком директном приступу",
     "Read only" : "Само за читање",
-    "Delete" : "Обриши",
     "Admin defined" : "Дефинисао администратор",
-    "Are you sure you want to delete this external storage?" : "Да ли стварно желите да обришете ово спољашње складиште?",
     "Delete storage?" : "Обриши складиште?",
     "Saved" : "Сачувано",
     "Saving …" : "Чувам…",
@@ -133,6 +131,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
     "External storages" : "Спољашње складиште",
     "(group)" : "(група)",
+    "Delete" : "Обриши",
+    "Are you sure you want to delete this external storage?" : "Да ли стварно желите да обришете ово спољашње складиште?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS користећи Некстклауд пријаву"
 },
