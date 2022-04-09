@@ -35,15 +35,13 @@ use OCP\IPreview;
 use OCP\Util;
 
 class LoadViewerScript implements IEventListener {
+	private IInitialState $initialStateService;
+	private IPreview $previewManager;
 
-	/** @var IInitialState */
-	private $initialStateService;
-
-	/** @var IPreview */
-	private $previewManager;
-
-	public function __construct(IInitialState $initialStateService,
-								IPreview $previewManager) {
+	public function __construct(
+		IInitialState $initialStateService,
+		IPreview $previewManager
+	) {
 		$this->initialStateService = $initialStateService;
 		$this->previewManager = $previewManager;
 	}
