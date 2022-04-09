@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "هرگز",
     "Once every direct access" : "دسترسی مستقیم یکبار برای همیشه",
     "Read only" : "فقط خواندنی",
-    "Delete" : "حذف",
     "Admin defined" : "مدیر تعریف شده",
-    "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟",
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Saved" : "ذخیره شد",
     "Save" : "ذخیره",
@@ -130,6 +128,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
     "External storages" : "حافظه خارجی",
     "(group)" : "(گروه)",
+    "Delete" : "حذف",
+    "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS با استفاده از ورود OC"
 },

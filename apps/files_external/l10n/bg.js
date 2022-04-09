@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "Никога",
     "Once every direct access" : "Веднъж на всеки директен достъп",
     "Read only" : "Само за четене",
-    "Delete" : "Изтрий",
     "Admin defined" : "Администраторът е дефиниран",
-    "Are you sure you want to delete this external storage?" : "Сигурен ли сте, че искате да изтриете това външно хранилище?",
     "Delete storage?" : "Изтриване на хранилище?",
     "Saved" : "Запазено",
     "Saving …" : "Записване …",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
     "External storages" : "Външни хранилища",
     "(group)" : "(група)",
+    "Delete" : "Изтрий",
+    "Are you sure you want to delete this external storage?" : "Сигурен ли сте, че искате да изтриете това външно хранилище?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS използвайки OC профил"
 },

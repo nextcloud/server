@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "Nikdy",
     "Once every direct access" : "S každým priamym prístupom",
     "Read only" : "Len na čítanie",
-    "Delete" : "Zmazať",
     "Admin defined" : "Nastavené správcom",
-    "Are you sure you want to delete this external storage?" : "Naozaj chcete zmazať toto externé úložisko?",
     "Delete storage?" : "Zmazať externé úložisko?",
     "Saved" : "Uložené",
     "Saving …" : "Ukladá sa...",
@@ -139,6 +137,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
     "External storages" : "Externé úložiská",
     "(group)" : "(skupina)",
+    "Delete" : "Zmazať",
+    "Are you sure you want to delete this external storage?" : "Naozaj chcete zmazať toto externé úložisko?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS s použitím OC prihlásenia",
     "Kerberos ticket apache mode" : "Kerberos ticket v režime apache"

@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "Aldri",
     "Once every direct access" : "En gang pr. direkte tilgang",
     "Read only" : "Skrivebeskyttet",
-    "Delete" : "Slett",
     "Admin defined" : "Admin-definert",
-    "Are you sure you want to delete this external storage?" : "Er du sikker på at du ønsker å slette dette eksterne lageret?",
     "Delete storage?" : "Slett lagringsplass",
     "Saved" : "Lagret",
     "Saving …" : "Lagrer...",
@@ -124,6 +122,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "External storages" : "Ekstern lagring",
     "(group)" : "(gruppe)",
+    "Delete" : "Slett",
+    "Are you sure you want to delete this external storage?" : "Er du sikker på at du ønsker å slette dette eksterne lageret?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS med OC-pålogging"
 },

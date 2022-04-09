@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "Mai",
     "Once every direct access" : "Una volta per ogni accesso diretto",
     "Read only" : "Sola lettura",
-    "Delete" : "Elimina",
     "Admin defined" : "Definito dall'amministratore",
-    "Are you sure you want to delete this external storage?" : "Se sicuro di voler eliminare questa archiviazione esterna?",
     "Delete storage?" : "Vuoi eliminare l'archiviazione?",
     "Saved" : "Salvato",
     "Saving …" : "Salvataggio…",
@@ -139,6 +137,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
     "External storages" : "Archiviazioni esterne",
     "(group)" : "(gruppo)",
+    "Delete" : "Elimina",
+    "Are you sure you want to delete this external storage?" : "Se sicuro di voler eliminare questa archiviazione esterna?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
     "Kerberos ticket apache mode" : "Modalità apache ticket Kerberos"

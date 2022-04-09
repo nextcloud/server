@@ -15,7 +15,6 @@
     "Check for changes" : "ตรวจสอบการเปลี่ยนแปลง",
     "Never" : "ไม่เคย",
     "Once every direct access" : "เมื่อทุกคนเข้าถึงโดยตรง",
-    "Delete" : "ลบ",
     "Admin defined" : "ถูกกำหนดโดยผู้ดูแลระบบ",
     "Saved" : "บันทึกแล้ว",
     "Save" : "บันทึก",
@@ -96,6 +95,7 @@
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "(group)" : "(กลุ่ม)",
+    "Delete" : "ลบ",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB/CIFS กำลังใช้ OC เข้าสู่ระบบ"
 },"pluralForm" :"nplurals=1; plural=0;"

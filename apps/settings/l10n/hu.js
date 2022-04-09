@@ -451,6 +451,7 @@ OC.L10N.register(
     "Allow public uploads" : "Nyilvános feltöltés engedélyezése",
     "Always ask for a password" : "Mindig kérdezze meg a jelszót",
     "Enforce password protection" : "Hivatkozások jelszavas védelmének megkövetelése",
+    "Exclude groups from password requirements:" : "Csoportok mentesítése a jelszókövetelmények alól:",
     "Set default expiration date" : "Alapértelmezett lejárati dátum beállítása",
     "Exclude groups from creating link shares:" : "Csoportok kizárása a megosztási hivatkozások létrehozásából:",
     "Allow resharing" : "Megosztás továbbosztásának engedélyezése",

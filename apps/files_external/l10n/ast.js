@@ -13,7 +13,6 @@ OC.L10N.register(
     "Enable encryption" : "Habilitar cifráu",
     "Never" : "Enxamás",
     "Read only" : "Namái llectura",
-    "Delete" : "Desaniciar",
     "Delete storage?" : "¿Desaniciar almacenamientu?",
     "Saved" : "Guardáu",
     "Saving …" : "Guardando...",
@@ -73,6 +72,7 @@ OC.L10N.register(
     "Advanced settings" : "Axustes avanzaos",
     "External storages" : "Almacenamientos internos",
     "(group)" : "(grupu)",
+    "Delete" : "Desaniciar",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC"
 },
