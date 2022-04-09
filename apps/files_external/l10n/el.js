@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "Ποτέ",
     "Once every direct access" : "Σε κάθε απευθείας πρόσβαση",
     "Read only" : "Μόνο για ανάγνωση",
-    "Delete" : "Διαγραφή",
     "Admin defined" : "Ορίσθηκε διαχειριστής ",
-    "Are you sure you want to delete this external storage?" : "Σίγουρα θέλετε να διαγράψετε τον εξωτερικό χώρο αποθήκευσης;",
     "Delete storage?" : "Διαγραφή αποθηκευτικού χώρου;",
     "Saved" : "Αποθηκεύτηκαν",
     "Saving …" : "Αποθηκεύεται ...",
@@ -133,6 +131,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
     "External storages" : "Εξωτερικοί αποθηκευτικοί χώροι",
     "(group)" : "(ομάδα)",
+    "Delete" : "Διαγραφή",
+    "Are you sure you want to delete this external storage?" : "Σίγουρα θέλετε να διαγράψετε τον εξωτερικό χώρο αποθήκευσης;",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS χρησιμοποιώντας λογαριασμό OC"
 },

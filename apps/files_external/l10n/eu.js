@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "Inoiz ez",
     "Once every direct access" : "Sarbide zuzen bakoitzean",
     "Read only" : "Irakurtzeko soilik",
-    "Delete" : "Ezabatu",
     "Admin defined" : "Administratzaileak definitua",
-    "Are you sure you want to delete this external storage?" : "Ziur zaude kanpoko biltegiratze hau ezabatu nahi duzula?",
     "Delete storage?" : "Biltegiratzea ezabatu?",
     "Saved" : "Gordeta",
     "Saving …" : "Gordetzen …",
@@ -137,6 +135,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
     "External storages" : "Kanpoko biltegiratzeak",
     "(group)" : "(taldea)",
+    "Delete" : "Ezabatu",
+    "Are you sure you want to delete this external storage?" : "Ziur zaude kanpoko biltegiratze hau ezabatu nahi duzula?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS OC saioa hasiera erabiliz"
 },

@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "Neniam",
     "Once every direct access" : "Unufoje okaze de senpera aliro",
     "Read only" : "Nurlega",
-    "Delete" : "Forigi",
     "Admin defined" : "Difinita de administranto",
-    "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?",
     "Delete storage?" : "Ĉu forigi konservejon?",
     "Saved" : "Konservita",
     "Saving …" : "Konservado...",
@@ -131,6 +129,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
     "External storages" : "Eksteraj konservejoj",
     "(group)" : "(grupo)",
+    "Delete" : "Forigi",
+    "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto"
 },

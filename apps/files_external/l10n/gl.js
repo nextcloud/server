@@ -19,9 +19,7 @@ OC.L10N.register(
     "Never" : "Nunca",
     "Once every direct access" : "Unha vez cada acceso directo",
     "Read only" : "Só lectura",
-    "Delete" : "Eliminar",
     "Admin defined" : "Definido polo administrador",
-    "Are you sure you want to delete this external storage?" : "Confirma que quere eliminar este almacenamento externo?",
     "Delete storage?" : "Eliminar o almacenamento?",
     "Saved" : "Gardado",
     "Saving …" : "Gardando…",
@@ -133,6 +131,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
     "External storages" : "Almacenamentos externos",
     "(group)" : "(grupo)",
+    "Delete" : "Eliminar",
+    "Are you sure you want to delete this external storage?" : "Confirma que quere eliminar este almacenamento externo?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS usando acceso OC"
 },

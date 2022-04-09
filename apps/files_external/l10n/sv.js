@@ -20,9 +20,7 @@ OC.L10N.register(
     "Never" : "Aldrig",
     "Once every direct access" : "En gång vid varje direktåtkomst",
     "Read only" : "Skrivskyddad",
-    "Delete" : "Ta bort",
     "Admin defined" : "Admin definerad",
-    "Are you sure you want to delete this external storage?" : "Är du säker på att du vill ta bort denna externa lagring?",
     "Delete storage?" : "Ta bort lagring?",
     "Saved" : "Sparad",
     "Saving …" : "Sparar ...",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter.",
     "External storages" : "Extern lagring",
     "(group)" : "(grupp)",
+    "Delete" : "Ta bort",
+    "Are you sure you want to delete this external storage?" : "Är du säker på att du vill ta bort denna externa lagring?",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning"
 },

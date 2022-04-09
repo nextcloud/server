@@ -17,7 +17,6 @@ OC.L10N.register(
     "Never" : "Niciodată",
     "Once every direct access" : "O dată la fiecare acces direct",
     "Read only" : "Doar citire",
-    "Delete" : "Șterge",
     "Admin defined" : "Administrator definit",
     "Saved" : "Salvat",
     "Saving …" : "Se salvează",
@@ -79,6 +78,7 @@ OC.L10N.register(
     "Add storage" : "Adauga stocare",
     "Advanced settings" : "Setări avansate",
     "(group)" : "(grup)",
+    "Delete" : "Șterge",
     "SMB / CIFS" : "SMB / CIFS",
     "SMB / CIFS using OC login" : "SMB / CIFS folosind autentificare OC"
 },
