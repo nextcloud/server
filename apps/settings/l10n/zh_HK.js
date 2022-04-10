@@ -451,6 +451,7 @@ OC.L10N.register(
     "Allow public uploads" : "允許公開上傳",
     "Always ask for a password" : "要求輸入密碼",
     "Enforce password protection" : "強制密碼保護",
+    "Exclude groups from password requirements:" : "從密碼要求中排除特定群組：",
     "Set default expiration date" : "設定默認到期日",
     "Exclude groups from creating link shares:" : "禁止以下群組創建連結分享：",
     "Allow resharing" : "允許轉分享",
