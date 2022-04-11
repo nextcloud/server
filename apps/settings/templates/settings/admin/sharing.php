@@ -245,7 +245,16 @@
 					<?php if ($_['restrictUserEnumerationFullMatch'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-			<label for="shareapi_restrict_user_enumeration_full_match"><?php p($l->t('Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)'));?></label><br />
+			<label for="shareapi_restrict_user_enumeration_full_match"><?php p($l->t('Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)'));?></label><br />
+		</p>
+		<p id="shareapi_restrict_user_enumeration_full_match_userid_setting" class="double-indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['restrictUserEnumerationFullMatchUserId'] === 'no') {
+	p('hidden');
+}?>">
+			<input type="checkbox" name="shareapi_restrict_user_enumeration_full_match_userid" value="1" id="shareapi_restrict_user_enumeration_full_match_userid" class="checkbox"
+					<?php if ($_['shareeEnumerationFullMatchUserId'] === 'yes') {
+	print_unescaped('checked="checked"');
+} ?> />
+			<label for="shareapi_restrict_user_enumeration_full_match_userid"><?php p($l->t('Match username when restricting to full match'));?></label><br />
 		</p>
 
 		<p>
