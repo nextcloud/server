@@ -91,7 +91,7 @@ interface IImportSource {
 	/**
 	 * @return ?int Version for this migrator from the export archive. Null means migrator missing.
 	 *
-	 * @param class-string<IMigrator> $migrator
+	 * @param string $migrator Migrator id (as returned by IMigrator::getId)
 	 *
 	 * @since 24.0.0
 	 */
