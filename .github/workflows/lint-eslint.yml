@@ -38,7 +38,10 @@ jobs:
         run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          node --version
+          npm --version
+          npm ci
 
       - name: Lint
         run: npm run lint

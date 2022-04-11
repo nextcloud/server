@@ -28,7 +28,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: versions
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,7 +42,10 @@ jobs:
         run: npm i -g npm@"${{ needs.versions.outputs.npmVersion }}"
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          node --version
+          npm --version
+          npm ci
 
       - name: Test
         run: npm run test
@@ -71,7 +74,7 @@ jobs:
   handlebars:
     runs-on: ubuntu-latest
     needs: versions
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
