@@ -31,6 +31,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
@@ -50,12 +51,16 @@ class TrashbinMigrator implements IMigrator {
 
 	protected IDBConnection $dbc;
 
+	protected IL10N $l10n;
+
 	public function __construct(
 		IRootFolder $rootFolder,
-		IDBConnection $dbc
+		IDBConnection $dbc,
+		IL10N $l10n
 	) {
 		$this->root = $rootFolder;
 		$this->dbc = $dbc;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -133,5 +138,26 @@ class TrashbinMigrator implements IMigrator {
 		} else {
 			$output->writeln("No trashbin to import…");
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getId(): string {
+		return 'trashbin';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayName(): string {
+		return $this->l10n->t('Deleted files');
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDescription(): string {
+		return $this->l10n->t('Deleted files and folders in the trash bin');
 	}
 }
