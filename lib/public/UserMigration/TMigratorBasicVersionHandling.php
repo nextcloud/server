@@ -50,7 +50,7 @@ trait TMigratorBasicVersionHandling {
 	public function canImport(
 		IImportSource $importSource
 	): bool {
-		$version = $importSource->getMigratorVersion(static::class);
+		$version = $importSource->getMigratorVersion($this->getId());
 		if ($version === null) {
 			return !$this->mandatory;
 		}

@@ -98,7 +98,7 @@ class AccountMigratorTest extends TestCase {
 		$this->importSource
 			->expects($this->once())
 			->method('getMigratorVersion')
-			->with(AccountMigrator::class)
+			->with($this->migrator->getId())
 			->willReturn(1);
 
 		$this->importSource

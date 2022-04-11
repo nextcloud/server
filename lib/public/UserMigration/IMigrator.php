@@ -89,7 +89,7 @@ interface IMigrator {
 
 	/**
 	 * Checks whether it is able to import a version of the export format for this migrator
-	 * Use $importSource->getMigratorVersion(static::class) to get the version from the archive
+	 * Use $importSource->getMigratorVersion($this->getId()) to get the version from the archive
 	 *
 	 * @since 24.0.0
 	 */

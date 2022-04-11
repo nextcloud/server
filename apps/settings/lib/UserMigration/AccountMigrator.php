@@ -95,7 +95,7 @@ class AccountMigrator implements IMigrator {
 	 * {@inheritDoc}
 	 */
 	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {
-		if ($importSource->getMigratorVersion(static::class) === null) {
+		if ($importSource->getMigratorVersion($this->getId()) === null) {
 			$output->writeln('No version for ' . static::class . ', skipping import…');
 			return;
 		}
