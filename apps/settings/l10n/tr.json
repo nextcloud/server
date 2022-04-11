@@ -449,6 +449,7 @@
     "Allow public uploads" : "Herkes yükleyebilsin",
     "Always ask for a password" : "Her zaman parola sorulsun",
     "Enforce password protection" : "Parola koruması dayatılsın",
+    "Exclude groups from password requirements:" : "Parola gereksinimlerine katılmayacak gruplar:",
     "Set default expiration date" : "Varsayılan son kullanma tarihini ayarla",
     "Exclude groups from creating link shares:" : "Bağlantı paylaşımı oluşturamayacak gruplar:",
     "Allow resharing" : "Yeniden paylaşılabilsin",
