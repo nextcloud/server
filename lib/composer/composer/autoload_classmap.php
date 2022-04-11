@@ -133,6 +133,7 @@ return array(
     'OCP\\Calendar\\Room\\IRoom' => $baseDir . '/lib/public/Calendar/Room/IRoom.php',
     'OCP\\Calendar\\Room\\IRoomMetadata' => $baseDir . '/lib/public/Calendar/Room/IRoomMetadata.php',
     'OCP\\Capabilities\\ICapability' => $baseDir . '/lib/public/Capabilities/ICapability.php',
+    'OCP\\Capabilities\\IInitialStateExcludedCapability' => $baseDir . '/lib/public/Capabilities/IInitialStateExcludedCapability.php',
     'OCP\\Capabilities\\IPublicCapability' => $baseDir . '/lib/public/Capabilities/IPublicCapability.php',
     'OCP\\Collaboration\\AutoComplete\\AutoCompleteEvent' => $baseDir . '/lib/public/Collaboration/AutoComplete/AutoCompleteEvent.php',
     'OCP\\Collaboration\\AutoComplete\\IManager' => $baseDir . '/lib/public/Collaboration/AutoComplete/IManager.php',
