@@ -628,11 +628,21 @@ class OC_App {
 	 * @return string
 	 */
 	public static function getCurrentApp(): string {
+		if (\OC::$CLI) {
+			return '';
+		}
+
 		$request = \OC::$server->getRequest();
 		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
 		$topFolder = substr($script, 0, strpos($script, '/') ?: 0);
 		if (empty($topFolder)) {
-			$path_info = $request->getPathInfo();
+			try {
+				$path_info = $request->getPathInfo();
+			} catch (Exception $e) {
+				// Can happen from unit tests because the script name is `./vendor/bin/phpunit` or something a like then.
+				\OC::$server->get(LoggerInterface::class)->error('Failed to detect current app from script path', ['exception' => $e]);
+				return '';
+			}
 			if ($path_info) {
 				$topFolder = substr($path_info, 1, strpos($path_info, '/', 1) - 1);
 			}
