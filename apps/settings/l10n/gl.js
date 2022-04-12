@@ -367,7 +367,6 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Estes grupos poderán recibir comparticións, mais non inicialas.",
     "Allow username autocompletion in share dialog" : "Permitir autocompletar o nome de usuario no diálogo de compartir",
     "Allow username autocompletion to users within the same groups" : "Permitir autocompletar o nome de usuario aos usuarios dos mesmos grupos",
-    "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir autocompletar o nome de usuario cando se introduce o nome completo ou o enderezo de correo-e ignorando a coincidencia da lista de teléfonos que falta e está no mesmo grupo",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Amosar o texto de exención de responsabilidade na páxina de envío de ligazóns publicas (amosarase só cando a lista de ficheiros estea agochada)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto amosarase na páxina de envío das ligazóns públicas cando a lista de ficheiros estea agochada.",
     "Default share permissions" : "Permisos predeterminados para compartir",
@@ -419,6 +418,7 @@ OC.L10N.register(
     "days" : "días",
     "Allow users to share via link" : "Permitir que os usuarios compartan a través de ligazóns",
     "Set default expiration date for link shares" : "Estabeleza a data de caducidade predeterminada para as ligazóns compartidas",
+    "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir autocompletar o nome de usuario cando se introduce o nome completo ou o enderezo de correo-e ignorando a coincidencia da lista de teléfonos que falta e está no mesmo grupo",
     "No display name set" : "Sen nome de usuario para amosar estabelecido",
     "For password reset and notifications" : "Para o restabelecemento de contrasinais e notificacións"
 },
