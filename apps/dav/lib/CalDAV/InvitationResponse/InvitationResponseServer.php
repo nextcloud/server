@@ -37,6 +37,7 @@ use OCA\DAV\RootCollection;
 use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
+use Psr\Log\LoggerInterface;
 
 class InvitationResponseServer {
 
@@ -100,7 +101,7 @@ class InvitationResponseServer {
 		));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod:*', function () use ($root) {
+		$this->server->on('beforeMethod:*', function () use ($root): void {
 			// register plugins from apps
 			$pluginManager = new PluginManager(
 				\OC::$server,

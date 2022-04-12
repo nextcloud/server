@@ -28,17 +28,18 @@ use Sabre\DAV\Tree;
 class CachingTree extends Tree {
 	/**
 	 * Store a node in the cache
-	 *
-	 * @param Node $node
-	 * @param null|string $path
 	 */
-	public function cacheNode(Node $node, $path = null) {
+	public function cacheNode(Node $node, ?string $path = null): void {
 		if (is_null($path)) {
 			$path = $node->getPath();
 		}
 		$this->cache[trim($path, '/')] = $node;
 	}
 
+	/**
+	 * @param string $path
+	 * @return void
+	 */
 	public function markDirty($path) {
 		// We don't care enough about sub-paths
 		// flushing the entire cache

@@ -583,11 +583,6 @@
       <code>bool</code>
     </InvalidNullableReturnType>
   </file>
-  <file src="apps/dav/lib/Connector/Sabre/AppEnabledPlugin.php">
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/dav/lib/Connector/Sabre/BearerAuth.php">
     <UndefinedInterfaceMethod occurrences="1">
       <code>tryTokenLogin</code>

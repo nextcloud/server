@@ -27,6 +27,7 @@ namespace OCA\DAV\Connector\Sabre;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\DAV\Server;
 
 /**
  * Copies the "Etag" header to "OC-Etag" after any request.
@@ -34,9 +35,8 @@ use Sabre\HTTP\ResponseInterface;
  * or mangle Etag headers.
  */
 class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
+	private Server $server;
 
-	/** @var \Sabre\DAV\Server */
-	private $server;
 	/**
 	 * This initializes the plugin.
 	 *

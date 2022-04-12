@@ -38,6 +38,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Plugin;
+use Psr\Log\LoggerInterface;
 
 $authBackend = new Auth(
 	\OC::$server->getSession(),

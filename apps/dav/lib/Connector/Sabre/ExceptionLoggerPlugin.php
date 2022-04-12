@@ -83,16 +83,13 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		RequestedRangeNotSatisfiable::class => true,
 	];
 
-	/** @var string */
-	private $appName;
-
+	private string $appName;
 	private LoggerInterface $logger;
 
 	/**
 	 * @param string $loggerAppName app name to use when logging
-	 * @param LoggerInterface $logger
 	 */
-	public function __construct($loggerAppName, LoggerInterface $logger) {
+	public function __construct(string $loggerAppName, LoggerInterface $logger) {
 		$this->appName = $loggerAppName;
 		$this->logger = $logger;
 	}
@@ -114,9 +111,8 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 
 	/**
 	 * Log exception
-	 *
 	 */
-	public function logException(\Throwable $ex) {
+	public function logException(\Throwable $ex): void {
 		$exceptionClass = get_class($ex);
 		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
 			(
@@ -128,11 +124,12 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 				'app' => $this->appName,
 				'exception' => $ex,
 			]);
-		} else {
-			$this->logger->critical($ex->getMessage(), [
-				'app' => $this->appName,
-				'exception' => $ex,
-			]);
+			return; 
 		}
+
+		$this->logger->critical($ex->getMessage(), [
+			'app' => $this->appName,
+			'exception' => $ex,
+		]);
 	}
 }

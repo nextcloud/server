@@ -34,12 +34,12 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Card;
 use Sabre\VObject\Document;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Reader;
+use Psr\Log\LoggerInterface;
 
 class PhotoCache {
 
@@ -51,9 +51,7 @@ class PhotoCache {
 		'image/vnd.microsoft.icon' => 'ico',
 	];
 
-	/** @var IAppData */
-	protected $appData;
-
+	protected IAppData $appData;
 	protected LoggerInterface $logger;
 
 	/**
@@ -91,17 +89,11 @@ class PhotoCache {
 		return $this->getFile($folder, $size);
 	}
 
-	/**
-	 * @param ISimpleFolder $folder
-	 * @return bool
-	 */
-	private function isEmpty(ISimpleFolder $folder) {
+	private function isEmpty(ISimpleFolder $folder): bool {
 		return $folder->getDirectoryListing() === [];
 	}
 
 	/**
-	 * @param ISimpleFolder $folder
-	 * @param Card $card
 	 * @throws NotPermittedException
 	 */
 	private function init(ISimpleFolder $folder, Card $card): void {
@@ -124,11 +116,11 @@ class PhotoCache {
 		$file->putContent($data['body']);
 	}
 
-	private function hasPhoto(ISimpleFolder $folder) {
+	private function hasPhoto(ISimpleFolder $folder): bool {
 		return !$folder->fileExists('nophoto');
 	}
 
-	private function getFile(ISimpleFolder $folder, $size) {
+	private function getFile(ISimpleFolder $folder, int $size): ISimpleFile {
 		$ext = $this->getExtension($folder);
 
 		if ($size === -1) {
@@ -189,8 +181,6 @@ class PhotoCache {
 	/**
 	 * Get the extension of the avatar. If there is no avatar throw Exception
 	 *
-	 * @param ISimpleFolder $folder
-	 * @return string
 	 * @throws NotFoundException
 	 */
 	private function getExtension(ISimpleFolder $folder): string {
@@ -205,7 +195,7 @@ class PhotoCache {
 
 	/**
 	 * @param Card $node
-	 * @return bool|array{body: string, Content-Type: string}
+	 * @return false|array{body: string, Content-Type: string}
 	 */
 	private function getPhoto(Card $node) {
 		try {
@@ -220,8 +210,7 @@ class PhotoCache {
 	}
 
 	/**
-	 * @param Document $vObject
-	 * @return bool|array{body: string, Content-Type: string}
+	 * @return false|array{body: string, Content-Type: string}
 	 */
 	public function getPhotoFromVObject(Document $vObject) {
 		try {
@@ -265,11 +254,7 @@ class PhotoCache {
 		return false;
 	}
 
-	/**
-	 * @param string $cardData
-	 * @return \Sabre\VObject\Document
-	 */
-	private function readCard($cardData) {
+	private function readCard(string $cardData): Document {
 		return Reader::read($cardData);
 	}
 

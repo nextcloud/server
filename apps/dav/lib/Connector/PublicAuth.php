@@ -44,28 +44,12 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
  */
 class PublicAuth extends AbstractBasic {
 	private const BRUTEFORCE_ACTION = 'public_webdav_auth';
+	private IShare $share;
+	private IManager $shareManager;
+	private ISession $session;
+	private IRequest $request;
+	private Throttler $throttler;
 
-	/** @var \OCP\Share\IShare */
-	private $share;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var Throttler */
-	private $throttler;
-
-	/**
-	 * @param IRequest $request
-	 * @param IManager $shareManager
-	 * @param ISession $session
-	 * @param Throttler $throttler
-	 */
 	public function __construct(IRequest $request,
 								IManager $shareManager,
 								ISession $session,
@@ -88,7 +72,6 @@ class PublicAuth extends AbstractBasic {
 	 *
 	 * @param string $username
 	 * @param string $password
-	 *
 	 * @return bool
 	 * @throws \Sabre\DAV\Exception\NotAuthenticated
 	 */
@@ -133,15 +116,11 @@ class PublicAuth extends AbstractBasic {
 				$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 				return false;
 			}
-		} else {
-			return true;
 		}
+		return true;
 	}
 
-	/**
-	 * @return \OCP\Share\IShare
-	 */
-	public function getShare() {
+	public function getShare(): IShare {
 		return $this->share;
 	}
 }
