@@ -34,9 +34,10 @@ use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -49,7 +50,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	/** @var \OCP\Security\ICrypto */
 	private $crypto;
 
-	/** @var \OCP\ILogger */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	/** @var \OC\Core\Db\LoginFlowV2Mapper */
@@ -88,7 +89,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 		$this->mapper = $this->getMockBuilder(LoginFlowV2Mapper::class)
 			->disableOriginalConstructor()->getMock();
 
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->tokenProvider = $this->getMockBuilder(IProvider::class)

@@ -47,7 +47,6 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -61,32 +60,19 @@ class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
 
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IConfig */
-	private $config;
-	/** @var ISession */
-	private $session;
+	private IUserManager $userManager;
+	private IConfig $config;
+	private ISession $session;
 	/** @var IUserSession|Session */
 	private $userSession;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ILogger */
-	private $logger;
-	/** @var Defaults */
-	private $defaults;
-	/** @var Throttler */
-	private $throttler;
-	/** @var Chain */
-	private $loginChain;
-	/** @var IInitialStateService */
-	private $initialStateService;
-	/** @var WebAuthnManager */
-	private $webAuthnManager;
-	/** @var IManager */
-	private $manager;
-	/** @var IL10N */
-	private $l10n;
+	private IURLGenerator $urlGenerator;
+	private Defaults $defaults;
+	private Throttler $throttler;
+	private Chain $loginChain;
+	private IInitialStateService $initialStateService;
+	private WebAuthnManager $webAuthnManager;
+	private IManager $manager;
+	private IL10N $l10n;
 
 	public function __construct(?string $appName,
 								IRequest $request,
@@ -95,7 +81,6 @@ class LoginController extends Controller {
 								ISession $session,
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
-								ILogger $logger,
 								Defaults $defaults,
 								Throttler $throttler,
 								Chain $loginChain,
@@ -109,7 +94,6 @@ class LoginController extends Controller {
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
 		$this->defaults = $defaults;
 		$this->throttler = $throttler;
 		$this->loginChain = $loginChain;
@@ -375,13 +359,10 @@ class LoginController extends Controller {
 	 * @UseSession
 	 * @BruteForceProtection(action=sudo)
 	 *
-	 * @param string $password
-	 *
-	 * @return DataResponse
 	 * @license GNU AGPL version 3 or any later version
 	 *
 	 */
-	public function confirmPassword($password) {
+	public function confirmPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);
 		if ($loginResult === false) {

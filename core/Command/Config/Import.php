@@ -34,14 +34,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Import extends Command implements CompletionAwareInterface {
-	protected $validRootKeys = ['system', 'apps'];
+	protected array $validRootKeys = ['system', 'apps'];
+	protected IConfig $config;
 
-	/** @var IConfig */
-	protected $config;
-
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(IConfig $config) {
 		parent::__construct();
 		$this->config = $config;
