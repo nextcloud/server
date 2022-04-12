@@ -50,13 +50,55 @@ OCA.Sharing.PublicApp = {
 		var token = $('#sharingToken').val();
 		var hideDownload = $('#hideDownload').val();
 
-		// Prevent all right-click options if hideDownload is enabled
 		if (hideDownload === 'true') {
+			// Prevent all right-click options
 			window.oncontextmenu = function(event) {
 				event.preventDefault();
 				event.stopPropagation();
 				return false;
 		   };
+
+			// Prevent printing
+			document.body.classList.add('disable_print');
+			window.addEventListener('keydown', (event) => {
+				if (event.key === "PrintScreen") {
+					event.preventDefault();
+					event.stopPropagation();
+					return false;
+				}
+			});
+			window.addEventListener('keydown', (event) => {
+				if (event.key === "p" && event.ctrlKey === true) {
+					event.preventDefault();
+					event.stopPropagation();
+					return false;
+				}
+			});
+
+			// Prevent saving
+			window.addEventListener('keydown', (event) => {
+				if (event.key === "Save") {
+					event.preventDefault();
+					event.stopPropagation();
+					return false;
+				}
+			});
+			window.addEventListener('keydown', (event) => {
+				if (event.key === "s" && event.ctrlKey === true) {
+					event.preventDefault();
+					event.stopPropagation();
+					return false;
+				}
+			});
+
+			// Blur elements when window has no focus in order to make screenshots harder
+			setInterval(function () {
+				if (document.hasFocus()) {
+					document.body.classList.remove('blur_body');
+				} else {
+					document.body.classList.add('blur_body');
+				}
+			}, 300);
 		}
 
 		// file list mode ?

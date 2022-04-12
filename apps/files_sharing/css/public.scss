@@ -51,6 +51,18 @@ thead {
 	left: 0 !important;
 }
 
+// blur page when focus is removed
+.blur_body { 
+	filter: blur(5px); 
+}
+
+// disable printing
+@media print { 
+	.disable_print { 
+		display: none 
+	}
+}
+
 #data-upload-form {
 	position: relative;
 	right: 0;
