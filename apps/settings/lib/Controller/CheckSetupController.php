@@ -595,6 +595,18 @@ Raw output
 		return true;
 	}
 
+	protected function isPreviewMaxSetCorrectly(): bool {
+		if ($this->config->getSystemValueInt('preview_max_x', 4096) < 4096) {
+			return false;
+		}
+
+		if ($this->config->getSystemValueInt('preview_max_y', 4096) < 4096) {
+			return false;
+		}
+
+		return true;
+	}
+
 	protected function hasValidTransactionIsolationLevel(): bool {
 		try {
 			if ($this->db->getDatabasePlatform() instanceof SqlitePlatform) {
@@ -865,6 +877,7 @@ Raw output
 				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
 				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
 				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),
+				'isPreviewMaxSetCorrectly' => $this->isPreviewMaxSetCorrectly(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),

@@ -203,6 +203,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
+					if (!data.isPreviewMaxSetCorrectly) {
+						messages.push({
+							msg: t('core', 'Your max preview size settings are lower than 4K. Image previews may appear blurry to people using 4K screens.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
 					if (!data.hasValidTransactionIsolationLevel) {
 						messages.push({
 							msg: t('core', 'Your database does not run with "READ COMMITTED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.'),

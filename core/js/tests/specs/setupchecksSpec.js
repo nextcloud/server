@@ -227,6 +227,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -288,6 +289,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -350,6 +352,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -409,6 +412,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -467,6 +471,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -525,6 +530,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: false,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -570,6 +576,65 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		it('should return an info when preview max is not configured correctly', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'Your max preview size settings are lower than 4K. Image previews may appear blurry to people using 4K screens.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
 		it('should return a warning if there are app directories with wrong permissions', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -583,6 +648,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -643,6 +709,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -701,6 +768,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -759,6 +827,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -837,6 +906,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -896,6 +966,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -954,6 +1025,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1012,6 +1084,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1074,6 +1147,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1133,6 +1207,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1189,6 +1264,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1248,6 +1324,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1307,6 +1384,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1365,6 +1443,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1423,6 +1502,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1481,6 +1561,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
