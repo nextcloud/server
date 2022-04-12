@@ -171,15 +171,9 @@ class AutoCompleteControllerTest extends TestCase {
 	}
 
 	/**
-	 * @param $searchResults
-	 * @param $expected
-	 * @param $searchTerm
-	 * @param $itemType
-	 * @param $itemId
-	 * @param $sorter
 	 * @dataProvider searchDataProvider
 	 */
-	public function testGet($searchResults, $expected, $searchTerm, $itemType, $itemId, $sorter) {
+	public function testGet(array $searchResults, array $expected, string $searchTerm, ?string $itemType, ?string $itemId, ?string $sorter) {
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')
 			->willReturn([$searchResults, false]);

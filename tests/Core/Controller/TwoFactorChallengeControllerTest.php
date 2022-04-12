@@ -31,13 +31,13 @@ use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Template;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class TwoFactorChallengeControllerTest extends TestCase {
@@ -57,7 +57,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var TwoFactorChallengeController|\PHPUnit\Framework\MockObject\MockObject */
@@ -71,7 +71,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->controller = $this->getMockBuilder(TwoFactorChallengeController::class)
 			->setConstructorArgs([

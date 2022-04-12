@@ -41,10 +41,10 @@ use OCP\Files\IRootFolder;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AvatarController
@@ -52,43 +52,25 @@ use OCP\IUserSession;
  * @package OC\Core\Controller
  */
 class AvatarController extends Controller {
+	protected IAvatarManager $avatarManager;
+	protected ICache $cache;
+	protected IL10N $l;
+	protected IUserManager $userManager;
+	protected IUserSession $userSession;
+	protected IRootFolder $rootFolder;
+	protected LoggerInterface $logger;
+	protected ?string $userId;
+	protected TimeFactory $timeFactory;
 
-	/** @var IAvatarManager */
-	protected $avatarManager;
-
-	/** @var ICache */
-	protected $cache;
-
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var ILogger */
-	protected $logger;
-
-	/** @var string */
-	protected $userId;
-
-	/** @var TimeFactory */
-	protected $timeFactory;
-
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IAvatarManager $avatarManager,
 								ICache $cache,
 								IL10N $l10n,
 								IUserManager $userManager,
 								IRootFolder $rootFolder,
-								ILogger $logger,
-								$userId,
+								LoggerInterface $logger,
+								?string $userId,
 								TimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
@@ -109,11 +91,9 @@ class AvatarController extends Controller {
 	 * @NoSameSiteCookieRequired
 	 * @PublicPage
 	 *
-	 * @param string $userId
-	 * @param int $size
 	 * @return JSONResponse|FileDisplayResponse
 	 */
-	public function getAvatar($userId, $size) {
+	public function getAvatar(string $userId, int $size) {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -145,11 +125,8 @@ class AvatarController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @param string $path
-	 * @return JSONResponse
 	 */
-	public function postAvatar($path) {
+	public function postAvatar(?string $path = null): JSONResponse {
 		$files = $this->request->getUploadedFile('files');
 
 		if (isset($path)) {
@@ -250,23 +227,21 @@ class AvatarController extends Controller {
 				);
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
 			return new JSONResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_OK);
 		}
 	}
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @return JSONResponse
 	 */
-	public function deleteAvatar() {
+	public function deleteAvatar(): JSONResponse {
 		try {
 			$avatar = $this->avatarManager->getAvatar($this->userId);
 			$avatar->remove();
 			return new JSONResponse();
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
 			return new JSONResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
 		}
 	}
@@ -301,11 +276,8 @@ class AvatarController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @param array $crop
-	 * @return JSONResponse
 	 */
-	public function postCroppedAvatar($crop) {
+	public function postCroppedAvatar(?array $crop = null): JSONResponse {
 		if (is_null($crop)) {
 			return new JSONResponse(['data' => ['message' => $this->l->t("No crop data provided")]],
 									Http::STATUS_BAD_REQUEST);
@@ -337,7 +309,7 @@ class AvatarController extends Controller {
 			return new JSONResponse(['data' => ['message' => $this->l->t('Crop is not square')]],
 									Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
 			return new JSONResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
 		}
 	}
