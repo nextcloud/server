@@ -110,6 +110,7 @@ class LookupPlugin implements ISearchPlugin {
 					'label' => $label,
 					'value' => [
 						'shareType' => IShare::TYPE_REMOTE,
+						'globalScale' => $isGlobalScaleEnabled,
 						'shareWith' => $lookup['federationId'],
 					],
 					'extra' => $lookup,
