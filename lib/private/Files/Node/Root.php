@@ -419,6 +419,12 @@ class Root extends Folder implements IRootFolder {
 		}
 		$mountsContainingFile = $mountCache->getMountsForFileId($id, $user);
 
+		// if the mount isn't in the cache yet, perform a setup first, then try again
+		if (count($mountsContainingFile) === 0) {
+			$this->mountManager->getSetupManager()->setupForPath($path, true);
+			$mountsContainingFile = $mountCache->getMountsForFileId($id, $user);
+		}
+
 		// when a user has access trough the same storage trough multiple paths
 		// (such as an external storage that is both mounted for a user and shared to the user)
 		// the mount cache will only hold a single entry for the storage
