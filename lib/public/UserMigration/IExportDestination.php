@@ -79,4 +79,11 @@ interface IExportDestination {
 	 * @since 24.0.0
 	 */
 	public function close(): void;
+
+	/**
+	 * Get the absolute path to the export destination
+	 *
+	 * @since 24.0.0
+	 */
+	public function getPath(): string;
 }
