@@ -247,14 +247,23 @@
 } ?> />
 			<label for="shareapi_restrict_user_enumeration_full_match"><?php p($l->t('Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)'));?></label><br />
 		</p>
-		<p id="shareapi_restrict_user_enumeration_full_match_userid_setting" class="double-indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['restrictUserEnumerationFullMatchUserId'] === 'no') {
+		<p id="shareapi_restrict_user_enumeration_full_match_userid_setting" class="double-indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['restrictUserEnumerationFullMatch'] === 'no') {
 	p('hidden');
 }?>">
 			<input type="checkbox" name="shareapi_restrict_user_enumeration_full_match_userid" value="1" id="shareapi_restrict_user_enumeration_full_match_userid" class="checkbox"
-					<?php if ($_['shareeEnumerationFullMatchUserId'] === 'yes') {
+					<?php if ($_['restrictUserEnumerationFullMatchUserId'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
 			<label for="shareapi_restrict_user_enumeration_full_match_userid"><?php p($l->t('Match username when restricting to full match'));?></label><br />
+		</p>
+		<p id="shareapi_restrict_user_enumeration_full_match_ignore_second_display_name_setting" class="double-indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['restrictUserEnumerationFullMatch'] === 'no') {
+	p('hidden');
+}?>">
+			<input type="checkbox" name="shareapi_restrict_user_enumeration_full_match_ignore_second_display_name" value="1" id="shareapi_restrict_user_enumeration_full_match_ignore_second_display_name" class="checkbox"
+					<?php if ($_['restrictUserEnumerationFullMatchIgnoreSecondDisplayName'] === 'yes') {
+	print_unescaped('checked="checked"');
+} ?> />
+			<label for="shareapi_restrict_user_enumeration_full_match_ignore_second_display_name"><?php p($l->t('Ignore second display name in parentheses if any. Example: "First display name (second ignored display name)"'));?></label><br />
 		</p>
 
 		<p>
