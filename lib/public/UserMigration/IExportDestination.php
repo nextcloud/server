@@ -38,36 +38,37 @@ interface IExportDestination {
 	 *
 	 * @param string $path Full path to the file in the export archive. Parent directories will be created if needed.
 	 * @param string $content The full content of the file.
-	 * @return bool whether the file contents were successfully added.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
-	public function addFileContents(string $path, string $content): bool;
+	public function addFileContents(string $path, string $content): void;
 
 	/**
 	 * Adds a file to the export as a stream
 	 *
 	 * @param string $path Full path to the file in the export archive. Parent directories will be created if needed.
 	 * @param resource $stream A stream resource to read from to get the file content.
-	 * @return bool whether the file stream was successfully added.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
-	public function addFileAsStream(string $path, $stream): bool;
+	public function addFileAsStream(string $path, $stream): void;
 
 	/**
 	 * Copy a folder to the export
 	 *
 	 * @param Folder $folder folder to copy to the export archive.
 	 * @param string $destinationPath Full path to the folder in the export archive. Parent directories will be created if needed.
-	 * @return bool whether the folder was successfully added.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
-	public function copyFolder(Folder $folder, string $destinationPath): bool;
+	public function copyFolder(Folder $folder, string $destinationPath): void;
 
 	/**
 	 * @param array<string,int> $versions Migrators and their versions.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
@@ -75,6 +76,8 @@ interface IExportDestination {
 
 	/**
 	 * Called after export is complete
+	 *
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
