@@ -5,7 +5,13 @@
 	style('core', 'publicshareauth');
 	script('core', 'publicshareauth');
 ?>
-<form method="post">
+
+<!-- password prompt form. It should be hidden when we show the email prompt form -->
+<?php if (!isset($_['identityOk'])): ?>
+	<form method="post" id="password-input-form">
+<?php else: ?>
+	<form method="post" id="password-input-form" style="display:none;">
+<?php endif; ?>
 	<fieldset class="warning">
 		<?php if (!isset($_['wrongpw'])): ?>
 			<div class="warning-info"><?php p($l->t('This share is password-protected')); ?></div>
@@ -21,8 +27,57 @@
 				autocomplete="new-password" autocapitalize="off" autocorrect="off"
 				autofocus />
 			<input type="hidden" name="sharingToken" value="<?php p($_['share']->getToken()) ?>" id="sharingToken">
-			<input type="submit" id="password-submit" 
+			<input type="hidden" name="sharingType" value="<?php p($_['share']->getShareType()) ?>" id="sharingType">
+			<input type="submit" id="password-submit"
 				class="svg icon-confirm input-button-inline" value="" disabled="disabled" />
 		</p>
+	</fieldset>
+</form>
+
+<!-- email prompt form. It should initially be hidden -->
+<?php if (isset($_['identityOk'])): ?>
+	<form method="post" id="email-input-form">
+<?php else: ?>
+	<form method="post" id="email-input-form" style="display:none;">
+<?php endif; ?>
+	<fieldset class="warning">
+		<div class="warning-info" id="email-prompt"><?php p($l->t('Please type in your email address to request a temporary password')); ?></div>
+		 <p>
+			<input type="email" id="email" name="identityToken" placeholder="<?php p($l->t('Email address')); ?>" />
+			<input type="submit" id="password-request" name="passwordRequest" class="svg icon-confirm input-button-inline" value="" disabled="disabled"/>
+			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
+			<input type="hidden" name="sharingToken" value="<?php p($_['share']->getToken()) ?>" id="sharingToken">
+			<input type="hidden" name="sharingType" value="<?php p($_['share']->getShareType()) ?>" id="sharingType">
+		</p>
+		<?php if (isset($_['identityOk'])): ?>
+			<?php if ($_['identityOk']): ?>
+				<div class="warning-info" id="identification-success"><?php p($l->t('Password sent!')); ?></div>
+			<?php else: ?>
+				<div class="warning" id="identification-failure"><?php p($l->t('You are not authorized to request a password for this share')); ?></div>
+			<?php endif; ?>
+		<?php endif; ?>
+	</fieldset>
+</form>
+
+<!-- request password button -->
+<?php if (!isset($_['identityOk']) && $_['share']->getShareType() === $_['share']::TYPE_EMAIL && !$_['share']->getSendPasswordByTalk()): ?>
+	<input type="button"
+		id="request-password-button-not-talk"
+		value="<?php p($l->t('Request password')); ?>"
+		class="primary" />
+<?php endif; ?>
+
+<!-- back to showShare button -->
+<form method="get">
+	<fieldset>
+		<input type="submit"
+			id="request-password-back-button"
+			value="<?php p($l->t('Back')); ?>"
+			class="primary"
+<?php if (isset($_['identityOk'])): ?>
+			style="display:block;" />
+<?php else: ?>
+			style="display:none;" />
+<?php endif; ?>
 	</fieldset>
 </form>

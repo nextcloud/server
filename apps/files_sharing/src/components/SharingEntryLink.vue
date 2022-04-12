@@ -780,8 +780,8 @@ export default {
 		/**
 		 * Uncheck password protection
 		 * We need this method because @update:checked
-		 * is ran simultaneously as @uncheck, so
-		 * so we cannot ensure data is up-to-date
+		 * is ran simultaneously as @uncheck, so we
+		 * cannot ensure data is up-to-date
 		 */
 		onPasswordDisable() {
 			this.share.password = ''

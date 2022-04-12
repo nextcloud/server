@@ -85,11 +85,39 @@ abstract class AuthPublicShareController extends PublicShareController {
 	}
 
 	/**
+	 * The template to show after user identification
+	 *
+	 * @since 24.0.0
+	 */
+	protected function showIdentificationResult(bool $success): TemplateResponse {
+		return new TemplateResponse('core', 'publicshareauth', ['identityOk' => $success], 'guest');
+	}
+
+	/**
+	 * Validates that the provided identity is allowed to receive a temporary password
+	 *
+	 * @since 24.0.0
+	 */
+	protected function validateIdentity(?string $identityToken = null): bool {
+		return false;
+	}
+
+	/**
+	 * Generates a password
+	 *
+	 * @since 24.0.0
+	 */
+	protected function generatePassword(): void {
+	}
+
+	/**
 	 * Verify the password
 	 *
-	 * @since 14.0.0
+	 * @since 24.0.0
 	 */
-	abstract protected function verifyPassword(string $password): bool;
+	protected function verifyPassword(string $password): bool {
+		return false;
+	}
 
 	/**
 	 * Function called after failed authentication
@@ -120,10 +148,23 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 *
 	 * @since 14.0.0
 	 */
-	final public function authenticate(string $password = '') {
+	final public function authenticate(string $password = '', string $passwordRequest = 'no', string $identityToken = '') {
 		// Already authenticated
 		if ($this->isAuthenticated()) {
 			return $this->getRedirect();
+		}
+
+		// Is user requesting a temporary password?
+		if ($passwordRequest == '') {
+			if ($this->validateIdentity($identityToken)) {
+				$this->generatePassword();
+				$response = $this->showIdentificationResult(true);
+				return $response;
+			} else {
+				$response = $this->showIdentificationResult(false);
+				$response->throttle();
+				return $response;
+			}
 		}
 
 		if (!$this->verifyPassword($password)) {

@@ -106,6 +106,8 @@ class ShareControllerTest extends \Test\TestCase {
 	private $eventDispatcher;
 	/** @var IL10N */
 	private $l10n;
+	/** @var ISecureRandom */
+	private $secureRandom;
 	/** @var Defaults|MockObject */
 	private $defaults;
 
@@ -127,6 +129,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
 
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
@@ -145,6 +148,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->accountManager,
 			$this->eventDispatcher,
 			$this->l10n,
+			$this->secureRandom,
 			$this->defaults
 		);
 
