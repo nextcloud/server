@@ -483,6 +483,6 @@ class CalendarMigrator implements IMigrator {
 	 * {@inheritDoc}
 	 */
 	public function getDescription(): string {
-		return $this->l10n->t('Calendars including events, details, and attendees');
+		return $this->l10n->t('Calendars including events, details and attendees');
 	}
 }
