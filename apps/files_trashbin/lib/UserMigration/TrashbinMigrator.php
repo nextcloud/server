@@ -74,18 +74,16 @@ class TrashbinMigrator implements IMigrator {
 		try {
 			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
 			if (!$trashbinFolder instanceof Folder) {
-				throw new UserMigrationException('Could not export trashbin, /'.$uid.'/files_trashbin is not a folder');
+				throw new UserMigrationException('/'.$uid.'/files_trashbin is not a folder');
 			}
 			$output->writeln("Exporting trashbin files…");
-			if ($exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER) === false) {
-				throw new UserMigrationException("Could not export trashbin.");
-			}
+			$exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER);
 			$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($uid);
-			if ($exportDestination->addFileContents(static::PATH_LOCATIONS_FILE, json_encode($originalLocations)) === false) {
-				throw new UserMigrationException("Could not export trashbin.");
-			}
+			$exportDestination->addFileContents(static::PATH_LOCATIONS_FILE, json_encode($originalLocations);
 		} catch (NotFoundException $e) {
 			$output->writeln("No trashbin to export…");
+		} catch (UserMigrationException $e) {
+			throw new UserMigrationException("Could not export trashbin: ".$e->getMessage(), 0, $e);
 		}
 	}
 

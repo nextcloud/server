@@ -225,18 +225,20 @@ class CalendarMigrator implements IMigrator {
 			$output->writeln('No calendars to export…');
 		}
 
-		/**
-		 * @var string $name
-		 * @var VCalendar $vCalendar
-		 */
-		foreach ($calendarExports as ['name' => $name, 'vCalendar' => $vCalendar]) {
-			// Set filename to sanitized calendar name appended with the date
-			$filename = preg_replace('/[^a-zA-Z0-9-_ ]/um', '', $name) . '_' . date('Y-m-d') . CalendarMigrator::FILENAME_EXT;
-			$exportPath = CalendarMigrator::EXPORT_ROOT . $filename;
+		try {
+			/**
+			* @var string $name
+			* @var VCalendar $vCalendar
+			*/
+			foreach ($calendarExports as ['name' => $name, 'vCalendar' => $vCalendar]) {
+				// Set filename to sanitized calendar name appended with the date
+				$filename = preg_replace('/[^a-zA-Z0-9-_ ]/um', '', $name) . '_' . date('Y-m-d') . CalendarMigrator::FILENAME_EXT;
+				$exportPath = CalendarMigrator::EXPORT_ROOT . $filename;
 
-			if ($exportDestination->addFileContents($exportPath, $vCalendar->serialize()) === false) {
-				throw new CalendarMigratorException('Could not export calendars');
+				$exportDestination->addFileContents($exportPath, $vCalendar->serialize());
 			}
+		} catch (Throwable $e) {
+			throw new CalendarMigratorException('Could not export calendars', 0, $e);
 		}
 	}
 

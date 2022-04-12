@@ -205,26 +205,26 @@ class ContactsMigrator implements IMigrator {
 			$output->writeln('No contacts to export…');
 		}
 
-		/**
-		 * @var string $name
-		 * @var string $displayName
-		 * @var ?string $description
-		 * @var VCard[] $vCards
-		 */
-		foreach ($addressBookExports as ['name' => $name, 'displayName' => $displayName, 'description' => $description, 'vCards' => $vCards]) {
-			// Set filename to sanitized address book name appended with the date
-			$basename = preg_replace('/[^a-zA-Z0-9-_ ]/um', '', $name) . '_' . date('Y-m-d');
-			$exportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::FILENAME_EXT;
-			$metadataExportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::METADATA_EXT;
+		try {
+			/**
+			* @var string $name
+			* @var string $displayName
+			* @var ?string $description
+			* @var VCard[] $vCards
+			*/
+			foreach ($addressBookExports as ['name' => $name, 'displayName' => $displayName, 'description' => $description, 'vCards' => $vCards]) {
+				// Set filename to sanitized address book name appended with the date
+				$basename = preg_replace('/[^a-zA-Z0-9-_ ]/um', '', $name) . '_' . date('Y-m-d');
+				$exportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::FILENAME_EXT;
+				$metadataExportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::METADATA_EXT;
 
-			if ($exportDestination->addFileContents($exportPath, $this->serializeCards($vCards)) === false) {
-				throw new ContactsMigratorException('Could not export address book');
-			}
+				$exportDestination->addFileContents($exportPath, $this->serializeCards($vCards);
 
-			$metadata = array_filter(['displayName' => $displayName, 'description' => $description]);
-			if ($exportDestination->addFileContents($metadataExportPath, json_encode($metadata)) === false) {
-				throw new ContactsMigratorException('Could not export address book metadata');
+				$metadata = array_filter(['displayName' => $displayName, 'description' => $description]);
+				$exportDestination->addFileContents($metadataExportPath, json_encode($metadata);
 			}
+		} catch (Throwable $e) {
+			throw new CalendarMigratorException('Could not export address book', 0, $e);
 		}
 	}
 
