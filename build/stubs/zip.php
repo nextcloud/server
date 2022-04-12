@@ -732,8 +732,8 @@ class ZipArchive implements Countable
      * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
      */
     public function addEmptyDir(
-         $dirname,
-         $flags
+        string $dirname,
+        int $flags = 0
     ) {}
 
     /**
