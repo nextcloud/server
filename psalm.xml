@@ -77,6 +77,7 @@
 		<file name="build/stubs/xsl.php"/>
 		<file name="build/stubs/ftp.php"/>
 		<file name="build/stubs/pcntl.php"/>
+		<file name="build/stubs/zip.php"/>
 	</stubs>
 	<issueHandlers>
 		<UndefinedClass>

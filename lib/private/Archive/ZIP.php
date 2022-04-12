@@ -110,6 +110,9 @@ class ZIP extends Archive {
 	 * get the files in a folder
 	 */
 	public function getFolder(string $path): array {
+		// FIXME: multiple calls on getFolder would traverse
+		// the whole file list over and over again
+		// maybe use a Generator or cache the list ?
 		$files = $this->getFiles();
 		$folderContent = [];
 		$pathLength = strlen($path);
@@ -121,6 +124,32 @@ class ZIP extends Archive {
 			}
 		}
 		return $folderContent;
+	}
+
+	/**
+	 * Generator that returns metadata of all files
+	 *
+	 * @return \Generator<array>
+	 */
+	public function getAllFilesStat() {
+		$fileCount = $this->zip->numFiles;
+		for ($i = 0;$i < $fileCount;$i++) {
+			yield $this->zip->statIndex($i);
+		}
+	}
+
+	/**
+	 * Return stat information for the given path
+	 *
+	 * @param string path path to get stat information on
+	 * @return ?array stat information or null if not found
+	 */
+	public function getStat(string $path): ?array {
+		$stat = $this->zip->statName($path);
+		if (!$stat) {
+			return null;
+		}
+		return $stat;
 	}
 
 	/**
