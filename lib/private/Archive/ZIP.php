@@ -133,7 +133,7 @@ class ZIP extends Archive {
 	 */
 	public function getAllFilesStat() {
 		$fileCount = $this->zip->numFiles;
-		for ($i = 0;$i < $fileCount;$i++) {
+		for ($i = 0; $i < $fileCount; $i++) {
 			yield $this->zip->statIndex($i);
 		}
 	}
@@ -158,7 +158,7 @@ class ZIP extends Archive {
 	public function getFiles(): array {
 		$fileCount = $this->zip->numFiles;
 		$files = [];
-		for ($i = 0;$i < $fileCount;$i++) {
+		for ($i = 0; $i < $fileCount; $i++) {
 			$files[] = $this->zip->getNameIndex($i);
 		}
 		return $files;

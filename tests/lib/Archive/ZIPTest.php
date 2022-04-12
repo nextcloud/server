@@ -19,4 +19,27 @@ class ZIPTest extends TestBase {
 	protected function getNew() {
 		return new ZIP(\OC::$server->getTempManager()->getTempBaseDir().'/newArchive.zip');
 	}
+
+	public function testGetAllFilesStat() {
+		$this->instance = $this->getExisting();
+		$allStatsIterator = $this->instance->getAllFilesStat();
+		$allStats = [];
+		foreach ($allStatsIterator as $stat) {
+			$allStats[$stat['name']] = $stat;
+		}
+		$expected = [
+			'lorem.txt' => ['mtime' => 1329528294],
+			'logo-wide.png' => ['mtime' => 1329528294],
+			'dir/' => ['mtime' => 1330699236],
+			'dir/lorem.txt' => ['mtime' => 1329528294],
+		];
+		$count = 0;
+		foreach ($expected as $path => $expectedStat) {
+			$this->assertTrue(isset($allStats[$path]));
+			$stat = $allStats[$path];
+			$this->assertEquals($expectedStat['mtime'], $stat['mtime']);
+			$this->assertTrue($this->instance->fileExists($stat['name']), 'file ' . $stat['name'] . ' does not exist in archive');
+		}
+		$this->assertEquals(4, count($allStats), 'only found ' . count($allStats) . ' out of 4 expected files');
+	}
 }
