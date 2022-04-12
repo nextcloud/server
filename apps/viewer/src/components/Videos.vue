@@ -55,6 +55,7 @@
 import Vue from 'vue'
 import VuePlyr from '@skjnldsv/vue-plyr'
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
+import logger from '../services/logger'
 
 const liveExt = ['jpg', 'jpeg', 'png']
 const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
@@ -82,6 +83,8 @@ export default {
 		options() {
 			return {
 				autoplay: this.active === true,
+				// Used to reset the video streams https://github.com/sampotts/plyr#javascript-1
+				blankVideo: '/blank.mp4',
 				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
 				loadSprite: false,
 			}
@@ -110,6 +113,14 @@ export default {
 			control.addEventListener('mouseenter', this.disableSwipe)
 			control.addEventListener('mouseleave', this.enableSwipe)
 		})
+	},
+
+	beforeDestroy() {
+		// Force stop any ongoing request
+		logger.debug('Closing video stream', { filename: this.filename })
+		this.$refs.video.pause()
+		this.player.stop()
+		this.player.destroy()
 	},
 
 	methods: {
