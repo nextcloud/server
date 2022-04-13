@@ -44,7 +44,7 @@ class CacheQueryBuilder extends QueryBuilder {
 	public function selectFileCache(string $alias = null) {
 		$name = $alias ? $alias : 'filecache';
 		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", 'name', 'mimetype', 'mimepart', 'size', 'mtime',
-			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum', 'metadata_etag', 'creation_time', 'upload_time')
+			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum', 'metadata_etag', 'creation_time', 'upload_time', 'unencrypted_size')
 			->from('filecache', $name)
 			->leftJoin($name, 'filecache_extended', 'fe', $this->expr()->eq("$name.fileid", 'fe.fileid'));
 
