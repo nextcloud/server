@@ -29,6 +29,7 @@ use OC\Core\Command\Base;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -254,5 +255,28 @@ class Setting extends Base {
 		$settings['settings']['display_name'] = $user->getDisplayName();
 
 		return $settings;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'uid') {
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+		}
+		if ($argumentName === 'app') {
+			$userId = $context->getWordAtIndex($context->getWordIndex() - 1);
+			$settings = $this->getUserSettings($userId, '');
+			return array_keys($settings);
+		}
+		if ($argumentName === 'key') {
+			$userId = $context->getWordAtIndex($context->getWordIndex() - 2);
+			$app = $context->getWordAtIndex($context->getWordIndex() - 1);
+			$settings = $this->getUserSettings($userId, $app);
+			return array_keys($settings[$app]);
+		}
+		return [];
 	}
 }
