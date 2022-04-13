@@ -571,10 +571,6 @@ class ShareAPIController extends OCSController {
 			// Set password
 			if ($password !== '') {
 				$share->setPassword($password);
-				// Shares shared by email have temporary passwords by default
-				if ($shareType === IShare::TYPE_EMAIL) {
-					$this->setSharePasswordExpirationTime($share);
-				}
 			}
 
 			// Only share by mail have a recipient
@@ -1182,9 +1178,6 @@ class ShareAPIController extends OCSController {
 				$share->setPassword(null);
 			} elseif ($password !== null) {
 				$share->setPassword($password);
-				if ($share->getShareType() === IShare::TYPE_EMAIL) {
-					$this->setSharePasswordExpirationTime($share);
-				}
 			}
 
 			if ($label !== null) {
@@ -1519,35 +1512,6 @@ class ShareAPIController extends OCSController {
 		$date->setTime(0, 0, 0);
 
 		return $date;
-	}
-
-	/**
-	 * Set the share's password expiration time
-	 */
-	private function setSharePasswordExpirationTime(IShare $share): void {
-		if ($this->config->getSystemValue('allow_mail_share_permanent_password')) {
-			// Sets password expiration date to NULL
-			$share->setPasswordExpirationTime();
-			return;
-		}
-		// Sets password expiration date
-		$expirationTime = null;
-		try {
-			$now = new \DateTime();
-			$expirationInterval = $this->config->getSystemValue('share_temporary_password_expiration_interval');
-			if ($expirationInterval === '' || is_null($expirationInterval)) {
-				$expirationInterval = 'P0DT15M';
-			}
-			$expirationTime = $now->add(new \DateInterval($expirationInterval));
-		} catch (\Exception $e) {
-			// Catches invalid format for system value 'share_temporary_password_expiration_interval'
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'The \'share_temporary_password_expiration_interval\' system setting does not respect the DateInterval::__construct() format. Setting it to \'P0DT15M\''
-			]);
-			$expirationTime = $now->add(new \DateInterval('P0DT15M'));
-		} finally {
-			$share->setPasswordExpirationTime($expirationTime);
-		}
 	}
 
 	/**

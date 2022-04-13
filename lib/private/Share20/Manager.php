@@ -1148,11 +1148,18 @@ class Manager implements IManager {
 			// If a password is set. Hash it!
 			if (!empty($share->getPassword())) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
+				if ($share->getShareType() === IShare::TYPE_EMAIL) {
+					// Shares shared by email have temporary passwords
+					$this->setSharePasswordExpirationTime($share);
+				}
 
 				return true;
 			} else {
 				// Empty string and null are seen as NOT password protected
 				$share->setPassword(null);
+				if ($share->getShareType() === IShare::TYPE_EMAIL) {
+					$share->setPasswordExpirationTime(null);
+				}
 				return true;
 			}
 		} else {
@@ -1163,6 +1170,36 @@ class Manager implements IManager {
 
 		return false;
 	}
+
+	/**
+	 * Set the share's password expiration time
+	 */
+	private function setSharePasswordExpirationTime(IShare $share): void {
+		if ($this->config->getSystemValue('allow_mail_share_permanent_password')) {
+			// Sets password expiration date to NULL
+			$share->setPasswordExpirationTime();
+			return;
+		}
+		// Sets password expiration date
+		$expirationTime = null;
+		try {
+			$now = new \DateTime();
+			$expirationInterval = $this->config->getSystemValue('share_temporary_password_expiration_interval');
+			if ($expirationInterval === '' || is_null($expirationInterval)) {
+				$expirationInterval = 'P0DT15M';
+			}
+			$expirationTime = $now->add(new \DateInterval($expirationInterval));
+		} catch (\Exception $e) {
+			// Catches invalid format for system value 'share_temporary_password_expiration_interval'
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'The \'share_temporary_password_expiration_interval\' system setting does not respect the DateInterval::__construct() format. Setting it to \'P0DT15M\''
+			]);
+			$expirationTime = $now->add(new \DateInterval('P0DT15M'));
+		} finally {
+			$share->setPasswordExpirationTime($expirationTime);
+		}
+	}
+
 
 	/**
 	 * Delete all the children of this share
