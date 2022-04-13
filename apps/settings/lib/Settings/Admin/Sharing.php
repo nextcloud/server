@@ -90,6 +90,7 @@ class Sharing implements IDelegatedSettings {
 			'restrictUserEnumerationToPhone' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no'),
 			'restrictUserEnumerationFullMatch' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes'),
 			'restrictUserEnumerationFullMatchUserId' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes'),
+			'restrictUserEnumerationFullMatchIgnoreSecondDisplayName' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no'),
 			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(false),
 			'passwordExcludedGroups' => $excludedPasswordGroupsList,
 			'passwordExcludedGroupsFeatureEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
