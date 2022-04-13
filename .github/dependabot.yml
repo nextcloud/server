@@ -62,7 +62,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable21
+  target-branch: stable22
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -80,7 +80,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable22
+  target-branch: stable23
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -98,7 +98,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable23
+  target-branch: stable24
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -117,7 +117,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable21
+  target-branch: stable22
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -135,7 +135,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable22
+  target-branch: stable23
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -153,7 +153,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable23
+  target-branch: stable24
   labels:
     - "3. to review"
     - "feature: dependencies"

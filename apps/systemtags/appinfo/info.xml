@@ -6,7 +6,7 @@
 	<summary>Collaborative tagging functionality which shares tags among users.</summary>
 	<description>Collaborative tagging functionality which shares tags among users. Great for teams.
 	(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)</description>
-	<version>1.14.0</version>
+	<version>1.15.0</version>
 	<licence>agpl</licence>
 	<author>Vincent Petry</author>
 	<author>Joas Schilling</author>
@@ -19,7 +19,7 @@
 	<category>organization</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="24" max-version="24"/>
+		<nextcloud min-version="25" max-version="25"/>
 	</dependencies>
 	<settings>
 		<admin>OCA\SystemTags\Settings\Admin</admin>
