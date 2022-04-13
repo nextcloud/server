@@ -1175,7 +1175,7 @@ class Manager implements IManager {
 	 * Set the share's password expiration time
 	 */
 	private function setSharePasswordExpirationTime(IShare $share): void {
-		if ($this->config->getSystemValue('allow_mail_share_permanent_password')) {
+		if ($this->config->getSystemValue('allow_mail_share_permanent_password', true)) {
 			// Sets password expiration date to NULL
 			$share->setPasswordExpirationTime();
 			return;
