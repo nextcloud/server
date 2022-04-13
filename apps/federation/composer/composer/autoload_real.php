@@ -27,7 +27,7 @@ class ComposerAutoloaderInitFederation
         spl_autoload_unregister(array('ComposerAutoloaderInitFederation', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitFederation::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitFederation::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

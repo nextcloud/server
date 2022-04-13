@@ -27,7 +27,7 @@ class ComposerAutoloaderInitFederatedFileSharing
         spl_autoload_unregister(array('ComposerAutoloaderInitFederatedFileSharing', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitFederatedFileSharing::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitFederatedFileSharing::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

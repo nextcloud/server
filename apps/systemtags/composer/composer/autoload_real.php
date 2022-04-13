@@ -27,7 +27,7 @@ class ComposerAutoloaderInitSystemTags
         spl_autoload_unregister(array('ComposerAutoloaderInitSystemTags', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitSystemTags::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitSystemTags::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

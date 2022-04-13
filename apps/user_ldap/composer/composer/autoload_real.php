@@ -27,7 +27,7 @@ class ComposerAutoloaderInitUser_LDAP
         spl_autoload_unregister(array('ComposerAutoloaderInitUser_LDAP', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitUser_LDAP::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitUser_LDAP::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

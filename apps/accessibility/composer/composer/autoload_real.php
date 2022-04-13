@@ -27,7 +27,7 @@ class ComposerAutoloaderInitAccessibility
         spl_autoload_unregister(array('ComposerAutoloaderInitAccessibility', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitAccessibility::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitAccessibility::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

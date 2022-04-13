@@ -27,7 +27,7 @@ class ComposerAutoloaderInitUserStatus
         spl_autoload_unregister(array('ComposerAutoloaderInitUserStatus', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitUserStatus::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitUserStatus::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

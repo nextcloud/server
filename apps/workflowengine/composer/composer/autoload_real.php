@@ -27,7 +27,7 @@ class ComposerAutoloaderInitWorkflowEngine
         spl_autoload_unregister(array('ComposerAutoloaderInitWorkflowEngine', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitWorkflowEngine::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitWorkflowEngine::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

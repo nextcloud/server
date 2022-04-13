@@ -93,7 +93,12 @@ class MetadataManager implements IMetadataManager {
 	public function getCapabilities(): array {
 		$capabilities = [];
 		foreach ($this->providers as $supportedMimetype => $provider) {
-			$capabilities[$supportedMimetype] = $provider::groupsProvided();
+			foreach ($provider::groupsProvided() as $group) {
+				if (isset($capabilities[$group])) {
+					$capabilities[$group][] = $supportedMimetype;
+				}
+				$capabilities[$group] = [$supportedMimetype];
+			}
 		}
 		return $capabilities;
 	}

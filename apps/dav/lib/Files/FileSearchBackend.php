@@ -124,16 +124,16 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, false),
 
 			// select only properties
-			new SearchPropertyDefinition('{DAV:}resourcetype', false, true, false),
-			new SearchPropertyDefinition('{DAV:}getcontentlength', false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::CHECKSUMS_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::PERMISSIONS_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::GETETAG_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
-			new SearchPropertyDefinition(FilesPlugin::FILE_METADATA_SIZE, false, true, false, SearchPropertyDefinition::DATATYPE_STRING),
-			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
+			new SearchPropertyDefinition('{DAV:}resourcetype', true, false, false),
+			new SearchPropertyDefinition('{DAV:}getcontentlength', true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::CHECKSUMS_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::PERMISSIONS_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::GETETAG_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
+			new SearchPropertyDefinition(FilesPlugin::FILE_METADATA_SIZE, true, false, false, SearchPropertyDefinition::DATATYPE_STRING),
+			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 		];
 	}
 

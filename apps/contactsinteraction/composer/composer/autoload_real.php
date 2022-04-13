@@ -27,7 +27,7 @@ class ComposerAutoloaderInitContactsInteraction
         spl_autoload_unregister(array('ComposerAutoloaderInitContactsInteraction', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitContactsInteraction::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitContactsInteraction::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

@@ -27,7 +27,7 @@ class ComposerAutoloaderInitFiles_Trashbin
         spl_autoload_unregister(array('ComposerAutoloaderInitFiles_Trashbin', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitFiles_Trashbin::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitFiles_Trashbin::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);
