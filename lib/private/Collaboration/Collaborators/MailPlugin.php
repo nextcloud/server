@@ -51,6 +51,8 @@ class MailPlugin implements ISearchPlugin {
 	protected $shareeEnumerationPhone;
 	/* @var bool */
 	protected $shareeEnumerationFullMatch;
+	/* @var bool */
+	protected $shareeEnumerationFullMatchEmail;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -88,12 +90,17 @@ class MailPlugin implements ISearchPlugin {
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+		if ($this->shareeEnumerationFullMatch && !$this->shareeEnumerationFullMatchEmail) {
+			return false;
+		}
+
 		$currentUserId = $this->userSession->getUser()->getUID();
 
 		$result = $userResults = ['wide' => [], 'exact' => []];

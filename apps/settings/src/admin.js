@@ -157,6 +157,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	$('#shareapi_restrict_user_enumeration_full_match').on('change', function() {
 		$('#shareapi_restrict_user_enumeration_full_match_userid_setting').toggleClass('hidden', !this.checked)
+		$('#shareapi_restrict_user_enumeration_full_match_email_setting').toggleClass('hidden', !this.checked)
 		$('#shareapi_restrict_user_enumeration_full_match_ignore_second_display_name_setting').toggleClass('hidden', !this.checked)
 	})
 

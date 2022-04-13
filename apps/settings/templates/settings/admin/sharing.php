@@ -256,6 +256,15 @@
 } ?> />
 			<label for="shareapi_restrict_user_enumeration_full_match_userid"><?php p($l->t('Match username when restricting to full match'));?></label><br />
 		</p>
+		<p id="shareapi_restrict_user_enumeration_full_match_email_setting" class="double-indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['restrictUserEnumerationFullMatch'] === 'no') {
+	p('hidden');
+}?>">
+			<input type="checkbox" name="shareapi_restrict_user_enumeration_full_match_email" value="1" id="shareapi_restrict_user_enumeration_full_match_email" class="checkbox"
+					<?php if ($_['restrictUserEnumerationFullMatchEmail'] === 'yes') {
+	print_unescaped('checked="checked"');
+} ?> />
+			<label for="shareapi_restrict_user_enumeration_full_match_email"><?php p($l->t('Match email when restricting to full match'));?></label><br />
+		</p>
 		<p id="shareapi_restrict_user_enumeration_full_match_ignore_second_display_name_setting" class="double-indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['restrictUserEnumerationFullMatch'] === 'no') {
 	p('hidden');
 }?>">
