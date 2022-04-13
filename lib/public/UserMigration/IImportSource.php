@@ -39,6 +39,7 @@ interface IImportSource {
 	 *
 	 * @param string $path Full path to the file in the export archive.
 	 * @return string The full content of the file.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
@@ -49,6 +50,7 @@ interface IImportSource {
 	 *
 	 * @param string $path Full path to the file in the export archive.
 	 * @return resource A stream resource to read from to get the file content.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
@@ -59,6 +61,7 @@ interface IImportSource {
 	 *
 	 * @param string $path Full path to the folder in the export archive.
 	 * @return array The list of files.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
@@ -66,6 +69,8 @@ interface IImportSource {
 
 	/**
 	 * Test if a path exists, which may be a file or a folder
+	 *
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
@@ -77,12 +82,15 @@ interface IImportSource {
 	 * Folder $destination folder to copy into
 	 * string $sourcePath path in the export archive
 	 *
+	 * @throws UserMigrationException
+	 *
 	 * @since 24.0.0
 	 */
-	public function copyToFolder(Folder $destination, string $sourcePath): bool;
+	public function copyToFolder(Folder $destination, string $sourcePath): void;
 
 	/**
 	 * @return array<string,int> Migrators and their versions from the export archive.
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
@@ -90,7 +98,7 @@ interface IImportSource {
 
 	/**
 	 * @return ?int Version for this migrator from the export archive. Null means migrator missing.
-	 *
+	 * @throws UserMigrationException
 	 * @param string $migrator Migrator id (as returned by IMigrator::getId)
 	 *
 	 * @since 24.0.0
@@ -100,12 +108,16 @@ interface IImportSource {
 	/**
 	 * Get original uid of the imported account
 	 *
+	 * @throws UserMigrationException
+	 *
 	 * @since 24.0.0
 	 */
 	public function getOriginalUid(): string;
 
 	/**
 	 * Called after import is complete
+	 *
+	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */

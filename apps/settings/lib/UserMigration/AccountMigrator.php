@@ -74,20 +74,20 @@ class AccountMigrator implements IMigrator {
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$output->writeln('Exporting account information in ' . AccountMigrator::PATH_ACCOUNT_FILE . '…');
 
-		$account = $this->accountManager->getAccount($user);
-		if ($exportDestination->addFileContents(AccountMigrator::PATH_ACCOUNT_FILE, json_encode($account)) === false) {
-			throw new AccountMigratorException('Could not export account information');
-		}
+		try {
+			$account = $this->accountManager->getAccount($user);
+			$exportDestination->addFileContents(AccountMigrator::PATH_ACCOUNT_FILE, json_encode($account));
 
-		$avatar = $this->avatarManager->getAvatar($user->getUID());
-		if ($avatar->isCustomAvatar()) {
-			$avatarFile = $avatar->getFile(-1);
-			$exportPath = AccountMigrator::PATH_ROOT . AccountMigrator::AVATAR_BASENAME . '.' . $avatarFile->getExtension();
+			$avatar = $this->avatarManager->getAvatar($user->getUID());
+			if ($avatar->isCustomAvatar()) {
+				$avatarFile = $avatar->getFile(-1);
+				$exportPath = AccountMigrator::PATH_ROOT . AccountMigrator::AVATAR_BASENAME . '.' . $avatarFile->getExtension();
 
-			$output->writeln('Exporting avatar to ' . $exportPath . '…');
-			if ($exportDestination->addFileAsStream($exportPath, $avatarFile->read()) === false) {
-				throw new AccountMigratorException('Could not export avatar');
+				$output->writeln('Exporting avatar to ' . $exportPath . '…');
+				$exportDestination->addFileAsStream($exportPath, $avatarFile->read());
 			}
+		} catch (Throwable $e) {
+			throw new AccountMigratorException('Could not export account information', 0, $e);
 		}
 	}
 
