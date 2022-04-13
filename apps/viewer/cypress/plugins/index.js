@@ -12,11 +12,8 @@
 // the project's config changing)
 
 const browserify = require('@cypress/browserify-preprocessor')
-const { addMatchImageSnapshotPlugin } = require('cypress-image-snapshot/plugin')
 
 module.exports = (on, config) => {
 	// Fix browserslist extend https://github.com/cypress-io/cypress/issues/2983#issuecomment-570616682
 	on('file:preprocessor', browserify())
-
-	addMatchImageSnapshotPlugin(on, config)
 }

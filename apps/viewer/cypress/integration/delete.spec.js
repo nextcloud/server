@@ -74,8 +74,4 @@ describe('Delete image.png in viewer', function() {
 		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
 			.should('not.exist')
 	})
-
-	it('Does not have any visual regression', function() {
-		// cy.matchImageSnapshot()
-	})
 })

@@ -52,20 +52,12 @@ describe(`Download ${fileName} in viewer`, function() {
 		cy.get('#fileList tr').should('contain', 'Photos')
 	})
 
-	it('Does not have any visual regression 1', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('See shared files in the list', function() {
 		cy.openFile('Photos')
 		cy.get('#fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
 		cy.get('#fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
 			.should('contain', 'image2.jpg')
-	})
-
-	it('Does not have any visual regression 2', function() {
-		// cy.matchImageSnapshot()
 	})
 
 	it('Share the Photos folder with a share link and access the share link', function() {
@@ -84,10 +76,6 @@ describe(`Download ${fileName} in viewer`, function() {
 			cy.logout()
 			cy.visit(`/s/${token}`)
 		})
-	})
-
-	it('Does not have any visual regression 3', function() {
-		// cy.matchImageSnapshot()
 	})
 
 	it('Open the viewer on file click', function() {
