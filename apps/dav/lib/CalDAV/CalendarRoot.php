@@ -30,11 +30,14 @@ use Sabre\CalDAV\Backend;
 use Sabre\DAVACL\PrincipalBackend;
 
 class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
+	private LoggerInterface $logger;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(PrincipalBackend\BackendInterface $principalBackend, Backend\BackendInterface $caldavBackend, $principalPrefix = 'principals', LoggerInterface $logger) {
+	public function __construct(
+		PrincipalBackend\BackendInterface $principalBackend,
+		Backend\BackendInterface $caldavBackend,
+		$principalPrefix,
+		LoggerInterface $logger
+	) {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
 		$this->logger = $logger;
 	}
