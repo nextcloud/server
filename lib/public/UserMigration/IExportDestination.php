@@ -72,7 +72,7 @@ interface IExportDestination {
 	 *
 	 * @since 24.0.0
 	 */
-	public function setMigratorVersions(array $versions): bool;
+	public function setMigratorVersions(array $versions): void;
 
 	/**
 	 * Called after export is complete

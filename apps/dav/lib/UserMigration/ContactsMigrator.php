@@ -218,10 +218,10 @@ class ContactsMigrator implements IMigrator {
 				$exportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::FILENAME_EXT;
 				$metadataExportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::METADATA_EXT;
 
-				$exportDestination->addFileContents($exportPath, $this->serializeCards($vCards);
+				$exportDestination->addFileContents($exportPath, $this->serializeCards($vCards));
 
 				$metadata = array_filter(['displayName' => $displayName, 'description' => $description]);
-				$exportDestination->addFileContents($metadataExportPath, json_encode($metadata);
+				$exportDestination->addFileContents($metadataExportPath, json_encode($metadata));
 			}
 		} catch (Throwable $e) {
 			throw new CalendarMigratorException('Could not export address book', 0, $e);

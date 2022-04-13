@@ -152,14 +152,12 @@ class AccountMigratorTest extends TestCase {
 		$this->exportDestination
 			->expects($this->once())
 			->method('addFileContents')
-			->with($this->matchesRegularExpression(self::REGEX_ACCOUNT_FILE), json_encode($exportData))
-			->willReturn(true);
+			->with($this->matchesRegularExpression(self::REGEX_ACCOUNT_FILE), json_encode($exportData));
 
 		$this->exportDestination
 			->expects($this->once())
 			->method('addFileAsStream')
-			->with($this->matchesRegularExpression(self::REGEX_AVATAR_FILE), $this->isType('resource'))
-			->willReturn(true);
+			->with($this->matchesRegularExpression(self::REGEX_AVATAR_FILE), $this->isType('resource'));
 
 		$this->migrator->export($user, $this->exportDestination, $this->output);
 	}
