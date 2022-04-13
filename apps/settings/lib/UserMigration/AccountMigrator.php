@@ -77,7 +77,11 @@ class AccountMigrator implements IMigrator {
 		try {
 			$account = $this->accountManager->getAccount($user);
 			$exportDestination->addFileContents(AccountMigrator::PATH_ACCOUNT_FILE, json_encode($account));
+		} catch (Throwable $e) {
+			throw new AccountMigratorException('Could not export account information', 0, $e);
+		}
 
+		try {
 			$avatar = $this->avatarManager->getAvatar($user->getUID());
 			if ($avatar->isCustomAvatar()) {
 				$avatarFile = $avatar->getFile(-1);
@@ -87,7 +91,7 @@ class AccountMigrator implements IMigrator {
 				$exportDestination->addFileAsStream($exportPath, $avatarFile->read());
 			}
 		} catch (Throwable $e) {
-			throw new AccountMigratorException('Could not export account information', 0, $e);
+			throw new AccountMigratorException('Could not export avatar', 0, $e);
 		}
 	}
 
