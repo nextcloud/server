@@ -137,6 +137,7 @@ OC.L10N.register(
     "Due on %s by %s" : "Na dzień %s w %s",
     "Due on %s" : "Na dzień %s",
     "Migrated calendar (%1$s)" : "Przeniesiony kalendarz (%1$s)",
+    "Contacts and groups" : "Kontakty i grupy",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Adres WebDAV",
     "Availability" : "Dostępność",

@@ -141,6 +141,7 @@ OC.L10N.register(
     "MariaDB version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MariaDB 10.2 or higher." : "Es wird die MariaDB-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt MariaDB 10.2 oder höher.",
     "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "Es wird die MySQL-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt MySQL 8.0, MariaDB 10.2 oder höher.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "Es wird die PostgreSQL-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt PostgreSQL 9.6 oder höher.",
+    "Profile information" : "Profilinformation",
     "Nextcloud settings" : "Nextcloud-Einstellungen",
     "Administration privileges" : "Administratorrechte",
     "Here you can decide which group can access certain sections of the administration settings." : "Hier können Sie festlegen, welche Gruppe auf bestimmte Bereiche der Administrationseinstellungen zugreifen kann.",
