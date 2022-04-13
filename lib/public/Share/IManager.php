@@ -455,6 +455,14 @@ interface IManager {
 	public function allowEnumerationFullMatch(): bool;
 
 	/**
+	 * Check if the search should ignore the second in parentheses display name if there is any
+	 *
+	 * @return bool
+	 * @since 24.0.0
+	 */
+	public function ignoreSecondDisplayName(): bool;
+
+	/**
 	 * Check if the current user can enumerate the target user
 	 *
 	 * @param IUser|null $currentUser
