@@ -5,6 +5,7 @@ namespace Test\Files\Storage\Wrapper;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Update;
 use OC\Encryption\Util;
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
@@ -260,7 +261,7 @@ class EncryptionTest extends Storage {
 			->method('get')
 			->willReturnCallback(
 				function ($path) use ($encrypted) {
-					return ['encrypted' => $encrypted, 'path' => $path, 'size' => 0, 'fileid' => 1];
+					return new CacheEntry(['encrypted' => $encrypted, 'path' => $path, 'size' => 0, 'fileid' => 1]);
 				}
 			);
 
@@ -333,7 +334,7 @@ class EncryptionTest extends Storage {
 			->disableOriginalConstructor()->getMock();
 		$cache->expects($this->any())
 			->method('get')
-			->willReturn(['encrypted' => true, 'path' => '/test.txt', 'size' => 0, 'fileid' => 1]);
+			->willReturn(new CacheEntry(['encrypted' => true, 'path' => '/test.txt', 'size' => 0, 'fileid' => 1]));
 
 		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(
@@ -911,7 +912,7 @@ class EncryptionTest extends Storage {
 		if ($copyResult) {
 			$cache->expects($this->once())->method('get')
 				->with($sourceInternalPath)
-				->willReturn(['encrypted' => $encrypted, 'size' => 42]);
+				->willReturn(new CacheEntry(['encrypted' => $encrypted, 'size' => 42]));
 			if ($encrypted) {
 				$instance->expects($this->once())->method('updateUnencryptedSize')
 					->with($mountPoint . $targetInternalPath, 42);
