@@ -104,6 +104,9 @@ class HelperStorageTest extends \Test\TestCase {
 		$extStorage->file_put_contents('extfile.txt', 'abcdefghijklmnopq');
 		$extStorage->getScanner()->scan(''); // update root size
 
+		$config = \OC::$server->getConfig();
+		$config->setSystemValue('quota_include_external_storage', false);
+
 		\OC\Files\Filesystem::mount($extStorage, [], '/' . $this->user . '/files/ext');
 
 		$storageInfo = \OC_Helper::getStorageInfo('');
