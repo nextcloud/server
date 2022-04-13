@@ -252,7 +252,7 @@ export default {
 		file(path) {
 			// we got a valid path! Load file...
 			if (path.trim() !== '') {
-				logger.info('Opening viewer for file ', path)
+				logger.info('Opening viewer for file ', { path })
 				this.openFile(path)
 			} else {
 				// path is empty, we're closing!
