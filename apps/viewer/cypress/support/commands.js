@@ -20,10 +20,7 @@
  *
  */
 
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 import axios from '@nextcloud/axios'
-
-addMatchImageSnapshotCommand()
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
@@ -158,15 +155,4 @@ Cypress.Commands.add('createLinkShare', path => {
 			console.error(error)
 		}
 	}).should('have.length', 15)
-})
-
-Cypress.Commands.overwrite('matchImageSnapshot', (originalFn, subject, name, options) => {
-	// hide avatar because random colour break the visual regression tests
-	cy.window().then(window => {
-		const avatarDiv = window.document.querySelector('.avatardiv')
-		if (avatarDiv) {
-			avatarDiv.remove()
-		}
-	})
-	return originalFn(subject, name, options)
 })

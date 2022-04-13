@@ -80,10 +80,6 @@ describe('Open images in viewer', function() {
 		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
-	it('Does not have any visual regression 1', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('Show image2 on next', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 3)
@@ -98,10 +94,6 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Does not have any visual regression 2', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('Show image3 on next', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 3)
@@ -114,10 +106,6 @@ describe('Open images in viewer', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Does not have any visual regression 3', function() {
-		// cy.matchImageSnapshot()
 	})
 
 	it('Show image4 on next', function() {
@@ -135,10 +123,6 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Does not have any visual regression 4', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('Show image1 again on next', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
@@ -151,9 +135,5 @@ describe('Open images in viewer', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Does not have any visual regression 5', function() {
-		// cy.matchImageSnapshot()
 	})
 })

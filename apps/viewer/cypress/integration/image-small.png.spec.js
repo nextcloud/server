@@ -67,8 +67,4 @@ describe('Open image-small.png in viewer', function() {
 		cy.get('body > .viewer a.prev').should('not.be.visible')
 		cy.get('body > .viewer a.next').should('not.be.visible')
 	})
-
-	it('Does not have any visual regression', function() {
-		// cy.matchImageSnapshot()
-	})
 })

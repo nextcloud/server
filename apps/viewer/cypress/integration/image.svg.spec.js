@@ -74,8 +74,4 @@ describe('Open image.svg in viewer', function() {
 			.should('have.attr', 'src')
 			.should('contain', 'data:image/svg+xml;base64')
 	})
-
-	it('Does not have any visual regression', function() {
-		// cy.matchImageSnapshot()
-	})
 })

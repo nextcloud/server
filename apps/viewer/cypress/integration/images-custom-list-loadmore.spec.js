@@ -146,10 +146,6 @@ describe('Open custom list of images in viewer with pagination', function() {
 		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
-	it('Does not have any visual regression 1', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('Show image2 on next', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
@@ -162,10 +158,6 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Does not have any visual regression 2', function() {
-		// cy.matchImageSnapshot()
 	})
 
 	it('Show image3 on next', function() {
@@ -182,10 +174,6 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Does not have any visual regression 3', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('Show image4 on next', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
@@ -200,10 +188,6 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Does not have any visual regression 4', function() {
-		// cy.matchImageSnapshot()
-	})
-
 	it('Show image1 again on next', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
@@ -216,9 +200,5 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Does not have any visual regression 5', function() {
-		// cy.matchImageSnapshot()
 	})
 })
