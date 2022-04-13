@@ -79,7 +79,7 @@ trait S3ConnectionTrait {
 		$this->bucket = $params['bucket'];
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
-		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
+		$this->uploadPartSize = $params['uploadPartSize'] ?? 52428800;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
