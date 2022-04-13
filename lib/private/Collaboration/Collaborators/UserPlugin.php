@@ -57,6 +57,8 @@ class UserPlugin implements ISearchPlugin {
 	/* @var bool */
 	protected $shareeEnumerationFullMatchUserId;
 	/* @var bool */
+	protected $shareeEnumerationFullMatchEmail;
+	/* @var bool */
 	protected $shareeEnumerationFullMatchIgnoreSecondDisplayName;
 
 	/** @var IConfig */
@@ -92,6 +94,7 @@ class UserPlugin implements ISearchPlugin {
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchUserId = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no') === 'yes';
 	}
 
@@ -185,7 +188,7 @@ class UserPlugin implements ISearchPlugin {
 				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
 				strtolower($userDisplayName) === $lowerSearch ||
 				($this->shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(strtolower(preg_replace('/ \(.*\)$/', '', $userDisplayName))) === $lowerSearch) ||
-				strtolower($userEmail) === $lowerSearch)
+				($this->shareeEnumerationFullMatchEmail && strtolower($userEmail) === $lowerSearch))
 			) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
