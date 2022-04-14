@@ -61,23 +61,20 @@
 
 <!-- request password button -->
 <?php if (!isset($_['identityOk']) && $_['share']->getShareType() === $_['share']::TYPE_EMAIL && !$_['share']->getSendPasswordByTalk()): ?>
-	<input type="button"
-		id="request-password-button-not-talk"
-		value="<?php p($l->t('Request password')); ?>"
-		class="primary" />
+	<a id="request-password-button-not-talk"><?php p($l->t('Forgot password?')); ?></a>
 <?php endif; ?>
 
 <!-- back to showShare button -->
 <form method="get">
 	<fieldset>
-		<input type="submit"
+		<a
+			href=""
 			id="request-password-back-button"
-			value="<?php p($l->t('Back')); ?>"
-			class="primary"
 <?php if (isset($_['identityOk'])): ?>
-			style="display:block;" />
+			style="display:block;">
 <?php else: ?>
-			style="display:none;" />
+			style="display:none;">
 <?php endif; ?>
+			<?php p($l->t('Back')); ?></a>
 	</fieldset>
 </form>
