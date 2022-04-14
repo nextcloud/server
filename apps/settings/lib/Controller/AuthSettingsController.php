@@ -145,6 +145,10 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		}
 
+		if (mb_strlen($name) > 128) {
+			$name = mb_substr($name, 0, 120) . '…';
+		}
+
 		$token = $this->generateRandomDeviceToken();
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 		$tokenData = $deviceToken->jsonSerialize();
@@ -239,6 +243,10 @@ class AuthSettingsController extends Controller {
 		if ($scope !== $token->getScopeAsArray()) {
 			$token->setScope(['filesystem' => $scope['filesystem']]);
 			$this->publishActivity($scope['filesystem'] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		}
+
+		if (mb_strlen($name) > 128) {
+			$name = mb_substr($name, 0, 120) . '…';
 		}
 
 		if ($token instanceof INamedToken && $name !== $currentName) {
