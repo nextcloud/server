@@ -39,14 +39,17 @@ $urlGenerator = $_['urlGenerator'];
 	<br/>
 
 	<p id="redirect-link">
-		<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">	
-			<input type="hidden" name="clientIdentifier" value="<?php p($_['clientIdentifier']) ?>" />	
-			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />	
-			<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />	
-			<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />	
+		<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">
+			<input type="hidden" name="clientIdentifier" value="<?php p($_['clientIdentifier']) ?>" />
+			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
+			<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
+			<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
+			<?php if (p($_['direct'])) { ?>
+			<input type="hidden" name="direct" value="1" />
+			<?php } ?>
 			<div id="submit-wrapper">
 				<input type="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Grant access')); ?>" />
-			</div>	
+			</div>
 		</form>
 	</p>
 </div>

@@ -183,6 +183,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'stateToken' => 'StateToken',
 				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
+				'direct' => 0,
 			],
 			'guest'
 		);
@@ -246,6 +247,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'stateToken' => 'StateToken',
 				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
+				'direct' => 0,
 			],
 			'guest'
 		);
