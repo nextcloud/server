@@ -30,6 +30,7 @@ class S3 implements IObjectStore {
 	use S3ObjectTrait;
 
 	public function __construct($parameters) {
+		$parameters['primary_storage'] = true;
 		$this->parseParams($parameters);
 	}
 
