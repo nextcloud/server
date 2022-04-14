@@ -299,10 +299,6 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getMountPoint')
 			->willReturn($mountPoint);
 
-		$this->view->expects($this->once())
-			->method('getFileInfo')
-			->willReturn($this->info);
-
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
 
@@ -343,10 +339,6 @@ class DirectoryTest extends \Test\TestCase {
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
-
-		$this->view->expects($this->once())
-			->method('getFileInfo')
-			->willReturn($this->info);
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free

@@ -485,7 +485,7 @@ class OC_Helper {
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public static function getStorageInfo($path, $rootInfo = null) {
+	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true) {
 		// return storage info without adding mount points
 		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
 
@@ -495,7 +495,7 @@ class OC_Helper {
 		if (!$rootInfo instanceof \OCP\Files\FileInfo) {
 			throw new \OCP\Files\NotFoundException();
 		}
-		$used = $rootInfo->getSize();
+		$used = $rootInfo->getSize($includeMountPoints);
 		if ($used < 0) {
 			$used = 0;
 		}
