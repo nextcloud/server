@@ -438,14 +438,14 @@ abstract class AbstractMapping {
 		$picker = $this->dbc->getQueryBuilder();
 		$picker->select('owncloud_name')
 			->from($this->getTableName());
-		$cursor = $picker->execute();
+		$cursor = $picker->executeQuery();
 		$result = true;
-		while ($id = $cursor->fetchOne()) {
+		while (($id = $cursor->fetchOne()) !== false) {
 			$preCallback($id);
 			if ($isUnmapped = $this->unmap($id)) {
 				$postCallback($id);
 			}
-			$result &= $isUnmapped;
+			$result = $result && $isUnmapped;
 		}
 		$cursor->closeCursor();
 		return $result;
