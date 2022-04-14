@@ -263,7 +263,7 @@
 					<?php if ($_['restrictUserEnumerationFullMatchIgnoreSecondDisplayName'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-			<label for="shareapi_restrict_user_enumeration_full_match_ignore_second_display_name"><?php p($l->t('Ignore second display name in parentheses if any. Example: "First display name (second ignored display name)"'));?></label><br />
+			<label for="shareapi_restrict_user_enumeration_full_match_ignore_second_display_name"><?php p($l->t('Ignore second display name in parentheses if any (Example: "First display name (second ignored display name)")'));?></label><br />
 		</p>
 
 		<p>
