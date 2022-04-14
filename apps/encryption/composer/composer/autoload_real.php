@@ -27,7 +27,7 @@ class ComposerAutoloaderInitEncryption
         spl_autoload_unregister(array('ComposerAutoloaderInitEncryption', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitEncryption::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitEncryption::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

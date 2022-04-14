@@ -122,6 +122,9 @@ use OC\Log\PsrLoggerAdapter;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
+use OC\Metadata\Capabilities as MetadataCapabilities;
+use OC\Metadata\IMetadataManager;
+use OC\Metadata\MetadataManager;
 use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
@@ -151,7 +154,6 @@ use OC\Template\JSCombiner;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCA\WorkflowEngine\Service\Logger;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\Authentication\LoginCredentials\IStore;
@@ -241,15 +243,12 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
-use OCP\User\Events\BeforeUserCreatedEvent;
-use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
-use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
@@ -1163,6 +1162,9 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager->registerCapability(function () use ($c) {
 				return $c->get(\OC\Security\Bruteforce\Capabilities::class);
 			});
+			$manager->registerCapability(function () use ($c) {
+				return $c->get(MetadataCapabilities::class);
+			});
 			return $manager;
 		});
 		/** @deprecated 19.0.0 */
@@ -1432,6 +1434,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\UserStatus\IManager::class, \OC\UserStatus\Manager::class);
 
 		$this->registerAlias(IBroker::class, Broker::class);
+
+		$this->registerAlias(IMetadataManager::class, MetadataManager::class);
 
 		$this->connectDispatcher();
 	}

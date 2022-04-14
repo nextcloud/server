@@ -267,6 +267,8 @@ class MigratorTest extends \Test\TestCase {
 
 			[ParameterType::INTEGER, 1234, Types::INTEGER, false],
 			[ParameterType::INTEGER, 0, Types::INTEGER, false], // Integer 0 is not stored as Null and therefor works
+
+			[ParameterType::STRING, '{"a": 2}', Types::JSON, false],
 		];
 	}
 

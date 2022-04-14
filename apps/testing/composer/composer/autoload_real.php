@@ -27,7 +27,7 @@ class ComposerAutoloaderInitTesting
         spl_autoload_unregister(array('ComposerAutoloaderInitTesting', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitTesting::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitTesting::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

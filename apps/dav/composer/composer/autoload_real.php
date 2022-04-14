@@ -27,7 +27,7 @@ class ComposerAutoloaderInitDAV
         spl_autoload_unregister(array('ComposerAutoloaderInitDAV', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitDAV::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitDAV::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);

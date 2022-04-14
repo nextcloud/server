@@ -27,7 +27,7 @@ class ComposerAutoloaderInitComments
         spl_autoload_unregister(array('ComposerAutoloaderInitComments', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        \Composer\Autoload\ComposerStaticInitComments::getInitializer($loader)();
+        call_user_func(\Composer\Autoload\ComposerStaticInitComments::getInitializer($loader));
 
         $loader->setClassMapAuthoritative(true);
         $loader->register(true);
