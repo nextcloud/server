@@ -5,7 +5,7 @@
 	<name>Files</name>
 	<summary>File Management</summary>
 	<description>File Management</description>
-	<version>1.19.0</version>
+	<version>1.20.0</version>
 	<licence>agpl</licence>
 	<author>Robin Appelman</author>
 	<author>Vincent Petry</author>
@@ -19,7 +19,7 @@
 	<category>files</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="24" max-version="24"/>
+		<nextcloud min-version="25" max-version="25"/>
 	</dependencies>
 
 	<background-jobs>
