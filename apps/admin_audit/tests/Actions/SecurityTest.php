@@ -44,7 +44,7 @@ class SecurityTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->logger = $this->createMock(AuditLogger::class);
 		$this->security = new Security($this->logger);
 
 		$this->user = $this->createMock(IUser::class);
