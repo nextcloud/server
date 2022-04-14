@@ -19,6 +19,8 @@ return array(
     'OCA\\AdminAudit\\Actions\\UserManagement' => $baseDir . '/../lib/Actions/UserManagement.php',
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',
     'OCA\\AdminAudit\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\AdminAudit\\AuditLogger' => $baseDir . '/../lib/AuditLogger.php',
     'OCA\\AdminAudit\\BackgroundJobs\\Rotate' => $baseDir . '/../lib/BackgroundJobs/Rotate.php',
+    'OCA\\AdminAudit\\IAuditLogger' => $baseDir . '/../lib/IAuditLogger.php',
     'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => $baseDir . '/../lib/Listener/CriticalActionPerformedEventListener.php',
 );

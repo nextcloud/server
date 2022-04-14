@@ -34,7 +34,9 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Actions\\UserManagement' => __DIR__ . '/..' . '/../lib/Actions/UserManagement.php',
         'OCA\\AdminAudit\\Actions\\Versions' => __DIR__ . '/..' . '/../lib/Actions/Versions.php',
         'OCA\\AdminAudit\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\AdminAudit\\AuditLogger' => __DIR__ . '/..' . '/../lib/AuditLogger.php',
         'OCA\\AdminAudit\\BackgroundJobs\\Rotate' => __DIR__ . '/..' . '/../lib/BackgroundJobs/Rotate.php',
+        'OCA\\AdminAudit\\IAuditLogger' => __DIR__ . '/..' . '/../lib/IAuditLogger.php',
         'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => __DIR__ . '/..' . '/../lib/Listener/CriticalActionPerformedEventListener.php',
     );
 
