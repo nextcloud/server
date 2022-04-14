@@ -303,6 +303,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[0],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[0]
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
@@ -311,6 +312,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[1],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[1]
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
@@ -319,6 +321,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[2],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[2]
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
@@ -342,6 +345,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[0],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[0]
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
@@ -350,6 +354,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[1],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[1]
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
@@ -358,6 +363,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[2],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[2]
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
@@ -381,6 +387,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[0],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => false,
 							'shareWith' => $fedIDs[0]
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
@@ -389,6 +396,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[1],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => false,
 							'shareWith' => $fedIDs[1]
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
@@ -397,6 +405,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[2],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => false,
 							'shareWith' => $fedIDs[2]
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
@@ -471,6 +480,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[0],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => false,
 							'shareWith' => $fedIDs[0]
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
@@ -479,6 +489,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[1],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => false,
 							'shareWith' => $fedIDs[1]
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
@@ -487,6 +498,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[2],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
+							'globalScale' => false,
 							'shareWith' => $fedIDs[2]
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
