@@ -249,6 +249,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -307,6 +309,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -366,6 +370,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -423,6 +429,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -478,6 +486,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -533,6 +543,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -590,6 +602,8 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [
 						'/some/path'
 					],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -645,6 +659,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -700,6 +716,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -755,6 +773,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: false,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -831,6 +851,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -886,6 +908,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -941,6 +965,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -996,6 +1022,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
@@ -1055,6 +1083,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1111,6 +1141,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1164,6 +1196,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1178,6 +1212,122 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		
+		it('should return an error if imagick is not enabled', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: false,
+					areWebauthnExtensionsEnabled: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		
+		it('should return an error if gmp or bcmath are not enabled', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: false,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
 			});
@@ -1219,6 +1369,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1274,6 +1426,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
