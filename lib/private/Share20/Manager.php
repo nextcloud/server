@@ -1175,29 +1175,17 @@ class Manager implements IManager {
 	 * Set the share's password expiration time
 	 */
 	private function setSharePasswordExpirationTime(IShare $share): void {
-		if ($this->config->getSystemValue('allow_mail_share_permanent_password', true)) {
+		if (!$this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false)) {
 			// Sets password expiration date to NULL
 			$share->setPasswordExpirationTime();
 			return;
 		}
 		// Sets password expiration date
 		$expirationTime = null;
-		try {
-			$now = new \DateTime();
-			$expirationInterval = $this->config->getSystemValue('share_temporary_password_expiration_interval');
-			if ($expirationInterval === '' || is_null($expirationInterval)) {
-				$expirationInterval = 'P0DT15M';
-			}
-			$expirationTime = $now->add(new \DateInterval($expirationInterval));
-		} catch (\Exception $e) {
-			// Catches invalid format for system value 'share_temporary_password_expiration_interval'
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'The \'share_temporary_password_expiration_interval\' system setting does not respect the DateInterval::__construct() format. Setting it to \'P0DT15M\''
-			]);
-			$expirationTime = $now->add(new \DateInterval('P0DT15M'));
-		} finally {
-			$share->setPasswordExpirationTime($expirationTime);
-		}
+		$now = new \DateTime();
+		$expirationInterval = $this->config->getSystemValue('sharing.mail_link_password_expiration_interval', 3600);
+		$expirationTime = $now->add(new \DateInterval('PT' . $expirationInterval . 'S'));
+		$share->setPasswordExpirationTime($expirationTime);
 	}
 
 

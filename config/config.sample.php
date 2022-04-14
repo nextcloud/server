@@ -1541,6 +1541,18 @@ $CONFIG = [
 'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
 
 /**
+ * Enables expiration for link share passwords sent by email (sharebymail).
+ * The passwords will expire after the configured interval, the users can
+ * still request a new one in the public link page.
+ */
+'sharing.enable_mail_link_password_expiration' => false,
+
+/**
+ * Expiration interval for passwords, in seconds.
+ */
+'sharing.mail_link_password_expiration_interval' => 3600,
+
+/**
  * Define max number of results returned by the search for auto-completion of
  * users, groups, etc. The value must not be lower than 0 (for unlimited).
  *
