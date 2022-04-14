@@ -29,7 +29,7 @@ namespace OCP\Files\Storage;
  * - Etag are stable as long as no changes are made to the files
  * - Changes inside a folder cause etag changes of the parent folders
  *
- * @since 24.0.0
+ * @since 23.0.4
  */
 interface IReliableEtagStorage extends IStorage {
 }
