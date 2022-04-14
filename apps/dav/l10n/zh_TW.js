@@ -137,6 +137,7 @@ OC.L10N.register(
     "Due on %s by %s" : "到期於 %s 由 %s",
     "Due on %s" : "到期於 %s",
     "Migrated calendar (%1$s)" : "已導入的行事曆 (%1$s)",
+    "Calendars including events, details and attendees" : "行事曆，包含事件、詳細資訊及參與者",
     "Contacts and groups" : "聯絡人與群組",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV 端點",
