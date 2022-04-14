@@ -137,6 +137,7 @@ OC.L10N.register(
     "Due on %s by %s" : "Termín do %s od %s",
     "Due on %s" : "Termín do %s",
     "Migrated calendar (%1$s)" : "Přesunut kalendář (%1$s)",
+    "Calendars including events, details and attendees" : "Kalendáře včetně událostí, podrobností a účastníků",
     "Contacts and groups" : "Kontakty a skupiny",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
