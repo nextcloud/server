@@ -350,6 +350,7 @@ OC.L10N.register(
     "You can close this window." : "Toto okno je možné zavřít.",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Chybné heslo. Zkuste to znovu.",
+    "Please type in your email address to request a temporary password" : "Pokud si chcete požádat o dočasné heslo, zadejte svou e-mailovou adresu",
     "Email address" : "E-mailová adresa",
     "Password sent!" : "Heslo zasláno!",
     "You are not authorized to request a password for this share" : "Nejste oprávněni vyžádat si heslo pro toto sdílení",

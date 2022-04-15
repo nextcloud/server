@@ -464,6 +464,7 @@ OC.L10N.register(
     "Allow username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen erlauben",
     "Allow username autocompletion to users based on phone number integration" : "Automatische Vervollständigung des Benutzernamens für Benutzer basierend auf der Rufnummernintegration zulassen",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Wenn die Autovervollständigung \"gleiche Gruppe\" und \"Rufnummernintegration\" aktiviert ist, reicht eine Übereinstimmung in einem der beiden Bereiche aus, um den Benutzer anzuzeigen.",
+    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Ermöglicht die automatische Vervollständigung, wenn der vollständigen Namen oder die E-Mail-Adresse eingeben wird (ignoriert fehlende Telefonbuchübereinstimmungen und bei gleicher Gruppenzugehörigkeit)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
     "This text will be shown on the public link upload page when the file list is hidden." : "Dieser Text wird auf der öffentlichen Upload-Seite angezeigt wenn die Dateiliste nicht angezeigt wird.",
     "Default share permissions" : "Standardberechtigungen für das Teilen",
