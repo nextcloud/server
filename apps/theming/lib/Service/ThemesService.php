@@ -22,21 +22,33 @@
  */
 namespace OCA\Theming\Service;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\ITheme;
+use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IUser;
+use OCP\IUserSession;
 
 class ThemesService {
+	private IUserSession $session;
+	private IConfig $config;
 
 	/** @var ITheme[] */
 	private array $themesProviders;
 
-	public function __construct(DefaultTheme $defaultTheme,
+	public function __construct(IUserSession $userSession,
+								IConfig $config,
+								DefaultTheme $defaultTheme,
 								DarkTheme $darkTheme,
 								DarkHighContrastTheme $darkHighContrastTheme,
 								HighContrastTheme $highContrastTheme) {
+		$this->userSession = $userSession;
+		$this->config = $config;
+
 		// Register themes
 		$this->themesProviders = [
 			$defaultTheme->getId()			=> $defaultTheme,
@@ -46,11 +58,48 @@ class ThemesService {
 		];
 	}
 
-	public function getThemes() {
+	public function getThemes(): array {
 		return $this->themesProviders;
 	}
 
-	public function getThemeVariables(string $id) {
+	public function getThemeVariables(string $id): array {
 		return $this->themesProviders[$id]->getCSSVariables();
+	}
+
+	public function enableTheme(ITheme $theme): void {
+		$themes = $this->getEnabledThemes();
+		array_push($themes, $theme->getId());
+		$this->setEnabledThemes($themes);
+	}
+
+	public function disableTheme(ITheme $theme): void {
+		// Using keys as it's faster
+		$themes = $this->getEnabledThemes();
+		// If enabled, removing it
+		if (in_array($theme->getId(), $themes)) {
+			$this->setEnabledThemes(array_filter($themes, function($themeId) use ($theme) {
+				return $themeId !== $theme->getId();
+			}));
+		}
+	}
+
+	public function isEnabled(ITheme $theme): bool {
+		$user = $this->userSession->getUser();
+		if ($user instanceof IUser) {
+			// Using keys as it's faster
+			$themes = $this->getEnabledThemes();
+			return in_array($theme->getId(), $themes);
+		}
+	}
+
+	public function getEnabledThemes(): array {
+		$user = $this->userSession->getUser();
+		$enabledThemes = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]');
+		return json_decode($enabledThemes);
+	}
+
+	private function setEnabledThemes(array $themes): void {
+		$user = $this->userSession->getUser();
+		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_unique($themes)));
 	}
 }

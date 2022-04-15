@@ -81,6 +81,7 @@ class TemplateLayout extends \OC_Template {
 		/** @var IInitialStateService */
 		$this->initialState = \OC::$server->get(IInitialStateService::class);
 
+
 		// Decide which page we show
 		if ($renderAs === TemplateResponse::RENDER_AS_USER) {
 			/** @var INavigationManager */
@@ -98,6 +99,13 @@ class TemplateLayout extends \OC_Template {
 			$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)2));
 			$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 			Util::addScript('core', 'unified-search', 'core');
+
+			// Set body data-theme
+			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
+				/** @var \OCA\Theming\Service\ThemesService */
+				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
+				$this->assign('enabledThemes', $themesService->getEnabledThemes());
+			}
 
 			// set logo link target
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');

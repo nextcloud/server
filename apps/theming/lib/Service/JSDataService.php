@@ -32,22 +32,21 @@ use OCA\Theming\Util;
 use OCP\IConfig;
 
 class JSDataService implements \JsonSerializable {
-
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var Util */
-	private $util;
-	/** @var IConfig */
-	private $appConfig;
+	private ThemingDefaults $themingDefaults;
+	private Util $util;
+	private IConfig $appConfig;
+	private ThemesService $themesService;
 
 	public function __construct(
 		ThemingDefaults $themingDefaults,
 		Util $util,
-		IConfig $appConfig
+		IConfig $appConfig,
+		ThemesService $themesService
 	) {
 		$this->themingDefaults = $themingDefaults;
 		$this->util = $util;
 		$this->appConfig = $appConfig;
+		$this->themesService = $themesService;
 	}
 
 	public function jsonSerialize(): array {
@@ -60,6 +59,7 @@ class JSDataService implements \JsonSerializable {
 			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
 			'inverted' => $this->util->invertTextColor($this->themingDefaults->getColorPrimary()),
 			'cacheBuster' => $this->appConfig->getAppValue(Application::APP_ID, 'cachebuster', '0'),
+			'enabledThemes' => $this->themesService->getEnabledThemes(),
 		];
 	}
 }

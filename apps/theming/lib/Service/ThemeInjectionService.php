@@ -22,6 +22,7 @@
  */
 namespace OCA\Theming\Service;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Themes\DefaultTheme;
 use OCP\IURLGenerator;
 use OCP\Util;
