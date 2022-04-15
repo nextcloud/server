@@ -30,11 +30,45 @@ namespace OCA\Theming;
  */
 interface ITheme {
 
+	const TYPE_THEME = 1;
+	const TYPE_FONT = 2;
+
 	/**
 	 * Unique theme id
+	 * Will be used to search for ID.png in the img folder
+	 *
 	 * @since 25.0.0
 	 */
 	public function getId(): string;
+
+	/**
+	 * Theme type
+	 * TYPE_THEME or TYPE_FONT
+	 *
+	 * @since 25.0.0
+	 */
+	public function getType(): int;
+
+	/**
+	 * The theme translated title
+	 *
+	 * @since 25.0.0
+	 */
+	public function getTitle(): string;
+
+	/**
+	 * The theme enable checkbox translated label
+	 *
+	 * @since 25.0.0
+	 */
+	public function getEnableLabel(): string;
+
+	/**
+	 * The theme translated description
+	 *
+	 * @since 25.0.0
+	 */
+	public function getDescription(): string;
 
 	/**
 	 * Get the media query triggering this theme

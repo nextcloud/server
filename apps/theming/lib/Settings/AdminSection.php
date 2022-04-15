@@ -26,17 +26,13 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
-class Section implements IIconSection {
-	/** @var IL10N */
-	private $l;
-	/** @var IURLGenerator */
-	private $url;
+class AdminSection implements IIconSection {
+	private string $appName;
+	private IL10N $l;
+	private IURLGenerator $url;
 
-	/**
-	 * @param IURLGenerator $url
-	 * @param IL10N $l
-	 */
-	public function __construct(IURLGenerator $url, IL10N $l) {
+	public function __construct(string $appName, IURLGenerator $url, IL10N $l) {
+		$this->appName = $appName;
 		$this->url = $url;
 		$this->l = $l;
 	}
@@ -48,7 +44,7 @@ class Section implements IIconSection {
 	 * @returns string
 	 */
 	public function getID() {
-		return 'theming';
+		return $this->appName;
 	}
 
 	/**
@@ -76,6 +72,6 @@ class Section implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getIcon() {
-		return $this->url->imagePath('theming', 'app-dark.svg');
+		return $this->url->imagePath($this->appName, 'app-dark.svg');
 	}
 }

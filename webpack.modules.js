@@ -87,6 +87,9 @@ module.exports = {
 	systemtags: {
 		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
 	},
+	theming: {
+		'theming-settings': path.join(__dirname, 'apps/theming/src', 'settings.js'),
+	},
 	twofactor_backupcodes: {
 		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),
 	},

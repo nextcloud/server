@@ -36,6 +36,18 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		return '(prefers-color-scheme: dark)';
 	}
 
+	public function getTitle(): string {
+		return $this->l->t('Dark theme');
+	}
+
+	public function getEnableLabel(): string {
+		return $this->l->t('Enable dark theme');
+	}
+
+	public function getDescription(): string {
+		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.');
+	}
+
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 

@@ -27,54 +27,68 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-return ['routes' => [
-	[
-		'name' => 'Theming#updateStylesheet',
-		'url' => '/ajax/updateStylesheet',
-		'verb' => 'POST'
+return [
+	'routes' => [
+		[
+			'name' => 'Theming#updateStylesheet',
+			'url' => '/ajax/updateStylesheet',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'Theming#undo',
+			'url' => '/ajax/undoChanges',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'Theming#uploadImage',
+			'url' => '/ajax/uploadImage',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'Theming#getThemeVariables',
+			'url' => '/theme/{themeId}.css',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Theming#getImage',
+			'url' => '/image/{key}',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Theming#getManifest',
+			'url' => '/manifest/{app}',
+			'verb' => 'GET',
+			'defaults' => ['app' => 'core']
+		],
+		[
+			'name' => 'Icon#getFavicon',
+			'url' => '/favicon/{app}',
+			'verb' => 'GET',
+			'defaults' => ['app' => 'core'],
+		],
+		[
+			'name' => 'Icon#getTouchIcon',
+			'url' => '/icon/{app}',
+			'verb' => 'GET',
+			'defaults' => ['app' => 'core'],
+		],
+		[
+			'name' => 'Icon#getThemedIcon',
+			'url' => '/img/{app}/{image}',
+			'verb' => 'GET',
+			'requirements' => ['image' => '.+']
+		],
 	],
-	[
-		'name' => 'Theming#undo',
-		'url' => '/ajax/undoChanges',
-		'verb' => 'POST'
-	],
-	[
-		'name' => 'Theming#uploadImage',
-		'url' => '/ajax/uploadImage',
-		'verb' => 'POST'
-	],
-	[
-		'name' => 'Theming#getThemeVariables',
-		'url' => '/theme/{themeId}.css',
-		'verb' => 'GET',
-	],
-	[
-		'name' => 'Theming#getImage',
-		'url' => '/image/{key}',
-		'verb' => 'GET',
-	],
-	[
-		'name' => 'Theming#getManifest',
-		'url' => '/manifest/{app}',
-		'verb' => 'GET',
-		'defaults' => ['app' => 'core']
-	],
-	[
-		'name' => 'Icon#getFavicon',
-		'url' => '/favicon/{app}',
-		'verb' => 'GET',
-		'defaults' => ['app' => 'core'],
-	],
-	[
-		'name' => 'Icon#getTouchIcon',
-		'url' => '/icon/{app}',
-		'verb' => 'GET',
-		'defaults' => ['app' => 'core'],
-	],
-	[
-		'name' => 'Icon#getThemedIcon',
-		'url' => '/img/{app}/{image}',
-		'verb' => 'GET',
-		'requirements' => ['image' => '.+']
-	],
-]];
+	'ocs' => [
+		[
+			'name' => 'userTheme#enableTheme',
+			'url' => '/api/v1/theme/{themeId}/enable',
+			'verb' => 'PUT',
+		],
+		[
+			'name' => 'userTheme#disableTheme',
+			'url' => '/api/v1/theme/{themeId}',
+			'verb' => 'DELETE',
+		],
+	]
+];

@@ -29,6 +29,7 @@ use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCA\Theming\ITheme;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class DefaultTheme implements ITheme {
@@ -37,6 +38,7 @@ class DefaultTheme implements ITheme {
 	public IURLGenerator $urlGenerator;
 	public ImageManager $imageManager;
 	public IConfig $config;
+	public IL10N $l;
 
 	public string $primaryColor;
 
@@ -44,18 +46,36 @@ class DefaultTheme implements ITheme {
 								ThemingDefaults $themingDefaults,
 								IURLGenerator $urlGenerator,
 								ImageManager $imageManager,
-								IConfig $config) {
+								IConfig $config,
+								IL10N $l) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->imageManager = $imageManager;
 		$this->config = $config;
+		$this->l = $l;
 
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 	}
 
 	public function getId(): string {
 		return 'default';
+	}
+
+	public function getType(): int {
+		return ITheme::TYPE_THEME;
+	}
+
+	public function getTitle(): string {
+		return $this->l->t('Light theme');
+	}
+
+	public function getEnableLabel(): string {
+		return $this->l->t('Enable the default light theme');
+	}
+
+	public function getDescription(): string {
+		return $this->l->t('The default light appearance.');
 	}
 
 	public function getMediaQuery(): string {

@@ -36,22 +36,20 @@ use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 
 class Admin implements IDelegatedSettings {
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l;
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ImageManager */
-	private $imageManager;
+	private string $appName;
+	private IConfig $config;
+	private IL10N $l;
+	private ThemingDefaults $themingDefaults;
+	private IURLGenerator $urlGenerator;
+	private ImageManager $imageManager;
 
-	public function __construct(IConfig $config,
+	public function __construct(string $appName,
+								IConfig $config,
 								IL10N $l,
 								ThemingDefaults $themingDefaults,
 								IURLGenerator $urlGenerator,
 								ImageManager $imageManager) {
+		$this->appName = $appName;
 		$this->config = $config;
 		$this->l = $l;
 		$this->themingDefaults = $themingDefaults;
@@ -86,14 +84,14 @@ class Admin implements IDelegatedSettings {
 			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
 		];
 
-		return new TemplateResponse('theming', 'settings-admin', $parameters, '');
+		return new TemplateResponse($this->appName, 'settings-admin', $parameters, '');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection(): string {
-		return 'theming';
+		return $this->appName;
 	}
 
 	/**
@@ -113,7 +111,7 @@ class Admin implements IDelegatedSettings {
 
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'theming' => '/.*/',
+			$this->appName => '/.*/',
 		];
 	}
 }

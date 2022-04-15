@@ -26,34 +26,50 @@ namespace OCA\Theming\Themes;
 
 use OCA\Theming\ITheme;
 
-class HighContrastTheme extends DefaultTheme implements ITheme {
+class DyslexiaFont extends DefaultTheme implements ITheme {
 
 	public function getId(): string {
-		return 'highcontrast';
+		return 'opendyslexic';
 	}
 
-	public function getMediaQuery(): string {
-		return '(prefers-contrast: more)';
+	public function getType(): int {
+		return ITheme::TYPE_FONT;
 	}
 
 	public function getTitle(): string {
-		return $this->l->t('High contrast mode');
+		return $this->l->t('Dyslexia font');
 	}
 
 	public function getEnableLabel(): string {
-		return $this->l->t('Enable high contrast mode');
+		return $this->l->t('Enable dyslexia font');
 	}
 
 	public function getDescription(): string {
-		return $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.');
+		return $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia.');
 	}
 
 	public function getCSSVariables(): array {
 		$variables = parent::getCSSVariables();
+		$originalFontFace = $variables['--font-face'];
 
-		// FIXME …
-		$variables = $variables;
+		$variables = [
+			'--font-face' => 'OpenDyslexic, ' . $originalFontFace
+		];
 
 		return $variables;
 	}
 }
+
+// @font-face {
+// 	font-family: 'OpenDyslexic';
+// 	font-style: normal;
+// 	font-weight: 400;
+// 	src: url('../fonts/OpenDyslexic-Regular.woff') format('woff');
+// }
+
+// @font-face {
+// 	font-family: 'OpenDyslexic';
+// 	font-style: normal;
+// 	font-weight: 700;
+// 	src: url('../fonts/OpenDyslexic-Bold.woff') format('woff');
+// }

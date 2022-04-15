@@ -36,6 +36,18 @@ class DarkHighContrastTheme extends HighContrastTheme implements ITheme {
 		return '(prefers-color-scheme: dark) and (prefers-contrast: more)';
 	}
 
+	public function getTitle(): string {
+		return $this->l->t('Dark theme with high contrast mode');
+	}
+
+	public function getEnableLabel(): string {
+		return $this->l->t('Enable dark high contrast mode');
+	}
+
+	public function getDescription(): string {
+		return $this->l->t('Similar to the high contrast mode, but with dark colours.');
+	}
+
 	public function getCSSVariables(): array {
 		$variables = parent::getCSSVariables();
 

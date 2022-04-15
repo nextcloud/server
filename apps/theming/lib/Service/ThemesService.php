@@ -23,18 +23,18 @@
 namespace OCA\Theming\Service;
 
 use OCA\Theming\AppInfo\Application;
-use OCA\Theming\Themes\DefaultTheme;
-use OCA\Theming\Themes\DarkTheme;
-use OCA\Theming\Themes\DarkHighContrastTheme;
-use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\ITheme;
-use OCP\IAppConfig;
+use OCA\Theming\Themes\DarkHighContrastTheme;
+use OCA\Theming\Themes\DarkTheme;
+use OCA\Theming\Themes\DefaultTheme;
+use OCA\Theming\Themes\DyslexiaFont;
+use OCA\Theming\Themes\HighContrastTheme;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 
 class ThemesService {
-	private IUserSession $session;
+	private IUserSession $userSession;
 	private IConfig $config;
 
 	/** @var ITheme[] */
@@ -45,7 +45,8 @@ class ThemesService {
 								DefaultTheme $defaultTheme,
 								DarkTheme $darkTheme,
 								DarkHighContrastTheme $darkHighContrastTheme,
-								HighContrastTheme $highContrastTheme) {
+								HighContrastTheme $highContrastTheme,
+								DyslexiaFont $dyslexiaFont) {
 		$this->userSession = $userSession;
 		$this->config = $config;
 
@@ -53,28 +54,57 @@ class ThemesService {
 		$this->themesProviders = [
 			$defaultTheme->getId()			=> $defaultTheme,
 			$darkTheme->getId()				=> $darkTheme,
-			$darkHighContrastTheme->getId()	=> $darkHighContrastTheme,
 			$highContrastTheme->getId()		=> $highContrastTheme,
+			$darkHighContrastTheme->getId()	=> $darkHighContrastTheme,
+			$dyslexiaFont->getId()			=> $dyslexiaFont,
 		];
 	}
 
+	/**
+	 * Get the list of all registered themes
+	 * 
+	 * @return ITheme[]
+	 */
 	public function getThemes(): array {
 		return $this->themesProviders;
 	}
 
-	public function getThemeVariables(string $id): array {
-		return $this->themesProviders[$id]->getCSSVariables();
-	}
-
+	/**
+	 * Enable a theme for the logged-in user
+	 * 
+	 * @param ITheme $theme the theme to enable
+	 */
 	public function enableTheme(ITheme $theme): void {
-		$themes = $this->getEnabledThemes();
-		array_push($themes, $theme->getId());
-		$this->setEnabledThemes($themes);
+		$themesIds = $this->getEnabledThemes();
+
+		/** @var ITheme[] */
+		$themes = array_map(function($themeId) {
+			return $this->getThemes()[$themeId];
+		}, $themesIds);
+
+		// Filtering all themes with the same type
+		$filteredThemes = array_filter($themes, function($t) use ($theme) {
+			return $theme->getType() === $t->getType();
+		});
+
+		// Disable all the other themes of the same type
+		// as there can only be one enabled at the same time
+		foreach ($filteredThemes as $t) {
+			$this->disableTheme($t);
+		}
+
+		$this->setEnabledThemes([...$this->getEnabledThemes(), $theme->getId()]);
 	}
 
+	/**
+	 * Disable a theme for the logged-in user
+	 * 
+	 * @param ITheme $theme the theme to disable
+	 */
 	public function disableTheme(ITheme $theme): void {
 		// Using keys as it's faster
 		$themes = $this->getEnabledThemes();
+
 		// If enabled, removing it
 		if (in_array($theme->getId(), $themes)) {
 			$this->setEnabledThemes(array_filter($themes, function($themeId) use ($theme) {
@@ -83,6 +113,12 @@ class ThemesService {
 		}
 	}
 
+	/**
+	 * Check whether a theme is enabled or not
+	 * for the logged-in user
+	 * 
+	 * @return bool
+	 */
 	public function isEnabled(ITheme $theme): bool {
 		$user = $this->userSession->getUser();
 		if ($user instanceof IUser) {
@@ -92,12 +128,27 @@ class ThemesService {
 		}
 	}
 
+	/**
+	 * Get the list of all enabled themes IDs
+	 * for the logged-in user
+	 * 
+	 * @return string[]
+	 */
 	public function getEnabledThemes(): array {
 		$user = $this->userSession->getUser();
-		$enabledThemes = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]');
-		return json_decode($enabledThemes);
+		try {
+			return json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
+		} catch (\Exception $e) {
+			return [];
+		}
 	}
 
+	/**
+	 * Set the list of enabled themes 
+	 * for the logged-in user
+	 * 
+	 * @param string[] $themes the list of enabled themes IDs
+	 */
 	private function setEnabledThemes(array $themes): void {
 		$user = $this->userSession->getUser();
 		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_unique($themes)));
