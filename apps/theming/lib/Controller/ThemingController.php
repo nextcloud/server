@@ -272,6 +272,7 @@ class ThemingController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $key
 	 * @param bool $useSvg
@@ -304,6 +305,7 @@ class ThemingController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 * @NoSameSiteCookieRequired
+	 * @NoTwoFactorRequired
 	 *
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
