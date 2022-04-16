@@ -1799,6 +1799,15 @@ $CONFIG = [
 'cipher' => 'AES-256-CTR',
 
 /**
+ * Use the legacy base64 format for encrypted files instead of the more space-efficient
+ * binary format. The option affects only newly written files, existing encrypted files
+ * will not be touched and will remain readable whether they use the new format or not.
+ *
+ * Defaults to ``false``
+ */
+'encryption.use_legacy_base64_encoding' => false,
+
+/**
  * The minimum Nextcloud desktop client version that will be allowed to sync with
  * this server instance. All connections made from earlier clients will be denied
  * by the server. Defaults to the minimum officially supported Nextcloud desktop
