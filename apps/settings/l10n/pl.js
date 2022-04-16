@@ -467,6 +467,7 @@ OC.L10N.register(
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Jeśli automatyczne uzupełnianie \"ta sama grupa\" i \"integracja numeru telefonu\" są włączone, wystarczy dopasowanie w jednej z nich, aby pokazać użytkownikowi.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Zezwalaj na autouzupełnianie podczas wpisywania pełnej nazwy lub adresu e-mail (ignorując brak dopasowania książki telefonicznej i bycie w tej samej grupie)",
     "Match username when restricting to full match" : "Dopasuj nazwę użytkownika przy ograniczeniu do pełnego dopasowania",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Ignoruj drugą wyświetlaną nazwę w nawiasach, jeśli taka istnieje, (przykład: \"Pierwsza wyświetlana nazwa (druga ignorowana wyświetlana nazwa)\")",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych (wyświetlane tylko wtedy, gdy lista plików jest ukryta)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ten tekst zostanie wyświetlony na stronie przesyłania linków publicznych, gdy lista plików jest ukryta.",
     "Default share permissions" : "Domyślne uprawnienia dla udostępnień",

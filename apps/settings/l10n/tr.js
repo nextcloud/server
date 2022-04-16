@@ -467,6 +467,7 @@ OC.L10N.register(
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "\"Aynı grup\" ve \"telefon numarası bütünleştirmesi\" etkinleştirilmiş ise. Kullanıcının görüntülenmesi için ikisinden birinde eşleşme olması yeterlidir.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Tam ad ya da e-posta adresi yazılırken otomatik olarak tamamlanabilsin (aynı grupta olma ya da telefon defteri eşleşmesi yok sayılarak)",
     "Match username when restricting to full match" : "Tam eşleşme kısıtlamasında kullanıcı adı ile eşleşilsin",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Varsa, parantez içindeki görüntülecek ikinci ad yok sayılsın (örneğin \"Görüntülenecek ilk ad (yok sayılacak görüntülenecek ikinci ad)\")",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Dosya listesi gizli iken herkese açık bağlantı yükleme sayfasında görüntülenecek sorumluluk reddi bildirimi metni.",
     "Default share permissions" : "Varsayılan paylaşım izinleri",
