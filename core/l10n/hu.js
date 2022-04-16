@@ -320,7 +320,7 @@ OC.L10N.register(
     "You chose SQLite as database." : "SQLite adatbázist választott.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "Az SQLite-ot csak minimális és fejlesztési célú példányok esetén szabad használni. Éles működés esetén más adatbázis-kezelőt ajánlunk.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Ha klienseket használt a fájlszinkronizáláshoz, akkor az SQLite használata erősen ellenjavallt.",
-    "Install" : "Telepítése",
+    "Install" : "Telepítés",
     "Installing …" : "Telepítés…",
     "Need help?" : "Segítségre van szüksége?",
     "See the documentation" : "Nézze meg a dokumentációt",

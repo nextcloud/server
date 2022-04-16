@@ -467,6 +467,7 @@ OC.L10N.register(
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "V případě, že jsou zapnuté automatická dokončování „stejná skupina“ a „začlenění telefonním číslem“, postačí pro zobrazení uživatele shoda s jedním z toho.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Povolit automatické dokončování při zadávání celého jména nebo e-mailové adresy (při ignorování chybějící shody s telefonním seznamem a toho, že je ve stejné skupině)",
     "Match username when restricting to full match" : "Při omezení na úplnou shodu hledat tuto uživatelském jménu",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Ignorovat druhé zobrazované jméno v závorkách (pokud zde je). Příklad: „První zobrazované jméno (druhé – ignorované – zobrazované jméno)“",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Zobrazit text zřeknutí se odpovědnosti na stránce pro nahrání veřejného odkazu. (zobrazit pouze pokud je seznam souborů skrytý)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Tento text bude zobrazen on stránce pro nahrání veřejného odkazu, pokud bude seznam souborů skrytý.",
     "Default share permissions" : "Výchozí oprávnění sdílení",
