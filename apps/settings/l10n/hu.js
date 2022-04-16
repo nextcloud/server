@@ -467,6 +467,7 @@ OC.L10N.register(
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Ha az „ugyanazon csoport” és a „telefonszám integráció” engedélyezett, akkor bármelyik egyezés elegendő a felhasználó megjelenítéséhez. ",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Az automatikus kiegészítés engedélyezése a teljes név vagy e-mail-cím megadásakor (figyelmen kívül hagyva a hiányzó telefonkönyves egyezést és az ugyanabba a csoportba tartozást)",
     "Match username when restricting to full match" : "Keresés a felhasználónévre, ha pontos egyezésre van korlátozva",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "A zárójelben lévő második megjelenítendő név mellőzése, ha van ilyen (például: „Első megjelenítendő név (második megjelenítendő név)”)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Nyilatkozat szövegének megjelenítése a nyilvános feltöltési oldalon (csak akkor jelenik meg, ha fájllista rejtett)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ez a szöveg jelenik meg a nyilvános feltöltési oldalon, ha a fájllista rejtett.",
     "Default share permissions" : "Alapértelmezett megosztási jogosultságok",
