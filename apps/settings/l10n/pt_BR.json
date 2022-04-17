@@ -465,6 +465,7 @@
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Se autocompletar \"mesmo grupo\" e \"integração do número de telefone\" estiverem habilitadas, uma correspondência em qualquer um dos dois é suficiente para mostrar o usuário.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir preenchimento automático ao inserir o nome completo ou o endereço de e-mail (ignorando a correspondência ausente da agenda telefônica e estando no mesmo grupo)",
     "Match username when restricting to full match" : "Corresponder ao nome de usuário ao restringir a correspondência completa",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Ignore o segundo nome de exibição entre parênteses, se houver (exemplo: \"Primeiro nome de exibição (segundo nome de exibição ignorado)\")",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Exibir o texto de aviso na página de envio do link público (somente mostrado quando a lista de arquivos está oculta).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto será mostrado na página de envio do link público quando a lista de arquivos está oculta.",
     "Default share permissions" : "Permissões padrão de compartilhamento",
