@@ -465,6 +465,7 @@
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "若同時啟用「同一個群組」與「電話號碼整合」的自動完成，則符合其中一項條件就會顯示使用者。",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電子郵件地址時，允許自動完成（忽略缺少的通訊錄相符，以及在同一個群組中的）",
     "Match username when restricting to full match" : "限制為完全符合時符合使用者名稱",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "忽略括號中的第二顯示名稱（若有）。範例：「第一個顯示名稱（第二個忽略的顯示名稱）」",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公開的檔案連結和上傳頁面顯示免責聲明（僅在檔案列表隱藏的時候才會顯示）",
     "This text will be shown on the public link upload page when the file list is hidden." : "這段文字會在公開檔案上傳頁面檔案列表被隱藏的時候顯示。",
     "Default share permissions" : "預設分享權限",

@@ -40,7 +40,7 @@ OC.L10N.register(
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Приложението за криптиране е включено, но вашите ключове не са инициализирани. Моля отпишете си и се впишете отново.",
     "Encrypt the home storage" : "Шифровайте домашното хранилище",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Активирането на тази опция криптира всички файлове, съхранявани в основното хранилище, в противен случай ще бъдат криптирани само файлове от външно хранилище",
-    "Enable recovery key" : "Включване на въстановяването на ключа:",
+    "Enable recovery key" : "Активиране на ключа за въстановяване:",
     "Disable recovery key" : "Изключване на въстановяването на ключа:",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Ключът за възстановяване е допълнителен ключ за криптиране, който се използва за криптиране на файлове. Той позволява възстановяване на файлове на потребител, ако потребителят си забрави паролата.",
     "Recovery key password" : "Парола за възстановяане на ключа",
