@@ -125,24 +125,6 @@ class FileListContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function createNewFolderMenuItemNameInput($fileListAncestor) {
-		return Locator::forThe()->css(".filenameform input[type=text]")->
-				descendantOf(self::createNewFolderMenuItem($fileListAncestor))->
-				describedAs("Name input in create new folder menu item in file list");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function createNewFolderMenuItemConfirmButton($fileListAncestor) {
-		return Locator::forThe()->css(".filenameform input[type=submit]")->
-				descendantOf(self::createNewFolderMenuItem($fileListAncestor))->
-				describedAs("Confirm button in create new folder menu item in file list");
-	}
-
-	/**
-	 * @return Locator
-	 */
 	public static function fileListHeader($fileListAncestor) {
 		return Locator::forThe()->css("thead")->
 				descendantOf($fileListAncestor)->
@@ -198,6 +180,15 @@ class FileListContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->xpath("//preceding-sibling::tr//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName1']/ancestor::tr")->
 				descendantOf(self::rowForFile($fileListAncestor, $fileName2))->
 				describedAs("Row for file $fileName1 preceding $fileName2 in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function rowForFileWithEditableName($fileListAncestor) {
+		return Locator::forThe()->xpath("//*[@id = 'fileList']//input[contains(concat(' ', normalize-space(@class), ' '), ' filename ')]/ancestor::tr")->
+				descendantOf($fileListAncestor)->
+				describedAs("Row for file with editable name in file list");
 	}
 
 	/**
@@ -263,6 +254,15 @@ class FileListContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->css("input.filename")->
 				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
 				describedAs("Rename input for file $fileName in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function renameInputForFileWithEditableName($fileListAncestor) {
+		return Locator::forThe()->css("input.filename")->
+				descendantOf(self::rowForFileWithEditableName($fileListAncestor))->
+				describedAs("Rename input for file with editable name in file list");
 	}
 
 	/**
@@ -365,8 +365,21 @@ class FileListContext implements Context, ActorAwareInterface {
 		$this->actor->find(self::createMenuButton($this->fileListAncestor), 10)->click();
 
 		$this->actor->find(self::createNewFolderMenuItem($this->fileListAncestor), 2)->click();
-		$this->actor->find(self::createNewFolderMenuItemNameInput($this->fileListAncestor), 2)->setValue($folderName);
-		$this->actor->find(self::createNewFolderMenuItemConfirmButton($this->fileListAncestor), 2)->click();
+
+		// The name of the new folder is not guaranteed to be "New folder" (it
+		// could be "New folder (2)" if there is another folder with that name),
+		// so the row to be used is the one currently with an editable name.
+		//
+		// For reference, due to a bug in the Firefox driver of Selenium and/or
+		// maybe in Firefox itself, as a range is selected in the rename input
+		// (the name of the file, without its extension) when the value is set
+		// the window must be in the foreground. Otherwise, if the window is in
+		// the background, instead of setting the value in the whole field it
+		// would be set only in the selected range.
+		// This should not be a problem, though, as the default behaviour is to
+		// bring the browser window to the foreground when switching to a
+		// different actor.
+		$this->actor->find(self::renameInputForFileWithEditableName($this->fileListAncestor), 10)->setValue($folderName);
 	}
 
 	/**
