@@ -32,72 +32,49 @@ namespace OC;
 
 use OC\Tagging\Tag;
 use OC\Tagging\TagMapper;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\ITags;
+use OCP\Share_Backend;
+use Psr\Log\LoggerInterface;
 
 class Tags implements ITags {
-
-	/**
-	 * Tags
-	 *
-	 * @var array
-	 */
-	private $tags = [];
-
 	/**
 	 * Used for storing objectid/categoryname pairs while rescanning.
-	 *
-	 * @var array
 	 */
-	private static $relations = [];
-
-	/**
-	 * Type
-	 *
-	 * @var string
-	 */
-	private $type;
-
-	/**
-	 * User
-	 *
-	 * @var string
-	 */
-	private $user;
+	private static array $relations = [];
+	private string $type;
+	private string $user;
+	private IDBConnection $db;
+	private LoggerInterface $logger;
+	private array $tags = [];
 
 	/**
 	 * Are we including tags for shared items?
-	 *
-	 * @var bool
 	 */
-	private $includeShared = false;
+	private bool $includeShared = false;
 
 	/**
 	 * The current user, plus any owners of the items shared with the current
 	 * user, if $this->includeShared === true.
-	 *
-	 * @var array
 	 */
-	private $owners = [];
+	private array $owners = [];
 
 	/**
-	 * The Mapper we're using to communicate our Tag objects to the database.
-	 *
-	 * @var TagMapper
+	 * The Mapper we are using to communicate our Tag objects to the database.
 	 */
-	private $mapper;
+	private TagMapper $mapper;
 
 	/**
 	 * The sharing backend for objects of $this->type. Required if
 	 * $this->includeShared === true to determine ownership of items.
-	 *
-	 * @var \OCP\Share_Backend
 	 */
-	private $backend;
+	private ?Share_Backend $backend = null;
 
-	public const TAG_TABLE = '*PREFIX*vcategory';
-	public const RELATION_TABLE = '*PREFIX*vcategory_to_object';
+	public const TAG_TABLE = 'vcategory';
+	public const RELATION_TABLE = 'vcategory_to_object';
 
 	/**
 	 * Constructor.
@@ -109,12 +86,14 @@ class Tags implements ITags {
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */
-	public function __construct(TagMapper $mapper, $user, $type, $defaultTags = []) {
+	public function __construct(TagMapper $mapper, string $user, string $type, LoggerInterface $logger, IDBConnection $connection, array $defaultTags = []) {
 		$this->mapper = $mapper;
 		$this->user = $user;
 		$this->type = $type;
 		$this->owners = [$this->user];
 		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
+		$this->db = $connection;
+		$this->logger = $logger;
 
 		if (count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
@@ -126,7 +105,7 @@ class Tags implements ITags {
 	 *
 	 * @return boolean
 	 */
-	public function isEmpty() {
+	public function isEmpty(): bool {
 		return count($this->tags) === 0;
 	}
 
@@ -137,7 +116,7 @@ class Tags implements ITags {
 	 * @param string $id The ID of the tag that is going to be mapped
 	 * @return array|false
 	 */
-	public function getTag($id) {
+	public function getTag(string $id) {
 		$key = $this->getTagById($id);
 		if ($key !== false) {
 			return $this->tagMap($this->tags[$key]);
@@ -154,9 +133,9 @@ class Tags implements ITags {
 	 * 	['id' => 1, 'name' = 'Shared tag', 'owner' = 'Other user', 'type' => 'tagtype'],
 	 * ]
 	 *
-	 * @return array
+	 * @return array<array-key, array{id: int, name: string}>
 	 */
-	public function getTags() {
+	public function getTags(): array {
 		if (!count($this->tags)) {
 			return [];
 		}
@@ -181,7 +160,7 @@ class Tags implements ITags {
 	 * @param string $user The user whose tags are to be checked.
 	 * @return array An array of Tag objects.
 	 */
-	public function getTagsForUser($user) {
+	public function getTagsForUser(string $user): array {
 		return array_filter($this->tags,
 			function ($tag) use ($user) {
 				return $tag->getOwner() === $user;
@@ -193,23 +172,26 @@ class Tags implements ITags {
 	 * Get the list of tags for the given ids.
 	 *
 	 * @param array $objIds array of object ids
-	 * @return array|boolean of tags id as key to array of tag names
+	 * @return array|false of tags id as key to array of tag names
 	 * or false if an error occurred
 	 */
 	public function getTagsForObjects(array $objIds) {
 		$entries = [];
 
 		try {
-			$conn = \OC::$server->getDatabaseConnection();
 			$chunks = array_chunk($objIds, 900, false);
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('category', 'categoryid', 'objid')
+				->from(self::RELATION_TABLE, 'r')
+				->join('r', self::TAG_TABLE, 't', $qb->expr()->eq('r.categoryid', 't.id'))
+				->where($qb->expr()->eq('uid', $qb->createParameter('uid')))
+				->andWhere($qb->expr()->eq('r.type', $qb->createParameter('type')))
+				->andWhere($qb->expr()->in('objid', $qb->createParameter('chunk')));
 			foreach ($chunks as $chunk) {
-				$result = $conn->executeQuery(
-					'SELECT `category`, `categoryid`, `objid` ' .
-					'FROM `' . self::RELATION_TABLE . '` r, `' . self::TAG_TABLE . '` ' .
-					'WHERE `categoryid` = `id` AND `uid` = ? AND r.`type` = ? AND `objid` IN (?)',
-					[$this->user, $this->type, $chunk],
-					[null, null, IQueryBuilder::PARAM_INT_ARRAY]
-				);
+				$qb->setParameter('uid', $this->user, IQueryBuilder::PARAM_STR);
+				$qb->setParameter('type', $this->type, IQueryBuilder::PARAM_STR);
+				$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+				$result = $qb->executeQuery();
 				while ($row = $result->fetch()) {
 					$objId = (int)$row['objid'];
 					if (!isset($entries[$objId])) {
@@ -217,11 +199,11 @@ class Tags implements ITags {
 					}
 					$entries[$objId][] = $row['category'];
 				}
+				$result->closeCursor();
 			}
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'core',
 			]);
 			return false;
@@ -236,18 +218,17 @@ class Tags implements ITags {
 	 * Throws an exception if the tag could not be found.
 	 *
 	 * @param string $tag Tag id or name.
-	 * @return array|false An array of object ids or false on error.
+	 * @return int[]|false An array of object ids or false on error.
 	 * @throws \Exception
 	 */
 	public function getIdsForTag($tag) {
-		$result = null;
 		$tagId = false;
 		if (is_numeric($tag)) {
 			$tagId = $tag;
 		} elseif (is_string($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
-				\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', ILogger::DEBUG);
+				$this->logger->debug(__METHOD__ . ' Cannot use empty tag names', ['app' => 'core']);
 				return false;
 			}
 			$tagId = $this->getTagId($tag);
@@ -261,32 +242,24 @@ class Tags implements ITags {
 		}
 
 		$ids = [];
-		$sql = 'SELECT `objid` FROM `' . self::RELATION_TABLE
-			. '` WHERE `categoryid` = ?';
-
 		try {
-			$stmt = \OC_DB::prepare($sql);
-			$result = $stmt->execute([$tagId]);
-			if ($result === null) {
-				$stmt->closeCursor();
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
-				return false;
-			}
-		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('objid')
+				->from(self::RELATION_TABLE)
+				->where($qb->expr()->eq('categoryid', $qb->createNamedParameter($tagId, IQueryBuilder::PARAM_STR)));
+			$result = $qb->executeQuery();
+		} catch (Exception $e) {
+			$this->logger->error($e->getMessage(), [
 				'app' => 'core',
+				'exception' => $e,
 			]);
 			return false;
 		}
 
-		if (!is_null($result)) {
-			while ($row = $result->fetchRow()) {
-				$ids[] = (int)$row['objid'];
-			}
-			$result->closeCursor();
+		while ($row = $result->fetch()) {
+			$ids[] = (int)$row['objid'];
 		}
+		$result->closeCursor();
 
 		return $ids;
 	}
@@ -297,9 +270,8 @@ class Tags implements ITags {
 	 *
 	 * @param string $name The tag name to check for.
 	 * @param string $user The user whose tags are to be checked.
-	 * @return bool
 	 */
-	public function userHasTag($name, $user) {
+	public function userHasTag(string $name, string $user): bool {
 		$key = $this->array_searchi($name, $this->getTagsForUser($user));
 		return ($key !== false) ? $this->tags[$key]->getId() : false;
 	}
@@ -308,9 +280,8 @@ class Tags implements ITags {
 	 * Checks whether a tag is saved for or shared with the current user.
 	 *
 	 * @param string $name The tag name to check for.
-	 * @return bool
 	 */
-	public function hasTag($name) {
+	public function hasTag(string $name): bool {
 		return $this->getTagId($name) !== false;
 	}
 
@@ -320,15 +291,16 @@ class Tags implements ITags {
 	 * @param string $name A string with a name of the tag
 	 * @return false|int the id of the added tag or false on error.
 	 */
-	public function add($name) {
+	public function add(string $name) {
 		$name = trim($name);
 
 		if ($name === '') {
-			\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', ILogger::DEBUG);
+			$this->logger->debug(__METHOD__ . ' Cannot add an empty tag', ['app' => 'core']);
 			return false;
 		}
 		if ($this->userHasTag($name, $this->user)) {
-			\OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', ILogger::DEBUG);
+			// TODO use unique db properties instead of an additional check
+			$this->logger->debug(__METHOD__ . ' Tag with name already exists', ['app' => 'core']);
 			return false;
 		}
 		try {
@@ -336,14 +308,13 @@ class Tags implements ITags {
 			$tag = $this->mapper->insert($tag);
 			$this->tags[] = $tag;
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'core',
 			]);
 			return false;
 		}
-		\OCP\Util::writeLog('core', __METHOD__.', id: ' . $tag->getId(), ILogger::DEBUG);
+		$this->logger->debug(__METHOD__ . ' Added an tag with ' . $tag->getId(), ['app' => 'core']);
 		return $tag->getId();
 	}
 
@@ -354,12 +325,12 @@ class Tags implements ITags {
 	 * @param string $to The new name of the tag.
 	 * @return bool
 	 */
-	public function rename($from, $to) {
+	public function rename($from, string $to): bool {
 		$from = trim($from);
 		$to = trim($to);
 
 		if ($to === '' || $from === '') {
-			\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', ILogger::DEBUG);
+			$this->logger->debug(__METHOD__ . 'Cannot use an empty tag names', ['app' => 'core']);
 			return false;
 		}
 
@@ -369,13 +340,13 @@ class Tags implements ITags {
 			$key = $this->getTagByName($from);
 		}
 		if ($key === false) {
-			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', ILogger::DEBUG);
+			$this->logger->debug(__METHOD__ . 'Tag ' . $from . 'does not exist', ['app' => 'core']);
 			return false;
 		}
 		$tag = $this->tags[$key];
 
 		if ($this->userHasTag($to, $tag->getOwner())) {
-			\OCP\Util::writeLog('core', __METHOD__.', A tag named ' . $to. ' already exists for user ' . $tag->getOwner() . '.', ILogger::DEBUG);
+			$this->logger->debug(__METHOD__ . 'A tag named' . $to . 'already exists for user' . $tag->getOwner(), ['app' => 'core']);
 			return false;
 		}
 
@@ -383,9 +354,8 @@ class Tags implements ITags {
 			$tag->setName($to);
 			$this->tags[$key] = $this->mapper->update($tag);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'core',
 			]);
 			return false;
@@ -396,13 +366,13 @@ class Tags implements ITags {
 	/**
 	 * Add a list of new tags.
 	 *
-	 * @param string[] $names A string with a name or an array of strings containing
+	 * @param string|string[] $names A string with a name or an array of strings containing
 	 * the name(s) of the tag(s) to add.
 	 * @param bool $sync When true, save the tags
 	 * @param int|null $id int Optional object id to add to this|these tag(s)
 	 * @return bool Returns false on error.
 	 */
-	public function addMultiple($names, $sync = false, $id = null) {
+	public function addMultiple($names, bool $sync = false, ?int $id = null): bool {
 		if (!is_array($names)) {
 			$names = [$names];
 		}
@@ -430,122 +400,50 @@ class Tags implements ITags {
 	/**
 	 * Save the list of tags and their object relations
 	 */
-	protected function save() {
-		if (is_array($this->tags)) {
-			foreach ($this->tags as $tag) {
-				try {
-					if (!$this->mapper->tagExists($tag)) {
-						$this->mapper->insert($tag);
-					}
-				} catch (\Exception $e) {
-					\OC::$server->getLogger()->logException($e, [
-						'message' => __METHOD__,
-						'level' => ILogger::ERROR,
-						'app' => 'core',
-					]);
-				}
-			}
-
-			// reload tags to get the proper ids.
-			$this->tags = $this->mapper->loadTags($this->owners, $this->type);
-			\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
-				ILogger::DEBUG);
-			// Loop through temporarily cached objectid/tagname pairs
-			// and save relations.
-			$tags = $this->tags;
-			// For some reason this is needed or array_search(i) will return 0..?
-			ksort($tags);
-			$dbConnection = \OC::$server->getDatabaseConnection();
-			foreach (self::$relations as $relation) {
-				$tagId = $this->getTagId($relation['tag']);
-				\OCP\Util::writeLog('core', __METHOD__ . 'catid, ' . $relation['tag'] . ' ' . $tagId, ILogger::DEBUG);
-				if ($tagId) {
-					try {
-						$dbConnection->insertIfNotExist(self::RELATION_TABLE,
-							[
-								'objid' => $relation['objid'],
-								'categoryid' => $tagId,
-								'type' => $this->type,
-							]);
-					} catch (\Exception $e) {
-						\OC::$server->getLogger()->logException($e, [
-							'message' => __METHOD__,
-							'level' => ILogger::ERROR,
-							'app' => 'core',
-						]);
-					}
-				}
-			}
-			self::$relations = []; // reset
-		} else {
-			\OCP\Util::writeLog('core', __METHOD__.', $this->tags is not an array! '
-				. print_r($this->tags, true), ILogger::ERROR);
-		}
-	}
-
-	/**
-	 * Delete tags and tag/object relations for a user.
-	 *
-	 * For hooking up on post_deleteUser
-	 *
-	 * @param array $arguments
-	 */
-	public static function post_deleteUser($arguments) {
-		// Find all objectid/tagId pairs.
-		$result = null;
-		try {
-			$stmt = \OC_DB::prepare('SELECT `id` FROM `' . self::TAG_TABLE . '` '
-				. 'WHERE `uid` = ?');
-			$result = $stmt->execute([$arguments['uid']]);
-			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
-			}
-		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
-				'app' => 'core',
-			]);
-		}
-
-		if (!is_null($result)) {
+	protected function save(): void {
+		foreach ($this->tags as $tag) {
 			try {
-				$stmt = \OC_DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
-					. 'WHERE `categoryid` = ?');
-				while ($row = $result->fetchRow()) {
-					try {
-						$stmt->execute([$row['id']]);
-					} catch (\Exception $e) {
-						\OC::$server->getLogger()->logException($e, [
-							'message' => __METHOD__,
-							'level' => ILogger::ERROR,
-							'app' => 'core',
-						]);
-					}
+				if (!$this->mapper->tagExists($tag)) {
+					$this->mapper->insert($tag);
 				}
-				$result->closeCursor();
 			} catch (\Exception $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'message' => __METHOD__,
-					'level' => ILogger::ERROR,
+				$this->logger->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'core',
 				]);
 			}
 		}
-		try {
-			$stmt = \OC_DB::prepare('DELETE FROM `' . self::TAG_TABLE . '` '
-				. 'WHERE `uid` = ?');
-			$result = $stmt->execute([$arguments['uid']]);
-			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
+
+		// reload tags to get the proper ids.
+		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
+		$this->logger->debug(__METHOD__ . 'tags' . print_r($this->tags, true), ['app' => 'core']);
+		// Loop through temporarily cached objectid/tagname pairs
+		// and save relations.
+		$tags = $this->tags;
+		// For some reason this is needed or array_search(i) will return 0..?
+		ksort($tags);
+		foreach (self::$relations as $relation) {
+			$tagId = $this->getTagId($relation['tag']);
+			$this->logger->debug(__METHOD__ . 'catid ' . $relation['tag'] . ' ' . $tagId, ['app' => 'core']);
+			if ($tagId) {
+				$qb = $this->db->getQueryBuilder();
+				$qb->insert(self::RELATION_TABLE)
+					->values([
+						'objid' => $qb->createNamedParameter($relation['objid'], IQueryBuilder::PARAM_INT),
+						'categoryid' => $qb->createNamedParameter($tagId, IQueryBuilder::PARAM_INT),
+						'type' => $qb->createNamedParameter($this->type),
+					]);
+				try {
+					$qb->executeStatement();
+				} catch (Exception $e) {
+					$this->logger->error($e->getMessage(), [
+						'exception' => $e,
+						'app' => 'core',
+					]);
+				}
 			}
-		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
-				'app' => 'core',
-			]);
 		}
+		self::$relations = []; // reset
 	}
 
 	/**
@@ -554,28 +452,21 @@ class Tags implements ITags {
 	 * @param array $ids The ids of the objects
 	 * @return boolean Returns false on error.
 	 */
-	public function purgeObjects(array $ids) {
+	public function purgeObjects(array $ids): bool {
 		if (count($ids) === 0) {
 			// job done ;)
 			return true;
 		}
 		$updates = $ids;
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete(self::RELATION_TABLE)
+			->where($qb->expr()->in('objid', $qb->createNamedParameter($ids)));
 		try {
-			$query = 'DELETE FROM `' . self::RELATION_TABLE . '` ';
-			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids) - 1) . '?) ';
-			$query .= 'AND `type`= ?';
-			$updates[] = $this->type;
-			$stmt = \OC_DB::prepare($query);
-			$result = $stmt->execute($updates);
-			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
-				return false;
-			}
-		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+			$qb->executeStatement();
+		} catch (Exception $e) {
+			$this->logger->error($e->getMessage(), [
 				'app' => 'core',
+				'exception' => $e,
 			]);
 			return false;
 		}
@@ -648,18 +539,19 @@ class Tags implements ITags {
 		} else {
 			$tagId = $tag;
 		}
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert(self::RELATION_TABLE)
+			->values([
+				'objid' => $qb->createNamedParameter($objid, IQueryBuilder::PARAM_INT),
+				'categoryid' => $qb->createNamedParameter($tagId, IQueryBuilder::PARAM_INT),
+				'type' => $qb->createNamedParameter($this->type, IQueryBuilder::PARAM_STR),
+			]);
 		try {
-			\OC::$server->getDatabaseConnection()->insertIfNotExist(self::RELATION_TABLE,
-				[
-					'objid' => $objid,
-					'categoryid' => $tagId,
-					'type' => $this->type,
-				]);
+			$qb->executeStatement();
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+			\OC::$server->getLogger()->error($e->getMessage(), [
 				'app' => 'core',
+				'exception' => $e,
 			]);
 			return false;
 		}
@@ -686,15 +578,17 @@ class Tags implements ITags {
 		}
 
 		try {
-			$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
-					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
-			$stmt = \OC_DB::prepare($sql);
-			$stmt->execute([$objid, $tagId, $this->type]);
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete(self::RELATION_TABLE)
+				->where($qb->expr()->andX(
+					$qb->expr()->eq('objid', $qb->createNamedParameter($objid)),
+					$qb->expr()->eq('categoryid', $qb->createNamedParameter($tagId)),
+					$qb->expr()->eq('type', $qb->createNamedParameter($this->type)),
+				))->executeStatement();
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+			$this->logger->error($e->getMessage(), [
 				'app' => 'core',
+				'exception' => $e,
 			]);
 			return false;
 		}
@@ -736,21 +630,14 @@ class Tags implements ITags {
 			}
 			if (!is_null($id) && $id !== false) {
 				try {
-					$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
-							. 'WHERE `categoryid` = ?';
-					$stmt = \OC_DB::prepare($sql);
-					$result = $stmt->execute([$id]);
-					if ($result === null) {
-						\OCP\Util::writeLog('core',
-							__METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(),
-							ILogger::ERROR);
-						return false;
-					}
+					$qb = $this->db->getQueryBuilder();
+					$qb->delete(self::RELATION_TABLE)
+						->where($qb->expr()->eq('categoryid', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
+						->executeStatement();
 				} catch (\Exception $e) {
-					\OC::$server->getLogger()->logException($e, [
-						'message' => __METHOD__,
-						'level' => ILogger::ERROR,
+					$this->logger->error($e->getMessage(), [
 						'app' => 'core',
+						'exception' => $e,
 					]);
 					return false;
 				}
