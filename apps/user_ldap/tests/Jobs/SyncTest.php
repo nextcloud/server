@@ -34,11 +34,14 @@ use OCA\User_LDAP\Jobs\Sync;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class SyncTest extends TestCase {
@@ -85,23 +88,25 @@ class SyncTest extends TestCase {
 		$this->connectionFactory = $this->createMock(ConnectionFactory::class);
 		$this->accessFactory = $this->createMock(AccessFactory::class);
 
-		$this->arguments = [
-			'helper' => $this->helper,
-			'ldapWrapper' => $this->ldapWrapper,
-			'mapper' => $this->mapper,
-			'config' => $this->config,
-			'avatarManager' => $this->avatarManager,
-			'dbc' => $this->dbc,
-			'ncUserManager' => $this->ncUserManager,
-			'notificationManager' => $this->notificationManager,
-			'connectionFactory' => $this->connectionFactory,
-			'accessFactory' => $this->accessFactory,
-		];
-
-		$this->sync = new Sync($this->userManager);
+		$this->sync = new Sync(
+			$this->userManager,
+			\OC::$server->get(IEventDispatcher::class),
+			$this->config,
+			\OC::$server->get(ITimeFactory::class),
+			$this->dbc,
+			$this->avatarManager,
+			$this->ncUserManager,
+			\OC::$server->get(LoggerInterface::class),
+			$this->notificationManager,
+			$this->mapper,
+			$this->helper,
+			$this->connectionFactory
+		);
+		// FIXME
+		$this->sync->overwritePropertiesForTest($this->ldapWrapper, $this->accessFactory);
 	}
 
-	public function intervalDataProvider() {
+	public function intervalDataProvider(): array {
 		return [
 			[
 				0, 1000, 750
@@ -124,7 +129,7 @@ class SyncTest extends TestCase {
 	/**
 	 * @dataProvider intervalDataProvider
 	 */
-	public function testUpdateInterval($userCount, $pagingSize1, $pagingSize2) {
+	public function testUpdateInterval(int $userCount, int $pagingSize1, int $pagingSize2): void {
 		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('user_ldap', 'background_sync_interval', $this->anything())
@@ -150,7 +155,6 @@ class SyncTest extends TestCase {
 			->method('count')
 			->willReturn($userCount);
 
-		$this->sync->setArgument($this->arguments);
 		$this->sync->updateInterval();
 	}
 
@@ -251,7 +255,7 @@ class SyncTest extends TestCase {
 		}
 	}
 
-	public function testQualifiesToRun() {
+	public function testQualifiesToRun(): void {
 		$cycleData = ['prefix' => 's01'];
 
 		$this->config->expects($this->exactly(2))

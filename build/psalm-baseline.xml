@@ -1951,18 +1951,12 @@
       <code>$i</code>
       <code>$lastChange</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="5">
+    <InvalidScalarArgument occurrences="3">
       <code>$interval</code>
       <code>0</code>
       <code>0</code>
       <code>self::MIN_INTERVAL</code>
     </InvalidScalarArgument>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$argument</code>
-    </MoreSpecificImplementedParamType>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="apps/user_ldap/lib/Jobs/UpdateGroups.php">
     <InvalidReturnStatement occurrences="1">
@@ -1974,14 +1968,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>3600</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
-    <RedundantCondition occurrences="1">
-      <code>isset($qb)</code>
-    </RedundantCondition>
-    <TypeDoesNotContainNull occurrences="1">
-      <code>isset($qb)</code>
-    </TypeDoesNotContainNull>
   </file>
   <file src="apps/user_ldap/lib/Proxy.php">
     <InvalidDocblock occurrences="1">

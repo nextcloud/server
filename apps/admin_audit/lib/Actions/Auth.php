@@ -27,12 +27,35 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\Actions;
 
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+use OCP\User\Events\BeforeUserLoggedInEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedOutEvent;
+
 /**
  * Class Auth logs all auth related actions
  *
  * @package OCA\AdminAudit\Actions
  */
-class Auth extends Action {
+class Auth extends Action implements IEventListener {
+	public function handle(Event $event): void {
+		if ($event instanceof BeforeUserLoggedInEvent) {
+			$this->loginAttempt(['uid' => $event->getUsername()]);
+		}
+
+		if ($event instanceof UserLoggedInEvent) {
+			$this->loginAttempt(['uid' => $event->getLoginName()]);
+		}
+
+		if ($event instanceof UserLoggedOutEvent) {
+			$user = $event->getUser();
+			if ($user) {
+				$this->logout($user->getUID());
+			}
+		}
+	}
+
 	public function loginAttempt(array $params): void {
 		$this->log(
 			'Login attempt: "%s"',
@@ -55,11 +78,12 @@ class Auth extends Action {
 		);
 	}
 
-	public function logout(array $params): void {
+	public function logout(string $userId): void {
 		$this->log(
-			'Logout occurred',
-			[],
-			[]
+			'Logout occurred for "%s"',
+			['uid' => $userId],
+			['uid'],
+			true
 		);
 	}
 }

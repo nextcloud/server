@@ -29,6 +29,12 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\Actions;
 
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IGroup;
 use OCP\IUser;
 
@@ -37,13 +43,21 @@ use OCP\IUser;
  *
  * @package OCA\AdminAudit\Actions
  */
-class GroupManagement extends Action {
+class GroupManagement extends Action implements IEventListener {
+	public function handle(Event $event): void {
+		if ($event instanceof UserAddedEvent) {
+			$this->addUser($event->getGroup(), $event->getUser());
+		} elseif ($event instanceof UserRemovedEvent) {
+			$this->removeUser($event->getGroup(), $event->getUser());
+		} elseif ($event instanceof GroupCreatedEvent) {
+			$this->createGroup($event->getGroup());
+		} elseif ($event instanceof GroupDeletedEvent) {
+			$this->deleteGroup($event->getGroup());
+		}
+	}
 
 	/**
-	 * log add user to group event
-	 *
-	 * @param IGroup $group
-	 * @param IUser $user
+	 * Log add user to group event
 	 */
 	public function addUser(IGroup $group, IUser $user): void {
 		$this->log('User "%s" added to group "%s"',
@@ -58,10 +72,7 @@ class GroupManagement extends Action {
 	}
 
 	/**
-	 * log remove user from group event
-	 *
-	 * @param IGroup $group
-	 * @param IUser $user
+	 * Log remove user from group event
 	 */
 	public function removeUser(IGroup $group, IUser $user): void {
 		$this->log('User "%s" removed from group "%s"',
@@ -76,9 +87,7 @@ class GroupManagement extends Action {
 	}
 
 	/**
-	 * log create group to group event
-	 *
-	 * @param IGroup $group
+	 * Log create group to group event
 	 */
 	public function createGroup(IGroup $group): void {
 		$this->log('Group created: "%s"',
@@ -92,9 +101,7 @@ class GroupManagement extends Action {
 	}
 
 	/**
-	 * log delete group to group event
-	 *
-	 * @param IGroup $group
+	 * Log delete group to group event
 	 */
 	public function deleteGroup(IGroup $group): void {
 		$this->log('Group deleted: "%s"',

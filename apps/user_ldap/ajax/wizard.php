@@ -27,6 +27,8 @@
  *
  */
 // Check user and app status
+use OCP\EventDispatcher\IEventDispatcher;
+
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
@@ -70,7 +72,8 @@ $access = new \OCA\User_LDAP\Access(
 	new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 	\OC::$server->getConfig(),
 	\OC::$server->getUserManager(),
-	\OC::$server->get(\Psr\Log\LoggerInterface::class)
+	\OC::$server->get(\Psr\Log\LoggerInterface::class),
+	\OC::$server->get(IEventDispatcher::class)
 );
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);

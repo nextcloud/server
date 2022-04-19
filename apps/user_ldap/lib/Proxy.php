@@ -35,6 +35,7 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -83,12 +84,13 @@ abstract class Proxy {
 			$coreNotificationManager = \OC::$server->getNotificationManager();
 			$shareManager = \OC::$server->get(IManager::class);
 			$logger = \OC::$server->get(LoggerInterface::class);
+			$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		}
 		$userManager =
 			new Manager($ocConfig, $fs, $logger, $avatarM, new \OCP\Image(),
 				$coreUserManager, $coreNotificationManager, $shareManager);
 		$connector = new Connection($this->ldap, $configPrefix);
-		$access = new Access($connector, $this->ldap, $userManager, new Helper($ocConfig, \OC::$server->getDatabaseConnection()), $ocConfig, $coreUserManager, $logger);
+		$access = new Access($connector, $this->ldap, $userManager, new Helper($ocConfig, \OC::$server->getDatabaseConnection()), $ocConfig, $coreUserManager, $logger, $dispatcher);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
 		self::$accesses[$configPrefix] = $access;

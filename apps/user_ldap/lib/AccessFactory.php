@@ -24,23 +24,19 @@
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class AccessFactory {
-	/** @var ILDAPWrapper */
-	protected $ldap;
-	/** @var Manager */
-	protected $userManager;
-	/** @var Helper */
-	protected $helper;
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserManager */
-	private $ncUserManager;
-	/** @var LoggerInterface */
-	private $logger;
+	protected ILDAPWrapper $ldap;
+	protected Manager $userManager;
+	protected Helper $helper;
+	protected IConfig $config;
+	private IUserManager $ncUserManager;
+	private LoggerInterface $logger;
+	private IEventDispatcher $dispatcher;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
@@ -48,16 +44,19 @@ class AccessFactory {
 		Helper $helper,
 		IConfig $config,
 		IUserManager $ncUserManager,
-		LoggerInterface $logger) {
+		LoggerInterface $logger,
+		IEventDispatcher $dispatcher
+	) {
 		$this->ldap = $ldap;
 		$this->userManager = $userManager;
 		$this->helper = $helper;
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
 		$this->logger = $logger;
+		$this->dispatcher = $dispatcher;
 	}
 
-	public function get(Connection $connection) {
+	public function get(Connection $connection): Access {
 		return new Access(
 			$connection,
 			$this->ldap,
@@ -65,7 +64,8 @@ class AccessFactory {
 			$this->helper,
 			$this->config,
 			$this->ncUserManager,
-			$this->logger
+			$this->logger,
+			$this->dispatcher
 		);
 	}
 }

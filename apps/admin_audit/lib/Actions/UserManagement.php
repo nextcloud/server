@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,23 +32,47 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\Actions;
 
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserIdAssignedEvent;
+use OCP\User\Events\UserIdUnassignedEvent;
 
 /**
  * Class UserManagement logs all user management related actions.
  *
  * @package OCA\AdminAudit\Actions
  */
-class UserManagement extends Action {
+class UserManagement extends Action implements IEventListener {
+	public function handle(Event $event): void {
+		if ($event instanceof UserCreatedEvent) {
+			$this->create($event->getUser()->getUID());
+		} elseif ($event instanceof UserDeletedEvent) {
+			$this->delete($event->getUser()->getUID());
+		} elseif ($event instanceof UserChangedEvent) {
+			$this->change($event);
+		} elseif ($event instanceof UserIdAssignedEvent) {
+			$this->assign($event->getUserId());
+		} elseif ($event instanceof UserIdUnassignedEvent) {
+			$this->unassign($event->getUserId());
+		} elseif ($event instanceof PasswordUpdatedEvent) {
+			$this->setPassword($event->getUser());
+		}
+	}
+
 	/**
 	 * Log creation of users
 	 *
 	 * @param array $params
 	 */
-	public function create(array $params): void {
+	public function create(string $userId): void {
 		$this->log(
 			'User created: "%s"',
-			$params,
+			['uid' => $userId],
 			[
 				'uid',
 			]
@@ -56,26 +81,22 @@ class UserManagement extends Action {
 
 	/**
 	 * Log assignments of users (typically user backends)
-	 *
-	 * @param string $uid
 	 */
-	public function assign(string $uid): void {
+	public function assign(string $userId): void {
 		$this->log(
 		'UserID assigned: "%s"',
-			[ 'uid' => $uid ],
+			[ 'uid' => $userId ],
 			[ 'uid' ]
 		);
 	}
 
 	/**
 	 * Log deletion of users
-	 *
-	 * @param array $params
 	 */
-	public function delete(array $params): void {
+	public function delete(string $userId): void {
 		$this->log(
 			'User deleted: "%s"',
-			$params,
+			['uid' => $userId],
 			[
 				'uid',
 			]
@@ -100,14 +121,14 @@ class UserManagement extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function change(array $params): void {
-		switch ($params['feature']) {
+	public function change(UserChangedEvent $changedEvent): void {
+		switch ($changedEvent->getFeature()) {
 			case 'enabled':
 				$this->log(
-					$params['value'] === true
+					$changedEvent->getValue() === true
 						? 'User enabled: "%s"'
 						: 'User disabled: "%s"',
-					['user' => $params['user']->getUID()],
+					['user' => $changedEvent->getUser()->getUID()],
 					[
 						'user',
 					]
@@ -116,7 +137,7 @@ class UserManagement extends Action {
 			case 'eMailAddress':
 				$this->log(
 					'Email address changed for user %s',
-					['user' => $params['user']->getUID()],
+					['user' => $changedEvent->getUser()->getUID()],
 					[
 						'user',
 					]

@@ -30,6 +30,7 @@ use Doctrine\DBAL\Exception;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use PDO;
 
 /**
  * Class AbstractMapping
@@ -215,17 +216,17 @@ abstract class AbstractMapping {
 	/**
 	 * @param array<string> $hashList
 	 */
-	protected function prepareListOfIdsQuery(array $hashList): IQueryBuilder {
+	protected function prepareListOfIdsQuery(): IQueryBuilder {
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->select('owncloud_name', 'ldap_dn_hash', 'ldap_dn')
 			->from($this->getTableName(false))
-			->where($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($hashList, QueryBuilder::PARAM_STR_ARRAY)));
+			->where($qb->expr()->in('ldap_dn_hash', $qb->createParameter('hashList')));
 		return $qb;
 	}
 
 	protected function collectResultsFromListOfIdsQuery(IQueryBuilder $qb, array &$results): void {
-		$stmt = $qb->execute();
-		while ($entry = $stmt->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE)) {
+		$stmt = $qb->executeQuery();
+		while ($entry = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
 			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
 		}
@@ -242,37 +243,20 @@ abstract class AbstractMapping {
 		$maxSlices = $totalDBParamLimit / $sliceSize;
 		$results = [];
 
-		$slice = 1;
+		$slice = 0;
 		$fdns = array_map([$this, 'getDNHash'], $fdns);
-		$fdnsSlice = count($fdns) > $sliceSize ? array_slice($fdns, 0, $sliceSize) : $fdns;
-		$qb = $this->prepareListOfIdsQuery($fdnsSlice);
+		$qb = $this->prepareListOfIdsQuery();
+		$countFns = count($fdns);
 
-		while (isset($fdnsSlice[999])) {
+		do {
 			// Oracle does not allow more than 1000 values in the IN list,
 			// but allows slicing
-			$slice++;
-			$fdnsSlice = array_slice($fdns, $sliceSize * ($slice - 1), $sliceSize);
+			$fdnsSlice = $countFns > $sliceSize ? array_slice($fdns, $sliceSize * $slice, $sliceSize) : $fdns;
 
-			/** @see https://github.com/vimeo/psalm/issues/4995 */
-			/** @psalm-suppress TypeDoesNotContainType */
-			if (!isset($qb)) {
-				$qb = $this->prepareListOfIdsQuery($fdnsSlice);
-				continue;
-			}
-
-			if (!empty($fdnsSlice)) {
-				$qb->orWhere($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)));
-			}
-
-			if ($slice % $maxSlices === 0) {
-				$this->collectResultsFromListOfIdsQuery($qb, $results);
-				unset($qb);
-			}
-		}
-
-		if (isset($qb)) {
+			$qb->setParameter('hashList', $fdnsSlice, IQueryBuilder::PARAM_STR_ARRAY);
 			$this->collectResultsFromListOfIdsQuery($qb, $results);
-		}
+			$slice++;
+		} while (count($fdnsSlice) >= 1000);
 
 		return $results;
 	}

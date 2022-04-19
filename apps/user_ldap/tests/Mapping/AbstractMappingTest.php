@@ -35,7 +35,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * kiss test on isColNameValid
 	 */
-	public function testIsColNameValid() {
+	public function testIsColNameValid(): void {
 		$dbMock = $this->createMock(IDBConnection::class);
 		$mapper = $this->getMapper($dbMock);
 
@@ -45,9 +45,8 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 
 	/**
 	 * returns an array of test entries with dn, name and uuid as keys
-	 * @return array
 	 */
-	protected function getTestData() {
+	protected function getTestData(): array {
 		$data = [
 			[
 				'dn' => 'uid=foobar,dc=example,dc=org',
@@ -89,7 +88,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * users or groups
 	 */
 	private function initTest() {
-		$dbc = \OC::$server->getDatabaseConnection();
+		$dbc = \OC::$server->get(IDBConnection::class);
 		$mapper = $this->getMapper($dbc);
 		$data = $this->getTestData();
 		// make sure DB is pristine, then fill it with test entries

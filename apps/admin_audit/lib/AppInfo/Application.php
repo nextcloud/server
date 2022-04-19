@@ -58,6 +58,10 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Console\ConsoleEvent;
+use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IPreview;
@@ -66,6 +70,15 @@ use OCP\IUserSession;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Log\ILogFactory;
 use OCP\Share;
+use OCP\User\Events\BeforeUserLoggedInEvent;
+use OCP\User\Events\UserIdAssignedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserIdUnassignedEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedOutEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -87,6 +100,26 @@ class Application extends App implements IBootstrap {
 		});
 
 		$context->registerEventListener(CriticalActionPerformedEvent::class, CriticalActionPerformedEventListener::class);
+
+		// User management
+		$context->registerEventListener(UserCreatedEvent::class, UserManagement::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserManagement::class);
+		$context->registerEventListener(UserChangedEvent::class, UserManagement::class);
+		$context->registerEventListener(PasswordUpdatedEvent::class, UserManagement::class);
+		$context->registerEventListener(UserIdAssignedEvent::class, UserManagement::class);
+		$context->registerEventListener(UserIdUnassignedEvent::class, UserManagement::class);
+
+		// Group management
+		$context->registerEventListener(GroupCreatedEvent::class, GroupManagement::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupManagement::class);
+		$context->registerEventListener(UserAddedEvent::class, GroupManagement::class);
+		$context->registerEventListener(UserRemovedEvent::class, GroupManagement::class);
+
+		// Authentication management
+		$context->registerEventListener(UserLoggedInEvent::class, Auth::class);
+		$context->registerEventListener(BeforeUserLoggedInEvent::class, Auth::class);
+		$context->registerEventListener(UserLoggedOutEvent::class, Auth::class);
+
 	}
 
 	public function boot(IBootContext $context): void {
@@ -105,10 +138,6 @@ class Application extends App implements IBootstrap {
 	 */
 	private function registerHooks(IAuditLogger $logger,
 									 IServerContainer $serverContainer): void {
-		$this->userManagementHooks($logger, $serverContainer->get(IUserSession::class));
-		$this->groupHooks($logger, $serverContainer->get(IGroupManager::class));
-		$this->authHooks($logger);
-
 		/** @var EventDispatcherInterface $eventDispatcher */
 		$eventDispatcher = $serverContainer->get(EventDispatcherInterface::class);
 		$this->consoleHooks($logger, $eventDispatcher);
@@ -123,31 +152,6 @@ class Application extends App implements IBootstrap {
 		$this->securityHooks($logger, $eventDispatcher);
 	}
 
-	private function userManagementHooks(IAuditLogger $logger,
-										 IUserSession $userSession): void {
-		$userActions = new UserManagement($logger);
-
-		Util::connectHook('OC_User', 'post_createUser', $userActions, 'create');
-		Util::connectHook('OC_User', 'post_deleteUser', $userActions, 'delete');
-		Util::connectHook('OC_User', 'changeUser', $userActions, 'change');
-
-		assert($userSession instanceof UserSession);
-		$userSession->listen('\OC\User', 'postSetPassword', [$userActions, 'setPassword']);
-		$userSession->listen('\OC\User', 'assignedUserId', [$userActions, 'assign']);
-		$userSession->listen('\OC\User', 'postUnassignedUserId', [$userActions, 'unassign']);
-	}
-
-	private function groupHooks(IAuditLogger $logger,
-								IGroupManager $groupManager): void {
-		$groupActions = new GroupManagement($logger);
-
-		assert($groupManager instanceof GroupManager);
-		$groupManager->listen('\OC\Group', 'postRemoveUser', [$groupActions, 'removeUser']);
-		$groupManager->listen('\OC\Group', 'postAddUser', [$groupActions, 'addUser']);
-		$groupManager->listen('\OC\Group', 'postDelete', [$groupActions, 'deleteGroup']);
-		$groupManager->listen('\OC\Group', 'postCreate', [$groupActions, 'createGroup']);
-	}
-
 	private function sharingHooks(IAuditLogger $logger): void {
 		$shareActions = new Sharing($logger);
 
@@ -158,14 +162,6 @@ class Application extends App implements IBootstrap {
 		Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword');
 		Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
 		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
-	}
-
-	private function authHooks(IAuditLogger $logger): void {
-		$authActions = new Auth($logger);
-
-		Util::connectHook('OC_User', 'pre_login', $authActions, 'loginAttempt');
-		Util::connectHook('OC_User', 'post_login', $authActions, 'loginSuccessful');
-		Util::connectHook('OC_User', 'logout', $authActions, 'logout');
 	}
 
 	private function appHooks(IAuditLogger $logger,
