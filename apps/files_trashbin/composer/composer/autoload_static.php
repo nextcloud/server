@@ -37,7 +37,7 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Exceptions\\CopyRecursiveException' => __DIR__ . '/..' . '/../lib/Exceptions/CopyRecursiveException.php',
         'OCA\\Files_Trashbin\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Trashbin\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
-        'OCA\\Files_Trashbin\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Trashbin\\Listener\\EventListener' => __DIR__ . '/..' . '/../lib/Listener/EventListener.php',
         'OCA\\Files_Trashbin\\Listeners\\LoadAdditionalScripts' => __DIR__ . '/..' . '/../lib/Listeners/LoadAdditionalScripts.php',
         'OCA\\Files_Trashbin\\Listeners\\SyncLivePhotosListener' => __DIR__ . '/..' . '/../lib/Listeners/SyncLivePhotosListener.php',
         'OCA\\Files_Trashbin\\Migration\\Version1010Date20200630192639' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630192639.php',

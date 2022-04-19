@@ -11,8 +11,6 @@ use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\CacheQueryBuilder;
 use OC\Files\Filesystem;
-use OC\Files\Node\File;
-use OC\Files\Node\Folder;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
@@ -23,7 +21,12 @@ use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -38,21 +41,20 @@ use OCP\Lock\LockedException;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-class Trashbin {
+/** @template-implements IEventListener<BeforeNodeDeletedEvent> */
+class Trashbin implements IEventListener {
 	// unit: percentage; 50% of available disk space/quota
 	public const DEFAULTMAXSIZE = 50;
 
 	/**
 	 * Ensure we don't need to scan the file during the move to trash
 	 * by triggering the scan in the pre-hook
-	 *
-	 * @param array $params
 	 */
-	public static function ensureFileScannedHook($params) {
+	public static function ensureFileScannedHook(Node $node): void {
 		try {
-			self::getUidAndFilename($params['path']);
+			self::getUidAndFilename($node->getPath());
 		} catch (NotFoundException $e) {
-			// nothing to scan for non existing files
+			// Nothing to scan for non existing files
 		}
 	}
 
@@ -1168,6 +1170,12 @@ class Trashbin {
 			return new NonExistingFolder($rootFolder, $view, $fullPath);
 		} else {
 			return new NonExistingFile($rootFolder, $view, $fullPath);
+		}
+	}
+
+	public function handle(Event $event): void {
+		if ($event instanceof BeforeNodeDeletedEvent) {
+			self::ensureFileScannedHook($event->getNode());
 		}
 	}
 }
