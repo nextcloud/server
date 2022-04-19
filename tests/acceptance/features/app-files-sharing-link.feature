@@ -61,14 +61,6 @@ Feature: app-files-sharing-link
     Given I act as John
     And I am logged in
     And I create a new folder named "Shared folder"
-    # To share the link the "Share" inline action has to be clicked but, as the
-    # details view is opened automatically when the folder is created, clicking
-    # on the inline action could fail if it is covered by the details view due
-    # to its opening animation. Instead of ensuring that the animations of the
-    # contents and the details view have both finished it is easier to close the
-    # details view and wait until it is closed before continuing.
-    And I close the details view
-    And I see that the details view is closed
     And I share the link for "Shared folder"
     And I write down the shared link
     When I act as Jane
@@ -81,14 +73,6 @@ Feature: app-files-sharing-link
     Given I act as John
     And I am logged in
     And I create a new folder named "Editable shared folder"
-    # To share the link the "Share" inline action has to be clicked but, as the
-    # details view is opened automatically when the folder is created, clicking
-    # on the inline action could fail if it is covered by the details view due
-    # to its opening animation. Instead of ensuring that the animations of the
-    # contents and the details view have both finished it is easier to close the
-    # details view and wait until it is closed before continuing.
-    And I close the details view
-    And I see that the details view is closed
     And I share the link for "Editable shared folder"
     And I set the shared link as editable
     And I write down the shared link
@@ -102,14 +86,6 @@ Feature: app-files-sharing-link
     Given I act as John
     And I am logged in
     And I create a new folder named "Editable shared folder"
-    # To share the link the "Share" inline action has to be clicked but, as the
-    # details view is opened automatically when the folder is created, clicking
-    # on the inline action could fail if it is covered by the details view due
-    # to its opening animation. Instead of ensuring that the animations of the
-    # contents and the details view have both finished it is easier to close the
-    # details view and wait until it is closed before continuing.
-    And I close the details view
-    And I see that the details view is closed
     And I share the link for "Editable shared folder"
     And I set the shared link as editable
     And I write down the shared link

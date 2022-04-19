@@ -179,7 +179,7 @@ Feature: app-comments
     And I see that the file is shared with "user0"
     And I enter in the folder named "Folder"
     And I create a new folder named "Child folder"
-    # The details view should already be open
+    And I open the details view for "Child folder"
     And I open the "Comments" tab in the details view
     And I create a new comment with "Hello world" as message
     And I see a comment with "Hello world" as message
@@ -206,7 +206,7 @@ Feature: app-comments
     And I open the Files app
     And I enter in the folder named "Folder"
     And I create a new folder named "Child folder"
-    # The details view should already be open
+    And I open the details view for "Child folder"
     And I open the "Comments" tab in the details view
     And I create a new comment with "Hello world" as message
     And I see a comment with "Hello world" as message
