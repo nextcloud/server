@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Споделяне по имейл",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Неуспешно споделяне на %1$s, защото този елемент вече е споделен с потребителя %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Не можем да ви изпратим автоматично генерираната парола. Моля, задайте валиден имейл адрес в личните си настройки и опитайте отново.",
+    "Failed to send share by email. Got an invalid email address" : "Изпращането на споделяне по имейл беше неуспешно. Имате невалиден имейл адрес",
     "Failed to send share by email" : "Изпращането на споделяне по имейл беше неуспешно",
     "%1$s shared »%2$s« with you" : "%1$s сподели »%2$s« с вас",
     "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« с вас.",
