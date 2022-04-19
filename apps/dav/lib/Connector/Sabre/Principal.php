@@ -271,6 +271,7 @@ class Principal implements BackendInterface {
 		$limitEnumerationPhone = $this->shareManager->limitEnumerationToPhone();
 		$allowEnumerationFullMatch = $this->shareManager->allowEnumerationFullMatch();
 		$ignoreSecondDisplayName = $this->shareManager->ignoreSecondDisplayName();
+		$matchEmail = $this->shareManager->matchEmail();
 
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
@@ -299,7 +300,7 @@ class Principal implements BackendInterface {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
 					if (!$allowEnumeration) {
-						if ($allowEnumerationFullMatch) {
+						if ($allowEnumerationFullMatch && $matchEmail) {
 							$users = $this->userManager->getByEmail($value);
 						} else {
 							$users = [];

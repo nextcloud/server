@@ -662,6 +662,10 @@ class PrincipalTest extends TestCase {
 			->method('allowEnumerationFullMatch')
 			->willReturn(true);
 
+		$this->shareManager->expects($this->once())
+			->method('matchEmail')
+			->willReturn(true);
+
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('getDisplayName')->willReturn('User 2');

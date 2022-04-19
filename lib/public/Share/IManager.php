@@ -449,10 +449,18 @@ interface IManager {
 	public function allowEnumerationFullMatch(): bool;
 
 	/**
+	 * Check if the search should match the email
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function matchEmail(): bool;
+
+	/**
 	 * Check if the search should ignore the second in parentheses display name if there is any
 	 *
 	 * @return bool
-	 * @since 24.0.0
+	 * @since 25.0.0
 	 */
 	public function ignoreSecondDisplayName(): bool;
 
