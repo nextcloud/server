@@ -58,18 +58,27 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 
 		return $variables;
 	}
+
+	public function getCustomCss(): string {
+		return "
+			@font-face {
+				font-family: 'OpenDyslexic';
+				font-style: normal;
+				font-weight: 400;
+				src: url('../fonts/OpenDyslexic-Regular.woff') format('woff'),
+					 url('../fonts/OpenDyslexic-Regular.otf') format('opentype'),
+					 url('../fonts/OpenDyslexic-Regular.ttf') format('truetype');
+			}
+			
+			@font-face {
+				font-family: 'OpenDyslexic';
+				font-style: normal;
+				font-weight: 700;
+				src: url('../fonts/OpenDyslexic-Bold.woff') format('woff'),
+					 url('../fonts/OpenDyslexic-Bold.otf') format('opentype'),
+					 url('../fonts/OpenDyslexic-Bold.ttf') format('truetype');
+			}
+		";
+	}
 }
 
-// @font-face {
-// 	font-family: 'OpenDyslexic';
-// 	font-style: normal;
-// 	font-weight: 400;
-// 	src: url('../fonts/OpenDyslexic-Regular.woff') format('woff');
-// }
-
-// @font-face {
-// 	font-family: 'OpenDyslexic';
-// 	font-style: normal;
-// 	font-weight: 700;
-// 	src: url('../fonts/OpenDyslexic-Bold.woff') format('woff');
-// }

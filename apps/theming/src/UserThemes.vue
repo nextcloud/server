@@ -1,5 +1,5 @@
 <template>
-	<SettingsSection class="theming" :title="t('themes', 'Appaerance and accessibility')">
+	<SettingsSection class="theming" :title="t('themes', 'Appearance and accessibility')">
 		<p v-html="description" />
 		<p v-html="descriptionDetail" />
 
@@ -166,9 +166,20 @@ export default {
 	}
 
 	&__preview-list {
+		--gap: 30px;
+
+		display: grid;
+		margin-top: var(--gap);
+		column-gap: var(--gap);
+		row-gap: var(--gap);
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 1440px) {
+	.theming__preview-list {
 		display: flex;
 		flex-direction: column;
-		max-width: 800px;
 	}
 }
 

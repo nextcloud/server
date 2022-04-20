@@ -35,7 +35,6 @@ use OCP\IURLGenerator;
 class DefaultTheme implements ITheme {
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
-	public IURLGenerator $urlGenerator;
 	public ImageManager $imageManager;
 	public IConfig $config;
 	public IL10N $l;
@@ -195,5 +194,9 @@ class DefaultTheme implements ITheme {
 		}
 
 		return $variables;
+	}
+
+	public function getCustomCss(): string {
+		return '';
 	}
 }

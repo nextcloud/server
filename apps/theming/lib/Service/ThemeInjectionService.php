@@ -75,7 +75,7 @@ class ThemeInjectionService {
 	 * @param string $media media query to use in the <link> element
 	 */
 	private function addThemeHeader(string $themeId, bool $plain = true, string $media = null) {
-		$linkToCSS = $this->urlGenerator->linkToRoute('theming.Theming.getThemeVariables', [
+		$linkToCSS = $this->urlGenerator->linkToRoute('theming.Theming.getThemeStylesheet', [
 			'themeId' => $themeId,
 			'plain' => $plain,
 		]);

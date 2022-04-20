@@ -45,7 +45,7 @@ return [
 			'verb' => 'POST'
 		],
 		[
-			'name' => 'Theming#getThemeVariables',
+			'name' => 'Theming#getThemeStylesheet',
 			'url' => '/theme/{themeId}.css',
 			'verb' => 'GET',
 		],

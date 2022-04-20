@@ -75,13 +75,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+// We make previews on 16/10 screens
+$ratio: 16;
 
 .theming__preview {
+	--ratio: 16;
 	position: relative;
 	display: flex;
 	justify-content: flex-start;
-	height: 140px;
-	margin-top: 3em;
+	max-width: 800px;
 
 	&,
 	* {
@@ -89,9 +91,10 @@ export default {
 	}
 
 	&-image {
-		flex-basis: 200px;
+		flex-basis: calc(16px * var(--ratio));
 		flex-shrink: 0;
-		margin-right: 30px;
+		height: calc(10px * var(--ratio));
+		margin-right: var(--gap);
 		border-radius: var(--border-radius);
 		background-repeat: no-repeat;
 		background-position: top left;
@@ -108,12 +111,12 @@ export default {
 	}
 }
 
-@media (max-width: (1024 / 2)) {
+@media (max-width: (1024px / 1.5)) {
 	.theming__preview {
-		display: unset;
+		flex-direction: column;
 
 		&-image {
-			height: 150px;
+			margin: 0;
 		}
 	}
 }

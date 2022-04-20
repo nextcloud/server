@@ -50,10 +50,42 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 
 	public function getCSSVariables(): array {
 		$variables = parent::getCSSVariables();
+		$colorMainText = '#000000';
+		$colorMainBackground = '#ffffff';
 
-		// FIXME …
-		$variables = $variables;
+		$variables['--color-main-background'] = $colorMainBackground;
+		$variables['--color-main-text'] = $colorMainText;
+
+		$variables['--color-background-dark'] = $this->util->darken($colorMainBackground, 30);
+		$variables['--color-background-darker'] = $this->util->darken($colorMainBackground, 30);
+
+		$variables['--color-placeholder-light'] = $this->util->darken($colorMainBackground, 30);
+		$variables['--color-placeholder-dark'] = $this->util->darken($colorMainBackground, 45);
+
+		$variables['--color-text-maxcontrast'] = 'var(--color-main-text)';
+		$variables['--color-text-light'] = 'var(--color-main-text)';
+		$variables['--color-text-lighter'] = 'var(--color-main-text)';
+
+		// used for the icon loading animation
+		$variables['--color-loading-light'] = '#dddddd';
+		$variables['--color-loading-dark'] = '#000000';
+
+		$variables['--color-box-shadow'] = 'var(--color-main-text)';
+
+		$variables['--color-border'] = $this->util->darken($colorMainBackground, 50);
+		$variables['--color-border-dark'] = $this->util->darken($colorMainBackground, 50);
 
 		return $variables;
+	}
+
+	public function getCustomCss(): string {
+		return "
+			[class^='icon-'], [class*=' icon-'],
+			.action,
+			#appmenu li a,
+			.menutoggle {
+				opacity: 1 !important;
+			}
+		";
 	}
 }

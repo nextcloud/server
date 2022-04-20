@@ -86,4 +86,14 @@ interface ITheme {
 	 * @since 25.0.0
 	 */
 	public function getCSSVariables(): array;
+
+	/**
+	 * Return the custom css necessary for that app
+	 * ⚠️ Warning, should be used slightly.
+	 * Theoretically, editing the variables should be enough.
+	 *
+	 * @return string
+	 * @since 25.0.0
+	 */
+	public function getCustomCss(): string;
 }

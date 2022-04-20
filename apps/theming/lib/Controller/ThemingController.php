@@ -55,6 +55,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use ScssPhp\ScssPhp\Compiler;
 
 /**
  * Class ThemingController
@@ -309,13 +310,14 @@ class ThemingController extends Controller {
 	 *
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
-	public function getThemeVariables(string $themeId, bool $plain = false) {
+	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes))) {
 			return new NotFoundResponse();
 		}
 
 		$theme = $themes[$themeId];
+		$customCss  = $theme->getCustomCss();
 
 		// Generate variables
 		$variables = '';
@@ -325,10 +327,12 @@ class ThemingController extends Controller {
 
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
-			$css = ":root { $variables }";
+			$css = ":root { $variables } " . $customCss;
 		} else { 
 			// If not set, we'll rely on the body class
-			$css = "body[data-theme-$themeId] { $variables }";
+			$compiler = new Compiler();
+			$compiledCss = $compiler->compileString("body[data-theme-$themeId] { $variables $customCss }");
+			$css = $compiledCss->getCss();;
 		}
 
 		try {
