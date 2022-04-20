@@ -11,7 +11,6 @@
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
 	</plugins>
 	<projectFiles>
-		<directory name="apps/accessibility"/>
 		<directory name="apps/admin_audit"/>
 		<directory name="apps/cloud_federation_api"/>
 		<directory name="apps/comments"/>

@@ -26,16 +26,22 @@ import { generateUrl } from '@nextcloud/router'
 import prefixWithBaseUrl from './prefixWithBaseUrl'
 
 export default (background, time = 0, themingDefaultBackground = '') => {
+	const enabledThemes = window.OCA.Theming.enabledThemes
+	const isDarkTheme = enabledThemes.join('').indexOf('dark') !== -1
+
 	if (background === 'default') {
 		if (themingDefaultBackground && themingDefaultBackground !== 'backgroundColor') {
 			return generateUrl('/apps/theming/image/background') + '?v=' + window.OCA.Theming.cacheBuster
 		}
-		if (window.OCA.Accessibility && window.OCA.Accessibility.theme === 'dark') {
+
+		if (isDarkTheme) {
 			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
 		}
+
 		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
 	} else if (background === 'custom') {
 		return generateUrl('/apps/dashboard/background') + '?v=' + time
 	}
+
 	return prefixWithBaseUrl(background)
 }

@@ -78,7 +78,7 @@ body {
 }
 
 #header .logo {
-	background-image: var(--image-logo);
+	background-image: var(--image-logo, url('../../core/img/logo/logo.svg'));
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-position: center;
@@ -851,7 +851,7 @@ p.info {
 }
 .loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
 	position: relative;
-	filter: var(--background-invert-if-bright)
+	filter: var(--background-invert-if-dark)
 }
 .loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
 	z-index: 2;

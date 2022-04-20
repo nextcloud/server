@@ -128,12 +128,6 @@ source_file = translationfiles/templates/workflowengine.pot
 source_lang = en
 type = PO
 
-[nextcloud.accessibility]
-file_filter = translationfiles/<lang>/accessibility.po
-source_file = translationfiles/templates/accessibility.pot
-source_lang = en
-type = PO
-
 [nextcloud.provisioning_api]
 file_filter = translationfiles/<lang>/provisioning_api.po
 source_file = translationfiles/templates/provisioning_api.pot

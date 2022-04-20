@@ -65,7 +65,7 @@
 		border: 2px solid var(--color-loading-light);
 		border-top-color: var(--color-loading-dark);
 		// revert if background is too bright
-		filter: var(--background-invert-if-bright);
+		filter: var(--background-invert-if-dark);
 
 		.primary &,
 		.primary + & {

@@ -28,5 +28,5 @@ Vue.prototype.OC = OC
 Vue.prototype.t = t
 
 const View = Vue.extend(App)
-const accessibility = new View()
-accessibility.$mount('#theming')
+const theming = new View()
+theming.$mount('#theming')

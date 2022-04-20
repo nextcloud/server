@@ -175,7 +175,7 @@ class DefaultTheme implements ITheme {
 			// svg with proper css variable instead or material
 			// design icons.
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'unset',
-			'--background-invert-if-bright' => 'unset',
+			'--background-invert-if-dark' => 'unset',
 		];
 
 		// Register image variables only if custom-defined
