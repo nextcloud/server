@@ -23,7 +23,8 @@
  */
 namespace OCA\Theming\Tests\Settings;
 
-use OCA\Theming\Settings\Section;
+use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Settings\AdminSection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
@@ -33,7 +34,7 @@ class SectionTest extends TestCase {
 	private $url;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
-	/** @var Section */
+	/** @var AdminSection */
 	private $section;
 
 	protected function setUp(): void {
@@ -41,7 +42,8 @@ class SectionTest extends TestCase {
 		$this->url = $this->createMock(IURLGenerator::class);
 		$this->l = $this->createMock(IL10N::class);
 
-		$this->section = new Section(
+		$this->section = new AdminSection(
+			Application::APP_ID,
 			$this->url,
 			$this->l
 		);

@@ -44,8 +44,8 @@ class ThemesService {
 								IConfig $config,
 								DefaultTheme $defaultTheme,
 								DarkTheme $darkTheme,
-								DarkHighContrastTheme $darkHighContrastTheme,
 								HighContrastTheme $highContrastTheme,
+								DarkHighContrastTheme $darkHighContrastTheme,
 								DyslexiaFont $dyslexiaFont) {
 		$this->userSession = $userSession;
 		$this->config = $config;
@@ -73,9 +73,15 @@ class ThemesService {
 	 * Enable a theme for the logged-in user
 	 * 
 	 * @param ITheme $theme the theme to enable
+	 * @return string[] the enabled themes
 	 */
-	public function enableTheme(ITheme $theme): void {
+	public function enableTheme(ITheme $theme): array {
 		$themesIds = $this->getEnabledThemes();
+
+		// If already enabled, ignore
+		if (in_array($theme->getId(), $themesIds)) {
+			return $themesIds;
+		}
 
 		/** @var ITheme[] */
 		$themes = array_map(function($themeId) {
@@ -83,34 +89,38 @@ class ThemesService {
 		}, $themesIds);
 
 		// Filtering all themes with the same type
-		$filteredThemes = array_filter($themes, function($t) use ($theme) {
+		$filteredThemes = array_filter($themes, function(ITheme $t) use ($theme) {
 			return $theme->getType() === $t->getType();
 		});
 
-		// Disable all the other themes of the same type
-		// as there can only be one enabled at the same time
-		foreach ($filteredThemes as $t) {
-			$this->disableTheme($t);
-		}
+		// Retrieve IDs only
+		$filteredThemesIds = array_map(function(ITheme $t) {
+			return $t->getId();
+		}, $filteredThemes);
 
-		$this->setEnabledThemes([...$this->getEnabledThemes(), $theme->getId()]);
+		$enabledThemes = [...array_diff($themesIds, $filteredThemesIds), $theme->getId()];
+		$this->setEnabledThemes($enabledThemes);
+
+		return $enabledThemes;
 	}
 
 	/**
 	 * Disable a theme for the logged-in user
 	 * 
 	 * @param ITheme $theme the theme to disable
+	 * @return string[] the enabled themes
 	 */
-	public function disableTheme(ITheme $theme): void {
-		// Using keys as it's faster
-		$themes = $this->getEnabledThemes();
+	public function disableTheme(ITheme $theme): array {
+		$themesIds = $this->getEnabledThemes();
 
 		// If enabled, removing it
-		if (in_array($theme->getId(), $themes)) {
-			$this->setEnabledThemes(array_filter($themes, function($themeId) use ($theme) {
-				return $themeId !== $theme->getId();
-			}));
+		if (in_array($theme->getId(), $themesIds)) {
+			$enabledThemes = array_diff($themesIds, [$theme->getId()]);
+			$this->setEnabledThemes($enabledThemes);
+			return $enabledThemes;
 		}
+		
+		return $themesIds;
 	}
 
 	/**
@@ -136,6 +146,10 @@ class ThemesService {
 	 */
 	public function getEnabledThemes(): array {
 		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return [];
+		}
+
 		try {
 			return json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
 		} catch (\Exception $e) {
@@ -151,6 +165,6 @@ class ThemesService {
 	 */
 	private function setEnabledThemes(array $themes): void {
 		$user = $this->userSession->getUser();
-		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_unique($themes)));
+		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_unique(array_values($themes))));
 	}
 }

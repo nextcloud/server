@@ -85,11 +85,11 @@ class AppsEnableTest extends TestCase {
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
 
 			[['updatenotification'], ['admin'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
-			[['updatenotification', 'accessibility'], ['admin'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin"],
+			[['updatenotification', 'dashboard'], ['admin'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\ndashboard ([\d\.]*) enabled for groups: admin"],
 
 			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
-			[['updatenotification', 'accessibility'], ['admin', 'invalid_group'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin"],
-			[['updatenotification', 'accessibility', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin\nCould not download app invalid_app"],
+			[['updatenotification', 'dashboard'], ['admin', 'invalid_group'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\ndashboard ([\d\.]*) enabled for groups: admin"],
+			[['updatenotification', 'dashboard', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification ([\d\.]*) enabled for groups: admin\ndashboard ([\d\.]*) enabled for groups: admin\nCould not download app invalid_app"],
 		];
 	}
 }

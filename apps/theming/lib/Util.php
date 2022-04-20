@@ -129,7 +129,7 @@ class Util {
 	public function calculateLuminance(string $color): float {
 		[$red, $green, $blue] = $this->hexToRGB($color);
 		$hsl = $this->toHSL($red, $green, $blue);
-		return $hsl[2] / 100;
+		return $hsl[2];
 	}
 
 	/**
