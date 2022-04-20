@@ -108,14 +108,7 @@ class CalendarMigrator implements IMigrator {
 	 */
 	private function getCalendarExportData(IUser $user, ICalendar $calendar, OutputInterface $output): array {
 		$userId = $user->getUID();
-		$calendarId = $calendar->getKey();
-		$calendarInfo = $this->calDavBackend->getCalendarById($calendarId);
-
-		if (empty($calendarInfo)) {
-			throw new CalendarMigratorException("Invalid info for calendar ID $calendarId");
-		}
-
-		$uri = $calendarInfo['uri'];
+		$uri = $calendar->getUri();
 		$path = CalDAVPlugin::CALENDAR_ROOT . "/$userId/$uri";
 
 		/**
@@ -227,12 +220,12 @@ class CalendarMigrator implements IMigrator {
 
 		try {
 			/**
-			* @var string $name
-			* @var VCalendar $vCalendar
-			*/
+			 * @var string $name
+			 * @var VCalendar $vCalendar
+			 */
 			foreach ($calendarExports as ['name' => $name, 'vCalendar' => $vCalendar]) {
-				// Set filename to sanitized calendar name appended with the date
-				$filename = preg_replace('/[^a-zA-Z0-9-_ ]/um', '', $name) . '_' . date('Y-m-d') . CalendarMigrator::FILENAME_EXT;
+				// Set filename to sanitized calendar name
+				$filename = preg_replace('/[^a-z0-9-_]/iu', '', $name) . CalendarMigrator::FILENAME_EXT;
 				$exportPath = CalendarMigrator::EXPORT_ROOT . $filename;
 
 				$exportDestination->addFileContents($exportPath, $vCalendar->serialize());
@@ -445,11 +438,11 @@ class CalendarMigrator implements IMigrator {
 				throw new CalendarMigratorException("Invalid calendar data contained in \"$importPath\"");
 			}
 
-			$splitFilename = explode('_', $filename, 2);
+			$splitFilename = explode('.', $filename, 2);
 			if (count($splitFilename) !== 2) {
-				throw new CalendarMigratorException("Invalid filename \"$filename\", expected filename of the format \"<calendar_name>_YYYY-MM-DD" . CalendarMigrator::FILENAME_EXT . '"');
+				throw new CalendarMigratorException("Invalid filename \"$filename\", expected filename of the format \"<calendar_name>" . CalendarMigrator::FILENAME_EXT . '"');
 			}
-			[$initialCalendarUri, $suffix] = $splitFilename;
+			[$initialCalendarUri, $ext] = $splitFilename;
 
 			try {
 				$this->importCalendar(
