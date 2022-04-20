@@ -365,6 +365,7 @@ class Root extends Folder implements IRootFolder {
 		$userObject = $this->userManager->get($userId);
 
 		if (is_null($userObject)) {
+			$e = new NoUserException('Backends provided no user object');
 			$this->logger->error(
 				sprintf(
 					'Backends provided no user object for %s',
@@ -372,9 +373,10 @@ class Root extends Folder implements IRootFolder {
 				),
 				[
 					'app' => 'files',
+					'exception' => $e,
 				]
 			);
-			throw new NoUserException('Backends provided no user object');
+			throw $e;
 		}
 
 		$userId = $userObject->getUID();
