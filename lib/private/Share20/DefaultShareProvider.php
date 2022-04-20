@@ -683,50 +683,50 @@ class DefaultShareProvider implements IShareProvider {
 			);
 		}
 
-		// todo? maybe get these from the oc_mounts table
-		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node): bool {
-			return $node->getInternalPath() === '';
-		});
-		$childMountRootIds = array_map(function (Node $node): int {
-			return $node->getId();
-		}, $childMountNodes);
-
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
+		$qb->leftJoin('s', 'mounts', 'm', $qb->expr()->eq('s.file_source', 'm.root_id'));
+		$absolutePath = $node->getMountPoint()->getMountPoint() . $node->getInternalPath();
+
+		$qb->andWhere(
+			$qb->expr()->orX(
+				$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+			)
+		);
 		if ($shallow) {
 			$qb->andWhere(
 				$qb->expr()->orX(
 					$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
-					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
+					$qb->expr()->like('m.mount_point', $qb->createNamedParameter(
+						// note that this will select to many items, (inside sub folders) these are filtered out later
+						$qb->getConnection()->escapeLikeParameter($absolutePath) . '/%'
+					))
 				)
 			);
 		} else {
 			$qb->andWhere(
 				$qb->expr()->orX(
 					$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
-					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
+					$qb->expr()->like('m.mount_point', $qb->createNamedParameter($qb->getConnection()->escapeLikeParameter($absolutePath) . '/%'))
 				)
 			);
 		}
 
-		$qb->orderBy('id');
+		$qb->orderBy('s.id');
 
+		$cursor = $qb->executeQuery();
 		$shares = [];
-
-		$chunks = array_chunk($childMountRootIds, 1000);
-
-		// Force the request to be run when there is 0 mount.
-		if (count($chunks) === 0) {
-			$chunks = [[]];
-		}
-
-		foreach ($chunks as $chunk) {
-			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$cursor = $qb->executeQuery();
-			while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetch()) {
+			if ($data['mount_point'] === null) {
 				$shares[$data['fileid']][] = $this->createShare($data);
+			} else {
+				// check if the shared mountpoint is a direct child when doing shallow search
+				$relativePath = trim(substr($data['mount_point'], strlen($absolutePath)), '/');
+				if (!$shallow || !str_contains($relativePath, '/')) {
+					$shares[$data['fileid']][] = $this->createShare($data);
+				}
 			}
-			$cursor->closeCursor();
 		}
+		$cursor->closeCursor();
 
 		return $shares;
 	}
