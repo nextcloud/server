@@ -168,7 +168,7 @@ class ContactsMigrator implements IMigrator {
 		}
 
 		$existingAddressBookUris = array_map(
-			fn (array $addressBookInfo) => $addressBookInfo['uri'],
+			fn (array $addressBookInfo): string => $addressBookInfo['uri'],
 			$this->cardDavBackend->getAddressBooksForUser($principalUri),
 		);
 
