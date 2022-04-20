@@ -28,7 +28,9 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 export const defaultLimit = loadState('unified-search', 'limit-default')
-export const minSearchLength = 2
+export const minSearchLength = loadState('unified-search', 'min-search-length', 2)
+export const enableLiveSearch = loadState('unified-search', 'live-search', true)
+
 export const regexFilterIn = /[^-]in:([a-z_-]+)/ig
 export const regexFilterNot = /-in:([a-z_-]+)/ig
 
