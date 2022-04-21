@@ -35,7 +35,11 @@ namespace OCA\Files_Sharing;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\NullWatcher;
 use OC\Files\Cache\Watcher;
+use OC\Files\ObjectStore\HomeObjectStoreStorage;
+use OC\Files\Storage\Common;
+use OC\Files\Storage\Home;
 use OCP\Files\Folder;
+use OCP\Files\IHomeStorage;
 use OCP\Files\Node;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\PermissionsMask;
@@ -182,10 +186,17 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	 * @inheritdoc
 	 */
 	public function instanceOfStorage($class): bool {
-		if ($class === '\OC\Files\Storage\Common') {
+		if ($class === '\OC\Files\Storage\Common' || $class == Common::class) {
 			return true;
 		}
-		if (in_array($class, ['\OC\Files\Storage\Home', '\OC\Files\ObjectStore\HomeObjectStoreStorage', '\OCP\Files\IHomeStorage'])) {
+		if (in_array($class, [
+			'\OC\Files\Storage\Home',
+			'\OC\Files\ObjectStore\HomeObjectStoreStorage',
+			'\OCP\Files\IHomeStorage',
+			Home::class,
+			HomeObjectStoreStorage::class,
+			IHomeStorage::class
+		])) {
 			return false;
 		}
 		return parent::instanceOfStorage($class);
