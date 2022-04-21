@@ -44,7 +44,9 @@
  *
  */
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
+use OCP\ICacheFactory;
 use OCP\IUser;
 use Symfony\Component\Process\ExecutableFinder;
 
@@ -486,8 +488,19 @@ class OC_Helper {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true) {
+		/** @var ICacheFactory $cacheFactory */
+		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$memcache = $cacheFactory->createLocal('storage_info');
+
 		// return storage info without adding mount points
 		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
+
+		$fullPath = Filesystem::getView()->getAbsolutePath($path);
+		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
+		$cached = $memcache->get($cacheKey);
+		if ($cached) {
+			return $cached;
+		}
 
 		if (!$rootInfo) {
 			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, $includeExtStorage ? 'ext' : false);
@@ -559,7 +572,7 @@ class OC_Helper {
 			[,,,$mountPoint] = explode('/', $mount->getMountPoint(), 4);
 		}
 
-		return [
+		$info = [
 			'free' => $free,
 			'used' => $used,
 			'quota' => $quota,
@@ -570,6 +583,10 @@ class OC_Helper {
 			'mountType' => $mount->getMountType(),
 			'mountPoint' => trim($mountPoint, '/'),
 		];
+
+		$memcache->set($cacheKey, $info, 5 * 60);
+
+		return $info;
 	}
 
 	/**
