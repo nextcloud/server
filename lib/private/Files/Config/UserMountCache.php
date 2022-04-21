@@ -130,18 +130,25 @@ class UserMountCache implements IUserMountCache {
 
 		$changedMounts = $this->findChangedMounts($newMounts, $cachedMounts);
 
-		foreach ($addedMounts as $mount) {
-			$this->addToCache($mount);
-			/** @psalm-suppress InvalidArgument */
-			$this->mountsForUsers[$user->getUID()][] = $mount;
-		}
-		foreach ($removedMounts as $mount) {
-			$this->removeFromCache($mount);
-			$index = array_search($mount, $this->mountsForUsers[$user->getUID()]);
-			unset($this->mountsForUsers[$user->getUID()][$index]);
-		}
-		foreach ($changedMounts as $mount) {
-			$this->updateCachedMount($mount);
+		$this->connection->beginTransaction();
+		try {
+			foreach ($addedMounts as $mount) {
+				$this->addToCache($mount);
+				/** @psalm-suppress InvalidArgument */
+				$this->mountsForUsers[$user->getUID()][] = $mount;
+			}
+			foreach ($removedMounts as $mount) {
+				$this->removeFromCache($mount);
+				$index = array_search($mount, $this->mountsForUsers[$user->getUID()]);
+				unset($this->mountsForUsers[$user->getUID()][$index]);
+			}
+			foreach ($changedMounts as $mount) {
+				$this->updateCachedMount($mount);
+			}
+			$this->connection->commit();
+		} catch (\Throwable $e) {
+			$this->connection->rollBack();
+			throw $e;
 		}
 		$this->eventLogger->end('fs:setup:user:register');
 	}
