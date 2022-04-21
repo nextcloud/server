@@ -54,6 +54,28 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://owncloud.org/ns}dDC',
 		'{http://owncloud.org/ns}size',
 		'{http://nextcloud.org/ns}is-encrypted',
+
+		// Currently, returning null from any propfind handler would still trigger the backend,
+		// so we add all known Nextcloud custom properties in here to avoid that
+
+		// text app
+		'{http://nextcloud.org/ns}rich-workspace',
+		'{http://nextcloud.org/ns}rich-workspace-file',
+		// groupfolders
+		'{http://nextcloud.org/ns}acl-enabled',
+		'{http://nextcloud.org/ns}acl-can-manage',
+		'{http://nextcloud.org/ns}acl-list',
+		'{http://nextcloud.org/ns}inherited-acl-list',
+		'{http://nextcloud.org/ns}group-folder-id',
+		// files_lock
+		'{http://nextcloud.org/ns}lock',
+		'{http://nextcloud.org/ns}lock-owner-type',
+		'{http://nextcloud.org/ns}lock-owner',
+		'{http://nextcloud.org/ns}lock-owner-displayname',
+		'{http://nextcloud.org/ns}lock-owner-editor',
+		'{http://nextcloud.org/ns}lock-time',
+		'{http://nextcloud.org/ns}lock-timeout',
+		'{http://nextcloud.org/ns}lock-token',
 	];
 
 	/**
