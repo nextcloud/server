@@ -38,6 +38,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ICacheFactory;
 use OCP\IUserManager;
 
 /**
@@ -172,12 +173,21 @@ class Cache extends CacheJail {
 
 	private function getOwnerDisplayName() {
 		if (!$this->ownerDisplayName) {
+			/** @var ICacheFactory $cacheFactory */
+			$cacheFactory = \OC::$server->get(ICacheFactory::class);
+			$memcache = $cacheFactory->createLocal('share_owner_name');
 			$uid = $this->storage->getOwner('');
-			$user = $this->userManager->get($uid);
-			if ($user) {
-				$this->ownerDisplayName = $user->getDisplayName();
+			$cached = $memcache->get($uid);
+			if ($cached) {
+				$this->ownerDisplayName = $cached;
 			} else {
-				$this->ownerDisplayName = $uid;
+				$user = $this->userManager->get($uid);
+				if ($user) {
+					$this->ownerDisplayName = $user->getDisplayName();
+				} else {
+					$this->ownerDisplayName = $uid;
+				}
+				$memcache->set($uid, $this->ownerDisplayName, 60 * 60);
 			}
 		}
 		return $this->ownerDisplayName;
