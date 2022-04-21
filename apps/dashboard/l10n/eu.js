@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Mahaia",
     "Dashboard app" : "Mahaia aplikazioa",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Hasi zure eguna informatuta\n\nNextcloud Dashboard zure eguneko abiapuntua da, erakutsiz\nzure hurrengo hitzorduen ikuspegi orokorra, premiazko mezu elektronikoak, txat mezuak,\nsarrerako txartelak, azken txioak eta askoz gehiago! Erabiltzaileek widget-ak gehi ditzakete\neta atzealdea aldatu nahieran.",
     "Customize" : "Pertsonalizatu",
     "Edit widgets" : "Editatu trepetak",
     "Get more widgets from the App Store" : "Lortu widget gehiago App Store-tik",
