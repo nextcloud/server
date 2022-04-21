@@ -308,7 +308,7 @@ class ThemingController extends Controller {
 	 * @NoSameSiteCookieRequired
 	 * @NoTwoFactorRequired
 	 *
-	 * @return FileDisplayResponse|NotFoundResponse
+	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();

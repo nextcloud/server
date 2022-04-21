@@ -40,7 +40,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
 	</head>
-	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) { p("data-theme-$themeId "); }?>>
+	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
+				p("data-theme-$themeId ");
+			}?>>
 	<?php include 'layout.noscript.warning.php'; ?>
 
 		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>

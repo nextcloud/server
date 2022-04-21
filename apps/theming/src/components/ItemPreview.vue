@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { generateFilePath} from '@nextcloud/router'
+import { generateFilePath } from '@nextcloud/router'
 import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
 
 export default {

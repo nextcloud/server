@@ -86,12 +86,16 @@
 				<div v-else>
 					{{ t('core', 'Press enter to start searching') }}
 				</div>
-				<template #icon><Magnify /></template>
+				<template #icon>
+					<Magnify />
+				</template>
 			</EmptyContent>
 
 			<EmptyContent v-else-if="!isLoading || isShortQuery">
 				{{ t('core', 'Start typing to search') }}
-				<template #icon><Magnify /></template>
+				<template #icon>
+					<Magnify />
+				</template>
 				<template v-if="isShortQuery" #desc>
 					{{ n('core',
 						'Please enter {minSearchLength} character or more to search',

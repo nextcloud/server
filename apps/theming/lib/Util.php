@@ -111,13 +111,13 @@ class Util {
 	 *
 	 * Copied from cssphp, copyright Leaf Corcoran, licensed under MIT
 	 *
-	 * @param integer $red
-	 * @param integer $green
-	 * @param integer $blue
+	 * @param int $red
+	 * @param int $green
+	 * @param int $blue
 	 *
-	 * @return array
+	 * @return float[]
 	 */
-	public function toHSL(string $red, string $green, string $blue): array {
+	public function toHSL(int $red, int $green, int $blue): array {
 		$color = new Color(Color::rgbToHex(['R' => $red, 'G' => $green, 'B' => $blue]));
 		return array_values($color->getHsl());
 	}

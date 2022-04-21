@@ -94,9 +94,10 @@ class ThemesService {
 		});
 
 		// Retrieve IDs only
+		/** @var string[] */
 		$filteredThemesIds = array_map(function(ITheme $t) {
 			return $t->getId();
-		}, $filteredThemes);
+		}, array_values($filteredThemes));
 
 		$enabledThemes = [...array_diff($themesIds, $filteredThemesIds), $theme->getId()];
 		$this->setEnabledThemes($enabledThemes);
@@ -136,6 +137,7 @@ class ThemesService {
 			$themes = $this->getEnabledThemes();
 			return in_array($theme->getId(), $themes);
 		}
+		return false;
 	}
 
 	/**

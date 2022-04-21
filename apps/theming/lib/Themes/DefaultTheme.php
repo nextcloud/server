@@ -35,6 +35,7 @@ use OCP\IURLGenerator;
 class DefaultTheme implements ITheme {
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
+	public IURLGenerator $urlGenerator;
 	public ImageManager $imageManager;
 	public IConfig $config;
 	public IL10N $l;

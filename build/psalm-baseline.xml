@@ -2355,11 +2355,6 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="core/templates/layout.guest.php">
-    <InvalidArgument occurrences="1">
-      <code>false</code>
-    </InvalidArgument>
-  </file>
   <file src="core/templates/layout.public.php">
     <UndefinedInterfaceMethod occurrences="1">
       <code>getIcon</code>
