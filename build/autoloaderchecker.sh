@@ -19,7 +19,7 @@ REPODIR=`git rev-parse --show-toplevel`
 #Redump the main autoloader
 echo
 echo "Regenerating main autoloader"
-$COMPOSER_COMMAND dump-autoload -d $REPODIR
+$COMPOSER_COMMAND dump-autoload --apcu -d $REPODIR
 
 for app in ${REPODIR}/apps/*; do
     if [[ -d $app ]]; then
