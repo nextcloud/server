@@ -34,6 +34,7 @@ use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
@@ -59,6 +60,9 @@ class MountProvider implements IMountProvider {
 	/** @var IEventDispatcher */
 	protected $eventDispatcher;
 
+	/** @var ICacheFactory */
+	protected $cacheFactory;
+
 	/**
 	 * @param \OCP\IConfig $config
 	 * @param IManager $shareManager
@@ -68,12 +72,14 @@ class MountProvider implements IMountProvider {
 		IConfig $config,
 		IManager $shareManager,
 		ILogger $logger,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		ICacheFactory $cacheFactory
 	) {
 		$this->config = $config;
 		$this->shareManager = $shareManager;
 		$this->logger = $logger;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->cacheFactory = $cacheFactory;
 	}
 
 
@@ -136,7 +142,8 @@ class MountProvider implements IMountProvider {
 					$view,
 					$foldersExistCache,
 					$this->eventDispatcher,
-					$user
+					$user,
+					$this->cacheFactory->createLocal('share-valid-mountpoint')
 				);
 
 				$event = new ShareMountedEvent($mount);
