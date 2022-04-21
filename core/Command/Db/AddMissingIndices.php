@@ -435,6 +435,19 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		$output->writeln('<info>Check indices of the oc_preferences table.</info>');
+		if ($schema->hasTable('preferences')) {
+			$table = $schema->getTable('preferences');
+			if (!$table->hasIndex('preferences_app_key')) {
+				$output->writeln('<info>Adding preferences_app_key index to the oc_preferences table, this can take some time...</info>');
+
+				$table->addIndex(['appid', 'configkey'], 'preferences_app_key');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_properties table updated successfully.</info>');
+			}
+		}
+
 		if (!$updated) {
 			$output->writeln('<info>Done.</info>');
 		}
