@@ -38,6 +38,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Home;
+use OC\User\DisplayNameCache;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Node;
@@ -51,7 +52,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
-use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
 
@@ -416,7 +416,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$this->cache = new \OCA\Files_Sharing\Cache(
 			$storage,
 			$sourceRoot,
-			\OC::$server->get(IUserManager::class)
+			\OC::$server->get(DisplayNameCache::class)
 		);
 		return $this->cache;
 	}
