@@ -234,4 +234,8 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$this->homeProviders = [];
 		$this->rootProviders = [];
 	}
+
+	public function getProviders(): array {
+		return $this->providers;
+	}
 }
