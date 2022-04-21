@@ -39,6 +39,7 @@ use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
+use OC\User\DisplayNameCache;
 
 /**
  * Class TestCase
@@ -116,6 +117,7 @@ abstract class TestCase extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		\OC::$server->get(DisplayNameCache::class)->clear();
 
 		//login as user1
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
