@@ -60,23 +60,30 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 	}
 
 	public function getCustomCss(): string {
+		$fontPathWoff = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.woff');
+		$fontPathOtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.otf');
+		$fontPathTtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.ttf');
+		$boldFontPathWoff = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Bold.woff');
+		$boldFontPathOtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Bold.otf');
+		$boldFontPathTtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Bold.ttf');
+
 		return "
 			@font-face {
 				font-family: 'OpenDyslexic';
 				font-style: normal;
 				font-weight: 400;
-				src: url('../fonts/OpenDyslexic-Regular.woff') format('woff'),
-					 url('../fonts/OpenDyslexic-Regular.otf') format('opentype'),
-					 url('../fonts/OpenDyslexic-Regular.ttf') format('truetype');
+				src: url('$fontPathWoff') format('woff'),
+					 url('$fontPathOtf') format('opentype'),
+					 url('$fontPathTtf') format('truetype');
 			}
 			
 			@font-face {
 				font-family: 'OpenDyslexic';
 				font-style: normal;
 				font-weight: 700;
-				src: url('../fonts/OpenDyslexic-Bold.woff') format('woff'),
-					 url('../fonts/OpenDyslexic-Bold.otf') format('opentype'),
-					 url('../fonts/OpenDyslexic-Bold.ttf') format('truetype');
+				src: url('$boldFontPathWoff') format('woff'),
+					 url('$boldFontPathOtf') format('opentype'),
+					 url('$boldFontPathTtf') format('truetype');
 			}
 		";
 	}

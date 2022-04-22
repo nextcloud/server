@@ -1,19 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Kyle Fazzari <kyrofa@ubuntu.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

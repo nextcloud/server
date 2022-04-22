@@ -23,20 +23,24 @@
 namespace OCA\Theming\Tests\Service;
 
 use OC\App\AppManager;
+use OC\Route\Router;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
-use OCA\Theming\Themes\DefaultTheme;
+use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Files\IAppData;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 
-class DefaultThemeTest extends TestCase {
+class DyslexiaFontTest extends TestCase {
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
 	/** @var IURLGenerator|MockObject */
@@ -48,11 +52,10 @@ class DefaultThemeTest extends TestCase {
 	/** @var IL10N|MockObject */
 	private $l10n;
 
-	private DefaultTheme $defaultTheme;
+	private DyslexiaFont $dyslexiaFont;
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
@@ -61,6 +64,18 @@ class DefaultThemeTest extends TestCase {
 			$this->config,
 			$this->createMock(AppManager::class),
 			$this->createMock(IAppData::class)
+		);
+
+		$userSession = $this->createMock(IUserSession::class);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$request = $this->createMock(IRequest::class);
+		$router = $this->createMock(Router::class);
+		$this->urlGenerator = new \OC\URLGenerator(
+			$this->config,
+			$userSession,
+			$cacheFactory,
+			$request,
+			$router
 		);
 
 		$this->themingDefaults
@@ -75,7 +90,7 @@ class DefaultThemeTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 
-		$this->defaultTheme = new DefaultTheme(
+		$this->dyslexiaFont = new DyslexiaFont(
 			$util,
 			$this->themingDefaults,
 			$this->urlGenerator,
@@ -89,47 +104,59 @@ class DefaultThemeTest extends TestCase {
 
 
 	public function testGetId() {
-		$this->assertEquals('default', $this->defaultTheme->getId());
+		$this->assertEquals('opendyslexic', $this->dyslexiaFont->getId());
 	}
 
 	public function testGetType() {
-		$this->assertEquals(ITheme::TYPE_THEME, $this->defaultTheme->getType());
+		$this->assertEquals(ITheme::TYPE_FONT, $this->dyslexiaFont->getType());
 	}
 
 	public function testGetTitle() {
-		$this->assertEquals('Light theme', $this->defaultTheme->getTitle());
+		$this->assertNotEmpty($this->dyslexiaFont->getTitle());
 	}
 
 	public function testGetEnableLabel() {
-		$this->assertEquals('Enable the default light theme', $this->defaultTheme->getEnableLabel());
+		$this->assertNotEmpty($this->dyslexiaFont->getEnableLabel());
 	}
 
 	public function testGetDescription() {
-		$this->assertEquals('The default light appearance.', $this->defaultTheme->getDescription());
+		$this->assertNotEmpty($this->dyslexiaFont->getDescription());
 	}
 
 	public function testGetMediaQuery() {
-		$this->assertEquals('', $this->defaultTheme->getMediaQuery());
+		$this->assertEquals('', $this->dyslexiaFont->getMediaQuery());
 	}
 
-	public function testGetCustomCss() {
-		$this->assertEquals('', $this->defaultTheme->getCustomCss());
+	public function testGetCSSVariables() {
+		$this->assertStringStartsWith('OpenDyslexic', $this->dyslexiaFont->getCSSVariables()['--font-face']);
+	}
+
+	public function dataTestGetCustomCss() {
+		return [
+			['', true],
+			['', false],
+			['/subfolder', true],
+			['/subfolder', false],
+		];
 	}
 
 	/**
-	 * Ensure parity between the default theme and the static generated file
-	 * @see ThemingController.php:313
+	 * @dataProvider dataTestGetCustomCss
+	 * 
+	 * Ensure the fonts are always loaded from the web root
+	 * despite having url rewriting enabled or not
+	 *
+	 * @param string $webRoot
+	 * @param bool $prettyUrlsEnabled
 	 */
-	public function testThemindDisabledFallbackCss() {
-		// Generate variables
-		$variables = '';
-		foreach ($this->defaultTheme->getCSSVariables() as $variable => $value) {
-			$variables .= "  $variable: $value;" . PHP_EOL;
-		};
-
-		$css = ":root { " . PHP_EOL . "$variables}" . PHP_EOL;
-		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
-
-		$this->assertEquals($css, $fallbackCss);
+	public function testGetCustomCss($webRoot, $prettyUrlsEnabled) {
+		\OC::$WEBROOT = $webRoot;
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->with('htaccess.IgnoreFrontController', false)
+			->willReturn($prettyUrlsEnabled);
+		
+		$this->assertStringContainsString("'$webRoot/apps/theming/fonts/OpenDyslexic-Regular.woff'", $this->dyslexiaFont->getCustomCss());
+		$this->assertStringNotContainsString('index.php', $this->dyslexiaFont->getCustomCss());
 	}
 }
