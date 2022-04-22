@@ -81,6 +81,11 @@ class TemplateLayout extends \OC_Template {
 		/** @var IInitialStateService */
 		$this->initialState = \OC::$server->get(IInitialStateService::class);
 
+		// Add fallback theming variables if theming is disabled
+		if (!\OC::$server->getAppManager()->isEnabledForUser('theming')) {
+			// TODO cache generated default theme if enabled for fallback if server is erroring ?
+			Util::addStyle('theming', 'default');
+		}
 
 		// Decide which page we show
 		if ($renderAs === TemplateResponse::RENDER_AS_USER) {

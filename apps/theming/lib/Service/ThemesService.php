@@ -99,7 +99,7 @@ class ThemesService {
 			return $t->getId();
 		}, array_values($filteredThemes));
 
-		$enabledThemes = [...array_diff($themesIds, $filteredThemesIds), $theme->getId()];
+		$enabledThemes = array_merge(array_diff($themesIds, $filteredThemesIds), [$theme->getId()]);
 		$this->setEnabledThemes($enabledThemes);
 
 		return $enabledThemes;

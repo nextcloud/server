@@ -55,7 +55,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-class UserThemeControllerTest extends TestCase {
+class ThemesServiceTest extends TestCase {
 	/** @var ThemesService */
 	private $themesService;
 
