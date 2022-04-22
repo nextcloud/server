@@ -1214,7 +1214,7 @@ steps:
   commands:
     # JavaScript files are not used in integration tests so it is not needed to
     # build them.
-    - git clone --depth 1 https://github.com/nextcloud/spreed apps/spreed
+    - git clone --depth 1 --branch stable24 https://github.com/nextcloud/spreed apps/spreed
 - name: integration-sharing-v1-video-verification
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
