@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "Could not delete share" : "Jaon poistaminen epäonnistui",
     "Please specify a file or folder path" : "Määritä tiedoston tai kansion polku",
+    "Wrong path, file/folder does not exist" : "Väärä polku, tiedostoa/kansiota ei ole olemassa",
     "Could not create share" : "Jaon luominen epäonnistui",
     "Invalid permissions" : "Virheelliset käyttöoikeudet",
     "Please specify a valid user" : "Määritä kelvollinen käyttäjä",
@@ -116,6 +117,7 @@ OC.L10N.register(
     "Please specify a valid circle" : "Määritä kelvollinen piiri",
     "Unknown share type" : "Tuntematon jaon tyyppi",
     "Not a directory" : "Ei hakemisto",
+    "Could not lock node" : "Solmua ei voitu lukita",
     "Could not lock path" : "Polun lukitseminen ei onnistunut",
     "Wrong or no update parameter given" : "Päivitettävä parametri puuttuu tai on väärin",
     "shared by %s" : "%s jakama",
@@ -139,6 +141,10 @@ OC.L10N.register(
     "Read only" : "Vain luku",
     "Allow upload and editing" : "Salli lähetys ja muokkaus",
     "File drop (upload only)" : "Tiedostojen pudotus (vain lähetys)",
+    "Custom permissions" : "Mukautetut oikeudet",
+    "Read" : "Lue",
+    "Upload" : "Lähetä",
+    "Edit" : "Muokkaa",
     "Allow creating" : "Salli luominen",
     "Allow deleting" : "Salli poistaminen",
     "Allow resharing" : "Salli uudelleenjakaminen",
@@ -231,6 +237,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "invalid permissions" : "vialliset oikeudet",
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
-    "Download %s" : "Lataa %s"
+    "Download %s" : "Lataa %s",
+    "Cannot change permissions for public share links" : "Julkisten jakolinkkien oikeuksia ei voi muuttaa"
 },
 "nplurals=2; plural=(n != 1);");
