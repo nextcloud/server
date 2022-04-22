@@ -81,6 +81,7 @@ class SetupManager {
 	private LoggerInterface $logger;
 	private IConfig $config;
 	private bool $listeningForProviders;
+	private array $fullSetupRequired = [];
 
 	public function __construct(
 		IEventLogger $eventLogger,
@@ -268,6 +269,7 @@ class SetupManager {
 		$cacheDuration = $this->config->getSystemValueInt('fs_mount_cache_duration', 5 * 60);
 		if ($cacheDuration > 0) {
 			$this->cache->set($user->getUID(), true, $cacheDuration);
+			$this->fullSetupRequired[$user->getUID()] = false;
 		}
 	}
 
@@ -434,7 +436,10 @@ class SetupManager {
 		// we perform a "cached" setup only after having done the full setup recently
 		// this is also used to trigger a full setup after handling events that are likely
 		// to change the available mounts
-		return !$this->cache->get($user->getUID());
+		if (!isset($this->fullSetupRequired[$user->getUID()])) {
+			$this->fullSetupRequired[$user->getUID()] = !$this->cache->get($user->getUID());
+		}
+		return $this->fullSetupRequired[$user->getUID()];
 	}
 
 	/**
@@ -489,6 +494,7 @@ class SetupManager {
 		$this->setupUsers = [];
 		$this->setupUsersComplete = [];
 		$this->setupUserMountProviders = [];
+		$this->fullSetupRequired = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
 		$this->eventDispatcher->dispatchTyped(new FilesystemTornDownEvent());
