@@ -38,17 +38,22 @@ use OCP\User\Events\UserChangedEvent;
  * outdated.
  */
 class DisplayNameCache implements IEventListener {
-	private ICache $internalCache;
+	private array $cache = [];
+	private ICache $memCache;
 	private IUserManager $userManager;
 
 	public function __construct(ICacheFactory $cacheFactory, IUserManager $userManager) {
-		$this->internalCache = $cacheFactory->createDistributed('displayNameMappingCache');
+		$this->memCache = $cacheFactory->createDistributed('displayNameMappingCache');
 		$this->userManager = $userManager;
 	}
 
 	public function getDisplayName(string $userId) {
-		$displayName = $this->internalCache->get($userId);
+		if (isset($this->cache[$userId])) {
+			return $this->cache[$userId];
+		}
+		$displayName = $this->memCache->get($userId);
 		if ($displayName) {
+			$this->cache[$userId] = $displayName;
 			return $displayName;
 		}
 
@@ -58,20 +63,23 @@ class DisplayNameCache implements IEventListener {
 		} else {
 			$displayName = $userId;
 		}
-		$this->internalCache->set($userId, $displayName, 60 * 10); // 10 minutes
+		$this->cache[$userId] = $displayName;
+		$this->memCache->set($userId, $displayName, 60 * 10); // 10 minutes
 
 		return $displayName;
 	}
 
 	public function clear(): void {
-		$this->internalCache->clear();
+		$this->cache = [];
+		$this->memCache->clear();
 	}
 
 	public function handle(Event $event): void {
 		if ($event instanceof UserChangedEvent && $event->getFeature() === 'displayName') {
 			$userId = $event->getUser()->getUID();
 			$newDisplayName = $event->getValue();
-			$this->internalCache->set($userId, $newDisplayName, 60 * 10); // 10 minutes
+			$this->cache[$userId] = $newDisplayName;
+			$this->memCache->set($userId, $newDisplayName, 60 * 10); // 10 minutes
 		}
 	}
 }
