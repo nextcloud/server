@@ -1541,6 +1541,7 @@ return array(
     'OC\\User\\Backend' => $baseDir . '/lib/private/User/Backend.php',
     'OC\\User\\Database' => $baseDir . '/lib/private/User/Database.php',
     'OC\\User\\DisplayNameCache' => $baseDir . '/lib/private/User/DisplayNameCache.php',
+    'OC\\User\\LazyUser' => $baseDir . '/lib/private/User/LazyUser.php',
     'OC\\User\\LoginException' => $baseDir . '/lib/private/User/LoginException.php',
     'OC\\User\\Manager' => $baseDir . '/lib/private/User/Manager.php',
     'OC\\User\\NoUserException' => $baseDir . '/lib/private/User/NoUserException.php',

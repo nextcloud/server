@@ -1570,6 +1570,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\User\\Backend' => __DIR__ . '/../../..' . '/lib/private/User/Backend.php',
         'OC\\User\\Database' => __DIR__ . '/../../..' . '/lib/private/User/Database.php',
         'OC\\User\\DisplayNameCache' => __DIR__ . '/../../..' . '/lib/private/User/DisplayNameCache.php',
+        'OC\\User\\LazyUser' => __DIR__ . '/../../..' . '/lib/private/User/LazyUser.php',
         'OC\\User\\LoginException' => __DIR__ . '/../../..' . '/lib/private/User/LoginException.php',
         'OC\\User\\Manager' => __DIR__ . '/../../..' . '/lib/private/User/Manager.php',
         'OC\\User\\NoUserException' => __DIR__ . '/../../..' . '/lib/private/User/NoUserException.php',
