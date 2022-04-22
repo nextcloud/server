@@ -47,6 +47,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Locked;
 use Sabre\DAV\Exception\NotFound;
@@ -331,6 +332,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 * @return array
 	 */
 	public function getQuotaInfo() {
+		/** @var LoggerInterface $logger */
+		$logger = \OC::$server->get(LoggerInterface::class);
 		if ($this->quotaInfo) {
 			return $this->quotaInfo;
 		}
@@ -347,10 +350,13 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			];
 			return $this->quotaInfo;
 		} catch (\OCP\Files\NotFoundException $e) {
+			$logger->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			$logger->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		} catch (NotPermittedException $e) {
+			$logger->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		}
 	}
