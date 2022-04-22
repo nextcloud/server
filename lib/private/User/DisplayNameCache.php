@@ -23,9 +23,12 @@ declare(strict_types=1);
 
 namespace OC\User;
 
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
+use OCP\User\Events\UserChangedEvent;
 
 /**
  * Class that cache the relation UserId -> Display name
@@ -34,7 +37,7 @@ use OCP\IUserManager;
  * their preferences. It's generally not an issue if this data is slightly
  * outdated.
  */
-class DisplayNameCache {
+class DisplayNameCache implements IEventListener {
 	private ICache $internalCache;
 	private IUserManager $userManager;
 
@@ -62,5 +65,13 @@ class DisplayNameCache {
 
 	public function clear(): void {
 		$this->internalCache->clear();
+	}
+
+	public function handle(Event $event): void {
+		if ($event instanceof UserChangedEvent && $event->getFeature() === 'displayName') {
+			$userId = $event->getUser()->getUID();
+			$newDisplayName = $event->getValue();
+			$this->internalCache->set($userId, $newDisplayName, 60 * 10); // 10 minutes
+		}
 	}
 }

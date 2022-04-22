@@ -52,7 +52,7 @@ class Cache extends CacheJail {
 	private ICacheEntry $sourceRootInfo;
 	private bool $rootUnchanged = true;
 	private ?string $ownerDisplayName = null;
-	private int $numericId;
+	private $numericId;
 	private DisplayNameCache $displayNameCache;
 
 	/**
