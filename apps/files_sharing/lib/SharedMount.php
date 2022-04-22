@@ -26,6 +26,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Cache\CappedMemoryCache;
@@ -36,6 +37,7 @@ use OC\Files\View;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\ICache;
 use OCP\IUser;
 use OCP\Share\Events\VerifyMountPointEvent;
 
@@ -63,6 +65,8 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 	private IEventDispatcher $eventDispatcher;
 
+	private ICache $cache;
+
 	public function __construct(
 		$storage,
 		array $mountpoints,
@@ -71,11 +75,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 		View $recipientView,
 		CappedMemoryCache $folderExistCache,
 		IEventDispatcher $eventDispatcher,
-		IUser $user
+		IUser $user,
+		ICache $cache
 	) {
 		$this->user = $user;
 		$this->recipientView = $recipientView;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->cache = $cache;
 
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
@@ -92,7 +98,17 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @param SharedMount[] $mountpoints
 	 * @return string
 	 */
-	private function verifyMountPoint(\OCP\Share\IShare $share, array $mountpoints, CappedMemoryCache $folderExistCache) {
+	private function verifyMountPoint(
+		\OCP\Share\IShare $share,
+		array $mountpoints,
+		CappedMemoryCache $folderExistCache
+	) {
+		$cacheKey = $this->user->getUID() . '/' . $share->getTarget();
+		$cached = $this->cache->get($cacheKey);
+		if ($cached !== null) {
+			return $cached;
+		}
+
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
@@ -119,6 +135,8 @@ class SharedMount extends MountPoint implements MoveableMount {
 		if ($newMountPoint !== $share->getTarget()) {
 			$this->updateFileTarget($newMountPoint, $share);
 		}
+
+		$this->cache->set($cacheKey, $newMountPoint, 60 * 60);
 
 		return $newMountPoint;
 	}
