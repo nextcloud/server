@@ -40,7 +40,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
 	</head>
-	<body id="<?php p($_['bodyid']);?>">
+	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
+				p("data-theme-$themeId ");
+			}?>>
 	<?php include 'layout.noscript.warning.php'; ?>
 
 		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
@@ -64,7 +66,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 					</div>
 				</a>
 
-				<ul id="appmenu" <?php if ($_['themingInvertMenu']) { ?>class="inverted"<?php } ?>>
+				<ul id="appmenu">
 					<?php foreach ($_['navigation'] as $entry): ?>
 						<li data-id="<?php p($entry['id']); ?>" class="hidden" tabindex="-1">
 							<a href="<?php print_unescaped($entry['href']); ?>"
@@ -73,13 +75,12 @@ $getUserAvatar = static function (int $size) use ($_): string {
 								aria-label="<?php p($entry['name']); ?>">
 									<svg width="24" height="20" viewBox="0 0 24 20" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
 										<defs>
-											<?php if ($_['themingInvertMenu']) { ?><filter id="invertMenuMain-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter><?php } ?>
 											<mask id="hole">
 												<rect width="100%" height="100%" fill="white"/>
 												<circle r="4.5" cx="21" cy="3" fill="black"/>
 											</mask>
 										</defs>
-										<image x="2" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet"<?php if ($_['themingInvertMenu']) { ?> filter="url(#invertMenuMain-<?php p($entry['id']); ?>)"<?php } ?> xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>" style="<?php if ($entry['unread'] !== 0) { ?>mask: url("#hole");<?php } ?>" class="app-icon"></image>
+										<image x="2" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>" style="<?php if ($entry['unread'] !== 0) { ?>mask: url("#hole");<?php } ?>" class="app-icon"></image>
 										<circle class="app-icon-notification" r="3" cx="21" cy="3" fill="red"/>
 									</svg>
 								<div class="unread-counter" aria-hidden="true"><?php p($entry['unread']); ?></div>

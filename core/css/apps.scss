@@ -166,6 +166,7 @@ kbd {
 				&,
 				> a {
 					background-color: var(--color-primary-light);
+					color: var(--color-primary-text);
 				}
 			}
 
@@ -285,6 +286,8 @@ kbd {
 				    margin-right: 11px;
 				    width: 16px;
 				    height: 16px;
+					// Legacy invert if bright background
+					filter: var(--background-invert-if-dark);
 				}
 
 				/* counter can also be inside the link */

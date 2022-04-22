@@ -64,6 +64,14 @@
 		transform-origin: center;
 		border: 2px solid var(--color-loading-light);
 		border-top-color: var(--color-loading-dark);
+		// revert if background is too bright
+		filter: var(--background-invert-if-dark);
+
+		.primary &,
+		.primary + & {
+			// revert if primary is too bright
+			filter: var(--primary-invert-if-bright);
+		}
 	}
 }
 

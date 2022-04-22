@@ -22,10 +22,6 @@
 const path = require('path')
 
 module.exports = {
-	accessibility: {
-		accessibility: path.join(__dirname, 'apps/accessibility/src', 'main.js'),
-		accessibilityoca: path.join(__dirname, 'apps/accessibility/src', 'accessibilityoca.js'),
-	},
 	comments: {
 		comments: path.join(__dirname, 'apps/comments/src', 'comments.js'),
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
@@ -86,6 +82,9 @@ module.exports = {
 	},
 	systemtags: {
 		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
+	},
+	theming: {
+		'theming-settings': path.join(__dirname, 'apps/theming/src', 'settings.js'),
 	},
 	twofactor_backupcodes: {
 		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),

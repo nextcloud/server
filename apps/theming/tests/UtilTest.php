@@ -90,14 +90,15 @@ class UtilTest extends TestCase {
 		$luminance = $this->util->calculateLuminance('#000');
 		$this->assertEquals(0, $luminance);
 	}
+
 	public function testInvertTextColorInvalid() {
-		$invert = $this->util->invertTextColor('aaabbbcccddd123');
-		$this->assertEquals(false, $invert);
+		$this->expectException(\Exception::class);
+		$this->util->invertTextColor('aaabbbcccddd123');
 	}
 
 	public function testInvertTextColorEmpty() {
-		$invert = $this->util->invertTextColor('');
-		$this->assertEquals(false, $invert);
+		$this->expectException(\Exception::class);
+		$this->util->invertTextColor('');
 	}
 
 	public function testElementColorDefault() {

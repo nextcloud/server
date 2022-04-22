@@ -30,7 +30,6 @@
 					:messages="messages"
 					:errors="errors"
 					:throttle-delay="throttleDelay"
-					:inverted-colors="invertedColors"
 					:auto-complete-allowed="autoCompleteAllowed"
 					@submit="loading = true" />
 				<a v-if="canResetPassword && resetPasswordLink !== ''"
@@ -68,7 +67,6 @@
 				class="login-additional">
 				<PasswordLessLoginForm :username.sync="user"
 					:redirect-url="redirectUrl"
-					:inverted-colors="invertedColors"
 					:auto-complete-allowed="autoCompleteAllowed"
 					:is-https="isHttps"
 					:is-localhost="isLocalhost"
@@ -85,14 +83,12 @@
 					<ResetPassword v-if="resetPassword"
 						:username.sync="user"
 						:reset-password-link="resetPasswordLink"
-						:inverted-colors="invertedColors"
 						@abort="resetPassword = false" />
 				</div>
 			</div>
 			<div v-else-if="resetPasswordTarget !== ''">
 				<UpdatePassword :username.sync="user"
 					:reset-password-target="resetPasswordTarget"
-					:inverted-colors="invertedColors"
 					@done="passwordResetFinished" />
 			</div>
 		</transition>
@@ -150,7 +146,6 @@ export default {
 			messages: loadState('core', 'loginMessages', []),
 			redirectUrl: loadState('core', 'loginRedirectUrl', false),
 			throttleDelay: loadState('core', 'loginThrottleDelay', 0),
-			invertedColors: OCA.Theming && OCA.Theming.inverted,
 			canResetPassword: loadState('core', 'loginCanResetPassword', false),
 			resetPasswordLink: loadState('core', 'loginResetPasswordLink', ''),
 			autoCompleteAllowed: loadState('core', 'loginAutocomplete', true),
@@ -165,6 +160,7 @@ export default {
 			hideLoginForm: loadState('core', 'hideLoginForm', false),
 		}
 	},
+
 	methods: {
 		passwordResetFinished() {
 			this.resetPasswordTarget = ''

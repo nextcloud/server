@@ -1,0 +1,37 @@
+{
+    "name": "mexitek/phpcolors",
+    "description": "A series of methods that let you manipulate colors. Just incase you ever need different shades of one color on the fly.",
+    "type": "library",
+    "keywords": [
+        "color",
+        "ui",
+        "css",
+        "frontend",
+        "design"
+    ],
+    "homepage": "http://mexitek.github.com/phpColors/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arlo Carreon",
+            "homepage": "http://arlocarreon.com",
+            "role": "creator"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/mexitek/phpColors/issues",
+        "source": "https://github.com/mexitek/phpColors"
+    },
+    "require": {
+        "php": "^7.2|^8.0"
+    },
+    "require-dev": {
+        "nette/tester": "^2.3",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "autoload": {
+        "classmap": [
+            "src"
+        ]
+    }
+}

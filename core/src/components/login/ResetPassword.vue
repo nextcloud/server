@@ -37,17 +37,7 @@
 				<label for="user" class="infield">{{ t('core', 'Username or email') }}</label>
 			</p>
 			<div id="reset-password-wrapper">
-				<input id="reset-password-submit"
-					type="submit"
-					class="login primary"
-					title=""
-					:value="t('core', 'Reset password')">
-				<div class="submit-icon"
-					:class="{
-						'icon-confirm-white': !loading,
-						'icon-loading-small': loading && invertedColors,
-						'icon-loading-small-dark': loading && !invertedColors,
-					}" />
+				<LoginButton :value="t('core', 'Reset password')" />
 			</div>
 			<p v-if="message === 'send-success'"
 				class="update">
@@ -77,11 +67,14 @@
 
 <script>
 import axios from '@nextcloud/axios'
-
 import { generateUrl } from '@nextcloud/router'
+import LoginButton from './LoginButton.vue'
 
 export default {
 	name: 'ResetPassword',
+	components: {
+		LoginButton,
+	},
 	props: {
 		username: {
 			type: String,
@@ -90,10 +83,6 @@ export default {
 		resetPasswordLink: {
 			type: String,
 			required: true,
-		},
-		invertedColors: {
-			type: Boolean,
-			default: false,
 		},
 	},
 	data() {

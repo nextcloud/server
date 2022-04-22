@@ -27,6 +27,8 @@ namespace OCA\Theming\Listener;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\JSDataService;
+use OCA\Theming\Service\ThemeInjectionService;
+use OCA\Theming\Service\ThemesService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
@@ -36,25 +38,18 @@ use OCP\IURLGenerator;
 
 class BeforeTemplateRenderedListener implements IEventListener {
 
-	/** @var IInitialStateService */
-	private $initialStateService;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IConfig */
-	private $config;
-	/** @var IServerContainer */
-	private $serverContainer;
+	private IInitialStateService $initialStateService;
+	private IServerContainer $serverContainer;
+	private ThemeInjectionService $themeInjectionService;
 
 	public function __construct(
 		IInitialStateService $initialStateService,
-		IURLGenerator $urlGenerator,
-		IConfig $config,
-		IServerContainer $serverContainer
+		IServerContainer $serverContainer,
+		ThemeInjectionService $themeInjectionService
 	) {
 		$this->initialStateService = $initialStateService;
-		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
 		$this->serverContainer = $serverContainer;
+		$this->themeInjectionService = $themeInjectionService;
 	}
 
 	public function handle(Event $event): void {
@@ -63,19 +58,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			return $serverContainer->query(JSDataService::class);
 		});
 
-		$linkToCSS = $this->urlGenerator->linkToRoute(
-			'theming.Theming.getStylesheet',
-			[
-				'v' => $this->config->getAppValue('theming', 'cachebuster', '0'),
-			]
-		);
-		\OCP\Util::addHeader(
-			'link',
-			[
-				'rel' => 'stylesheet',
-				'href' => $linkToCSS,
-			]
-		);
+		$this->themeInjectionService->injectHeaders();
 
 		// Making sure to inject just after core
 		\OCP\Util::addScript('theming', 'theming', 'core');

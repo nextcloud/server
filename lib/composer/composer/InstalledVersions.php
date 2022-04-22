@@ -21,6 +21,8 @@ use Composer\Semver\VersionParser;
  * See also https://getcomposer.org/doc/07-runtime.md#installed-versions
  *
  * To require its presence, you can require `composer-runtime-api ^2.0`
+ *
+ * @final
  */
 class InstalledVersions
 {
@@ -264,7 +266,7 @@ class InstalledVersions
         if (null === self::$installed) {
             // only require the installed.php file if this file is loaded from its dumped location,
             // and not from its source location in the composer/composer package, see https://github.com/composer/composer/issues/9937
-            if (substr(__DIR__, -8, 1) !== 'C' && is_file(__DIR__ . '/installed.php')) {
+            if (substr(__DIR__, -8, 1) !== 'C') {
                 self::$installed = include __DIR__ . '/installed.php';
             } else {
                 self::$installed = array();
@@ -337,7 +339,7 @@ class InstalledVersions
         if (null === self::$installed) {
             // only require the installed.php file if this file is loaded from its dumped location,
             // and not from its source location in the composer/composer package, see https://github.com/composer/composer/issues/9937
-            if (substr(__DIR__, -8, 1) !== 'C' && is_file(__DIR__ . '/installed.php')) {
+            if (substr(__DIR__, -8, 1) !== 'C') {
                 self::$installed = require __DIR__ . '/installed.php';
             } else {
                 self::$installed = array();

@@ -1,0 +1,11 @@
+language: php
+php:
+  - 7.2
+  - 7.3
+  - 7.4
+  - 8.0
+before_script:
+  - composer install --no-interaction --dev --prefer-source
+script:
+  - vendor/bin/phpcs --extensions=php,phpt --warning-severity=0
+  - vendor/bin/tester tests -s -p php

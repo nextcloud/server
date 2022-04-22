@@ -1781,7 +1781,8 @@
 			td.append(linkElem);
 			tr.append(td);
 
-			var isDarkTheme = OCA.Accessibility && OCA.Accessibility.theme === 'dark'
+			var enabledThemes = window.OCA?.Theming?.enabledThemes || []
+			var isDarkTheme = enabledThemes.join('').indexOf('dark') !== -1
 
 			try {
 				var maxContrastHex = window.getComputedStyle(document.documentElement)

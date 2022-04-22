@@ -81,6 +81,12 @@ class TemplateLayout extends \OC_Template {
 		/** @var IInitialStateService */
 		$this->initialState = \OC::$server->get(IInitialStateService::class);
 
+		// Add fallback theming variables if theming is disabled
+		if (!\OC::$server->getAppManager()->isEnabledForUser('theming')) {
+			// TODO cache generated default theme if enabled for fallback if server is erroring ?
+			Util::addStyle('theming', 'default');
+		}
+
 		// Decide which page we show
 		if ($renderAs === TemplateResponse::RENDER_AS_USER) {
 			/** @var INavigationManager */
@@ -98,6 +104,13 @@ class TemplateLayout extends \OC_Template {
 			$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)2));
 			$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 			Util::addScript('core', 'unified-search', 'core');
+
+			// Set body data-theme
+			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
+				/** @var \OCA\Theming\Service\ThemesService */
+				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
+				$this->assign('enabledThemes', $themesService->getEnabledThemes());
+			}
 
 			// set logo link target
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
@@ -140,17 +153,6 @@ class TemplateLayout extends \OC_Template {
 			} else {
 				$this->assign('userAvatarSet', true);
 				$this->assign('userAvatarVersion', $this->config->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
-			}
-
-			// check if app menu icons should be inverted
-			try {
-				/** @var \OCA\Theming\Util $util */
-				$util = \OC::$server->query(\OCA\Theming\Util::class);
-				$this->assign('themingInvertMenu', $util->invertTextColor(\OC::$server->getThemingDefaults()->getColorPrimary()));
-			} catch (\OCP\AppFramework\QueryException $e) {
-				$this->assign('themingInvertMenu', false);
-			} catch (\OCP\AutoloadNotAllowedException $e) {
-				$this->assign('themingInvertMenu', false);
 			}
 		} elseif ($renderAs === TemplateResponse::RENDER_AS_ERROR) {
 			parent::__construct('core', 'layout.guest', '', false);

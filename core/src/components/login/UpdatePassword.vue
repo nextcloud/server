@@ -49,18 +49,9 @@
 				</label>
 			</div>
 
-			<div id="submit-wrapper">
-				<input id="submit"
-					type="submit"
-					class="login primary"
-					title=""
-					:value="!loading ? t('core', 'Reset password') : t('core', 'Resetting password')">
-				<div class="submit-icon"
-					:class="{
-						'icon-loading-small': loading && invertedColors,
-						'icon-loading-small-dark': loading && !invertedColors
-					}" />
-			</div>
+			<LoginButton :loading="loading"
+				:value="t('core', 'Reset password')"
+				:value-loading="t('core', 'Resetting password')" />
 
 			<p v-if="error && message" :class="{warning: error}">
 				{{ message }}
@@ -71,9 +62,13 @@
 
 <script>
 import Axios from '@nextcloud/axios'
+import LoginButton from './LoginButton.vue'
 
 export default {
 	name: 'UpdatePassword',
+	components: {
+		LoginButton,
+	},
 	props: {
 		username: {
 			type: String,
@@ -82,10 +77,6 @@ export default {
 		resetPasswordTarget: {
 			type: String,
 			required: true,
-		},
-		invertedColors: {
-			type: Boolean,
-			default: false,
 		},
 	},
 	data() {

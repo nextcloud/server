@@ -165,6 +165,7 @@
 						margin-right: 10px;
 						height: 16px;
 						width: 16px;
+						filter: var(--background-invert-if-dark);
 					}
 				}
 			}
@@ -172,7 +173,7 @@
 	}
 	.logo {
 		display: inline-flex;
-		background-image: var(--image-logo);
+		background-image: var(--image-logoheader, var(--image-logo, url('../img/logo/logo.svg')));
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: center;
@@ -449,6 +450,11 @@ nav[role='navigation'] {
 			// Make sure most app names don’t ellipsize
 			letter-spacing: -0.5px;
 			font-size: 12px;
+
+			// If the primary is too bright, invert the app icons
+			svg image {
+				filter: var(--primary-invert-if-bright);
+			}
 		}
 
 		/* focused app visual feedback */
@@ -653,61 +659,6 @@ nav[role='navigation'] {
 	}
 }
 
-/* SEARCHBOX --------------------------------------------------------------- */
-.searchbox {
-	position: relative;
-	display: flex;
-	align-items: center;
-	input[type='search'] {
-		position: relative;
-		font-size: 1.2em;
-		padding: 3px;
-		padding-left: 25px;
-		padding-right: 20px;
-		background-color: transparent;
-		color: var(--color-primary-text);
-		border: 0;
-		border-radius: var(--border-radius-pill);
-		height: 34px;
-		width: 0;
-		cursor: pointer;
-		transition: width 100ms, opacity 100ms;
-		opacity: .6;
-		&:focus, &:active, &:valid {
-			background-position-x: 6px;
-			color: var(--color-primary-text);
-			width: 155px;
-			cursor: text;
-			background-color: transparent !important;
-			border: 1px solid var(--color-primary-text) !important;
-		}
-		&:hover, &:focus, &:active {
-			opacity: 1;
-		}
-		& ~ .icon-close-white {
-			display: inline;
-			position: absolute;
-			width: 30px;
-			height: 100%;
-			right: 0;
-			top: 0;
-			margin: 0;
-			&, &:focus, &:active, &:hover {
-				border: none;
-				background-color: transparent;
-			}
-		}
-		&:not(:valid) ~ .icon-close-white {
-			display: none;
-		}
-		&::-webkit-search-cancel-button {
-			-webkit-appearance: none;
-		}
-	}
-	.icon-search-force-white {
-		@include icon-color('search', 'actions', '#fffffe', 1, true);
-	}
-}
 
 /* Empty content messages in the header e.g. notifications, contacts menu, … */
 header #emptycontent,

@@ -36,10 +36,6 @@
 								<h1 class="hidden-visually">
 									<?php p($theme->getName()); ?>
 								</h1>
-								<?php if (\OC::$server->getConfig()->getSystemValue('installed', false)
-									&& \OC::$server->getConfig()->getAppValue('theming', 'logoMime', false)): ?>
-									<img src="<?php p($theme->getLogo()); ?>"/>
-								<?php endif; ?>
 							</div>
 						</div>
 					</header>
