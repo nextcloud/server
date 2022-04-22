@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Ei koskaan",
     "Once every direct access" : "Kerran aina suoran käytön yhteydessä",
     "Read only" : "Vain luku",
+    "Disconnect" : "Katkaise yhteys",
     "Admin defined" : "Ylläpitäjän määrittämä",
     "Delete storage?" : "Poistetaanko tallennustila?",
     "Saved" : "Tallennettu",

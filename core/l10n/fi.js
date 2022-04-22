@@ -147,9 +147,12 @@ OC.L10N.register(
     "Login form is disabled." : "Kirjautumislomake on poistettu käytöstä.",
     "Edit Profile" : "Muokkaa profiilia",
     "You have not added any info yet" : "Et ole lisännyt tietoja vielä",
+    "{user} has not added any info yet" : "{user} ei ole lisännyt tietoja vielä",
     "Reset search" : "Tyhjennä haku",
+    "Start search" : "Aloita haku",
     "Search for {name} only" : "Etsi vain {name}",
     "No results for {query}" : "Ei tuloksia haulle {query}",
+    "Press enter to start searching" : "Paina enter aloittaaksesi haun",
     "Start typing to search" : "Aloita kirjoittaminen hakeaksesi",
     "Loading more results …" : "Ladataan lisää tuloksia…",
     "Load more results" : "Lataa lisää tuloksia",
@@ -309,6 +312,9 @@ OC.L10N.register(
     "You can close this window." : "Voit sulkea tämän ikkunan.",
     "This share is password-protected" : "Jako on salasanasuojattu",
     "The password is wrong. Try again." : "Salasana on väärin. Yritä uudelleen.",
+    "Email address" : "Sähköpostiosoite",
+    "Password sent!" : "Salasana lähetetty!",
+    "Request password" : "Pyydä salasanaa",
     "Go to %s" : "Siirry %s§",
     "Two-factor authentication" : "Kaksivaiheinen tunnistautuminen",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Tilisi tietoturvatasoa on korotettu. Käytä kaksivaiheista tunnistautumista:",
@@ -371,6 +377,8 @@ OC.L10N.register(
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
     "Can't install this app" : "Tätä sovellusta ei voi asentaa",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Siirtyäksesi toiseen tietokantaan, käytä komentorivityökalua: 'occ db:convert-type', tai lue {linkstart}dokumentaatio ↗{linkend}."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Siirtyäksesi toiseen tietokantaan, käytä komentorivityökalua: 'occ db:convert-type', tai lue {linkstart}dokumentaatio ↗{linkend}.",
+    "You haven't added any info yet" : "Et ole lisännyt tietoja vielä",
+    "{user} hasn't added any info yet" : "{user} ei ole lisännyt tietoja vielä"
 },
 "nplurals=2; plural=(n != 1);");
