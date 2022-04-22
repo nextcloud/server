@@ -232,9 +232,7 @@ class RootTest extends \Test\TestCase {
 			->method('error')
 			->with(
 				'Backends provided no user object for NotExistingUser',
-				[
-					'app' => 'files',
-				]
+				$this->anything()
 			);
 
 		$root->getUserFolder('NotExistingUser');
