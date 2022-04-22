@@ -1517,10 +1517,8 @@ class View {
 					if ($pos = strpos($relativePath, '/')) {
 						//mountpoint inside subfolder add size to the correct folder
 						$entryName = substr($relativePath, 0, $pos);
-						foreach ($files as &$entry) {
-							if ($entry->getName() === $entryName) {
-								$entry->addSubEntry($rootEntry, $mountPoint);
-							}
+						if (isset($files[$entryName])) {
+							$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
 						}
 					} else { //mountpoint in this folder, add an entry for it
 						$rootEntry['name'] = $relativePath;
