@@ -168,7 +168,7 @@ class ContactsMigrator implements IMigrator {
 		}
 
 		$existingAddressBookUris = array_map(
-			fn (array $addressBookInfo) => $addressBookInfo['uri'],
+			fn (array $addressBookInfo): string => $addressBookInfo['uri'],
 			$this->cardDavBackend->getAddressBooksForUser($principalUri),
 		);
 
@@ -207,14 +207,14 @@ class ContactsMigrator implements IMigrator {
 
 		try {
 			/**
-			* @var string $name
-			* @var string $displayName
-			* @var ?string $description
-			* @var VCard[] $vCards
-			*/
+			 * @var string $name
+			 * @var string $displayName
+			 * @var ?string $description
+			 * @var VCard[] $vCards
+			 */
 			foreach ($addressBookExports as ['name' => $name, 'displayName' => $displayName, 'description' => $description, 'vCards' => $vCards]) {
-				// Set filename to sanitized address book name appended with the date
-				$basename = preg_replace('/[^a-zA-Z0-9-_ ]/um', '', $name) . '_' . date('Y-m-d');
+				// Set filename to sanitized address book name
+				$basename = preg_replace('/[^a-z0-9-_]/iu', '', $name);
 				$exportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::FILENAME_EXT;
 				$metadataExportPath = ContactsMigrator::PATH_ROOT . $basename . '.' . ContactsMigrator::METADATA_EXT;
 
@@ -340,11 +340,11 @@ class ContactsMigrator implements IMigrator {
 				$vCards[] = $vCard;
 			}
 
-			$splitFilename = explode('_', $addressBookFilename, 2);
+			$splitFilename = explode('.', $addressBookFilename, 2);
 			if (count($splitFilename) !== 2) {
-				throw new ContactsMigratorException("Invalid filename \"$addressBookFilename\", expected filename of the format \"<address_book_name>_YYYY-MM-DD." . ContactsMigrator::FILENAME_EXT . '"');
+				throw new ContactsMigratorException("Invalid filename \"$addressBookFilename\", expected filename of the format \"<address_book_name>." . ContactsMigrator::FILENAME_EXT . '"');
 			}
-			[$initialAddressBookUri, $suffix] = $splitFilename;
+			[$initialAddressBookUri, $ext] = $splitFilename;
 
 			/** @var array{displayName: string, description?: string} $metadata */
 			$metadata = json_decode($importSource->getFileContents($metadataImportPath), true, 512, JSON_THROW_ON_ERROR);
