@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Előnézet betöltése…",
-    "Saved" : "Mentve",
     "Admin" : "Rendszergazda",
+    "Saved" : "Mentve",
     "a safe home for all your data" : "biztonságos hely az adatai számára",
     "Name cannot be empty" : "A név nem lehet üres",
     "The given name is too long" : "A megadott név túl hosszú",

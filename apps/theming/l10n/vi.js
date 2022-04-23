@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Đang tải mục xem trước...",
-    "Saved" : "Đã lưu",
     "Admin" : "Quản trị viên",
+    "Saved" : "Đã lưu",
     "a safe home for all your data" : "một ngôi nhà an toàn cho tất cả dữ liệu của bạn",
     "Name cannot be empty" : "Tên không thể trống",
     "The given name is too long" : "Tên quá dài",

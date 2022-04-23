@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "미리 보기 불러오는 중…",
-    "Saved" : "저장됨",
     "Admin" : "관리자",
+    "Saved" : "저장됨",
     "a safe home for all your data" : "내 모든 데이터 안전 저장소",
     "Name cannot be empty" : "이름이 비어 있을 수 없음",
     "The given name is too long" : "입력한 이름이 너무 김",

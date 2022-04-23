@@ -1,7 +1,7 @@
 { "translations": {
     "Loading preview…" : "תצוגה מקדימה נטענת…",
-    "Saved" : "נשמר",
     "Admin" : "ניהול",
+    "Saved" : "נשמר",
     "a safe home for all your data" : "מקום בטוח לכל הנתונים שלך",
     "Name cannot be empty" : "השם לא יכול להישאר ריק",
     "The given name is too long" : "השם שסופק ארוך מדי",

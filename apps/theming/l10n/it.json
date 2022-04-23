@@ -1,7 +1,7 @@
 { "translations": {
     "Loading preview…" : "Caricamento anteprima...",
-    "Saved" : "Salvato",
     "Admin" : "Amministratore",
+    "Saved" : "Salvato",
     "a safe home for all your data" : "un posto sicuro per tutti i tuoi dati",
     "Name cannot be empty" : "Il nome non può essere vuoto",
     "The given name is too long" : "Questo nome è troppo lungo",

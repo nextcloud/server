@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Φόρτωση προεπισκόπησης ...",
-    "Saved" : "Αποθηκεύτηκαν",
     "Admin" : "Διαχειριστής",
+    "Saved" : "Αποθηκεύτηκαν",
     "a safe home for all your data" : "μια ασφαλής τοποθεσία για όλα σας τα δεδομένα",
     "Name cannot be empty" : "Το όνομα δεν μπορεί να είναι κενό",
     "The given name is too long" : "Το όνομα που δόθηκε είναι πολύ μεγάλο",

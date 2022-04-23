@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Carrigamentu anteprima...",
-    "Saved" : "Sarvadu",
     "Admin" : "Amministradore",
+    "Saved" : "Sarvadu",
     "a safe home for all your data" : "unu logu siguru pro totu is datos tuos",
     "Name cannot be empty" : "Su nùmene non podet èssere isbòidu",
     "The given name is too long" : "Custu nùmene est tropu longu",
