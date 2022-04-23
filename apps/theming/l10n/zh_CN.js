@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "正在加载预览...",
-    "Saved" : "已保存",
     "Admin" : "管理",
+    "Saved" : "已保存",
     "a safe home for all your data" : "给您所有的数据一个安全的家",
     "Name cannot be empty" : "名称不能为空",
     "The given name is too long" : "输入的名称过长",

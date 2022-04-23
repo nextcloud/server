@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Učitavanje pretpregleda...",
-    "Saved" : "Spremljeno",
     "Admin" : "Administrator",
+    "Saved" : "Spremljeno",
     "a safe home for all your data" : "siguran dom za sve vaše podatke",
     "Name cannot be empty" : "Naziv ne može biti prazan",
     "The given name is too long" : "Naziv je predug",

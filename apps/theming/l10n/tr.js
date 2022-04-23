@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Ön izleme yükleniyor …",
-    "Saved" : "Kaydedildi",
     "Admin" : "Yönetici",
+    "Saved" : "Kaydedildi",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
     "Name cannot be empty" : "Ad boş olamaz",
     "The given name is too long" : "Belirtilen ad çok uzun",
