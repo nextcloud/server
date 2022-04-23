@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Hleð inn forskoðun...",
-    "Saved" : "Vistað",
     "Admin" : "Stjórnandi",
+    "Saved" : "Vistað",
     "a safe home for all your data" : "öruggur staður fyrir öll gögnin þín",
     "Name cannot be empty" : "Heiti má ekki vera tómt",
     "The given name is too long" : "Uppgefið nafn er of langt",

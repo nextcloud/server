@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Laster forhåndsvisning…",
-    "Saved" : "Lagret",
     "Admin" : "Admin",
+    "Saved" : "Lagret",
     "a safe home for all your data" : "et trygt hjem for alle dine data",
     "Name cannot be empty" : "Navn kan ikke være tom",
     "The given name is too long" : "Navnet er for langt",

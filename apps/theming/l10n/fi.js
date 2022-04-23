@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Ladataan esikatselua…",
-    "Saved" : "Tallennettu",
     "Admin" : "Ylläpito",
+    "Saved" : "Tallennettu",
     "a safe home for all your data" : "turvallinen koti kaikille tiedostoillesi",
     "Name cannot be empty" : "Nimi ei voi olla tyhjä",
     "The given name is too long" : "Nimi on liian pitkä",

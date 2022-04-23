@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Aurreikuspena kargatzen...",
-    "Saved" : "Gordeta",
     "Admin" : "Administratzailea",
+    "Saved" : "Gordeta",
     "a safe home for all your data" : "zure datu guztientzako toki segurua",
     "Name cannot be empty" : "Izena ezin da hutsik egon",
     "The given name is too long" : "Idatzitako izena luzeegia da",

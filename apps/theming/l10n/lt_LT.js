@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Įkeliama peržiūra…",
-    "Saved" : "Įrašyta",
     "Admin" : "Administravimas",
+    "Saved" : "Įrašyta",
     "a safe home for all your data" : "saugūs namai visiems jūsų duomenims",
     "Name cannot be empty" : "Pavadinimas negali būti tuščias",
     "The given name is too long" : "Nurodytas pavadinimas yra per ilgas",

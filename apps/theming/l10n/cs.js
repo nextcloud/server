@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Načítání náhledu…",
-    "Saved" : "Uloženo",
     "Admin" : "Správa",
+    "Saved" : "Uloženo",
     "a safe home for all your data" : "bezpečný domov pro všechna vaše data",
     "Name cannot be empty" : "Je třeba zadat název",
     "The given name is too long" : "Zadaný název je příliš dlouhý",

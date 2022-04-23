@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Laai voorskou…",
-    "Saved" : "Bewaar",
     "Admin" : "Admin",
+    "Saved" : "Bewaar",
     "a safe home for all your data" : "’n veilige tuiste vir al u data",
     "Name cannot be empty" : "Naam kan nie leeg wees nie",
     "The given name is too long" : "Die gegewe naam is te lank",
