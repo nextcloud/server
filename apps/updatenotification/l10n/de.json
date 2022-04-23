@@ -52,6 +52,6 @@
     "<strong>All</strong> apps have an update for this version available" : "Für <strong>alle</strong> Apps steht eine Aktualisierung zur Verfügung",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Für <strong>%n</strong> App steht keine Aktualisierung für diese Version zur Verfügung","Für <strong>%n</strong> Apps stehen keine Aktualisierungen für diese Version zur Verfügung"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "Für <strong>alle</strong> Apps steht eine kompatible Version zur Verfügung",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["Für <strong>%n</strong> App steht eine kompatible Version zur Verfügung","Für <strong>%n</strong> Apps steht eine kompatible Version zur Verfügung"]
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["Für <strong>%n</strong> App steht keine kompatible Version zur Verfügung","Für <strong>%n</strong> Apps steht keine kompatible Version zur Verfügung"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
