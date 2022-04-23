@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Cargando a vista previa…",
-    "Saved" : "Gardado",
     "Admin" : "Administración",
+    "Saved" : "Gardado",
     "a safe home for all your data" : "un lugar seguro para todos os seus datos",
     "Name cannot be empty" : "O nome non pode estar baleiro",
     "The given name is too long" : "O nome indicado é longo de máis",

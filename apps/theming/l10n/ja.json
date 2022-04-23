@@ -1,7 +1,7 @@
 { "translations": {
     "Loading preview…" : "プレビューを読み込み中...",
-    "Saved" : "保存済み",
     "Admin" : "管理者",
+    "Saved" : "保存済み",
     "a safe home for all your data" : "あなたのすべてのデータを安全に保管する場所",
     "Name cannot be empty" : "名前は空にできません",
     "The given name is too long" : "名前が長すぎます",

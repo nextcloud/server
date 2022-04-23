@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "جار تحميل المعاينة ...",
-    "Saved" : "تم الحفظ",
     "Admin" : "ادارة",
+    "Saved" : "تم الحفظ",
     "a safe home for all your data" : "مكان آمن لكل معلوماتك",
     "The given name is too long" : "هذا الاسم أطول مما يجب",
     "The given web address is too long" : "هذا العنوان أطول مما يجب",

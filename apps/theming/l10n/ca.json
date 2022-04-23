@@ -1,7 +1,7 @@
 { "translations": {
     "Loading preview…" : "S'està carregant la previsualització...",
-    "Saved" : "Desat",
     "Admin" : "Administrador",
+    "Saved" : "Desat",
     "a safe home for all your data" : "Un lloc segur per a les vostres dades",
     "Name cannot be empty" : "El nom no pot estar buit",
     "The given name is too long" : "El nom proporcionat és massa llarg",
