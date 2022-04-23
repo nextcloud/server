@@ -83,6 +83,28 @@ try {
 		exit(1);
 	}
 
+	// Low-load hours
+	$onlyTimeSensitive = false;
+	$startHour = $config->getSystemValueInt('maintenance_window_start', 100);
+	if ($startHour <= 23) {
+		$date = new \DateTime('now', new \DateTimeZone('UTC'));
+		$currentHour = (int) $date->format('G');
+		$endHour = $startHour + 4;
+
+		if ($startHour <= 20) {
+			// Start time: 01:00
+			// End time: 05:00
+			// Only run sensitive tasks when it's before the start or after the end
+			$onlyTimeSensitive = $currentHour < $startHour || $currentHour > $endHour;
+		} else {
+			// Start time: 23:00
+			// End time: 03:00
+			$endHour -= 24; // Correct the end time from 27:00 to 03:00
+			// Only run sensitive tasks when it's after the end and before the start
+			$onlyTimeSensitive = $currentHour > $endHour && $currentHour < $startHour;
+		}
+	}
+
 	if (OC::$CLI) {
 		// set to run indefinitely if needed
 		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
@@ -110,28 +132,6 @@ try {
 			$config->setAppValue('core', 'backgroundjobs_mode', 'cron');
 		}
 
-		// Low-load hours
-		$onlyTimeSensitive = false;
-		$startHour = $config->getSystemValueInt('maintenance_window_start', 100);
-		if ($startHour <= 23) {
-			$date = new \DateTime('now', new \DateTimeZone('UTC'));
-			$currentHour = (int) $date->format('G');
-			$endHour = $startHour + 4;
-
-			if ($startHour <= 20) {
-				// Start time: 01:00
-				// End time: 05:00
-				// Only run sensitive tasks when it's before the start or after the end
-				$onlyTimeSensitive = $currentHour < $startHour || $currentHour > $endHour;
-			} else {
-				// Start time: 23:00
-				// End time: 03:00
-				$endHour -= 24; // Correct the end time from 27:00 to 03:00
-				// Only run sensitive tasks when it's after the end and before the start
-				$onlyTimeSensitive = $currentHour > $endHour && $currentHour < $startHour;
-			}
-		}
-
 		// Work
 		$jobList = \OC::$server->getJobList();
 
@@ -147,6 +147,7 @@ try {
 				break;
 			}
 
+			$logger->debug('CLI cron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
 			$job->execute($jobList, $logger);
 			// clean up after unclean jobs
 			\OC_Util::tearDownFS();
@@ -167,8 +168,9 @@ try {
 		} else {
 			// Work and success :-)
 			$jobList = \OC::$server->getJobList();
-			$job = $jobList->getNext();
+			$job = $jobList->getNext($onlyTimeSensitive);
 			if ($job != null) {
+				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
 				$job->execute($jobList, $logger);
 				$jobList->setLastJob($job);
 			}
