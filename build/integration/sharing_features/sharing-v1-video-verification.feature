@@ -4,6 +4,7 @@ Feature: sharing
     Given using api version "1"
     Given using old dav path
     Given invoking occ with "app:enable spreed"
+    Given the command was successful
 
   Scenario: Creating a link share with send password by Talk
     Given user "user0" exists
