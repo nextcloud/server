@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "更新無",
     "Once every direct access" : "直指定時のみ",
     "Read only" : "読み取り専用",
+    "Disconnect" : "切断",
     "Admin defined" : "管理者設定済",
     "Delete storage?" : "ストレージを削除しますか?",
     "Saved" : "保存しました",

@@ -95,6 +95,8 @@ OC.L10N.register(
     "Upload (max. %s)" : "Upload (maximal ¦%s)",
     "in %s" : "an %s",
     "Tags" : "Tags",
+    "Cancel" : "Ofbriechen",
+    "Create" : "Erstellen",
     "Settings" : "Astellungen",
     "Show hidden files" : "Weis déi verstoppten Dateien",
     "WebDAV" : "WebDAV",

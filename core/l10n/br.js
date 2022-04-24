@@ -279,6 +279,8 @@ OC.L10N.register(
     "You can close this window." : "Gallout a rit serriñ ar prenestr.",
     "This share is password-protected" : "Al liamm a zo gwarezet gant ur ger-tremen",
     "The password is wrong. Try again." : "Direizh eo ger-tremen. Klaskit en-dro.",
+    "Request password" : "Goulenn ar -ger-tremen",
+    "Go to %s" : "Mont da %s",
     "Two-factor authentication" : "Eil- elfenn dilesa",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Ar surentez gwelaet a zo bet lkaet war o c'hont. Chazhit un eil elfenn evit an dilesa : ",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Ne oa ket posuple kargañ d'an neubeutañ unan aus o doar eil-elfenn dilesa. Kelaouit o merour mar-plij.",

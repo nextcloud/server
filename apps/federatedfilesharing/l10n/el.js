@@ -18,6 +18,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Το αίτημα για Federate διαμοιρασμό εστάλη, θα λάβεις μια πρόσκληση. Έλεγξε τις ειδοποιήσεις.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Δεν μπόρεσε να δημιουργήσει ένα ομοσπονδιακό κοινόχρηστο, μοιάζει ο ομόσπονδος διακομιστής είναι πολύ παλαιός (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Δεν επιτρέπεται η αποστολή ομοσπονδιακών κονόχρηστων ομάδας από αυτόν τον διακομιστή.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Αποτυχία διαμοιρασμού του %1$s, διότι το αντικείμενο διαμοιράζεται ήδη με τον χρήστη %2$s",
     "Not allowed to create a federated share with the same user" : "Δεν επιτρέπεται η δημιουργία federated διαμοιρασμού με τον ίδιο χρήστη",
     "File is already shared with %s" : "Το αρχείο είναι ήδη κοινόχρηστο με %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %1$s απέτυχε, αδύνατη η εύρεση του %2$s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί αυτό-υπογεγραμμένο πιστοποιητικό.",

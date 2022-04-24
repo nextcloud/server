@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "已完成 %s",
     "Due on %s by %s" : "到期于%s ，在%s之前",
     "Due on %s" : "到期于%s",
+    "Contacts and groups" : "联系人和群组",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV端点",
     "Availability" : "可用性",

@@ -77,6 +77,14 @@ OC.L10N.register(
     "Tasks" : "Taskoj",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-finpunkto",
+    "to" : "al",
+    "Monday" : "lundo",
+    "Tuesday" : "mardo",
+    "Wednesday" : "merkredo",
+    "Thursday" : "ĵaŭdo",
+    "Friday" : "vendredo",
+    "Saturday" : "sabato",
+    "Sunday" : "dimanĉo",
     "Save" : "Konservi",
     "Calendar server" : "Kalendara servilo",
     "Send invitations to attendees" : "Sendi invitojn al ĉeestantoj",
@@ -91,6 +99,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Bv. senpere kontakti la organizanton.",
     "Are you accepting the invitation?" : "Ĉu vi akceptas la inviton?",
     "Tentative" : "Nekonfirmita",
+    "Comment" : "Komento",
     "Your attendance was updated successfully." : "Via ĉeesto sukcese ĝisdatiĝis."
 },
 "nplurals=2; plural=(n != 1);");

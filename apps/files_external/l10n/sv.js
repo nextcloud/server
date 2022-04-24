@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Aldrig",
     "Once every direct access" : "En gång vid varje direktåtkomst",
     "Read only" : "Skrivskyddad",
+    "Disconnect" : "Koppla från",
     "Admin defined" : "Admin definerad",
     "Delete storage?" : "Ta bort lagring?",
     "Saved" : "Sparad",

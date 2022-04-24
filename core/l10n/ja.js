@@ -343,6 +343,8 @@ OC.L10N.register(
     "You can close this window." : "このウィンドウは閉じてしまって構いません。",
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong. Try again." : "パスワードが違います。再入力してください",
+    "Email address" : "メールアドレス",
+    "Request password" : "パスワードを入力",
     "Go to %s" : "%sに移動",
     "Two-factor authentication" : "二要素認証",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "このアカウントは強化セキュリティが適用されています。二要素認証を行ってください。",
@@ -421,6 +423,8 @@ OC.L10N.register(
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcacheモジュールがロードされていません。 {linkstart}パフォーマンスを向上させるには、↗{linkend}をPHPインストールにロードすることをお勧めします。",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache モジュールが正しく設定されていません。{linkstart}パフォーマンスを向上させるためには、{linkend} <code>php.ini</code>で以下の設定を使用することを推奨します:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "データベースの一部のカラムがbigintへ変換されていません。大きなテーブルのカラムタイプの変更には時間がかかる可能性があるため、自動的には変更されませんでした。 'occ db:convert-filecache-bigint' を実行することにより、これらの保留中の変更を手動で適用できます。この操作は、インスタンスがオフラインのときに実行する必要があります。詳細については、{linkstart}これに関するドキュメントページ↗{linkend}をお読みください。",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "別のデータベースに移行するには、コマンドラインツール 'occ db:convert-type'を使用するか、{linkstart}ドキュメント↗{linkend}を参照してください。"
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "別のデータベースに移行するには、コマンドラインツール 'occ db:convert-type'を使用するか、{linkstart}ドキュメント↗{linkend}を参照してください。",
+    "You haven't added any info yet" : "まだ情報が追加されていません",
+    "{user} hasn't added any info yet" : "{user}が、まだ情報を追加していません"
 },
 "nplurals=1; plural=0;");

@@ -5,7 +5,7 @@ OC.L10N.register(
     "Dashboard app" : "Application Tableau de bord",
     "Customize" : "Personnaliser",
     "Edit widgets" : "Modifier les widgets",
-    "Get more widgets from the App Store" : "Obtenez plus de widgets depuis l'App Store",
+    "Get more widgets from the App Store" : "Obtenez plus de widgets depuis le magasin d'applications",
     "Change background image" : "Modifier l’image d'arrière-plan",
     "Weather service" : "Service météo",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pour votre vie privée, les données météorologiques sont demandées par votre serveur Nextcloud en votre nom afin que le service météo ne reçoive aucune information personnelle.",
@@ -27,6 +27,6 @@ OC.L10N.register(
     "Plain background" : "Fond uni",
     "Insert from {productName}" : "Insérer depuis {productName}",
     "Show something" : "Montre quelque chose",
-    "Get more widgets from the app store" : "Obtenez plus de widgets de l'App Store"
+    "Get more widgets from the app store" : "Obtenez plus de widgets depuis le magasin d'applications"
 },
 "nplurals=2; plural=(n > 1);");

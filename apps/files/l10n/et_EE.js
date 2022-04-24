@@ -117,6 +117,8 @@ OC.L10N.register(
     "in %s" : "kaustas %s",
     "Change" : "Muuda",
     "Tags" : "Sildid",
+    "Cancel" : "Loobu",
+    "Create" : "Loo",
     "%s used" : "Kasutatud %s",
     "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
     "Settings" : "Seaded",

@@ -88,6 +88,8 @@ OC.L10N.register(
     "in %s" : "en %s",
     "Change" : "Camudar",
     "Tags" : "Etiquetes",
+    "Cancel" : "Encaboxar",
+    "Create" : "Crear",
     "%1$s of %2$s used" : "%1$s de %2$s usao",
     "Settings" : "Axustes",
     "Show hidden files" : "Amosar ficheros ocultos",

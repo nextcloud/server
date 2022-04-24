@@ -93,6 +93,7 @@ OC.L10N.register(
     "Completed on %s" : "Завршена на %s",
     "Due on %s by %s" : "Истекува на %s од %s",
     "Due on %s" : "Истекува на %s",
+    "Contacts and groups" : "Контакти и групи",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крајна точка",
     "Availability" : "Достапност",

@@ -114,6 +114,7 @@ OC.L10N.register(
     "WebDAV endpoint" : "WebDAV-päätepiste",
     "Availability" : "Saatavuus",
     "Time zone:" : "Aikavyöhyke:",
+    "to" : "Vastaanottaja",
     "Delete slot" : "Poista aikarako",
     "No working hours set" : "Työskentelytunteja ei ole asetettu",
     "Add slot" : "Lisää aikarako",

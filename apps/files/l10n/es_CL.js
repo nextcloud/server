@@ -121,6 +121,8 @@ OC.L10N.register(
     "in %s" : "en %s",
     "Change" : "Cambiar",
     "Tags" : "Etiquetas",
+    "Cancel" : "Cancelar",
+    "Create" : "Crear",
     "%s used" : "%s usado",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
     "Settings" : "Configuraciones ",

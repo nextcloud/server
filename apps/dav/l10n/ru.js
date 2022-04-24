@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "Завершено %s",
     "Due on %s by %s" : "До %s %s",
     "Due on %s" : "До %s",
+    "Contacts and groups" : "Контакты и группы",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "точка подключения WebDAV",
     "Availability" : "Доступность",

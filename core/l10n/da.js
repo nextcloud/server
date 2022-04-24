@@ -344,6 +344,8 @@ OC.L10N.register(
     "You can close this window." : "Du kan lukke dette vindue",
     "This share is password-protected" : "Delingen er beskyttet af kodeord",
     "The password is wrong. Try again." : "Passwordet er forkert. Prøv igen.",
+    "Email address" : "Email adresse",
+    "Request password" : "Anmod om adgangskode",
     "Go to %s" : "Gå til %s",
     "Two-factor authentication" : "To-faktor autentificering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Forbedret sikkerhed er aktiveret for din konto. Vælg en nummer to faktor til autentifikation.",
@@ -422,6 +424,8 @@ OC.L10N.register(
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache-modulet er ikke indlæst. {linkstart}For bedre ydeevne anbefales det ↗{linked} at indlæse det i din PHP-installation.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache-modulet er ikke korrekt konfigureret. {linkstart}For bedre ydeevne anbefales det ↗{linkend} at bruge følgende indstillinger i <code>php.ini</code>:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Nogle kolonner i databasen mangler en konvertering til big int. På grund af det faktum, at ændring af kolonnetyper på store tabeller kunne tage noget tid, blev de ikke ændret automatisk. Ved at køre 'occ db:convert-filecache-bigint' kunne disse afventende ændringer anvendes manuelt. Denne handling skal udføres, mens instansen er offline. For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "For at migrere til en anden database skal du bruge kommandolinjeværktøjet: 'occ db:convert-type', eller se {linkstart}dokumentationen ↗{linkend}."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "For at migrere til en anden database skal du bruge kommandolinjeværktøjet: 'occ db:convert-type', eller se {linkstart}dokumentationen ↗{linkend}.",
+    "You haven't added any info yet" : "Du har ikke tilføjet nogle info endnu",
+    "{user} hasn't added any info yet" : "{user} har ikke tilføjet nogle info endnu"
 },
 "nplurals=2; plural=(n != 1);");
