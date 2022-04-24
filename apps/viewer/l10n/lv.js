@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Rādiet savus jaunākos brīvdienu fotoattēlus un videoklipus kā filmās, rādiet savu jaunāko romānu tieši no Nextcloud, izvēlieties savas kolekcijas labākos GIF, pateicoties tiešajam izlases datņu priekšskatījumam un daudziem citiem!",
     "Error loading {name}" : "Kļūda ielādējot {name}",
     "Open sidebar" : "Atvērt sānjoslu",
+    "Download" : "Lejupielādēt",
     "Delete" : "Dzēst",
     "View" : "Skats"
 },

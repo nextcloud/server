@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Грешка при учитавању {name}",
     "Your browser does not support videos." : "Ваш веб читач не подржава видео записе.",
     "Open sidebar" : "Отвори бочну траку",
+    "Download" : "Преузми",
     "Delete" : "Избриши",
     "There is no plugin available to display this file type" : "Нема додатка којим може да се прикаже овај тип фајла",
     "View" : "Погледај"

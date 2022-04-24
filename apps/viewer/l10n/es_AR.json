@@ -1,5 +1,6 @@
 { "translations": {
     "Open sidebar" : "Abrir barra lateral",
+    "Download" : "Descargar",
     "Delete" : "Eliminar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

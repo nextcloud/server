@@ -1,7 +1,6 @@
 OC.L10N.register(
     "viewer",
     {
-    "Download" : "Yuklab oling",
-    "Delete" : "O'chir"
+    "View" : "ကြည့်ရန်"
 },
 "nplurals=1; plural=0;");

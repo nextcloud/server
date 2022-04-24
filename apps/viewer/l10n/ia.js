@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Download" : "Discargar",
     "Delete" : "Deler",
     "View" : "Vider"
 },

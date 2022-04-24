@@ -1,4 +1,5 @@
 { "translations": {
-    "Error loading {name}" : "{name} පූරණය කිරීමේ දෝෂයකි"
+    "Error loading {name}" : "{name} පූරණය කිරීමේ දෝෂයකි",
+    "Download" : "බාගන්න"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

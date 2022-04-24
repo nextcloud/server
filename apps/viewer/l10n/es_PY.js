@@ -5,6 +5,7 @@ OC.L10N.register(
     "Error loading {name}" : "Se presentó un error al cargar {name}",
     "Your browser does not support videos." : "Tu navegador no soporta videos.",
     "Open sidebar" : "Abrir barra lateral",
+    "Download" : "Descargar",
     "Delete" : "Borrar"
 },
 "nplurals=2; plural=(n != 1);");

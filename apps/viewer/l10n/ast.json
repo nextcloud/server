@@ -1,5 +1,6 @@
 { "translations": {
     "Viewer" : "Visor",
+    "Download" : "Baxar",
     "Delete" : "Desaniciar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
