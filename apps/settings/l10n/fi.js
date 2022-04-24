@@ -418,6 +418,7 @@ OC.L10N.register(
     "Follow us on Mastodon" : "Seuraa meitä Mastodonissa",
     "Check out our blog" : "Lue blogia",
     "Subscribe to our newsletter" : "Tilaa uutiskirje",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tätä yhteisöjulkaisua Nextcloudista ei tueta, ja pikailmoitukset eivät ole saatavilla.",
     "Profile picture" : "Profiilikuva",
     "Change privacy level of profile picture" : "Muuta profiilikuvan yksityisyystasoa",
     "Upload new" : "Lähetä uusi",

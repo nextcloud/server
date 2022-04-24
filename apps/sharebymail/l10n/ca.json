@@ -23,6 +23,7 @@
     "Password to access %1$s was sent to you" : "Se us ha enviat la contrasenya per accedir a %1$s",
     "Password to access {file} was sent to you" : "Se us ha enviat la contrasenya per accedir a {file}",
     "Share by mail" : "Comparteix per correu electrònic",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
     "Failed to send share by email" : "No s'ha pogut enviar la compartició per correu electrònic",
     "%1$s shared »%2$s« with you" : "%1$s us ha compartit »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s us ha compartit »%2$s«.",

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nikoli",
     "Once every direct access" : "Enkrat ob neposrednem dostopu",
     "Read only" : "Le za branje",
+    "Disconnect" : "Prekinjeni povezavo",
     "Admin defined" : "Skrbnik je določen",
     "Delete storage?" : "Ali ste prepričani, da želite izbrisati shrambo?",
     "Saved" : "Shranjeno",

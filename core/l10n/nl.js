@@ -311,6 +311,7 @@ OC.L10N.register(
     "You chose SQLite as database." : "Je koos SQLite als database.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite zou alleen moeten worden gebruikt voor minimale en ontwikkelomgevingen. Voor productie raden we aan om een andere database backend te gebruiken.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Als je clients gebruikt voor bestandssynchronisatie wordt het gebruik van SQLite sterk ontraden.",
+    "Install" : "Installeren",
     "Need help?" : "Hulp nodig?",
     "See the documentation" : "Zie de documentatie",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Het lijkt erop of je Nextcloud wilt herinstalleren. Maar het bestand CAN_INSTALL ontbreekt in de configdirectory. Maak het bestand CAN_INSTALL aan in je config map om verder te gaan.",
@@ -339,6 +340,8 @@ OC.L10N.register(
     "You can close this window." : "Je mag dit venster sluiten.",
     "This share is password-protected" : "Deze share is wachtwoordbeveiligd",
     "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
+    "Email address" : "E-mailadres",
+    "Request password" : "Aanvragen wachtwoord",
     "Go to %s" : "Ga naar %s",
     "Two-factor authentication" : "Tweefactor authenticatie",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Versterkte beveiliging is ingeschakeld voor je account. Kies een tweede factor voor authenticatie:",
@@ -417,6 +420,8 @@ OC.L10N.register(
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "De PHP OPcache is niet geladen.  {linkstart}Voor betere prestaties  adviseren we ↗{linkend}  die te laden in je php.ini instellingen.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "De PHP OPcache is niet correct geconfigureerd. {linkstart}Voor betere prestaties wordt aanbevolen ↗ {linked} om de volgende instellingen in de <code>php.ini</code> te gebruiken:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sommige kolommen in de database zijn niet geconverteerd naar 'big int'. Doordat het wijzigen van kolomtype op grote databases veel tijd kost, zijn ze niet automatisch gewijzigd. Door het uitvoeren van 'occ db:convert-filecache-bigint' worden de veranderingen alsnog uitgevoerd. Dat moet gebeuren als de server off-line staat. Voor meer informatie verwijzen we naar {linkstart}de documentatie hierover ↗{linkend}.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Om te migreren naar een andere database moet u de commandoregel tool gebruiken: 'occ db:convert-type', of lees de {linkstart} documentatie  ↗{linkend}."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Om te migreren naar een andere database moet u de commandoregel tool gebruiken: 'occ db:convert-type', of lees de {linkstart} documentatie  ↗{linkend}.",
+    "You haven't added any info yet" : "Je hebt nog geen info toegevoegd",
+    "{user} hasn't added any info yet" : "{user} heeft nog geen info toegevoegd"
 },
 "nplurals=2; plural=(n != 1);");

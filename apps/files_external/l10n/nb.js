@@ -19,6 +19,7 @@ OC.L10N.register(
     "Never" : "Aldri",
     "Once every direct access" : "En gang pr. direkte tilgang",
     "Read only" : "Skrivebeskyttet",
+    "Disconnect" : "Koble fra",
     "Admin defined" : "Admin-definert",
     "Delete storage?" : "Slett lagringsplass",
     "Saved" : "Lagret",

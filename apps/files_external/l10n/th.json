@@ -17,6 +17,7 @@
     "Once every direct access" : "เมื่อทุกคนเข้าถึงโดยตรง",
     "Admin defined" : "ถูกกำหนดโดยผู้ดูแลระบบ",
     "Saved" : "บันทึกแล้ว",
+    "Saving …" : "กำลังบันทึก …",
     "Save" : "บันทึก",
     "Empty response from the server" : "ไม่มีการตอบสนองจากเซิร์ฟเวอร์",
     "Couldn't get the list of external mount points: {type}" : "ไม่สามารถรับรายชื่อของจุดเชื่อมต่อภายนอก: {type}",

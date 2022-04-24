@@ -19,6 +19,7 @@ OC.L10N.register(
     "Never" : "Kurrë",
     "Once every direct access" : "Çdo herë pas hyrjesh të drejtpërdrejta",
     "Read only" : "Vetëm i lexueshëm",
+    "Disconnect" : "Shkëputu",
     "Admin defined" : "Përcaktuar nga përgjegjësi",
     "Saved" : "U ruajt",
     "Save" : "Ruaje",

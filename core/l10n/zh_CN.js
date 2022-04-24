@@ -344,6 +344,8 @@ OC.L10N.register(
     "You can close this window." : "您可以关闭此窗口。",
     "This share is password-protected" : "这个共享是被密码保护的",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
+    "Email address" : "电子邮件地址",
+    "Request password" : "需要密码",
     "Go to %s" : "转至 %s",
     "Two-factor authentication" : "两步验证",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "您的账号已启用安全增强。请选择第二种验证方式。",
@@ -422,6 +424,8 @@ OC.L10N.register(
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "未加载 PHP OPcache 模块。{linkstart} 为了更佳性能，建议 ↗{linkend} 将其加载到你的 PHP 安装。",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "未正确配置 PHP OPcache 模块。 {linkstart}为了更佳性能，建议 ↗{linkend}使用 <code>php.ini</code>中的下列设置：",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "数据库中的一些列缺少到 big int 的转换。由于更改大表上的列类型可能需要一些时间，所以它们不会被自动更改。通过运行 'occ db:convert-filecache-bigint'，这些挂起的更改可以手动应用。需要在实例离线时执行此操作。进一步的细节，可以阅读 {linkstart} 关于此问题的文档页面 ↗{linkend}",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "要迁移到另一个数据库，使用命令行工具 'occ db:convert-type'或见 {linkstart}文档↗{linkend}"
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "要迁移到另一个数据库，使用命令行工具 'occ db:convert-type'或见 {linkstart}文档↗{linkend}",
+    "You haven't added any info yet" : "你尚未添加任何信息",
+    "{user} hasn't added any info yet" : "{user} 尚未添加任何信息"
 },
 "nplurals=1; plural=0;");

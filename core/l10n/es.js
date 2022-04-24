@@ -348,6 +348,8 @@ OC.L10N.register(
     "You can close this window." : "Puedes cerrar esta ventana.",
     "This share is password-protected" : "Este recurso compartido está protegido por contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Vuelve a intentarlo.",
+    "Email address" : "Dirección de correo",
+    "Request password" : "Solicitar contraseña",
     "Go to %s" : "Ir a %s",
     "Two-factor authentication" : "Verificación en dos pasos",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "La seguridad mejorada está habilitada para su cuenta. Elija una segunda forma de autenticación:",

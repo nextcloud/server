@@ -343,6 +343,8 @@ OC.L10N.register(
     "You can close this window." : "Можете закрыть это окно.",
     "This share is password-protected" : "Доступ к этому ресурсу защищён паролем",
     "The password is wrong. Try again." : "Неверный пароль. Повторите попытку.",
+    "Email address" : "Адрес эл. почты",
+    "Request password" : "Запрос пароля",
     "Go to %s" : "Перейти к %s",
     "Two-factor authentication" : "Двухфакторная аутентификация",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Повышенная безопасность включена для вашей учетной записи. Выберете второй фактор для подтверждения подлинности пользователя.",
@@ -421,6 +423,8 @@ OC.L10N.register(
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Не загружен PHP-модуль OPcache. Рекомендуется настроить этот модуль для {linkstart}улучшения производительности ↗{linkend}.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Система кеширования PHP OPcache не настроена верно. {linkstart}Для обеспечения лучшей производительности рекомендуется ↗{linkend} задать в файле <code>php.ini</code> следующие параметры:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Некоторые индексы базы данных не были преобразованы в тип big int. Так как преобразование таких индексов может занять продолжительное время, оно должно быть запущенно вручную. Чтобы выполнить преобразование, необходимо включить режим обслуживания и запустить в терминале команду «occ db:convert-filecache-bigint». Дополнительные сведения приведены {linkstart}на соответствующей странице документации ↗{linkend}.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Для миграции на другую базу данных используйте команду 'occ db:convert-type' или обратитесь к {linkstart}документации ↗{linkend}."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Для миграции на другую базу данных используйте команду 'occ db:convert-type' или обратитесь к {linkstart}документации ↗{linkend}.",
+    "You haven't added any info yet" : "Вы еще не добавили никакой информации",
+    "{user} hasn't added any info yet" : "{user} ещё не добавил никакой информации"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -156,6 +156,8 @@
     "Tags" : "Klavioù",
     "Unable to change the favourite state of the file" : "Dibosupl eo cheñch stad pennroll ar restr",
     "Error while loading the file data" : "Ur fazi zo bet en ur gargañ roadennoùar restr",
+    "Cancel" : "Arrest",
+    "Create" : "Krouiñ",
     "%s used" : "%s implijet",
     "%s%% of %s used" : "%s%% diwar %s implijet",
     "%1$s of %2$s used" : "%1$s diwar%2$s implijet",

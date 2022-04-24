@@ -81,6 +81,7 @@ OC.L10N.register(
     "Available flows" : "Fluxos disponibles",
     "For details on how to write your own flow, check out the development documentation." : "Per obtenir més informació sobre com escriure el seu propi flux, feu un cop d'ulls a la documentació de desenvolupament.",
     "More flows" : "Més fluxos",
+    "Browse the App Store" : "Navegueu per la botiga d’aplicacions",
     "Show less" : "Mostra'n menys",
     "Show more" : "Mostra'n més",
     "Configured flows" : "Fluxos configurats",

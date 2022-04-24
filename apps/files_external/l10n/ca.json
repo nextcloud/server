@@ -18,6 +18,7 @@
     "Never" : "Mai",
     "Once every direct access" : "Un cop cada accés directe",
     "Read only" : "Només lectura",
+    "Disconnect" : "Desconnecta",
     "Admin defined" : "Administrador definit",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprovació automàtica de l'estat està inhabilitada a causa del gran nombre d'emmagatzematges configurats, feu clic per comprovar l'estat",
     "Delete storage?" : "Suprimeix-ho l'emmagatzematge?",

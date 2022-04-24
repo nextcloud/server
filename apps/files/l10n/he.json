@@ -159,6 +159,8 @@
     "Tags" : "תגיות",
     "Unable to change the favourite state of the file" : "לא ניתן לשנות את מצב ההעדפה של הקובץ",
     "Error while loading the file data" : "שגיאה בטעינת נתוני הקובץ",
+    "Cancel" : "ביטול",
+    "Create" : "יצירה",
     "%s used" : "%s בשימוש",
     "%s%% of %s used" : "%s%% מתוך %s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",

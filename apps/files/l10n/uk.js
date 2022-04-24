@@ -154,6 +154,8 @@ OC.L10N.register(
     "Tags" : "Позначки",
     "Unable to change the favourite state of the file" : "Неможливо змінити стан \"улюблене\" для цього файлу",
     "Error while loading the file data" : "Помилка під час завантаження даних про файл",
+    "Cancel" : "Скасувати",
+    "Create" : "Створити",
     "%s used" : "%s використано",
     "%s%% of %s used" : "%s%% з %s використано",
     "%1$s of %2$s used" : "Використано %1$s з %2$s",

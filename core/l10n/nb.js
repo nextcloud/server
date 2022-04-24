@@ -348,6 +348,8 @@ OC.L10N.register(
     "You can close this window." : "Du kan lukke dette vinduet.",
     "This share is password-protected" : "Denne deling er beskyttet med passord",
     "The password is wrong. Try again." : "Feil passord, forsøk igjen",
+    "Email address" : "E-post adresse",
+    "Request password" : "Forespør om passord",
     "Go to %s" : "Gå til %s",
     "Two-factor authentication" : "Tofaktor autentisering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Utvidet sikkerhet er tilgjengelig fo rdin konto. Velg en to-faktor for autentisering.",

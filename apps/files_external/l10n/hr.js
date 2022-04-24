@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nikad",
     "Once every direct access" : "Jednom za svaki izravni pristup",
     "Read only" : "Samo za čitanje",
+    "Disconnect" : "Odspoji",
     "Admin defined" : "Definira administrator",
     "Delete storage?" : "Želite li izbrisati pohranu?",
     "Saved" : "Spremljeno",
