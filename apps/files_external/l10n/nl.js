@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nooit",
     "Once every direct access" : "Een keer bij elke directe toegang",
     "Read only" : "Alleen lezen",
+    "Disconnect" : "Verbreek verbinding",
     "Admin defined" : "Beheerder gedefinieerd",
     "Delete storage?" : "Opslag verwijderen?",
     "Saved" : "Bewaard",

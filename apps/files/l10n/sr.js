@@ -161,6 +161,8 @@ OC.L10N.register(
     "Tags" : "Ознаке",
     "Unable to change the favourite state of the file" : "Неуспела промена стања омиљености фајла",
     "Error while loading the file data" : "Грешка при учитавању података фајла",
+    "Cancel" : "Поништи",
+    "Create" : "Направи",
     "%s used" : "%s искоришћено",
     "%s%% of %s used" : "%s%% од %s искоришћено",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s",

@@ -82,6 +82,7 @@ OC.L10N.register(
     "Saving" : "บันทึก",
     "Back" : "ย้อนกลับ",
     "Continue" : "ดำเนินการต่อ",
+    "An internal error occurred." : "เกิดข้อผิดพลาดภายใน",
     "Please try again or contact your administrator." : "โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",

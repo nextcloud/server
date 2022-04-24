@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nikdy",
     "Once every direct access" : "S každým priamym prístupom",
     "Read only" : "Len na čítanie",
+    "Disconnect" : "Odpojiť",
     "Admin defined" : "Nastavené správcom",
     "Delete storage?" : "Zmazať externé úložisko?",
     "Saved" : "Uložené",

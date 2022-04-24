@@ -114,6 +114,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "پورته کول (%s نهايي)",
     "File Management" : "فایلونه ترتیبول",
     "Tags" : "نښکې",
+    "Cancel" : "پرېښول",
     "%s used" : "%sکارول شوې",
     "%1$s of %2$s used" : "د %2$sبرخې %1$sکارول شوې",
     "Settings" : "سمونې",

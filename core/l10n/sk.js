@@ -348,6 +348,8 @@ OC.L10N.register(
     "You can close this window." : "Toto okno už môžete zatvoriť.",
     "This share is password-protected" : "Toto sprístupnenie je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
+    "Email address" : "E-mailová adresa",
+    "Request password" : "Vyžiadať heslo",
     "Go to %s" : "Prejsť na %s",
     "Two-factor authentication" : "Dvojzložkové overovanie",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Vylepšená bezpečnosť je pre váš účet povolená. Vyberte druhý faktor overenia:",

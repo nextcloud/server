@@ -17,6 +17,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "Password for adgang %1$s blev sendt til dig.",
     "Password to access {file} was sent to you" : "Password for adgang {file} blev sendt til dig.",
     "Share by mail" : "Delt med mail",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deling af %1$s mislykkedes, fordi dette element allerede er delt med bruger%2$s",
     "Failed to send share by email" : "Kunne ikke sende deling via e-mail",
     "Click the button below to open it." : "Klik på knappen nedenunder for at åbne.",
     "Open »%s«" : "Åbn »%s«",

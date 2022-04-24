@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "Slutförd %s",
     "Due on %s by %s" : "Slutar den %s vid %s",
     "Due on %s" : "Slutar den %s",
+    "Contacts and groups" : "Kontakter och grupper",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Availability" : "Tillgänglighet",

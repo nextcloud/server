@@ -153,6 +153,8 @@ OC.L10N.register(
     "Tags" : "Tag",
     "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Error while loading the file data" : "Galat pemuatan data berkas",
+    "Cancel" : "Membatalkan",
+    "Create" : "Buat",
     "%s used" : "%s digunakan",
     "%s%% of %s used" : "%s%% dari %s terpakai",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Never" : "Mitte kunagi",
     "Once every direct access" : "Kord iga otsese pöördumise korral",
     "Read only" : "kirjutuskaitstud",
+    "Disconnect" : "Ühenda lahti",
     "Admin defined" : "Admini poolt määratud",
     "Saved" : "Salvestatud",
     "Save" : "Salvesta",

@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "Voltooid op %s",
     "Due on %s by %s" : "Verwacht op %s door %s",
     "Due on %s" : "Verwacht op %s",
+    "Contacts and groups" : "Contactpersonen en groepen",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV eindpunt",
     "Availability" : "Beschikbaarheid",

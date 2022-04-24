@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Niekada",
     "Once every direct access" : "Kartą per tiesioginę peržiūrą",
     "Read only" : "Tik skaitymui",
+    "Disconnect" : "Atsijungti",
     "Admin defined" : "Administratorius apibrėžtas",
     "Delete storage?" : "Ištrinti saugyklą?",
     "Saved" : "Įrašyta",

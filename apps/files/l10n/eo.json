@@ -132,6 +132,8 @@
     "Tags" : "Etikedoj",
     "Unable to change the favourite state of the file" : "Ne eblas ŝanĝi la staton pri pliŝatataĵo de la dosiero",
     "Error while loading the file data" : "Eraro dum ŝargo de la dosierdatumoj",
+    "Cancel" : "Nuligi",
+    "Create" : "Krei",
     "%s used" : "%s uzataj",
     "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
