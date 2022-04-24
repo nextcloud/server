@@ -103,6 +103,8 @@ OC.L10N.register(
     "in %s" : "në %s",
     "Change" : "Ndrysho",
     "Tags" : "Etiketë",
+    "Cancel" : "Anullo",
+    "Create" : "Krijo",
     "%s used" : "%s të përdorura",
     "%1$s of %2$s used" : "%1$s e %2$s përdorur",
     "Settings" : "Rregullime",

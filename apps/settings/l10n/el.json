@@ -2,6 +2,7 @@
     "Private" : "Ιδιωτικά",
     "Local" : "Τοπικά",
     "Only visible to people on this instance and guests" : "Ορατό μόνο σε άτομα σε αυτήν την εγκατάσταση και σε επισκέπτες",
+    "Federated" : "Federated",
     "Only synchronize to trusted servers" : "Συγχρονισμός μόνο με έμπιστους διακομιστές.",
     "Published" : "Δημοσιεύτηκε",
     "Synchronize to trusted servers and the global and public address book" : "Συγχρονισμός με αξιόπιστους διακομιστές του γενικού και δημόσιου βιβλίου διευθύνσεων",

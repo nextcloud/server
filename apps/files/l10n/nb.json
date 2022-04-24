@@ -159,6 +159,8 @@
     "Tags" : "Merkelapper",
     "Unable to change the favourite state of the file" : "Kan ikke endre favorittstatus til filen",
     "Error while loading the file data" : "Feil ved lasting av fildata",
+    "Cancel" : "Avbryt",
+    "Create" : "Opprett",
     "%s used" : "%s brukt",
     "%s%% of %s used" : "%s%% av %s brukt",
     "%1$s of %2$s used" : "%1$s av %2$s brukt",

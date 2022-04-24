@@ -17,6 +17,7 @@ OC.L10N.register(
     "Never" : "Niciodată",
     "Once every direct access" : "O dată la fiecare acces direct",
     "Read only" : "Doar citire",
+    "Disconnect" : "Deconectare",
     "Admin defined" : "Administrator definit",
     "Saved" : "Salvat",
     "Saving …" : "Se salvează",

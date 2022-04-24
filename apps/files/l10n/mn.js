@@ -114,6 +114,8 @@ OC.L10N.register(
     "All files" : "Бүх файлууд",
     "Accept" : "Хүлээн зөвшөөрөх",
     "Tags" : "Тэгүүд",
+    "Cancel" : "болиулах",
+    "Create" : "Үүсгэх",
     "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
     "Settings" : "Тохиргоо",
     "Show hidden files" : "Нууцлагдсан файлыг харах",

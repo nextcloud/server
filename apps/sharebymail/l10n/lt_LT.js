@@ -25,6 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "Jums buvo išsiųstas slaptažodis, skirtas prieigai prie %1$s ",
     "Password to access {file} was sent to you" : "Jums buvo išsiųstas slaptažodis, skirtas prieigai prie {file}",
     "Share by mail" : "Bendrinimas el. paštu",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su naudotoju %2$s",
     "Failed to send share by email" : "Nepavyko pasidalinti el. paštu",
     "%1$s shared »%2$s« with you" : "%1$s pasidalino „%2$s“ su jumis",
     "%1$s shared »%2$s« with you." : "%1$s pasidalino „%2$s“ su jumis.",

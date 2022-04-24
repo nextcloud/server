@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "从不",
     "Once every direct access" : "每次访问时",
     "Read only" : "只读",
+    "Disconnect" : "断开连接",
     "Admin defined" : "管理员定义",
     "Delete storage?" : "删除存储？",
     "Saved" : "已保存",

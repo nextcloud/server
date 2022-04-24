@@ -346,6 +346,8 @@
     "You can close this window." : "Puoi chiudere questa finestra.",
     "This share is password-protected" : "Questa condivisione è protetta da password",
     "The password is wrong. Try again." : "La password è errata. Prova ancora.",
+    "Email address" : "Indirizzo email",
+    "Request password" : "Richiedi password",
     "Go to %s" : "Vai a %s",
     "Two-factor authentication" : "Autenticazione a due fattori",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "La sicurezza migliorata è abilitata per il tuo account. Scegli un secondo fattore per l'autenticazione:",

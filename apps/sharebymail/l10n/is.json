@@ -23,6 +23,7 @@
     "Password to access %1$s was sent to you" : "Lykilorð fyrir aðgang að %1$s var sent til þín",
     "Password to access {file} was sent to you" : "Lykilorð fyrir aðgang að {file} var sent til þín",
     "Share by mail" : "Deila með tölvupósti",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með notandanum %2$s",
     "Failed to send share by email" : "Gat ekki sent sameign með tölvupósti",
     "%1$s shared »%2$s« with you" : "%1$s deildi »%2$s« með þér",
     "%1$s shared »%2$s« with you." : "%1$s deildi »%2$s« með þér.",

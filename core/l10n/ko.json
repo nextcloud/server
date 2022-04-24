@@ -290,6 +290,7 @@
     "You chose SQLite as database." : "데이터베이스로 SQLite를 선택하셨습니다.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite는 최소 및 개발 목적의 인스턴스에만 사용하는 것을 추천합니다. 실제 업무에 사용하려면 다른 데이터베이스 백엔드를 사용하십시오.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "만약 파일 동기화 클라이언트를 사용하려고 한다면 SQLite를 사용하지 않는 것이 좋습니다.",
+    "Install" : "설치",
     "Need help?" : "도움이 필요한가요?",
     "See the documentation" : "문서 보기",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Nextcloud를 다시 설치하려고 하는 것 같습니다. 그러나 현재 설정 디렉터리에 CAN_INSTALL 파일이 없는 것 같습니다. 계속 진행하려면 설정 폴더에 CAN_INSTALL 폴더를 만드십시오.",
@@ -318,6 +319,8 @@
     "You can close this window." : "윈도우를 닫으셔도 됩니다.",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다.",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 시도하십시오",
+    "Email address" : "이메일 주소",
+    "Request password" : "비밀번호 요청",
     "Go to %s" : "%s로 이동",
     "Two-factor authentication" : "2단계 인증",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "현재 계정에 향상된 보안이 켜져 있습니다. 2단계 인증 방식을 선택하십시오:",
@@ -395,6 +398,8 @@
     "Can't install this app" : "앱을 설치할 수 없음",
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP OPcache 모듈이 로드되지 않았습니다. {linkstart}더 나은 성능을 위해 ↗{linkend} 이를 PHP에 로드하는 것이 권장됩니다.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache 모듈이 바르게 설정되지 않았습니다.  {linkstart}더 나은 성능을 위해 ↗{linkend} 다음의 설정을 <code>php.ini</code>에서 사용하십시오:",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "다른 데이터 베이스로 마이그레션하기 위해서 다음 명령을 사용하세요: ''occ db:convert-type', 또는 다음 {linkstart}문서를 참조하세요 ↗{linkend}."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "다른 데이터 베이스로 마이그레션하기 위해서 다음 명령을 사용하세요: ''occ db:convert-type', 또는 다음 {linkstart}문서를 참조하세요 ↗{linkend}.",
+    "You haven't added any info yet" : "아직 아무 정보도 추가하지 않았습니다.",
+    "{user} hasn't added any info yet" : "{user} 아직 아무정보도 추가하지 않았습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -297,6 +297,8 @@ OC.L10N.register(
     "You can close this window." : "Podètz tampar aquesta fenèstra.",
     "This share is password-protected" : "Aqueste partiment es protegit per un senhal",
     "The password is wrong. Try again." : "Lo senhal es incorrècte. Ensajatz tornamai.",
+    "Email address" : "Adreça mail",
+    "Request password" : "Demandar senhal",
     "Go to %s" : "Anar a %s",
     "Two-factor authentication" : "Autentificacion dos factors",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "La seguretat renfortida es activada per vòstre compte. Causissètz un segond factor per l’autentificacion :",

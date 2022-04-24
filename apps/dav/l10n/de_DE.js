@@ -137,7 +137,7 @@ OC.L10N.register(
     "Due on %s by %s" : "Fällig am %s von %s",
     "Due on %s" : "Fällig am %s",
     "Migrated calendar (%1$s)" : "Migrierter Kalender (%1$s)",
-    "Calendars including events, details and attendees" : "Kalender mit Ereignissen, Details und Teilnehmern",
+    "Calendars including events, details and attendees" : "Kalender mit Terminen, Details und Teilnehmern",
     "Contacts and groups" : "Kontakte und Gruppen",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-Endpunkt",

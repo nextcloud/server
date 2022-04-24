@@ -23,6 +23,7 @@
     "Password to access %1$s was sent to you" : "رمز عبور برای دسترسی %1$s به شما ارسال شد",
     "Password to access {file} was sent to you" : "رمز ورود برای دسترسی به {file} برای شما ارسال شد",
     "Share by mail" : "اشتراک از طریق پست",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "اشتراک گذاری %1$sانجام نشد ، زیرا این مورد قبلاً با کاربر%2$s به اشتراک گذاشته شده است",
     "Failed to send share by email" : "ارسال اشتراک از طریق ایمیل انجام نشد",
     "%1$s shared »%2$s« with you" : "%1$s به اشتراک گذاشته » %2$s« با شما",
     "%1$s shared »%2$s« with you." : "%1$s به اشتراک گذاشته » %2$s« با شما",

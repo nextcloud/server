@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nunca",
     "Once every direct access" : "Una vez en cada acceso",
     "Read only" : "Solo lectura",
+    "Disconnect" : "Desconectar",
     "Admin defined" : "Admin definido",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Saved" : "Guardado",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Check for changes" : "Verificar nove modificationes",
     "Never" : "Nunquam",
     "Once every direct access" : "A cata accesso directe",
+    "Disconnect" : "Disconnecter",
     "Saved" : "Salveguardate",
     "Save" : "Salveguardar",
     "External mount error" : "Error del montage externe",

@@ -331,6 +331,8 @@ OC.L10N.register(
     "You can close this window." : "Du kan stänga det här fönstret.",
     "This share is password-protected" : "Denna delning är lösenordsskyddad",
     "The password is wrong. Try again." : "Felaktigt lösenord. Försök igen.",
+    "Email address" : "E-postadress",
+    "Request password" : "Begär lösenord",
     "Go to %s" : "Gå till %s",
     "Two-factor authentication" : "Tvåfaktorsautentisering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Förbättrad säkerhet är aktiverad för ditt konto. Välj en andra faktor för autentisering:",

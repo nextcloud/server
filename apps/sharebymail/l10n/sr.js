@@ -25,6 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "Лозинка за приступ %1$sВам је послата",
     "Password to access {file} was sent to you" : "Лозинка за приступ  {file} Вам је послата ",
     "Share by mail" : "Подели е-поштом",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Дељење %1$s није успело зато што се ова ставка већ дели са корисником %2$s",
     "Failed to send share by email" : "Грешка у слању дељења е-поштом",
     "%1$s shared »%2$s« with you" : "%1$s је поделио „%2$s“ са Вама",
     "%1$s shared »%2$s« with you." : "%1$s је поделио „%2$s“ са Вама.",

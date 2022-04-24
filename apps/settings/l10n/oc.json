@@ -1,5 +1,7 @@
 { "translations": {
     "Private" : "Privat",
+    "Local" : "Local",
+    "Federated" : "Federated",
     "Only synchronize to trusted servers" : "Sincronizar pas qu’als servidors fisables",
     "Synchronize to trusted servers and the global and public address book" : "Sincronizar als servidors fisables e los annuaris d’adreças globals e publics",
     "Verify" : "Verificar",
@@ -202,6 +204,7 @@
     "About" : "A prepaus",
     "Full name" : "Nom complèt",
     "Additional email" : "Email suplementari",
+    "Headline" : "Títol",
     "Organisation" : "Organizacion",
     "Phone number" : "Numèro de telefòn",
     "Role" : "Ròtle",
@@ -219,6 +222,7 @@
     "Open documentation" : "Dobrir la documentacion",
     "Send mode" : "Mòde de mandadís",
     "Encryption" : "Chiframent",
+    "Authentication required" : "Autentificacion requerida",
     "Server address" : "Adreça del servidor",
     "Port" : "Pòrt",
     "Credentials" : "Informacions d'identificacion",

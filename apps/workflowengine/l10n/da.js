@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Tjek %s er invalid",
     "Check #%s does not exist" : "Tjek #%s eksisterer",
     "Check %s is invalid or does not exist" : "Tjek %s er invalid eller eksisterer ikke",
+    "Flow" : "Flow",
     "Folder" : "Mappe",
     "Images" : "Billeder",
     "No results" : "Ingen resultater",
@@ -32,9 +33,11 @@ OC.L10N.register(
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook tilføjelser",
+    "and" : "og",
     "Cancel" : "Annullér",
     "Delete" : "Slet",
     "Save" : "Gem",
+    "Browse the App Store" : "Gennemse App Store",
     "matches" : "er lig med",
     "does not match" : "er ikke lig med",
     "is" : "er",
@@ -61,6 +64,7 @@ OC.L10N.register(
     "Request user agent" : "Bruger \"user agent\"",
     "User group membership" : "Brugers gruppemedlemsskab",
     "is member of" : "er medlem af",
-    "is not member of" : "er ikke medlem af"
+    "is not member of" : "er ikke medlem af",
+    "Browse the app store" : "Gennemse app-butikken"
 },
 "nplurals=2; plural=(n != 1);");

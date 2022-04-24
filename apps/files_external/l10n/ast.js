@@ -13,6 +13,7 @@ OC.L10N.register(
     "Enable encryption" : "Habilitar cifráu",
     "Never" : "Enxamás",
     "Read only" : "Namái llectura",
+    "Disconnect" : "Desconeutar",
     "Delete storage?" : "¿Desaniciar almacenamientu?",
     "Saved" : "Guardáu",
     "Saving …" : "Guardando...",
