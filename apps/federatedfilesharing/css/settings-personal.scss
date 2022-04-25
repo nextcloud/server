@@ -30,13 +30,14 @@
 
 .social-diaspora {
 	@include icon-color('social-diaspora', 'federatedfilesharing', $color-black);
-	padding-left: 26px;
 }
 .social-twitter {
     @include icon-color('social-twitter', 'federatedfilesharing', $color-black);
-	padding-left: 26px;
 }
 .social-facebook {
 	@include icon-color('social-facebook', 'federatedfilesharing', $color-black);
-	padding-left: 26px;
+}
+
+.social_sharing_buttons {
+	padding-left: 30px !important;
 }
