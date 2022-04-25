@@ -147,6 +147,7 @@ try {
 				break;
 			}
 
+			$logger->debug('CLI cron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
 			$job->execute($jobList, $logger);
 			// clean up after unclean jobs
 			\OC_Util::tearDownFS();
@@ -169,6 +170,7 @@ try {
 			$jobList = \OC::$server->getJobList();
 			$job = $jobList->getNext();
 			if ($job != null) {
+				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
 				$job->execute($jobList, $logger);
 				$jobList->setLastJob($job);
 			}
