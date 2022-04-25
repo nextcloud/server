@@ -71,7 +71,7 @@ script('settings', [
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
-	<p class="settings-hint"><?php p($l->t('For optimal performance it\'s important to configure background jobs correctly. For bigger instances \'Cron\' is the recommended setting. Please see the documentation for more information.'));?></p>
+	<p class="settings-hint"><?php p($l->t('For the server to work properly, it\'s important to configure background jobs correctly. \'Cron\' is the recommended setting. Please see the documentation for more information.'));?></p>
 	<form action="#">
 		<fieldset>
 			<legend class="hidden-visually"><?php p($l->t('Pick background job setting'));?></legend>
@@ -81,7 +81,7 @@ script('settings', [
 			print_unescaped('checked="checked"');
 		} ?>>
 				<label for="backgroundjobs_ajax">AJAX</label><br/>
-				<em><?php p($l->t("Execute one task with each page loaded.")); ?></em>
+				<em><?php p($l->t("Execute one task with each page loaded. Use case: Single user instance.")); ?></em>
 			</p>
 			<p>
 				<input type="radio" name="mode" value="webcron" class="radio"
@@ -89,7 +89,7 @@ script('settings', [
 			print_unescaped('checked="checked"');
 		} ?>>
 				<label for="backgroundjobs_webcron">Webcron</label><br/>
-				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP.")); ?></em>
+				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage).")); ?></em>
 			</p>
 			<p>
 				<input type="radio" name="mode" value="cron" class="radio"
@@ -99,8 +99,8 @@ script('settings', [
 				if (!$_['cli_based_cron_possible']) {
 					print_unescaped('disabled');
 				}?>>
-				<label for="backgroundjobs_cron">Cron</label><br/>
-				<em><?php p($l->t("Use system cron service to call the cron.php file every 5 minutes.")); ?>
+				<label for="backgroundjobs_cron">Cron (<?php p($l->t("Recommended")); ?>)</label><br/>
+				<em><?php p($l->t("Use system cron service to call the cron.php file every 5 minutes. Recommended for all instances.")); ?>
 					<?php if ($_['cli_based_cron_possible']) {
 					p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
 				} else {
