@@ -30,9 +30,9 @@ use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Add oc_file_metadata table
- * @see OC\Metadata\FileMetadata
+ * @see \OC\Metadata\FileMetadata
  */
-class Version240000Date20220404230027 extends SimpleMigrationStep {
+class Version24000Date20220404230027 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
