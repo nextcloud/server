@@ -2542,7 +2542,8 @@
     <RedundantCondition occurrences="1">
       <code>\is_array($params)</code>
     </RedundantCondition>
-    <UndefinedFunction occurrences="1">
+    <UndefinedFunction occurrences="2">
+      <code>\Sabre\HTTP\decodePath($pathInfo)</code>
       <code>\Sabre\Uri\split($scriptName)</code>
     </UndefinedFunction>
   </file>
