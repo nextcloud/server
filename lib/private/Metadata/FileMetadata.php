@@ -30,7 +30,7 @@ use OCP\DB\Types;
  * @method void setGroupName(string $groupName)
  * @method string getMetadata()
  * @method void setMetadata(array $metadata)
- * @see OC\Core\Migrations\Version240000Date20220404230027
+ * @see \OC\Core\Migrations\Version240000Date20220404230027
  */
 class FileMetadata extends Entity {
 	protected ?string $groupName = null;
