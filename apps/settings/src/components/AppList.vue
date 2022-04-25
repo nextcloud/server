@@ -30,7 +30,7 @@
 						id="app-list-update-all"
 						class="primary"
 						@click="updateAll">
-						{{ t('settings', 'Update all') }}
+						{{ n('settings', 'Update', 'Update all', counter) }}
 					</button>
 				</div>
 				<div v-if="!showUpdateAll" class="counter">
@@ -120,10 +120,10 @@ export default {
 			return this.$store.getters.loading('list')
 		},
 		hasPendingUpdate() {
-			return this.apps.filter(app => app.update).length > 1
+			return this.apps.filter(app => app.update).length > 0
 		},
 		showUpdateAll() {
-			return this.hasPendingUpdate && ['installed', 'updates'].includes(this.category)
+			return this.hasPendingUpdate && this.useListView
 		},
 		apps() {
 			const apps = this.$store.getters.getAllApps
