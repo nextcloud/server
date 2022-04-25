@@ -49,6 +49,8 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
+use OC\User\DisplayNameCache;
+use OC\User\LazyUser;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
@@ -102,6 +104,8 @@ class View {
 	/** @var \OCP\ILogger */
 	private $logger;
 
+	private DisplayNameCache $displayNameCache;
+
 	/**
 	 * @param string $root
 	 * @throws \Exception If $root contains an invalid path
@@ -118,6 +122,7 @@ class View {
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
+		$this->displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		$this->logger = \OC::$server->getLogger();
 	}
 
@@ -1312,15 +1317,10 @@ class View {
 
 	/**
 	 * @param string $ownerId
-	 * @return \OC\User\User
+	 * @return IUser
 	 */
-	private function getUserObjectForOwner($ownerId) {
-		$owner = $this->userManager->get($ownerId);
-		if ($owner instanceof IUser) {
-			return $owner;
-		} else {
-			return new User($ownerId, null, \OC::$server->getEventDispatcher());
-		}
+	private function getUserObjectForOwner(string $ownerId) {
+		return new LazyUser($ownerId, $this->displayNameCache, $this->userManager);
 	}
 
 	/**
