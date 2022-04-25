@@ -22,15 +22,15 @@ style('federatedfilesharing', 'settings-personal');
 
 	<p>
 		<?php p($l->t('Share it so your friends can share files with you:')); ?><br>
-		<button class="social-facebook pop-up"
+		<button class="social-facebook pop-up social_sharing_buttons"
 				data-url='https://www.facebook.com/sharer/sharer.php?u=<?php p(urlencode($_['reference'])); ?>'>
 			Facebook
 		</button>
-		<button class="social-twitter pop-up"
+		<button class="social-twitter pop-up social_sharing_buttons"
 			data-url='https://twitter.com/intent/tweet?text=<?php p(urlencode($_['message_with_URL'])); ?>'>
 			Twitter
 		</button>
-		<button class="social-diaspora pop-up"
+		<button class="social-diaspora pop-up social_sharing_buttons"
 				data-url='https://share.diasporafoundation.org/?title=<?php p($_['message_without_URL']); ?>&url=<?php p(urlencode($_['reference'])); ?>'>
 			Diaspora
 		</button>
