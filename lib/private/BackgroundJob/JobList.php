@@ -203,7 +203,7 @@ class JobList implements IJobList {
 	 * @param bool $onlyTimeSensitive
 	 * @return IJob|null
 	 */
-	public function getNext(bool $onlyTimeSensitive = true): ?IJob {
+	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
