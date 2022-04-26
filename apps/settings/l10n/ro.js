@@ -202,6 +202,7 @@ OC.L10N.register(
     "Enable encryption" : "Activează criptarea",
     "Select default encryption module:" : "Selectează modulul implicit de criptare:",
     "Start migration" : "Pornește migrarea",
+    "Recommended" : "Recomandat",
     "Allow apps to use the Share API" : "Permite aplicațiilor să folosească API-ul de partajare",
     "Enforce expiration date" : "Impune data de expirare",
     "Allow public uploads" : "Permite încărcări publice",

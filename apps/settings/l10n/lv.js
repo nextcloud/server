@@ -149,6 +149,7 @@ OC.L10N.register(
     "No encryption module loaded, please enable an encryption module in the app menu." : "Nav ielādēts šifrēšanas moduļis, lūdzu, aktivizējiet šifrēšanas moduli lietotņu izvēlnē.",
     "Select default encryption module:" : "Atlasiet noklusēto šifrēšanas moduli:",
     "Start migration" : "Sākt migrāciju",
+    "Recommended" : "Rekomendēts",
     "Allow apps to use the Share API" : "Ļaut programmām izmantot koplietošanas API",
     "Enforce expiration date" : "Uzspiest beigu termiņu",
     "Allow public uploads" : "Atļaut publisko augšupielādi",

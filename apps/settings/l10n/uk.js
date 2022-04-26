@@ -296,6 +296,7 @@ OC.L10N.register(
     "Select default encryption module:" : "Обрати модуль шифрування за замовчуванням:",
     "Start migration" : "Розпочати міграцію",
     "Last job ran %s." : "Останнє завдання запускалось %s.",
+    "Recommended" : "Рекомендуємо",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Як адміністратор ви можете точно налаштувати поведінку спільного використання. Будь ласка, перегляньте документацію для отримання додаткової інформації.",
     "Allow apps to use the Share API" : "Дозволити застосункам використовувати API спільного доступу",
     "Enforce expiration date" : "Термін дії обов'язковий",
