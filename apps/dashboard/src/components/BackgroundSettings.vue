@@ -181,10 +181,6 @@ export default {
 			content: '';
 			display: block;
 			height: 100%;
-
-			body.theme--dark & {
-				background-image: var(--icon-checkmark-000);
-			}
 		}
 	}
 }

@@ -16,7 +16,8 @@
 			@end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
-					<h2 :class="panels[panelId].iconClass">
+					<h2>
+						<div :class="panels[panelId].iconClass" role="img" />
 						{{ panels[panelId].title }}
 					</h2>
 				</div>
@@ -27,24 +28,26 @@
 		</Draggable>
 
 		<div class="footer">
-			<a class="edit-panels icon-rename"
-				tabindex="0"
-				@click="showModal"
-				@keyup.enter="showModal"
-				@keyup.space="showModal">{{ t('dashboard', 'Customize') }}</a>
+			<Button @click="showModal">
+				<template #icon>
+					<Pencil :size="20" />
+				</template>
+				{{ t('dashboard', 'Customize') }}
+			</Button>
 		</div>
 
 		<Modal v-if="modal" size="large" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
 				<ol class="panels">
-					<li v-for="status in sortedAllStatuses" :key="status">
+					<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
 						<input :id="'status-checkbox-' + status"
 							type="checkbox"
 							class="checkbox"
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
-						<label :for="'status-checkbox-' + status" :class="statusInfo[status].icon">
+						<label :for="'status-checkbox-' + status">
+							<div :class="statusInfo[status].icon" role="img" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -55,13 +58,14 @@
 					v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 					handle=".draggable"
 					@end="saveLayout">
-					<li v-for="panel in sortedPanels" :key="panel.id">
+					<li v-for="panel in sortedPanels" :key="panel.id" :class="'panel-' + panel.id">
 						<input :id="'panel-checkbox-' + panel.id"
 							type="checkbox"
 							class="checkbox"
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
-						<label :for="'panel-checkbox-' + panel.id" :class="isActive(panel) ? 'draggable ' + panel.iconClass : panel.iconClass">
+						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
+							<div :class="panel.iconClass" role="img" />
 							{{ panel.title }}
 						</label>
 					</li>
@@ -89,13 +93,16 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { loadState } from '@nextcloud/initial-state'
-import { getCurrentUser } from '@nextcloud/auth'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import Draggable from 'vuedraggable'
-import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
+import axios from '@nextcloud/axios'
+import Button from '@nextcloud/vue/dist/Components/Button'
+import Draggable from 'vuedraggable'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
+import Pencil from 'vue-material-design-icons/Pencil.vue'
+import Vue from 'vue'
+
 import isMobile from './mixins/isMobile'
 import BackgroundSettings from './components/BackgroundSettings'
 import getBackgroundUrl from './helpers/getBackgroundUrl'
@@ -106,6 +113,7 @@ const background = loadState('dashboard', 'background')
 const themingDefaultBackground = loadState('dashboard', 'themingDefaultBackground')
 const version = loadState('dashboard', 'version')
 const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
+
 const statusInfo = {
 	weather: {
 		text: t('dashboard', 'Weather'),
@@ -118,15 +126,18 @@ const statusInfo = {
 }
 
 export default {
-	name: 'App',
+	name: 'DashboardApp',
 	components: {
-		Modal,
-		Draggable,
 		BackgroundSettings,
+		Button,
+		Draggable,
+		Modal,
+		Pencil,
 	},
 	mixins: [
 		isMobile,
 	],
+
 	data() {
 		return {
 			isAdmin: getCurrentUser().isAdmin,
@@ -163,6 +174,7 @@ export default {
 				backgroundImage: `url(${this.backgroundImage})`,
 			}
 		},
+
 		greeting() {
 			const time = this.timer.getHours()
 
@@ -203,12 +215,14 @@ export default {
 			const shouldShowName = this.displayName && this.uid !== this.displayName
 			return { text: shouldShowName ? good[partOfDay].withName : good[partOfDay].generic }
 		},
+
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
 		},
 		isStatusActive() {
 			return (status) => !(status in this.enabledStatuses) || this.enabledStatuses[status]
 		},
+
 		sortedAllStatuses() {
 			return Object.keys(this.allCallbacksStatus).slice().sort(this.sortStatuses)
 		},
@@ -226,6 +240,7 @@ export default {
 			return this.registeredStatus.slice().sort(this.sortStatuses)
 		},
 	},
+
 	watch: {
 		callbacks() {
 			this.rerenderPanels()
@@ -245,6 +260,7 @@ export default {
 			}
 		},
 	},
+
 	mounted() {
 		this.updateGlobalStyles()
 		this.updateSkipLink()
@@ -261,6 +277,7 @@ export default {
 	destroyed() {
 		window.removeEventListener('scroll', this.handleScroll)
 	},
+
 	methods: {
 		/**
 		 * Method to register panels that will be called by the integrating apps
@@ -342,16 +359,14 @@ export default {
 			this.updateGlobalStyles()
 		},
 		updateGlobalStyles() {
-			document.body.setAttribute('data-dashboard-background', this.background)
-			if (window.OCA.Theming.inverted) {
-				document.body.classList.add('dashboard--inverted')
-			}
-
-			const shippedBackgroundTheme = shippedBackgroundList[this.background] ? shippedBackgroundList[this.background].theming : 'light'
-			if (shippedBackgroundTheme === 'dark') {
-				document.body.classList.add('dashboard--dark')
+			// Override primary-invert-if-bright and color-primary-text if background is set
+			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
+			if (isBackgroundBright) {
+				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
+				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
 			} else {
-				document.body.classList.remove('dashboard--dark')
+				document.querySelector('#header').style.removeProperty('--primary-invert-if-bright')
+				document.querySelector('#header').style.removeProperty('--color-primary-text')
 			}
 		},
 		updateSkipLink() {
@@ -411,18 +426,8 @@ export default {
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-color: var(--color-primary);
-	--color-background-translucent: rgba(255, 255, 255, 0.8);
+	--color-background-translucent: rgba(var(--color-main-background-rgb), 0.8);
 	--background-blur: blur(10px);
-
-	#body-user.theme--dark & {
-		background-color: var(--color-main-background);
-		--color-background-translucent: rgba(24, 24, 24, 0.8);
-	}
-
-	#body-user.theme--highcontrast & {
-		background-color: var(--color-main-background);
-		--color-background-translucent: var(--color-main-background);
-	}
 
 	> h2 {
 		color: var(--color-primary-text);
@@ -486,20 +491,27 @@ export default {
 		}
 
 		> h2 {
-			display: block;
+			display: flex;
+			align-items: center;
 			flex-grow: 1;
 			margin: 0;
 			font-size: 20px;
 			line-height: 24px;
 			font-weight: bold;
-			background-size: 32px;
-			background-position: 14px 12px;
-			padding: 16px 8px 16px 60px;
+			padding: 16px 8px;
 			height: 56px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			cursor: grab;
+			div {
+				background-size: 32px;
+				width: 32px;
+				height: 32px;
+				margin-right: 16px;
+				background-position: center;
+				filter: var(--background-invert-if-dark);
+			}
 		}
 	}
 
@@ -519,7 +531,8 @@ export default {
 }
 
 .footer {
-	text-align: center;
+	display: flex;
+	justify-content: center;
 	transition: bottom var(--animation-slow) ease-in-out;
 	bottom: 0;
 	padding: 44px 0;
@@ -537,6 +550,8 @@ export default {
 	text-align: center;
 }
 
+.button,
+.button-vue
 .edit-panels,
 .statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
@@ -576,16 +591,27 @@ export default {
 			background-color: var(--color-background-hover);
 			border: 2px solid var(--color-main-background);
 			border-radius: var(--border-radius-large);
-			background-size: 24px;
-			background-position: 16px 16px;
 			text-align: left;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 
+			div {
+				position: absolute;
+				top: 16px;
+				width: 24px;
+				height: 24px;
+				background-size: 24px;
+			}
+
 			&:hover {
 				border-color: var(--color-primary);
 			}
+		}
+
+		// Do not invert status icons
+		&:not(.panel-status) label div {
+			filter: var(--background-invert-if-dark);
 		}
 
 		input[type='checkbox'].checkbox + label:before {

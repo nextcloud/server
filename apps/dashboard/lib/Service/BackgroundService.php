@@ -40,6 +40,7 @@ use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 
 class BackgroundService {
+	// true when the background is bright and need dark icons
 	public const THEMING_MODE_DARK = 'dark';
 
 	public const SHIPPED_BACKGROUNDS = [
