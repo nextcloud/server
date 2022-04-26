@@ -51,8 +51,8 @@ class SessionMiddleware extends Middleware {
 	 */
 	public function beforeController($controller, $methodName) {
 		$useSession = $this->reflector->hasAnnotation('UseSession');
-		if (!$useSession) {
-			$this->session->close();
+		if ($useSession) {
+			$this->session->reopen();
 		}
 	}
 

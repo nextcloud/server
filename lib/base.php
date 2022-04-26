@@ -456,6 +456,7 @@ class OC {
 		}
 
 		$session->set('LAST_ACTIVITY', time());
+		$session->close();
 	}
 
 	/**
