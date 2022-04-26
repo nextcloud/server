@@ -1,4 +1,4 @@
-:root { 
+:root {
   --color-main-background: #ffffff;
   --color-main-background-rgb: 255,255,255;
   --color-main-background-translucent: rgba(var(--color-main-background-rgb), .97);
@@ -10,25 +10,25 @@
   --color-placeholder-dark: #cccccc;
   --color-primary: #0082c9;
   --color-primary-text: #ffffff;
-  --color-primary-hover: #198ece;
-  --color-primary-light: #72bae1;
+  --color-primary-hover: #329bd3;
+  --color-primary-light: #e5f2f9;
   --color-primary-light-text: #0082c9;
-  --color-primary-light-hover: #0f567d;
+  --color-primary-light-hover: #1e2b32;
   --color-primary-text-dark: #ededed;
   --color-primary-element: #0082c9;
   --color-primary-element-hover: #198ece;
   --color-primary-element-light: #17adff;
-  --color-primary-element-lighter: #6cb7df;
+  --color-primary-element-lighter: #d8ecf6;
   --color-main-text: #222222;
   --color-text-maxcontrast: #767676;
   --color-text-light: #222222;
   --color-text-lighter: #767676;
   --color-error: #e9322d;
-  --color-error-hover: #eb4642;
+  --color-error-hover: #ed5a56;
   --color-warning: #eca700;
-  --color-warning-hover: #edaf19;
+  --color-warning-hover: #efb832;
   --color-success: #46ba61;
-  --color-success-hover: #58c070;
+  --color-success-hover: #6ac780;
   --color-loading-light: #cccccc;
   --color-loading-dark: #444444;
   --color-box-shadow-rgb: 77,77,77;
