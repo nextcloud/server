@@ -30,7 +30,7 @@
 						id="app-list-update-all"
 						type="primary"
 						@click="updateAll">
-						{{ t('settings', 'Update all') }}
+						{{ n('settings', 'Update', 'Update all', counter) }}
 					</Button>
 				</div>
 
@@ -125,10 +125,10 @@ export default {
 			return this.$store.getters.loading('list')
 		},
 		hasPendingUpdate() {
-			return this.apps.filter(app => app.update).length > 1
+			return this.apps.filter(app => app.update).length > 0
 		},
 		showUpdateAll() {
-			return this.hasPendingUpdate && ['installed', 'updates'].includes(this.category)
+			return this.hasPendingUpdate && this.useListView
 		},
 		apps() {
 			const apps = this.$store.getters.getAllApps
