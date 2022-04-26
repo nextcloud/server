@@ -1,5 +1,0 @@
-*.bak
-*.*.bak
-vendor/*
-composer.lock
-.idea
