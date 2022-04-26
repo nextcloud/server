@@ -191,6 +191,7 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Precises migrar les claves de cifráu d'un cifráu vieyu (ownCloud <= 8.0) a unu nuevu.",
     "Start migration" : "Aniciar migración",
     "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
+    "Recommended" : "Recomendáu",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
     "Enforce expiration date" : "Facer cumplir la data de caducidá",
