@@ -213,6 +213,7 @@
     "Enable encryption" : "Luba krüpteerimine",
     "Select default encryption module:" : "Määra vaikimisi krüpteerimise moodul:",
     "Start migration" : "Alusta kolimist",
+    "Recommended" : "Soovitatud",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php tuleb käivitada süsteemikasutaja \"%s\" poolt.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Administraatorina saate jagamise valikuid täpselt seadistada. Lisateavet leiad dokumentatsioonist.",
     "Allow apps to use the Share API" : "Luba rakendustel kasutada Share API-t",

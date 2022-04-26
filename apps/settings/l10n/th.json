@@ -299,6 +299,7 @@
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run 'occ encryption:migrate'" : "คุณจำเป็นต้องโอนย้ายคีย์การเข้ารหัสของคุณจากการเข้ารหัสเก่า (ownCloud <= 8.0) ไปใหม่ กรุณาเปิดใช้งาน \"โมดูลการเข้ารหัสเริ่มต้น\" และเรียกใช้ 'occ encryption:migrate'",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "คุณจำเป็นต้องโอนย้ายคีย์การเข้ารหัสของคุณจากการเข้ารหัสเก่า (ownCloud <= 8.0) ไปใหม่",
     "Start migration" : "เริ่มการโยกย้าย",
+    "Recommended" : "แนะนำ",
     "Allow apps to use the Share API" : "อนุญาตให้แอปสามารถใช้ API แชร์",
     "Set default expiration date for shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์",
     "Expire after" : "หมดอายุหลังจาก",
