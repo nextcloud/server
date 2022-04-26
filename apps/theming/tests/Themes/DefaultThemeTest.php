@@ -127,7 +127,7 @@ class DefaultThemeTest extends TestCase {
 			$variables .= "  $variable: $value;" . PHP_EOL;
 		};
 
-		$css = ":root { " . PHP_EOL . "$variables}" . PHP_EOL;
+		$css = ":root {" . PHP_EOL . "$variables}" . PHP_EOL;
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
 
 		$this->assertEquals($css, $fallbackCss);

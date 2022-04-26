@@ -69,10 +69,10 @@ class DarkTheme extends DefaultTheme implements ITheme {
 			'--color-placeholder-light' => $this->util->lighten($colorMainBackground, 10),
 			'--color-placeholder-dark' => $this->util->lighten($colorMainBackground, 20),
 
-			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 80),
-			'--color-primary-light' => $this->util->mix($this->primaryColor, $colorMainBackground, 10),
+			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
+			'--color-primary-light' => $this->util->mix($this->primaryColor, $colorMainBackground, -80),
 			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, 80),
-			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, 15),
+			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, -70),
 
 			'--color-text-maxcontrast' => $this->util->darken($colorMainText, 30),
 			'--color-text-light' => $this->util->darken($colorMainText, 10),
