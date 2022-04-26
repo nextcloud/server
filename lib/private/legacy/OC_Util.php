@@ -736,6 +736,15 @@ class OC_Util {
 			];
 		}
 
+		foreach (['secret', 'instanceid', 'passwordsalt'] as $requiredConfig) {
+			if ($config->getValue($requiredConfig, '') === '' && !\OC::$CLI && $config->getValue('installed', false)) {
+				$errors[] = [
+					'error' => $l->t('The required \'' . $requiredConfig . '\' config variable is not configued in the config.php file.'),
+					'hint' => $l->t('Please ask your server administrator to check the Nextcloud configuration.')
+				];
+			}
+		}
+
 		$errors = array_merge($errors, self::checkDatabaseVersion());
 
 		// Cache the result of this function
