@@ -290,6 +290,7 @@
     "Last job ran %s." : "Pekerjaan terakhir dijalankan %s",
     "Background job didn’t run yet!" : "Pekerjaan latar belakang belum berjalan!",
     "Pick background job setting" : "Pilih pengaturan pekerjaan latar belakang",
+    "Recommended" : "Direkomendasikan",
     "Allow apps to use the Share API" : "Izinkan aplikasi untuk menggunakan API Pembagian",
     "Enforce expiration date" : "Berlakukan tanggal kadaluarsa",
     "Allow public uploads" : "Izinkan unggahan publik",
