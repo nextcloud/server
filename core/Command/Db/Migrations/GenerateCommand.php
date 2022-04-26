@@ -28,6 +28,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
 use OCP\App\IAppManager;
+use OCP\Util;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -35,6 +36,7 @@ use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
 	protected static $_templateSimple =
@@ -138,6 +140,36 @@ class {{classname}} extends SimpleMigrationStep {
 		if (!preg_match('/^\d{1,16}$/', $version)) {
 			$output->writeln('<error>The given version is invalid. Only 0-9 are allowed (max. 16 digits)</error>');
 			return 1;
+		}
+
+		if ($appName === 'core') {
+			$fullVersion = implode('.', Util::getVersion());
+		} else {
+			try {
+				$fullVersion = $this->appManager->getAppVersion($appName, false);
+			} catch (\Throwable $e) {
+				$fullVersion = '';
+			}
+		}
+
+		if ($fullVersion) {
+			[$major, $minor] = explode('.', $fullVersion);
+			$shouldVersion = (int)$major * 1000 + (int)$minor;
+			if ($version !== $shouldVersion) {
+				$output->writeln('<comment>Unexpected migration version for current version: ' . $fullVersion . '</comment>');
+				$output->writeln('<comment> - Pattern:  XYYY </comment>');
+				$output->writeln('<comment> - Expected: ' . $shouldVersion . '</comment>');
+				$output->writeln('<comment> - Actual:   ' . $version . '</comment>');
+
+				if ($input->isInteractive()) {
+					$helper = $this->getHelper('question');
+					$question = new ConfirmationQuestion('Continue with your given version? (y/n) [n] ', false);
+
+					if (!$helper->ask($input, $output, $question)) {
+						return 1;
+					}
+				}
+			}
 		}
 
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
