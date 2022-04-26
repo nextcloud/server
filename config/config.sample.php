@@ -1467,6 +1467,8 @@ $CONFIG = [
 		'region' => 'RegionOne',
 		// The Identity / Keystone endpoint
 		'url' => 'http://8.21.28.222:5000/v2.0',
+		// uploadPartSize: size of the uploaded chunks, defaults to 524288000
+		'uploadPartSize' => 524288000,
 		// required on dev-/trystack
 		'tenantName' => 'facebook100000123456789',
 		// dev-/trystack uses swift by default, the lib defaults to 'cloudFiles'
