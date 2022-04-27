@@ -154,7 +154,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 		if ($fullVersion) {
 			[$major, $minor] = explode('.', $fullVersion);
-			$shouldVersion = (int)$major * 1000 + (int)$minor;
+			$shouldVersion = (string) ((int)$major * 1000 + (int)$minor);
 			if ($version !== $shouldVersion) {
 				$output->writeln('<comment>Unexpected migration version for current version: ' . $fullVersion . '</comment>');
 				$output->writeln('<comment> - Pattern:  XYYY </comment>');
