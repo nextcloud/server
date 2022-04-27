@@ -37,3 +37,7 @@
 .social-facebook {
 	@include icon-color('social-facebook', 'federatedfilesharing', $color-black);
 }
+
+.social_sharing_buttons {
+	padding-left: 30px !important;
+}
