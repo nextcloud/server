@@ -1319,6 +1319,24 @@ class Manager implements IManager {
 		}, []);
 	}
 
+	public function getSharesInFolderRecursive(string $userId, Folder $node, $reshares = false) {
+		$shares = $this->getSharesInFolder($userId, $node, $reshares);
+
+		foreach ($node->getDirectoryListing() as $subnode) {
+			if (!$subnode instanceof Folder) {
+				continue;
+			}
+
+			$subShares = $this->getSharesInFolderRecursive($userId, $subnode, $reshares);
+
+			foreach ($subShares as $fileId => $subSharesForFile) {
+				$shares[$fileId] = array_merge($shares[$fileId] ?? [], $subSharesForFile);
+			}
+		}
+
+		return $shares;
+	}
+
 	/**
 	 * @inheritdoc
 	 */

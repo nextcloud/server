@@ -141,6 +141,14 @@ interface IManager {
 	public function getSharesInFolder($userId, Folder $node, $reshares = false);
 
 	/**
+	 * Recursively get all shares shared by (initiated) by the provided user in a folder.
+	 *
+	 * @return IShare[][] [$fileId => IShare[], ...]
+	 * @since 11.0.0
+	 */
+	public function getSharesInFolderRecursive(string $userId, Folder $node, bool $reshares = false);
+
+	/**
 	 * Get shares shared by (initiated) by the provided user.
 	 *
 	 * @param string $userId

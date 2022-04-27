@@ -69,9 +69,7 @@ class Updater {
 		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_ROOM, $src, false, -1));
 
 		if ($src instanceof Folder) {
-			// also check children
-			$subShares = $shareManager->getSharesInFolder($userFolder->getOwner()->getUID(), $src, false);
-			// flatten the result
+			$subShares = $shareManager->getSharesInFolderRecursive($userFolder->getOwner()->getUID(), $src, false);
 			foreach ($subShares as $subShare) {
 				$shares = array_merge($shares, array_values($subShare));
 			}
