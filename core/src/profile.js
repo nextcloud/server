@@ -43,4 +43,7 @@ Vue.mixin({
 })
 
 const View = Vue.extend(Profile)
-new View().$mount('#vue-profile')
+
+window.addEventListener('DOMContentLoaded', () => {
+	new View().$mount('#vue-profile')
+})
