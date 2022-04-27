@@ -82,6 +82,13 @@ class EmojiHelper {
 			if ($codePointType === \IntlChar::CHAR_CATEGORY_MODIFIER_SYMBOL ||
 				$codePointType === \IntlChar::CHAR_CATEGORY_MODIFIER_LETTER ||
 				$codePointType === \IntlChar::CHAR_CATEGORY_OTHER_SYMBOL ||
+				$codePointType === \IntlChar::CHAR_CATEGORY_FORMAT_CHAR ||
+				$codePointType === \IntlChar::CHAR_CATEGORY_OTHER_PUNCTUATION ||
+				$codePointType === \IntlChar::CHAR_CATEGORY_LOWERCASE_LETTER ||
+				$codePointType === \IntlChar::CHAR_CATEGORY_MATH_SYMBOL ||
+				$codePointType === \IntlChar::CHAR_CATEGORY_ENCLOSING_MARK ||
+				$codePointType === \IntlChar::CHAR_CATEGORY_DECIMAL_DIGIT_NUMBER ||
+				$codePointType === \IntlChar::CHAR_CATEGORY_DASH_PUNCTUATION ||
 				$codePointType === \IntlChar::CHAR_CATEGORY_GENERAL_OTHER_TYPES) {
 				continue;
 			}
