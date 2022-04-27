@@ -404,7 +404,7 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
 			});
-			$propFind->handle(self::CREATIONDATE_PROPERTYNAME, function () use ($node) {
+			$propFind->handle(self::CREATIONDATE_PROPERTYNAME, function () use ($node): int {
 				return $node->getFileInfo()->getCreationTime();
 			});
 		}
