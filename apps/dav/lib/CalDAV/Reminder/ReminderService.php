@@ -44,6 +44,7 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
 use function strcasecmp;
 
@@ -246,6 +247,10 @@ class ReminderService {
 				// This event is recurring, but it doesn't have a single
 				// instance. We are skipping this event from the output
 				// entirely.
+				return;
+			} catch (MaxInstancesExceededException $e) {
+				// The event has more than 3500 recurring-instances
+				// so we can ignore it
 				return;
 			}
 
