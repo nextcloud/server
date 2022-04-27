@@ -116,4 +116,9 @@ interface GroupInterface {
 	 * @since 4.5.0
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;
 }

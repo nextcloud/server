@@ -299,18 +299,17 @@ class Group implements IGroup {
 	}
 
 	/**
-	 * search for users in the group by displayname
+	 * Search for users in the group by display name
 	 *
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return \OCP\IUser[]
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			$users = $this->getVerifiedUsers($userIds);
+			$users = $backend->searchDisplayName($this->gid, $search, $limit, $offset);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
 			}
@@ -369,7 +368,7 @@ class Group implements IGroup {
 	/**
 	 * returns all the Users from an array that really exists
 	 * @param string[] $userIds an array containing user IDs
-	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
+	 * @return \OCP\IUser[] an Array with the userId as Key and \OC\User\User as value
 	 */
 	private function getVerifiedUsers($userIds) {
 		if (!is_array($userIds)) {

@@ -306,4 +306,17 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	public function getBackendName(): string {
 		return 'LDAP';
 	}
+
+	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		$users = [];
+
+		foreach ($this->backends as $backend) {
+			$backendUsers = $backend->searchDisplayName($gid, $search, $limit, $offset);
+			if (is_array($backendUsers)) {
+				$users = array_merge($users, $backendUsers);
+			}
+		}
+
+		return $users;
+	}
 }

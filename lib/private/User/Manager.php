@@ -323,12 +323,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
-			if (is_array($backendUsers)) {
-				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = $this->getUserObject($uid, $backend);
-				}
-			}
+			$users = array_merge($users, $backend->getDisplayNames($pattern, $limit, $offset));
 		}
 
 		usort($users, function ($a, $b) {

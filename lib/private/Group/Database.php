@@ -30,6 +30,8 @@
 namespace OC\Group;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\User\DisplayNameCache;
+use OC\User\LazyUser;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
@@ -43,6 +45,8 @@ use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\IDBConnection;
+use OCP\IUser;
+use OCP\IUserManager;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
@@ -371,6 +375,67 @@ class Database extends ABackend implements
 		$users = [];
 		while ($row = $result->fetch()) {
 			$users[] = $row['uid'];
+		}
+		$result->closeCursor();
+
+		return $users;
+	}
+
+	/**
+	 * Get a list of all users in a group by display name
+	 * @return IUser[]
+	 */
+	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+		if ($search !== '') {
+			$query->select('g.uid', 'u.displayname');
+		} else {
+			$query->select('g.uid');
+		}
+
+		$query->from('group_user', 'g')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
+			->orderBy('g.uid', 'ASC');
+
+		if ($search !== '') {
+			$query->leftJoin('g', 'users', 'u', $query->expr()->eq('g.uid', 'u.uid'))
+				->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
+					$query->expr()->eq('p.userid', 'u.uid'),
+					$query->expr()->eq('p.appid', $query->expr()->literal('settings')),
+					$query->expr()->eq('p.configkey', $query->expr()->literal('email')))
+				)
+				// sqlite doesn't like re-using a single named parameter here
+				->andWhere(
+					$query->expr()->orX(
+						$query->expr()->ilike('g.uid', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
+						$query->expr()->ilike('u.displayname', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
+						$query->expr()->ilike('p.configvalue', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%'))
+					)
+				)
+				->orderBy('u.uid_lower', 'ASC');
+		}
+
+		if ($limit !== -1) {
+			$query->setMaxResults($limit);
+		}
+		if ($offset !== 0) {
+			$query->setFirstResult($offset);
+		}
+
+		$result = $query->execute();
+
+		$users = [];
+		$userManager = \OC::$server->get(IUserManager::class);
+		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
+		while ($row = $result->fetch()) {
+			if (isset($row['displayname'])) {
+				$users[] = new LazyUser($row['uid'], $displayNameCache, $userManager, $row['displayname']);
+			} else {
+				// TODO maybe also fetch the displayname directly here
+				$users[] = new LazyUser($row['uid'], $displayNameCache, $userManager);
+			}
 		}
 		$result->closeCursor();
 

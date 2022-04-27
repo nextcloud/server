@@ -131,4 +131,8 @@ abstract class Backend implements \OCP\GroupInterface {
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return [];
 	}
+
+	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		return $this->usersInGroup($gid, $search, $limit, $offset);
+	}
 }

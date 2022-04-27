@@ -47,9 +47,13 @@ use Exception;
 use OC;
 use OC\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
+use OC\User\DisplayNameCache;
+use OC\User\LazyUser;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\GroupInterface;
+use OCP\IUser;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
@@ -1369,5 +1373,17 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		}
 
 		return '';
+	}
+
+	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		if (!$this->enabled) {
+			return [];
+		}
+		$users = $this->usersInGroup($gid, $search, $limit, $offset);
+		$userManager = \OC::$server->get(IUserManager::class);
+		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
+		return array_map(function (string $userId) use ($userManager, $displayNameCache): IUser {
+			return new LazyUser($userId, $displayNameCache, $userManager);
+		}, $users);
 	}
 }
