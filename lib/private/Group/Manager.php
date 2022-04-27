@@ -365,39 +365,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return [];
 		}
 
-		$search = trim($search);
-		$groupUsers = [];
-
-		if (!empty($search)) {
-			// only user backends have the capability to do a complex search for users
-			$searchOffset = 0;
-			$searchLimit = $limit * 100;
-			if ($limit === -1) {
-				$searchLimit = 500;
-			}
-
-			do {
-				$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset);
-				foreach ($filteredUsers as $filteredUser) {
-					if ($group->inGroup($filteredUser)) {
-						$groupUsers[] = $filteredUser;
-					}
-				}
-				$searchOffset += $searchLimit;
-			} while (count($groupUsers) < $searchLimit + $offset && count($filteredUsers) >= $searchLimit);
-
-			if ($limit === -1) {
-				$groupUsers = array_slice($groupUsers, $offset);
-			} else {
-				$groupUsers = array_slice($groupUsers, $offset, $limit);
-			}
-		} else {
-			$groupUsers = $group->searchUsers('', $limit, $offset);
-		}
-
+		$users = $group->searchUsers(trim($search), $limit === -1 ? null : $limit, $offset);
+		/** @var IUser $user */
 		$matchingUsers = [];
-		foreach ($groupUsers as $groupUser) {
-			$matchingUsers[(string) $groupUser->getUID()] = $groupUser->getDisplayName();
+		foreach ($users as $user) {
+			$matchingUsers[$user->getUID()] = $user->getDisplayName();
 		}
 		return $matchingUsers;
 	}
