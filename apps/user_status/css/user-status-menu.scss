@@ -24,10 +24,6 @@
 	@include icon-color('app', 'user_status', $color-black, 1);
 }
 
-body.theme--dark .icon-user-status {
-	@include icon-color('app', 'user_status', $color-white, 1);
-}
-
 .icon-user-status-online {
 	background-image: url('../img/user-status-online.svg');
 }
@@ -43,8 +39,4 @@ body.theme--dark .icon-user-status {
 // TODO: debug why icon-black-white does not work here
 .icon-user-status-invisible {
 	@include icon-color('user-status-invisible', 'user_status', $color-black, 1);
-}
-
-body.theme--dark .icon-user-status-invisible {
-	@include icon-color('user-status-invisible', 'user_status', $color-white, 1);
 }
