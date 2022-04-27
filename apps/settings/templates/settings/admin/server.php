@@ -68,7 +68,7 @@
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
-	<p class="settings-hint"><?php p($l->t('For the server to work properly, it\'s important to configure background jobs correctly. \'Cron\' is the recommended setting. Please see the documentation for more information.'));?></p>
+	<p class="settings-hint"><?php p($l->t('For the server to work properly, it\'s important to configure background jobs correctly. "Cron" is the recommended setting. Please see the documentation for more information.'));?></p>
 	<form action="#">
 		<fieldset>
 			<legend class="hidden-visually"><?php p($l->t('Pick background job setting'));?></legend>
