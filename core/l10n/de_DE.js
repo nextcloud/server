@@ -187,7 +187,7 @@ OC.L10N.register(
     "{user} has not added any info yet" : "{user} hat noch keine Infos hinzugefügt",
     "Error opening the user status modal, try hard refreshing the page" : "Fehler beim Modal-öffnen des Benutzerstatus, versuchen Sie die Seite zu aktualisieren",
     "Reset search" : "Suche zurücksetzen",
-    "Start search" : "Starte Suche",
+    "Start search" : "Suche starten",
     "Search for {name} only" : "Nur nach {name} suchen",
     "No results for {query}" : "Keine Suchergebnisse zu {query}",
     "Press enter to start searching" : "Eingabetaste zum Starten der Suche drücken",
