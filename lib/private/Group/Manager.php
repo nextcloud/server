@@ -365,7 +365,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return [];
 		}
 
-		$users = $group->searchUsers(trim($search), $limit === -1 ? null : $limit, $offset);
+		$users = $group->searchDisplayName(trim($search), $limit === -1 ? null : $limit, $offset);
 		/** @var IUser $user */
 		$matchingUsers = [];
 		foreach ($users as $user) {
