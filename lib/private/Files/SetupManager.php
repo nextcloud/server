@@ -257,8 +257,10 @@ class SetupManager {
 
 			if ($homeMount->getStorageRootId() === -1) {
 				$this->eventLogger->start('fs:setup:user:home:scan', 'Scan home filesystem for user');
-				$homeMount->getStorage()->mkdir('');
-				$homeMount->getStorage()->getScanner()->scan('');
+				$homeStorage = $homeMount->getStorage();
+				$homeStorage->mkdir('');
+				$homeStorage->mkdir('files');
+				$homeStorage->getScanner()->scan('');
 				$this->eventLogger->end('fs:setup:user:home:scan');
 			}
 

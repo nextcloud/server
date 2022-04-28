@@ -94,7 +94,7 @@ class UserMountCache implements IUserMountCache {
 
 		$cachedMounts = $this->getMountsForUser($user);
 		if (is_array($mountProviderClasses)) {
-			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses, $newMounts) {
+			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses, $newMounts): bool {
 				// for existing mounts that didn't have a mount provider set
 				// we still want the ones that map to new mounts
 				if ($mountInfo->getMountProvider() === '' && isset($newMounts[$mountInfo->getKey()])) {
