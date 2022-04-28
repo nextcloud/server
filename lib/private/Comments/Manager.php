@@ -1269,6 +1269,7 @@ class Manager implements ICommentsManager {
 			->where($totalQuery->expr()->eq('r.parent_id', $qb->createNamedParameter($parentId)))
 			->groupBy('r.reaction')
 			->orderBy('total', 'DESC')
+			->addOrderBy('r.reaction', 'ASC')
 			->setMaxResults(20);
 
 		$jsonQuery = $this->dbConn->getQueryBuilder();
