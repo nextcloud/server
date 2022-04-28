@@ -109,7 +109,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 										<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
 										<?php if ($entry['active']): ?> class="active"<?php endif; ?>
 										aria-label="<?php p($entry['name']); ?>">
-										<svg width="20" height="20" viewBox="0 0 20 20" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
+										<svg width="20" height="20" viewBox="0 0 16 16" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
 											<defs>
 												<filter id="invertMenuMore-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter>
 												<mask id="hole">
