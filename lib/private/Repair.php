@@ -80,6 +80,7 @@ use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
+use OC\Repair\RepairShareOwnership;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
@@ -209,6 +210,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(LookupServerSendCheck::class),
 			\OCP\Server::get(AddTokenCleanupJob::class),
 			\OCP\Server::get(CleanUpAbandonedApps::class),
+			\OCP\Server::get(RepairShareOwnership::class),
 		];
 	}
 
