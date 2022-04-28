@@ -16,7 +16,7 @@ OC.L10N.register(
     "Could not change the password. Maybe the old password was not correct." : "Das Passwort konnte nicht geändert werden. Vielleicht war das alte Passwort falsch.",
     "Recovery Key disabled" : "Wiederherstellungsschlüssel deaktiviert",
     "Recovery Key enabled" : "Wiederherstellungsschlüssel aktiviert",
-    "Could not enable the recovery key, please try again or contact your administrator" : "Der Wiederherstellungsschlüssel konnte nicht aktiviert werden, bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihren Administrator",
+    "Could not enable the recovery key, please try again or contact your administrator" : "Der Wiederherstellungsschlüssel konnte nicht aktiviert werden, bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihre Administration",
     "Could not update the private key password." : "Das Passwort des privaten Schlüssels konnte nicht aktualisiert werden.",
     "The old password was not correct, please try again." : "Das alte Passwort war falsch, bitte versuchen Sie es erneut.",
     "The current log-in password was not correct, please try again." : "Das aktuelle Anmeldepasswort war nicht korrekt, bitte versuchen Sie es noch einmal.",

@@ -431,7 +431,6 @@
     "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Některé úlohy nebyly vykonány už od %s. Zvažte přepnutí na plánovač (cron) systému.",
     "Last job ran %s." : "Poslední úloha byla vykonána: %s.",
     "Background job didn’t run yet!" : "Úloha na pozadí ještě nebyla spuštěná!",
-    "For the server to work properly, it's important to configure background jobs correctly. 'Cron' is the recommended setting. Please see the documentation for more information." : "Pro správnou funkci serveru je důležité správně nastavit úlohy spouštěné na pozadí. Doporučenou metodou je použití systémového plánovače (cron). Další informace naleznete v dokumentaci.",
     "Pick background job setting" : "Vybrat nastavení úlohy na pozadí",
     "Execute one task with each page loaded. Use case: Single user instance." : "Vykonat jednu úlohu při každém načtení stránky. Příklad použití: instance pro jednoho uživatele.",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php je zaregistrován u služby webcron aby přes HTTP volala cron.php každých 5 minut. Příklad použití: velmi malá instance (1-5 uživatelů, v závislosti na vytížení).",
