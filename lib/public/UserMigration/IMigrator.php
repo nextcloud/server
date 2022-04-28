@@ -88,6 +88,14 @@ interface IMigrator {
 	public function getVersion(): int;
 
 	/**
+	 * Returns an estimate of the exported data size in KiB.
+	 * Should be fast, favor performance over accuracy.
+	 *
+	 * @since 24.0.0
+	 */
+	public function getExportEstimatedSize(): int;
+
+	/**
 	 * Checks whether it is able to import a version of the export format for this migrator
 	 * Use $importSource->getMigratorVersion($this->getId()) to get the version from the archive
 	 *
