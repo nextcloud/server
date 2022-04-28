@@ -1514,6 +1514,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\RepairDavShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairDavShares.php',
         'OC\\Repair\\RepairInvalidShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairInvalidShares.php',
         'OC\\Repair\\RepairMimeTypes' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairMimeTypes.php',
+        'OC\\Repair\\RepairShareOwnership' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairShareOwnership.php',
         'OC\\Repair\\SqliteAutoincrement' => __DIR__ . '/../../..' . '/lib/private/Repair/SqliteAutoincrement.php',
         'OC\\RichObjectStrings\\Validator' => __DIR__ . '/../../..' . '/lib/private/RichObjectStrings/Validator.php',
         'OC\\Route\\CachingRouter' => __DIR__ . '/../../..' . '/lib/private/Route/CachingRouter.php',
