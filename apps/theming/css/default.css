@@ -52,6 +52,6 @@
   --header-menu-item-height: 44px;
   --header-menu-profile-item-height: 66px;
   --breakpoint-mobile: 1024px;
-  --primary-invert-if-bright: unset;
-  --background-invert-if-dark: unset;
+  --primary-invert-if-bright: no;
+  --background-invert-if-dark: no;
 }

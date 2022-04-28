@@ -182,12 +182,8 @@
 		left: 12px;
 		top: 1px;
 		bottom: 1px;
-
-		img {
-			opacity: 0;
-			max-width: 100%;
-			max-height: 200px;
-		}
+		// Invert non-custom logo if primary is too bright
+		filter: var(--image-logoheader-custom, var(--primary-invert-if-bright))
 	}
 
 	.header-appname-container {
@@ -450,11 +446,6 @@ nav[role='navigation'] {
 			// Make sure most app names don’t ellipsize
 			letter-spacing: -0.5px;
 			font-size: 12px;
-
-			// If the primary is too bright, invert the app icons
-			svg image {
-				filter: var(--primary-invert-if-bright);
-			}
 		}
 
 		/* focused app visual feedback */
@@ -512,6 +503,8 @@ nav[role='navigation'] {
 		svg,
 		.icon-more-white {
 			transition: transform var(--animation-quick) ease;
+			// If the primary is too bright, invert the app icons
+			filter: var(--primary-invert-if-bright);
 		}
 
 		/* Triangle */

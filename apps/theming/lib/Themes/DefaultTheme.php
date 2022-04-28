@@ -89,6 +89,8 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
+
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
@@ -175,8 +177,11 @@ class DefaultTheme implements ITheme {
 			// to be used for legacy reasons only. Use inline
 			// svg with proper css variable instead or material
 			// design icons.
-			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'unset',
-			'--background-invert-if-dark' => 'unset',
+			// ⚠️ Using 'no' as a value to make sure we specify an
+			// invalid one with no fallback. 'unset' could here fallback to some
+			// other theme with media queries
+			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
+			'--background-invert-if-dark' => 'no',
 		];
 
 		// Register image variables only if custom-defined
@@ -185,13 +190,17 @@ class DefaultTheme implements ITheme {
 			if ($this->imageManager->hasImage($image)) {
 				// If primary as background has been request, let's not define the background image
 				if ($image === 'background' && $backgroundDeleted) {
-					$variables["--image-background-plain"] = true;
+					$variables["--image-background-plain"] = 'true';
 					continue;
 				} else if ($image === 'background') {
 					$variables['--image-background-size'] = 'cover';
 				}
 				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
 			}
+		}
+
+		if ($hasCustomLogoHeader) {
+			$variables["--image-logoheader-custom"] = 'true';
 		}
 
 		return $variables;
