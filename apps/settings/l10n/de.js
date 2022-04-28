@@ -178,6 +178,7 @@ OC.L10N.register(
     "Disable all" : "Alle deaktivieren",
     "Enable all" : "Alle aktivieren",
     "_%n app has an update available_::_%n apps have an update available_" : ["Für %n App ist eine Aktualisierung verfügbar","Für %n Apps sind Aktualisierungen verfügbar"],
+    "_Update_::_Update all_" : ["Aktualisieren","Alle aktualisieren"],
     "Marked for remote wipe" : "Für Fernlöschung markiert",
     "Device settings" : "Geräteeinstellungen",
     "Allow filesystem access" : "Erlaube Dateisystem-Zugriff",
