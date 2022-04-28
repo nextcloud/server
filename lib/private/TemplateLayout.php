@@ -107,6 +107,7 @@ class TemplateLayout extends \OC_Template {
 			Util::addScript('core', 'unified-search', 'core');
 
 			// Set body data-theme
+			$this->assign('enabledThemes', []);
 			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
 				/** @var \OCA\Theming\Service\ThemesService */
 				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
