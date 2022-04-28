@@ -93,7 +93,7 @@ interface IMigrator {
 	 *
 	 * @since 24.0.0
 	 */
-	public function getExportEstimatedSize(): int;
+	public function getExportEstimatedSize(IUser $user): int;
 
 	/**
 	 * Checks whether it is able to import a version of the export format for this migrator
