@@ -431,7 +431,6 @@
     "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Néhány feladat nem futott ezóta: %s. Fontolja meg a rendszer cronra váltást.",
     "Last job ran %s." : "Utolsó futás: %s.",
     "Background job didn’t run yet!" : "A háttérfeladat még nem futott le!",
-    "For the server to work properly, it's important to configure background jobs correctly. 'Cron' is the recommended setting. Please see the documentation for more information." : "A kiszolgáló helyes működéséhez fontos, hogy a háttérfeladatok megfelelően legyenek beállítva. A „Cron” beállítás javasolt. További részletekért lásd a dokumentációt.",
     "Pick background job setting" : "Háttérfolyamat beállítás kiválasztása",
     "Execute one task with each page loaded. Use case: Single user instance." : "Egy feladat végrehajtása minden egyes oldalbetöltésnél. Használati eset: egyfelhasználós példány",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "A cron.php egy webcron szolgáltatásnál van regisztrálva, hogy 5 percenkenként meghívja a cron.php-t. Használati eset: Nagyon kis példány (1-5 felhasználó, használattól függően).",
