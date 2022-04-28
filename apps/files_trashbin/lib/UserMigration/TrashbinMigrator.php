@@ -66,6 +66,23 @@ class TrashbinMigrator implements IMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getExportEstimatedSize(IUser $user): int {
+		$uid = $user->getUID();
+
+		try {
+			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
+			if (!$trashbinFolder instanceof Folder) {
+				return 0;
+			}
+			return (int)ceil($trashbinFolder->getSize() / 1024);
+		} catch (\Throwable $e) {
+			return 0;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$output->writeln('Exporting trashbin into ' . Application::APP_ID . '…');
 
