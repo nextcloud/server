@@ -45,7 +45,7 @@ OC.L10N.register(
     "Pending" : "Ausstehend",
     "Unable to determine date" : "Datum konnte nicht ermittelt werden",
     "This operation is forbidden" : "Diese Operation ist nicht erlaubt",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Logdateien oder kontaktieren Sie den Administrator",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Protokolldateien oder kontaktieren Sie die Administration",
     "Could not move \"{file}\", target exists" : "\"{file}\" konnte nicht verschoben werden, Ziel existiert bereits",
     "Could not move \"{file}\"" : "\"{file}\" konnte nicht verschoben werden",
     "copy" : "Kopie",
