@@ -196,6 +196,21 @@ class ContactsMigrator implements IMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getExportEstimatedSize(IUser $user): int {
+		$principalUri = $this->getPrincipalUri($user);
+
+		return array_sum(array_map(
+			function (array $addressBookInfo) use ($user): int {
+				// FIXME 1MiB by addressbook, no idea if this is accurate and if we should go into more details
+				return 1000;
+			},
+			$this->cardDavBackend->getAddressBooksForUser($principalUri),
+		));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$output->writeln('Exporting contacts into ' . ContactsMigrator::PATH_ROOT . '…');
 

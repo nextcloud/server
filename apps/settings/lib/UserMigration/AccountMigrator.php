@@ -71,6 +71,27 @@ class AccountMigrator implements IMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getExportEstimatedSize(IUser $user): int {
+		$uid = $user->getUID();
+
+		$size = 100; // 100KiB for account JSON
+
+		try {
+			$avatar = $this->avatarManager->getAvatar($user->getUID());
+			if ($avatar->isCustomAvatar()) {
+				$avatarFile = $avatar->getFile(-1);
+				$size += $avatarFile->getSize() / 1024;
+			}
+		} catch (Throwable $e) {
+			return 0;
+		}
+
+		return (int)ceil($size);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$output->writeln('Exporting account information in ' . AccountMigrator::PATH_ACCOUNT_FILE . '…');
 
