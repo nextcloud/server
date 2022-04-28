@@ -841,7 +841,6 @@ return array(
     'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => $baseDir . '/core/BackgroundJobs/CheckForUserCertificates.php',
     'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => $baseDir . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
     'OC\\Core\\BackgroundJobs\\LookupServerSendCheckBackgroundJob' => $baseDir . '/core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php',
-    'OC\\Core\\Command\\App\\CheckCode' => $baseDir . '/core/Command/App/CheckCode.php',
     'OC\\Core\\Command\\App\\Disable' => $baseDir . '/core/Command/App/Disable.php',
     'OC\\Core\\Command\\App\\Enable' => $baseDir . '/core/Command/App/Enable.php',
     'OC\\Core\\Command\\App\\GetPath' => $baseDir . '/core/Command/App/GetPath.php',

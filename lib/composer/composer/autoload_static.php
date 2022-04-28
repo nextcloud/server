@@ -870,7 +870,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckForUserCertificates.php',
         'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
         'OC\\Core\\BackgroundJobs\\LookupServerSendCheckBackgroundJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php',
-        'OC\\Core\\Command\\App\\CheckCode' => __DIR__ . '/../../..' . '/core/Command/App/CheckCode.php',
         'OC\\Core\\Command\\App\\Disable' => __DIR__ . '/../../..' . '/core/Command/App/Disable.php',
         'OC\\Core\\Command\\App\\Enable' => __DIR__ . '/../../..' . '/core/Command/App/Enable.php',
         'OC\\Core\\Command\\App\\GetPath' => __DIR__ . '/../../..' . '/core/Command/App/GetPath.php',
