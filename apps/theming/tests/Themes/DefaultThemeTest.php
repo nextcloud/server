@@ -97,15 +97,15 @@ class DefaultThemeTest extends TestCase {
 	}
 
 	public function testGetTitle() {
-		$this->assertEquals('Light theme', $this->defaultTheme->getTitle());
+		$this->assertEquals('System default theme', $this->defaultTheme->getTitle());
 	}
 
 	public function testGetEnableLabel() {
-		$this->assertEquals('Enable the default light theme', $this->defaultTheme->getEnableLabel());
+		$this->assertEquals('Enable the system default', $this->defaultTheme->getEnableLabel());
 	}
 
 	public function testGetDescription() {
-		$this->assertEquals('The default light appearance.', $this->defaultTheme->getDescription());
+		$this->assertEquals('Using the default system appearance.', $this->defaultTheme->getDescription());
 	}
 
 	public function testGetMediaQuery() {

@@ -31,6 +31,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\Http\DataResponse;
@@ -81,6 +82,7 @@ class ThemesServiceTest extends TestCase {
 	public function testGetThemes() {
 		$expected = [
 			'default',
+			'light',
 			'dark',
 			'highcontrast',
 			'dark-highcontrast',
@@ -92,6 +94,7 @@ class ThemesServiceTest extends TestCase {
 
 	public function dataTestEnableTheme() {
 		return [
+			['default', [], ['default']],
 			['dark', [], ['dark']],
 			['dark', ['dark'], ['dark']],
 			['opendyslexic', ['dark'], ['dark', 'opendyslexic']],
@@ -200,6 +203,14 @@ class ThemesServiceTest extends TestCase {
 
 		$this->themes = [
 			'default' => new DefaultTheme(
+				$util,
+				$this->themingDefaults,
+				$urlGenerator,
+				$imageManager,
+				$this->config,
+				$l10n,
+			),
+			'light' => new LightTheme(
 				$util,
 				$this->themingDefaults,
 				$urlGenerator,

@@ -30,6 +30,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\Themes\LightTheme;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\IConfig;
@@ -63,6 +64,7 @@ class UserThemeControllerTest extends TestCase {
 
 		$this->themes = [
 			'default' => $this->createMock(DefaultTheme::class),
+			'light' => $this->createMock(LightTheme::class),
 			'dark' => $this->createMock(DarkTheme::class),
 			'highcontrast' => $this->createMock(HighContrastTheme::class),
 			'dark-highcontrast' => $this->createMock(DarkHighContrastTheme::class),
@@ -91,6 +93,7 @@ class UserThemeControllerTest extends TestCase {
 	public function dataTestThemes() {
 		return [
 			['default'],
+			['light'],
 			['dark'],
 			['highcontrast'],
 			['dark-highcontrast'],

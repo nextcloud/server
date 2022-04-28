@@ -67,15 +67,15 @@ class DefaultTheme implements ITheme {
 	}
 
 	public function getTitle(): string {
-		return $this->l->t('Light theme');
+		return $this->l->t('System default theme');
 	}
 
 	public function getEnableLabel(): string {
-		return $this->l->t('Enable the default light theme');
+		return $this->l->t('Enable the system default');
 	}
 
 	public function getDescription(): string {
-		return $this->l->t('The default light appearance.');
+		return $this->l->t('Using the default system appearance.');
 	}
 
 	public function getMediaQuery(): string {
