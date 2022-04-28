@@ -182,12 +182,8 @@
 		left: 12px;
 		top: 1px;
 		bottom: 1px;
-
-		img {
-			opacity: 0;
-			max-width: 100%;
-			max-height: 200px;
-		}
+		// Invert custom logo if primary too bright
+		filter: var(--image-logoheader-custom, var(--primary-invert-if-bright))
 	}
 
 	.header-appname-container {

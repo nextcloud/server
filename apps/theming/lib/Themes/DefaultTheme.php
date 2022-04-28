@@ -89,6 +89,8 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
+
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
@@ -192,6 +194,10 @@ class DefaultTheme implements ITheme {
 				}
 				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
 			}
+		}
+
+		if ($hasCustomLogoHeader) {
+			$variables["--image-logoheader-custom"] = true;
 		}
 
 		return $variables;
