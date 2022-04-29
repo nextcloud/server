@@ -155,11 +155,9 @@ export default {
 			const modalWrapper = this.$parent.$el.querySelector('.modal-wrapper')
 			if (modalWrapper && this.naturalHeight > 0 && this.naturalWidth > 0) {
 				const modalContainer = modalWrapper.querySelector('.modal-container')
-				const wrapperMaxHeight = Number(window.getComputedStyle(modalContainer).maxHeight.replace('%', ''))
-				const wrapperMaxWidth = Number(window.getComputedStyle(modalContainer).maxWidth.replace('%', ''))
 
-				const parentHeight = Math.round(modalWrapper.clientHeight * wrapperMaxHeight / 100) - 50 // minus header
-				const parentWidth = Math.round(modalWrapper.clientWidth * wrapperMaxWidth / 100)
+				const parentHeight = modalContainer.clientHeight - 50 // header height
+				const parentWidth = modalContainer.clientWidth
 
 				const heightRatio = parentHeight / this.naturalHeight
 				const widthRatio = parentWidth / this.naturalWidth
