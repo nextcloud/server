@@ -51,6 +51,7 @@ use Sabre\VObject\Property\ICalendar\DateTime;
 use Sabre\VObject\Reader as VObjectReader;
 use Sabre\VObject\UUIDUtil;
 use Safe\Exceptions\StringsException;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
@@ -211,15 +212,25 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	 * {@inheritDoc}
 	 */
 	public function getEstimatedExportSize(IUser $user): int {
-		$principalUri = $this->getPrincipalUri($user);
+		$calendarExports = $this->getCalendarExports($user, new NullOutput());
+		$calendarCount = count($calendarExports);
 
-		return array_sum(array_map(
-			function (ICalendar $calendar) use ($user): int {
-				// FIXME 1MiB by calendar, no idea if this is accurate and if we should go into more details
-				return 1000;
+		// 150B for top-level properties
+		$size = ($calendarCount * 150) / 1024;
+
+		$componentCount = array_sum(array_map(
+			function (array $data): int {
+				/** @var VCalendar $vCalendar */
+				$vCalendar = $data['vCalendar'];
+				return count($vCalendar->getComponents());
 			},
-			$this->calendarManager->getCalendarsForPrincipal($principalUri),
+			$calendarExports,
 		));
+
+		// 450B for each component (events, todos, alarms, etc.)
+		$size += ($componentCount * 450) / 1024;
+
+		return (int)ceil($size);
 	}
 
 	/**
