@@ -67,7 +67,7 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getExportEstimatedSize(IUser $user): int {
+	public function getEstimatedExportSize(IUser $user): int {
 		$uid = $user->getUID();
 
 		try {
