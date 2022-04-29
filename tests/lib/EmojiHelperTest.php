@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
@@ -23,25 +22,24 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\UserStatus\Tests\Service;
+namespace Test;
 
-use OCA\UserStatus\Service\EmojiService;
+use OC\EmojiHelper;
 use OCP\IDBConnection;
-use Test\TestCase;
+use OCP\IEmojiHelper;
 
-class EmojiServiceTest extends TestCase {
+class EmojiHelperTest extends TestCase {
 
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $db;
 
-	/** @var EmojiService */
-	private $service;
+	private IEmojiHelper $helper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = $this->createMock(IDBConnection::class);
-		$this->service = new EmojiService($this->db);
+		$this->helper = new EmojiHelper($this->db);
 	}
 
 	/**
@@ -55,7 +53,7 @@ class EmojiServiceTest extends TestCase {
 			->method('supports4ByteText')
 			->willReturn($supports4ByteText);
 
-		$this->assertEquals($expected, $this->service->doesPlatformSupportEmoji());
+		$this->assertEquals($expected, $this->helper->doesPlatformSupportEmoji());
 	}
 
 	/**
@@ -72,15 +70,15 @@ class EmojiServiceTest extends TestCase {
 	 * @param string $emoji
 	 * @param bool $expected
 	 *
-	 * @dataProvider isValidEmojiDataProvider
+	 * @dataProvider isValidSingleEmojiDataProvider
 	 */
-	public function testIsValidEmoji(string $emoji, bool $expected): void {
-		$actual = $this->service->isValidEmoji($emoji);
+	public function testIsValidSingleEmoji(string $emoji, bool $expected): void {
+		$actual = $this->helper->isValidSingleEmoji($emoji);
 
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function isValidEmojiDataProvider(): array {
+	public function isValidSingleEmojiDataProvider(): array {
 		return [
 			['🏝', true],
 			['📱', true],
