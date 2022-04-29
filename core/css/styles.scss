@@ -1181,13 +1181,6 @@ div.crumb {
 			order: 3;
 		}
 	}
-	&.active {
-		font-weight: bold;
-		// Allow multiple span next to the main 'a'
-		a ~ span {
-			padding-left: 0;
-		}
-	}
 	> a,
 	> span {
 		position: relative;
@@ -1211,6 +1204,14 @@ div.crumb {
 		width: 44px;
 	}
 	&:not(:first-child) a {
+	}
+	&:last-child {
+		font-weight: bold;
+		margin-right: 10px;
+		// Allow multiple span next to the main 'a'
+		a ~ span {
+			padding-left: 0;
+		}
 	}
 	&:hover, &:focus, a:focus, &:active {
 		opacity: 1;
