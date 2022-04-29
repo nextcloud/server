@@ -609,16 +609,16 @@ class OC {
 			throw new \RuntimeException('Could not set timezone to UTC');
 		}
 
+
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
 		//Let´s try to overwrite some defaults anyway
 
-		//try to set the maximum execution time to 60min
+		//try to set the maximum execution time to the largest time limit we have
 		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			@set_time_limit(3600);
+			$biggest_time_limit = max($time_limit, $biggest_max_execution_time, $biggest_max_input_time);
+			@set_time_limit($biggest_time_limit);
 		}
-		@ini_set('max_execution_time', '3600');
-		@ini_set('max_input_time', '3600');
 
 		self::setRequiredIniValues();
 		self::handleAuthHeaders();
