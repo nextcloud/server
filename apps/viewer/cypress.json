@@ -5,5 +5,11 @@
   "viewportHeight": 720,
   "defaultCommandTimeout": 6000,
   "retries": 2,
-  "testFiles": "**/*.spec.js"
+  "testFiles": "**/*.spec.js",
+  "env": {
+    "failSilently": false,
+    "type": "actual"
+  },
+  "screenshotsFolder": "cypress/snapshots/actual",
+  "trashAssetsBeforeRuns": true
 }

@@ -90,7 +90,15 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # https://github.com/cypress-io/github-action/issues/124
-          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }} 
+          TESTING: true
+
+      - name: Upload snapshots
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: snapshots
+          path: cypress/snapshots
 
   summary:
     runs-on: ubuntu-latest

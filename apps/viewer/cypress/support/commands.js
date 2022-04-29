@@ -20,7 +20,11 @@
  *
  */
 
+// eslint-disable-next-line node/no-unpublished-import
+import compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 import axios from '@nextcloud/axios'
+
+compareSnapshotCommand()
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
@@ -155,4 +159,15 @@ Cypress.Commands.add('createLinkShare', path => {
 			console.error(error)
 		}
 	}).should('have.length', 15)
+})
+
+Cypress.Commands.overwrite('compareSnapshot', (originalFn, subject, name, options) => {
+	// hide avatar because random colour break the visual regression tests
+	cy.window().then(window => {
+		const avatarDiv = window.document.querySelector('.avatardiv')
+		if (avatarDiv) {
+			avatarDiv.remove()
+		}
+	})
+	return originalFn(subject, name, options)
 })
