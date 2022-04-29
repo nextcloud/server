@@ -233,6 +233,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Toto je pravděpodobně způsobeno aplikacemi pro urychlení načítání jako jsou Zend OPcache nebo eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduly jsou nainstalovány, ale stále se tváří jako chybějící?",
     "Please ask your server administrator to restart the web server." : "Požádejte správce serveru, který využíváte o restart webového serveru.",
+    "Please ask your server administrator to check the Nextcloud configuration." : "Požádejte správce serveru, který využíváte, aby zkontroloval nastavení serveru.",
     "PostgreSQL >= 9 required." : "Je vyžadováno PostgreSQL verze 9 a novější.",
     "Please upgrade your database version." : "Aktualizujte verzi vámi využívané databáze.",
     "Your data directory is readable by other users." : "Váš adresář data je čitelný ostatním uživatelům.",

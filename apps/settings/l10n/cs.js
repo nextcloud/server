@@ -72,7 +72,6 @@ OC.L10N.register(
     "OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function." : "OPcache je nastaveno tak, aby odebíralo komentáře kódu. Pokud je OPcache zapnuté, pak aby Nextcloud fungoval, je třeba, aby bylo nastaveno také <code>opcache.save_comments=1</code>.",
     "Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "Pro Nextcloud nemáte zpřístupněno používání aplikačního program. rozhraní (API) OPcache. Pokud je OPcache zapnuté, je velmi doporučováno zahrnout veškeré složky s Nextcloud do <code>opcache.restrict_api</code> nebo toto nastavení zrušit a vypnout tak omezení k OPcache API. Zabráníte tak chybám při aktualizacím jádra Nextcloud či aplikací.",
     "Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "Pro Nextcloud nemáte zpřístupněno používání aplikačního program. rozhraní (API) OPcache. Je silně doporučováno zahrnout veškeré složky s Nextcloud do <code>opcache.restrict_api</code> nebo toto nastavení zrušit a vypnout tak omezení k OPcache API. Zabráníte tak chybám při aktualizacím jádra Nextcloud či aplikací.",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Je téměř vyčerpán nejvyšší umožněný počet klíčů v OPcache. Aby bylo zajištěno, že se do mezipaměti vejdou veškeré skripty, je doporučeno přidat do nastavení PHP volbu <code>opcache.max_accelerated_files</code> s hodnotou vyšší než <code>%s</code>.",
     "The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>." : "Vnitřní vyrovnávací paměť OPcache je téměř zaplněná. Aby bylo zajištěno, že se do mezipaměti vejdou veškeré skripty, je doporučeno přidat do nastavení PHP volbu <code>opcache.memory_consumption</code> s hodnotou vyšší než <code>%s</code>.",
     "The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>." : "Vnitřní vyrovnávací paměť OPcache pro řetězce je téměř zaplněná. Aby bylo zajištěno, že ukládání řetězců do mezipaměti bude skutečně prováděno, je doporučeno přidat do nastavení PHP volbu <code>opcache.interned_strings_buffer</code> s hodnotou vyšší než <code>%s</code>.",
     "Invalid SMTP password." : "Neplatné heslo pro SMTP.",
@@ -184,6 +183,7 @@ OC.L10N.register(
     "Disable all" : "Zakázat vše",
     "Enable all" : "Zapnout vše",
     "_%n app has an update available_::_%n apps have an update available_" : ["pro %n aplikaci je k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace","pro %n aplikací jsou k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace"],
+    "_Update_::_Update all_" : ["Aktualizovat","Aktualizovat vše","Aktualizovat vše","Aktualizovat vše"],
     "Marked for remote wipe" : "Označeno k vymazání obsahu na dálku",
     "Device settings" : "Nastavení zařízení",
     "Allow filesystem access" : "Povolit přístup k souborovému systému",
@@ -433,6 +433,7 @@ OC.L10N.register(
     "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Některé úlohy nebyly vykonány už od %s. Zvažte přepnutí na plánovač (cron) systému.",
     "Last job ran %s." : "Poslední úloha byla vykonána: %s.",
     "Background job didn’t run yet!" : "Úloha na pozadí ještě nebyla spuštěná!",
+    "For the server to work properly, it's important to configure background jobs correctly. \"Cron\" is the recommended setting. Please see the documentation for more information." : "Pro správnou funkci serveru je důležité správně nastavit úlohy spouštěné na pozadí. Doporučenou metodou je použití systémového plánovače (cron). Další informace naleznete v dokumentaci.",
     "Pick background job setting" : "Vybrat nastavení úlohy na pozadí",
     "Execute one task with each page loaded. Use case: Single user instance." : "Vykonat jednu úlohu při každém načtení stránky. Příklad použití: instance pro jednoho uživatele.",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php je zaregistrován u služby webcron aby přes HTTP volala cron.php každých 5 minut. Příklad použití: velmi malá instance (1-5 uživatelů, v závislosti na vytížení).",
@@ -535,6 +536,7 @@ OC.L10N.register(
     "No display name set" : "Nenastaveno žádné zobrazované jméno",
     "Change privacy level of email" : "Změnit úroveň soukromí e-mailu",
     "For password reset and notifications" : "Pro znovunastavení hesla a upozorňování",
-    "Set as primary mail" : "Nastavit jako hlavní e-mai"
+    "Set as primary mail" : "Nastavit jako hlavní e-mai",
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Je téměř vyčerpán nejvyšší umožněný počet klíčů v OPcache. Aby bylo zajištěno, že se do mezipaměti vejdou veškeré skripty, je doporučeno přidat do nastavení PHP volbu <code>opcache.max_accelerated_files</code> s hodnotou vyšší než <code>%s</code>."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
