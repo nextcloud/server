@@ -233,6 +233,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ezt valószínűleg egy gyorsítótár, mint például a Zend, az OPcache vagy az eAccelererator okozza.",
     "PHP modules have been installed, but they are still listed as missing?" : "A PHP modulok telepítve vannak, de a listában mégsem szerepelnek?",
     "Please ask your server administrator to restart the web server." : "Kérje meg a rendszergazdát, hogy indítsa újra a webkiszolgálót.",
+    "Please ask your server administrator to check the Nextcloud configuration." : "Kérje meg a rendszergazdát, hogy ellenőrizze a Nextcloud konfigurációját.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 szükséges.",
     "Please upgrade your database version." : "Frissítse az adatbázis verzióját.",
     "Your data directory is readable by other users." : "Az adatkönyvtára más felhasználók által is olvasható.",

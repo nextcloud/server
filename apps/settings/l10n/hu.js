@@ -72,7 +72,6 @@ OC.L10N.register(
     "OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function." : "Az OPcache úgy van beállítva, hogy eltávolítja a kódban lévő megjegyzéseket. Ha az OPcache be van kapcsolva, akkor be kell állítani az <code>opcache.save_comments=1</code> értéket, hogy a Nextcloud működjön.",
     "Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "A Nextcloud számára nem engedélyezett az OPcache API használata. Ha be van kapcsolva az OPcache, akkor erősen ajánlott, hogy a Nexcloud összes könyvtára szerepeljen az <code>opcache.restrict_api</code> beállításban, vagy kapcsolja ki, hogy letiltsa az OPcache API korlátozásait, hogy megakadályozza a Nextcloud magjának vagy alkalmazásainak frissítése során fellépő hibákat.",
     "Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "A Nextcloud számára nem engedélyezett az OPcache API használata. Erősen ajánlott, hogy a Nexcloud összes könyvtára szerepeljen az <code>opcache.restrict_api</code> beállításban, vagy kapcsolja ki, hogy letiltsa az OPcache API korlátozásait, hogy megakadályozza a Nextcloud magjának vagy alkalmazásainak frissítése során fellépő hibákat.",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Majdnem túllépte az OPcache kulcsok legnagyobb számát. Hogy biztosítsa, hogy az összes parancsfájl tárolható legyen a gyorsítótárban, ajánlatos, hogy a(z) <code>%s</code> értéknél nagyobbra állítsa az <code>opcache.max_accelerated_files</code> beállítást a PHP konfigurációjában.",
     "The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>." : "Az OPcache puffer majdnem megtelt. Hogy biztosítsa, hogy az összes parancsfájl tárolható legyen a gyorsítótárban, ajánlatos, hogy a(z) <code>%s</code> értéknél nagyobbra állítsa az <code>opcache.max_accelerated_files</code> beállítást a PHP konfigurációjában.",
     "The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>." : "Az OPcache internalizált karakterláncokat tartalmazó puffere majdnem megtelt. Hogy biztosítsa, hogy az ismétlődő karakterláncok hatásosan gyorsítótárazhatók legyenek, ajánlatos, hogy a(z) <code>%s</code> értéknél nagyobbra állítsa az <code>opcache.interned_strings_buffer</code> beállítást a PHP konfigurációjában.",
     "Invalid SMTP password." : "Érvénytelen SMTP-jelszó.",
@@ -184,6 +183,7 @@ OC.L10N.register(
     "Disable all" : "Összes tiltása",
     "Enable all" : "Összes engedélyezése",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n alkalmazás frissítése érhető el","%n alkalmazás frissítése érhető el"],
+    "_Update_::_Update all_" : ["Frissítés","Összes frissítése"],
     "Marked for remote wipe" : "Távoli törlésre jelölve",
     "Device settings" : "Eszközbeállítások",
     "Allow filesystem access" : "Fájlrendszer hozzáférés engedélyezése",
@@ -433,6 +433,7 @@ OC.L10N.register(
     "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Néhány feladat nem futott ezóta: %s. Fontolja meg a rendszer cronra váltást.",
     "Last job ran %s." : "Utolsó futás: %s.",
     "Background job didn’t run yet!" : "A háttérfeladat még nem futott le!",
+    "For the server to work properly, it's important to configure background jobs correctly. \"Cron\" is the recommended setting. Please see the documentation for more information." : "A kiszolgáló helyes működéséhez fontos, hogy a háttérfeladatok megfelelően legyenek beállítva. A „Cron” beállítás javasolt. További részletekért lásd a dokumentációt.",
     "Pick background job setting" : "Háttérfolyamat beállítás kiválasztása",
     "Execute one task with each page loaded. Use case: Single user instance." : "Egy feladat végrehajtása minden egyes oldalbetöltésnél. Használati eset: egyfelhasználós példány",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "A cron.php egy webcron szolgáltatásnál van regisztrálva, hogy 5 percenkenként meghívja a cron.php-t. Használati eset: Nagyon kis példány (1-5 felhasználó, használattól függően).",
@@ -535,6 +536,7 @@ OC.L10N.register(
     "No display name set" : "Nincs megjelenítési név beállítva",
     "Change privacy level of email" : "Az e-mail-cím adatvédelmi szintjének módosítása",
     "For password reset and notifications" : "Jelszó-visszaállításhoz és értesítésekhez",
-    "Set as primary mail" : "Beállítás elsődleges e-mail-címként"
+    "Set as primary mail" : "Beállítás elsődleges e-mail-címként",
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Majdnem túllépte az OPcache kulcsok legnagyobb számát. Hogy biztosítsa, hogy az összes parancsfájl tárolható legyen a gyorsítótárban, ajánlatos, hogy a(z) <code>%s</code> értéknél nagyobbra állítsa az <code>opcache.max_accelerated_files</code> beállítást a PHP konfigurációjában."
 },
 "nplurals=2; plural=(n != 1);");
