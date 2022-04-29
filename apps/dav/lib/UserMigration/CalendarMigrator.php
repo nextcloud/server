@@ -210,7 +210,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getExportEstimatedSize(IUser $user): int {
+	public function getEstimatedExportSize(IUser $user): int {
 		$principalUri = $this->getPrincipalUri($user);
 
 		return array_sum(array_map(

@@ -72,7 +72,7 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getExportEstimatedSize(IUser $user): int {
+	public function getEstimatedExportSize(IUser $user): int {
 		$uid = $user->getUID();
 
 		$size = 100; // 100KiB for account JSON
