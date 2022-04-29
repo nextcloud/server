@@ -29,7 +29,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
 
-class SectionTest extends TestCase {
+class AdminSectionTest extends TestCase {
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $url;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */

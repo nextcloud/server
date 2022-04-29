@@ -4,8 +4,12 @@
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
 			<p>{{ theme.description }}</p>
+			<span v-if="enforced" class="theming__preview-warning" role="note">
+				{{ t('theming', 'Theme selection is enforced') }}
+			</span>
 			<CheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="checked"
+				:disabled="enforced"
 				:name="name"
 				:type="switchType">
 				{{ theme.enableLabel }}
@@ -24,30 +28,34 @@ export default {
 		CheckboxRadioSwitch,
 	},
 	props: {
-		theme: {
-			type: Object,
-			required: true,
+		enforced: {
+			type: Boolean,
+			default: false,
 		},
 		selected: {
 			type: Boolean,
 			default: false,
 		},
+		theme: {
+			type: Object,
+			required: true,
+		},
 		type: {
 			type: String,
 			default: '',
 		},
-		themes: {
-			type: Array,
-			default: () => [],
+		unique: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
 		switchType() {
-			return this.themes.length === 1 ? 'switch' : 'radio'
+			return this.unique ? 'switch' : 'radio'
 		},
 
 		name() {
-			return this.switchType === 'radio' ? this.type : null
+			return !this.unique ? this.type : null
 		},
 
 		img() {
@@ -62,7 +70,7 @@ export default {
 				console.debug('Selecting theme', this.theme, checked)
 
 				// If this is a radio, we can only enable
-				if (this.switchType === 'radio') {
+				if (!this.unique) {
 					this.$emit('change', { enabled: true, id: this.theme.id })
 					return
 				}
@@ -108,6 +116,10 @@ $ratio: 16;
 		label {
 			padding: 12px 0;
 		}
+	}
+
+	&-warning {
+		color: var(--color-warning);
 	}
 }
 

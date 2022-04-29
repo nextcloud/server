@@ -6,16 +6,17 @@
 		<div class="theming__preview-list">
 			<ItemPreview v-for="theme in themes"
 				:key="theme.id"
-				:theme="theme"
+				:enforced="theme.id === enforceTheme"
 				:selected="selectedTheme.id === theme.id"
-				:themes="themes"
+				:theme="theme"
+				:unique="themes.length === 1"
 				type="theme"
 				@change="changeTheme" />
 			<ItemPreview v-for="theme in fonts"
 				:key="theme.id"
-				:theme="theme"
 				:selected="theme.enabled"
-				:themes="fonts"
+				:theme="theme"
+				:unique="fonts.length === 1"
 				type="font"
 				@change="changeFont" />
 		</div>
@@ -31,6 +32,7 @@ import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import ItemPreview from './components/ItemPreview'
 
 const availableThemes = loadState('theming', 'themes', [])
+const enforceTheme = loadState('theming', 'enforceTheme', '')
 
 console.debug('Available themes', availableThemes)
 
@@ -44,6 +46,7 @@ export default {
 	data() {
 		return {
 			availableThemes,
+			enforceTheme,
 		}
 	},
 

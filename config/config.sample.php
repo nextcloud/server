@@ -1790,6 +1790,12 @@ $CONFIG = [
 'theme' => '',
 
 /**
+ * Enforce the user theme. This will disable the user theming settings
+ * This must be a valid ITheme ID
+ */
+'enforce_theme' => '',
+
+/**
  * The default cipher for encrypting files. Currently supported are:
  *  - AES-256-CTR
  *  - AES-128-CTR

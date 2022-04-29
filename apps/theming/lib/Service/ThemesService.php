@@ -155,8 +155,14 @@ class ThemesService {
 			return [];
 		}
 
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
+		if ($enforcedTheme !== '') {
+			return array_merge([$enforcedTheme], $enabledThemes);
+		}
+
 		try {
-			return json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
+			return $enabledThemes;
 		} catch (\Exception $e) {
 			return [];
 		}

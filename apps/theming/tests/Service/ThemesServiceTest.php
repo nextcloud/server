@@ -177,7 +177,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testisEnabled(string $themeId, array $enabledThemes, $expected) {
+	public function testIsEnabled(string $themeId, array $enabledThemes, $expected) {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -193,6 +193,50 @@ class ThemesServiceTest extends TestCase {
 	
 
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
+	}
+
+	public function testGetEnabledThemes() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->willReturn(json_encode([]));
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+
+		$this->assertEquals([], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesEnforced() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->willReturn(json_encode([]));
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('light');
+
+		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
 	}
 
 	private function initThemes() {
