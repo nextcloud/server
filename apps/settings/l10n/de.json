@@ -65,7 +65,6 @@
     "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
     "cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably." : "cURL verwendet eine veraltete %1$s Version (%2$s). Bitte aktualisiere Dein Betriebssystem, da ansonsten Funktionen, wie z.B. %3$s, nicht zuverlässig funktionieren.",
     "Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details." : "Es konnte nicht festgestellt werden, ob die TLS-Version von cURL veraltet ist oder nicht, da während der HTTPS-Anforderung an https://nextcloud.com ein Fehler aufgetreten ist. Bitte überprüfe die Nextcloud-Protokolldatei für weitere Einzelheiten.",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Die maximale Anzahl von OPcache-Schlüsseln ist fast überschritten. Um sicherzustellen, dass alle Skripte im Cache gehalten werden können, wird empfohlen, <code>opcache.max_accelerated_files</code> mit einem höheren Wert als <code>%s</code> in Deiner PHP-Konfiguration anzuwenden.",
     "The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>." : "Der OPcache-Puffer ist fast voll. Um sicherzustellen, dass alle Skripte im Cache gehalten werden können, wird empfohlen, <code>opcache.memory_consumption</code> in Deiner PHP-Konfiguration mit einem höheren Wert als <code>%s</code> anzuwenden.",
     "The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>." : "Der OPcache-Zwischenspeicher für interne Zeichenfolgen ist fast voll. Um sicherzustellen, dass sich wiederholende Zeichenfolgen effektiv zwischengespeichert werden können, wird empfohlen, <code>opcache.interned_strings_buffer</code> mit einem Wert größer als <code>%s</code> in Deiner PHP-Konfiguration anzuwenden.",
     "Invalid SMTP password." : "Ungültiges SMTP-Passwort",
@@ -426,6 +425,7 @@
     "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Einige Aufträge wurden seit %s nicht mehr ausgeführt. Bitte erwäge die Umstellung auf System-Cron.",
     "Last job ran %s." : "Letzte Aufgabe ausgeführt %s",
     "Background job didn’t run yet!" : "Hintergrund-Aufgabe wurde bislang nicht ausgeführt!",
+    "For the server to work properly, it's important to configure background jobs correctly. \"Cron\" is the recommended setting. Please see the documentation for more information." : "Damit der Server ordnungsgemäß funktioniert, ist es wichtig, Hintergrundjobs richtig zu konfigurieren. \"Cron\" ist die empfohlene Einstellung. Weitere Informationen findest Du in der Dokumentation.",
     "Pick background job setting" : "Wähle eine Hintergrund-Aufgabeneinstellung aus",
     "Recommended" : "Empfohlen",
     "The cron.php needs to be executed by the system user \"%s\"." : "Die cron.php muss durch den Systemnutzer \"%s\" ausgeführt werden.",
@@ -525,6 +525,7 @@
     "No display name set" : "Kein Anzeigename angegeben",
     "Change privacy level of email" : "Datenschutzstufe der E-Mail-Adresse ändern",
     "For password reset and notifications" : "Für Passwort-Wiederherstellung und Benachrichtigungen",
-    "Set as primary mail" : "Als primäre E-Mail-Adresse festlegen"
+    "Set as primary mail" : "Als primäre E-Mail-Adresse festlegen",
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Die maximale Anzahl von OPcache-Schlüsseln ist fast überschritten. Um sicherzustellen, dass alle Skripte im Cache gehalten werden können, wird empfohlen, <code>opcache.max_accelerated_files</code> mit einem höheren Wert als <code>%s</code> in Deiner PHP-Konfiguration anzuwenden."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
