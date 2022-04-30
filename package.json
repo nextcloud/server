@@ -79,7 +79,7 @@
     "snap.js": "^2.0.9",
     "stream-browserify": "^3.0.0",
     "strengthify": "github:nextcloud/strengthify#0.5.9",
-    "underscore": "1.12.0",
+    "underscore": "1.13.3",
     "url-search-params-polyfill": "^8.1.1",
     "v-click-outside": "^3.1.2",
     "v-tooltip": "^2.1.3",
