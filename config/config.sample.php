@@ -1791,7 +1791,8 @@ $CONFIG = [
 
 /**
  * Enforce the user theme. This will disable the user theming settings
- * This must be a valid ITheme ID
+ * This must be a valid ITheme ID. 
+ * E.g. light, dark, highcontrast, dark-highcontrast...
  */
 'enforce_theme' => '',
 
