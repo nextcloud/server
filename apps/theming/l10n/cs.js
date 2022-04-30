@@ -33,6 +33,8 @@ OC.L10N.register(
     "Dark theme" : "Tmavý motiv vzhledu",
     "Enable dark theme" : "Používat tmavý motiv vzhledu",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tmavý motiv vzhledu pro ulevení vašim očím snížením celkové svítivosti a jasu. Jeho vývoj zatím ještě není zcela dokončen, proto prosíme hlaste jakékoli problémy, se kterými se setkáte.",
+    "System default theme" : "Výchozí systémový vzhled",
+    "Enable the system default" : "Použít systémový výchozí",
     "Dyslexia font" : "Písmo pro dyslektiky",
     "Enable dyslexia font" : "Používat písmo pro dyslektiky",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic je bezplatné písmo (font) navržené tak, aby odpomáhalo od některých běžných chybování při čtení, způsobených dyslexií.",
