@@ -155,8 +155,14 @@ class ThemesService {
 			return [];
 		}
 
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
+		if ($enforcedTheme !== '') {
+			return array_merge([$enforcedTheme], $enabledThemes);
+		}
+
 		try {
-			return json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
+			return $enabledThemes;
 		} catch (\Exception $e) {
 			return [];
 		}
@@ -170,6 +176,6 @@ class ThemesService {
 	 */
 	private function setEnabledThemes(array $themes): void {
 		$user = $this->userSession->getUser();
-		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_unique(array_values($themes))));
+		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_values(array_unique($themes))));
 	}
 }
