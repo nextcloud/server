@@ -616,8 +616,7 @@ class OC {
 
 		//try to set the maximum execution time to the largest time limit we have
 		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			$biggest_time_limit = max($time_limit, $biggest_max_execution_time, $biggest_max_input_time);
-			@set_time_limit($biggest_time_limit);
+			@set_time_limit(strval(max(intval(@ini_get('max_execution_time')),intval(@ini_get('max_input_time')))));
 		}
 
 		self::setRequiredIniValues();
