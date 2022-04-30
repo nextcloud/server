@@ -627,27 +627,18 @@ class OC {
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
 		//Let´s try to overwrite some defaults if they are smaller than 1 hour
-		// One hour is 3600 seconds
-		$time_limit = 3600;
 
-		$max_execution_time_from_ini = @ini_get('max_execution_time');
-		$biggest_max_execution_time = $time_limit;
-		if (isset($max_execution_time_from_ini)) {
-			$biggest_max_execution_time = max($time_limit, intval($max_execution_time_from_ini));
+		if (intval(@ini_get('max_execution_time')?? 0) < 3600) {
+			@ini_set('max_execution_time', strval(3600));
 		}
-		@ini_set('max_execution_time', strval($biggest_max_execution_time));
 
-		$max_input_time_from_ini = @ini_get('max_input_time');
-		$biggest_max_input_time = $time_limit;
-		if (isset($max_input_time_from_ini)) {
-			$biggest_max_input_time = max($time_limit, intval($max_input_time_from_ini));
+		if (intval(@ini_get('max_input_time')?? 0) < 3600) {
+			@ini_set('max_input_time', strval(3600));
 		}
-		@ini_set('max_input_time', strval($biggest_max_input_time));
 
 		//try to set the maximum execution time to the largest time limit we have
 		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			$biggest_time_limit = max($time_limit, $biggest_max_execution_time, $biggest_max_input_time);
-			@set_time_limit($biggest_time_limit);
+			@set_time_limit(strval(max(intval(@ini_get('max_execution_time')),intval(@ini_get('max_input_time')))));
 		}
 
 		self::setRequiredIniValues();
