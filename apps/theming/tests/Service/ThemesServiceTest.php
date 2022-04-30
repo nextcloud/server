@@ -239,6 +239,38 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
 	}
 
+
+	public function dataTestSetEnabledThemes() {
+		return [
+			[[], []],
+			[['light'], ['light']],
+			[['dark'], ['dark']],
+			[['dark', 'dark', 'opendyslexic'], ['dark', 'opendyslexic']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestSetEnabledThemes
+	 *
+	 * @param string[] $enabledThemes
+	 * @param string[] $expected
+	 */
+	public function testSetEnabledThemes(array $enabledThemes, array $expected) {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user', Application::APP_ID, 'enabled-themes', json_encode($expected));
+
+		$this->invokePrivate($this->themesService, 'setEnabledThemes', [$enabledThemes]);
+	}
+
 	private function initThemes() {
 		$util = $this->createMock(Util::class);
 		$urlGenerator = $this->createMock(IURLGenerator::class);

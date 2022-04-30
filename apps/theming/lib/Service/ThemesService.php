@@ -176,6 +176,6 @@ class ThemesService {
 	 */
 	private function setEnabledThemes(array $themes): void {
 		$user = $this->userSession->getUser();
-		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_unique(array_values($themes))));
+		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', json_encode(array_values(array_unique($themes))));
 	}
 }
