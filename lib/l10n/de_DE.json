@@ -233,6 +233,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dies wird wahrscheinlich durch Zwischenspeicher/Beschleuniger wie etwa Zend OPcache oder eAccelerator verursacht.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP-Module wurden installiert, werden aber als noch fehlend gelistet?",
     "Please ask your server administrator to restart the web server." : "Bitte kontaktieren Sie Ihre Server-Administration und bitten Sie um den Neustart des Webservers.",
+    "The required %s config variable is not configured in the config.php file." : "Die erforderliche %s Konfigurationsvariable ist in der config.php nicht konfiguriert.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Bitten Sie Ihre Server-Administration, die Nextcloud-Konfiguration zu überprüfen.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 benötigt.",
     "Please upgrade your database version." : "Bitte aktualisieren Sie Ihre Datenbankversion.",

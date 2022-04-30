@@ -233,6 +233,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "這大概是由快取或是加速器像是 Zend OPcache， eAccelerator 造成的",
     "PHP modules have been installed, but they are still listed as missing?" : "你已經安裝了指定的 PHP 模組，可是還是顯示為找不到嗎？",
     "Please ask your server administrator to restart the web server." : "請聯絡您的系統管理員重新啟動網頁伺服器",
+    "The required %s config variable is not configured in the config.php file." : "所需的配置變量 %s 未在 config.php 檔案中配置。",
     "Please ask your server administrator to check the Nextcloud configuration." : "請聯絡您的伺服器管理員檢查 Nextcloud 配置。",
     "PostgreSQL >= 9 required." : "需要 PostgreSQL 版本 >= 9",
     "Please upgrade your database version." : "請升級您數據庫的版本。",
