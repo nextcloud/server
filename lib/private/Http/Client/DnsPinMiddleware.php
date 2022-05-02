@@ -80,7 +80,13 @@ class DnsPinMiddleware {
 				continue;
 			}
 
-			$dnsResponses = dns_get_record($target, $dnsType);
+			// Don't throw an error if dns_get_report does not work and continue
+			try {
+				$dnsResponses = dns_get_record($target, $dnsType);
+			} catch (\Exception $e) {
+				$dnsResponses = false;
+			}
+
 			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
