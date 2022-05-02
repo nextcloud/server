@@ -177,9 +177,6 @@
     "Deleted shares" : "Berbagi terhapus",
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
-    "New text file.txt" : "Teks baru file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Penyimpanan {owner} penuh, berkas tidak dapat diperbarui atau disinkronisasikan lagi!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ruang penyimpanan Anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["cocok dengan '{filter}'"]
+    "New text file.txt" : "Teks baru file.txt"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

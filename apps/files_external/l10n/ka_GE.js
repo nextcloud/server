@@ -118,10 +118,6 @@ OC.L10N.register(
     "Add storage" : "საცავის დამატება",
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
-    "External storages" : "გარე საცავები",
-    "(group)" : "(ჯგუფი)",
-    "Delete" : "წაშლა",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC ლოგინით"
+    "Delete" : "წაშლა"
 },
 "nplurals=2; plural=(n!=1);");

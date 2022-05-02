@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "削除された共有",
     "Pending shares" : "保留中の共有",
     "Text file" : "テキストファイル",
-    "New text file.txt" : "新規のテキストファイル作成",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} のストレージは一杯です。ファイルの更新と同期はできません！",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "グループフォルダー ”{mountPoint}\" がいっぱいになり、ファイルを更新または同期できなくなりました。",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "外部ストレージ \"{mountPoint}\" がいっぱいになり、ファイルを更新または同期できなくなりました。",
-    "Your storage is full, files can not be updated or synced anymore!" : "ストレージは一杯です。ファイルの更新と同期はできません！",
-    "_matches '{filter}'_::_match '{filter}'_" : [" '{filter}' にマッチ"]
+    "New text file.txt" : "新規のテキストファイル作成"
 },
 "nplurals=1; plural=0;");

@@ -339,22 +339,13 @@
     "New password" : "새 암호",
     "Change password" : "암호 변경",
     "Use a second factor besides your password to increase security for your account." : "사용자의 계정을 더욱 안전하게 보호하기 위해 암호와 함께 2단계 인증을 사용하세요.",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "앱 스토어 및 연합 클라우드 공유로 앱 설치 및 업데이트",
     "You need to set your user email before being able to send test emails." : "테스트 이메일을 보내기 전 내 주소를 설정해야 합니다.",
-    "Add user in group" : "그룹에 사용자 추가",
-    "Close" : "닫기",
     "All languages" : "모든 언어",
     "Everyone" : "모두",
-    "The app will be downloaded from the app store" : "이 앱을 앱 스토어에서 다운로드합니다",
     "App update" : "앱 업데이트",
-    "Error: This app can not be enabled because it makes the server unstable" : "오류: 이 앱은 서버를 불안정하게 만들 수 있어서 활성화할 수 없습니다",
-    "mail" : "메일",
     "Test email settings" : "이메일 설정 시험",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "최적 성능을 위해서 백그라운드 작업을 올바르게 설정하는 것을 추천합니다. 큰 인스턴스에서는 'Cron'을 사용하는 것을 추천합니다. 더 많은 정보를 보려면 문서를 참조하십시오.",
-    "Expire after " : "다음 날짜 후 만료",
     "days" : "일",
-    "Allow users to share via link" : "사용자별 링크 공유 허용",
     "No display name set" : "표시 이름이 설정되지 않음",
-    "For password reset and notifications" : "암호 초기화 및 알림에 사용"
+    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "최적 성능을 위해서 백그라운드 작업을 올바르게 설정하는 것을 추천합니다. 큰 인스턴스에서는 'Cron'을 사용하는 것을 추천합니다. 더 많은 정보를 보려면 문서를 참조하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

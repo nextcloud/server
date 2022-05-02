@@ -249,10 +249,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "上傳檔案即表示您同意%1$s服務條款%2$s。",
     "Add to your Nextcloud" : "新增到您的 Nextcloud",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
-    "invalid permissions" : "無效的權限",
-    "Can't change permissions for public share links" : "無法變更公開分享連結的權限",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
-    "Download %s" : "下載 %s",
-    "Cannot change permissions for public share links" : "無法變更公開分享連結的權限"
+    "Cannot change permissions for public share links" : "無法變更公開分享連結的權限",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

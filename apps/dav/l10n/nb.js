@@ -112,7 +112,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
     "Comment" : "Kommentar",
-    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
-    "Calendar and tasks" : "Kalender og oppgaver"
+    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert."
 },
 "nplurals=2; plural=(n != 1);");

@@ -174,7 +174,6 @@ OC.L10N.register(
     "Tentative" : "Feltételes",
     "Number of guests" : "Vendégek száma",
     "Comment" : "Megjegyzés",
-    "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
-    "Calendar and tasks" : "Naptár és feladatok"
+    "Your attendance was updated successfully." : "A részvétele frissítése sikeres."
 },
 "nplurals=2; plural=(n != 1);");

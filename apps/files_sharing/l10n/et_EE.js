@@ -173,9 +173,6 @@ OC.L10N.register(
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
-    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
-    "invalid permissions" : "valed õigused",
-    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
-    "Download %s" : "Laadi alla %s"
+    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud"
 },
 "nplurals=2; plural=(n != 1);");

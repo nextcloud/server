@@ -132,11 +132,7 @@
     "Advanced settings" : "Configuración avanzada",
     "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales.",
-    "External storages" : "Almacenamiento externo",
-    "(group)" : "(grupo)",
     "Delete" : "Eliminar",
-    "Are you sure you want to delete this external storage?" : "¿Estás seguro de querer eliminar el almacenamiento externo?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS que usan acceso OC"
+    "Are you sure you want to delete this external storage?" : "¿Estás seguro de querer eliminar el almacenamiento externo?"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

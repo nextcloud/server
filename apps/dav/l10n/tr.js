@@ -174,7 +174,6 @@ OC.L10N.register(
     "Tentative" : "Kesin değil",
     "Number of guests" : "Konuk sayısı",
     "Comment" : "Yorum",
-    "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "Calendar and tasks" : "Takvim ve görevler"
+    "Your attendance was updated successfully." : "Katılımınız güncellendi."
 },
 "nplurals=2; plural=(n > 1);");

@@ -234,9 +234,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
     "Add to your Nextcloud" : "اضف إلى حسابك",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
-    "invalid permissions" : "صلاحيات مفقودة",
-    "Can't change permissions for public share links" : "لا يمكن تغيير صلاحيات روابط المشاركة العامة",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
-    "Download %s" : "تنزيل %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

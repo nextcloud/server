@@ -128,8 +128,6 @@
     "PHP setting \"%s\" is not set to \"%s\"." : "Setarea PHP \"%s\" nu este setată la \"%s\".",
     "PHP modules have been installed, but they are still listed as missing?" : "Modulele PHP au fost instalate, dar apar ca lipsind?",
     "Storage is temporarily not available" : "Spațiu de stocare este indisponibil temporar",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Aceasta se poate repara de obicei prin permiterea accesului de scriere la dosarul de configurare al serverului Web",
-    "Files can’t be shared with delete permissions" : "Fișierele nu pot fi partajate cu permisiuni de ștergere",
     "Cannot write into \"config\" directory" : "Nu se poate scrie în folderul \"config\"",
     "Cannot write into \"apps\" directory" : "Nu se poate scrie în folderul \"apps\"",
     "PostgreSQL >= 9 required" : "Este necesară versiunea 9 sau mai mare a PostgreSQL",

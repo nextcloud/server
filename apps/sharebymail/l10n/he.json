@@ -44,8 +44,6 @@
     "Could not find share" : "לא ניתן למצוא את השיתוף",
     "Share provider which allows you to share files by mail" : "ספק השיתוף שמאפשר לך לשתף קבצים בדוא״ל",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "מאפשר למשתמשים לשתף קישורים מותאמים אישית לקובץ או לתיקייה על ידי הקלדת כתובת דוא״ל.",
-    "Send password by mail" : "שליחת ססמה בדוא״ל",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "אין לנו אפשרות לשלוח לך את הססמה שנוצרה אוטומטית. נא להגדיר כתובת דוא״ל תקנית בהגדרות האישיות שלך ולנסות שוב.",
-    "Enforce password protection" : "אילוץ הגנה בססמה"
+    "Send password by mail" : "שליחת ססמה בדוא״ל"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

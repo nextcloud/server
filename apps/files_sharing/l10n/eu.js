@@ -251,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
     "Add to your Nextcloud" : "Gehitu zure Nextclouden",
     "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
-    "invalid permissions" : "baimen baliogabeak",
-    "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
-    "Download %s" : "Deskargatu %s",
-    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu"
+    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta"
 },
 "nplurals=2; plural=(n != 1);");

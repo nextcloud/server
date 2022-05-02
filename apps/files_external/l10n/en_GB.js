@@ -122,11 +122,7 @@ OC.L10N.register(
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
     "Allow users to mount external storage" : "Allow users to mount external storage",
-    "External storages" : "External storages",
-    "(group)" : "(group)",
     "Delete" : "Delete",
-    "Are you sure you want to delete this external storage?" : "Are you sure you want to delete this external storage?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS using OC login"
+    "Are you sure you want to delete this external storage?" : "Are you sure you want to delete this external storage?"
 },
 "nplurals=2; plural=(n != 1);");

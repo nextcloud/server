@@ -254,19 +254,11 @@
     "Storage connection error. %s" : "Błąd połączenia z magazynem. %s",
     "Storage is temporarily not available" : "Magazyn jest tymczasowo niedostępny",
     "Storage connection timeout. %s" : "Limit czasu połączenia do magazynu. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu config.",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Jeśli, albo wolisz zachować plik config.php tylko do odczytu, ustaw w nim opcję \"config_is_read_only\" na true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu config.",
-    "Can't create or write into the data directory %s" : "Nie można tworzyć ani zapisywać w katalogu %s",
-    "Can’t increase permissions of %s" : "Nie można zwiększyć uprawnień %s",
-    "Files can’t be shared with delete permissions" : "Pliki nie mogą zostać udostępnione z prawem do usuwania",
-    "Files can’t be shared with create permissions" : "Pliki nie mogą zostać udostępnione z prawem do tworzenia",
-    "Can’t set expiration date more than %s days in the future" : "Nie można ustawić daty wygaśnięcia na dłuższą niż %s dni",
-    "Can't read file" : "Nie można odczytać pliku",
     "Cannot write into \"config\" directory" : "Nie można zapisać do katalogu \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu config. Zobacz %s",
     "Cannot write into \"apps\" directory" : "Nie można zapisać do katalogu \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Zwykle można to naprawić, przyznając serwerowi dostęp do zapisu do katalogu aplikacji lub wyłączając sklep z aplikacjami w pliku konfiguracyjnym.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Zwykle można to naprawić, przyznając serwerowi dostęp do zapisu do katalogu aplikacji lub wyłączając sklep z aplikacjami w pliku konfiguracyjnym.",
     "Cannot create \"data\" directory" : "Nie mozna utworzyć katalogu \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu głównego. Zobacz %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Uprawnienia można zazwyczaj naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu głównego. Zobacz %s.",
@@ -279,7 +271,6 @@
     "Your data directory is readable by other users" : "Twój katalog danych jest widoczny dla innych użytkowników",
     "Your data directory must be an absolute path" : "Katalog danych musi mieć ścieżkę absolutną",
     "Check the value of \"datadirectory\" in your configuration" : "Sprawdź wartość \"datadirectory\" w swojej konfiguracji",
-    "Your data directory is invalid" : "Katalog danych jest nieprawidłowy",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Zwykle można to naprawić, przyznając serwerowi dostęp do zapisu do katalogu aplikacji lub wyłączając sklep z aplikacjami w pliku konfiguracyjnym."
+    "Your data directory is invalid" : "Katalog danych jest nieprawidłowy"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

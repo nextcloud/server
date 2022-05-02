@@ -251,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "С качването на файлове, вие се съгласявате с %1$s условията на услугата%2$s.",
     "Add to your Nextcloud" : "Добавете към Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Грешен път, файл / папка не съществува",
-    "invalid permissions" : "невалидни права",
-    "Can't change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
-    "Download %s" : "Изтегли %s",
-    "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне"
+    "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано"
 },
 "nplurals=2; plural=(n != 1);");

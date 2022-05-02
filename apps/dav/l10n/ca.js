@@ -113,7 +113,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
     "Comment" : "Comentari",
-    "Your attendance was updated successfully." : "La vostra assistència ha estat actualitzada correctament.",
-    "Calendar and tasks" : "Calendari i tasques"
+    "Your attendance was updated successfully." : "La vostra assistència ha estat actualitzada correctament."
 },
 "nplurals=2; plural=(n != 1);");

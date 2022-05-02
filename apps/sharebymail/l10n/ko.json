@@ -25,8 +25,6 @@
     "You can choose a different password at any time in the share dialog." : "공유 대화 상자에서 언제든지 다른 암호를 선택할 수 있습니다.",
     "Could not find share" : "공유를 찾을 수 없음",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "파일이나 폴더를 공유하는 개인화된 링크를 이메일 주소를 통해서 공유합니다.",
-    "Send password by mail" : "이메일로 암호 보내기",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "자동 생성된 암호를 이메일로 보낼 수 없습니다. 개인 설정에서 올바른 이메일 주소를 입력한 다음 다시 시도하십시오.",
-    "Enforce password protection" : "암호 보호 강제"
+    "Send password by mail" : "이메일로 암호 보내기"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

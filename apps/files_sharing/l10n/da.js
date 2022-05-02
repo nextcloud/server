@@ -184,8 +184,6 @@ OC.L10N.register(
     "Select or drop files" : "Vælg eller slip filer",
     "Uploaded files:" : "Uploadede filer:",
     "Add to your Nextcloud" : "Tilføj til din Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Forkert sti, fil/mappe findes ikke",
-    "invalid permissions" : "Ugyldige rettigheder",
-    "Download %s" : "Hent %s"
+    "Wrong path, file/folder doesn't exist" : "Forkert sti, fil/mappe findes ikke"
 },
 "nplurals=2; plural=(n != 1);");

@@ -97,9 +97,6 @@ OC.L10N.register(
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
-    "(group)" : "(กลุ่ม)",
-    "Delete" : "ลบ",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB/CIFS กำลังใช้ OC เข้าสู่ระบบ"
+    "Delete" : "ลบ"
 },
 "nplurals=1; plural=0;");

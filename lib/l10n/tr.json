@@ -254,19 +254,11 @@
     "Storage connection error. %s" : "Depolama bağlantısı sorunu. %s",
     "Storage is temporarily not available" : "Depolama geçici olarak kullanılamıyor",
     "Storage connection timeout. %s" : "Depolama bağlantısı zaman aşımı. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Bu sorun genellikle, web sunucusuna config klasörüne yazma izni verilerek çözülebilir",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ya da config.php dosyasının salt okunur olarak kalmasını istiyorsanız içindeki \"config_is_read_only\" seçeneğini true olarak ayarlayın.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Bu sorun genellikle, web sunucusuna config klasörüne yazma izni verilerek çözülebilir.",
-    "Can't create or write into the data directory %s" : "%s veri klasörü oluşturulamadı ya da içine yazılamadı",
-    "Can’t increase permissions of %s" : "%s izinleri arttırılamadı",
-    "Files can’t be shared with delete permissions" : "Silme izni ile dosya paylaşılamaz",
-    "Files can’t be shared with create permissions" : "Ekleme izni ile dosya paylaşılamaz",
-    "Can’t set expiration date more than %s days in the future" : "Son kullanma tarihi %sgünden sonrası olarak ayarlanamaz",
-    "Can't read file" : "Dosya okunamadı",
     "Cannot write into \"config\" directory" : "\"config\" klasörüne yazılamıyor",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Bu sorun genellikle, web sunucusuna config klasörüne yazma izni verilerek çözülebilir. %s bölümüne bakın",
     "Cannot write into \"apps\" directory" : "\"apps\" klasörüne yazılamıyor",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Bu sorun genellikle, web sunucusuna apps klasörüne yazma izni verilerek ya da yapılandırma dosyasından uygulama mağazasını devre dışı bırakılarak çözülebilir.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Bu sorun genellikle, web sunucusuna apps klasörüne yazma izni verilerek ya da yapılandırma dosyasından Uygulama Mağazası devre dışı bırakılarak çözülebilir.",
     "Cannot create \"data\" directory" : "\"data\" klasörü oluşturulamadı",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Bu sorun genellikle, web sunucusuna kök klasöre yazma izni verilerek çözülebilir. %s bölümüne bakın",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "İzinler genellikle, web sunucusuna kök klasöre yazma izni verilerek düzeltilebilir. %s bölümüne bakın.",
@@ -279,7 +271,6 @@
     "Your data directory is readable by other users" : "Veri klasörünüz diğer kullanıcılar tarafından okunabilir",
     "Your data directory must be an absolute path" : "Veri klasörünüz mutlak bir yol olmalıdır",
     "Check the value of \"datadirectory\" in your configuration" : "Yapılandırmanızdaki \"datadirectory\" seçeneğini denetleyin",
-    "Your data directory is invalid" : "Veri klasörünüz geçersiz",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Bu sorun genellikle, web sunucusuna apps klasörüne yazma izni verilerek ya da yapılandırma dosyasından Uygulama Mağazası devre dışı bırakılarak çözülebilir."
+    "Your data directory is invalid" : "Veri klasörünüz geçersiz"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

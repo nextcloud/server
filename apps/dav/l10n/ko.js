@@ -144,7 +144,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "예정됨",
     "Comment" : "설명",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "Calendar and tasks" : "달력과 작업"
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
 },
 "nplurals=1; plural=0;");

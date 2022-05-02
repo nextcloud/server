@@ -276,23 +276,13 @@
     "Current password" : "Current password",
     "New password" : "New password",
     "Change password" : "Change password",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "installing and updating apps via the app store or Federated Cloud Sharing",
     "You need to set your user email before being able to send test emails." : "You need to set your user email before being able to send test emails.",
-    "Nextcloud Talk for iOS" : "Nextcloud Talk for iOS",
-    "Nextcloud Talk for Android" : "Nextcloud Talk for Android",
-    "Close" : "Close",
     "All languages" : "All languages",
     "Everyone" : "Everyone",
-    "The app will be downloaded from the app store" : "The app will be downloaded from the app store",
     "App update" : "App update",
-    "Error: This app can not be enabled because it makes the server unstable" : "Error: This app can not be enabled because it makes the server unstable",
-    "mail" : "mail",
     "Test email settings" : "Test email settings",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information.",
-    "Expire after " : "Expire after ",
     "days" : "days",
-    "Allow users to share via link" : "Allow users to share via link",
     "No display name set" : "No display name set",
-    "For password reset and notifications" : "For password reset and notifications"
+    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

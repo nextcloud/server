@@ -231,9 +231,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
     "Add to your Nextcloud" : "Додајте у свој облак",
     "Wrong path, file/folder doesn't exist" : "Погрешна путања, фајл/фасцикла не постоји",
-    "invalid permissions" : "Неисправне дозволе",
-    "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
-    "Download %s" : "Преузми %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -147,9 +147,6 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Storage of {owner} is full, files can not be updated or synced anymore!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["matches '{filter}'","match '{filter}'"]
+    "New text file.txt" : "New text file.txt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -171,7 +171,6 @@ OC.L10N.register(
     "Tentative" : "Provisoire",
     "Number of guests" : "Nombre d'invités",
     "Comment" : "Commentaire",
-    "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
-    "Calendar and tasks" : "Agenda et tâches"
+    "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès."
 },
 "nplurals=2; plural=(n > 1);");

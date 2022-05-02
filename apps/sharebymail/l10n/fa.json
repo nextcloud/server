@@ -44,8 +44,6 @@
     "Could not find share" : "اشتراک یافت نشد",
     "Share provider which allows you to share files by mail" : "ارائه دهنده به شما امکان می دهد پرونده ها را از طریق پست به اشتراک بگذارید",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "به کاربران اجازه می دهد با قرار دادن یک آدرس ایمیل ، پیوند شخصی شده را با پرونده یا پوشه به اشتراک بگذارند.",
-    "Send password by mail" : "ارسال رمز عبور از طریق پست",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "ما نمی توانیم رمز عبور ایجاد شده را برای شما ارسال کنیم. لطفاً یک آدرس پست الکترونیک معتبر را در تنظیمات شخصی خود قرار دهید و دوباره امتحان کنید.",
-    "Enforce password protection" : "اجبار برای محافظت توسط رمز عبور"
+    "Send password by mail" : "ارسال رمز عبور از طریق پست"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

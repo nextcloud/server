@@ -241,10 +241,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
     "Add to your Nextcloud" : "Додадете во вашиот Cloud",
     "Wrong path, file/folder doesn't exist" : "Погрешна патека, датотеката/папката не постои",
-    "invalid permissions" : "неважечка дозвола",
-    "Can't change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделен линк",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
-    "Download %s" : "Преземи %s",
-    "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови"
+    "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

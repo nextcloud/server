@@ -153,7 +153,6 @@ OC.L10N.register(
     "Tentative" : "Onder voorbehoud",
     "Number of guests" : "Aantal gasten",
     "Comment" : "Notitie",
-    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
-    "Calendar and tasks" : "Agenda en taken"
+    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt."
 },
 "nplurals=2; plural=(n != 1);");

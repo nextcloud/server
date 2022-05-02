@@ -115,10 +115,6 @@ OC.L10N.register(
     "Add storage" : "Adicionar armazenamento",
     "Advanced settings" : "Definições avançadas",
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "External storages" : "Armazenamento externo",
-    "(group)" : "(grupo)",
-    "Delete" : "Apagar",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS utilizando o início de sessão OC"
+    "Delete" : "Apagar"
 },
 "nplurals=2; plural=(n != 1);");

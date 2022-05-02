@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Proveedor que permite compartir archivos por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enlace personalizado a un archivo o carpeta enviándolo a una dirección de correo electrónico",
     "Send password by mail" : "Enviar contraseñas por email",
-    "Reply to initiator" : "Responder al iniciador",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No podemos enviarte la contraseña autogenerada. Por favor, indica una dirección de correo electrónico válida en tu configuración personal y vuelve a intentarlo.",
-    "Enforce password protection" : "Imponer la protección de contraseña"
+    "Reply to initiator" : "Responder al iniciador"
 },
 "nplurals=2; plural=(n != 1);");

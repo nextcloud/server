@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "Kérés felhasználói ügynöke",
     "User group membership" : "Felhasználói csoporttagság",
     "is member of" : "tagja ennek",
-    "is not member of" : "nem tagja ennek",
-    "Browse the app store" : "Alkalmazástár böngészése"
+    "is not member of" : "nem tagja ennek"
 },
 "nplurals=2; plural=(n != 1);");

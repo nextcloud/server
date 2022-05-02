@@ -49,8 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Frunidore de cumpartzidura chi ti permitit de cumpartzire archìvios tràmite posta eletrònica",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitit a is utentes de cumpartzire unu ligòngiu personalizadu a un'archìviu o cartella insertende un'indiritzu de posta eletrònica.",
     "Send password by mail" : "Imbia crae tràmite posta eletrònica",
-    "Reply to initiator" : "Risponde a chie cumintzat",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No faghet a t'imbiare sa crae auto-generada. Imposta un'indiritzu de posta eletrònica bàlidu in is impostatzione personales e torra a proare.",
-    "Enforce password protection" : "Impone sa bardiadura de sa crae"
+    "Reply to initiator" : "Risponde a chie cumintzat"
 },
 "nplurals=2; plural=(n != 1);");

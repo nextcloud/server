@@ -139,9 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploaded files:" : "Skedarët e ngarkuar:",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
-    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
-    "invalid permissions" : "leje e pavlefshme",
-    "Can't change permissions for public share links" : "S’mund të ndryshohen lejet për lidhje ndarjesh publike",
-    "Download %s" : "Shkarko %s"
+    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston"
 },
 "nplurals=2; plural=(n != 1);");

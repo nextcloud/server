@@ -45,7 +45,6 @@
     "Enable password recovery:" : "Ввімкнути відновлення паролю:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю",
     "Enabled" : "Увімкнено",
-    "Disabled" : "Вимкнено",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не можу розшифрувати цей файл, можливо він опублікований. Будь ласка, попросіть власника опублікувати його заново."
+    "Disabled" : "Вимкнено"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

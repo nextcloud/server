@@ -40,13 +40,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La version stable la plus récente. Elle est adaptée pour une utilisation régulière et sera toujours mise à jour vers la dernière version majeure.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Une version préliminaire utilisée seulement pour tester les nouvelles fonctionnalités, n'est pas adaptée dans un environnement de production.",
-    "Apps missing updates" : "Applications à mettre à jour",
-    "Apps with available updates" : "Applications avec des mises à jour disponibles",
-    "Only notification for app updates are available." : "Seules les notifications pour les mises à jour d'applications sont diponibles.",
-    "Checking apps for compatible updates" : "Vérification des applications pour des mises à jour compatibles",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Il est impossible de se connecter au magasin d'applications ou alors le magasin d'applications n'a renvoyé aucune mise à jour. Cherchez manuellement les mises à jour ou assurez-vous que votre serveur a accès à Internet et peut se connecter au magasin d'applications.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Toutes</strong> les applications ont une mise à jour disponible pour cette version",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  application n'a pas de mise à jour disponible pour cette version","<strong>%n</strong> applications n'ont pas de mise à jour disponible pour cette version"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Applications compatibles pour cette version de Nexctloud",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>  application n'a pas de version compatible avec cette version disponible de Nextcloud","<strong>%n</strong> applications n'ont pas de version compatible avec cette version disponible de Nextcloud"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

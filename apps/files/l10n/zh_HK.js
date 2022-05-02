@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "已刪除的分享",
     "Pending shares" : "等待分享",
     "Text file" : "文字檔",
-    "New text file.txt" : "新文字檔.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} 的儲存空間已滿，沒有辦法再更新或是同步檔案！",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "群組資料夾 \"{mountPoint}\" 已滿，已無法再更新或同步檔案！",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "外部儲存空間 \"{mountPoint}\" 已滿，已無法再更新或同步檔案！",
-    "Your storage is full, files can not be updated or synced anymore!" : "您的儲存空間已滿，沒有辦法再更新或是同步檔案！",
-    "_matches '{filter}'_::_match '{filter}'_" : ["符合「{filter}」"]
+    "New text file.txt" : "新文字檔.txt"
 },
 "nplurals=1; plural=0;");

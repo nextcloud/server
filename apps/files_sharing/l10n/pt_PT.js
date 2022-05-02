@@ -155,9 +155,6 @@ OC.L10N.register(
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploaded files:" : "Ficheiros enviados:",
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
-    "invalid permissions" : "permissões inválidas",
-    "Can't change permissions for public share links" : "Não é possível alterar as permissões para as hiperligações de partilha pública",
-    "Download %s" : "Transferir %s"
+    "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe"
 },
 "nplurals=2; plural=(n != 1);");

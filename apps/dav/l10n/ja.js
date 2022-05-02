@@ -148,7 +148,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
     "Comment" : "コメント",
-    "Your attendance was updated successfully." : "出席は正常に更新されました。",
-    "Calendar and tasks" : "カレンダーとタスク"
+    "Your attendance was updated successfully." : "出席は正常に更新されました。"
 },
 "nplurals=1; plural=0;");

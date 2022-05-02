@@ -156,9 +156,6 @@
     "Shared by link" : "Kunhavata per ligilo",
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
-    "New text file.txt" : "Nova tekstodosiero.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Konservejo de {owner} plenas; dosieroj ne povas alŝutiĝi aŭ sinkroniĝi plu!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Via konservejo plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["kongruas kun “{filter}”","kongruas kun “{filter}”"]
+    "New text file.txt" : "Nova tekstodosiero.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

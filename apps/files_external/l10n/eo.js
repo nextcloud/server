@@ -129,11 +129,7 @@ OC.L10N.register(
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "External storages" : "Eksteraj konservejoj",
-    "(group)" : "(grupo)",
     "Delete" : "Forigi",
-    "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto"
+    "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?"
 },
 "nplurals=2; plural=(n != 1);");

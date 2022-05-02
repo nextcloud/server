@@ -151,7 +151,6 @@ OC.L10N.register(
     "Tentative" : "Uvjetno",
     "Number of guests" : "Broj gostiju",
     "Comment" : "Komentar",
-    "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana.",
-    "Calendar and tasks" : "Kalendar i zadaci"
+    "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

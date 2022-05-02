@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekst file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Opbevaringspladsen tilhørende {owner} er fyldt op - filer kan ikke længere opdateres eller synkroniseres!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppemappen \"{mountPoint}\" er fuld, filer kan ikke længere opdateres eller synkroniseres!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Eksternt lager \"{mountPoint}\" er fuldt, filer kan ikke længere opdateres eller synkroniseres!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkroniseres længere!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["match '{filter}'","match '{filter}'"]
+    "New text file.txt" : "Ny tekst file.txt"
 },
 "nplurals=2; plural=(n != 1);");

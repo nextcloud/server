@@ -258,20 +258,12 @@
     "Current password" : "Palavra-passe atual",
     "New password" : "Nova palavra-passe",
     "Change password" : "Alterar palavra-passe",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "A instalar e a atualizar as aplicações através da loja de aplicações ou Federated Cloud Sharing",
     "You need to set your user email before being able to send test emails." : "Você tem de configurar o seu e-mail de utilizador antes de ser capaz de enviar e-mails de teste",
-    "Close" : "Fechar",
     "Everyone" : "Para todos",
-    "The app will be downloaded from the app store" : "A aplicação será transferida da loja de aplicações",
     "App update" : "Actualização de app",
-    "Error: This app can not be enabled because it makes the server unstable" : "Erro: Esta app não pode ser activada porque torna o servidor instável.",
-    "mail" : "Correio",
     "Test email settings" : "Testar definições de e-mail",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para desempenho óptimo é importante que configura as tarefas de segundo plano correctamente. Para maiores instâncias a definição recomendada é 'Cron'. Por favor veja a documentação para mais informações.",
-    "Expire after " : "Expira após",
     "days" : "dias",
-    "Allow users to share via link" : "Permitir que os utilizadores partilhem através de hiperligação",
     "No display name set" : "Nenhum nome display estabelecido",
-    "For password reset and notifications" : "Para recuperação de senhas e notificações"
+    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para desempenho óptimo é importante que configura as tarefas de segundo plano correctamente. Para maiores instâncias a definição recomendada é 'Cron'. Por favor veja a documentação para mais informações."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

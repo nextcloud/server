@@ -42,13 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Een vroeg vrijgegeven versie, alleen bedoeld om nieuwe functies te testen. Niet voor productieomgevingen.",
-    "Apps missing updates" : "Apps met ontbrekende updates",
-    "Apps with available updates" : "Apps met beschikbare updates",
-    "Only notification for app updates are available." : "Er zijn alleen meldingen voor apps beschikbaar.",
-    "Checking apps for compatible updates" : "Apps controleren op compatibele updates",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Kan niet verbinden met de appstore of de appstore gaf geen updates terug. Zoek handmatig naar updates of verifieer dat je server internettoegang heeft en kan verbinden met de appstore.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Alle</strong> apps hebben een update voor deze versie beschikbaar",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app heeft geen update voor deze versie beschikbaar","<strong>%n</strong> apps hebben geen update voor deze versie beschikbaar"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alle</strong> apps hebben een compatibele versie voor deze Nextcloud versie",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app heeft geen compatibele versie voor deze Nextcloud versie","<strong>%n</strong> apps hebben geen compatibele versie voor deze Nextcloud versie"]
 },

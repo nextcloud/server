@@ -209,11 +209,6 @@ OC.L10N.register(
     "Deleted shares" : "‎Chia sẻ đã xóa‎",
     "Pending shares" : "Chia sẻ đang chờ xử lý‎",
     "Text file" : "Tập tin văn bản",
-    "New text file.txt" : "‎Tệp văn bản mới.txt‎",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Dung lượng của {owner} đã hết, không thể tải hay đồng bộ dữ liệu mới!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "‎Thư mục nhóm \"{mountPoint}\" đã đầy, các tệp không thể được cập nhật hoặc đồng bộ hóa nữa!‎",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "‎Bộ nhớ ngoài \"{mountPoint}\" đã đầy, các tệp không thể được cập nhật hoặc đồng bộ hóa nữa!‎",
-    "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["khớp '{filter}'"]
+    "New text file.txt" : "‎Tệp văn bản mới.txt‎"
 },
 "nplurals=1; plural=0;");

@@ -322,22 +322,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "เซิร์ฟเวอร์ %s นี้อยู่ในโหมดการบำรุงรักษา ซึ่งอาจใช้เวลาสักครู่",
     "This page will refresh itself when the instance is available again." : "หน้านี้จะรีเฟรชตัวเองเมื่อเซิร์ฟเวอร์สามารถใช้ได้อีกครั้ง",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ติดต่อผู้ดูแลระบบของคุณหากข้อความนี้ยังคงอยู่หรือปรากฏโดยไม่คาดคิด",
-    "Couldn't reset password because the token is invalid" : "ไม่สามารถตั้งรหัสผ่านใหม่เพราะโทเค็นไม่ถูกต้อง",
-    "Couldn't reset password because the token is expired" : "ไม่สามารถตั้งค่ารหัสผ่านเพราะโทเค็นหมดอายุ",
-    "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "กำลังตรวจสอบว่า Schema ฐานข้อมูลสำหรับ %s สามารถอัปเดตได้หรือไม่ (อาจใช้เวลานาน ขึ้นอยู่กับขนาดของฐานข้อมูล)",
-    "Checked database schema update" : "ตรวจสอบการอัปเดต Schema ฐานข้อมูลแล้ว",
-    "Checking updates of apps" : "กำลังตรวจสอบการอัปเดตของแอป",
-    "Update app \"%s\" from appstore" : "อัปเดตแอป \"%s\" จากร้านค้าแอป",
-    "Checked database schema update for apps" : "ตรวจสอบการอัปเดต Schema ฐานข้อมูลสำหรับแอปแล้ว",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 เป็นรุ่นสุดท้ายที่รองรับ PHP 7.2 ส่วน Nextcloud 21 ต้องการ PHP 7.3 เป็นขั้นต่ำ",
-    "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "สำหรับข้อมูลเพิ่มเติม ดู<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">เอกสารประกอบ</a>",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ไดเรกทอรี data และไฟล์ของคุณอาจเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ไม่ทำงาน เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณให้ไดเรกทอรี data ไม่สามารถเข้าถึงได้ หรือย้ายไดเรกทอรี data ไปอยู่นอกรากที่เก็บเอกสารของเว็บเซิร์ฟเวอร์",
-    "Continue to Nextcloud" : "เข้าสู่ Nextcloud",
-    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["การอัปเดตเสร็จสมบูรณ์ กำลังนำคุณไปที่ Nextcloud ใน %n วินาที"],
-    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "ส่งข้อความตั้งรหัสผ่านใหม่ไปยังที่อยู่อีเมลของบัญชีนี้แล้ว หากคุณยังไม่ได้รับ ให้ตรวจสอบโฟลเดอร์สแปม/จดหมายขยะ หรือสอบถามผู้ดูแลระบบเซิร์ฟเวอร์ของคุณเพื่อขอความช่วยเหลือ",
-    "Password can not be changed. Please contact your administrator." : "ไม่สามารถเปลี่ยนรหัสผ่าน กรุณาติดต่อผู้ดูแลระบบ",
-    "Could not fetch list of apps from the app store." : "ไม่สามารถดึงรายการแอปจากร้านค้าแอป",
-    "Can't install this app because it is not compatible" : "ไม่สามารถติดตั้งแอปนี้ เนื่องจากแอปนี้เข้ากันไม่ได้",
-    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้"
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ไดเรกทอรี data และไฟล์ของคุณอาจเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ไม่ทำงาน เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณให้ไดเรกทอรี data ไม่สามารถเข้าถึงได้ หรือย้ายไดเรกทอรี data ไปอยู่นอกรากที่เก็บเอกสารของเว็บเซิร์ฟเวอร์"
 },
 "nplurals=1; plural=0;");

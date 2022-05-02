@@ -245,19 +245,12 @@ OC.L10N.register(
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",
     "Change password" : "Muuda parooli",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "Paigaldan ja uuendan rakendusi läbi rakenduste poe või liitpilve jagamise",
     "You need to set your user email before being able to send test emails." : "Pead seadistama oma e-postienne kui on võimalik saata test-kirju.",
-    "Close" : "Sulge",
     "All languages" : "Kõik keeled",
     "Everyone" : "Igaüks",
     "App update" : "Rakenduse uuendus",
-    "mail" : "e-mail",
     "Test email settings" : "Testi e-posti seadeid",
-    "Expire after " : "Aegu pärast",
     "days" : "päeva",
-    "Allow users to share via link" : "Luba kasutajatel lingiga jagamist ",
-    "Set default expiration date for link shares" : "Määra lingi jagamise vaikimisi aegumiskuupäev",
-    "No display name set" : "Näidatavat nime pole veel määratud",
-    "For password reset and notifications" : "Parooli lähestamiseks ja teadeteks"
+    "No display name set" : "Näidatavat nime pole veel määratud"
 },
 "nplurals=2; plural=(n != 1);");

@@ -112,9 +112,6 @@ OC.L10N.register(
     "Shared with you" : "Mat dir gedeelt",
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
-    "New text file.txt" : "Neien Text file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Späicher vum {owener} ass voll, et kennen keng Dokumenter méi eropgelueden oder synchroniséiert ginn!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Däin Späicher ass voll, et kennen keng Dateien méi eropgeluden oder synchrosniséiert ginn",
-    "_matches '{filter}'_::_match '{filter}'_" : ["entsprecht","entspriechen"]
+    "New text file.txt" : "Neien Text file.txt"
 },
 "nplurals=2; plural=(n != 1);");

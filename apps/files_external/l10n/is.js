@@ -125,11 +125,7 @@ OC.L10N.register(
     "Add storage" : "Bæta við gagnahirslu",
     "Advanced settings" : "Ítarlegri valkostir",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "External storages" : "Utanáliggjandi gagnageymslur",
-    "(group)" : "(hópur)",
     "Delete" : "Eyða",
-    "Are you sure you want to delete this external storage?" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS með OC-innskráningu"
+    "Are you sure you want to delete this external storage?" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

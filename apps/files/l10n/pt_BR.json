@@ -208,11 +208,6 @@
     "Deleted shares" : "Compartilhamentos apagados",
     "Pending shares" : "Compartilhamentos pendentes",
     "Text file" : "Arquivo texto",
-    "New text file.txt" : "Novo arquivo.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "O armazenamento do {owner} está cheio e os arquivos não podem ser mais atualizados ou sincronizados!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "A pasta do grupo \"{mountPoint}\" está cheia, os arquivos não podem ser atualizados ou sincronizados mais!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "O armazenamento externo \"{mountPoint}\" está cheio, os arquivos não podem ser atualizados ou sincronizados mais!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Seu armazenamento está cheio e arquivos não podem mais ser atualizados ou sincronizados!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincide com '{filter}'"]
+    "New text file.txt" : "Novo arquivo.txt"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
