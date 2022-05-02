@@ -64,10 +64,10 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class to provide access to ownCloud filesystem via a "view", and methods for
@@ -101,8 +101,7 @@ class View {
 	/** @var \OC\User\Manager */
 	private $userManager;
 
-	/** @var \OCP\ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	private DisplayNameCache $displayNameCache;
 
@@ -123,7 +122,7 @@ class View {
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->displayNameCache = \OC::$server->get(DisplayNameCache::class);
-		$this->logger = \OC::$server->getLogger();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	public function getAbsolutePath($path = '/') {
@@ -579,7 +578,7 @@ class View {
 		try {
 			$result = $this->basicOperation('touch', $path, $hooks, $mtime);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['level' => ILogger::INFO, 'message' => 'Error while setting modified time']);
+			$this->logger->info('Error while setting modified time', ['app' => 'core', 'exception' => $e]);
 			$result = false;
 		}
 		if (!$result) {
@@ -1000,11 +999,11 @@ class View {
 				$hooks[] = 'write';
 				break;
 			default:
-				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, ILogger::ERROR);
+				$this->logger->error('invalid mode (' . $mode . ') for ' . $path, ['app' => 'core']);
 		}
 
 		if ($mode !== 'r' && $mode !== 'w') {
-			\OC::$server->getLogger()->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends');
+			$this->logger->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends', ['app' => 'core']);
 		}
 
 		return $this->basicOperation('fopen', $path, $hooks, $mode);
@@ -1418,7 +1417,7 @@ class View {
 
 			return $info;
 		} else {
-			\OC::$server->getLogger()->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint());
+			$this->logger->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint(), ['app' => 'core']);
 		}
 
 		return false;
@@ -1502,10 +1501,9 @@ class View {
 						continue;
 					} catch (\Exception $e) {
 						// sometimes when the storage is not available it can be any exception
-						\OC::$server->getLogger()->logException($e, [
-							'message' => 'Exception while scanning storage "' . $subStorage->getId() . '"',
-							'level' => ILogger::ERROR,
-							'app' => 'lib',
+						$this->logger->error('Exception while scanning storage "' . $subStorage->getId() . '"', [
+							'exception' => $e,
+							'app' => 'core',
 						]);
 						continue;
 					}
@@ -1816,9 +1814,9 @@ class View {
 		);
 
 		if (count($shares) > 0) {
-			\OCP\Util::writeLog('files',
+			$this->logger->debug(
 				'It is not allowed to move one mount point into a shared folder',
-				ILogger::DEBUG);
+				['app' => 'files']);
 			return false;
 		}
 
@@ -2146,9 +2144,9 @@ class View {
 		// "$user", "files", "path/to/dir"
 		if (!isset($parts[1]) || $parts[1] !== 'files') {
 			$this->logger->error(
-				'$absolutePath must be relative to "files", value is "%s"',
+				'$absolutePath must be relative to "files", value is "{absolutePath}"',
 				[
-					$absolutePath
+					'absolutePath' => $absolutePath,
 				]
 			);
 			throw new \InvalidArgumentException('$absolutePath must be relative to "files"');

@@ -1501,7 +1501,6 @@ return array(
     'OC\\Share20\\UserRemovedListener' => $baseDir . '/lib/private/Share20/UserRemovedListener.php',
     'OC\\Share\\Constants' => $baseDir . '/lib/private/Share/Constants.php',
     'OC\\Share\\Helper' => $baseDir . '/lib/private/Share/Helper.php',
-    'OC\\Share\\SearchResultSorter' => $baseDir . '/lib/private/Share/SearchResultSorter.php',
     'OC\\Share\\Share' => $baseDir . '/lib/private/Share/Share.php',
     'OC\\StreamImage' => $baseDir . '/lib/private/StreamImage.php',
     'OC\\Streamer' => $baseDir . '/lib/private/Streamer.php',

@@ -35,8 +35,8 @@
 namespace OC\Share;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\ILogger;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides the ability for apps to share their content between users.
@@ -80,10 +80,10 @@ class Share extends Constants {
 				];
 				return true;
 			}
-			\OCP\Util::writeLog('OCP\Share',
+			\OC::$server->get(LoggerInterface::class)->warning(
 				'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class']
 				.' is already registered for '.$itemType,
-				ILogger::WARN);
+				['app' => 'OCP\Share']);
 		}
 		return false;
 	}
@@ -256,6 +256,7 @@ class Share extends Constants {
 	 */
 	public static function getBackend($itemType) {
 		$l = \OC::$server->getL10N('lib');
+		$logger = \OC::$server->get(LoggerInterface::class);
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} elseif (isset(self::$backendTypes[$itemType]['class'])) {
@@ -265,20 +266,20 @@ class Share extends Constants {
 				if (!(self::$backends[$itemType] instanceof \OCP\Share_Backend)) {
 					$message = 'Sharing backend %s must implement the interface OCP\Share_Backend';
 					$message_t = $l->t('Sharing backend %s must implement the interface OCP\Share_Backend', [$class]);
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $class), ILogger::ERROR);
+					$logger->error(sprintf($message, $class), ['app' => 'OCP\Share']);
 					throw new \Exception($message_t);
 				}
 				return self::$backends[$itemType];
 			} else {
 				$message = 'Sharing backend %s not found';
 				$message_t = $l->t('Sharing backend %s not found', [$class]);
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $class), ILogger::ERROR);
+				$logger->error(sprintf($message, $class), ['app' => 'OCP\Share']);
 				throw new \Exception($message_t);
 			}
 		}
 		$message = 'Sharing backend for %s not found';
 		$message_t = $l->t('Sharing backend for %s not found', [$itemType]);
-		\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemType), ILogger::ERROR);
+		$logger->error(sprintf($message, $itemType), ['app' => 'OCP\Share']);
 		throw new \Exception($message_t);
 	}
 
@@ -482,9 +483,9 @@ class Share extends Constants {
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
 		$result = $query->execute($queryArgs);
 		if ($result === false) {
-			\OCP\Util::writeLog('OCP\Share',
+			\OC::$server->get(LoggerInterface::class)->error(
 				\OC_DB::getErrorMessage() . ', select=' . $select . ' where=',
-				ILogger::ERROR);
+				['app' => 'OCP\Share']);
 		}
 		$items = [];
 		$targets = [];
@@ -552,9 +553,10 @@ class Share extends Constants {
 					$parentResult->closeCursor();
 
 					if ($parentRow === false) {
-						\OCP\Util::writeLog('OCP\Share', 'Can\'t select parent: ' .
+						\OC::$server->get(LoggerInterface::class)->error(
+							'Can\'t select parent: ' .
 							\OC_DB::getErrorMessage() . ', select=' . $select . ' where=' . $where,
-							ILogger::ERROR);
+							['app' => 'OCP\Share']);
 					} else {
 						$tmpPath = $parentRow['file_target'];
 						// find the right position where the row path continues from the target path

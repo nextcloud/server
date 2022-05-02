@@ -1530,7 +1530,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Share20\\UserRemovedListener' => __DIR__ . '/../../..' . '/lib/private/Share20/UserRemovedListener.php',
         'OC\\Share\\Constants' => __DIR__ . '/../../..' . '/lib/private/Share/Constants.php',
         'OC\\Share\\Helper' => __DIR__ . '/../../..' . '/lib/private/Share/Helper.php',
-        'OC\\Share\\SearchResultSorter' => __DIR__ . '/../../..' . '/lib/private/Share/SearchResultSorter.php',
         'OC\\Share\\Share' => __DIR__ . '/../../..' . '/lib/private/Share/Share.php',
         'OC\\StreamImage' => __DIR__ . '/../../..' . '/lib/private/StreamImage.php',
         'OC\\Streamer' => __DIR__ . '/../../..' . '/lib/private/Streamer.php',

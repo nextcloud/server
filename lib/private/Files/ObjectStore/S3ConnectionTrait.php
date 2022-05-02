@@ -39,7 +39,7 @@ use Aws\S3\S3Client;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
 use OCP\ICertificateManager;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 trait S3ConnectionTrait {
 	/** @var array */
@@ -150,13 +150,13 @@ trait S3ConnectionTrait {
 		$this->connection = new S3Client($options);
 
 		if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
-			$logger = \OC::$server->getLogger();
+			$logger = \OC::$server->get(LoggerInterface::class);
 			$logger->debug('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
 					 ['app' => 'objectstore']);
 		}
 
 		if ($this->params['verify_bucket_exists'] && !$this->connection->doesBucketExist($this->bucket)) {
-			$logger = \OC::$server->getLogger();
+			$logger = \OC::$server->get(LoggerInterface::class);
 			try {
 				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 				if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
@@ -165,9 +165,8 @@ trait S3ConnectionTrait {
 				$this->connection->createBucket(['Bucket' => $this->bucket]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				$logger->logException($e, [
-					'message' => 'Invalid remote storage.',
-					'level' => ILogger::DEBUG,
+				$logger->debug('Invalid remote storage.', [
+					'exception' => $e,
 					'app' => 'objectstore',
 				]);
 				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
