@@ -299,11 +299,12 @@ class Group implements IGroup {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \OCP\IUser[]
+	 * @depreacted 25.0.0 Use searchUsers instead (same implementation)
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$users = $backend->searchDisplayName($this->gid, $search, $limit, $offset);
+			$users = $backend->searchInGroup($this->gid, $search, $limit, $offset);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
 			}

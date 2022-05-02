@@ -94,11 +94,13 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
+	private DisplayNameCache $displayNameCache;
 
 	public function __construct(IConfig $config,
 								EventDispatcherInterface $oldDispatcher,
 								ICacheFactory $cacheFactory,
-								IEventDispatcher $eventDispatcher) {
+								IEventDispatcher $eventDispatcher,
+								DisplayNameCache $displayNameCache) {
 		$this->config = $config;
 		$this->dispatcher = $oldDispatcher;
 		$this->cache = $cacheFactory->createDistributed('user_backend_map');
@@ -108,6 +110,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			unset($cachedUsers[$user->getUID()]);
 		});
 		$this->eventDispatcher = $eventDispatcher;
+		$this->displayNameCache = $displayNameCache;
 	}
 
 	/**
@@ -186,14 +189,14 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * get or construct the user object
+	 * Get or construct the user object
 	 *
 	 * @param string $uid
 	 * @param \OCP\UserInterface $backend
 	 * @param bool $cacheUser If false the newly created user object will not be cached
 	 * @return \OC\User\User
 	 */
-	protected function getUserObject($uid, $backend, $cacheUser = true) {
+	public function getUserObject($uid, $backend, $cacheUser = true) {
 		if ($backend instanceof IGetRealUIDBackend) {
 			$uid = $backend->getRealUID($uid);
 		}
@@ -313,7 +316,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * search by displayName
+	 * Search by displayName
 	 *
 	 * @param string $pattern
 	 * @param int $limit
@@ -323,7 +326,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$users = array_merge($users, $backend->getDisplayNames($pattern, $limit, $offset));
+			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
+			if (is_array($backendUsers)) {
+				foreach ($backendUsers as $uid => $displayName) {
+					$users[] = new LazyUser($uid, $this->displayNameCache, $this, $displayName, $backend);
+				}
+			}
 		}
 
 		usort($users, function ($a, $b) {
