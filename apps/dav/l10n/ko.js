@@ -117,8 +117,17 @@ OC.L10N.register(
     "Untitled task" : "제목없는 작업",
     "Completed on %s" : "%s에 완료됨",
     "Due on %s" : "만료일: %s",
+    "Contacts and groups" : "연락처 및 그룹",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV 종단점",
+    "to" : "받는 사람",
+    "Monday" : "월요일",
+    "Tuesday" : "화요일",
+    "Wednesday" : "수요일",
+    "Thursday" : "목요일",
+    "Friday" : "금요일",
+    "Saturday" : "토요일",
+    "Sunday" : "일요일",
     "Save" : "저장",
     "Calendar server" : "달력 서버",
     "Send invitations to attendees" : "참석자에게 초대장 보내기",
@@ -134,7 +143,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "예정됨",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "Calendar and tasks" : "달력과 작업"
+    "Comment" : "설명",
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
 },
 "nplurals=1; plural=0;");

@@ -94,6 +94,7 @@ OC.L10N.register(
     "Events" : "Įvykiai",
     "Tasks" : "Užduotys",
     "Untitled task" : "Užduotis be pavadinimo",
+    "Contacts and groups" : "Adresatai ir grupės",
     "WebDAV" : "WebDAV",
     "Availability" : "Pasiekiamumas",
     "Time zone:" : "Laiko juosta:",
@@ -120,6 +121,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Tentative" : "Preliminarus",
     "Number of guests" : "Svečių skaičius",
-    "Calendar and tasks" : "Kalendorius ir užduotys"
+    "Comment" : "Komentaras"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

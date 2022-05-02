@@ -46,13 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Yeni özellikleri denemek için kullanılabilecek yayın öncesi sürümü. Üretim ortamları için önerilmez.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var.","<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var."],
-    "Apps missing updates" : "Güncellemesi eksik uygulamalar",
-    "Apps with available updates" : "Güncellenebilecek uygulamalar",
-    "Only notification for app updates are available." : "Yalnız uygulama güncellemeleri kullanılabilir.",
-    "Checking apps for compatible updates" : "Uyumlu güncellemeler için uygulamalar denetleniyor",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazası ile bağlantı kurulamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet ve uygulama mağazası ile bağlantı kurabildiğinden emin olun.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Tüm</strong> uygulamaların bu sürüm için kullanılabilecek bir güncellemesi var",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Tüm</strong> uygulamaların bu Nextcloud sürümü ile uyumlu bir sürümü var",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var","<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var"]
 },

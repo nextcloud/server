@@ -121,6 +121,7 @@ OC.L10N.register(
     "Completed on %s" : "%s-an osatua",
     "Due on %s by %s" : "%s-(e)tik %s-(e)an epemuga",
     "Due on %s" : "%s-(e)an epemuga",
+    "Contacts and groups" : "Kontaktuak eta taldeak",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV amaiera-puntua",
     "Availability" : "Eskuragarritasuna",
@@ -154,7 +155,6 @@ OC.L10N.register(
     "Tentative" : "Behin behinekoa",
     "Number of guests" : "Gonbidatu kopurua",
     "Comment" : "Iruzkindu",
-    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
-    "Calendar and tasks" : "Egutegia eta atazak"
+    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da."
 },
 "nplurals=2; plural=(n != 1);");

@@ -150,6 +150,9 @@ OC.L10N.register(
     "Read only" : "只读",
     "Allow upload and editing" : "允许上传和编辑",
     "File drop (upload only)" : "文件拖放（仅上传）",
+    "Read" : "读取",
+    "Upload" : "上传",
+    "Edit" : "编辑",
     "Allow creating" : "允许创建",
     "Allow deleting" : "允许删除",
     "Allow resharing" : "允许二次共享",
@@ -243,10 +246,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
     "Add to your Nextcloud" : "添加到您的 Nextcloud",
     "Wrong path, file/folder doesn't exist" : "路径错误，文件或文件夹不存在",
-    "invalid permissions" : "无效的权限",
-    "Can't change permissions for public share links" : "不能改变公共共享链接权限",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。",
-    "Download %s" : "下载 %s",
-    "Cannot change permissions for public share links" : "无法更改公共共享链接的权限 "
+    "Cannot change permissions for public share links" : "无法更改公共共享链接的权限 ",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。"
 },
 "nplurals=1; plural=0;");

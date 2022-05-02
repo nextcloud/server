@@ -120,10 +120,15 @@
     "Reject" : "Rifuzi",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Tiu aplikaĵo ebligas al uzantoj kunhavigi dosieroj ene de Nextcloud. Se ebligita, la administranto povas elekti, kiuj grupoj povas kunhavigi dosierojn. Tiam, uzantoj povas kunhavigi dosierojn kaj dosierujojn kun aliaj uzantoj kaj grupoj ene de Nextcloud. Cetere, se la administranto permesas kunhavigi ligilojn, ekstera ligilo uzeblas por kunhavigi dosieroj kun aliaj uzantoj ekster Nextcloud. Administrantoj povas ankaŭ devigi uzon de pasvortoj, limdatoj, kaj permesi servil-al-servila kunhavigon per kunhaviga ligilo, kaj kunhavigon el porteblaj aparatoj.\nMalebligi tiun funkcion forigas kunhavigitajn dosierojn kaj dosierujon el la servilo por ĉiuj kunhavaj ricevantoj, kaj ankaŭ por la sinkronigaj klientoj kaj la porteblaj aplikaĵoj. Pli da informoj en la dokumentaro de Nextcloud.",
     "Sharing" : "Kunhavigo",
+    "Reset" : "Restarigi",
+    "Unknown error" : "Nekonata eraro",
     "Allow editing" : "Permesi modifon",
     "Read only" : "Nurlega",
     "Allow upload and editing" : "Permesi alŝuton kaj redakton",
     "File drop (upload only)" : "Demeti dosieron (nur alŝuto)",
+    "Read" : "Legi",
+    "Upload" : "Alŝuti",
+    "Edit" : "Modifi",
     "Allow resharing" : "Permesi rekunhavigon",
     "Expiration date enforced" : "Limdato efektiva",
     "Set expiration date" : "Uzi limdaton",
@@ -196,9 +201,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
-    "invalid permissions" : "nevalidaj permesoj",
-    "Can't change permissions for public share links" : "Ne eblas ŝanĝi permesojn por ligilo de publika kunhavo",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita",
-    "Download %s" : "Elŝuti %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

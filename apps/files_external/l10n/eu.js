@@ -20,7 +20,10 @@ OC.L10N.register(
     "Never" : "Inoiz ez",
     "Once every direct access" : "Sarbide zuzen bakoitzean",
     "Read only" : "Irakurtzeko soilik",
+    "Disconnect" : "Deskonektatu",
     "Admin defined" : "Administratzaileak definitua",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Egoeraren egiaztatze automatikoa desgaituta dago konfiguratutako biltegiratze kopuru handia dela eta, egin klik egoera egiaztatzeko",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ziur kanpoko biltegiratze hau deskonektatu nahi duzula? Biltegiratzea ez da erabilgarri egongo Nextcloud-en eta fitxategi eta karpeta hauek ezabatuko ditu une honetan konektatuta dagoen edozein sinkronizazio-bezerotan, baina ez du kanpoko biltegiratzeko fitxategi eta karpetarik ezabatuko.",
     "Delete storage?" : "Biltegiratzea ezabatu?",
     "Saved" : "Gordeta",
     "Saving …" : "Gordetzen …",
@@ -79,6 +82,8 @@ OC.L10N.register(
     "Public key" : "Gako publikoa",
     "RSA private key" : "RSA gako pribatua",
     "Private key" : "Gako pribatua",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos domeinu lehenetsia, balio lehenetsia \"WORKGROUP\" da",
+    "Kerberos ticket Apache mode" : "Kerberos txartela Apache modua",
     "Kerberos ticket" : "Kerberos tiketa",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Ontzia",
@@ -133,11 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "Ezarpen aurreratuak",
     "Allow users to mount external storage" : "Baimendu erabiltzaileek kanpoko biltegiratze zerbitzuak muntatzea",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
-    "External storages" : "Kanpoko biltegiratzeak",
-    "(group)" : "(taldea)",
     "Delete" : "Ezabatu",
     "Are you sure you want to delete this external storage?" : "Ziur zaude kanpoko biltegiratze hau ezabatu nahi duzula?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC saioa hasiera erabiliz"
+    "Kerberos ticket apache mode" : "Kerberos txartela apache modua"
 },
 "nplurals=2; plural=(n != 1);");

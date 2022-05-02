@@ -19,6 +19,7 @@ OC.L10N.register(
     "Once every direct access" : "เมื่อทุกคนเข้าถึงโดยตรง",
     "Admin defined" : "ถูกกำหนดโดยผู้ดูแลระบบ",
     "Saved" : "บันทึกแล้ว",
+    "Saving …" : "กำลังบันทึก …",
     "Save" : "บันทึก",
     "Empty response from the server" : "ไม่มีการตอบสนองจากเซิร์ฟเวอร์",
     "Couldn't get the list of external mount points: {type}" : "ไม่สามารถรับรายชื่อของจุดเชื่อมต่อภายนอก: {type}",
@@ -96,9 +97,6 @@ OC.L10N.register(
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
-    "(group)" : "(กลุ่ม)",
-    "Delete" : "ลบ",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB/CIFS กำลังใช้ OC เข้าสู่ระบบ"
+    "Delete" : "ลบ"
 },
 "nplurals=1; plural=0;");

@@ -86,8 +86,17 @@ OC.L10N.register(
     "Completed on %s" : "Completat a %s",
     "Due on %s by %s" : "Venciment a %s per %s",
     "Due on %s" : "Venç en %s",
+    "Contacts and groups" : "Contactes i grups",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Punt final de WebDAV",
+    "to" : "a",
+    "Monday" : "Dilluns",
+    "Tuesday" : "Dimarts",
+    "Wednesday" : "Dimecres",
+    "Thursday" : "Dijous",
+    "Friday" : "Divendres",
+    "Saturday" : "Dissabte",
+    "Sunday" : "Diumenge",
     "Save" : "Desa",
     "Calendar server" : "Servidor de calendari",
     "Send invitations to attendees" : "Envia invitacions als assistents",
@@ -103,7 +112,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Si us plau contacteu amb l'organitzador directament.",
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "La vostra assistència ha estat actualitzada correctament.",
-    "Calendar and tasks" : "Calendari i tasques"
+    "Comment" : "Comentari",
+    "Your attendance was updated successfully." : "La vostra assistència ha estat actualitzada correctament."
 },
 "nplurals=2; plural=(n != 1);");

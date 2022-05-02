@@ -42,13 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新の安定版です。 通常の使用に適しており、常に最新のメジャーバージョンにアップデートされます。",
     "Beta" : "ベータ",
     "A pre-release version only for testing new features, not for production environments." : "本番環境ではなく、新機能のテスト専用のプレリリース版です。",
-    "Apps missing updates" : "アプリのアップデートがありません",
-    "Apps with available updates" : "アップデート可能なアプリ",
-    "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
-    "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>すべての</strong> アプリにこのバージョンのアップデートがあります",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> アプリにこのバージョンのアップデートがありません"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>すべて</strong>のアプリが、このNextcloudのバージョンに対応しています。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["アプリ<strong>%n</strong> には、このNextcloudに互換性のあるバージョンがありません。"]
 },

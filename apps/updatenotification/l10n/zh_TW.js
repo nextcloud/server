@@ -46,13 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta 測試版",
     "A pre-release version only for testing new features, not for production environments." : "釋出前版本，僅供測試新功能使用，不適用於生產環境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> 應用程式沒有與此 Nextcloud 版本相容的版本。"],
-    "Apps missing updates" : "缺少更新的應用程式",
-    "Apps with available updates" : "有可用更新的應用程式",
-    "Only notification for app updates are available." : "僅提供應用程式更新的通知。",
-    "Checking apps for compatible updates" : "正在檢查應用程式是否相容於更新",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "無法連線至應用程式商店，或者應用程式商店回應無任何更新，請您手動搜尋更新，或者修復您伺服器的網際網路連線，讓它可以連線至應用程式商店。",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>所有</strong>應用程式都有此版本的更新",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> 應用程式沒有此版本的更新"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>應用程式都有適用於此 Nextcloud 版本的相容版本",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> 應用程式沒有與此 Nextcloud 版本相容的版本"]
 },

@@ -92,10 +92,15 @@ OC.L10N.register(
     "File sharing" : "Shpërndarja e skedarëve",
     "Accept" : "Prano",
     "Sharing" : "Ndarje",
+    "Reset" : "Rivendos",
+    "Unknown error" : "Gabim i panjohur",
     "Allow editing" : "Lejo redaktimin",
     "Read only" : "Vetëm i lexueshëm",
     "Allow upload and editing" : "Lejo ngarkim dhe editim",
     "File drop (upload only)" : "Lësho skedar (vetëm ngarkim)",
+    "Read" : "Lexoni",
+    "Upload" : "Ngarkoni",
+    "Edit" : "Përpuno",
     "Allow resharing" : "Lejo rindarje",
     "Set expiration date" : "Caktoni datë skadimi",
     "Note to recipient" : "Shënim për marrësin",
@@ -134,9 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploaded files:" : "Skedarët e ngarkuar:",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
-    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
-    "invalid permissions" : "leje e pavlefshme",
-    "Can't change permissions for public share links" : "S’mund të ndryshohen lejet për lidhje ndarjesh publike",
-    "Download %s" : "Shkarko %s"
+    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston"
 },
 "nplurals=2; plural=(n != 1);");

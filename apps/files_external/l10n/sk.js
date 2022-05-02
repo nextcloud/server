@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nikdy",
     "Once every direct access" : "S každým priamym prístupom",
     "Read only" : "Len na čítanie",
+    "Disconnect" : "Odpojiť",
     "Admin defined" : "Nastavené správcom",
     "Delete storage?" : "Zmazať externé úložisko?",
     "Saved" : "Uložené",
@@ -135,12 +136,8 @@ OC.L10N.register(
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
-    "External storages" : "Externé úložiská",
-    "(group)" : "(skupina)",
     "Delete" : "Zmazať",
     "Are you sure you want to delete this external storage?" : "Naozaj chcete zmazať toto externé úložisko?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS s použitím OC prihlásenia",
     "Kerberos ticket apache mode" : "Kerberos ticket v režime apache"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

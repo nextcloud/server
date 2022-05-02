@@ -252,19 +252,11 @@
     "Storage connection error. %s" : "Erro na conexão de armazenamento. %s",
     "Storage is temporarily not available" : "Armazenamento temporariamente indisponível",
     "Storage connection timeout. %s" : "Atingido o tempo limite de conexão ao armazenamento. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Isso geralmente pode ser corrigido dando o acesso de escritura ao webserver para o diretório de configuração",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ou, se você preferir manter o arquivo config.php somente para leitura, defina a opção \"config_is_read_only\" como true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Geralmente, isso pode ser corrigido concedendo ao servidor web acesso de gravação ao diretório de configuração.",
-    "Can't create or write into the data directory %s" : "Não foi possível criar ou gravar no diretório de dados %s",
-    "Can’t increase permissions of %s" : "Não posso aumentar as permissões de %s",
-    "Files can’t be shared with delete permissions" : "Os arquivos não podem ser compartilhados com permissões de exclusão",
-    "Files can’t be shared with create permissions" : "Os arquivos não podem ser compartilhados com permissões de criação",
-    "Can’t set expiration date more than %s days in the future" : "Não é possível definir a expiração mais do que %s dias no futuro",
-    "Can't read file" : "Não foi possível ler arquivo",
     "Cannot write into \"config\" directory" : "Não foi possível gravar no diretório \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Normalmente isso pode ser resolvido dando ao webserver permissão de escritura no diretório config. Veja %s",
     "Cannot write into \"apps\" directory" : "Não foi possível gravar no diretório \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Geralmente, isso pode ser corrigido concedendo ao servidor web acesso de gravação ao diretório de aplicativos ou desativando a loja de aplicativos no arquivo de configuração.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Isso geralmente pode ser corrigido fornecendo ao servidor da web acesso de gravação ao diretório de aplicativos ou desativando a App Store no arquivo de configuração.",
     "Cannot create \"data\" directory" : "Não foi possível criar o diretório \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Normalmente isso pode ser resolvido dando ao webserver permissão de escrita no diretório raiz. Veja %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "As permissões normalmente podem ser corrigidas dando permissão de escrita do diretório raiz para o servidor web. Veja %s.",
@@ -277,7 +269,6 @@
     "Your data directory is readable by other users" : "O diretório de dados está legível para outros usuários",
     "Your data directory must be an absolute path" : "O diretório de dados deve ser um caminho absoluto",
     "Check the value of \"datadirectory\" in your configuration" : "Verifique o valor do \"datadirectory\" na sua configuração",
-    "Your data directory is invalid" : "Seu diretório de dados é inválido",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Isso geralmente pode ser corrigido fornecendo ao servidor da web acesso de gravação ao diretório de aplicativos ou desativando a App Store no arquivo de configuração."
+    "Your data directory is invalid" : "Seu diretório de dados é inválido"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -200,11 +200,6 @@ OC.L10N.register(
     "Deleted shares" : "Poistetut jaot",
     "Pending shares" : "Odottavat jaot",
     "Text file" : "Tekstitiedosto",
-    "New text file.txt" : "Uusi tekstitiedosto.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Käyttäjän {owner} tallennustila on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Ryhmäkansio \"{mountPoint}\" on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Erillinen tallennustila \"{mountPoint}\" on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkronoida!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["vastaa '{filter}'","vastaa '{filter}'"]
+    "New text file.txt" : "Uusi tekstitiedosto.txt"
 },
 "nplurals=2; plural=(n != 1);");

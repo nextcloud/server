@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "العمل عن بعد",
     "User status" : "حالة العضو",
     "Clear status message after" : "احذف الحالة بعد",
+    "What is your status?" : "ماهي حالتك؟",
     "Set status" : "تعيين الحالة",
     "Online status" : "حالة الاتصال",
     "Status message" : "رسالة الحالة",

@@ -25,6 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "Se us ha enviat la contrasenya per accedir a %1$s",
     "Password to access {file} was sent to you" : "Se us ha enviat la contrasenya per accedir a {file}",
     "Share by mail" : "Comparteix per correu electrònic",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
     "Failed to send share by email" : "No s'ha pogut enviar la compartició per correu electrònic",
     "%1$s shared »%2$s« with you" : "%1$s us ha compartit »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s us ha compartit »%2$s«.",
@@ -46,8 +47,6 @@ OC.L10N.register(
     "Could not find share" : "No s'ha pogut trobar la compartició",
     "Share provider which allows you to share files by mail" : "Proveïdor de compartició que us permet compartir fitxers per correu electrònic",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet als usuaris compartir un enllaç personalitzat a un fitxer o carpeta introduïnt una adreça de correu electrònic.",
-    "Send password by mail" : "Envia la contrasenya per correu electrònic",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No podem enviar-vos la contrasenya generada automàticament. Si us plau, establiu una adreça de correu electrònic vàlida a la vostra configuració personal i torneu-ho a provar.",
-    "Enforce password protection" : "Força la protecció amb contrasenya"
+    "Send password by mail" : "Envia la contrasenya per correu electrònic"
 },
 "nplurals=2; plural=(n != 1);");

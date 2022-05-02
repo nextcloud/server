@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Partekatu e-mail bidez",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$spartekatzeak huts egin du dagoeneko %2$serabiltzailearekin partekatuta dagoelako",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ezin dizugu bidali automatikoki sortutako pasahitza. Ezarri baliozko helbide elektronikoa ezarpen pertsonaletan eta saiatu berriro.",
+    "Failed to send share by email. Got an invalid email address" : "Ezin izan da partekaturikoa posta elektronikoz bidali. Helbide elektroniko baliogabea lortu du",
     "Failed to send share by email" : "Ezin izan da e-posta bidez partekatu",
     "%1$s shared »%2$s« with you" : "%1$serabiltzaileak »%2$s« partekatu du zurekin",
     "%1$s shared »%2$s« with you." : "%1$serabiltzaileak »%2$s« partekatu du zurekin",
@@ -49,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Partekatze hornitzailea, fitxategiak posta bidez partekatzeko aukera ematen duena",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Erabiltzaileei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
     "Send password by mail" : "Bidali pasahitza posta bidez",
-    "Reply to initiator" : "Erantzun hasieragailuari",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ezin dizugu bidali automatikoki sortutako pasahitza. Ezarri baliozko helbide elektronikoa ezarpen pertsonaletan eta saiatu berriro.",
-    "Enforce password protection" : "Betearazi pasahitzaren babesa"
+    "Reply to initiator" : "Erantzun hasieragailuari"
 },
 "nplurals=2; plural=(n != 1);");

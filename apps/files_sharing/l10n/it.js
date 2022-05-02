@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "ID di condivisione errato, la condivisione non esiste",
     "Could not delete share" : "impossibile eliminare la condivisione",
     "Please specify a file or folder path" : "Specifica un percorso di un file o di una cartella",
+    "Wrong path, file/folder does not exist" : "Percorso errato, file/cartella inesistente",
     "Could not create share" : "Impossibile creare la condivisione",
     "Invalid permissions" : "Permessi non validi",
     "Please specify a valid user" : "Specifica un utente valido",
@@ -123,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Impossibile bloccare il percorso",
     "Wrong or no update parameter given" : "Parametro fornito non valido o non di aggiornamento",
     "Share must at least have READ or CREATE permissions" : "La condivisione deve disporre almeno delle autorizzazioni READ o CREATE",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "La condivisione deve disporre dell'autorizzazione READ se l'autorizzazione è impostata su UPDATE o DELETE.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Invio della password da Nextcloud Talk\" per condividere un file o una cartella non è riuscito poiché Nextcloud Talk non è attivato.",
     "shared by %s" : "condiviso da %s",
     "Download all files" : "Scarica tutti i file",
@@ -249,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Caricando i file, accetti i %1$stermini del servizio%2$s.",
     "Add to your Nextcloud" : "Aggiungi al tuo Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Percorso errato, file/cartella inesistente",
-    "invalid permissions" : "permessi non validi",
-    "Can't change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato",
-    "Download %s" : "Scarica %s",
-    "Cannot change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici"
+    "Cannot change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato"
 },
 "nplurals=2; plural=(n != 1);");

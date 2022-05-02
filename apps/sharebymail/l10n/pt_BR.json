@@ -48,8 +48,6 @@
     "Share provider which allows you to share files by mail" : "Provedor de compartilhamento que permite compartilhar arquivos por e-mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
-    "Reply to initiator" : "Responder ao iniciador",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não pudemos enviar a você a senha auto-gerada. Defina um e-mail válido em sua configuração e tente novamente.",
-    "Enforce password protection" : "Aplicar proteção por senha"
+    "Reply to initiator" : "Responder ao iniciador"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

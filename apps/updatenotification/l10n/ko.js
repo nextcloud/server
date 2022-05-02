@@ -31,13 +31,6 @@ OC.L10N.register(
     "Stable" : "안정판",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "최신 안정 버전입니다. 일반 사용에 적합하며 항상 최신 주 버전으로 업데이트됩니다.",
     "Beta" : "베타",
-    "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다.",
-    "Apps missing updates" : "업데이트되지 않은 앱",
-    "Apps with available updates" : "업데이트할 수 있는 앱",
-    "Only notification for app updates are available." : "앱 업데이트 알림만 사용할 수 있습니다.",
-    "Checking apps for compatible updates" : "호환되는 앱 업데이트 확인 중",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "앱 스토어에 연결할 수 없거나 앱 스토어에서 업데이트 정보를 반환하지 않았습니다. 업데이트를 직접 검색하거나 서버가 인터넷에 연결되어 있고 앱 스토어에 접근할 수 있는지 확인하십시오.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>모든</strong> 앱에 이 버전과 호환되는 업데이트가 있음",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["앱 <strong>%n</strong>개는 이 버전과 호환되는 업데이트가 없음"]
+    "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다."
 },
 "nplurals=1; plural=0;");

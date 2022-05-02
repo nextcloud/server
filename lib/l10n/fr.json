@@ -244,19 +244,11 @@
     "Storage connection error. %s" : "Erreur de connexion à l'espace stockage. %s",
     "Storage is temporarily not available" : "Le support de stockage est temporairement indisponible",
     "Storage connection timeout. %s" : "Le délai d'attente pour la connexion à l'espace de stockage a été dépassé. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"config\"",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ou, si vous préférez conserver le fichier config.php en lecture seule, définissez l'option \"config_is_read_only\" sur true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire de configuration.",
-    "Can't create or write into the data directory %s" : "Impossible de créer, ou d'écrire dans, le répertoire des données %s",
-    "Can’t increase permissions of %s" : "Impossible d'augmenter les permissions de %s",
-    "Files can’t be shared with delete permissions" : "Les fichiers ne peuvent pas être partagés avec les autorisations de suppression",
-    "Files can’t be shared with create permissions" : "Les fichiers ne peuvent pas être partagés avec les autorisations de création",
-    "Can’t set expiration date more than %s days in the future" : "Impossible de définir la date d'expiration à plus de %s jours dans le futur",
-    "Can't read file" : "Impossible de lire le fichier",
     "Cannot write into \"config\" directory" : "Impossible d’écrire dans le répertoire \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"config\". Voir %s",
     "Cannot write into \"apps\" directory" : "Impossible d’écrire dans le répertoire \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire des applications ou en désactivant l'appstore dans le fichier de configuration.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire des applications ou en désactivant le magasin d'applications dans le fichier de configuration.",
     "Cannot create \"data\" directory" : "Impossible de créer le dossier \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Le problème de permissions peut généralement être résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s.",
@@ -269,7 +261,6 @@
     "Your data directory is readable by other users" : "Votre répertoire est lisible par les autres utilisateurs",
     "Your data directory must be an absolute path" : "Le chemin de votre répertoire doit être un lien absolu",
     "Check the value of \"datadirectory\" in your configuration" : "Verifiez la valeur de \"datadirectory\" dans votre configuration",
-    "Your data directory is invalid" : "Votre répertoire n'est pas valide",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire des applications ou en désactivant le magasin d'applications dans le fichier de configuration."
+    "Your data directory is invalid" : "Votre répertoire n'est pas valide"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

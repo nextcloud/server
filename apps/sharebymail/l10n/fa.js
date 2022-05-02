@@ -25,6 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "رمز عبور برای دسترسی %1$s به شما ارسال شد",
     "Password to access {file} was sent to you" : "رمز ورود برای دسترسی به {file} برای شما ارسال شد",
     "Share by mail" : "اشتراک از طریق پست",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "اشتراک گذاری %1$sانجام نشد ، زیرا این مورد قبلاً با کاربر%2$s به اشتراک گذاشته شده است",
     "Failed to send share by email" : "ارسال اشتراک از طریق ایمیل انجام نشد",
     "%1$s shared »%2$s« with you" : "%1$s به اشتراک گذاشته » %2$s« با شما",
     "%1$s shared »%2$s« with you." : "%1$s به اشتراک گذاشته » %2$s« با شما",
@@ -45,8 +46,6 @@ OC.L10N.register(
     "Could not find share" : "اشتراک یافت نشد",
     "Share provider which allows you to share files by mail" : "ارائه دهنده به شما امکان می دهد پرونده ها را از طریق پست به اشتراک بگذارید",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "به کاربران اجازه می دهد با قرار دادن یک آدرس ایمیل ، پیوند شخصی شده را با پرونده یا پوشه به اشتراک بگذارند.",
-    "Send password by mail" : "ارسال رمز عبور از طریق پست",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "ما نمی توانیم رمز عبور ایجاد شده را برای شما ارسال کنیم. لطفاً یک آدرس پست الکترونیک معتبر را در تنظیمات شخصی خود قرار دهید و دوباره امتحان کنید.",
-    "Enforce password protection" : "اجبار برای محافظت توسط رمز عبور"
+    "Send password by mail" : "ارسال رمز عبور از طریق پست"
 },
 "nplurals=2; plural=(n > 1);");

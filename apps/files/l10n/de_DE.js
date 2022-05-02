@@ -45,7 +45,7 @@ OC.L10N.register(
     "Pending" : "Ausstehend",
     "Unable to determine date" : "Datum konnte nicht ermittelt werden",
     "This operation is forbidden" : "Diese Operation ist nicht erlaubt",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Logdateien oder kontaktieren Sie den Administrator",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Protokolldateien oder kontaktieren Sie die Administration",
     "Could not move \"{file}\", target exists" : "\"{file}\" konnte nicht verschoben werden, Ziel existiert bereits",
     "Could not move \"{file}\"" : "\"{file}\" konnte nicht verschoben werden",
     "copy" : "Kopie",
@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Gelöschte Freigaben",
     "Pending shares" : "Ausstehende Freigaben",
     "Text file" : "Textdatei",
-    "New text file.txt" : "Neue Textdatei file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Der Speicher von {owner} ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppenordner \"{mountPoint}\" ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Externer Speicher \"{mountPoint}\" ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ihr Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["stimmt mit '{filter}' überein","stimmen mit '{filter}' überein"]
+    "New text file.txt" : "Neue Textdatei file.txt"
 },
 "nplurals=2; plural=(n != 1);");

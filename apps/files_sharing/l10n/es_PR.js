@@ -90,10 +90,15 @@ OC.L10N.register(
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "Accept" : "Aceptar",
     "Sharing" : "Compartiendo",
+    "Reset" : "Restablecer",
+    "Unknown error" : "Error desconocido",
     "Allow editing" : "Permitir edición",
     "Read only" : "Sólo lectura",
     "Allow upload and editing" : "Permitir carga y edición",
     "File drop (upload only)" : "Permitir carga",
+    "Read" : "Leer",
+    "Upload" : "Cargar",
+    "Edit" : "Editar",
     "Allow resharing" : "Permitir volver a compartir",
     "Set expiration date" : "Establecer fecha de expiración",
     "Unshare" : "Dejar de compartir",
@@ -125,9 +130,6 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploaded files:" : "Archivos cargados:",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe ",
-    "invalid permissions" : "permisos inválidos",
-    "Can't change permissions for public share links" : "No es posible cambiar los permisos para ligas públicas compartidas",
-    "Download %s" : "Descargar %s"
+    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe "
 },
 "nplurals=2; plural=(n != 1);");

@@ -248,10 +248,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
     "Add to your Nextcloud" : "あなたのNextcloudに追加",
     "Wrong path, file/folder doesn't exist" : "パスが間違っています。ファイル/フォルダーがありません",
-    "invalid permissions" : "無効なパーミッション",
-    "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
-    "Download %s" : "%s をダウンロード",
-    "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません"
+    "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

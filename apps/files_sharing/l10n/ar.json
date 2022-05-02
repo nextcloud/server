@@ -132,11 +132,16 @@
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "يتيح هذا التطبيق للمستخدمين مشاركة الملفات داخل نكست كلاود. في حالة التمكين ، يمكن للمسؤول اختيار المجموعات التي يمكنها مشاركة الملفات. يمكن للمستخدمين المناسبين مشاركة الملفات والمجلدات مع مستخدمين ومجموعات أخرى داخل نكست كلاود. بالإضافة إلى ذلك ، إذا قام المسؤول بتمكين ميزة ارتباط المشاركة ، فيمكن استخدام ارتباط خارجي لمشاركة الملفات مع مستخدمين آخرين خارج نكست كلاود. يمكن للمسؤولين أيضًا فرض كلمات المرور وتواريخ انتهاء الصلاحية وتمكين مشاركة الخادم للخادم عبر روابط المشاركة ، بالإضافة إلى المشاركة من الأجهزة المحمولة.\nيؤدي إيقاف تشغيل الميزة إلى إزالة الملفات والمجلدات المشتركة على الخادم لجميع مستلمي المشاركة ، وكذلك على عملاء المزامنة وتطبيقات الأجهزة المحمولة. يتوفر المزيد من المعلومات في نكست كلاود التعليمات.",
     "Sharing" : "مشاركة",
     "Accept user and group shares by default" : "قبول مشاركات المستخدم والمجموعة بشكل افتراضي",
+    "Reset" : "إعادة الضبط",
+    "Invalid path selected" : "تم تحديد مسار غير صحيح",
     "Unknown error" : "خطأ غير معروف",
     "Allow editing" : "السماح بالتعديلات",
     "Read only" : "القراءة فقط",
     "Allow upload and editing" : "السماح بالرفع و التعديل",
     "File drop (upload only)" : "إسقاط الملف (رفع فقط)",
+    "Read" : "القراءة",
+    "Upload" : "تحميل",
+    "Edit" : "تعديل",
     "Allow creating" : "السماح بالإنشاء",
     "Allow deleting" : "السماح بالحذف",
     "Allow resharing" : "السماح بإعادة المشاركة ",
@@ -227,9 +232,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
     "Add to your Nextcloud" : "اضف إلى حسابك",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
-    "invalid permissions" : "صلاحيات مفقودة",
-    "Can't change permissions for public share links" : "لا يمكن تغيير صلاحيات روابط المشاركة العامة",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
-    "Download %s" : "تنزيل %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

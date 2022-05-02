@@ -79,6 +79,14 @@ OC.L10N.register(
     "Untitled task" : "Завдання без назви",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Точка доступу WebDAV",
+    "to" : "до",
+    "Monday" : "понеділок",
+    "Tuesday" : "Вівторок",
+    "Wednesday" : "Середа",
+    "Thursday" : "Четвер",
+    "Friday" : "П'ятниця",
+    "Saturday" : "Субота",
+    "Sunday" : "Неділя",
     "Save" : "Зберегти",
     "Calendar server" : "Сервер календаря",
     "Send invitations to attendees" : "Надіслати запрошення учасникам",
@@ -94,6 +102,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Будь-ласка повідомте організатора.",
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
+    "Comment" : "Коментар",
     "Your attendance was updated successfully." : "Ваша участь успішно оновлена."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

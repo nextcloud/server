@@ -126,10 +126,15 @@
     "Reject" : "Noraidīt",
     "Sharing" : "Koplietošana",
     "Accept user and group shares by default" : "Pēc noklusējuma pieņemt koplietošanu no lietotājiem un grupām",
+    "Reset" : "Atiestatīt",
+    "Unknown error" : "Nezināma kļūda",
     "Allow editing" : "Atļaut rediģēšanu",
     "Read only" : "Tikai lasāms",
     "Allow upload and editing" : "Atļaut augšupielādi un rediģēšanu",
     "File drop (upload only)" : "Datņu mešana (tikai augšupielādei)",
+    "Read" : "Lasīt",
+    "Upload" : "Augšupielādēt",
+    "Edit" : "Rediģēt",
     "Allow creating" : "Atļaut veidošanu",
     "Allow deleting" : "Atļaut dzēšanu",
     "Allow resharing" : "Atļaut atkārtotu koplietošanu",
@@ -193,9 +198,6 @@
     "Uploaded files:" : "Augšupielādētas datnes:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē",
-    "invalid permissions" : "Nederīgas atļaujas",
-    "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības",
-    "Download %s" : "Lejupielādēt %s"
+    "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

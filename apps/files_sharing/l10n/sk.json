@@ -247,10 +247,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
-    "invalid permissions" : "neplatné oprávnenia",
-    "Can't change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý",
-    "Download %s" : "Stiahnuť %s",
-    "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy"
+    "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

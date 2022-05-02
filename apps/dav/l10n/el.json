@@ -82,8 +82,19 @@
     "Tasks" : "Εργασίες",
     "Untitled task" : "Εργασία χωρίς όνομα",
     "Completed on %s" : "Ολοκληρώθηκε %s",
+    "Contacts and groups" : "Επαφές και ομάδες",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Τερματικό WebDAV",
+    "Time zone:" : "Ζώνη ώρας:",
+    "to" : "προς",
+    "Delete slot" : "Διαγραφή θέσης",
+    "Monday" : "Δευτέρα",
+    "Tuesday" : "Τρίτη",
+    "Wednesday" : "Τετάρτη",
+    "Thursday" : "Πέμπτη",
+    "Friday" : "Παρασκευή",
+    "Saturday" : "Σάββατο",
+    "Sunday" : "Κυριακή",
     "Save" : "Αποθήκευση",
     "Calendar server" : "Διακομιστής ημερολογίου",
     "Send invitations to attendees" : "Αποστολή προσκλήσεων στους συμμετέχοντες.",
@@ -99,7 +110,7 @@
     "Please contact the organizer directly." : "Παρακαλώ επικοινωνήστε απ' ευθείας με τον διοργανωτή.",
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
-    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
-    "Calendar and tasks" : "Ημερολόγιο και εργασίες"
+    "Comment" : "Σχόλιο",
+    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

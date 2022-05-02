@@ -208,11 +208,6 @@ OC.L10N.register(
     "Deleted shares" : "Izbrisana mesta souporabe",
     "Pending shares" : "Predmeti za souporabo na čakanju",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "nova_datoteka.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Shramba uporabnika {owner} je polna, zato datotek ni več mogoče posodabljati in usklajevati!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Skupinska mapa »{mountPoint}« je do konca zasedena, zato datotek ni mogoče več posodobiti in usklajevati!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Zunanja shramba »{mountPoint}« je do konca zasedena, zato datotek ni mogoče več posodobiti in usklajevati!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Shramba je povsem napolnjena. Datotek ni več mogoče posodabljati in usklajevati!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["se sklada s filtrom »{filter}«","se skladata s filtrom '{filter}'","se skladajo s filtrom '{filter}'","se skladajo s filtrom '{filter}'"]
+    "New text file.txt" : "nova_datoteka.txt"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

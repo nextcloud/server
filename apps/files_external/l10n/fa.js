@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "تولید کلید",
     "Error generating key pair" : "خطا در تولید جفت کلید",
     "All users. Type to select user or group." : "همه کاربران. کاربر یا گروه را برای انتخاب تایپ کنید",
+    "(Group)" : "(گروه)",
     "Compatibility with Mac NFD encoding (slow)" : "سازگاری با رمزگذاری Mac NFD (کند)",
     "Enable encryption" : "فعال کردن رمزگذاری",
     "Enable previews" : "فعال سازی پیش نمایش",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "Never" : "هرگز",
     "Once every direct access" : "دسترسی مستقیم یکبار برای همیشه",
     "Read only" : "فقط خواندنی",
+    "Disconnect" : "قطع شدن",
     "Admin defined" : "مدیر تعریف شده",
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Saved" : "ذخیره شد",
@@ -126,11 +128,7 @@ OC.L10N.register(
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
-    "External storages" : "حافظه خارجی",
-    "(group)" : "(گروه)",
     "Delete" : "حذف",
-    "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS با استفاده از ورود OC"
+    "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟"
 },
 "nplurals=2; plural=(n > 1);");

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Útbúa lykla",
     "Error generating key pair" : "Villa við að útbúa nýtt lyklapar",
     "All users. Type to select user or group." : "Allir notendur. Skrifaðu til að velja notanda eða hóp.",
+    "(Group)" : "(Hópur)",
     "Compatibility with Mac NFD encoding (slow)" : "Samhæfni við Mac NFD kóðun (hægvirkt)",
     "Enable encryption" : "Virkja dulritun",
     "Enable previews" : "Virkja forskoðanir",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "Never" : "Aldrei",
     "Once every direct access" : "Einu sinni við hvern beinan aðgang",
     "Read only" : "Skrifvarið",
+    "Disconnect" : "Aftengjast",
     "Admin defined" : "Skilgreindur kerfisstjóri",
     "Delete storage?" : "Eyða geymslu?",
     "Saved" : "Vistað",
@@ -123,11 +125,7 @@ OC.L10N.register(
     "Add storage" : "Bæta við gagnahirslu",
     "Advanced settings" : "Ítarlegri valkostir",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "External storages" : "Utanáliggjandi gagnageymslur",
-    "(group)" : "(hópur)",
     "Delete" : "Eyða",
-    "Are you sure you want to delete this external storage?" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS með OC-innskráningu"
+    "Are you sure you want to delete this external storage?" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

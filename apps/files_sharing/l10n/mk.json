@@ -137,11 +137,15 @@
     "Set default folder for accepted shares" : "Постави стандардна папка за прифатените споделувања",
     "Reset" : "Ресетирање",
     "Choose a default folder for accepted shares" : "Избери стандардна папка за прифатените споделувања",
+    "Invalid path selected" : "Избрана невалидна патека",
     "Unknown error" : "Непозната грешка",
     "Allow editing" : "Овозможи уредување",
     "Read only" : "Само читај",
     "Allow upload and editing" : "Дозволи прикачување и уредување",
     "File drop (upload only)" : "Испуши датотека (само за прикачување)",
+    "Read" : "Читај",
+    "Upload" : "Прикачи",
+    "Edit" : "Уреди",
     "Allow creating" : "Дозволи креирање",
     "Allow deleting" : "Дозволи бришење",
     "Allow resharing" : "Дозволи повторно споделување",
@@ -235,10 +239,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
     "Add to your Nextcloud" : "Додадете во вашиот Cloud",
     "Wrong path, file/folder doesn't exist" : "Погрешна патека, датотеката/папката не постои",
-    "invalid permissions" : "неважечка дозвола",
-    "Can't change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделен линк",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
-    "Download %s" : "Преземи %s",
-    "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови"
+    "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

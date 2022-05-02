@@ -90,10 +90,12 @@
     "Completed on %s" : "Končana %s",
     "Due on %s by %s" : "Poteče %s ob %s",
     "Due on %s" : "Poteče %s",
+    "Contacts and groups" : "Stiki in skupine",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Končna točka WebDAV",
     "Availability" : "Razpoložljivost",
     "Time zone:" : "Časovni pas:",
+    "to" : "do",
     "Delete slot" : "Izbriši možnost",
     "No working hours set" : "Ni navedenih delovnih ur",
     "Add slot" : "Dodaj polje",
@@ -121,7 +123,6 @@
     "Tentative" : "Začasno",
     "Number of guests" : "Število gostov",
     "Comment" : "Opomba",
-    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
-    "Calendar and tasks" : "Koledar in naloge"
+    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

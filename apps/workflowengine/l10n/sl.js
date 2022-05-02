@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "Uporabniški odjemalec",
     "User group membership" : "Članstvo v uporabniških skupinah",
     "is member of" : "je v skupini",
-    "is not member of" : "ni v skupini",
-    "Browse the app store" : "Prebrskaj po trgovini programov"
+    "is not member of" : "ni v skupini"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

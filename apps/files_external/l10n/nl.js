@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nooit",
     "Once every direct access" : "Een keer bij elke directe toegang",
     "Read only" : "Alleen lezen",
+    "Disconnect" : "Verbreek verbinding",
     "Admin defined" : "Beheerder gedefinieerd",
     "Delete storage?" : "Opslag verwijderen?",
     "Saved" : "Bewaard",
@@ -133,11 +134,7 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
-    "External storages" : "Externe opslag",
-    "(group)" : "(groep)",
     "Delete" : "Verwijder",
-    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS via OC inlog"
+    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen"
 },
 "nplurals=2; plural=(n != 1);");

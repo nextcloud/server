@@ -134,10 +134,16 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Ова апликација омогућава корисницима да деле фајлове унутар Некстклауда. Када се укључи, администратор може да одабере које групе могу да деле фајлове. Такви корисници затим могу да деле фасцикле и фајлове са осталим корисницима и групама унутар Некстклауда. Додатно, ако администратор укључи и могућност за дељење везе, може се користити и спољна веза за дељење са корисницима ван Некстклауда. Администратори такође могу да захтевају лозинке, датум истека и да омогуће дељење између сервера преко веза дељења, као и дељење са мобилних уређаја.\nИскључивањем ове могућности искључује дељене фасцикле и фајлове на серверу за све дељенике, као и на синхронизованим клијентима и мобилним апликацијама. Више информација можете наћи у Некстклауд документацији.",
     "Sharing" : "Дељење",
     "Accept user and group shares by default" : "Подразумевано прихвати дељења корисника и група",
+    "Reset" : "Ресетуј",
+    "Invalid path selected" : "Одабрана неисправна путања",
+    "Unknown error" : "Непозната грешка",
     "Allow editing" : "Дозволи уређивање",
     "Read only" : "Само за читање",
     "Allow upload and editing" : "Дозволи отпремање и уређивање",
     "File drop (upload only)" : "Превлачење фајлова (само за отпремање)",
+    "Read" : "Читање",
+    "Upload" : "Отпреми",
+    "Edit" : "Измени",
     "Allow creating" : "Дозволи креирање",
     "Allow deleting" : "Дозволи брисање",
     "Allow resharing" : "Дозволи дељење даље",
@@ -225,9 +231,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
     "Add to your Nextcloud" : "Додајте у свој облак",
     "Wrong path, file/folder doesn't exist" : "Погрешна путања, фајл/фасцикла не постоји",
-    "invalid permissions" : "Неисправне дозволе",
-    "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
-    "Download %s" : "Преузми %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

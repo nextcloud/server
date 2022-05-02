@@ -137,6 +137,7 @@ OC.L10N.register(
     "Due on %s by %s" : "完成日期為 %s %s",
     "Due on %s" : "完成日期 %s",
     "Migrated calendar (%1$s)" : "遷移的日曆（%1$s）",
+    "Calendars including events, details and attendees" : "日曆，包括活動、詳細信息和與會者",
     "Contacts and groups" : "聯絡人和群組",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV 端點",
@@ -173,7 +174,6 @@ OC.L10N.register(
     "Tentative" : "暫定",
     "Number of guests" : "訪客数目",
     "Comment" : "留言",
-    "Your attendance was updated successfully." : "您的參與狀況成功更新",
-    "Calendar and tasks" : "日曆和任務"
+    "Your attendance was updated successfully." : "您的參與狀況成功更新"
 },
 "nplurals=1; plural=0;");

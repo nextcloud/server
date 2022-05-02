@@ -134,10 +134,16 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Aquesta aplicació permet als usuaris compartir fitxers a Nextcloud. Si està activat, l'administrador pot triar quins grups poden compartir fitxers. Els usuaris aplicables poden compartir fitxers i carpetes amb altres usuaris i grups de Nextcloud. A més, si l’administrador activa la funció d’enllaç compartit, es pot fer servir un enllaç extern per compartir fitxers amb altres usuaris fora de Nextcloud. Els administradors també poden aplicar contrasenyes, dates de caducitat i activar la compartició de servidor a servidor mitjançant enllaços compartits, així com la compartició de dispositius mòbils.\nDesactivant la funcionalitat suprimirà els fitxers compartits i les carpetes del servidor per a tots els destinataris compartits i també per als clients de sincronització i les aplicacions per a mòbils. Podeu trobar més informació a la documentació de Nextcloud.",
     "Sharing" : "Ús compartit",
     "Accept user and group shares by default" : "Acceptar les comparticions d'usuari i de grup de manera predeterminada",
+    "Reset" : "Restableix",
+    "Invalid path selected" : "El camí seleccionat no és vàlid",
+    "Unknown error" : "Error desconegut",
     "Allow editing" : "Permet l'edició",
     "Read only" : "Només de lectura",
     "Allow upload and editing" : "Permet la pujada i l'edició",
     "File drop (upload only)" : "Deixa anar el fitxer (només càrrega)",
+    "Read" : "Llegeix",
+    "Upload" : "Pujada",
+    "Edit" : "Edita",
     "Allow creating" : "Permet crear",
     "Allow deleting" : "Permet suprimir",
     "Allow resharing" : "Permet compartir de nou",
@@ -227,9 +233,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
     "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
-    "invalid permissions" : "permisos no vàlids",
-    "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
-    "Download %s" : "Baixa %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat"
 },
 "nplurals=2; plural=(n != 1);");

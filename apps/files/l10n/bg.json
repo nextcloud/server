@@ -208,11 +208,6 @@
     "Deleted shares" : "Изтрити",
     "Pending shares" : "Чакащи споделяния",
     "Text file" : "Текстов файл",
-    "New text file.txt" : "Текстов файл.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Хранилището на {owner} е запълнено. Поради това качването и синхронизирането на файлове е невъзможно!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Груповата папка \"{mountPoint}“ е пълна, файловете вече не могат да се актуализират или синхронизират!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Външното хранилище е \"{mountPoint}“ е пълно, файловете вече не могат да се актуализират или синхронизират!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Хранилището е запълнено. Поради това качването и синхронизирането на файлове е невъзможно!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["пасва на '{filter}'","пасват на '{filter}'\n "]
+    "New text file.txt" : "Текстов файл.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

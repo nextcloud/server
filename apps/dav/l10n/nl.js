@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "Voltooid op %s",
     "Due on %s by %s" : "Verwacht op %s door %s",
     "Due on %s" : "Verwacht op %s",
+    "Contacts and groups" : "Contactpersonen en groepen",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV eindpunt",
     "Availability" : "Beschikbaarheid",
@@ -152,7 +153,6 @@ OC.L10N.register(
     "Tentative" : "Onder voorbehoud",
     "Number of guests" : "Aantal gasten",
     "Comment" : "Notitie",
-    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
-    "Calendar and tasks" : "Agenda en taken"
+    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt."
 },
 "nplurals=2; plural=(n != 1);");

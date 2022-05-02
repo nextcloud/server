@@ -128,7 +128,11 @@
     "Upload (max. %s)" : "Envio (máx. %s)",
     "Accept" : "Aceitar",
     "in %s" : "em %s",
+    "Transfer" : "Transfere",
     "Tags" : "Etiquetas",
+    "Cancel" : "Cancelar",
+    "Create" : "Criar",
+    "Templates" : "Modelos",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
     "Settings" : "Configurações",
@@ -148,9 +152,6 @@
     "Shared with you" : "Partilhado consigo ",
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
-    "New text file.txt" : "Novo texto ficheiro.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "O armazenamento de {owner} está cheio. Os ficheiros já não podem ser atualizados ou sincronizados!",
-    "Your storage is full, files can not be updated or synced anymore!" : "O seu armazenamento está cheio, os ficheiros já não podem ser atualizados ou sincronizados.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["corresponde a '{filter}'","correspondem a '{filter}'"]
+    "New text file.txt" : "Novo texto ficheiro.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

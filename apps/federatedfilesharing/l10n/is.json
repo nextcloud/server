@@ -16,6 +16,7 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sendi beiðni um skýjasambandssameign, þú munt fá boðskort. Athugaðu skilaboð til þín.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Gat ekki bætt við skýjasambandssameign, það lítur út fyrir að þjónninn sem á að koma sambandi við sé of gamall (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Ekki er heimilt að senda skýjasambandssameign fyrir hópa af þessum þjóni.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með notandanum %2$s",
     "Not allowed to create a federated share with the same user" : "Ekki er heimilt að búa til skýjasambandssameign með sama notanda",
     "File is already shared with %s" : "Skránni er þegar deilt með %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %1$s mistókst, gat ekki fundið %2$s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki.",

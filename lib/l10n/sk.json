@@ -252,19 +252,11 @@
     "Storage connection error. %s" : "Chyba pripojenia k úložisku. %s",
     "Storage is temporarily not available" : "Úložisko je dočasne nedostupné",
     "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do priečinka s konfiguráciou.",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Alebo, ak preferujete ponechať súbor config.php iba na čítanie, nastavte v ňom parameter \"config_is_read_only\" na true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s nastaveniami.",
-    "Can't create or write into the data directory %s" : "Nemožno vytvoriť alebo zapisovať do priečinka dát %s",
-    "Can’t increase permissions of %s" : "Nie je možné navýšiť oprávnenia pre %s",
-    "Files can’t be shared with delete permissions" : "Súbory nie je možné sprístupňovať s oprávneniami na odstránenie",
-    "Files can’t be shared with create permissions" : "Súbory nie je možné sprístupňovať s oprávneniami na vytváranie",
-    "Can’t set expiration date more than %s days in the future" : "Nie je možné nastaviť dátum konca platnosti viac ako %s dní v budúcnosti",
-    "Can't read file" : "Nemožno čítať súbor.",
     "Cannot write into \"config\" directory" : "Nie je možné zapisovať do priečinka \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do adresára s konfiguráciou. Viď %s",
     "Cannot write into \"apps\" directory" : "Nie je možné zapisovať do priečinka \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami.",
     "Cannot create \"data\" directory" : "Nie je možné vytvoriť priečinok \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového adresára. Viď %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Oprávnenia je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového priečinka. Viď %s.",
@@ -277,7 +269,6 @@
     "Your data directory is readable by other users" : "Váš priečinok s dátami je prístupný na čítanie ostatným používateľom",
     "Your data directory must be an absolute path" : "Priečinok s dátami musí byť zadaný ako absolútna cesta",
     "Check the value of \"datadirectory\" in your configuration" : "Skontrolujte hodnotu \"datadirectory\" vo vašej konfigurácii",
-    "Your data directory is invalid" : "Priečinok s dátami je neplatný",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami."
+    "Your data directory is invalid" : "Priečinok s dátami je neplatný"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

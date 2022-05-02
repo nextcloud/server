@@ -117,6 +117,7 @@
     "Completed on %s" : "已完成 %s",
     "Due on %s by %s" : "到期于%s ，在%s之前",
     "Due on %s" : "到期于%s",
+    "Contacts and groups" : "联系人和群组",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV端点",
     "Availability" : "可用性",
@@ -150,7 +151,6 @@
     "Tentative" : "暂定",
     "Number of guests" : "客人数目",
     "Comment" : "备注",
-    "Your attendance was updated successfully." : "您的出席状态更新成功。",
-    "Calendar and tasks" : "日历和任务"
+    "Your attendance was updated successfully." : "您的出席状态更新成功。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

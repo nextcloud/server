@@ -234,19 +234,11 @@
     "Storage connection error. %s" : "存储连接错误。%s",
     "Storage is temporarily not available" : "存储暂时不可用",
     "Storage connection timeout. %s" : "存储连接超时。%s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "您可以设置 Web 服务器对 config 目录的写权限修复这个问题",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "或者，如果希望保持 config.php 文件的只读权限，请将 \"config_is_read_only\" 设置为 true。",
     "This can usually be fixed by giving the webserver write access to the config directory." : "通常可以通过授予 Web 服务器对 config 目录的写访问权限来解决此问题。",
-    "Can't create or write into the data directory %s" : "无法创建或写入数据目录 %s",
-    "Can’t increase permissions of %s" : "无法增加%s的权限。",
-    "Files can’t be shared with delete permissions" : "无法共享有删除权限的文件",
-    "Files can’t be shared with create permissions" : "无法共享有创建权限的文件",
-    "Can’t set expiration date more than %s days in the future" : "允许设置的最远到期日是从今天算起的 %s-1 天",
-    "Can't read file" : "无法读取文件",
     "Cannot write into \"config\" directory" : "无法写入“config”目录",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "这个通常可以通过赋予写入权限到 config 目录来修复。查看：%s",
     "Cannot write into \"apps\" directory" : "无法写入“apps”目录",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "通常可以通过授予 Web 服务器对 apps 目录的写访问权限或在配置文件中禁用 appstore 来解决此问题。",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "这通常可以通过给予 webserver 对应用目录的写入权限或在配置文件中禁用应用商店来解决。",
     "Cannot create \"data\" directory" : "无法创建“data”目录 ",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "这个通常可以通过赋予根目录写入权限来修复。查看：%s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "权限通常可以通过赋予根目录写入权限来修复。查看：%s。",
@@ -259,7 +251,6 @@
     "Your data directory is readable by other users" : "您的数据目录可被其他用户读取",
     "Your data directory must be an absolute path" : "您的数据目录必须是绝对路径",
     "Check the value of \"datadirectory\" in your configuration" : "请检查配置文件中 \"datadirectory\" 的值",
-    "Your data directory is invalid" : "您的数据目录无效",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "这通常可以通过给予 webserver 对应用目录的写入权限或在配置文件中禁用应用商店来解决。"
+    "Your data directory is invalid" : "您的数据目录无效"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

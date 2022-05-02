@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Generi ŝlosilojn",
     "Error generating key pair" : "Eraro dum generado de ŝlosila paro",
     "All users. Type to select user or group." : "Ĉiuj uzantoj. Entajpu por elekti uzanton aŭ grupon.",
+    "(Group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Kongrueco kun Makintoŝa „NFD“ signara kodoprezento (malrapide)",
     "Enable encryption" : "Ŝalti ĉifradon",
     "Enable previews" : "Ŝalti antaŭrigardojn",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "Never" : "Neniam",
     "Once every direct access" : "Unufoje okaze de senpera aliro",
     "Read only" : "Nurlega",
+    "Disconnect" : "Malkonekti",
     "Admin defined" : "Difinita de administranto",
     "Delete storage?" : "Ĉu forigi konservejon?",
     "Saved" : "Konservita",
@@ -127,11 +129,7 @@ OC.L10N.register(
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "External storages" : "Eksteraj konservejoj",
-    "(group)" : "(grupo)",
     "Delete" : "Forigi",
-    "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto"
+    "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?"
 },
 "nplurals=2; plural=(n != 1);");

@@ -20,7 +20,10 @@ OC.L10N.register(
     "Never" : "Mai",
     "Once every direct access" : "Una volta per ogni accesso diretto",
     "Read only" : "Sola lettura",
+    "Disconnect" : "Disconnetti",
     "Admin defined" : "Definito dall'amministratore",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Il controllo automatico dello stato è disabilitato a causa del numero elevato di archivi configurati, fare clic per controllare lo stato",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Sei sicuro di voler disconnettere questo spazio di archiviazione esterno? Ciò renderà lo spazio di archiviazione non disponibile in Nextcloud e comporterà l'eliminazione di questi file e cartelle su qualsiasi client di sincronizzazione attualmente connesso, ma non cancellerà alcun file e cartella sullo spazio di archiviazione esterno stesso.",
     "Delete storage?" : "Vuoi eliminare l'archiviazione?",
     "Saved" : "Salvato",
     "Saving …" : "Salvataggio…",
@@ -135,12 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "Impostazioni avanzate",
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
-    "External storages" : "Archiviazioni esterne",
-    "(group)" : "(gruppo)",
     "Delete" : "Elimina",
     "Are you sure you want to delete this external storage?" : "Se sicuro di voler eliminare questa archiviazione esterna?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
     "Kerberos ticket apache mode" : "Modalità apache ticket Kerberos"
 },
 "nplurals=2; plural=(n != 1);");

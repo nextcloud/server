@@ -48,8 +48,6 @@
     "Share provider which allows you to share files by mail" : "Dosyaların e-posta ile paylaşılması için kullanılacak paylaşım hizmeti sağlayıcısı",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
-    "Reply to initiator" : "Başlatanı yanıtla",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
-    "Enforce password protection" : "Parola koruması dayatılsın"
+    "Reply to initiator" : "Başlatanı yanıtla"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

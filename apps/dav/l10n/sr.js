@@ -88,6 +88,14 @@ OC.L10N.register(
     "Due on %s" : "Рок је %s",
     "WebDAV" : "ВебДАВ",
     "WebDAV endpoint" : "WebDAV крајња тачка",
+    "to" : "за",
+    "Monday" : "Понедељак",
+    "Tuesday" : "Уторак",
+    "Wednesday" : "Среда",
+    "Thursday" : "Четвртак",
+    "Friday" : "Петак",
+    "Saturday" : "Субота",
+    "Sunday" : "Недеља",
     "Save" : "Сачувај",
     "Calendar server" : "Календар сервера",
     "Send invitations to attendees" : "Пошаљи позивницу учесницима",
@@ -103,7 +111,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Контактирајте директно организатора.",
     "Are you accepting the invitation?" : "Да ли прихватате позивницу?",
     "Tentative" : "Условна потврда",
-    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
-    "Calendar and tasks" : "Календар и задаци"
+    "Comment" : "Коментар",
+    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

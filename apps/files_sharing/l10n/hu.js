@@ -251,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "A fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételeket %2$s.",
     "Add to your Nextcloud" : "Hozzáadás a Nextcloudjához",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
-    "invalid permissions" : "érvénytelen jogosultságok",
-    "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
-    "Download %s" : "%s letöltése",
-    "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait"
+    "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett"
 },
 "nplurals=2; plural=(n != 1);");

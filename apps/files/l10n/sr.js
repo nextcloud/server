@@ -161,6 +161,8 @@ OC.L10N.register(
     "Tags" : "Ознаке",
     "Unable to change the favourite state of the file" : "Неуспела промена стања омиљености фајла",
     "Error while loading the file data" : "Грешка при учитавању података фајла",
+    "Cancel" : "Поништи",
+    "Create" : "Направи",
     "%s used" : "%s искоришћено",
     "%s%% of %s used" : "%s%% од %s искоришћено",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s",
@@ -185,11 +187,6 @@ OC.L10N.register(
     "Deleted shares" : "Обрисана дељења",
     "Pending shares" : "Дељења на чекању",
     "Text file" : "Tекстуални фајл",
-    "New text file.txt" : "Нов текстуални фајл.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Складиште корисника {owner} је пуно. Фајлови се не могу ажурирати нити синхронизовати!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Групна фасцикла „{mountPoint}“ је пуна. Фајлови више не могу бити ажурирани ни синхронизовани!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Спољашње складиште „{mountPoint}“ је пуно. Фајлови више не могу бити ажурирани ни синхронизовани!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ваше складиште је пуно. Фајлови више не могу бити ажурирани ни синхронизовани!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["се поклапа са '{filter}'","се поклапају са '{filter}'","се поклапа са '{filter}'"]
+    "New text file.txt" : "Нов текстуални фајл.txt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

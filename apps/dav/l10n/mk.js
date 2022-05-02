@@ -93,6 +93,7 @@ OC.L10N.register(
     "Completed on %s" : "Завршена на %s",
     "Due on %s by %s" : "Истекува на %s од %s",
     "Due on %s" : "Истекува на %s",
+    "Contacts and groups" : "Контакти и групи",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крајна точка",
     "Availability" : "Достапност",
@@ -123,7 +124,6 @@ OC.L10N.register(
     "Tentative" : "Прелиминарно",
     "Number of guests" : "Број на гости",
     "Comment" : "Коментар",
-    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
-    "Calendar and tasks" : "Календар и задачи"
+    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

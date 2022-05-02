@@ -138,12 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "Speciális beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának engedélyezése a felhasználók számára",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
-    "External storages" : "Külső tárolók",
-    "(group)" : "(csoport)",
     "Delete" : "Törlés",
     "Are you sure you want to delete this external storage?" : "Biztos, hogy törli ezt a külső tárolót?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC bejelentkezéssel",
     "Kerberos ticket apache mode" : "Kerberos jegy apache módja"
 },
 "nplurals=2; plural=(n != 1);");

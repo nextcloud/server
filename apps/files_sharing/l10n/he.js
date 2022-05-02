@@ -134,10 +134,16 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "יישום זה מאפשר למשתמשים לשתף קבצים בתוך Nextcloud. אם מופעלת, מנהל המערכת יכול לבחור אילו קבוצות יוכלו לשתף קבצים. לאחר מכן, המשתמשים הרלוונטיים יכולים לשתף קבצים ותיקיות עם משתמשים וקבוצות אחרים בתוך Nextcloud. בנוסף, אם מנהל המערכת מאפשר את תכונת share link, ניתן להשתמש בקישור חיצוני לשתף קבצים עם משתמשים אחרים מחוץ ל- Nextcloud. מנהלים יכולים גם לאכוף סיסמאות, תאריכי תפוגה, ולאפשר שיתוף שרת לשרת באמצעות קישורי שיתוף, ובנוסף גם שיתוף ממכשירים ניידים.\nכיבוי התכונה מסיר קבצים ותיקיות משותפים בשרת לכל מקבלי השיתוף, וגם ללקוחות הסינכרון ולאפליקציות הסלולריות. מידע נוסף זמין בתיעוד Nextcloud.",
     "Sharing" : "שיתוף",
     "Accept user and group shares by default" : "לקבל את שיתופי המשתמשים והקבוצות כבררת מחדל",
+    "Reset" : "איפוס",
+    "Invalid path selected" : "הנתיב שנבחר שגוי",
+    "Unknown error" : "שגיאה בלתי ידועה",
     "Allow editing" : "לאפשר עריכה",
     "Read only" : "קריאה בלבד",
     "Allow upload and editing" : "לאפשר העלאה ועריכה",
     "File drop (upload only)" : "השלכת קבצים (העלאה בלבד)",
+    "Read" : "קריאה",
+    "Upload" : "העלאה",
+    "Edit" : "עריכה",
     "Allow creating" : "לאפשר יצירה",
     "Allow deleting" : "לאפשר מחיקה",
     "Allow resharing" : "לאפשר שיתוף מחדש",
@@ -228,9 +234,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
-    "invalid permissions" : "הרשאות שגויות",
-    "Can't change permissions for public share links" : "לא ניתן לשנות הרשאות לקישורי שיתוף ציבוריים",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
-    "Download %s" : "הורדה %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
