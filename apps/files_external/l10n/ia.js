@@ -74,9 +74,6 @@ OC.L10N.register(
     "Add storage" : "Adder immagazinage",
     "Advanced settings" : "Configurationes avantiate",
     "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
-    "External storages" : "Immagazinages externe",
-    "(group)" : "(gruppo)",
-    "Delete" : "Deler",
-    "SMB / CIFS" : "SMB / CIFS"
+    "Delete" : "Deler"
 },
 "nplurals=2; plural=(n != 1);");

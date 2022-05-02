@@ -64,7 +64,6 @@ OC.L10N.register(
     "Request user agent" : "Bruger \"user agent\"",
     "User group membership" : "Brugers gruppemedlemsskab",
     "is member of" : "er medlem af",
-    "is not member of" : "er ikke medlem af",
-    "Browse the app store" : "Gennemse app-butikken"
+    "is not member of" : "er ikke medlem af"
 },
 "nplurals=2; plural=(n != 1);");

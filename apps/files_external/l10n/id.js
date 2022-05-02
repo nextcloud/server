@@ -108,10 +108,6 @@ OC.L10N.register(
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "External storages" : "Penyimpanan Eksternal",
-    "(group)" : "(grup)",
-    "Delete" : "Hapus",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS menggunakan OC login"
+    "Delete" : "Hapus"
 },
 "nplurals=1; plural=0;");

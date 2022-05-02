@@ -84,10 +84,6 @@ OC.L10N.register(
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
-    "External storages" : "Välised andmehoidlad",
-    "(group)" : "(grupp)",
-    "Delete" : "Kustuta",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist"
+    "Delete" : "Kustuta"
 },
 "nplurals=2; plural=(n != 1);");

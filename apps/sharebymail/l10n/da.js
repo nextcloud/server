@@ -26,8 +26,6 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Du kan til enhver tid vælge et andet password i delings dialogen.",
     "Could not find share" : "Kan ikke finde deling",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillad brugere at dele et personligt link til en fil eller folder ved at skrive en email ind.",
-    "Send password by mail" : "Send kodeord på mail",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : " Vi kan ikke sende det autogenerede password. Angiv venligst en valid email adresse i dine personlige indstillinger og prøv igen.",
-    "Enforce password protection" : "Gennemtving beskyttelse med kodeord"
+    "Send password by mail" : "Send kodeord på mail"
 },
 "nplurals=2; plural=(n != 1);");

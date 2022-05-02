@@ -208,11 +208,6 @@
     "Deleted shares" : "Borttagna delningar",
     "Pending shares" : "Väntande delningar",
     "Text file" : "Textfil",
-    "New text file.txt" : "Ny textfil.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagring av {owner}  är full, filer kan inte uppdateras eller synkroniseras längre!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppmapp \"{mountPoint}\" är full, filer kan inte uppdateras eller synkroniseras längre!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Extern lagring \"{mountPoint}\" är full, filer kan inte uppdateras eller synkroniseras längre!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ditt lagringsutrymme är fullt, filer kan inte längre uppdateras eller synkroniseras!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["matchar '{filter}'","matcha '{filter}'"]
+    "New text file.txt" : "Ny textfil.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

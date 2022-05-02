@@ -188,11 +188,6 @@ OC.L10N.register(
     "Deleted shares" : "שיתופים שנמחקו",
     "Pending shares" : "שיתופים ממתינים",
     "Text file" : "קובץ טקסט",
-    "New text file.txt" : "קובץ טקסט חדש.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "האחסון של {owner} מלא, כבר לא ניתן לעדכן ולסנכרן קבצים!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "תיקיית הקבוצה \"{mountPoint}\" מלאה, לא ניתן לעדכן או לסנכרן קבצים יותר!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "האחסון החיצוני \"{mountPoint}\" מלא, לא ניתן לעדכן או לסנכרן קבצים יותר!",
-    "Your storage is full, files can not be updated or synced anymore!" : "האחסון שלך מלא, כבר לא ניתן לעדכן ולסנכרן קבצים!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["מתאים ל- '{filter}'","מתאים ל- '{filter}'","מתאים ל- '{filter}'","מתאים ל- '{filter}'"]
+    "New text file.txt" : "קובץ טקסט חדש.txt"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

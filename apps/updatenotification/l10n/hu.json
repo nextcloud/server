@@ -44,13 +44,6 @@
     "Beta" : "Béta",
     "A pre-release version only for testing new features, not for production environments." : "Az előzetes verzió kizárólag az új funkciók tesztelésére szolgál, nem éles környezetekbe való.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz.","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz."],
-    "Apps missing updates" : "Alkalmazások frissítés nélkül",
-    "Apps with available updates" : "Alkalmazások elérhető frissítéssel",
-    "Only notification for app updates are available." : "Csak az alkalmazásfrissítések értesítései érhetők el.",
-    "Checking apps for compatible updates" : "Alkalmazások ellenőrzése kompatibilis frissítések után",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nem lehet csatlakozni az alkalmazástárhoz, vagy az egyáltalán nem adott vissza frissítéseket. Keressen kézzel frissítéseket, vagy győződjön meg arról, hogy a kiszolgálója hozzáfér-e az internethez és eléri-e az alkalmazástárat.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Minden</strong> alkalmazás frissítve a legújabb verzióra",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Minden</strong> alkalmazás rendelkezik ezzel a Nextcloud verzióval kompatibilis verzióval",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

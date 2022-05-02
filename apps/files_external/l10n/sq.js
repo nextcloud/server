@@ -111,10 +111,6 @@ OC.L10N.register(
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
-    "External storages" : "Kujtesë e jashtëme",
-    "(group)" : "(grup)",
-    "Delete" : "Fshije",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS me përdorim hyrjeje OC"
+    "Delete" : "Fshije"
 },
 "nplurals=2; plural=(n != 1);");

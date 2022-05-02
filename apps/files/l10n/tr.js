@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Silinmiş paylaşımlar",
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
-    "New text file.txt" : "Yeni metin dosyası.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} için boş depolama alanı kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" grup klasöründe boş alan kalmadı. Artık güncellenemeyecek ya da eşitlenemeyecek!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" dış depolamasında boş alan kalmadı. Artık güncellenemeyecek ya da eşitlenemeyecek!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Boş depolama alanınız kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' ile eşleşen","'{filter}' ile eşleşen"]
+    "New text file.txt" : "Yeni metin dosyası.txt"
 },
 "nplurals=2; plural=(n > 1);");

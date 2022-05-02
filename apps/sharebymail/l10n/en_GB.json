@@ -28,8 +28,6 @@
     "Could not find share" : "Could not find share",
     "Share provider which allows you to share files by mail" : "Share provider which allows you to share files by mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
-    "Send password by mail" : "Send password by mail",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again.",
-    "Enforce password protection" : "Enforce password protection"
+    "Send password by mail" : "Send password by mail"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -115,10 +115,8 @@ OC.L10N.register(
     "Current password" : "Huidige wagwoord",
     "New password" : "Nuwe wagwoord",
     "Change password" : "Verander wagwoord",
-    "Close" : "Sluit",
     "All languages" : "Alle tale",
     "Everyone" : "Almal",
-    "days" : "dae",
-    "For password reset and notifications" : "Vir wagwoordherstel en kennisgewings"
+    "days" : "dae"
 },
 "nplurals=2; plural=(n != 1);");

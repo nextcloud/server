@@ -260,16 +260,11 @@ OC.L10N.register(
     "Current password" : "Senhal actual",
     "New password" : "Senhal novèl",
     "Change password" : "Cambiar de senhal",
-    "Update all" : "Tot metre a jorn",
-    "Nextcloud iOS app" : "Aplicacion Nextcloud iOS",
-    "Nextcloud Talk for iOS" : "Nextcloud Talk per iOS",
-    "Nextcloud Talk for Android" : "Nextcloud Talk per Android",
-    "Close" : "Tampar",
     "All languages" : "Totas las lengas",
     "Everyone" : "Tot lo monde",
     "Test email settings" : "Ensajar los paramètres email",
     "days" : "jorns",
     "No display name set" : "Cap de nom d’afichatge pas definit",
-    "For password reset and notifications" : "Per reconfigurar lo senhal e recebre las notificacions"
+    "Update all" : "Tot metre a jorn"
 },
 "nplurals=2; plural=(n > 1);");

@@ -179,9 +179,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Röng slóð, skrá/mappa er ekki til",
-    "invalid permissions" : "Ógildar aðgangsheimildir",
-    "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
-    "Download %s" : "Sækja %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

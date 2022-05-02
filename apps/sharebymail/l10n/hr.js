@@ -49,8 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Davatelj usluge dijeljenja koji vam omogućuje dijeljenje datoteka poštom",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Omogućuje korisnicima dijeljenje personalizirane poveznice na datoteku ili mapu dodavanjem adrese e-pošte.",
     "Send password by mail" : "Pošalji zaporku poštom",
-    "Reply to initiator" : "Odgovori pokretaču",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ne možemo vam poslati automatski generiranu zaporku. U osobnim postavkama postavite valjanu adresu e-pošte i pokušajte ponovo.",
-    "Enforce password protection" : "Nametni zaštitu zaporkom"
+    "Reply to initiator" : "Odgovori pokretaču"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

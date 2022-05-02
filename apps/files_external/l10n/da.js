@@ -120,11 +120,7 @@ OC.L10N.register(
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
-    "External storages" : "Eksternt lager",
-    "(group)" : "(gruppe)",
     "Delete" : "Slet",
-    "Are you sure you want to delete this external storage?" : "Er du sikker på at du vil slette dette eksterne lager?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS med OC-login"
+    "Are you sure you want to delete this external storage?" : "Er du sikker på at du vil slette dette eksterne lager?"
 },
 "nplurals=2; plural=(n != 1);");

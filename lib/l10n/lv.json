@@ -122,8 +122,6 @@
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "To parasti var labot, dodot tīmekļa servera rakstīšanas piekļuvi config direktorijai",
-    "Can't read file" : "Nevar nolasīt datni",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 nepieciešams",
     "Please upgrade your database version" : "Lūdzu, atjauniniet datu bāzes versiju"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"

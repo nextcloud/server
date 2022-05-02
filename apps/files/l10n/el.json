@@ -208,11 +208,6 @@
     "Deleted shares" : "Διαγραμμένα κοινόχρηστα",
     "Pending shares" : "Κοινή χρήση σε εκκρεμότητα",
     "Text file" : "Αρχείο κειμένου",
-    "New text file.txt" : "Νέο αρχείο file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Ο αποθηκευτικός χώρος του {owner} είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν πια!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Ο φάκελος ομάδας \"{mountPoint}\" είναι γεμάτος, τα αρχεία δεν μπορούν πλέον να ενημερωθούν ή να συγχρονιστούν!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Ο εξωτερικός χώρος αποθήκευσης \"{mountPoint}\" είναι πλήρης, τα αρχεία δεν μπορούν πλέον να ενημερωθούν ή να συγχρονιστούν!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ο αποθηκευτικός σας χώρος είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν πια!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["ταιριάζει '{filter}' ","ταιριάζουν '{filter}'"]
+    "New text file.txt" : "Νέο αρχείο file.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

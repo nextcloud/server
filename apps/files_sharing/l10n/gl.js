@@ -237,9 +237,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
     "Add to your Nextcloud" : "Engadir ao seu Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Ruta incorrecta, o ficheiro/cartafol non existe",
-    "invalid permissions" : "permisos incorrectos",
-    "Can't change permissions for public share links" : "Non é posíbel cambiar os permisos das ligazóns de recursos compartidos públicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
-    "Download %s" : "Descargar %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado"
 },
 "nplurals=2; plural=(n != 1);");

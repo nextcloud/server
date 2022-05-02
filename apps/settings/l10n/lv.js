@@ -171,17 +171,12 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "lietotņu instalēšana un atjaunināšana, izmantojot lietotņu veikalu vai Federatīvo Cloud koplietošanu",
     "You need to set your user email before being able to send test emails." : "Nepieciešams norādīt sava lietotāja e-pasta adresi, lai nosūtīta testa e-pastus.",
-    "Close" : "Aizvērt",
     "All languages" : "Visas valodas",
     "Everyone" : "Visi",
     "App update" : "Programmu atjaunināšana",
-    "mail" : "e-pasts",
     "Test email settings" : "Izmēģināt e-pasta iestatījumus",
-    "Expire after " : "Nederīga pēc",
     "days" : "dienas",
-    "Allow users to share via link" : "Ļaut lietotājiem koplietot caur saitēm",
     "No display name set" : "Nav norādīts ekrāna vārds"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

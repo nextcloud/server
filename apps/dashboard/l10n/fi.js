@@ -26,7 +26,6 @@ OC.L10N.register(
     "Default images" : "Oletuskuvat",
     "Plain background" : "Yksinkertainen tausta",
     "Insert from {productName}" : "Aseta kohteesta {productName}",
-    "Show something" : "Näytä jotain",
-    "Get more widgets from the app store" : "Hae lisää pienoissovelluksia sovelluskaupasta"
+    "Show something" : "Näytä jotain"
 },
 "nplurals=2; plural=(n != 1);");

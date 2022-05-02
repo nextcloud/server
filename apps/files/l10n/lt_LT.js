@@ -198,9 +198,6 @@ OC.L10N.register(
     "Deleted shares" : "Ištrinti viešiniai",
     "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
-    "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} saugykla yra pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Jūsų saugykla pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["atitinka „{filter}“","atitinka „{filter}“","atitinka „{filter}“","atitinka „{filter}“"]
+    "New text file.txt" : "Naujas tekstinis failas.txt"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

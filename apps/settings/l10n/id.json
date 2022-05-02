@@ -327,26 +327,13 @@
     "Current password" : "Kata sandi saat ini",
     "New password" : "Kata sandi baru",
     "Change password" : "Ubah kata sandi",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "memasang dan memperbarui aplikasi via toko aplikasi atau Federated Cloud Sharing",
     "You need to set your user email before being able to send test emails." : "Anda perlu menetapkan surel pengguna Anda sebelum dapat mengirim surel percobaan.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Mencabut token ini mungkin akan mencegah penghapusan perangkat Anda jika penghapusan belum dimulai.",
-    "Nextcloud iOS app" : "Aplikasi iOS Nextcloud",
-    "Nextcloud Android app" : "Aplikasi Android Nextcloud",
-    "Nextcloud Talk for iOS" : "Nextcloud Talk untuk iOS",
-    "Nextcloud Talk for Android" : "Nextcloud Talk untuk Android",
-    "Add user in group" : "Tambah pengguna kedalam grup",
-    "Close" : "Tutup",
     "All languages" : "Semua bahasa",
     "Everyone" : "Semua orang",
-    "The app will be downloaded from the app store" : "Aplikasi akan diunduh melalui toko aplikasi",
     "App update" : "Pembaruan aplikasi",
-    "Error: This app can not be enabled because it makes the server unstable" : "Galat: Aplikasi ini tidak dapat diaktifkan karena aplikasi ini membuat server tidak stabil",
-    "mail" : "surel",
     "Test email settings" : "Pengaturan surel percobaan",
-    "Expire after " : "Kadaluarsa setelah ",
     "days" : "hari",
-    "Allow users to share via link" : "Izinkan pengguna untuk membagikan via tautan",
-    "No display name set" : "Nama tampilan tidak diatur",
-    "For password reset and notifications" : "Untuk reset kata sandi dan notifikasi"
+    "No display name set" : "Nama tampilan tidak diatur"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

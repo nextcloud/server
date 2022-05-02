@@ -46,8 +46,6 @@
     "Share provider which allows you to share files by mail" : "Provedor que permite compartirficheiros por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuarios compartan unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo.",
     "Send password by mail" : "Enviar contrasinal por correo",
-    "Reply to initiator" : "Resposta ao iniciador",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non é posíbel enviarlle o contrasinal xerado automaticamente. Estabeleza un enderezo de correo correcto nos seus axustes persoais e ténteo de novo.",
-    "Enforce password protection" : "Forzar a protección por contrasinal"
+    "Reply to initiator" : "Resposta ao iniciador"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

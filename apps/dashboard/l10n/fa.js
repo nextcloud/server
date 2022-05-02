@@ -23,7 +23,6 @@ OC.L10N.register(
     "Default images" : "تصاویر پیش‌فرض",
     "Plain background" : "تصویر زمینه ساده",
     "Insert from {productName}" : "درج از {productName}",
-    "Show something" : "نمایش چیزی",
-    "Get more widgets from the app store" : "ابزارک‌های بیشتر را از فروشگاه برنامه دریافت کنید"
+    "Show something" : "نمایش چیزی"
 },
 "nplurals=2; plural=(n > 1);");

@@ -249,10 +249,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
     "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
-    "invalid permissions" : "permissões inválidas",
-    "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
-    "Download %s" : "Baixar %s",
-    "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público"
+    "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

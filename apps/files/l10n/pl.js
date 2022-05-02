@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Usunięte udostępnienia",
     "Pending shares" : "Oczekujące udostępnienia",
     "Text file" : "Plik tekstowy",
-    "New text file.txt" : "Nowy plik tekstowy.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Magazyn dla {owner} jest pełny. Nie można już aktualizować ani synchronizować plików!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Katalog grupowy \"{mountPoint}\" jest pełny. Nie można już aktualizować ani synchronizować plików!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Pamięć zewnętrzna \"{mountPoint}\" jest pełna. Nie można już aktualizować ani synchronizować plików!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Magazyn jest pełny. Nie można już zaktualizować ani zsynchronizować plików!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["pasujący '{filter}'","pasujące '{filter}'","pasujących '{filter}'","pasujących '{filter}'"]
+    "New text file.txt" : "Nowy plik tekstowy.txt"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

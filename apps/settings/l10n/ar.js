@@ -243,22 +243,12 @@ OC.L10N.register(
     "Current password" : "كلمات السر الحالية",
     "New password" : "كلمات سر جديدة",
     "Change password" : "عدل كلمة السر",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "التثبيت والتحديث من متجر التطبيقات أو Federated Cloud Sharing",
-    "Update all" : "تحديث الكل",
-    "Nextcloud Android app" : "تطبيق Nextcloud للأندرويد",
-    "Nextcloud Talk for iOS" : "نيكست كلاود التحدث للايفون",
-    "Nextcloud Talk for Android" : "نيكست كلاود التحدث للاندرويد",
-    "Close" : "إغلاق",
     "All languages" : "كافة اللغات",
     "Everyone" : "الجميع",
-    "The app will be downloaded from the app store" : "سوف يتم تحميل التطبيق من متجر التطبيقات",
     "App update" : "تحديث التطبيق",
-    "mail" : "البريد",
     "Test email settings" : "فحص إعدادات البريد الإلكتروني",
-    "Expire after " : "ينتهي بعد",
     "days" : "أيام",
-    "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط",
     "No display name set" : "لم يتم إدخال أي إسم",
-    "For password reset and notifications" : "لإعادة تعيين كلمة السر و تلقي الإشعارات"
+    "Update all" : "تحديث الكل"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

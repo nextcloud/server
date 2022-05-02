@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Alapértelmezett képek",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés innen: {productName}-",
-    "Show something" : "Mutasson valamit",
-    "Get more widgets from the app store" : "Töltsön le további modulokat az alkalmazástárból"
+    "Show something" : "Mutasson valamit"
 },
 "nplurals=2; plural=(n != 1);");

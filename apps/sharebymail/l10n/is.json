@@ -45,8 +45,6 @@
     "Could not find share" : "Gat ekki fundið sameign",
     "Share provider which allows you to share files by mail" : "Deilingarþjónusta sem gerir þér kleift að deila skrám með tölvupósti",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang.",
-    "Send password by mail" : "Senda lykilorð með pósti",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ekki er hægt að senda þér sjálfvirkt framleidda lykilorðið. Settu inn gilt tölvupóstfang í einkastillingunum þínum og prófaðu aftur.",
-    "Enforce password protection" : "Krefjast verndunar með aðgangsorði"
+    "Send password by mail" : "Senda lykilorð með pósti"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

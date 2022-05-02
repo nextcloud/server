@@ -180,9 +180,6 @@ OC.L10N.register(
     "Deleted shares" : "Вилучено зі спільного доступу",
     "Pending shares" : "Спільні ресурси в очікуванні",
     "Text file" : "Текстовий файл",
-    "New text file.txt" : "Новий текстовий файл file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Сховище користувача {owner} переповнене, файли більше не можуть бути оновлені або синхронізовані!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'"]
+    "New text file.txt" : "Новий текстовий файл file.txt"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

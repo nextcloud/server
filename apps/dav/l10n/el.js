@@ -113,7 +113,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
     "Comment" : "Σχόλιο",
-    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
-    "Calendar and tasks" : "Ημερολόγιο και εργασίες"
+    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία."
 },
 "nplurals=2; plural=(n != 1);");

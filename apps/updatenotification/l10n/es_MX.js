@@ -24,13 +24,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "El canal de actualización seleccionado no soporta actualizaciones del servidor. ",
     "A new version is available: <strong>{newVersionString}</strong>" : "Una versión más reciente está disponible: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Verificado el {lastCheckedDate}",
-    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor asegurate que en tu config.php no se establezca <samp>appstoreenabled</samp> como falso.",
-    "Apps missing updates" : "Aplicaciones con actualizaciones faltantes",
-    "Apps with available updates" : "Aplicaciones con actualizaciones disponibles",
-    "Only notification for app updates are available." : "Sólo se tienen disponibles notificaciones de actualizaciones de la aplicación.",
-    "Checking apps for compatible updates" : "Verificando si las aplicaciones tienen actualizaciones compatibles",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No fue posible conectarse a la appstore o bien la appstore no regresó ninguna actualización. Busca manualmente o asegurate que tu servidor teng acceso a Internet y pueda conectarse a la appstore. ",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Todas</strong> las aplicaciones tienen una actualización disponible para esta versión",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplicación no cuenta con una actualización para esta versión","<strong>%n</strong> aplicaciones no cuentan con una actualización para esta versión"]
+    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor asegurate que en tu config.php no se establezca <samp>appstoreenabled</samp> como falso."
 },
 "nplurals=2; plural=(n != 1);");

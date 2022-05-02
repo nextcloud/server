@@ -248,10 +248,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
     "Add to your Nextcloud" : "Lägg till i molnet",
     "Wrong path, file/folder doesn't exist" : "Fel sökväg, fil/mapp finns inte",
-    "invalid permissions" : "ogiltiga behörigheter",
-    "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
-    "Download %s" : "Hämta %s",
-    "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar"
+    "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad"
 },
 "nplurals=2; plural=(n != 1);");

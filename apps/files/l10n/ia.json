@@ -116,9 +116,6 @@
     "Shared with you" : "Compartite con te",
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
-    "New text file.txt" : "Nove texto file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Le immagazinage de {owner} es plen: files non pote esser actualisate o synchronisate plus!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Tu immagazinage es plen: files non pote esser actualisate o synchronisate plus!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["corresponde '{filter}'","corresponde '{filter}'"]
+    "New text file.txt" : "Nove texto file.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -132,9 +132,6 @@
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploaded files:" : "Archivos cargados:",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
-    "invalid permissions" : "permisos inválidos",
-    "Can't change permissions for public share links" : "No es posible cambiar los permisos para enlaces  públicos compartidos",
-    "Download %s" : "Descargar %s"
+    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

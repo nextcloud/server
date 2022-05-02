@@ -251,21 +251,13 @@
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",
     "Change password" : "პაროლის შეცვლა",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "აპლიკაციების app store-იდან დაყენება და განახლება ან ფედერალური ქლაუდ გაზიარება",
     "You need to set your user email before being able to send test emails." : "შემოწმების წერილების გაგზავნამდე, უნდა დააყენოთ თქვენი მომხმარებლის ელ-ფოსტა.",
-    "Close" : "დახურვა",
     "All languages" : "ყველა ენა",
     "Everyone" : "ყველა",
-    "The app will be downloaded from the app store" : "აპლიკაცია გადმოწერილ იქნება app store-იდან",
     "App update" : "აპლიკაციის განახლება",
-    "Error: This app can not be enabled because it makes the server unstable" : "შეცდომა: ეს აპლიკაცია ვერ მოქმედდება რადგანაც სერვერს ხდის არასტაბილურს",
-    "mail" : "წერილი",
     "Test email settings" : "ელ-ფოსტის პარამეტრების შემომება",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "ოპტიმალური მოღვაწეობისთვის მნიშვნელოვანია ფონური საქმეების სწორი კონფიგურაცია. დიდი ინსტანციებისთვის 'კრონი' რეკომენდირებული არჩევანია. გთხოვთ მეტი ინფორმაციისთვის იხილოთ დოკუმენტაცია.",
-    "Expire after " : "ვადის ამოწურვა",
     "days" : "დღე",
-    "Allow users to share via link" : "მიეცით მოხმარებლებს ბმულით გაზიარების უფლება",
     "No display name set" : "დისპლეი სახელი არაა დაყენებული",
-    "For password reset and notifications" : "პაროლის აღდგენისთვის და შეტყობინებებისთვის"
+    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "ოპტიმალური მოღვაწეობისთვის მნიშვნელოვანია ფონური საქმეების სწორი კონფიგურაცია. დიდი ინსტანციებისთვის 'კრონი' რეკომენდირებული არჩევანია. გთხოვთ მეტი ინფორმაციისთვის იხილოთ დოკუმენტაცია."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

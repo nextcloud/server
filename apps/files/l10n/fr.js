@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Partages supprimés",
     "Pending shares" : "Partages en attente",
     "Text file" : "Fichier texte",
-    "New text file.txt" : "Nouveau fichier texte.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'espace de stockage de {owner} est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Le dossier du groupe \"{mountPoint}\" est plein, les fichiers ne peuvent plus être mis à jour ou synchronisés!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "L'espace de stockage externe \"{mountPoint}\" est plein, les fichiers ne peuvent plus être mis à jour ni synchronisés !",
-    "Your storage is full, files can not be updated or synced anymore!" : "Votre espace de stockage est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
-    "_matches '{filter}'_::_match '{filter}'_" : ["correspond à '{filter}'","correspondent à '{filter}'"]
+    "New text file.txt" : "Nouveau fichier texte.txt"
 },
 "nplurals=2; plural=(n > 1);");

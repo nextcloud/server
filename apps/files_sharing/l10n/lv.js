@@ -200,9 +200,6 @@ OC.L10N.register(
     "Uploaded files:" : "Augšupielādētas datnes:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē",
-    "invalid permissions" : "Nederīgas atļaujas",
-    "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības",
-    "Download %s" : "Lejupielādēt %s"
+    "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

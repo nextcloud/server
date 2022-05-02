@@ -138,12 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "Impostazioni avanzate",
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
-    "External storages" : "Archiviazioni esterne",
-    "(group)" : "(gruppo)",
     "Delete" : "Elimina",
     "Are you sure you want to delete this external storage?" : "Se sicuro di voler eliminare questa archiviazione esterna?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
     "Kerberos ticket apache mode" : "Modalità apache ticket Kerberos"
 },
 "nplurals=2; plural=(n != 1);");

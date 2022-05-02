@@ -223,16 +223,6 @@
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Tôi biết rằng nếu tôi tiếp tục thực hiện cập nhập qua giao diện Web có rủi ro, mà yêu cầu đó chạy trong một khoảng thời gian bị quá hạn và có thể gây mất dữ liệu, nếu tôi có một bản sao và tôi biết cách khôi phục bản cài đặt đã sao lưu trong trường hợp bị lỗi khi cập nhật.",
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-    "Couldn't reset password because the token is invalid" : "Không thể thiết lập lại mật khẩu do token không hợp lệ",
-    "Couldn't reset password because the token is expired" : "Không thể thiết lập lại mật khẩu do token hết hạn",
-    "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Đang kiểm tra xem lược đồ cơ sở dữ liệu có thể được cập nhật hay không (việc này có thể mất nhiều thời gian do phụ thuộc vào kích cỡ của cơ sở dữ liệu)",
-    "Checked database schema update" : "Cập nhật lược đồ cơ sở dữ liệu đã được kiểm tra",
-    "Checking updates of apps" : "Đang kiểm tra các bản cập nhật của các ứng dụng",
-    "Update app \"%s\" from appstore" : "Cập nhật ứng dụng \"%s\" từ appstore",
-    "Checked database schema update for apps" : "Bản cập nhật lược đồ cơ sở dữ liệu cho các ứng dụng đã được kiểm tra",
-    "Continue to Nextcloud" : "Tiếp tục đến Nextcloud",
-    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Cập nhật thành công. Đang chuyển hướng bạn tới Nextcloud trong %ngiây."],
-    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

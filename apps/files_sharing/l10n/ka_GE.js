@@ -130,9 +130,6 @@ OC.L10N.register(
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
-    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
-    "invalid permissions" : "არასწორი უფლებები",
-    "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა",
-    "Download %s" : "%s-ის ჩამოტვირთვა"
+    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს"
 },
 "nplurals=2; plural=(n!=1);");

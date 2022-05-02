@@ -128,11 +128,7 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
-    "External storages" : "외부 저장소",
-    "(group)" : "(그룹)",
     "Delete" : "삭제",
-    "Are you sure you want to delete this external storage?" : "이 외부 저장소를 삭제하시겠습니까?",
-    "SMB / CIFS" : "SMB/CIFS",
-    "SMB / CIFS using OC login" : "OC 로그인을 사용하는 SMB/CIFS"
+    "Are you sure you want to delete this external storage?" : "이 외부 저장소를 삭제하시겠습니까?"
 },
 "nplurals=1; plural=0;");

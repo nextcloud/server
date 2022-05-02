@@ -168,13 +168,6 @@
     "UUID Attribute for Groups:" : "Atribut UUID për Grupe:",
     "Username-LDAP User Mapping" : "Përshoqërim Emër përdoruesi-Përdorues LDAP",
     "Clear Username-LDAP User Mapping" : "Pastro Përshoqërimin Emër përdoruesi-Përdorues LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Ndodhi një gabim lidhje te LDAP / AD, ju lutemi, kontrolloni strehën, portën dhe kredencialet.",
-    "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Vendi \"%uis\" po mungon. Do të zëvendësohet me emrin e identifikimit kur të kërkohet LDAP / AD.",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Kutia e grupeve u çaktivizua, ngaqë shërbyesi LDAP / AD nuk mbulon memberOf.",
-    "LDAP / AD integration" : "Integrimi LDAP / AD",
-    "LDAP / AD Username:" : "Emër përdoruesi LDAP / AD:",
-    "LDAP / AD Email Address:" : "Adresë Email LDAP / AD:",
-    "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "Në paracaktim, emri i brendshëm i përdoruesit do të krijohet nga atributi UUID. Sigurohuni që emri i përdoruesit është unik dhe karakteret nuk kanë nevojë të konvertohen. Emri i përdoruesit të brendshëm ka kufizim që lejohen vetëm këto karaktere: [a-zA-Z0-9 _. @ -]. Karaktere të tjera zëvendësohen me korrespondencën e tyre ASCII ose thjesht hiqen. Për goditjet një numër do të shtohet / rritet. Emri i brendshëm përdoret për të identifikuar një përdorues brenda. Është gjithashtu emri i parazgjedhur për dosjen e përdoruesit në shtëpi. Është gjithashtu një pjesë e URL-ve të largëta, për shembull për të gjitha shërbimet * DAV. Me këtë cilësim, sjellja e parazgjedhur mund të fshihet. Lëreni bosh për sjelljen e paracaktuar. Ndryshimet do të kenë efekt vetëm në përdoruesit e sapo hartuar (shtuar) LDAP."
+    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

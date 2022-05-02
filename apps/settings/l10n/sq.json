@@ -253,21 +253,13 @@
     "Current password" : "Fjalëkalimi i tanishëm",
     "New password" : "Fjalëkalimi i ri",
     "Change password" : "Ndrysho fjalëkalimin",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "instalim dhe përditësim aplikacionesh përmes shitores së aplikacioneve ose Federated Cloud Sharing",
     "You need to set your user email before being able to send test emails." : "Lypset të caktoni email-in tuaj si përdorues, përpara se të jeni në gjendje të dërgoni email-e provë.",
-    "Close" : "Mbylleni",
     "All languages" : "Të gjitha gjuhët",
     "Everyone" : "Kushdo",
-    "The app will be downloaded from the app store" : "Aplikacioni do të shkarkohet nga shitorja e aplikacioneve",
     "App update" : "Përditësim aplikacioni",
-    "Error: This app can not be enabled because it makes the server unstable" : "Gabim: Ky aplikacion s’u aktivizua dot, ngaqë e bën shërbyesin të paqëndrueshëm.",
-    "mail" : "email",
     "Test email settings" : "Testoni rregullimet e email-it",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Për performancë optimale është e rëndësishme të konfigurosh punë të sfondit në mënyrë korrekte. Për raste më të mëdha 'Cron' është konfigurimi i rekomanduar. Ju lutem shih dokumentacionin për më shumë informacion.",
-    "Expire after " : "Skadon pas ",
     "days" : "ditësh",
-    "Allow users to share via link" : "Lejoji përdoruesit të ndajnë me të tjerët përmes lidhjesh",
     "No display name set" : "S’është caktuar emër për në ekran",
-    "For password reset and notifications" : "Për të rivendosur fjalëkalimin dhe njoftimet"
+    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Për performancë optimale është e rëndësishme të konfigurosh punë të sfondit në mënyrë korrekte. Për raste më të mëdha 'Cron' është konfigurimi i rekomanduar. Ju lutem shih dokumentacionin për më shumë informacion."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

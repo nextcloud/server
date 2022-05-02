@@ -239,9 +239,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
-    "invalid permissions" : "neteisingi leidimai",
-    "Can't change permissions for public share links" : "Negalima keisti leidimų viešai bendrinamoms nuorodoms",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
-    "Download %s" : "Atsisiųsti %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas "
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

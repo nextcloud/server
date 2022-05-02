@@ -136,9 +136,6 @@ OC.L10N.register(
     "Deleted shares" : "Dzēstās koplietotnes",
     "Pending shares" : "Gaidošie koplietojumi",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} glabātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Jūsu glabātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["atrasts pēc '{filter}'","atrasts pēc '{filter}'","atrasti pēc '{filter}'"]
+    "New text file.txt" : "Jauna teksta datne.txt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

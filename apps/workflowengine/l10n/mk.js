@@ -87,7 +87,6 @@ OC.L10N.register(
     "between" : "помеѓу",
     "not between" : "не помеѓу",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Browse the app store" : "Прелистајте во продавницата со апликации"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

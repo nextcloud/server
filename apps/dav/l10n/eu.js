@@ -155,7 +155,6 @@ OC.L10N.register(
     "Tentative" : "Behin behinekoa",
     "Number of guests" : "Gonbidatu kopurua",
     "Comment" : "Iruzkindu",
-    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
-    "Calendar and tasks" : "Egutegia eta atazak"
+    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da."
 },
 "nplurals=2; plural=(n != 1);");

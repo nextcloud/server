@@ -78,10 +78,6 @@ OC.L10N.register(
     "Add storage" : "Pievienot krātuvi",
     "Advanced settings" : "Paplašināti iestatījumi",
     "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
-    "External storages" : "Ārējās krātuves",
-    "(group)" : "(grupa)",
-    "Delete" : "Dzēst",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS lietojot OC lietotāju"
+    "Delete" : "Dzēst"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

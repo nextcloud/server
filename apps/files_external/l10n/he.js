@@ -131,11 +131,7 @@ OC.L10N.register(
     "Advanced settings" : "הגדרות מתקדמות",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה.",
-    "External storages" : "התקני אחסון חיצוניים",
-    "(group)" : "(קבוצה)",
     "Delete" : "מחיקה",
-    "Are you sure you want to delete this external storage?" : "למחוק את האחסון החיצוני הזה?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS בשימוש עם כניסת OC"
+    "Are you sure you want to delete this external storage?" : "למחוק את האחסון החיצוני הזה?"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

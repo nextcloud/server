@@ -208,11 +208,6 @@
     "Deleted shares" : "Suprimit",
     "Pending shares" : "Pendent",
     "Text file" : "Fitxer de text",
-    "New text file.txt" : "Fitxer de text nou.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'emmagatzematge de l'usuari {owner} està ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "La carpeta de grup «{mountPoint}» està plena, els fitxers ja no es poden actualitzar ni sincronitzar!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "L'emmagatzematge extern «{mountPoint}» està ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
-    "Your storage is full, files can not be updated or synced anymore!" : "L'emmagatzematge està ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincideix amb «{filter}»","coincideixen amb «{filter}»"]
+    "New text file.txt" : "Fitxer de text nou.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
