@@ -44,13 +44,6 @@ OC.L10N.register(
     "Beta" : "Δοκιμαστικό",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud."],
-    "Apps missing updates" : "Ελλιπείς ενημερώσεις εφαρμογών",
-    "Apps with available updates" : "Εφαρμογές με διαθέσιμες ενημερώσεις",
-    "Only notification for app updates are available." : "Είναι μόνο διαθέσιμες οι ενημερώσεις για την εφαρμογή",
-    "Checking apps for compatible updates" : "Έλεγχος εφαρμογών για συμβατές ενημερώσεις",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Αδυναμία σύνδεσης στο κατάστημα εφαρμογών, ή το κατάστημα εφαρμογών δεν εξέδωσε καμία ενημέρωση. Αναζητήστε χειροκίνητα ενημερώσεις ή βεβαιωθείτε ότι ο εξυπηρετητής έχει πρόσβαση στο διαδίκτυο και μπορεί να συνδεθεί στο κατάστημα εφαρμογών. ",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Όλες</strong> οι εφαρμογές έχουν αναβάθμιση για αυτή την έκδοση διαθέσιμη",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Η <strong>%n</strong> εφαρμογή  δεν έχει αναβάθμιση για αυτή την έκδοση διαθέσιμη","Οι <strong>%n</strong> εφαρμογές δεν έχουν αναβάθμιση για αυτή την έκδοση διαθέσιμη"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Όλες</strong> οι εφαρμογές έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud"]
 },

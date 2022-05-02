@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "預設圖片",
     "Plain background" : "簡單背景",
     "Insert from {productName}" : "插入自 {productName}",
-    "Show something" : "顯示一些東西",
-    "Get more widgets from the app store" : "從應用商店取得更多小工具"
+    "Show something" : "顯示一些東西"
 },
 "nplurals=1; plural=0;");

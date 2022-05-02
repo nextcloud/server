@@ -42,7 +42,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Luba parooli taaste:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Valiku lubamine võimaldab taastada ligipääsu krüpteeritud failidele kui parooli kaotuse puhul",
     "Enabled" : "Sisse lülitatud",
-    "Disabled" : "Väljalülitatud",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Sa ei saa seda faili dekrüpteerida, see on tõenäoliselt jagatud fail. Palun lase omanikul seda faili sinuga uuesti jagada."
+    "Disabled" : "Väljalülitatud"
 },
 "nplurals=2; plural=(n != 1);");

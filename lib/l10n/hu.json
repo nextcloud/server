@@ -253,19 +253,11 @@
     "Storage connection error. %s" : "Tároló kapcsolódási hiba. %s",
     "Storage is temporarily not available" : "A tároló átmenetileg nem érhető el",
     "Storage connection timeout. %s" : "Időtúllépés a tárolókapcsolatban. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Ez általában úgy javítható, hogy a webkiszolgálónak írási hozzáférést biztosít a konfigurációs könyvtárhoz",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Vagy, ha jobbnak látja, hogy a config.php fájl csak olvasható legyen, akkor állítsa igazra a „config_is_read_only” beállítást.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Ez általában úgy javítható, hogy a webkiszolgálónak írási hozzáférést biztosít a konfigurációs könyvtárhoz.",
-    "Can't create or write into the data directory %s" : "Nem létre létrehozni vagy beleírni a(z) %s adatkönyvtárba",
-    "Can’t increase permissions of %s" : "A(z) %s engedélyei nem bővíthetők",
-    "Files can’t be shared with delete permissions" : "A fájlok nem oszthatók meg törlési jogosultsággal",
-    "Files can’t be shared with create permissions" : "A fájlok nem oszthatók meg létrehozási jogosultsággal",
-    "Can’t set expiration date more than %s days in the future" : "Nem állítható be %s napnál távolabbi lejárati dátum",
-    "Can't read file" : "A fájl nem olvasható",
     "Cannot write into \"config\" directory" : "A „config” könyvtár nem írható",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ez általában úgy javítható, hogy a webkiszolgálónak írási hozzáférést biztosít a konfigurációs könyvtárhoz. Lásd: %s.",
     "Cannot write into \"apps\" directory" : "Az „apps” könyvtár nem írható",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Ez általában úgy javítható, hogy írási jogosultságot ad a webkiszolgáló számára az apps könyvtáron, vagy letiltja az alkalmazástárt a konfigurációs fájlban.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Ez általában úgy javítható, hogy írási jogosultságot ad a webkiszolgáló számára az apps könyvtáron, vagy letiltja az alkalmazástárt a konfigurációs fájlban.",
     "Cannot create \"data\" directory" : "A „data” könyvtár nem hozható létre",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ez általában úgy javítható, hogy a webkiszolgálónak írási hozzáférést biztosít a gyökérkönyvtárhoz. Lásd: %s.",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Az engedélyek általában úgy javíthatók, hogy írási jogosultságot ad a webkiszolgáló számára a gyökérkönyvtáron. Lásd %s.",
@@ -278,7 +270,6 @@
     "Your data directory is readable by other users" : "Az adatkönyvtára más felhasználók által is olvasható",
     "Your data directory must be an absolute path" : "Az adatkönyvtárnak abszolút útvonalnak kell lennie",
     "Check the value of \"datadirectory\" in your configuration" : "Ellenőrizze a „datadirectory” értékét a konfigurációban",
-    "Your data directory is invalid" : "Az adatkönyvtár érvénytelen",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Ez általában úgy javítható, hogy írási jogosultságot ad a webkiszolgáló számára az apps könyvtáron, vagy letiltja az alkalmazástárt a konfigurációs fájlban."
+    "Your data directory is invalid" : "Az adatkönyvtár érvénytelen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

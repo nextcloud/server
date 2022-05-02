@@ -252,19 +252,11 @@
     "Storage connection error. %s" : "Biltegiratze-konexioaren errorea. %s",
     "Storage is temporarily not available" : "Biltegia ez dago erabilgarri aldi baterako",
     "Storage connection timeout. %s" : "Biltegiratze-konexioa denboraz kanpo geratu da. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Hau normalean konpondu daitekesweb zerbitzarira config karpetan idazteko baimenak emanez",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Edo, config.php fitxategia irakurtzeko soilik mantendu nahi baduzu, ezarri \"config_is_read_only\" aukera 'egia' baliora barruan.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Hau normalean web zerbitzarira config karpetan idazteko baimenak emanez konpondu daiteke.",
-    "Can't create or write into the data directory %s" : "Ezin da %s datu karpeta sortu edo bertan idatzi ",
-    "Can’t increase permissions of %s" : "Ezin dira %s(r)en baimenak handitu",
-    "Files can’t be shared with delete permissions" : "Fitxategiak ezin dira ezabatze baimenarekin partekatu",
-    "Files can’t be shared with create permissions" : "Fitxategiak ezin dira sortze baimenarekin partekatu",
-    "Can’t set expiration date more than %s days in the future" : "Ezin da iraungitze-data etorkizunean %s egun baino gehiagora jarri",
-    "Can't read file" : "Ezin da fitxategia irakurri",
     "Cannot write into \"config\" directory" : "Ezin da idatzi \"config\" karpetan",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Hau normalean konpondu daiteke web zerbitzariari konfigurazio direktoriorako sarbidea emanez. Ikus %s",
     "Cannot write into \"apps\" directory" : "Ezin da idatzi \"apps\" karpetan",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Hau normalean konpondu daiteke web zerbitzariari aplikazioen direktorioko sarbidea emanez edo konfigurazioko fitxategian appstore desgaituz.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Hau normalean web zerbitzariari aplikazioen direktorioko sarbidea emanez edo konfigurazioko fitxategian appstore desgaituz konpondu daiteke.",
     "Cannot create \"data\" directory" : "Ezin da \"data\" karpeta sortu",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Hau normalean konpondu daiteke web zerbitzariari root direktorioko idazketa sarbidea emanez. Ikus %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Normalean baimenak konpondu daitezke web zerbitzariari root direktorioko sarbidea emanez. Ikus %s.",
@@ -277,7 +269,6 @@
     "Your data directory is readable by other users" : "Zure datuen karpeta beste erabiltzaileek irakur dezakete",
     "Your data directory must be an absolute path" : "Zure datuen karpeta bide-izen absolutua izan behar da",
     "Check the value of \"datadirectory\" in your configuration" : "Egiaztatu «datadirectory» aldagaiaren balioa zure konfigurazioan",
-    "Your data directory is invalid" : "Zure datuen karpeta baliogabea da",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Hau normalean web zerbitzariari aplikazioen direktorioko sarbidea emanez edo konfigurazioko fitxategian appstore desgaituz konpondu daiteke."
+    "Your data directory is invalid" : "Zure datuen karpeta baliogabea da"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

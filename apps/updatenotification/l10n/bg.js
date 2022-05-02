@@ -46,13 +46,6 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Версия само за тестване на нови функционалности, която не е подходяща за ползване в производствена среда.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> приложения нямат налична съвместима версия за тази версия на Nextcloud.","<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud."],
-    "Apps missing updates" : "Приложения без актуализация",
-    "Apps with available updates" : "Приложенията, с налични актуализации",
-    "Only notification for app updates are available." : "Налични са само известия за актуализации на приложенията.",
-    "Checking apps for compatible updates" : "Проверка на приложенията за съвместими актуализации",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Свързването с магазина за приложения не е възможно или няма актуализации. Потърсете ръчно за актуализации или се уверете, че сървъра има връзка с Интернет и може да се свързва с магазина за приложения.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Всички</strong> приложения имат актуализация за наличната версия",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение няма актуализация за тази версия","<strong>%n</strong> приложения нямат актуализация за тази версия"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Всички</strong>  приложения имат налична съвместима версия за тази версия на Nextcloud",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud ","<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud "]
 },

@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Verwijderde shares",
     "Pending shares" : "Deellinks in behandeling",
     "Text file" : "Tekstbestand",
-    "New text file.txt" : "Nieuw tekstbestand.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Opslagruimte van {owner} zit vol, bestanden kunnen niet meer worden geüpload of gesynchroniseerd!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Groepsmap \"{mountPoint}\" is vol, bestanden kunnen niet meer gewijzigd of gesynchroniseerd worden!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Externe opslag \"{mountPoint}\" is vol, bestanden kunnen niet meer gewijzigd of gesynchroniseerd worden!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Je opslagruimte zit vol. Bestanden kunnen niet meer worden gewijzigd of gesynchroniseerd!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["komt overeen met '{filter}'","komen overeen met '{filter}'"]
+    "New text file.txt" : "Nieuw tekstbestand.txt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -138,10 +138,6 @@
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
     "Username-LDAP User Mapping" : "Mapeamento do utilizador LDAP",
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Ocorreu um erro de ligação ao LDAP / AD. Por favor, verifique o anfitrião,  porta e credenciais.",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Uma vez que o servidor LDAP / AD não suporta a propriedade \"memberOf\" (grupos) a caixa de grupos foi desactivada.",
-    "LDAP / AD Username:" : "Nome de Utilizador LDAP / AD:",
-    "LDAP / AD Email Address:" : "Endereço de Correio Eletrónico LDPA / AD"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

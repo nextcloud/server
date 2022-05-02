@@ -213,16 +213,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "برای جلوگیری از وقفه در نصب های طولانی تر، شما می توانید دستورات زیر را از مسیر نصبتان اجرا کنید:",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید.",
-    "Couldn't reset password because the token is invalid" : "تنظیم مجدد گذرواژه میسر نیست, Token نامعتبر است",
-    "Couldn't reset password because the token is expired" : "تنظیم مجدد گذرواژه میسر نیست, Token منقضی شده است",
-    "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "بررسی اینکه آیا طرح پایگاه داده می تواند به روز شود (این ممکن است بسته به اندازه پایگاه داده طولانی باشد)",
-    "Checked database schema update" : "به روز رسانی طرح پایگاه داده بررسی شد",
-    "Checking updates of apps" : "بررسی به روزرسانی های برنامه ها",
-    "Update app \"%s\" from appstore" : " \"%s\" به روز رسانی شد",
-    "Checked database schema update for apps" : "Checked database schema update for apps",
-    "Continue to Nextcloud" : "ادامه به Nextcloud",
-    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه ","به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه "],
-    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید ."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید."
 },
 "nplurals=2; plural=(n > 1);");

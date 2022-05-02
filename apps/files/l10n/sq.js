@@ -125,9 +125,6 @@ OC.L10N.register(
     "Shared by link" : "E ndarë me lidhje",
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Depozita e {owner} është plot, kartelat s’mund të përditësohen ose sinkronizohet më!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Depozita juaj është plot, kartelat s’mund të përditësohen ose sinkronizohet më!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["ka përputhje me '{filter}'","ka përputhje me '{filter}'"]
+    "New text file.txt" : "Kartelë e re file.txt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -243,20 +243,13 @@
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "Instalando y actualizando aplicaciones por la tienda de aplicaciones o Compartido la Nube Federada",
     "You need to set your user email before being able to send test emails." : "Requiere establecer su correo electrónico andes de poder enviar correos electrónicos de prueba. ",
-    "Close" : "Cerrar",
     "All languages" : "Todos los idiomas",
     "Everyone" : "Todos",
-    "The app will be downloaded from the app store" : "La aplicación será descargada de la tienda de aplicaciones <app store>",
     "App update" : "Actualización de la aplicación",
-    "mail" : "correo",
     "Test email settings" : "Probar las configuraciones de correo electrónico",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para un desempeño ideal, es importante configurar los trabajos de fondo correctametne. Para instancias más grandes 'Cron' es el ajuste recomendado. Favor de consultar la documentación para más información. ",
-    "Expire after " : "Expirar después de",
     "days" : "días",
-    "Allow users to share via link" : "Permitir a los usuarios compartir mediante links",
     "No display name set" : "No se ha establecido el nombre a desplegar",
-    "For password reset and notifications" : "Para reestablecer contraseña y notificaciones"
+    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para un desempeño ideal, es importante configurar los trabajos de fondo correctametne. Para instancias más grandes 'Cron' es el ajuste recomendado. Favor de consultar la documentación para más información. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

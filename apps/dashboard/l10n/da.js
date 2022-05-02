@@ -26,7 +26,6 @@ OC.L10N.register(
     "Default images" : "Standardbilleder",
     "Plain background" : "Standard baggrund",
     "Insert from {productName}" : "Indsæt fra {productName}",
-    "Show something" : "Vis noget",
-    "Get more widgets from the app store" : "Hent flere widgets fra app store"
+    "Show something" : "Vis noget"
 },
 "nplurals=2; plural=(n != 1);");

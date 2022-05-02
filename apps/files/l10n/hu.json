@@ -208,11 +208,6 @@
     "Deleted shares" : "Törölt megosztások",
     "Pending shares" : "Függőben lévő megosztások",
     "Text file" : "Szövegfájl",
-    "New text file.txt" : "Új szövegfájl.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} tárhelye betelt, a fájlok többé nem frissíthetők vagy szinkronizálhatók!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "A(z) „{mountPoint}” csoportmappa megtelt, a fájlok többé nem frissíthetők vagy szinkronizálhatók!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "A(z) „{mountPoint}” külső tárhely megtelt, a fájlok többé nem frissíthetők vagy szinkronizálhatók!",
-    "Your storage is full, files can not be updated or synced anymore!" : "A tároló megtelt, a fájlok többé nem frissíthetők vagy szinkronizálhatók!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["megfelel ennek: „{filter}”","megfelel ennek: „{filter}”"]
+    "New text file.txt" : "Új szövegfájl.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

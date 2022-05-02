@@ -244,10 +244,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
-    "invalid permissions" : "μη έγκυρα δικαιώματα",
-    "Can't change permissions for public share links" : "Δεν μπορούμε να αλλάξουμε δικαιώματα για δημόσια διαμοιρασμένους συνδέσμους",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
-    "Download %s" : "Λήψη %s",
-    "Cannot change permissions for public share links" : "Δεν είναι δυνατή η αλλαγή των δικαιωμάτων για συνδέσμους δημόσιας κοινής χρήσης"
+    "Cannot change permissions for public share links" : "Δεν είναι δυνατή η αλλαγή των δικαιωμάτων για συνδέσμους δημόσιας κοινής χρήσης",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk"
 },
 "nplurals=2; plural=(n != 1);");

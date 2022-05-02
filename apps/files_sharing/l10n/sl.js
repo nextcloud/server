@@ -240,10 +240,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "S pošiljanjem datotek v oblak sprejemate tudi %1$spogoje uporabe storitve%2$s.",
     "Add to your Nextcloud" : "Dodaj v oblak Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Napačna pot; datoteka ali mapa ne obstaja",
-    "invalid permissions" : "neustrezna dovoljenja",
-    "Can't change permissions for public share links" : "Za javne povezave souporabe, spreminjanje dovoljenj ni mogoče.",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen.",
-    "Download %s" : "Prejmi %s",
-    "Cannot change permissions for public share links" : "Za javne povezave souporabe spreminjanje dovoljenj ni mogoče."
+    "Cannot change permissions for public share links" : "Za javne povezave souporabe spreminjanje dovoljenj ni mogoče.",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

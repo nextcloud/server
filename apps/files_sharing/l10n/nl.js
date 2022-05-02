@@ -246,10 +246,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
-    "invalid permissions" : "Ongeldige machtigingen",
-    "Can't change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
-    "Download %s" : "Download %s",
-    "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen"
+    "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld"
 },
 "nplurals=2; plural=(n != 1);");

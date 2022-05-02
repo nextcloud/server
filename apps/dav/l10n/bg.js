@@ -174,7 +174,6 @@ OC.L10N.register(
     "Tentative" : "Несигурно",
     "Number of guests" : "Брой на гостите ",
     "Comment" : "Коментар",
-    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
-    "Calendar and tasks" : "Календар и задачи"
+    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно."
 },
 "nplurals=2; plural=(n != 1);");

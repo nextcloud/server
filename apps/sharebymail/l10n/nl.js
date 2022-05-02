@@ -49,8 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Share provider waarmee je bestanden via de mail kunt delen",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Reply to initiator" : "Antwoord aan oproeper",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We kunnen je geen automatisch gegenereerd wachtwoord toesturen. Vermeld een geldig e-mailadres in je persoonlijke instellingen en probeer het nogmaals.",
-    "Enforce password protection" : "Wachtwoordbeveiliging afdwingen"
+    "Reply to initiator" : "Antwoord aan oproeper"
 },
 "nplurals=2; plural=(n != 1);");

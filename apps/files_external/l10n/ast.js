@@ -71,10 +71,6 @@ OC.L10N.register(
     "Available for" : "Disponible pa",
     "Add storage" : "Amestar almacenamientu",
     "Advanced settings" : "Axustes avanzaos",
-    "External storages" : "Almacenamientos internos",
-    "(group)" : "(grupu)",
-    "Delete" : "Desaniciar",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC"
+    "Delete" : "Desaniciar"
 },
 "nplurals=2; plural=(n != 1);");

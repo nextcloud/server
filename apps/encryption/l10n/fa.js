@@ -56,8 +56,6 @@ OC.L10N.register(
     "Enable password recovery:" : "فعال سازی بازیابی رمزعبور:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید.",
     "Enabled" : "فعال شده",
-    "Disabled" : "غیرفعال شده",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "نمی توانید این پرونده را رمزگشایی کنید، احتمالاً این یک فایل مشترک است. لطفاً از مالک پرونده بخواهید که پرونده را با شما دوباره به اشتراک بگذارد.",
-    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "این فایل فراخوانی نمی‌شود، احتمالاً این یک فایل مشترک است. لطفاً از مالک پرونده بخواهید که پرونده را با شما دوباره به اشتراک بگذارد"
+    "Disabled" : "غیرفعال شده"
 },
 "nplurals=2; plural=(n > 1);");

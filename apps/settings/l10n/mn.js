@@ -104,11 +104,8 @@ OC.L10N.register(
     "Current password" : "Одоогийн нууц үг",
     "New password" : "Шинэ нууц үг",
     "Change password" : "Нууц үг солих",
-    "Close" : "Хаах",
     "All languages" : "Бүх хэлүүд",
     "Everyone" : "Бүх хэрэглэгчид",
-    "mail" : "и-мэйл",
-    "Expire after " : " Дуусах хугацаа",
     "days" : "өдрийн дараа"
 },
 "nplurals=2; plural=(n != 1);");

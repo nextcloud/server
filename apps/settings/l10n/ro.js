@@ -225,20 +225,10 @@ OC.L10N.register(
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",
     "You need to set your user email before being able to send test emails." : "Trebuie să îți setezi emailul de utilizator înainte de a putea să trimiți emailuri.",
-    "Nextcloud iOS app" : "Aplicația Nextcloud pentru iOS",
-    "Nextcloud Android app" : "Aplicația Nextcloud pentru Android",
-    "Nextcloud Talk for iOS" : "Nextcloud Talk pentru iOS",
-    "Nextcloud Talk for Android" : "Nextcloud Talk pentru Android",
-    "Close" : "Închide",
     "All languages" : "Toate limbile",
     "Everyone" : "Toți",
-    "The app will be downloaded from the app store" : "Aplicația va fi descărcată din magazin",
     "App update" : "Actualizare aplicație",
-    "mail" : "poștă",
     "Test email settings" : "Verifică setările de e-mail",
-    "Expire after " : "Expiră după",
-    "days" : "zile",
-    "Allow users to share via link" : "Permite utilizatorilor să partajeze via link",
-    "For password reset and notifications" : "Pentru resetare parolă și notificări"
+    "days" : "zile"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

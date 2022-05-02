@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "请求用户代理",
     "User group membership" : "用户组成员资格",
     "is member of" : "是成员",
-    "is not member of" : "不是成员",
-    "Browse the app store" : "浏览应用商店"
+    "is not member of" : "不是成员"
 },
 "nplurals=1; plural=0;");

@@ -208,11 +208,6 @@
     "Deleted shares" : "Ezabatutako partekatzeak",
     "Pending shares" : "Zain dauden partekatzeak",
     "Text file" : "Testu-fitxategia",
-    "New text file.txt" : "Testu-fitxategi berria.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} erabiltzailearen biltegia beteta dago, fitxategiak ezin dira eguneratu edo sinkronizatu jada!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" talde karpeta beteta dago, ezin da fitxategirik eguneratu edo sinkronizatu gehiago!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" kanpoko biltegia beteta dago, ezin da fitxategirik eguneratu edo sinkronizatu gehiago!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Zure biltegia beteta dago, ezin duzu fitxategirik igo edo sinkronizatu jada!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["bat dator '{filter}' iragazkiarekin","bat datoz '{filter}' iragazkiarekin"]
+    "New text file.txt" : "Testu-fitxategi berria.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

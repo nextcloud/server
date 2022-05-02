@@ -108,9 +108,6 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Shared by link" : "Compartíos per enllaz",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'almacenamientu de {owner} ta completu, ¡yá nun se pueden anovar o sincronizar ficheros!",
-    "Your storage is full, files can not be updated or synced anymore!" : "L'almacenamientu ta completu, ¡yá nun se pueden anovar o sincronizar ficheros!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["concasa '{filter}'","concasa '{filter}'"]
+    "New text file.txt" : "Nuevu testu ficheru.txt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -185,11 +185,6 @@
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Ventende delinger",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekstfil.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagringsplass for {owner} er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppemappen \"{mountPoint}\" er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Denne eksterne lagringsplassen \"{mountPoint}\" er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkroniseres!",
-    "_matches '{filter}'_::_match '{filter}'_" : [" stemmer med '{filter}'"," stemmer med '{filter}'"]
+    "New text file.txt" : "Ny tekstfil.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

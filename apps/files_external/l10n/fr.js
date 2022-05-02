@@ -133,11 +133,7 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants.",
-    "External storages" : "Stockages externes",
-    "(group)" : "(groupe)",
     "Delete" : "Supprimer",
-    "Are you sure you want to delete this external storage?" : "Êtes-vous sûr de vouloir supprimer ce stockage externe ?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS en utilisant les identifiants OC"
+    "Are you sure you want to delete this external storage?" : "Êtes-vous sûr de vouloir supprimer ce stockage externe ?"
 },
 "nplurals=2; plural=(n > 1);");

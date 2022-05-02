@@ -172,9 +172,6 @@ OC.L10N.register(
     "Deleted shares" : "Eyddar sameignir",
     "Pending shares" : "Sameignir í bið",
     "Text file" : "Textaskrá",
-    "New text file.txt" : "Ný textaskrá.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Geymslupláss {owner} er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Geymsluplássið þitt er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["samsvarar '{filter}'","samsvara '{filter}'"]
+    "New text file.txt" : "Ný textaskrá.txt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

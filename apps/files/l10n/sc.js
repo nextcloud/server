@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Cumpartziduras cantzelladas",
     "Pending shares" : "Cumpartziduras in suspesu",
     "Text file" : "Archìviu de testu",
-    "New text file.txt" : "Archìviu de testu .txt nou",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "S'archiviatzione de {owner} est prena, non podes prus carrigare o sincronizare archìvios!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Sa cartella de grupu \"{mountPoint}\" est prena, non podes prus carrigare o sincronizare archìvios!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "S'archiviatzione de foras \"{mountPoint}\" est prena, non podes prus carrigare o sincronizare archìvios!",
-    "Your storage is full, files can not be updated or synced anymore!" : "S'archiviatzione est prena, non podes prus carrigare o sincronizare archìvios!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["currispondèntzias '{filter}'","currispondèntzia '{filter}'"]
+    "New text file.txt" : "Archìviu de testu .txt nou"
 },
 "nplurals=2; plural=(n != 1);");

@@ -174,7 +174,6 @@ OC.L10N.register(
     "Tentative" : "暫定",
     "Number of guests" : "訪客数目",
     "Comment" : "留言",
-    "Your attendance was updated successfully." : "您的參與狀況成功更新",
-    "Calendar and tasks" : "日曆和任務"
+    "Your attendance was updated successfully." : "您的參與狀況成功更新"
 },
 "nplurals=1; plural=0;");

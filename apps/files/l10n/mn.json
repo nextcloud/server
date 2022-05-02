@@ -128,8 +128,6 @@
     "Shared with you" : "тантай хуваалцсан",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}-ий багтаамж дүүрсэн байна",
-    "Your storage is full, files can not be updated or synced anymore!" : "Таны багтаамж дүүрсэн байна!"
+    "New text file.txt" : "шинэ текст file.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

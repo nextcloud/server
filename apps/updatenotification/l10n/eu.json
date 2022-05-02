@@ -44,13 +44,6 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Argitaratu aurreko bertsioa funtzionalitate berriak probatzeko soilik da, ez ekoizpen inguruneetarako.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>aplikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri.","<strong>%n</strong>palikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri."],
-    "Apps missing updates" : "Eguneratzeak falta dituzten aplikazioak",
-    "Apps with available updates" : "Eguneratzeak eskuragarri dituzten aplikazioak",
-    "Only notification for app updates are available." : "Aplikazioaren eguneraketen jakinarazpenak soilik daude eskuragarri.",
-    "Checking apps for compatible updates" : "Egiaztatzen eguneratzeetarako aplikazio bateragarriak",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Ezin izan da appstore-arekin konektatu edo honek ez du eguneratzerik itzuli. Bilatu eskuz eguneratzeak edo ziurtatu zure zerbitzariak internet konexioa duela eta appstore-arekin konektatu daitekeela.",
-    "<strong>All</strong> apps have an update for this version available" : "Aplikazio <strong>guztiek</strong>  eguneraketa bat dute bertsio honentzat eskuragarri",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikazioak ez du bertsio hau eskuragarri eguneratzeko","<strong>%n</strong> aplikazioek ez dute bertsio hau eskuragarri eguneratzeko"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Aplikazio guztiek Nextcloud bertsio honetarako bertsio bateragarria erabilgarri dute ",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>aplikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri","<strong>%n</strong>aplikazioek ez dute Nextcloud bertsio honetarako  bertsio bateragarririk erabilgarri"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

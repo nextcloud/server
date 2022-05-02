@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Megosztási szolgáltató, amely lehetővé teszi fájlok e-mailben történő megosztását",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lehetővé teszi, hogy a felhasználók személyre szabott megosztási hivatkozásokat hozzanak létre egy fájlhoz vagy mappához az e-mail-cím megadásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
-    "Reply to initiator" : "Válasz a kezdeményezőnek",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nem lehet az automatikusan előállított jelszót elküldeni. Állítson be érvényes e-mail-címet a személyes beállításokban, és próbálja újra.",
-    "Enforce password protection" : "Jelszavas védelem kényszerítése"
+    "Reply to initiator" : "Válasz a kezdeményezőnek"
 },
 "nplurals=2; plural=(n != 1);");

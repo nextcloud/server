@@ -140,7 +140,6 @@ OC.L10N.register(
     "Tentative" : "Alustava",
     "Number of guests" : "Vieraiden määrä",
     "Comment" : "Kommentti",
-    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
-    "Calendar and tasks" : "Kalenteri ja tehtävät"
+    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti."
 },
 "nplurals=2; plural=(n != 1);");

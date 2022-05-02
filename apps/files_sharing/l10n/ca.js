@@ -233,9 +233,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
     "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
-    "invalid permissions" : "permisos no vàlids",
-    "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
-    "Download %s" : "Baixa %s"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat"
 },
 "nplurals=2; plural=(n != 1);");

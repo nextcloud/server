@@ -213,9 +213,6 @@ OC.L10N.register(
     "Uploaded files:" : "Opplastede filer:",
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
-    "invalid permissions" : "Ugyldige rettigheter",
-    "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
-    "Download %s" : "Last ned %s",
     "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker"
 },
 "nplurals=2; plural=(n != 1);");

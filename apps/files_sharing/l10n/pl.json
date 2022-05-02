@@ -249,10 +249,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Wysyłając pliki, zgadzasz się na %1$swarunki korzystania z usługi%2$s.",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Ścieżka nieprawidłowa, plik/katalog nie istnieje",
-    "invalid permissions" : "nieprawidłowe uprawnienia",
-    "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
-    "Download %s" : "Pobierz %s",
-    "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia"
+    "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

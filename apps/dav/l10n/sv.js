@@ -151,7 +151,6 @@ OC.L10N.register(
     "Tentative" : "Preliminärt",
     "Number of guests" : "Antal gäster",
     "Comment" : "Kommentar",
-    "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
-    "Calendar and tasks" : "Kalender och uppgifter"
+    "Your attendance was updated successfully." : "Dina närvaro uppdaterades."
 },
 "nplurals=2; plural=(n != 1);");

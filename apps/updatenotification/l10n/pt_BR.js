@@ -46,13 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Uma versão de pré-lançamento para testar novos recursos, não indicada para produção.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível."],
-    "Apps missing updates" : "Aplicativos faltando atualizações",
-    "Apps with available updates" : "Aplicativos com atualizações disponíveis",
-    "Only notification for app updates are available." : "Só está disponível notificação para atualizações de aplicativos.",
-    "Checking apps for compatible updates" : "Verificando atualização dos aplicativos",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Não foi possível conectar a appstore ou não havia atualização. Procure manualmente por atualizações ou verifique se o servidor tem acesso à internet.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Todos</strong> os aplicativos tem uma atualização disponível",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplicativo não tem atualização disponível","<strong>%n</strong> aplicativos tem uma atualização disponível"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todos</strong> os aplicativos têm uma versão compatível para esta versão Nextcloud disponível",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão Nextcloud disponível ","<strong>%n</strong> aplicativos não têm versão compatível para esta versão Nextcloud disponível"]
 },

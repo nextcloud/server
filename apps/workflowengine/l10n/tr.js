@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "Kullanıcı uygulaması istensin",
     "User group membership" : "Kullanıcı grubu üyeliği",
     "is member of" : "şunun üyesi olan",
-    "is not member of" : "şunun üyesi olmayan",
-    "Browse the app store" : "Uygulama mağazasına göz atın"
+    "is not member of" : "şunun üyesi olmayan"
 },
 "nplurals=2; plural=(n > 1);");

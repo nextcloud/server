@@ -145,7 +145,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Cheres atzetare s'invitu?",
     "Tentative" : "Intentu",
     "Comment" : "Cummentu",
-    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta.",
-    "Calendar and tasks" : "Calendàrios e fainas"
+    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta."
 },
 "nplurals=2; plural=(n != 1);");

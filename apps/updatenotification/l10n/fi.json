@@ -39,13 +39,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Viimeisin vakaa versio. Sopii säännölliseen käyttöön ja päivittyy aina uusimpaan pääversioon.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Esijulkaisuversio uusien toimintojen testaukseen, ei tuotantoympäristöille.",
-    "Apps missing updates" : "Sovellukset, joilta puuttuvat päivitykset",
-    "Apps with available updates" : "Sovellukset, joihin saatavilla päivityksiä",
-    "Only notification for app updates are available." : "Sovelluspäivityksiin on saatavilla vain huomautuksia.",
-    "Checking apps for compatible updates" : "Tarkistetaan sovellusten yhteensopivat päivitykset ",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Yhteyttä sovelluskauppaan ei voitu muodostaa tai sovelluskauppa ei ilmoittanut päivityksistä. Etsi päivityksiä manuaalisesti tai varmista, että palvelimellasi on yhteys internetiin ja se voi yhdistää sovelluskauppaan.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Kaikilla</strong> sovelluksilla on päivitys tähän versioon saatavilla",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla","<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Kaikista</strong> sovelluksista on saatavilla yhteensopiva versio tämän Nextcloudin version kanssa.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa","<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

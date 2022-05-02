@@ -140,9 +140,6 @@ OC.L10N.register(
     "Deleted shares" : "Kustutatud jagamised",
     "Pending shares" : "Ootel jagamised",
     "Text file" : "Tekstifail",
-    "New text file.txt" : "Uus tekstifail.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Sinu andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["vastab '{filter}'","vastab '{filter}'"]
+    "New text file.txt" : "Uus tekstifail.txt"
 },
 "nplurals=2; plural=(n != 1);");

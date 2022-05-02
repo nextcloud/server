@@ -48,8 +48,6 @@
     "Share provider which allows you to share files by mail" : "分享提供者，讓您可以透過電子郵件分享檔案",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "允許使用者透過輸入電子郵件地址來分享到檔案或資料夾的個人化連結。",
     "Send password by mail" : "透過電子郵件寄送密碼",
-    "Reply to initiator" : "回覆給發起人",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼寄送給您。請在您的個人設定裡設定有效的電子郵件地址並再試一次。",
-    "Enforce password protection" : "強制密碼保護"
+    "Reply to initiator" : "回覆給發起人"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

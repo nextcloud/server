@@ -144,9 +144,6 @@ OC.L10N.register(
     "Select or drop files" : "Select or drop files",
     "Uploaded files:" : "Uploaded files:",
     "Add to your Nextcloud" : "Add to your Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
-    "invalid permissions" : "invalid permissions",
-    "Can't change permissions for public share links" : "Can't change permissions for public share links",
-    "Download %s" : "Download %s"
+    "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist"
 },
 "nplurals=2; plural=(n != 1);");

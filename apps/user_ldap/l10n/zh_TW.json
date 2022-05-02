@@ -187,14 +187,6 @@
     "Username-LDAP User Mapping" : "使用者-LDAP 使用者映射",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "使用者名稱用於儲存並指派詮釋資料。為了精確識別並認出使用者，每個 LDAP 使用者都將會有內部使用者名稱。這需要從使用者名稱到 LDAP 使用者的映射。已建立的使用者名稱會映射到 LDAP 使用者的 UUID。另外，DN 會被快取以減少 LDAP 互動，但不會用於識別。若 DN 變更，將會找到變更。內部使用者名稱將會全面使用。清除映射將會讓到處都是未連結的項目。清除映射對設定並不敏感，其會影響到所有 LDAP 設定！不要在生產環境中清除映射，僅將其用於測試或實驗階段。",
     "Clear Username-LDAP User Mapping" : "清除使用者名稱-LDAP 使用者映射",
-    "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "發生 LDAP / AD 的連線錯誤，請檢查主機、連接埠與憑證。",
-    "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "「%uid」佔位字串遺失。查詢 LDAP / AD 時將會使用登入名稱取代。",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "因為 LDAP / AD 伺服器不支援 memberOf，所以停用群組盒。",
-    "LDAP / AD integration" : "LDAP / AD 整合",
-    "LDAP / AD Username:" : "LDAP / AD 使用者名稱：",
-    "Allows login against the LDAP / AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "允許使用 LDAP / AD 使用者名稱登入，可以是 \"uid\" 或 \"sAMAccountName\"。",
-    "LDAP / AD Email Address:" : "LDAP / AD 電子郵件地址：",
-    "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "預設情況下，內部使用者名稱將從 UUID 屬性建立。其確保了使用者名稱是唯一且不需要轉換字元。內部使用者名稱的限制是只能使用下列字元：[ a-zA-Z0-9_.@- ]。其他字元會使用其 ASCII 對映或被忽略。發生碰撞時，將會加入數字。內部使用者名稱用於內部識別使用者。其也是使用者家資料夾的預設名稱。也是遠端 URL 的一部分，舉例來說，會用於所有 *DAV 服務。使用此設定，預設的行為將會被覆寫。將其留空會使用預設行為。變更僅對新映射（新增）的 LDAP 使用者有效。"
+    "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

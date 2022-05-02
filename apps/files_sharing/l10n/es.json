@@ -248,10 +248,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
     "Add to your Nextcloud" : "Añadir a tu Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
-    "invalid permissions" : "Permisos incorrectos",
-    "Can't change permissions for public share links" : "No se pueden cambiar los permisos para los enlaces de recursos compartidos públicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado",
-    "Download %s" : "Descargar %s",
-    "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos"
+    "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

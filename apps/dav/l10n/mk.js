@@ -124,7 +124,6 @@ OC.L10N.register(
     "Tentative" : "Прелиминарно",
     "Number of guests" : "Број на гости",
     "Comment" : "Коментар",
-    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
-    "Calendar and tasks" : "Календар и задачи"
+    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

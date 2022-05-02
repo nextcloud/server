@@ -327,26 +327,13 @@
     "Current password" : "Поточний пароль",
     "New password" : "Новий пароль",
     "Change password" : "Змінити пароль",
-    "installing and updating apps via the app store or Federated Cloud Sharing" : "встановлення та оновлення застосунків через крамницю застосунків або об’єднання хмарних сховищ",
     "You need to set your user email before being able to send test emails." : "Перед надсиланням тестових листів ви повинні вказати свою email адресу.",
-    "Update all" : "Оновити всі",
-    "Nextcloud iOS app" : "Застосунок Nextcloud для iOS",
-    "Nextcloud Android app" : "Застосунок Nextcloud для Android",
-    "Nextcloud Talk for iOS" : "Застосунок Talk для iOS",
-    "Nextcloud Talk for Android" : "Застосунок Talk для Android",
-    "Add user in group" : "Додати користувача до групи",
-    "Close" : "Закрити",
     "All languages" : "Всі мови",
     "Everyone" : "Всі",
-    "The app will be downloaded from the app store" : "Застосунок буде звантажено з крамниці застосунків",
     "App update" : "Оновлення застосунку",
-    "Error: This app can not be enabled because it makes the server unstable" : "Помилка: цей застосунок неможливо ввімкнути, оскільки його активність шкодить роботі сервера",
-    "mail" : "пошта",
     "Test email settings" : "Тестувати налаштування ел. пошти",
-    "Expire after " : "Скінчиться через",
     "days" : "днів",
-    "Allow users to share via link" : "Дозволити користувачам ділитися через посилання",
     "No display name set" : "Ім'я для відображення не вказано",
-    "For password reset and notifications" : "Для скидання пароля та сповіщень"
+    "Update all" : "Оновити всі"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

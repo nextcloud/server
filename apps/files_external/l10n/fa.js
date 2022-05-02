@@ -128,11 +128,7 @@ OC.L10N.register(
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
-    "External storages" : "حافظه خارجی",
-    "(group)" : "(گروه)",
     "Delete" : "حذف",
-    "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS با استفاده از ورود OC"
+    "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟"
 },
 "nplurals=2; plural=(n > 1);");
