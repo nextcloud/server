@@ -427,10 +427,10 @@ class Database extends ABackend implements
 		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		while ($row = $result->fetch()) {
 			if (isset($row['displayname'])) {
-				$users[] = new LazyUser($row['uid'], $displayNameCache, $userManager, $row['displayname']);
+				$users[$row['uid']] = new LazyUser($row['uid'], $displayNameCache, $userManager, $row['displayname']);
 			} else {
 				// TODO maybe also fetch the displayname directly here
-				$users[] = new LazyUser($row['uid'], $displayNameCache, $userManager);
+				$users[$row['uid']] = new LazyUser($row['uid'], $displayNameCache, $userManager);
 			}
 		}
 		$result->closeCursor();

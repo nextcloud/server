@@ -30,12 +30,17 @@
 namespace Test\Util\Group;
 
 use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\ICountUsersBackend;
 use OCP\IUser;
 
 /**
- * dummy group backend, does not keep state, only for testing use
+ * Dummy group backend, does not keep state, only for testing use
  */
-class Dummy extends ABackend {
+class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend, IAddToGroupBackend, IRemoveFromGroupBackend, ICountUsersBackend {
 	private $groups = [];
 	/**
 	 * Try to create a new group
@@ -45,7 +50,7 @@ class Dummy extends ABackend {
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public function createGroup($gid) {
+	public function createGroup(string $gid): bool {
 		if (!isset($this->groups[$gid])) {
 			$this->groups[$gid] = [];
 			return true;
@@ -61,7 +66,7 @@ class Dummy extends ABackend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public function deleteGroup($gid) {
+	public function deleteGroup(string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			unset($this->groups[$gid]);
 			return true;
@@ -94,7 +99,7 @@ class Dummy extends ABackend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup($uid, $gid) {
+	public function addToGroup(string $uid, string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			if (array_search($uid, $this->groups[$gid]) === false) {
 				$this->groups[$gid][] = $uid;
@@ -115,7 +120,7 @@ class Dummy extends ABackend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid, $gid) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			if (($index = array_search($uid, $this->groups[$gid])) !== false) {
 				unset($this->groups[$gid][$index]);
@@ -201,7 +206,7 @@ class Dummy extends ABackend {
 	 * @param int $offset
 	 * @return int
 	 */
-	public function countUsersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+	public function countUsersInGroup(string $gid, string $search = ''): int {
 		if (isset($this->groups[$gid])) {
 			if (empty($search)) {
 				return count($this->groups[$gid]);

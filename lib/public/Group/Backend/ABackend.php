@@ -73,7 +73,10 @@ abstract class ABackend implements GroupInterface {
 		// Default implementation for compatibility reasons
 		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		$userManager = \OC::$server->get(IUserManager::class);
-		return array_map(fn($userId) => new LazyUser($userId, $displayNameCache, $userManager),
-			$this->usersInGroup($gid, $search, $limit, $offset));
+		$users = [];
+		foreach ($this->usersInGroup($gid, $search, $limit, $offset) as $userId) {
+			$users[$userId] = new LazyUser($userId, $displayNameCache, $userManager);
+		}
+		return $users;
 	}
 }

@@ -304,9 +304,9 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('2');
 
@@ -326,13 +326,13 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 		$backend2->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('2');
 
@@ -349,9 +349,9 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 1, 1)
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('user', 1, 1);
 
@@ -371,13 +371,13 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 		$backend2->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user1']);
+			->willReturn(['user1' => new \OC\User\User('user1', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('user', 2, 1);
 
@@ -441,17 +441,28 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testCountUsersNoMethod() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder('OCP\Group\GroupInterface')
 			->disableOriginalConstructor()
+			->setMethods([
+				'getGroupDetails',
+				'implementsActions',
+				'getUserGroups',
+				'inGroup',
+				'getGroups',
+				'groupExists',
+				'usersInGroup',
+				'createGroup',
+				'addToGroup',
+				'removeFromGroup',
+				'searchInGroup',
+				'countUsersInGroup'
+			])
 			->getMock();
 		$userManager = $this->getUserManager();
 		$group = new \OC\Group\Group('group1', [$backend1], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->never())
 			->method('countUsersInGroup');
-		$backend1->expects($this->any())
-			->method('implementsActions')
-			->willReturn(false);
 
 		$users = $group->count('2');
 
@@ -468,9 +479,6 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('deleteGroup')
 			->with('group1');
-		$backend->expects($this->any())
-			->method('implementsActions')
-			->willReturn(true);
 
 		$group->delete();
 	}

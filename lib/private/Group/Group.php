@@ -239,7 +239,7 @@ class Group implements IGroup {
 	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$users += $backend->searchInGroup($this->gid, $search, $limit, $offset);
+			$users = array_merge($users, $backend->searchInGroup($this->gid, $search, $limit ? $limit : -1, $offset ? $offset : 0));
 			if (!is_null($limit) and $limit <= 0) {
 				return $users;
 			}

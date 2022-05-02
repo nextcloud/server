@@ -87,6 +87,7 @@ class ManagerTest extends TestCase {
 				'createGroup',
 				'addToGroup',
 				'removeFromGroup',
+				'searchInGroup',
 			])
 			->getMock();
 		$backend->expects($this->any())
@@ -352,9 +353,13 @@ class ManagerTest extends TestCase {
 			->with('1')
 			->willReturn(['group1']);
 		$backend->expects($this->once())
+			->method('getGroupDetails')
+			->with('group1')
+			->willReturn([]);
+		$backend->expects($this->any())
 			->method('groupExists')
 			->with('group1')
-			->willReturn(false);
+			->willReturn(true);
 
 		/** @var \OC\User\Manager $userManager */
 		$userManager = $this->createMock(Manager::class);
@@ -379,6 +384,10 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->with('group1')
 			->willReturn(true);
+		$backend->expects($this->any())
+			->method('getGroupDetails')
+			->with('group1')
+			->willReturn([]);
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
 		$manager->addBackend($backend);
@@ -544,19 +553,10 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->with('testgroup')
 			->willReturn(true);
-
-		$backend->expects($this->any())
-			->method('inGroup')
-			->willReturnCallback(function ($uid, $gid) {
-				switch ($uid) {
-					case 'user1': return false;
-					case 'user2': return true;
-					case 'user3': return false;
-					case 'user33': return true;
-					default:
-						return null;
-					}
-			});
+		$backend->expects($this->once())
+			->method('getGroupDetails')
+			->with('testgroup')
+			->willReturn([]);
 
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
