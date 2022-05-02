@@ -125,7 +125,7 @@ class Connection extends LDAPUtility {
 	protected $ignoreValidation = false;
 
 	/**
-	 * @var array{dn?: mixed, hash?: string, result?: bool}
+	 * @var array{sum?: string, result?: bool}
 	 */
 	protected $bindResult = [];
 
@@ -669,11 +669,7 @@ class Connection extends LDAPUtility {
 
 		if (
 			count($this->bindResult) !== 0
-			&& $this->bindResult['dn'] === $this->configuration->ldapAgentName
-			&& \OC::$server->getHasher()->verify(
-				$this->configPrefix . $this->configuration->ldapAgentPassword,
-				$this->bindResult['hash']
-			)
+			&& $this->bindResult['sum'] === md5($this->configuration->ldapAgentName . $this->configPrefix . $this->configuration->ldapAgentPassword)
 		) {
 			// don't attempt to bind again with the same data as before
 			// bind might have been invoked via getConnectionResource(),
@@ -686,8 +682,7 @@ class Connection extends LDAPUtility {
 										$this->configuration->ldapAgentPassword);
 
 		$this->bindResult = [
-			'dn' => $this->configuration->ldapAgentName,
-			'hash' => \OC::$server->getHasher()->hash($this->configPrefix . $this->configuration->ldapAgentPassword),
+			'sum' => md5($this->configuration->ldapAgentName . $this->configPrefix . $this->configuration->ldapAgentPassword),
 			'result' => $ldapLogin,
 		];
 
