@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -90,8 +91,9 @@ abstract class LogDetails {
 				$entry['exception'] = $message;
 				$entry['message'] = $message['CustomMessage'] !== '--' ? $message['CustomMessage'] : $message['Message'];
 			} else {
-				$entry['data'] = $message;
 				$entry['message'] = $message['message'] ?? '(no message provided)';
+				unset($message['message']);
+				$entry['data'] = $message;
 			}
 		}
 
