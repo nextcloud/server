@@ -29,12 +29,13 @@
 
 namespace Test\Util\Group;
 
-use OC\Group\Backend;
+use OCP\Group\Backend\ABackend;
+use OCP\IUser;
 
 /**
  * dummy group backend, does not keep state, only for testing use
  */
-class Dummy extends Backend {
+class Dummy extends ABackend {
 	private $groups = [];
 	/**
 	 * Try to create a new group
@@ -213,5 +214,10 @@ class Dummy extends Backend {
 			}
 			return $count;
 		}
+		return 0;
+	}
+
+	public function groupExists($gid) {
+		return isset($this->groups[$gid]);
 	}
 }

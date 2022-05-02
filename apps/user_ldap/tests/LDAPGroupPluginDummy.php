@@ -37,19 +37,19 @@ class LDAPGroupPluginDummy implements ILDAPGroupPlugin {
 		return null;
 	}
 
-	public function addToGroup($uid, $gid) {
-		return null;
+	public function addToGroup($uid, $gid): bool {
+		return false;
 	}
 
-	public function removeFromGroup($uid, $gid) {
-		return null;
+	public function removeFromGroup($uid, $gid): bool {
+		return false;
 	}
 
-	public function countUsersInGroup($gid, $search = '') {
-		return null;
+	public function countUsersInGroup($gid, $search = ''): int {
+		return 0;
 	}
 
-	public function getGroupDetails($gid) {
-		return null;
+	public function getGroupDetails($gid): array {
+		return [];
 	}
 }

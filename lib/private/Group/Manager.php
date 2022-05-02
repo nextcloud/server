@@ -41,6 +41,9 @@ namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\IIsAdminBackend;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -177,9 +180,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 	protected function getGroupObject($gid, $displayName = null) {
 		$backends = [];
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(Backend::GROUP_DETAILS)) {
+			if ($backend instanceof IGroupDetailsBackend || $backend->implementsActions(GroupInterface::GROUP_DETAILS)) {
+				/** @var IGroupDetailsBackend $backend */
 				$groupData = $backend->getGroupDetails($gid);
-				if (is_array($groupData) && !empty($groupData)) {
+				if (!empty($groupData)) {
 					// take the display name from the first backend that has a non-null one
 					if (is_null($displayName) && isset($groupData['displayName'])) {
 						$displayName = $groupData['displayName'];
@@ -193,6 +197,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		if (count($backends) === 0) {
 			return null;
 		}
+		/** @var GroupInterface[] $backends */
 		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this, $displayName);
 		return $this->cachedGroups[$gid];
 	}
@@ -217,7 +222,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} else {
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
-				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
+				if ($backend instanceof ICreateGroupBackend || $backend->implementsActions(GroupInterface::CREATE_GROUP)) {
+					/** @var ICreateGroupBackend $backend */
 					if ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->emit('\OC\Group', 'postCreate', [$group]);
@@ -292,8 +298,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function isAdmin($userId) {
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
-				return true;
+			if ($backend instanceof IIsAdminBackend || $backend->implementsActions(GroupInterface::IS_ADMIN)) {
+				/** @var IIsAdminBackend $backend */
+				if ($backend->isAdmin($userId)) {
+					return true;
+				}
 			}
 		}
 		return $this->isInGroup($userId, 'admin');

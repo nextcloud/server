@@ -94,7 +94,6 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
-	private ?DisplayNameCache $displayNameCache = null;
 
 	public function __construct(IConfig $config,
 								EventDispatcherInterface $oldDispatcher,
@@ -290,15 +289,16 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
+		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[$uid] = $this->getUserObject($uid, $backend);
+					$users[$uid] = new LazyUser($uid, $displayNameCache, $this, null, $backend);
 				}
 			}
 		}
@@ -319,24 +319,24 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
-		$this->displayNameCache = \OC::$server->get(DisplayNameCache::class);
+		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = new LazyUser($uid, $this->displayNameCache, $this, $displayName, $backend);
+					$users[] = new LazyUser($uid, $displayNameCache, $this, $displayName, $backend);
 				}
 			}
 		}
 
 		usort($users, function ($a, $b) {
 			/**
-			 * @var \OC\User\User $a
-			 * @var \OC\User\User $b
+			 * @var IUser $a
+			 * @var IUser $b
 			 */
 			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});

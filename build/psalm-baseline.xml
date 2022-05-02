@@ -3487,29 +3487,15 @@
     </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/Group/Group.php">
-    <InvalidArgument occurrences="7">
+    <InvalidArgument occurrences="6">
       <code>IGroup::class . '::postAddUser'</code>
       <code>IGroup::class . '::postDelete'</code>
       <code>IGroup::class . '::postRemoveUser'</code>
       <code>IGroup::class . '::preAddUser'</code>
       <code>IGroup::class . '::preDelete'</code>
       <code>IGroup::class . '::preRemoveUser'</code>
-      <code>bool</code>
     </InvalidArgument>
-    <InvalidOperand occurrences="1">
-      <code>$hide</code>
-    </InvalidOperand>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$user</code>
-    </MoreSpecificImplementedParamType>
-    <RedundantCondition occurrences="6">
-      <code>$this-&gt;emitter</code>
-      <code>$this-&gt;emitter</code>
-      <code>$this-&gt;emitter</code>
-      <code>$this-&gt;emitter</code>
-      <code>$this-&gt;emitter</code>
-      <code>$this-&gt;emitter</code>
-    </RedundantCondition>
+    <RedundantCondition occurrences="2"/>
     <TooManyArguments occurrences="6">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -3518,19 +3504,6 @@
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
-    <UndefinedMethod occurrences="4">
-      <code>addToGroup</code>
-      <code>countUsersInGroup</code>
-      <code>deleteGroup</code>
-      <code>removeFromGroup</code>
-    </UndefinedMethod>
-  </file>
-  <file src="lib/private/Group/Manager.php">
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>createGroup</code>
-      <code>getGroupDetails</code>
-      <code>isAdmin</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Http/Client/Response.php">
     <InvalidNullableReturnType occurrences="1">

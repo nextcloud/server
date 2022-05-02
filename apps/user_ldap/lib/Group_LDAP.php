@@ -47,17 +47,19 @@ use Exception;
 use OC;
 use OC\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
-use OC\User\DisplayNameCache;
-use OC\User\LazyUser;
 use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICountUsersBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\GroupInterface;
-use OCP\IUser;
-use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
-class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
+class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP,
+	IGetDisplayNameBackend, IDeleteGroupBackend, ICountUsersBackend, IAddToGroupBackend,
+	IRemoveFromGroupBackend, IGroupDetailsBackend {
 	protected $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
@@ -66,10 +68,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
-	/** @var GroupPluginManager */
-	protected $groupPluginManager;
-	/** @var LoggerInterface */
-	protected $logger;
+	protected GroupPluginManager $groupPluginManager;
+	protected LoggerInterface $logger;
 	protected Access $access;
 
 	/**
@@ -1006,22 +1006,19 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	}
 
 	/**
-	 * returns the number of users in a group, who match the search term
+	 * Returns the number of users in a group, who match the search term
 	 *
-	 * @param string $gid the internal group name
-	 * @param string $search optional, a search string
-	 * @return int|bool
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
-	public function countUsersInGroup($gid, $search = '') {
+	public function countUsersInGroup(string $gid, string $search = ''): int {
 		if ($this->groupPluginManager->implementsActions(GroupInterface::COUNT_USERS)) {
 			return $this->groupPluginManager->countUsersInGroup($gid, $search);
 		}
 
 		$cacheKey = 'countUsersInGroup-' . $gid . '-' . $search;
 		if (!$this->enabled || !$this->groupExists($gid)) {
-			return false;
+			return 0;
 		}
 		$groupUsers = $this->access->connection->getFromCache($cacheKey);
 		if (!is_null($groupUsers)) {
@@ -1032,7 +1029,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if (!$groupDN) {
 			// group couldn't be found, return empty result set
 			$this->access->connection->writeToCache($cacheKey, false);
-			return false;
+			return 0;
 		}
 
 		$members = $this->_groupMembers($groupDN);
@@ -1040,7 +1037,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if (!$members && $primaryUserCount === 0) {
 			//in case users could not be retrieved, return empty result set
 			$this->access->connection->writeToCache($cacheKey, false);
-			return false;
+			return 0;
 		}
 
 		if ($search === '') {
@@ -1293,7 +1290,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function addToGroup($uid, $gid) {
+	public function addToGroup(string $uid, string $gid): bool {
 		if ($this->groupPluginManager->implementsActions(GroupInterface::ADD_TO_GROUP)) {
 			if ($ret = $this->groupPluginManager->addToGroup($uid, $gid)) {
 				$this->access->connection->clearCache();
@@ -1312,7 +1309,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function removeFromGroup($uid, $gid) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		if ($this->groupPluginManager->implementsActions(GroupInterface::REMOVE_FROM_GROUP)) {
 			if ($ret = $this->groupPluginManager->removeFromGroup($uid, $gid)) {
 				$this->access->connection->clearCache();
@@ -1327,10 +1324,10 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * Gets group details
 	 *
 	 * @param string $gid Name of the group
-	 * @return array|false
+	 * @return array
 	 * @throws Exception
 	 */
-	public function getGroupDetails($gid) {
+	public function getGroupDetails(string $gid): array {
 		if ($this->groupPluginManager->implementsActions(GroupInterface::GROUP_DETAILS)) {
 			return $this->groupPluginManager->getGroupDetails($gid);
 		}

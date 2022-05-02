@@ -126,7 +126,7 @@ class GroupPluginManager {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup($uid, $gid) {
+	public function addToGroup(string $uid, string $gid): bool {
 		$plugin = $this->which[GroupInterface::ADD_TO_GROUP];
 
 		if ($plugin) {
@@ -144,7 +144,7 @@ class GroupPluginManager {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid, $gid) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		$plugin = $this->which[GroupInterface::REMOVE_FROM_GROUP];
 
 		if ($plugin) {
@@ -157,14 +157,17 @@ class GroupPluginManager {
 	 * get the number of all users matching the search string in a group
 	 * @param string $gid ID of the group
 	 * @param string $search query string
-	 * @return int|false
 	 * @throws \Exception
 	 */
-	public function countUsersInGroup($gid, $search = '') {
+	public function countUsersInGroup(string $gid, string $search = ''): int {
 		$plugin = $this->which[GroupInterface::COUNT_USERS];
 
 		if ($plugin) {
-			return $plugin->countUsersInGroup($gid,$search);
+			$count = $plugin->countUsersInGroup($gid,$search);
+			if ($count === false) {
+				return -1;
+			}
+			return $count;
 		}
 		throw new \Exception('No plugin implements countUsersInGroup in this LDAP Backend.');
 	}
@@ -172,14 +175,18 @@ class GroupPluginManager {
 	/**
 	 * get an array with group details
 	 * @param string $gid
-	 * @return array|false
+	 * @return array
 	 * @throws \Exception
 	 */
-	public function getGroupDetails($gid) {
+	public function getGroupDetails($gid): array {
 		$plugin = $this->which[GroupInterface::GROUP_DETAILS];
 
 		if ($plugin) {
-			return $plugin->getGroupDetails($gid);
+			$details = $plugin->getGroupDetails($gid);
+			if ($details === false) {
+				return [];
+			}
+			return $details;
 		}
 		throw new \Exception('No plugin implements getGroupDetails in this LDAP Backend.');
 	}

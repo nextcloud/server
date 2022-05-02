@@ -31,25 +31,40 @@ namespace OCP;
 /**
  * Interface IGroup
  *
+ * This interface makes it possible to interact with groups and abstract the
+ * various group backends. You should use it directly in your application and
+ * not subclass it.
+ *
+ * <code>
+ * // Get the admin group
+ * $adminGroup = $groupManager->get('admin');
+ * </code>
+ *
  * @since 8.0.0
  */
 interface IGroup {
 	/**
-	 * @return string
+	 * @brief Get the group id of the group.
+	 *
+	 * The group id is a unique identifier for the group. If multiple group
+	 * backend use the same group identifier, the users of the various backends
+	 * will be considered to be in the same group.
+	 *
 	 * @since 8.0.0
 	 */
-	public function getGID();
+	public function getGID(): string;
 
 	/**
-	 * Returns the group display name
+	 * @brief Get the display name of the group.
 	 *
-	 * @return string
+	 * Depending on the internal backend, this might be the same as @see getGID
+	 *
 	 * @since 12.0.0
 	 */
-	public function getDisplayName();
+	public function getDisplayName(): string;
 
 	/**
-	 * Set the group display name
+	 * @brief Set the group display name
 	 *
 	 * @param string $displayName
 	 * @return bool
@@ -58,76 +73,66 @@ interface IGroup {
 	public function setDisplayName(string $displayName): bool;
 
 	/**
-	 * get all users in the group
+	 * @brief Get all the users in the group
 	 *
 	 * @return IUser[]
 	 * @since 8.0.0
 	 */
-	public function getUsers();
+	public function getUsers(): array;
 
 	/**
-	 * check if a user is in the group
+	 * @brief Check if a user is in the group.
 	 *
-	 * @param IUser $user
-	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function inGroup(IUser $user);
+	public function inGroup(IUser $user): bool;
 
 	/**
-	 * add a user to the group
+	 * @brief Add a user to this group
 	 *
-	 * @param IUser $user
 	 * @since 8.0.0
 	 */
-	public function addUser(IUser $user);
+	public function addUser(IUser $user): void;
 
 	/**
-	 * remove a user from the group
+	 * @brief Remove a user from the group
 	 *
-	 * @param IUser $user
 	 * @since 8.0.0
 	 */
-	public function removeUser($user);
+	public function removeUser(IUser $user): void;
 
 	/**
-	 * Search for users in the group by userid or display name
+	 * @brief Search for users in the group by userid or display name
 	 *
-	 * @param string $search
-	 * @param ?int $limit
-	 * @param ?int $offset
 	 * @return IUser[]
 	 * @since 8.0.0
 	 */
 	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array;
 
 	/**
-	 * returns the number of users matching the search string
+	 * @brief Count the number of users matching the search string
 	 *
-	 * @param string $search
-	 * @return int|bool
+	 * @return int|false
 	 * @since 8.0.0
 	 */
-	public function count($search = '');
+	public function count(string $search = '');
 
 	/**
-	 * returns the number of disabled users
+	 * @brief Get the number of disabled users in the group
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 * @since 14.0.0
 	 */
 	public function countDisabled();
 
 	/**
-	 * search for users in the group by displayname
+	 * Search for users in the group by display name
 	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
 	 * @return IUser[]
 	 * @since 8.0.0
+	 * @depreacted 25.0.0 Use searchUsers instead, the implementation is the same
 	 */
-	public function searchDisplayName($search, $limit = null, $offset = null);
+	public function searchDisplayName(string $search, ?int $limit = null, ?int $offset = null): array;
 
 	/**
 	 * Get the names of the backends the group is connected to
@@ -135,30 +140,34 @@ interface IGroup {
 	 * @return string[]
 	 * @since 22.0.0
 	 */
-	public function getBackendNames();
+	public function getBackendNames(): array;
 
 	/**
-	 * delete the group
+	 * @brief Delete the group
 	 *
-	 * @return bool
+	 * This is not possible for the admin group.
+	 *
 	 * @since 8.0.0
 	 */
-	public function delete();
+	public function delete(): bool;
 
 	/**
-	 * @return bool
+	 * @brief Check if the group is allowed to remove users
+	 *
 	 * @since 14.0.0
 	 */
-	public function canRemoveUser();
+	public function canRemoveUser(): bool;
 
 	/**
-	 * @return bool
+	 * @brief Check if the group is allowed to add users
+	 *
 	 * @since 14.0.0
 	 */
-	public function canAddUser();
+	public function canAddUser(): bool;
 
 	/**
-	 * @return bool
+	 * @brief Check if the group is hidden from collaboration
+	 *
 	 * @since 16.0.0
 	 */
 	public function hideFromCollaboration(): bool;
