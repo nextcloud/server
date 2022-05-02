@@ -381,11 +381,7 @@ class Database extends ABackend implements
 		return $users;
 	}
 
-	/**
-	 * Get a list of all users in a group by display name
-	 * @return IUser[]
-	 */
-	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -424,7 +420,7 @@ class Database extends ABackend implements
 			$query->setFirstResult($offset);
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$users = [];
 		$userManager = \OC::$server->get(IUserManager::class);

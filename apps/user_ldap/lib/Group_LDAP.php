@@ -49,6 +49,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
 use OC\User\DisplayNameCache;
 use OC\User\LazyUser;
+use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\GroupInterface;
@@ -56,7 +57,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
-class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
+class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
 	protected $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
@@ -69,6 +70,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected $groupPluginManager;
 	/** @var LoggerInterface */
 	protected $logger;
+	protected Access $access;
 
 	/**
 	 * @var string $ldapGroupMemberAssocAttr contains the LDAP setting (in lower case) with the same name
@@ -76,7 +78,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected $ldapGroupMemberAssocAttr;
 
 	public function __construct(Access $access, GroupPluginManager $groupPluginManager) {
-		parent::__construct($access);
+		$this->access = $access;
 		$filter = $this->access->connection->ldapGroupFilter;
 		$gAssoc = $this->access->connection->ldapGroupMemberAssocAttr;
 		if (!empty($filter) && !empty($gAssoc)) {
@@ -1207,7 +1209,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * Returns the supported actions as int to be
 	 * compared with GroupInterface::CREATE_GROUP etc.
 	 */
-	public function implementsActions($actions) {
+	public function implementsActions($actions): bool {
 		return (bool)((GroupInterface::COUNT_USERS |
 				GroupInterface::DELETE_GROUP |
 				$this->groupPluginManager->getImplementedActions()) & $actions);
@@ -1375,15 +1377,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		return '';
 	}
 
-	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		if (!$this->enabled) {
 			return [];
 		}
-		$users = $this->usersInGroup($gid, $search, $limit, $offset);
-		$userManager = \OC::$server->get(IUserManager::class);
-		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
-		return array_map(function (string $userId) use ($userManager, $displayNameCache): IUser {
-			return new LazyUser($userId, $displayNameCache, $userManager);
-		}, $users);
+		return parent::searchInGroup($gid, $search, $limit, $offset);
 	}
 }

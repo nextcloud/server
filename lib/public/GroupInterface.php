@@ -107,18 +107,35 @@ interface GroupInterface {
 	public function groupExists($gid);
 
 	/**
-	 * get a list of all users in a group
+	 * @brief Get a list of user ids in a group matching the given search parameters.
+	 *
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array an array of user ids
 	 * @since 4.5.0
+	 * @depreacted 25.0.0 Use searchInGroup instead, for performance reasons
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 
 	/**
+	 * @brief Get a list of users matching the given search parameters.
+	 *
+	 * Implementations of this method must return lazy evaluated user objects and
+	 * preload if possible the display name.
+	 *
+	 * <code>
+	 * $users = $groupBackend->searchInGroup('admin', 'John', 10, 0);
+	 * </code>
+	 *
+	 * @param string $gid    The group id of the user we want to search
+	 * @param string $search The part of the display name or user id of the users we
+	 *                       want to search. This can be empty to get all the users.
+	 * @param int $limit     The limit of results
+	 * @param int $offset    The offset of the results
+	 * @return IUser[]
 	 * @since 25.0.0
 	 */
-	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;
 }

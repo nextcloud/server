@@ -25,7 +25,10 @@ declare(strict_types=1);
  */
 namespace OCP\Group\Backend;
 
+use OC\User\DisplayNameCache;
+use OC\User\LazyUser;
 use OCP\GroupInterface;
+use OCP\IUserManager;
 
 /**
  * @since 14.0.0
@@ -64,5 +67,13 @@ abstract class ABackend implements GroupInterface {
 		}
 
 		return (bool)($actions & $implements);
+	}
+
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		// Default implementation for compatibility reasons
+		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
+		$userManager = \OC::$server->get(IUserManager::class);
+		return array_map(fn($userId) => new LazyUser($userId, $displayNameCache, $userManager),
+			$this->usersInGroup($gid, $search, $limit, $offset));
 	}
 }

@@ -238,19 +238,13 @@ class Group implements IGroup {
 	}
 
 	/**
-	 * search for users in the group by userid
-	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * Search for users in the group by userid or display name
 	 */
-	public function searchUsers($search, $limit = null, $offset = null) {
+	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			$users += $this->getVerifiedUsers($userIds);
-			if (!is_null($limit) and $limit <= 0) {
+			$users += $backend->searchInGroup($this->gid, $search, $limit, $offset);
+			if (!is_null($limit) and $limit <= count($users)) {
 				return $users;
 			}
 		}

@@ -307,7 +307,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		return 'LDAP';
 	}
 
-	public function searchDisplayName(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		$users = [];
 
 		foreach ($this->backends as $backend) {

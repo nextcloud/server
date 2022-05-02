@@ -60,7 +60,7 @@ interface IGroup {
 	/**
 	 * get all users in the group
 	 *
-	 * @return \OCP\IUser[]
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
 	public function getUsers();
@@ -68,7 +68,7 @@ interface IGroup {
 	/**
 	 * check if a user is in the group
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @return bool
 	 * @since 8.0.0
 	 */
@@ -77,7 +77,7 @@ interface IGroup {
 	/**
 	 * add a user to the group
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @since 8.0.0
 	 */
 	public function addUser(IUser $user);
@@ -85,21 +85,21 @@ interface IGroup {
 	/**
 	 * remove a user from the group
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @since 8.0.0
 	 */
 	public function removeUser($user);
 
 	/**
-	 * search for users in the group by userid
+	 * Search for users in the group by userid or display name
 	 *
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @param ?int $limit
+	 * @param ?int $offset
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
-	public function searchUsers($search, $limit = null, $offset = null);
+	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array;
 
 	/**
 	 * returns the number of users matching the search string
@@ -124,7 +124,7 @@ interface IGroup {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null);

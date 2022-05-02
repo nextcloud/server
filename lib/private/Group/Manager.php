@@ -365,11 +365,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 		if (is_null($group)) {
 			return [];
 		}
-		$groupUsers = $group->searchDisplayName($search, $limit, $offset);
+		$groupUsers = $group->searchUsers($search, $limit, $offset);
 
 		$matchingUsers = [];
 		foreach ($groupUsers as $groupUser) {
-			$matchingUsers[(string) $groupUser->getUID()] = $groupUser->getDisplayName();
+			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}
