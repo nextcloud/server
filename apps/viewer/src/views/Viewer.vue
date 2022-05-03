@@ -24,7 +24,7 @@
 <template>
 	<Modal v-if="initiated || currentFile.modal"
 		id="viewer"
-		size="large"
+		size="full"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
 			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
 		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
@@ -785,20 +785,29 @@ export default {
 
 	::v-deep .modal-container,
 	&__content {
+		overflow: visible !important;
+		cursor: pointer;
+	}
+
+	::v-deep .modal-wrapper {
+		.modal-container {
+			// Ensure some space at the bottom
+			top: var(--header-height);
+			bottom: var(--header-height);
+			height: auto;
+			// let the mime components manage their own background-color
+			background-color: transparent;
+			box-shadow: none;
+		}
+	}
+
+	&__content {
 		// center views
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		cursor: pointer;
-	}
-
-	::v-deep .modal-wrapper {
-		.modal-container {
-			// let the mime components manage their own background-color
-			background-color: transparent;
-		}
 	}
 
 	&__file {
@@ -819,21 +828,18 @@ export default {
 
 	&.theme--light {
 		&.modal-mask {
-			background-color: rgba(255, 255, 255, 0.92) !important;
+			background-color: rgba(255, 255, 255, .92) !important;
 		}
 		::v-deep .modal-title,
 		::v-deep .modal-header .icons-menu button svg {
-			color: #000000 !important;
-		}
-		::v-deep .modal-container {
-			box-shadow: none;
+			color: #000 !important;
 		}
 	}
 
 	&.theme--default {
 		&.modal-mask {
 			body.theme--light & {
-				background-color: rgba(255, 255, 255, 0.92) !important;
+				background-color: rgba(255, 255, 255, .92) !important;
 			}
 		}
 		::v-deep .modal-title,
@@ -843,9 +849,6 @@ export default {
 			button svg, a {
 				color: var(--color-main-text) !important;
 			}
-		}
-		::v-deep .modal-container {
-			box-shadow: none;
 		}
 	}
 }

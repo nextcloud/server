@@ -30,8 +30,8 @@ describe('Open mp4 videos in viewer', function() {
 		cy.login(randUser, 'password')
 
 		// Upload test file
-		cy.uploadFile('video1.mp4', 'video/mp4')
-		cy.uploadFile('image1.jpg', 'image/jpeg')
+		cy.uploadFile('test-card.mp4', 'video/mp4')
+		cy.uploadFile('test-card.png', 'image/png')
 		cy.visit('/apps/files')
 
 		// wait a bit for things to be settled
@@ -42,19 +42,19 @@ describe('Open mp4 videos in viewer', function() {
 	})
 
 	it('See files in the list', function() {
-		cy.get('#fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
-			.should('contain', 'video1.mp4')
-		cy.get('#fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
-			.should('contain', 'image1.jpg')
+		cy.get('#fileList tr[data-file="test-card.mp4"]', { timeout: 10000 })
+			.should('contain', 'test-card.mp4')
+		cy.get('#fileList tr[data-file="test-card.png"]', { timeout: 10000 })
+			.should('contain', 'test-card.png')
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('video1.mp4')
+		cy.openFile('test-card.mp4')
 		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'video1.mp4')
+		cy.get('body > .viewer .modal-title').should('contain', 'test-card.mp4')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
@@ -63,7 +63,7 @@ describe('Open mp4 videos in viewer', function() {
 		cy.get('body > .viewer .modal-container video').should('have.length', 1)
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/video1.mp4`)
+			.and('contain', `/remote.php/dav/files/${randUser}/test-card.mp4`)
 		cy.get('body > .viewer a.next').should('be.visible')
 		cy.get('body > .viewer a.next').should('be.visible')
 	})
@@ -75,7 +75,7 @@ describe('Open mp4 videos in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take screenshot 1', function() {
+	it('Take test-card.mp4 screenshot', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video').then(video => {
 			video.get(0).pause()
 			video.get(0).currentTime = 1
@@ -100,7 +100,7 @@ describe('Open mp4 videos in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take screenshot 2', function() {
+	it('Take test-card.png screenshot', function() {
 		cy.compareSnapshot('image')
 	})
 })

@@ -57,10 +57,6 @@ describe('Open image.webp in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('body > .viewer .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
-	})
-
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'image.webp')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
