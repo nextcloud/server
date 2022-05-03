@@ -426,12 +426,7 @@ class Database extends ABackend implements
 		$userManager = \OC::$server->get(IUserManager::class);
 		$displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		while ($row = $result->fetch()) {
-			if (isset($row['displayname'])) {
-				$users[$row['uid']] = new LazyUser($row['uid'], $displayNameCache, $userManager, $row['displayname']);
-			} else {
-				// TODO maybe also fetch the displayname directly here
-				$users[$row['uid']] = new LazyUser($row['uid'], $displayNameCache, $userManager);
-			}
+			$users[$row['uid']] = new LazyUser($row['uid'], $displayNameCache, $userManager, $row['displayname'] ?? null);
 		}
 		$result->closeCursor();
 

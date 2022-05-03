@@ -235,6 +235,7 @@ class Group implements IGroup {
 
 	/**
 	 * Search for users in the group by userid or display name
+	 * @return IUser[]
 	 */
 	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];

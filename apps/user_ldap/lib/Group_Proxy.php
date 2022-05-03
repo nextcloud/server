@@ -312,9 +312,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->searchInGroup($gid, $search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$users = array_merge($users, $backendUsers);
-			}
+			$users = array_merge($users, $backendUsers);
 		}
 
 		return $users;

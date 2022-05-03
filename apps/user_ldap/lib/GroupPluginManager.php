@@ -165,7 +165,7 @@ class GroupPluginManager {
 		if ($plugin) {
 			$count = $plugin->countUsersInGroup($gid,$search);
 			if ($count === false) {
-				return -1;
+				return 0; // no entry found
 			}
 			return $count;
 		}
