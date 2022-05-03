@@ -1745,6 +1745,14 @@
       <code>$lastUpdateCheckTimestamp</code>
     </InvalidScalarArgument>
   </file>
+  <file src="apps/user_ldap/lib/AppInfo/Application.php">
+    <InvalidArgument occurrences="1">
+      <code>'OCA\\User_LDAP\\User\\User::postLDAPBackendAdded'</code>
+    </InvalidArgument>
+    <TooManyArguments occurrences="1">
+      <code>dispatch</code>
+    </TooManyArguments>
+  </file>
   <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
     <InvalidScalarArgument occurrences="1">
       <code>$ln + 1</code>
@@ -1764,14 +1772,6 @@
       <code>string[]</code>
     </InvalidReturnType>
   </file>
-  <file src="apps/user_ldap/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1">
-      <code>'OCA\\User_LDAP\\User\\User::postLDAPBackendAdded'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
   <file src="apps/user_ldap/lib/Connection.php">
     <ParadoxicalCondition occurrences="1"/>
   </file>
@@ -1790,11 +1790,6 @@
       <code>is_array($groupDNs)</code>
       <code>is_array($list)</code>
     </RedundantCondition>
-  </file>
-  <file src="apps/user_ldap/lib/Group_Proxy.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$gid</code>
-    </ParamNameMismatch>
   </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
     <InvalidOperand occurrences="2">
@@ -3495,7 +3490,7 @@
       <code>IGroup::class . '::preDelete'</code>
       <code>IGroup::class . '::preRemoveUser'</code>
     </InvalidArgument>
-    <RedundantCondition occurrences="2"/>
+    <RedundantCondition occurrences="1"/>
     <TooManyArguments occurrences="6">
       <code>dispatch</code>
       <code>dispatch</code>

@@ -142,7 +142,7 @@ abstract class Proxy {
 	 * @param string $id
 	 * @return Access
 	 */
-	abstract public function getLDAPAccess($id);
+	abstract public function getLDAPAccess($gid);
 
 	abstract protected function activeBackends(): int;
 

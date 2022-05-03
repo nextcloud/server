@@ -45,7 +45,6 @@ use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\IDBConnection;
-use OCP\IUser;
 use OCP\IUserManager;
 
 /**

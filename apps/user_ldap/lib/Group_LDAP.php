@@ -1324,7 +1324,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP,
 	 * Gets group details
 	 *
 	 * @param string $gid Name of the group
-	 * @return array
+	 * @return array{displayName?: string}
 	 * @throws Exception
 	 */
 	public function getGroupDetails(string $gid): array {

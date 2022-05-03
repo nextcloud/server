@@ -28,11 +28,19 @@
  */
 namespace OCA\User_LDAP;
 
+use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\INamedBackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICountUsersBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\GroupInterface;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend {
+class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP,
+	IGetDisplayNameBackend, IDeleteGroupBackend, ICountUsersBackend, IAddToGroupBackend,
+	IRemoveFromGroupBackend, IGroupDetailsBackend {
 	private $backends = [];
 	private $refBackend = null;
 
@@ -187,7 +195,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup($uid, $gid) {
+	public function addToGroup(string $uid, string $gid): bool {
 		return $this->handleRequest(
 			$gid, 'addToGroup', [$uid, $gid]);
 	}
@@ -201,7 +209,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid, $gid) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		return $this->handleRequest(
 			$gid, 'removeFromGroup', [$uid, $gid]);
 	}
@@ -211,20 +219,16 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 *
 	 * @param string $gid the internal group name
 	 * @param string $search optional, a search string
-	 * @return int|bool
 	 */
-	public function countUsersInGroup($gid, $search = '') {
+	public function countUsersInGroup(string $gid, string $search = ''): int {
 		return $this->handleRequest(
 			$gid, 'countUsersInGroup', [$gid, $search]);
 	}
 
 	/**
-	 * get an array with group details
-	 *
-	 * @param string $gid
-	 * @return array|false
+	 * Get an array with group details
 	 */
-	public function getGroupDetails($gid) {
+	public function getGroupDetails(string $gid): array {
 		return $this->handleRequest(
 			$gid, 'getGroupDetails', [$gid]);
 	}
@@ -276,7 +280,6 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	/**
 	 * Return access for LDAP interaction.
 	 *
-	 * @param string $gid
 	 * @return Access instance of Access for LDAP interaction
 	 */
 	public function getLDAPAccess($gid) {
