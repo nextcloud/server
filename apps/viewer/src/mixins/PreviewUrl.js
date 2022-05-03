@@ -4,7 +4,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,8 +21,8 @@
  *
  */
 import { generateUrl } from '@nextcloud/router'
-import { getToken, isPublic } from '../utils/davUtils'
-import { encodeFilePath, getDavPath } from '../utils/fileUtils'
+import { getToken, isPublic } from '../utils/davUtils.js'
+import { encodeFilePath, getDavPath } from '../utils/fileUtils.js'
 
 export default {
 	computed: {
@@ -62,7 +62,7 @@ export default {
 		 * @param {string} data.fileid the file id
 		 * @param {boolean} data.hasPreview have the file an existing preview ?
 		 * @param {string} data.davPath the absolute dav path
-		 * @param data.filename
+		 * @param {string} data.filename the file name
 		 * @return {string} the absolute url
 		 */
 		getPreviewIfAny({ fileid, filename, hasPreview, davPath }) {

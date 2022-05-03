@@ -4,7 +4,7 @@
  -
  - @author John Molakvoæ <skjnldsv@protonmail.com>
  -
- - @license GNU AGPL version 3 or any later version
+ - @license AGPL-3.0-or-later
  -
  - This program is free software: you can redistribute it and/or modify
  - it under the terms of the GNU Affero General Public License as
@@ -121,24 +121,24 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink.js'
+import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
+import Modal from '@nextcloud/vue/dist/Components/Modal.js'
 
-import { extractFilePaths, sortCompare } from '../utils/fileUtils'
-import { getRootPath } from '../utils/davUtils'
-import canDownload from '../utils/canDownload'
-import cancelableRequest from '../utils/CancelableRequest'
-import Error from '../components/Error'
-import File from '../models/file'
-import filesActionHandler from '../services/FilesActionHandler'
-import getFileInfo from '../services/FileInfo'
-import getFileList from '../services/FileList'
-import Mime from '../mixins/Mime'
-import logger from '../services/logger'
+import { extractFilePaths, sortCompare } from '../utils/fileUtils.js'
+import { getRootPath } from '../utils/davUtils.js'
+import canDownload from '../utils/canDownload.js'
+import cancelableRequest from '../utils/CancelableRequest.js'
+import Error from '../components/Error.vue'
+import File from '../models/file.js'
+import filesActionHandler from '../services/FilesActionHandler.js'
+import getFileInfo from '../services/FileInfo.js'
+import getFileList from '../services/FileList.js'
+import Mime from '../mixins/Mime.js'
+import logger from '../services/logger.js'
 
-import Download from 'vue-material-design-icons/Download'
+import Download from 'vue-material-design-icons/Download.vue'
 
 export default {
 	name: 'Viewer',

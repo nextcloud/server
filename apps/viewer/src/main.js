@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,8 +20,8 @@
  *
  */
 import Vue from 'vue'
-import ViewerComponent from './views/Viewer'
-import ViewerService from './services/Viewer'
+import ViewerComponent from './views/Viewer.vue'
+import ViewerService from './services/Viewer.js'
 import { translate as t } from '@nextcloud/l10n'
 
 import { generateFilePath } from '@nextcloud/router'
