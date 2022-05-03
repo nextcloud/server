@@ -35,6 +35,7 @@ use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class HookManager {
@@ -176,8 +177,8 @@ class HookManager {
 						'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary(),
 						'components' => 'VEVENT'
 					]);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+				} catch (\Exception $e) {
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 			if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
@@ -185,8 +186,8 @@ class HookManager {
 					$this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
 						'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 					]);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+				} catch (\Exception $e) {
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 		}

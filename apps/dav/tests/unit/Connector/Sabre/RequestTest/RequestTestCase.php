@@ -32,6 +32,7 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
@@ -60,7 +61,7 @@ abstract class RequestTestCase extends TestCase {
 
 		$this->serverFactory = new ServerFactory(
 			\OC::$server->getConfig(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getMountManager(),
@@ -98,7 +99,7 @@ abstract class RequestTestCase extends TestCase {
 			$body = $this->getStream($body);
 		}
 		$this->logout();
-		$exceptionPlugin = new ExceptionPlugin('webdav', null);
+		$exceptionPlugin = new ExceptionPlugin('webdav', \OC::$server->get(LoggerInterface::class));
 		$server = $this->getSabreServer($view, $user, $password, $exceptionPlugin);
 		$request = new Request($method, $url, $headers, $body);
 

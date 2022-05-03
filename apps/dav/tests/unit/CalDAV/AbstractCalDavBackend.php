@@ -34,12 +34,12 @@ use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager as ShareManager;
+use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\Xml\Property\Href;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -70,7 +70,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 	/** @var ISecureRandom */
 	private $random;
-	/** @var ILogger */
+	/** @var LoggerInterface*/
 	private $logger;
 
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
@@ -110,7 +110,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->backend = new CalDavBackend(
 			$db,

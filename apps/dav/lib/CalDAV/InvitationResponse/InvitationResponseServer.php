@@ -35,6 +35,7 @@ use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
 use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
 class InvitationResponseServer {
@@ -47,7 +48,7 @@ class InvitationResponseServer {
 	 */
 	public function __construct(bool $public = true) {
 		$baseUri = \OC::$WEBROOT . '/remote.php/dav/';
-		$logger = \OC::$server->getLogger();
+		$logger = \OC::$server->get(LoggerInterface::class);
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = \OC::$server->query(IEventDispatcher::class);
 

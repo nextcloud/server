@@ -30,9 +30,9 @@ namespace OCA\DAV\CardDAV;
 
 use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
@@ -47,8 +47,7 @@ class SyncService {
 	/** @var IUserManager */
 	private $userManager;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var array */
 	private $localSystemAddressBook;
@@ -61,13 +60,11 @@ class SyncService {
 
 	/**
 	 * SyncService constructor.
-	 *
-	 * @param CardDavBackend $backend
-	 * @param IUserManager $userManager
-	 * @param ILogger $logger
-	 * @param AccountManager $accountManager
 	 */
-	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger, Converter $converter) {
+	public function __construct(CardDavBackend $backend,
+								IUserManager $userManager,
+								LoggerInterface $logger,
+								Converter $converter) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;

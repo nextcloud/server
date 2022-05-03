@@ -34,7 +34,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
@@ -46,21 +45,6 @@ use Sabre\VObject\Component\VCalendar;
 
 class EmailProviderTest extends AbstractNotificationProviderTest {
 	public const USER_EMAIL = 'frodo@hobb.it';
-
-	/** @var ILogger|MockObject */
-	protected $logger;
-
-	/** @var L10NFactory|MockObject */
-	protected $l10nFactory;
-
-	/** @var IL10N|MockObject */
-	protected $l10n;
-
-	/** @var IURLGenerator|MockObject */
-	protected $urlGenerator;
-
-	/** @var IConfig|MockObject */
-	protected $config;
 
 	/** @var IMailer|MockObject */
 	private $mailer;

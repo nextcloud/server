@@ -34,6 +34,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -91,7 +92,7 @@ class CreateCalendar extends Command {
 			\OC::$server->getL10NFactory(),
 		);
 		$random = \OC::$server->getSecureRandom();
-		$logger = \OC::$server->getLogger();
+		$logger = \OC::$server->get(LoggerInterface::class);
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$legacyDispatcher = \OC::$server->getEventDispatcher();
 		$config = \OC::$server->get(IConfig::class);

@@ -48,7 +48,7 @@ $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
 $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getConfig(),
-	\OC::$server->getLogger(),
+	\OC::$server->get(Psr\Log\LoggerInterface::class),
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getMountManager(),
