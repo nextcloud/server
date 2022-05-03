@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,8 +23,8 @@ import { dirname } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 
 import camelcase from 'camelcase'
-import { getRootPath, getToken, isPublic } from './davUtils'
-import { isNumber } from './numberUtil'
+import { getRootPath, getToken, isPublic } from './davUtils.js'
+import { isNumber } from './numberUtil.js'
 
 /**
  * Get an url encoded path
@@ -127,8 +127,8 @@ const genFileInfo = function(obj) {
  * Generate absolute dav remote path of the file
  *
  * @param {object} fileInfo The fileInfo
- * @param fileInfo.filename
- * @param fileInfo.basename
+ * @param {string} fileInfo.filename the file full path
+ * @param {string} fileInfo.basename the file name
  * @return {string}
  */
 const getDavPath = function({ filename, basename }) {

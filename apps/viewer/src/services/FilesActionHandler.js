@@ -3,7 +3,7 @@
  *
  * @author Azul <azul@riseup.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,8 +23,8 @@
 import { encodePath } from '@nextcloud/paths'
 
 /**
- * @param name
- * @param context
+ * @param {string} name the file name
+ * @param {object} context the file context
  */
 export default function(name, context) {
 	// replace potential leading double slashes
@@ -41,8 +41,8 @@ export default function(name, context) {
 }
 
 /**
- * @param root0
- * @param root0.fileid
+ * @param {object} root destructuring object
+ * @param {number} root.fileid the opened file ID
  */
 function pushToHistory({ fileid }) {
 	const params = OC.Util.History.parseUrlQuery()

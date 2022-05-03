@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,9 +20,9 @@
  *
  */
 
-import Images from '../models/images'
-import Videos from '../models/videos'
-import Audios from '../models/audios'
+import Images from '../models/images.js'
+import Videos from '../models/videos.js'
+import Audios from '../models/audios.js'
 
 export default class Viewer {
 

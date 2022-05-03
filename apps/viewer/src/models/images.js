@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,8 +21,8 @@
  */
 
 import { loadState } from '@nextcloud/initial-state'
-import logger from '../services/logger'
-import Images from '../components/Images'
+import logger from '../services/logger.js'
+import Images from '../components/Images.vue'
 
 const enabledPreviewProviders = loadState(appName, 'enabled_preview_providers', [])
 
@@ -62,7 +62,7 @@ export default {
 		// Gif and svg images does not rely on previews
 		'image/gif',
 		'image/svg+xml',
-		...enabledMimes
+		...enabledMimes,
 	],
 	component: Images,
 }
