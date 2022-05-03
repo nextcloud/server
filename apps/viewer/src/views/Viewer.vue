@@ -812,7 +812,7 @@ export default {
 
 	&__file {
 		transition: height 100ms ease,
-		width 100ms ease;
+			width 100ms ease;
 
 		// display on page but make it invisible
 		&--hidden {
