@@ -96,7 +96,7 @@ OC.L10N.register(
     "Your email address on %s was changed." : "Deine E-Mail-Adresse auf %s wurde geändert.",
     "Your email address on %s was changed by an administrator." : "Deine E-Mail-Adresse auf %s wurde von einem Administrator geändert.",
     "Email address for %1$s changed on %2$s" : "E-Mail-Adresse für %1$s geändert auf %2$s",
-    "Email address changed for %s" : "Die E-Mail-Adresse für %swurde geändert",
+    "Email address changed for %s" : "Die E-Mail-Adresse für %s wurde geändert",
     "The new email address is %s" : "Die neue E-Mail-Adresse lautet %s",
     "Your %s account was created" : "Dein %s-Konto wurde erstellt",
     "Welcome aboard" : "Willkommen an Bord",
