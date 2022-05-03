@@ -35,6 +35,7 @@ import Handlebars from 'handlebars'
 import identity from 'lodash/fp/identity'
 import escapeHTML from 'escape-html'
 import { generateFilePath } from '@nextcloud/router'
+import { getLanguage as _getLanguage, getLocale as _getLocale } from '@nextcloud/l10n'
 
 import OC from './index'
 import {
@@ -348,16 +349,23 @@ export default L10n
 /**
  * Returns the user's locale
  *
+ * @deprecated use @nextcloud/l10n
  * @return {string} locale string
  */
-export const getLocale = () => $('html').data('locale') ?? 'en'
-
+export const getLocale = function() {
+	console.warn('Calling OC.getLocale() is deprecated, use @nextcloud/l10n instead.')
+	return _getLocale()
+}
 /**
  * Returns the user's language
  *
+ * @deprecated use @nextcloud/l10n
  * @return {string} language string
  */
-export const getLanguage = () => $('html').prop('lang')
+export const getLanguage = function() {
+	console.warn('Calling OC.getLanguage() is deprecated, use @nextcloud/l10n instead.')
+	return _getLanguage()
+}
 
 Handlebars.registerHelper('t', function(app, text) {
 	return L10n.translate(app, text)
