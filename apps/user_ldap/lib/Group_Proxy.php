@@ -311,13 +311,6 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP,
 	}
 
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
-		$users = [];
-
-		foreach ($this->backends as $backend) {
-			$backendUsers = $backend->searchInGroup($gid, $search, $limit, $offset);
-			$users = array_merge($users, $backendUsers);
-		}
-
-		return $users;
+		return $this->handleRequest($gid, 'searchInGroup', [$gid, $search, $limit, $offset]);
 	}
 }

@@ -163,11 +163,7 @@ class GroupPluginManager {
 		$plugin = $this->which[GroupInterface::COUNT_USERS];
 
 		if ($plugin) {
-			$count = $plugin->countUsersInGroup($gid,$search);
-			if ($count === false) {
-				return 0; // no entry found
-			}
-			return $count;
+			return (int)$plugin->countUsersInGroup($gid, $search);
 		}
 		throw new \Exception('No plugin implements countUsersInGroup in this LDAP Backend.');
 	}

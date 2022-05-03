@@ -1028,7 +1028,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP,
 		$groupDN = $this->access->groupname2dn($gid);
 		if (!$groupDN) {
 			// group couldn't be found, return empty result set
-			$this->access->connection->writeToCache($cacheKey, false);
+			$this->access->connection->writeToCache($cacheKey, 0);
 			return 0;
 		}
 
@@ -1036,7 +1036,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP,
 		$primaryUserCount = $this->countUsersInPrimaryGroup($groupDN, '');
 		if (!$members && $primaryUserCount === 0) {
 			//in case users could not be retrieved, return empty result set
-			$this->access->connection->writeToCache($cacheKey, false);
+			$this->access->connection->writeToCache($cacheKey, 0);
 			return 0;
 		}
 

@@ -35,7 +35,6 @@ use OCP\Group\Backend\IAddToGroupBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\ICountUsersBackend;
-use OCP\IUser;
 
 /**
  * Dummy group backend, does not keep state, only for testing use
