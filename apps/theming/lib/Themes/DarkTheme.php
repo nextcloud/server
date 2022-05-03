@@ -45,7 +45,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 	}
 
 	public function getDescription(): string {
-		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.');
+		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness.');
 	}
 
 	public function getCSSVariables(): array {

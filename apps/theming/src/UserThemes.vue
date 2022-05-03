@@ -12,6 +12,9 @@
 				:unique="themes.length === 1"
 				type="theme"
 				@change="changeTheme" />
+		</div>
+
+		<div class="theming__preview-list">
 			<ItemPreview v-for="theme in fonts"
 				:key="theme.id"
 				:selected="theme.enabled"
@@ -150,8 +153,8 @@ export default {
 	},
 }
 </script>
-<style lang="scss" scoped>
 
+<style lang="scss" scoped>
 .theming {
 	// Limit width of settings sections for readability
 	p {
