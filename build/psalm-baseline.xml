@@ -1371,9 +1371,7 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>new CappedMemoryCache()</code>
-    </InvalidPropertyAssignmentValue>
+    <InvalidPropertyAssignmentValue occurrences="1"/>
     <InvalidScalarArgument occurrences="7">
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>
@@ -1911,16 +1909,6 @@
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidArgument occurrences="1">
-      <code>$this-&gt;cachedGroupsByMember[$uid]</code>
-    </InvalidArgument>
-    <InvalidPropertyAssignmentValue occurrences="5">
-      <code>$this-&gt;cachedGroupsByMember</code>
-      <code>$this-&gt;cachedNestedGroups</code>
-      <code>new CappedMemoryCache()</code>
-      <code>new CappedMemoryCache()</code>
-      <code>new CappedMemoryCache()</code>
-    </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement occurrences="1">
       <code>$groupName</code>
     </InvalidReturnStatement>
@@ -2116,9 +2104,6 @@
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>[]</code>
-    </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement occurrences="1">
       <code>$result</code>
     </InvalidReturnStatement>
@@ -2989,11 +2974,6 @@
       <code>getShareForToken</code>
     </UndefinedMethod>
   </file>
-  <file src="lib/private/Encryption/File.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>new CappedMemoryCache()</code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/private/Encryption/Keys/Storage.php">
     <InvalidNullableReturnType occurrences="1">
       <code>deleteUserKey</code>
@@ -3123,17 +3103,6 @@
     <LessSpecificImplementedReturnType occurrences="1">
       <code>array</code>
     </LessSpecificImplementedReturnType>
-    <UndefinedInterfaceMethod occurrences="9">
-      <code>$this-&gt;cacheInfoCache</code>
-      <code>$this-&gt;cacheInfoCache</code>
-      <code>$this-&gt;cacheInfoCache</code>
-      <code>$this-&gt;mountsForUsers</code>
-      <code>$this-&gt;mountsForUsers</code>
-      <code>$this-&gt;mountsForUsers</code>
-      <code>$this-&gt;mountsForUsers</code>
-      <code>$this-&gt;mountsForUsers</code>
-      <code>$this-&gt;mountsForUsers</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Filesystem.php">
     <InvalidNullableReturnType occurrences="1">

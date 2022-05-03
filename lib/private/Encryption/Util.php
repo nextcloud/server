@@ -220,7 +220,7 @@ class Util {
 	 * get the owner and the path for the file relative to the owners files folder
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return array{0: string, 1: string}
 	 * @throws \BadMethodCallException
 	 */
 	public function getUidAndFilename($path) {

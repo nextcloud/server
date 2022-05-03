@@ -109,8 +109,8 @@ class Manager implements IManager {
 	/** @var ILogger */
 	protected $logger;
 
-	/** @var CappedMemoryCache */
-	protected $operationsByScope = [];
+	/** @var CappedMemoryCache<int[]> */
+	protected CappedMemoryCache $operationsByScope;
 
 	/** @var IUserSession */
 	protected $session;
@@ -350,10 +350,11 @@ class Manager implements IManager {
 		$qb->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);
 		$result = $qb->execute();
 
-		$this->operationsByScope[$scopeContext->getHash()] = [];
+		$operations = [];
 		while (($opId = $result->fetchOne()) !== false) {
-			$this->operationsByScope[$scopeContext->getHash()][] = (int)$opId;
+			$operations[] = (int)$opId;
 		}
+		$this->operationsByScope[$scopeContext->getHash()] = $operations;
 		$result->closeCursor();
 
 		return in_array($id, $this->operationsByScope[$scopeContext->getHash()], true);

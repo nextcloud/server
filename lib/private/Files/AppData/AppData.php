@@ -38,21 +38,12 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class AppData implements IAppData {
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var SystemConfig */
-	private $config;
-
-	/** @var string */
-	private $appId;
-
-	/** @var Folder */
-	private $folder;
-
-	/** @var (ISimpleFolder|NotFoundException)[]|CappedMemoryCache */
-	private $folders;
+	private IRootFolder $rootFolder;
+	private SystemConfig $config;
+	private string $appId;
+	private ?Folder $folder = null;
+	/** @var CappedMemoryCache<ISimpleFolder|NotFoundException> */
+	private CappedMemoryCache $folders;
 
 	/**
 	 * AppData constructor.
