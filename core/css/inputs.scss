@@ -11,6 +11,8 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'variables';
+@import 'functions';
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
@@ -281,7 +283,7 @@ input {
 			margin-right: 0;
 			&:disabled {
 				cursor: default;
-				@include icon-color('confirm-fade', 'actions', $color-black, 2, true);
+				@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
 			}
 		}
 
@@ -330,8 +332,8 @@ select,
 
 /* Radio & Checkboxes */
 $checkbox-radio-size: 14px;
-$color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
-$color-checkbox-radio-border: nc-darken($color-main-background, 47%);
+$color-checkbox-radio-disabled: nc-darken(variables.$color-main-background, 27%);
+$color-checkbox-radio-border: nc-darken(variables.$color-main-background, 47%);
 $color-checkbox-radio-white: #fff;
 
 input {
