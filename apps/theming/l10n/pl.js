@@ -32,7 +32,6 @@ OC.L10N.register(
     "Similar to the high contrast mode, but with dark colours." : "Podobny do trybu wysokiego kontrastu, ale z ciemnymi kolorami.",
     "Dark theme" : "Ciemny motyw",
     "Enable dark theme" : "Włącz ciemny motyw",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Ciemny motyw, który łagodzi zmęczenie oczu, zmniejszając ogólną jasność. Nadal jest w fazie rozwoju, więc zgłaszaj wszelkie zauważone błędy.",
     "System default theme" : "Domyślny motyw systemu",
     "Enable the system default" : "Włącz domyślne ustawienia systemu",
     "Using the default system appearance." : "Korzystanie z domyślnego wyglądu systemu.",

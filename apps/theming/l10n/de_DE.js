@@ -32,7 +32,6 @@ OC.L10N.register(
     "Similar to the high contrast mode, but with dark colours." : "Ähnlich wie der Hochkontrastmodus, aber mit dunklen Farben.",
     "Dark theme" : "Dunkles Design",
     "Enable dark theme" : "Dunkles Design aktivieren",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Ein dunkles Design, das die Augen entspannt, indem es die Gesamthelligkeit und -helligkeit reduziert. Es befindet sich noch in der Entwicklung, also melden Sie bitte alle Probleme, die Sie finden.",
     "System default theme" : "Standard-System-Design",
     "Enable the system default" : "Systemstandard aktivieren",
     "Using the default system appearance." : "Das Standard-System-Erscheinungsbild verwenden.",

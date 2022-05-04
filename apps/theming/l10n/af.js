@@ -21,7 +21,6 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "’n PHP-uitbreiding het die oplaai gestaak",
     "No file uploaded" : "Geen lêer opgelaai",
     "Dark theme" : "Donker Tema",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "’n Donker tema om u oë ’n ruskans te gee deur die algehele ligsterkte en helderheid te verminder. Dit word nog ontwikkel; rapporteer asb. enige probleme wat u ervaar.",
     "Dyslexia font" : "Disleksie-font",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic is ’n gratis lettertipe/font wat ontwerp is om sommige van die algemene leesfoute wat deur disleksie veroorsaak word, te versag.",
     "High contrast mode" : "Hoëkontrasmodus",
