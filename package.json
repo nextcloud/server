@@ -15,7 +15,9 @@
     "lint:fix": "eslint '**/src/**/*.{vue,js}' --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:jsunit": "karma start tests/karma.config.js --single-run"
+    "test:jsunit": "karma start tests/karma.config.js --single-run",
+    "sass": "sass --load-path core/css core/css/ apps/*/css",
+    "sass:watch": "sass --watch --load-path core/css core/css/ apps/*/css"
   },
   "repository": {
     "type": "git",
