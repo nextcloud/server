@@ -1,0 +1,274 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * Removes the "#" from a color.
+ *
+ * @param string $color The color
+ * @return string The color without #
+ */
+/**
+ * Calculates the URL to the svg under the SVG API.
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int [$version] the version of the file
+ * @param bool [$core] search icon in core
+ * @return string The URL to the svg.
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+/**
+ * Create black and white icons
+ * This will add a default black version of and an additional white version when .icon-white is applied
+ */
+#files_external {
+  margin-bottom: 0px;
+}
+
+#externalStorage {
+  margin: 15px 0 20px 0;
+}
+#externalStorage tr.externalStorageLoading > td {
+  text-align: center;
+}
+
+#externalStorage td > input, #externalStorage td > select {
+  width: 100%;
+}
+
+#externalStorage td.status {
+  /* overwrite conflicting core styles */
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#externalStorage td.status > span {
+  display: inline-block;
+  height: 28px;
+  width: 28px;
+  vertical-align: text-bottom;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#externalStorage td.mountPoint, #externalStorage td.backend, #externalStorage td.authentication, #externalStorage td.configuration {
+  min-width: 160px;
+  width: 15%;
+}
+
+#externalStorage td > img {
+  padding-top: 7px;
+  opacity: 0.5;
+}
+
+#externalStorage td > img:hover {
+  padding-top: 7px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+#addMountPoint > td {
+  border: none;
+}
+
+#addMountPoint > td.applicable {
+  visibility: hidden;
+}
+
+#addMountPoint > td.hidden {
+  visibility: hidden;
+}
+
+#externalStorage td {
+  height: 50px;
+}
+#externalStorage td.mountOptionsToggle, #externalStorage td.remove, #externalStorage td.save {
+  position: relative;
+  padding: 0 !important;
+  width: 44px;
+}
+#externalStorage td.mountOptionsToggle [class^=icon-],
+#externalStorage td.mountOptionsToggle [class*=" icon-"], #externalStorage td.remove [class^=icon-],
+#externalStorage td.remove [class*=" icon-"], #externalStorage td.save [class^=icon-],
+#externalStorage td.save [class*=" icon-"] {
+  opacity: 0.5;
+  padding: 14px;
+  vertical-align: text-bottom;
+  cursor: pointer;
+}
+#externalStorage td.mountOptionsToggle [class^=icon-]:hover,
+#externalStorage td.mountOptionsToggle [class*=" icon-"]:hover, #externalStorage td.remove [class^=icon-]:hover,
+#externalStorage td.remove [class*=" icon-"]:hover, #externalStorage td.save [class^=icon-]:hover,
+#externalStorage td.save [class*=" icon-"]:hover {
+  opacity: 1;
+}
+
+#selectBackend {
+  margin-left: -10px;
+  width: 150px;
+}
+
+#externalStorage td.configuration,
+#externalStorage td.backend {
+  white-space: normal;
+}
+
+#externalStorage td.configuration > * {
+  white-space: nowrap;
+}
+
+#externalStorage td.configuration input.added {
+  margin-right: 6px;
+}
+
+#externalStorage label > input[type=checkbox] {
+  margin-right: 3px;
+}
+
+#externalStorage td.configuration label {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+
+#externalStorage td.configuration input.disabled-success {
+  background-color: rgba(134, 255, 110, 0.9);
+}
+
+#externalStorage td.applicable div.chzn-container {
+  position: relative;
+  top: 3px;
+}
+
+#externalStorage .select2-container.applicableUsers {
+  width: 100% !important;
+}
+
+#userMountingBackends {
+  padding-left: 25px;
+}
+
+.files-external-select2 .select2-results .select2-result-label {
+  height: 32px;
+  padding: 3px;
+}
+
+.files-external-select2 .select2-results .select2-result-label > span {
+  display: block;
+  position: relative;
+}
+
+.files-external-select2 .select2-results .select2-result-label .avatardiv {
+  display: inline-block;
+}
+
+.files-external-select2 .select2-results .select2-result-label .avatardiv + span {
+  position: absolute;
+  top: 5px;
+  margin-left: 10px;
+}
+
+.files-external-select2 .select2-results .select2-result-label .avatardiv[data-type=group] + span {
+  vertical-align: top;
+  top: 6px;
+  position: absolute;
+  max-width: 80%;
+  left: 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#externalStorage .select2-container .select2-search-choice {
+  display: flex;
+}
+#externalStorage .select2-container .select2-search-choice .select2-search-choice-close {
+  display: block;
+  left: auto;
+  position: relative;
+  width: 20px;
+}
+
+#externalStorage .mountOptionsToggle .dropdown {
+  width: auto;
+}
+
+.nav-icon-external-storage {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-files_external-app-dark-000: url("/svg/files_external/app-dark?color=000&v=1");
+  background-image: var(--icon-files_external-app-dark-000);
+}
+
+/*# sourceMappingURL=settings.css.map */

@@ -1,0 +1,1520 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * Removes the "#" from a color.
+ *
+ * @param string $color The color
+ * @return string The color without #
+ */
+/**
+ * Calculates the URL to the svg under the SVG API.
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int [$version] the version of the file
+ * @param bool [$core] search icon in core
+ * @return string The URL to the svg.
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+/**
+ * Create black and white icons
+ * This will add a default black version of and an additional white version when .icon-white is applied
+ */
+/* GLOBAL ------------------------------------------------------------------- */
+[class^=icon-], [class*=" icon-"] {
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.icon-breadcrumb {
+  background-image: url("../img/breadcrumb.svg?v=1");
+}
+
+/* LOADING ------------------------------------------------------------------ */
+.loading,
+.loading-small,
+.icon-loading,
+.icon-loading-dark,
+.icon-loading-small,
+.icon-loading-small-dark {
+  position: relative;
+}
+.loading:after,
+.loading-small:after,
+.icon-loading:after,
+.icon-loading-dark:after,
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+  z-index: 2;
+  content: "";
+  height: 28px;
+  width: 28px;
+  margin: -16px 0 0 -16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 100%;
+  -webkit-animation: rotate 0.8s infinite linear;
+  animation: rotate 0.8s infinite linear;
+  -webkit-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+  border: 2px solid var(--color-loading-light);
+  border-top-color: var(--color-loading-dark);
+  filter: var(--background-invert-if-dark);
+}
+.primary .loading:after, .primary + .loading:after,
+.primary .loading-small:after,
+.primary + .loading-small:after,
+.primary .icon-loading:after,
+.primary + .icon-loading:after,
+.primary .icon-loading-dark:after,
+.primary + .icon-loading-dark:after,
+.primary .icon-loading-small:after,
+.primary + .icon-loading-small:after,
+.primary .icon-loading-small-dark:after,
+.primary + .icon-loading-small-dark:after {
+  filter: var(--primary-invert-if-bright);
+}
+
+.icon-loading-dark:after,
+.icon-loading-small-dark:after {
+  border: 2px solid var(--color-loading-dark);
+  border-top-color: var(--color-loading-light);
+}
+
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+  height: 12px;
+  width: 12px;
+  margin: -8px 0 0 -8px;
+}
+
+/* Css replaced elements don't have ::after nor ::before */
+audio.icon-loading, canvas.icon-loading, embed.icon-loading, iframe.icon-loading, img.icon-loading, input.icon-loading, object.icon-loading, video.icon-loading {
+  background-image: url("../img/loading.gif");
+}
+audio.icon-loading-dark, canvas.icon-loading-dark, embed.icon-loading-dark, iframe.icon-loading-dark, img.icon-loading-dark, input.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark {
+  background-image: url("../img/loading-dark.gif");
+}
+audio.icon-loading-small, canvas.icon-loading-small, embed.icon-loading-small, iframe.icon-loading-small, img.icon-loading-small, input.icon-loading-small, object.icon-loading-small, video.icon-loading-small {
+  background-image: url("../img/loading-small.gif");
+}
+audio.icon-loading-small-dark, canvas.icon-loading-small-dark, embed.icon-loading-small-dark, iframe.icon-loading-small-dark, img.icon-loading-small-dark, input.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-small-dark {
+  background-image: url("../img/loading-small-dark.gif");
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.icon-32 {
+  background-size: 32px !important;
+}
+
+.icon-white.icon-shadow {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+/* ICONS -------------------------------------------------------------------
+ * These icon classes are generated automatically with the following pattern
+ * for icon-black-white('close', ...)
+ * .icon-close (black icon)
+ * .icon-close-white (white icon)
+ * .icon-close.icon-white (white icon)
+ *
+ * Some class definitions are kept as before, since they don't follow the pattern
+ * or have some additional styling like drop shadows
+ */
+.icon-add {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-add-000: url("/svg/core/actions/add?color=000&v=1");
+  background-image: var(--icon-add-000);
+}
+
+.icon-add-white,
+.icon-add.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-add-fff: url("/svg/core/actions/add?color=fff&v=1");
+  background-image: var(--icon-add-fff);
+}
+
+.icon-address {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-address-000: url("/svg/core/actions/address?color=000&v=1");
+  background-image: var(--icon-address-000);
+}
+
+.icon-address-white,
+.icon-address.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-address-fff: url("/svg/core/actions/address?color=fff&v=1");
+  background-image: var(--icon-address-fff);
+}
+
+.icon-audio {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-audio-000: url("/svg/core/actions/audio?color=000&v=2");
+  background-image: var(--icon-audio-000);
+}
+
+.icon-audio-white,
+.icon-audio.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-audio-fff: url("/svg/core/actions/audio?color=fff&v=2");
+  background-image: var(--icon-audio-fff);
+}
+
+.icon-audio-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+.icon-audio-off {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-audio-off-000: url("/svg/core/actions/audio-off?color=000&v=1");
+  background-image: var(--icon-audio-off-000);
+}
+
+.icon-audio-off-white,
+.icon-audio-off.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-audio-off-fff: url("/svg/core/actions/audio-off?color=fff&v=1");
+  background-image: var(--icon-audio-off-fff);
+}
+
+.icon-audio-off-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+.icon-caret-white,
+.icon-caret {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-caret-fff: url("/svg/core/actions/caret?color=fff&v=1");
+  background-image: var(--icon-caret-fff);
+}
+
+.icon-caret-dark {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-caret-000: url("/svg/core/actions/caret?color=000&v=1");
+  background-image: var(--icon-caret-000);
+}
+
+.icon-checkmark {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-checkmark-000: url("/svg/core/actions/checkmark?color=000&v=1");
+  background-image: var(--icon-checkmark-000);
+}
+
+.icon-checkmark-white,
+.icon-checkmark.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-checkmark-fff: url("/svg/core/actions/checkmark?color=fff&v=1");
+  background-image: var(--icon-checkmark-fff);
+}
+
+.icon-checkmark-color {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-checkmark-46ba61: url("/svg/core/actions/checkmark?color=46ba61&v=1");
+  background-image: var(--icon-checkmark-46ba61);
+}
+
+.icon-clippy {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-clippy-000: url("/svg/core/actions/clippy?color=000&v=2");
+  background-image: var(--icon-clippy-000);
+}
+
+.icon-clippy-white,
+.icon-clippy.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-clippy-fff: url("/svg/core/actions/clippy?color=fff&v=2");
+  background-image: var(--icon-clippy-fff);
+}
+
+.icon-close {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-close-000: url("/svg/core/actions/close?color=000&v=1");
+  background-image: var(--icon-close-000);
+}
+
+.icon-close-white,
+.icon-close.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-close-fff: url("/svg/core/actions/close?color=fff&v=1");
+  background-image: var(--icon-close-fff);
+}
+
+.icon-comment {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-comment-000: url("/svg/core/actions/comment?color=000&v=1");
+  background-image: var(--icon-comment-000);
+}
+
+.icon-comment-white,
+.icon-comment.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-comment-fff: url("/svg/core/actions/comment?color=fff&v=1");
+  background-image: var(--icon-comment-fff);
+}
+
+.icon-confirm {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-confirm-000: url("/svg/core/actions/confirm?color=000&v=2");
+  background-image: var(--icon-confirm-000);
+}
+
+.icon-confirm-white,
+.icon-confirm.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-confirm-fff: url("/svg/core/actions/confirm?color=fff&v=2");
+  background-image: var(--icon-confirm-fff);
+}
+
+.icon-download {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-download-000: url("/svg/core/actions/download?color=000&v=1");
+  background-image: var(--icon-download-000);
+}
+
+.icon-download-white,
+.icon-download.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-download-fff: url("/svg/core/actions/download?color=fff&v=1");
+  background-image: var(--icon-download-fff);
+}
+
+.icon-confirm-fade {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-confirm-fade-000: url("/svg/core/actions/confirm-fade?color=000&v=2");
+  background-image: var(--icon-confirm-fade-000);
+}
+
+.icon-delete {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-delete-000: url("/svg/core/actions/delete?color=000&v=1");
+  background-image: var(--icon-delete-000);
+}
+.icon-delete.no-permission:hover, .icon-delete.no-permission:focus, .icon-delete.no-hover:hover, .icon-delete.no-hover:focus {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-delete-000: url("/svg/core/actions/delete?color=000&v=1");
+  background-image: var(--icon-delete-000);
+}
+.icon-delete:hover, .icon-delete:focus {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-delete-e9322d: url("/svg/core/actions/delete?color=e9322d&v=1");
+  background-image: var(--icon-delete-e9322d);
+  filter: initial;
+}
+.icon-delete.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-delete-fff: url("/svg/core/actions/delete?color=fff&v=1");
+  background-image: var(--icon-delete-fff);
+}
+
+.icon-delete-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-delete-fff: url("/svg/core/actions/delete?color=fff&v=1");
+  background-image: var(--icon-delete-fff);
+}
+.icon-delete-white.no-permission:hover, .icon-delete-white.no-permission:focus {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-delete-fff: url("/svg/core/actions/delete?color=fff&v=1");
+  background-image: var(--icon-delete-fff);
+}
+.icon-delete-white:hover, .icon-delete-white:focus {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-delete-e9322d: url("/svg/core/actions/delete?color=e9322d&v=1");
+  background-image: var(--icon-delete-e9322d);
+}
+
+.icon-details {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-details-000: url("/svg/core/actions/details?color=000&v=1");
+  background-image: var(--icon-details-000);
+}
+
+.icon-details-white,
+.icon-details.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-details-fff: url("/svg/core/actions/details?color=fff&v=1");
+  background-image: var(--icon-details-fff);
+}
+
+.icon-edit {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-edit-000: url("/svg/core/actions/edit?color=000&v=1");
+  background-image: var(--icon-edit-000);
+}
+
+.icon-edit-white,
+.icon-edit.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-edit-fff: url("/svg/core/actions/edit?color=fff&v=1");
+  background-image: var(--icon-edit-fff);
+}
+
+.icon-error {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-error-000: url("/svg/core/actions/error?color=000&v=1");
+  background-image: var(--icon-error-000);
+}
+
+.icon-error-white,
+.icon-error.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-error-fff: url("/svg/core/actions/error?color=fff&v=1");
+  background-image: var(--icon-error-fff);
+}
+
+.icon-error-color {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-error-e9322d: url("/svg/core/actions/error?color=e9322d&v=1");
+  background-image: var(--icon-error-e9322d);
+}
+
+.icon-external {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-external-000: url("/svg/core/actions/external?color=000&v=1");
+  background-image: var(--icon-external-000);
+}
+
+.icon-external-white,
+.icon-external.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-external-fff: url("/svg/core/actions/external?color=fff&v=1");
+  background-image: var(--icon-external-fff);
+}
+
+.icon-fullscreen {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-fullscreen-000: url("/svg/core/actions/fullscreen?color=000&v=1");
+  background-image: var(--icon-fullscreen-000);
+}
+
+.icon-fullscreen-white,
+.icon-fullscreen.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-fullscreen-fff: url("/svg/core/actions/fullscreen?color=fff&v=1");
+  background-image: var(--icon-fullscreen-fff);
+}
+
+.icon-fullscreen-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+.icon-history {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-history-000: url("/svg/core/actions/history?color=000&v=2");
+  background-image: var(--icon-history-000);
+}
+
+.icon-history-white,
+.icon-history.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-history-fff: url("/svg/core/actions/history?color=fff&v=2");
+  background-image: var(--icon-history-fff);
+}
+
+.icon-info {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-info-000: url("/svg/core/actions/info?color=000&v=1");
+  background-image: var(--icon-info-000);
+}
+
+.icon-info-white,
+.icon-info.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-info-fff: url("/svg/core/actions/info?color=fff&v=1");
+  background-image: var(--icon-info-fff);
+}
+
+.icon-logout {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-logout-000: url("/svg/core/actions/logout?color=000&v=1");
+  background-image: var(--icon-logout-000);
+}
+
+.icon-logout-white,
+.icon-logout.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-logout-fff: url("/svg/core/actions/logout?color=fff&v=1");
+  background-image: var(--icon-logout-fff);
+}
+
+.icon-mail {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-mail-000: url("/svg/core/actions/mail?color=000&v=1");
+  background-image: var(--icon-mail-000);
+}
+
+.icon-mail-white,
+.icon-mail.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-mail-fff: url("/svg/core/actions/mail?color=fff&v=1");
+  background-image: var(--icon-mail-fff);
+}
+
+.icon-menu {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-menu-000: url("/svg/core/actions/menu?color=000&v=1");
+  background-image: var(--icon-menu-000);
+}
+
+.icon-menu-white,
+.icon-menu.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-menu-fff: url("/svg/core/actions/menu?color=fff&v=1");
+  background-image: var(--icon-menu-fff);
+}
+
+.icon-menu-sidebar {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-menu-sidebar-000: url("/svg/core/actions/menu-sidebar?color=000&v=1");
+  background-image: var(--icon-menu-sidebar-000);
+}
+
+.icon-menu-sidebar-white,
+.icon-menu-sidebar.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-menu-sidebar-fff: url("/svg/core/actions/menu-sidebar?color=fff&v=1");
+  background-image: var(--icon-menu-sidebar-fff);
+}
+
+.icon-more {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-more-000: url("/svg/core/actions/more?color=000&v=1");
+  background-image: var(--icon-more-000);
+}
+
+.icon-more-white,
+.icon-more.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-more-fff: url("/svg/core/actions/more?color=fff&v=1");
+  background-image: var(--icon-more-fff);
+}
+
+.icon-password {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-password-000: url("/svg/core/actions/password?color=000&v=1");
+  background-image: var(--icon-password-000);
+}
+
+.icon-password-white,
+.icon-password.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-password-fff: url("/svg/core/actions/password?color=fff&v=1");
+  background-image: var(--icon-password-fff);
+}
+
+.icon-pause {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-pause-000: url("/svg/core/actions/pause?color=000&v=1");
+  background-image: var(--icon-pause-000);
+}
+
+.icon-pause-white,
+.icon-pause.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-pause-fff: url("/svg/core/actions/pause?color=fff&v=1");
+  background-image: var(--icon-pause-fff);
+}
+
+.icon-play {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-000: url("/svg/core/actions/play?color=000&v=1");
+  background-image: var(--icon-play-000);
+}
+
+.icon-play-white,
+.icon-play.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-fff: url("/svg/core/actions/play?color=fff&v=1");
+  background-image: var(--icon-play-fff);
+}
+
+.icon-play-add {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-add-000: url("/svg/core/actions/play-add?color=000&v=1");
+  background-image: var(--icon-play-add-000);
+}
+
+.icon-play-add-white,
+.icon-play-add.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-add-fff: url("/svg/core/actions/play-add?color=fff&v=1");
+  background-image: var(--icon-play-add-fff);
+}
+
+.icon-play-next {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-next-000: url("/svg/core/actions/play-next?color=000&v=1");
+  background-image: var(--icon-play-next-000);
+}
+
+.icon-play-next-white,
+.icon-play-next.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-next-fff: url("/svg/core/actions/play-next?color=fff&v=1");
+  background-image: var(--icon-play-next-fff);
+}
+
+.icon-play-previous {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-previous-000: url("/svg/core/actions/play-previous?color=000&v=1");
+  background-image: var(--icon-play-previous-000);
+}
+
+.icon-play-previous-white,
+.icon-play-previous.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-play-previous-fff: url("/svg/core/actions/play-previous?color=fff&v=1");
+  background-image: var(--icon-play-previous-fff);
+}
+
+.icon-projects {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-projects-000: url("/svg/core/actions/projects?color=000&v=1");
+  background-image: var(--icon-projects-000);
+}
+
+.icon-projects-white,
+.icon-projects.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-projects-fff: url("/svg/core/actions/projects?color=fff&v=1");
+  background-image: var(--icon-projects-fff);
+}
+
+.icon-public {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-public-000: url("/svg/core/actions/public?color=000&v=1");
+  background-image: var(--icon-public-000);
+}
+
+.icon-public-white,
+.icon-public.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-public-fff: url("/svg/core/actions/public?color=fff&v=1");
+  background-image: var(--icon-public-fff);
+}
+
+.icon-quota {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-quota-000: url("/svg/core/actions/quota?color=000&v=1");
+  background-image: var(--icon-quota-000);
+}
+
+.icon-quota-white,
+.icon-quota.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-quota-fff: url("/svg/core/actions/quota?color=fff&v=1");
+  background-image: var(--icon-quota-fff);
+}
+
+.icon-rename {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-rename-000: url("/svg/core/actions/rename?color=000&v=1");
+  background-image: var(--icon-rename-000);
+}
+
+.icon-rename-white,
+.icon-rename.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-rename-fff: url("/svg/core/actions/rename?color=fff&v=1");
+  background-image: var(--icon-rename-fff);
+}
+
+.icon-screen {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-screen-000: url("/svg/core/actions/screen?color=000&v=1");
+  background-image: var(--icon-screen-000);
+}
+
+.icon-screen-white,
+.icon-screen.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-screen-fff: url("/svg/core/actions/screen?color=fff&v=1");
+  background-image: var(--icon-screen-fff);
+}
+
+.icon-template-add {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-template-add-000: url("/svg/core/actions/template-add?color=000&v=1");
+  background-image: var(--icon-template-add-000);
+}
+
+.icon-template-add-white,
+.icon-template-add.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-template-add-fff: url("/svg/core/actions/template-add?color=fff&v=1");
+  background-image: var(--icon-template-add-fff);
+}
+
+.icon-screen-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+.icon-screen-off {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-screen-off-000: url("/svg/core/actions/screen-off?color=000&v=1");
+  background-image: var(--icon-screen-off-000);
+}
+
+.icon-screen-off-white,
+.icon-screen-off.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-screen-off-fff: url("/svg/core/actions/screen-off?color=fff&v=1");
+  background-image: var(--icon-screen-off-fff);
+}
+
+.icon-screen-off-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+.icon-search {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-search-000: url("/svg/core/actions/search?color=000&v=1");
+  background-image: var(--icon-search-000);
+}
+
+.icon-search-white,
+.icon-search.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-search-fff: url("/svg/core/actions/search?color=fff&v=1");
+  background-image: var(--icon-search-fff);
+}
+
+/* default icon have a .5 opacity */
+.icon-settings {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-settings-000: url("/svg/core/actions/settings?color=000&v=1");
+  background-image: var(--icon-settings-000);
+}
+
+.icon-settings-dark {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-settings-dark-000: url("/svg/core/actions/settings-dark?color=000&v=1");
+  background-image: var(--icon-settings-dark-000);
+}
+
+.icon-settings-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-settings-dark-fff: url("/svg/core/actions/settings-dark?color=fff&v=1");
+  background-image: var(--icon-settings-dark-fff);
+}
+
+/* always use icon-shared, AdBlock blocks icon-share */
+.icon-shared,
+.icon-share {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-share-000: url("/svg/core/actions/share?color=000&v=1");
+  background-image: var(--icon-share-000);
+}
+.icon-shared.icon-white,
+.icon-share.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-share-fff: url("/svg/core/actions/share?color=fff&v=1");
+  background-image: var(--icon-share-fff);
+}
+
+.icon-shared-white,
+.icon-share-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-share-fff: url("/svg/core/actions/share?color=fff&v=1");
+  background-image: var(--icon-share-fff);
+}
+
+.icon-sound {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-sound-000: url("/svg/core/actions/sound?color=000&v=1");
+  background-image: var(--icon-sound-000);
+}
+
+.icon-sound-white,
+.icon-sound.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-sound-fff: url("/svg/core/actions/sound?color=fff&v=1");
+  background-image: var(--icon-sound-fff);
+}
+
+.icon-sound-off {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-sound-off-000: url("/svg/core/actions/sound-off?color=000&v=1");
+  background-image: var(--icon-sound-off-000);
+}
+
+.icon-sound-off-white,
+.icon-sound-off.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-sound-off-fff: url("/svg/core/actions/sound-off?color=fff&v=1");
+  background-image: var(--icon-sound-off-fff);
+}
+
+.icon-favorite {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-star-dark-000: url("/svg/core/actions/star-dark?color=000&v=1");
+  background-image: var(--icon-star-dark-000);
+}
+
+.icon-star {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-star-000: url("/svg/core/actions/star?color=000&v=1");
+  background-image: var(--icon-star-000);
+}
+
+.icon-star-white,
+.icon-star.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-star-fff: url("/svg/core/actions/star?color=fff&v=1");
+  background-image: var(--icon-star-fff);
+}
+
+.icon-star-dark {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-star-000: url("/svg/core/actions/star?color=000&v=1");
+  background-image: var(--icon-star-000);
+}
+
+.icon-starred {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-star-dark-FC0: url("/svg/core/actions/star-dark?color=FC0&v=1");
+  background-image: var(--icon-star-dark-FC0);
+}
+.icon-starred:hover, .icon-starred:focus {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-star-000: url("/svg/core/actions/star?color=000&v=1");
+  background-image: var(--icon-star-000);
+}
+
+.icon-star:hover, .icon-star:focus {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-star-dark-FC0: url("/svg/core/actions/star-dark?color=FC0&v=1");
+  background-image: var(--icon-star-dark-FC0);
+}
+
+.icon-tag {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-tag-000: url("/svg/core/actions/tag?color=000&v=2");
+  background-image: var(--icon-tag-000);
+}
+
+.icon-tag-white,
+.icon-tag.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-tag-fff: url("/svg/core/actions/tag?color=fff&v=2");
+  background-image: var(--icon-tag-fff);
+}
+
+.icon-timezone {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-timezone-000: url("/svg/core/actions/timezone?color=000&v=1");
+  background-image: var(--icon-timezone-000);
+}
+
+.icon-timezone-white,
+.icon-timezone.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-timezone-fff: url("/svg/core/actions/timezone?color=fff&v=1");
+  background-image: var(--icon-timezone-fff);
+}
+
+.icon-toggle {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-000: url("/svg/core/actions/toggle?color=000&v=1");
+  background-image: var(--icon-toggle-000);
+}
+
+.icon-toggle-white,
+.icon-toggle.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-fff: url("/svg/core/actions/toggle?color=fff&v=1");
+  background-image: var(--icon-toggle-fff);
+}
+
+.icon-toggle-background {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-background-000: url("/svg/core/actions/toggle-background?color=000&v=1");
+  background-image: var(--icon-toggle-background-000);
+}
+
+.icon-toggle-background-white,
+.icon-toggle-background.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-background-fff: url("/svg/core/actions/toggle-background?color=fff&v=1");
+  background-image: var(--icon-toggle-background-fff);
+}
+
+.icon-toggle-pictures {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-pictures-000: url("/svg/core/actions/toggle-pictures?color=000&v=1");
+  background-image: var(--icon-toggle-pictures-000);
+}
+
+.icon-toggle-pictures-white,
+.icon-toggle-pictures.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-pictures-fff: url("/svg/core/actions/toggle-pictures?color=fff&v=1");
+  background-image: var(--icon-toggle-pictures-fff);
+}
+
+.icon-toggle-filelist {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-filelist-000: url("/svg/core/actions/toggle-filelist?color=000&v=1");
+  background-image: var(--icon-toggle-filelist-000);
+}
+
+.icon-toggle-filelist-white,
+.icon-toggle-filelist.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-toggle-filelist-fff: url("/svg/core/actions/toggle-filelist?color=fff&v=1");
+  background-image: var(--icon-toggle-filelist-fff);
+}
+
+.icon-triangle-e {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-triangle-e-000: url("/svg/core/actions/triangle-e?color=000&v=1");
+  background-image: var(--icon-triangle-e-000);
+}
+
+.icon-triangle-e-white,
+.icon-triangle-e.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-triangle-e-fff: url("/svg/core/actions/triangle-e?color=fff&v=1");
+  background-image: var(--icon-triangle-e-fff);
+}
+
+.icon-triangle-n {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-triangle-n-000: url("/svg/core/actions/triangle-n?color=000&v=1");
+  background-image: var(--icon-triangle-n-000);
+}
+
+.icon-triangle-n-white,
+.icon-triangle-n.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-triangle-n-fff: url("/svg/core/actions/triangle-n?color=fff&v=1");
+  background-image: var(--icon-triangle-n-fff);
+}
+
+.icon-triangle-s {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-triangle-s-000: url("/svg/core/actions/triangle-s?color=000&v=1");
+  background-image: var(--icon-triangle-s-000);
+}
+
+.icon-triangle-s-white,
+.icon-triangle-s.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-triangle-s-fff: url("/svg/core/actions/triangle-s?color=fff&v=1");
+  background-image: var(--icon-triangle-s-fff);
+}
+
+.icon-upload {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-upload-000: url("/svg/core/actions/upload?color=000&v=1");
+  background-image: var(--icon-upload-000);
+}
+
+.icon-upload-white,
+.icon-upload.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-upload-fff: url("/svg/core/actions/upload?color=fff&v=1");
+  background-image: var(--icon-upload-fff);
+}
+
+.icon-user {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-user-000: url("/svg/core/actions/user?color=000&v=1");
+  background-image: var(--icon-user-000);
+}
+
+.icon-user-white,
+.icon-user.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-user-fff: url("/svg/core/actions/user?color=fff&v=1");
+  background-image: var(--icon-user-fff);
+}
+
+.icon-group {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-group-000: url("/svg/core/actions/group?color=000&v=1");
+  background-image: var(--icon-group-000);
+}
+
+.icon-group-white,
+.icon-group.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-group-fff: url("/svg/core/actions/group?color=fff&v=1");
+  background-image: var(--icon-group-fff);
+}
+
+.icon-filter {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-filter-000: url("/svg/core/actions/filter?color=000&v=1");
+  background-image: var(--icon-filter-000);
+}
+
+.icon-filter-white,
+.icon-filter.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-filter-fff: url("/svg/core/actions/filter?color=fff&v=1");
+  background-image: var(--icon-filter-fff);
+}
+
+.icon-video {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-video-000: url("/svg/core/actions/video?color=000&v=2");
+  background-image: var(--icon-video-000);
+}
+
+.icon-video-white,
+.icon-video.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-video-fff: url("/svg/core/actions/video?color=fff&v=2");
+  background-image: var(--icon-video-fff);
+}
+
+.icon-video-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+.icon-video-off {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-video-off-000: url("/svg/core/actions/video-off?color=000&v=1");
+  background-image: var(--icon-video-off-000);
+}
+
+.icon-video-off-white,
+.icon-video-off.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-video-off-fff: url("/svg/core/actions/video-off?color=fff&v=1");
+  background-image: var(--icon-video-off-fff);
+}
+
+.icon-video-off-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+.icon-video-switch {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-video-switch-000: url("/svg/core/actions/video-switch?color=000&v=1");
+  background-image: var(--icon-video-switch-000);
+}
+
+.icon-video-switch-white,
+.icon-video-switch.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-video-switch-fff: url("/svg/core/actions/video-switch?color=fff&v=1");
+  background-image: var(--icon-video-switch-fff);
+}
+
+/* SHADOW WHITE ICONS: white version only ----------------------------------- */
+.icon-view-close,
+.icon-view-close-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-view-close-fff: url("/svg/core/actions/view-close?color=fff&v=1");
+  background-image: var(--icon-view-close-fff);
+}
+
+.icon-view-download,
+.icon-view-download-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-view-download-fff: url("/svg/core/actions/view-download?color=fff&v=1");
+  background-image: var(--icon-view-download-fff);
+}
+
+.icon-view-pause,
+.icon-view-pause-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-view-pause-fff: url("/svg/core/actions/view-pause?color=fff&v=1");
+  background-image: var(--icon-view-pause-fff);
+}
+
+.icon-view-play,
+.icon-view-play-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-view-play-fff: url("/svg/core/actions/view-play?color=fff&v=1");
+  background-image: var(--icon-view-play-fff);
+}
+
+.icon-view-next {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-arrow-right-000: url("/svg/core/actions/arrow-right?color=000&v=1");
+  background-image: var(--icon-arrow-right-000);
+}
+.icon-view-next.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-arrow-right-fff: url("/svg/core/actions/arrow-right?color=fff&v=1");
+  background-image: var(--icon-arrow-right-fff);
+}
+
+.icon-view-previous {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-arrow-left-000: url("/svg/core/actions/arrow-left?color=000&v=1");
+  background-image: var(--icon-arrow-left-000);
+}
+.icon-view-previous.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-arrow-left-fff: url("/svg/core/actions/arrow-left?color=fff&v=1");
+  background-image: var(--icon-arrow-left-fff);
+}
+
+.icon-disabled-user {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-disabled-user-000: url("/svg/core/actions/disabled-user?color=000&v=1");
+  background-image: var(--icon-disabled-user-000);
+}
+
+.icon-disabled-user-white,
+.icon-disabled-user.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-disabled-user-fff: url("/svg/core/actions/disabled-user?color=fff&v=1");
+  background-image: var(--icon-disabled-user-fff);
+}
+
+.icon-disabled-users {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-disabled-users-000: url("/svg/core/actions/disabled-users?color=000&v=1");
+  background-image: var(--icon-disabled-users-000);
+}
+
+.icon-disabled-users-white,
+.icon-disabled-users.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-disabled-users-fff: url("/svg/core/actions/disabled-users?color=fff&v=1");
+  background-image: var(--icon-disabled-users-fff);
+}
+
+.icon-user-admin {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-user-admin-000: url("/svg/core/actions/user-admin?color=000&v=1");
+  background-image: var(--icon-user-admin-000);
+}
+
+.icon-user-admin-white,
+.icon-user-admin.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-user-admin-fff: url("/svg/core/actions/user-admin?color=fff&v=1");
+  background-image: var(--icon-user-admin-fff);
+}
+
+.icon-alert-outline {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-alert-outline-000: url("/svg/core/actions/alert-outline?color=000&v=1");
+  background-image: var(--icon-alert-outline-000);
+}
+
+.icon-alert-outline-white,
+.icon-alert-outline.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-alert-outline-fff: url("/svg/core/actions/alert-outline?color=fff&v=1");
+  background-image: var(--icon-alert-outline-fff);
+}
+
+/* PLACES ------------------------------------------------------------------- */
+.icon-calendar {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-calendar-fff: url("/svg/core/places/calendar?color=fff&v=1");
+  background-image: var(--icon-calendar-fff);
+}
+
+.icon-calendar-dark {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-calendar-000: url("/svg/core/places/calendar?color=000&v=1");
+  background-image: var(--icon-calendar-000);
+}
+
+.icon-contacts {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-contacts-fff: url("/svg/core/places/contacts?color=fff&v=1");
+  background-image: var(--icon-contacts-fff);
+}
+
+.icon-contacts-dark {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-contacts-000: url("/svg/core/places/contacts?color=000&v=1");
+  background-image: var(--icon-contacts-000);
+}
+
+.icon-files {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-files-fff: url("/svg/core/places/files?color=fff&v=1");
+  background-image: var(--icon-files-fff);
+}
+
+.icon-files-dark {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-files-000: url("/svg/core/places/files?color=000&v=1");
+  background-image: var(--icon-files-000);
+}
+
+.icon-file,
+.icon-filetype-text {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-text-969696: url("/svg/core/filetypes/text?color=969696&v=1");
+  background-image: var(--icon-text-969696);
+}
+
+.icon-filetype-file {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-file-969696: url("/svg/core/filetypes/file?color=969696&v=1");
+  background-image: var(--icon-file-969696);
+}
+
+.icon-folder {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-folder-000: url("/svg/core/filetypes/folder?color=000&v=1");
+  background-image: var(--icon-folder-000);
+}
+
+.icon-folder-white,
+.icon-folder.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-folder-fff: url("/svg/core/filetypes/folder?color=fff&v=1");
+  background-image: var(--icon-folder-fff);
+}
+
+.icon-filetype-folder {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-folder-0082c9: url("/svg/core/filetypes/folder?color=0082c9&v=1");
+  background-image: var(--icon-folder-0082c9);
+}
+
+.icon-filetype-folder-drag-accept {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-folder-drag-accept-0082c9: url("/svg/core/filetypes/folder-drag-accept?color=0082c9&v=1");
+  background-image: var(--icon-folder-drag-accept-0082c9);
+}
+
+.icon-home {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-home-000: url("/svg/core/places/home?color=000&v=1");
+  background-image: var(--icon-home-000);
+}
+
+.icon-home-white,
+.icon-home.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-home-fff: url("/svg/core/places/home?color=fff&v=1");
+  background-image: var(--icon-home-fff);
+}
+
+.icon-link {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-link-000: url("/svg/core/places/link?color=000&v=1");
+  background-image: var(--icon-link-000);
+}
+
+.icon-link-white,
+.icon-link.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-link-fff: url("/svg/core/places/link?color=fff&v=1");
+  background-image: var(--icon-link-fff);
+}
+
+.icon-music {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-music-000: url("/svg/core/places/music?color=000&v=1");
+  background-image: var(--icon-music-000);
+}
+
+.icon-music-white,
+.icon-music.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-music-fff: url("/svg/core/places/music?color=fff&v=1");
+  background-image: var(--icon-music-fff);
+}
+
+.icon-picture {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-picture-000: url("/svg/core/places/picture?color=000&v=1");
+  background-image: var(--icon-picture-000);
+}
+
+.icon-picture-white,
+.icon-picture.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-picture-fff: url("/svg/core/places/picture?color=fff&v=1");
+  background-image: var(--icon-picture-fff);
+}
+
+/* CLIENTS ------------------------------------------------------------------- */
+.icon-desktop {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-desktop-000: url("/svg/core/clients/desktop?color=000&v=1");
+  background-image: var(--icon-desktop-000);
+}
+
+.icon-desktop-white,
+.icon-desktop.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-desktop-fff: url("/svg/core/clients/desktop?color=fff&v=1");
+  background-image: var(--icon-desktop-fff);
+}
+
+.icon-phone {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-phone-000: url("/svg/core/clients/phone?color=000&v=1");
+  background-image: var(--icon-phone-000);
+}
+
+.icon-phone-white,
+.icon-phone.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-phone-fff: url("/svg/core/clients/phone?color=fff&v=1");
+  background-image: var(--icon-phone-fff);
+}
+
+.icon-tablet {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-tablet-000: url("/svg/core/clients/tablet?color=000&v=1");
+  background-image: var(--icon-tablet-000);
+}
+
+.icon-tablet-white,
+.icon-tablet.icon-white {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-tablet-fff: url("/svg/core/clients/tablet?color=fff&v=1");
+  background-image: var(--icon-tablet-fff);
+}
+
+/* APP CATEGORIES ------------------------------------------------------------------- */
+.icon-category-installed {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-user-000: url("/svg/core/actions/user?color=000&v=1");
+  background-image: var(--icon-user-000);
+}
+
+.icon-category-enabled {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-checkmark-000: url("/svg/core/actions/checkmark?color=000&v=1");
+  background-image: var(--icon-checkmark-000);
+}
+
+.icon-category-disabled {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-close-000: url("/svg/core/actions/close?color=000&v=1");
+  background-image: var(--icon-close-000);
+}
+
+.icon-category-app-bundles {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-bundles-000: url("/svg/core/categories/bundles?color=000&v=1");
+  background-image: var(--icon-bundles-000);
+}
+
+.icon-category-updates {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-download-000: url("/svg/core/actions/download?color=000&v=1");
+  background-image: var(--icon-download-000);
+}
+
+.icon-category-files {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-files-000: url("/svg/core/categories/files?color=000&v=1");
+  background-image: var(--icon-files-000);
+}
+
+.icon-category-social {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-social-000: url("/svg/core/categories/social?color=000&v=1");
+  background-image: var(--icon-social-000);
+}
+
+.icon-category-office {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-office-000: url("/svg/core/categories/office?color=000&v=1");
+  background-image: var(--icon-office-000);
+}
+
+.icon-category-auth {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-auth-000: url("/svg/core/categories/auth?color=000&v=1");
+  background-image: var(--icon-auth-000);
+}
+
+.icon-category-monitoring {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-monitoring-000: url("/svg/core/categories/monitoring?color=000&v=1");
+  background-image: var(--icon-monitoring-000);
+}
+
+.icon-category-multimedia {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-multimedia-000: url("/svg/core/categories/multimedia?color=000&v=1");
+  background-image: var(--icon-multimedia-000);
+}
+
+.icon-category-organization {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-organization-000: url("/svg/core/categories/organization?color=000&v=1");
+  background-image: var(--icon-organization-000);
+}
+
+.icon-category-customization {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-customization-000: url("/svg/core/categories/customization?color=000&v=1");
+  background-image: var(--icon-customization-000);
+}
+
+.icon-category-integration {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-integration-000: url("/svg/core/categories/integration?color=000&v=1");
+  background-image: var(--icon-integration-000);
+}
+
+.icon-category-tools {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-settings-dark-000: url("/svg/core/actions/settings-dark?color=000&v=1");
+  background-image: var(--icon-settings-dark-000);
+}
+
+.icon-category-games {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-games-000: url("/svg/core/categories/games?color=000&v=1");
+  background-image: var(--icon-games-000);
+}
+
+.icon-category-security {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-password-000: url("/svg/core/actions/password?color=000&v=1");
+  background-image: var(--icon-password-000);
+}
+
+.icon-category-search {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-search-000: url("/svg/core/actions/search?color=000&v=1");
+  background-image: var(--icon-search-000);
+}
+
+.icon-category-workflow {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-workflow-000: url("/svg/core/categories/workflow?color=000&v=1");
+  background-image: var(--icon-workflow-000);
+}
+
+.icon-category-dashboard {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-dashboard-000: url("/svg/core/categories/dashboard?color=000&v=1");
+  background-image: var(--icon-dashboard-000);
+}
+
+.icon-talk {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-spreed-app-dark-000: url("/svg/spreed/app-dark?color=000&v=1");
+  background-image: var(--icon-spreed-app-dark-000);
+}
+
+.nav-icon-systemtagsfilter {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  --icon-tag-000: url("/svg/core/actions/tag?color=000&v=1");
+  background-image: var(--icon-tag-000);
+}
+
+/*# sourceMappingURL=icons.css.map */
