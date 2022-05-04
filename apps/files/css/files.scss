@@ -5,6 +5,8 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
+@use 'variables';
+@import 'functions';
 
 /* FILE MENU */
 .actions {
@@ -66,9 +68,8 @@
 	thead {
 		position: -webkit-sticky;
 		position: sticky;
-		@include position('sticky');
 		// header + breadcrumbs
-		top: $header-height;
+		top: variables.$header-height;
 		// under breadcrumbs, over file list
 		z-index: 60;
 		display: block;
@@ -127,37 +128,37 @@
 
 /* icons for sidebar */
 .nav-icon-files {
-	@include icon-color('folder', 'files', $color-black);
+	@include icon-color('folder', 'files', variables.$color-black);
 }
 .nav-icon-recent {
-	@include icon-color('recent', 'files', $color-black);
+	@include icon-color('recent', 'files', variables.$color-black);
 }
 .nav-icon-favorites {
-	@include icon-color('starred', 'actions', $color-black, 2, true);
+	@include icon-color('starred', 'actions', variables.$color-black, 2, true);
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout,
 .nav-icon-pendingshares,
 .nav-icon-shareoverview {
-	@include icon-color('share', 'files', $color-black);
+	@include icon-color('share', 'files', variables.$color-black);
 }
 .nav-icon-sharinglinks {
-	@include icon-color('public', 'files', $color-black);
+	@include icon-color('public', 'files', variables.$color-black);
 }
 .nav-icon-extstoragemounts {
-	@include icon-color('external', 'files', $color-black);
+	@include icon-color('external', 'files', variables.$color-black);
 }
 .nav-icon-trashbin {
-	@include icon-color('delete', 'files', $color-black);
+	@include icon-color('delete', 'files', variables.$color-black);
 }
 .nav-icon-trashbin-starred {
 	@include icon-color('delete', 'files', #ff0000);
 }
 .nav-icon-deletedshares {
-	@include icon-color('unshare', 'files', $color-black);
+	@include icon-color('unshare', 'files', variables.$color-black);
 }
 .nav-icon-favorites-starred {
-	@include icon-color('starred', 'actions', $color-yellow, 2, true);
+	@include icon-color('starred', 'actions', variables.$color-yellow, 2, true);
 }
 
 #app-navigation .nav-files a.nav-icon-files {
@@ -823,7 +824,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
+		@include icon-color('star-dark', 'actions', variables.$color-yellow, 1, true);
 	}
 }
 
@@ -846,10 +847,10 @@ table.dragshadow td.size {
 
 .breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
-	background-color: rgba( $color-primary, .3 );
+	background-color: rgba( variables.$color-primary, .3 );
 }
 .dropzone-background {
-	background-color: rgba( $color-primary, .3 );
+	background-color: rgba( variables.$color-primary, .3 );
 	:hover{
 		box-shadow: none !important;
 	}
