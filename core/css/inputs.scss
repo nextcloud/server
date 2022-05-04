@@ -255,7 +255,7 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: var(--icon-triangle-s-000) no-repeat right 4px center;
+	background: var(--icon-triangle-s-dark) no-repeat right 4px center;
 	background-color: inherit;
 	outline: 0;
 	padding-right: 24px !important;
@@ -332,8 +332,6 @@ select,
 
 /* Radio & Checkboxes */
 $checkbox-radio-size: 14px;
-$color-checkbox-radio-disabled: nc-darken(variables.$color-main-background, 27%);
-$color-checkbox-radio-border: nc-darken(variables.$color-main-background, 47%);
 $color-checkbox-radio-white: #fff;
 
 input {
@@ -362,7 +360,7 @@ input {
 				vertical-align: middle;
 				border-radius: 50%;
 				margin: 0 6px 3px 3px;
-				border: 1px solid $color-checkbox-radio-border;
+				border: 1px solid var(--color-text-lighter);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
@@ -383,11 +381,11 @@ input {
 				border-color: var(--color-primary-element);
 			}
 			&:disabled + label:before {
-				border: 1px solid $color-checkbox-radio-border;
-				background-color: $color-checkbox-radio-disabled !important; /* override other status */
+				border: 1px solid var(--color-text-lighter);
+				background-color: var(--color-text-maxcontrast) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				background-color: $color-checkbox-radio-disabled;
+				background-color: var(--color-text-maxcontrast);
 			}
 
 			// Detail description below label of checkbox or radio button
@@ -415,7 +413,7 @@ input {
 			}
 		}
 
-		/* We do not use the nc-darken function as this is not supposed to be changed */
+		/* We do not use the variables as we keep the colours as white for this variant */
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
@@ -474,7 +472,7 @@ div.select2-drop {
 	}
 	.select2-search input {
 		min-height: auto;
-		background: var(--icon-search-000) no-repeat right center !important;
+		background: var(--icon-search-dark) no-repeat right center !important;
 		background-origin: content-box !important;
 	}
 	.select2-results {
@@ -601,7 +599,7 @@ div.select2-container {
 			border-radius: 0;
 			border: none;
 			b {
-				background: var(--icon-triangle-s-000) no-repeat center !important;
+				background: var(--icon-triangle-s-dark) no-repeat center !important;
 				opacity: .5;
 			}
 		}
@@ -666,7 +664,7 @@ div.select2-container {
 				color: inherit !important;
 				&::before {
 					content: ' ';
-					background-image: var(--icon-checkmark-000);
+					background-image: var(--icon-checkmark-dark);
 					background-repeat: no-repeat;
 					background-position: center;
 					min-width: 16px;
@@ -856,7 +854,7 @@ div.select2-container {
 				/* selected checkmark icon */
 				&::before {
 					content: ' ';
-					background-image: var(--icon-checkmark-000);
+					background-image: var(--icon-checkmark-dark);
 					background-repeat: no-repeat;
 					background-position: center;
 					min-width: 16px;
@@ -875,7 +873,7 @@ div.select2-container {
 				 */
 				&[data-select='create'] {
 					&::before {
-						background-image: var(--icon-add-000);
+						background-image: var(--icon-add-dark);
 						visibility: visible;
 					}
 				}

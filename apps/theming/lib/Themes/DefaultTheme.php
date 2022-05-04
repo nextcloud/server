@@ -88,6 +88,7 @@ class DefaultTheme implements ITheme {
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
+		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 
 		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
 
@@ -111,9 +112,9 @@ class DefaultTheme implements ITheme {
 			'--color-primary' => $this->primaryColor,
 			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
-			'--color-primary-light' => $this->util->mix($this->primaryColor, $colorMainBackground, -80),
+			'--color-primary-light' => $colorPrimaryLight,
 			'--color-primary-light-text' => $this->primaryColor,
-			'--color-primary-light-hover' => $this->util->mix($this->primaryColor, $colorMainText, -80),
+			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
 			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 			// used for buttons, inputs...
 			'--color-primary-element' => $this->util->elementColor($this->primaryColor),

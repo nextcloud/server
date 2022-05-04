@@ -1371,6 +1371,9 @@ body .icon-category-tools {
 body .icon-filetype-text {
   background-image: var(--icon-file-grey);
 }
+body .nav-icon-systemtagsfilter {
+  background-image: var(--icon-tag-dark);
+}
 
 @media (prefers-color-scheme: dark) {
   body {

@@ -174,7 +174,7 @@ export default {
 		}
 
 		&.active:not(.icon-loading):after {
-			background-image: var(--icon-checkmark-fff);
+			background-image: var(--icon-checkmark-white);
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: 44px;

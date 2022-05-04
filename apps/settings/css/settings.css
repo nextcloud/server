@@ -1,0 +1,1598 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @see core/src/icons.js
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+input#openid, input#webdav {
+  width: 20em;
+}
+
+/* PERSONAL */
+.clear {
+  clear: both;
+}
+
+/* icons for sidebar */
+.nav-icon-personal-settings {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-personal-dark);
+}
+
+.nav-icon-security {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-toggle-filelist-dark);
+}
+
+.nav-icon-clientsbox {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-change-dark);
+}
+
+.nav-icon-federated-cloud {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-share-dark);
+}
+
+.nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-password-dark);
+}
+
+#avatarform .avatardiv {
+  margin: 10px auto;
+}
+#avatarform .warning {
+  width: 100%;
+}
+#avatarform .jcrop-keymgr {
+  display: none !important;
+}
+
+#displayavatar {
+  text-align: center;
+}
+
+#uploadavatarbutton, #selectavatar, #removeavatar {
+  padding: 21px;
+}
+
+#selectavatar, #removeavatar {
+  vertical-align: top;
+}
+
+.jcrop-holder {
+  z-index: 500;
+}
+
+#cropper {
+  float: left;
+  z-index: 500;
+  /* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  top: 45px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 45px);
+}
+#cropper .inner-container {
+  z-index: 2001;
+  /* above the top bar if needed */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #333;
+  border-radius: var(--border-radius-large);
+  box-shadow: 0 0 10px var(--color-box-shadow);
+  padding: 15px;
+}
+#cropper .inner-container .jcrop-holder,
+#cropper .inner-container .jcrop-holder img,
+#cropper .inner-container img.jcrop-preview {
+  border-radius: var(--border-radius);
+}
+#cropper .inner-container .button {
+  margin-top: 15px;
+}
+#cropper .inner-container .primary {
+  float: right;
+}
+
+#personal-settings-avatar-container {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 1fr 2fr;
+  vertical-align: top;
+}
+
+.profile-settings-container {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 2fr;
+}
+.profile-settings-container #locale h3 {
+  height: 32px;
+}
+
+.personal-show-container {
+  width: 100%;
+}
+
+.personal-settings-setting-box .section {
+  padding: 10px 30px;
+}
+.personal-settings-setting-box .section h3 {
+  margin-bottom: 0;
+}
+.personal-settings-setting-box .section input[type=text], .personal-settings-setting-box .section input[type=email], .personal-settings-setting-box .section input[type=tel], .personal-settings-setting-box .section input[type=url] {
+  width: 100%;
+}
+
+select#timezone, select#languageinput, select#localeinput {
+  width: 100%;
+}
+
+#personal-settings {
+  display: grid;
+  padding: 20px;
+  max-width: 1500px;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+#personal-settings .section {
+  padding: 10px 10px;
+  border: 0;
+}
+#personal-settings .section h2 {
+  margin-bottom: 12px;
+}
+#personal-settings .personal-info {
+  margin-right: 10%;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+#personal-settings .personal-info[class^=icon-], #personal-settings .personal-info[class*=" icon-"] {
+  background-position: 0px 2px;
+  padding-left: 30px;
+  opacity: 0.7;
+}
+
+.development-notice {
+  text-align: center;
+}
+
+.link-button {
+  display: inline-block;
+  margin: 16px;
+  padding: 14px 20px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: var(--border-radius-pill);
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 2px 9px var(--color-box-shadow);
+}
+.link-button:active, .link-button:hover, .link-button:focus {
+  color: var(--color-primary);
+  background-color: var(--color-primary-text);
+  border-color: var(--color-primary) !important;
+}
+.link-button.icon-file {
+  padding-left: 48px;
+  background-position: 24px;
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+  #personal-settings {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+  #personal-settings #personal-settings-avatar-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  #personal-settings .personal-settings-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+  }
+  #personal-settings .profile-settings-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column: 2;
+  }
+}
+@media (max-width: 1200px) {
+  #personal-settings {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  #personal-settings #personal-settings-avatar-container {
+    grid-template-rows: 1fr;
+  }
+  #personal-settings .personal-settings-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+  }
+  #personal-settings .profile-settings-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  #personal-settings {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  #personal-settings #personal-settings-avatar-container {
+    grid-template-rows: 1fr;
+  }
+  #personal-settings .personal-settings-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+  #personal-settings .profile-settings-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+.personal-settings-container {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+.personal-settings-container:after {
+  clear: both;
+}
+.personal-settings-container > div h3 {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+.personal-settings-container > div h3 > label {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.personal-settings-container > div > form span[class^=icon-checkmark], .personal-settings-container > div > form span[class^=icon-error] {
+  position: relative;
+  right: 8px;
+  top: -28px;
+  pointer-events: none;
+  float: right;
+}
+.personal-settings-container .verify {
+  position: relative;
+  left: 100%;
+  top: 0;
+  height: 0;
+}
+.personal-settings-container .verify img {
+  padding: 12px 7px 6px;
+}
+.personal-settings-container .verify-action {
+  cursor: pointer;
+}
+.personal-settings-container input:disabled {
+  background-color: white;
+  color: black;
+  border: none;
+  opacity: 100;
+}
+
+#body-settings #quota {
+  cursor: default;
+  position: relative;
+}
+#body-settings #quota progress {
+  height: 6px;
+}
+#body-settings #quota progress::-moz-progress-bar {
+  border-radius: 3px 0 0 3px;
+}
+#body-settings #quota progress::-webkit-progress-value {
+  border-radius: 3px 0 0 3px;
+}
+#body-settings #quota div {
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+/* verify accounts */
+/* only show pointer cursor when popup will be there */
+.verification-dialog {
+  display: none;
+  right: -9px;
+  top: 40px;
+  width: 275px;
+}
+.verification-dialog p {
+  padding: 10px;
+}
+.verification-dialog .verificationCode {
+  font-family: monospace;
+  display: block;
+  overflow-wrap: break-word;
+}
+
+.federation-menu {
+  position: relative;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  margin: -12px 0 0 8px;
+  background: none;
+  border: none;
+}
+.federation-menu:hover, .federation-menu:focus {
+  background-color: var(--color-background-hover);
+  border-radius: var(--border-radius-pill);
+}
+.federation-menu:hover .icon-federation-menu, .federation-menu:focus .icon-federation-menu {
+  opacity: 0.8;
+}
+.federation-menu .icon-federation-menu {
+  padding-left: 16px;
+  background-size: 16px;
+  background-position: left center;
+  opacity: 0.3;
+  cursor: inherit;
+}
+.federation-menu .icon-federation-menu .icon-triangle-s {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: inherit;
+}
+.federation-menu .federationScopeMenu {
+  top: 44px;
+}
+.federation-menu .federationScopeMenu.popovermenu .menuitem {
+  font-size: 12.8px;
+  line-height: 1.6em;
+}
+.federation-menu .federationScopeMenu.popovermenu .menuitem .menuitem-text-detail {
+  opacity: 0.75;
+}
+.federation-menu .federationScopeMenu.popovermenu .menuitem.active {
+  box-shadow: inset 2px 0 var(--color-primary);
+}
+.federation-menu .federationScopeMenu.popovermenu .menuitem.active .menuitem-text {
+  font-weight: bold;
+}
+.federation-menu .federationScopeMenu.popovermenu .menuitem.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.federation-menu .federationScopeMenu.popovermenu .menuitem.disabled * {
+  cursor: default;
+}
+
+#groups-groups {
+  padding-top: 5px;
+}
+
+.clientsbox img {
+  height: 60px;
+}
+
+#sslCertificate tr.expired {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+#sslCertificate td {
+  padding: 5px;
+}
+
+#displaynameerror,
+#displaynamechanged {
+  display: none;
+}
+
+input#identity {
+  width: 20em;
+}
+
+#showWizard {
+  display: inline-block;
+}
+
+.msg.success {
+  color: #fff;
+  background-color: #47a447;
+  padding: 3px;
+}
+.msg.error {
+  color: #fff;
+  background-color: #d2322d;
+  padding: 3px;
+}
+
+table.nostyle label {
+  margin-right: 2em;
+}
+table.nostyle td {
+  padding: 0.2em 0;
+}
+
+#security-password #passwordform {
+  display: flex;
+  flex-wrap: wrap;
+}
+#security-password #passwordform #pass1, #security-password #passwordform .personal-show-container, #security-password #passwordform #passwordbutton {
+  flex-shrink: 1;
+  width: 200px;
+  min-width: 150px;
+}
+#security-password #passwordform #pass2 {
+  width: 100%;
+}
+#security-password #passwordform .password-state {
+  display: inline-block;
+}
+#security-password #passwordform .strengthify-wrapper {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-radius: 0 0 2px 2px;
+  margin-top: -6px;
+  overflow: hidden;
+  height: 3px;
+}
+
+/* Two-Factor Authentication (2FA) */
+#two-factor-auth h3 {
+  margin-top: 24px;
+}
+#two-factor-auth li > div {
+  margin-left: 20px;
+}
+#two-factor-auth .two-factor-provider-settings-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: sub;
+}
+
+.social-button {
+  padding-left: 0 !important;
+  margin-left: -10px;
+}
+.social-button img {
+  padding: 10px;
+}
+
+/* USERS */
+.isgroup .groupname {
+  width: 85%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.isgroup.active .groupname {
+  width: 65%;
+}
+
+li.active .delete,
+li.active .rename {
+  display: block;
+}
+
+.app-navigation-entry-utils .delete,
+.app-navigation-entry-utils .rename {
+  display: none;
+}
+
+#usersearchform {
+  position: absolute;
+  top: 2px;
+  right: 0;
+}
+#usersearchform input {
+  width: 150px;
+}
+#usersearchform label {
+  font-weight: bold;
+}
+
+/* display table at full width */
+table.grid {
+  width: 100%;
+}
+table.grid th {
+  height: 2em;
+  color: #999;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 0.5em;
+  padding-left: 0.8em;
+  text-align: left;
+  font-weight: normal;
+}
+table.grid td {
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 0.5em;
+  padding-left: 0.8em;
+  text-align: left;
+  font-weight: normal;
+}
+
+td.name, th.name {
+  padding-left: 0.8em;
+  min-width: 5em;
+  max-width: 12em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+td.password, th.password {
+  padding-left: 0.8em;
+}
+td.password > img, th.password > img {
+  visibility: hidden;
+}
+td.displayName > img, th.displayName > img {
+  visibility: hidden;
+}
+td.password, td.mailAddress, th.password, th.mailAddress {
+  min-width: 5em;
+  max-width: 12em;
+  cursor: pointer;
+}
+td.password span, td.mailAddress span, th.password span, th.mailAddress span {
+  width: 90%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+td.mailAddress, th.mailAddress {
+  cursor: pointer;
+}
+td.password > span, th.password > span {
+  margin-right: 1.2em;
+  color: #C7C7C7;
+}
+
+span.usersLastLoginTooltip {
+  white-space: nowrap;
+}
+
+/* APPS */
+#app-content > svg.app-filter {
+  float: left;
+  height: 0;
+  width: 0;
+}
+
+#app-category-app-bundles {
+  margin-bottom: 20px;
+}
+
+.appinfo {
+  margin: 1em 40px;
+}
+
+#app-navigation {
+  /* Navigation icons */
+}
+#app-navigation img {
+  margin-bottom: -3px;
+  margin-right: 6px;
+  width: 16px;
+}
+#app-navigation li span.no-icon {
+  padding-left: 32px;
+}
+#app-navigation ul li.active > span.utils .delete, #app-navigation ul li.active > span.utils .rename {
+  display: block;
+}
+#app-navigation .appwarning {
+  background: #fcc;
+}
+#app-navigation.appwarning:hover {
+  background: #fbb;
+}
+#app-navigation .app-external {
+  color: var(--color-text-maxcontrast);
+}
+
+span.version {
+  margin-left: 1em;
+  margin-right: 1em;
+  color: var(--color-text-maxcontrast);
+}
+
+.app-version {
+  color: var(--color-text-maxcontrast);
+}
+
+.app-level span {
+  color: var(--color-text-maxcontrast);
+  background-color: transparent;
+  border: 1px solid var(--color-text-maxcontrast);
+  border-radius: var(--border-radius);
+  padding: 3px 6px;
+}
+.app-level a {
+  padding: 10px;
+  margin: -6px;
+  white-space: nowrap;
+}
+.app-level .official {
+  background-position: left center;
+  background-position: 5px center;
+  padding-left: 25px;
+}
+.app-level .supported {
+  border-color: var(--color-success);
+  background-position: left center;
+  background-position: 5px center;
+  padding-left: 25px;
+  color: var(--color-success);
+}
+
+.app-score {
+  position: relative;
+  top: 4px;
+  opacity: 0.5;
+}
+
+.app-settings-content #searchresults {
+  display: none;
+}
+
+#apps-list.store .section {
+  border: 0;
+}
+#apps-list.store .app-name {
+  display: block;
+  margin: 5px 0;
+}
+#apps-list.store .app-name, #apps-list.store .app-image * {
+  cursor: pointer;
+}
+#apps-list.store .app-summary {
+  opacity: 0.7;
+}
+#apps-list.store .app-image-icon .icon-settings-dark {
+  width: 100%;
+  height: 150px;
+  background-size: 45px;
+  opacity: 0.5;
+}
+#apps-list.store .app-score-image {
+  height: 14px;
+}
+#apps-list.store .actions {
+  margin-top: 10px;
+}
+
+#app-sidebar #app-details-view h2 .icon-settings-dark,
+#app-sidebar #app-details-view h2 svg {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  opacity: 0.7;
+}
+#app-sidebar #app-details-view .app-level {
+  clear: right;
+  width: 100%;
+}
+#app-sidebar #app-details-view .app-level .supported,
+#app-sidebar #app-details-view .app-level .official {
+  vertical-align: top;
+}
+#app-sidebar #app-details-view .app-level .app-score-image {
+  float: right;
+}
+#app-sidebar #app-details-view .app-author, #app-sidebar #app-details-view .app-licence {
+  color: var(--color-text-maxcontrast);
+}
+#app-sidebar #app-details-view .app-dependencies {
+  margin: 10px 0;
+}
+#app-sidebar #app-details-view .app-description p {
+  margin: 10px 0;
+}
+#app-sidebar #app-details-view .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 14px;
+  opacity: 0.5;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+}
+#app-sidebar #app-details-view .actions {
+  display: flex;
+  align-items: center;
+}
+#app-sidebar #app-details-view .actions .app-groups {
+  padding: 5px;
+}
+#app-sidebar #app-details-view .appslink {
+  text-decoration: underline;
+  margin-right: 5px;
+}
+#app-sidebar #app-details-view .app-level,
+#app-sidebar #app-details-view .actions,
+#app-sidebar #app-details-view .documentation,
+#app-sidebar #app-details-view .app-dependencies,
+#app-sidebar #app-details-view .app-description {
+  margin: 20px 0;
+}
+
+@media only screen and (min-width: 1601px) {
+  .store .section {
+    width: 25%;
+  }
+
+  .with-app-sidebar .store .section {
+    width: 33%;
+  }
+}
+@media only screen and (max-width: 1600px) {
+  .store .section {
+    width: 25%;
+  }
+
+  .with-app-sidebar .store .section {
+    width: 33%;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .store .section {
+    width: 33%;
+  }
+
+  .with-app-sidebar .store .section {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .store .section {
+    width: 50%;
+  }
+
+  .with-app-sidebar .store .section {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .store .section {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .store .section {
+    width: 100%;
+  }
+}
+/* hide app version and level on narrower screens */
+@media only screen and (max-width: 900px) {
+  .apps-list.installed .app-version, .apps-list.installed .app-level {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .apps-list.installed .app-groups {
+    display: none !important;
+  }
+}
+#version.section {
+  border-bottom: none;
+}
+
+.section {
+  margin-bottom: 0;
+  /* section divider lines, none needed for last one */
+  /* correctly display help icons next to headings */
+}
+.section:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+}
+.section h2 {
+  margin-bottom: 22px;
+}
+.section h2 .icon-info {
+  padding: 6px 20px;
+  vertical-align: text-bottom;
+  display: inline-block;
+}
+
+.followupsection {
+  display: block;
+  padding: 0 30px 30px 30px;
+  color: #555;
+}
+
+.app-image {
+  position: relative;
+  height: 150px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.app-name, .app-version, .app-score, .app-level {
+  display: inline-block;
+}
+
+.app-description-toggle-show, .app-description-toggle-hide {
+  clear: both;
+  padding: 7px 0;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.app-description-container {
+  clear: both;
+  position: relative;
+  top: 7px;
+}
+
+.app-description {
+  clear: both;
+}
+
+#app-category-1 {
+  margin-bottom: 18px;
+}
+
+/* capitalize 'Other' category */
+#app-category-925 {
+  text-transform: capitalize;
+}
+
+.app-dependencies {
+  color: #ce3702;
+}
+
+.missing-dependencies {
+  list-style: initial;
+  list-style-type: initial;
+  list-style-position: inside;
+}
+
+.apps-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  /* Bundle header */
+}
+.apps-list .section {
+  cursor: pointer;
+}
+.apps-list .app-list-move {
+  transition: transform 1s;
+}
+.apps-list #app-list-update-all {
+  margin-left: 10px;
+}
+.apps-list .toolbar {
+  height: 60px;
+  padding: 8px;
+  padding-left: 60px;
+  width: 100%;
+  background-color: var(--color-main-background);
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+.apps-list.installed {
+  margin-bottom: 100px;
+}
+.apps-list.installed .apps-list-container {
+  display: table;
+  width: 100%;
+  height: auto;
+  margin-top: 60px;
+}
+.apps-list.installed .section {
+  display: table-row;
+  padding: 0;
+  margin: 0;
+}
+.apps-list.installed .section > * {
+  display: table-cell;
+  height: initial;
+  vertical-align: middle;
+  float: none;
+  border-bottom: 1px solid var(--color-border);
+  padding: 6px;
+  box-sizing: border-box;
+}
+.apps-list.installed .section.selected {
+  background-color: var(--color-background-dark);
+}
+.apps-list.installed .groups-enable {
+  margin-top: 0;
+}
+.apps-list.installed .groups-enable label {
+  margin-right: 3px;
+}
+.apps-list.installed .app-image {
+  width: 44px;
+  height: auto;
+  text-align: right;
+}
+.apps-list.installed .app-image-icon svg,
+.apps-list.installed .app-image-icon .icon-settings-dark {
+  margin-top: 5px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+  background-size: cover;
+  display: inline-block;
+}
+.apps-list.installed .actions {
+  text-align: right;
+}
+.apps-list.installed .actions .icon-loading-small {
+  display: inline-block;
+  top: 4px;
+  margin-right: 10px;
+}
+.apps-list:not(.installed) .app-image-icon svg {
+  position: absolute;
+  bottom: 43px;
+  /* position halfway vertically */
+  width: 64px;
+  height: 64px;
+  opacity: 0.1;
+}
+.apps-list.hidden {
+  display: none;
+}
+.apps-list .section {
+  position: relative;
+  flex: 0 0 auto;
+}
+.apps-list .section h2.app-name {
+  display: block;
+  margin: 8px 0;
+}
+.apps-list .section:hover {
+  background-color: var(--color-background-dark);
+}
+.apps-list .app-description p {
+  margin: 10px 0;
+}
+.apps-list .app-description ul {
+  list-style: disc;
+}
+.apps-list .app-description ol {
+  list-style: decimal;
+}
+.apps-list .app-description ol ol, .apps-list .app-description ol ul {
+  padding-left: 15px;
+}
+.apps-list .app-description > ul, .apps-list .app-description > ol {
+  margin-left: 19px;
+}
+.apps-list .app-description ul ol, .apps-list .app-description ul ul {
+  padding-left: 15px;
+}
+.apps-list .apps-header {
+  display: table-row;
+  position: relative;
+}
+.apps-list .apps-header div {
+  display: table-cell;
+  height: 70px;
+}
+.apps-list .apps-header h2 {
+  display: table-cell;
+  position: absolute;
+  padding-left: 6px;
+  padding-top: 15px;
+}
+.apps-list .apps-header h2 .enable {
+  position: relative;
+  top: -1px;
+  margin-left: 12px;
+}
+.apps-list .apps-header h2 + .section {
+  margin-top: 50px;
+}
+
+#apps-list-search .section h2 {
+  margin-bottom: 0;
+}
+
+/* LOG */
+#log {
+  white-space: normal;
+  margin-bottom: 14px;
+}
+
+#lessLog {
+  display: none;
+}
+
+table.grid td.date {
+  white-space: nowrap;
+}
+
+#log-section p {
+  margin-top: 20px;
+}
+
+#security-warning-state-ok span,
+#security-warning-state-warning span,
+#security-warning-state-failure span,
+#security-warning-state-loading span {
+  vertical-align: middle;
+}
+#security-warning-state-ok span.message,
+#security-warning-state-warning span.message,
+#security-warning-state-failure span.message,
+#security-warning-state-loading span.message {
+  padding: 12px;
+}
+#security-warning-state-ok span.icon,
+#security-warning-state-warning span.icon,
+#security-warning-state-failure span.icon,
+#security-warning-state-loading span.icon {
+  width: 32px;
+  height: 32px;
+  background-position: center center;
+  display: inline-block;
+  border-radius: 50%;
+}
+#security-warning-state-ok span.icon-checkmark-white,
+#security-warning-state-warning span.icon-checkmark-white,
+#security-warning-state-failure span.icon-checkmark-white,
+#security-warning-state-loading span.icon-checkmark-white {
+  background-color: var(--color-success);
+}
+#security-warning-state-ok span.icon-error-white,
+#security-warning-state-warning span.icon-error-white,
+#security-warning-state-failure span.icon-error-white,
+#security-warning-state-loading span.icon-error-white {
+  background-color: var(--color-warning);
+}
+#security-warning-state-ok span.icon-close-white,
+#security-warning-state-warning span.icon-close-white,
+#security-warning-state-failure span.icon-close-white,
+#security-warning-state-loading span.icon-close-white {
+  background-color: var(--color-error);
+}
+
+#shareAPI p {
+  padding-bottom: 0.8em;
+}
+#shareAPI input#shareapiExpireAfterNDays {
+  width: 40px;
+}
+#shareAPI .indent {
+  padding-left: 28px;
+}
+#shareAPI .double-indent {
+  padding-left: 56px;
+}
+#shareAPI .nocheckbox {
+  padding-left: 20px;
+}
+
+#shareApiDefaultPermissionsSection label {
+  margin-right: 20px;
+}
+
+#fileSharingSettings h3 {
+  display: inline-block;
+}
+
+#publicShareDisclaimerText {
+  width: calc(100% - 23px);
+  /* 20 px left margin, 3 px right margin */
+  max-width: 600px;
+  height: 150px;
+  margin-left: 20px;
+  box-sizing: border-box;
+}
+
+/* correctly display help icons next to headings */
+.icon-info {
+  padding: 11px 20px;
+  vertical-align: text-bottom;
+  opacity: 0.5;
+}
+
+#two-factor-auth h2,
+#shareAPI h2,
+#encryptionAPI h2,
+#mail_general_settings h2 {
+  display: inline-block;
+}
+
+#encryptionAPI li {
+  list-style-type: initial;
+  margin-left: 20px;
+  padding: 5px 0;
+}
+
+.mail_settings p label:first-child {
+  display: inline-block;
+  width: 300px;
+  text-align: right;
+}
+.mail_settings p select:nth-child(2),
+.mail_settings p input:not([type=button]) {
+  width: 143px;
+}
+
+#mail_smtpport {
+  width: 40px;
+}
+
+.cronlog {
+  margin-left: 10px;
+}
+
+.status {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  vertical-align: text-bottom;
+}
+.status.success {
+  border-radius: 50%;
+}
+
+#selectGroups select {
+  box-sizing: border-box;
+  display: inline-block;
+  height: 36px;
+  padding: 7px 10px;
+}
+
+#log .log-message {
+  word-break: break-all;
+  min-width: 180px;
+}
+
+span.success {
+  background-color: var(--color-success);
+  border-radius: var(--border-radius);
+}
+span.error {
+  background-color: var(--color-error);
+}
+span.indeterminate {
+  background-color: var(--color-warning);
+  border-radius: 40% 0;
+}
+
+/* OPERA hack for strengthify*/
+doesnotexist:-o-prefocus, .strengthify-wrapper {
+  left: 185px;
+  width: 129px;
+}
+
+.trusted-domain-warning {
+  color: #fff;
+  padding: 5px;
+  background: #ce3702;
+  border-radius: 5px;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+#postsetupchecks ul {
+  margin-left: 44px;
+  list-style: disc;
+}
+#postsetupchecks ul li {
+  margin: 10px 0;
+}
+#postsetupchecks ul ul {
+  list-style: circle;
+}
+#postsetupchecks .loading {
+  height: 50px;
+  background-position: left center;
+}
+#postsetupchecks .errors, #postsetupchecks .errors a {
+  color: var(--color-error);
+}
+#postsetupchecks .warnings, #postsetupchecks .warnings a {
+  color: var(--color-warning);
+}
+#postsetupchecks .hint {
+  margin: 20px 0;
+}
+
+#security-warning a {
+  text-decoration: underline;
+}
+#security-warning .extra-top-margin {
+  margin-top: 12px;
+}
+
+#admin-tips li {
+  list-style: initial;
+}
+#admin-tips li a {
+  display: inline-block;
+  padding: 3px 0;
+}
+
+#selectEncryptionModules {
+  margin-left: 30px;
+  padding: 10px;
+}
+
+#encryptionModules {
+  padding: 10px;
+}
+
+#warning {
+  color: red;
+}
+
+.settings-hint {
+  margin-top: -12px;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+/* USERS LIST -------------------------------------------------------------- */
+#body-settings {
+  overflow-x: scroll;
+  min-height: 100%;
+  height: auto;
+}
+#body-settings #app-content.user-list-grid {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-auto-rows: minmax(60px, max-content);
+}
+#body-settings #app-content.user-list-grid .row {
+  display: flex;
+  display: grid;
+  min-height: 60px;
+  grid-row-start: span 1;
+  grid-gap: 3px;
+  align-items: center;
+  /* let's define the column until storage path,
+     what follows will be manually defined  */
+  grid-template-columns: 44px minmax(190px, 1fr) minmax(160px, 1fr) minmax(160px, 1fr) minmax(240px, 1fr) minmax(240px, 1fr) repeat(auto-fit, minmax(160px, 1fr));
+  border-bottom: var(--color-border) 1px solid;
+  /* grid col width */
+  /* various */
+}
+#body-settings #app-content.user-list-grid .row.disabled {
+  opacity: 0.5;
+}
+#body-settings #app-content.user-list-grid .row .name,
+#body-settings #app-content.user-list-grid .row .password,
+#body-settings #app-content.user-list-grid .row .mailAddress,
+#body-settings #app-content.user-list-grid .row .languages,
+#body-settings #app-content.user-list-grid .row .storageLocation,
+#body-settings #app-content.user-list-grid .row .userBackend,
+#body-settings #app-content.user-list-grid .row .lastLogin {
+  min-width: 160px;
+}
+#body-settings #app-content.user-list-grid .row .name doesnotexist:-o-prefocus, #body-settings #app-content.user-list-grid .row .name .strengthify-wrapper,
+#body-settings #app-content.user-list-grid .row .password doesnotexist:-o-prefocus,
+#body-settings #app-content.user-list-grid .row .password .strengthify-wrapper,
+#body-settings #app-content.user-list-grid .row .mailAddress doesnotexist:-o-prefocus,
+#body-settings #app-content.user-list-grid .row .mailAddress .strengthify-wrapper,
+#body-settings #app-content.user-list-grid .row .languages doesnotexist:-o-prefocus,
+#body-settings #app-content.user-list-grid .row .languages .strengthify-wrapper,
+#body-settings #app-content.user-list-grid .row .storageLocation doesnotexist:-o-prefocus,
+#body-settings #app-content.user-list-grid .row .storageLocation .strengthify-wrapper,
+#body-settings #app-content.user-list-grid .row .userBackend doesnotexist:-o-prefocus,
+#body-settings #app-content.user-list-grid .row .userBackend .strengthify-wrapper,
+#body-settings #app-content.user-list-grid .row .lastLogin doesnotexist:-o-prefocus,
+#body-settings #app-content.user-list-grid .row .lastLogin .strengthify-wrapper {
+  color: var(--color-text-dark);
+  vertical-align: baseline;
+  text-overflow: ellipsis;
+}
+#body-settings #app-content.user-list-grid .row:not(.row--editable).name, #body-settings #app-content.user-list-grid .row:not(.row--editable).password, #body-settings #app-content.user-list-grid .row:not(.row--editable).displayName, #body-settings #app-content.user-list-grid .row:not(.row--editable).mailAddress, #body-settings #app-content.user-list-grid .row:not(.row--editable).userBackend, #body-settings #app-content.user-list-grid .row:not(.row--editable).languages {
+  overflow: hidden;
+}
+#body-settings #app-content.user-list-grid .row .groups,
+#body-settings #app-content.user-list-grid .row .subadmins,
+#body-settings #app-content.user-list-grid .row .quota {
+  min-width: 160px;
+}
+#body-settings #app-content.user-list-grid .row .groups .multiselect,
+#body-settings #app-content.user-list-grid .row .subadmins .multiselect,
+#body-settings #app-content.user-list-grid .row .quota .multiselect {
+  width: 100%;
+  color: var(--color-text-dark);
+  vertical-align: baseline;
+}
+#body-settings #app-content.user-list-grid .row .obfuscated {
+  width: 400px;
+  opacity: 0.7;
+}
+#body-settings #app-content.user-list-grid .row .userActions {
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  right: 0px;
+  min-width: 88px;
+  background-color: var(--color-main-background);
+}
+#body-settings #app-content.user-list-grid .row .subtitle {
+  color: var(--color-text-maxcontrast);
+  vertical-align: baseline;
+}
+#body-settings #app-content.user-list-grid .row#grid-header {
+  position: sticky;
+  align-self: normal;
+  background-color: var(--color-main-background);
+  z-index: 100;
+  /* above multiselect */
+  top: 50px;
+}
+#body-settings #app-content.user-list-grid .row#grid-header.sticky {
+  box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
+}
+#body-settings #app-content.user-list-grid .row#grid-header {
+  color: var(--color-text-maxcontrast);
+  border-bottom-width: thin;
+}
+#body-settings #app-content.user-list-grid .row#grid-header #headerDisplayName,
+#body-settings #app-content.user-list-grid .row#grid-header #headerPassword,
+#body-settings #app-content.user-list-grid .row#grid-header #headerAddress,
+#body-settings #app-content.user-list-grid .row#grid-header #headerGroups,
+#body-settings #app-content.user-list-grid .row#grid-header #headerSubAdmins,
+#body-settings #app-content.user-list-grid .row#grid-header #theHeaderUserBackend,
+#body-settings #app-content.user-list-grid .row#grid-header #theHeaderLastLogin,
+#body-settings #app-content.user-list-grid .row#grid-header #headerQuota,
+#body-settings #app-content.user-list-grid .row#grid-header #theHeaderStorageLocation,
+#body-settings #app-content.user-list-grid .row#grid-header #headerLanguages {
+  /* Line up header text with column content for when there’s inputs */
+  padding-left: 7px;
+  text-transform: none;
+  color: var(--color-text-maxcontrast);
+  vertical-align: baseline;
+}
+#body-settings #app-content.user-list-grid .row:hover input:not([type=submit]):not(:focus):not(:active) {
+  border-color: var(--color-border) !important;
+}
+#body-settings #app-content.user-list-grid .row:hover:not(#grid-header) {
+  box-shadow: 5px 0 0 var(--color-primary-element) inset;
+}
+#body-settings #app-content.user-list-grid .row > form {
+  width: 100%;
+}
+#body-settings #app-content.user-list-grid .row > div,
+#body-settings #app-content.user-list-grid .row > .displayName > form,
+#body-settings #app-content.user-list-grid .row > form {
+  grid-row: 1;
+  display: inline-flex;
+  color: var(--color-text-lighter);
+  flex-grow: 1;
+  /* inputs like mail, username, password */
+  /* Fill the grid cell */
+}
+#body-settings #app-content.user-list-grid .row > div > input:not(:focus):not(:active),
+#body-settings #app-content.user-list-grid .row > .displayName > form > input:not(:focus):not(:active),
+#body-settings #app-content.user-list-grid .row > form > input:not(:focus):not(:active) {
+  border-color: transparent;
+  cursor: pointer;
+}
+#body-settings #app-content.user-list-grid .row > div > input:focus + .icon-confirm, #body-settings #app-content.user-list-grid .row > div > input:active + .icon-confirm,
+#body-settings #app-content.user-list-grid .row > .displayName > form > input:focus + .icon-confirm,
+#body-settings #app-content.user-list-grid .row > .displayName > form > input:active + .icon-confirm,
+#body-settings #app-content.user-list-grid .row > form > input:focus + .icon-confirm,
+#body-settings #app-content.user-list-grid .row > form > input:active + .icon-confirm {
+  display: block !important;
+}
+#body-settings #app-content.user-list-grid .row > div:not(.userActions) > input:not([type=submit]),
+#body-settings #app-content.user-list-grid .row > .displayName > form:not(.userActions) > input:not([type=submit]),
+#body-settings #app-content.user-list-grid .row > form:not(.userActions) > input:not([type=submit]) {
+  width: 100%;
+  min-width: 0;
+}
+#body-settings #app-content.user-list-grid .row > div.name,
+#body-settings #app-content.user-list-grid .row > .displayName > form.name,
+#body-settings #app-content.user-list-grid .row > form.name {
+  word-break: break-all;
+}
+#body-settings #app-content.user-list-grid .row > div.displayName > input, #body-settings #app-content.user-list-grid .row > div.mailAddress > input,
+#body-settings #app-content.user-list-grid .row > .displayName > form.displayName > input,
+#body-settings #app-content.user-list-grid .row > .displayName > form.mailAddress > input,
+#body-settings #app-content.user-list-grid .row > form.displayName > input,
+#body-settings #app-content.user-list-grid .row > form.mailAddress > input {
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+#body-settings #app-content.user-list-grid .row > div.name, #body-settings #app-content.user-list-grid .row > div.userBackend,
+#body-settings #app-content.user-list-grid .row > .displayName > form.name,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userBackend,
+#body-settings #app-content.user-list-grid .row > form.name,
+#body-settings #app-content.user-list-grid .row > form.userBackend {
+  /* better multi-line visual */
+  line-height: 1.3em;
+  max-height: 100%;
+  overflow: hidden;
+  /* not supported by all browsers
+     so we keep the overflow hidden
+     as a fallback */
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+#body-settings #app-content.user-list-grid .row > div.quota,
+#body-settings #app-content.user-list-grid .row > .displayName > form.quota,
+#body-settings #app-content.user-list-grid .row > form.quota {
+  display: flex;
+  justify-content: left;
+  white-space: nowrap;
+  position: relative;
+}
+#body-settings #app-content.user-list-grid .row > div.quota progress,
+#body-settings #app-content.user-list-grid .row > .displayName > form.quota progress,
+#body-settings #app-content.user-list-grid .row > form.quota progress {
+  width: 150px;
+  margin-top: 35px;
+  height: 3px;
+}
+#body-settings #app-content.user-list-grid .row > div .icon-confirm,
+#body-settings #app-content.user-list-grid .row > .displayName > form .icon-confirm,
+#body-settings #app-content.user-list-grid .row > form .icon-confirm {
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+#body-settings #app-content.user-list-grid .row > div .icon-confirm:not(:active),
+#body-settings #app-content.user-list-grid .row > .displayName > form .icon-confirm:not(:active),
+#body-settings #app-content.user-list-grid .row > form .icon-confirm:not(:active) {
+  display: none;
+}
+#body-settings #app-content.user-list-grid .row > div.avatar,
+#body-settings #app-content.user-list-grid .row > .displayName > form.avatar,
+#body-settings #app-content.user-list-grid .row > form.avatar {
+  height: 32px;
+  width: 32px;
+  margin: 6px;
+}
+#body-settings #app-content.user-list-grid .row > div.avatar img,
+#body-settings #app-content.user-list-grid .row > .displayName > form.avatar img,
+#body-settings #app-content.user-list-grid .row > form.avatar img {
+  display: block;
+}
+#body-settings #app-content.user-list-grid .row > div.userActions,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions,
+#body-settings #app-content.user-list-grid .row > form.userActions {
+  display: flex;
+  justify-content: flex-end;
+}
+#body-settings #app-content.user-list-grid .row > div.userActions #newsubmit,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions #newsubmit,
+#body-settings #app-content.user-list-grid .row > form.userActions #newsubmit {
+  width: 100%;
+}
+#body-settings #app-content.user-list-grid .row > div.userActions .toggleUserActions,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions .toggleUserActions,
+#body-settings #app-content.user-list-grid .row > form.userActions .toggleUserActions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-main-background);
+}
+#body-settings #app-content.user-list-grid .row > div.userActions .toggleUserActions .icon-more,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions .toggleUserActions .icon-more,
+#body-settings #app-content.user-list-grid .row > form.userActions .toggleUserActions .icon-more {
+  width: 44px;
+  height: 44px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+#body-settings #app-content.user-list-grid .row > div.userActions .toggleUserActions .icon-more:focus, #body-settings #app-content.user-list-grid .row > div.userActions .toggleUserActions .icon-more:hover, #body-settings #app-content.user-list-grid .row > div.userActions .toggleUserActions .icon-more:active,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions .toggleUserActions .icon-more:focus,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions .toggleUserActions .icon-more:hover,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions .toggleUserActions .icon-more:active,
+#body-settings #app-content.user-list-grid .row > form.userActions .toggleUserActions .icon-more:focus,
+#body-settings #app-content.user-list-grid .row > form.userActions .toggleUserActions .icon-more:hover,
+#body-settings #app-content.user-list-grid .row > form.userActions .toggleUserActions .icon-more:active {
+  opacity: 0.7;
+  background-color: var(--color-background-dark);
+}
+#body-settings #app-content.user-list-grid .row > div.userActions .feedback,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions .feedback,
+#body-settings #app-content.user-list-grid .row > form.userActions .feedback {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: opacity 200ms ease-in-out;
+}
+#body-settings #app-content.user-list-grid .row > div.userActions .feedback .icon-checkmark,
+#body-settings #app-content.user-list-grid .row > .displayName > form.userActions .feedback .icon-checkmark,
+#body-settings #app-content.user-list-grid .row > form.userActions .feedback .icon-checkmark {
+  opacity: 0.5;
+  margin-right: 5px;
+}
+#body-settings #app-content.user-list-grid .row > div .multiselect.multiselect-vue,
+#body-settings #app-content.user-list-grid .row > .displayName > form .multiselect.multiselect-vue,
+#body-settings #app-content.user-list-grid .row > form .multiselect.multiselect-vue {
+  width: 100%;
+}
+#body-settings #app-content.user-list-grid .infinite-loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-row-start: span 4;
+}
+#body-settings #app-content.user-list-grid .users-list-end {
+  opacity: 0.5;
+  user-select: none;
+}
+
+.animated {
+  animation: blink-animation 1s steps(5, start) 4;
+}
+
+@keyframes blink-animation {
+  to {
+    opacity: 0.6;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    opacity: 1;
+  }
+}
+
+/*# sourceMappingURL=settings.css.map */

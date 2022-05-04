@@ -1,0 +1,1181 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
+ * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2019-2020, Gary Kim <gary@garykim.dev>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+  cursor: default;
+  scrollbar-color: var(--color-border-dark) transparent;
+  scrollbar-width: thin;
+}
+
+html, body {
+  height: 100%;
+}
+
+article, aside, dialog, figure, footer, header, hgroup, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1.5;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  white-space: nowrap;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+}
+
+table, td, th {
+  vertical-align: middle;
+}
+
+a {
+  border: 0;
+  color: var(--color-main-text);
+  text-decoration: none;
+  cursor: pointer;
+}
+a * {
+  cursor: pointer;
+}
+
+a.external {
+  margin: 0 3px;
+  text-decoration: underline;
+}
+
+input {
+  cursor: pointer;
+}
+input * {
+  cursor: pointer;
+}
+
+select, .button span, label {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  background-color: var(--color-main-background);
+  font-weight: normal;
+  /* bring the default font size up to 15px */
+  font-size: var(--default-font-size);
+  line-height: var(--default-line-height);
+  font-family: var(--font-face);
+  color: var(--color-main-text);
+}
+
+.two-factor-header {
+  text-align: center;
+}
+
+.two-factor-provider {
+  text-align: center;
+  width: 258px !important;
+  display: inline-block;
+  margin-bottom: 0 !important;
+  background-color: var(--color-background-darker) !important;
+  border: none !important;
+}
+
+.two-factor-link {
+  display: inline-block;
+  padding: 12px;
+  color: var(--color-text-lighter);
+}
+
+.float-spinner {
+  height: 32px;
+  display: none;
+}
+
+#nojavascript {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9000;
+  text-align: center;
+  background-color: var(--color-background-darker);
+  color: var(--color-primary-text);
+  line-height: 125%;
+  font-size: 24px;
+}
+#nojavascript div {
+  display: block;
+  position: relative;
+  width: 50%;
+  top: 35%;
+  margin: 0px auto;
+}
+#nojavascript a {
+  color: var(--color-primary-text);
+  border-bottom: 2px dotted var(--color-main-background);
+}
+#nojavascript a:hover, #nojavascript a:focus {
+  color: var(--color-primary-text-dark);
+}
+
+/* SCROLLING */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: var(--border-radius-large);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* SELECTION */
+::selection {
+  background-color: var(--color-primary-element);
+  color: var(--color-primary-text);
+}
+
+/* CONTENT ------------------------------------------------------------------ */
+#controls {
+  box-sizing: border-box;
+  position: -webkit-sticky;
+  position: sticky;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-main-background-translucent);
+  z-index: 62;
+  /* must be above the filelist sticky header and texteditor menubar */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  top: 50px;
+}
+
+/* position controls for apps with app-navigation */
+.viewer-mode #app-navigation + #app-content #controls {
+  left: 0;
+}
+
+#app-navigation * {
+  box-sizing: border-box;
+}
+
+#controls .actions > div > .button, #controls .actions > div button, #controls .actions > .button, #controls .actions button {
+  box-sizing: border-box;
+  display: inline-block;
+  display: flex;
+  height: 36px;
+  width: 36px;
+  padding: 9px;
+  align-items: center;
+  justify-content: center;
+}
+#controls .actions > div .button.hidden, #controls .actions .button.hidden {
+  display: none;
+}
+
+/* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
+#emptycontent,
+.emptycontent {
+  color: var(--color-text-maxcontrast);
+  text-align: center;
+  margin-top: 30vh;
+  width: 100%;
+}
+#app-sidebar #emptycontent,
+#app-sidebar .emptycontent {
+  margin-top: 10vh;
+}
+#emptycontent .emptycontent-search,
+.emptycontent .emptycontent-search {
+  position: static;
+}
+#emptycontent h2,
+.emptycontent h2 {
+  margin-bottom: 10px;
+}
+#emptycontent [class^=icon-],
+#emptycontent [class*=icon-],
+.emptycontent [class^=icon-],
+.emptycontent [class*=icon-] {
+  background-size: 64px;
+  height: 64px;
+  width: 64px;
+  margin: 0 auto 15px;
+}
+#emptycontent [class^=icon-]:not([class^=icon-loading]), #emptycontent [class^=icon-]:not([class*=icon-loading]),
+#emptycontent [class*=icon-]:not([class^=icon-loading]),
+#emptycontent [class*=icon-]:not([class*=icon-loading]),
+.emptycontent [class^=icon-]:not([class^=icon-loading]),
+.emptycontent [class^=icon-]:not([class*=icon-loading]),
+.emptycontent [class*=icon-]:not([class^=icon-loading]),
+.emptycontent [class*=icon-]:not([class*=icon-loading]) {
+  opacity: 0.4;
+}
+
+/* LOG IN & INSTALLATION ------------------------------------------------------------ */
+#datadirContent label {
+  width: 100%;
+}
+
+/* strengthify wrapper */
+/* General new input field look */
+/* Nicely grouping input field sets */
+.grouptop, .groupmiddle, .groupbottom {
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Show password toggle */
+#show, #dbpassword {
+  position: absolute;
+  right: 1em;
+  top: 0.8em;
+  float: right;
+}
+
+#show + label, #dbpassword + label {
+  right: 21px;
+  top: 15px !important;
+  margin: -14px !important;
+  padding: 14px !important;
+}
+
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
+  opacity: 0.8;
+}
+
+#show + label, #dbpassword + label, #personal-show + label {
+  position: absolute !important;
+  height: 20px;
+  width: 24px;
+  background-image: var(--icon-toggle-dark);
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+}
+
+/* Feedback for keyboard focus and mouse hover */
+#show:focus + label,
+#dbpassword:focus + label,
+#personal-show:focus + label {
+  opacity: 1;
+}
+#show + label:hover,
+#dbpassword + label:hover,
+#personal-show + label:hover {
+  opacity: 1;
+}
+
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+  display: none;
+}
+
+#pass2, input[name=personal-password-clone] {
+  padding-right: 30px;
+}
+
+.personal-show-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+#personal-show + label {
+  display: block;
+  right: 0;
+  margin-top: -43px;
+  margin-right: -4px;
+  padding: 22px;
+}
+
+/* Warnings and errors are the same */
+#body-user .warning, #body-settings .warning {
+  margin-top: 8px;
+  padding: 5px;
+  border-radius: var(--border-radius);
+  color: var(--color-primary-text);
+  background-color: var(--color-warning);
+}
+
+.warning legend, .warning a {
+  color: var(--color-primary-text) !important;
+  font-weight: bold !important;
+}
+
+.error:not(.toastify) a {
+  color: white !important;
+  font-weight: bold !important;
+}
+.error:not(.toastify) a.button {
+  color: var(--color-text-lighter) !important;
+  display: inline-block;
+  text-align: center;
+}
+.error:not(.toastify) pre {
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.error-wide {
+  width: 700px;
+  margin-left: -200px !important;
+}
+.error-wide .button {
+  color: black !important;
+}
+
+.warning-input {
+  border-color: var(--color-error) !important;
+}
+
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the Nextcloud instance */
+/* Sticky footer */
+/* round profile photos */
+.avatar, .avatardiv {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.avatar > img, .avatardiv > img {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+td.avatar {
+  border-radius: 0;
+}
+
+#notification-container {
+  left: 50%;
+  max-width: 60%;
+  position: fixed;
+  top: 0;
+  text-align: center;
+  transform: translateX(-50%);
+  z-index: 8000;
+}
+
+#notification {
+  margin: 0 auto;
+  z-index: 8000;
+  background-color: var(--color-main-background);
+  border: 0;
+  padding: 1px 8px;
+  display: none;
+  position: relative;
+  top: 0;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  opacity: 0.9;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 100px;
+}
+#notification span {
+  cursor: pointer;
+  margin-left: 1em;
+}
+#notification .row {
+  position: relative;
+}
+#notification .row .close {
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 2px;
+}
+#notification .row.closeable {
+  padding-right: 20px;
+}
+
+tr .action:not(.permanent), .selectedActions > a {
+  opacity: 0;
+}
+
+tr:hover .action:not(.menuitem), tr:focus .action:not(.menuitem),
+tr .action.permanent:not(.menuitem) {
+  opacity: 0.5;
+}
+
+.selectedActions > a {
+  opacity: 0.5;
+  position: relative;
+  top: 2px;
+}
+.selectedActions > a:hover, .selectedActions > a:focus {
+  opacity: 1;
+}
+
+tr .action {
+  width: 16px;
+  height: 16px;
+}
+
+.header-action {
+  opacity: 0.8;
+}
+
+tr:hover .action:hover, tr:focus .action:focus {
+  opacity: 1;
+}
+
+.selectedActions a:hover, .selectedActions a:focus {
+  opacity: 1;
+}
+
+.header-action:hover, .header-action:focus {
+  opacity: 1;
+}
+
+tbody tr:hover, tbody tr:focus, tbody tr:active {
+  background-color: var(--color-background-dark);
+}
+
+code {
+  font-family: "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace;
+}
+
+.pager {
+  list-style: none;
+  float: right;
+  display: inline;
+  margin: 0.7em 13em 0 0;
+}
+.pager li {
+  display: inline-block;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-icon-circle-triangle-e {
+  background-image: url("../img/actions/play-next.svg?v=1");
+}
+
+.ui-icon-circle-triangle-w {
+  background-image: url("../img/actions/play-previous.svg?v=1");
+}
+
+/* ---- jQuery UI datepicker ---- */
+.ui-widget.ui-datepicker {
+  margin-top: 10px;
+  padding: 4px 8px;
+  width: auto;
+  border-radius: var(--border-radius);
+  border: none;
+  z-index: 1600 !important;
+}
+.ui-widget.ui-datepicker .ui-state-default,
+.ui-widget.ui-datepicker .ui-widget-content .ui-state-default,
+.ui-widget.ui-datepicker .ui-widget-header .ui-state-default {
+  border: 1px solid transparent;
+  background: inherit;
+}
+.ui-widget.ui-datepicker .ui-widget-header {
+  padding: 7px;
+  font-size: 13px;
+  border: none;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-datepicker-title {
+  line-height: 1;
+  font-weight: normal;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-icon {
+  opacity: 0.5;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-icon.ui-icon-circle-triangle-e {
+  background: url("../img/actions/arrow-right.svg") center center no-repeat;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-icon.ui-icon-circle-triangle-w {
+  background: url("../img/actions/arrow-left.svg") center center no-repeat;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-state-hover .ui-icon {
+  opacity: 1;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar th {
+  font-weight: normal;
+  color: var(--color-text-lighter);
+  opacity: 0.8;
+  width: 26px;
+  padding: 2px;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr:hover {
+  background-color: inherit;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-today a:not(.ui-state-hover) {
+  background-color: var(--color-background-darker);
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-current-day a.ui-state-active,
+.ui-widget.ui-datepicker .ui-datepicker-calendar td .ui-state-hover,
+.ui-widget.ui-datepicker .ui-datepicker-calendar td .ui-state-focus {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: bold;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-week-end:not(.ui-state-disabled) :not(.ui-state-hover),
+.ui-widget.ui-datepicker .ui-datepicker-calendar td .ui-priority-secondary:not(.ui-state-hover) {
+  color: var(--color-text-lighter);
+  opacity: 0.8;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+  border: var(--color-border-dark);
+  background: var(--color-main-background);
+}
+
+/* ---- jQuery UI timepicker ---- */
+.ui-widget.ui-timepicker {
+  margin-top: 10px !important;
+  width: auto !important;
+  border-radius: var(--border-radius);
+  z-index: 1600 !important;
+  /* AM/PM fix */
+}
+.ui-widget.ui-timepicker .ui-widget-content {
+  border: none !important;
+}
+.ui-widget.ui-timepicker .ui-state-default,
+.ui-widget.ui-timepicker .ui-widget-content .ui-state-default,
+.ui-widget.ui-timepicker .ui-widget-header .ui-state-default {
+  border: 1px solid transparent;
+  background: inherit;
+}
+.ui-widget.ui-timepicker .ui-widget-header {
+  padding: 7px;
+  font-size: 13px;
+  border: none;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+}
+.ui-widget.ui-timepicker .ui-widget-header .ui-timepicker-title {
+  line-height: 1;
+  font-weight: normal;
+}
+.ui-widget.ui-timepicker table.ui-timepicker tr .ui-timepicker-hour-cell:first-child {
+  margin-left: 30px;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table th {
+  font-weight: normal;
+  color: var(--color-text-lighter);
+  opacity: 0.8;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table th.periods {
+  padding: 0;
+  width: 30px;
+  line-height: 30px;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table tr:hover {
+  background-color: inherit;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-hour-cell a.ui-state-active, .ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-minute-cell a.ui-state-active,
+.ui-widget.ui-timepicker .ui-timepicker-table td .ui-state-hover,
+.ui-widget.ui-timepicker .ui-timepicker-table td .ui-state-focus {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: bold;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-minutes:not(.ui-state-hover) {
+  color: var(--color-text-lighter);
+}
+.ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-hours {
+  border-right: 1px solid var(--color-border);
+}
+
+/* ---- jQuery UI datepicker & timepicker global rules ---- */
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr,
+.ui-widget.ui-timepicker table.ui-timepicker tr {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr td,
+.ui-widget.ui-timepicker table.ui-timepicker tr td {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 2px;
+  height: 26px;
+  width: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr td > *,
+.ui-widget.ui-timepicker table.ui-timepicker tr td > * {
+  border-radius: 50%;
+  text-align: center;
+  font-weight: normal;
+  color: var(--color-main-text);
+  display: block;
+  line-height: 18px;
+  width: 18px;
+  height: 18px;
+  padding: 3px;
+  font-size: 0.9em;
+}
+
+/* ---- DIALOGS ---- */
+#oc-dialog-filepicker-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Grid view toggle */
+}
+#oc-dialog-filepicker-content .dirtree {
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding-right: 140px;
+}
+#oc-dialog-filepicker-content .dirtree div:first-child a {
+  background-image: var(--icon-home-dark);
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+#oc-dialog-filepicker-content .dirtree span:not(:last-child) {
+  cursor: pointer;
+}
+#oc-dialog-filepicker-content .dirtree span:last-child {
+  font-weight: bold;
+}
+#oc-dialog-filepicker-content .dirtree span:not(:last-child)::after {
+  content: ">";
+  padding: 3px;
+}
+#oc-dialog-filepicker-content #picker-view-toggle {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 22px;
+  opacity: 0.5;
+  right: 0;
+  top: 0;
+}
+#oc-dialog-filepicker-content #picker-view-toggle:hover, #oc-dialog-filepicker-content #picker-view-toggle:focus {
+  opacity: 1;
+}
+#oc-dialog-filepicker-content #picker-showgridview:focus + #picker-view-toggle {
+  opacity: 1;
+}
+#oc-dialog-filepicker-content .actions.creatable {
+  flex-wrap: wrap;
+  padding: 0px;
+  box-sizing: border-box;
+  display: inline-flex;
+  float: none;
+  max-height: 36px;
+  max-width: 36px;
+  background-color: var(--color-background-dark);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--border-radius-pill);
+  position: relative;
+  left: 15px;
+  top: 3px;
+  order: 1;
+}
+#oc-dialog-filepicker-content .actions.creatable .icon.icon-add {
+  background-image: var(--icon-add-dark);
+  background-size: 16px 16px;
+  width: 34px;
+  height: 34px;
+  margin: 0px;
+  opacity: 0.5;
+}
+#oc-dialog-filepicker-content .actions.creatable a {
+  width: 36px;
+  padding: 0px;
+  position: static;
+}
+#oc-dialog-filepicker-content .actions.creatable .menu {
+  top: 100%;
+  margin-top: 10px;
+}
+#oc-dialog-filepicker-content .actions.creatable .menu form {
+  display: flex;
+  margin: 10px;
+}
+#oc-dialog-filepicker-content .filelist-container {
+  box-sizing: border-box;
+  display: inline-block;
+  overflow-y: auto;
+  flex: 1;
+  /*height: 100%;*/
+  /* overflow under the button row */
+  width: 100%;
+  overflow-x: hidden;
+}
+#oc-dialog-filepicker-content .emptycontent {
+  color: var(--color-text-maxcontrast);
+  text-align: center;
+  margin-top: 80px;
+  width: 100%;
+  display: none;
+}
+#oc-dialog-filepicker-content .filelist {
+  background-color: var(--color-main-background);
+  width: 100%;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist {
+  /* prevent the filepicker to overflow */
+  min-width: initial;
+  margin-bottom: 50px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist thead tr {
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-main-background);
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist thead tr th {
+  width: 80%;
+  border: none;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th .columntitle {
+  display: block;
+  padding: 15px;
+  height: 50px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  vertical-align: middle;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th .columntitle.name {
+  padding-left: 5px;
+  margin-left: 50px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th .sort-indicator {
+  width: 10px;
+  height: 8px;
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: text-bottom;
+  opacity: 0.3;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .sort-indicator.hidden,
+#oc-dialog-filepicker-content #picker-filestable.filelist th:hover .sort-indicator.hidden,
+#oc-dialog-filepicker-content #picker-filestable.filelist th:focus .sort-indicator.hidden {
+  visibility: hidden;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th:hover .sort-indicator.hidden,
+#oc-dialog-filepicker-content #picker-filestable.filelist th:focus .sort-indicator.hidden {
+  visibility: visible;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist td {
+  padding: 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist tr:last-child td {
+  border-bottom: none;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-size: 32px;
+  background-repeat: no-repeat;
+  padding-left: 51px;
+  background-position: 7px 7px;
+  cursor: pointer;
+  max-width: 0;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename .filename-parts {
+  display: flex;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename .filename-parts__first {
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: ellipsis;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename .filename-parts__last {
+  white-space: pre;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filesize, #oc-dialog-filepicker-content #picker-filestable.filelist .date {
+  width: 80px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filesize {
+  text-align: right;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid {
+  display: flex;
+  flex-direction: column;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 120px);
+  justify-content: space-around;
+  row-gap: 15px;
+  margin: 15px 0;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr {
+  display: block;
+  position: relative;
+  border-radius: var(--border-radius);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td {
+  border: none;
+  padding: 0;
+  text-align: center;
+  border-radius: var(--border-radius);
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.filename {
+  padding: 100px 0 0 0;
+  background-position: center top;
+  background-size: contain;
+  line-height: 30px;
+  max-width: none;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.filename .filename-parts {
+  justify-content: center;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.filesize {
+  line-height: 10px;
+  width: 100%;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.date {
+  display: none;
+}
+#oc-dialog-filepicker-content .filepicker_element_selected {
+  background-color: var(--color-background-darker);
+}
+
+.ui-dialog {
+  position: fixed !important;
+}
+
+span.ui-icon {
+  float: left;
+  margin: 3px 7px 30px 0;
+}
+
+/* ---- CONTACTS MENU ---- */
+#contactsmenu .menutoggle {
+  background-size: 20px 20px;
+  padding: 14px;
+  cursor: pointer;
+  background-image: var(--original-icon-contacts-white);
+  filter: var(--primary-invert-if-bright);
+}
+#contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
+  opacity: 1 !important;
+}
+
+#header .header-right > div#contactsmenu > .menu {
+  /* show 2.5 to 4.5 entries depending on the screen height */
+  height: calc(100vh - 150px);
+  max-height: 275px;
+  min-height: 175px;
+  width: 350px;
+}
+#header .header-right > div#contactsmenu > .menu .emptycontent {
+  margin-top: 5vh !important;
+  margin-bottom: 2vh;
+}
+#header .header-right > div#contactsmenu > .menu .emptycontent .icon-loading,
+#header .header-right > div#contactsmenu > .menu .emptycontent .icon-search {
+  display: inline-block;
+}
+#header .header-right > div#contactsmenu > .menu .content {
+  /* fixed max height of the parent container without the search input */
+  height: calc(100vh - 150px - 50px);
+  max-height: 225px;
+  min-height: 125px;
+  overflow-y: auto;
+}
+#header .header-right > div#contactsmenu > .menu .content .footer {
+  text-align: center;
+}
+#header .header-right > div#contactsmenu > .menu .content .footer a {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  opacity: 0.5;
+}
+#header .header-right > div#contactsmenu > .menu .contact {
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 3px 3px 3px 10px;
+  border-bottom: 1px solid var(--color-border);
+  /* actions menu */
+}
+#header .header-right > div#contactsmenu > .menu .contact :last-of-type {
+  border-bottom: none;
+}
+#header .header-right > div#contactsmenu > .menu .contact .avatar {
+  height: 32px;
+  width: 32px;
+  display: inline-block;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body {
+  flex-grow: 1;
+  padding-left: 8px;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body div {
+  position: relative;
+  width: 100%;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body .full-name, #header .header-right > div#contactsmenu > .menu .contact .body .last-message {
+  /* TODO: don't use fixed width */
+  max-width: 204px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body .last-message {
+  opacity: 0.5;
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
+  width: 16px;
+  height: 16px;
+  padding: 14px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action :hover, #header .header-right > div#contactsmenu > .menu .contact .second-action :hover, #header .header-right > div#contactsmenu > .menu .contact .other-actions :hover {
+  opacity: 1;
+}
+#header .header-right > div#contactsmenu > .menu .contact .menu {
+  top: 47px;
+  margin-right: 13px;
+}
+#header .header-right > div#contactsmenu > .menu .contact .popovermenu::after {
+  right: 2px;
+}
+
+#contactsmenu-search {
+  width: calc(100% - 16px);
+  margin: 8px;
+  height: 34px;
+}
+
+/* ---- TOOLTIPS ---- */
+.extra-data {
+  padding-right: 5px !important;
+}
+
+/* ---- TAGS ---- */
+#tagsdialog .content {
+  width: 100%;
+  height: 280px;
+}
+#tagsdialog .scrollarea {
+  overflow: auto;
+  border: 1px solid var(--color-background-darker);
+  width: 100%;
+  height: 240px;
+}
+#tagsdialog .bottombuttons {
+  width: 100%;
+  height: 30px;
+}
+#tagsdialog .bottombuttons * {
+  float: left;
+}
+#tagsdialog .taglist li {
+  background: var(--color-background-dark);
+  padding: 0.3em 0.8em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-transition: background-color 500ms;
+  transition: background-color 500ms;
+}
+#tagsdialog .taglist li:hover, #tagsdialog .taglist li:active {
+  background: var(--color-background-darker);
+}
+#tagsdialog .addinput {
+  width: 90%;
+  clear: both;
+}
+
+/* ---- BREADCRUMB ---- */
+.breadcrumb {
+  display: inline-flex;
+}
+
+div.crumb {
+  display: inline-flex;
+  background-image: url("../img/breadcrumb.svg?v=1");
+  background-repeat: no-repeat;
+  background-position: right center;
+  height: 44px;
+  background-size: auto 24px;
+  flex: 0 0 auto;
+  order: 1;
+  padding-right: 7px;
+}
+div.crumb.crumbmenu {
+  order: 2;
+  position: relative;
+}
+div.crumb.crumbmenu a {
+  opacity: 0.5;
+}
+div.crumb.crumbmenu.canDropChildren .popovermenu, div.crumb.crumbmenu.canDrop .popovermenu {
+  display: block;
+}
+div.crumb.crumbmenu .popovermenu {
+  top: 100%;
+  margin-right: 3px;
+}
+div.crumb.crumbmenu .popovermenu ul {
+  max-height: 345px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+div.crumb.crumbmenu .popovermenu ul li.canDrop span:first-child {
+  background-image: url("../img/filetypes/folder-drag-accept.svg?v=1") !important;
+}
+div.crumb.crumbmenu .popovermenu .in-breadcrumb {
+  display: none;
+}
+div.crumb.hidden {
+  display: none;
+}
+div.crumb.hidden ~ .crumb {
+  order: 3;
+}
+div.crumb > a,
+div.crumb > span {
+  position: relative;
+  padding: 12px;
+  opacity: 0.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 0 0 auto;
+  max-width: 200px;
+}
+div.crumb > a.icon-home, div.crumb > a.icon-delete,
+div.crumb > span.icon-home,
+div.crumb > span.icon-delete {
+  text-indent: -9999px;
+}
+div.crumb > a[class^=icon-] {
+  padding: 0;
+  width: 44px;
+}
+div.crumb:last-child {
+  font-weight: bold;
+  margin-right: 10px;
+}
+div.crumb:last-child a ~ span {
+  padding-left: 0;
+}
+div.crumb:hover, div.crumb:focus, div.crumb a:focus, div.crumb:active {
+  opacity: 1;
+}
+div.crumb:hover > a,
+div.crumb:hover > span, div.crumb:focus > a,
+div.crumb:focus > span, div.crumb a:focus > a,
+div.crumb a:focus > span, div.crumb:active > a,
+div.crumb:active > span {
+  opacity: 0.7;
+}
+
+/* some feedback for hover/tap on breadcrumbs */
+.appear {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease 0s;
+  -moz-transition: opacity 500ms ease 0s;
+  -ms-transition: opacity 500ms ease 0s;
+  -o-transition: opacity 500ms ease 0s;
+  transition: opacity 500ms ease 0s;
+}
+.appear.transparent {
+  opacity: 0;
+}
+
+/* LEGACY FIX only - do not use fieldsets for settings */
+fieldset.warning legend, fieldset.update legend {
+  top: 18px;
+  position: relative;
+}
+fieldset.warning legend + p, fieldset.update legend + p {
+  margin-top: 12px;
+}
+
+/* for IE10 */
+@-ms-viewport {
+  width: device-width;
+}
+/* hidden input type=file field */
+.hiddenuploadfield {
+  display: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+/*# sourceMappingURL=styles.css.map */

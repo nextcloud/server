@@ -90,7 +90,7 @@ kbd {
 	overflow-x: hidden;
 	// Do not use vh because of mobile headers
 	// are included in the calculation
-	height: calc(100% - #{$header-height});
+	height: calc(100% - #{variables.$header-height});
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -982,14 +982,14 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			&[class*=' icon-'] {
 				min-width: 0; /* Overwrite icons*/
 				min-height: 0;
-				background-position: #{($popoveritem-height - $popovericon-size) / 2} center;
+				background-position: #{math.div($popoveritem-height - $popovericon-size, 2)} center;
 				background-size: $popovericon-size;
 			}
 			span[class^='icon-'],
 			span[class*=' icon-'] {
 				/* Keep padding to define the width to
 				 assure correct position of a possible text */
-				padding: #{$popoveritem-height / 2} 0 #{$popoveritem-height / 2} $popoveritem-height;
+				padding: #{math.div($popoveritem-height, 2)} 0 #{math.div($popoveritem-height, 2)} $popoveritem-height;
 			}
 			// If no icons set, force left margin to align
 			&:not([class^='icon-']):not([class*='icon-']) {
@@ -1003,7 +1003,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			}
 			&[class^='icon-'],
 			&[class*=' icon-'] {
-				padding: 0 #{($popoveritem-height - $popovericon-size) / 2} 0 $popoveritem-height !important;
+				padding: 0 #{math.div($popoveritem-height - $popovericon-size, 2)} 0 $popoveritem-height !important;
 			}
 			&:hover,
 			&:focus {
@@ -1038,7 +1038,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			 * TODO: to remove */
 			> img {
 				width: $popovericon-size;
-				padding: #{($popoveritem-height - $popovericon-size) / 2};
+				padding: #{math.div($popoveritem-height - $popovericon-size, 2)};
 			}
 			/* checkbox/radio fixes */
 			> input.radio + label,
