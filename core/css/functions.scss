@@ -19,6 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+ @use 'sass:string';
+ @use 'variables';
 
 /**
  * Removes the "#" from a color.
@@ -27,7 +29,7 @@
  * @return string The color without #
  */
 @function remove-hash-from-color($color) {
-	$color: unquote($color);
+	// $color: string.unquote($color);
 	$index: str-index(inspect($color), '#');
 	@if $index {
 		$color: str-slice(inspect($color), 2);
@@ -48,9 +50,9 @@
 @function icon-color-path($icon, $dir, $color, $version: 1, $core: false) {
 	$color: remove-hash-from-color($color);
 	@if $core {
-		@return '#{$webroot}/svg/core/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+		@return '/svg/core/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
 	} @else {
-		@return '#{$webroot}/svg/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+		@return '/svg/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
 	}
 }
 
@@ -82,19 +84,10 @@
  */
 @mixin icon-black-white($icon, $dir, $version, $core: false) {
 	.icon-#{$icon} {
-		@include icon-color($icon, $dir, $color-black, $version, $core);
+		@include icon-color($icon, $dir, variables.$color-black, $version, $core);
 	}
 	.icon-#{$icon}-white,
 	.icon-#{$icon}.icon-white {
-		@include icon-color($icon, $dir, $color-white, $version, $core);
-	}
-}
-
-@mixin position($value) {
-	@if $value == 'sticky' {
-		position: -webkit-sticky; // Safari support
-		position: sticky;
-	} @else {
-		position: $value;
+		@include icon-color($icon, $dir, variables.$color-white, $version, $core);
 	}
 }

@@ -26,6 +26,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+@use 'variables';
+@import 'functions';
 
 /* GLOBAL ------------------------------------------------------------------- */
 [class^='icon-'], [class*=' icon-'] {
@@ -149,16 +151,16 @@ audio, canvas, embed, iframe, img, input, object, video {
 
 .icon-caret-white,
 .icon-caret {
-	@include icon-color('caret', 'actions', $color-white, 1, true);
+	@include icon-color('caret', 'actions', variables.$color-white, 1, true);
 }
 
 .icon-caret-dark {
-	@include icon-color('caret', 'actions', $color-black, 1, true);
+	@include icon-color('caret', 'actions', variables.$color-black, 1, true);
 }
 
 @include icon-black-white('checkmark', 'actions', 1, true);
 .icon-checkmark-color {
-	@include icon-color('checkmark', 'actions', $color-success, 1, true);
+	@include icon-color('checkmark', 'actions', variables.$color-success, 1, true);
 }
 
 @include icon-black-white('clippy', 'actions', 2, true);
@@ -168,40 +170,40 @@ audio, canvas, embed, iframe, img, input, object, video {
 @include icon-black-white('download', 'actions', 1, true);
 
 .icon-confirm-fade {
-	@include icon-color('confirm-fade', 'actions', $color-black, 2, true);
+	@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
 }
 
 .icon-delete {
-	@include icon-color('delete', 'actions', $color-black, 1, true);
+	@include icon-color('delete', 'actions', variables.$color-black, 1, true);
 	&.no-permission,
 	&.no-hover {
 		&:hover,
 		&:focus {
-			@include icon-color('delete', 'actions', $color-black, 1, true);
+			@include icon-color('delete', 'actions', variables.$color-black, 1, true);
 		}
 	}
 	&:hover,
 	&:focus {
-		@include icon-color('delete', 'actions', $color-error, 1, true);
+		@include icon-color('delete', 'actions', variables.$color-error, 1, true);
 		filter: initial;
 	}
 
 	&.icon-white {
-		@include icon-color('delete', 'actions', $color-white, 1, true);
+		@include icon-color('delete', 'actions', variables.$color-white, 1, true);
 	}
 }
 
 .icon-delete-white {
-	@include icon-color('delete', 'actions', $color-white, 1, true);
+	@include icon-color('delete', 'actions', variables.$color-white, 1, true);
 	&.no-permission {
 		&:hover,
 		&:focus {
-			@include icon-color('delete', 'actions', $color-white, 1, true);
+			@include icon-color('delete', 'actions', variables.$color-white, 1, true);
 		}
 	}
 	&:hover,
 	&:focus {
-		@include icon-color('delete', 'actions', $color-error, 1, true);
+		@include icon-color('delete', 'actions', variables.$color-error, 1, true);
 	}
 }
 
@@ -210,7 +212,7 @@ audio, canvas, embed, iframe, img, input, object, video {
 @include icon-black-white('error', 'actions', 1, true);
 
 .icon-error-color {
-	@include icon-color('error', 'actions', $color-error, 1, true);
+	@include icon-color('error', 'actions', variables.$color-error, 1, true);
 }
 @include icon-black-white('external', 'actions', 1, true);
 @include icon-black-white('fullscreen', 'actions', 1, true);
@@ -252,55 +254,55 @@ audio, canvas, embed, iframe, img, input, object, video {
 
 /* default icon have a .5 opacity */
 .icon-settings {
-	@include icon-color('settings', 'actions', $color-black, 1, true);
+	@include icon-color('settings', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-settings-dark {
-	@include icon-color('settings-dark', 'actions', $color-black, 1, true);
+	@include icon-color('settings-dark', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-settings-white {
-	@include icon-color('settings-dark', 'actions', $color-white, 1, true);
+	@include icon-color('settings-dark', 'actions', variables.$color-white, 1, true);
 }
 
 /* always use icon-shared, AdBlock blocks icon-share */
 .icon-shared,
 .icon-share {
-	@include icon-color('share', 'actions', $color-black, 1, true);
+	@include icon-color('share', 'actions', variables.$color-black, 1, true);
 	&.icon-white {
-		@include icon-color('share', 'actions', $color-white, 1, true);
+		@include icon-color('share', 'actions', variables.$color-white, 1, true);
 	}
 }
 .icon-shared-white,
 .icon-share-white {
-	@include icon-color('share', 'actions', $color-white, 1, true);
+	@include icon-color('share', 'actions', variables.$color-white, 1, true);
 }
 
 @include icon-black-white('sound', 'actions', 1, true);
 @include icon-black-white('sound-off', 'actions', 1, true);
 
 .icon-favorite {
-	@include icon-color('star-dark', 'actions', $color-black, 1, true);
+	@include icon-color('star-dark', 'actions', variables.$color-black, 1, true);
 }
 
 @include icon-black-white('star', 'actions', 1, true);
 
 .icon-star-dark {
-	@include icon-color('star', 'actions', $color-black, 1, true);
+	@include icon-color('star', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-starred {
 	&:hover,
 	&:focus {
-		@include icon-color('star', 'actions', $color-black, 1, true);
+		@include icon-color('star', 'actions', variables.$color-black, 1, true);
 	}
-	@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
+	@include icon-color('star-dark', 'actions', variables.$color-yellow, 1, true);
 }
 
 .icon-star {
 	&:hover,
 	&:focus {
-		@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
+		@include icon-color('star-dark', 'actions', variables.$color-yellow, 1, true);
 	}
 }
 
@@ -332,33 +334,33 @@ audio, canvas, embed, iframe, img, input, object, video {
 /* SHADOW WHITE ICONS: white version only ----------------------------------- */
 .icon-view-close,
 .icon-view-close-white {
-	@include icon-color('view-close', 'actions', $color-white, 1, true);
+	@include icon-color('view-close', 'actions', variables.$color-white, 1, true);
 }
 .icon-view-download,
 .icon-view-download-white {
-	@include icon-color('view-download', 'actions', $color-white, 1, true);
+	@include icon-color('view-download', 'actions', variables.$color-white, 1, true);
 }
 .icon-view-pause,
 .icon-view-pause-white {
-	@include icon-color('view-pause', 'actions', $color-white, 1, true);
+	@include icon-color('view-pause', 'actions', variables.$color-white, 1, true);
 }
 .icon-view-play,
 .icon-view-play-white {
-	@include icon-color('view-play', 'actions', $color-white, 1, true);
+	@include icon-color('view-play', 'actions', variables.$color-white, 1, true);
 }
 
 .icon-view-next {
-	@include icon-color('arrow-right', 'actions', $color-black, 1, true);
+	@include icon-color('arrow-right', 'actions', variables.$color-black, 1, true);
 	&.icon-white {
-		@include icon-color('arrow-right', 'actions', $color-white, 1, true);
+		@include icon-color('arrow-right', 'actions', variables.$color-white, 1, true);
 	}
 }
 
 
 .icon-view-previous {
-	@include icon-color('arrow-left', 'actions', $color-black, 1, true);
+	@include icon-color('arrow-left', 'actions', variables.$color-black, 1, true);
 	&.icon-white {
-		@include icon-color('arrow-left', 'actions', $color-white, 1, true);
+		@include icon-color('arrow-left', 'actions', variables.$color-white, 1, true);
 	}
 }
 
@@ -371,27 +373,27 @@ audio, canvas, embed, iframe, img, input, object, video {
 
 /* PLACES ------------------------------------------------------------------- */
 .icon-calendar {
-	@include icon-color('calendar', 'places', $color-white, 1, true);
+	@include icon-color('calendar', 'places', variables.$color-white, 1, true);
 }
 
 .icon-calendar-dark {
-	@include icon-color('calendar', 'places', $color-black, 1, true);
+	@include icon-color('calendar', 'places', variables.$color-black, 1, true);
 }
 
 .icon-contacts {
-	@include icon-color('contacts', 'places', $color-white, 1, true);
+	@include icon-color('contacts', 'places', variables.$color-white, 1, true);
 }
 
 .icon-contacts-dark {
-	@include icon-color('contacts', 'places', $color-black, 1, true);
+	@include icon-color('contacts', 'places', variables.$color-black, 1, true);
 }
 
 .icon-files {
-	@include icon-color('files', 'places', $color-white, 1, true);
+	@include icon-color('files', 'places', variables.$color-white, 1, true);
 }
 
 .icon-files-dark {
-	@include icon-color('files', 'places', $color-black, 1, true);
+	@include icon-color('files', 'places', variables.$color-black, 1, true);
 }
 
 .icon-file,
@@ -405,11 +407,11 @@ audio, canvas, embed, iframe, img, input, object, video {
 
 @include icon-black-white('folder', 'filetypes', 1, true);
 .icon-filetype-folder {
-	@include icon-color('folder', 'filetypes', $color-primary, 1, true);
+	@include icon-color('folder', 'filetypes', variables.$color-primary, 1, true);
 }
 
 .icon-filetype-folder-drag-accept {
-	@include icon-color('folder-drag-accept', 'filetypes', $color-primary, 1, true);
+	@include icon-color('folder-drag-accept', 'filetypes', variables.$color-primary, 1, true);
 }
 
 
@@ -427,89 +429,89 @@ audio, canvas, embed, iframe, img, input, object, video {
 
 /* APP CATEGORIES ------------------------------------------------------------------- */
 .icon-category-installed {
-	@include icon-color('user', 'actions', $color-black, 1, true);
+	@include icon-color('user', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-category-enabled {
-	@include icon-color('checkmark', 'actions', $color-black, 1, true);
+	@include icon-color('checkmark', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-category-disabled {
-	@include icon-color('close', 'actions', $color-black, 1, true);
+	@include icon-color('close', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-category-app-bundles {
-	@include icon-color('bundles', 'categories', $color-black, 1, true);
+	@include icon-color('bundles', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-updates {
-	@include icon-color('download', 'actions', $color-black, 1, true);
+	@include icon-color('download', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-category-files {
-	@include icon-color('files', 'categories', $color-black, 1, true);
+	@include icon-color('files', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-social {
-	@include icon-color('social', 'categories', $color-black, 1, true);
+	@include icon-color('social', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-office {
-	@include icon-color('office', 'categories', $color-black, 1, true);
+	@include icon-color('office', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-auth {
-	@include icon-color('auth', 'categories', $color-black, 1, true);
+	@include icon-color('auth', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-monitoring {
-	@include icon-color('monitoring', 'categories', $color-black, 1, true);
+	@include icon-color('monitoring', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-multimedia {
-	@include icon-color('multimedia', 'categories', $color-black, 1, true);
+	@include icon-color('multimedia', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-organization {
-	@include icon-color('organization', 'categories', $color-black, 1, true);
+	@include icon-color('organization', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-customization {
-	@include icon-color('customization', 'categories', $color-black, 1, true);
+	@include icon-color('customization', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-integration {
-	@include icon-color('integration', 'categories', $color-black, 1, true);
+	@include icon-color('integration', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-tools {
-	@include icon-color('settings-dark', 'actions', $color-black, 1, true);
+	@include icon-color('settings-dark', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-category-games {
-	@include icon-color('games', 'categories', $color-black, 1, true);
+	@include icon-color('games', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-security {
-	@include icon-color('password', 'actions', $color-black, 1, true);
+	@include icon-color('password', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-category-search {
-	@include icon-color('search', 'actions', $color-black, 1, true);
+	@include icon-color('search', 'actions', variables.$color-black, 1, true);
 }
 
 .icon-category-workflow {
-	@include icon-color('workflow', 'categories', $color-black, 1, true);
+	@include icon-color('workflow', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-category-dashboard {
-	@include icon-color('dashboard', 'categories', $color-black, 1, true);
+	@include icon-color('dashboard', 'categories', variables.$color-black, 1, true);
 }
 
 .icon-talk {
-	@include icon-color('app-dark', 'spreed', $color-black, 1);
+	@include icon-color('app-dark', 'spreed', variables.$color-black, 1);
 }
 
 .nav-icon-systemtagsfilter {
-	@include icon-color('tag', 'actions', $color-black, 1, true);
+	@include icon-color('tag', 'actions', variables.$color-black, 1, true);
 }

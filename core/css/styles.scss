@@ -13,6 +13,7 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'variables';
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
 	margin: 0;
@@ -179,7 +180,8 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	@include position('sticky');
+	position: -webkit-sticky;
+	position: sticky;
 	height: 44px;
 	padding: 0;
 	margin: 0;
@@ -190,7 +192,7 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 	display: flex;
-	top: $header-height;
+	top: variables.$header-height;
 }
 
 /* position controls for apps with app-navigation */
