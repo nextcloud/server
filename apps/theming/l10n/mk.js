@@ -28,7 +28,6 @@ OC.L10N.register(
     "Theming" : "Теми",
     "Dark theme" : "Темна тема",
     "Enable dark theme" : "Овозможи темна тема",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Темна тема за да ви го олесни гледањето преку намалување на вкупната осветленост. Сеуште е во развој, затоа ве молиме пријавете ги сите проблеми кои ќе ги најдете.",
     "Dyslexia font" : "Фонт за дислексија",
     "Enable dyslexia font" : "Овозможи фонт за дислексија",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic е бесплатен фонт дизајниран за ублажување на некои од честите грешки во читањето предизвикани од дислексија.",
