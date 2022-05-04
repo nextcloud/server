@@ -28,7 +28,6 @@ OC.L10N.register(
     "Theming" : "Itxura",
     "Dark theme" : "Gai iluna",
     "Enable dark theme" : "Gaitu gai iluna",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Arindu begietako kaltea gai ilunaz argitasuna eta distira murriztuz. Garapenean dagoen aukera da, beraz, eman aurkitu zenezakeen edozein arazoren berri mesedez.",
     "Dyslexia font" : "Dislexia letra-tipoa",
     "Enable dyslexia font" : "Gaitu dislexia letra-tipoa",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic letra-tipo librea da, dislexiak eragindako ohiko irakurketa akats batzuk leuntzeko diseinatua.",

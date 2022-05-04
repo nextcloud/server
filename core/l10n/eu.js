@@ -344,6 +344,7 @@ OC.L10N.register(
     "This share is password-protected" : "Partekatutako hau pasahitzez babestua dago.",
     "The password is wrong. Try again." : "Pasahitza ez da zuzena. Saiatu berriro.",
     "Email address" : "Helbide elektronikoa",
+    "Password sent!" : "Pasahitza bidalita!",
     "Request password" : "Eskatu pasahitza",
     "Go to %s" : "%s-ra joan",
     "Two-factor authentication" : "Bi faktoreko autentifikazioa",
