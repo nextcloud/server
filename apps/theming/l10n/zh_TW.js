@@ -32,7 +32,6 @@ OC.L10N.register(
     "Similar to the high contrast mode, but with dark colours." : "類似於高對比模式，但顏色較深。",
     "Dark theme" : "深色主題",
     "Enable dark theme" : "啟用深色主題",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "黑暗風格的主題，通過降低整體亮度來舒緩對您眼睛的刺激。深色主題仍在開發中，如發現任何問題，煩請報告。",
     "System default theme" : "系統預設佈景主題",
     "Enable the system default" : "啟用系統預設值",
     "Using the default system appearance." : "使用預設的系統外觀。",
