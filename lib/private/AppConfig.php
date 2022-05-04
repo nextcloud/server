@@ -423,14 +423,4 @@ class AppConfig implements IAppConfig {
 
 		$this->configLoaded = true;
 	}
-
-	/**
-	 * Clear all the cached app config values
-	 *
-	 * WARNING: do not use this - this is only for usage with the SCSSCacher to
-	 * clear the memory cache of the app config
-	 */
-	public function clearCachedConfig() {
-		$this->configLoaded = false;
-	}
 }
