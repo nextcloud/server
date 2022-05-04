@@ -1557,7 +1557,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Template\\JSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/JSResourceLocator.php',
         'OC\\Template\\ResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceLocator.php',
         'OC\\Template\\ResourceNotFoundException' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceNotFoundException.php',
-        'OC\\Template\\SCSSCacher' => __DIR__ . '/../../..' . '/lib/private/Template/SCSSCacher.php',
         'OC\\Template\\TemplateFileLocator' => __DIR__ . '/../../..' . '/lib/private/Template/TemplateFileLocator.php',
         'OC\\URLGenerator' => __DIR__ . '/../../..' . '/lib/private/URLGenerator.php',
         'OC\\Updater' => __DIR__ . '/../../..' . '/lib/private/Updater.php',

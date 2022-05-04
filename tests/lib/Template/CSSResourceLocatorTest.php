@@ -28,7 +28,6 @@ use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\CSSResourceLocator;
 use OC\Template\IconsCacher;
-use OC\Template\SCSSCacher;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
@@ -75,24 +74,11 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$factory->method('get')->with('css')->willReturn($this->appData);
-		$scssCacher = new SCSSCacher(
-			$this->logger,
-			$factory,
-			$this->urlGenerator,
-			$this->config,
-			$this->themingDefaults,
-			\OC::$SERVERROOT,
-			$this->cacheFactory,
-			$this->iconsCacher,
-			$this->timeFactory,
-			$this->appConfig
-		);
 		return new CSSResourceLocator(
 			$this->logger,
 			'theme',
 			['core' => 'map'],
 			['3rd' => 'party'],
-			$scssCacher
 		);
 	}
 

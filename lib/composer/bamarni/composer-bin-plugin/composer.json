@@ -1,0 +1,46 @@
+{
+    "name": "bamarni/composer-bin-plugin",
+    "type": "composer-plugin",
+    "description": "No conflicts for your bin dependencies",
+    "keywords": [
+        "composer",
+        "dependency",
+        "tool",
+        "isolation",
+        "conflict",
+        "executable"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^5.5.9 || ^7.0 || ^8.0",
+        "composer-plugin-api": "^1.0 || ^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.0 || ^2.0",
+        "symfony/console": "^2.5 || ^3.0 || ^4.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "class": "Bamarni\\Composer\\Bin\\Plugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bamarni\\Composer\\Bin\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bamarni\\Composer\\Bin\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@composer bin phpunit install"
+        ],
+        "post-update-cmd": [
+            "@post-install-cmd"
+        ]
+    }
+}
