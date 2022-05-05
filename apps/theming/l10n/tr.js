@@ -18,7 +18,7 @@ OC.L10N.register(
     "The file was uploaded" : "Dosya yüklendi",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Yüklenen dosya php.ini dosyasındaki yüklenebilecek dosya boyutunu belirten upload_max_filesize değişkeninin değerini aşıyor",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Yüklenen dosya HTML formundaki yüklenebilecek dosya boyutunu belirten MAX_FILE_SIZE değişkeninin değerini aşıyor",
-    "The file was only partially uploaded" : "Dosyanın yalnız bir bölümü yüklendi",
+    "The file was only partially uploaded" : "Dosyanın yalnızca bir bölümü yüklendi",
     "No file was uploaded" : "Herhangi bir dosya yüklenmedi",
     "Missing a temporary folder" : "Geçici klasör bulunamadı",
     "Could not write file to disk" : "Dosya diske yazılamadı",

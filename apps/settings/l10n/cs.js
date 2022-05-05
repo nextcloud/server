@@ -519,11 +519,6 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Povolit automatické dokončování uživatelského jména při zadávání celého jména nebo e-mailové adresy (při ignorování chybějící shody s telefonním seznamem a toho, že je ve stejné skupině)",
     "Change privacy level of full name" : "Změnit úroveň soukromí pro celé jméno",
     "No display name set" : "Nenastaveno žádné zobrazované jméno",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Je téměř vyčerpán nejvyšší umožněný počet klíčů v OPcache. Aby bylo zajištěno, že se do mezipaměti vejdou veškeré skripty, je doporučeno přidat do nastavení PHP volbu <code>opcache.max_accelerated_files</code> s hodnotou vyšší než <code>%s</code>.",
-    "Update all" : "Aktualizovat vše",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Pro optimální výkon je důležité správně nastavit úlohy spouštěné na pozadí. Pro větší instance je doporučenou metodou použití systémového plánovače (cron). Více informací naleznete v dokumentaci.",
-    "Execute one task with each page loaded." : "Spustit jednu úlohu s načtením každé stránky.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php je zaregistrován na službě webcron a bude přes HTTP volán každých 5 minut.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Použít systémový plánovač (cron) pro volání souboru cron.php každých 5 minut."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Je téměř vyčerpán nejvyšší umožněný počet klíčů v OPcache. Aby bylo zajištěno, že se do mezipaměti vejdou veškeré skripty, je doporučeno přidat do nastavení PHP volbu <code>opcache.max_accelerated_files</code> s hodnotou vyšší než <code>%s</code>."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

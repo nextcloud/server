@@ -476,11 +476,6 @@
     "days" : "日",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "フルネームまたは電子メールアドレスを入力するときにユーザー名を自動補完します（同じグループに属しておらず、電話帳で一致していなくても）",
     "Change privacy level of full name" : "フルネームのプライバシーレベルを変更",
-    "No display name set" : "表示名が未設定",
-    "Update all" : "全て更新する",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "最適なパフォーマンスにするには、バックグラウンドジョブを正確に設定することが重要です。大規模なインスタンスでは、'Cron'がお薦めの設定です。詳細な情報は、ドキュメントを参照してください。",
-    "Execute one task with each page loaded." : "各ページの読み込み毎にタスクを実行します。",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.phpは、HTTP経由で5分ごとにcron.phpを実行するようwebcronサービスに登録されます。",
-    "Use system cron service to call the cron.php file every 5 minutes." : "システムのcronサービスを利用して、5分ごとにcron.phpファイルを実行します。"
+    "No display name set" : "表示名が未設定"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -371,10 +371,6 @@ OC.L10N.register(
     "App update" : "به روز رسانی برنامه",
     "Test email settings" : "تنظیمات ایمیل آزمایشی",
     "days" : "روز",
-    "No display name set" : "هیچ نام نمایشی تعیین نشده است",
-    "Update all" : "بروزرسانی همه",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "برای عملکرد بهینه ، پیکربندی صحیح کارهای پس زمینه مهم است. برای موارد بزرگتر گزینه \"Cron\" توصیه می شود. لطفا برای اطلاعات بیشتر به اسناد مراجعه کنید.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php در یک سرویس webcron ثبت شده است تا cron.php هر 5 دقیقه با HTTP تماس بگیرید .",
-    "Use system cron service to call the cron.php file every 5 minutes." : "برای تماس با پرونده cron.php هر 5 دقیقه یکبار از سرویس cron system استفاده کنید."
+    "No display name set" : "هیچ نام نمایشی تعیین نشده است"
 },
 "nplurals=2; plural=(n > 1);");

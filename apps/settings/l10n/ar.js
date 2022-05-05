@@ -248,7 +248,6 @@ OC.L10N.register(
     "App update" : "تحديث التطبيق",
     "Test email settings" : "فحص إعدادات البريد الإلكتروني",
     "days" : "أيام",
-    "No display name set" : "لم يتم إدخال أي إسم",
-    "Update all" : "تحديث الكل"
+    "No display name set" : "لم يتم إدخال أي إسم"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

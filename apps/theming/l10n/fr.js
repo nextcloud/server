@@ -26,6 +26,7 @@ OC.L10N.register(
     "No file uploaded" : "Aucun fichier téléversé",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vous utilisez déjà un thème personnalisé. Les paramètres de l'application Theming peuvent être remplacés par ceux-ci.",
     "Theming" : "Personnaliser l'apparence",
+    "Appearance and accessibility" : "Apparence et accessibilité",
     "Dark theme" : "Thème sombre",
     "Enable dark theme" : "Activer le thème sombre",
     "Dyslexia font" : "Police pour dyslexiques",

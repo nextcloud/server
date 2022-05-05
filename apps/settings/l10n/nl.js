@@ -488,11 +488,6 @@ OC.L10N.register(
     "days" : "dagen",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Automatisch aanvullen van gebruikersnaam toestaan bij het invoeren van de volledige naam of het e-mailadres (ontbrekende overeenkomst in het telefoonboek negeren en deel uitmaken van dezelfde groep)",
     "Change privacy level of full name" : "Wijzigen privacyniveau van volledige naam",
-    "No display name set" : "Nog geen weergavenaam ingesteld",
-    "Update all" : "Update alles",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Voor optimale prestaties is het belangrijk om de achtergrondtaken goed te configureren. Voor grotere installaties is \"Cron' de aanbevolen instelling. Bekijk de documentatie voor meer informatie.",
-    "Execute one task with each page loaded." : "Bij laden van elke pagina één taak uitvoeren.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php is geregistreerd bij een webcron service om elke 5 minuten cron.php over http aan te roepen.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Gebruik de systeemcron service om cron.php elke 5 minuten aan te roepen."
+    "No display name set" : "Nog geen weergavenaam ingesteld"
 },
 "nplurals=2; plural=(n != 1);");

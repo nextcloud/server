@@ -440,11 +440,6 @@
     "days" : "dies",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permite sa cumponidura automàtica candu si nche insertat su nùmene cumpletu o s'indiritzu de posta eletrònica (discuidende sa currispondèntzia mancante in sa rubrica e sende in su matessi grupu)",
     "Change privacy level of full name" : "Càmbia su livellu de riservadesa de su nùmene cumpletu",
-    "No display name set" : "Nùmene visualizadu no impostadu",
-    "Update all" : "Agiorna totu",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Pro prestatziones primorosas est importante a cunfigurare in sa manera curreta is atividades in segundu pianu. Pro istàntzias prus mannas 'Cron' est s'impostatzione cussigiada. Càstia sa documentatzione pro àteras informatziones.",
-    "Execute one task with each page loaded." : "Esecuta una faina cun cada pàgina carrigada.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php est registradu in unu servìtziu webcron pro cramare cron.php cada 5 minutos tràmite HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Imprea su servìtziu cron de sistema pro cramare s'archìviu cron.php cada 5 minutos."
+    "No display name set" : "Nùmene visualizadu no impostadu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -347,7 +347,6 @@ OC.L10N.register(
     "App update" : "앱 업데이트",
     "Test email settings" : "이메일 설정 시험",
     "days" : "일",
-    "No display name set" : "표시 이름이 설정되지 않음",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "최적 성능을 위해서 백그라운드 작업을 올바르게 설정하는 것을 추천합니다. 큰 인스턴스에서는 'Cron'을 사용하는 것을 추천합니다. 더 많은 정보를 보려면 문서를 참조하십시오."
+    "No display name set" : "표시 이름이 설정되지 않음"
 },
 "nplurals=1; plural=0;");
