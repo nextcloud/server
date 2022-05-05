@@ -36,7 +36,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	public const PROPERTY_NAME_COUNT = '{http://owncloud.org/ns}comments-count';
 	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}comments-unread';
 
-	protected Server $server;
+	protected ?Server $server = null;
 	private ICommentsManager $commentsManager;
 	private IUserSession $userSession;
 	private array $cachedUnreadCount = [];

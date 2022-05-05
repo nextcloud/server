@@ -112,7 +112,7 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
 	 * Log exception
 	 */
-	public function logException(\Throwable $ex): void {
+	public function logException(\Throwable $ex) {
 		$exceptionClass = get_class($ex);
 		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
 			(

@@ -54,7 +54,7 @@ class Auth extends AbstractBasic {
 	private ISession $session;
 	private Session $userSession;
 	private IRequest $request;
-	private string $currentUser;
+	private ?string $currentUser = null;
 	private Manager $twoFactorManager;
 	private Throttler $throttler;
 

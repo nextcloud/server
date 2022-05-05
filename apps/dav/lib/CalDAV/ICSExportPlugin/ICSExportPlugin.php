@@ -23,11 +23,11 @@
 namespace OCA\DAV\CalDAV\ICSExportPlugin;
 
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property\ICalendar\Duration;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class ICSExportPlugin

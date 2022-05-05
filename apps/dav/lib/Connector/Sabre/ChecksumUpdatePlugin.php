@@ -29,7 +29,7 @@ use Sabre\HTTP\ResponseInterface;
 use Sabre\DAV\Server;
 
 class ChecksumUpdatePlugin extends ServerPlugin {
-	protected Server $server;
+	protected ?Server $server = null;
 
 	public function initialize(Server $server) {
 		$this->server = $server;

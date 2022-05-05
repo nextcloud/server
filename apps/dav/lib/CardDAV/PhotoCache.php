@@ -63,15 +63,9 @@ class PhotoCache {
 	}
 
 	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
-	 * @param int $size
-	 * @param Card $card
-	 *
-	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	public function get($addressBookId, $cardUri, $size, Card $card) {
+	public function get(int $addressBookId, string $cardUri, int $size, Card $card): ISimpleFile {
 		$folder = $this->getFolder($addressBookId, $cardUri);
 
 		if ($this->isEmpty($folder)) {
@@ -120,7 +114,10 @@ class PhotoCache {
 		return !$folder->fileExists('nophoto');
 	}
 
-	private function getFile(ISimpleFolder $folder, int $size): ISimpleFile {
+	/**
+	 * @param float|-1 $size
+	 */
+	private function getFile(ISimpleFolder $folder, $size): ISimpleFile {
 		$ext = $this->getExtension($folder);
 
 		if ($size === -1) {

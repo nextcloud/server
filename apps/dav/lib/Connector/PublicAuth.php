@@ -44,7 +44,7 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
  */
 class PublicAuth extends AbstractBasic {
 	private const BRUTEFORCE_ACTION = 'public_webdav_auth';
-	private IShare $share;
+	private ?IShare $share = null;
 	private IManager $shareManager;
 	private ISession $session;
 	private IRequest $request;
@@ -121,6 +121,7 @@ class PublicAuth extends AbstractBasic {
 	}
 
 	public function getShare(): IShare {
+		assert($this->share !== null);
 		return $this->share;
 	}
 }

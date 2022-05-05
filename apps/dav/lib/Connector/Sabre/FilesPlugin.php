@@ -86,7 +86,7 @@ class FilesPlugin extends ServerPlugin {
 	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
 
 	/** Reference to main server object */
-	private Server $server;
+	private ?Server $server = null;
 	private Tree $tree;
 	private IUserSession $userSession;
 
@@ -345,7 +345,7 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
 				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
 			});
-			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): int {
+			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): ?int {
 				return $node->getSize();
 			});
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {

@@ -37,7 +37,7 @@ use Sabre\DAV\Server;
  * @package OCA\DAV\Connector\Sabre
  */
 class BlockLegacyClientPlugin extends ServerPlugin {
-	protected Server $server;
+	protected ?Server $server = null;
 	protected IConfig $config;
 
 	public function __construct(IConfig $config) {

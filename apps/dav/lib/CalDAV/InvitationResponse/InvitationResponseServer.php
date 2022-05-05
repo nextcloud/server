@@ -37,7 +37,6 @@ use OCA\DAV\RootCollection;
 use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
-use Psr\Log\LoggerInterface;
 
 class InvitationResponseServer {
 

@@ -291,16 +291,15 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * @param int $addressBookId
 	 */
-	public function getAddressBookById($addressBookId) {
+	public function getAddressBookById(int $addressBookId): ?array {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 			->from('addressbooks')
-			->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId)))
-			->execute();
-
+			->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
+			->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
-		if ($row === false) {
+		if (!$row) {
 			return null;
 		}
 
@@ -457,7 +456,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$addressBookId = $query->getLastInsertId();
 		$addressBookRow = $this->getAddressBookById($addressBookId);
-		$this->dispatcher->dispatchTyped(new AddressBookCreatedEvent((int)$addressBookId, $addressBookRow));
+		$this->dispatcher->dispatchTyped(new AddressBookCreatedEvent($addressBookId, $addressBookRow));
 
 		return $addressBookId;
 	}
@@ -495,7 +494,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		if ($addressBookData) {
-			$this->dispatcher->dispatchTyped(new AddressBookDeletedEvent((int) $addressBookId, $addressBookData, $shares));
+			$this->dispatcher->dispatchTyped(new AddressBookDeletedEvent($addressBookId, $addressBookData, $shares));
 		}
 	}
 
@@ -515,14 +514,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * calculating them. If they are specified, you can also ommit carddata.
 	 * This may speed up certain requests, especially with large cards.
 	 *
-	 * @param mixed $addressBookId
+	 * @param mixed $addressbookId
 	 * @return array
 	 */
-	public function getCards($addressBookId) {
+	public function getCards($addressbookId) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from($this->dbCardsTable)
-			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressbookId)));
 
 		$cards = [];
 
@@ -588,7 +587,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * If the backend supports this, it may allow for some speed-ups.
 	 *
 	 * @param mixed $addressBookId
-	 * @param string[] $uris
+	 * @param array $uris
 	 * @return array
 	 */
 	public function getMultipleCards($addressBookId, array $uris) {
@@ -689,7 +688,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$addressBookData = $this->getAddressBookById($addressBookId);
 		$shares = $this->getShares($addressBookId);
 		$objectRow = $this->getCard($addressBookId, $cardUri);
-		$this->dispatcher->dispatchTyped(new CardCreatedEvent((int)$addressBookId, $addressBookData, $shares, $objectRow));
+		$this->dispatcher->dispatchTyped(new CardCreatedEvent($addressBookId, $addressBookData, $shares, $objectRow));
 		$this->legacyDispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
 			new GenericEvent(null, [
 				'addressBookId' => $addressBookId,
@@ -753,7 +752,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$addressBookData = $this->getAddressBookById($addressBookId);
 		$shares = $this->getShares($addressBookId);
 		$objectRow = $this->getCard($addressBookId, $cardUri);
-		$this->dispatcher->dispatchTyped(new CardUpdatedEvent((int)$addressBookId, $addressBookData, $shares, $objectRow));
+		$this->dispatcher->dispatchTyped(new CardUpdatedEvent($addressBookId, $addressBookData, $shares, $objectRow));
 		$this->legacyDispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
 			new GenericEvent(null, [
 				'addressBookId' => $addressBookId,
@@ -784,13 +783,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$ret = $query->delete($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
-			->execute();
+			->executeStatement();
 
 		$this->addChange($addressBookId, $cardUri, 3);
 
 		if ($ret === 1) {
 			if ($cardId !== null) {
-				$this->dispatcher->dispatchTyped(new CardDeletedEvent((int)$addressBookId, $addressBookData, $shares, $objectRow));
+				$this->dispatcher->dispatchTyped(new CardDeletedEvent($addressBookId, $addressBookData, $shares, $objectRow));
 				$this->legacyDispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::deleteCard',
 					new GenericEvent(null, [
 						'addressBookId' => $addressBookId,
@@ -868,12 +867,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($addressBookId))
 			);
-		$stmt = $qb->execute();
+		$stmt = $qb->executeQuery();
 		$currentToken = $stmt->fetchOne();
 		$stmt->closeCursor();
 
 		if (is_null($currentToken)) {
-			return null;
+			return [];
 		}
 
 		$result = [
@@ -900,7 +899,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			}
 
 			// Fetching all changes
-			$stmt = $qb->execute();
+			$stmt = $qb->executeQuery();
 
 			$changes = [];
 
@@ -932,7 +931,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
 				);
 			// No synctoken supplied, this is the initial sync.
-			$stmt = $qb->execute();
+			$stmt = $qb->executeQuery();
 			$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
 			$stmt->closeCursor();
 		}
