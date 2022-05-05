@@ -109,7 +109,10 @@ class ChangePasswordController extends Controller {
 		try {
 			if ($newpassword === null || $user->setPassword($newpassword) === false) {
 				return new JSONResponse([
-					'status' => 'error'
+					'status' => 'error',
+					'data' => [
+						'message' => $this->l->t('Unable to change personal password'),
+					],
 				]);
 			}
 			// password policy app throws exception

@@ -320,13 +320,17 @@ class User implements IUser {
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			$result = $this->backend->setPassword($this->uid, $password);
-			$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
-				'password' => $password,
-				'recoveryPassword' => $recoveryPassword,
-			]));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
+
+			if ($result !== false) {
+				$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
+					'password' => $password,
+					'recoveryPassword' => $recoveryPassword,
+				]));
+				if ($this->emitter) {
+					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
+				}
 			}
+
 			return !($result === false);
 		} else {
 			return false;
