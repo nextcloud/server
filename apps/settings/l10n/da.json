@@ -486,11 +486,6 @@
     "days" : "dage",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Tillad autofuldførelse af brugernavn, når du indtaster det fulde navn eller e-mailadresse (ignorerer manglende telefonbogsmatch og er i samme gruppe)",
     "Change privacy level of full name" : "Skift privatlivsniveau for det fulde navn",
-    "No display name set" : "Der er ikke angivet skærmnavn",
-    "Update all" : "Opdater alle",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal ydeevne er det vigtigt at konfigurere baggrundsjob korrekt. For større tilfælde er 'Cron' den anbefalede indstilling. Se venligst dokumentationen for mere information.",
-    "Execute one task with each page loaded." : "Udfør én opgave med hver side indlæst.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php er registreret på en webcron-tjeneste til at ringe til cron.php hvert 5. minut over HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Brug systemets cron-tjeneste til at ringe til cron.php-filen hvert 5. minut."
+    "No display name set" : "Der er ikke angivet skærmnavn"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

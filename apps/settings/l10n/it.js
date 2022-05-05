@@ -496,11 +496,6 @@ OC.L10N.register(
     "days" : "giorni",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Consenti il completamento del nome utente inserendo il nome o l'indirizzo email (ignorando la mancanza in rubrica ed essendo nello stesso gruppo)",
     "Change privacy level of full name" : "Cambia livello di privacy del nome completo",
-    "No display name set" : "Nome visualizzato non impostato",
-    "Update all" : "Aggiorna tutto",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Per prestazioni ottimali è importante configurare le operazioni in background correttamente. Per le istanze più grandi 'Cron' è l'impostazione consigliata. Vedi la documentazione per ulteriori informazioni.",
-    "Execute one task with each page loaded." : "Esegui un'attività con ogni pagina caricata.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php è registrato su un servizio webcron per invocare cron.php ogni 5 minuti su HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Usa il servizio cron di sistema per invocare il file cron.php ogni 5 minuti."
+    "No display name set" : "Nome visualizzato non impostato"
 },
 "nplurals=2; plural=(n != 1);");

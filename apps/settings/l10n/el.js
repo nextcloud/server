@@ -492,11 +492,6 @@ OC.L10N.register(
     "Test email settings" : "Δοκιμή ρυθμίσεων email",
     "days" : "ημέρες",
     "Change privacy level of full name" : "Αλλαγή επιπέδου απορρήτου του ονοματεπώνυμου",
-    "No display name set" : "Δεν ορίστηκε όνομα",
-    "Update all" : "Ενημέρωση όλων",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Για βέλτιστη απόδοση είναι σημαντικό να ρυθμίσετε σωστά τις εργασίες παρασκηνίου. Για μεγαλύτερα συστήματα, η συνιστώμενη ρύθμιση είναι \"Cron\". Για περισσότερες πληροφορίες, ανατρέξτε στην τεκμηρίωση.",
-    "Execute one task with each page loaded." : "Εκτελέστε μια εργασία με κάθε σελίδα φορτωμένη.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 5 λεπτά μέσω HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 5 λεπτά."
+    "No display name set" : "Δεν ορίστηκε όνομα"
 },
 "nplurals=2; plural=(n != 1);");
