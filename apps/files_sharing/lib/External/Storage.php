@@ -42,11 +42,12 @@ use OCP\Constants;
 use OCP\Federation\ICloudId;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
+use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\LocalServerException;
 
-class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
+class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, IReliableEtagStorage {
 	/** @var ICloudId */
 	private $cloudId;
 	/** @var string */
@@ -372,6 +373,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		} elseif (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
 			// permissions provided by the OCM API
 			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions'], $path);
+		} elseif (isset($response['{http://owncloud.org/ns}permissions'])) {
+			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 		} else {
 			// use default permission if remote server doesn't provide the share permissions
 			$permissions = $this->getDefaultPermissions($path);
@@ -431,5 +434,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		}
 
 		return $permissions;
+	}
+
+	public function free_space($path) {
+		return parent::free_space("");
 	}
 }

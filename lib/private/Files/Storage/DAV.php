@@ -275,6 +275,7 @@ class DAV extends Common {
 						'{http://open-collaboration-services.org/ns}share-permissions',
 						'{DAV:}resourcetype',
 						'{DAV:}getetag',
+						'{DAV:}quota-available-bytes',
 					]
 				);
 				$this->statCache->set($path, $response);
@@ -428,8 +429,7 @@ class DAV extends Common {
 		$this->init();
 		$path = $this->cleanPath($path);
 		try {
-			// TODO: cacheable ?
-			$response = $this->client->propfind($this->encodePath($path), ['{DAV:}quota-available-bytes']);
+			$response = $this->propfind($path);
 			if ($response === false) {
 				return FileInfo::SPACE_UNKNOWN;
 			}
