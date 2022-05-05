@@ -407,11 +407,6 @@
     "App update" : "עדכון יישומן",
     "Test email settings" : "בדיקת הגדרות דואר אלקטרוני",
     "days" : "ימים",
-    "No display name set" : "לא נקבע שם תצוגה",
-    "Update all" : "לעדכן הכול",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "לביצועים מיטביים חשוב להגדיר משימות רקע כראוי. למערכות גדולות יותר מוטב להשתמש ב־‚Cron’. נא לעיין בתיעוד לקבל מידע נוסף.",
-    "Execute one task with each page loaded." : "הפעלת משימה אחת עם כל עמוד שנטען.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php is רשום בשירות webcron כדי לקרוא ל־cron.php כל 5 דקות דרך HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "להשתמש בשירות ה־cron של המערכת כדי לקרוא לקובץ cron.php כל 5 דקות."
+    "No display name set" : "לא נקבע שם תצוגה"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

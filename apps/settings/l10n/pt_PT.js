@@ -265,7 +265,6 @@ OC.L10N.register(
     "App update" : "Actualização de app",
     "Test email settings" : "Testar definições de e-mail",
     "days" : "dias",
-    "No display name set" : "Nenhum nome display estabelecido",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para desempenho óptimo é importante que configura as tarefas de segundo plano correctamente. Para maiores instâncias a definição recomendada é 'Cron'. Por favor veja a documentação para mais informações."
+    "No display name set" : "Nenhum nome display estabelecido"
 },
 "nplurals=2; plural=(n != 1);");

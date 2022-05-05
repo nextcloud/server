@@ -338,7 +338,6 @@ OC.L10N.register(
     "App update" : "อัปเดตแอป",
     "Test email settings" : "ทดสอบการตั้งค่าอีเมล",
     "days" : "วัน",
-    "No display name set" : "ไม่มีชื่อที่แสดง",
-    "Update all" : "อัปเดตทั้งหมด"
+    "No display name set" : "ไม่มีชื่อที่แสดง"
 },
 "nplurals=1; plural=0;");

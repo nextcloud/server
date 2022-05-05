@@ -489,11 +489,6 @@ OC.L10N.register(
     "days" : "egun",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Baimendu erabiltzaile-izena automatikoki osatzea izen osoa edo helbide elektronikoa idazterakoan (falta den telefono-agendaren bat-etortzea eta talde berean egotea alde batera utziz)",
     "Change privacy level of full name" : "Aldatu izen osoaren pribatutasun maila",
-    "No display name set" : "Ez da bistaratze izena ezarri",
-    "Update all" : "Eguneratu denak",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Errendimendu ona izateko garrantzitsua da atzeko planoko atazak ondo konfiguratzea. Instantzia handientzat 'Cron' erabiltzea gomendatzen da. Irakurri dokumentazioa informazio gehiago lortzeko.",
-    "Execute one task with each page loaded." : "Exekutatu zeregin bat orri karga bakoitzarekin.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "webcron zerbitzua cron.php-ri 5 minutuan behin HTTP bidez deitzeko konfiguratu da.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Sistemaren cron zerbitzua erabili cron.php-ri 5 minutuan behin deitzeko."
+    "No display name set" : "Ez da bistaratze izena ezarri"
 },
 "nplurals=2; plural=(n != 1);");

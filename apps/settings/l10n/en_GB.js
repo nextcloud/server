@@ -284,7 +284,6 @@ OC.L10N.register(
     "App update" : "App update",
     "Test email settings" : "Test email settings",
     "days" : "days",
-    "No display name set" : "No display name set",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information."
+    "No display name set" : "No display name set"
 },
 "nplurals=2; plural=(n != 1);");

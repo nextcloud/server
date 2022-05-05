@@ -264,7 +264,6 @@ OC.L10N.register(
     "Everyone" : "Tot lo monde",
     "Test email settings" : "Ensajar los paramètres email",
     "days" : "jorns",
-    "No display name set" : "Cap de nom d’afichatge pas definit",
-    "Update all" : "Tot metre a jorn"
+    "No display name set" : "Cap de nom d’afichatge pas definit"
 },
 "nplurals=2; plural=(n > 1);");

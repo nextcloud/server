@@ -32,6 +32,7 @@ OC.L10N.register(
     "Similar to the high contrast mode, but with dark colours." : "Podobné režimu s vysokým kontrastem, ale s tmavými barvami.",
     "Dark theme" : "Tmavý motiv vzhledu",
     "Enable dark theme" : "Používat tmavý motiv vzhledu",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness." : "Tmavý motiv vzhledu pro ulevení vašim očím pomocí omezení celkové svítivosti a jasu.",
     "System default theme" : "Výchozí systémový vzhled",
     "Enable the system default" : "Použít systémový výchozí",
     "Using the default system appearance." : "Používá se výchozí systémový vzhled.",

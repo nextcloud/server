@@ -28,6 +28,7 @@ OC.L10N.register(
     "Theming" : "Theming",
     "Dark theme" : "Dark theme",
     "Enable dark theme" : "Enable dark theme",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness." : "A dark theme that is soothing for your eyes (by reducing the overall luminosity and brightness).",
     "Dyslexia font" : "Dyslexia font",
     "Enable dyslexia font" : "Enable dyslexia font",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia.",
