@@ -25,9 +25,10 @@
     text-shadow: none;
     text-transform: none;
     white-space: normal;
-    word-break: break-all;
+    word-break: normal;
     word-spacing: normal;
     word-wrap: normal;
+	overflow-wrap: anywhere;
     font-size: 12px;
     opacity: 0;
     z-index: 100000;
