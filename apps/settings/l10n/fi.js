@@ -450,11 +450,6 @@ OC.L10N.register(
     "Test email settings" : "Testaa sähköpostiasetukset",
     "days" : "päivän jälkeen",
     "Change privacy level of full name" : "Muuta koko nimen yksityisyystasoa",
-    "No display name set" : "Näyttönimeä ei ole asetettu",
-    "Update all" : "Päivitä kaikki",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Optimaalisen suorituskyvyn vuoksi on tärkeää määrittää taustatyöt oikein. Suuria asennuksia varten 'Cron' on suositeltava asetus. Lisätietoja on saatavilla dokumentaatiossa.",
-    "Execute one task with each page loaded." : "Suorita tehtävä sivun latauksen yhteydessä.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "Käytä ulkoista webcron-palvelua cron.php-skriptin suorittamiseen HTTP-protokollan kautta 5 minuutin välein. ",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Käytä järjestelmän cron-palvelua cron.php-skriptin suorittamiseen 5 minuutin välein"
+    "No display name set" : "Näyttönimeä ei ole asetettu"
 },
 "nplurals=2; plural=(n != 1);");

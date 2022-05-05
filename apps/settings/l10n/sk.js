@@ -496,11 +496,6 @@ OC.L10N.register(
     "days" : "dni",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Pri zadávaní celého mena alebo e-mailovej adresy povoliť automatické dopĺňanie mena užívateľa (ignoruje sa chýbajúca zhoda v telefónnom zozname a príslušnosť k rovnakej skupine)",
     "Change privacy level of full name" : "Zmeniť úroveň súkromia pre celé meno",
-    "No display name set" : "Zobrazované meno nie je nastavené",
-    "Update all" : "Aktualizovať všetko",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Pre optimálny výkon je dôležité nakonfigurovať úlohy na pozadí správne. Pre väčšie inštancie sa odporúča 'Cron'. Viac informácií je možné nájsť v dokumentácii.",
-    "Execute one task with each page loaded." : "Vykonajte jednu úlohu s každou načítanou stránkou.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php je registrovaný v službe webcron a bude cez HTTP volaný každých 5 minút.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Použiť systémový plánovač (cron) pre spustenie súboru cron.php každých 5 minút."
+    "No display name set" : "Zobrazované meno nie je nastavené"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

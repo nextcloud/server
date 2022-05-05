@@ -465,11 +465,6 @@
     "App update" : "Надградба на апликацијата",
     "Test email settings" : "Провери ги нагодувањата за електронска пошта",
     "days" : "денови",
-    "No display name set" : "Нема поставено име за прикажување",
-    "Update all" : "Ажурирај ги сите",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "За оптимални перформанси важно е правилно да ги конфигурирате задачите кој се извршуваат во позадина. За големи истанци 'Cron' е препорачаната поставка. Погледнете ја документацијата за повеќе информации.",
-    "Execute one task with each page loaded." : "Изврши по една задача со секоја вчитана страница",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php е регистриран на webcron сервисот за да го повикува cron.php секој 5 минути преку HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Го користи системскиот Cron сервис и го повикува cron.php секој 5 минути."
+    "No display name set" : "Нема поставено име за прикажување"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

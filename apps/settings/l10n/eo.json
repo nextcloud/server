@@ -361,9 +361,6 @@
     "App update" : "Aplikaĵa ĝisdatigo",
     "Test email settings" : "Provi retpoŝtagordon",
     "days" : "tagoj",
-    "No display name set" : "Neniui vidiga nomo agordita",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Por optimuma rendimento, gravas bone agordi fonajn taskojn. Por serviloj kun multe da uzantoj kaj datumoj,  „Cron“ estas rekomendita. Bv. vidi la dokumentaron por pli da informoj.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php estas registrita ĉe perreta „cron“-servo por esti vokita ĉiujn 5 minutojn per HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Uzu la sisteman „cron“-servon por voki cron.php ĉiujn 5 minutojn."
+    "No display name set" : "Neniui vidiga nomo agordita"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

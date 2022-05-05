@@ -412,11 +412,6 @@ OC.L10N.register(
     "Test email settings" : "Correo de proba dos axustes",
     "days" : "días",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir autocompletar o nome de usuario cando se introduce o nome completo ou o enderezo de correo-e ignorando a coincidencia da lista de teléfonos que falta e está no mesmo grupo",
-    "No display name set" : "Sen nome de usuario para amosar estabelecido",
-    "Update all" : "Actualizar todo",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para un rendemento óptimo é importante configurar correctamente os traballos en segundo plano. Para instancias máis grandes, «Cron» é o axuste recomendado. Vexa a documentación para obter máis información.",
-    "Execute one task with each page loaded." : "Executar unha tarefa con cada páxina cargada.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php está rexistrado nun servizo de WebCron para chamar a cron.php cada 5 minutos a través de HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Use o servizo «cron» do sistema para chamar ao ficheiro cron.php cada 5 minutos."
+    "No display name set" : "Sen nome de usuario para amosar estabelecido"
 },
 "nplurals=2; plural=(n != 1);");

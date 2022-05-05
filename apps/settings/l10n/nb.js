@@ -366,8 +366,6 @@ OC.L10N.register(
     "App update" : "App-oppdatering",
     "Test email settings" : "Test innstillinger for e-post",
     "days" : "dager",
-    "No display name set" : "Visningsnavn ikke satt",
-    "Update all" : "Oppdater alle",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal ytelse er det viktig å sette opp bakgrunnsjobber rett. For kjøring på større installasjoner er 'Cron' anbefalt innstilling. Se dokumentasjonen for mer informasjon."
+    "No display name set" : "Visningsnavn ikke satt"
 },
 "nplurals=2; plural=(n != 1);");

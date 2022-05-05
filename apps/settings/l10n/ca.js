@@ -406,11 +406,6 @@ OC.L10N.register(
     "App update" : "Actualització de l'aplicació",
     "Test email settings" : "Prova els paràmetres de correu electrònic",
     "days" : "dies",
-    "No display name set" : "No s'ha establert cap nom para mostrar",
-    "Update all" : "Actualitza tot",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Per a un rendiment òptim és important configurar correctament les tasques de fons. Per a instàncies més grans ‘Cron’ és el paràmetre recomanat. Si us plau, per a més informació vegeu la documentació.",
-    "Execute one task with each page loaded." : "Executa una tasca amb cada pàgina carregada.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php està registrat en un servei webcron per cridar cron.php cada 15 minuts per HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Utilitza el servei cron del sistema per cridar el fitxer cron.php cada 5 minuts."
+    "No display name set" : "No s'ha establert cap nom para mostrar"
 },
 "nplurals=2; plural=(n != 1);");

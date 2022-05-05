@@ -517,11 +517,6 @@
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電子郵件地址時，允許使用者名稱自動完成（忽略缺少的通訊錄相符，以及在同一個群組中的）",
     "Change privacy level of full name" : "變更全名的隱私等級",
     "No display name set" : "未設定顯示名稱",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了 OPcache 鍵的最大數量。為確保幾乎所有指令稿都可以保留在快取中，建議在您的 PHP 設定中的 <code>opcache.max_accelerated_files</code> 套用高於 <code>%s</code> 的值。",
-    "Update all" : "更新全部",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "為了獲得最佳的效能，設定背景工作非常重要，對於比較大的服務來說，建議使用 Cron 設定，請查閱說明文件以獲得更多資訊。",
-    "Execute one task with each page loaded." : "每個頁面載入時執行一個工作。",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php 在 webcron 服務中註冊，每5分鐘透過 HTTP 呼叫 cron.php。",
-    "Use system cron service to call the cron.php file every 5 minutes." : "使用系統 cron 每5分鐘呼叫 cron.php。"
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了 OPcache 鍵的最大數量。為確保幾乎所有指令稿都可以保留在快取中，建議在您的 PHP 設定中的 <code>opcache.max_accelerated_files</code> 套用高於 <code>%s</code> 的值。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

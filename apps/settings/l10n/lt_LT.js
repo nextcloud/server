@@ -415,11 +415,6 @@ OC.L10N.register(
     "App update" : "Programėlės atnaujinimas",
     "Test email settings" : "Išbandyti el. pašto nustatymus",
     "days" : "dienos",
-    "No display name set" : "Rodomas vardas nenurodytas",
-    "Update all" : "Atnaujinti visas",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Norint užtikrinti optimalų našumą, svarbu teisingai sukonfigūruoti fonines užduotis. Didesniems egzemplioriams rekomenduojama naudoti „Cron“ nustatymą. Išsamesnei informacijai žiūrėkite dokumentaciją.",
-    "Execute one task with each page loaded." : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php yra registruota webcron paslaugoje, kad kas 5 minutes iškviestų cron.php per HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Naudokite sistemos cron paslaugą, kad kas 5 minutes iškviestumėte cron.php failą."
+    "No display name set" : "Rodomas vardas nenurodytas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -513,11 +513,6 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir a autocompletar o nome de usuário ao inserir o nome completo ou endereço de e-mail (ignorando se está na lista de telefones ou no mesmo grupo)",
     "Change privacy level of full name" : "Alterar o nível de privacidade do nome completo ",
     "No display name set" : "Nenhum nome de exibição definido",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>.",
-    "Update all" : "Atualizar todos",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para um desempenho ideal, é importante configurar corretamente os trabalhos em segundo plano. Para instâncias maiores, 'Cron' é a configuração recomendada. Consulte a documentação para obter mais informações.",
-    "Execute one task with each page loaded." : "Execute uma tarefa com cada página carregada.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "O cron.php está registrado num webcron para chamar cron.php a cada 5 minutos em HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Use o serviço cron do sistema para chamar o arquivo cron.php a cada 5 minutos."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>."
 },
 "nplurals=2; plural=(n > 1);");

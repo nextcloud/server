@@ -392,10 +392,6 @@ OC.L10N.register(
     "App update" : "Adnevezadenn meziant",
     "Test email settings" : "Amprouiñ ar c'has postel",
     "days" : "devezh",
-    "No display name set" : "Anv ardivink lakaet ebet",
-    "Update all" : "Adnevesañ pep tra",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Evit kaout ur mon en dro mat eo ret stummañ mat al labourioù diadrñv. evit azgoulennoù brasoc'h eo aliet kaout stumm 'Cron'. Sellit ouzh an diellvadur evit muioc'h a ditouroù.",
-    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php a zo anavezet evel ur webcron da gervel pep 5 munutenn a uz HTTP.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Implijit sevichoù ar sistem cron evit gervel restr cron.php pep 5 munutenn."
+    "No display name set" : "Anv ardivink lakaet ebet"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

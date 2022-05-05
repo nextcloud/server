@@ -257,7 +257,6 @@
     "App update" : "აპლიკაციის განახლება",
     "Test email settings" : "ელ-ფოსტის პარამეტრების შემომება",
     "days" : "დღე",
-    "No display name set" : "დისპლეი სახელი არაა დაყენებული",
-    "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "ოპტიმალური მოღვაწეობისთვის მნიშვნელოვანია ფონური საქმეების სწორი კონფიგურაცია. დიდი ინსტანციებისთვის 'კრონი' რეკომენდირებული არჩევანია. გთხოვთ მეტი ინფორმაციისთვის იხილოთ დოკუმენტაცია."
+    "No display name set" : "დისპლეი სახელი არაა დაყენებული"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }
