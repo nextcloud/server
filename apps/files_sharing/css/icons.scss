@@ -24,11 +24,11 @@
 
 // This is the icons used in the sharing ui (multiselect)
 .icon-room {
-	@include icon-color('app', 'spreed', variables.$color-black);
+	background-image: var(--icon-talk-dark);
 }
 .icon-circle {
-	@include icon-color('circles', 'circles', variables.$color-black, 3, false);
+	background-image: var(--icon-circles-dark);
 }
 .icon-guests {
-	@include icon-color('app', 'guests', variables.$color-black);
+	background-image: var(--icon-user-dark);
 }

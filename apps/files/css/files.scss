@@ -128,37 +128,37 @@
 
 /* icons for sidebar */
 .nav-icon-files {
-	@include icon-color('folder', 'files', variables.$color-black);
+	background-image: var(--icon-folder-dark);
 }
 .nav-icon-recent {
-	@include icon-color('recent', 'files', variables.$color-black);
+	background-image: var(--icon-recent-dark);
 }
 .nav-icon-favorites {
-	@include icon-color('star-dark', 'actions', variables.$color-black, 2, true);
+	background-image: var(--icon-star-dark);
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout,
 .nav-icon-pendingshares,
 .nav-icon-shareoverview {
-	@include icon-color('share', 'files', variables.$color-black);
+	background-image: var(--icon-share-dark);
 }
 .nav-icon-sharinglinks {
-	@include icon-color('public', 'files', variables.$color-black);
+	background-image: var(--icon-public-dark);
 }
 .nav-icon-extstoragemounts {
-	@include icon-color('external', 'files', variables.$color-black);
+	background-image: var(--icon-external-dark);
 }
 .nav-icon-trashbin {
-	@include icon-color('delete', 'files', variables.$color-black);
+	background-image: var(--icon-delete-dark);
 }
 .nav-icon-trashbin-starred {
-	@include icon-color('delete', 'files', #ff0000);
+	background-image: var(--icon-delete-red);
 }
 .nav-icon-deletedshares {
-	@include icon-color('unshare', 'files', variables.$color-black);
+	background-image: var(--icon-unshare-dark);
 }
 .nav-icon-favorites-starred {
-	@include icon-color('star-dark', 'actions', variables.$color-yellow, 2, true);
+	background-image: var(--icon-star-yellow);
 }
 
 #app-navigation .nav-files a.nav-icon-files {
@@ -824,7 +824,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		@include icon-color('star-dark', 'actions', variables.$color-yellow, 1, true);
+		background-image: var(--icon-starred-yellow);
 	}
 }
 

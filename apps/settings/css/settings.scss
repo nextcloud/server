@@ -17,23 +17,23 @@ input {
 
 /* icons for sidebar */
 .nav-icon-personal-settings {
-	@include icon-color('personal', 'settings', variables.$color-black);
+	background-image: var(--icon-user-dark);
 }
 
 .nav-icon-security {
-	@include icon-color('toggle-filelist', 'settings', variables.$color-black);
+	background-image: var(--icon-toggle-filelist-dark);
 }
 
 .nav-icon-clientsbox {
-	@include icon-color('change', 'settings', variables.$color-black);
+	background-image: var(--icon-change-dark);
 }
 
 .nav-icon-federated-cloud {
-	@include icon-color('share', 'settings', variables.$color-black);
+	background-image: var(--icon-share-dark);
 }
 
 .nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-	@include icon-color('password', 'settings', variables.$color-black);
+	background-image: var(--icon-password-dark);
 }
 
 #avatarform {
