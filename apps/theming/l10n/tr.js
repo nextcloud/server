@@ -32,6 +32,7 @@ OC.L10N.register(
     "Similar to the high contrast mode, but with dark colours." : "Yüksek renk karşıtlığı kipine benzer ancak koyu renkleri kullanır.",
     "Dark theme" : "Koyu tema",
     "Enable dark theme" : "Koyu tema kullanılsın",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness." : "Koyu tema genel aydınlık ve parlaklığı azaltarak gözlerinizi dinlendirir.",
     "System default theme" : "Varsayılan sistem teması",
     "Enable the system default" : "Sistem varsayılanı kullanılsın",
     "Using the default system appearance." : "Varsayılan sistem görünümü kullanılıyor.",

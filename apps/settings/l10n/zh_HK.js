@@ -467,8 +467,6 @@ OC.L10N.register(
     "Allow username autocompletion to users based on phone number integration" : "允許基於電話號碼整合的用戶自動完成用戶名",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "如果啟用了自動完成功能“相同的群組”和“電話號碼整合”，則任何一個匹配都足以向用戶顯示。",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電郵地址時，允許自動完成（忽略缺少的電話簿匹配項，並且位於同一群組中）",
-    "Match username when restricting to full match" : "限制為完全匹配時匹配用戶名",
-    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "忽略括號中的第二個顯示名稱（如有）。示例：“第一個顯示名稱（第二個忽略的顯示名稱）”",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公開的檔案連結和上傳頁面顯示免責聲明（僅在檔案列表隱藏的時候才會顯示）",
     "This text will be shown on the public link upload page when the file list is hidden." : "這段文字會在公開檔案上傳頁面檔案列表被隱藏的時候顯示。",
     "Default share permissions" : "預設分享權限",
@@ -519,6 +517,8 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電郵地址時，允許用戶名自動完成（忽略缺少的電話簿匹配項，並且位於同一群組中）",
     "Change privacy level of full name" : "更改全名的私隱級別",
     "No display name set" : "未設定顯示名稱",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了可用的 OPcache 密鑰的最大數量。為確保所有腳本都可以保存在緩存中，建議將 <code>opcache.max_accelerated_files</code> 應用於您的 PHP 配置，其值高於 <code>%s</code>。"
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了可用的 OPcache 密鑰的最大數量。為確保所有腳本都可以保存在緩存中，建議將 <code>opcache.max_accelerated_files</code> 應用於您的 PHP 配置，其值高於 <code>%s</code>。",
+    "Match username when restricting to full match" : "限制為完全匹配時匹配用戶名",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "忽略括號中的第二個顯示名稱（如有）。示例：“第一個顯示名稱（第二個忽略的顯示名稱）”"
 },
 "nplurals=1; plural=0;");
