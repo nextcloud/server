@@ -443,9 +443,7 @@ input[type=text] + .icon-confirm, input[type=password] + .icon-confirm, input[ty
 }
 input[type=text] + .icon-confirm:disabled, input[type=password] + .icon-confirm:disabled, input[type=email] + .icon-confirm:disabled {
   cursor: default;
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-confirm-fade-000: url("/svg/core/actions/confirm-fade?color=000&v=2");
-  background-image: var(--icon-confirm-fade-000);
+  background-image: var(--icon-confirm-fade);
 }
 input[type=text]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm, input[type=password]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm, input[type=email]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm {
   border-color: var(--color-error);

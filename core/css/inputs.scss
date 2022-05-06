@@ -283,7 +283,7 @@ input {
 			margin-right: 0;
 			&:disabled {
 				cursor: default;
-				@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
+				background-image: var(--icon-confirm-fade);
 			}
 		}
 

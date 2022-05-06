@@ -47,12 +47,19 @@
  * @param bool [$core] search icon in core
  * @return string The URL to the svg.
  */
-@function icon-color-path($icon, $dir, $color, $version: 1, $core: false) {
+@function icon-color-path($icon, $dir, $color, $version: 1, $core: false, $nest: false) {
 	$color: remove-hash-from-color($color);
+	@if $nest {
+		@if $core {
+			@return '../../../svg/core/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+		} @else {
+			@return '../../../svg/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+		}
+	}
 	@if $core {
-		@return '/svg/core/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+		@return '../../svg/core/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
 	} @else {
-		@return '/svg/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+		@return '../../svg/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
 	}
 }
 
@@ -74,7 +81,7 @@
 	@if $core {
 		$varName: "--icon-#{$icon}-#{$color}";
 	}
-	#{$varName}: url(icon-color-path($icon, $dir, $color, $version, $core));
+	#{$varName}: url(icon-color-path($icon, $dir, $color, $version, $core)), url(icon-color-path($icon, $dir, $color, $version, $core, true));
 	background-image: var(#{$varName});
 }
 

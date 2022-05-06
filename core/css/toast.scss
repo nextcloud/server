@@ -21,7 +21,7 @@
 		width: 38px;
 		opacity: 0.4;
 		padding: 12px;
-		@include icon-color('close', 'actions', variables.$color-black, 2, true);
+		background-image: var(--icon-close-dark);
 		background-position: center;
 		background-repeat: no-repeat;
 		text-indent: 200%;

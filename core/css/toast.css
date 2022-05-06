@@ -113,9 +113,7 @@
   width: 38px;
   opacity: 0.4;
   padding: 12px;
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-close-000: url("/svg/core/actions/close?color=000&v=2");
-  background-image: var(--icon-close-000);
+  background-image: var(--icon-close-dark);
   background-position: center;
   background-repeat: no-repeat;
   text-indent: 200%;

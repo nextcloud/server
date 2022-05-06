@@ -44,17 +44,10 @@ use OCP\IRequest;
 
 class SvgController extends Controller {
 
-	/** @var string */
-	protected $serverRoot;
-
-	/** @var ITimeFactory */
-	protected $timeFactory;
-
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IconsCacher */
-	private $iconsCacher;
+	protected string $serverRoot;
+	protected ITimeFactory $timeFactory;
+	protected IAppManager $appManager;
+	private IconsCacher $iconsCacher;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -130,6 +123,12 @@ class SvgController extends Controller {
 
 		if ($svg === null) {
 			return new NotFoundResponse();
+		}
+
+		if (\OC::$server->getAppManager()->isEnabledForUser('theming')
+			&& class_exists('\OCA\Theming\Service\ThemesService')) {
+			/** @var \OCA\Theming\Service\ThemesService */
+			$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
 		}
 
 		$svg = $this->iconsCacher->colorizeSvg($svg, $color);

@@ -99,6 +99,7 @@
     "webdav": "^4.8.0"
   },
   "devDependencies": {
+    "@babel/node": "^7.17.10",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/browserslist-config": "^2.2.0",
     "@nextcloud/eslint-config": "^7.0.2",

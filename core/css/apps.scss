@@ -381,7 +381,7 @@ kbd {
 			margin: 0;
 			padding: 0;
 			background: none;
-			@include icon-color('triangle-s', 'actions', variables.$color-black, 1, true);
+			background-image: var(--icon-triangle-s-dark);
 			background-size: 16px;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -445,7 +445,7 @@ kbd {
 		.app-navigation-entry-utils-menu-button {
 			/* Prevent bg img override if an icon class is set */
 			button:not([class^='icon-']):not([class*=' icon-']) {
-				@include icon-color('more', 'actions', variables.$color-black, 1, true);
+				background-image: var(--icon-more-dark);
 			}
 			&:hover button,
 			&:focus button {
@@ -731,7 +731,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	padding: 0;
 	margin: 0;
 	background-color: var(--color-main-background);
-	@include icon-color('settings-dark', 'actions', variables.$color-black, 1, true);
+	background-image: var(--icon-settings-dark);
 	background-position: 14px center;
 	background-repeat: no-repeat;
 	box-shadow: none;
