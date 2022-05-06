@@ -465,8 +465,6 @@
     "Allow username autocompletion to users based on phone number integration" : "允許以電話號碼整合為基礎的使用者名稱自動完成",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "若同時啟用「同一個群組」與「電話號碼整合」的自動完成，則符合其中一項條件就會顯示使用者。",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電子郵件地址時，允許自動完成（忽略缺少的通訊錄相符，以及在同一個群組中的）",
-    "Match username when restricting to full match" : "限制為完全符合時符合使用者名稱",
-    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "忽略括號中的第二顯示名稱（若有）。範例：「第一個顯示名稱（第二個忽略的顯示名稱）」",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公開的檔案連結和上傳頁面顯示免責聲明（僅在檔案列表隱藏的時候才會顯示）",
     "This text will be shown on the public link upload page when the file list is hidden." : "這段文字會在公開檔案上傳頁面檔案列表被隱藏的時候顯示。",
     "Default share permissions" : "預設分享權限",
@@ -517,6 +515,8 @@
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電子郵件地址時，允許使用者名稱自動完成（忽略缺少的通訊錄相符，以及在同一個群組中的）",
     "Change privacy level of full name" : "變更全名的隱私等級",
     "No display name set" : "未設定顯示名稱",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了 OPcache 鍵的最大數量。為確保幾乎所有指令稿都可以保留在快取中，建議在您的 PHP 設定中的 <code>opcache.max_accelerated_files</code> 套用高於 <code>%s</code> 的值。"
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了 OPcache 鍵的最大數量。為確保幾乎所有指令稿都可以保留在快取中，建議在您的 PHP 設定中的 <code>opcache.max_accelerated_files</code> 套用高於 <code>%s</code> 的值。",
+    "Match username when restricting to full match" : "限制為完全符合時符合使用者名稱",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "忽略括號中的第二顯示名稱（若有）。範例：「第一個顯示名稱（第二個忽略的顯示名稱）」"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
