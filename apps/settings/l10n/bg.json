@@ -459,8 +459,6 @@
     "Allow username autocompletion to users based on phone number integration" : "Разрешаване на автоматично довършване на име на потребител на потребители въз основа на интегриране на телефонен номер",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Ако автоматичното довършване „същата група“ и „интегриране на телефонен номер“ са активирани, съвпадението в едното е достатъчно, за да се покаже на потребителя.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Разрешаване на автоматично довършване при въвеждане на пълното име или имейл адрес (като игнорирате липсващото съвпадение в телефонния указател и сте в същата група)",
-    "Match username when restricting to full match" : "Подбор на име на потребител при прилагане на ограничаване до пълно съвпадение",
-    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Игнорирайте второто показвано име в скоби, ако има такова (пример: „Първото показвано име (второ игнорирано показвано име)“)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Показване на текст за отказ от отговорност на страницата за качване на публична връзка (показва се само когато списъкът с файлове е скрит)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Този текст ще се показва на страницата за качване на публична връзка, когато списъкът с файлове е скрит.",
     "Default share permissions" : "Права за споделяне по подразбиране",
@@ -511,6 +509,8 @@
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Разрешаване на автоматично довършване на име на потребител при въвеждане на пълното име или имейл адрес (като игнорирате липсващото съвпадение в телефонния указател и сте в същата група)",
     "Change privacy level of full name" : "Промяна на нивото на поверителност на пълното име",
     "No display name set" : "Няма настроено екранно име",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Максималният брой OPcache ключове почти е надвишен. За да се гарантира, че всички скриптове могат да се задържат в кеш, се препоръчва да се приложи <code>opcache.max_accelerated_files</code> към вашата PHP конфигурация със стойност, по-висока от <code>%s</code>."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Максималният брой OPcache ключове почти е надвишен. За да се гарантира, че всички скриптове могат да се задържат в кеш, се препоръчва да се приложи <code>opcache.max_accelerated_files</code> към вашата PHP конфигурация със стойност, по-висока от <code>%s</code>.",
+    "Match username when restricting to full match" : "Подбор на име на потребител при прилагане на ограничаване до пълно съвпадение",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Игнорирайте второто показвано име в скоби, ако има такова (пример: „Първото показвано име (второ игнорирано показвано име)“)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

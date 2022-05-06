@@ -32,6 +32,7 @@ OC.L10N.register(
     "Similar to the high contrast mode, but with dark colours." : "Hasonló a magas kontrasztú módhoz, de sötét színekkel.",
     "Dark theme" : "Sötét téma",
     "Enable dark theme" : "Sötét téma engedélyezése",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness." : "Egy szemkímélő sötét téma, amely csökkenti az átlagos fényességet és fényerőt.",
     "System default theme" : "Rendszer alapértelmezett témája",
     "Enable the system default" : "Rendszer alapértelmezésének engedélyezése",
     "Using the default system appearance." : "Az alapértelmezett rendszermegjelenés használata.",
