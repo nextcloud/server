@@ -70,6 +70,7 @@
     "OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function." : "OPcache está configurado para remover comentários de código. Com o OPcache ativado, <code>opcache.save_comments=1</code> deve ser definido para que o Nextcloud funcione.",
     "Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "O Nextcloud não tem permissão para usar a API OPcache. Com o OPcache ativado, é altamente recomendável incluir todos os diretórios do Nextcloud com <code>opcache.restrict_api</code>ou desmarque essa configuração para desabilitar as restrições da API OPcache, para evitar erros durante o núcleo do Nextcloud ou atualizações de aplicativos.",
     "Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "O Nextcloud não tem permissão para usar a API OPcache. É altamente recomendável incluir todos os diretórios do Nextcloud com <code>opcache.restrict_api</code> ou desmarque essa configuração para desabilitar as restrições da API OPcache, para evitar erros durante o núcleo do Nextcloud ou atualizações de aplicativos.",
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos no cache, é recomendável aplicar <code>opcache.max_accelerated_files</code> à sua configuração PHP com um valor superior a <code>%s</code>.",
     "The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>." : "O buffer do OPcache está quase cheio. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar<code>opcache.memory_consumption</code> to sua configuração PHP com um valor maior que<code>%s</code>.",
     "The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>." : "O buffer de strings internas do OPcache está quase cheio. Para garantir que as strings repetidas possam ser efetivamente armazenadas em cache, é recomendável aplicar <code>opcache.interned_strings_buffer</code>para sua configuração PHP com um valor maior que <code>%s</code>.",
     "Invalid SMTP password." : "Senha SMTP incorreta.",
@@ -181,6 +182,7 @@
     "Disable all" : "Desativar tudo",
     "Enable all" : "Ativar tudo",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicativo tem atualização disponível","%n aplicativos tem atualização disponível"],
+    "_Update_::_Update all_" : ["Atualizar","Atualize tudo"],
     "Marked for remote wipe" : "Marcado para limpeza remota",
     "Device settings" : "Configuração dos dispositivos",
     "Allow filesystem access" : "Permitir acesso ao sistema de arquivos",
@@ -430,8 +432,12 @@
     "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Alguns trabalhos não são executados desde %s. Considere mudar para o cron do sistema.",
     "Last job ran %s." : "Última tarefa rodou há %s.",
     "Background job didn’t run yet!" : "O job em segundo plano ainda não rodou!",
+    "For the server to work properly, it's important to configure background jobs correctly. \"Cron\" is the recommended setting. Please see the documentation for more information." : "Para que o servidor funcione corretamente, é importante configurar corretamente os trabalhos em segundo plano. \"Cron\" é a configuração recomendada. Consulte a documentação para obter mais informações.",
     "Pick background job setting" : "Configuração de trabalhos em segundo plano",
+    "Execute one task with each page loaded. Use case: Single user instance." : "Execute uma tarefa com cada página carregada. Caso de uso: instância de usuário único.",
+    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php é registrado em um serviço webcron para chamar cron.php a cada 5 minutos por HTTP. Caso de uso: instância muito pequena (1–5 usuários dependendo do uso).",
     "Recommended" : "Recomendado",
+    "Use system cron service to call the cron.php file every 5 minutes. Recommended for all instances." : "Use o serviço cron do sistema para chamar o arquivo cron.php a cada 5 minutos. Recomendado para todas as instâncias.",
     "The cron.php needs to be executed by the system user \"%s\"." : "O cron.php precisa ser executado pelo usuário de sistema \"%s\"",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Para executar isso, você precisa da extensão PHP POSIX. Veja a {linkstart} documentação do PHP {linkend} para mais detalhes.",
     "You need to enable the File sharing App." : "Você precisa habilitar o aplicativo de compartilhamento de arquivos.",
@@ -459,8 +465,6 @@
     "Allow username autocompletion to users based on phone number integration" : "Permitir autocompletar o nome do usuário com base na integração do número de telefone",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Se autocompletar \"mesmo grupo\" e \"integração do número de telefone\" estiverem habilitadas, uma correspondência em qualquer um dos dois é suficiente para mostrar o usuário.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir preenchimento automático ao inserir o nome completo ou o endereço de e-mail (ignorando a correspondência ausente da agenda telefônica e estando no mesmo grupo)",
-    "Match username when restricting to full match" : "Corresponder ao nome de usuário ao restringir a correspondência completa",
-    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Ignore o segundo nome de exibição entre parênteses, se houver (exemplo: \"Primeiro nome de exibição (segundo nome de exibição ignorado)\")",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Exibir o texto de aviso na página de envio do link público (somente mostrado quando a lista de arquivos está oculta).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto será mostrado na página de envio do link público quando a lista de arquivos está oculta.",
     "Default share permissions" : "Permissões padrão de compartilhamento",
@@ -511,6 +515,8 @@
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir a autocompletar o nome de usuário ao inserir o nome completo ou endereço de e-mail (ignorando se está na lista de telefones ou no mesmo grupo)",
     "Change privacy level of full name" : "Alterar o nível de privacidade do nome completo ",
     "No display name set" : "Nenhum nome de exibição definido",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>.",
+    "Match username when restricting to full match" : "Corresponder ao nome de usuário ao restringir a correspondência completa",
+    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Ignore o segundo nome de exibição entre parênteses, se houver (exemplo: \"Primeiro nome de exibição (segundo nome de exibição ignorado)\")"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
