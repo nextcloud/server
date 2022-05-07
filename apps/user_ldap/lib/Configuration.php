@@ -10,6 +10,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lennart Rosam <hello@takuto.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -123,6 +124,13 @@ class Configuration {
 		'ldapExtStorageHomeAttribute' => null,
 		'ldapMatchingRuleInChainState' => self::LDAP_SERVER_FEATURE_UNKNOWN,
 		'ldapConnectionTimeout' => 15,
+		'ldapAttributePhone' => null,
+		'ldapAttributeWebsite' => null,
+		'ldapAttributeAddress' => null,
+		'ldapAttributeOrganisation' => null,
+		'ldapAttributeRole' => null,
+		'ldapAttributeHeadline' => null,
+		'ldapAttributeBiography' => null,
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -469,6 +477,13 @@ class Configuration {
 			'ldap_ext_storage_home_attribute' => '',
 			'ldap_matching_rule_in_chain_state' => self::LDAP_SERVER_FEATURE_UNKNOWN,
 			'ldap_connection_timeout' => 15,
+			'ldap_attr_phone' => '',
+			'ldap_attr_website' => '',
+			'ldap_attr_address' => '',
+			'ldap_attr_organisation' => '',
+			'ldap_attr_role' => '',
+			'ldap_attr_headline' => '',
+			'ldap_attr_biography' => '',
 		];
 	}
 
@@ -535,6 +550,13 @@ class Configuration {
 			'ldap_matching_rule_in_chain_state' => 'ldapMatchingRuleInChainState',
 			'ldapIgnoreNamingRules' => 'ldapIgnoreNamingRules',	// sysconfig
 			'ldap_connection_timeout' => 'ldapConnectionTimeout',
+			'ldap_attr_phone' => 'ldapAttributePhone',
+			'ldap_attr_website' => 'ldapAttributeWebsite',
+			'ldap_attr_address' => 'ldapAttributeAddress',
+			'ldap_attr_organisation' => 'ldapAttributeOrganisation',
+			'ldap_attr_role' => 'ldapAttributeRole',
+			'ldap_attr_headline' => 'ldapAttributeHeadline',
+			'ldap_attr_biography' => 'ldapAttributeBiography',
 		];
 		return $array;
 	}

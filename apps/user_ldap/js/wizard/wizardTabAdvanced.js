@@ -125,6 +125,36 @@ OCA = OCA || {};
 					$element: $('#ldap_ext_storage_home_attribute'),
 					setMethod: 'setExternalStorageHomeAttribute'
 				},
+
+				//User Profile Attributes
+				ldap_attr_phone: {
+					$element: $('#ldap_attr_phone'),
+					setMethod: 'setPhoneAttribute'
+				},
+				ldap_attr_website: {
+					$element: $('#ldap_attr_website'),
+					setMethod: 'setWebsiteAttribute'
+				},
+				ldap_attr_address: {
+					$element: $('#ldap_attr_address'),
+					setMethod: 'setAddressAttribute'
+				},
+				ldap_attr_organisation: {
+					$element: $('#ldap_attr_organisation'),
+					setMethod: 'setOrganisationAttribute'
+				},
+				ldap_attr_role: {
+					$element: $('#ldap_attr_role'),
+					setMethod: 'setRoleAttribute'
+				},
+				ldap_attr_headline: {
+					$element: $('#ldap_attr_headline'),
+					setMethod: 'setHeadlineAttribute'
+				},
+				ldap_attr_biography: {
+					$element: $('#ldap_attr_biography'),
+					setMethod: 'setBiographyAttribute'
+				},
 			};
 			this.setManagedItems(items);
 		},
@@ -364,6 +394,69 @@ OCA = OCA || {};
 		 */
 		setHomeFolderAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.home_folder_naming_rule.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile phone Number
+		 *
+		 * @param {string} attribute
+		 */
+		setPhoneAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_phone.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile website
+		 *
+		 * @param {string} attribute
+		 */
+		setWebsiteAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_website.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile postal address
+		 *
+		 * @param {string} attribute
+		 */
+		setAddressAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_address.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile organisation
+		 *
+		 * @param {string} attribute
+		 */
+		setOrganisationAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_organisation.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile role
+		 *
+		 * @param {string} attribute
+		 */
+		setRoleAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_role.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile headline
+		 *
+		 * @param {string} attribute
+		 */
+		setHeadlineAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_headline.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile biography
+		 *
+		 * @param {string} attribute
+		 */
+		setBiographyAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_biography.$element, attribute);
 		},
 
 		/**

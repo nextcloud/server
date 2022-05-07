@@ -73,6 +73,13 @@ use Psr\Log\LoggerInterface;
  * @property int hasMemberOfFilterSupport
  * @property int useMemberOfToDetectMembership
  * @property string ldapMatchingRuleInChainState
+ * @property string ldapAttributePhone
+ * @property string ldapAttributeWebsite
+ * @property string ldapAttributeAddress
+ * @property string ldapAttributeOrganisation
+ * @property string ldapAttributeRole
+ * @property string ldapAttributeHeadline
+ * @property string ldapAttributeBiography
  */
 class Connection extends LDAPUtility {
 	/**

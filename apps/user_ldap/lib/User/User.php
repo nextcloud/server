@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Staiger <philipp@staiger.it>
  * @author Roger Szabo <roger.szabo@web.de>
@@ -35,6 +36,7 @@ use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
+use OCP\Accounts\IAccountManager;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -107,6 +109,17 @@ class User {
 	 * DB config keys for user preferences
 	 */
 	public const USER_PREFKEY_FIRSTLOGIN = 'firstLoginAccomplished';
+
+	/**
+	 * DB config keys for user profile
+	 */
+	public const USER_PREFKEY_PHONE = 'profile_phone';
+	public const USER_PREFKEY_WEBSITE = 'profile_website';
+	public const USER_PREFKEY_ADDRESS = 'profile_address';
+	public const USER_PREFKEY_ORGANISATION = 'profile_organisation';
+	public const USER_PREFKEY_ROLE = 'profile_role';
+	public const USER_PREFKEY_HEADLINE = 'profile_headline';
+	public const USER_PREFKEY_BIOGRAPHY = 'profile_biography';
 
 	/**
 	 * @brief constructor, make sure the subclasses call this one!
@@ -228,6 +241,49 @@ class User {
 		$attr = strtolower($this->connection->ldapExtStorageHomeAttribute);
 		if (isset($ldapEntry[$attr])) {
 			$this->updateExtStorageHome($ldapEntry[$attr][0]);
+		}
+		unset($attr);
+
+		//User Profile Field - Phone number
+		$attr = strtolower($this->connection->ldapAttributePhone);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_PHONE, $ldapEntry[$attr][0]);
+		}
+		unset($attr);
+		//User Profile Field - website
+		$attr = strtolower($this->connection->ldapAttributeWebsite);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_WEBSITE, $ldapEntry[$attr][0]);
+		}
+		unset($attr);
+		//User Profile Field - Address
+		$attr = strtolower($this->connection->ldapAttributeAddress);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_ADDRESS, $ldapEntry[$attr][0]);
+		}
+		unset($attr);
+		//User Profile Field - organisation
+		$attr = strtolower($this->connection->ldapAttributeAddress);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_ORGANISATION, $ldapEntry[$attr][0]);
+		}
+		unset($attr);
+		//User Profile Field - role
+		$attr = strtolower($this->connection->ldapAttributeAddress);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_ROLE, $ldapEntry[$attr][0]);
+		}
+		unset($attr);
+		//User Profile Field - headline
+		$attr = strtolower($this->connection->ldapAttributeAddress);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_HEADLINE, $ldapEntry[$attr][0]);
+		}
+		unset($attr);
+		//User Profile Field - biography
+		$attr = strtolower($this->connection->ldapAttributeAddress);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_BIOGRAPHY, $ldapEntry[$attr][0]);
 		}
 		unset($attr);
 
@@ -510,6 +566,46 @@ class User {
 
 	private function verifyQuotaValue(string $quotaValue) {
 		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
+	}
+
+/*	user profile settings and LDAP attributes
+ *	***
+ *	interface IAccountManager
+ *	public const PROPERTY_PHONE = 'phone';
+ *	public const PROPERTY_EMAIL = 'email';
+ *	public const PROPERTY_WEBSITE = 'website';
+ *	public const PROPERTY_ADDRESS = 'address';
+ *	public const PROPERTY_TWITTER = 'twitter';
+ *	public const PROPERTY_ORGANISATION = 'organisation';
+ *	public const PROPERTY_ROLE = 'role';
+ *	public const PROPERTY_HEADLINE = 'headline';
+ *	public const PROPERTY_BIOGRAPHY = 'biography';
+ *	public const PROPERTY_PROFILE_ENABLED = 'profile_enabled';
+ *	public function getAccount(IUser $user): IAccount;
+ *	public function updateAccount(IAccount $account): void;
+ */
+	/**
+	 * fetches values from LDAP and stores it as Nextcloud user value
+	 * @param string $valueFromLDAP if known, to save an LDAP read request
+	 * @return null
+	 */
+	public function updateProfile(string $property, $valueFromLDAP = null) {
+		if ($this->wasRefreshed($property)) {
+			return;
+		}
+		if ($valueFromLDAP !== null) {
+			//$propertyValue = (string)$valueFromLDAP;
+			$propertyValue = [$valueFromLDAP];
+		}
+		if ($propertyValue && isset($propertyValue[0])) {
+			$value = $propertyValue[0];
+			$this->config->setUserValue($this->getUsername(), 'user_ldap', $property, $value);
+			// TODO: update user profile data; call \OCP\Accounts\IAccount::setProperty
+			return $value;
+		} else {
+			$this->config->deleteUserValue($this->getUsername(), 'user_ldap', $property);
+			return '';
+		}
 	}
 
 	/**
