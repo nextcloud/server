@@ -57,6 +57,7 @@ OC.L10N.register(
     "Couldn't remove app." : "Não foi possível excluir aplicativos.",
     "Couldn't update app." : "Não foi possível atualizar o aplicativo",
     "Wrong password" : "Senha incorreta",
+    "Unable to change personal password" : "Não foi possível alterar a senha pessoal",
     "Saved" : "Salvo",
     "No user supplied" : "Nenhum usuário fornecido",
     "Authentication error" : "Erro de autenticação",

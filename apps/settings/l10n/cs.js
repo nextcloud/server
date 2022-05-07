@@ -57,6 +57,7 @@ OC.L10N.register(
     "Couldn't remove app." : "Aplikaci se nepodařilo odebrat.",
     "Couldn't update app." : "Aplikaci se nedaří aktualizovat.",
     "Wrong password" : "Nesprávné heslo",
+    "Unable to change personal password" : "Osobní heslo se nedaří změnit",
     "Saved" : "Uloženo",
     "No user supplied" : "Nebyl uveden uživatel",
     "Authentication error" : "Chyba přihlášení",
