@@ -57,6 +57,7 @@ OC.L10N.register(
     "Couldn't remove app." : "Uygulama kaldırılamadı.",
     "Couldn't update app." : "Uygulama güncellenemedi.",
     "Wrong password" : "Parola yanlış",
+    "Unable to change personal password" : "Kişisel parolanız değiştirilemedi",
     "Saved" : "Kaydedildi",
     "No user supplied" : "Kullanıcı belirtilmemiş",
     "Authentication error" : "Kimlik doğrulama sorunu",
