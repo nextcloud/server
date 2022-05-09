@@ -55,6 +55,7 @@
     "Couldn't remove app." : "Nie można usunąć aplikacji.",
     "Couldn't update app." : "Nie można zaktualizować aplikacji.",
     "Wrong password" : "Złe hasło",
+    "Unable to change personal password" : "Nie można zmienić osobistego hasła",
     "Saved" : "Zapisano",
     "No user supplied" : "Brak użytkownika",
     "Authentication error" : "Błąd uwierzytelniania",

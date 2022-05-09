@@ -55,6 +55,7 @@
     "Couldn't remove app." : "Az alkalmazás eltávolítása nem sikerült.",
     "Couldn't update app." : "Az alkalmazás frissítése nem sikerült.",
     "Wrong password" : "Hibás jelszó",
+    "Unable to change personal password" : "Nem lehet megváltoztatni a személyes jelszót",
     "Saved" : "Mentve",
     "No user supplied" : "Nincs megadva felhasználó",
     "Authentication error" : "Hitelesítései hiba",
