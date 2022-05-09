@@ -112,59 +112,36 @@ class FileMetadataMapper extends QBMapper {
 	 * @return Entity the saved entity with the set id
 	 * @throws Exception
 	 * @throws \InvalidArgumentException if entity has no id
-	 * @since 14.0.0
 	 */
 	public function update(Entity $entity): Entity {
-		// if entity wasn't changed it makes no sense to run a db query
-		$properties = $entity->getUpdatedFields();
-		if (\count($properties) === 0) {
-			return $entity;
+		if (!($entity instanceof FileMetadata)) {
+			throw new \Exception("Entity should be a FileMetadata entity");
 		}
 
 		// entity needs an id
 		$id = $entity->getId();
 		if ($id === null) {
-			throw new \InvalidArgumentException(
-				'Entity which should be updated has no id');
-		}
-
-		if (!($entity instanceof FileMetadata)) {
-			throw new \Exception("Entity should be a FileMetadata entity");
+			throw new \InvalidArgumentException('Entity which should be updated has no id');
 		}
 
 		// entity needs an group_name
 		$groupName = $entity->getGroupName();
-		if ($id === null) {
-			throw new \InvalidArgumentException(
-				'Entity which should be updated has no group_name');
-		}
-
-		// get updated fields to save, fields have to be set using a setter to
-		// be saved
-		// do not update the id and group_name field
-		unset($properties['id']);
-		unset($properties['group_name']);
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->update($this->tableName);
-
-		// build the fields
-		foreach ($properties as $property => $updated) {
-			$column = $entity->propertyToColumn($property);
-			$getter = 'get' . ucfirst($property);
-			$value = $entity->$getter();
-
-			$type = $this->getParameterTypeForProperty($entity, $property);
-			$qb->set($column, $qb->createNamedParameter($value, $type));
+		if ($groupName === null) {
+			throw new \InvalidArgumentException('Entity which should be updated has no group_name');
 		}
 
 		$idType = $this->getParameterTypeForProperty($entity, 'id');
 		$groupNameType = $this->getParameterTypeForProperty($entity, 'groupName');
+		$metadataValue = $entity->getMetadata();
+		$metadataType = $this->getParameterTypeForProperty($entity, 'metadata');
 
-		$qb->where($qb->expr()->eq('id', $qb->createNamedParameter($id, $idType)))
-		   ->andWhere($qb->expr()->eq('group_name', $qb->createNamedParameter($groupName, $groupNameType)));
+		$qb = $this->db->getQueryBuilder();
 
-		$qb->executeStatement();
+		$qb->update($this->tableName)
+			->set('metadata', $qb->createNamedParameter($metadataValue, $metadataType))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, $idType)))
+			->andWhere($qb->expr()->eq('group_name', $qb->createNamedParameter($groupName, $groupNameType)))
+			->executeStatement();
 
 		return $entity;
 	}
