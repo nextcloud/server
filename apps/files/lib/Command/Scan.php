@@ -37,8 +37,17 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\Filesystem;
+use OC\Files\Node\File;
+use OC\Files\Node\Folder;
+use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
+use OC\Files\View;
 use OC\ForbiddenException;
+use OC\Metadata\MetadataManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
@@ -51,19 +60,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Scan extends Base {
+	private IUserManager $userManager;
+	protected float $execTime = 0;
+	protected int $foldersCounter = 0;
+	protected int $filesCounter = 0;
+	private IRootFolder $root;
+	private View $view;
 
-	/** @var IUserManager $userManager */
-	private $userManager;
-	/** @var float */
-	protected $execTime = 0;
-	/** @var int */
-	protected $foldersCounter = 0;
-	/** @var int */
-	protected $filesCounter = 0;
-
-	public function __construct(IUserManager $userManager) {
+	public function __construct(IUserManager $userManager, IRootFolder $rootFolder, View $view) {
 		$this->userManager = $userManager;
 		parent::__construct();
+		$this->root = $rootFolder;
+		$this->view = $view;
 	}
 
 	protected function configure() {
@@ -82,6 +90,13 @@ class Scan extends Base {
 				'p',
 				InputArgument::OPTIONAL,
 				'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored'
+			)
+			->addOption(
+				'metadata',
+				null,
+				InputOption::VALUE_NONE,
+				'Add missing file metadata',
+				false
 			)
 			->addOption(
 				'all',
@@ -106,21 +121,28 @@ class Scan extends Base {
 			);
 	}
 
-	protected function scanFiles($user, $path, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
+	protected function scanFiles($user, $path, bool $scanMetadata, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner(
 			$user,
 			new ConnectionAdapter($connection),
-			\OC::$server->query(IEventDispatcher::class),
+			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->get(LoggerInterface::class)
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
+		/** @var MetadataManager $metadataManager */
+		$metadataManager = \OC::$server->get(MetadataManager::class);
+
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output, $metadataManager, $scanMetadata) {
 			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
+			if ($scanMetadata) {
+				$node = $this->getNodeForPath($path);
+				$metadataManager->generateMetadata($node, true);
+			}
 		});
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
@@ -197,7 +219,7 @@ class Scan extends Base {
 			++$user_count;
 			if ($this->userManager->userExists($user)) {
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
-				$this->scanFiles($user, $path, $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
+				$this->scanFiles($user, $path, $input->getOption('metadata'), $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
 				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
@@ -312,4 +334,32 @@ class Scan extends Base {
 		}
 		return $connection;
 	}
+
+	private function getNodeForPath($path) {
+		$pathParts = explode('/', $path);
+		// FIXME ugly hack to get it working for local file
+		array_shift($pathParts);
+		array_shift($pathParts);
+		array_shift($pathParts);
+		$info = Filesystem::getFileInfo('/' . implode('/', $pathParts));
+		if (!$info) {
+			$fullPath = Filesystem::getView()->getAbsolutePath($path);
+			if (isset($this->deleteMetaCache[$fullPath])) {
+				$info = $this->deleteMetaCache[$fullPath];
+			} else {
+				$info = null;
+			}
+			if (Filesystem::is_dir($path)) {
+				return new NonExistingFolder($this->root, $this->view, $fullPath, $info);
+			} else {
+				return new NonExistingFile($this->root, $this->view, $fullPath, $info);
+			}
+		}
+		if ($info->getType() === FileInfo::TYPE_FILE) {
+			return new File($this->root, $this->view, $info->getPath(), $info);
+		} else {
+			return new Folder($this->root, $this->view, $info->getPath(), $info);
+		}
+	}
+
 }
