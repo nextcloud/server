@@ -57,6 +57,7 @@ OC.L10N.register(
     "Couldn't remove app." : "無法移除應用程式。",
     "Couldn't update app." : "無法更新應用程式。",
     "Wrong password" : "密碼錯誤",
+    "Unable to change personal password" : "無法變更個人密碼",
     "Saved" : "已儲存",
     "No user supplied" : "未提供使用者",
     "Authentication error" : "認證錯誤",
