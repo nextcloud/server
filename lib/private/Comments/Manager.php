@@ -110,18 +110,24 @@ class Manager implements ICommentsManager {
 		$data['children_count'] = (int)$data['children_count'];
 		$data['reference_id'] = $data['reference_id'] ?? null;
 		if ($this->supportReactions()) {
-			$list = json_decode($data['reactions'], true);
-			// Ordering does not work on the database with group concat and Oracle,
-			// So we simply sort on the output.
-			if (is_array($list)) {
-				uasort($list, static function ($a, $b) {
-					if ($a === $b) {
-						return 0;
-					}
-					return ($a > $b) ? -1 : 1;
-				});
+			if ($data['reactions'] !== null) {
+				$list = json_decode($data['reactions'], true);
+				// Ordering does not work on the database with group concat and Oracle,
+				// So we simply sort on the output.
+				if (is_array($list)) {
+					uasort($list, static function ($a, $b) {
+						if ($a === $b) {
+							return 0;
+						}
+						return ($a > $b) ? -1 : 1;
+					});
+					$data['reactions'] = $list;
+				} else {
+					$data['reactions'] = [];
+				}
+			} else {
+				$data['reactions'] = [];
 			}
-			$data['reactions'] = $list;
 		}
 		return $data;
 	}
