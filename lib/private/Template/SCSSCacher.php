@@ -74,9 +74,6 @@ class SCSSCacher {
 	/** @var ICacheFactory */
 	private $cacheFactory;
 
-	/** @var IconsCacher */
-	private $iconsCacher;
-
 	/** @var ICache */
 	private $isCachedCache;
 
@@ -98,7 +95,6 @@ class SCSSCacher {
 								\OC_Defaults $defaults,
 								$serverRoot,
 								ICacheFactory $cacheFactory,
-								IconsCacher $iconsCacher,
 								ITimeFactory $timeFactory,
 								AppConfig $appConfig) {
 		$this->logger = $logger;
@@ -115,7 +111,6 @@ class SCSSCacher {
 			$lockingCache = new NullCache();
 		}
 		$this->lockingCache = $lockingCache;
-		$this->iconsCacher = $iconsCacher;
 		$this->timeFactory = $timeFactory;
 		$this->appConfig = $appConfig;
 	}
@@ -139,10 +134,6 @@ class SCSSCacher {
 		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
 
 		$this->logger->debug('SCSSCacher::process ordinary check follows', ['app' => 'scss_cacher']);
-		if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
-			// Inject icons vars css if any
-			return $this->injectCssVariablesIfAny();
-		}
 
 		try {
 			$folder = $this->appData->getFolder($app);
@@ -163,7 +154,7 @@ class SCSSCacher {
 				if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
 					// Inject icons vars css if any
 					$this->logger->debug("SCSSCacher::process cached file for app '$app' and file '$fileNameCSS' is now available after $retry s. Moving on...", ['app' => 'scss_cacher']);
-					return $this->injectCssVariablesIfAny();
+					return true;
 				}
 				sleep(1);
 				$retry++;
@@ -183,11 +174,6 @@ class SCSSCacher {
 		// Cleaning lock
 		$this->lockingCache->remove($lockKey);
 		$this->logger->debug('SCSSCacher::process Lock removed for ' . $lockKey, ['app' => 'scss_cacher']);
-
-		// Inject icons vars css if any
-		if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
-			$this->iconsCacher->injectCss();
-		}
 
 		return $cached;
 	}
@@ -334,9 +320,6 @@ class SCSSCacher {
 
 			return false;
 		}
-
-		// Parse Icons and create related css variables
-		$compiledScss = $this->iconsCacher->setIconsCss($compiledScss);
 
 		// Gzip file
 		try {
@@ -511,18 +494,5 @@ class SCSSCacher {
 		}
 
 		return $webRoot . substr($path, strlen($serverRoot));
-	}
-
-	/**
-	 * Add the icons css cache in the header if needed
-	 *
-	 * @return boolean true
-	 */
-	private function injectCssVariablesIfAny() {
-		// Inject icons vars css if any
-		if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
-			$this->iconsCacher->injectCss();
-		}
-		return true;
 	}
 }
