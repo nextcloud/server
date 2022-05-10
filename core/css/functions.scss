@@ -26,7 +26,7 @@
  * @param string $color The color
  * @return string The color without #
  */
- @function remove-hash-from-color($color) {
+@function remove-hash-from-color($color) {
 	$color: unquote($color);
 	$index: str-index(inspect($color), '#');
 	@if $index {
@@ -41,9 +41,6 @@
 @function match-color-string($color) {
 	@if $color == #000 {
 		@return "dark";
-	}
-	@if $color == #000 {
-		@return 'dark';
 	}
 	@if $color == #fff {
 		@return 'white';

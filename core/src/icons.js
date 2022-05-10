@@ -293,7 +293,6 @@ Object.keys(iconsColor).forEach(icon => {
 	variables[`--icon-${icon}-${color}`] = Buffer.from(coloredSvg, 'utf-8').toString('base64')
 })
 
-
 // ICONS VARIABLES LIST
 css += ':root {'
 Object.keys(variables).forEach(variable => {
