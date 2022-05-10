@@ -255,7 +255,7 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: var(--icon-triangle-s-000) no-repeat right 4px center;
+	background: var(--icon-triangle-s-dark) no-repeat right 4px center;
 	background-color: inherit;
 	outline: 0;
 	padding-right: 24px !important;
@@ -474,7 +474,7 @@ div.select2-drop {
 	}
 	.select2-search input {
 		min-height: auto;
-		background: var(--icon-search-000) no-repeat right center !important;
+		background: var(--icon-search-dark) no-repeat right center !important;
 		background-origin: content-box !important;
 	}
 	.select2-results {
@@ -601,7 +601,7 @@ div.select2-container {
 			border-radius: 0;
 			border: none;
 			b {
-				background: var(--icon-triangle-s-000) no-repeat center !important;
+				background: var(--icon-triangle-s-dark) no-repeat center !important;
 				opacity: .5;
 			}
 		}
@@ -666,7 +666,7 @@ div.select2-container {
 				color: inherit !important;
 				&::before {
 					content: ' ';
-					background-image: var(--icon-checkmark-000);
+					background-image: var(--icon-checkmark-dark);
 					background-repeat: no-repeat;
 					background-position: center;
 					min-width: 16px;
@@ -856,7 +856,7 @@ div.select2-container {
 				/* selected checkmark icon */
 				&::before {
 					content: ' ';
-					background-image: var(--icon-checkmark-000);
+					background-image: var(--icon-checkmark-dark);
 					background-repeat: no-repeat;
 					background-position: center;
 					min-width: 16px;
@@ -875,7 +875,7 @@ div.select2-container {
 				 */
 				&[data-select='create'] {
 					&::before {
-						background-image: var(--icon-add-000);
+						background-image: var(--icon-add-dark);
 						visibility: visible;
 					}
 				}

@@ -313,7 +313,7 @@ body {
   position: absolute !important;
   height: 20px;
   width: 24px;
-  background-image: var(--icon-toggle-000);
+  background-image: var(--icon-toggle-dark);
   background-repeat: no-repeat;
   background-position: center;
   opacity: 0.3;
@@ -697,7 +697,7 @@ code {
   padding-right: 140px;
 }
 #oc-dialog-filepicker-content .dirtree div:first-child a {
-  background-image: var(--icon-home-000);
+  background-image: var(--icon-home-dark);
   background-repeat: no-repeat;
   background-position: left center;
 }
@@ -744,7 +744,7 @@ code {
   order: 1;
 }
 #oc-dialog-filepicker-content .actions.creatable .icon.icon-add {
-  background-image: var(--icon-add-000);
+  background-image: var(--icon-add-dark);
   background-size: 16px 16px;
   width: 34px;
   height: 34px;
@@ -1595,7 +1595,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: var(--icon-triangle-s-000) no-repeat right 4px center;
+  background: var(--icon-triangle-s-dark) no-repeat right 4px center;
   background-color: inherit;
   outline: 0;
   padding-right: 24px !important;
@@ -1780,7 +1780,7 @@ div.select2-drop .avatar img {
 }
 div.select2-drop .select2-search input {
   min-height: auto;
-  background: var(--icon-search-000) no-repeat right center !important;
+  background: var(--icon-search-dark) no-repeat right center !important;
   background-origin: content-box !important;
 }
 div.select2-drop .select2-results {
@@ -1902,7 +1902,7 @@ div.select2-container a.select2-choice .select2-arrow {
   border: none;
 }
 div.select2-container a.select2-choice .select2-arrow b {
-  background: var(--icon-triangle-s-000) no-repeat center !important;
+  background: var(--icon-triangle-s-dark) no-repeat center !important;
   opacity: 0.5;
 }
 div.select2-container a.select2-choice:hover .select2-arrow b, div.select2-container a.select2-choice:focus .select2-arrow b, div.select2-container a.select2-choice:active .select2-arrow b {
@@ -1966,7 +1966,7 @@ div.select2-container a.select2-choice .select2-search-field input {
 }
 .v-select .dropdown-menu li a::before {
   content: " ";
-  background-image: var(--icon-checkmark-000);
+  background-image: var(--icon-checkmark-dark);
   background-repeat: no-repeat;
   background-position: center;
   min-width: 16px;
@@ -2156,7 +2156,7 @@ div.select2-container a.select2-choice .select2-search-field input {
 }
 .multiselect.multiselect-vue .multiselect__content-wrapper li > span::before {
   content: " ";
-  background-image: var(--icon-checkmark-000);
+  background-image: var(--icon-checkmark-dark);
   background-repeat: no-repeat;
   background-position: center;
   min-width: 16px;
@@ -2171,7 +2171,7 @@ div.select2-container a.select2-choice .select2-search-field input {
   opacity: 0.5;
 }
 .multiselect.multiselect-vue .multiselect__content-wrapper li > span[data-select=create]::before {
-  background-image: var(--icon-add-000);
+  background-image: var(--icon-add-dark);
   visibility: visible;
 }
 .multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--highlight {
@@ -3915,20 +3915,16 @@ kbd {
 }
 
 #app-settings-header .settings-button {
-  display: block;
+  display: flex;
+  align-items: center;
   height: 44px;
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: var(--color-main-background);
-  background-image: var(--icon-settings-dark);
-  background-position: 14px center;
-  background-repeat: no-repeat;
   box-shadow: none;
   border: 0;
   border-radius: 0;
   text-align: left;
-  padding-left: 44px;
   font-weight: normal;
   font-size: 100%;
   opacity: 0.8;
@@ -3941,6 +3937,18 @@ kbd {
 }
 #app-settings-header .settings-button:hover, #app-settings-header .settings-button:focus {
   background-color: var(--color-background-hover);
+}
+#app-settings-header .settings-button::before {
+  background-image: var(--icon-settings-dark);
+  background-position: 14px center;
+  background-repeat: no-repeat;
+  content: "";
+  width: 44px;
+  height: 44px;
+  top: 0;
+  left: 0;
+  display: block;
+  filter: var(--background-invert-if-dark);
 }
 
 /* GENERAL SECTION ------------------------------------------------------------ */

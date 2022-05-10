@@ -298,7 +298,7 @@ body {
 	position: absolute !important;
 	height: 20px;
 	width: 24px;
-	background-image: var(--icon-toggle-000);
+	background-image: var(--icon-toggle-dark);
 	background-repeat: no-repeat;
 	background-position: center;
 	opacity: .3;
@@ -720,7 +720,7 @@ code {
 		padding-right: 140px;
 
 		div:first-child a {
-			background-image: var(--icon-home-000);
+			background-image: var(--icon-home-dark);
 			background-repeat: no-repeat;
 			background-position: left center;
 		}
@@ -777,7 +777,7 @@ code {
 		order:1;
 
 		.icon.icon-add{
-			background-image: var(--icon-add-000);
+			background-image: var(--icon-add-dark);
 			background-size: 16px 16px;
 			width: 34px;
 			height: 34px;

@@ -107,33 +107,23 @@ input#openid, input#webdav {
 
 /* icons for sidebar */
 .nav-icon-personal-settings {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-settings-personal-000: url("/svg/settings/personal?color=000&v=1");
-  background-image: var(--icon-settings-personal-000);
+  background-image: var(--icon-user-dark);
 }
 
 .nav-icon-security {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-settings-toggle-filelist-000: url("/svg/settings/toggle-filelist?color=000&v=1");
-  background-image: var(--icon-settings-toggle-filelist-000);
+  background-image: var(--icon-toggle-filelist-dark);
 }
 
 .nav-icon-clientsbox {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-settings-change-000: url("/svg/settings/change?color=000&v=1");
-  background-image: var(--icon-settings-change-000);
+  background-image: var(--icon-change-dark);
 }
 
 .nav-icon-federated-cloud {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-settings-share-000: url("/svg/settings/share?color=000&v=1");
-  background-image: var(--icon-settings-share-000);
+  background-image: var(--icon-share-dark);
 }
 
 .nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-settings-password-000: url("/svg/settings/password?color=000&v=1");
-  background-image: var(--icon-settings-password-000);
+  background-image: var(--icon-password-dark);
 }
 
 #avatarform .avatardiv {

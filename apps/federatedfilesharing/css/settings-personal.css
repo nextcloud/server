@@ -125,19 +125,19 @@
 
 .social-diaspora {
   /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-federatedfilesharing-social-diaspora-000: url("/svg/federatedfilesharing/social-diaspora?color=000&v=1");
+  --icon-federatedfilesharing-social-diaspora-000: url("../../svg/federatedfilesharing/social-diaspora?color=000&v=1"), url("../../../svg/federatedfilesharing/social-diaspora?color=000&v=1");
   background-image: var(--icon-federatedfilesharing-social-diaspora-000);
 }
 
 .social-twitter {
   /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-federatedfilesharing-social-twitter-000: url("/svg/federatedfilesharing/social-twitter?color=000&v=1");
+  --icon-federatedfilesharing-social-twitter-000: url("../../svg/federatedfilesharing/social-twitter?color=000&v=1"), url("../../../svg/federatedfilesharing/social-twitter?color=000&v=1");
   background-image: var(--icon-federatedfilesharing-social-twitter-000);
 }
 
 .social-facebook {
   /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-federatedfilesharing-social-facebook-000: url("/svg/federatedfilesharing/social-facebook?color=000&v=1");
+  --icon-federatedfilesharing-social-facebook-000: url("../../svg/federatedfilesharing/social-facebook?color=000&v=1"), url("../../../svg/federatedfilesharing/social-facebook?color=000&v=1");
   background-image: var(--icon-federatedfilesharing-social-facebook-000);
 }
 

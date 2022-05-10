@@ -116,7 +116,7 @@
  */
 .icon-user-status {
   /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-user_status-app-000: url("/svg/user_status/app?color=000&v=1");
+  --icon-user_status-app-000: url("../../svg/user_status/app?color=000&v=1"), url("../../../svg/user_status/app?color=000&v=1");
   background-image: var(--icon-user_status-app-000);
 }
 
@@ -134,7 +134,7 @@
 
 .icon-user-status-invisible {
   /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-user_status-user-status-invisible-000: url("/svg/user_status/user-status-invisible?color=000&v=1");
+  --icon-user_status-user-status-invisible-000: url("../../svg/user_status/user-status-invisible?color=000&v=1"), url("../../../svg/user_status/user-status-invisible?color=000&v=1");
   background-image: var(--icon-user_status-user-status-invisible-000);
 }
 

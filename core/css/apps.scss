@@ -725,20 +725,16 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 
 
 #app-settings-header .settings-button {
-	display: block;
+	display: flex;
+	align-items: center;
 	height: 44px;
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: var(--color-main-background);
-	background-image: var(--icon-settings-dark);
-	background-position: 14px center;
-	background-repeat: no-repeat;
 	box-shadow: none;
 	border: 0;
 	border-radius: 0;
 	text-align: left;
-	padding-left: 44px;
 	font-weight: normal;
 	font-size: 100%;
 	opacity: 0.8;
@@ -753,6 +749,19 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	&:hover,
 	&:focus {
 		background-color: var(--color-background-hover);
+	}
+
+	&::before {	
+		background-image: var(--icon-settings-dark);
+		background-position: 14px center;
+		background-repeat: no-repeat;
+		content: '';
+		width: 44px;
+		height: 44px;
+		top: 0;
+		left: 0;
+		display: block;
+		filter: var(--background-invert-if-dark);
 	}
 }
 

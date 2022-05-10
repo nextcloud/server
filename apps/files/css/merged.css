@@ -221,66 +221,46 @@
 
 /* icons for sidebar */
 .nav-icon-files {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-folder-000: url("/svg/files/folder?color=000&v=1");
-  background-image: var(--icon-files-folder-000);
+  background-image: var(--icon-folder-dark);
 }
 
 .nav-icon-recent {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-recent-000: url("/svg/files/recent?color=000&v=1");
-  background-image: var(--icon-files-recent-000);
+  background-image: var(--icon-recent-dark);
 }
 
 .nav-icon-favorites {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-star-dark-000: url("/svg/core/actions/star-dark?color=000&v=2");
-  background-image: var(--icon-star-dark-000);
+  background-image: var(--icon-starred-dark);
 }
 
 .nav-icon-sharingin,
 .nav-icon-sharingout,
 .nav-icon-pendingshares,
 .nav-icon-shareoverview {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-share-000: url("/svg/files/share?color=000&v=1");
-  background-image: var(--icon-files-share-000);
+  background-image: var(--icon-share-dark);
 }
 
 .nav-icon-sharinglinks {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-public-000: url("/svg/files/public?color=000&v=1");
-  background-image: var(--icon-files-public-000);
+  background-image: var(--icon-public-dark);
 }
 
 .nav-icon-extstoragemounts {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-external-000: url("/svg/files/external?color=000&v=1");
-  background-image: var(--icon-files-external-000);
+  background-image: var(--icon-external-dark);
 }
 
 .nav-icon-trashbin {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-delete-000: url("/svg/files/delete?color=000&v=1");
-  background-image: var(--icon-files-delete-000);
+  background-image: var(--icon-delete-dark);
 }
 
 .nav-icon-trashbin-starred {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-delete-ff0000: url("/svg/files/delete?color=ff0000&v=1");
-  background-image: var(--icon-files-delete-ff0000);
+  background-image: var(--icon-delete-red);
 }
 
 .nav-icon-deletedshares {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files-unshare-000: url("/svg/files/unshare?color=000&v=1");
-  background-image: var(--icon-files-unshare-000);
+  background-image: var(--icon-unshare-dark);
 }
 
 .nav-icon-favorites-starred {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-star-dark-FC0: url("/svg/core/actions/star-dark?color=FC0&v=2");
-  background-image: var(--icon-star-dark-FC0);
+  background-image: var(--icon-starred-yellow);
 }
 
 #app-navigation .nav-files a.nav-icon-files {
@@ -971,9 +951,7 @@ table.dragshadow td.size {
   background-image: none;
 }
 #filestable .filename .favorite-mark .icon-starred {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-star-dark-FC0: url("/svg/core/actions/star-dark?color=FC0&v=1");
-  background-image: var(--icon-star-dark-FC0);
+  background-image: var(--icon-starred-yellow);
 }
 
 #filestable .filename .action .icon.hidden,

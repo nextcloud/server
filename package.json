@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:jsunit": "karma start tests/karma.config.js --single-run",
     "sass": "sass --load-path core/css core/css/ apps/*/css",
-    "sass:watch": "sass --watch --load-path core/css core/css/ apps/*/css"
+    "sass:watch": "sass --watch --load-path core/css core/css/ apps/*/css",
+    "sass:icons": "babel-node core/src/icons.js"
   },
   "repository": {
     "type": "git",

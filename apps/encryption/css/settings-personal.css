@@ -105,9 +105,7 @@
 
 /* icons for sidebar */
 .nav-icon-basic-encryption-module {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-encryption-app-000: url("/svg/encryption/app?color=000&v=1");
-  background-image: var(--icon-encryption-app-000);
+  background-image: var(--icon-encryption-dark);
 }
 
 /*# sourceMappingURL=settings-personal.css.map */

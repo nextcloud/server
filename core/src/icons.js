@@ -11,6 +11,7 @@ const colors = {
 	red: 'e9322d',
 	orange: 'eca700',
 	green: '46ba61',
+	grey: '969696',
 }
 
 const variables = {}
@@ -35,9 +36,9 @@ const icons = {
 	'category-organization': path.join(__dirname, '../img', 'categories', 'organization.svg'),
 	'category-social': path.join(__dirname, '../img', 'categories', 'social.svg'),
 	'category-workflow': path.join(__dirname, '../img', 'categories', 'workflow.svg'),
+	'change': path.join(__dirname, '../img', 'actions', 'change.svg'),
 	'checkmark': path.join(__dirname, '../img', 'actions', 'checkmark.svg'),
 	'circles': path.join(__dirname, '../img', 'apps', 'circles.svg'),
-	'change': path.join(__dirname, '../img', 'actions', 'change.svg'),
 	'clippy': path.join(__dirname, '../img', 'actions', 'clippy.svg'),
 	'close': path.join(__dirname, '../img', 'actions', 'close.svg'),
 	'comment': path.join(__dirname, '../img', 'actions', 'comment.svg'),
@@ -55,8 +56,8 @@ const icons = {
 	'error': path.join(__dirname, '../img', 'actions', 'error.svg'),
 	'external': path.join(__dirname, '../img', 'actions', 'external.svg'),
 	'favorite': path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
-	'files': path.join(__dirname, '../img', 'places', 'files.svg'),
 	'files_external': path.join(__dirname, '../../', 'apps/files_external/img', 'app-dark.svg'),
+	'files': path.join(__dirname, '../img', 'places', 'files.svg'),
 	'filter': path.join(__dirname, '../img', 'actions', 'filter.svg'),
 	'folder': path.join(__dirname, '../img', 'filetypes', 'folder.svg'),
 	'fullscreen': path.join(__dirname, '../img', 'actions', 'fullscreen.svg'),
@@ -82,6 +83,7 @@ const icons = {
 	'projects': path.join(__dirname, '../img', 'actions', 'projects.svg'),
 	'public': path.join(__dirname, '../img', 'actions', 'public.svg'),
 	'quota': path.join(__dirname, '../img', 'actions', 'quota.svg'),
+	'recent': path.join(__dirname, '../img', 'actions', 'recent.svg'),
 	'rename': path.join(__dirname, '../img', 'actions', 'rename.svg'),
 	'screen-off': path.join(__dirname, '../img', 'actions', 'screen-off.svg'),
 	'screen': path.join(__dirname, '../img', 'actions', 'screen.svg'),
@@ -91,8 +93,8 @@ const icons = {
 	'shared': path.join(__dirname, '../img', 'actions', 'share.svg'),
 	'sound-off': path.join(__dirname, '../img', 'actions', 'sound-off.svg'),
 	'sound': path.join(__dirname, '../img', 'actions', 'sound.svg'),
-	'star-dark': path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
 	'star': path.join(__dirname, '../img', 'actions', 'star.svg'),
+	'starred': path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
 	'tablet': path.join(__dirname, '../img', 'clients', 'tablet.svg'),
 	'tag': path.join(__dirname, '../img', 'actions', 'tag.svg'),
 	'talk': path.join(__dirname, '../img', 'apps', 'spreed.svg'),
@@ -141,6 +143,22 @@ const iconsColor = {
 		path: path.join(__dirname, '../img', 'actions', 'delete.svg'),
 		color: 'red',
 	},
+	'file': {
+		path: path.join(__dirname, '../img', 'filetypes', 'text.svg'),
+		color: 'grey',
+	},
+	'filetype-file': {
+		path: path.join(__dirname, '../img', 'filetypes', 'file.svg'),
+		color: 'grey',
+	},
+	'filetype-folder': {
+		path: path.join(__dirname, '../img', 'filetypes', 'folder.svg'),
+		color: 'primary',
+	},
+	'filetype-folder-drag-accept': {
+		path: path.join(__dirname, '../img', 'filetypes', 'folder-drag-accept.svg'),
+		color: 'primary',
+	},
 }
 
 const iconsAliases = {
@@ -151,12 +169,20 @@ const iconsAliases = {
 	// Un-starring action
 	'icon-starred:hover': 'icon-star',
 	'icon-starred:focus': 'icon-star',
+	// Delete normal
 	'icon-delete.no-permission:hover': 'icon-delete-dark',
 	'icon-delete.no-permission:focus': 'icon-delete-dark',
 	'icon-delete.no-hover:hover': 'icon-delete-dark',
 	'icon-delete.no-hover:focus': 'icon-delete-dark',
 	'icon-delete:hover': 'icon-delete-red',
 	'icon-delete:focus': 'icon-delete-red',
+	// Delete white
+	'icon-delete-white.no-permission:hover': 'icon-delete-white',
+	'icon-delete-white.no-permission:focus': 'icon-delete-white',
+	'icon-delete-white.no-hover:hover': 'icon-delete-white',
+	'icon-delete-white.no-hover:focus': 'icon-delete-white',
+	'icon-delete-white:hover': 'icon-delete-red',
+	'icon-delete-white:focus': 'icon-delete-red',
 	// Default to white
 	'icon-view-close': 'icon-view-close-white',
 	'icon-view-download': 'icon-view-download-white',
@@ -174,56 +200,10 @@ const iconsAliases = {
 	'icon-category-security': 'icon-password-dark',
 	'icon-category-search': 'icon-search-dark',
 	'icon-category-tools': 'icon-settings-dark',
-	'nav-icon-systemtagsfilter': 'icon-tag-dark',
+	// TODO: remove when dropping jquery.ocdialog
+	'oc-dialog-close': 'icon-close-dark',
+	'icon-filetype-text': 'icon-file',
 }
-
-/**
-.icon-delete {
-	&.no-permission,
-	&.no-hover {
-		&:hover,
-		&:focus {
-			@include icon-color('delete', 'actions', variables.$color-black, 1, true);
-		}
-	}
-	&:hover,
-	&:focus {
-		@include icon-color('delete', 'actions', variables.$color-error, 1, true);
-		filter: initial;
-	}
-}
-
-.icon-delete-white {
-	&.no-permission {
-		&:hover,
-		&:focus {
-			@include icon-color('delete', 'actions', variables.$color-white, 1, true);
-		}
-	}
-	&:hover,
-	&:focus {
-		@include icon-color('delete', 'actions', variables.$color-error, 1, true);
-	}
-}
-
-.icon-file,
-.icon-filetype-text {
-	@include icon-color('text', 'filetypes', #969696, 1, true);
-}
-
-.icon-filetype-file {
-	@include icon-color('file', 'filetypes', #969696, 1, true);
-}
-
-.icon-filetype-folder {
-	@include icon-color('folder', 'filetypes', variables.$color-primary, 1, true);
-}
-
-.icon-filetype-folder-drag-accept {
-	@include icon-color('folder-drag-accept', 'filetypes', variables.$color-primary, 1, true);
-}
-
-*/
 
 const colorSvg = function(svg = '', color = '000') {
 	if (!color.match(/^[0-9a-f]{3,6}$/i)) {
@@ -243,9 +223,25 @@ const colorSvg = function(svg = '', color = '000') {
 	return svg
 }
 
-const formatIcon = function(icon, revert = false) {
-	const color1 = revert ? 'white' : 'dark'
-	const color2 = revert ? 'dark' : 'white'
+const generateVariablesAliases = function(invert = false) {
+	let css = ''
+	Object.keys(variables).forEach(variable => {
+		if (variable.indexOf('original-') !== -1) {
+			let finalVariable = variable.replace('original-', '')
+			if (invert) {
+				finalVariable = finalVariable.replace('white', 'tempwhite')
+					.replace('dark', 'white')
+					.replace('tempwhite', 'dark')
+			}
+			css += `${finalVariable}: var(${variable});`
+		}
+	})
+	return css
+}
+
+const formatIcon = function(icon, invert = false) {
+	const color1 = invert ? 'white' : 'dark'
+	const color2 = invert ? 'dark' : 'white'
 	return `
 	.icon-${icon},
 	.icon-${icon}-dark {
@@ -263,9 +259,9 @@ const formatIconColor = function(icon) {
 		background-image: var(--icon-${icon}-${color});
 	}`
 }
-const formatAlias = function(alias, revert = false) {
+const formatAlias = function(alias, invert = false) {
 	let icon = iconsAliases[alias]
-	if (revert) {
+	if (invert) {
 		icon = icon.replace('white', 'tempwhite')
 			.replace('dark', 'white')
 			.replace('tempwhite', 'dark')
@@ -284,8 +280,8 @@ Object.keys(icons).forEach(icon => {
 	const darkSvg = colorSvg(svg, '000000')
 	const whiteSvg = colorSvg(svg, 'ffffff')
 
-	variables[`--icon-${icon}-dark`] = Buffer.from(darkSvg, 'utf-8').toString('base64')
-	variables[`--icon-${icon}-white`] = Buffer.from(whiteSvg, 'utf-8').toString('base64')
+	variables[`--original-icon-${icon}-dark`] = Buffer.from(darkSvg, 'utf-8').toString('base64')
+	variables[`--original-icon-${icon}-white`] = Buffer.from(whiteSvg, 'utf-8').toString('base64')
 })
 
 Object.keys(iconsColor).forEach(icon => {
@@ -295,6 +291,7 @@ Object.keys(iconsColor).forEach(icon => {
 	const coloredSvg = colorSvg(svg, colors[color])
 	variables[`--icon-${icon}-${color}`] = Buffer.from(coloredSvg, 'utf-8').toString('base64')
 })
+
 
 // ICONS VARIABLES LIST
 css += ':root {'
@@ -306,6 +303,7 @@ css += '}'
 
 // DEFAULT THEME
 css += 'body {'
+css += generateVariablesAliases()
 Object.keys(icons).forEach(icon => {
 	css += formatIcon(icon)
 })
@@ -317,25 +315,20 @@ Object.keys(iconsAliases).forEach(alias => {
 })
 css += '}'
 
-// DARK THEME
-css += 'body[data-themes*=dark] {'
-Object.keys(icons).forEach(icon => {
-	css += formatIcon(icon, true)
-})
-Object.keys(iconsAliases).forEach(alias => {
-	css += formatAlias(alias, true)
-})
-css += '}'
-
 // DARK THEME MEDIA QUERY
 css += '@media (prefers-color-scheme: dark) { body {'
-Object.keys(icons).forEach(icon => {
-	css += formatIcon(icon, true)
-})
-Object.keys(iconsAliases).forEach(alias => {
-	css += formatAlias(alias, true)
-})
+css += generateVariablesAliases(true)
 css += '}}'
+
+// DARK THEME
+css += 'body[data-themes*=light] {'
+css += generateVariablesAliases()
+css += '}'
+
+// DARK THEME
+css += 'body[data-themes*=dark] {'
+css += generateVariablesAliases(true)
+css += '}'
 
 // WRITE CSS
 fs.writeFileSync(path.join(__dirname, '../../dist', 'icons.css'), sass.compileString(css).css)

@@ -266,9 +266,7 @@
 }
 
 .nav-icon-external-storage {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-files_external-app-dark-000: url("/svg/files_external/app-dark?color=000&v=1");
-  background-image: var(--icon-files_external-app-dark-000);
+  background-image: var(--icon-files_external-dark);
 }
 
 /*# sourceMappingURL=settings.css.map */

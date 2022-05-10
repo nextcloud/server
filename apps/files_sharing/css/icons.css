@@ -115,21 +115,15 @@
  * This will add a default black version of and an additional white version when .icon-white is applied
  */
 .icon-room {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-spreed-app-000: url("/svg/spreed/app?color=000&v=1");
-  background-image: var(--icon-spreed-app-000);
+  background-image: var(--icon-talk-dark);
 }
 
 .icon-circle {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-circles-circles-000: url("/svg/circles/circles?color=000&v=3");
-  background-image: var(--icon-circles-circles-000);
+  background-image: var(--icon-circles-dark);
 }
 
 .icon-guests {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  --icon-guests-app-000: url("/svg/guests/app?color=000&v=1");
-  background-image: var(--icon-guests-app-000);
+  background-image: var(--icon-user-dark);
 }
 
 /*# sourceMappingURL=icons.css.map */
