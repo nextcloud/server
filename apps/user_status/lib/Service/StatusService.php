@@ -251,13 +251,15 @@ class StatusService {
 	 * @param string $status
 	 * @param string $messageId
 	 * @param bool $createBackup
+	 * @param array{clearAt?: \DateTime|int|null, customIcon?: string|null, customMessage?: string|null} $extraParams
 	 * @throws InvalidStatusTypeException
 	 * @throws InvalidMessageIdException
 	 */
 	public function setUserStatus(string $userId,
 										 string $status,
 										 string $messageId,
-										 bool $createBackup): void {
+										 bool $createBackup,
+										 array $extraParams): void {
 		// Check if status-type is valid
 		if (!\in_array($status, self::PRIORITY_ORDERED_STATUSES, true)) {
 			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
@@ -284,14 +286,24 @@ class StatusService {
 			}
 		}
 
+		$now = $this->timeFactory->getTime();
+
+		$clearAt = $extraParams['clearAt'] ?? null;
+		if ($clearAt instanceof \DateTime) {
+			$clearAt = $clearAt->getTimestamp();
+		}
+		if (!is_int($clearAt) || $clearAt < $now) {
+			$clearAt = null;
+		}
+
 		$userStatus->setStatus($status);
-		$userStatus->setStatusTimestamp($this->timeFactory->getTime());
+		$userStatus->setStatusTimestamp($now);
 		$userStatus->setIsUserDefined(true);
 		$userStatus->setIsBackup(false);
 		$userStatus->setMessageId($messageId);
-		$userStatus->setCustomIcon(null);
-		$userStatus->setCustomMessage(null);
-		$userStatus->setClearAt(null);
+		$userStatus->setCustomIcon($extraParams['customIcon'] ?? null);
+		$userStatus->setCustomMessage($extraParams['customMessage'] ?? null);
+		$userStatus->setClearAt($clearAt);
 
 		if ($userStatus->getId() !== null) {
 			$this->mapper->update($userStatus);

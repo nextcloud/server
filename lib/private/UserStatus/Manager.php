@@ -105,13 +105,13 @@ class Manager implements IManager {
 		$this->provider = $provider;
 	}
 
-	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false): void {
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false, array $extraParams = []): void {
 		$this->setupProvider();
 		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
 			return;
 		}
 
-		$this->provider->setUserStatus($userId, $messageId, $status, $createBackup);
+		$this->provider->setUserStatus($userId, $messageId, $status, $createBackup, $extraParams);
 	}
 
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {

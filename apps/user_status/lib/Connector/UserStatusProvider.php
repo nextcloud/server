@@ -57,8 +57,22 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 		return $userStatuses;
 	}
 
-	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup): void {
-		$this->service->setUserStatus($userId, $status, $messageId, $createBackup);
+	/**
+	 * Set a new status for the selected user.
+	 *
+	 * The following $extraParams keys are supported:
+	 * - clearAt When to clear this user status
+	 * - customIcon A custom icon for the user status
+	 * - customMessage A custom message for the user status
+	 *
+	 * @param string $userId The user for which we want to update the status.
+	 * @param string $messageId The new message id.
+	 * @param string $status The new status.
+	 * @param bool $createBackup If true, this will store the old status so that it is possible to revert it later (e.g. after a call).
+	 * @param array{clearAt?: \DateTime|int|null, customIcon?: string|null, customMessage?: string|null} $extraParams Pass extra parameters to the user status implementation provider. Added in 25.0.0
+	 */
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup, array $extraParams = []): void {
+		$this->service->setUserStatus($userId, $status, $messageId, $createBackup, $extraParams);
 	}
 
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {

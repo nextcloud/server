@@ -53,9 +53,10 @@ interface IManager {
 	 * @param string $messageId The id of the predefined message.
 	 * @param string $status The status to assign
 	 * @param bool $createBackup If true, this will store the old status so that it is possible to revert it later (e.g. after a call).
+	 * @param array $extraParams Pass extra parameters to the user status implementation provider. Refer to the provider implementation to determine which keys are supported. Added in 25.0.0
 	 * @since 23.0.0
 	 */
-	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false): void;
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false, array $extraParams = []): void;
 
 	/**
 	 * Revert an automatically set user status. For example after leaving a call,
