@@ -1107,12 +1107,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
-			if (!$useWildcards) {
-				$query2->andWhere($query2->expr()->eq('cp.value', $query2->createNamedParameter($pattern)));
-			} elseif (!$escapePattern) {
-				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter($pattern)));
+			if ($useWildcards || $escapePattern) {
+				$query2->andWhere($query2->expr()->iLike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
 			} else {
-				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+				$query2->andWhere($query2->expr()->iLike('cp.value', $query2->createNamedParameter($pattern)));
 			}
 		}
 
