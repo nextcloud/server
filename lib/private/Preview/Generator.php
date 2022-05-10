@@ -31,6 +31,7 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\IAppData;
+use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -549,12 +550,19 @@ class Generator {
 	 *
 	 * @param File $file
 	 * @return ISimpleFolder
+	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	private function getPreviewFolder(File $file) {
+		// Obtain file id outside of try catch block to prevent the creation of an existing folder
+		$fileId = (string)$file->getId();
+
 		try {
-			$folder = $this->appData->getFolder($file->getId());
+			$folder = $this->appData->getFolder($fileId);
 		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($file->getId());
+			$folder = $this->appData->newFolder($fileId);
 		}
 
 		return $folder;
