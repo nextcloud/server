@@ -544,6 +544,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Security\\ITrustedDomainHelper' => __DIR__ . '/../../..' . '/lib/public/Security/ITrustedDomainHelper.php',
         'OCP\\Security\\VerificationToken\\IVerificationToken' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/IVerificationToken.php',
         'OCP\\Security\\VerificationToken\\InvalidTokenException' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
+        'OCP\\Server' => __DIR__ . '/../../..' . '/lib/public/Server.php',
         'OCP\\Session\\Exceptions\\SessionNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
         'OCP\\Settings\\IDelegatedSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/IDelegatedSettings.php',
         'OCP\\Settings\\IIconSection' => __DIR__ . '/../../..' . '/lib/public/Settings/IIconSection.php',

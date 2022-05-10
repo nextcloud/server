@@ -53,6 +53,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\ICacheFactory;
 use OCP\IMemcache;
+use OCP\Server;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -87,9 +88,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$this->objectCache = new CappedMemoryCache();
 		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
-		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
 		/** @var ICacheFactory $cacheFactory */
-		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
 	}
 
