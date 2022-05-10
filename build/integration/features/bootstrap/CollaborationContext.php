@@ -69,6 +69,7 @@ class CollaborationContext implements Context {
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_group');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_phone');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid');
 		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');
 	}
 
