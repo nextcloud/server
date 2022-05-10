@@ -975,6 +975,8 @@ span.ui-icon {
 		background-size: 20px 20px;
 		padding: 14px;
 		cursor: pointer;
+		// Force white
+		background-image: var(--original-icon-contacts-white);
 		filter: var(--primary-invert-if-bright);
 
 		&:hover,

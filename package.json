@@ -15,7 +15,8 @@
     "lint:fix": "eslint '**/src/**/*.{vue,js}' --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:jsunit": "karma start tests/karma.config.js --single-run"
+    "test:jsunit": "karma start tests/karma.config.js --single-run",
+    "sass:icons": "babel-node core/src/icons.js"
   },
   "repository": {
     "type": "git",
@@ -97,6 +98,7 @@
     "webdav": "^4.8.0"
   },
   "devDependencies": {
+    "@babel/node": "^7.17.10",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/browserslist-config": "^2.2.0",
     "@nextcloud/eslint-config": "^7.0.2",
