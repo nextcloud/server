@@ -100,13 +100,12 @@ export default {
 			this.themes.forEach(theme => {
 				if (theme.id === id && enabled) {
 					theme.enabled = true
-					document.body.setAttribute(`data-theme-${theme.id}`, true)
 					return
 				}
 				theme.enabled = false
-				document.body.removeAttribute(`data-theme-${theme.id}`)
 			})
 
+			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
 		},
 		changeFont({ enabled, id }) {
@@ -114,14 +113,22 @@ export default {
 			this.fonts.forEach(font => {
 				if (font.id === id && enabled) {
 					font.enabled = true
-					document.body.setAttribute(`data-theme-${font.id}`, true)
 					return
 				}
 				font.enabled = false
-				document.body.removeAttribute(`data-theme-${font.id}`)
 			})
 
+			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
+		},
+
+		updateBodyAttributes() {
+			const enabledThemesIDs = this.themes.filter(theme => theme.enabled === true).map(theme => theme.id)
+			this.themes.forEach(theme => {
+				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
+			})
+
+			document.body.setAttribute('data-themes', enabledThemesIDs.join(','))
 		},
 
 		/**

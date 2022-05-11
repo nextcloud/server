@@ -133,7 +133,7 @@
 	@include icon-color('recent', 'files', $color-black);
 }
 .nav-icon-favorites {
-	@include icon-color('star-dark', 'actions', $color-black, 2, true);
+	@include icon-color('starred', 'actions', $color-black, 2, true);
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout,
@@ -157,7 +157,7 @@
 	@include icon-color('unshare', 'files', $color-black);
 }
 .nav-icon-favorites-starred {
-	@include icon-color('star-dark', 'actions', $color-yellow, 2, true);
+	@include icon-color('starred', 'actions', $color-yellow, 2, true);
 }
 
 #app-navigation .nav-files a.nav-icon-files {

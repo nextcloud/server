@@ -42,6 +42,9 @@ jobs:
           npm ci
           npm run build --if-present
 
+      - name: Build icons css
+        run: npm run sass:icons
+
       - name: Check webpack build changes
         run: |
           bash -c "[[ ! \"`git status --porcelain `\" ]] || exit 1"
