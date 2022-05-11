@@ -519,9 +519,6 @@ class OC_Helper {
 		$sourceStorage = $storage;
 		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
 			$includeExtStorage = false;
-			$internalPath = $storage->getUnjailedPath($rootInfo->getInternalPath());
-		} else {
-			$internalPath = $rootInfo->getInternalPath();
 		}
 		if ($includeExtStorage) {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
@@ -545,7 +542,7 @@ class OC_Helper {
 			$quota = $sourceStorage->getQuota();
 		}
 		try {
-			$free = $sourceStorage->free_space($internalPath);
+			$free = $sourceStorage->free_space($rootInfo->getInternalPath());
 		} catch (\Exception $e) {
 			if ($path === "") {
 				throw $e;
