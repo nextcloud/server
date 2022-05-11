@@ -141,7 +141,7 @@ import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 
-import { extractFilePaths, sortCompare } from '../utils/fileUtils.js'
+import { extractFilePaths, isSingleSharedFile, sortCompare } from '../utils/fileUtils.js'
 import { getRootPath } from '../utils/davUtils.js'
 import canDownload from '../utils/canDownload.js'
 import cancelableRequest from '../utils/CancelableRequest.js'
@@ -508,7 +508,7 @@ export default {
 
 				// store current position
 				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
-			} else if (group) {
+			} else if (group && !isSingleSharedFile(path)) {
 				const mimes = this.mimeGroups[group]
 					? this.mimeGroups[group]
 					: [mime]
