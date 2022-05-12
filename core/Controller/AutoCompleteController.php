@@ -118,6 +118,7 @@ class AutoCompleteController extends Controller {
 					'source' => $type,
 					'status' => $result['status'] ?? '',
 					'subline' => $result['subline'] ?? '',
+					'shareWithDisplayNameUnique' => $result['shareWithDisplayNameUnique'] ?? '',
 				];
 			}
 		}
