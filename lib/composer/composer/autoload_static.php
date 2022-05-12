@@ -265,6 +265,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Federation\\ICloudIdManager' => __DIR__ . '/../../..' . '/lib/public/Federation/ICloudIdManager.php',
         'OCP\\Files' => __DIR__ . '/../../..' . '/lib/public/Files.php',
         'OCP\\Files\\AlreadyExistsException' => __DIR__ . '/../../..' . '/lib/public/Files/AlreadyExistsException.php',
+        'OCP\\Files\\AppData\\IAppDataFactory' => __DIR__ . '/../../..' . '/lib/public/Files/AppData/IAppDataFactory.php',
         'OCP\\Files\\Cache\\AbstractCacheEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/AbstractCacheEvent.php',
         'OCP\\Files\\Cache\\CacheEntryInsertedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryInsertedEvent.php',
         'OCP\\Files\\Cache\\CacheEntryRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryRemovedEvent.php',

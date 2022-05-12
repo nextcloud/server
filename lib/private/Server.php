@@ -1439,6 +1439,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IMetadataManager::class, MetadataManager::class);
 
+		$this->registerAlias(\OCP\Files\AppData\IAppDataFactory::class, \OC\Files\AppData\Factory::class);
+
 		$this->connectDispatcher();
 	}
 
@@ -2300,7 +2302,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Files\IAppData
-	 * @deprecated 20.0.0
+	 * @deprecated 20.0.0 Use get(\OCP\Files\AppData\IAppDataFactory::class)->get($app) instead
 	 */
 	public function getAppDataDir($app) {
 		/** @var \OC\Files\AppData\Factory $factory */
