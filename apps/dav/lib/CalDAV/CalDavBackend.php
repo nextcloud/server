@@ -52,6 +52,7 @@ use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectMovedEvent;
 use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
@@ -1341,13 +1342,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $sourceCalendarId
 	 * @param int $targetCalendarId
 	 * @param int $objectId
-	 * @param string $principalUri
+	 * @param string $oldPrincipalUri
+	 * @param string $newPrincipalUri
 	 * @param int $calendarType
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function moveCalendarObject(int $sourceCalendarId, int $targetCalendarId, int $objectId, string $principalUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR): bool {
-		$object = $this->getCalendarObjectById($principalUri, $objectId);
+	public function moveCalendarObject(int $sourceCalendarId, int $targetCalendarId, int $objectId, string $oldPrincipalUri, string $newPrincipalUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR): bool {
+		$object = $this->getCalendarObjectById($oldPrincipalUri, $objectId);
 		if (empty($object)) {
 			return false;
 		}
@@ -1365,21 +1367,23 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$this->addChange($sourceCalendarId, $object['uri'], 1, $calendarType);
 		$this->addChange($targetCalendarId, $object['uri'], 3, $calendarType);
 
-		$object = $this->getCalendarObjectById($principalUri, $objectId);
+		$object = $this->getCalendarObjectById($newPrincipalUri, $objectId);
 		// Calendar Object wasn't found - possibly because it was deleted in the meantime by a different client
 		if (empty($object)) {
 			return false;
 		}
 
-		$calendarRow = $this->getCalendarById($targetCalendarId);
+		$targetCalendarRow = $this->getCalendarById($targetCalendarId);
 		// the calendar this event is being moved to does not exist any longer
-		if (empty($calendarRow)) {
+		if (empty($targetCalendarRow)) {
 			return false;
 		}
 
 		if ($calendarType === self::CALENDAR_TYPE_CALENDAR) {
-			$shares = $this->getShares($targetCalendarId);
-			$this->dispatcher->dispatchTyped(new CalendarObjectUpdatedEvent($targetCalendarId, $calendarRow, $shares, $object));
+			$sourceShares = $this->getShares($sourceCalendarId);
+			$targetShares = $this->getShares($targetCalendarId);
+			$sourceCalendarRow = $this->getCalendarById($sourceCalendarId);
+			$this->dispatcher->dispatchTyped(new CalendarObjectMovedEvent($sourceCalendarId, $sourceCalendarRow, $targetCalendarId, $targetCalendarRow, $sourceShares, $targetShares, $object));
 		}
 		return true;
 	}

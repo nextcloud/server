@@ -57,6 +57,7 @@ use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectMovedEvent;
 use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
@@ -154,6 +155,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, ActivityUpdaterListener::class);
