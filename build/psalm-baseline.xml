@@ -2310,11 +2310,6 @@
       <code>searchCollections</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="core/Controller/SvgController.php">
-    <TypeDoesNotContainNull occurrences="1">
-      <code>$svg === null</code>
-    </TypeDoesNotContainNull>
-  </file>
   <file src="core/Controller/UnifiedSearchController.php">
     <NullArgument occurrences="1">
       <code>null</code>
@@ -3887,10 +3882,6 @@
       <code>$maxPreviewImage</code>
       <code>IPreview::EVENT</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
-      <code>$file-&gt;getId()</code>
-      <code>$file-&gt;getId()</code>
-    </InvalidScalarArgument>
     <MismatchingDocblockParamType occurrences="1">
       <code>ISimpleFile</code>
     </MismatchingDocblockParamType>
