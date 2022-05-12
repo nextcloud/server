@@ -679,25 +679,6 @@ class OC_App {
 	}
 
 	/**
-	 * register an admin form to be shown
-	 *
-	 * @param string $app
-	 * @param string $page
-	 */
-	public static function registerAdmin(string $app, string $page) {
-		self::$adminForms[] = $app . '/' . $page . '.php';
-	}
-
-	/**
-	 * register a personal form to be shown
-	 * @param string $app
-	 * @param string $page
-	 */
-	public static function registerPersonal(string $app, string $page) {
-		self::$personalForms[] = $app . '/' . $page . '.php';
-	}
-
-	/**
 	 * @param array $entry
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */

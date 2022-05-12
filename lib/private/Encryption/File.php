@@ -29,27 +29,22 @@ namespace OC\Encryption;
 
 use OCP\Cache\CappedMemoryCache;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\App\IAppManager;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Share\IManager;
 
 class File implements \OCP\Encryption\IFile {
-
-	/** @var Util */
-	protected $util;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IManager */
-	private $shareManager;
+	protected Util $util;
+	private IRootFolder $rootFolder;
+	private IManager $shareManager;
 
 	/**
-	 * cache results of already checked folders
-	 *
+	 * Cache results of already checked folders
 	 * @var CappedMemoryCache<array>
 	 */
 	protected CappedMemoryCache $cache;
+	private ?IAppManager $appManager = null;
 
 	public function __construct(Util $util,
 								IRootFolder $rootFolder,
@@ -60,6 +55,14 @@ class File implements \OCP\Encryption\IFile {
 		$this->shareManager = $shareManager;
 	}
 
+	public function getAppManager(): IAppManager {
+		// Lazy evaluate app manager as it initialize the db too early otherwise
+		if ($this->appManager) {
+			return $this->appManager;
+		}
+		$this->appManager = \OCP\Server::get(IAppManager::class);
+		return $this->appManager;
+	}
 
 	/**
 	 * Get list of users with access to the file
@@ -110,7 +113,7 @@ class File implements \OCP\Encryption\IFile {
 		}
 
 		// check if it is a group mount
-		if (\OCP\App::isEnabled("files_external")) {
+		if ($this->getAppManager()->isEnabledForUser("files_external")) {
 			/** @var GlobalStoragesService $storageService */
 			$storageService = \OC::$server->get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();

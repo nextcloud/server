@@ -7,7 +7,7 @@
 			<table cellspacing="0" cellpadding="0" border="0" width="600px">
 				<tr>
 					<td colspan="2" bgcolor="<?php p($theme->getColorPrimary());?>">
-						<img src="<?php p(\OC::$server->getURLGenerator()->getAbsoluteURL(image_path('', 'logo-mail.png'))); ?>" alt="<?php p($theme->getName()); ?>"/>
+						<img src="<?php p(\OC::$server->getURLGenerator()->getAbsoluteURL(image_path('core', 'logo-mail.png'))); ?>" alt="<?php p($theme->getName()); ?>"/>
 					</td>
 				</tr>
 				<tr><td colspan="2">&nbsp;</td></tr>

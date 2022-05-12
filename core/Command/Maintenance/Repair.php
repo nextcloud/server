@@ -82,7 +82,7 @@ class Repair extends Command {
 			if (!$this->appManager->isEnabledForUser($app)) {
 				continue;
 			}
-			$info = \OC_App::getAppInfo($app);
+			$info = $this->appManager->getAppInfo($app);
 			if (!is_array($info)) {
 				continue;
 			}

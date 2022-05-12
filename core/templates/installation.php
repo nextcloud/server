@@ -55,7 +55,7 @@ script('core', 'install');
 
 	<?php if (!$_['directoryIsSet'] or !$_['dbIsSet'] or count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced" tabindex="0" href="#"><?php p($l->t('Storage & database')); ?><img src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced" tabindex="0" href="#"><?php p($l->t('Storage & database')); ?><img src="<?php print_unescaped(image_path('core', 'actions/caret.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
