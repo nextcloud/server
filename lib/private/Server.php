@@ -1109,7 +1109,6 @@ class Server extends ServerContainer implements IServerContainer {
 				}
 				return new DBLockingProvider(
 					$c->get(IDBConnection::class),
-					$c->get(LoggerInterface::class),
 					new TimeFactory(),
 					$ttl,
 					!\OC::$CLI

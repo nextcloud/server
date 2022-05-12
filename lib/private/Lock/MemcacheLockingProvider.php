@@ -32,31 +32,19 @@ use OCP\IMemcacheTTL;
 use OCP\Lock\LockedException;
 
 class MemcacheLockingProvider extends AbstractLockingProvider {
-	/**
-	 * @var \OCP\IMemcache
-	 */
-	private $memcache;
+	private IMemcache $memcache;
 
-	/**
-	 * @param \OCP\IMemcache $memcache
-	 * @param int $ttl
-	 */
 	public function __construct(IMemcache $memcache, int $ttl = 3600) {
 		$this->memcache = $memcache;
 		$this->ttl = $ttl;
 	}
 
-	private function setTTL(string $path) {
+	private function setTTL(string $path): void {
 		if ($this->memcache instanceof IMemcacheTTL) {
 			$this->memcache->setTTL($path, $this->ttl);
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 * @return bool
-	 */
 	public function isLocked(string $path, int $type): bool {
 		$lockValue = $this->memcache->get($path);
 		if ($type === self::LOCK_SHARED) {
@@ -68,13 +56,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 * @param string $readablePath human readable path to use in error messages
-	 * @throws \OCP\Lock\LockedException
-	 */
-	public function acquireLock(string $path, int $type, string $readablePath = null) {
+	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		if ($type === self::LOCK_SHARED) {
 			if (!$this->memcache->inc($path)) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path), $readablePath);
@@ -89,11 +71,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$this->markAcquire($path, $type);
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 */
-	public function releaseLock(string $path, int $type) {
+	public function releaseLock(string $path, int $type): void {
 		if ($type === self::LOCK_SHARED) {
 			$ownSharedLockCount = $this->getOwnSharedLockCount($path);
 			$newValue = 0;
@@ -120,14 +98,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$this->markRelease($path, $type);
 	}
 
-	/**
-	 * Change the type of an existing lock
-	 *
-	 * @param string $path
-	 * @param int $targetType self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
-	 */
-	public function changeLock(string $path, int $targetType) {
+	public function changeLock(string $path, int $targetType): void {
 		if ($targetType === self::LOCK_SHARED) {
 			if (!$this->memcache->cas($path, 'exclusive', 1)) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path));
@@ -142,7 +113,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$this->markChange($path, $targetType);
 	}
 
-	private function getExistingLockForException($path) {
+	private function getExistingLockForException(string $path): string {
 		$existing = $this->memcache->get($path);
 		if (!$existing) {
 			return 'none';
