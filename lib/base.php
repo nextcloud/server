@@ -62,9 +62,11 @@
  *
  */
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
+use OCP\Server;
 use OCP\Share;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
@@ -881,7 +883,7 @@ class OC {
 	}
 
 	private static function registerResourceCollectionHooks() {
-		\OC\Collaboration\Resources\Listener::register(\OC::$server->getEventDispatcher());
+		\OC\Collaboration\Resources\Listener::register(Server::get(SymfonyAdapter::class), Server::get(IEventDispatcher::class));
 	}
 
 	/**

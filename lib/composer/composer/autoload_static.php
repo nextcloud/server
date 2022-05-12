@@ -177,6 +177,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Collaboration\\Resources\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IProvider.php',
         'OCP\\Collaboration\\Resources\\IProviderManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IProviderManager.php',
         'OCP\\Collaboration\\Resources\\IResource' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IResource.php',
+        'OCP\\Collaboration\\Resources\\LoadAdditionalScriptsEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/LoadAdditionalScriptsEvent.php',
         'OCP\\Collaboration\\Resources\\ResourceException' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/ResourceException.php',
         'OCP\\Command\\IBus' => __DIR__ . '/../../..' . '/lib/public/Command/IBus.php',
         'OCP\\Command\\ICommand' => __DIR__ . '/../../..' . '/lib/public/Command/ICommand.php',
