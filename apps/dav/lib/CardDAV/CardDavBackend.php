@@ -63,23 +63,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public const PERSONAL_ADDRESSBOOK_URI = 'contacts';
 	public const PERSONAL_ADDRESSBOOK_NAME = 'Contacts';
 
-	/** @var Principal */
-	private $principalBackend;
-
-	/** @var string */
-	private $dbCardsTable = 'cards';
-
-	/** @var string */
-	private $dbCardsPropertiesTable = 'cards_properties';
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var Backend */
-	private $sharingBackend;
+	private Principal $principalBackend;
+	private string $dbCardsTable = 'cards';
+	private string $dbCardsPropertiesTable = 'cards_properties';
+	private IDBConnection $db;
+	private Backend $sharingBackend;
 
 	/** @var array properties to index */
-	public static $indexProperties = [
+	public static array $indexProperties = [
 		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO',
 		'CLOUD', 'X-SOCIALPROFILE'];
@@ -87,18 +78,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * @var string[] Map of uid => display name
 	 */
-	protected $userDisplayNames;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
-
-	private $etagCache = [];
+	protected array $userDisplayNames;
+	private IUserManager $userManager;
+	private IEventDispatcher $dispatcher;
+	private array $etagCache = [];
 
 	/**
 	 * CardDavBackend constructor.

@@ -148,7 +148,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @var array
 	 * @psalm-var array<string, string[]>
 	 */
-	public $propertyMap = [
+	public array $propertyMap = [
 		'{DAV:}displayname' => ['displayname', 'string'],
 		'{urn:ietf:params:xml:ns:caldav}calendar-description' => ['description', 'string'],
 		'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => ['timezone', 'string'],
@@ -162,7 +162,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * @var array
 	 */
-	public $subscriptionPropertyMap = [
+	public array $subscriptionPropertyMap = [
 		'{DAV:}displayname' => ['displayname', 'string'],
 		'{http://apple.com/ns/ical/}refreshrate' => ['refreshrate', 'string'],
 		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'int'],
@@ -193,7 +193,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	];
 
 	/** @var array parameters to index */
-	public static $indexParameters = [
+	public static array $indexParameters = [
 		'ATTENDEE' => ['CN'],
 		'ORGANIZER' => ['CN'],
 	];
@@ -201,43 +201,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/**
 	 * @var string[] Map of uid => display name
 	 */
-	protected $userDisplayNames;
+	protected array $userDisplayNames;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var Backend */
-	private $calendarSharingBackend;
-
-	/** @var Principal */
-	private $principalBackend;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ISecureRandom */
-	private $random;
-
+	private IDBConnection $db;
+	private Backend $calendarSharingBackend;
+	private Principal $principalBackend;
+	private IUserManager $userManager;
+	private ISecureRandom $random;
 	private LoggerInterface $logger;
+	private IEventDispatcher $dispatcher;
+	private IConfig $config;
+	private bool $legacyEndpoint;
+	private string $dbObjectPropertiesTable = 'calendarobjects_props';
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var bool */
-	private $legacyEndpoint;
-
-	/** @var string */
-	private $dbObjectPropertiesTable = 'calendarobjects_props';
-
-	/**
-	 * CalDavBackend constructor.
-	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
