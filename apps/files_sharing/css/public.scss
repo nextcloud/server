@@ -204,7 +204,7 @@ thead {
 
 // hide the download entry on the menu
 // on public share when NOT on mobile
-@media only screen and (min-width: $breakpoint-mobile + 1) {
+@media only screen and (min-width: ($breakpoint-mobile + 1)) {
 	#body-public {
 		.header-right {
 			#header-actions-menu {
@@ -224,5 +224,28 @@ thead {
 				display: none;
 			}
 		}
+	}
+}
+
+// If hide download is enabled we prevent any mouse interaction
+input[name="hideDownload"][value="true"] ~ #files-public-content #preview {
+	pointer-events: none !important;
+	user-select: none !important;
+
+	&::before {
+		content: '';
+		position: absolute;
+		z-index: 999999;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+@media print {
+	// If hide download is enabled, we prevent printing
+	input[name="hideDownload"][value="true"] ~ #files-public-content {
+		display: none;
 	}
 }
