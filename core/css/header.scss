@@ -51,7 +51,7 @@
 	z-index: 2000;
 	height: variables.$header-height;
 	background-color: var(--color-primary);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
+	background-image: var(--gradient-primary-background);
 	box-sizing: border-box;
 	justify-content: space-between;
 }

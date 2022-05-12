@@ -121,6 +121,8 @@ class DefaultTheme implements ITheme {
 			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, 80),
 			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor), 15),
 			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, -70),
+			// to use like this: background-image: var(--gradient-primary-background);
+			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%)',
 
 			// max contrast for WCAG compliance
 			'--color-main-text' => $colorMainText,
