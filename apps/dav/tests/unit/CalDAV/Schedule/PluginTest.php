@@ -77,17 +77,22 @@ class PluginTest extends TestCase {
 	public function testInitialize() {
 		$plugin = new Plugin($this->config);
 
-		$this->server->expects($this->at(7))
+		$this->server->expects($this->exactly(10))
 			->method('on')
-			->with('propFind', [$plugin, 'propFindDefaultCalendarUrl'], 90);
-
-		$this->server->expects($this->at(8))
-			->method('on')
-			->with('afterWriteContent', [$plugin, 'dispatchSchedulingResponses']);
-
-		$this->server->expects($this->at(9))
-			->method('on')
-			->with('afterCreateFile', [$plugin, 'dispatchSchedulingResponses']);
+			->withConsecutive(
+				// Sabre\CalDAV\Schedule\Plugin events
+				['method:POST', [$plugin, 'httpPost']],
+				['propFind', [$plugin, 'propFind']],
+				['propPatch', [$plugin, 'propPatch']],
+				['calendarObjectChange', [$plugin, 'calendarObjectChange']],
+				['beforeUnbind', [$plugin, 'beforeUnbind']],
+				['schedule', [$plugin, 'scheduleLocalDelivery']],
+				['getSupportedPrivilegeSet', [$plugin, 'getSupportedPrivilegeSet']],
+				// OCA\DAV\CalDAV\Schedule\Plugin events
+				['propFind', [$plugin, 'propFindDefaultCalendarUrl'], 90],
+				['afterWriteContent', [$plugin, 'dispatchSchedulingResponses']],
+				['afterCreateFile', [$plugin, 'dispatchSchedulingResponses']]
+			);
 
 		$plugin->initialize($this->server);
 	}
