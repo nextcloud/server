@@ -61,7 +61,6 @@ $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
 $logger = \OC::$server->get(LoggerInterface::class);
 $dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-$legacyDispatcher = \OC::$server->getEventDispatcher();
 $config = \OC::$server->get(\OCP\IConfig::class);
 
 $calDavBackend = new CalDavBackend(
@@ -72,7 +71,6 @@ $calDavBackend = new CalDavBackend(
 	$random,
 	$logger,
 	$dispatcher,
-	$legacyDispatcher,
 	$config,
 	true
 );
