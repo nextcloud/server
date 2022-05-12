@@ -76,6 +76,7 @@ use Psr\Log\LoggerInterface;
  * @property string ldapAttributePhone
  * @property string ldapAttributeWebsite
  * @property string ldapAttributeAddress
+ * @property string ldapAttributeTwitter
  * @property string ldapAttributeOrganisation
  * @property string ldapAttributeRole
  * @property string ldapAttributeHeadline

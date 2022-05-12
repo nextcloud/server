@@ -116,6 +116,7 @@ class User {
 	public const USER_PREFKEY_PHONE = 'profile_phone';
 	public const USER_PREFKEY_WEBSITE = 'profile_website';
 	public const USER_PREFKEY_ADDRESS = 'profile_address';
+	public const USER_PREFKEY_TWITTER = 'profile_twitter';
 	public const USER_PREFKEY_ORGANISATION = 'profile_organisation';
 	public const USER_PREFKEY_ROLE = 'profile_role';
 	public const USER_PREFKEY_HEADLINE = 'profile_headline';
@@ -262,26 +263,32 @@ class User {
 			$this->updateProfile(self::USER_PREFKEY_ADDRESS, $ldapEntry[$attr][0]);
 		}
 		unset($attr);
+		//User Profile Field - Twitter
+		$attr = strtolower($this->connection->ldapAttributeTwitter);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateProfile(self::USER_PREFKEY_TWITTER, $ldapEntry[$attr][0]);
+		}
+		unset($attr);
 		//User Profile Field - organisation
-		$attr = strtolower($this->connection->ldapAttributeAddress);
+		$attr = strtolower($this->connection->ldapAttributeOrganisation);
 		if (isset($ldapEntry[$attr])) {
 			$this->updateProfile(self::USER_PREFKEY_ORGANISATION, $ldapEntry[$attr][0]);
 		}
 		unset($attr);
 		//User Profile Field - role
-		$attr = strtolower($this->connection->ldapAttributeAddress);
+		$attr = strtolower($this->connection->ldapAttributeRole);
 		if (isset($ldapEntry[$attr])) {
 			$this->updateProfile(self::USER_PREFKEY_ROLE, $ldapEntry[$attr][0]);
 		}
 		unset($attr);
 		//User Profile Field - headline
-		$attr = strtolower($this->connection->ldapAttributeAddress);
+		$attr = strtolower($this->connection->ldapAttributeHeadline);
 		if (isset($ldapEntry[$attr])) {
 			$this->updateProfile(self::USER_PREFKEY_HEADLINE, $ldapEntry[$attr][0]);
 		}
 		unset($attr);
 		//User Profile Field - biography
-		$attr = strtolower($this->connection->ldapAttributeAddress);
+		$attr = strtolower($this->connection->ldapAttributeBiography);
 		if (isset($ldapEntry[$attr])) {
 			$this->updateProfile(self::USER_PREFKEY_BIOGRAPHY, $ldapEntry[$attr][0]);
 		}
@@ -590,6 +597,30 @@ class User {
 	 * @return null
 	 */
 	public function updateProfile(string $property, $valueFromLDAP = null) {
+		// check for valid property and set corresponding profile property
+		$profileProperty = 'INVALID';
+		if (self::USER_PREFKEY_PHONE == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_PHONE;
+		} elseif (self::USER_PREFKEY_WEBSITE == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_WEBSITE;
+		} elseif (self::USER_PREFKEY_ADDRESS == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_ADDRESS;
+		} elseif (self::USER_PREFKEY_TWITTER == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_TWITTER;
+		} elseif (self::USER_PREFKEY_ORGANISATION == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION;
+		} elseif (self::USER_PREFKEY_ROLE == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_ROLE;
+		} elseif (self::USER_PREFKEY_HEADLINE == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_HEADLINE;
+		} elseif (self::USER_PREFKEY_BIOGRAPHY == $property) {
+			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY;
+		} else {
+			// TODO: throw exception for invalid property specified
+			return;
+		}
+		$this->logger->info('user profile data from LDAP '.$this->dn.' ('.$profileProperty.')', ['app' => 'user_ldap']);
+		// check if this property was refreshed before
 		if ($this->wasRefreshed($property)) {
 			return;
 		}

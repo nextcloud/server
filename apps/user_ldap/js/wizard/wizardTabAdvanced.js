@@ -139,6 +139,10 @@ OCA = OCA || {};
 					$element: $('#ldap_attr_address'),
 					setMethod: 'setAddressAttribute'
 				},
+				ldap_attr_twitter: {
+					$element: $('#ldap_attr_twitter'),
+					setMethod: 'setTwitterAttribute'
+				},
 				ldap_attr_organisation: {
 					$element: $('#ldap_attr_organisation'),
 					setMethod: 'setOrganisationAttribute'
@@ -421,6 +425,15 @@ OCA = OCA || {};
 		 */
 		setAddressAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_attr_address.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile twitter
+		 *
+		 * @param {string} attribute
+		 */
+		setTwitterAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_twitter.$element, attribute);
 		},
 
 		/**
