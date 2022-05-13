@@ -49,6 +49,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -250,10 +251,15 @@ class ClientFlowLoginController extends Controller {
 			$csp->addAllowedFormActionDomain('nc://*');
 		}
 
+		/** @var IUser $user */
+		$user = $this->userSession->getUser();
+
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/grant',
 			[
+				'userId' => $user->getUID(),
+				'userDisplayName' => $user->getDisplayName(),
 				'client' => $clientName,
 				'clientIdentifier' => $clientIdentifier,
 				'instanceName' => $this->defaults->getName(),
