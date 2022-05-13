@@ -27,5 +27,5 @@ jobs:
         exempt-issue-labels: '1. to develop,2. developing,3. to review,4. to release,security'
         days-before-stale: 30
         days-before-close: 14
-        debug-only: true
+        # debug-only: true
  
