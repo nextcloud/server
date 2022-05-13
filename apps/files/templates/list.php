@@ -75,7 +75,6 @@
 <div class="hiddenuploadfield">
 	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />
 </div>
-<div id="editor"></div><!-- FIXME Do not use this div in your app! It is deprecated and will be removed in the future! -->
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
 	<p>
 	<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.'));?>
