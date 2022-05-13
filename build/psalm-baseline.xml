@@ -2310,11 +2310,6 @@
       <code>searchCollections</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="core/Controller/SvgController.php">
-    <TypeDoesNotContainNull occurrences="1">
-      <code>$svg === null</code>
-    </TypeDoesNotContainNull>
-  </file>
   <file src="core/Controller/UnifiedSearchController.php">
     <NullArgument occurrences="1">
       <code>null</code>
@@ -4354,28 +4349,11 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <ImplicitToStringCast occurrences="1">
-      <code>$query-&gt;func()-&gt;lower('displayname')</code>
-    </ImplicitToStringCast>
   </file>
   <file src="lib/private/User/Manager.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>array|int</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidArgument occurrences="1">
-      <code>$callback</code>
-    </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>bool|IUser</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="2">
-      <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
-      <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
-    </NullableReturnStatement>
-    <UndefinedInterfaceMethod occurrences="5">
-      <code>checkPassword</code>
-      <code>checkPassword</code>
-      <code>countUsers</code>
+    <ImplementedReturnTypeMismatch occurrences="1"/>
+    <InvalidArgument occurrences="1"/>
+    <UndefinedInterfaceMethod occurrences="2">
       <code>createUser</code>
       <code>getUsersForUserValueCaseInsensitive</code>
     </UndefinedInterfaceMethod>
@@ -4387,23 +4365,13 @@
     <InvalidArgument occurrences="1">
       <code>IUser::class . '::firstLogin'</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
-    </InvalidScalarArgument>
     <NoInterfaceProperties occurrences="2">
       <code>$request-&gt;server</code>
       <code>$request-&gt;server</code>
     </NoInterfaceProperties>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-    <UndefinedMethod occurrences="1">
-      <code>getByEmail</code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/User/User.php">
     <InvalidArgument occurrences="5">
@@ -4413,22 +4381,6 @@
       <code>IUser::class . '::preDelete'</code>
       <code>IUser::class . '::preSetPassword'</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>getBackend</code>
-    </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="1">
-      <code>$image</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>IImage|null</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$quota</code>
-      <code>$this-&gt;lastLogin</code>
-    </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;backend</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="5">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -4436,13 +4388,6 @@
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
-    <UndefinedInterfaceMethod occurrences="5">
-      <code>canChangeAvatar</code>
-      <code>deleteUserAvatar</code>
-      <code>getHome</code>
-      <code>setDisplayName</code>
-      <code>setPassword</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_API.php">
     <InvalidNullableReturnType occurrences="1">

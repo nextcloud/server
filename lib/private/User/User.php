@@ -52,6 +52,10 @@ use OCP\IUserBackend;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\GetQuotaEvent;
+use OCP\User\Backend\ISetDisplayNameBackend;
+use OCP\User\Backend\ISetPasswordBackend;
+use OCP\User\Backend\IProvideAvatarBackend;
+use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -155,7 +159,9 @@ class User implements IUser {
 		$displayName = trim($displayName);
 		$oldDisplayName = $this->getDisplayName();
 		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName) && $displayName !== $oldDisplayName) {
-			$result = $this->backend->setDisplayName($this->uid, $displayName);
+			/** @var ISetDisplayNameBackend $backend */
+			$backend = $this->backend;
+			$result = $backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
 				$this->triggerChange('displayName', $displayName, $oldDisplayName);
@@ -241,7 +247,7 @@ class User implements IUser {
 		$firstTimeLogin = ($this->getLastLogin() === 0);
 		$this->lastLogin = time();
 		$this->config->setUserValue(
-			$this->uid, 'login', 'lastLogin', $this->lastLogin);
+			$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
 
 		return $firstTimeLogin;
 	}
@@ -280,7 +286,7 @@ class User implements IUser {
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
 
-			/** @var IAvatarManager $avatarManager */
+			/** @var AvatarManager $avatarManager */
 			$avatarManager = \OC::$server->query(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
@@ -319,7 +325,9 @@ class User implements IUser {
 			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
-			$result = $this->backend->setPassword($this->uid, $password);
+			/** @var ISetPasswordBackend $backend */
+			$backend = $this->backend;
+			$result = $backend->setPassword($this->uid, $password);
 
 			if ($result !== false) {
 				$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
@@ -344,7 +352,8 @@ class User implements IUser {
 	 */
 	public function getHome() {
 		if (!$this->home) {
-			if ($this->backend->implementsActions(Backend::GET_HOME) and $home = $this->backend->getHome($this->uid)) {
+			/** @psalm-suppress UndefinedInterfaceMethod Once we get rid of the legacy implementsActions, psalm won't complain anymore */
+			if (($this->backend instanceof IGetHomeBackend || $this->backend->implementsActions(Backend::GET_HOME)) && $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
 			} elseif ($this->config) {
 				$this->home = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
@@ -367,18 +376,20 @@ class User implements IUser {
 		return get_class($this->backend);
 	}
 
-	public function getBackend() {
+	public function getBackend(): ?UserInterface {
 		return $this->backend;
 	}
 
 	/**
-	 * check if the backend allows the user to change his avatar on Personal page
+	 * Check if the backend allows the user to change his avatar on Personal page
 	 *
 	 * @return bool
 	 */
 	public function canChangeAvatar() {
-		if ($this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
-			return $this->backend->canChangeAvatar($this->uid);
+		if ($this->backend instanceof IProvideAvatarBackend || $this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
+			/** @var IProvideAvatarBackend $backend */
+			$backend = $this->backend;
+			return $backend->canChangeAvatar($this->uid);
 		}
 		return true;
 	}
@@ -501,7 +512,7 @@ class User implements IUser {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
 			$quota = OC_Helper::computerFileSize($quota);
-			$quota = OC_Helper::humanFileSize($quota);
+			$quota = OC_Helper::humanFileSize((int)$quota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
