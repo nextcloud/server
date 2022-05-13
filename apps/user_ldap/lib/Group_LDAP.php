@@ -55,12 +55,12 @@ use Psr\Log\LoggerInterface;
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
 	protected $enabled = false;
 
-	/** @var string[][] $cachedGroupMembers array of users with gid as key */
-	protected $cachedGroupMembers;
-	/** @var string[] $cachedGroupsByMember array of groups with uid as key */
-	protected $cachedGroupsByMember;
-	/** @var string[] $cachedNestedGroups array of groups with gid (DN) as key */
-	protected $cachedNestedGroups;
+	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
+	protected CappedMemoryCache $cachedGroupMembers;
+	/** @var CappedMemoryCache<string[]> $cachedGroupsByMember array of groups with uid as key */
+	protected CappedMemoryCache $cachedGroupsByMember;
+	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
+	protected CappedMemoryCache $cachedNestedGroups;
 	/** @var GroupPluginManager */
 	protected $groupPluginManager;
 	/** @var LoggerInterface */

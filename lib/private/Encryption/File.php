@@ -47,9 +47,9 @@ class File implements \OCP\Encryption\IFile {
 	/**
 	 * cache results of already checked folders
 	 *
-	 * @var array
+	 * @var CappedMemoryCache<array>
 	 */
-	protected $cache;
+	protected CappedMemoryCache $cache;
 
 	public function __construct(Util $util,
 								IRootFolder $rootFolder,
@@ -62,10 +62,10 @@ class File implements \OCP\Encryption\IFile {
 
 
 	/**
-	 * get list of users with access to the file
+	 * Get list of users with access to the file
 	 *
 	 * @param string $path to the file
-	 * @return array  ['users' => $uniqueUserIds, 'public' => $public]
+	 * @return array{users: string[], public: bool}
 	 */
 	public function getAccessList($path) {
 

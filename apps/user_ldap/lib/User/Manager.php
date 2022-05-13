@@ -47,43 +47,20 @@ use Psr\Log\LoggerInterface;
  * cache
  */
 class Manager {
-	/** @var Access */
-	protected $access;
-
-	/** @var IConfig */
-	protected $ocConfig;
-
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var INotificationManager */
-	protected $notificationManager;
-
-	/** @var FilesystemHelper */
-	protected $ocFilesystem;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var Image */
-	protected $image;
-
-	/** @param \OCP\IAvatarManager */
-	protected $avatarManager;
-
-	/**
-	 * @var CappedMemoryCache $usersByDN
-	 */
-	protected $usersByDN;
-	/**
-	 * @var CappedMemoryCache $usersByUid
-	 */
-	protected $usersByUid;
-	/** @var IManager */
-	private $shareManager;
+	protected ?Access $access = null;
+	protected IConfig $ocConfig;
+	protected IDBConnection $db;
+	protected IUserManager $userManager;
+	protected INotificationManager $notificationManager;
+	protected FilesystemHelper $ocFilesystem;
+	protected LoggerInterface $logger;
+	protected Image $image;
+	protected IAvatarManager $avatarManager;
+	/** @var CappedMemoryCache<User> $usersByDN */
+	protected CappedMemoryCache $usersByDN;
+	/** @var CappedMemoryCache<User> $usersByUid */
+	protected CappedMemoryCache $usersByUid;
+	private IManager $shareManager;
 
 	public function __construct(
 		IConfig $ocConfig,

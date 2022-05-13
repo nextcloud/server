@@ -54,6 +54,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\ICacheFactory;
 use OCP\IMemcache;
 use OCP\Server;
+use OCP\ICache;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -63,23 +64,18 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	/** @var CappedMemoryCache|Result[] */
-	private $objectCache;
+	/** @var CappedMemoryCache<array|false> */
+	private CappedMemoryCache $objectCache;
 
-	/** @var CappedMemoryCache|bool[] */
-	private $directoryCache;
+	/** @var CappedMemoryCache<bool> */
+	private CappedMemoryCache $directoryCache;
 
-	/** @var CappedMemoryCache|array */
-	private $filesCache;
+	/** @var CappedMemoryCache<array> */
+	private CappedMemoryCache $filesCache;
 
-	/** @var IMimeTypeDetector */
-	private $mimeDetector;
-
-	/** @var bool|null */
-	private $versioningEnabled = null;
-
-	/** @var IMemcache */
-	private $memCache;
+	private IMimeTypeDetector $mimeDetector;
+	private ?bool $versioningEnabled = null;
+	private ICache $memCache;
 
 	public function __construct($parameters) {
 		parent::__construct($parameters);
@@ -146,10 +142,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param $key
 	 * @return array|false
 	 */
-	private function headObject($key) {
+	private function headObject(string $key) {
 		if (!isset($this->objectCache[$key])) {
 			try {
 				$this->objectCache[$key] = $this->getConnection()->headObject([
@@ -165,6 +160,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
 			$this->objectCache[$key]["Key"] = $key;
 		}
 		return $this->objectCache[$key];
