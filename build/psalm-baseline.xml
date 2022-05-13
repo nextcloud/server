@@ -1371,7 +1371,6 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
-    <InvalidPropertyAssignmentValue occurrences="1"/>
     <InvalidScalarArgument occurrences="7">
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>

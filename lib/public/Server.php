@@ -41,8 +41,9 @@ use Psr\Container\NotFoundExceptionInterface;
 final class Server {
 	/**
 	 * @template T
-	 * @param class-string<T>|string $serviceName
-	 * @return T|mixed
+	 * @template S as class-string<T>|string
+	 * @param S $serviceName
+	 * @return (S is class-string<T> ? T : mixed)
 	 * @throws ContainerExceptionInterface
 	 * @throws NotFoundExceptionInterface
 	 * @since 25.0.0
