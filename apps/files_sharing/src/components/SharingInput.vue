@@ -528,7 +528,7 @@ export default {
 	.multiselect__option {
 		span[lookup] {
 			.avatardiv {
-				background-image: var(--icon-search-fff);
+				background-image: var(--icon-search-white);
 				background-repeat: no-repeat;
 				background-position: center;
 				background-color: var(--color-text-maxcontrast) !important;

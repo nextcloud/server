@@ -21,21 +21,6 @@
  */
 
 /**
- * Removes the "#" from a color.
- *
- * @param string $color The color
- * @return string The color without #
- */
-@function remove-hash-from-color($color) {
-	$color: unquote($color);
-	$index: str-index(inspect($color), '#');
-	@if $index {
-		$color: str-slice(inspect($color), 2);
-	}
-	@return $color;
-}
-
-/**
  * @see core/src/icons.js
  */
 @function match-color-string($color) {
@@ -79,13 +64,4 @@
 	/* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
 	$varName: "--icon-#{$icon}-#{$color}";
 	background-image: var(#{$varName});
-}
-
-@mixin position($value) {
-	@if $value == 'sticky' {
-		position: -webkit-sticky; // Safari support
-		position: sticky;
-	} @else {
-		position: $value;
-	}
 }

@@ -13,6 +13,8 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'sass:math';
+@use 'variables';
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
 	margin: 0;
@@ -179,7 +181,8 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	@include position('sticky');
+	position: -webkit-sticky;
+	position: sticky;
 	height: 44px;
 	padding: 0;
 	margin: 0;
@@ -190,7 +193,7 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 	display: flex;
-	top: $header-height;
+	top: variables.$header-height;
 }
 
 /* position controls for apps with app-navigation */
@@ -296,7 +299,7 @@ body {
 	position: absolute !important;
 	height: 20px;
 	width: 24px;
-	background-image: var(--icon-toggle-000);
+	background-image: var(--icon-toggle-dark);
 	background-repeat: no-repeat;
 	background-position: center;
 	opacity: .3;
@@ -718,7 +721,7 @@ code {
 		padding-right: 140px;
 
 		div:first-child a {
-			background-image: var(--icon-home-000);
+			background-image: var(--icon-home-dark);
 			background-repeat: no-repeat;
 			background-position: left center;
 		}
@@ -775,7 +778,7 @@ code {
 		order:1;
 
 		.icon.icon-add{
-			background-image: var(--icon-add-000);
+			background-image: var(--icon-add-dark);
 			background-size: 16px 16px;
 			width: 34px;
 			height: 34px;
@@ -943,7 +946,7 @@ code {
 							}
 						}
 						&.filesize {
-							line-height: $name-height / 3;
+							line-height: math.div($name-height, 3);
 							width: 100%;
 						}
 						&.date {

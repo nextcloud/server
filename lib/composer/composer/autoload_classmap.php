@@ -1528,7 +1528,6 @@ return array(
     'OC\\Template\\JSResourceLocator' => $baseDir . '/lib/private/Template/JSResourceLocator.php',
     'OC\\Template\\ResourceLocator' => $baseDir . '/lib/private/Template/ResourceLocator.php',
     'OC\\Template\\ResourceNotFoundException' => $baseDir . '/lib/private/Template/ResourceNotFoundException.php',
-    'OC\\Template\\SCSSCacher' => $baseDir . '/lib/private/Template/SCSSCacher.php',
     'OC\\Template\\TemplateFileLocator' => $baseDir . '/lib/private/Template/TemplateFileLocator.php',
     'OC\\URLGenerator' => $baseDir . '/lib/private/URLGenerator.php',
     'OC\\Updater' => $baseDir . '/lib/private/Updater.php',

@@ -204,6 +204,7 @@ const iconsAliases = {
 	'icon-category-search': 'icon-search-dark',
 	'icon-category-tools': 'icon-settings-dark',
 	'icon-filetype-text': 'icon-file-grey',
+	'nav-icon-systemtagsfilter': 'icon-tag-dark',
 }
 
 const colorSvg = function(svg = '', color = '000') {

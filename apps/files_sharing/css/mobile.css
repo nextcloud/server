@@ -1,0 +1,86 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+@media only screen and (max-width: 1024px) {
+  /* make header scroll up for single shares, more view of content on small screens */
+  #header.share-file {
+    position: absolute !important;
+  }
+
+  /* hide size and date columns */
+  table th#headerSize,
+table td.filesize,
+table th#headerDate,
+table td.date {
+    display: none;
+  }
+
+  /* restrict length of displayed filename to prevent overflow */
+  table td.filename .nametext {
+    max-width: 75% !important;
+  }
+
+  /* on mobile, show single shared image at full width without margin */
+  #imgframe {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 35px;
+  }
+
+  /* some margin for the file type icon */
+  #imgframe .publicpreview {
+    margin-top: 32px;
+  }
+
+  /* some padding for better clickability */
+  #fileList a.action img {
+    padding: 0 6px 0 12px;
+  }
+
+  /* hide text of the actions on mobile */
+  #fileList a.action:not(.menuitem) span {
+    display: none;
+  }
+
+  /* ellipsis on file names */
+  .nametext {
+    width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #header .menutoggle {
+    padding-right: 14px;
+    background-position: center;
+  }
+
+  .note {
+    padding: 0 20px;
+  }
+
+  #emptycontent {
+    margin-top: 10vh;
+  }
+}
+
+/*# sourceMappingURL=mobile.css.map */

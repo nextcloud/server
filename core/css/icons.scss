@@ -26,6 +26,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+@use 'variables';
+@import 'functions';
 
 /* GLOBAL ------------------------------------------------------------------- */
 [class^='icon-'], [class*=' icon-'] {
@@ -117,36 +119,13 @@ audio, canvas, embed, iframe, img, input, object, video {
 	background-size: 32px !important;
 }
 
-.icon-white {
-	&.icon-shadow {
-		filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
-	}
-}
-
-.icon-audio-white {
-	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
-}
-
-.icon-audio-off-white {
-	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
-}
-
-.icon-fullscreen-white {
-	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
-}
-
-.icon-screen-white {
-	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
-}
-
-.icon-screen-off-white {
-	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
-}
-
-.icon-video-white {
-	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
-}
-
+.icon-white.icon-shadow,
+.icon-audio-white,
+.icon-audio-off-white,
+.icon-fullscreen-white,
+.icon-screen-white,
+.icon-screen-off-white,
+.icon-video-white,
 .icon-video-off-white {
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }

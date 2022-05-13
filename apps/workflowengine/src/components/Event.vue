@@ -111,7 +111,7 @@ export default {
 	}
 
 	.multiselect:not(.multiselect--disabled)::v-deep .multiselect__tags .multiselect__single {
-		background-image: var(--icon-triangle-s-000);
+		background-image: var(--icon-triangle-s-dark);
 		background-repeat: no-repeat;
 		background-position: right center;
 	}

@@ -15,6 +15,9 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'variables';
+@use 'sass:math';
+@import 'functions';
 
 /* BASE STYLING ------------------------------------------------------------ */
 // no h1 allowed since h1 = logo
@@ -78,16 +81,16 @@ kbd {
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
 #app-navigation:not(.vue) {
-	width: $navigation-width;
+	width: variables.$navigation-width;
 	position: fixed;
-	top: $header-height;
+	top: variables.$header-height;
 	left: 0;
 	z-index: 500;
 	overflow-y: auto;
 	overflow-x: hidden;
 	// Do not use vh because of mobile headers
 	// are included in the calculation
-	height: calc(100% - #{$header-height});
+	height: calc(100% - #{variables.$header-height});
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -378,7 +381,7 @@ kbd {
 			margin: 0;
 			padding: 0;
 			background: none;
-			@include icon-color('triangle-s', 'actions', $color-black, 1, true);
+			@include icon-color('triangle-s', 'actions', variables.$color-black, 1, true);
 			background-size: 16px;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -394,7 +397,7 @@ kbd {
 			z-index: 105; // above a, under button
 			background-color: var(--color-background-hover);
 			border-radius: 50%;
-			transition: opacity $animation-quick ease-in-out;
+			transition: opacity variables.$animation-quick ease-in-out;
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
@@ -442,7 +445,7 @@ kbd {
 		.app-navigation-entry-utils-menu-button {
 			/* Prevent bg img override if an icon class is set */
 			button:not([class^='icon-']):not([class*=' icon-']) {
-				@include icon-color('more', 'actions', $color-black, 1, true);
+				@include icon-color('more', 'actions', variables.$color-black, 1, true);
 			}
 			&:hover button,
 			&:focus button {
@@ -530,7 +533,7 @@ kbd {
 	.app-navigation-entry-deleted {
 		display: inline-flex;
 		padding-left: 44px;
-		transform: translateX(#{$navigation-width});
+		transform: translateX(#{variables.$navigation-width});
 		.app-navigation-entry-deleted-description {
 			position: relative;
 			white-space: nowrap;
@@ -592,7 +595,7 @@ kbd {
 	position: relative;
 	display: flex;
 	// padding is included in height
-	padding-top: $header-height;
+	padding-top: variables.$header-height;
 	min-height: 100%;
 }
 
@@ -601,10 +604,10 @@ kbd {
 
 /**
  * !Important. We are defining the minimum requirement we want for flex
- * Just before the mobile breakpoint we have $breakpoint-mobile (1024px) - $navigation-width
+ * Just before the mobile breakpoint we have variables.$breakpoint-mobile (1024px) - variables.$navigation-width
  * -> 468px. In that case we want 200px for the list and 268px for the content
  */
-$min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
+$min-content-width: variables.$breakpoint-mobile - variables.$navigation-width - variables.$list-min-width;
 
 #app-content {
 	z-index: 1000;
@@ -614,7 +617,7 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 	min-height: 100%;
 	/* margin if navigation element is here */
 	#app-navigation:not(.hidden) + & {
-		margin-left: $navigation-width;
+		margin-left: variables.$navigation-width;
 	}
 	/* no top border for first settings item */
 	> .section:first-child {
@@ -648,16 +651,17 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 */
 #app-sidebar {
 	width: 27vw;
-	min-width: $sidebar-min-width;
-	max-width: $sidebar-max-width;
+	min-width: variables.$sidebar-min-width;
+	max-width: variables.$sidebar-max-width;
 	display: block;
-	@include position('sticky');
-	top: $header-height;
+	position: -webkit-sticky;
+	position: sticky;
+	top: variables.$header-height;
 	right:0;
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1500;
-	height: calc(100vh - #{$header-height});
+	height: calc(100vh - #{variables.$header-height});
 	background: var(--color-main-background);
 	border-left: 1px solid var(--color-border);
 	flex-shrink: 0;
@@ -727,6 +731,7 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 	width: 100%;
 	padding: 0;
 	margin: 0;
+	background-color: var(--color-main-background);
 	box-shadow: none;
 	border: 0;
 	border-radius: 0;
@@ -867,7 +872,7 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 /* POPOVER MENU ------------------------------------------------------------ */
 $popoveritem-height: 44px;
 $popovericon-size: 16px;
-$outter-margin: ($popoveritem-height - $popovericon-size) / 2;
+$outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 
 .ie,
 .edge {
@@ -977,14 +982,14 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 			&[class*=' icon-'] {
 				min-width: 0; /* Overwrite icons*/
 				min-height: 0;
-				background-position: #{($popoveritem-height - $popovericon-size) / 2} center;
+				background-position: #{math.div($popoveritem-height - $popovericon-size, 2)} center;
 				background-size: $popovericon-size;
 			}
 			span[class^='icon-'],
 			span[class*=' icon-'] {
 				/* Keep padding to define the width to
 				 assure correct position of a possible text */
-				padding: #{$popoveritem-height / 2} 0 #{$popoveritem-height / 2} $popoveritem-height;
+				padding: #{math.div($popoveritem-height, 2)} 0 #{math.div($popoveritem-height, 2)} $popoveritem-height;
 			}
 			// If no icons set, force left margin to align
 			&:not([class^='icon-']):not([class*='icon-']) {
@@ -998,7 +1003,7 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 			}
 			&[class^='icon-'],
 			&[class*=' icon-'] {
-				padding: 0 #{($popoveritem-height - $popovericon-size) / 2} 0 $popoveritem-height !important;
+				padding: 0 #{math.div($popoveritem-height - $popovericon-size, 2)} 0 $popoveritem-height !important;
 			}
 			&:hover,
 			&:focus {
@@ -1033,7 +1038,7 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 			 * TODO: to remove */
 			> img {
 				width: $popovericon-size;
-				padding: #{($popoveritem-height - $popovericon-size) / 2};
+				padding: #{math.div($popoveritem-height - $popovericon-size, 2)};
 			}
 			/* checkbox/radio fixes */
 			> input.radio + label,
@@ -1126,19 +1131,20 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
-	@include position('sticky');
-	top: $header-height;
+	position: -webkit-sticky;
+	position: sticky;
+	top: variables.$header-height;
 	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
-	min-height: calc(100vh - #{$header-height});
-	max-height: calc(100vh - #{$header-height});
+	min-height: calc(100vh - #{variables.$header-height});
+	max-height: calc(100vh - #{variables.$header-height});
 	overflow-y: auto;
 	overflow-x: hidden;
-	flex: 1 1 $list-min-width;
-	min-width: $list-min-width;
-	max-width: $list-max-width;
+	flex: 1 1 variables.$list-min-width;
+	min-width: variables.$list-min-width;
+	max-width: variables.$list-max-width;
 
 	/* Default item */
 	.app-content-list-item {

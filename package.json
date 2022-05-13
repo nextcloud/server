@@ -16,6 +16,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:jsunit": "karma start tests/karma.config.js --single-run",
+    "sass": "sass --load-path core/css core/css/ apps/*/css",
+    "sass:watch": "sass --watch --load-path core/css core/css/ apps/*/css",
     "sass:icons": "babel-node core/src/icons.js"
   },
   "repository": {
@@ -111,7 +113,6 @@
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "css-loader": "^6.7.1",
     "eslint-plugin-es": "^4.1.0",
-    "eslint-webpack-plugin": "^3.1.1",
     "exports-loader": "^3.1.0",
     "file-loader": "^6.2.0",
     "handlebars": "^4.7.7",

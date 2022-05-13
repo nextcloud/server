@@ -12,6 +12,7 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'variables';
 
 /* prevent ugly selection effect on accidental selection */
 #header,
@@ -48,9 +49,9 @@
 	top: 0;
 	width: 100%;
 	z-index: 2000;
-	height: $header-height;
+	height: variables.$header-height;
 	background-color: var(--color-primary);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
+	background-image: var(--gradient-primary-background);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
@@ -78,7 +79,7 @@
 
 @mixin header-menu-height() {
 	min-height: calc(44px * 1.5); // show at least 1.5 entries
-	max-height: calc(100vh - #{$header-height} * 4);
+	max-height: calc(100vh - #{variables.$header-height} * 4);
 }
 
 #header {
@@ -96,7 +97,7 @@
 		max-width: 350px;
 		@include header-menu-height();
 		right: 5px; // relative to parent
-		top: $header-height;
+		top: variables.$header-height;
 		margin: 0;
 
 		&:not(.popovermenu) {
@@ -229,7 +230,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				width: $header-height;
+				width: variables.$header-height;
 				height: 100%;
 				cursor: pointer;
 				opacity: 0.6;
@@ -300,9 +301,9 @@
 /* NAVIGATION --------------------------------------------------------------- */
 nav[role='navigation'] {
 	display: inline-block;
-	width: $header-height;
-	height: $header-height;
-	margin-left: -$header-height;
+	width: variables.$header-height;
+	height: variables.$header-height;
+	margin-left: -#{variables.$header-height};
 	position: relative;
 }
 
@@ -424,7 +425,7 @@ nav[role='navigation'] {
 /* Apps menu */
 #appmenu {
 	display: inline-flex;
-	min-width: $header-height;
+	min-width: variables.$header-height;
 	z-index: 2;
 
 	li {
@@ -438,8 +439,8 @@ nav[role='navigation'] {
 			position: relative;
 			display: flex;
 			margin: 0;
-			height: $header-height;
-			width: $header-height;
+			height: variables.$header-height;
+			width: variables.$header-height;
 			align-items: center;
 			justify-content: center;
 			opacity: .6;
@@ -642,13 +643,13 @@ nav[role='navigation'] {
 	background: var(--color-primary) !important;
 
 	&.skip-content {
-		left: $navigation-width;
+		left: variables.$navigation-width;
 		margin-left: 3px;
 	}
 
 	&:focus,
 	&:active {
-		top: $header-height;
+		top: variables.$header-height;
 	}
 }
 

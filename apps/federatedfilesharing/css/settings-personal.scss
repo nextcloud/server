@@ -1,3 +1,6 @@
+@use 'variables';
+@import 'functions';
+
 #fileSharingSettings h2 {
 	display: inline-block;
 }
@@ -29,13 +32,13 @@
 }
 
 .social-diaspora {
-	@include icon-color('social-diaspora', 'federatedfilesharing', $color-black);
+	@include icon-color('social-diaspora', 'federatedfilesharing', variables.$color-black);
 }
 .social-twitter {
-    @include icon-color('social-twitter', 'federatedfilesharing', $color-black);
+    @include icon-color('social-twitter', 'federatedfilesharing', variables.$color-black);
 }
 .social-facebook {
-	@include icon-color('social-facebook', 'federatedfilesharing', $color-black);
+	@include icon-color('social-facebook', 'federatedfilesharing', variables.$color-black);
 }
 
 .social_sharing_buttons {
