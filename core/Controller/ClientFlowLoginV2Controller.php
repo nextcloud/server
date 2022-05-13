@@ -41,6 +41,8 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
 class ClientFlowLoginV2Controller extends Controller {
@@ -53,6 +55,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	private $urlGenerator;
 	/** @var ISession */
 	private $session;
+	/** @var IUserSession */
+	private $userSession;
 	/** @var ISecureRandom */
 	private $random;
 	/** @var Defaults */
@@ -67,6 +71,7 @@ class ClientFlowLoginV2Controller extends Controller {
 								LoginFlowV2Service $loginFlowV2Service,
 								IURLGenerator $urlGenerator,
 								ISession $session,
+								IUserSession $userSession,
 								ISecureRandom $random,
 								Defaults $defaults,
 								?string $userId,
@@ -75,6 +80,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		$this->loginFlowV2Service = $loginFlowV2Service;
 		$this->urlGenerator = $urlGenerator;
 		$this->session = $session;
+		$this->userSession = $userSession;
 		$this->random = $random;
 		$this->defaults = $defaults;
 		$this->userId = $userId;
@@ -160,10 +166,15 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $this->loginTokenForbiddenResponse();
 		}
 
+		/** @var IUser $user */
+		$user = $this->userSession->getUser();
+
 		return new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflowv2/grant',
 			[
+				'userId' => $user->getUID(),
+				'userDisplayName' => $user->getDisplayName(),
 				'client' => $flow->getClientName(),
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
