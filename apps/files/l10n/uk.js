@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} з {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Завантаження цього елемента не підтримується",
     "Target folder does not exist any more" : "Тека призначення більше не існує",
+    "Operation is blocked by access control" : "Операцію заблоковано через контроль доступу",
     "Error when assembling chunks, status code {status}" : "Помилка під час збірки частин, код помилки {status}",
     "Actions" : "Дії",
     "Rename" : "Перейменувати",
