@@ -113,7 +113,7 @@ class DefaultTheme implements ITheme {
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
 			'--color-primary-light' => $this->util->mix($this->primaryColor, $colorMainBackground, -80),
 			'--color-primary-light-text' => $this->primaryColor,
-			'--color-primary-light-hover' => $this->util->mix($this->primaryColor, $colorMainText, -80),
+			'--color-primary-light-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, -80),
 			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 			// used for buttons, inputs...
 			'--color-primary-element' => $this->util->elementColor($this->primaryColor),
