@@ -44,7 +44,7 @@ $urlGenerator = $_['urlGenerator'];
 			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 			<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
 			<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
-			<?php if (p($_['direct'])) { ?>
+			<?php if ($_['direct'] === 1 || $_['direct'] === '1') { ?>
 			<input type="hidden" name="direct" value="1" />
 			<?php } ?>
 			<div id="submit-wrapper">
