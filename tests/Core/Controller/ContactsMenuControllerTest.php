@@ -30,30 +30,27 @@ use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsMenuControllerTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Manager|MockObject */
 	private $contactsManager;
 
-	/** @var ContactsMenuController */
-	private $controller;
+	private ContactsMenuController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->createMock(IRequest::class);
+		$request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->contactsManager = $this->createMock(Manager::class);
 
-		$this->controller = new ContactsMenuController($this->request, $this->userSession, $this->contactsManager);
+		$this->controller = new ContactsMenuController($request, $this->userSession, $this->contactsManager);
 	}
 
 	public function testIndex() {

@@ -38,15 +38,9 @@ use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
 class ActionProviderStore {
-
-	/** @var IServerContainer */
-	private $serverContainer;
-
-	/** @var AppManager */
-	private $appManager;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IServerContainer $serverContainer;
+	private AppManager $appManager;
+	private LoggerInterface $logger;
 
 	public function __construct(IServerContainer $serverContainer, AppManager $appManager, LoggerInterface $logger) {
 		$this->serverContainer = $serverContainer;
@@ -67,7 +61,7 @@ class ActionProviderStore {
 
 		foreach ($allClasses as $class) {
 			try {
-				$providers[] = $this->serverContainer->query($class);
+				$providers[] = $this->serverContainer->get($class);
 			} catch (QueryException $ex) {
 				$this->logger->error(
 					'Could not load contacts menu action provider ' . $class,
