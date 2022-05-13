@@ -265,12 +265,12 @@ class SyncService {
 		$userId = $user->getUID();
 
 		$cardId = "$name:$userId.vcf";
-		$card = $this->backend->getCard($addressBookId, $cardId);
 		if ($user->isEnabled()) {
+			$card = $this->backend->getCard($addressBookId, $cardId);
 			if ($card === false) {
 				$vCard = $this->converter->createCardFromUser($user);
 				if ($vCard !== null) {
-					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
+					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
 				}
 			} else {
 				$vCard = $this->converter->createCardFromUser($user);

@@ -648,23 +648,26 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @param string $cardUri
 	 * @param string $cardData
+	 * @param bool $checkAlreadyExists
 	 * @return string
 	 */
-	public function createCard($addressBookId, $cardUri, $cardData) {
+	public function createCard($addressBookId, $cardUri, $cardData, bool $checkAlreadyExists = true) {
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
 
-		$q = $this->db->getQueryBuilder();
-		$q->select('uid')
-			->from($this->dbCardsTable)
-			->where($q->expr()->eq('addressbookid', $q->createNamedParameter($addressBookId)))
-			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
-			->setMaxResults(1);
-		$result = $q->execute();
-		$count = (bool)$result->fetchOne();
-		$result->closeCursor();
-		if ($count) {
-			throw new \Sabre\DAV\Exception\BadRequest('VCard object with uid already exists in this addressbook collection.');
+		if ($checkAlreadyExists) {
+			$q = $this->db->getQueryBuilder();
+			$q->select('uid')
+				->from($this->dbCardsTable)
+				->where($q->expr()->eq('addressbookid', $q->createNamedParameter($addressBookId)))
+				->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
+				->setMaxResults(1);
+			$result = $q->executeQuery();
+			$count = (bool)$result->fetchOne();
+			$result->closeCursor();
+			if ($count) {
+				throw new \Sabre\DAV\Exception\BadRequest('VCard object with uid already exists in this addressbook collection.');
+			}
 		}
 
 		$query = $this->db->getQueryBuilder();
@@ -1268,21 +1271,29 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				]
 			);
 
-		foreach ($vCard->children() as $property) {
-			if (!in_array($property->name, self::$indexProperties)) {
-				continue;
-			}
-			$preferred = 0;
-			foreach ($property->parameters as $parameter) {
-				if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
-					$preferred = 1;
-					break;
+
+		$this->db->beginTransaction();
+
+		try {
+			foreach ($vCard->children() as $property) {
+				if (!in_array($property->name, self::$indexProperties)) {
+					continue;
 				}
+				$preferred = 0;
+				foreach ($property->parameters as $parameter) {
+					if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
+						$preferred = 1;
+						break;
+					}
+				}
+				$query->setParameter('name', $property->name);
+				$query->setParameter('value', mb_strcut($property->getValue(), 0, 254));
+				$query->setParameter('preferred', $preferred);
+				$query->execute();
 			}
-			$query->setParameter('name', $property->name);
-			$query->setParameter('value', mb_strcut($property->getValue(), 0, 254));
-			$query->setParameter('preferred', $preferred);
-			$query->execute();
+			$this->db->commit();
+		} catch (\Exception $e) {
+			$this->db->rollBack();
 		}
 	}
 

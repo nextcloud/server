@@ -424,7 +424,7 @@ class AccountManagerTest extends TestCase {
 			],
 		];
 		foreach ($users as $userInfo) {
-			$this->invokePrivate($this->accountManager, 'updateUser', [$userInfo['user'], $userInfo['data'], false]);
+			$this->invokePrivate($this->accountManager, 'updateUser', [$userInfo['user'], $userInfo['data'], null, false]);
 		}
 	}
 
@@ -466,9 +466,6 @@ class AccountManagerTest extends TestCase {
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
 
-		// FIXME: should be an integration test instead of this abomination
-		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($oldData);
-
 		if ($updateExisting) {
 			$accountManager->expects($this->once())->method('updateExistingUser')
 				->with($user, $newData);
@@ -497,10 +494,10 @@ class AccountManagerTest extends TestCase {
 				);
 		}
 
-		$this->invokePrivate($accountManager, 'updateUser', [$user, $newData]);
+		$this->invokePrivate($accountManager, 'updateUser', [$user, $newData, $oldData]);
 	}
 
-	public function dataTrueFalse() {
+	public function dataTrueFalse(): array {
 		return [
 			#$newData | $oldData | $insertNew | $updateExisting
 			[['myProperty' => ['value' => 'newData']], ['myProperty' => ['value' => 'oldData']], false, true],
