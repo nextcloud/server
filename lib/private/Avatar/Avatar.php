@@ -244,13 +244,7 @@ abstract class Avatar implements IAvatar {
 		return $step;
 	}
 
-	/**
-	 * Convert a string to an integer evenly
-	 * @param string $hash the text to parse
-	 * @param int $maximum the maximum range
-	 * @return int[] between 0 and $maximum
-	 */
-	private function mixPalette($steps, $color1, $color2) {
+	private function mixPalette(int $steps, Color $color1, Color $color2): array {
 		$palette = [$color1];
 		$step = $this->stepCalc($steps, [$color1, $color2]);
 		for ($i = 1; $i < $steps; $i++) {
@@ -286,20 +280,20 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
-	 * @param string $hash
-	 * @return Color Object containting r g b int in the range [0, 255]
+	 * @param string $text
+	 * @return Color Object containing r g b int in the range [0, 255]
 	 */
-	public function avatarBackgroundColor(string $hash) {
+	public function avatarBackgroundColor(string $text): Color {
 		// Normalize hash
-		$hash = strtolower($hash);
+		$text = strtolower($text);
 
 		// Already a md5 hash?
-		if (preg_match('/^([0-9a-f]{4}-?){8}$/', $hash, $matches) !== 1) {
-			$hash = md5($hash);
+		if (preg_match('/^([0-9a-f]{4}-?){8}$/', $text, $matches) !== 1) {
+			$text = md5($text);
 		}
 
 		// Remove unwanted char
-		$hash = preg_replace('/[^0-9a-f]+/', '', $hash);
+		$text = preg_replace('/[^0-9a-f]+/', '', $text);
 
 		$red = new Color(182, 70, 157);
 		$yellow = new Color(221, 203, 85);
@@ -315,6 +309,6 @@ abstract class Avatar implements IAvatar {
 
 		$finalPalette = array_merge($palette1, $palette2, $palette3);
 
-		return $finalPalette[$this->hashToInt($hash, $steps * 3)];
+		return $finalPalette[$this->hashToInt($text, $steps * 3)];
 	}
 }

@@ -26,6 +26,7 @@
  */
 namespace OCP;
 
+use OC\Color;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
@@ -88,10 +89,10 @@ interface IAvatar {
 
 	/**
 	 * @param string $text
-	 * @return Color Object containting r g b int in the range [0, 255]
+	 * @return Color Object containing r g b int in the range [0, 255]
 	 * @since 14.0.0
 	 */
-	public function avatarBackgroundColor(string $text);
+	public function avatarBackgroundColor(string $text): Color;
 
 	/**
 	 * Handle a changed user
