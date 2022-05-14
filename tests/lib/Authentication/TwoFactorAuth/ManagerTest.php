@@ -370,13 +370,13 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->with('two_factor_remember_login')
 			->willReturn(false);
-		$this->session->expects($this->at(1))
+		$this->session->expects($this->exactly(2))
 			->method('remove')
-			->with('two_factor_auth_uid');
-		$this->session->expects($this->at(2))
-			->method('remove')
-			->with('two_factor_remember_login');
-		$this->session->expects($this->at(3))
+			->withConsecutive(
+				['two_factor_auth_uid'],
+				['two_factor_remember_login']
+			);
+		$this->session->expects($this->once())
 			->method('set')
 			->with(Manager::SESSION_UID_DONE, 'jos');
 		$this->session->method('getId')
@@ -488,17 +488,13 @@ class ManagerTest extends TestCase {
 
 	public function testNeedsSecondFactor() {
 		$user = $this->createMock(IUser::class);
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(3))
 			->method('exists')
-			->with('app_password')
-			->willReturn(false);
-		$this->session->expects($this->at(1))
-			->method('exists')
-			->with('two_factor_auth_uid')
-			->willReturn(false);
-		$this->session->expects($this->at(2))
-			->method('exists')
-			->with(Manager::SESSION_UID_DONE)
+			->withConsecutive(
+				['app_password'],
+				['two_factor_auth_uid'],
+				[Manager::SESSION_UID_DONE],
+			)
 			->willReturn(false);
 
 		$this->session->method('getId')
@@ -568,12 +564,12 @@ class ManagerTest extends TestCase {
 		$this->user->method('getUID')
 			->willReturn('ferdinand');
 
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(2))
 			->method('set')
-			->with('two_factor_auth_uid', 'ferdinand');
-		$this->session->expects($this->at(1))
-			->method('set')
-			->with('two_factor_remember_login', true);
+			->withConsecutive(
+				['two_factor_auth_uid', 'ferdinand'],
+				['two_factor_remember_login', true]
+			);
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
@@ -598,12 +594,12 @@ class ManagerTest extends TestCase {
 		$this->user->method('getUID')
 			->willReturn('ferdinand');
 
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(2))
 			->method('set')
-			->with('two_factor_auth_uid', 'ferdinand');
-		$this->session->expects($this->at(1))
-			->method('set')
-			->with('two_factor_remember_login', false);
+			->withConsecutive(
+				['two_factor_auth_uid', 'ferdinand'],
+				['two_factor_remember_login', false]
+			);
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
