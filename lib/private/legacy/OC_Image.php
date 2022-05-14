@@ -102,11 +102,9 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return bool
 	 */
-	public function valid() {
-		if (is_resource($this->resource)) {
-			return true;
-		}
-		if (is_object($this->resource) && get_class($this->resource) === \GdImage::class) {
+	public function valid() {	
+		if (is_resource($this->resource) && get_resource_type($this->resource) === 'gd'
+			|| is_object($this->resource) && $this->resource instanceof \GdImage) {
 			return true;
 		}
 
@@ -329,13 +327,8 @@ class OC_Image implements \OCP\IImage {
 	 * @throws \InvalidArgumentException in case the supplied resource does not have the type "gd"
 	 */
 	public function setResource($resource) {
-		// For PHP<8
-		if (is_resource($resource) && get_resource_type($resource) === 'gd') {
-			$this->resource = $resource;
-			return;
-		}
-		// PHP 8 has real objects for GD stuff
-		if (is_object($resource) && get_class($resource) === \GdImage::class) {
+		if (is_resource($resource) && get_resource_type($resource) === 'gd'
+			|| is_object($resource) && $this->resource instanceof \GdImage) {
 			$this->resource = $resource;
 			return;
 		}
