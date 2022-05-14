@@ -518,8 +518,6 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir a autocompletar o nome de usuário ao inserir o nome completo ou endereço de e-mail (ignorando se está na lista de telefones ou no mesmo grupo)",
     "Change privacy level of full name" : "Alterar o nível de privacidade do nome completo ",
     "No display name set" : "Nenhum nome de exibição definido",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>.",
-    "Match username when restricting to full match" : "Corresponder ao nome de usuário ao restringir a correspondência completa",
-    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Ignore o segundo nome de exibição entre parênteses, se houver (exemplo: \"Primeiro nome de exibição (segundo nome de exibição ignorado)\")"
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>."
 },
 "nplurals=2; plural=(n > 1);");
