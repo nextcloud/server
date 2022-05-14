@@ -54,7 +54,7 @@ OC.L10N.register(
     "Images" : "Bilder",
     "Office documents" : "Office-Dokumente",
     "PDF documents" : "PDF-Dokumente",
-    "Custom mimetype" : "Benutzerdefinierter Mime-Typ",
+    "Custom mimetype" : "Benutzerdefinierter MIME-Typ",
     "Select a tag" : "Schlagwort auswählen",
     "No results" : "Keine Ergebnisse",
     "%s (invisible)" : "%s (unsichtbar)",
