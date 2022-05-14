@@ -107,7 +107,7 @@
     "@nextcloud/stylelint-config": "^2.1.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/user-event": "^14.1.1",
-    "@testing-library/vue": "^5.8.2",
+    "@testing-library/vue": "^5.8.3",
     "@vue/test-utils": "^1.3.0",
     "babel-loader": "^8.2.5",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
