@@ -104,7 +104,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function valid() {	
 		if (is_resource($this->resource) && get_resource_type($this->resource) === 'gd'
-			|| is_object($this->resource) && $this->resource instanceof \GdImage) {
+			|| is_object($this->resource) && get_class($this->resource) === \GdImage::class) {
 			return true;
 		}
 
@@ -328,7 +328,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function setResource($resource) {
 		if (is_resource($resource) && get_resource_type($resource) === 'gd'
-			|| is_object($resource) && $this->resource instanceof \GdImage) {
+			|| is_object($resource) && get_class($resource) === \GdImage::class) {
 			$this->resource = $resource;
 			return;
 		}
