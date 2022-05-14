@@ -511,8 +511,6 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Разрешаване на автоматично довършване на име на потребител при въвеждане на пълното име или имейл адрес (като игнорирате липсващото съвпадение в телефонния указател и сте в същата група)",
     "Change privacy level of full name" : "Промяна на нивото на поверителност на пълното име",
     "No display name set" : "Няма настроено екранно име",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Максималният брой OPcache ключове почти е надвишен. За да се гарантира, че всички скриптове могат да се задържат в кеш, се препоръчва да се приложи <code>opcache.max_accelerated_files</code> към вашата PHP конфигурация със стойност, по-висока от <code>%s</code>.",
-    "Match username when restricting to full match" : "Подбор на име на потребител при прилагане на ограничаване до пълно съвпадение",
-    "Ignore second display name in parentheses if any (example: \"First display name (second ignored display name)\")" : "Игнорирайте второто показвано име в скоби, ако има такова (пример: „Първото показвано име (второ игнорирано показвано име)“)"
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Максималният брой OPcache ключове почти е надвишен. За да се гарантира, че всички скриптове могат да се задържат в кеш, се препоръчва да се приложи <code>opcache.max_accelerated_files</code> към вашата PHP конфигурация със стойност, по-висока от <code>%s</code>."
 },
 "nplurals=2; plural=(n != 1);");
