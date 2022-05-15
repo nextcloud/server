@@ -4557,18 +4557,6 @@
       <code>array</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/public/AppFramework/Http/ZipResponse.php">
-    <InvalidArrayAccess occurrences="5">
-      <code>$resource['internalName']</code>
-      <code>$resource['resource']</code>
-      <code>$resource['size']</code>
-      <code>$resource['size']</code>
-      <code>$resource['time']</code>
-    </InvalidArrayAccess>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$this-&gt;resources</code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/public/BackgroundJob/TimedJob.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
