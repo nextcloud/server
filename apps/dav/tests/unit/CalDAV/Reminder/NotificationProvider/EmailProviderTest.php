@@ -250,30 +250,20 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$deL10N->method('l')
 			->will($this->returnArgument(0));
 
-		$this->l10nFactory->expects($this->at(0))
+		$this->l10nFactory->expects(self::exactly(3))
 			->method('findLanguage')
 			->with()
 			->willReturn('en');
 
-		$this->l10nFactory->expects($this->at(1))
+		$this->l10nFactory->expects(self::exactly(3))
 			->method('languageExists')
-			->with('dav', 'de')
+			->withConsecutive(['dav', 'en'], ['dav', 'de'], ['dav', 'de'])
 			->willReturn(true);
 
-		$this->l10nFactory->expects($this->at(2))
+		$this->l10nFactory->expects(self::exactly(2))
 			->method('get')
-			->with('dav', 'de')
-			->willReturn($enL10N);
-
-		$this->l10nFactory->expects($this->at(3))
-			->method('languageExists')
-			->with('dav', 'en')
-			->willReturn(true);
-
-		$this->l10nFactory->expects($this->at(4))
-			->method('get')
-			->with('dav', 'en')
-			->willReturn($deL10N);
+			->withConsecutive(['dav', 'de'], ['dav', 'de'])
+			->willReturnOnConsecutiveCalls([$deL10N],[$deL10N]);
 
 		$template1 = $this->getTemplateMock();
 		$message11 = $this->getMessageMock('foo1@example.org', $template1);
@@ -284,7 +274,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$message22 = $this->getMessageMock('foo4@example.org', $template2);
 		$message23 = $this->getMessageMock('uid1@example.com', $template2);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects(self::exactly(2))
 			->method('createEMailTemplate')
 			->with('dav.calendarReminder')
 			->willReturn($template1);
@@ -341,9 +331,14 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			->willReturn($message23);
 		$this->mailer->expects($this->at(13))
 			->method('send')
-			->with($message23)
-			->willReturn([]);
-
+			->withConsecutive(
+				[$message11],
+				[$message12],
+				[$message13],
+				[$message21],
+				[$message22],
+				[$message23]
+			)->willReturn([]);
 		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getAttendeeVCalendar();
