@@ -22,7 +22,24 @@
  -->
 
 <template>
-	<NcModal v-if="initiated || currentFile.modal"
+	<div v-if="el" id="viewer">
+		<component :is="currentFile.modal"
+			v-if="!currentFile.failed"
+			:key="currentFile.fileid"
+			ref="content"
+			:active="true"
+			:can-swipe="false"
+			v-bind="currentFile"
+			:file-list="[currentFile]"
+			:is-full-screen="false"
+			:loaded.sync="currentFile.loaded"
+			:is-sidebar-shown="false"
+			class="viewer__file viewer__file--active"
+			@error="currentFailed" />
+		<Error v-else
+			:name="currentFile.basename" />
+	</div>
+	<NcModal v-else-if="initiated || currentFile.modal"
 		id="viewer"
 		:additional-trap-elements="trapElements"
 		:class="modalClass"
@@ -141,7 +158,7 @@ import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 
-import { extractFilePaths, isSingleSharedFile, sortCompare } from '../utils/fileUtils.js'
+import { extractFilePaths, sortCompare } from '../utils/fileUtils.js'
 import { getRootPath } from '../utils/davUtils.js'
 import canDownload from '../utils/canDownload.js'
 import cancelableRequest from '../utils/CancelableRequest.js'
@@ -230,6 +247,9 @@ export default {
 		files() {
 			return this.Viewer.files
 		},
+		el() {
+			return this.Viewer.el
+		},
 		loadMore() {
 			return this.Viewer.loadMore
 		},
@@ -299,6 +319,23 @@ export default {
 	},
 
 	watch: {
+		el(element) {
+			logger.info(element)
+			this.$nextTick(() => {
+				const viewerRoot = document.getElementById('viewer')
+				if (element) {
+					const el = document.querySelector(element)
+					if (el) {
+						el.appendChild(viewerRoot)
+					} else {
+						logger.warn('Could not find element ', { element })
+					}
+				} else {
+					document.body.appendChild(viewerRoot)
+				}
+			})
+		},
+
 		file(path) {
 			// we got a valid path! Load file...
 			if (path && path.trim() !== '') {
@@ -508,7 +545,7 @@ export default {
 
 				// store current position
 				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
-			} else if (group && !isSingleSharedFile(path)) {
+			} else if (group && this.el === null) {
 				const mimes = this.mimeGroups[group]
 					? this.mimeGroups[group]
 					: [mime]

@@ -47,6 +47,7 @@ export default class Viewer {
 		this._state.file = ''
 		this._state.fileInfo = null
 		this._state.files = []
+		this._state.el = null
 		this._state.loadMore = () => ([])
 		this._state.onPrev = () => {}
 		this._state.onNext = () => {}
@@ -112,6 +113,16 @@ export default class Viewer {
 	 */
 	get files() {
 		return this._state.files
+	}
+
+	/**
+	 * Get the element to render the current file in
+	 *
+	 * @memberof Viewer
+	 * @return {string} selector of the element
+	 */
+	get el() {
+		return this._state.el
 	}
 
 	/**
@@ -184,6 +195,19 @@ export default class Viewer {
 	}
 
 	/**
+	 * Set element to open viewer in
+	 *
+	 * @memberof Viewer
+	 * @param {string} el selector of the element to render the file in
+	 */
+	setRootElement(el = null) {
+		if (this._state.file) {
+			throw new Error('Please set root element before calling Viewer.open().')
+		}
+		this._state.el = el
+	}
+
+	/**
 	 * Open the path into the viewer
 	 *
 	 * @memberof Viewer
@@ -223,12 +247,14 @@ export default class Viewer {
 		} else {
 			this._state.fileInfo = fileInfo
 		}
-		this._state.files = list
-		this._state.loadMore = loadMore
-		this._state.onPrev = onPrev
-		this._state.onNext = onNext
-		this._state.onClose = onClose
-		this._state.canLoop = canLoop
+		if (!this._state.el) {
+			this._state.files = list
+			this._state.loadMore = loadMore
+			this._state.onPrev = onPrev
+			this._state.onNext = onNext
+			this._state.onClose = onClose
+			this._state.canLoop = canLoop
+		}
 	}
 
 	/**

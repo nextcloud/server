@@ -57,18 +57,6 @@ const extractFilePaths = function(path) {
 }
 
 /**
- * A single shared file can be opend with path: '/'.
- * In this case there is no parent folder to find sibling files in.
- *
- * @param {string} path the full path
- * @return {boolean}
- */
-const isSingleSharedFile = function(path) {
-
-	return path === '/'
-}
-
-/**
  * Sorting comparison function
  *
  * @param {object} fileInfo1 file 1 fileinfo
@@ -153,4 +141,4 @@ const getDavPath = function({ filename, basename }) {
 	return getRootPath() + encodeFilePath(filename)
 }
 
-export { encodeFilePath, extractFilePaths, isSingleSharedFile, sortCompare, genFileInfo, getDavPath }
+export { encodeFilePath, extractFilePaths, sortCompare, genFileInfo, getDavPath }
