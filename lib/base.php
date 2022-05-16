@@ -141,7 +141,7 @@ class OC {
 	public static function initPaths() {
 		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
+		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
 		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
 			self::$configDir = rtrim($dir, '/') . '/';
@@ -463,6 +463,14 @@ class OC {
 	}
 
 	/**
+	 * Try to set some values to the required Nextcloud default
+	 */
+	public static function setRequiredIniValues() {
+		@ini_set('default_charset', 'UTF-8');
+		@ini_set('gd.jpeg_ignore_warning', '1');
+	}
+
+	/**
 	 * Send the same site cookies
 	 */
 	private static function sendSameSiteCookies() {
@@ -626,6 +634,7 @@ class OC {
 		@ini_set('max_execution_time', '3600');
 		@ini_set('max_input_time', '3600');
 
+		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 		$systemConfig = \OC::$server->get(\OC\SystemConfig::class);
 		self::registerAutoloaderCache($systemConfig);
