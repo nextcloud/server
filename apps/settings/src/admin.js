@@ -14,22 +14,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		})
 	})
 
-	$('#backgroundjobs span.crondate').tooltip({ placement: 'top' })
-
-	$('#backgroundjobs input').change(() => {
-		if ($(this).is(':checked')) {
-			const mode = $(this).val()
-			if (mode === 'ajax' || mode === 'webcron' || mode === 'cron') {
-				OCP.AppConfig.setValue('core', 'backgroundjobs_mode', mode, {
-					success: () => {
-						// clear cron errors on background job mode change
-						OCP.AppConfig.deleteKey('core', 'cronErrors')
-					}
-				})
-			}
-		}
-	})
-
 	$('#shareAPIEnabled').change(() => {
 		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked)
 	})

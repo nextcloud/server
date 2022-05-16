@@ -29,6 +29,7 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import logger from './logger'
 
 import ProfileSettings from './components/BasicSettings/ProfileSettings'
+import BackgroundJob from './components/BasicSettings/BackgroundJob'
 
 __webpack_nonce__ = btoa(getRequestToken())
 
@@ -43,7 +44,10 @@ Vue.mixin({
 	},
 })
 
+const BackgroundJobView = Vue.extend(BackgroundJob)
+new BackgroundJobView().$mount('#vue-admin-background-job')
+
 if (profileEnabledGlobally) {
 	const ProfileSettingsView = Vue.extend(ProfileSettings)
-	new ProfileSettingsView().$mount('.vue-admin-profile-settings')
+	new ProfileSettingsView().$mount('#vue-admin-profile-settings')
 }
