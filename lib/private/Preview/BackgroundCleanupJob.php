@@ -32,6 +32,7 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
+use OCP\IConfig;
 
 class BackgroundCleanupJob extends TimedJob {
 
@@ -47,13 +48,15 @@ class BackgroundCleanupJob extends TimedJob {
 	/** @var IMimeTypeLoader */
 	private $mimeTypeLoader;
 
-	public function __construct(IDBConnection $connection,
+	public function __construct(IConfig $config,
+								IDBConnection $connection,
 								Root $previewFolder,
 								IMimeTypeLoader $mimeTypeLoader,
 								bool $isCLI) {
 		// Run at most once an hour
 		$this->setInterval(3600);
 
+		$this->config = $config;
 		$this->connection = $connection;
 		$this->previewFolder = $previewFolder;
 		$this->isCLI = $isCLI;
@@ -61,6 +64,10 @@ class BackgroundCleanupJob extends TimedJob {
 	}
 
 	public function run($argument) {
+		if (!$this->config->getSystemValue('enable_previews', true)) {
+			return;
+		}
+
 		foreach ($this->getDeletedFiles() as $fileId) {
 			try {
 				$preview = $this->previewFolder->getFolder((string)$fileId);

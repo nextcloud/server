@@ -79,6 +79,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->trashEnabled = $appManager->isEnabledForUser('files_trashbin', $this->userId);
 		$appManager->disableApp('files_trashbin');
 
+		$this->config = \OC::$server->getConfig();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->previewManager = \OC::$server->getPreviewManager();
 		$this->rootFolder = \OC::$server->getRootFolder();
@@ -142,7 +143,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$root = $this->getRoot();
 
 		$this->assertSame(11, $this->countPreviews($root, $fileIds));
-		$job = new BackgroundCleanupJob($this->connection, $root, $this->mimeTypeLoader, true);
+		$job = new BackgroundCleanupJob($this->config, $this->connection, $root, $this->mimeTypeLoader, true);
 		$job->run([]);
 
 		foreach ($files as $file) {
@@ -166,7 +167,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$root = $this->getRoot();
 
 		$this->assertSame(11, $this->countPreviews($root, $fileIds));
-		$job = new BackgroundCleanupJob($this->connection, $root, $this->mimeTypeLoader, false);
+		$job = new BackgroundCleanupJob($this->config, $this->connection, $root, $this->mimeTypeLoader, false);
 		$job->run([]);
 
 		foreach ($files as $file) {
@@ -185,6 +186,31 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->assertSame(0, $this->countPreviews($root, $fileIds));
 	}
 
+	public function testPreviewsDisabled() {
+		$files = $this->setup11Previews();
+		$fileIds = array_map(function (File $f) {
+			return $f->getId();
+		}, $files);
+
+		foreach ($files as $file) {
+			$file->delete();
+		}
+
+		$root = $this->getRoot();
+		$this->assertSame(11, $this->countPreviews($root, $fileIds));
+
+		$this->config->setSystemValue('enable_previews', false);
+
+		$job = new BackgroundCleanupJob($this->config, $this->connection, $root, $this->mimeTypeLoader, true);
+		$job->run([]);
+
+		$root = $this->getRoot();
+		$this->assertSame(11, $this->countPreviews($root, $fileIds));
+
+		// Cleanup
+		$this->config->setSystemValue('enable_previews', true);
+	}
+
 	public function testOldPreviews() {
 		$appdata = \OC::$server->getAppDataDir('preview');
 
@@ -196,7 +222,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$appdata = \OC::$server->getAppDataDir('preview');
 		$this->assertSame(2, count($appdata->getDirectoryListing()));
 
-		$job = new BackgroundCleanupJob($this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
+		$job = new BackgroundCleanupJob($this->config, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
 		$job->run([]);
 
 		$appdata = \OC::$server->getAppDataDir('preview');
