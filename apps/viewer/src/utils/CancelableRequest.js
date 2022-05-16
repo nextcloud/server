@@ -3,6 +3,7 @@
  *
  * @author Marco Ambrosini <marcoambrosini@pm.me>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license AGPL-3.0-or-later
  *
@@ -21,8 +22,6 @@
  *
  */
 
-import axios from '@nextcloud/axios'
-
 /**
  * Creates a cancelable axios 'request object'.
  *
@@ -30,11 +29,7 @@ import axios from '@nextcloud/axios'
  * @return {object}
  */
 const CancelableRequest = function(request) {
-	/**
-	 * Generate an axios cancel token
-	 */
-	const CancelToken = axios.CancelToken
-	const source = CancelToken.source()
+	const controller = new AbortController()
 
 	/**
 	 * Execute the request
@@ -45,12 +40,12 @@ const CancelableRequest = function(request) {
 	const fetch = async function(url, options) {
 		return request(
 			url,
-			Object.assign({ cancelToken: source.token }, { options })
+			{ ...options, signal: controller.signal }
 		)
 	}
 	return {
 		request: fetch,
-		cancel: source.cancel,
+		cancel: () => controller.abort(),
 	}
 }
 
