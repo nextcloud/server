@@ -20,25 +20,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-require '../../../../3rdparty/autoload.php';
+
+use Sabre\DAV\Client;
+
+require __DIR__ . '/../../../3rdparty/autoload.php';
 
 if ($argc !== 6) {
-	echo "Invalid number of arguments" . PHP_EOL;
+	echo "Usage: " . basename(__FILE__) . " {baseUri} {userName} {password} {fileToUpload} {chunkSize}" . PHP_EOL;
 	exit;
 }
 
 /**
- * @param \Sabre\DAV\Client $client
- * @param $uploadUrl
- * @return mixed
+ * @param Client $client
+ * @param string $method
+ * @param string $uploadUrl
+ * @param string|resource|null $data
+ * @param array $headers
+ * @return array
  */
-function request($client, $method, $uploadUrl, $data = null, $headers = []) {
+function request($client, $method, $uploadUrl, $data = null, $headers = []): array {
 	echo "$method $uploadUrl ... ";
 	$t0 = microtime(true);
 	$result = $client->request($method, $uploadUrl, $data, $headers);
 	$t1 = microtime(true);
 	echo $result['statusCode'] . " - " . ($t1 - $t0) . ' seconds' . PHP_EOL;
-	if (!in_array($result['statusCode'],  [200, 201])) {
+	if (!in_array($result['statusCode'], [200, 201])) {
 		echo $result['body'] . PHP_EOL;
 	}
 	return $result;
@@ -48,9 +54,9 @@ $baseUri = $argv[1];
 $userName = $argv[2];
 $password = $argv[3];
 $file = $argv[4];
-$chunkSize = $argv[5] * 1024 * 1024;
+$chunkSize = ((int)$argv[5]) * 1024 * 1024;
 
-$client = new \Sabre\DAV\Client([
+$client = new Client([
 	'baseUri' => $baseUri,
 	'userName' => $userName,
 	'password' => $password
