@@ -65,7 +65,7 @@ const OCEventSource = function(src, data) {
 	} else {
 		var iframeId = 'oc_eventsource_iframe_' + OCEventSource.iframeCount
 		OCEventSource.fallBackSources[OCEventSource.iframeCount] = this
-		this.iframe = $('<iframe/>')
+		this.iframe = $('<iframe></iframe>')
 		this.iframe.attr('id', iframeId)
 		this.iframe.hide()
 
