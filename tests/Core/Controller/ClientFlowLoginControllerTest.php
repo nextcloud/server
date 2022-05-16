@@ -134,15 +134,15 @@ class ClientFlowLoginControllerTest extends TestCase {
 
 	public function testShowAuthPickerPageWithOcsHeader() {
 		$this->request
-			->expects($this->at(0))
 			->method('getHeader')
-			->with('USER_AGENT')
-			->willReturn('Mac OS X Sync Client');
-		$this->request
-			->expects($this->at(1))
-			->method('getHeader')
-			->with('OCS-APIREQUEST')
-			->willReturn('true');
+			->withConsecutive(
+				['USER_AGENT'],
+				['OCS-APIREQUEST']
+			)
+			->willReturnMap([
+				['USER_AGENT', 'Mac OS X Sync Client'],
+				['OCS-APIREQUEST', 'true'],
+			]);
 		$this->random
 			->expects($this->once())
 			->method('generate')
@@ -195,10 +195,15 @@ class ClientFlowLoginControllerTest extends TestCase {
 
 	public function testShowAuthPickerPageWithOauth() {
 		$this->request
-			->expects($this->at(0))
 			->method('getHeader')
-			->with('USER_AGENT')
-			->willReturn('Mac OS X Sync Client');
+			->withConsecutive(
+				['USER_AGENT'],
+				['OCS-APIREQUEST']
+			)
+			->willReturnMap([
+				['USER_AGENT', 'Mac OS X Sync Client'],
+				['OCS-APIREQUEST', 'false'],
+			]);
 		$client = new Client();
 		$client->setName('My external service');
 		$client->setRedirectUri('https://example.com/redirect.php');
@@ -411,23 +416,21 @@ class ClientFlowLoginControllerTest extends TestCase {
 	 */
 	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl) {
 		$this->session
-			->expects($this->at(0))
 			->method('get')
-			->with('client.flow.state.token')
-			->willReturn('MyStateToken');
+			->withConsecutive(
+				['client.flow.state.token'],
+				['oauth.state']
+			)
+			->willReturnMap([
+				['client.flow.state.token', 'MyStateToken'],
+				['oauth.state', 'MyOauthState'],
+			]);
 		$this->session
-			->expects($this->at(1))
 			->method('remove')
-			->with('client.flow.state.token');
-		$this->session
-			->expects($this->at(3))
-			->method('get')
-			->with('oauth.state')
-			->willReturn('MyOauthState');
-		$this->session
-			->expects($this->at(4))
-			->method('remove')
-			->with('oauth.state');
+			->withConsecutive(
+				['client.flow.state.token'],
+				['oauth.state']
+			);
 		$this->session
 			->expects($this->once())
 			->method('getId')
@@ -448,15 +451,15 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->with($myToken, 'SessionId')
 			->willReturn('MyPassword');
 		$this->random
-			->expects($this->at(0))
 			->method('generate')
-			->with(72)
-			->willReturn('MyGeneratedToken');
-		$this->random
-			->expects($this->at(1))
-			->method('generate')
-			->with(128)
-			->willReturn('MyAccessCode');
+			->withConsecutive(
+				[72],
+				[128]
+			)
+			->willReturnMap([
+				[72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS, 'MyGeneratedToken'],
+				[128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS, 'MyAccessCode'],
+			]);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
