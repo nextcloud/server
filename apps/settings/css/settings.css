@@ -217,6 +217,12 @@ select#timezone, select#languageinput, select#localeinput {
 .development-notice {
   text-align: center;
 }
+.development-notice a:not(.link-button) {
+  text-decoration: underline;
+}
+.development-notice a:not(.link-button):hover {
+  background-color: var(--color-primary-element-lighter);
+}
 
 .link-button {
   display: inline-block;
@@ -512,6 +518,9 @@ table.nostyle td {
 .social-button {
   padding-left: 0 !important;
   margin-left: -10px;
+}
+.social-button a {
+  display: inline-block;
 }
 .social-button img {
   padding: 10px;

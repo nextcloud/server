@@ -316,6 +316,9 @@ table th .columntitle {
   -moz-box-sizing: border-box;
   vertical-align: middle;
 }
+table th .columntitle:focus-visible {
+  border-radius: 2px;
+}
 
 table.multiselect th .columntitle {
   display: inline-block;
@@ -606,6 +609,9 @@ table td.selection {
 .select-all:focus + label {
   background-color: var(--color-background-hover);
   border-radius: var(--border-radius-pill);
+  outline: none !important;
+  border: 2px solid var(--color-primary) !important;
+  padding: 14px;
 }
 
 #fileList tr td.selection > .selectCheckBox:focus-visible + label,
@@ -944,6 +950,10 @@ table.dragshadow td.size {
   position: relative;
 }
 
+.breadcrumb .icon-home {
+  border-radius: var(--border-radius);
+}
+
 .breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
   background-color: rgba(0, 130, 201, 0.3);
@@ -980,9 +990,6 @@ table.dragshadow td.size {
   border-radius: 0;
   background-color: transparent;
   z-index: 1;
-}
-#quota > a[href="#"] {
-  box-shadow: none !important;
 }
 #quota > a[href="#"], #quota > a[href="#"] * {
   cursor: default !important;
@@ -1239,6 +1246,9 @@ table.dragshadow td.size {
 }
 #view-toggle:hover, #view-toggle:focus, #showgridview:focus + #view-toggle {
   opacity: 1;
+}
+#view-toggle:focus-visible, #showgridview:focus-visible + #view-toggle {
+  box-shadow: inset 0 0 0 2px var(--color-primary) !important;
 }
 
 /**

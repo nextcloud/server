@@ -192,7 +192,7 @@ kbd {
 #app-navigation:not(.vue) > ul {
   position: relative;
   height: 100%;
-  width: inherit;
+  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box;
@@ -231,6 +231,11 @@ kbd {
 #app-navigation:not(.vue) > ul > li a:focus,
 #app-navigation:not(.vue) > ul > li a:focus > a {
   background-color: var(--color-background-hover);
+}
+#app-navigation:not(.vue) > ul > li a:focus-visible {
+  border-radius: var(--border-radius);
+  box-shadow: var(--color-primary) inset 0 0 0 2px;
+  outline: none;
 }
 #app-navigation:not(.vue) > ul > li.active,
 #app-navigation:not(.vue) > ul > li.active > a,
@@ -344,6 +349,10 @@ kbd {
 #app-navigation:not(.vue) > ul > li > ul > li > a.svg {
   padding: 0 12px 0 44px;
 }
+#app-navigation:not(.vue) > ul > li > a.svg :focus-visible,
+#app-navigation:not(.vue) > ul > li > ul > li > a.svg :focus-visible {
+  padding: 0 8px 0 42px;
+}
 #app-navigation:not(.vue) > ul > li > a:first-child img,
 #app-navigation:not(.vue) > ul > li > ul > li > a:first-child img {
   margin-right: 11px;
@@ -423,6 +432,12 @@ kbd {
   /* Needed for IE11; otherwise the button appears to the right of the
    * link. */
   left: 0;
+}
+#app-navigation:not(.vue) .collapsible .collapse:focus-visible {
+  opacity: 1;
+  border-width: 0;
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  background: none;
 }
 #app-navigation:not(.vue) .collapsible:before {
   position: absolute;
@@ -758,6 +773,11 @@ kbd {
   left: 0;
   display: block;
   filter: var(--background-invert-if-dark);
+}
+#app-settings-header .settings-button:focus-visible {
+  box-shadow: 0 0 0 2px inset var(--color-primary) !important;
+  border-radius: var(--border-radius);
+  background-position: 12px center;
 }
 
 /* GENERAL SECTION ------------------------------------------------------------ */

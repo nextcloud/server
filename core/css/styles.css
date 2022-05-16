@@ -39,7 +39,6 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   margin: 0;
   padding: 0;
   border: 0;
-  outline: 0;
   font-weight: inherit;
   font-size: 100%;
   font-family: inherit;
@@ -47,6 +46,23 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   cursor: default;
   scrollbar-color: var(--color-border-dark) transparent;
   scrollbar-width: thin;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
+  outline: none;
+}
+
+/** Let vue apps handle the focus themselves */
+#content-vue :focus-visible,
+#app-navigation-vue :focus-visible,
+.vue :focus-visible {
+  box-shadow: none;
+  outline: none;
 }
 
 html, body {
@@ -306,6 +322,12 @@ body {
 
 #show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
   opacity: 0.8;
+}
+
+#show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
+  box-shadow: var(--color-primary) 0 0 0 2px;
+  opacity: 1;
+  border-radius: 9999px;
 }
 
 #show + label, #dbpassword + label, #personal-show + label {
@@ -919,9 +941,15 @@ span.ui-icon {
 
 /* ---- CONTACTS MENU ---- */
 #contactsmenu .menutoggle {
-  background-size: 20px 20px;
-  padding: 14px;
   cursor: pointer;
+}
+#contactsmenu .menutoggle:before {
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position-x: 3px;
+  background-position-y: 4px;
+  padding: 14px;
+  content: " ";
   background-image: var(--original-icon-contacts-white);
   filter: var(--primary-invert-if-bright);
 }

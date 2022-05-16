@@ -21,6 +21,11 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	a:focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
+		box-shadow: inset 0 0 0 2px var(--color-primary-text);
+		border-radius: var(--border-radius);
+		outline: none;
+	}
 }
 
 /* removed until content-focusing issue is fixed */
@@ -58,20 +63,18 @@
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	padding: 7px 0;
+	padding: 5px 0;
 	padding-left: 86px; // logo width + 2* pa
 	position: relative;
-	height: 100%;
+	height: calc(100% - 4px);
 	box-sizing: border-box;
 	opacity: 1;
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	overflow: hidden;
+	margin: 2px;
 
-	&:focus {
-		opacity: .75;
-	}
 	&:hover, &:active {
 		opacity: 1;
 	}
@@ -146,6 +149,10 @@
 					&:active,
 					&.active {
 						background-color: var(--color-primary-light);
+					}
+					&:focus-visible {
+						box-shadow: inset 0 0 0 2px var(--color-primary);
+						outline: none;
 					}
 					span {
 						display: inline-block;
@@ -231,11 +238,19 @@
 				justify-content: center;
 				align-items: center;
 				width: variables.$header-height;
-				height: 100%;
+				height: 44px;
 				cursor: pointer;
-				opacity: 0.6;
+				opacity: 0.85;
 				padding: 0;
-				margin: 0;
+				margin: 2px 0;
+
+				&:focus {
+					opacity: 1;
+				}
+
+				&:focus-visible {
+					outline: none;
+				}
 			}
 		}
 	}
@@ -353,7 +368,7 @@ nav[role='navigation'] {
 	/* User menu on the right */
 	#expand {
 		opacity: 1; /* override icon opacity */
-		padding-right: 12px;
+		margin-right: 12px;
 
 		&:hover,
 		&:focus,
@@ -439,14 +454,15 @@ nav[role='navigation'] {
 			position: relative;
 			display: flex;
 			margin: 0;
-			height: variables.$header-height;
+			height: calc(variables.$header-height - 6px);
 			width: variables.$header-height;
 			align-items: center;
 			justify-content: center;
-			opacity: .6;
+			opacity: .85;
 			// Make sure most app names don’t ellipsize
 			letter-spacing: -0.5px;
 			font-size: 12px;
+			margin: 2px;
 		}
 
 		/* focused app visual feedback */
@@ -583,7 +599,7 @@ nav[role='navigation'] {
 		border-width: 10px;
 		transform: translateX(-50%);
 		left: 50%;
-		bottom: 0;
+		bottom: -5px;
 		display: none;
 	}
 

@@ -231,6 +231,11 @@ export default {
 		align-items: flex-start !important;
 		color: var(--color-main-text) !important;
 
+		&:focus-visible {
+			padding: 6px 8px 1px 8px !important;
+			margin: 2px !important;
+		}
+
 		&:not([href]) {
 			height: var(--header-menu-item-height) !important;
 			color: var(--color-text-maxcontrast) !important;
@@ -298,7 +303,7 @@ export default {
 				background-color: var(--color-background-hover);
 			}
 			&:focus {
-				border: 2px solid var(--color-main-text)!important;
+				box-shadow: 0 0 0 2px var(--color-main-text) !important;
 			}
 		}
 	}

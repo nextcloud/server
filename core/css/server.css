@@ -40,7 +40,6 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   margin: 0;
   padding: 0;
   border: 0;
-  outline: 0;
   font-weight: inherit;
   font-size: 100%;
   font-family: inherit;
@@ -48,6 +47,23 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   cursor: default;
   scrollbar-color: var(--color-border-dark) transparent;
   scrollbar-width: thin;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
+  outline: none;
+}
+
+/** Let vue apps handle the focus themselves */
+#content-vue :focus-visible,
+#app-navigation-vue :focus-visible,
+.vue :focus-visible {
+  box-shadow: none;
+  outline: none;
 }
 
 html, body {
@@ -307,6 +323,12 @@ body {
 
 #show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
   opacity: 0.8;
+}
+
+#show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
+  box-shadow: var(--color-primary) 0 0 0 2px;
+  opacity: 1;
+  border-radius: 9999px;
 }
 
 #show + label, #dbpassword + label, #personal-show + label {
@@ -920,9 +942,15 @@ span.ui-icon {
 
 /* ---- CONTACTS MENU ---- */
 #contactsmenu .menutoggle {
-  background-size: 20px 20px;
-  padding: 14px;
   cursor: pointer;
+}
+#contactsmenu .menutoggle:before {
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position-x: 3px;
+  background-position-y: 4px;
+  padding: 14px;
+  content: " ";
   background-image: var(--original-icon-contacts-white);
   filter: var(--primary-invert-if-bright);
 }
@@ -1326,6 +1354,15 @@ div[contenteditable=true]:not(:disabled):not(.primary):active,
   outline: none;
   background-color: var(--color-main-background);
   color: var(--color-text-light);
+}
+div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visible,
+select:not(:disabled):not(.primary):focus-visible,
+button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
+input:not([type=range]):not(:disabled):not(.primary):focus-visible,
+textarea:not(:disabled):not(.primary):focus-visible,
+div[contenteditable=true]:not(:disabled):not(.primary):focus-visible,
+.pager li a:not(:disabled):not(.primary):focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
 }
 div.select2-drop .select2-search input:disabled,
 select:disabled,
@@ -2259,6 +2296,17 @@ label.infield {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+#header a:focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
+#navigation a:focus-visible,
+#navigation button:not(.button-vue):focus-visible,
+#navigation div[role=button]:focus-visible,
+#expanddiv a:focus-visible,
+#expanddiv button:not(.button-vue):focus-visible,
+#expanddiv div[role=button]:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary-text);
+  border-radius: var(--border-radius);
+  outline: none;
+}
 
 /* removed until content-focusing issue is fixed */
 #skip-to-content a {
@@ -2295,19 +2343,17 @@ label.infield {
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-  padding: 7px 0;
+  padding: 5px 0;
   padding-left: 86px;
   position: relative;
-  height: 100%;
+  height: calc(100% - 4px);
   box-sizing: border-box;
   opacity: 1;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
-}
-#nextcloud:focus {
-  opacity: 0.75;
+  margin: 2px;
 }
 #nextcloud:hover, #nextcloud:active {
   opacity: 1;
@@ -2386,6 +2432,12 @@ label.infield {
 #header .header-right > div > .menu.settings-menu > ul li a:active,
 #header .header-right > div > .menu.settings-menu > ul li a.active {
   background-color: var(--color-primary-light);
+}
+#header .header-left > nav > .menu #apps > ul li a:focus-visible, #header .header-left > nav > .menu.settings-menu > ul li a:focus-visible,
+#header .header-right > div > .menu #apps > ul li a:focus-visible,
+#header .header-right > div > .menu.settings-menu > ul li a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  outline: none;
 }
 #header .header-left > nav > .menu #apps > ul li a span, #header .header-left > nav > .menu.settings-menu > ul li a span,
 #header .header-right > div > .menu #apps > ul li a span,
@@ -2469,11 +2521,19 @@ label.infield {
   justify-content: center;
   align-items: center;
   width: 50px;
-  height: 100%;
+  height: 44px;
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.85;
   padding: 0;
-  margin: 0;
+  margin: 2px 0;
+}
+#header .header-right > div > .menutoggle:focus,
+#header .header-right > form > .menutoggle:focus {
+  opacity: 1;
+}
+#header .header-right > div > .menutoggle:focus-visible,
+#header .header-right > form > .menutoggle:focus-visible {
+  outline: none;
 }
 
 /* hover effect for app switcher label */
@@ -2583,7 +2643,7 @@ nav[role=navigation] {
 #settings #expand {
   opacity: 1;
   /* override icon opacity */
-  padding-right: 12px;
+  margin-right: 12px;
   /* Profile picture in header */
   /* show triangle below user menu if active */
 }
@@ -2670,13 +2730,14 @@ nav[role=navigation] {
   position: relative;
   display: flex;
   margin: 0;
-  height: 50px;
+  height: 44px;
   width: 50px;
   align-items: center;
   justify-content: center;
-  opacity: 0.6;
+  opacity: 0.85;
   letter-spacing: -0.5px;
   font-size: 12px;
+  margin: 2px;
 }
 #appmenu li:hover a,
 #appmenu li a:focus,
@@ -2782,7 +2843,7 @@ nav[role=navigation] {
   border-width: 10px;
   transform: translateX(-50%);
   left: 50%;
-  bottom: 0;
+  bottom: -5px;
   display: none;
 }
 #appmenu li a.active::before,
@@ -3253,7 +3314,7 @@ kbd {
 #app-navigation:not(.vue) > ul {
   position: relative;
   height: 100%;
-  width: inherit;
+  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box;
@@ -3292,6 +3353,11 @@ kbd {
 #app-navigation:not(.vue) > ul > li a:focus,
 #app-navigation:not(.vue) > ul > li a:focus > a {
   background-color: var(--color-background-hover);
+}
+#app-navigation:not(.vue) > ul > li a:focus-visible {
+  border-radius: var(--border-radius);
+  box-shadow: var(--color-primary) inset 0 0 0 2px;
+  outline: none;
 }
 #app-navigation:not(.vue) > ul > li.active,
 #app-navigation:not(.vue) > ul > li.active > a,
@@ -3405,6 +3471,10 @@ kbd {
 #app-navigation:not(.vue) > ul > li > ul > li > a.svg {
   padding: 0 12px 0 44px;
 }
+#app-navigation:not(.vue) > ul > li > a.svg :focus-visible,
+#app-navigation:not(.vue) > ul > li > ul > li > a.svg :focus-visible {
+  padding: 0 8px 0 42px;
+}
 #app-navigation:not(.vue) > ul > li > a:first-child img,
 #app-navigation:not(.vue) > ul > li > ul > li > a:first-child img {
   margin-right: 11px;
@@ -3484,6 +3554,12 @@ kbd {
   /* Needed for IE11; otherwise the button appears to the right of the
    * link. */
   left: 0;
+}
+#app-navigation:not(.vue) .collapsible .collapse:focus-visible {
+  opacity: 1;
+  border-width: 0;
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  background: none;
 }
 #app-navigation:not(.vue) .collapsible:before {
   position: absolute;
@@ -3819,6 +3895,11 @@ kbd {
   left: 0;
   display: block;
   filter: var(--background-invert-if-dark);
+}
+#app-settings-header .settings-button:focus-visible {
+  box-shadow: 0 0 0 2px inset var(--color-primary) !important;
+  border-radius: var(--border-radius);
+  background-position: 12px center;
 }
 
 /* GENERAL SECTION ------------------------------------------------------------ */
