@@ -232,6 +232,17 @@ class SearchBuilder {
 			if ($field === 'fileid') {
 				$field = 'file.fileid';
 			}
+
+			// Mysql really likes to pick an index for sorting if it can't fully satisfy the where
+			// filter with an index, since search queries pretty much never are fully filtered by index
+			// mysql often picks an index for sorting instead of the much more useful index for filtering.
+			//
+			// By changing the order by to an expression, mysql isn't smart enough to see that it could still
+			// use the index, so it instead picks an index for the filtering
+			if ($field === 'mtime') {
+				$field = $query->func()->add($field, $query->createNamedParameter(0));
+			}
+
 			$query->addOrderBy($field, $order->getDirection());
 		}
 	}
