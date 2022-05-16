@@ -4463,11 +4463,9 @@
     <InvalidOperand occurrences="1">
       <code>$matches[1][$last_match][0]</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="4">
+    <InvalidReturnStatement occurrences="2">
       <code>(INF &gt; 0)? INF: PHP_INT_MAX</code>
       <code>INF</code>
-      <code>max($upload_max_filesize, $post_max_size)</code>
-      <code>min($upload_max_filesize, $post_max_size)</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>int</code>
@@ -4504,22 +4502,6 @@
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/private/legacy/OC_Util.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>OC_Helper::computerFileSize($userQuota)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>float</code>
-    </InvalidReturnType>
-    <RedundantCondition occurrences="1">
-      <code>is_string($expected)</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType occurrences="3">
-      <code>is_bool($expected)</code>
-      <code>is_bool($setting[1])</code>
-      <code>is_int($expected)</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/public/Server.php">
     <InvalidThrow occurrences="2">
@@ -4610,26 +4592,6 @@
     <InvalidClass occurrences="1">
       <code>PreconditionNotMetException</code>
     </InvalidClass>
-  </file>
-  <file src="lib/public/Search/SearchResult.php">
-    <InvalidArgument occurrences="1">
-      <code>$cursor</code>
-    </InvalidArgument>
-  </file>
-  <file src="lib/public/Share.php">
-    <InvalidReturnType occurrences="3">
-      <code>array</code>
-      <code>array|bool</code>
-      <code>mixed</code>
-    </InvalidReturnType>
-  </file>
-  <file src="lib/public/Util.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>\OC_Helper::computerFileSize($str)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>float</code>
-    </InvalidReturnType>
   </file>
   <file src="remote.php">
     <InvalidScalarArgument occurrences="1">

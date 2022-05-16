@@ -95,7 +95,7 @@ class OC_Helper {
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
-	 * @return float|bool a file size in bytes
+	 * @return float|false a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
@@ -420,11 +420,11 @@ class OC_Helper {
 	 */
 	public static function uploadLimit() {
 		$ini = \OC::$server->get(IniGetWrapper::class);
-		$upload_max_filesize = OCP\Util::computerFileSize($ini->get('upload_max_filesize'));
-		$post_max_size = OCP\Util::computerFileSize($ini->get('post_max_size'));
-		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
+		$upload_max_filesize = (int)OCP\Util::computerFileSize($ini->get('upload_max_filesize'));
+		$post_max_size = (int)OCP\Util::computerFileSize($ini->get('post_max_size'));
+		if ($upload_max_filesize === 0 && $post_max_size === 0) {
 			return INF;
-		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
+		} elseif ($upload_max_filesize === 0 || $post_max_size === 0) {
 			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
 		} else {
 			return min($upload_max_filesize, $post_max_size);
