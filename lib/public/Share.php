@@ -64,7 +64,7 @@ class Share extends \OC\Share\Constants {
 	 * @param int $format (optional) Format type must be defined by the backend
 	 * @param mixed $parameters
 	 * @param bool $includeCollections
-	 * @return array
+	 * @return void
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 */
@@ -77,7 +77,7 @@ class Share extends \OC\Share\Constants {
 	 * Based on the given token the share information will be returned - password protected shares will be verified
 	 * @param string $token
 	 * @param bool $checkPasswordProtection
-	 * @return array|bool false will be returned in case the token is unknown or unauthorized
+	 * @return void
 	 * @since 5.0.0 - parameter $checkPasswordProtection was added in 7.0.0
 	 * @deprecated 17.0.0
 	 */
@@ -93,7 +93,7 @@ class Share extends \OC\Share\Constants {
 	 * @param mixed $parameters
 	 * @param int $limit Number of items to return (optional) Returns all by default
 	 * @param bool $includeCollections
-	 * @return mixed Return depends on format
+	 * @return void
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 */
