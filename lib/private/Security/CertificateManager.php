@@ -61,7 +61,8 @@ class CertificateManager implements ICertificateManager {
 	/** @var ISecureRandom */
 	protected $random;
 
-	private ?string $bundlePath = null;
+	/** @var string $bundlePath */
+	private $bundlePath = null;
 
 	/**
 	 * @param \OC\Files\View $view relative to data/
