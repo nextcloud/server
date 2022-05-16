@@ -81,7 +81,7 @@ function handleException($e) {
 			}
 			if ($e instanceof RemoteException) {
 				// we shall not log on RemoteException
-				OC_Template::printErrorPage($e->getMessage(), '', $e->getCode());
+				OC_Template::printErrorPage($e->getMessage(), '', (int)$e->getCode());
 			} else {
 				\OC::$server->getLogger()->logException($e, ['app' => 'remote']);
 				OC_Template::printExceptionErrorPage($e, $statusCode);

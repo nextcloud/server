@@ -801,7 +801,7 @@ class Trashbin {
 			$availableSpace = $quota;
 		}
 
-		return $availableSpace;
+		return (int)$availableSpace;
 	}
 
 	/**
