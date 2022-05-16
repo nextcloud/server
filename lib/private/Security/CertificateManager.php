@@ -245,19 +245,22 @@ class CertificateManager implements ICertificateManager {
 	 * @return string
 	 */
 	public function getAbsoluteBundlePath(): string {
-		if (!$this->bundlePath) {
-			if (!$this->hasCertificates()) {
-				$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
-			}
+		try {
+			if (!$this->bundlePath) {
+				if (!$this->hasCertificates()) {
+					$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+				}
 
-			if ($this->needsRebundling()) {
-				$this->createCertificateBundle();
-			}
+				if ($this->needsRebundling()) {
+					$this->createCertificateBundle();
+				}
 
-			$this->bundlePath = $this->view->getLocalFile($this->getCertificateBundle());
+				$this->bundlePath = $this->view->getLocalFile($this->getCertificateBundle());
+			}
+			return $this->bundlePath;
+		} catch (\Exception $e) {
+			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
-
-		return $this->bundlePath;
 	}
 
 	/**
