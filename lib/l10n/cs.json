@@ -233,6 +233,8 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Toto je pravděpodobně způsobeno aplikacemi pro urychlení načítání jako jsou Zend OPcache nebo eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduly jsou nainstalovány, ale stále se tváří jako chybějící?",
     "Please ask your server administrator to restart the web server." : "Požádejte správce serveru, který využíváte o restart webového serveru.",
+    "The required %s config variable is not configured in the config.php file." : "Požadovaná proměnná nastavení %s není v souboru s nastaveními config.php nastavena.",
+    "Please ask your server administrator to check the Nextcloud configuration." : "Požádejte správce serveru, který využíváte, aby zkontroloval nastavení serveru.",
     "PostgreSQL >= 9 required." : "Je vyžadováno PostgreSQL verze 9 a novější.",
     "Please upgrade your database version." : "Aktualizujte verzi vámi využívané databáze.",
     "Your data directory is readable by other users." : "Váš adresář data je čitelný ostatním uživatelům.",
@@ -252,19 +254,11 @@
     "Storage connection error. %s" : "Chyba připojení úložiště. %s",
     "Storage is temporarily not available" : "Úložiště je dočasně nedostupné",
     "Storage connection timeout. %s" : "Překročen časový limit připojování k úložišti. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do adresáře s nastaveními pro účet, pod kterým je provozován webový server",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Nebo, pokud chcete mít soubor config.php pouze pro čtení, nastavte  v něm volbu „config_is_read_only“ na hodnotu true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Toto je obvykle možné vyřešit udělením webovému serveru oprávnění k zápisu do adresáře s nastaveními.",
-    "Can't create or write into the data directory %s" : "Nedaří se vytvořit nebo zapisovat do datového adresáře %s",
-    "Can’t increase permissions of %s" : "Nelze zvýšit oprávnění %s",
-    "Files can’t be shared with delete permissions" : "Soubory nelze sdílet s oprávněními k odstranění",
-    "Files can’t be shared with create permissions" : "Soubory nelze sdílet s oprávněními k vytváření",
-    "Can’t set expiration date more than %s days in the future" : "Nelze nastavit datum skončení platnosti více než %s dní v budoucnu",
-    "Can't read file" : "Nelze přečíst soubor",
     "Cannot write into \"config\" directory" : "Nelze zapisovat do adresáře „config“",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do kořenové složky webu pro účet, pod kterým je provozován webový server. Viz %s",
     "Cannot write into \"apps\" directory" : "Nedaří se zapisovat do adresáře „apps“",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Toto je obvykle možné napravit udělením přístupu ke čtení adresáře s aplikací pro webový server nebo vypnutím katalogu s aplikacemi v souboru s nastaveními.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Toto je obvykle možné napravit udělením přístupu ke čtení adresáře s aplikací pro webový server nebo vypnutím katalogu s aplikacemi v souboru s nastaveními.",
     "Cannot create \"data\" directory" : "Nedaří se vytvořit adresář „data“",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do kořenové složky webu pro účet, pod kterým je provozován webový server. Viz %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Oprávnění lze obvykle napravit umožněním zápisu do kořene webu pro účet, pod kterým je provozován webový server. Viz %s.",
@@ -277,7 +271,6 @@
     "Your data directory is readable by other users" : "Váš adresář data je čitelný ostatním uživatelům",
     "Your data directory must be an absolute path" : "Je třeba, aby váš adresář data byl zadán jako úplný popis umístění",
     "Check the value of \"datadirectory\" in your configuration" : "Zkontrolujte hodnotu „datadirectory“ ve svém nastavení",
-    "Your data directory is invalid" : "Váš adresář data není plantý",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Toto je obvykle možné napravit udělením přístupu ke čtení adresáře s aplikací pro webový server nebo vypnutím katalogu s aplikacemi v souboru s nastaveními."
+    "Your data directory is invalid" : "Váš adresář data není plantý"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

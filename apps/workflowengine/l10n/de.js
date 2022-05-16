@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "User-Agent",
     "User group membership" : "Benutzergruppen-Mitgliedschaft",
     "is member of" : "ist Mitglied von",
-    "is not member of" : "ist kein Mitglied von",
-    "Browse the app store" : "App-Store durchsuchen"
+    "is not member of" : "ist kein Mitglied von"
 },
 "nplurals=2; plural=(n != 1);");

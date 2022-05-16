@@ -113,10 +113,15 @@
     "Accept" : "Nõustu",
     "Reject" : "Keeldu",
     "Sharing" : "Jagamine",
+    "Reset" : "Lähtesta",
+    "Unknown error" : "Tundmatu viga",
     "Allow editing" : "Luba muutmine",
     "Read only" : "kirjutuskaitstud",
     "Allow upload and editing" : "Luba üleslaadimine ja muutmine",
     "File drop (upload only)" : "Faili lohistamine (ainult üleslaadimine)",
+    "Read" : "Lugemine",
+    "Upload" : "Lae üles",
+    "Edit" : "Redigeeri",
     "Allow creating" : "Luba loomine",
     "Allow deleting" : "Luba kustutamine",
     "Allow resharing" : "Luba edasijagamine",
@@ -166,9 +171,6 @@
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
-    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
-    "invalid permissions" : "valed õigused",
-    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
-    "Download %s" : "Laadi alla %s"
+    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

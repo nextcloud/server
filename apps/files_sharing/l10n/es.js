@@ -124,7 +124,6 @@ OC.L10N.register(
     "Could not lock path" : "No se ha podido bloquear la ruta",
     "Wrong or no update parameter given" : "No se ha suministrado un parametro correcto",
     "Share must at least have READ or CREATE permissions" : "El recurso compartido debe tener al menos el permiso de LECTURA o CREACIÓN",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "El recurso compartido debe  tener el permiso de LECTURA si el permiso de ACTUALIZAR o ELIMINAR está activado.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"El envío de la contraseña por Nextcloud Talk\" para compartir un archivo o carpeta falló porque Nextcloud Talk no está habilitado.",
     "shared by %s" : "compartido por %s",
     "Download all files" : "Descargar todos los archivos",
@@ -251,10 +250,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
     "Add to your Nextcloud" : "Añadir a tu Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
-    "invalid permissions" : "Permisos incorrectos",
-    "Can't change permissions for public share links" : "No se pueden cambiar los permisos para los enlaces de recursos compartidos públicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado",
-    "Download %s" : "Descargar %s",
-    "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos"
+    "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado"
 },
 "nplurals=2; plural=(n != 1);");

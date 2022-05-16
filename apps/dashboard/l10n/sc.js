@@ -26,7 +26,6 @@ OC.L10N.register(
     "Default images" : "Imàgines predefinidas",
     "Plain background" : "Isfundu simpre",
     "Insert from {productName}" : "Inserta dae {productName}",
-    "Show something" : "Mustra calicuna cosa",
-    "Get more widgets from the app store" : "Otene àteros trastos dae sa butega de is aplicatziones"
+    "Show something" : "Mustra calicuna cosa"
 },
 "nplurals=2; plural=(n != 1);");

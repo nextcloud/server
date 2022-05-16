@@ -20,9 +20,8 @@ OC.L10N.register(
     "Never" : "更新無",
     "Once every direct access" : "直指定時のみ",
     "Read only" : "読み取り専用",
-    "Delete" : "削除",
+    "Disconnect" : "切断",
     "Admin defined" : "管理者設定済",
-    "Are you sure you want to delete this external storage?" : "この外部ストレージを本当に削除しますか?",
     "Delete storage?" : "ストレージを削除しますか?",
     "Saved" : "保存しました",
     "Saving …" : "保存中...",
@@ -135,9 +134,7 @@ OC.L10N.register(
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
-    "External storages" : "外部ストレージ",
-    "(group)" : "(グループ)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS"
+    "Delete" : "削除",
+    "Are you sure you want to delete this external storage?" : "この外部ストレージを本当に削除しますか?"
 },
 "nplurals=1; plural=0;");

@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Partekatze ID okerra, partekatzea ez da existitzen",
     "Could not delete share" : "Ezin izan da partekatzea ezabatu",
     "Please specify a file or folder path" : "Zehaztu fitxategi edo karpetaren bide bat",
+    "Wrong path, file/folder does not exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Could not create share" : "Ezin izan da partekatzea sortu",
     "Invalid permissions" : "Baimen baliogabeak",
     "Please specify a valid user" : "Zehaztu baliozko erabiltzaile bat",
@@ -123,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Ezin izan da bidea blokeatu",
     "Wrong or no update parameter given" : "Eguneraketa parametrorik ez da eman edo okerra da",
     "Share must at least have READ or CREATE permissions" : "Partekatzeak gutxienez IRAKURRI edo SORTU egiteko baimenak behar ditu",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Partekatzeak IRAKURRI egiteko baimenak behar ditu, EGUNERATU edo EZABATU baimenak baldin badauzka.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "Partekatzeak IRAKURRI egiteko baimenak behar ditu, EGUNERATU edo EZABATU baimenak baldin badauzka",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Nextcloud Talk-ek pasahitza bidaltzeak\" huts egin du ez dagoelako Nextcloud Talk gaituta fitxategi edo karpeta bat partekatzeko.",
     "shared by %s" : "%s erabiltzaileak partekatua",
     "Download all files" : "Deskargatu fitxategi guztiak",
@@ -156,6 +157,7 @@ OC.L10N.register(
     "Read" : "Irakurri",
     "Upload" : "Kargatu",
     "Edit" : "Aldatu",
+    "Bundled permissions" : "Baimen multzoak",
     "Allow creating" : "Baimendu sortzea",
     "Allow deleting" : "Baimendu ezabatzea",
     "Allow resharing" : "Baimendu birpartekatzea",
@@ -249,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
     "Add to your Nextcloud" : "Gehitu zure Nextclouden",
     "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
-    "invalid permissions" : "baimen baliogabeak",
-    "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
-    "Download %s" : "Deskargatu %s",
-    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu"
+    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Opret nøgler.",
     "Error generating key pair" : "Fejl under oprettelse af nøglepar",
     "All users. Type to select user or group." : "Alle brugere. Indtast for at vælge bruger eller gruppe.",
+    "(Group)" : "(Gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitet med Mac NFD encoding (langsom)",
     "Enable encryption" : "Slå kryptering til",
     "Enable previews" : "Slå forhåndsvisninger til",
@@ -19,9 +20,8 @@ OC.L10N.register(
     "Never" : "Aldrig",
     "Once every direct access" : "Kun ved hver direkte tilgang",
     "Read only" : "Skrivebeskyttet",
-    "Delete" : "Slet",
+    "Disconnect" : "Frakobl",
     "Admin defined" : "Bestemt af administrator",
-    "Are you sure you want to delete this external storage?" : "Er du sikker på at du vil slette dette eksterne lager?",
     "Delete storage?" : "Slet lager?",
     "Saved" : "Gemt",
     "Saving …" : "Gemmer…",
@@ -120,9 +120,7 @@ OC.L10N.register(
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
-    "External storages" : "Eksternt lager",
-    "(group)" : "(gruppe)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS med OC-login"
+    "Delete" : "Slet",
+    "Are you sure you want to delete this external storage?" : "Er du sikker på at du vil slette dette eksterne lager?"
 },
 "nplurals=2; plural=(n != 1);");

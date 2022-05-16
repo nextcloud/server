@@ -18,10 +18,10 @@
     "Never" : "Nigdy",
     "Once every direct access" : "Jeden raz przy każdym dostępie",
     "Read only" : "Tylko do odczytu",
-    "Delete" : "Usuń",
+    "Disconnect" : "Rozłącz się",
     "Admin defined" : "Zdefiniowane przez Administratora",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatyczne sprawdzanie statusu jest wyłączone z powodu dużej liczby skonfigurowanych magazynów, kliknij, aby sprawdzić status",
-    "Are you sure you want to delete this external storage?" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Czy na pewno chcesz odłączyć tę pamięć zewnętrzną? Spowoduje to, że pamięć będzie niedostępna w Nextcloud i doprowadzi do usunięcia tych plików i folderów na dowolnym kliencie synchronizacji, który jest aktualnie podłączony, ale nie usunie żadnych plików i folderów z samej pamięci zewnętrznej.",
     "Delete storage?" : "Usunąć magazyn?",
     "Saved" : "Zapisano",
     "Saving …" : "Zapisywanie…",
@@ -136,10 +136,8 @@
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow users to mount external storage" : "Zezwalaj użytkownikom na montowanie magazynów zewnętrznych",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
-    "External storages" : "Magazyny zewnętrzne",
-    "(group)" : "(grupa)",
-    "SMB / CIFS" : "SMB/CIFS",
-    "SMB / CIFS using OC login" : "SMB/CIFS za pomocą logowania OC",
+    "Delete" : "Usuń",
+    "Are you sure you want to delete this external storage?" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?",
     "Kerberos ticket apache mode" : "Metoda Apache zgłoszenia Kerberos"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

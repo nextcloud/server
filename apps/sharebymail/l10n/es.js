@@ -27,7 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Enviado por correo electrónico",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Fallo al compartir %1$s porque este objeto ya está compartido con el usuario %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No te podemos enviar la contraseña auto generada. Por favor, indica una dirección de email válida en tu configuración personal e inténtalo de nuevo.",
-    "Failed to send share by email. Got an invalid email address" : "No se ha podido enviar la acción por correo electrónico. La dirección de correo electrónico no es válida",
+    "Failed to send share by email. Got an invalid email address" : "No se ha podido enviar el vínculo por correo electrónico. La dirección de correo electrónico no es válida",
     "Failed to send share by email" : "Fallo al enviar compartido por correo electrónico",
     "%1$s shared »%2$s« with you" : "%1$s ha compartido «%2$s» contigo",
     "%1$s shared »%2$s« with you." : "%1$s ha compartido «%2$s» contigo.",
@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Proveedor que permite compartir archivos por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enlace personalizado a un archivo o carpeta enviándolo a una dirección de correo electrónico",
     "Send password by mail" : "Enviar contraseñas por email",
-    "Reply to initiator" : "Responder al iniciador",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No podemos enviarte la contraseña autogenerada. Por favor, indica una dirección de correo electrónico válida en tu configuración personal y vuelve a intentarlo.",
-    "Enforce password protection" : "Imponer la protección de contraseña"
+    "Reply to initiator" : "Responder al iniciador"
 },
 "nplurals=2; plural=(n != 1);");

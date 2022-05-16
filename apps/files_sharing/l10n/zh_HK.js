@@ -124,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "無法鎖定路徑",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "Share must at least have READ or CREATE permissions" : "分享必須至少具有 READ 或 CREATE 權限",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "如果設置了 UPDATE 或 DELETE 權限，則分享必須具有 READ 權限。",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "如果設置了 UPDATE 或 DELETE 權限，則分享必須具有 READ 權限",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "“通過 Nextcloud Talk 發送密碼”共享檔案或資料夾失敗，因為 Nextcloud Talk 未啟用。",
     "shared by %s" : "分享自 %s",
     "Download all files" : "下載所有檔案",
@@ -251,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "上傳檔案即表示您同意 %1$s服務條款%2$s。 ",
     "Add to your Nextcloud" : "加入到您的 Nextcloud",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
-    "invalid permissions" : "無效的權限",
-    "Can't change permissions for public share links" : "無法由公開分享的連結變更權限",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
-    "Download %s" : "下載 %s",
-    "Cannot change permissions for public share links" : "無法由公開分享的連結變更權限"
+    "Cannot change permissions for public share links" : "無法由公開分享的連結變更權限",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗"
 },
 "nplurals=1; plural=0;");

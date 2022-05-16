@@ -105,9 +105,12 @@
     "Unlimited" : "Neierobežota",
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
     "Accept" : "Akceptēt",
+    "Reject" : "Noraidīt",
     "in %s" : "iekš %s",
     "Change" : "Mainīt",
     "Tags" : "Birkas",
+    "Cancel" : "Atcelt",
+    "Create" : "Izveidot",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
     "Settings" : "Iestatījumi",
@@ -115,6 +118,7 @@
     "Crop image previews" : "Apgriezt attēlu priekšskatījumus",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Izmantojiet šo adresi, lai piekļūtu savām datnēm, izmantojot WebDAV",
+    "Toggle grid view" : "Pārslēgt režģa skatu",
     "No files in here" : "Šeit nav datņu",
     "Upload some content or sync with your devices!" : "Augšupielādē kaut ko vai sinhronizē saturu ar savām ierīcēm!",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
@@ -128,10 +132,8 @@
     "Shared with you" : "Koplietots ar tevi",
     "Shared by link" : "Koplietots ar saiti",
     "Deleted shares" : "Dzēstās koplietotnes",
+    "Pending shares" : "Gaidošie koplietojumi",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} glabātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Jūsu glabātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["atrasts pēc '{filter}'","atrasts pēc '{filter}'","atrasti pēc '{filter}'"]
+    "New text file.txt" : "Jauna teksta datne.txt"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

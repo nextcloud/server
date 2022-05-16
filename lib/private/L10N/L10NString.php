@@ -74,10 +74,16 @@ class L10NString implements \JsonSerializable {
 			return 'Can not use pipe character in translations';
 		}
 
+		$beforeIdentity = $identity;
 		$identity = str_replace('%n', '%count%', $identity);
 
+		$parameters = [];
+		if ($beforeIdentity !== $identity) {
+			$parameters = ['%count%' => $this->count];
+		}
+
 		// $count as %count% as per \Symfony\Contracts\Translation\TranslatorInterface
-		$text = $identityTranslator->trans($identity, ['%count%' => $this->count]);
+		$text = $identityTranslator->trans($identity, $parameters);
 
 		return vsprintf($text, $this->parameters);
 	}

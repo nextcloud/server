@@ -99,6 +99,7 @@
     "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
     "Could not delete share" : "Nie je možné zmazať sprístupnenie",
     "Please specify a file or folder path" : "Zvoľte prosím súbor alebo cestu k priečinku",
+    "Wrong path, file/folder does not exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
     "Could not create share" : "Nie je možné sprístupniť",
     "Invalid permissions" : "Neplatné oprávnenia",
     "Please specify a valid user" : "Zvoľte prosím platného používateľa",
@@ -121,7 +122,7 @@
     "Could not lock path" : "Nie je možné uzamknúť cestu",
     "Wrong or no update parameter given" : "Zlý alebo žiadny zadaný parameter aktualizácie",
     "Share must at least have READ or CREATE permissions" : "Zdieľanie musí mať aspoň povolenia READ alebo CREATE",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Ak je nastavené oprávnenie UPDATE alebo DELETE, zdieľanie musí mať povolenie READ.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "Ak je nastavené oprávnenie UPDATE alebo DELETE, zdieľanie musí mať povolenie READ.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Odoslanie hesla cez Nextcloud Talk\" pre zdieľanie súboru alebo priečinka zlyhalo, pretože Nextcloud Talk nie je zapnutý.",
     "shared by %s" : "Sprístupnil %s",
     "Download all files" : "Stiahnuť všetky súbory",
@@ -248,10 +249,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
-    "invalid permissions" : "neplatné oprávnenia",
-    "Can't change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý",
-    "Download %s" : "Stiahnuť %s",
-    "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy"
+    "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

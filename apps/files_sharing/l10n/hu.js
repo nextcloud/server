@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
     "Could not delete share" : "A megosztás nem törölhető",
     "Please specify a file or folder path" : "Adjon meg egy fájl- vagy mappaútvonalat",
+    "Wrong path, file/folder does not exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Could not create share" : "A megosztás nem hozható létre",
     "Invalid permissions" : "Érvénytelen jogosultságok",
     "Please specify a valid user" : "Adjon meg egy érvényes felhasználót",
@@ -123,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Nem sikerült zárolni az útvonalat",
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
     "Share must at least have READ or CREATE permissions" : "A megosztásnak legalább OLVASÁSI és LÉTREHOZÁSI engedéllyel kell rendelkeznie",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "A megosztásnak OLVASÁSI jogosultsággal kell rendelkeznie, ha a FRISSÍTÉSI vagy TÖRLÉSI jogosultság meg van adva.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "A megosztásnak OLVASÁSI jogosultsággal kell rendelkeznie, ha a FRISSÍTÉSI vagy TÖRLÉSI jogosultság meg van adva",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "A „Jelszó kiküldése a Nextcloud Beszélgetéssel” nem sikerült a fájlnál vagy mappánál, mert a Nextcloud Beszélgetés nem engedélyezett.",
     "shared by %s" : "megosztotta: %s",
     "Download all files" : "Összes fájl letöltése",
@@ -250,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "A fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételeket %2$s.",
     "Add to your Nextcloud" : "Hozzáadás a Nextcloudjához",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
-    "invalid permissions" : "érvénytelen jogosultságok",
-    "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
-    "Download %s" : "%s letöltése",
-    "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait"
+    "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett"
 },
 "nplurals=2; plural=(n != 1);");

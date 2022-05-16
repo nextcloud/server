@@ -153,6 +153,8 @@ OC.L10N.register(
     "Tags" : "Tag",
     "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Error while loading the file data" : "Galat pemuatan data berkas",
+    "Cancel" : "Membatalkan",
+    "Create" : "Buat",
     "%s used" : "%s digunakan",
     "%s%% of %s used" : "%s%% dari %s terpakai",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
@@ -177,9 +179,6 @@ OC.L10N.register(
     "Deleted shares" : "Berbagi terhapus",
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
-    "New text file.txt" : "Teks baru file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Penyimpanan {owner} penuh, berkas tidak dapat diperbarui atau disinkronisasikan lagi!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ruang penyimpanan Anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["cocok dengan '{filter}'"]
+    "New text file.txt" : "Teks baru file.txt"
 },
 "nplurals=1; plural=0;");

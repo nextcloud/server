@@ -5,6 +5,7 @@ OC.L10N.register(
     "Dashboard app" : "Konsolisovellus",
     "Customize" : "Mukauta",
     "Edit widgets" : "Muokkaa pienoissovelluksia",
+    "Get more widgets from the App Store" : "Hae lisää pienoissovelluksia sovelluskaupasta",
     "Change background image" : "Vaihda taustakuva",
     "Weather service" : "Sääpalvelu",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Yksityisyytesi vuoksi Nextcloud-palvelin hakee säätiedot, joten sääpalvelulle ei lähetetä henkilökohtaisia tietojasi.",
@@ -24,7 +25,7 @@ OC.L10N.register(
     "Pick from Files" : "Valitse tiedostoista",
     "Default images" : "Oletuskuvat",
     "Plain background" : "Yksinkertainen tausta",
-    "Show something" : "Näytä jotain",
-    "Get more widgets from the app store" : "Hae lisää pienoissovelluksia sovelluskaupasta"
+    "Insert from {productName}" : "Aseta kohteesta {productName}",
+    "Show something" : "Näytä jotain"
 },
 "nplurals=2; plural=(n != 1);");

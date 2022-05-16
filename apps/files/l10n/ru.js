@@ -72,7 +72,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} и {files}",
     "_including %n hidden_::_including %n hidden_" : ["включая %n скрытый","включая %n скрытых","включая %n скрытых","включая %n скрытых"],
     "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
-    "_Uploading %n file_::_Uploading %n files_" : ["Выгружа%nется  файл","Выгружаются %n файла","Выгружаются %n файлов","Загружаются %n файлов"],
+    "_Uploading %n file_::_Uploading %n files_" : ["Передача %n файла","Передача %n файлов","Передача %n файлов","Передача %n файлов"],
     "New" : "Новый",
     "Select file range" : "Выбор диапазона файлов",
     "{used} of {quota} used" : "использовано {used} из {quota}",
@@ -210,11 +210,6 @@ OC.L10N.register(
     "Deleted shares" : "Удалённые общие ресурсы",
     "Pending shares" : "Ожидающие общие ресурсы",
     "Text file" : "Текстовый файл",
-    "New text file.txt" : "Новый текстовый файл.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Хранилище {owner} переполнено, файлы больше не могут быть обновлены или синхронизированы!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Папки группы «{mountPoint}» заполнена, файлы более не могут быть обновлены или синхронизированы.",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Внешнее хранилище «{mountPoint}» заполнено, файлы более не могут быть обновлены или синхронизированы.",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ваше хранилище переполнено, файлы больше не могут быть обновлены или синхронизированы.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["соответствует '{filter}'","соответствуют '{filter}'","соответствуют '{filter}'","соответствуют '{filter}'"]
+    "New text file.txt" : "Новый текстовый файл.txt"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

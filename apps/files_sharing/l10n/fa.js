@@ -144,6 +144,9 @@ OC.L10N.register(
     "Read only" : "فقط خواندنی",
     "Allow upload and editing" : "اجازه آپلود و ویرایش",
     "File drop (upload only)" : "انداختن فایل (فقط آپلود)",
+    "Read" : "خواندن",
+    "Upload" : "بارگذاری",
+    "Edit" : "ویرایش",
     "Allow creating" : "اجازه ایجاد",
     "Allow deleting" : "اجازه حذف",
     "Allow resharing" : "مجوز اشتراک گذاری مجدد",
@@ -227,10 +230,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
     "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
     "Wrong path, file/folder doesn't exist" : "مسیر ، پرونده / پوشه اشتباه وجود ندارد",
-    "invalid permissions" : "مجوزات نامعتبر",
-    "Can't change permissions for public share links" : "مجوزها برای پیوندهای اشتراک عمومی قابل تغییر نیست",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد",
-    "Download %s" : "دانلود %s",
-    "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست."
+    "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست.",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد"
 },
 "nplurals=2; plural=(n > 1);");

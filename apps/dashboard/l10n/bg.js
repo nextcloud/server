@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Табло",
     "Dashboard app" : "Приложение за Табло",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започнете деня си информиран\n\nТаблото за управление на Nextcloud е ваша отправна точка за деня, което ви дава\nвъзможност за преглед на предстоящите ви срещи, спешни имейли, съобщения в чат,\nвходящи билети, най-новите туитове и много повече! Потребителите могат да добавят изпълними модули,\nкоито те харесват и да променят фона по свой вкус.",
     "Customize" : "Персонизиране",
     "Edit widgets" : "Редактиране на изпълнимите модули",
     "Get more widgets from the App Store" : "Вземете повече приспособления от  App Store",
@@ -26,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Изображения по подразбиране",
     "Plain background" : "Обикновен фон",
     "Insert from {productName}" : "Вмъкване от {productName}",
-    "Show something" : "Покажи нещо",
-    "Get more widgets from the app store" : "Вземете повече приспособления от  app store"
+    "Show something" : "Покажи нещо"
 },
 "nplurals=2; plural=(n != 1);");

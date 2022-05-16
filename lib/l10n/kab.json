@@ -1,4 +1,11 @@
 { "translations": {
-    "Settings" : "Iɣewwaṛen"
+    "Help" : "Tallalt",
+    "Settings" : "Iɣewwaṛen",
+    "Log out" : "Senser",
+    "Email" : "Imayl",
+    "Twitter" : "Twitter",
+    "Website" : "Asmel web",
+    "Address" : "Adresse",
+    "About" : "Γef"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

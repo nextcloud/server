@@ -81,6 +81,7 @@ OC.L10N.register(
     "Available flows" : "Fluxos disponibles",
     "For details on how to write your own flow, check out the development documentation." : "Per obtenir més informació sobre com escriure el seu propi flux, feu un cop d'ulls a la documentació de desenvolupament.",
     "More flows" : "Més fluxos",
+    "Browse the App Store" : "Navegueu per la botiga d’aplicacions",
     "Show less" : "Mostra'n menys",
     "Show more" : "Mostra'n més",
     "Configured flows" : "Fluxos configurats",
@@ -111,7 +112,6 @@ OC.L10N.register(
     "Request user agent" : "Sol·licita agent d'usuari",
     "User group membership" : "Pertinença a grup d'usuaris",
     "is member of" : "és membre de",
-    "is not member of" : "no és membre de",
-    "Browse the app store" : "Navegueu per la botiga d’aplicacions"
+    "is not member of" : "no és membre de"
 },
 "nplurals=2; plural=(n != 1);");

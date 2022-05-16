@@ -137,6 +137,8 @@ OC.L10N.register(
     "Due on %s by %s" : "Termín do %s od %s",
     "Due on %s" : "Termín do %s",
     "Migrated calendar (%1$s)" : "Přesunut kalendář (%1$s)",
+    "Calendars including events, details and attendees" : "Kalendáře včetně událostí, podrobností a účastníků",
+    "Contacts and groups" : "Kontakty a skupiny",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Availability" : "Dostupnost",
@@ -172,7 +174,6 @@ OC.L10N.register(
     "Tentative" : "Nezávazně",
     "Number of guests" : "Počet hostů",
     "Comment" : "Komentář",
-    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována.",
-    "Calendar and tasks" : "Kalendář a úkoly"
+    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -124,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Nie można zablokować ścieżki",
     "Wrong or no update parameter given" : "Brakujący lub błędny parametr aktualizacji",
     "Share must at least have READ or CREATE permissions" : "Udostępnienie musi mieć co najmniej uprawnienia do ODCZYTU lub TWORZENIA",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Udostępnienie musi mieć uprawnienie do ODCZYTU, jeśli ustawiono uprawnienie do AKTUALIZACJI lub USUWANIA.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "Udostępnienie musi mieć uprawnienie do ODCZYTU, jeśli ustawiono uprawnienie do AKTUALIZACJI lub USUWANIA",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Wysyłanie hasła przez Nextcloud Talk\" w celu udostępnienia pliku lub katalogu nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona.",
     "shared by %s" : "udostępnione przez %s",
     "Download all files" : "Pobierz wszystkie pliki",
@@ -251,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Wysyłając pliki, zgadzasz się na %1$swarunki korzystania z usługi%2$s.",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Ścieżka nieprawidłowa, plik/katalog nie istnieje",
-    "invalid permissions" : "nieprawidłowe uprawnienia",
-    "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
-    "Download %s" : "Pobierz %s",
-    "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia"
+    "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

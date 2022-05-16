@@ -114,6 +114,8 @@ OC.L10N.register(
     "All files" : "Бүх файлууд",
     "Accept" : "Хүлээн зөвшөөрөх",
     "Tags" : "Тэгүүд",
+    "Cancel" : "болиулах",
+    "Create" : "Үүсгэх",
     "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
     "Settings" : "Тохиргоо",
     "Show hidden files" : "Нууцлагдсан файлыг харах",
@@ -128,8 +130,6 @@ OC.L10N.register(
     "Shared with you" : "тантай хуваалцсан",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}-ий багтаамж дүүрсэн байна",
-    "Your storage is full, files can not be updated or synced anymore!" : "Таны багтаамж дүүрсэн байна!"
+    "New text file.txt" : "шинэ текст file.txt"
 },
 "nplurals=2; plural=(n != 1);");

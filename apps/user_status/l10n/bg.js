@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Recent statuses" : "Последни състояния",
     "In a meeting" : "В среща",
-    "Commuting" : "Пътуване",
+    "Commuting" : "Работно пътуване",
     "Out sick" : "Болничен",
     "Vacationing" : "Отпуск",
     "Working remotely" : "Работа от разстояние",

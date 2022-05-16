@@ -124,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Nepodařilo se uzamknout popis umístění",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
     "Share must at least have READ or CREATE permissions" : "Je třeba, aby sdílení mělo alespoň oprávnění pro ČÍST nebo VYTVÁŘET",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Pokud je nastaveno oprávnění AKTUALIZOVAT nebo MAZAT je třeba, aby sdílení mělo oprávnění ČÍST.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "Pokud je nastaveno oprávnění AKTUALIZOVAT nebo MAZAT je třeba, aby sdílení mělo oprávnění ČÍST",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Zaslání hesla prostřednictvím Nextcloud Talk“ pro sdílení souboru či složky se nezdařilo protože Nextcloud Talk není zapnuté.",
     "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",
@@ -251,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
     "Add to your Nextcloud" : "Přidat do Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
-    "invalid permissions" : "neplatná oprávnění",
-    "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
-    "Download %s" : "Stáhnout %s",
-    "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy"
+    "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

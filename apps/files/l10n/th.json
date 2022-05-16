@@ -208,11 +208,6 @@
     "Deleted shares" : "การแชร์ที่ถูกลบ",
     "Pending shares" : "การแชร์ที่กำลังดำเนินการ",
     "Text file" : "ไฟล์ข้อความ",
-    "New text file.txt" : "ไฟล์ข้อความใหม่.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "พื้นที่จัดเก็บข้อมูลของ {owner} เต็มแล้ว ไม่สามารถอัปเดตหรือซิงค์ไฟล์ได้อีก!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "โฟลเดอร์กลุ่ม \"{mountPoint}\" เต็มแล้ว ไม่สามารถอัปเดตหรือซิงค์ไฟล์ได้อีก!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "พื้นที่จัดเก็บข้อมูลภายนอก \"{mountPoint}\" เต็มแล้ว ไม่สามารถอัปเดตหรือซิงค์ไฟล์ได้อีก!",
-    "Your storage is full, files can not be updated or synced anymore!" : "พื้นที่จัดเก็บข้อมูลของคุณเต็มแล้ว ไม่สามารถอัปเดตหรือซิงค์ไฟล์ได้อีก!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["ตรงกับ '{filter}'"]
+    "New text file.txt" : "ไฟล์ข้อความใหม่.txt"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

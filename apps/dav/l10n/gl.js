@@ -86,8 +86,17 @@ OC.L10N.register(
     "Completed on %s" : "Rematado o %s",
     "Due on %s by %s" : "Caduca o %s por %s",
     "Due on %s" : "Caduca o %s",
+    "Contacts and groups" : "Contactos e grupos",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Terminación WebDAV",
+    "to" : "para",
+    "Monday" : "luns",
+    "Tuesday" : "martes",
+    "Wednesday" : "mércores",
+    "Thursday" : "xoves",
+    "Friday" : "venres",
+    "Saturday" : "sábado",
+    "Sunday" : "domingo",
     "Save" : "Gardar",
     "Calendar server" : "Servidor do calendario",
     "Send invitations to attendees" : "Enviar convites aos asistentes",
@@ -103,7 +112,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte directamente co organizador.",
     "Are you accepting the invitation?" : "Acepta vostede o convite?",
     "Tentative" : "Tentativa",
-    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
-    "Calendar and tasks" : "Calendario e tarefas"
+    "Comment" : "Comentario",
+    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente."
 },
 "nplurals=2; plural=(n != 1);");

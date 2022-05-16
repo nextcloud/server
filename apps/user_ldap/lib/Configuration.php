@@ -50,10 +50,9 @@ class Configuration {
 	protected $configPrefix = null;
 	protected $configRead = false;
 	/**
-	 * @var string[] pre-filled with one reference key so that at least one entry is written on save request and
-	 *               the config ID is registered
+	 * @var string[]
 	 */
-	protected $unsavedChanges = ['ldapConfigurationActive' => 'ldapConfigurationActive'];
+	protected $unsavedChanges = [];
 
 	//settings
 	protected $config = [
@@ -262,6 +261,7 @@ class Configuration {
 	 */
 	public function saveConfiguration() {
 		$cta = array_flip($this->getConfigTranslationArray());
+		$changed = false;
 		foreach ($this->unsavedChanges as $key) {
 			$value = $this->config[$key];
 			switch ($key) {
@@ -291,9 +291,12 @@ class Configuration {
 			if (is_null($value)) {
 				$value = '';
 			}
+			$changed = true;
 			$this->saveValue($cta[$key], $value);
 		}
-		$this->saveValue('_lastChange', time());
+		if ($changed) {
+			$this->saveValue('_lastChange', (string)time());
+		}
 		$this->unsavedChanges = [];
 	}
 

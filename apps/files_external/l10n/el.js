@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Δημιουργία κλειδιών",
     "Error generating key pair" : "Σφάλμα κατά τη δημιουργία ζεύγους κλειδιών",
     "All users. Type to select user or group." : "Όλοι οι χρήστες. Πληκτρολογήστε για να επιλέξετε χρήστη ή ομάδα.",
+    "(Group)" : "(Ομάδα)",
     "Compatibility with Mac NFD encoding (slow)" : "Συμβατότητα με Mac NFD κωδικόποιηση (αργό) ",
     "Enable encryption" : "Ενεργοποίηση κρυπτογράφησης",
     "Enable previews" : "Ενεργοποίηση προεπισκοπήσεων",
@@ -19,9 +20,8 @@ OC.L10N.register(
     "Never" : "Ποτέ",
     "Once every direct access" : "Σε κάθε απευθείας πρόσβαση",
     "Read only" : "Μόνο για ανάγνωση",
-    "Delete" : "Διαγραφή",
+    "Disconnect" : "Αποσύνδεση",
     "Admin defined" : "Ορίσθηκε διαχειριστής ",
-    "Are you sure you want to delete this external storage?" : "Σίγουρα θέλετε να διαγράψετε τον εξωτερικό χώρο αποθήκευσης;",
     "Delete storage?" : "Διαγραφή αποθηκευτικού χώρου;",
     "Saved" : "Αποθηκεύτηκαν",
     "Saving …" : "Αποθηκεύεται ...",
@@ -131,9 +131,7 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού αποθηκευτικού χώρου",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
-    "External storages" : "Εξωτερικοί αποθηκευτικοί χώροι",
-    "(group)" : "(ομάδα)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS χρησιμοποιώντας λογαριασμό OC"
+    "Delete" : "Διαγραφή",
+    "Are you sure you want to delete this external storage?" : "Σίγουρα θέλετε να διαγράψετε τον εξωτερικό χώρο αποθήκευσης;"
 },
 "nplurals=2; plural=(n != 1);");

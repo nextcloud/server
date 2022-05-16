@@ -24,6 +24,8 @@
     "Password to access {file} was sent to you" : "Вам был отправлен пароль для доступа к «{file}»",
     "Share by mail" : "Поделиться по почте",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Не удалось предоставить доступ к %1$s, так как этот ресурс уже доступен пользователю %2$s",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Мы не можем отправить вам автоматически сгенерированный пароль. Укажите действующий адрес электронной почты в личных настройках и повторите попытку.",
+    "Failed to send share by email. Got an invalid email address" : "Не удалось отправить ссылку общего доступа по электронной почте. Получен неверный адрес электронной почты",
     "Failed to send share by email" : "Не удалось предоставить общий доступ по адресу электронной почты",
     "%1$s shared »%2$s« with you" : "%1$s предоставил(а) вам доступ к «%2$s»",
     "%1$s shared »%2$s« with you." : "%1$s предоставил(а) вам доступ к «%2$s».",
@@ -46,8 +48,6 @@
     "Share provider which allows you to share files by mail" : "Приложение для обмена файлами с помощью электронной почты",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
-    "Reply to initiator" : "Направлять ответ инициатору",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Не удаётся отправить вам автоматически созданный пароль. Укажите верный адрес email в своих личных настройках и попробуйте снова.",
-    "Enforce password protection" : "Требовать защиту паролем"
+    "Reply to initiator" : "Направлять ответ инициатору"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

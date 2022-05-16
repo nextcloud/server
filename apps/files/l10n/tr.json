@@ -15,7 +15,7 @@
     "Processing files …" : "Dosyalar işleniyor …",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "{filename} bir klasör ya da 0 bayt boyutunda olduğundan yüklenemedi",
-    "Not enough free space, you are uploading {size1} but only {size2} is left" : "Yeterli boş alan yok. Yüklemek istediğiniz boyut {size1} ancak yalnız {size2} boş alan var",
+    "Not enough free space, you are uploading {size1} but only {size2} is left" : "Yeterli boş alan yok. Yüklemek istediğiniz boyut {size1} ancak yalnızca {size2} boş alan var",
     "Target folder \"{dir}\" does not exist any more" : "\"{dir}\" hedef klasörü artık yok",
     "Not enough free space" : "Yeterli boş alan yok",
     "An unknown error has occurred" : "Bilinmeyen bir sorun çıktı",
@@ -90,12 +90,12 @@
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["\"{filter}\" ile eşleşiyor","\"{filter}\" ile eşleşiyor"],
     "View in folder" : "Klasörde görüntüle",
     "Copied!" : "Kopyalandı!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnız bu dosya ya da klasöre erişim izni olan kullanıcılar için)",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnızca bu dosya ya da klasöre erişim izni olan kullanıcılar için)",
     "Path" : "Yol",
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],
     "Favorited" : "Sık kullanılanlara eklendi",
     "Favorite" : "Sık kullanılanlara ekle",
-    "You can only favorite a single file or folder at a time" : "Aynı anda yalnız bir dosya ya da bir klasör sık kullanılanlara eklenebilir",
+    "You can only favorite a single file or folder at a time" : "Aynı anda yalnızca bir dosya ya da bir klasör sık kullanılanlara eklenebilir",
     "New folder" : "Yeni klasör",
     "Upload file" : "Dosya yükle",
     "Recent" : "Son",
@@ -208,11 +208,6 @@
     "Deleted shares" : "Silinmiş paylaşımlar",
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
-    "New text file.txt" : "Yeni metin dosyası.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} için boş depolama alanı kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" grup klasöründe boş alan kalmadı. Artık güncellenemeyecek ya da eşitlenemeyecek!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" dış depolamasında boş alan kalmadı. Artık güncellenemeyecek ya da eşitlenemeyecek!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Boş depolama alanınız kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' ile eşleşen","'{filter}' ile eşleşen"]
+    "New text file.txt" : "Yeni metin dosyası.txt"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

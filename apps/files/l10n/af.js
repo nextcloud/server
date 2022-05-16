@@ -110,9 +110,12 @@ OC.L10N.register(
     "All files" : "Alle lêers",
     "Unlimited" : "Onbeperkte",
     "Upload (max. %s)" : "Oplaai (maks. %s)",
+    "Accept" : "Aanvaar",
     "in %s" : "in %s",
     "File Management" : "Lêerbestuur",
     "Tags" : "Merkers",
+    "Cancel" : "Kanselleer",
+    "Create" : "Skep",
     "%s used" : "%s gebruik",
     "%1$s of %2$s used" : "%1$s van %2$s gebruik",
     "Settings" : "Instellings",
@@ -130,7 +133,6 @@ OC.L10N.register(
     "Shared with you" : "Met u gedeel",
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
-    "New text file.txt" : "Nuwe tekslêer.txt",
-    "_matches '{filter}'_::_match '{filter}'_" : ["pas '{filter}'","pas '{filter}'"]
+    "New text file.txt" : "Nuwe tekslêer.txt"
 },
 "nplurals=2; plural=(n != 1);");

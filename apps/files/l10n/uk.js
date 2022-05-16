@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} з {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Завантаження цього елемента не підтримується",
     "Target folder does not exist any more" : "Тека призначення більше не існує",
+    "Operation is blocked by access control" : "Операцію заблоковано через контроль доступу",
     "Error when assembling chunks, status code {status}" : "Помилка під час збірки частин, код помилки {status}",
     "Actions" : "Дії",
     "Rename" : "Перейменувати",
@@ -154,6 +155,8 @@ OC.L10N.register(
     "Tags" : "Позначки",
     "Unable to change the favourite state of the file" : "Неможливо змінити стан \"улюблене\" для цього файлу",
     "Error while loading the file data" : "Помилка під час завантаження даних про файл",
+    "Cancel" : "Скасувати",
+    "Create" : "Створити",
     "%s used" : "%s використано",
     "%s%% of %s used" : "%s%% з %s використано",
     "%1$s of %2$s used" : "Використано %1$s з %2$s",
@@ -178,9 +181,6 @@ OC.L10N.register(
     "Deleted shares" : "Вилучено зі спільного доступу",
     "Pending shares" : "Спільні ресурси в очікуванні",
     "Text file" : "Текстовий файл",
-    "New text file.txt" : "Новий текстовий файл file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Сховище користувача {owner} переповнене, файли більше не можуть бути оновлені або синхронізовані!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'"]
+    "New text file.txt" : "Новий текстовий файл file.txt"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -99,6 +99,8 @@ OC.L10N.register(
     "Accept" : "Acceptar",
     "in %s" : "in %s",
     "Tags" : "Etiquettas",
+    "Cancel" : "Cancellar",
+    "Create" : "Crear",
     "%1$s of %2$s used" : "%1$s de %2$s usate",
     "Settings" : "Configurationes",
     "Show hidden files" : "Monstrar files occultate",
@@ -116,9 +118,6 @@ OC.L10N.register(
     "Shared with you" : "Compartite con te",
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
-    "New text file.txt" : "Nove texto file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Le immagazinage de {owner} es plen: files non pote esser actualisate o synchronisate plus!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Tu immagazinage es plen: files non pote esser actualisate o synchronisate plus!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["corresponde '{filter}'","corresponde '{filter}'"]
+    "New text file.txt" : "Nove texto file.txt"
 },
 "nplurals=2; plural=(n != 1);");

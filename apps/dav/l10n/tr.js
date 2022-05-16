@@ -137,6 +137,8 @@ OC.L10N.register(
     "Due on %s by %s" : "%s tarihine kadar %s tarafından",
     "Due on %s" : "%s tarihine kadar",
     "Migrated calendar (%1$s)" : "Aktarılmış takvim (%1$s)",
+    "Calendars including events, details and attendees" : "Etkinlikler, bilgiler ve katılımcılar ile takvimler",
+    "Contacts and groups" : "Kişiler ve gruplar",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV bağlantı noktası",
     "Availability" : "Kullanılabilirlik",
@@ -172,7 +174,6 @@ OC.L10N.register(
     "Tentative" : "Kesin değil",
     "Number of guests" : "Konuk sayısı",
     "Comment" : "Yorum",
-    "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "Calendar and tasks" : "Takvim ve görevler"
+    "Your attendance was updated successfully." : "Katılımınız güncellendi."
 },
 "nplurals=2; plural=(n > 1);");

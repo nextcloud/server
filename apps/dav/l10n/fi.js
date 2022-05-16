@@ -97,6 +97,10 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} päivitti yhteystietoa {card} osoitekirjassa {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Päivitit yhteystiedon {card} osoitekirjassa {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>Yhteystietoa</strong> tai <strong>osoitekirjaa</strong> muokattiin",
+    "File is not updatable: %1$s" : "Tiedosto ei ole päivitettävissä: %1$s",
+    "_%n byte_::_%n bytes_" : ["%n tavu","%n tavua"],
+    "Could not open file" : "Tiedoston avaaminen ei onnistunut",
+    "File not found: %1$s" : "Tiedostoa ei löydy: %1$s",
     "System is in maintenance mode." : "Järjestelmä on huoltotilassa",
     "Upgrade needed" : "Päivitys tarvitaan",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "%s tulee asettaa käyttämään HTTPS-yhteyttä, jotta CalDAVia ja CardDAVia voi käyttää iOSilla tai macOS:llä.",
@@ -105,10 +109,12 @@ OC.L10N.register(
     "Events" : "Tapahtumat",
     "Tasks" : "Tehtävät",
     "Untitled task" : "Nimetön tehtävä",
+    "Contacts and groups" : "Yhteystiedot ja ryhmät",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-päätepiste",
     "Availability" : "Saatavuus",
     "Time zone:" : "Aikavyöhyke:",
+    "to" : "Vastaanottaja",
     "Delete slot" : "Poista aikarako",
     "No working hours set" : "Työskentelytunteja ei ole asetettu",
     "Add slot" : "Lisää aikarako",
@@ -134,7 +140,6 @@ OC.L10N.register(
     "Tentative" : "Alustava",
     "Number of guests" : "Vieraiden määrä",
     "Comment" : "Kommentti",
-    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
-    "Calendar and tasks" : "Kalenteri ja tehtävät"
+    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti."
 },
 "nplurals=2; plural=(n != 1);");

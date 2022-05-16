@@ -118,6 +118,8 @@
     "in %s" : "%s-ში",
     "Change" : "შეცვლა",
     "Tags" : "ტეგები",
+    "Cancel" : "უარყოფა",
+    "Create" : "შექმნა",
     "%s used" : "%s მოხმარებულია",
     "%1$s of %2$s used" : "გამოყენებულია %1$s სულ %2$s-იდან ",
     "Settings" : "პარამეტრები",
@@ -137,9 +139,6 @@
     "Shared with you" : "გაზიარდა თქვენთან",
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
-    "New text file.txt" : "ახალი ტექსტი file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}-ის საცავი სავსეა, ფაილები მეტი ვეღარ განახლდება/სინქრონიზირდება!",
-    "Your storage is full, files can not be updated or synced anymore!" : "თქვენი საცავი გადაივსო. ფაილების განახლება და სინქრონიზირება ვერ მოხერხდება!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["ემთხვევა '{filter}'-ს","ემთხვევა '{filter}'-ს"]
+    "New text file.txt" : "ახალი ტექსტი file.txt"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

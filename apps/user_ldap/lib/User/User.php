@@ -274,8 +274,8 @@ class User {
 
 	/**
 	 * returns the home directory of the user if specified by LDAP settings
-	 * @param string $valueFromLDAP
-	 * @return bool|string
+	 * @param ?string $valueFromLDAP
+	 * @return false|string
 	 * @throws \Exception
 	 */
 	public function getHomePath($valueFromLDAP = null) {
@@ -286,8 +286,7 @@ class User {
 		   && strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0
 		   && $this->access->connection->homeFolderNamingRule !== 'attr:') {
 			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
-			$homedir = $this->access->readAttribute(
-				$this->access->username2dn($this->getUsername()), $attr);
+			$homedir = $this->access->readAttribute($this->access->username2dn($this->getUsername()), $attr);
 			if ($homedir && isset($homedir[0])) {
 				$path = $homedir[0];
 			}

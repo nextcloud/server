@@ -114,6 +114,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "پورته کول (%s نهايي)",
     "File Management" : "فایلونه ترتیبول",
     "Tags" : "نښکې",
+    "Cancel" : "پرېښول",
     "%s used" : "%sکارول شوې",
     "%1$s of %2$s used" : "د %2$sبرخې %1$sکارول شوې",
     "Settings" : "سمونې",
@@ -133,7 +134,6 @@ OC.L10N.register(
     "Shared by link" : "په لېنک شريک شوي",
     "Deleted shares" : "ړنګ شوي لېنکونه",
     "Text file" : "متن فایل",
-    "New text file.txt" : "New text file.txt",
-    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' په څېر","'{filter}' په څېر"]
+    "New text file.txt" : "New text file.txt"
 },
 "nplurals=2; plural=(n != 1);");

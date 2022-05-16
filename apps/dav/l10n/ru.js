@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "Завершено %s",
     "Due on %s by %s" : "До %s %s",
     "Due on %s" : "До %s",
+    "Contacts and groups" : "Контакты и группы",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "точка подключения WebDAV",
     "Availability" : "Доступность",
@@ -152,7 +153,6 @@ OC.L10N.register(
     "Tentative" : "Под вопросом",
     "Number of guests" : "Количество гостей",
     "Comment" : "Комментарий",
-    "Your attendance was updated successfully." : "Статус участия обновлён.",
-    "Calendar and tasks" : "Календарь и задачи"
+    "Your attendance was updated successfully." : "Статус участия обновлён."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

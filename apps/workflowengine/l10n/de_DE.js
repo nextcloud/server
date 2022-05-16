@@ -54,7 +54,7 @@ OC.L10N.register(
     "Images" : "Bilder",
     "Office documents" : "Office-Dokumente",
     "PDF documents" : "PDF-Dokumente",
-    "Custom mimetype" : "Benutzerdefinierter Mime-Typ",
+    "Custom mimetype" : "Benutzerdefinierter MIME-Typ",
     "Select a tag" : "Schlagwort auswählen",
     "No results" : "Keine Ergebnisse",
     "%s (invisible)" : "%s (unsichtbar)",
@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "User-Agent",
     "User group membership" : "Benutzergruppen-Mitgliedschaft",
     "is member of" : "Ist Mitglied von",
-    "is not member of" : "Ist kein Mitglied von",
-    "Browse the app store" : "Appstore durchsuchen"
+    "is not member of" : "Ist kein Mitglied von"
 },
 "nplurals=2; plural=(n != 1);");

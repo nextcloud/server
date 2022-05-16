@@ -120,7 +120,10 @@ OC.L10N.register(
     "in %s" : "en %s",
     "File Management" : "Administración de Archivos",
     "Change" : "Cambiar",
+    "Transfer" : "Transferir",
     "Tags" : "Etiquetas",
+    "Cancel" : "Cancelar",
+    "Create" : "Crear",
     "%s used" : "%s usado",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
     "Settings" : "Configuraciones ",
@@ -140,9 +143,6 @@ OC.L10N.register(
     "Shared with you" : "Compartido con usted",
     "Shared by link" : "Compartido por liga",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "El espacio de {owner} está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Tu espacio está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincide '{filter}'","coincidencia '{filter}'"]
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
 },
 "nplurals=2; plural=(n != 1);");

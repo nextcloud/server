@@ -137,10 +137,16 @@
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Ova aplikacija omogućuje korisnicima dijeljenje datoteka unutar Nextclouda. Ako je omogućena, administrator može odabrati grupe koje mogu dijeliti datoteke. Tada važeći korisnici mogu dijeliti datoteke i mape s drugim korisnicima i grupama unutar Nextclouda. Ako administrator omogući značajku poveznice dijeljenja, vanjska poveznica može se koristiti za dijeljenje datoteka s drugim korisnicima izvan Nextclouda. Administratori također mogu nametnuti zaporke, datume isteka i omogućiti dijeljenje između poslužitelja putem poveznica za dijeljenje, kao i dijeljenje s mobilnih uređaja.\nIsključivanjem ove značajke uklanjaju se dijeljene datoteke i mape s poslužitelja za sve primatelje dijeljenja, a također i s klijenata za sinkronizaciju i mobilnih aplikacija. Više informacija možete pronaći u Nextcloudovoj dokumentaciji.",
     "Sharing" : "Dijeljenje",
     "Accept user and group shares by default" : "Automatski prihvati dijeljenja korisnika i grupa",
+    "Reset" : "Resetiraj",
+    "Invalid path selected" : "Odabran nevažeći put",
+    "Unknown error" : "Nepoznata pogreška",
     "Allow editing" : "Dopusti uređivanje",
     "Read only" : "Samo za čitanje",
     "Allow upload and editing" : "Omogući otpremanje i uređivanje",
     "File drop (upload only)" : "Povlačenje datoteke (samo za otpremanje)",
+    "Read" : "Čitaj",
+    "Upload" : "Otpremi",
+    "Edit" : "Uredi",
     "Allow creating" : "Dopusti stvaranje",
     "Allow deleting" : "Dopusti brisanje",
     "Allow resharing" : "Dopusti ponovno dijeljenje",
@@ -234,10 +240,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
     "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Pogrešan put, datoteka/mapa ne postoji",
-    "invalid permissions" : "nevažeća dopuštenja",
-    "Can't change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Neuspješno dijeljenje slanjem zaporke za Nextcloud Talk jer Nextcloud Talk nije omogućen",
-    "Download %s" : "Preuzmi %s",
-    "Cannot change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja"
+    "Cannot change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Neuspješno dijeljenje slanjem zaporke za Nextcloud Talk jer Nextcloud Talk nije omogućen"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

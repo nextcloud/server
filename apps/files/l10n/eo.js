@@ -134,6 +134,8 @@ OC.L10N.register(
     "Tags" : "Etikedoj",
     "Unable to change the favourite state of the file" : "Ne eblas ŝanĝi la staton pri pliŝatataĵo de la dosiero",
     "Error while loading the file data" : "Eraro dum ŝargo de la dosierdatumoj",
+    "Cancel" : "Nuligi",
+    "Create" : "Krei",
     "%s used" : "%s uzataj",
     "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
@@ -156,9 +158,6 @@ OC.L10N.register(
     "Shared by link" : "Kunhavata per ligilo",
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
-    "New text file.txt" : "Nova tekstodosiero.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Konservejo de {owner} plenas; dosieroj ne povas alŝutiĝi aŭ sinkroniĝi plu!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Via konservejo plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["kongruas kun “{filter}”","kongruas kun “{filter}”"]
+    "New text file.txt" : "Nova tekstodosiero.txt"
 },
 "nplurals=2; plural=(n != 1);");

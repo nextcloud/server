@@ -101,6 +101,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
     "Could not delete share" : "Freigabe konnte nicht gelöscht werden",
     "Please specify a file or folder path" : "Bitte gib eine Datei oder Ordner-Pfad an",
+    "Wrong path, file/folder does not exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
     "Could not create share" : "Freigabe konnte nicht erstellt werden",
     "Invalid permissions" : "Ungültige Berechtigungen",
     "Please specify a valid user" : "Bitte gib einen gültigen Benutzer an",
@@ -123,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
     "Share must at least have READ or CREATE permissions" : "Freigabe muss mindestens Lese- oder Erstell-Rechte haben",
-    "Share must have READ permission if UPDATE or DELETE permission is set." : "Die Freigabe muss das Recht Lesen haben, wenn das Recht für Aktualisieren oder Löschen gesetzt ist.",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "Die Freigabe muss das Recht Lesen haben, wenn das Recht für Aktualisieren oder Löschen gesetzt ist",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Senden des Passwortes über Nextcloud Talk\" zum Teilen einer Datei  gescheitert, da Nextcloud Talk nicht verfügbar ist.",
     "shared by %s" : "von %s geteilt",
     "Download all files" : "Alle Dateien herunterladen",
@@ -250,10 +251,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$s zu.",
     "Add to your Nextcloud" : "Zu Deiner Nextcloud hinzufügen",
     "Wrong path, file/folder doesn't exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
-    "invalid permissions" : "Ungültige Berechtigung",
-    "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
-    "Download %s" : "Download %s",
-    "Cannot change permissions for public share links" : "Kann Berechtigungen für öffentlich freigegebene Links nicht ändern"
+    "Cannot change permissions for public share links" : "Kann Berechtigungen für öffentlich freigegebene Links nicht ändern",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist"
 },
 "nplurals=2; plural=(n != 1);");

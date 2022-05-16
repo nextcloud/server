@@ -75,10 +75,25 @@ use Psr\Log\LoggerInterface;
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
+
+	/**
+	 * @var string
+	 */
 	private $configPrefix;
+
+	/**
+	 * @var ?string
+	 */
 	private $configID;
+
+	/**
+	 * @var bool
+	 */
 	private $configured = false;
-	//whether connection should be kept on __destruct
+
+	/**
+	 * @var bool whether connection should be kept on __destruct
+	 */
 	private $dontDestruct = false;
 
 	/**
@@ -91,16 +106,27 @@ class Connection extends LDAPUtility {
 	 */
 	public $hasGidNumber = true;
 
-	//cache handler
-	protected $cache;
+	/**
+	 * @var \OCP\ICache|null
+	 */
+	protected $cache = null;
 
 	/** @var Configuration settings handler **/
 	protected $configuration;
 
+	/**
+	 * @var bool
+	 */
 	protected $doNotValidate = false;
 
+	/**
+	 * @var bool
+	 */
 	protected $ignoreValidation = false;
 
+	/**
+	 * @var array{sum?: string, result?: bool}
+	 */
 	protected $bindResult = [];
 
 	/** @var LoggerInterface */
@@ -108,16 +134,14 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * Constructor
-	 * @param ILDAPWrapper $ldap
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
-	public function __construct(ILDAPWrapper $ldap, $configPrefix = '', $configID = 'user_ldap') {
+	public function __construct(ILDAPWrapper $ldap, string $configPrefix = '', ?string $configID = 'user_ldap') {
 		parent::__construct($ldap);
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
-		$this->configuration = new Configuration($configPrefix,
-												 !is_null($configID));
+		$this->configuration = new Configuration($configPrefix, !is_null($configID));
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
@@ -645,11 +669,7 @@ class Connection extends LDAPUtility {
 
 		if (
 			count($this->bindResult) !== 0
-			&& $this->bindResult['dn'] === $this->configuration->ldapAgentName
-			&& \OC::$server->getHasher()->verify(
-				$this->configPrefix . $this->configuration->ldapAgentPassword,
-				$this->bindResult['hash']
-			)
+			&& $this->bindResult['sum'] === md5($this->configuration->ldapAgentName . $this->configPrefix . $this->configuration->ldapAgentPassword)
 		) {
 			// don't attempt to bind again with the same data as before
 			// bind might have been invoked via getConnectionResource(),
@@ -662,8 +682,7 @@ class Connection extends LDAPUtility {
 										$this->configuration->ldapAgentPassword);
 
 		$this->bindResult = [
-			'dn' => $this->configuration->ldapAgentName,
-			'hash' => \OC::$server->getHasher()->hash($this->configPrefix . $this->configuration->ldapAgentPassword),
+			'sum' => md5($this->configuration->ldapAgentName . $this->configPrefix . $this->configuration->ldapAgentPassword),
 			'result' => $ldapLogin,
 		];
 

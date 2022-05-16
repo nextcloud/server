@@ -82,8 +82,17 @@
     "Tasks" : "משימות",
     "Untitled task" : "משימה ללא כותרת",
     "Completed on %s" : "הושלמה ב־%s",
+    "Contacts and groups" : "אנשי קשר וקבוצות",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "נקודת קצה WebDAV",
+    "to" : "אל",
+    "Monday" : "יום שני",
+    "Tuesday" : "יום שלישי",
+    "Wednesday" : "יום רביעי",
+    "Thursday" : "יום חמישי",
+    "Friday" : "יום שישי",
+    "Saturday" : "יום שבת",
+    "Sunday" : "יום ראשון",
     "Save" : "שמירה",
     "Calendar server" : "שרת לוח שנה",
     "Send invitations to attendees" : "שליחת הזמנות למשתתפים",
@@ -99,7 +108,7 @@
     "Please contact the organizer directly." : "נא ליצור קשר עם הגוף מארגן ישירות.",
     "Are you accepting the invitation?" : "האם להיענות להזמנה?",
     "Tentative" : "טנטטיבית",
-    "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה.",
-    "Calendar and tasks" : "לוח שנה ומשימות"
+    "Comment" : "הערה",
+    "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

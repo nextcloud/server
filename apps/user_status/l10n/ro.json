@@ -1,0 +1,23 @@
+{ "translations": {
+    "Clear status message after" : "Șterge mesajul de stare după",
+    "What is your status?" : "Care este statusul dumneavoastră?",
+    "Set status" : "Setează status",
+    "Online status" : "Status online",
+    "Status message" : "Mesaj de status",
+    "Clear status message" : "Șterge mesajul de stare",
+    "Set status message" : "Setează mesajul de status",
+    "Away" : "Plecat",
+    "Do not disturb" : "Nu deranja",
+    "Don't clear" : "Nu curăța",
+    "Today" : "Azi",
+    "This week" : "Săptămâna asta",
+    "Online" : "Online",
+    "Invisible" : "Invizibil",
+    "30 minutes" : "30 minute",
+    "1 hour" : "1 oră",
+    "4 hours" : "4 ore",
+    "Mute all notifications" : "Dezactivați toate notificările",
+    "Appear offline" : "Apari deconectat",
+    "What's your status?" : "Care este statusul tău?"
+},"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
+}

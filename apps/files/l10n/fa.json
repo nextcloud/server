@@ -98,7 +98,11 @@
     "Reject" : "رد کردن",
     "in %s" : "در %s",
     "Change" : "تغییر",
+    "Transfer" : "انتقال",
+    "Invalid path selected" : "مسیر نامعتبر انتخاب شده است",
     "Tags" : "برچسب‌ها",
+    "Cancel" : "لغو",
+    "Create" : "ساخت",
     "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
     "Settings" : "تنظیمات",
     "Show hidden files" : "نمایش فایل‌های مخفی",
@@ -120,9 +124,6 @@
     "Deleted shares" : "اشتراک گذاری های حذف شده",
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
-    "New text file.txt" : "فایل متنی جدید .txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "فضای ذخیر‌سازی {owner}  پر شده است، امکان بروزرسانی یا هم‌گام‌سازی بیشتر وجود ندارد!",
-    "Your storage is full, files can not be updated or synced anymore!" : "فضای ذخیره ی شما کاملا پر است، بیش از این فایلها بهنگام یا همگام سازی نمی توانند بشوند!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["تطبیق '{filter}'","تطبیق '{filter}'"]
+    "New text file.txt" : "فایل متنی جدید .txt"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

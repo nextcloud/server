@@ -88,6 +88,14 @@ OC.L10N.register(
     "Due on %s" : "Forfaller på %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endepunkt",
+    "to" : "til",
+    "Monday" : "Mandag",
+    "Tuesday" : "Tirsdag",
+    "Wednesday" : "Onsdag",
+    "Thursday" : "Torsdag",
+    "Friday" : "Fredag",
+    "Saturday" : "Lørdag",
+    "Sunday" : "Søndag",
     "Save" : "Lagre",
     "Calendar server" : "Kalenderserver",
     "Send invitations to attendees" : "Send invitasjoner til oppmøtte",
@@ -103,7 +111,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ta kontakt med arrangøren direkte.",
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
-    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
-    "Calendar and tasks" : "Kalender og oppgaver"
+    "Comment" : "Kommentar",
+    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert."
 },
 "nplurals=2; plural=(n != 1);");

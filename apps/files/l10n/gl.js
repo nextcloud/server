@@ -208,11 +208,6 @@ OC.L10N.register(
     "Deleted shares" : "Recursos compartidos eliminados",
     "Pending shares" : "Comparticións pendentes",
     "Text file" : "Ficheiro de texto",
-    "New text file.txt" : "Novo ficheiro de texto.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "O espazo de almacenamento de {owner} está cheo, xa non se poden actualizar nin sincronizar os ficheiros.",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "O cartafol de grupo «{mountPoint}» está cheo, xa non é posíbel actualizar oun sincronizar os ficheiros.",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "O almacenamento externo «{mountPoint}» está cheo, xa non é posíbel actualizar oun sincronizar os ficheiros.",
-    "Your storage is full, files can not be updated or synced anymore!" : "O seu espazo de almacenamento está cheo, xa non se poden actualizar nin sincronizar os ficheiros.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincidente con «{filter}»","coincidentes con «{filter}»"]
+    "New text file.txt" : "Novo ficheiro de texto.txt"
 },
 "nplurals=2; plural=(n != 1);");

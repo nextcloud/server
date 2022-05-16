@@ -42,13 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新稳定版本。适合日常使用并总是更新至最新主版本。",
     "Beta" : "Beta测试版",
     "A pre-release version only for testing new features, not for production environments." : "预发布版本仅作测试新功能用，不可用于生产环境。",
-    "Apps missing updates" : "缺少更新的应用",
-    "Apps with available updates" : "有可用更新的应用",
-    "Only notification for app updates are available." : "仅提醒应用更新就绪。",
-    "Checking apps for compatible updates" : "检查应用以匹配更新",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "无法连接到应用商店，或者应用商店返回无可用更新。请手动搜索更新，或者是确认您的服务器能访问互联网，并能连接到应用商店。",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>所有</strong> 应用有适用于这个版本的更新",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>应用没有适用这个版本的更新"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>应用都有一个与这个 Nextcloud 版本兼容的版本可用",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>个应用有与这个 Nextcloud 兼容的版本可用"]
 },

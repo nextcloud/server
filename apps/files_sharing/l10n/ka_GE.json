@@ -88,10 +88,15 @@
     "File sharing" : "ფაილების გაზიარება",
     "Accept" : "მიღება",
     "Sharing" : "გაზიარება",
+    "Reset" : "საწყის მდოგმარეობაში დაბრუნება",
+    "Unknown error" : "უცნობი შეცდომა",
     "Allow editing" : "შეცვლის ნების დართვა",
     "Read only" : "მხოლოდ-კითხვადი",
     "Allow upload and editing" : "ატვირთვისა და ცვლილების უფლებების მინიჭება",
     "File drop (upload only)" : "ფაილის ჩაგდება (მხოლოდ ატვირთვა)",
+    "Read" : "წაკითხვა",
+    "Upload" : "ატვირთვა",
+    "Edit" : "შეცვლა",
     "Allow resharing" : "ხელახალი გაზიარების დაშვება",
     "Set expiration date" : "მიუთითეთ ვადის გასვლის დრო",
     "Unshare" : "გაზიარების შეწყვეტა",
@@ -123,9 +128,6 @@
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
-    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
-    "invalid permissions" : "არასწორი უფლებები",
-    "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა",
-    "Download %s" : "%s-ის ჩამოტვირთვა"
+    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

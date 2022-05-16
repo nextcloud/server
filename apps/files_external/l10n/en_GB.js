@@ -19,9 +19,8 @@ OC.L10N.register(
     "Never" : "Never",
     "Once every direct access" : "Once every direct access",
     "Read only" : "Read only",
-    "Delete" : "Delete",
+    "Disconnect" : "Disconnect",
     "Admin defined" : "Admin defined",
-    "Are you sure you want to delete this external storage?" : "Are you sure you want to delete this external storage?",
     "Delete storage?" : "Delete storage?",
     "Saved" : "Saved",
     "Save" : "Save",
@@ -123,9 +122,7 @@ OC.L10N.register(
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
     "Allow users to mount external storage" : "Allow users to mount external storage",
-    "External storages" : "External storages",
-    "(group)" : "(group)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS using OC login"
+    "Delete" : "Delete",
+    "Are you sure you want to delete this external storage?" : "Are you sure you want to delete this external storage?"
 },
 "nplurals=2; plural=(n != 1);");

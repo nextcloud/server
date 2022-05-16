@@ -55,9 +55,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
     "Disabled" : "無効",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
-    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを読み取ることができません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "こんにちは\n\n管理者がサーバーサイド暗号化を有効にしました。'%s'というパスワードであなたのファイルが暗号化されました。\n\nWeb画面からログインして、個人設定画面の'基本暗号化モジュール' セクションにいき、暗号化パスワードの更新をお願いします。 '旧ログインパスワード'部分に上記パスワードを入力し、現在のログインパスワードで更新します。\n",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "こんにちは、<br><br>管理者がサーバーサイド暗号化を有効にしました。<strong>%s</strong>というパスワードであなたのファイルが暗号化されました。<br><br>Web画面からログインして、個人設定画面の\"基本暗号化モジュール\"のセクションにいき、暗号化パスワードの更新をお願いします。 \"旧ログインパスワード”部分に上記パスワードを入力し、現在のログインパスワードで更新します。<br><br>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
