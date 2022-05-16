@@ -8,6 +8,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
@@ -40,27 +41,28 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 
 class EmailProviderTest extends AbstractNotificationProviderTest {
 	public const USER_EMAIL = 'frodo@hobb.it';
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ILogger|MockObject */
 	protected $logger;
 
-	/** @var L10NFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var L10NFactory|MockObject */
 	protected $l10nFactory;
 
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	protected $l10n;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
 
-	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMailer|MockObject */
 	private $mailer;
 
 	protected function setUp(): void {
@@ -78,22 +80,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	}
 
 	public function testSendWithoutAttendees():void {
-		$this->config->expects($this->at(0))
-			->method('getUserValue')
-			->with('uid1', 'core', 'lang', null)
-			->willReturn(null);
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with('uid2', 'core', 'lang', null)
-			->willReturn('de');
-		$this->config->expects($this->at(2))
-			->method('getUserValue')
-			->with('uid3', 'core', 'lang', null)
-			->willReturn('de');
-		$this->config->expects($this->at(3))
-			->method('getUserValue')
-			->with('uid5', 'core', 'lang', null)
-			->willReturn('de');
+		list($user1, $user2, $user3, , $user5) = $users = $this->getUsers();
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
@@ -107,30 +94,32 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$deL10N->method('l')
 			->willReturnArgument(0);
 
-		$this->l10nFactory->expects($this->at(0))
+		$this->l10nFactory
+			->method('getUserLanguage')
+			->willReturnMap([
+				[$user1, 'en'],
+				[$user2, 'de'],
+				[$user3, 'de'],
+				[$user5, 'de'],
+			]);
+
+		$this->l10nFactory
 			->method('findLanguage')
-			->with()
 			->willReturn('en');
 
-		$this->l10nFactory->expects($this->at(1))
+		$this->l10nFactory
 			->method('languageExists')
-			->with('dav', 'en')
-			->willReturn(true);
+			->willReturnMap([
+				['dav', 'en', true],
+				['dav', 'de', true],
+			]);
 
-		$this->l10nFactory->expects($this->at(2))
+		$this->l10nFactory
 			->method('get')
-			->with('dav', 'en')
-			->willReturn($enL10N);
-
-		$this->l10nFactory->expects($this->at(3))
-			->method('languageExists')
-			->with('dav', 'de')
-			->willReturn(true);
-
-		$this->l10nFactory->expects($this->at(4))
-			->method('get')
-			->with('dav', 'de')
-			->willReturn($deL10N);
+			->willReturnMap([
+				['dav', 'en', null, $enL10N],
+				['dav', 'de', null, $deL10N],
+			]);
 
 		$template1 = $this->getTemplateMock();
 		$message11 = $this->getMessageMock('uid1@example.com', $template1);
@@ -197,26 +186,11 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getNoAttendeeVCalendar();
-		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $this->getUsers());
+		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $users);
 	}
 
 	public function testSendWithAttendees(): void {
-		$this->config->expects($this->at(0))
-			->method('getUserValue')
-			->with('uid1', 'core', 'lang', null)
-			->willReturn(null);
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with('uid2', 'core', 'lang', null)
-			->willReturn('de');
-		$this->config->expects($this->at(2))
-			->method('getUserValue')
-			->with('uid3', 'core', 'lang', null)
-			->willReturn('de');
-		$this->config->expects($this->at(3))
-			->method('getUserValue')
-			->with('uid5', 'core', 'lang', null)
-			->willReturn('de');
+		list($user1, $user2, $user3, , $user5) = $users = $this->getUsers();
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
@@ -230,138 +204,85 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$deL10N->method('l')
 			->willReturnArgument(0);
 
-		$this->l10nFactory->expects($this->at(0))
+		$this->l10nFactory
+			->method('getUserLanguage')
+			->willReturnMap([
+				[$user1, 'en'],
+				[$user2, 'de'],
+				[$user3, 'de'],
+				[$user5, 'de'],
+			]);
+
+		$this->l10nFactory
 			->method('findLanguage')
-			->with()
 			->willReturn('en');
 
-		$this->l10nFactory->expects($this->at(1))
+		$this->l10nFactory
 			->method('languageExists')
-			->with('dav', 'de')
-			->willReturn(true);
+			->willReturnMap([
+				['dav', 'en', true],
+				['dav', 'de', true],
+			]);
 
-		$this->l10nFactory->expects($this->at(2))
+		$this->l10nFactory
 			->method('get')
-			->with('dav', 'de')
-			->willReturn($enL10N);
+			->willReturnMap([
+				['dav', 'en', null, $enL10N],
+				['dav', 'de', null, $deL10N],
+			]);
 
-		$this->l10nFactory->expects($this->at(3))
-			->method('languageExists')
-			->with('dav', 'en')
-			->willReturn(true);
-
-		$this->l10nFactory->expects($this->at(4))
-			->method('get')
-			->with('dav', 'en')
-			->willReturn($deL10N);
-
-		// German
 		$template1 = $this->getTemplateMock();
 		$message11 = $this->getMessageMock('foo1@example.org', $template1);
 		$message12 = $this->getMessageMock('uid2@example.com', $template1);
 		$message13 = $this->getMessageMock('uid3@example.com', $template1);
-		// English
 		$template2 = $this->getTemplateMock();
 		$message21 = $this->getMessageMock('foo3@example.org', $template2);
 		$message22 = $this->getMessageMock('foo4@example.org', $template2);
 		$message23 = $this->getMessageMock('uid1@example.com', $template2);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects(self::exactly(2))
 			->method('createEMailTemplate')
 			->with('dav.calendarReminder')
-			->willReturn($template1);
-
-		$this->mailer->expects($this->at(1))
+			->willReturnOnConsecutiveCalls(
+				$template1,
+				$template2
+			);
+		$this->mailer->expects($this->atLeastOnce())
 			->method('validateMailAddress')
-			->with('foo1@example.org')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(2))
+			->willReturnMap([
+				['foo1@example.org', true],
+				['foo3@example.org', true],
+				['foo4@example.org', true],
+				['uid1@example.com', true],
+				['uid2@example.com', true],
+				['uid3@example.com', true],
+				['invalid', false]
+			]);
+		$this->mailer->expects($this->exactly(6))
 			->method('createMessage')
 			->with()
-			->willReturn($message11);
-		$this->mailer->expects($this->at(3))
+			->willReturnOnConsecutiveCalls(
+				$message11,
+				$message12,
+				$message13,
+				$message21,
+				$message22,
+				$message23
+			);
+		$this->mailer->expects($this->exactly(6))
 			->method('send')
-			->with($message11)
-			->willReturn([]);
-		$this->mailer->expects($this->at(4))
-			->method('validateMailAddress')
-			->with('uid2@example.com')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(5))
-			->method('createMessage')
-			->with()
-			->willReturn($message12);
-		$this->mailer->expects($this->at(6))
-			->method('send')
-			->with($message12)
-			->willReturn([]);
-		$this->mailer->expects($this->at(7))
-			->method('validateMailAddress')
-			->with('uid3@example.com')
-			->willReturn(true);
-		$this->mailer->expects($this->at(8))
-			->method('createMessage')
-			->with()
-			->willReturn($message13);
-		$this->mailer->expects($this->at(9))
-			->method('send')
-			->with($message13)
-			->willReturn([]);
-		$this->mailer->expects($this->at(10))
-			->method('validateMailAddress')
-			->with('invalid')
-			->willReturn(false);
-
-		$this->mailer->expects($this->at(11))
-			->method('createEMailTemplate')
-			->with('dav.calendarReminder')
-			->willReturn($template2);
-
-		$this->mailer->expects($this->at(12))
-			->method('validateMailAddress')
-			->with('foo3@example.org')
-			->willReturn(true);
-		$this->mailer->expects($this->at(13))
-			->method('createMessage')
-			->with()
-			->willReturn($message21);
-		$this->mailer->expects($this->at(14))
-			->method('send')
-			->with($message21)
-			->willReturn([]);
-
-		$this->mailer->expects($this->at(15))
-			->method('validateMailAddress')
-			->with('foo4@example.org')
-			->willReturn(true);
-		$this->mailer->expects($this->at(16))
-			->method('createMessage')
-			->with()
-			->willReturn($message22);
-		$this->mailer->expects($this->at(17))
-			->method('send')
-			->with($message22)
-			->willReturn([]);
-
-		$this->mailer->expects($this->at(18))
-			->method('validateMailAddress')
-			->with('uid1@example.com')
-			->willReturn(true);
-		$this->mailer->expects($this->at(19))
-			->method('createMessage')
-			->with()
-			->willReturn($message23);
-		$this->mailer->expects($this->at(20))
-			->method('send')
-			->with($message23)
-			->willReturn([]);
-
+			->withConsecutive(
+				[$message11],
+				[$message12],
+				[$message13],
+				[$message21],
+				[$message22],
+				[$message23]
+			)->willReturn([]);
 		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getAttendeeVCalendar();
-		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $this->getUsers());
+		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $users);
 	}
 
 	/**
