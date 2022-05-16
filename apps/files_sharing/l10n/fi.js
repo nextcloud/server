@@ -135,6 +135,7 @@ OC.L10N.register(
     "Accept user and group shares by default" : "Hyväksy käyttäjä- ja ryhmäjaot oletuksena",
     "Set default folder for accepted shares" : "Aseta oletuskansio hyväksytyille jaoille",
     "Reset" : "Palauta",
+    "Reset folder to system default" : "Palauta kansio järjestelmän oletukseksi",
     "Choose a default folder for accepted shares" : "Valitse oletuskansio hyväksytyille jaoille",
     "Invalid path selected" : "Virheellinen polku valittu",
     "Unknown error" : "Tuntematon virhe",
