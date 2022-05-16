@@ -36,7 +36,7 @@ export const setUp = () => {
 		if (event.which === 1 && !event.ctrlKey && !event.metaKey) {
 			$page.find('img').remove()
 			$page.find('div').remove() // prevent odd double-clicks
-			$page.prepend($('<div/>').addClass('icon-loading-small'))
+			$page.prepend($('<div></div>').addClass('icon-loading-small'))
 		} else {
 			// Close navigation when opening menu entry in
 			// a new tab
