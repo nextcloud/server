@@ -1,0 +1,120 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: PHPUnit
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
+
+env:
+  # Location of the phpunit.xml and phpunit.integration.xml files
+  PHPUNIT_CONFIG: ./tests/phpunit.xml
+  PHPUNIT_INTEGRATION_CONFIG: ./tests/phpunit.integration.xml
+
+jobs:
+  phpunit-mysql:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ['8.1', '8.2']
+        server-versions: ['master']
+
+    services:
+      mysql:
+        image: mariadb:10.5
+        ports:
+          - 4444:3306/tcp
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
+
+    steps:
+      - name: Set app env
+        run: |
+          # Split and keep last
+          echo "APP_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+
+      - name: Enable ONLY_FULL_GROUP_BY MySQL option
+        run: |
+          echo "SET GLOBAL sql_mode=(SELECT CONCAT(@@sql_mode,',ONLY_FULL_GROUP_BY'));" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
+          echo "SELECT @@sql_mode;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
+
+      - name: Checkout server
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          repository: nextcloud/server
+          ref: ${{ matrix.server-versions }}
+
+      - name: Checkout app
+        uses: actions/checkout@v3
+        with:
+          path: apps/${{ env.APP_NAME }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+          extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
+          coverage: none
+
+      - name: Set up PHPUnit
+        working-directory: apps/${{ env.APP_NAME }}
+        run: composer i
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ app:enable ${{ env.APP_NAME }}
+
+      - name: Check PHPUnit config file existence
+        id: check_phpunit
+        uses: andstor/file-existence-action@v1
+        with:
+          files: apps/${{ env.APP_NAME }}/${{ env.PHPUNIT_CONFIG }}
+
+      - name: PHPUnit
+        # Only run if phpunit config file exists
+        if: steps.check_phpunit.outputs.files_exists == 'true'
+        working-directory: apps/${{ env.APP_NAME }}
+        run: ./vendor/phpunit/phpunit/phpunit -c ${{ env.PHPUNIT_CONFIG }}
+
+      - name: Check PHPUnit integration config file existence
+        id: check_integration
+        uses: andstor/file-existence-action@v1
+        with:
+          files: apps/${{ env.APP_NAME }}/${{ env.PHPUNIT_INTEGRATION_CONFIG }}
+
+      - name: Run Nextcloud
+        # Only run if phpunit integration config file exists
+        if: steps.check_integration.outputs.files_exists == 'true'
+        run: php -S localhost:8080 &
+
+      - name: PHPUnit integration
+        # Only run if phpunit integration config file exists
+        if: steps.check_integration.outputs.files_exists == 'true'
+        working-directory: apps/${{ env.APP_NAME }}
+        run: ./vendor/phpunit/phpunit/phpunit -c ${{ env.PHPUNIT_INTEGRATION_CONFIG }}
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: phpunit-mysql
+
+    if: always()
+
+    name: phpunit-mysql-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.phpunit-mysql.result != 'success' }}; then exit 1; fi
