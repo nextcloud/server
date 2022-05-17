@@ -80,6 +80,9 @@ module.exports = {
 		'legacy-admin': path.join(__dirname, 'apps/settings/src', 'admin.js'),
 		'apps': path.join(__dirname, 'apps/settings/src', 'apps.js'),
 	},
+	sharebymail: {
+		'vue-settings-admin-sharebymail': path.join(__dirname, 'apps/sharebymail/src', 'main-admin.js'),
+	},
 	systemtags: {
 		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
 	},
