@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -270,4 +271,26 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota);
+
+	/**
+	 * get users' profile property value.
+	 *
+	 * @param string $property name see IAccountManager::PROPERTY_*
+	 * @return string AccountProperty value
+	 * @throws InvalidArgumentException when the property name is invalid or null
+	 * @since 25.0.0
+	 */
+	public function getProfilePropertyValue(string $property): ?string;
+
+	/**
+	 * set users' profile property value.
+	 * remove property, if null
+	 *
+	 * @param string $property name from IAccountManager::PROPERTY_*
+	 * @param string $value AccountProperty value
+	 * @return void
+	 * @throws InvalidArgumentException when the property name is invalid or null
+	 * @since 25.0.0
+	 */
+	public function setProfilePropertyValue(string $property, $value);
 }

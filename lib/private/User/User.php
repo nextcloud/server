@@ -12,6 +12,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Leon Klingele <leon@struktur.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -587,5 +588,45 @@ class User implements IUser {
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 		}
+	}
+
+	/**
+	 * @param string $property name of the AccountProperty
+	 * @return string|null AccountProperty value
+	 * @throws InvalidArgumentException when the property name is invalid or null
+	 */
+	public function getProfilePropertyValue($property): ?string {
+		if ($property === null) {
+			throw new InvalidArgumentException('Property can not be null.');
+		}
+		// FIXME: check $property if it's one of the IAccountManager::PROPERTY_* public constants
+
+		// FIXME: I need to get the AccountProperty value to return
+		//return $this->config->getUserValue($this->uid, 'user_ldap', $property, null);
+		$this->ensureAccountManager();
+		$account = $this->accountManager->getAccount($this);
+		$property = $account->getProperty($property);
+		return $property->getValue();
+	}
+
+	/**
+	 * @param string $property name of the AccountProperty
+	 * @param string $value AccountProperty value
+	 * @return void
+	 * @throws InvalidArgumentException when the property name is invalid or null
+	 */
+	public function setProfilePropertyValue($property, $value) {
+		if ($property === null) {
+			throw new InvalidArgumentException('Property can not be null.');
+		}
+		// FIXME: check $property if it's one of the IAccountManager::PROPERTY_* public constants
+		$this->ensureAccountManager();
+		$account = $this->accountManager->getAccount($this);
+		$property = $account->getProperty($property);
+		$property->setValue($value);
+		//$property->setScope(IAccountManager::SCOPE_FEDERATED);
+		//$property->setVerified(IAccountManager::VERIFIED);
+		$this->accountManager->updateAccount($account);
+		return;
 	}
 }

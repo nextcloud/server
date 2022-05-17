@@ -36,9 +36,12 @@ use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
+use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Image;
 use OCP\IUser;
@@ -575,28 +578,12 @@ class User {
 		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 
-/*	user profile settings and LDAP attributes
- *	***
- *	interface IAccountManager
- *	public const PROPERTY_PHONE = 'phone';
- *	public const PROPERTY_EMAIL = 'email';
- *	public const PROPERTY_WEBSITE = 'website';
- *	public const PROPERTY_ADDRESS = 'address';
- *	public const PROPERTY_TWITTER = 'twitter';
- *	public const PROPERTY_ORGANISATION = 'organisation';
- *	public const PROPERTY_ROLE = 'role';
- *	public const PROPERTY_HEADLINE = 'headline';
- *	public const PROPERTY_BIOGRAPHY = 'biography';
- *	public const PROPERTY_PROFILE_ENABLED = 'profile_enabled';
- *	public function getAccount(IUser $user): IAccount;
- *	public function updateAccount(IAccount $account): void;
- */
 	/**
 	 * fetches values from LDAP and stores it as Nextcloud user value
 	 * @param string $valueFromLDAP if known, to save an LDAP read request
 	 * @return null
 	 */
-	public function updateProfile(string $property, $valueFromLDAP = null) {
+	private function updateProfile(string $property, $valueFromLDAP) {
 		// check for valid property and set corresponding profile property
 		$profileProperty = 'INVALID';
 		if (self::USER_PREFKEY_PHONE == $property) {
@@ -616,10 +603,9 @@ class User {
 		} elseif (self::USER_PREFKEY_BIOGRAPHY == $property) {
 			$profileProperty = \OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY;
 		} else {
-			// TODO: throw exception for invalid property specified
+			// FIXME: throw exception for invalid property specified
 			return;
 		}
-		$this->logger->info('user profile data from LDAP '.$this->dn.' ('.$profileProperty.')', ['app' => 'user_ldap']);
 		// check if this property was refreshed before
 		if ($this->wasRefreshed($property)) {
 			return;
@@ -628,12 +614,28 @@ class User {
 			//$propertyValue = (string)$valueFromLDAP;
 			$propertyValue = [$valueFromLDAP];
 		}
+		$this->logger->debug('user profile data ('.$profileProperty.') from LDAP '.$this->dn.' ='.((string)$valueFromLDAP), ['app' => 'user_ldap']);
 		if ($propertyValue && isset($propertyValue[0])) {
 			$value = $propertyValue[0];
+			try {
+				$user = $this->userManager->get($this->uid);
+				if (!is_null($user)) {
+					$currentValue = (string)$user->getProfilePropertyValue($profileProperty);
+					if ($currentValue !== $value) {
+						$user->setProfilePropertyValue($profileProperty,$value);
+					}
+					// setScope(IAccountManager::SCOPE_FEDERATED);
+					// setVerified(IAccountManager::VERIFIED);
+				}
+			} catch (PropertyDoesNotExistException $e) {
+				$this->logger->error('property does not exist: '.$profileProperty.' for user '.$userName.'', ['app' => 'user_ldap']);
+				return;
+			}
+			$this->logger->debug('property updated: '.$profileProperty.'='.$propertyValue.' for user '.$userName.'', ['app' => 'user_ldap']);
 			$this->config->setUserValue($this->getUsername(), 'user_ldap', $property, $value);
-			// TODO: update user profile data; call \OCP\Accounts\IAccount::setProperty
 			return $value;
 		} else {
+			// FIXME: I decided, to leave profile untouched, if attribute gets removed from LDAP
 			$this->config->deleteUserValue($this->getUsername(), 'user_ldap', $property);
 			return '';
 		}
