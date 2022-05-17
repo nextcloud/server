@@ -50,6 +50,9 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	/** @var bool */
 	private $trashEnabled;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var IDBConnection */
 	private $connection;
 

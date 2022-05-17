@@ -36,6 +36,9 @@ use OCP\IConfig;
 
 class BackgroundCleanupJob extends TimedJob {
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var IDBConnection */
 	private $connection;
 
