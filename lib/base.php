@@ -595,12 +595,7 @@ class OC {
 
 		$eventLogger = \OC::$server->getEventLogger();
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
-		$eventLogger->start('request', 'Full request after autoloading');
-		register_shutdown_function(function () use ($eventLogger) {
-			$eventLogger->end('request');
-		});
 		$eventLogger->start('boot', 'Initialize');
-		$eventLogger->start('runtime', 'Runtime (total - autoloader)');
 
 		// Override php.ini and log everything if we're troubleshooting
 		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
@@ -804,6 +799,11 @@ class OC {
 		}
 		$eventLogger->end('boot');
 		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
+		$eventLogger->start('runtime', 'Runtime');
+		$eventLogger->start('request', 'Full request after boot');
+		register_shutdown_function(function () use ($eventLogger) {
+			$eventLogger->end('request');
+		});
 	}
 
 	/**
