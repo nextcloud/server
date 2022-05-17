@@ -17,9 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      # do not stop on another job's failure
+      fail-fast: false
       matrix:
         php-versions: ['8.1', '8.2']
-        server-versions: ['master']
 
     services:
       mysql:
@@ -31,11 +32,6 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
 
     steps:
-      - name: Set app env
-        run: |
-          # Split and keep last
-          echo "APP_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
-
       - name: Enable ONLY_FULL_GROUP_BY MySQL option
         run: |
           echo "SET GLOBAL sql_mode=(SELECT CONCAT(@@sql_mode,',ONLY_FULL_GROUP_BY'));" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
@@ -45,20 +41,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: true
-          repository: nextcloud/server
-          ref: ${{ matrix.server-versions }}
 
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit
           extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
           coverage: none
 
-      - name: Set up PHPUnit
-        working-directory: apps/${{ env.APP_NAME }}
-        run: composer i
+      - name: composer i
+        run: |
+          composer i
+          composer require --dev phpunit/phpunit
 
       - name: Set up Nextcloud
         env:
@@ -68,7 +62,8 @@ jobs:
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
 
       - name: PHPUnit
-        run: NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+        working-directory: tests
+        run: ../vendor/bin/phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
 
   summary:
     runs-on: ubuntu-latest
