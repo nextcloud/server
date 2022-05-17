@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Podrobnosti",
     "Please select tag(s) to add to the selection" : "Vyberte štítky které přidat do výběru",
     "Apply tag(s) to selection" : "Uplatnit štítky na výběr",
-    "Select" : "Vybrat",
     "Pending" : "Nevyřízené",
     "Unable to determine date" : "Nelze určit datum",
     "This operation is forbidden" : "Tato operace je zakázána",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Smazaná sdílení",
     "Pending shares" : "Čekající sdílení",
     "Text file" : "Textový soubor",
-    "New text file.txt" : "Nový textový soubor.txt"
+    "New text file.txt" : "Nový textový soubor.txt",
+    "Select" : "Vybrat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

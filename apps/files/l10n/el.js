@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Λεπτομέρειες",
     "Please select tag(s) to add to the selection" : "Επιλέξτε ετικέτα (ες) για προσθήκη στην επιλογή",
     "Apply tag(s) to selection" : "Εφαρμογή ετικετών στην επιλογή",
-    "Select" : "Επιλογή",
     "Pending" : "Εκκρεμεί",
     "Unable to determine date" : "Αδυναμία προσδιορισμού ημερομηνίας",
     "This operation is forbidden" : "Αυτή η λειτουργία απαγορεύεται",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Διαγραμμένα κοινόχρηστα",
     "Pending shares" : "Κοινή χρήση σε εκκρεμότητα",
     "Text file" : "Αρχείο κειμένου",
-    "New text file.txt" : "Νέο αρχείο file.txt"
+    "New text file.txt" : "Νέο αρχείο file.txt",
+    "Select" : "Επιλογή"
 },
 "nplurals=2; plural=(n != 1);");

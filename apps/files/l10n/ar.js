@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "التفاصيل",
     "Please select tag(s) to add to the selection" : "يرجى تحديد علامة (علامات) لإضافتها إلى التحديد",
     "Apply tag(s) to selection" : "تطبيق العلامة (العلامات) على التحديد",
-    "Select" : "إختر",
     "Pending" : "قيد الانتظار",
     "Unable to determine date" : "تعذر تحديد التاريخ",
     "This operation is forbidden" : "هذة العملية ممنوعة ",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "تم حذف المشاركات",
     "Pending shares" : "انتظار المشاركات",
     "Text file" : "ملف نصي",
-    "New text file.txt" : "ملف نصي جديد fille.txt"
+    "New text file.txt" : "ملف نصي جديد fille.txt",
+    "Select" : "إختر"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

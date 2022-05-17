@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Detalles",
     "Please select tag(s) to add to the selection" : "Elixe a etiqueta(s) para engadir á selección",
     "Apply tag(s) to selection" : "Aplicar etiqueta(s) á selección",
-    "Select" : "Seleccionar",
     "Pending" : "Pendentes",
     "Unable to determine date" : "Non é posíbel determinar a data",
     "This operation is forbidden" : "Esta operación está prohibida",
@@ -208,6 +207,7 @@ OC.L10N.register(
     "Deleted shares" : "Recursos compartidos eliminados",
     "Pending shares" : "Comparticións pendentes",
     "Text file" : "Ficheiro de texto",
-    "New text file.txt" : "Novo ficheiro de texto.txt"
+    "New text file.txt" : "Novo ficheiro de texto.txt",
+    "Select" : "Seleccionar"
 },
 "nplurals=2; plural=(n != 1);");
