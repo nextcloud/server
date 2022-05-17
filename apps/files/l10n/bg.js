@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Подробности",
     "Please select tag(s) to add to the selection" : "Моля, изберете етикет(и), който да добавите към селекцията",
     "Apply tag(s) to selection" : "Прилагане на етикет(и) към селекцията",
-    "Select" : "Избери",
     "Pending" : "Чакащо",
     "Unable to determine date" : "Неуспешно установяване на дата",
     "This operation is forbidden" : "Операцията е забранена",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Изтрити",
     "Pending shares" : "Чакащи споделяния",
     "Text file" : "Текстов файл",
-    "New text file.txt" : "Текстов файл.txt"
+    "New text file.txt" : "Текстов файл.txt",
+    "Select" : "Избери"
 },
 "nplurals=2; plural=(n != 1);");

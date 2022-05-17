@@ -31,7 +31,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "ფაილზე \"{file}\" ინფორმაცია ვერ ჩაიტვირთა",
     "Files" : "ფაილები",
     "Details" : "დეტალები",
-    "Select" : "არჩევა",
     "Pending" : "მოცდის რეჟიმში",
     "Unable to determine date" : "თარიღის დადგენა შეუძლებელია",
     "This operation is forbidden" : "ეს ოპერაცია აკრძალულია",
@@ -141,6 +140,7 @@ OC.L10N.register(
     "Shared with you" : "გაზიარდა თქვენთან",
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
-    "New text file.txt" : "ახალი ტექსტი file.txt"
+    "New text file.txt" : "ახალი ტექსტი file.txt",
+    "Select" : "არჩევა"
 },
 "nplurals=2; plural=(n!=1);");

@@ -27,7 +27,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nun pudo cargase la información del ficheru «{file}»",
     "Files" : "Ficheros",
     "Details" : "Detalles",
-    "Select" : "Esbillar",
     "Pending" : "Pendiente",
     "Unable to determine date" : "Imposible determinar la fecha",
     "This operation is forbidden" : "La operación ta prohibida",
@@ -108,6 +107,7 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Shared by link" : "Compartíos per enllaz",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt"
+    "New text file.txt" : "Nuevu testu ficheru.txt",
+    "Select" : "Esbillar"
 },
 "nplurals=2; plural=(n != 1);");

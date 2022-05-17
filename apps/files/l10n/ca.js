@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Detalls",
     "Please select tag(s) to add to the selection" : "Seleccioneu les etiquetes que voleu afegir a la selecció",
     "Apply tag(s) to selection" : "Aplica les etiquetes a la selecció",
-    "Select" : "Selecciona",
     "Pending" : "Pendent",
     "Unable to determine date" : "No s'ha pogut determinar la data",
     "This operation is forbidden" : "Aquesta operació no està permesa",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Suprimit",
     "Pending shares" : "Pendent",
     "Text file" : "Fitxer de text",
-    "New text file.txt" : "Fitxer de text nou.txt"
+    "New text file.txt" : "Fitxer de text nou.txt",
+    "Select" : "Selecciona"
 },
 "nplurals=2; plural=(n != 1);");

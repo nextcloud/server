@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Ayrıntılar",
     "Please select tag(s) to add to the selection" : "Seçime eklemek için etiketleri seçin",
     "Apply tag(s) to selection" : "Etiketleri seçime uygula",
-    "Select" : "Seçin",
     "Pending" : "Bekliyor",
     "Unable to determine date" : "Tarih belirlenemedi",
     "This operation is forbidden" : "Bu işleme izin verilmiyor",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Silinmiş paylaşımlar",
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
-    "New text file.txt" : "Yeni metin dosyası.txt"
+    "New text file.txt" : "Yeni metin dosyası.txt",
+    "Select" : "Seçin"
 },
 "nplurals=2; plural=(n > 1);");

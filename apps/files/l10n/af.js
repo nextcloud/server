@@ -35,7 +35,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Kon nie inligting vir lêer: “{file}” laai nie ",
     "Files" : "Lêers",
     "Details" : "Besonderhede",
-    "Select" : "Kies",
     "Pending" : "Hangend",
     "Unable to determine date" : "Kan nie datum bepaal nie",
     "This operation is forbidden" : "Die operasie is verbode",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Shared with you" : "Met u gedeel",
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
-    "New text file.txt" : "Nuwe tekslêer.txt"
+    "New text file.txt" : "Nuwe tekslêer.txt",
+    "Select" : "Kies"
 },
 "nplurals=2; plural=(n != 1);");

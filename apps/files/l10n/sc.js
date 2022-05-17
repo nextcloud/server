@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Detàllios",
     "Please select tag(s) to add to the selection" : "Seletziona eticheta(s) pro agiùnghere a sa seletzione",
     "Apply tag(s) to selection" : "Àplica eticheta(s) a sa seletzione",
-    "Select" : "Seletziona",
     "Pending" : "In suspesu",
     "Unable to determine date" : "Non faghet a determinare sa data",
     "This operation is forbidden" : "Custa operatzione no est permìtida",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Cumpartziduras cantzelladas",
     "Pending shares" : "Cumpartziduras in suspesu",
     "Text file" : "Archìviu de testu",
-    "New text file.txt" : "Archìviu de testu .txt nou"
+    "New text file.txt" : "Archìviu de testu .txt nou",
+    "Select" : "Seletziona"
 },
 "nplurals=2; plural=(n != 1);");

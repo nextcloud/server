@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Xehetasunak",
     "Please select tag(s) to add to the selection" : "Hautatu etiketa(k) hautapenera gehitzeko",
     "Apply tag(s) to selection" : "Aplikatu etiketa(k) hautapenari",
-    "Select" : "Hautatu",
     "Pending" : "Zain",
     "Unable to determine date" : "Ezin izan da data zehaztu",
     "This operation is forbidden" : "Eragiketa hau debekatuta dago",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Ezabatutako partekatzeak",
     "Pending shares" : "Zain dauden partekatzeak",
     "Text file" : "Testu-fitxategia",
-    "New text file.txt" : "Testu-fitxategi berria.txt"
+    "New text file.txt" : "Testu-fitxategi berria.txt",
+    "Select" : "Hautatu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "詳細",
     "Please select tag(s) to add to the selection" : "選択項目に付与するタグを選択してください",
     "Apply tag(s) to selection" : "選択項目にタグを適用",
-    "Select" : "選択",
     "Pending" : "保留中",
     "Unable to determine date" : "更新日不明",
     "This operation is forbidden" : "この操作は禁止されています",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "削除された共有",
     "Pending shares" : "保留中の共有",
     "Text file" : "テキストファイル",
-    "New text file.txt" : "新規のテキストファイル作成"
+    "New text file.txt" : "新規のテキストファイル作成",
+    "Select" : "選択"
 },
 "nplurals=1; plural=0;");

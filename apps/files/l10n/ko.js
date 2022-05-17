@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "자세한 정보",
     "Please select tag(s) to add to the selection" : "선택한 항목에 추가할 태그를 고르세요",
     "Apply tag(s) to selection" : "선택한 항목에 태그 적용하기",
-    "Select" : "선택",
     "Pending" : "대기 중",
     "Unable to determine date" : "날짜를 결정할 수 없음",
     "This operation is forbidden" : "이 작업이 금지됨",
@@ -205,6 +204,7 @@ OC.L10N.register(
     "Deleted shares" : "삭제된 공유",
     "Pending shares" : "진행중인 공유",
     "Text file" : "텍스트 파일",
-    "New text file.txt" : "새 텍스트 파일.txt"
+    "New text file.txt" : "새 텍스트 파일.txt",
+    "Select" : "선택"
 },
 "nplurals=1; plural=0;");
