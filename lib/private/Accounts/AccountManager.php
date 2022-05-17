@@ -14,6 +14,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -118,6 +119,23 @@ class AccountManager implements IAccountManager {
 	/** @var IFactory */
 	private $l10nfactory;
 	private CappedMemoryCache $internalCache;
+
+	/**
+	 * The list of default scopes for each property.
+	 */
+	public const DEFAULT_SCOPES = [
+		self::PROPERTY_DISPLAYNAME => self::SCOPE_FEDERATED,
+		self::PROPERTY_ADDRESS => self::SCOPE_LOCAL,
+		self::PROPERTY_WEBSITE => self::SCOPE_LOCAL,
+		self::PROPERTY_EMAIL => self::SCOPE_FEDERATED,
+		self::PROPERTY_AVATAR => self::SCOPE_FEDERATED,
+		self::PROPERTY_PHONE => self::SCOPE_LOCAL,
+		self::PROPERTY_TWITTER => self::SCOPE_LOCAL,
+		self::PROPERTY_ORGANISATION => self::SCOPE_LOCAL,
+		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
+		self::PROPERTY_HEADLINE => self::SCOPE_LOCAL,
+		self::PROPERTY_BIOGRAPHY => self::SCOPE_LOCAL,
+	];
 
 	public function __construct(
 		IDBConnection            $connection,
@@ -649,81 +667,84 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * build default user record in case not data set exists yet
-	 *
-	 * @param IUser $user
-	 * @return array
 	 */
-	protected function buildDefaultUserRecord(IUser $user) {
+	protected function buildDefaultUserRecord(IUser $user): array {
+		$scopes = array_merge(self::DEFAULT_SCOPES, array_filter($this->config->getSystemValue('account_manager.default_property_scope', []), static function (string $scope, string $property) {
+			return in_array($property, self::ALLOWED_PROPERTIES, true) && in_array($scope, self::ALLOWED_SCOPES, true);
+		}, ARRAY_FILTER_USE_BOTH));
+
 		return [
 			[
 				'name' => self::PROPERTY_DISPLAYNAME,
 				'value' => $user->getDisplayName(),
-				'scope' => self::SCOPE_FEDERATED,
+				// Display name must be at least SCOPE_LOCAL
+				'scope' => $scopes[self::PROPERTY_DISPLAYNAME] === self::SCOPE_PRIVATE ? self::SCOPE_LOCAL : $scopes[self::PROPERTY_DISPLAYNAME],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_ADDRESS,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_ADDRESS],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_WEBSITE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_WEBSITE],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_EMAIL,
 				'value' => $user->getEMailAddress(),
-				'scope' => self::SCOPE_FEDERATED,
+				// Email must be at least SCOPE_LOCAL
+				'scope' => $scopes[self::PROPERTY_EMAIL] === self::SCOPE_PRIVATE ? self::SCOPE_LOCAL : $scopes[self::PROPERTY_EMAIL],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_AVATAR,
-				'scope' => self::SCOPE_FEDERATED
+				'scope' => $scopes[self::PROPERTY_AVATAR],
 			],
 
 			[
 				'name' => self::PROPERTY_PHONE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_PHONE],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_TWITTER,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_TWITTER],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_ORGANISATION,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_ORGANISATION],
 			],
 
 			[
 				'name' => self::PROPERTY_ROLE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_ROLE],
 			],
 
 			[
 				'name' => self::PROPERTY_HEADLINE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_HEADLINE],
 			],
 
 			[
 				'name' => self::PROPERTY_BIOGRAPHY,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_BIOGRAPHY],
 			],
 
 			[
@@ -790,17 +811,8 @@ class AccountManager implements IAccountManager {
 			//  valid case, nothing to do
 		}
 
-		static $allowedScopes = [
-			self::SCOPE_PRIVATE,
-			self::SCOPE_LOCAL,
-			self::SCOPE_FEDERATED,
-			self::SCOPE_PUBLISHED,
-			self::VISIBILITY_PRIVATE,
-			self::VISIBILITY_CONTACTS_ONLY,
-			self::VISIBILITY_PUBLIC,
-		];
 		foreach ($account->getAllProperties() as $property) {
-			$this->testPropertyScope($property, $allowedScopes, true);
+			$this->testPropertyScope($property, self::ALLOWED_SCOPES, true);
 		}
 
 		$oldData = $this->getUser($account->getUser(), false);
