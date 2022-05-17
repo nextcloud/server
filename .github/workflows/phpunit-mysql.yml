@@ -12,11 +12,6 @@ on:
       - master
       - stable*
 
-env:
-  # Location of the phpunit.xml and phpunit.integration.xml files
-  PHPUNIT_CONFIG: ./tests/phpunit.xml
-  PHPUNIT_INTEGRATION_CONFIG: ./tests/phpunit.integration.xml
-
 jobs:
   phpunit-mysql:
     runs-on: ubuntu-latest
@@ -53,11 +48,6 @@ jobs:
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
 
-      - name: Checkout app
-        uses: actions/checkout@v3
-        with:
-          path: apps/${{ env.APP_NAME }}
-
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
         with:
@@ -76,36 +66,9 @@ jobs:
         run: |
           mkdir data
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
-          ./occ app:enable ${{ env.APP_NAME }}
-
-      - name: Check PHPUnit config file existence
-        id: check_phpunit
-        uses: andstor/file-existence-action@v1
-        with:
-          files: apps/${{ env.APP_NAME }}/${{ env.PHPUNIT_CONFIG }}
 
       - name: PHPUnit
-        # Only run if phpunit config file exists
-        if: steps.check_phpunit.outputs.files_exists == 'true'
-        working-directory: apps/${{ env.APP_NAME }}
-        run: ./vendor/phpunit/phpunit/phpunit -c ${{ env.PHPUNIT_CONFIG }}
-
-      - name: Check PHPUnit integration config file existence
-        id: check_integration
-        uses: andstor/file-existence-action@v1
-        with:
-          files: apps/${{ env.APP_NAME }}/${{ env.PHPUNIT_INTEGRATION_CONFIG }}
-
-      - name: Run Nextcloud
-        # Only run if phpunit integration config file exists
-        if: steps.check_integration.outputs.files_exists == 'true'
-        run: php -S localhost:8080 &
-
-      - name: PHPUnit integration
-        # Only run if phpunit integration config file exists
-        if: steps.check_integration.outputs.files_exists == 'true'
-        working-directory: apps/${{ env.APP_NAME }}
-        run: ./vendor/phpunit/phpunit/phpunit -c ${{ env.PHPUNIT_INTEGRATION_CONFIG }}
+        run: NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 
   summary:
     runs-on: ubuntu-latest
