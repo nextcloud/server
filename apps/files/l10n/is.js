@@ -38,7 +38,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Gat ekki lesið upplýsingar um skrána \"{file}\"",
     "Files" : "Skrár",
     "Details" : "Nánar",
-    "Select" : "Velja",
     "Pending" : "Í bið",
     "Unable to determine date" : "Tókst ekki að ákvarða dagsetningu",
     "This operation is forbidden" : "Þessi aðgerð er bönnuð",
@@ -172,6 +171,7 @@ OC.L10N.register(
     "Deleted shares" : "Eyddar sameignir",
     "Pending shares" : "Sameignir í bið",
     "Text file" : "Textaskrá",
-    "New text file.txt" : "Ný textaskrá.txt"
+    "New text file.txt" : "Ný textaskrá.txt",
+    "Select" : "Velja"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

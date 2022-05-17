@@ -37,7 +37,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Informo pri dosiero „{file}“ ne legeblis",
     "Files" : "Dosieroj",
     "Details" : "Detaloj",
-    "Select" : "Elekti",
     "Pending" : "Pritraktotaj",
     "Unable to determine date" : "Ne eblas determini daton",
     "This operation is forbidden" : "Ĉi tiu operacio malpermesatas",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Shared by link" : "Kunhavata per ligilo",
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
-    "New text file.txt" : "Nova tekstodosiero.txt"
+    "New text file.txt" : "Nova tekstodosiero.txt",
+    "Select" : "Elekti"
 },
 "nplurals=2; plural=(n != 1);");

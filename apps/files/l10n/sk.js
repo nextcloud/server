@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Podrobnosti",
     "Please select tag(s) to add to the selection" : "Prosím vyberte štítok(štítky) pre pridanie do výberu",
     "Apply tag(s) to selection" : "Aplikovať štítok(štítky) do výberu",
-    "Select" : "Vybrať",
     "Pending" : "Čaká",
     "Unable to determine date" : "Nemožno určiť dátum",
     "This operation is forbidden" : "Táto operácia je zakázaná",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Vymazané zdieľania",
     "Pending shares" : "Čakajúce prístupy",
     "Text file" : "Textový súbor",
-    "New text file.txt" : "Nový text file.txt"
+    "New text file.txt" : "Nový text file.txt",
+    "Select" : "Vybrať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

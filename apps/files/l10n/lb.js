@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Et konnten keng Informatiounen zu {file} gelueden ginn",
     "Files" : "Dateien",
     "Details" : "Detailer",
-    "Select" : "Auswielen",
     "Pending" : "Ausstoend",
     "Unable to determine date" : "Datum kann net festgestallt ginn",
     "This operation is forbidden" : "Dës Operatioun ass verbueden.",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Shared with you" : "Mat dir gedeelt",
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
-    "New text file.txt" : "Neien Text file.txt"
+    "New text file.txt" : "Neien Text file.txt",
+    "Select" : "Auswielen"
 },
 "nplurals=2; plural=(n != 1);");

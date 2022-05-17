@@ -33,7 +33,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nevar ielādēt informāciju par datni \"{file}\"",
     "Files" : "Datnes",
     "Details" : "Detaļas",
-    "Select" : "Norādīt",
     "Pending" : "Gaida savu kārtu",
     "Unable to determine date" : "Neizdevās noteikt datumu",
     "This operation is forbidden" : "Šī darbība ir aizliegta",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Deleted shares" : "Dzēstās koplietotnes",
     "Pending shares" : "Gaidošie koplietojumi",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt"
+    "New text file.txt" : "Jauna teksta datne.txt",
+    "Select" : "Norādīt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

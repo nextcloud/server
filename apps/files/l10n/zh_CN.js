@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "详细信息",
     "Please select tag(s) to add to the selection" : "请选择要添加到所选项目的标签",
     "Apply tag(s) to selection" : "将标签应用到所选项目",
-    "Select" : "选择",
     "Pending" : "等待",
     "Unable to determine date" : "无法确定日期",
     "This operation is forbidden" : "该操作被禁止",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "已删除的共享",
     "Pending shares" : "待定共享",
     "Text file" : "文本文件",
-    "New text file.txt" : "新建文本文档.txt"
+    "New text file.txt" : "新建文本文档.txt",
+    "Select" : "选择"
 },
 "nplurals=1; plural=0;");

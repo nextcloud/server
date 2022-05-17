@@ -38,7 +38,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nepavyko įkelti informacijos failui „{file}“",
     "Files" : "Failai",
     "Details" : "Duomenys",
-    "Select" : "Pasirinkti",
     "Pending" : "Laukiantis",
     "Unable to determine date" : "Nepavyksta nustatyti datos",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
@@ -198,6 +197,7 @@ OC.L10N.register(
     "Deleted shares" : "Ištrinti viešiniai",
     "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
-    "New text file.txt" : "Naujas tekstinis failas.txt"
+    "New text file.txt" : "Naujas tekstinis failas.txt",
+    "Select" : "Pasirinkti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

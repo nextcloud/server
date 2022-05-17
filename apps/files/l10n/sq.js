@@ -26,7 +26,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nuk mund të ngarkohet informacioni për skedarin \"{file}\"",
     "Files" : "Skedar",
     "Details" : "Hollësi",
-    "Select" : "Përzgjidhe",
     "Pending" : "Në pritje",
     "Unable to determine date" : "S’arrihet të përcaktohet data",
     "This operation is forbidden" : "Ky veprim është i ndaluar",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Shared by link" : "E ndarë me lidhje",
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt"
+    "New text file.txt" : "Kartelë e re file.txt",
+    "Select" : "Përzgjidhe"
 },
 "nplurals=2; plural=(n != 1);");

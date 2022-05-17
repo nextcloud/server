@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Details",
     "Please select tag(s) to add to the selection" : "Selecteer alsjeblieft tag(s) om aan de selectie toe te voegen",
     "Apply tag(s) to selection" : "Pas tag(s) toe voor selectie",
-    "Select" : "Selecteer",
     "Pending" : "In behandeling",
     "Unable to determine date" : "Kon datum niet vaststellen",
     "This operation is forbidden" : "Deze taak is verboden",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Verwijderde shares",
     "Pending shares" : "Deellinks in behandeling",
     "Text file" : "Tekstbestand",
-    "New text file.txt" : "Nieuw tekstbestand.txt"
+    "New text file.txt" : "Nieuw tekstbestand.txt",
+    "Select" : "Selecteer"
 },
 "nplurals=2; plural=(n != 1);");

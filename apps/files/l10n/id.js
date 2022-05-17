@@ -37,7 +37,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Tidak dapat menampilkan info berkas \"{file}\"",
     "Files" : "Berkas",
     "Details" : "Rincian",
-    "Select" : "Pilih",
     "Pending" : "Tertunda",
     "Unable to determine date" : "Tidak dapat menentukan tanggal",
     "This operation is forbidden" : "Operasi ini dilarang",
@@ -179,6 +178,7 @@ OC.L10N.register(
     "Deleted shares" : "Berbagi terhapus",
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
-    "New text file.txt" : "Teks baru file.txt"
+    "New text file.txt" : "Teks baru file.txt",
+    "Select" : "Pilih"
 },
 "nplurals=1; plural=0;");

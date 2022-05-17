@@ -38,7 +38,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Не вдалося завантажити інформацію для файлу \"{file}\"",
     "Files" : "Файли",
     "Details" : "Деталі",
-    "Select" : "Вибрати",
     "Pending" : "Очікування",
     "Unable to determine date" : "Неможливо визначити дату",
     "This operation is forbidden" : "Ця операція заборонена",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "Deleted shares" : "Вилучено зі спільного доступу",
     "Pending shares" : "Спільні ресурси в очікуванні",
     "Text file" : "Текстовий файл",
-    "New text file.txt" : "Новий текстовий файл file.txt"
+    "New text file.txt" : "Новий текстовий файл file.txt",
+    "Select" : "Вибрати"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -35,7 +35,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "\"{file}\" файлын мэдээллийг уншиж чадсангүй",
     "Files" : "Файлууд",
     "Details" : "Дэлгэрэнгүй",
-    "Select" : "Сонгох",
     "Pending" : "Хүлээгдэж байгаа",
     "Unable to determine date" : "Огноог тодорхойлох боломжгүй",
     "This operation is forbidden" : "Энэ үйлдэл хориотой",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Shared with you" : "тантай хуваалцсан",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt"
+    "New text file.txt" : "шинэ текст file.txt",
+    "Select" : "Сонгох"
 },
 "nplurals=2; plural=(n != 1);");
