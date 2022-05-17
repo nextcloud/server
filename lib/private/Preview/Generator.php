@@ -263,7 +263,7 @@ class Generator {
 					continue;
 				}
 
-				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, true);
+				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, $crop);
 
 				if (!($preview instanceof IImage)) {
 					continue;
