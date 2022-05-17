@@ -152,7 +152,15 @@ class LazyUser implements IUser {
 		return $this->getUser()->getProfilePropertyValue($property);
 	}
 
-	public function setProfilePropertyValue(string $property, $value) {
-		$this->getUser()->setProfilePropertyValue($property, $value);
+	public function getProfilePropertyScope(string $property): ?string {
+		return $this->getUser()->getProfilePropertyScope($property);
+	}
+
+	public function getProfilePropertyVerified(string $property): ?string {
+		return $this->getUser()->getProfilePropertyVerified($property);
+	}
+
+	public function setProfileProperty(string $property, $value=null, $scope=null, $verified=null) {
+		$this->getUser()->setProfileProperty($property, $value, $scope, $verified);
 	}
 }

@@ -248,52 +248,57 @@ class User {
 		}
 		unset($attr);
 
+		//User profile visibility
+		$profileScope = $this->connection->ldapProfileScope;
+		if (is_null($profileScope) || '' === $profileScope || 'unset' === $profileScope) {
+			$profileScope = null;
+		}
 		//User Profile Field - Phone number
 		$attr = strtolower($this->connection->ldapAttributePhone);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_PHONE, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_PHONE, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 		//User Profile Field - website
 		$attr = strtolower($this->connection->ldapAttributeWebsite);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_WEBSITE, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_WEBSITE, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 		//User Profile Field - Address
 		$attr = strtolower($this->connection->ldapAttributeAddress);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_ADDRESS, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_ADDRESS, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 		//User Profile Field - Twitter
 		$attr = strtolower($this->connection->ldapAttributeTwitter);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_TWITTER, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_TWITTER, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 		//User Profile Field - organisation
 		$attr = strtolower($this->connection->ldapAttributeOrganisation);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_ORGANISATION, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_ORGANISATION, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 		//User Profile Field - role
 		$attr = strtolower($this->connection->ldapAttributeRole);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_ROLE, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_ROLE, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 		//User Profile Field - headline
 		$attr = strtolower($this->connection->ldapAttributeHeadline);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_HEADLINE, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_HEADLINE, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 		//User Profile Field - biography
 		$attr = strtolower($this->connection->ldapAttributeBiography);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateProfile(self::USER_PREFKEY_BIOGRAPHY, $ldapEntry[$attr][0]);
+			$this->updateProfile(self::USER_PREFKEY_BIOGRAPHY, $ldapEntry[$attr][0], $profileScope);
 		}
 		unset($attr);
 
@@ -583,7 +588,7 @@ class User {
 	 * @param string $valueFromLDAP if known, to save an LDAP read request
 	 * @return null
 	 */
-	private function updateProfile(string $property, $valueFromLDAP) {
+	private function updateProfile(string $property, $valueFromLDAP, $scope=null) {
 		// check for valid property and set corresponding profile property
 		$profileProperty = 'INVALID';
 		if (self::USER_PREFKEY_PHONE == $property) {
@@ -622,7 +627,7 @@ class User {
 				if (!is_null($user)) {
 					$currentValue = (string)$user->getProfilePropertyValue($profileProperty);
 					if ($currentValue !== $value) {
-						$user->setProfilePropertyValue($profileProperty,$value);
+						$user->setProfileProperty($profileProperty,$value,$scope,null);
 					}
 					// setScope(IAccountManager::SCOPE_FEDERATED);
 					// setVerified(IAccountManager::VERIFIED);

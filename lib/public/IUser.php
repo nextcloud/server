@@ -283,14 +283,35 @@ interface IUser {
 	public function getProfilePropertyValue(string $property): ?string;
 
 	/**
-	 * set users' profile property value.
-	 * remove property, if null
+	 * get users' profile property scope.
+	 *
+	 * @param string $property name see IAccountManager::PROPERTY_*
+	 * @return string AccountProperty scope IAccountManager::SCOPE_*
+	 * @throws InvalidArgumentException when the property name is invalid or null
+	 * @since 25.0.0
+	 */
+	public function getProfilePropertyScope(string $property): ?string;
+
+	/**
+	 * get users' profile property verified.
+	 *
+	 * @param string $property name see IAccountManager::PROPERTY_*
+	 * @return string AccountProperty verification status IAccountManager::NOT_VERIFIED/VERIFICATION_IN_PROGRESS/VERIFIED
+	 * @throws InvalidArgumentException when the property name is invalid or null
+	 * @since 25.0.0
+	 */
+	public function getProfilePropertyVerified(string $property): ?string;
+
+	/**
+	 * set users' profile property value,scope,verified.
 	 *
 	 * @param string $property name from IAccountManager::PROPERTY_*
 	 * @param string $value AccountProperty value
+	 * @param string $scope AccountProperty scope
+	 * @param string $verified AccountProperty verified
 	 * @return void
 	 * @throws InvalidArgumentException when the property name is invalid or null
 	 * @since 25.0.0
 	 */
-	public function setProfilePropertyValue(string $property, $value);
+	public function setProfileProperty(string $property, $value=null, $scope=null, $verified=null);
 }
