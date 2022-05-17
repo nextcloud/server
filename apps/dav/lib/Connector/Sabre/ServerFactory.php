@@ -48,25 +48,16 @@ use Sabre\DAV\Auth\Plugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 	private LoggerInterface $logger;
-	/** @var IDBConnection */
-	private $databaseConnection;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IMountManager */
-	private $mountManager;
-	/** @var ITagManager */
-	private $tagManager;
-	/** @var IRequest */
-	private $request;
-	/** @var IPreview  */
-	private $previewManager;
-	/** @var EventDispatcherInterface */
-	private $eventDispatcher;
-	/** @var IL10N */
-	private $l10n;
+	private IDBConnection $databaseConnection;
+	private IUserSession $userSession;
+	private IMountManager $mountManager;
+	private ITagManager $tagManager;
+	private IRequest $request;
+	private IPreview $previewManager;
+	private EventDispatcherInterface $eventDispatcher;
+	private IL10N $l10n;
 
 	public function __construct(
 		IConfig $config,
@@ -93,16 +84,12 @@ class ServerFactory {
 	}
 
 	/**
-	 * @param string $baseUri
-	 * @param string $requestUri
-	 * @param Plugin $authPlugin
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
-	 * @return Server
 	 */
-	public function createServer($baseUri,
-								 $requestUri,
+	public function createServer(string $baseUri,
+								 string $requestUri,
 								 Plugin $authPlugin,
-								 callable $viewCallBack) {
+								 callable $viewCallBack): Server {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$server = new \OCA\DAV\Connector\Sabre\Server($objectTree);

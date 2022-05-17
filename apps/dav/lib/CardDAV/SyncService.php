@@ -86,7 +86,7 @@ class SyncService {
 	 */
 	public function syncRemoteAddressBook($url, $userName, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetProperties) {
 		// 1. create addressbook
-		$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetProperties);
+		$book = $this->ensureSystemAddressBookExists($targetPrincipal, (string)$targetBookId, $targetProperties);
 		$addressBookId = $book['id'];
 
 		// 2. query changes

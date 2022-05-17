@@ -52,12 +52,11 @@ class EventReminderJob extends TimedJob {
 	}
 
 	/**
-	 * @param $arg
 	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException
 	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException
 	 * @throws \OC\User\NoUserException
 	 */
-	public function run($arg):void {
+	public function run($argument):void {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			return;
 		}

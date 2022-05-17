@@ -55,9 +55,6 @@
     </UndefinedFunction>
   </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
-    <TooManyArguments occurrences="1">
-      <code>new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud')</code>
-    </TooManyArguments>
     <UndefinedGlobalVariable occurrences="1">
       <code>$baseuri</code>
     </UndefinedGlobalVariable>
@@ -122,26 +119,6 @@
       <code>Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/dav/lib/BackgroundJob/BuildReminderIndexBackgroundJob.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$arguments</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="apps/dav/lib/BackgroundJob/EventReminderJob.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$arg</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="apps/dav/lib/BackgroundJob/GenerateBirthdayCalendarBackgroundJob.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$arguments</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="apps/dav/lib/BackgroundJob/UploadCleanup.php">
-    <InvalidArgument occurrences="1">
-      <code>File</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
     <UndefinedMethod occurrences="2">
       <code>setDateTime</code>
@@ -155,20 +132,11 @@
     </UndefinedPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/CachedSubscription.php">
-    <LessSpecificImplementedReturnType occurrences="1">
-      <code>array</code>
-    </LessSpecificImplementedReturnType>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$calendarData</code>
-    </MoreSpecificImplementedParamType>
     <ParamNameMismatch occurrences="1">
       <code>$calendarData</code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/CalDAV/CachedSubscriptionObject.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>string|void</code>
-    </ImplementedReturnTypeMismatch>
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;objectData['calendardata']</code>
     </NullableReturnStatement>
@@ -263,16 +231,6 @@
       <code>$paths</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="apps/dav/lib/CalDAV/Publishing/PublishPlugin.php">
-    <InvalidOperand occurrences="2">
-      <code>$canPublish</code>
-      <code>$canShare</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="2">
-      <code>$canPublish</code>
-      <code>$canShare</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/AbstractProvider.php">
     <UndefinedMethod occurrences="3">
       <code>hasTime</code>
@@ -281,59 +239,16 @@
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/EmailProvider.php">
-    <FalsableReturnStatement occurrences="4">
-      <code>$l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
-      <code>$l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
-      <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
-      <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
-    </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="4">
-      <code>$l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
-      <code>$l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
-      <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
-      <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-    </InvalidReturnType>
     <UndefinedMethod occurrences="3">
       <code>getDateTime</code>
       <code>getDateTime</code>
       <code>isFloating</code>
     </UndefinedMethod>
   </file>
-  <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/PushProvider.php">
-    <PossiblyInvalidDocblockTag occurrences="1">
-      <code>@var VEvent $vevent</code>
-    </PossiblyInvalidDocblockTag>
-  </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProviderManager.php">
     <UndefinedConstant occurrences="1">
       <code>$provider::NOTIFICATION_TYPE</code>
     </UndefinedConstant>
-  </file>
-  <file src="apps/dav/lib/CalDAV/Reminder/Notifier.php">
-    <FalsableReturnStatement occurrences="4">
-      <code>$this-&gt;l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
-      <code>$this-&gt;l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
-      <code>$this-&gt;l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
-      <code>$this-&gt;l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
-    </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="4">
-      <code>$this-&gt;l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
-      <code>$this-&gt;l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
-      <code>$this-&gt;l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
-      <code>$this-&gt;l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-    </InvalidReturnType>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/ReminderService.php">
     <UndefinedMethod occurrences="3">
@@ -457,21 +372,6 @@
       <code>'\OCA\DAV\CardDAV\CardDavBackend::deleteCard'</code>
       <code>'\OCA\DAV\CardDAV\CardDavBackend::updateCard'</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$uris</code>
-    </MoreSpecificImplementedParamType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-    <ParamNameMismatch occurrences="1">
-      <code>$addressBookId</code>
-    </ParamNameMismatch>
-    <RedundantCast occurrences="1">
-      <code>(int)$addressBookId</code>
-    </RedundantCast>
     <TooManyArguments occurrences="3">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -510,11 +410,6 @@
       <code>\Sabre\Uri\split($principal)</code>
       <code>\Sabre\Uri\split($principal)</code>
     </UndefinedFunction>
-  </file>
-  <file src="apps/dav/lib/CardDAV/SyncService.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$targetBookId</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument occurrences="2">
@@ -582,11 +477,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>bool</code>
     </InvalidNullableReturnType>
-  </file>
-  <file src="apps/dav/lib/Connector/Sabre/AppEnabledPlugin.php">
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/BearerAuth.php">
     <UndefinedInterfaceMethod occurrences="1">

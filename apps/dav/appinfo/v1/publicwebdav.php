@@ -29,6 +29,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use Psr\Log\LoggerInterface;
+
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
 
@@ -48,7 +51,7 @@ $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
 $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getConfig(),
-	\OC::$server->get(Psr\Log\LoggerInterface::class),
+	\OC::$server->get(LoggerInterface::class),
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getMountManager(),

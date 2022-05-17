@@ -100,7 +100,7 @@ class InvitationResponseServer {
 		));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod:*', function () use ($root) {
+		$this->server->on('beforeMethod:*', function () use ($root): void {
 			// register plugins from apps
 			$pluginManager = new PluginManager(
 				\OC::$server,
