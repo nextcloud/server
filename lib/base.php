@@ -615,16 +615,23 @@ class OC {
 			throw new \RuntimeException('Could not set timezone to UTC');
 		}
 
-		//try to configure php to enable big file uploads.
-		//this doesn´t work always depending on the web server and php configuration.
-		//Let´s try to overwrite some defaults anyway
 
-		//try to set the maximum execution time to 60min
-		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			@set_time_limit(3600);
+		//try to configure php to enable big file uploads.
+		//this doesn´t work always depending on the webserver and php configuration.
+		//Let´s try to overwrite some defaults if they are smaller than 1 hour
+
+		if (intval(@ini_get('max_execution_time') ?? 0) < 3600) {
+			@ini_set('max_execution_time', strval(3600));
 		}
-		@ini_set('max_execution_time', '3600');
-		@ini_set('max_input_time', '3600');
+
+		if (intval(@ini_get('max_input_time') ?? 0) < 3600) {
+			@ini_set('max_input_time', strval(3600));
+		}
+
+		//try to set the maximum execution time to the largest time limit we have
+		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			@set_time_limit(max(intval(@ini_get('max_execution_time')), intval(@ini_get('max_input_time'))));
+		}
 
 		self::handleAuthHeaders();
 		$systemConfig = \OC::$server->get(\OC\SystemConfig::class);
