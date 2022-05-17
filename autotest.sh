@@ -16,6 +16,7 @@
 DATABASENAME=oc_autotest
 DATABASEUSER=oc_autotest
 DATABASEHOST=localhost
+DATABASEPORT=4444
 ADMINLOGIN=admin
 BASEDIR=$PWD
 
@@ -268,40 +269,8 @@ function execute_tests {
 		cp tests/docker/mysqlmb4.config.php config
 	fi
 	if [ "$DB" == "mariadb" ] ; then
-		if [ ! -z "$USEDOCKER" ] ; then
-			echo "Fire up the mariadb docker"
-			DOCKER_CONTAINER_ID=$(docker run \
-				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
-				-e MYSQL_ROOT_PASSWORD=owncloud \
-				-e MYSQL_USER="$DATABASEUSER" \
-				-e MYSQL_PASSWORD=owncloud \
-				-e MYSQL_DATABASE="$DATABASENAME" \
-				-d mariadb)
-			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
-
-			echo "Waiting for MariaDB initialisation ..."
-			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
-				echo "[ERROR] Waited 300 seconds, no response" >&2
-				exit 1
-			fi
-
-			echo "MariaDB is up."
-
-		else
-			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
-				if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
-					echo "Your mysql binary is not provided by MariaDB"
-					echo "To use the docker container set the USEDOCKER environment variable"
-					exit -1
-				fi
-				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
-			else
-				DATABASEHOST=mariadb
-			fi
-		fi
-
 		echo "Waiting for MariaDB initialisation ..."
-		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST $DATABASEPORT 300; then
 			echo "[ERROR] Waited 300 seconds, no response" >&2
 			exit 1
 		fi
