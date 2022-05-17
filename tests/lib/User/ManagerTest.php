@@ -50,7 +50,6 @@ class ManagerTest extends TestCase {
 		$this->cache = $this->createMock(ICache::class);
 
 		$this->cacheFactory->method('createDistributed')
-			->with('user_backend_map')
 			->willReturn($this->cache);
 	}
 
