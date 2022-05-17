@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "詳細資料",
     "Please select tag(s) to add to the selection" : "請選擇要添加到所選項目中的標籤",
     "Apply tag(s) to selection" : "將標籤應用於所選項目",
-    "Select" : "選擇",
     "Pending" : "待定的",
     "Unable to determine date" : "無法確定日期",
     "This operation is forbidden" : "此操作被禁止",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "已刪除的分享",
     "Pending shares" : "等待分享",
     "Text file" : "文字檔",
-    "New text file.txt" : "新文字檔.txt"
+    "New text file.txt" : "新文字檔.txt",
+    "Select" : "選擇"
 },
 "nplurals=1; plural=0;");

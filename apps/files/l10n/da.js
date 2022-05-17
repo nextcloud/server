@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Detaljer",
     "Please select tag(s) to add to the selection" : "Vælg venligst tag(s) for at tilføje til udvalget",
     "Apply tag(s) to selection" : "Anvend tag(s) på markeringen",
-    "Select" : "Vælg",
     "Pending" : "Afventer",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Denne operation er forbudt",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekst file.txt"
+    "New text file.txt" : "Ny tekst file.txt",
+    "Select" : "Vælg"
 },
 "nplurals=2; plural=(n != 1);");

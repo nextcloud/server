@@ -34,7 +34,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "No fue posible cargar información para el archivo \"{file}\"",
     "Files" : "Archivos",
     "Details" : "Detalles",
-    "Select" : "Seleccionar",
     "Pending" : "Pendiente",
     "Unable to determine date" : "No fue posible determinar la fecha",
     "This operation is forbidden" : "Esta operación está prohibida",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Shared with you" : "Compartido con usted",
     "Shared by link" : "Compartido por link",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
+    "Select" : "Seleccionar"
 },
 "nplurals=2; plural=(n != 1);");

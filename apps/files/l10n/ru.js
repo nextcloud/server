@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Подробно",
     "Please select tag(s) to add to the selection" : "Выберите метки для назначения выбранным объектам",
     "Apply tag(s) to selection" : "Назначить метки выбранным объектам",
-    "Select" : "Выбрать",
     "Pending" : "Ожидается",
     "Unable to determine date" : "Невозможно определить дату",
     "This operation is forbidden" : "Операция запрещена",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Удалённые общие ресурсы",
     "Pending shares" : "Ожидающие общие ресурсы",
     "Text file" : "Текстовый файл",
-    "New text file.txt" : "Новый текстовый файл.txt"
+    "New text file.txt" : "Новый текстовый файл.txt",
+    "Select" : "Выбрать"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

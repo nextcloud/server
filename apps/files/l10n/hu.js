@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Részletek",
     "Please select tag(s) to add to the selection" : "Válassza ki a kijelöléshez adandó címkéket",
     "Apply tag(s) to selection" : "Címkék alkalmazása a kijelölésre",
-    "Select" : "Kiválasztás",
     "Pending" : "Függőben",
     "Unable to determine date" : "Nem lehet meghatározni a dátumot",
     "This operation is forbidden" : "Ez a művelet tiltott",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "Törölt megosztások",
     "Pending shares" : "Függőben lévő megosztások",
     "Text file" : "Szövegfájl",
-    "New text file.txt" : "Új szövegfájl.txt"
+    "New text file.txt" : "Új szövegfájl.txt",
+    "Select" : "Kiválasztás"
 },
 "nplurals=2; plural=(n != 1);");

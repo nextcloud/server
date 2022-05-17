@@ -38,7 +38,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nu s-a putut încărca informația pentru fișierul \"{file}\"",
     "Files" : "Fișiere",
     "Details" : "Detalii",
-    "Select" : "Alege",
     "Pending" : "În așteptare",
     "Unable to determine date" : "Nu s-a putut determina data",
     "This operation is forbidden" : "Operațiunea este interzisă",
@@ -165,6 +164,7 @@ OC.L10N.register(
     "Deleted shares" : "Partajări șterse",
     "Pending shares" : "Partajări in asteptare",
     "Text file" : "Fișier text",
-    "New text file.txt" : "Fișier nou.txt"
+    "New text file.txt" : "Fișier nou.txt",
+    "Select" : "Alege"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

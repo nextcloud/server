@@ -39,7 +39,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nije moguće učitati podatke za datoteku „{file}”",
     "Files" : "Datoteke",
     "Details" : "Pojedinosti",
-    "Select" : "Odaberi",
     "Pending" : "Na čekanju",
     "Unable to determine date" : "Nije moguće odrediti datum",
     "This operation is forbidden" : "Ova radnja je zabranjena",
@@ -208,6 +207,7 @@ OC.L10N.register(
     "Deleted shares" : "Izbrisana dijeljenja",
     "Pending shares" : "Dijeljenja na čekanju",
     "Text file" : "Tekstna datoteka",
-    "New text file.txt" : "Nova tekstna datoteka.txt"
+    "New text file.txt" : "Nova tekstna datoteka.txt",
+    "Select" : "Odaberi"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

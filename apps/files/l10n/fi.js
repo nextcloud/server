@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "Tiedot",
     "Please select tag(s) to add to the selection" : "Valitse lisättävät tunnisteet valinnalle",
     "Apply tag(s) to selection" : "Hyväksy tunnisteet valinnalle",
-    "Select" : "Valitse",
     "Pending" : "Odottaa",
     "Unable to determine date" : "Päivämäärän määrittäminen epäonnistui",
     "This operation is forbidden" : "Tämä toiminto on kielletty",
@@ -207,6 +206,7 @@ OC.L10N.register(
     "Deleted shares" : "Poistetut jaot",
     "Pending shares" : "Odottavat jaot",
     "Text file" : "Tekstitiedosto",
-    "New text file.txt" : "Uusi tekstitiedosto.txt"
+    "New text file.txt" : "Uusi tekstitiedosto.txt",
+    "Select" : "Valitse"
 },
 "nplurals=2; plural=(n != 1);");

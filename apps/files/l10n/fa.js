@@ -37,7 +37,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "بارگیری اطلاعات برای پرونده امکان پذیر نیست \"{file}\"",
     "Files" : "پرونده‌ها",
     "Details" : "جزئیات",
-    "Select" : "انتخاب",
     "Pending" : "در انتظار",
     "Unable to determine date" : "امکان تعیین تاریخ وجود ندارد",
     "This operation is forbidden" : "این عملیات غیرمجاز است",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Deleted shares" : "اشتراک گذاری های حذف شده",
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
-    "New text file.txt" : "فایل متنی جدید .txt"
+    "New text file.txt" : "فایل متنی جدید .txt",
+    "Select" : "انتخاب"
 },
 "nplurals=2; plural=(n > 1);");

@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "รายละเอียด",
     "Please select tag(s) to add to the selection" : "กรุณาเลือกแท็กเพื่อเพิ่มเข้าไปในรายการที่เลือก",
     "Apply tag(s) to selection" : "นำแท็กไปใช้ในรายการที่เลือก",
-    "Select" : "เลือก",
     "Pending" : "อยู่ระหว่างดำเนินการ",
     "Unable to determine date" : "ไม่สามารถระบุวัน",
     "This operation is forbidden" : "การดำเนินการนี้ถูกห้าม",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Deleted shares" : "การแชร์ที่ถูกลบ",
     "Pending shares" : "การแชร์ที่กำลังดำเนินการ",
     "Text file" : "ไฟล์ข้อความ",
-    "New text file.txt" : "ไฟล์ข้อความใหม่.txt"
+    "New text file.txt" : "ไฟล์ข้อความใหม่.txt",
+    "Select" : "เลือก"
 },
 "nplurals=1; plural=0;");

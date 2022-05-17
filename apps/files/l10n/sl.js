@@ -39,7 +39,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Ni mogoče naložiti podatkov za datoteko »{file}«.",
     "Files" : "Datoteke",
     "Details" : "Podrobnosti",
-    "Select" : "Izbor",
     "Pending" : "Na čakanju ...",
     "Unable to determine date" : "Ni mogoče določiti datuma",
     "This operation is forbidden" : "To dejanje ni dovoljeno!",
@@ -208,6 +207,7 @@ OC.L10N.register(
     "Deleted shares" : "Izbrisana mesta souporabe",
     "Pending shares" : "Predmeti za souporabo na čakanju",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "nova_datoteka.txt"
+    "New text file.txt" : "nova_datoteka.txt",
+    "Select" : "Izbor"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

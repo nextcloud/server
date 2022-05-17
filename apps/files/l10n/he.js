@@ -39,7 +39,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "לא ניתן לטעון מידע על הקובץ „{file}”",
     "Files" : "קבצים",
     "Details" : "פרטים",
-    "Select" : "בחר",
     "Pending" : "ממתין",
     "Unable to determine date" : "לא ניתן לקבוע תאריך",
     "This operation is forbidden" : "פעולה זו אסורה",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Deleted shares" : "שיתופים שנמחקו",
     "Pending shares" : "שיתופים ממתינים",
     "Text file" : "קובץ טקסט",
-    "New text file.txt" : "קובץ טקסט חדש.txt"
+    "New text file.txt" : "קובץ טקסט חדש.txt",
+    "Select" : "בחר"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

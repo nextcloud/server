@@ -39,7 +39,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Klarte ikke å hente informasjon som filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
-    "Select" : "Velg",
     "Pending" : "Venter",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Operasjonen er forbudt",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Ventende delinger",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekstfil.txt"
+    "New text file.txt" : "Ny tekstfil.txt",
+    "Select" : "Velg"
 },
 "nplurals=2; plural=(n != 1);");

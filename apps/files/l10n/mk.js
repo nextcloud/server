@@ -39,7 +39,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Неможе да се вчитаат информации за датотеката \"{file}\"",
     "Files" : "Датотеки",
     "Details" : "Детали:",
-    "Select" : "Избери",
     "Pending" : "Чека",
     "Unable to determine date" : "Неможе да се одреди датумот",
     "This operation is forbidden" : "Операцијата не е дозволена",
@@ -207,6 +206,7 @@ OC.L10N.register(
     "Deleted shares" : "Избришани споделувања",
     "Pending shares" : "Споделувања на чекање",
     "Text file" : "Текстуална датотека",
-    "New text file.txt" : "Нова текстуална датотека file.txt"
+    "New text file.txt" : "Нова текстуална датотека file.txt",
+    "Select" : "Избери"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

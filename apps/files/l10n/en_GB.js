@@ -32,7 +32,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Could not load info for file \"{file}\"",
     "Files" : "Files",
     "Details" : "Details",
-    "Select" : "Select",
     "Pending" : "Pending",
     "Unable to determine date" : "Unable to determine date",
     "This operation is forbidden" : "This operation is forbidden",
@@ -147,6 +146,7 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Select" : "Select"
 },
 "nplurals=2; plural=(n != 1);");

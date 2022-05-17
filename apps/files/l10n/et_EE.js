@@ -32,7 +32,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Faili \"{file}\" info laadimine ebaõnnestus",
     "Files" : "Failid",
     "Details" : "Üksikasjad",
-    "Select" : "Vali",
     "Pending" : "Ootel",
     "Unable to determine date" : "Kuupäeva tuvastamine ei õnnestunud",
     "This operation is forbidden" : "See toiming on keelatud",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Deleted shares" : "Kustutatud jagamised",
     "Pending shares" : "Ootel jagamised",
     "Text file" : "Tekstifail",
-    "New text file.txt" : "Uus tekstifail.txt"
+    "New text file.txt" : "Uus tekstifail.txt",
+    "Select" : "Vali"
 },
 "nplurals=2; plural=(n != 1);");

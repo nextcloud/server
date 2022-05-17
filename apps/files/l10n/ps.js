@@ -33,7 +33,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "د \"{file}\" فایل معلومات نشي پرانيستل کېدای",
     "Files" : "فایلونه",
     "Details" : "معلومات",
-    "Select" : "ټاکل",
     "Pending" : "د انتظار په حال کې",
     "Unable to determine date" : "نېټه نه معلومېږي",
     "This operation is forbidden" : "دا کړنه نشي کېدای",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Shared by link" : "په لېنک شريک شوي",
     "Deleted shares" : "ړنګ شوي لېنکونه",
     "Text file" : "متن فایل",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Select" : "ټاکل"
 },
 "nplurals=2; plural=(n != 1);");
