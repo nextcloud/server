@@ -191,6 +191,7 @@ return array(
     'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite' => $baseDir . '/../lib/DAV/Sharing/Xml/Invite.php',
     'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest' => $baseDir . '/../lib/DAV/Sharing/Xml/ShareRequest.php',
     'OCA\\DAV\\DAV\\SystemPrincipalBackend' => $baseDir . '/../lib/DAV/SystemPrincipalBackend.php',
+    'OCA\\DAV\\DAV\\ViewOnlyPlugin' => $baseDir . '/../lib/DAV/ViewOnlyPlugin.php',
     'OCA\\DAV\\Db\\Direct' => $baseDir . '/../lib/Db/Direct.php',
     'OCA\\DAV\\Db\\DirectMapper' => $baseDir . '/../lib/Db/DirectMapper.php',
     'OCA\\DAV\\Direct\\DirectFile' => $baseDir . '/../lib/Direct/DirectFile.php',

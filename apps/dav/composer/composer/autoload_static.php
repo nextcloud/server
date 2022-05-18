@@ -206,6 +206,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Xml/Invite.php',
         'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Xml/ShareRequest.php',
         'OCA\\DAV\\DAV\\SystemPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/SystemPrincipalBackend.php',
+        'OCA\\DAV\\DAV\\ViewOnlyPlugin' => __DIR__ . '/..' . '/../lib/DAV/ViewOnlyPlugin.php',
         'OCA\\DAV\\Db\\Direct' => __DIR__ . '/..' . '/../lib/Db/Direct.php',
         'OCA\\DAV\\Db\\DirectMapper' => __DIR__ . '/..' . '/../lib/Db/DirectMapper.php',
         'OCA\\DAV\\Direct\\DirectFile' => __DIR__ . '/..' . '/../lib/Direct/DirectFile.php',

@@ -52,14 +52,17 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
+use OCA\Files_Sharing\ViewOnly;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\IRootFolder;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -71,7 +74,7 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
@@ -107,6 +110,7 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
+		$context->injectFn([$this, 'registerDownloadEvents']);
 		$context->injectFn([$this, 'setupSharingMenus']);
 
 		Helper::registerHooks();
@@ -139,16 +143,74 @@ class Application extends App implements IBootstrap {
 		});
 
 		// notifications api to accept incoming user shares
-		$oldDispatcher->addListener('OCP\Share::postShare', function (GenericEvent $event) {
+		$oldDispatcher->addListener('OCP\Share::postShare', function (OldGenericEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);
 		});
-		$oldDispatcher->addListener(IGroup::class . '::postAddUser', function (GenericEvent $event) {
+		$oldDispatcher->addListener(IGroup::class . '::postAddUser', function (OldGenericEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->userAddedToGroup($event);
 		});
+	}
+
+	public function registerDownloadEvents(
+		IEventDispatcher $dispatcher,
+		?IUserSession $userSession,
+		IRootFolder $rootFolder
+	) {
+
+		$dispatcher->addListener(
+			'file.beforeGetDirect',
+			function (GenericEvent $event) use ($userSession, $rootFolder) {
+				$pathsToCheck[] = $event->getArgument('path');
+
+				// Check only for user/group shares. Don't restrict e.g. share links
+				if ($userSession && $userSession->isLoggedIn()) {
+					$uid = $userSession->getUser()->getUID();
+					$viewOnlyHandler = new ViewOnly(
+						$rootFolder->getUserFolder($uid)
+					);
+					if (!$viewOnlyHandler->check($pathsToCheck)) {
+						$event->setArgument('errorMessage', 'Access to this resource or one of its sub-items has been denied.');
+					}
+				}
+			}
+		);
+
+		$dispatcher->addListener(
+			'file.beforeCreateZip',
+			function (GenericEvent $event) use ($userSession, $rootFolder) {
+				$dir = $event->getArgument('dir');
+				$files = $event->getArgument('files');
+
+				$pathsToCheck = [];
+				if (\is_array($files)) {
+					foreach ($files as $file) {
+						$pathsToCheck[] = $dir . '/' . $file;
+					}
+				} elseif (\is_string($files)) {
+					$pathsToCheck[] = $dir . '/' . $files;
+				}
+
+				// Check only for user/group shares. Don't restrict e.g. share links
+				if ($userSession && $userSession->isLoggedIn()) {
+					$uid = $userSession->getUser()->getUID();
+					$viewOnlyHandler = new ViewOnly(
+						$rootFolder->getUserFolder($uid)
+					);
+					if (!$viewOnlyHandler->check($pathsToCheck)) {
+						$event->setArgument('errorMessage', 'Access to this resource or one of its sub-items has been denied.');
+						$event->setArgument('run', false);
+					} else {
+						$event->setArgument('run', true);
+					}
+				} else {
+					$event->setArgument('run', true);
+				}
+			}
+		);
 	}
 
 	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession) {

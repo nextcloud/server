@@ -124,7 +124,11 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn(true);
 		$this->shareManager
 			->expects($this->any())
-		->method('shareProviderExists')->willReturn(true);
+			->method('shareProviderExists')->willReturn(true);
+		$this->shareManager
+			->expects($this->any())
+			->method('newShare')
+			->willReturn($this->newShare());
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->request = $this->createMock(IRequest::class);
@@ -193,6 +197,25 @@ class ShareAPIControllerTest extends TestCase {
 		return \OC::$server->getShareManager()->newShare();
 	}
 
+
+	private function mockShareAttributes() {
+		$formattedShareAttributes = [
+			[
+				[
+					'scope' => 'permissions',
+					'key' => 'download',
+					'enabled' => true
+				]
+			]
+		];
+
+		$shareAttributes = $this->createMock(IShareAttributes::class);
+		$shareAttributes->method('toArray')->willReturn($formattedShareAttributes);
+		$shareAttributes->method('getAttribute')->with('permissions', 'download')->willReturn(true);
+
+		// send both IShare attributes class and expected json string
+		return [$shareAttributes, \json_encode($formattedShareAttributes)];
+	}
 
 	public function testDeleteShareShareNotFound() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSNotFoundException::class);
@@ -505,7 +528,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
 								$shareTime, $expiration, $parent, $target, $mail_send, $note = '', $token = null,
-								$password = null, $label = '') {
+								$password = null, $label = '', $attributes = null) {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn($shareType);
@@ -516,6 +539,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getPermissions')->willReturn($permissions);
 		$share->method('getNote')->willReturn($note);
 		$share->method('getLabel')->willReturn($label);
+		$share->method('getAttributes')->willReturn($attributes);
 		$time = new \DateTime();
 		$time->setTimestamp($shareTime);
 		$share->method('getShareTime')->willReturn($time);
@@ -565,6 +589,8 @@ class ShareAPIControllerTest extends TestCase {
 		$folder->method('getParent')->willReturn($parentFolder);
 		$folder->method('getMimeType')->willReturn('myFolderMimeType');
 
+		[$shareAttributes, $shareAttributesReturnJson] = $this->mockShareAttributes();
+
 		// File shared with user
 		$share = $this->createShare(
 			100,
@@ -579,7 +605,8 @@ class ShareAPIControllerTest extends TestCase {
 			6,
 			'target',
 			0,
-			'personal note'
+			'personal note',
+			$shareAttributes,
 		);
 		$expected = [
 			'id' => 100,
@@ -597,6 +624,7 @@ class ShareAPIControllerTest extends TestCase {
 			'token' => null,
 			'expiration' => null,
 			'permissions' => 4,
+			'attributes' => $shareAttributesReturnJson,
 			'stime' => 5,
 			'parent' => null,
 			'storage_id' => 'STORAGE',
@@ -630,7 +658,8 @@ class ShareAPIControllerTest extends TestCase {
 			6,
 			'target',
 			0,
-			'personal note'
+			'personal note',
+			$shareAttributes,
 		);
 		$expected = [
 			'id' => 101,
@@ -647,6 +676,7 @@ class ShareAPIControllerTest extends TestCase {
 			'token' => null,
 			'expiration' => null,
 			'permissions' => 4,
+			'attributes' => $shareAttributesReturnJson,
 			'stime' => 5,
 			'parent' => null,
 			'storage_id' => 'STORAGE',
@@ -702,6 +732,7 @@ class ShareAPIControllerTest extends TestCase {
 			'token' => 'token',
 			'expiration' => '2000-01-02 00:00:00',
 			'permissions' => 4,
+			'attributes' => null,
 			'stime' => 5,
 			'parent' => null,
 			'storage_id' => 'STORAGE',
@@ -3725,7 +3756,7 @@ class ShareAPIControllerTest extends TestCase {
 		$recipient = $this->getMockBuilder(IUser::class)->getMock();
 		$recipient->method('getDisplayName')->willReturn('recipientDN');
 		$recipient->method('getSystemEMailAddress')->willReturn('recipient');
-
+		[$shareAttributes, $shareAttributesReturnJson] = $this->mockShareAttributes();
 
 		$result = [];
 
@@ -3735,6 +3766,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setAttributes($shareAttributes)
 			->setNode($file)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
 			->setTarget('myTarget')
@@ -3749,6 +3781,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
+				'attributes' => $shareAttributesReturnJson,
 				'stime' => 946684862,
 				'parent' => null,
 				'expiration' => null,
@@ -3785,6 +3818,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiatorDN',
 				'permissions' => 1,
+				'attributes' => $shareAttributesReturnJson,
 				'stime' => 946684862,
 				'parent' => null,
 				'expiration' => null,
@@ -3837,6 +3871,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
+				'attributes' => null,
 				'stime' => 946684862,
 				'parent' => null,
 				'expiration' => null,
@@ -3885,6 +3920,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
+				'attributes' => null,
 				'stime' => 946684862,
 				'parent' => null,
 				'expiration' => null,
@@ -3935,6 +3971,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
+				'attributes' => null,
 				'stime' => 946684862,
 				'parent' => null,
 				'expiration' => null,
@@ -4030,6 +4067,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
+				'attributes' => null,
 				'stime' => 946684862,
 				'parent' => null,
 				'expiration' => '2001-01-02 00:00:00',
@@ -4228,6 +4266,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
+				'attributes' => null,
 				'stime' => 946684862,
 				'parent' => null,
 				'expiration' => null,

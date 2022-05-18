@@ -593,7 +593,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function createShare($id, $type, $path, $sharedWith, $sharedBy, $shareOwner,
-		$permissions, $expireDate = null, $password = null) {
+		$permissions, $expireDate = null, $password = null, $attributes = null) {
 		$share = $this->createMock(IShare::class);
 
 		$share->method('getShareType')->willReturn($type);
@@ -602,6 +602,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->method('getShareOwner')->willReturn($shareOwner);
 		$share->method('getNode')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
+		$share->method('getAttributes')->willReturn($attributes);
 		$share->method('getExpirationDate')->willReturn($expireDate);
 		$share->method('getPassword')->willReturn($password);
 
@@ -3039,6 +3040,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 
 		$share = $this->manager->newShare();
+		$attrs = $this->manager->newShare()->newAttributes();
+		$attrs->setAttribute('app1', 'perm1', true);
 		$share->setProviderId('foo')
 			->setId('42')
 			->setShareType(IShare::TYPE_USER);
@@ -3136,6 +3139,7 @@ class ManagerTest extends \Test\TestCase {
 			->setShareOwner('newUser')
 			->setSharedBy('sharer')
 			->setPermissions(31)
+			->setAttributes($attrs)
 			->setNode($node);
 
 		$this->defaultProvider->expects($this->once())

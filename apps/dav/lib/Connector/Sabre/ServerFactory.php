@@ -33,6 +33,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
@@ -157,6 +158,11 @@ class ServerFactory {
 			);
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\QuotaPlugin($view, true));
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\ChecksumUpdatePlugin());
+
+			// Allow view-only plugin for webdav requests
+			$server->addPlugin(new ViewOnlyPlugin(
+				\OC::$server->getLogger()
+			));
 
 			if ($this->userSession->isLoggedIn()) {
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));

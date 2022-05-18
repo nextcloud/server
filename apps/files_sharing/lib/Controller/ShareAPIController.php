@@ -45,6 +45,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use OC\Files\FileInfo;
+use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files\Helper;
@@ -323,6 +324,11 @@ class ShareAPIController extends OCSController {
 
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
 		$result['hide_download'] = $share->getHideDownload() ? 1 : 0;
+
+		$result['attributes'] = null;
+		if ($attributes = $share->getAttributes()) {
+			$result['attributes'] =  \json_encode($attributes->toArray());
+		}
 
 		return $result;
 	}
@@ -673,6 +679,8 @@ class ShareAPIController extends OCSController {
 		if ($note !== '') {
 			$share->setNote($note);
 		}
+
+		$share = $this->setShareAttributes($share, $this->request->getParam('attributes', null));
 
 		try {
 			$share = $this->shareManager->createShare($share);
@@ -1215,6 +1223,8 @@ class ShareAPIController extends OCSController {
 				$share->setExpirationDate($expireDate);
 			}
 		}
+
+		$share = $this->setShareAttributes($share, $this->request->getParam('attributes', null));
 
 		try {
 			$share = $this->shareManager->updateShare($share);
@@ -1831,5 +1841,26 @@ class ShareAPIController extends OCSController {
 				$shares[$newShare['id']] = $newShare;
 			}
 		}
+	}
+
+	/**
+	 * @param IShare $share
+	 * @param string[][]|null $formattedShareAttributes
+	 * @return IShare modified share
+	 */
+	private function setShareAttributes(IShare $share, $formattedShareAttributes) {
+		$newShareAttributes = $this->shareManager->newShare()->newAttributes();
+		if ($formattedShareAttributes !== null) {
+			foreach ($formattedShareAttributes as $formattedAttr) {
+				$newShareAttributes->setAttribute(
+					$formattedAttr['scope'],
+					$formattedAttr['key'],
+					(bool) \json_decode($formattedAttr['enabled'])
+				);
+			}
+		}
+		$share->setAttributes($newShareAttributes);
+
+		return $share;
 	}
 }
