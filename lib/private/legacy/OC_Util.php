@@ -557,7 +557,7 @@ class OC_Util {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "apps" directory.'),
 					'hint' => $l->t('This can usually be fixed by giving the web server write access to the apps directory'
-						. ' or disabling the App Store in the config file.')
+						. ' or disabling the Nextcloud App Store in the config file.')
 				];
 			}
 		}
