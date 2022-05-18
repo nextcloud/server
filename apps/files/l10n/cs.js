@@ -41,6 +41,8 @@ OC.L10N.register(
     "Details" : "Podrobnosti",
     "Please select tag(s) to add to the selection" : "Vyberte štítky které přidat do výběru",
     "Apply tag(s) to selection" : "Uplatnit štítky na výběr",
+    "Select directory \"{dirName}\"" : "Vybrat složku „{dirName}“",
+    "Select file \"{fileName}\"" : "Vybrat soubor „{fileName}“",
     "Pending" : "Nevyřízené",
     "Unable to determine date" : "Nelze určit datum",
     "This operation is forbidden" : "Tato operace je zakázána",

@@ -41,6 +41,8 @@ OC.L10N.register(
     "Details" : "Részletek",
     "Please select tag(s) to add to the selection" : "Válassza ki a kijelöléshez adandó címkéket",
     "Apply tag(s) to selection" : "Címkék alkalmazása a kijelölésre",
+    "Select directory \"{dirName}\"" : "A(z) „{dirName}” könyvtár kiválasztása",
+    "Select file \"{fileName}\"" : "A(z) „{fileName}” fájl kiválasztása",
     "Pending" : "Függőben",
     "Unable to determine date" : "Nem lehet meghatározni a dátumot",
     "This operation is forbidden" : "Ez a művelet tiltott",
