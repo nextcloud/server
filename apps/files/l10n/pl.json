@@ -39,6 +39,8 @@
     "Details" : "Szczegóły",
     "Please select tag(s) to add to the selection" : "Wybierz etykietę(y) do dodania dla zaznaczenia",
     "Apply tag(s) to selection" : "Zastosuj etykietę(y) dla zaznaczenia",
+    "Select directory \"{dirName}\"" : "Wybierz katalog \"{dirName}\"",
+    "Select file \"{fileName}\"" : "Wybierz plik \"{fileName}\"",
     "Pending" : "Oczekujące",
     "Unable to determine date" : "Nie można ustalić daty",
     "This operation is forbidden" : "Ta operacja jest niedozwolona",

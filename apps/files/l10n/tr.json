@@ -39,6 +39,8 @@
     "Details" : "Ayrıntılar",
     "Please select tag(s) to add to the selection" : "Seçime eklemek için etiketleri seçin",
     "Apply tag(s) to selection" : "Etiketleri seçime uygula",
+    "Select directory \"{dirName}\"" : "\"{dirName}\" klasörünü seçin",
+    "Select file \"{fileName}\"" : "\"{fileName}\" dosyasını seçin",
     "Pending" : "Bekliyor",
     "Unable to determine date" : "Tarih belirlenemedi",
     "This operation is forbidden" : "Bu işleme izin verilmiyor",
