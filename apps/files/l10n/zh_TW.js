@@ -41,6 +41,8 @@ OC.L10N.register(
     "Details" : "詳細資料",
     "Please select tag(s) to add to the selection" : "請選取要新增到選定項目的標籤",
     "Apply tag(s) to selection" : "將標籤套用至選定項目",
+    "Select directory \"{dirName}\"" : "選取目錄「{dirName}」",
+    "Select file \"{fileName}\"" : "選取檔案「{fileName}」",
     "Pending" : "等候中",
     "Unable to determine date" : "無法確定日期",
     "This operation is forbidden" : "此動作被禁止",
