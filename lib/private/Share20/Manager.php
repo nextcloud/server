@@ -70,6 +70,7 @@ use OCP\Share;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -1093,6 +1094,7 @@ class Manager implements IManager {
 				'shareWith' => $share->getSharedWith(),
 				'uidOwner' => $share->getSharedBy(),
 				'permissions' => $share->getPermissions(),
+				'attributes' => $share->getAttributes(),
 				'path' => $userFolder->getRelativePath($share->getNode()->getPath()),
 			]);
 		}
@@ -2086,5 +2088,17 @@ class Manager implements IManager {
 		foreach ($providers as $provider) {
 			yield from $provider->getAllShares();
 		}
+	}
+
+	/**
+	 * @param IAttributes|null $perms
+	 * @return string
+	 */
+	private function hashAttributes($perms) {
+		if ($perms === null || empty($perms->toArray())) {
+			return "";
+		}
+
+		return \md5(\json_encode($perms->toArray()));
 	}
 }
