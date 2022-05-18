@@ -110,7 +110,10 @@ OC.MimeTypeList={
     "application/internet-shortcut": "link",
     "application/km": "mindmap",
     "application/x-freemind": "mindmap",
-    "application/vnd.xmind.workbook": "mindmap"
+    "application/vnd.xmind.workbook": "mindmap",
+    "image/targa": "image/tga",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform": "x-office/form",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf": "x-office/form-template"
 },
 	files: [
     "application",
