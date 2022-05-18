@@ -4457,16 +4457,6 @@
       <code>array</code>
     </InvalidParamDefault>
   </file>
-  <file src="lib/public/FullTextSearch/Model/ISearchRequest.php">
-    <InvalidClass occurrences="1">
-      <code>IsearchRequest</code>
-    </InvalidClass>
-  </file>
-  <file src="lib/public/IAddressBook.php">
-    <InvalidDocblock occurrences="1">
-      <code>public function getUri(): string;</code>
-    </InvalidDocblock>
-  </file>
   <file src="lib/public/IAvatar.php">
     <UndefinedDocblockClass occurrences="1">
       <code>Color</code>
