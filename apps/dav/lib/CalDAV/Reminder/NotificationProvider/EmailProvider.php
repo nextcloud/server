@@ -273,7 +273,10 @@ class EmailProvider extends AbstractProvider {
 					$emailAddressesOfDelegates = $delegates->getParts();
 					foreach ($emailAddressesOfDelegates as $addressesOfDelegate) {
 						if (strcasecmp($addressesOfDelegate, 'mailto:') === 0) {
-							$emailAddresses[substr($addressesOfDelegate, 7)] = [];
+							$delegateEmail = substr($addressesOfDelegate, 7);
+							if ($delegateEmail !== false && $this->mailer->validateMailAddress($delegateEmail)) {
+								$emailAddresses[$delegateEmail] = [];
+							}
 						}
 					}
 
@@ -345,8 +348,12 @@ class EmailProvider extends AbstractProvider {
 		if (!$this->hasAttendeeMailURI($attendee)) {
 			return null;
 		}
+		$attendeeEMail = substr($attendee->getValue(), 7);
+		if ($attendeeEMail === false || !$this->mailer->validateMailAddress($attendeeEMail)) {
+			return null;
+		}
 
-		return substr($attendee->getValue(), 7);
+		return $attendeeEMail;
 	}
 
 	/**
