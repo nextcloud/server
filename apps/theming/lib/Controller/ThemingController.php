@@ -147,6 +147,7 @@ class ThemingController extends Controller {
 				}
 				break;
 			case 'color':
+			case 'color_dark_theme':
 				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
 					$error = $this->l10n->t('The given color is invalid');
 				}
@@ -328,7 +329,7 @@ class ThemingController extends Controller {
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
 			$css = ":root { $variables } " . $customCss;
-		} else { 
+		} else {
 			// If not set, we'll rely on the body class
 			$compiler = new Compiler();
 			$compiledCss = $compiler->compileString("body[data-theme-$themeId] { $variables $customCss }");

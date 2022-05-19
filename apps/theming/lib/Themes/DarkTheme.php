@@ -28,6 +28,10 @@ use OCA\Theming\ITheme;
 
 class DarkTheme extends DefaultTheme implements ITheme {
 
+	public function isDark(): bool {
+		return true;
+	}
+
 	public function getId(): string {
 		return 'dark';
 	}
@@ -57,7 +61,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		return array_merge($defaultVariables, [	
+		return array_merge($defaultVariables, [
 			'--color-main-text' => $colorMainText,
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,

@@ -72,6 +72,7 @@ function hideUndoButton(setting, value) {
 		slogan: t('lib', 'a safe home for all your data'),
 		url: 'https://nextcloud.com',
 		color: '#0082c9',
+		color_dark_theme: document.getElementById('theming-color').value,
 		logoMime: '',
 		backgroundMime: '',
 		imprintUrl: '',
@@ -99,6 +100,8 @@ window.addEventListener('DOMContentLoaded', function () {
 	// manually instantiate jscolor to work around new Function call which violates strict CSP
 	var colorElement = $('#theming-color')[0];
 	var jscolor = new window.jscolor(colorElement, {hash: true});
+	var colorDarkThemeElement = $('#theming-color_dark_theme')[0];
+	var jscolorDarkTheme = new window.jscolor(colorDarkThemeElement, {hash: true});
 
 	$('#theming .theme-undo').each(function() {
 		var setting = $(this).data('setting');
@@ -180,6 +183,13 @@ window.addEventListener('DOMContentLoaded', function () {
 			if (value.indexOf('#') !== 0) {
 				value = '#' + value;
 			}
+			
+			// Hack: detect if color_dark_theme should follow color by checking if the undo button is visible.
+			if ($(".theme-undo[data-setting='color_dark_theme']").css('display') === 'none') {
+				var colorDarkThemePicker = document.getElementById('theming-color_dark_theme');
+				colorDarkThemePicker.style.backgroundColor = value;
+				colorDarkThemePicker.value = value.toUpperCase();
+			}
 		}
 		if(setting === 'name') {
 			if(checkName()){
@@ -215,8 +225,21 @@ window.addEventListener('DOMContentLoaded', function () {
 		).done(function(response) {
 			if (setting === 'color') {
 				var colorPicker = document.getElementById('theming-color');
+				var colorDarkThemePicker = document.getElementById('theming-color_dark_theme');
+
+				// If color_dark_theme is the same as color
+				// then we need to update it too as it is probably unset and defaulting to color.
+				if (colorPicker.value === colorDarkThemePicker.value) {
+					colorDarkThemePicker.style.backgroundColor = response.data.value;
+					colorDarkThemePicker.value = response.data.value.toUpperCase();
+				}
+
 				colorPicker.style.backgroundColor = response.data.value;
-				colorPicker.value = response.data.value.slice(1).toUpperCase();
+				colorPicker.value = response.data.value.toUpperCase();
+			} else if (setting === 'color_dark_theme') {
+				var colorDarkThemePicker = document.getElementById('theming-color_dark_theme');
+				colorDarkThemePicker.style.backgroundColor = response.data.value;
+				colorDarkThemePicker.value = response.data.value.toUpperCase();
 			} else if (!image) {
 				var input = document.getElementById('theming-'+setting);
 				input.value = response.data.value;

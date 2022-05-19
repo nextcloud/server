@@ -55,7 +55,11 @@ class DefaultTheme implements ITheme {
 		$this->config = $config;
 		$this->l = $l;
 
-		$this->primaryColor = $this->themingDefaults->getColorPrimary();
+		$this->primaryColor = $this->themingDefaults->getColorPrimary($this->isDark());
+	}
+
+	public function isDark(): bool {
+		return false;
 	}
 
 	public function getId(): string {

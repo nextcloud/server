@@ -228,8 +228,22 @@ class ThemingDefaults extends \OC_Defaults {
 	 *
 	 * @return string
 	 */
-	public function getColorPrimary() {
-		$color = $this->config->getAppValue('theming', 'color', $this->color);
+	public function getColorPrimary(bool $dark = false) {
+		$color = $this->config->getAppValue(
+			'theming',
+			$dark ? 'color_dark_theme' : 'color',
+			'none'
+		);
+
+		// Use the light theme color if the dark theme color is not set
+		if ($dark && $color === 'none') {
+			$color = $this->config->getAppValue(
+				'theming',
+				'color',
+				$this->color
+			);
+		}
+
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			$color = '#0082c9';
 		}
@@ -449,6 +463,9 @@ class ThemingDefaults extends \OC_Defaults {
 				break;
 			case 'color':
 				$returnValue = $this->getColorPrimary();
+				break;
+			case 'color_dark_theme':
+				$returnValue = $this->getColorPrimary(true);
 				break;
 			case 'logo':
 			case 'logoheader':

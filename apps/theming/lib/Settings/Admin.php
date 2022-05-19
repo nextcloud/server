@@ -76,6 +76,7 @@ class Admin implements IDelegatedSettings {
 			'url' => $this->themingDefaults->getBaseUrl(),
 			'slogan' => $this->themingDefaults->getSlogan(),
 			'color' => $this->themingDefaults->getColorPrimary(),
+			'color_dark_theme' => $this->themingDefaults->getColorPrimary(true),
 			'uploadLogoRoute' => $this->urlGenerator->linkToRoute('theming.Theming.uploadImage'),
 			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
 			'iconDocs' => $this->urlGenerator->linkToDocs('admin-theming-icons'),

@@ -68,6 +68,13 @@ style('theming', 'settings-admin');
 		</label>
 	</div>
 	<div>
+		<label>
+			<span><?php p($l->t('Color (dark theme)')) ?></span>
+			<input id="theming-color_dark_theme" type="text" maxlength="7" value="<?php p($_['color_dark_theme']) ?>" />
+			<div data-setting="color_dark_theme" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+		</label>
+	</div>
+	<div>
 		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>" data-image-key="logo">
 			<input type="hidden" id="theming-logoMime" value="<?php p($_['images']['logo']['mime']); ?>" />
 			<input type="hidden" name="key" value="logo" />

@@ -96,4 +96,12 @@ interface ITheme {
 	 * @since 25.0.0
 	 */
 	public function getCustomCss(): string;
+
+	/**
+	 * Whether the theme is dark
+	 * Will be used to when selecting the primary color.
+	 *
+	 * @since 25.0.0
+	 */
+	public function isDark(): bool;
 }
