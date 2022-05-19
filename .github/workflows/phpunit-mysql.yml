@@ -63,7 +63,7 @@ jobs:
 
       - name: PHPUnit
         working-directory: tests
-        run: ../vendor/bin/phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
+        run: ../lib/composer/bin/phpunit --configuration phpunit-autotest.xml
 
   summary:
     runs-on: ubuntu-latest
