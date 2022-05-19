@@ -25,10 +25,13 @@
   --color-text-light: #222222;
   --color-text-lighter: #767676;
   --color-error: #e9322d;
+  --color-error-rgb: 233,50,45;
   --color-error-hover: #ed5a56;
   --color-warning: #eca700;
+  --color-warning-rgb: 236,167,0;
   --color-warning-hover: #efb832;
   --color-success: #46ba61;
+  --color-success-rgb: 70,186,97;
   --color-success-hover: #6ac780;
   --color-loading-light: #cccccc;
   --color-loading-dark: #444444;
