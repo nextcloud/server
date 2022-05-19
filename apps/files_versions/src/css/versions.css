@@ -99,3 +99,6 @@
 .version-details {
   margin-top: -7px;
 }
+.versionsTabView li.active .downloadVersion {
+	opacity: 1;
+}
