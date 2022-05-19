@@ -276,17 +276,14 @@ export const initCore = () => {
 			oldSnapperClose()
 		}
 
-		// Needs to be deferred to properly catch in-between
-		// events that snap.js is triggering after dragging.
-		//
 		// Skipped when running unit tests as we are not testing
 		// the snap.js workarounds...
 		if (!window.TESTING) {
 			snapper.open = () => {
-				_.defer(_snapperOpen)
+				_snapperOpen()
 			}
 			snapper.close = () => {
-				_.defer(_snapperClose)
+				_snapperClose()
 			}
 		}
 
