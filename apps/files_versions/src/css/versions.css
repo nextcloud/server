@@ -64,3 +64,6 @@
 	float: right;
 	margin-right: -10px;
 }
+.versionsTabView li.active .downloadVersion {
+	opacity: 1;
+}
