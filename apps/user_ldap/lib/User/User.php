@@ -633,10 +633,10 @@ class User {
 					// setVerified(IAccountManager::VERIFIED);
 				}
 			} catch (PropertyDoesNotExistException $e) {
-				$this->logger->error('property does not exist: '.$profileProperty.' for user '.$userName.'', ['app' => 'user_ldap']);
+				$this->logger->error('property does not exist: '.$profileProperty.' for user '.$this->getUsername().'', ['app' => 'user_ldap']);
 				return;
 			}
-			$this->logger->debug('property updated: '.$profileProperty.'='.$propertyValue.' for user '.$userName.'', ['app' => 'user_ldap']);
+			$this->logger->debug('property updated: '.$profileProperty.'='.$propertyValue.' for user '.$this->getUsername().'', ['app' => 'user_ldap']);
 			$this->config->setUserValue($this->getUsername(), 'user_ldap', $property, $value);
 			return $value;
 		} else {
