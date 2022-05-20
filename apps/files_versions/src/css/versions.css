@@ -7,7 +7,10 @@
 	cursor: default;
 	height: 56px;
 	float: left;
+<<<<<<< HEAD
 	border-bottom: 0;
+=======
+>>>>>>> 3400c49ba4... Following @nimishavijay suggestion
 }
 
 .versionsTabView li:last-child {
@@ -44,7 +47,10 @@
 	top: 6px;
 	left: 10px;
 	border: 1px solid var(--color-border-dark);	
+<<<<<<< HEAD
 	padding-right: 0;
+=======
+>>>>>>> 3400c49ba4... Following @nimishavijay suggestion
 }
 	
 .versionsTabView img.preview {
@@ -71,6 +77,7 @@
 .versionsTabView .revertVersion {
 	cursor: pointer;
 	float: right;
+<<<<<<< HEAD
 	margin-right: 0;
 }
 
@@ -98,7 +105,25 @@
 
 .version-details {
   margin-top: -7px;
+=======
+	margin-right: -5px;
+>>>>>>> 3400c49ba4... Following @nimishavijay suggestion
 }
+
 .versionsTabView li.active .downloadVersion {
 	opacity: 1;
+}
+
+.versionsTabView li.active .version-details .size {
+	color: var(--color-main-text);
+	opacity: 1;
+}
+
+.versionsTabView li.active {
+	background-color: var(--color-primary-light);
+	border-radius: 16px;
+}
+
+.versionsTabView li.active a.revertVersion {
+  opacity: 1;
 }
