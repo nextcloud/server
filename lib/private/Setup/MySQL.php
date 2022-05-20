@@ -135,9 +135,8 @@ class MySQL extends AbstractDatabase {
 	/**
 	 * @param $username
 	 * @param IDBConnection $connection
-	 * @return array
 	 */
-	private function createSpecificUser($username, $connection) {
+	private function createSpecificUser($username, $connection): void {
 		try {
 			//user already specified in config
 			$oldUser = $this->config->getValue('dbuser', false);
