@@ -97,17 +97,6 @@
       <code>$baseuri</code>
     </UndefinedGlobalVariable>
   </file>
-  <file src="apps/dav/bin/chunkperf.php">
-    <InvalidOperand occurrences="1">
-      <code>$argv[5]</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="1">
-      <code>$chunkSize</code>
-    </InvalidScalarArgument>
-    <MissingFile occurrences="1">
-      <code>require '../../../../3rdparty/autoload.php'</code>
-    </MissingFile>
-  </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1"/>
     <UndefinedInterfaceMethod occurrences="1">
