@@ -26,6 +26,6 @@ OC.L10N.register(
     "Default images" : "Images par défaut",
     "Plain background" : "Fond uni",
     "Insert from {productName}" : "Insérer depuis {productName}",
-    "Show something" : "Montre quelque chose"
+    "Show something" : "Montrer quelque chose"
 },
 "nplurals=2; plural=(n > 1);");

@@ -481,8 +481,6 @@ OC.L10N.register(
     "Use a second factor besides your password to increase security for your account." : "Χρησιμοποιείστε έναν δεύτερο παράγοντα εκτός του κωδικού πρόσβασης για να αυξήσετε την ασφάλεια του λογαριασμού σας.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Εάν χρησιμοποιείτε εφαρμογές τρίτων για σύνδεση στο Nextcloud, βεβαιωθείτε ότι έχετε δημιουργήσει και διαμορφώσει έναν κωδικό πρόσβασης εφαρμογής για κάθε έναν προτού ενεργοποιήσετε τον έλεγχο ταυτότητας δεύτερου παράγοντα.",
     "You need to set your user email before being able to send test emails." : "Πρέπει να ορίσετε το email του χρήστη πριν να είστε σε θέση να στείλετε δοκιμαστικά emails.",
-    "MariaDB version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MariaDB 10.2 or higher." : "Χρησιμοποιείται η έκδοση \"%s\" MariaDB. Το Nextcloud 21 δεν θα υποστηρίζει πλέον αυτή την έκδοση και θα απαιτείται η έκδοση MariaDB 10.2 ή νεότερη.",
-    "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "Χρησιμοποιείται η έκδοση \"%s\" της PostgreSQL. Το Nextcloud 21 δεν θα υποστηρίζει πλέον αυτή την έκδοση και θα απαιτείται η έκδοση PostgreSQL 9.6 ή νεότερο.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Η κατάργηση αυτού του αναγνωριστικού ενδέχεται να αποτρέψει την εκκαθάριση της συσκευής σας αν δεν έχει ξεκινήσει ακόμα.",
     "Set as primary mail" : "Ορισμός ως κύριου email",
     "Change privacy level of email" : "Αλλαγή επιπέδου απορρήτου της διεύθυνσης email",
