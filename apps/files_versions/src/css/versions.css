@@ -7,8 +7,8 @@
 	cursor: default;
 	height: 56px;
 	float: left;
-	border-bottom: 1px solid rgba(100,100,100,.1);
 }
+
 .versionsTabView li:last-child {
 	border-bottom: none;
 }
@@ -30,7 +30,7 @@
 
 .versionsTabView .preview-container {
 	display: inline-block;
-  vertical-align: top;
+	vertical-align: top;
 }
 
 .versionsTabView img {
@@ -38,6 +38,13 @@
 	padding-right: 4px;
 }
 
+.versionsTabView img.preview {
+	position: relative;
+	top: 6px;
+	left: 10px;
+	border: 1px solid var(--color-border-dark);	
+}
+	
 .versionsTabView img.preview {
 	cursor: default;
 }
@@ -62,8 +69,23 @@
 .versionsTabView .revertVersion {
 	cursor: pointer;
 	float: right;
-	margin-right: -10px;
+	margin-right: -5px;
 }
+
 .versionsTabView li.active .downloadVersion {
 	opacity: 1;
+}
+
+.versionsTabView li.active .version-details .size {
+	color: var(--color-main-text);
+	opacity: 1;
+}
+
+.versionsTabView li.active {
+	background-color: var(--color-primary-light);
+	border-radius: 16px;
+}
+
+.versionsTabView li.active a.revertVersion {
+  opacity: 1;
 }
