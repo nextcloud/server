@@ -68,6 +68,9 @@ module.exports = {
 	oauth2: {
 		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
 	},
+	federatedfilesharing: {
+		'vue-settings-admin': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-admin.js'),
+    },
 	settings: {
 		'vue-settings-admin-basic-settings': path.join(__dirname, 'apps/settings/src', 'main-admin-basic-settings.js'),
 		'vue-settings-admin-delegation': path.join(__dirname, 'apps/settings/src', 'main-admin-delegation.js'),
