@@ -2,6 +2,9 @@
     "require": {
         "vimeo/psalm": "^4.18"
     },
+	"require-dev": {
+		"orklah/psalm-insane-comparison": "^1.0"
+	},
     "config": {
         "platform": {
             "php": "7.4"

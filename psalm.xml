@@ -8,7 +8,8 @@
     errorBaseline="build/psalm-baseline.xml"
 >
 	<plugins>
-		<plugin filename="build/psalm/AppFrameworkTainter.php" />
+		<plugin filename="build/psalm/AppFrameworkTainter.php"/>
+		<pluginClass class="Orklah\PsalmInsaneComparison\Plugin"/>
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
