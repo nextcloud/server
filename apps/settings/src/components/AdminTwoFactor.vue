@@ -1,23 +1,21 @@
 <template>
-	<div>
-		<p class="settings-hint">
-			{{ t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.') }}
-		</p>
+	<SettingsSection :title="t('settings', 'Two-Factor Authentication')"
+		:description="t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
+		:doc-url="twoFactorAdminDoc">
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
 			<span>{{ t('settings', 'Enforce two-factor authentication') }}</span>
 		</p>
-		<p v-else>
-			<input id="two-factor-enforced"
-				v-model="enforced"
-				type="checkbox"
-				class="checkbox">
-			<label for="two-factor-enforced">{{ t('settings', 'Enforce two-factor authentication') }}</label>
-		</p>
+		<CheckboxRadioSwitch v-else
+			id="two-factor-enforced"
+			:checked.sync="enforced"
+			type="switch">
+			{{ t('settings', 'Enforce two-factor authentication') }}
+		</CheckboxRadioSwitch>
 		<template v-if="enforced">
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
-			<p>
+			<p class="top-margin">
 				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
@@ -32,7 +30,7 @@
 					:close-on-select="false"
 					@search-change="searchGroup" />
 			</p>
-			<p>
+			<p class="top-margin">
 				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
@@ -47,14 +45,14 @@
 					:close-on-select="false"
 					@search-change="searchGroup" />
 			</p>
-			<p>
+			<p class="top-margin">
 				<em>
 					<!-- this text is also found in the documentation. update it there as well if it ever changes -->
 					{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
 				</em>
 			</p>
 		</template>
-		<p>
+		<p class="top-margin">
 			<Button v-if="dirty"
 				type="primary"
 				:disabled="loading"
@@ -62,13 +60,16 @@
 				{{ t('settings', 'Save changes') }}
 			</Button>
 		</p>
-	</div>
+	</SettingsSection>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Button from '@nextcloud/vue/dist/Components/Button'
+import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
+import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import { loadState } from '@nextcloud/initial-state'
 
 import _ from 'lodash'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
@@ -78,6 +79,8 @@ export default {
 	components: {
 		Multiselect,
 		Button,
+		CheckboxRadioSwitch,
+		SettingsSection,
 	},
 	data() {
 		return {
@@ -85,6 +88,7 @@ export default {
 			dirty: false,
 			groups: [],
 			loadingGroups: false,
+			twoFactorAdminDoc: loadState('settings', 'two-factor-admin-doc'),
 		}
 	},
 	computed: {
@@ -159,11 +163,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 	.two-factor-loading {
 		display: inline-block;
 		vertical-align: sub;
 		margin-left: -2px;
 		margin-right: 1px;
+	}
+
+	.top-margin {
+		margin-top: 0.5rem;
 	}
 </style>
