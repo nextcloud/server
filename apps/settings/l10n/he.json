@@ -399,8 +399,6 @@
     "Use a second factor besides your password to increase security for your account." : "ניתן להשתמש בגורם נוסף מלבד הססמה שלך כדי להגביר את אבטחת החשבון שלך.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "אם משמשים אותך יישומי צד־שלישי להתחברות אל Nextcloud, נא לוודא יצירת והגדרת ססמה ליישומון לכל אחד מהם בטרם הפעלת אימות דו־שלבי.",
     "You need to set your user email before being able to send test emails." : "יש להגדיר כתובת דואר אלקטרוני לפני שניתן יהיה לשלוח דואר אלקטרוני לבדיקה.",
-    "MariaDB version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MariaDB 10.2 or higher." : "נעשה שימוש ב־MariaDB בגרסה „%s”.‏ Nextcloud 21 לא יתמוך עוד בגרסה הזאת וידרוש MariaDB 10.2 ומעלה.",
-    "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "נעשה שימוש ב־PostgreSQL בגרסה „%s”.‏ Nextcloud 21 לא יתמוך עוד בגרסה הזאת וידרוש PostgreSQL 9.6 ומעלה.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "שלילת האסימון הזו עשויה למנוע את השמדת נתוני המכשיר שלך אם ההשמדה טרם החלה.",
     "All languages" : "כל השפות",
     "Everyone" : "כולם",
