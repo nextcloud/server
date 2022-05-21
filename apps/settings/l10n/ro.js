@@ -202,7 +202,6 @@ OC.L10N.register(
     "Enable encryption" : "Activează criptarea",
     "Select default encryption module:" : "Selectează modulul implicit de criptare:",
     "Start migration" : "Pornește migrarea",
-    "Recommended" : "Recomandat",
     "Allow apps to use the Share API" : "Permite aplicațiilor să folosească API-ul de partajare",
     "Enforce expiration date" : "Impune data de expirare",
     "Allow public uploads" : "Permite încărcări publice",
@@ -227,8 +226,8 @@ OC.L10N.register(
     "You need to set your user email before being able to send test emails." : "Trebuie să îți setezi emailul de utilizator înainte de a putea să trimiți emailuri.",
     "All languages" : "Toate limbile",
     "Everyone" : "Toți",
-    "App update" : "Actualizare aplicație",
     "Test email settings" : "Verifică setările de e-mail",
+    "Recommended" : "Recomandat",
     "days" : "zile"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
