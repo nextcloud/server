@@ -112,6 +112,7 @@
     "Done" : "Fecho",
     "Copied!" : "¡Copióse!",
     "Copy" : "Copiar",
+    "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
     "Enable" : "Activar",
     "Your email address" : "Direición de corréu-e",
     "No email address set" : "Nun s'afitó denguna direición de corréu",
@@ -188,9 +189,6 @@
     "Select default encryption module:" : "Esbilla'l módulu predetermináu de cifráu:",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Precises migrar les claves de cifráu d'un cifráu vieyu (ownCloud <= 8.0) a unu nuevu.",
     "Start migration" : "Aniciar migración",
-    "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
-    "Recommended" : "Recomendáu",
-    "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
     "Enforce expiration date" : "Facer cumplir la data de caducidá",
     "Allow public uploads" : "Permitir xubes públiques",
@@ -220,8 +218,9 @@
     "You need to set your user email before being able to send test emails." : "Tienes de configurar la direición de corréu-e enantes de poder unviar mensaxes de prueba.",
     "All languages" : "Toles llingües",
     "Everyone" : "Toos",
-    "App update" : "Paquetes d'aplicaciones",
     "Test email settings" : "Probar configuración de corréu electrónicu",
+    "Recommended" : "Recomendáu",
+    "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "days" : "díes",
     "No display name set" : "Nun s'afitó'l nome p'amosar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
