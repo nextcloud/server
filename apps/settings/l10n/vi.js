@@ -259,7 +259,6 @@ OC.L10N.register(
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Việc thu hồi tín chỉ này có thể ngăn việc xóa thiết bị của bạn nếu thiết bị chưa bắt đầu xóa.",
     "All languages" : "Tất cả ngôn ngữ",
     "Everyone" : "Tất cả mọi người",
-    "App update" : "Cập nhật ứng dụng",
     "days" : "ngày"
 },
 "nplurals=1; plural=0;");
