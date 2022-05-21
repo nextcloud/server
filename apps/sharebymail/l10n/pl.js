@@ -50,6 +50,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Wskaż dostawcę, który umożliwia udostępnianie plików pocztą",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Umożliwia użytkownikom udostępnianie spersonalizowanego linku do pliku lub katalogu poprzez umieszczenie go w wiadomości e-mail.",
     "Send password by mail" : "Wyślij hasło e-mailem",
-    "Reply to initiator" : "Odpowiedz inicjatorowi"
+    "Reply to initiator" : "Odpowiedz inicjatorowi",
+    "Unable to update share by mail config" : "Nie można zaktualizować konfiguracji udostępniania przez pocztę"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

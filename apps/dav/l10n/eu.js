@@ -108,6 +108,7 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor}-(e)k eguneratu du {card} kontaktua {addressbook} helbide-liburuan",
     "You updated contact {card} in address book {addressbook}" : "Eguneratu duzu {card} kontaktua {addressbook} helbide-liburuan",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>kontaktu</strong> edo <strong>helbide-liburu</strong>bat aldatu da",
+    "File is not updatable: %1$s" : "Fitxategia ez da eguneragarria: %1$s",
     "Could not write file contents" : "Ezin izan dira fitxategiaren edukiak idatzi",
     "_%n byte_::_%n bytes_" : ["Byte %n","%n byte"],
     "Could not open file" : "Ezin izan da fitxategia ireki",
