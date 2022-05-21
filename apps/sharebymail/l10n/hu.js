@@ -50,6 +50,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Megosztási szolgáltató, amely lehetővé teszi fájlok e-mailben történő megosztását",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lehetővé teszi, hogy a felhasználók személyre szabott megosztási hivatkozásokat hozzanak létre egy fájlhoz vagy mappához az e-mail-cím megadásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
-    "Reply to initiator" : "Válasz a kezdeményezőnek"
+    "Reply to initiator" : "Válasz a kezdeményezőnek",
+    "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők"
 },
 "nplurals=2; plural=(n != 1);");

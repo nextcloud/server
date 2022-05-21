@@ -75,6 +75,7 @@ OC.L10N.register(
     "A background job is pending that checks for user imported SSL certificates. Please check back later." : "العمليات الخلفية قيد الانتظار يتم فحص شهادة الآمان SSL تمت اضافتها من المستخدم. يرجى المحاولة لاحقاً.",
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "يوجد مستخدم رفع شهادة آمان SSL حاليا، لا تستخدم حاليا مع Nextcloud 21. يمكن رفعها باستخدام سطر الامر عبر \"occ security:certificates:import\". داخل مجلد data كما هو موضح.",
     "None" : "لا شيء",
+    "Two-Factor Authentication" : "المصادقة بخطوتين",
     "Limit to groups" : "التقيد إلى مجموعات",
     "Save changes" : "حفظ التعديلات",
     "All" : "الكل",
@@ -196,7 +197,6 @@ OC.L10N.register(
     "Send email" : "إرسال بريد إلكتروني",
     "All checks passed." : "تم اجتياز جميع الاختبارات.",
     "Version" : "إصدار",
-    "Two-Factor Authentication" : "المصادقة بخطوتين",
     "Server-side encryption" : "التشفير مِن جانب الخادوم",
     "Enable server-side encryption" : "تشغيل التشفير مِن جانب الخادوم",
     "Please read carefully before activating server-side encryption: " : "يرجى الاطلاع بعناية قبل تفعيل التشفير في الخادم.",
@@ -245,7 +245,6 @@ OC.L10N.register(
     "Change password" : "عدل كلمة السر",
     "All languages" : "كافة اللغات",
     "Everyone" : "الجميع",
-    "App update" : "تحديث التطبيق",
     "Test email settings" : "فحص إعدادات البريد الإلكتروني",
     "days" : "أيام",
     "No display name set" : "لم يتم إدخال أي إسم"

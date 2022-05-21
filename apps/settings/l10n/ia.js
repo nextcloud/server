@@ -136,7 +136,6 @@ OC.L10N.register(
     "Change password" : "Cambiar contrasigno",
     "You need to set your user email before being able to send test emails." : "Tu debe configurar tu e-posta de usator ante esser capace a inviar e-posta de test.",
     "Everyone" : "Totos",
-    "App update" : "Application actualisate",
     "Test email settings" : "Testar configurationes de e-posta",
     "days" : "dies"
 },
