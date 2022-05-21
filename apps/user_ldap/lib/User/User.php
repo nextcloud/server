@@ -36,16 +36,13 @@ use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
-use OC\Accounts\AccountManager;
-use OCP\Accounts\IAccountManager;
-use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
 
