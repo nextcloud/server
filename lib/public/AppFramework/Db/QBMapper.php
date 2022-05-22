@@ -32,6 +32,7 @@ namespace OCP\AppFramework\Db;
 
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IDBConnection;
 
 /**
@@ -227,37 +228,35 @@ abstract class QBMapper {
 	 * Returns the type parameter for the QueryBuilder for a specific property
 	 * of the $entity
 	 *
-	 * @param Entity $entity   The entity to get the types from
+	 * @param Entity $entity The entity to get the types from
 	 * @psalm-param T $entity
 	 * @param string $property The property of $entity to get the type for
-	 * @return int|string
+	 * @return string
 	 * @since 16.0.0
 	 */
-	protected function getParameterTypeForProperty(Entity $entity, string $property) {
+	protected function getParameterTypeForProperty(Entity $entity, string $property): string {
 		$types = $entity->getFieldTypes();
 
-		if (!isset($types[ $property ])) {
-			return IQueryBuilder::PARAM_STR;
+		if (!isset($types[$property])) {
+			return Types::STRING;
 		}
 
-		switch ($types[ $property ]) {
+		switch ($types[$property]) {
 			case 'int':
 			case 'integer':
-				return IQueryBuilder::PARAM_INT;
-			case 'string':
-				return IQueryBuilder::PARAM_STR;
+				return Types::INTEGER;
 			case 'bool':
 			case 'boolean':
-				return IQueryBuilder::PARAM_BOOL;
+				return Types::BOOLEAN;
 			case 'blob':
-				return IQueryBuilder::PARAM_LOB;
+				return Types::BLOB;
 			case 'datetime':
-				return IQueryBuilder::PARAM_DATE;
+				return Types::DATETIME;
 			case 'json':
-				return IQueryBuilder::PARAM_JSON;
+				return Types::JSON;
+			default:
+				return Types::STRING;
 		}
-
-		return IQueryBuilder::PARAM_STR;
 	}
 
 	/**
