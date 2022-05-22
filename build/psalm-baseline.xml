@@ -97,17 +97,6 @@
       <code>$baseuri</code>
     </UndefinedGlobalVariable>
   </file>
-  <file src="apps/dav/bin/chunkperf.php">
-    <InvalidOperand occurrences="1">
-      <code>$argv[5]</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="1">
-      <code>$chunkSize</code>
-    </InvalidScalarArgument>
-    <MissingFile occurrences="1">
-      <code>require '../../../../3rdparty/autoload.php'</code>
-    </MissingFile>
-  </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1"/>
     <UndefinedInterfaceMethod occurrences="1">
@@ -1694,11 +1683,6 @@
     <UndefinedInterfaceMethod occurrences="1">
       <code>isReady</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="apps/settings/lib/Settings/Admin/Server.php">
-    <InvalidArgument occurrences="1">
-      <code>false</code>
-    </InvalidArgument>
   </file>
   <file src="apps/settings/lib/Settings/Admin/Sharing.php">
     <InvalidScalarArgument occurrences="1">
@@ -3735,9 +3719,6 @@
     <MismatchingDocblockParamType occurrences="1">
       <code>ISimpleFile</code>
     </MismatchingDocblockParamType>
-    <NullableReturnStatement occurrences="1">
-      <code>$preview</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
@@ -3926,29 +3907,6 @@
       <code>$this-&gt;dbprettyname</code>
       <code>$this-&gt;dbprettyname</code>
     </UndefinedThisPropertyFetch>
-  </file>
-  <file src="lib/private/Setup/MySQL.php">
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
-    <ParamNameMismatch occurrences="1">
-      <code>$username</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Setup/OCI.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$username</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Setup/PostgreSQL.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$username</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Setup/Sqlite.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$username</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Share/Share.php">
     <FalsableReturnStatement occurrences="1">
@@ -4467,11 +4425,6 @@
       <code>ContainerExceptionInterface</code>
       <code>ContainerExceptionInterface</code>
     </InvalidThrow>
-  </file>
-  <file src="lib/public/IDBConnection.php">
-    <InvalidClass occurrences="1">
-      <code>PreconditionNotMetException</code>
-    </InvalidClass>
   </file>
   <file src="remote.php">
     <InvalidScalarArgument occurrences="1">
