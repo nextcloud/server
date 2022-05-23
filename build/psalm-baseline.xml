@@ -593,11 +593,6 @@
       <code>tryTokenLogin</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/dav/lib/Connector/Sabre/CommentPropertiesPlugin.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$node-&gt;getId()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/dav/lib/Connector/Sabre/Directory.php">
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$nodes</code>

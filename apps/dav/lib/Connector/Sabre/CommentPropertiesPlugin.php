@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -120,7 +121,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			return $this->commentsManager->getNumberOfCommentsForObject('files', (string)$node->getId());
 		});
 
-		$propFind->handle(self::PROPERTY_NAME_HREF, function () use ($node) {
+		$propFind->handle(self::PROPERTY_NAME_HREF, function () use ($node): ?string {
 			return $this->getCommentsLink($node);
 		});
 
@@ -138,16 +139,15 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 * @param Node $node
 	 * @return mixed|string
 	 */
-	public function getCommentsLink(Node $node) {
+	public function getCommentsLink(Node $node): ?string {
 		$href = $this->server->getBaseUri();
 		$entryPoint = strpos($href, '/remote.php/');
 		if ($entryPoint === false) {
 			// in case we end up somewhere else, unexpectedly.
 			return null;
 		}
-		$commentsPart = 'dav/comments/files/' . rawurldecode($node->getId());
-		$href = substr_replace($href, $commentsPart, $entryPoint + strlen('/remote.php/'));
-		return $href;
+		$commentsPart = 'dav/comments/files/' . rawurldecode((string)$node->getId());
+		return substr_replace($href, $commentsPart, $entryPoint + strlen('/remote.php/'));
 	}
 
 	/**
