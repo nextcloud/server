@@ -25,6 +25,7 @@
 /** @var array $_ */
 /** @var \OCP\Defaults $theme */
 
+\OCP\Util::addScript('settings', 'vue-settings-admin-setup-check');
 ?>
 
 <div id="security-warning" class="section">
@@ -65,6 +66,8 @@
 	</p>
 
 </div>
+
+<div id="vue-admin-setup-check"></div>
 
 <div id="version" class="section">
 	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->

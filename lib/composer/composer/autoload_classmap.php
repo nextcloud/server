@@ -601,6 +601,8 @@ return array(
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',
     'OCP\\Settings\\ISettings' => $baseDir . '/lib/public/Settings/ISettings.php',
     'OCP\\Settings\\ISubAdminSettings' => $baseDir . '/lib/public/Settings/ISubAdminSettings.php',
+    'OCP\\SetupCheck\\ISetupCheck' => $baseDir . '/lib/public/SetupCheck/ISetupCheck.php',
+    'OCP\\SetupCheck\\SetupResult' => $baseDir . '/lib/public/SetupCheck/SetupResult.php',
     'OCP\\Share' => $baseDir . '/lib/public/Share.php',
     'OCP\\Share\\Events\\BeforeShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/BeforeShareCreatedEvent.php',
     'OCP\\Share\\Events\\BeforeShareDeletedEvent' => $baseDir . '/lib/public/Share/Events/BeforeShareDeletedEvent.php',
