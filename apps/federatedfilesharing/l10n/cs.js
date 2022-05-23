@@ -44,6 +44,7 @@ OC.L10N.register(
     "Allow users on this server to receive group shares from other servers" : "Povolit uživatelům na tomto serveru přijímat skupinová sdílení z jiných serverů",
     "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři kontaktů",
     "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře kontaktů",
+    "Unable to update federated files sharing config" : "Nedaří se aktualizovat nastavení federovaného sdílení souborů",
     "Federated Cloud" : "Federovaný cloud",
     "Open documentation" : "Otevřít dokumentaci",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud nebo jiný server či služby, kompatibilní se standardem Open Cloud Mesh (OCM)! Stačí do dialogu pro sdílení zadat jejich jejich identif. v rámci sdruženého cloudu. Má podobu person@cloud.example.com",

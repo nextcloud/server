@@ -50,6 +50,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "分享提供者，讓您可以透過電子郵件分享檔案",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "允許使用者透過輸入電子郵件地址來分享到檔案或資料夾的個人化連結。",
     "Send password by mail" : "透過電子郵件寄送密碼",
-    "Reply to initiator" : "回覆給發起人"
+    "Reply to initiator" : "回覆給發起人",
+    "Unable to update share by mail config" : "無法更新透過郵件分享設定"
 },
 "nplurals=1; plural=0;");
