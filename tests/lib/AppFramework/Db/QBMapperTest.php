@@ -27,6 +27,7 @@ use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IDBConnection;
 
 /**
@@ -125,8 +126,8 @@ class QBMapperTest extends \Test\TestCase {
 		$this->mapper = new QBTestMapper($this->db);
 	}
 
-	
-	public function testInsertEntityParameterTypeMapping() {
+
+	public function testInsertEntityParameterTypeMapping(): void {
 		$entity = new QBTestEntity();
 		$entity->setIntProp(123);
 		$entity->setBoolProp(true);
@@ -134,20 +135,20 @@ class QBMapperTest extends \Test\TestCase {
 		$entity->setIntegerProp(456);
 		$entity->setBooleanProp(false);
 
-		$intParam = $this->qb->createNamedParameter('int_prop', IQueryBuilder::PARAM_INT);
-		$boolParam = $this->qb->createNamedParameter('bool_prop', IQueryBuilder::PARAM_BOOL);
-		$stringParam = $this->qb->createNamedParameter('string_prop', IQueryBuilder::PARAM_STR);
-		$integerParam = $this->qb->createNamedParameter('integer_prop', IQueryBuilder::PARAM_INT);
-		$booleanParam = $this->qb->createNamedParameter('boolean_prop', IQueryBuilder::PARAM_BOOL);
+		$intParam = $this->qb->createNamedParameter('int_prop', Types::INTEGER);
+		$boolParam = $this->qb->createNamedParameter('bool_prop', Types::BOOLEAN);
+		$stringParam = $this->qb->createNamedParameter('string_prop', Types::STRING);
+		$integerParam = $this->qb->createNamedParameter('integer_prop', Types::INTEGER);
+		$booleanParam = $this->qb->createNamedParameter('boolean_prop', Types::BOOLEAN);
 
 		$this->qb->expects($this->exactly(5))
 			->method('createNamedParameter')
 			->withConsecutive(
-				[$this->equalTo(123), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(true), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo('string'), $this->equalTo(IQueryBuilder::PARAM_STR)],
-				[$this->equalTo(456), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(false), $this->equalTo(IQueryBuilder::PARAM_BOOL)]
+				[$this->equalTo(123), $this->equalTo(Types::INTEGER)],
+				[$this->equalTo(true), $this->equalTo(Types::BOOLEAN)],
+				[$this->equalTo('string'), $this->equalTo(Types::STRING)],
+				[$this->equalTo(456), $this->equalTo(Types::INTEGER)],
+				[$this->equalTo(false), $this->equalTo(Types::BOOLEAN)]
 			);
 		$this->qb->expects($this->exactly(5))
 			->method('setValue')
@@ -162,7 +163,7 @@ class QBMapperTest extends \Test\TestCase {
 		$this->mapper->insert($entity);
 	}
 
-	
+
 	public function testUpdateEntityParameterTypeMapping() {
 		$entity = new QBTestEntity();
 		$entity->setId(789);
@@ -171,26 +172,26 @@ class QBMapperTest extends \Test\TestCase {
 		$entity->setStringProp('string');
 		$entity->setIntegerProp(456);
 		$entity->setBooleanProp(false);
-		$entity->setJsonProp(["hello" => "world"]);
+		$entity->setJsonProp(['hello' => 'world']);
 
-		$idParam = $this->qb->createNamedParameter('id', IQueryBuilder::PARAM_INT);
-		$intParam = $this->qb->createNamedParameter('int_prop', IQueryBuilder::PARAM_INT);
-		$boolParam = $this->qb->createNamedParameter('bool_prop', IQueryBuilder::PARAM_BOOL);
-		$stringParam = $this->qb->createNamedParameter('string_prop', IQueryBuilder::PARAM_STR);
-		$integerParam = $this->qb->createNamedParameter('integer_prop', IQueryBuilder::PARAM_INT);
-		$booleanParam = $this->qb->createNamedParameter('boolean_prop', IQueryBuilder::PARAM_BOOL);
-		$jsonParam = $this->qb->createNamedParameter('json_prop', IQueryBuilder::PARAM_JSON);
+		$idParam = $this->qb->createNamedParameter('id', Types::INTEGER);
+		$intParam = $this->qb->createNamedParameter('int_prop', Types::INTEGER);
+		$boolParam = $this->qb->createNamedParameter('bool_prop', Types::BOOLEAN);
+		$stringParam = $this->qb->createNamedParameter('string_prop', Types::STRING);
+		$integerParam = $this->qb->createNamedParameter('integer_prop', Types::INTEGER);
+		$booleanParam = $this->qb->createNamedParameter('boolean_prop', Types::BOOLEAN);
+		$jsonParam = $this->qb->createNamedParameter('json_prop', Types::JSON);
 
 		$this->qb->expects($this->exactly(7))
 			->method('createNamedParameter')
 			->withConsecutive(
-				[$this->equalTo(123), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(true), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo('string'), $this->equalTo(IQueryBuilder::PARAM_STR)],
-				[$this->equalTo(456), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(false), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo(["hello" => "world"]), $this->equalTo(IQueryBuilder::PARAM_JSON)],
-				[$this->equalTo(789), $this->equalTo(IQueryBuilder::PARAM_INT)],
+				[$this->equalTo(123), $this->equalTo(Types::INTEGER)],
+				[$this->equalTo(true), $this->equalTo(Types::BOOLEAN)],
+				[$this->equalTo('string'), $this->equalTo(Types::STRING)],
+				[$this->equalTo(456), $this->equalTo(Types::INTEGER)],
+				[$this->equalTo(false), $this->equalTo(Types::BOOLEAN)],
+				[$this->equalTo(['hello' => 'world']), $this->equalTo(Types::JSON)],
+				[$this->equalTo(789), $this->equalTo(Types::INTEGER)],
 			);
 
 		$this->qb->expects($this->exactly(6))
@@ -212,29 +213,29 @@ class QBMapperTest extends \Test\TestCase {
 		$this->mapper->update($entity);
 	}
 
-	
-	public function testGetParameterTypeForProperty() {
+
+	public function testGetParameterTypeForProperty(): void {
 		$entity = new QBTestEntity();
 
 		$intType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'intProp');
-		$this->assertEquals(IQueryBuilder::PARAM_INT, $intType, 'Int type property mapping incorrect');
+		$this->assertEquals(Types::INTEGER, $intType, 'Int type property mapping incorrect');
 
 		$integerType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'integerProp');
-		$this->assertEquals(IQueryBuilder::PARAM_INT, $integerType, 'Integer type property mapping incorrect');
+		$this->assertEquals(Types::INTEGER, $integerType, 'Integer type property mapping incorrect');
 
 		$boolType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'boolProp');
-		$this->assertEquals(IQueryBuilder::PARAM_BOOL, $boolType, 'Bool type property mapping incorrect');
+		$this->assertEquals(Types::BOOLEAN, $boolType, 'Bool type property mapping incorrect');
 
 		$booleanType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'booleanProp');
-		$this->assertEquals(IQueryBuilder::PARAM_BOOL, $booleanType, 'Boolean type property mapping incorrect');
+		$this->assertEquals(Types::BOOLEAN, $booleanType, 'Boolean type property mapping incorrect');
 
 		$stringType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'stringProp');
-		$this->assertEquals(IQueryBuilder::PARAM_STR, $stringType, 'String type property mapping incorrect');
+		$this->assertEquals(Types::STRING, $stringType, 'String type property mapping incorrect');
 
 		$jsonType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'jsonProp');
-		$this->assertEquals(IQueryBuilder::PARAM_JSON, $jsonType, 'JSON type property mapping incorrect');
+		$this->assertEquals(Types::JSON, $jsonType, 'JSON type property mapping incorrect');
 
 		$unknownType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'someProp');
-		$this->assertEquals(IQueryBuilder::PARAM_STR, $unknownType, 'Unknown type property mapping incorrect');
+		$this->assertEquals(Types::STRING, $unknownType, 'Unknown type property mapping incorrect');
 	}
 }
