@@ -50,6 +50,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Partekatze hornitzailea, fitxategiak posta bidez partekatzeko aukera ematen duena",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Erabiltzaileei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
     "Send password by mail" : "Bidali pasahitza posta bidez",
-    "Reply to initiator" : "Erantzun hasieragailuari"
+    "Reply to initiator" : "Erantzun hasieragailuari",
+    "Unable to update share by mail config" : "Ezin da eguneratu partekatzea posta konfigurazioaren bidez"
 },
 "nplurals=2; plural=(n != 1);");

@@ -233,6 +233,8 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Hau ziur aski cache/accelerator batek eragin du, hala nola Zend OPcache edo eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduluak instalatu dira, baina oraindik faltan bezala markatuta daude?",
     "Please ask your server administrator to restart the web server." : "Mesedez eskatu zerbitzariaren kudeatzaileari web zerbitzaria berrabiarazteko.",
+    "The required %s config variable is not configured in the config.php file." : "Beharrezko %s config aldagaia ez dago konfiguratuta config.php fitxategian.",
+    "Please ask your server administrator to check the Nextcloud configuration." : "Mesedez, eskatu zure zerbitzari-administratzaileari Nextcloud-en konfigurazioa egiaztatzeko.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 behar da",
     "Please upgrade your database version." : "Mesedez eguneratu zure datu-basearen bertsioa.",
     "Your data directory is readable by other users." : "Zure datuen karpeta beste erabiltzaileek irakur dezakete.",

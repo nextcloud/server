@@ -42,6 +42,7 @@
     "Allow users on this server to receive group shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileek beste zerbitzari batzuetako talde-partekatzeak jasotzen.",
     "Search global and public address book for users" : "Helbide liburu global eta publikoetak erabiltzaileak bilatu",
     "Allow users to publish their data to a global and public address book" : "Erabiltzaileei bere datuak helbide-liburu publiko eta orokorrean publikatzea baimendu",
+    "Unable to update federated files sharing config" : "Ezin dira eguneratu federatutako fitxategiak partekatzeko konfigurazioa",
     "Federated Cloud" : "Hodei Federatua",
     "Open documentation" : "Ireki dokumentazioa",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud zerbitzaria edo Open Cloud Mesh (OCM) zerbitzuarekin bateragarri den zerbitzuak erabiltzen duen edonorekin partekatu dezakezu! Ipini beren Federatutako Hodei IDa partekatze leihoan. Horrelako zerbait izan ohi da: erabiltzailea@nextcloud.zerbitzaria.com",
