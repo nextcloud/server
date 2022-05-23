@@ -283,4 +283,8 @@ class FileProfilerStorage {
 
 		return $profile;
 	}
+
+	public function clear(): void {
+		\OC_Helper::rmdirr($this->folder, false);
+	}
 }

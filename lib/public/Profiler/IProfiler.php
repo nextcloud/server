@@ -98,4 +98,10 @@ interface IProfiler {
 	 * @since 24.0.0
 	 */
 	public function collect(Request $request, Response $response): IProfile;
+
+	/**
+	 * Remove all stored profiles
+	 * @since 25.0.0
+	 */
+	public function clear(): void;
 }
