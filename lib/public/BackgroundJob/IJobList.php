@@ -83,6 +83,15 @@ interface IJobList {
 	public function getAll();
 
 	/**
+	 * Get jobs matching the search
+	 *
+	 * @param \OCP\BackgroundJob\IJob|class-string<IJob>|null $job
+	 * @return \OCP\BackgroundJob\IJob[]
+	 * @since 25.0.0
+	 */
+	public function getJobs($job, ?int $limit, int $offset): array;
+
+	/**
 	 * get the next job in the list
 	 *
 	 * @param bool $onlyTimeSensitive
@@ -99,8 +108,6 @@ interface IJobList {
 	public function getById($id);
 
 	/**
-	 * @param int $id
-	 * @return array|null
 	 * @since 23.0.0
 	 */
 	public function getDetailsById(int $id): ?array;
@@ -108,7 +115,6 @@ interface IJobList {
 	/**
 	 * set the job that was last ran to the current time
 	 *
-	 * @param \OCP\BackgroundJob\IJob $job
 	 * @since 7.0.0
 	 */
 	public function setLastJob(IJob $job);
@@ -116,7 +122,6 @@ interface IJobList {
 	/**
 	 * Remove the reservation for a job
 	 *
-	 * @param IJob $job
 	 * @since 9.1.0
 	 */
 	public function unlockJob(IJob $job);
@@ -124,7 +129,6 @@ interface IJobList {
 	/**
 	 * set the lastRun of $job to now
 	 *
-	 * @param IJob $job
 	 * @since 7.0.0
 	 */
 	public function setLastRun(IJob $job);
@@ -132,8 +136,7 @@ interface IJobList {
 	/**
 	 * set the run duration of $job
 	 *
-	 * @param IJob $job
-	 * @param $timeTaken
+	 * @param int $timeTaken
 	 * @since 12.0.0
 	 */
 	public function setExecutionTime(IJob $job, $timeTaken);
@@ -141,7 +144,6 @@ interface IJobList {
 	/**
 	 * Reset the $job so it executes on the next trigger
 	 *
-	 * @param IJob $job
 	 * @since 23.0.0
 	 */
 	public function resetBackgroundJob(IJob $job): void;

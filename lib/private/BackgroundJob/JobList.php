@@ -166,9 +166,25 @@ class JobList implements IJobList {
 	 * memory problems when creating too many instances.
 	 */
 	public function getAll() {
+		return $this->getJobs(null, null, 0);
+	}
+
+	public function getJobs($job, ?int $limit, int $offset): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('jobs');
+			->from('jobs')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+
+		if ($job !== null) {
+			if ($job instanceof IJob) {
+				$class = get_class($job);
+			} else {
+				$class = $job;
+			}
+			$query->where($query->expr()->eq('class', $query->createNamedParameter($class)));
+		}
+
 		$result = $query->executeQuery();
 
 		$jobs = [];
