@@ -28,6 +28,7 @@ class ComposerStaticInitProvisioning_API
         'OCA\\Provisioning_API\\Controller\\AppConfigController' => __DIR__ . '/..' . '/../lib/Controller/AppConfigController.php',
         'OCA\\Provisioning_API\\Controller\\AppsController' => __DIR__ . '/..' . '/../lib/Controller/AppsController.php',
         'OCA\\Provisioning_API\\Controller\\GroupsController' => __DIR__ . '/..' . '/../lib/Controller/GroupsController.php',
+        'OCA\\Provisioning_API\\Controller\\PreferencesController' => __DIR__ . '/..' . '/../lib/Controller/PreferencesController.php',
         'OCA\\Provisioning_API\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
         'OCA\\Provisioning_API\\Controller\\VerificationController' => __DIR__ . '/..' . '/../lib/Controller/VerificationController.php',
         'OCA\\Provisioning_API\\FederatedShareProviderFactory' => __DIR__ . '/..' . '/../lib/FederatedShareProviderFactory.php',

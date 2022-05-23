@@ -13,6 +13,7 @@ return array(
     'OCA\\Provisioning_API\\Controller\\AppConfigController' => $baseDir . '/../lib/Controller/AppConfigController.php',
     'OCA\\Provisioning_API\\Controller\\AppsController' => $baseDir . '/../lib/Controller/AppsController.php',
     'OCA\\Provisioning_API\\Controller\\GroupsController' => $baseDir . '/../lib/Controller/GroupsController.php',
+    'OCA\\Provisioning_API\\Controller\\PreferencesController' => $baseDir . '/../lib/Controller/PreferencesController.php',
     'OCA\\Provisioning_API\\Controller\\UsersController' => $baseDir . '/../lib/Controller/UsersController.php',
     'OCA\\Provisioning_API\\Controller\\VerificationController' => $baseDir . '/../lib/Controller/VerificationController.php',
     'OCA\\Provisioning_API\\FederatedShareProviderFactory' => $baseDir . '/../lib/FederatedShareProviderFactory.php',
