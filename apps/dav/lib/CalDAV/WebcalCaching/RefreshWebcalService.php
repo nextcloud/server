@@ -192,7 +192,7 @@ class RefreshWebcalService {
 		$handlerStack->push(Middleware::mapRequest(function (RequestInterface $request) {
 			return $request
 				->withHeader('Accept', 'text/calendar, application/calendar+json, application/calendar+xml')
-				->withHeader('User-Agent', 'Nextcloud Webcal Crawler');
+				->withHeader('User-Agent', 'Nextcloud Webcal Service');
 		}));
 		$handlerStack->push(Middleware::mapResponse(function (ResponseInterface $response) use (&$didBreak301Chain, &$latestLocation) {
 			if (!$didBreak301Chain) {
