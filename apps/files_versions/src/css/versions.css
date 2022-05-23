@@ -8,9 +8,13 @@
 	height: 56px;
 	float: left;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	border-bottom: 0;
 =======
 >>>>>>> 3400c49ba4... Following @nimishavijay suggestion
+=======
+	border-bottom: 0;
+>>>>>>> 7ab49ab1ab... New changes following nimishavijay suggestions
 }
 
 .versionsTabView li:last-child {
@@ -48,9 +52,13 @@
 	left: 10px;
 	border: 1px solid var(--color-border-dark);	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	padding-right: 0;
 =======
 >>>>>>> 3400c49ba4... Following @nimishavijay suggestion
+=======
+	padding-right: 0;
+>>>>>>> 7ab49ab1ab... New changes following nimishavijay suggestions
 }
 	
 .versionsTabView img.preview {
@@ -77,6 +85,7 @@
 .versionsTabView .revertVersion {
 	cursor: pointer;
 	float: right;
+<<<<<<< HEAD
 <<<<<<< HEAD
 	margin-right: 0;
 }
@@ -108,6 +117,9 @@
 =======
 	margin-right: -5px;
 >>>>>>> 3400c49ba4... Following @nimishavijay suggestion
+=======
+	margin-right: 0;
+>>>>>>> 7ab49ab1ab... New changes following nimishavijay suggestions
 }
 
 .versionsTabView li.active .downloadVersion {
@@ -126,4 +138,12 @@
 
 .versionsTabView li.active a.revertVersion {
   opacity: 1;
+}
+
+.version-container {
+  padding-left: 5px;
+}
+
+.version-details {
+  margin-top: -7px;
 }
