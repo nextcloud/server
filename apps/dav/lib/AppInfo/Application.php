@@ -85,6 +85,7 @@ use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\SubscriptionListener;
 use OCA\DAV\Listener\TrustedServerRemovedListener;
+use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -96,6 +97,8 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IManager as ICalendarManager;
+use OCP\Config\BeforePreferenceDeletedEvent;
+use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\IServerContainer;
 use OCP\IUser;
@@ -185,6 +188,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardDeletedEvent::class, ClearPhotoCacheListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, ClearPhotoCacheListener::class);
 		$context->registerEventListener(TrustedServerRemovedEvent::class, TrustedServerRemovedListener::class);
+
+		$context->registerEventListener(BeforePreferenceDeletedEvent::class, UserPreferenceListener::class);
+		$context->registerEventListener(BeforePreferenceSetEvent::class, UserPreferenceListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
