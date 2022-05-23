@@ -25,6 +25,7 @@ namespace OC\User;
 
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\UserInterface;
 
 class LazyUser implements IUser {
 	private ?IUser $user = null;
@@ -83,7 +84,7 @@ class LazyUser implements IUser {
 		return $this->getUser()->getBackendClassName();
 	}
 
-	public function getBackend() {
+	public function getBackend(): ?UserInterface {
 		return $this->getUser()->getBackend();
 	}
 
