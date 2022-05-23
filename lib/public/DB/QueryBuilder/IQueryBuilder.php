@@ -820,7 +820,7 @@ interface IQueryBuilder {
 	 * Specifies an ordering for the query results.
 	 * Replaces any previously specified orderings, if any.
 	 *
-	 * @param string|IQueryFunction $sort The ordering expression.
+	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
