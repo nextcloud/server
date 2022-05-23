@@ -515,17 +515,6 @@ table.nostyle td {
   vertical-align: sub;
 }
 
-.social-button {
-  padding-left: 0 !important;
-  margin-left: -10px;
-}
-.social-button a {
-  display: inline-block;
-}
-.social-button img {
-  padding: 10px;
-}
-
 /* USERS */
 .isgroup .groupname {
   width: 85%;
