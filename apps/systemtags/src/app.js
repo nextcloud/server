@@ -52,7 +52,7 @@
 					// done if handling the event with the file list already
 					// created.
 					shown: true,
-					systemTagIds: initialTags
+					systemTagIds: initialTags,
 				}
 			)
 

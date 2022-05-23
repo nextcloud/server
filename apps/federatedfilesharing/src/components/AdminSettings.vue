@@ -124,6 +124,6 @@ export default {
 				console.error(errorMessage, error)
 			}
 		},
-	}
+	},
 }
 </script>
