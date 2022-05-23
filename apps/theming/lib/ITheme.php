@@ -92,8 +92,9 @@ interface ITheme {
 	 * ⚠️ Warning, should be used slightly.
 	 * Theoretically, editing the variables should be enough.
 	 *
+	 * @param string $prefix The css prefix for every rule. It should be appended before every rule.
 	 * @return string
 	 * @since 25.0.0
 	 */
-	public function getCustomCss(): string;
+	public function getCustomCss(string $prefix): string;
 }

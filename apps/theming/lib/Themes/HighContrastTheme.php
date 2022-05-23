@@ -78,12 +78,12 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		return $variables;
 	}
 
-	public function getCustomCss(): string {
+	public function getCustomCss(string $prefix): string {
 		return "
-			[class^='icon-'], [class*=' icon-'],
-			.action,
-			#appmenu li a,
-			.menutoggle {
+			$prefix [class^='icon-'], $prefix [class*=' icon-'],
+			$prefix .action,
+			$prefix #appmenu li a,
+			$prefix .menutoggle {
 				opacity: 1 !important;
 			}
 		";

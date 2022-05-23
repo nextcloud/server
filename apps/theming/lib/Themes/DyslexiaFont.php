@@ -59,7 +59,7 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 		return $variables;
 	}
 
-	public function getCustomCss(): string {
+	public function getCustomCss(string $prefix): string {
 		$fontPathWoff = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.woff');
 		$fontPathOtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.otf');
 		$fontPathTtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.ttf');

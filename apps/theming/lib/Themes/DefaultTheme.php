@@ -209,7 +209,7 @@ class DefaultTheme implements ITheme {
 		return $variables;
 	}
 
-	public function getCustomCss(): string {
+	public function getCustomCss(string $prefix): string {
 		return '';
 	}
 }

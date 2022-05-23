@@ -55,7 +55,6 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use ScssPhp\ScssPhp\Compiler;
 
 /**
  * Class ThemingController
@@ -317,7 +316,7 @@ class ThemingController extends Controller {
 		}
 
 		$theme = $themes[$themeId];
-		$customCss  = $theme->getCustomCss();
+		$customCss  = $theme->getCustomCss("body[data-theme-$themeId]");
 
 		// Generate variables
 		$variables = '';
@@ -330,9 +329,7 @@ class ThemingController extends Controller {
 			$css = ":root { $variables } " . $customCss;
 		} else { 
 			// If not set, we'll rely on the body class
-			$compiler = new Compiler();
-			$compiledCss = $compiler->compileString("body[data-theme-$themeId] { $variables $customCss }");
-			$css = $compiledCss->getCss();;
+			$css = "body[data-theme-$themeId] { $variables } " . $customCss ;
 		}
 
 		try {
