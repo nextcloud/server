@@ -41,7 +41,7 @@ const propsData = {
 	preloadedUserStatus: {
 		message: userStatusData.message,
 		icon: userStatusData.icon,
-		status: userStatusData.status
+		status: userStatusData.status,
 	},
 	user: avatarDiv.dataset.user,
 	displayName: avatarDiv.dataset.displayname,

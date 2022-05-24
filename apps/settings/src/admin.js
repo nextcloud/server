@@ -117,7 +117,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: () => {
 				OC.msg.finishedError('#publicShareDisclaimerStatus', t('settings', 'Not saved'))
-			}
+			},
 		}
 
 		OC.msg.startSaving('#publicShareDisclaimerStatus')
@@ -194,7 +194,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: (xhr) => {
 				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON)
-			}
+			},
 		})
 	}
 
@@ -214,7 +214,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: (xhr) => {
 				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON)
-			}
+			},
 		})
 	}
 
@@ -239,7 +239,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: (xhr) => {
 				OC.msg.finishedError('#sendtestmail_msg', xhr.responseJSON)
-			}
+			},
 		})
 	})
 

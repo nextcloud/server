@@ -71,7 +71,7 @@ export default {
 					value: stringValue,
 				})
 				this.handleResponse({
-					status: data.ocs?.meta?.status
+					status: data.ocs?.meta?.status,
 				})
 			} catch (e) {
 				this.handleResponse({
@@ -86,6 +86,6 @@ export default {
 				console.error(errorMessage, error)
 			}
 		},
-	}
+	},
 }
 </script>
