@@ -1077,6 +1077,8 @@ class ShareAPIController extends OCSController {
 			throw new OCSForbiddenException('You are not allowed to edit incoming shares');
 		}
 
+		$shareAttributes = $this->request->getParam('attributes', null);
+
 		if (
 			$permissions === null &&
 			$password === null &&
@@ -1085,7 +1087,8 @@ class ShareAPIController extends OCSController {
 			$expireDate === null &&
 			$note === null &&
 			$label === null &&
-			$hideDownload === null
+			$hideDownload === null &&
+			$shareAttributes === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1224,7 +1227,7 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
-		$share = $this->setShareAttributes($share, $this->request->getParam('attributes', null));
+		$share = $this->setShareAttributes($share, $shareAttributes);
 
 		try {
 			$share = $this->shareManager->updateShare($share);
