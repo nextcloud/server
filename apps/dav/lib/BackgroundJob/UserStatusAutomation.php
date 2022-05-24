@@ -23,14 +23,19 @@ declare(strict_types=1);
 
 namespace OCA\DAV\BackgroundJob;
 
+use DateTime;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
+use Sabre\VObject\Component\Available;
+use Sabre\VObject\Component\VAvailability;
 use Sabre\VObject\Reader;
+use Sabre\VObject\Recur\RRuleIterator;
 
 class UserStatusAutomation extends TimedJob {
 	protected IDBConnection $connection;
@@ -49,7 +54,9 @@ class UserStatusAutomation extends TimedJob {
 		$this->logger = $logger;
 		$this->config = $config;
 
-		$this->setInterval(1); // FIXME $this->setInterval(240);
+		// Interval 0 might look weird, but the last_checked is always moved
+		// to the next time we need this and then it's 0 seconds ago.
+		$this->setInterval(0);
 	}
 
 	/**
@@ -70,6 +77,88 @@ class UserStatusAutomation extends TimedJob {
 			return;
 		}
 
+		$property = $this->getAvailabilityFromPropertiesTable($userId);
+
+		if (!$property) {
+			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no availability settings');
+			$this->jobList->remove(self::class, $argument);
+			return;
+		}
+
+		$isCurrentlyAvailable = false;
+		$nextPotentialToggles = [];
+
+		$now = new \DateTime('now');
+		$lastMidnight = (clone $now)->setTime(0, 0);
+
+		$vObject = Reader::read($property);
+		foreach ($vObject->getComponents() as $component) {
+			if ($component->name !== 'VAVAILABILITY') {
+				continue;
+			}
+			/** @var VAvailability $component */
+			$availables = $component->getComponents();
+			foreach ($availables as $available) {
+				/** @var Available $available */
+				if ($available->name === 'AVAILABLE') {
+					/** @var \DateTimeInterface $effectiveStart */
+					/** @var \DateTimeInterface $effectiveEnd */
+					[$effectiveStart, $effectiveEnd] = $available->getEffectiveStartEnd();
+
+					try {
+						$it = new RRuleIterator((string) $available->RRULE, $effectiveStart);
+						$it->fastForward($lastMidnight);
+
+						$startToday = $it->current();
+						if ($startToday && $startToday <= $now) {
+							$duration = $effectiveStart->diff($effectiveEnd);
+							$endToday = $startToday->add($duration);
+							if ($endToday > $now) {
+								// User is currently available
+								// Also queuing the end time as next status toggle
+								$isCurrentlyAvailable = true;
+								$nextPotentialToggles[] = $endToday->getTimestamp();
+							}
+
+							// Availability enabling already done for today,
+							// so jump to the next recurrence to find the next status toggle
+							$it->next();
+						}
+
+						if ($it->current()) {
+							$nextPotentialToggles[] = $it->current()->getTimestamp();
+						}
+					} catch (\Exception $e) {
+						$this->logger->error($e->getMessage(), ['exception' => $e]);
+					}
+				}
+			}
+		}
+
+		$nextAutomaticToggle = min($nextPotentialToggles);
+		$this->setLastRunToNextToggleTime($userId, $nextAutomaticToggle - 1);
+
+		// FIXME Currently available so disable DND
+		$isCurrentlyAvailable = (bool)$isCurrentlyAvailable;
+		$this->logger->debug('User status automation ran');
+	}
+
+	protected function setLastRunToNextToggleTime(string $userId, int $timestamp): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->update('jobs')
+			->set('last_run', $query->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
+			->where($query->expr()->eq('id', $query->createNamedParameter($this->getId(), IQueryBuilder::PARAM_INT)));
+		$query->executeStatement();
+
+		$this->logger->debug('Updated user status automation last_run to ' . $timestamp . ' for user ' . $userId);
+	}
+
+	/**
+	 * @param string $userId
+	 * @return false|string
+	 */
+	protected function getAvailabilityFromPropertiesTable(string $userId) {
 		$propertyPath = 'calendars/' . $userId . '/inbox';
 		$propertyName = '{' . Plugin::NS_CALDAV . '}calendar-availability';
 
@@ -85,12 +174,6 @@ class UserStatusAutomation extends TimedJob {
 		$property = $result->fetchOne();
 		$result->closeCursor();
 
-		if (!$property) {
-			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no availability settings');
-			$this->jobList->remove(self::class, $argument);
-			return;
-		}
-
-		$this->logger->debug('User status automation ran');
+		return $property;
 	}
 }
