@@ -55,11 +55,11 @@ OC.L10N.register(
     "Where:" : "Dove:",
     "Description:" : "Descrizione:",
     "Untitled event" : "Evento senza titolo",
-    "_%n year_::_%n years_" : ["%n anno","%n anni"],
-    "_%n month_::_%n months_" : ["%n mese","%n mesi"],
-    "_%n day_::_%n days_" : ["%n giorno","%n giorni"],
-    "_%n hour_::_%n hours_" : ["%n ora","%n ore"],
-    "_%n minute_::_%n minutes_" : ["%n minuto","%n minuti"],
+    "_%n year_::_%n years_" : ["%n anno","%n anni","%n anni"],
+    "_%n month_::_%n months_" : ["%n mese","%n mesi","%n mesi"],
+    "_%n day_::_%n days_" : ["%n giorno","%n giorni","%n giorni"],
+    "_%n hour_::_%n hours_" : ["%n ora","%n ore","%n ore"],
+    "_%n minute_::_%n minutes_" : ["%n minuto","%n minuti","%n minuti"],
     "%s (in %s)" : "%s (in %s)",
     "%s (%s ago)" : "%s (%s fa)",
     "Calendar: %s" : "Calendario: %s",
@@ -111,7 +111,7 @@ OC.L10N.register(
     "File is not updatable: %1$s" : "Il file non è aggiornabile: %1$s",
     "Could not write to final file, canceled by hook" : "Impossibile scrivere nel file finale, annullato da hook",
     "Could not write file contents" : "Impossibile scrivere il contenuto del file",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
+    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Error while copying file to target location (copied: %1$s, expected filesize: %2$s)" : "Errore durante la copia del file nella destinazione (copiato: %1$s, dimensione prevista del file: %2$s)",
     "Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side." : "Dimensione prevista del file %1$s, letto (dal client Nextcloud) e scritto (nell'archivio Nextcloud) %2$s. Potrebbe trattarsi di un problema di rete sul lato d'invio o di un problema di scrittura nell'archivio sul lato server.",
     "Could not rename part file to final file, canceled by hook" : "Impossibile rinominare il file di parte in file finale, annullato da hook",
@@ -173,4 +173,4 @@ OC.L10N.register(
     "Comment" : "Commento",
     "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

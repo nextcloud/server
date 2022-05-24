@@ -68,4 +68,4 @@ OC.L10N.register(
     "Upload new favicon" : "Carica nuova favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

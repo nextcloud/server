@@ -182,8 +182,8 @@ OC.L10N.register(
     "No apps found for your version" : "Nenhum aplicativo encontrado para a sua versão",
     "Disable all" : "Desativar tudo",
     "Enable all" : "Ativar tudo",
-    "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicativo tem atualização disponível","%n aplicativos tem atualização disponível"],
-    "_Update_::_Update all_" : ["Atualizar","Atualize tudo"],
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicativo tem atualização disponível","%n aplicativos tem atualização disponível","%n aplicativos tem atualização disponível"],
+    "_Update_::_Update all_" : ["Atualizar","Atualize tudo","Atualize tudo"],
     "Marked for remote wipe" : "Marcado para limpeza remota",
     "Device settings" : "Configuração dos dispositivos",
     "Allow filesystem access" : "Permitir acesso ao sistema de arquivos",
@@ -516,4 +516,4 @@ OC.L10N.register(
     "No display name set" : "Nenhum nome de exibição definido",
     "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>."
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

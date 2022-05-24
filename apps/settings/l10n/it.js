@@ -171,7 +171,7 @@ OC.L10N.register(
     "No apps found for your version" : "Nessuna applicazione trovata per la tua versione",
     "Disable all" : "Disabilita tutto",
     "Enable all" : "Abilita tutto",
-    "_%n app has an update available_::_%n apps have an update available_" : ["%n applicazione ha un aggiornamento disponibile","%n applicazioni hanno un aggiornamento disponibile"],
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n applicazione ha un aggiornamento disponibile","%n applicazioni hanno un aggiornamento disponibile","%n applicazioni hanno un aggiornamento disponibile"],
     "Marked for remote wipe" : "Marcato come cancellazione remota",
     "Device settings" : "Impostazioni dei dispositivi",
     "Allow filesystem access" : "Consenti accesso al filesystem",
@@ -494,4 +494,4 @@ OC.L10N.register(
     "Change privacy level of full name" : "Cambia livello di privacy del nome completo",
     "No display name set" : "Nome visualizzato non impostato"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
