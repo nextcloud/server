@@ -598,6 +598,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\UserMigration\\IExportDestination' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IExportDestination.php',
         'OCP\\UserMigration\\IImportSource' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IImportSource.php',
         'OCP\\UserMigration\\IMigrator' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IMigrator.php',
+        'OCP\\UserMigration\\ISizeEstimationMigrator' => __DIR__ . '/../../..' . '/lib/public/UserMigration/ISizeEstimationMigrator.php',
         'OCP\\UserMigration\\TMigratorBasicVersionHandling' => __DIR__ . '/../../..' . '/lib/public/UserMigration/TMigratorBasicVersionHandling.php',
         'OCP\\UserMigration\\UserMigrationException' => __DIR__ . '/../../..' . '/lib/public/UserMigration/UserMigrationException.php',
         'OCP\\UserStatus\\IManager' => __DIR__ . '/../../..' . '/lib/public/UserStatus/IManager.php',
