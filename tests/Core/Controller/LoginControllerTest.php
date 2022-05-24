@@ -249,27 +249,30 @@ class LoginControllerTest extends TestCase {
 					],
 				]
 			);
-		$this->initialStateService->expects($this->at(0))
+		$this->initialStateService->expects($this->exactly(10))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([
 				'core',
 				'loginMessages',
 				[
 					'MessageArray1',
 					'MessageArray2',
 					'This community release of Nextcloud is unsupported and push notifications are limited.',
-				]
-			);
-		$this->initialStateService->expects($this->at(1))
-			->method('provideInitialState')
-			->with(
+				],
+			],
+			[
 				'core',
 				'loginErrors',
 				[
 					'ErrorArray1',
 					'ErrorArray2',
-				]
-			);
+				],
+			],
+			[
+				'core',
+				'loginUsername',
+				'',
+			]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -288,13 +291,17 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$this->initialStateService->expects($this->at(4))
+		$this->initialStateService->expects($this->exactly(11))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([], [], [], [
+				'core',
+				'loginAutocomplete',
+				false
+			], [
 				'core',
 				'loginRedirectUrl',
 				'login/flow'
-			);
+			]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -355,20 +362,17 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('LdapUser')
 			->willReturn($user);
-		$this->initialStateService->expects($this->at(2))
+		$this->initialStateService->expects($this->exactly(10))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([], [], [
 				'core',
 				'loginUsername',
 				'LdapUser'
-			);
-		$this->initialStateService->expects($this->at(6))
-			->method('provideInitialState')
-			->with(
+			], [], [], [], [
 				'core',
 				'loginCanResetPassword',
 				$expectedResult
-			);
+			]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -408,27 +412,21 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('0')
 			->willReturn($user);
-		$this->initialStateService->expects($this->at(3))
+		$this->initialStateService->expects($this->exactly(10))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([], [], [], [
 				'core',
 				'loginAutocomplete',
 				true
-			);
-		$this->initialStateService->expects($this->at(5))
-			->method('provideInitialState')
-			->with(
+			], [], [
 				'core',
 				'loginResetPasswordLink',
 				false
-			);
-		$this->initialStateService->expects($this->at(6))
-			->method('provideInitialState')
-			->with(
+			], [
 				'core',
 				'loginCanResetPassword',
 				false
-			);
+			]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
