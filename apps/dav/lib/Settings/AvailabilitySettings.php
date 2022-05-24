@@ -27,10 +27,35 @@ namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
+use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class AvailabilitySettings implements ISettings {
+	protected IUserSession $userSession;
+	protected IConfig $config;
+	protected IInitialState $initialState;
+
+	public function __construct(IUserSession $userSession,
+								IConfig $config,
+								IInitialState $initialState) {
+		$this->userSession = $userSession;
+		$this->config = $config;
+		$this->initialState = $initialState;
+	}
+
 	public function getForm(): TemplateResponse {
+		$this->initialState->provideInitialState(
+			'user_status_automation',
+			$this->config->getUserValue(
+				$this->userSession->getUser()->getUID(),
+				'dav',
+				'user_status_automation',
+				'no'
+			)
+		);
+
 		return new TemplateResponse(Application::APP_ID, 'settings-personal-availability');
 	}
 

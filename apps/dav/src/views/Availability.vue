@@ -24,6 +24,10 @@
 			:l10n-saturday="$t('dav', 'Saturday')"
 			:l10n-sunday="$t('dav', 'Sunday')" />
 
+		<CheckboxRadioSwitch :checked.sync="automated">
+			{{ $t('dav', 'Automatically set user status to "Do not distrub" outside of visibility to mute all notifications.') }}
+		</CheckboxRadioSwitch>
+
 		<Button :disabled="loading || saving"
 			type="primary"
 			@click="save">
@@ -34,6 +38,7 @@
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
+import { loadState } from '@nextcloud/initial-state'
 import {
 	showError,
 	showSuccess,
@@ -43,8 +48,13 @@ import {
 	getEmptySlots,
 	saveScheduleInboxAvailability,
 } from '../service/CalendarService'
+import {
+	enableUserStatusAutomation,
+	disableUserStatusAutomation,
+} from '../service/PreferenceService'
 import jstz from 'jstimezonedetect'
 import Button from '@nextcloud/vue/dist/Components/Button'
+import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 
@@ -52,6 +62,7 @@ export default {
 	name: 'Availability',
 	components: {
 		Button,
+		CheckboxRadioSwitch,
 		CalendarAvailability,
 		SettingsSection,
 		TimezonePicker,
@@ -66,6 +77,7 @@ export default {
 			saving: false,
 			timezone: defaultTimezoneId,
 			slots: getEmptySlots(),
+			automated: loadState('dav', 'user_status_automation') === 'yes',
 		}
 	},
 	async mounted() {
@@ -96,6 +108,11 @@ export default {
 				this.saving = true
 
 				await saveScheduleInboxAvailability(this.slots, this.timezone)
+				if (this.automated) {
+					await enableUserStatusAutomation()
+				} else {
+					await disableUserStatusAutomation()
+				}
 
 				showSuccess(t('dav', 'Saved availability'))
 			} catch (e) {
