@@ -141,26 +141,21 @@ class MountProviderTest extends \Test\TestCase {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('user1');
-		$this->shareManager->expects($this->at(0))
+		$this->shareManager->expects($this->exactly(5))
 			->method('getSharedWith')
-			->with('user1', IShare::TYPE_USER)
-			->willReturn($userShares);
-		$this->shareManager->expects($this->at(1))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_GROUP, null, -1)
-			->willReturn($groupShares);
-		$this->shareManager->expects($this->at(2))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_CIRCLE, null, -1)
-			->willReturn($circleShares);
-		$this->shareManager->expects($this->at(3))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_ROOM, null, -1)
-			->willReturn($roomShares);
-		$this->shareManager->expects($this->at(4))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_DECK, null, -1)
-			->willReturn($deckShares);
+			->withConsecutive(
+				['user1', IShare::TYPE_USER],
+				['user1', IShare::TYPE_GROUP, null, -1],
+				['user1', IShare::TYPE_CIRCLE, null, -1],
+				['user1', IShare::TYPE_ROOM, null, -1],
+				['user1', IShare::TYPE_DECK, null, -1],
+			)->willReturnOnConsecutiveCalls(
+				$userShares,
+				$groupShares,
+				$circleShares,
+				$roomShares,
+				$deckShares,
+			);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
@@ -362,26 +357,21 @@ class MountProviderTest extends \Test\TestCase {
 		$circleShares = [];
 		$roomShares = [];
 		$deckShares = [];
-		$this->shareManager->expects($this->at(0))
+		$this->shareManager->expects($this->exactly(5))
 			->method('getSharedWith')
-			->with('user1', IShare::TYPE_USER)
-			->willReturn($userShares);
-		$this->shareManager->expects($this->at(1))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_GROUP, null, -1)
-			->willReturn($groupShares);
-		$this->shareManager->expects($this->at(2))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_CIRCLE, null, -1)
-			->willReturn($circleShares);
-		$this->shareManager->expects($this->at(3))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_ROOM, null, -1)
-			->willReturn($roomShares);
-		$this->shareManager->expects($this->at(4))
-			->method('getSharedWith')
-			->with('user1', IShare::TYPE_DECK, null, -1)
-			->willReturn($deckShares);
+			->withConsecutive(
+				['user1', IShare::TYPE_USER],
+				['user1', IShare::TYPE_GROUP, null, -1],
+				['user1', IShare::TYPE_CIRCLE, null, -1],
+				['user1', IShare::TYPE_ROOM, null, -1],
+				['user1', IShare::TYPE_DECK, null, -1],
+			)->willReturnOnConsecutiveCalls(
+				$userShares,
+				$groupShares,
+				$circleShares,
+				$roomShares,
+				$deckShares,
+			);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
