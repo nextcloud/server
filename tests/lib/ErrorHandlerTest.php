@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * ownCloud
  *
@@ -22,7 +25,26 @@
 
 namespace Test;
 
-class ErrorHandlerTest extends \Test\TestCase {
+use OC\Log\ErrorHandler;
+use OCP\ILogger;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
+
+class ErrorHandlerTest extends TestCase {
+
+	/** @var MockObject */
+	private LoggerInterface $logger;
+
+	private ErrorHandler $errorHandler;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->errorHandler = new ErrorHandler(
+			$this->logger
+		);
+	}
 
 	/**
 	 * provide username, password combinations for testRemovePassword
@@ -47,24 +69,19 @@ class ErrorHandlerTest extends \Test\TestCase {
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function testRemovePassword($username, $password) {
+	public function testRemovePasswordFromError($username, $password) {
 		$url = 'http://'.$username.':'.$password.'@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
-		$result = TestableErrorHandler::testRemovePassword($url);
+		$this->logger->expects(self::once())
+			->method('log')
+			->with(
+				ILogger::ERROR,
+				'Could not reach ' . $expectedResult . ' at file#4',
+				['app' => 'PHP'],
+			);
 
-		$this->assertEquals($expectedResult, $result);
-	}
-}
+		$result = $this->errorHandler->onError(E_USER_ERROR, 'Could not reach ' . $url, 'file', 4);
 
-/**
- * dummy class to access protected methods of \OC\Log\ErrorHandler
- */
-class TestableErrorHandler extends \OC\Log\ErrorHandler {
-
-	/**
-	 * @param string $msg
-	 */
-	public static function testRemovePassword($msg) {
-		return self::removePassword($msg);
+		self::assertTrue($result);
 	}
 }
