@@ -13,4 +13,4 @@ OC.L10N.register(
     "There is no plugin available to display this file type" : "No hay plugin disponible para mostrar este tipo de archivo",
     "View" : "Ver"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
