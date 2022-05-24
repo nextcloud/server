@@ -28,4 +28,4 @@ OC.L10N.register(
     "Error while emptying trashbin" : "Error al vaciar la papelera",
     "Error while removing files from trashbin" : "Error al eliminar los archivos de la papelera"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

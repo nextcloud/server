@@ -23,5 +23,5 @@
     "A new version is available: <strong>{newVersionString}</strong>" : "Una versión más reciente está disponible: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Verificado el {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor asegurate que en tu config.php no se establezca <samp>appstoreenabled</samp> como falso."
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

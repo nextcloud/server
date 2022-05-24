@@ -29,4 +29,4 @@ OC.L10N.register(
     "Error while emptying trashbin" : "Errore durante lo svuotamento del cestino",
     "Error while removing files from trashbin" : "Errore durante la rimozione dei file dal cestino"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

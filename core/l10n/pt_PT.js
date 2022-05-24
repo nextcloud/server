@@ -96,7 +96,7 @@ OC.L10N.register(
     "Hello {name}" : "Olá {name}",
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Resultados da pesquisa<script>alert(1)</script></strong>",
     "new" : "novo",
-    "_download %n file_::_download %n files_" : ["transferir %n ficheiro","transferir %n ficheiros"],
+    "_download %n file_::_download %n files_" : ["transferir %n ficheiro","transferir %n ficheiros","transferir %n ficheiros"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "A actualização está a decorrer. Se deixar esta página o processo pode ser interrompido.",
     "Update to {version}" : "Actualizar para {version}",
     "An error occurred." : "Ocorreu um erro.",
@@ -181,7 +181,7 @@ OC.L10N.register(
     "OK" : "Confirmar",
     "Error loading message template: {error}" : "Ocorreu um erro ao carregar o modelo: {error}",
     "read-only" : "só de leitura",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflito de ficheiro","{count} conflitos de ficheiro"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflito de ficheiro","{count} conflitos de ficheiro","{count} conflitos de ficheiro"],
     "One file conflict" : "Um conflito de ficheiro",
     "New Files" : "Novos Ficheiros",
     "Already existing files" : "Ficheiros já existentes",
@@ -201,7 +201,7 @@ OC.L10N.register(
     "Failed to authenticate, try again" : "Falha ao autenticar. Tente outra vez.",
     "seconds ago" : "segundos atrás",
     "Connection to server lost" : "Ligação perdida ao servidor",
-    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problema a carregar a página. A recarregar dentro de %n segundos","Problema ao carregar a página. A recarregar dentro de %n segundos"],
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problema a carregar a página. A recarregar dentro de %n segundos","Problema ao carregar a página. A recarregar dentro de %n segundos","Problema ao carregar a página. A recarregar dentro de %n segundos"],
     "Add to a project" : "Adicionar a um projeto",
     "Show details" : "Mostrar detalhes",
     "Hide details" : "Ocultar detalhes",
@@ -333,4 +333,4 @@ OC.L10N.register(
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Este servidor não tem ligação à Internet: Não foi possível detetar vários endpoints. Isso significa que algumas das funcionalidades como a montagem de armazenamento externo, notificações sobre atualizações ou instalação de aplicações de terceiros não funcionarão. Pode também não ser possível aceder a ficheiros remotamente e enviar e-mails de notificação. Sugerimos que ative a ligação à Internet para este servidor, caso pretenda ter todas as funcionalidades.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Os directórios de datos e ficheiros estão provavelmente acessíveis através da Internet. O ficheiro .htaccess não está a funcionar. É altamente recomendado que configure o seu servidor web para que o directório de dados deixa de estar acessível, ou movê-lo para fora da raiz de documentos do servidor web. "
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

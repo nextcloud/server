@@ -20,4 +20,4 @@ OC.L10N.register(
     "4 hours" : "4 horas",
     "What's your status?" : "¿Cual es tu estado?"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
