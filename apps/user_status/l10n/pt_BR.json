@@ -34,5 +34,5 @@
     "Mute all notifications" : "Silenciar todas as notificações",
     "Appear offline" : "Aparecer offline",
     "What's your status?" : "Qual é o seu status?"
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

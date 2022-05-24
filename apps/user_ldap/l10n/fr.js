@@ -32,7 +32,7 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. Serveur",
     "No object found in the given Base DN. Please revise." : "Aucun objet trouvé dans le DN de base spécifié. Veuillez le vérifier.",
     "More than 1,000 directory entries available." : "Il y a plus de 1 000 entrées de répertoire disponibles.",
-    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} entrée disponible dans le DN de base spécifié","{objectsFound} entrées disponibles dans le DN de base spécifié"],
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} entrée disponible dans le DN de base spécifié","{objectsFound} entrées disponibles dans le DN de base spécifié","{objectsFound} entrées disponibles dans le DN de base spécifié"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Une erreur est survenue. Veuillez vérifier le DN de base, ainsi que les paramètres de connexion et les informations d'identification",
     "Do you really want to delete the current Server Configuration?" : "Êtes-vous sûr de vouloir effacer la configuration serveur actuelle ?",
     "Confirm Deletion" : "Confirmer la suppression",
@@ -58,10 +58,10 @@ OC.L10N.register(
     "LDAP User backend" : "Infrastructure utilisateur LDAP",
     "Your password will expire tomorrow." : "Votre mot de passe expirera demain",
     "Your password will expire today." : "Votre mot de passe va expirer aujourd'hui.",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Votre mot de passe va expirer dans %n jour.","Votre mot de passe va expirer dans %n jours."],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Votre mot de passe va expirer dans %n jour.","Votre mot de passe va expirer dans %n jours.","Votre mot de passe va expirer dans %n jours."],
     "LDAP/AD integration" : "Integration LDAP/AD ",
-    "_%s group found_::_%s groups found_" : ["%s groupe trouvé","%s groupes trouvés"],
-    "_%s user found_::_%s users found_" : ["%s utilisateur trouvé","%s utilisateurs trouvés"],
+    "_%s group found_::_%s groups found_" : ["%s groupe trouvé","%s groupes trouvés","%s groupes trouvés"],
+    "_%s user found_::_%s users found_" : ["%s utilisateur trouvé","%s utilisateurs trouvés","%s utilisateurs trouvés"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Impossible de détecter l'attribut contenant le nom d'affichage des utilisateurs. Veuillez l'indiquer vous-même dans les paramètres LDAP avancés.",
     "Could not find the desired feature" : "Impossible de trouver la fonction souhaitée",
     "Invalid Host" : "Hôte non valide",
@@ -191,4 +191,4 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Supprimer l'association nom de groupe-groupe LDAP",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [a-zA-Z0-9_.@-].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Changes will have effect only on newly mapped (added) LDAP users. Leave it empty for default behavior." : "Par défaut le nom d'utilisateur interne sera créé à partir de l'attribut UUID. Cela permet de s'assurer que le nom d'utilisateur est unique et que les caractères n'ont pas besoin d'être convertis. Le nom d'utilisateur interne a pour restriction de ne contenir que les caractères suivants : [a-zA-Z0-9_.@-]. Les autres caractères sont remplacés par leurs correspondants ASCII ou simplement omis. En cas de collisions, un nombre sera ajouté/incrémenté. Le nom d'utilisateur interne est utilisé pour identifier un utilisateur en interne. C'est aussi le nom par défaut du dossier personnel de l'utilisateur. Il fait aussi parti des URLs distantes pour tous les services *DAV. Avec ce paramètre, le comportement par défaut peut être écrasé. Les modifications prendront effet seulement pour les nouveaux utilisateurs LDAP mappés (ajoutés). Laissez-le vide pour utiliser le comportement par défaut"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

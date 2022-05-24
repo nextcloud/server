@@ -47,4 +47,4 @@ OC.L10N.register(
     "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Piogge deboli sparse alle {time}",
     "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Piogge intense sparse alle {time}"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

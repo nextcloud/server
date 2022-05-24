@@ -263,5 +263,5 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "El cron.php necesita ser ejecutado por el usuario de sistema \"%s\".",
     "days" : "días",
     "No display name set" : "No se ha establecido el nombre a desplegar"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

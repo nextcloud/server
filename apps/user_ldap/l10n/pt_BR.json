@@ -30,7 +30,7 @@
     "{nthServer}. Server" : "{nthServer}. Servidor",
     "No object found in the given Base DN. Please revise." : "Nenhum objeto encontrado na Base DN informada. Por favor revise.",
     "More than 1,000 directory entries available." : "Mais de 1.000 entradas de diretório disponíveis.",
-    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} entrada disponível na Base DN fornecida","{objectsFound} entradas disponíveis na Base DN fornecida"],
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} entrada disponível na Base DN fornecida","{objectsFound} entradas disponíveis na Base DN fornecida","{objectsFound} entradas disponíveis na Base DN fornecida"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Um erro ocorreu. Por favor verifique a Base DN e também as configurações de conexão e credenciais.",
     "Do you really want to delete the current Server Configuration?" : "Você realmente quer excluir as configurações atuais do servidor?",
     "Confirm Deletion" : "Confirmar Exclusão",
@@ -56,10 +56,10 @@
     "LDAP User backend" : "Estrutura do Usuário LDAP",
     "Your password will expire tomorrow." : "Sua senha vai expirar amanhã.",
     "Your password will expire today." : "Sua senha vai expirar hoje.",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Sua senha vai expirar dentro de%n dia.","Sua senha vai expirar dentro de%ndias."],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Sua senha vai expirar dentro de%n dia.","Sua senha vai expirar dentro de%ndias.","Sua senha vai expirar dentro de%ndias."],
     "LDAP/AD integration" : "LDAP/AD integração",
-    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["usuário %s encontrado","%s usuários encontrados"],
+    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados","%s grupos encontrados"],
+    "_%s user found_::_%s users found_" : ["usuário %s encontrado","%s usuários encontrados","%s usuários encontrados"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Não foi possível detectar o atributo do nome de exibição do usuário. Por favor, especifique-o você mesmo nas configurações LDAP avançadas.",
     "Could not find the desired feature" : "Não foi possível encontrar o recurso desejado",
     "Invalid Host" : "Host inválido",
@@ -188,5 +188,5 @@
     "Clear Username-LDAP User Mapping" : "Limpar Mapeamento de Usuário username-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Limpar Mapeamento do Grupo groupname-LDAP",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [a-zA-Z0-9_.@-].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Changes will have effect only on newly mapped (added) LDAP users. Leave it empty for default behavior." : "Por padrão, o nome de usuário interno será criado a partir do atributo UUID. Isso garante que o nome de usuário seja único e os caracteres não precisem ser convertidos. O nome de usuário interno tem a restrição de que apenas estes caracteres são permitidos: [a-zA-Z0-9 _. @ -]. Outros caracteres são substituídos por sua correspondência ASCII ou simplesmente omitidos. Em colisões, um número será adicionado / aumentado. O nome de usuário interno é usado para identificar um usuário internamente. É também o nome padrão da pasta inicial do usuário. Também faz parte de URLs remotos, por exemplo, para todos os serviços * DAV. Com essa configuração, o comportamento padrão pode ser substituído. As alterações terão efeito apenas em usuários LDAP recém-mapeados (adicionados). Deixe em branco para o comportamento padrão."
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

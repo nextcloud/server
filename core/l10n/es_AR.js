@@ -53,7 +53,7 @@ OC.L10N.register(
     "Hello {name}" : "Hola {name}",
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Estos son los resultados de su búsqueda <script>alert(1)</script></strong>",
     "new" : "nuevo",
-    "_download %n file_::_download %n files_" : ["Descargar %n archivos","Descargar %n archivos"],
+    "_download %n file_::_download %n files_" : ["Descargar %n archivos","Descargar %n archivos","Descargar %n archivos"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "La actualización está en curso, abandonar esta página puede interrumpir el proceso en algunos ambientes. ",
     "Update to {version}" : "Actualizar a {version}",
     "An error occurred." : "Se presentó un error.",
@@ -112,7 +112,7 @@ OC.L10N.register(
     "OK" : "OK",
     "Error loading message template: {error}" : "Se presentó un error al cargar la plantilla del mensaje: {error}",
     "read-only" : "sólo-lectura",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflicto de archivo","{count} conflictos en el archivo"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflicto de archivo","{count} conflictos en el archivo","{count} conflictos en el archivo"],
     "One file conflict" : "Un conflicto en el archivo",
     "New Files" : "Archivos Nuevos",
     "Already existing files" : "Archivos ya existentes",
@@ -129,7 +129,7 @@ OC.L10N.register(
     "Failed to authenticate, try again" : "Falla en la autenticación, favor de reintentar",
     "seconds ago" : "hace segundos",
     "Connection to server lost" : "Se ha perdido la conexión con el servidor",
-    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Se presentó un erorr al cargar la página, recargando en %n segundo","Se presentó un erorr al cargar la página, recargando en %n segundo"],
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Se presentó un erorr al cargar la página, recargando en %n segundo","Se presentó un erorr al cargar la página, recargando en %n segundo","Se presentó un erorr al cargar la página, recargando en %n segundo"],
     "Add to a project" : "Agregar a un proyecto",
     "Show details" : "Mostrar detalles",
     "Hide details" : "Ocultar detalles",
@@ -230,4 +230,4 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

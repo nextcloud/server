@@ -155,5 +155,5 @@
     "Uploaded files:" : "Ficheiros enviados:",
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
