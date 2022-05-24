@@ -39,6 +39,7 @@ use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
+use OCP\UserMigration\ISizeEstimationMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Parser\Parser as VObjectParser;
@@ -50,7 +51,7 @@ use Safe\Exceptions\StringsException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class ContactsMigrator implements IMigrator {
+class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
