@@ -31,6 +31,8 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\UserStatus\IManager;
+use OCP\UserStatus\IUserStatus;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\Available;
 use Sabre\VObject\Component\VAvailability;
@@ -41,17 +43,20 @@ class UserStatusAutomation extends TimedJob {
 	protected IDBConnection $connection;
 	protected IJobList $jobList;
 	protected LoggerInterface $logger;
+	protected IManager $manager;
 	protected IConfig $config;
 
 	public function __construct(ITimeFactory $timeFactory,
 								IDBConnection $connection,
 								IJobList $jobList,
 								LoggerInterface $logger,
+								IManager $manager,
 								IConfig $config) {
 		parent::__construct($timeFactory);
 		$this->connection = $connection;
 		$this->jobList = $jobList;
 		$this->logger = $logger;
+		$this->manager = $manager;
 		$this->config = $config;
 
 		// Interval 0 might look weird, but the last_checked is always moved
@@ -138,8 +143,13 @@ class UserStatusAutomation extends TimedJob {
 		$nextAutomaticToggle = min($nextPotentialToggles);
 		$this->setLastRunToNextToggleTime($userId, $nextAutomaticToggle - 1);
 
-		// FIXME Currently available so disable DND
-		$isCurrentlyAvailable = (bool)$isCurrentlyAvailable;
+		if ($isCurrentlyAvailable) {
+			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
+		} else {
+			// The DND status automation is more important than the "Away - In call" so we also restore that one if it exists.
+			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
+			$this->manager->setUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
+		}
 		$this->logger->debug('User status automation ran');
 	}
 
