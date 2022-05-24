@@ -63,7 +63,7 @@ OC.L10N.register(
     "Hello {name}" : "Hola {name}",
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Estos son los resultados de tu búsqueda <script>alert(1)</script></strong>",
     "new" : "nuevo",
-    "_download %n file_::_download %n files_" : ["Descargar %n archivos","Descargar %n archivos"],
+    "_download %n file_::_download %n files_" : ["Descargar %n archivos","Descargar %n archivos","Descargar %n archivos"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "La actualización está en curso, abandonar esta página puede interrumpir el proceso en algunos ambientes. ",
     "Update to {version}" : "Actualizar a {version}",
     "An error occurred." : "Se presentó un error.",
@@ -117,7 +117,7 @@ OC.L10N.register(
     "OK" : "OK",
     "Error loading message template: {error}" : "Se presentó un error al cargar la plantilla del mensaje: {error}",
     "read-only" : "sólo-lectura",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflicto de archivo","{count} conflictos en el archivo"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflicto de archivo","{count} conflictos en el archivo","{count} conflictos en el archivo"],
     "One file conflict" : "Un conflicto en el archivo",
     "New Files" : "Archivos Nuevos",
     "Already existing files" : "Archivos ya existentes",
@@ -136,7 +136,7 @@ OC.L10N.register(
     "Failed to authenticate, try again" : "Falla en la autenticación, por favor reintentalo",
     "seconds ago" : "hace segundos",
     "Connection to server lost" : "Se ha perdido la conexión con el servidor",
-    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Se presentó un error al cargar la página, recargando en %n segundo","Se presentó un error al cargar la página, recargando en %n segundos"],
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Se presentó un error al cargar la página, recargando en %n segundo","Se presentó un error al cargar la página, recargando en %n segundos","Se presentó un error al cargar la página, recargando en %n segundos"],
     "Hide details" : "Ocultar detalles",
     "Very weak password" : "Contraseña muy débil",
     "Weak password" : "Contraseña débil",
@@ -232,4 +232,4 @@ OC.L10N.register(
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "El servidor no cuenta con una conexión a Internet: No se pudieron alcanzar múltiples endpoints. Esto significa que algunas características como montar almacenamiento externo, notificaciones de actualizaciones o instalación de aplicaciones de 3ros no funcionarán correctamente. Acceder archivos de forma remota y el envío de de notificaciones por correo electrónico puede que no funcionen tampoco. Establece una conexión desde este servidor a Internet para aprovechar todas las funcionalidades.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Probablemente tu directorio de datos y archivos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Se recomienda ampliamente que configures tu servidor web para que el directorio de datos no sea accesible, o bien, que muevas el directorio de datos fuera del directorio raíz del servidor web."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

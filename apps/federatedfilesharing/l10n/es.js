@@ -44,6 +44,7 @@ OC.L10N.register(
     "Allow users on this server to receive group shares from other servers" : "Permitir a los usuarios de este servidor recibir de grupos de otros servidores",
     "Search global and public address book for users" : "Buscar usuarios en libreta de direcciones global y pública",
     "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar su información en la libreta de direcciones global y pública",
+    "Unable to update federated files sharing config" : "Incapaz de actualizar la configuración de la compartición federada de archivos",
     "Federated Cloud" : "Nube Federada",
     "Open documentation" : "Abrir documentación",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Puedes compartir con cualquiera que use un servidor Nextcloud u otros servidores y servicios compatibles con Open Cloud Mesh (OCM). Simplemente, pon su ID de Nube Federada en el diálogo de compartir. Es algo como persona@nube.ejemplo.com",
@@ -54,4 +55,4 @@ OC.L10N.register(
     "HTML Code:" : "Código HTML:",
     "Adjust how people can share between servers." : "Ajusta cómo la gente puede compartir entre servidores."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

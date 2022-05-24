@@ -55,11 +55,11 @@ OC.L10N.register(
     "Where:" : "Dónde:",
     "Description:" : "Descripción:",
     "Untitled event" : "Evento sin título",
-    "_%n year_::_%n years_" : ["%n año","%n años"],
-    "_%n month_::_%n months_" : ["%n mes","%n meses"],
-    "_%n day_::_%n days_" : ["%n día","%n días"],
-    "_%n hour_::_%n hours_" : ["%n hora","%n horas"],
-    "_%n minute_::_%n minutes_" : ["%n minuto","%n minutos"],
+    "_%n year_::_%n years_" : ["%n año","%n años","%n años"],
+    "_%n month_::_%n months_" : ["%n mes","%n meses","%n meses"],
+    "_%n day_::_%n days_" : ["%n día","%n días","%n días"],
+    "_%n hour_::_%n hours_" : ["%n hora","%n horas","%n horas"],
+    "_%n minute_::_%n minutes_" : ["%n minuto","%n minutos","%n minutos"],
     "%s (in %s)" : "%s (en %s)",
     "%s (%s ago)" : "%s (hace %s)",
     "Calendar: %s" : "Calendario: %s",
@@ -110,7 +110,7 @@ OC.L10N.register(
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Se ha modificado un <strong>contacto</strong> o una  <strong>libreta de direcciones</strong> ",
     "File is not updatable: %1$s" : "El archivo no se puede actualizar: %1$s",
     "Could not write file contents" : "No se han podido escribir los contenidos del archivo",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
+    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Error while copying file to target location (copied: %1$s, expected filesize: %2$s)" : "Error al copiar el archivo al destino (copiado: %1$s, tamaño esperado: %2$s)",
     "Could not rename part file to final file" : "No se ha podido renombrar el archivo parcial como el archivo final",
     "Failed to check file size: %1$s" : "Fallo al comprobar el tamaño del archivo: %1$s",
@@ -170,4 +170,4 @@ OC.L10N.register(
     "Comment" : "Comentario",
     "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

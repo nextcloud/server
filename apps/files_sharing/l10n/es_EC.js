@@ -136,4 +136,4 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
     "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

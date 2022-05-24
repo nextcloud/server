@@ -42,4 +42,4 @@ OC.L10N.register(
     "HTML Code:" : "Código HTML:",
     "Adjust how people can share between servers." : "Ajustar como as pessoas podem partilhar entre servidores."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

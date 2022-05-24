@@ -124,7 +124,7 @@
     "Hello {name}" : "Olá {name}",
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Estes são os resultados de sua pesquisa<script>alert(1)</script></strong>",
     "new" : "novo",
-    "_download %n file_::_download %n files_" : ["baixar %n arquivo","baixar %n arquivos"],
+    "_download %n file_::_download %n files_" : ["baixar %n arquivo","baixar %n arquivos","baixar %n arquivos"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "A atualização está em andamento. Em alguns ambientes, se sair desta página o processo poderá ser interrompido.",
     "Update to {version}" : "Atualizar para {version}",
     "An error occurred." : "Ocorreu um erro.",
@@ -132,7 +132,7 @@
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "A atualização não foi realizada com sucesso. Para mais informações <a href=\"{url}\">verifique nosso post no fórum</a> que abrange esta questão.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "A atualização não foi realizada com sucesso. Por favor, informe este problema para  a <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunidade Nextcloud</a>.",
     "Continue to {productName}" : "Continuar para {productName}",
-    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["A atualização foi bem-sucedida. Redirecionando você à {productName} em %n segundo.","A atualização foi bem-sucedida. Redirecionando você para {productName} em %n segundos."],
+    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["A atualização foi bem-sucedida. Redirecionando você à {productName} em %n segundo.","A atualização foi bem-sucedida. Redirecionando você para {productName} em %n segundos.","A atualização foi bem-sucedida. Redirecionando você para {productName} em %n segundos."],
     "Log in" : "Entrar",
     "Logging in …" : "Entrando...",
     "Server side authentication failed!" : "Autenticação do servidor falhou!",
@@ -194,7 +194,7 @@
     "Load more results" : "Carregar mais resultados",
     "Search" : "Pesquisar",
     "An error occurred while searching for {type}" : "Ocorreu um erro ao pesquisar por {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digite {minSearchLength} caractere ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar"],
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digite {minSearchLength} caractere ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar"],
     "Search {types} …" : "Pesquisar {types}…",
     "Settings" : "Configurações",
     "Could not load your contacts" : "Não foi possível carregar seus contatos",
@@ -224,7 +224,7 @@
     "OK" : "OK",
     "Error loading message template: {error}" : "Erro carregando o modelo de mensagem: {error}",
     "read-only" : "somente leitura",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflito de arquivo","{count} arquivo conflita"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflito de arquivo","{count} arquivo conflita","{count} arquivo conflita"],
     "One file conflict" : "Conflito em um arquivo",
     "New Files" : "Novos arquivos",
     "Already existing files" : "Arquivos já existentes",
@@ -244,7 +244,7 @@
     "Failed to authenticate, try again" : "Falha na autenticação, tente novamente",
     "seconds ago" : "segundos atrás",
     "Connection to server lost" : "Conexão perdida com o servidor",
-    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problema no carregamento da página, recarregando em %n segundo","Problema no carregamento da página, recarregando em %n segundos"],
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problema no carregamento da página, recarregando em %n segundo","Problema no carregamento da página, recarregando em %n segundos","Problema no carregamento da página, recarregando em %n segundos"],
     "Add to a project" : "Adicionar a um projeto",
     "Show details" : "Mostrar detalhes",
     "Hide details" : "Ocultar detalhes",
@@ -398,5 +398,5 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Seu diretório de dados e arquivos provavelmente podem ser acessados pela Internet. O arquivo .htaccess não está funcionando. É altamente recomendado que você configure seu servidor web para que o diretório de dados não seja mais acessível ou mova o diretório de dados fora da raiz de documentos do servidor web.",
     "You haven't added any info yet" : "Você ainda não adicionou nenhuma informação",
     "{user} hasn't added any info yet" : "{user} ainda não adicionou nenhuma informação"
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
