@@ -186,19 +186,15 @@ class CleanupRemoteStoragesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		//
-
 		// parent folder, `files`, ´test` and `welcome.txt` => 4 elements
 
-		$at = 0;
 		$output
-			->expects($this->at($at++))
+			->expects($this->any())
 			->method('writeln')
-			->with('5 remote storage(s) need(s) to be checked');
-		$output
-			->expects($this->at($at++))
-			->method('writeln')
-			->with('5 remote share(s) exist');
+			->withConsecutive(
+				['5 remote storage(s) need(s) to be checked'],
+				['5 remote share(s) exist'],
+			);
 
 		$this->cloudIdManager
 			->expects($this->any())
