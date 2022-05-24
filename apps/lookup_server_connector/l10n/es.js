@@ -4,4 +4,4 @@ OC.L10N.register(
     "Lookup Server Connector" : "Conector del Servidor de Búsqueda",
     "Sync public user information with the lookup server" : "Sincronizar información pública del usuario con el servidor de búsqueda"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

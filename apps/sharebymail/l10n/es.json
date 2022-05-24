@@ -49,5 +49,5 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enlace personalizado a un archivo o carpeta enviándolo a una dirección de correo electrónico",
     "Send password by mail" : "Enviar contraseñas por email",
     "Reply to initiator" : "Responder al iniciador"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

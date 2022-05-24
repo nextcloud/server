@@ -43,8 +43,8 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Es la versión estable más reciente. Es adecuada para uso en producción y siempre se actualizará a la última versión principal.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Es la versión preliminar para poder probar nuevas características, no para entornos de producción.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app no es compatible con esta versión de Nextcloud.","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud."],
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app no es compatible con esta versión de Nextcloud.","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud.","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud."],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todas</strong> las apps son compatibles con la versión de Nextcloud disponible",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app no es compatible con la versión de Nextcloud disponible","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud disponible"]
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app no es compatible con la versión de Nextcloud disponible","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud disponible","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud disponible"]
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

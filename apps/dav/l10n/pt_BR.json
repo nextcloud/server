@@ -53,11 +53,11 @@
     "Where:" : "Onde:",
     "Description:" : "Descrição:",
     "Untitled event" : "Evento sem título",
-    "_%n year_::_%n years_" : ["%n ano","%n anos"],
-    "_%n month_::_%n months_" : ["%n mês","%n meses"],
-    "_%n day_::_%n days_" : ["%n dia","%n dias"],
-    "_%n hour_::_%n hours_" : ["%n hora","%n horas"],
-    "_%n minute_::_%n minutes_" : ["%n minuto","%n minutos"],
+    "_%n year_::_%n years_" : ["%n ano","%n anos","%n anos"],
+    "_%n month_::_%n months_" : ["%n mês","%n meses","%n meses"],
+    "_%n day_::_%n days_" : ["%n dia","%n dias","%n dias"],
+    "_%n hour_::_%n hours_" : ["%n hora","%n horas","%n horas"],
+    "_%n minute_::_%n minutes_" : ["%n minuto","%n minutos","%n minutos"],
     "%s (in %s)" : "%s (em %s)",
     "%s (%s ago)" : "%s (%s atrás)",
     "Calendar: %s" : "Calendário: %s",
@@ -109,7 +109,7 @@
     "File is not updatable: %1$s" : "O arquivo não é atualizável: %1$s",
     "Could not write to final file, canceled by hook" : "Não foi possível gravar no arquivo final, cancelado pelo gancho",
     "Could not write file contents" : "Não foi possível gravar o conteúdo do arquivo",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
+    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Error while copying file to target location (copied: %1$s, expected filesize: %2$s)" : "Erro ao copiar o arquivo para o local de destino (copiado: %1$s, tamanho de arquivo esperado: %2$s)",
     "Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side." : "Tamanho de arquivo esperado de %1$s mas lido (do cliente Nextcloud) e gravado (no armazenamento Nextcloud) %2$s. Pode ser um problema de rede no lado de envio ou um problema de gravação no armazenamento no lado do servidor.",
     "Could not rename part file to final file, canceled by hook" : "Não foi possível renomear o arquivo de parte para o arquivo final, cancelado pelo gancho",
@@ -173,5 +173,5 @@
     "Number of guests" : "Número de convidados",
     "Comment" : "Comentário",
     "Your attendance was updated successfully." : "Sua presença foi atualizada com sucesso."
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

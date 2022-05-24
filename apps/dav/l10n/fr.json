@@ -53,11 +53,11 @@
     "Where:" : "Où :",
     "Description:" : "Description :",
     "Untitled event" : "Événement sans titre",
-    "_%n year_::_%n years_" : ["%n an","%n ans"],
-    "_%n month_::_%n months_" : ["%n mois","%n mois"],
-    "_%n day_::_%n days_" : ["%n jour","%n jours"],
-    "_%n hour_::_%n hours_" : ["%n heure","%n heures"],
-    "_%n minute_::_%n minutes_" : ["%n minute","%n minutes"],
+    "_%n year_::_%n years_" : ["%n an","%n ans","%n ans"],
+    "_%n month_::_%n months_" : ["%n mois","%n mois","%n mois"],
+    "_%n day_::_%n days_" : ["%n jour","%n jours","%n jours"],
+    "_%n hour_::_%n hours_" : ["%n heure","%n heures","%n heures"],
+    "_%n minute_::_%n minutes_" : ["%n minute","%n minutes","%n minutes"],
     "%s (in %s)" : "%s (dans %s)",
     "%s (%s ago)" : "%s (il y a %s)",
     "Calendar: %s" : "Agenda: %s",
@@ -109,7 +109,7 @@
     "File is not updatable: %1$s" : "Ce fichier ne peut pas être mis à jour : %1$s",
     "Could not write to final file, canceled by hook" : "Impossible d'écrire dans le fichier final, annulé par le hook",
     "Could not write file contents" : "Impossible d'écrire le contenu du fichier",
-    "_%n byte_::_%n bytes_" : ["%n octet","%n octets"],
+    "_%n byte_::_%n bytes_" : ["%n octet","%n octets","%n octets"],
     "Error while copying file to target location (copied: %1$s, expected filesize: %2$s)" : "Erreur en copiant le fichier à destination (copié : %1$s, taille du fichier attendue : %2$s)",
     "Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side." : "Taille du fichier attendue : %1$s mais taille du fichier lue (depuis le client Nextcloud) et écrit (dans le stockage Nextcloud) : %2$s. Cela peut être un problème de réseau au niveau du client ou un problème de stockage au niveau du serveur.",
     "Could not rename part file to final file, canceled by hook" : "Impossible de renommer le fichier partiel en fichier final, annulé par le hook",
@@ -172,5 +172,5 @@
     "Number of guests" : "Nombre d'invités",
     "Comment" : "Commentaire",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès."
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

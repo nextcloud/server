@@ -53,12 +53,12 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Size" : "Tamaño",
     "Modified" : "Modificado",
-    "_%n folder_::_%n folders_" : ["%n carpeta","%n carpetas"],
-    "_%n file_::_%n files_" : ["%n archivo","%n archivos"],
+    "_%n folder_::_%n folders_" : ["%n carpeta","%n carpetas","%n carpetas"],
+    "_%n file_::_%n files_" : ["%n archivo","%n archivos","%n archivos"],
     "{dirs} and {files}" : "{dirs} y {files}",
-    "_including %n hidden_::_including %n hidden_" : ["incluyendo %n escondido","incluyendo %n ocultos"],
+    "_including %n hidden_::_including %n hidden_" : ["incluyendo %n escondido","incluyendo %n ocultos","incluyendo %n ocultos"],
     "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí",
-    "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Cargando %n archivos"],
+    "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Cargando %n archivos","Cargando %n archivos"],
     "New" : "Nuevo",
     "\"{name}\" is an invalid file name." : "\"{name}\" es un nombre de archivo inválido. ",
     "File name cannot be empty." : "El nombre de archivo no puede estar vacío.",
@@ -67,7 +67,7 @@ OC.L10N.register(
     "Copied!" : "¡Copiado!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar liga directa (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "Path" : "Ruta",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
+    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Favorited" : "Marcado como favorito",
     "Favorite" : "Favorito",
     "New folder" : "Carpeta nueva",
@@ -134,4 +134,4 @@ OC.L10N.register(
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Select" : "Seleccionar"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
