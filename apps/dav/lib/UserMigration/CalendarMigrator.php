@@ -42,6 +42,7 @@ use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
+use OCP\UserMigration\ISizeEstimationMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use Sabre\VObject\Component as VObjectComponent;
 use Sabre\VObject\Component\VCalendar;
@@ -53,7 +54,7 @@ use Safe\Exceptions\StringsException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class CalendarMigrator implements IMigrator {
+class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 

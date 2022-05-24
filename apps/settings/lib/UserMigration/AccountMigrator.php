@@ -37,11 +37,12 @@ use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
+use OCP\UserMigration\ISizeEstimationMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class AccountMigrator implements IMigrator {
+class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 	use TMigratorBasicVersionHandling;
 
 	use TAccountsHelper;
