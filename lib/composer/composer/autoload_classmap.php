@@ -160,6 +160,8 @@ return array(
     'OCP\\Comments\\IllegalIDChangeException' => $baseDir . '/lib/public/Comments/IllegalIDChangeException.php',
     'OCP\\Comments\\MessageTooLongException' => $baseDir . '/lib/public/Comments/MessageTooLongException.php',
     'OCP\\Comments\\NotFoundException' => $baseDir . '/lib/public/Comments/NotFoundException.php',
+    'OCP\\Config\\BeforePreferenceDeletedEvent' => $baseDir . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
+    'OCP\\Config\\BeforePreferenceSetEvent' => $baseDir . '/lib/public/Config/BeforePreferenceSetEvent.php',
     'OCP\\Console\\ConsoleEvent' => $baseDir . '/lib/public/Console/ConsoleEvent.php',
     'OCP\\Constants' => $baseDir . '/lib/public/Constants.php',
     'OCP\\Contacts\\ContactsMenu\\IAction' => $baseDir . '/lib/public/Contacts/ContactsMenu/IAction.php',
