@@ -26,7 +26,7 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification;
 
-use OC\BackgroundJob\TimedJob;
+use OCP\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 
@@ -48,8 +48,9 @@ class ResetTokenBackgroundJob extends TimedJob {
 	 */
 	public function __construct(IConfig $config,
 								ITimeFactory $timeFactory) {
+		parent::__construct($timeFactory);
 		// Run all 10 minutes
-		$this->setInterval(60 * 10);
+		parent::setInterval(60 * 10);
 		$this->config = $config;
 		$this->timeFactory = $timeFactory;
 	}
