@@ -1568,8 +1568,8 @@ class DefaultShareProvider implements IShareProvider {
 	 * @param string|null $data
 	 * @return IShare modified share
 	 */
-	private function updateShareAttributes(IShare $share, $data) {
-		if ($data !== null) {
+	private function updateShareAttributes(IShare $share, ?string $data) {
+		if ($data !== null && $data !== '') {
 			$attributes = new ShareAttributes();
 			$compressedAttributes = \json_decode($data, true);
 			foreach ($compressedAttributes as $compressedAttribute) {
