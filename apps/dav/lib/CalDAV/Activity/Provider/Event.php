@@ -88,7 +88,7 @@ class Event extends Base {
 		$params = [
 			'type' => 'calendar-event',
 			'id' => $eventData['id'],
-			'name' => $eventData['name'] !== '' ? $eventData['name'] : $this->l->t('Untitled event'),
+			'name' => trim($eventData['name']) !== '' ? $eventData['name'] : $this->l->t('Untitled event'),
 		];
 
 		if (isset($eventData['link']) && is_array($eventData['link']) && $this->appManager->isEnabledForUser('calendar')) {
