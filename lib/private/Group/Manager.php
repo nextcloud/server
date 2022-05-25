@@ -238,7 +238,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function search($search, $limit = null, $offset = null) {
 		$groups = [];
 		foreach ($this->backends as $backend) {
-			$groupIds = $backend->getGroups($search, $limit, $offset);
+			$groupIds = $backend->getGroups($search, $limit ?? -1, $offset ?? 0);
 			foreach ($groupIds as $groupId) {
 				$aGroup = $this->get($groupId);
 				if ($aGroup instanceof IGroup) {
