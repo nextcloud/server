@@ -174,7 +174,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "İşlerinizi ve toplantılarınızı planlayın ve tüm aygıtlarınızla eşitleyin.",
     "Keep your colleagues and friends in one place without leaking their private info." : "İş arkadaşlarınızın ve tanıdıklarınızın kayıtlarını kişisel bilgilerini sızdırmadan tek bir yerde tutun.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Dosyalar, Kişiler ve Takvim uygulamaları ile bir arada çalışan basit bir e-posta uygulaması.",
-    "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Sohbet, görüntülü arama, ekran paylaşımı, çevrimiçi toplantılar ve web görüşmeleri - masaüstü ve mobil için uygulamalar.",
+    "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Sohbet, görüntülü çağrı, ekran paylaşımı, çevrimiçi toplantılar ve web görüşmeleri - masaüstü ve mobil için uygulamalar.",
     "Collaboratively edit office documents." : "Ofis belgelerini işbirlikli düzenleme.",
     "Local document editing back-end used by the Collabora Online app." : "Collabora Online uygulaması ile yerel belge düzenleme altyapısı.",
     "Forgot password?" : "Parolamı unuttum",
