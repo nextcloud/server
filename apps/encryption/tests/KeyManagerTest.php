@@ -287,8 +287,11 @@ class KeyManagerTest extends TestCase {
 		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($useMasterKey);
 
-		$this->sessionMock->expects($this->at(0))->method('setStatus')
-			->with(Session::INIT_EXECUTED);
+		$this->sessionMock->expects($this->exactly(2))->method('setStatus')
+			->withConsecutive(
+				[Session::INIT_EXECUTED],
+				[Session::INIT_SUCCESSFUL],
+			);
 
 		$instance->expects($this->any())->method('getMasterKeyId')->willReturn('masterKeyId');
 		$instance->expects($this->any())->method('getMasterKeyPassword')->willReturn('masterKeyPassword');
@@ -404,15 +407,16 @@ class KeyManagerTest extends TestCase {
 
 		$this->invokePrivate($this->instance, 'masterKeyId', ['masterKeyId']);
 
-		$this->keyStorageMock->expects($this->at(0))
+		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getFileKey')
-			->with($path, 'fileKey', 'OC_DEFAULT_MODULE')
-			->willReturn(true);
-
-		$this->keyStorageMock->expects($this->at(1))
-			->method('getFileKey')
-			->with($path, $expectedUid . '.shareKey', 'OC_DEFAULT_MODULE')
-			->willReturn(true);
+			->withConsecutive(
+				[$path, 'fileKey', 'OC_DEFAULT_MODULE'],
+				[$path, $expectedUid . '.shareKey', 'OC_DEFAULT_MODULE'],
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				true,
+			);
 
 		$this->utilMock->expects($this->any())->method('isMasterKeyEnabled')
 			->willReturn($isMasterKeyEnabled);
