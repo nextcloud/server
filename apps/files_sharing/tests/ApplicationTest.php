@@ -65,8 +65,7 @@ class ApplicationTest extends TestCase {
 
 		$this->application = new Application([]);
 
-		// FIXME: how to mock this one ??
-		$symfonyDispatcher = $this->createMock(SymfonyDispatcher::class);
+		$symfonyDispatcher = new SymfonyDispatcher();
 		$this->eventDispatcher = new EventDispatcher(
 			$symfonyDispatcher,
 			$this->createMock(IServerContainer::class),
@@ -133,9 +132,9 @@ class ApplicationTest extends TestCase {
 	 */
 	public function testCheckDirectCanBeDownloaded($path, $userFolder, $run) {
 		$user = $this->createMock(IUser::class);
-		$user->method("getUID")->willReturn("test");
-		$this->userSession->method("getUser")->willReturn($user);
-		$this->userSession->method("isLoggedIn")->willReturn(true);
+		$user->method('getUID')->willReturn('test');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->userSession->method('isLoggedIn')->willReturn(true);
 		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
 
 		// Simulate direct download of file
@@ -210,11 +209,11 @@ class ApplicationTest extends TestCase {
 	 */
 	public function testCheckZipCanBeDownloaded($dir, $files, $userFolder, $run) {
 		$user = $this->createMock(IUser::class);
-		$user->method("getUID")->willReturn("test");
-		$this->userSession->method("getUser")->willReturn($user);
-		$this->userSession->method("isLoggedIn")->willReturn(true);
+		$user->method('getUID')->willReturn('test');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->userSession->method('isLoggedIn')->willReturn(true);
 
-		$this->rootFolder->method('getUserFolder')->with("test")->willReturn($userFolder);
+		$this->rootFolder->method('getUserFolder')->with('test')->willReturn($userFolder);
 
 		// Simulate zip download of folder folder
 		$event = new GenericEvent(null, ['dir' => $dir, 'files' => $files, 'run' => true]);
@@ -225,7 +224,7 @@ class ApplicationTest extends TestCase {
 	}
 
 	public function testCheckFileUserNotFound() {
-		$this->userSession->method("isLoggedIn")->willReturn(false);
+		$this->userSession->method('isLoggedIn')->willReturn(false);
 
 		// Simulate zip download of folder folder
 		$event = new GenericEvent(null, ['dir' => '/test', 'files' => ['test.txt'], 'run' => true]);

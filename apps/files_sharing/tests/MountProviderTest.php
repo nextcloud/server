@@ -39,6 +39,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Share\IAttributes as IShareAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -102,7 +103,7 @@ class MountProviderTest extends \Test\TestCase {
 		return $shareAttributes;
 	}
 
-	private function makeMockShare($id, $nodeId, $owner = 'user2', $target = null, $permissions = 31, $attributes) {
+	private function makeMockShare($id, $nodeId, $owner = 'user2', $target = null, $permissions = 31, $attributes = null) {
 		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())
 			->method('getPermissions')
@@ -371,10 +372,10 @@ class MountProviderTest extends \Test\TestCase {
 		$userManager = $this->createMock(IUserManager::class);
 
 		$userShares = array_map(function ($shareSpec) {
-			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
+			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4], $shareSpec[5]);
 		}, $userShares);
 		$groupShares = array_map(function ($shareSpec) {
-			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
+			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4], $shareSpec[5]);
 		}, $groupShares);
 
 		$this->user->expects($this->any())
