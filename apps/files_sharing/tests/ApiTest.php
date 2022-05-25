@@ -950,9 +950,13 @@ class ApiTest extends TestCase {
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(19)
 			->setAttributes($this->shareManager->newShare()->newAttributes());
+
+		$this->assertNotNull($share1->getAttributes());
 		$share1 = $this->shareManager->createShare($share1);
+		$this->assertNull($share1->getAttributes());
 		$this->assertEquals(19, $share1->getPermissions());
-		$this->assertEquals(null, $share1->getAttributes());
+		// attributes get cleared when empty
+		$this->assertNull($share1->getAttributes());
 
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node1)
@@ -964,7 +968,10 @@ class ApiTest extends TestCase {
 
 		// update permissions
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		$ocs->updateShare($share1->getId(), 1);
+		$ocs->updateShare(
+			$share1->getId(), 1, null, null, null, null, null, null, null,
+			'[{"scope": "app1", "key": "attr1", "enabled": true}]'
+		);
 		$ocs->cleanup();
 
 		$share1 = $this->shareManager->getShareById('ocinternal:' . $share1->getId());

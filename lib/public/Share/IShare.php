@@ -325,19 +325,19 @@ interface IShare {
 	/**
 	 * Set share attributes
 	 *
-	 * @param IAttributes $attributes
+	 * @param ?IAttributes $attributes
 	 * @since 25.0.0
 	 * @return IShare The modified object
 	 */
-	public function setAttributes(IAttributes $attributes);
+	public function setAttributes(?IAttributes $attributes);
 
 	/**
 	 * Get share attributes
 	 *
 	 * @since 25.0.0
-	 * @return IAttributes
+	 * @return ?IAttributes
 	 */
-	public function getAttributes();
+	public function getAttributes(): ?IAttributes;
 
 	/**
 	 * Set the accepted status

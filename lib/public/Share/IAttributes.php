@@ -24,7 +24,7 @@ namespace OCP\Share;
  * Interface IAttributes
  *
  * @package OCP\Share
- * @since 10.2.0
+ * @since 25.0.0
  */
 interface IAttributes {
 
@@ -35,7 +35,7 @@ interface IAttributes {
 	 * @param string $key key
 	 * @param bool $enabled enabled
 	 * @return IAttributes The modified object
-	 * @since 10.2.0
+	 * @since 25.0.0
 	 */
 	public function setAttribute($scope, $key, $enabled);
 
@@ -46,7 +46,7 @@ interface IAttributes {
 	 * @param string $scope scope
 	 * @param string $key key
 	 * @return bool|null
-	 * @since 10.2.0
+	 * @since 25.0.0
 	 */
 	public function getAttribute($scope, $key);
 
@@ -62,7 +62,7 @@ interface IAttributes {
 	 * ]
 	 *
 	 * @return array formatted IAttributes
-	 * @since 10.2.0
+	 * @since 25.0.0
 	 */
 	public function toArray();
 }

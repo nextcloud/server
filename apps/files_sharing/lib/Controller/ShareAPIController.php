@@ -45,7 +45,6 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use OC\Files\FileInfo;
-use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files\Helper;
@@ -442,6 +441,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $sendPasswordByTalk
 	 * @param string $expireDate
 	 * @param string $label
+	 * @param string $attributes
 	 *
 	 * @return DataResponse
 	 * @throws NotFoundException
@@ -462,7 +462,8 @@ class ShareAPIController extends OCSController {
 		string $sendPasswordByTalk = null,
 		string $expireDate = '',
 		string $note = '',
-		string $label = ''
+		string $label = '',
+		string $attributes = null
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -680,7 +681,7 @@ class ShareAPIController extends OCSController {
 			$share->setNote($note);
 		}
 
-		$share = $this->setShareAttributes($share, $this->request->getParam('attributes', null));
+		$share = $this->setShareAttributes($share, $attributes);
 
 		try {
 			$share = $this->shareManager->createShare($share);
@@ -1043,6 +1044,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $note
 	 * @param string $label
 	 * @param string $hideDownload
+	 * @param string $attributes
 	 * @return DataResponse
 	 * @throws LockedException
 	 * @throws NotFoundException
@@ -1059,7 +1061,8 @@ class ShareAPIController extends OCSController {
 		string $expireDate = null,
 		string $note = null,
 		string $label = null,
-		string $hideDownload = null
+		string $hideDownload = null,
+		string $attributes = null
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -1077,8 +1080,6 @@ class ShareAPIController extends OCSController {
 			throw new OCSForbiddenException('You are not allowed to edit incoming shares');
 		}
 
-		$shareAttributes = $this->request->getParam('attributes', null);
-
 		if (
 			$permissions === null &&
 			$password === null &&
@@ -1088,7 +1089,7 @@ class ShareAPIController extends OCSController {
 			$note === null &&
 			$label === null &&
 			$hideDownload === null &&
-			$shareAttributes === null
+			$attributes === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1227,7 +1228,7 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
-		$share = $this->setShareAttributes($share, $shareAttributes);
+		$share = $this->setShareAttributes($share, $attributes);
 
 		try {
 			$share = $this->shareManager->updateShare($share);
@@ -1848,18 +1849,24 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * @param IShare $share
-	 * @param string[][]|null $formattedShareAttributes
+	 * @param string|null $attributesString
 	 * @return IShare modified share
 	 */
-	private function setShareAttributes(IShare $share, $formattedShareAttributes) {
-		$newShareAttributes = $this->shareManager->newShare()->newAttributes();
-		if ($formattedShareAttributes !== null) {
-			foreach ($formattedShareAttributes as $formattedAttr) {
-				$newShareAttributes->setAttribute(
-					$formattedAttr['scope'],
-					$formattedAttr['key'],
-					(bool) \json_decode($formattedAttr['enabled'])
-				);
+	private function setShareAttributes(IShare $share, ?string $attributesString) {
+		$newShareAttributes = null;
+		if ($attributesString !== null) {
+			$newShareAttributes = $this->shareManager->newShare()->newAttributes();
+			$formattedShareAttributes = \json_decode($attributesString, true);
+			if (is_array($formattedShareAttributes)) {
+				foreach ($formattedShareAttributes as $formattedAttr) {
+					$newShareAttributes->setAttribute(
+						$formattedAttr['scope'],
+						$formattedAttr['key'],
+						is_string($formattedAttr['enabled']) ? (bool) \json_decode($formattedAttr['enabled']) : $formattedAttr['enabled']
+					);
+				}
+			} else {
+				throw new OCSBadRequestException('Invalid share attributes provided: \"' . $attributesString . '\"');
 			}
 		}
 		$share->setAttributes($newShareAttributes);

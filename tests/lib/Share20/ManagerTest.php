@@ -3159,6 +3159,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 
 		$share = $this->manager->newShare();
+		$attrs = $this->manager->newShare()->newAttributes();
+		$attrs->setAttribute('app1', 'perm1', true);
 		$share->setProviderId('foo')
 			->setId('42')
 			->setShareType(IShare::TYPE_USER)
@@ -3191,6 +3193,7 @@ class ManagerTest extends \Test\TestCase {
 			'uidOwner' => 'sharer',
 			'permissions' => 31,
 			'path' => '/myPath',
+			'attributes' => $attrs->toArray(),
 		]);
 
 		$manager->updateShare($share);

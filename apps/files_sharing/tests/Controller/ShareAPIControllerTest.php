@@ -58,6 +58,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Share\Exceptions\GenericShareException;
+use OCP\Share\IAttributes as IShareAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Test\TestCase;
@@ -125,10 +126,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->any())
 			->method('shareProviderExists')->willReturn(true);
-		$this->shareManager
-			->expects($this->any())
-			->method('newShare')
-			->willReturn($this->newShare());
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->request = $this->createMock(IRequest::class);
@@ -201,11 +198,9 @@ class ShareAPIControllerTest extends TestCase {
 	private function mockShareAttributes() {
 		$formattedShareAttributes = [
 			[
-				[
-					'scope' => 'permissions',
-					'key' => 'download',
-					'enabled' => true
-				]
+				'scope' => 'permissions',
+				'key' => 'download',
+				'enabled' => true
 			]
 		];
 
@@ -641,6 +636,7 @@ class ShareAPIControllerTest extends TestCase {
 			'can_edit' => false,
 			'can_delete' => false,
 			'status' => [],
+			'attributes' => null,
 		];
 		$data[] = [$share, $expected];
 
@@ -692,6 +688,7 @@ class ShareAPIControllerTest extends TestCase {
 			'hide_download' => 0,
 			'can_edit' => false,
 			'can_delete' => false,
+			'attributes' => null,
 		];
 		$data[] = [$share, $expected];
 
@@ -749,6 +746,7 @@ class ShareAPIControllerTest extends TestCase {
 			'hide_download' => 0,
 			'can_edit' => false,
 			'can_delete' => false,
+			'attributes' => null,
 		];
 		$data[] = [$share, $expected];
 
@@ -3808,6 +3806,7 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => false,
 				'can_delete' => false,
 				'status' => [],
+				'attributes' => '[{"scope":"permissions","key":"download","enabled":true}]',
 			], $share, [], false
 		];
 		// User backend up
@@ -3845,6 +3844,7 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => false,
 				'can_delete' => false,
 				'status' => [],
+				'attributes' => '[{"scope":"permissions","key":"download","enabled":true}]',
 			], $share, [
 				['owner', $owner],
 				['initiator', $initiator],
@@ -3898,6 +3898,7 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => false,
 				'can_delete' => false,
 				'status' => [],
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -3947,6 +3948,7 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => true,
 				'can_delete' => true,
 				'status' => [],
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -3996,6 +3998,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4042,6 +4045,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4095,6 +4099,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4148,6 +4153,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4195,6 +4201,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4242,6 +4249,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4292,6 +4300,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4339,6 +4348,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4386,6 +4396,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4450,6 +4461,7 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => false,
 				'can_delete' => false,
 				'password_expiration_time' => null,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4500,6 +4512,7 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => false,
 				'can_delete' => false,
 				'password_expiration_time' => null,
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4549,6 +4562,7 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => true,
 				'can_delete' => true,
 				'status' => [],
+				'attributes' => null,
 			], $share, [], false
 		];
 
@@ -4700,6 +4714,7 @@ class ShareAPIControllerTest extends TestCase {
 				'label' => '',
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, false, []
 		];
 
@@ -4746,6 +4761,7 @@ class ShareAPIControllerTest extends TestCase {
 				'label' => '',
 				'can_edit' => false,
 				'can_delete' => false,
+				'attributes' => null,
 			], $share, true, [
 				'share_with_displayname' => 'recipientRoomName'
 			]

@@ -48,6 +48,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 	 */
 	public function __construct(ILogger $logger) {
 		$this->logger = $logger;
+		$this->server = null;
 	}
 
 	/**
