@@ -88,9 +88,9 @@ class Event extends Base {
 		$params = [
 			'type' => 'calendar-event',
 			'id' => $eventData['id'],
-			'name' => $eventData['name'],
-
+			'name' => trim($eventData['name']) !== '' ? $eventData['name'] : $this->l->t('Untitled event'),
 		];
+
 		if (isset($eventData['link']) && is_array($eventData['link']) && $this->appManager->isEnabledForUser('calendar')) {
 			try {
 				// The calendar app needs to be manually loaded for the routes to be loaded
