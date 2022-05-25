@@ -231,8 +231,14 @@ class ManagerTest extends TestCase {
 		if ($isGroup) {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		} else {
-			$this->manager->expects($this->at(0))->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'accept')->willReturn(false);
-			$this->manager->expects($this->at(1))->method('tryOCMEndPoint')->with('http://localhost', 'token3', '2342', 'decline')->willReturn(false);
+			$this->manager->expects($this->any())->method('tryOCMEndPoint')
+				->withConsecutive(
+					['http://localhost', 'token1', '2342', 'accept'],
+					['http://localhost', 'token3', '2342', 'decline'],
+				)->willReturnOnConsecutiveCalls(
+					false,
+					false,
+				);
 		}
 
 		// Add a share for "user"
@@ -375,12 +381,12 @@ class ManagerTest extends TestCase {
 				->disableOriginalConstructor()->getMock();
 			$client2 = $this->getMockBuilder('OCP\Http\Client\IClient')
 				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->at(0))
+			$this->clientService->expects($this->exactly(2))
 				->method('newClient')
-				->willReturn($client1);
-			$this->clientService->expects($this->at(1))
-				->method('newClient')
-				->willReturn($client2);
+				->willReturnOnConsecutiveCalls(
+					$client1,
+					$client2,
+				);
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -656,7 +662,7 @@ class ManagerTest extends TestCase {
 		$user2Shares = $manager2->getOpenShares();
 		$this->assertCount(2, $user2Shares);
 
-		$this->manager->expects($this->at(0))->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'decline')->willReturn([]);
+		$this->manager->expects($this->once())->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'decline')->willReturn([]);
 		$this->manager->removeUserShares($this->uid);
 
 		$user1Shares = $this->manager->getOpenShares();
