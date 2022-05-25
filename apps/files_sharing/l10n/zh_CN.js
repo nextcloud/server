@@ -194,7 +194,7 @@ OC.L10N.register(
     "{shareWith} by {initiator}" : "由 {initiator} 通过 {shareWith} 共享",
     "Shared via link by {initiator}" : "由 {initiator} 通过链接共享",
     "Mail share ({label})" : "邮件分享 ({label})",
-    "Share link ({label})" : "分享链接({标签})",
+    "Share link ({label})" : "分享链接({label})",
     "Share link" : "共享链接",
     "Error, please enter proper password and/or expiration date" : "错误，请输入正确的密码和/或过期日期",
     "No recommendations. Start typing." : "没有推荐。开始输入。",

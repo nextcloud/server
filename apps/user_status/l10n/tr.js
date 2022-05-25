@@ -7,7 +7,7 @@ OC.L10N.register(
     "Out sick" : "Hasta",
     "Vacationing" : "Tatilde",
     "Working remotely" : "Uzaktan çalışıyor",
-    "In a call" : "Bir görüşmede",
+    "In a call" : "Bir çağrıda",
     "User status" : "Kullanıcı durumu",
     "View profile" : "Profili görüntüle",
     "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın",
