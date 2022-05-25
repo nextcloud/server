@@ -48,6 +48,7 @@
     "@nextcloud/sharing": "^0.1.0",
     "@nextcloud/vue": "^5.3.1",
     "@nextcloud/vue-dashboard": "^2.0.1",
+    "@vue/cli-plugin-unit-jest": "^4.5.15",
     "autosize": "^5.0.1",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
