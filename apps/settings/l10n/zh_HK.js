@@ -349,7 +349,7 @@ OC.L10N.register(
     "Updates" : "更新",
     "App bundles" : "應用程式套裝",
     "Featured apps" : "精選應用程式",
-    "For the server to work properly, it" : "為使伺服器正常工作，正確配置後台作業非常重要。推薦設置 Cron。有關詳細信息，請參閱文檔。",
+    "For the server to work properly, it" : "為了讓伺服器正常運作，正確配置後台作業非常重要。推薦設置 Cron。有關詳細信息，請參閱文檔。",
     "Details" : "詳細資訊",
     "Changelog" : "軟件更新紀錄",
     "by {author}\n{license}" : "作者為 {author}\n{license}",
