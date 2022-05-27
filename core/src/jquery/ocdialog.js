@@ -92,18 +92,6 @@ $.widget('oc.ocdialog', {
 					event.preventDefault()
 					return false
 				}
-				// If no button is selected we trigger the primary
-				if (
-					self.$buttonrow
-					&& self.$buttonrow.find($(event.target)).length === 0
-				) {
-					const $button = self.$buttonrow.find('button.primary')
-					if ($button && !$button.prop('disabled')) {
-						$button.trigger('click')
-					}
-				} else if (self.$buttonrow) {
-					$(event.target).trigger('click')
-				}
 				return false
 			}
 		})
