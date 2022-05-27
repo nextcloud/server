@@ -258,6 +258,7 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "Aldatu {accountProperty}-ren esparru-maila",
     "Unable to update federation scope of the primary {accountProperty}" : "Ezin da eguneratu lehen mailako {accountProperty}-ren federazio-esparrua",
     "Unable to update federation scope of additional {accountProperty}" : "Ezin da eguneratu {accountProperty} gehigarriaren federazio-esparrua",
+    "Add additional email" : "Gehitu e-posta gehigarria",
     "Add" : "Gehitu",
     "You do not have permissions to see the details of this user" : "Ez duzu baimenik erabiltzaile honen xehetasunak ikusteko",
     "Add new password" : "Gehitu pasahitz berria",
