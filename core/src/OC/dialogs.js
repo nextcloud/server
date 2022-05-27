@@ -308,14 +308,10 @@ const Dialogs = {
 				multiselect = false
 			}
 
-			self.$filePicker.find('#picker-view-toggle').remove()
-			self.$filePicker.find('#picker-filestable').removeClass('view-grid')
-
 			$('body').prepend(self.$filePicker)
 
 			self.$showGridView = $('input#picker-showgridview')
 			self.$showGridView.on('change', _.bind(self._onGridviewChange, self))
-
 			self._getGridSettings()
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add')
