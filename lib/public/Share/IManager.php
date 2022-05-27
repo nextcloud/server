@@ -256,7 +256,7 @@ interface IManager {
 	 *  |-folder2 (32)
 	 *   |-fileA (42)
 	 *
-	 * fileA is shared with user1 and user1@server1 email1@maildomain1
+	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
 	 * folder2 is shared with group2 (user4 is a member of group2)
 	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
 	 *                        and email2@maildomain2
@@ -274,9 +274,9 @@ interface IManager {
 	 *  ],
 	 *  public => bool
 	 *  mail => [
-	 *      'email1@maildomain1' => ['node_id' => 42],
-	 *      'email2@maildomain2' => ['node_id' => 23],
-	 * ]
+	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
+	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
+	 *  ]
 	 *
 	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
 	 * [

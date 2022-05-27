@@ -1690,8 +1690,8 @@ class Manager implements IManager {
 	 *  ],
 	 *  public => bool
 	 *  mail => [
-         *      'email1@maildomain1' => ['node_id' => 42],
-         *      'email2@maildomain2' => ['node_id' => 23],
+         *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
+         *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
          *  ]
 	 * ]
 	 *

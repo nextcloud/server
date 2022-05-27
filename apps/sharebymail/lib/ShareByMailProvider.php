@@ -1098,7 +1098,7 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('share_with', 'file_source')
+		$qb->select('share_with', 'file_source', 'token')
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
@@ -1114,7 +1114,8 @@ class ShareByMailProvider implements IShareProvider {
 				$mail[] = $row['share_with'];
 			} else {
 				$mail[$row['share_with']] = [
-					'node_id' => $row['file_source']
+					'node_id' => $row['file_source'],
+					'token' => $row['token']
 				];
 			}
 		}
