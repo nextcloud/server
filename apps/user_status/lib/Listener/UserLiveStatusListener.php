@@ -45,18 +45,17 @@ class UserLiveStatusListener implements IEventListener {
 	/** @var UserStatusMapper */
 	private $mapper;
 
+	/** @var StatusService */
+	private $statusService;
+
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/**
-	 * UserLiveStatusListener constructor.
-	 *
-	 * @param UserStatusMapper $mapper
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(UserStatusMapper $mapper,
+								StatusService $statusService,
 								ITimeFactory $timeFactory) {
 		$this->mapper = $mapper;
+		$this->statusService = $statusService;
 		$this->timeFactory = $timeFactory;
 	}
 
@@ -71,7 +70,7 @@ class UserLiveStatusListener implements IEventListener {
 
 		$user = $event->getUser();
 		try {
-			$userStatus = $this->mapper->findByUserId($user->getUID());
+			$userStatus = $this->statusService->findByUserId($user->getUID());
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($user->getUID());
