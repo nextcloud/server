@@ -148,6 +148,7 @@ return array(
     'OCP\\Collaboration\\Resources\\IProvider' => $baseDir . '/lib/public/Collaboration/Resources/IProvider.php',
     'OCP\\Collaboration\\Resources\\IProviderManager' => $baseDir . '/lib/public/Collaboration/Resources/IProviderManager.php',
     'OCP\\Collaboration\\Resources\\IResource' => $baseDir . '/lib/public/Collaboration/Resources/IResource.php',
+    'OCP\\Collaboration\\Resources\\LoadAdditionalScriptsEvent' => $baseDir . '/lib/public/Collaboration/Resources/LoadAdditionalScriptsEvent.php',
     'OCP\\Collaboration\\Resources\\ResourceException' => $baseDir . '/lib/public/Collaboration/Resources/ResourceException.php',
     'OCP\\Command\\IBus' => $baseDir . '/lib/public/Command/IBus.php',
     'OCP\\Command\\ICommand' => $baseDir . '/lib/public/Command/ICommand.php',

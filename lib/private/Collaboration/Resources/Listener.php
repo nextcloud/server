@@ -26,14 +26,16 @@ declare(strict_types=1);
  */
 namespace OC\Collaboration\Resources;
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OCP\Collaboration\Resources\IManager;
+use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroup;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Listener {
-	public static function register(EventDispatcherInterface $dispatcher): void {
+	public static function register(SymfonyAdapter $symfonyDispatcher, IEventDispatcher $eventDispatcher): void {
 		$listener = function (GenericEvent $event) {
 			/** @var IUser $user */
 			$user = $event->getArgument('user');
@@ -42,10 +44,10 @@ class Listener {
 
 			$resourceManager->invalidateAccessCacheForUser($user);
 		};
-		$dispatcher->addListener(IGroup::class . '::postAddUser', $listener);
-		$dispatcher->addListener(IGroup::class . '::postRemoveUser', $listener);
+		$symfonyDispatcher->addListener(IGroup::class . '::postAddUser', $listener);
+		$symfonyDispatcher->addListener(IGroup::class . '::postRemoveUser', $listener);
 
-		$dispatcher->addListener(IUser::class . '::postDelete', function (GenericEvent $event) {
+		$symfonyDispatcher->addListener(IUser::class . '::postDelete', function (GenericEvent $event) {
 			/** @var IUser $user */
 			$user = $event->getSubject();
 			/** @var IManager $resourceManager */
@@ -54,7 +56,7 @@ class Listener {
 			$resourceManager->invalidateAccessCacheForUser($user);
 		});
 
-		$dispatcher->addListener(IGroup::class . '::preDelete', function (GenericEvent $event) {
+		$symfonyDispatcher->addListener(IGroup::class . '::preDelete', function (GenericEvent $event) {
 			/** @var IGroup $group */
 			$group = $event->getSubject();
 			/** @var IManager $resourceManager */
@@ -63,6 +65,25 @@ class Listener {
 			foreach ($group->getUsers() as $user) {
 				$resourceManager->invalidateAccessCacheForUser($user);
 			}
+		});
+
+		// Stay backward compatible with the legacy event for now
+		$fallbackEventRunning = false;
+		$symfonyDispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function () use ($eventDispatcher, &$fallbackEventRunning) {
+			if ($fallbackEventRunning) {
+				return;
+			}
+			$fallbackEventRunning = true;
+			$eventDispatcher->dispatchTyped(new LoadAdditionalScriptsEvent());
+			$fallbackEventRunning = false;
+		});
+		$eventDispatcher->addListener(LoadAdditionalScriptsEvent::class, static function () use ($symfonyDispatcher, &$fallbackEventRunning) {
+			if ($fallbackEventRunning) {
+				return;
+			}
+			$fallbackEventRunning = true;
+			$symfonyDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
+			$fallbackEventRunning = false;
 		});
 	}
 }
