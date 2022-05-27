@@ -141,8 +141,10 @@ $.widget('oc.ocdialog', {
 					self.$defaultButton = $button
 				}
 				self.$buttonrow.append($button)
-				$button.click(function() {
-					val.click.apply(self.element[0], arguments)
+				$button.on('click keydown', function(event) {
+					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+						val.click.apply(self.element[0], arguments)
+					}
 				})
 			})
 			this.$buttonrow.find('button')
