@@ -323,7 +323,7 @@ const Dialogs = {
 				newButton.hide()
 			}
 			newButton.on('focus', function() {
-				self.$filePicker.ocdialog('setEnterCallback', function() {
+				self.$filePicker.ocdialog('setEnterCallback', function(event) {
 					event.stopImmediatePropagation()
 					event.preventDefault()
 					newButton.click()
@@ -336,7 +336,7 @@ const Dialogs = {
 			OC.registerMenu(newButton, self.$filePicker.find('.menu'), function() {
 				$input.tooltip('hide')
 				$input.focus()
-				self.$filePicker.ocdialog('setEnterCallback', function() {
+				self.$filePicker.ocdialog('setEnterCallback', function(event) {
 					event.stopImmediatePropagation()
 					event.preventDefault()
 					self.$filePicker.submit()
@@ -351,6 +351,13 @@ const Dialogs = {
 			var $form = self.$filePicker.find('.filenameform')
 			var $input = $form.find('input[type=\'text\']')
 			var $submit = $form.find('input[type=\'submit\']')
+			$input.on('keydown', function(event) {
+				if (event.key === 'Enter') {
+					event.stopImmediatePropagation()
+					event.preventDefault()
+					$form.submit()
+				}
+			})
 			$submit.on('click', function(event) {
 				event.stopImmediatePropagation()
 				event.preventDefault()
@@ -425,13 +432,6 @@ const Dialogs = {
 					self.$filePicker.ocdialog('unsetEnterCallback')
 					self.$filePicker.click()
 					$input.val(newText)
-				}
-			})
-			$input.keypress(function(event) {
-				if (event.keyCode === 13 || event.which === 13) {
-					event.stopImmediatePropagation()
-					event.preventDefault()
-					$form.submit()
 				}
 			})
 			$input.on('input', function(event) {
