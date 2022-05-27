@@ -55,14 +55,14 @@
 			<ClearAtSelect :clear-at="clearAt"
 				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
-				<ButtonVue wide="true"
+				<ButtonVue :wide="true"
 					type="tertiary"
 					:text="$t('user_status', 'Clear status message')"
 					:disabled="isSavingStatus"
 					@click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
 				</ButtonVue>
-				<ButtonVue wide="true"
+				<ButtonVue :wide="true"
 					type="primary"
 					:text="$t('user_status', 'Set status message')"
 					:disabled="isSavingStatus"
