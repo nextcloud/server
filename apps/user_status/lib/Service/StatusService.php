@@ -302,7 +302,7 @@ class StatusService {
 	/**
 	 * @param string $userId
 	 * @param string|null $statusIcon
-	 * @param string $message
+	 * @param string|null $message
 	 * @param int|null $clearAt
 	 * @return UserStatus
 	 * @throws InvalidClearAtException
@@ -311,7 +311,7 @@ class StatusService {
 	 */
 	public function setCustomMessage(string $userId,
 									 ?string $statusIcon,
-									 string $message,
+									 ?string $message,
 									 ?int $clearAt): UserStatus {
 		try {
 			$userStatus = $this->mapper->findByUserId($userId);
@@ -328,7 +328,7 @@ class StatusService {
 			throw new InvalidStatusIconException('Status-Icon is longer than one character');
 		}
 		// Check for maximum length of custom message
-		if (\mb_strlen($message) > self::MAXIMUM_MESSAGE_LENGTH) {
+		if ($message !== null && \mb_strlen($message) > self::MAXIMUM_MESSAGE_LENGTH) {
 			throw new StatusMessageTooLongException('Message is longer than supported length of ' . self::MAXIMUM_MESSAGE_LENGTH . ' characters');
 		}
 		// Check that clearAt is in the future
@@ -432,6 +432,7 @@ class StatusService {
 			$this->cleanStatus($status);
 		}
 		if ($clearAt !== null && $clearAt < $this->timeFactory->getTime()) {
+			$this->cleanStatus($status);
 			$this->cleanStatusMessage($status);
 		}
 		if ($status->getMessageId() !== null) {
