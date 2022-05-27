@@ -56,6 +56,21 @@ $.widget('oc.ocdialog', {
 		this.$dialog.append(this.element.detach())
 		this.element.removeAttr('title').addClass('oc-dialog-content').appendTo(this.$dialog)
 
+		// Activate the primary button on enter if there is a single input
+		if (self.element.find('input').length === 1) {
+			const $input = self.element.find('input')
+			$input.on('keydown', function(event) {
+				if (event.key === 'Enter') {
+					if (self.$buttonrow) {
+						const $button = self.$buttonrow.find('button.primary')
+						if ($button && !$button.prop('disabled')) {
+							$button.click()
+						}
+					}
+				}
+			})
+		}
+
 		this.$dialog.css({
 			display: 'inline-block',
 			position: 'fixed',
