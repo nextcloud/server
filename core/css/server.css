@@ -54,7 +54,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 }
 
 :focus-visible {
-  box-shadow: 0 0 0 2px var(--color-primary);
+  box-shadow: inset 0 0 0 2px var(--color-primary);
   outline: none;
 }
 
@@ -747,6 +747,7 @@ code {
   opacity: 1;
 }
 #oc-dialog-filepicker-content #picker-showgridview:focus + #picker-view-toggle {
+  box-shadow: 0 0 0 2px var(--color-primary);
   opacity: 1;
 }
 #oc-dialog-filepicker-content .actions.creatable {
