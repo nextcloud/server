@@ -1098,18 +1098,26 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('share_with')
+		$qb->select('share_with', 'file_source')
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
-			->setMaxResults(1);
+			));
 		$cursor = $qb->executeQuery();
 
-		$mail = $cursor->fetch() !== false;
+		$mail = array();
+		while ($row = $cursor->fetch()) {
+			if ($currentAccess === false) {
+				$mail[] = $row['share_with'];
+			} else {
+				$mail[$row['share_with']] = [
+					'node_id' => $row['file_source']
+				];
+			}
+		}
 		$cursor->closeCursor();
 
 		return ['public' => $mail];
