@@ -171,11 +171,13 @@ $.widget('oc.ocdialog', {
 			break
 		case 'closeButton':
 			if (value) {
-				const $closeButton = $('<a class="oc-dialog-close"></a>')
+				const $closeButton = $('<a class="oc-dialog-close" tabindex="0"></a>')
 				this.$dialog.prepend($closeButton)
-				$closeButton.on('click', function() {
-					self.options.closeCallback && self.options.closeCallback()
-					self.close()
+				$closeButton.on('click keydown', function(event) {
+					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+						self.options.closeCallback && self.options.closeCallback()
+						self.close()
+					}
 				})
 			} else {
 				this.$dialog.find('.oc-dialog-close').remove()

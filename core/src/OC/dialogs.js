@@ -443,17 +443,23 @@ const Dialogs = {
 				self.$filelist = self.$filePicker.find('.filelist tbody')
 				self.$filelistContainer = self.$filePicker.find('.filelist-container')
 				self.$dirTree = self.$filePicker.find('.dirtree')
-				self.$dirTree.on('click', 'div:not(:last-child)', self, function(event) {
-					self._handleTreeListSelect(event, type)
+				self.$dirTree.on('click keydown', 'div:not(:last-child)', self, function(event) {
+					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+						self._handleTreeListSelect(event, type)
+					}
 				})
-				self.$filelist.on('click', 'tr', function(event) {
-					self._handlePickerClick(event, $(this), type)
+				self.$filelist.on('click keydown', 'tr', function(event) {
+					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+						self._handlePickerClick(event, $(this), type)
+					}
 				})
-				self.$fileListHeader.on('click', 'a', function(event) {
-					var dir = self.$filePicker.data('path')
-					self.filepicker.sortField = $(event.currentTarget).data('sort')
-					self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc'
-					self._fillFilePicker(dir)
+				self.$fileListHeader.on('click keydown', 'a', function(event) {
+					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+						var dir = self.$filePicker.data('path')
+						self.filepicker.sortField = $(event.currentTarget).data('sort')
+						self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc'
+						self._fillFilePicker(dir)
+					}
 				})
 				self._fillFilePicker(path)
 			})
@@ -1272,7 +1278,7 @@ const Dialogs = {
 
 		var dir
 		var path = this.$filePicker.data('path')
-		var $template = $('<div data-dir="{dir}"><a>{name}</a></div>').addClass('crumb')
+		var $template = $('<div data-dir="{dir}" tabindex="0"><a>{name}</a></div>').addClass('crumb')
 		if (path) {
 			var paths = path.split('/')
 			$.each(paths, function(index, dir) {
