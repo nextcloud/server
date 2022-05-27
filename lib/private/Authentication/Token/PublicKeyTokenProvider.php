@@ -262,6 +262,10 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException("Invalid token type");
 		}
 
+		if (true) {
+			return;
+		}
+
 		// When changing passwords all temp tokens are deleted
 		$this->mapper->deleteTempToken($token);
 
@@ -279,6 +283,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException("Invalid token type");
+		}
+
+		if (true) {
+			return $token;
 		}
 
 		// Decrypt private key with oldTokenId
@@ -349,28 +357,32 @@ class PublicKeyTokenProvider implements IProvider {
 			'private_key_bits' => 2048,
 		], $this->config->getSystemValue('openssl', []));
 
-		// Generate new key
-		$res = openssl_pkey_new($config);
-		if ($res === false) {
-			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
+		if (true) {
+			// Generate new key
+			$res = openssl_pkey_new($config);
+			if ($res === false) {
+				$this->logOpensslError();
+				throw new \RuntimeException('OpenSSL reported a problem');
+			}
+
+			if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+				$this->logOpensslError();
+				throw new \RuntimeException('OpenSSL reported a problem');
+			}
+
+			// Extract the public key from $res to $pubKey
+			$publicKey = openssl_pkey_get_details($res);
+			$publicKey = $publicKey['key'];
+
+			$dbToken->setPublicKey($publicKey);
+			$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
+
+			if (!is_null($password)) {
+				$dbToken->setPassword($this->encryptPassword($password, $publicKey));
+			}
 		}
-
-		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
-			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
-		}
-
-		// Extract the public key from $res to $pubKey
-		$publicKey = openssl_pkey_get_details($res);
-		$publicKey = $publicKey['key'];
-
-		$dbToken->setPublicKey($publicKey);
-		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
-
-		if (!is_null($password)) {
-			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
-		}
+		$dbToken->setPublicKey('');
+		$dbToken->setPrivateKey('');
 
 		$dbToken->setName($name);
 		$dbToken->setToken($this->hashToken($token));
@@ -399,6 +411,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// prevent setting an empty pw as result of pw-less-login
 		if ($password === '') {
+			return;
+		}
+
+		if (true) {
 			return;
 		}
 
