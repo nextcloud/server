@@ -711,7 +711,6 @@ code {
   position: relative;
   display: flex;
   flex-direction: column;
-  /* Grid view toggle */
 }
 #oc-dialog-filepicker-content .dirtree {
   flex-wrap: wrap;
@@ -733,7 +732,7 @@ code {
   content: ">";
   padding: 3px;
 }
-#oc-dialog-filepicker-content #picker-view-toggle {
+#oc-dialog-filepicker-content #picker-showgridview {
   position: absolute;
   background-color: transparent;
   border: none;
@@ -743,10 +742,7 @@ code {
   right: 0;
   top: 0;
 }
-#oc-dialog-filepicker-content #picker-view-toggle:hover, #oc-dialog-filepicker-content #picker-view-toggle:focus {
-  opacity: 1;
-}
-#oc-dialog-filepicker-content #picker-showgridview:focus + #picker-view-toggle {
+#oc-dialog-filepicker-content #picker-showgridview:hover, #oc-dialog-filepicker-content #picker-showgridview:active, #oc-dialog-filepicker-content #picker-showgridview:focus {
   box-shadow: 0 0 0 2px var(--color-primary);
   opacity: 1;
 }

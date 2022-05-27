@@ -310,8 +310,12 @@ const Dialogs = {
 
 			$('body').prepend(self.$filePicker)
 
-			self.$showGridView = $('input#picker-showgridview')
-			self.$showGridView.on('change', _.bind(self._onGridviewChange, self))
+			self.$showGridView = $('button#picker-showgridview')
+			self.$showGridView.on('click keydown', function(event) {
+				if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+					self._onGridviewChange()
+				}
+			})
 			self._getGridSettings()
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add')
@@ -1035,27 +1039,24 @@ const Dialogs = {
 	},
 	// get the gridview setting and set the input accordingly
 	_getGridSettings: function() {
-		var self = this
+		const self = this
 		$.get(OC.generateUrl('/apps/files/api/v1/showgridview'), function(response) {
-			self.$showGridView.get(0).checked = response.gridview
-			self.$showGridView.next('#picker-view-toggle')
+			self.$showGridView
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
 			$('.list-container').toggleClass('view-grid', response.gridview)
 		})
 	},
 	_onGridviewChange: function() {
-		var show = this.$showGridView.is(':checked')
+		const show = this.$showGridView.hasClass('icon-toggle-filelist')
 		// only save state if user is logged in
 		if (OC.currentUser) {
-			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
-				show: show
-			})
+			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), { show: !show })
 		}
-		this.$showGridView.next('#picker-view-toggle')
+		this.$showGridView
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
-			.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-		$('.list-container').toggleClass('view-grid', show)
+			.addClass(show ? 'icon-toggle-pictures' : 'icon-toggle-filelist')
+		$('.list-container').toggleClass('view-grid', !show)
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred()
