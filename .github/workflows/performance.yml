@@ -1,0 +1,80 @@
+name: Performance testing
+on:
+  pull_request:
+
+jobs:
+  performance-testing:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.0']
+
+    name: performance-${{ matrix.php-versions }}
+
+    steps:
+      - name: Checkout server before PR
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+
+          cd apps
+          git clone https://github.com/icewind1991/blueprint
+          cd blueprint
+          composer install
+          cd ..
+
+          git clone https://github.com/nextcloud/profiler
+          cd ..
+
+          ./occ app:enable --force blueprint
+          ./occ app:enable --force profiler
+
+          ./occ blueprint:apply apps/blueprint/blueprints/small.toml
+
+          php -S localhost:8080 &
+      - name: Run before measurements
+        run: |
+          rm -rf data/profiler
+
+          curl -X PROPFIND -u admin:password http://locahost:8080/remote.php/dav/files/admin
+
+          ./occ profiler:export > before.json
+      - name: Apply PR
+        run: |
+          git checkout ${{ github.event.pull_request.head.sha }}
+          git submodule update
+
+          ./occ upgrade
+      - name: Run after measurements
+        run: |
+          rm -rf data/profiler
+
+          curl -X PROPFIND -u admin:password http://locahost:8080/remote.php/dav/files/admin
+
+          ./occ profiler:export > after.json
+
+      - name: Upload profiles
+        uses: actions/upload-artifact@v2
+          with:
+            name: profiles
+            path: |
+              before.json
+              after.json
+
+      - name: Compare measurements
+          ./occ profiler:compare before.json after.json
