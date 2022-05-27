@@ -311,7 +311,7 @@ const Dialogs = {
 			self.$filePicker.find('#picker-view-toggle').remove()
 			self.$filePicker.find('#picker-filestable').removeClass('view-grid')
 
-			$('body').append(self.$filePicker)
+			$('body').prepend(self.$filePicker)
 
 			self.$showGridView = $('input#picker-showgridview')
 			self.$showGridView.on('change', _.bind(self._onGridviewChange, self))
