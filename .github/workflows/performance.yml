@@ -1,0 +1,111 @@
+name: Performance testing
+on:
+  pull_request:
+
+jobs:
+  performance-testing:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.0']
+
+    name: performance-${{ matrix.php-versions }}
+
+    steps:
+      - name: Checkout server before PR
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+
+          cd apps
+          git clone https://github.com/icewind1991/blueprint
+          cd blueprint
+          composer install
+          cd ..
+
+          git clone -b cli https://github.com/nextcloud/profiler
+          cd ..
+
+          ./occ app:enable --force blueprint
+          ./occ app:enable --force profiler
+
+          ./occ profiler:enable
+          ./occ blueprint:enable
+          ./occ blueprint:apply apps/blueprint/blueprints/small.toml
+
+          php -S localhost:8080 &
+      - name: Run warmup
+        run: |
+          curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+      - name: Run before measurements
+        run: |
+          rm -rf data/profiler
+
+          curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+
+          ./occ profiler:list
+          ./occ profiler:export > before.json
+      - name: Apply PR
+        run: |
+          git fetch origin ${{ github.event.pull_request.head.ref }}
+          git checkout ${{ github.event.pull_request.head.ref }}
+          git submodule update
+
+          ./occ upgrade
+      - name: Run after measurements
+        run: |
+          rm -rf data/profiler
+
+          curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+
+          ./occ profiler:list
+          ./occ profiler:export > after.json
+
+      - name: Upload profiles
+        uses: actions/upload-artifact@v2
+        with:
+          name: profiles
+          path: |
+            before.json
+            after.json
+
+      - name: Compare measurements
+        uses: mathiasvr/command-output@v1
+        id: compare
+        with:
+          run: ./occ profiler:compare before.json after.json
+      - uses: actions/github-script@v5
+        if: failure() && steps.compare.outcome == 'failure'
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            let comment = `Possible performance regression detected\n`;
+            comment += `<details><summary>Show Output</summary>
+
+            \`\`\`
+            ${{ steps.compare.outputs.stdout }}
+            \`\`\`
+
+            </details>`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })
