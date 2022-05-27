@@ -43,11 +43,14 @@ use OCP\UserStatus\IUserStatus;
  */
 class UserLiveStatusListener implements IEventListener {
 	private UserStatusMapper $mapper;
+	private StatusService $statusService;
 	private ITimeFactory $timeFactory;
 
 	public function __construct(UserStatusMapper $mapper,
+								StatusService $statusService,
 								ITimeFactory $timeFactory) {
 		$this->mapper = $mapper;
+		$this->statusService = $statusService;
 		$this->timeFactory = $timeFactory;
 	}
 
@@ -62,7 +65,7 @@ class UserLiveStatusListener implements IEventListener {
 
 		$user = $event->getUser();
 		try {
-			$userStatus = $this->mapper->findByUserId($user->getUID());
+			$userStatus = $this->statusService->findByUserId($user->getUID());
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($user->getUID());

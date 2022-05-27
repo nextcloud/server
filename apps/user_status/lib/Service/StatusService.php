@@ -38,7 +38,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IEmojiHelper;
-use OCP\IUser;
 use OCP\UserStatus\IUserStatus;
 
 /**
