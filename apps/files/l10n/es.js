@@ -41,6 +41,8 @@ OC.L10N.register(
     "Details" : "Detalles",
     "Please select tag(s) to add to the selection" : "Seleccione la(s) etiqueta(s) para añadir a la selección",
     "Apply tag(s) to selection" : "Aplicar etiqueta(s) a la selección",
+    "Select directory \"{dirName}\"" : "Seleccione el directorio \"{dirName}\"",
+    "Select file \"{fileName}\"" : "Seleccione el archivo \"{fileName}\"",
     "Pending" : "Pendiente",
     "Unable to determine date" : "No se ha podido determinar la fecha",
     "This operation is forbidden" : "Esta operación está prohibida",

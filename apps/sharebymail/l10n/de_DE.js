@@ -51,6 +51,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
     "Reply to initiator" : "Antwort an Initiator",
-    "Unable to update share by mail config" : "Share by Mail Einstellungen konnten nicht aktualisiert werden"
+    "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden"
 },
 "nplurals=2; plural=(n != 1);");
