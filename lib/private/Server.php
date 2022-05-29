@@ -238,6 +238,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Share\IShare;
 use OCP\Share\IShareHelper;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -1313,11 +1314,11 @@ class Server extends ServerContainer implements IServerContainer {
 			$instance = new Collaboration\Collaborators\Search($c);
 
 			// register default plugins
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => GroupPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => RemotePlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE_GROUP', 'class' => RemoteGroupPlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_USER, 'class' => UserPlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_GROUP, 'class' => GroupPlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_EMAIL, 'class' => MailPlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_REMOTE, 'class' => RemotePlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_REMOTE_GROUP, 'class' => RemoteGroupPlugin::class]);
 
 			return $instance;
 		});

@@ -106,7 +106,7 @@ class Search implements ISearch {
 	}
 
 	public function registerPlugin(array $pluginInfo) {
-		$shareType = constant(Share::class . '::' . $pluginInfo['shareType']);
+		$shareType = $pluginInfo['shareType'];
 		if ($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
