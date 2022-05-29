@@ -31,6 +31,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
@@ -38,7 +39,7 @@ use OCP\IUserSession;
 use OCP\User\Events\UserLiveStatusEvent;
 use OCP\UserStatus\IUserStatus;
 
-class HeartbeatController extends Controller {
+class HeartbeatController extends OCSController {
 
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
