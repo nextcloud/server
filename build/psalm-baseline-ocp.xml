@@ -66,18 +66,6 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/AppFramework/Http/ZipResponse.php">
-    <InvalidArrayAccess occurrences="5">
-      <code>$resource['internalName']</code>
-      <code>$resource['resource']</code>
-      <code>$resource['size']</code>
-      <code>$resource['size']</code>
-      <code>$resource['time']</code>
-    </InvalidArrayAccess>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$this-&gt;resources</code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/public/BackgroundJob/Job.php">
     <UndefinedClass occurrences="1">
       <code>\OC</code>
@@ -169,16 +157,6 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/FullTextSearch/Model/ISearchRequest.php">
-    <InvalidClass occurrences="1">
-      <code>IsearchRequest</code>
-    </InvalidClass>
-  </file>
-  <file src="lib/public/IAddressBook.php">
-    <InvalidDocblock occurrences="1">
-      <code>public function getUri(): string;</code>
-    </InvalidDocblock>
-  </file>
   <file src="lib/public/IAvatar.php">
     <UndefinedDocblockClass occurrences="1">
       <code>Color</code>
@@ -189,23 +167,6 @@
       <code>ContainerExceptionInterface</code>
       <code>ContainerExceptionInterface</code>
     </InvalidThrow>
-  </file>
-  <file src="lib/public/IDBConnection.php">
-    <InvalidClass occurrences="1">
-      <code>PreconditionNotMetException</code>
-    </InvalidClass>
-  </file>
-  <file src="lib/public/Search/SearchResult.php">
-    <InvalidArgument occurrences="1">
-      <code>$cursor</code>
-    </InvalidArgument>
-  </file>
-  <file src="lib/public/Share.php">
-    <InvalidReturnType occurrences="3">
-      <code>array</code>
-      <code>array|bool</code>
-      <code>mixed</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/public/Template.php">
     <UndefinedFunction occurrences="7">
@@ -219,12 +180,6 @@
     </UndefinedFunction>
   </file>
   <file src="lib/public/Util.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>\OC_Helper::computerFileSize($str)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>float</code>
-    </InvalidReturnType>
     <UndefinedClass occurrences="14">
       <code>\OC</code>
       <code>\OC</code>

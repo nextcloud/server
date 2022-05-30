@@ -40,7 +40,7 @@ use OCP\GroupInterface;
 
 class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP,
 	IGetDisplayNameBackend, IDeleteGroupBackend, ICountUsersBackend, IAddToGroupBackend,
-	IRemoveFromGroupBackend, IGroupDetailsBackend {
+	IRemoveFromGroupBackend {
 	private $backends = [];
 	private $refBackend = null;
 
@@ -280,9 +280,10 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP,
 	/**
 	 * Return access for LDAP interaction.
 	 *
+	 * @param string $gid
 	 * @return Access instance of Access for LDAP interaction
 	 */
-	public function getLDAPAccess($gid) {
+	public function getLDAPAccess($gid): Acc {
 		return $this->handleRequest($gid, 'getLDAPAccess', [$gid]);
 	}
 

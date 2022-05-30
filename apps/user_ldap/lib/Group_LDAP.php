@@ -59,7 +59,7 @@ use Psr\Log\LoggerInterface;
 
 class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP,
 	IGetDisplayNameBackend, IDeleteGroupBackend, ICountUsersBackend, IAddToGroupBackend,
-	IRemoveFromGroupBackend, IGroupDetailsBackend {
+	IRemoveFromGroupBackend {
 	protected $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
