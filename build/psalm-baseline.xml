@@ -1499,14 +1499,6 @@
       <code>moveMount</code>
     </UndefinedMethod>
   </file>
-  <file src="apps/files_sharing/list.php">
-    <InvalidArgument occurrences="1">
-      <code>'\OCP\Collaboration\Resources::loadAdditionalScripts'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
