@@ -7,6 +7,7 @@
 		<Multiselect v-else
 			:value="currentEvent"
 			:options="allEvents"
+			label="displayName"
 			track-by="id"
 			:multiple="true"
 			:auto-limit="false"
