@@ -33,15 +33,8 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class CSRFTokenController extends Controller {
+	private CsrfTokenManager $tokenManager;
 
-	/** @var CsrfTokenManager */
-	private $tokenManager;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param CsrfTokenManager $tokenManager
-	 */
 	public function __construct(string $appName, IRequest $request,
 		CsrfTokenManager $tokenManager) {
 		parent::__construct($appName, $request);
@@ -52,7 +45,6 @@ class CSRFTokenController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @return JSONResponse
 	 */
 	public function index(): JSONResponse {
 		if (!$this->request->passesStrictCookieCheck()) {

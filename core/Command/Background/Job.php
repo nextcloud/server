@@ -35,10 +35,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Job extends Command {
-	/** @var IJobList */
-	protected $jobList;
-	/** @var ILogger */
-	protected $logger;
+	protected IJobList $jobList;
+	protected ILogger $logger;
 
 	public function __construct(IJobList $jobList,
 								ILogger $logger) {

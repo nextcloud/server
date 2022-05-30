@@ -39,14 +39,9 @@ use OCP\IRequest;
 use OCP\Share\IShare;
 
 class AutoCompleteController extends Controller {
-	/** @var ISearch */
-	private $collaboratorSearch;
-
-	/** @var IManager */
-	private $autoCompleteManager;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
+	private ISearch $collaboratorSearch;
+	private IManager $autoCompleteManager;
+	private IEventDispatcher $dispatcher;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -62,16 +57,9 @@ class AutoCompleteController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @param string $search
-	 * @param string $itemType
-	 * @param string $itemId
 	 * @param string|null $sorter can be piped, top prio first, e.g.: "commenters|share-recipients"
-	 * @param array $shareTypes
-	 * @param int $limit
-	 * @return DataResponse
 	 */
-	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [IShare::TYPE_USER], $limit = 10): DataResponse {
+	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
 		[$results,] = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
@@ -105,7 +93,6 @@ class AutoCompleteController extends Controller {
 
 		return new DataResponse($results);
 	}
-
 
 	protected function prepareResultArray(array $results): array {
 		$output = [];

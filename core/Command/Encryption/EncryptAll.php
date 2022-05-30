@@ -36,31 +36,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EncryptAll extends Command {
+	protected IManager $encryptionManager;
+	protected IAppManager $appManager;
+	protected IConfig $config;
+	protected QuestionHelper $questionHelper;
+	protected bool $wasTrashbinEnabled = false;
+	protected bool $wasMaintenanceModeEnabled;
 
-	/** @var IManager */
-	protected $encryptionManager;
-
-	/** @var  IAppManager */
-	protected $appManager;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var  QuestionHelper */
-	protected $questionHelper;
-
-	/** @var bool */
-	protected $wasTrashbinEnabled;
-
-	/** @var  bool */
-	protected $wasMaintenanceModeEnabled;
-
-	/**
-	 * @param IManager $encryptionManager
-	 * @param IAppManager $appManager
-	 * @param IConfig $config
-	 * @param QuestionHelper $questionHelper
-	 */
 	public function __construct(
 		IManager $encryptionManager,
 		IAppManager $appManager,
@@ -77,8 +59,8 @@ class EncryptAll extends Command {
 	/**
 	 * Set maintenance mode and disable the trashbin app
 	 */
-	protected function forceMaintenanceAndTrashbin() {
-		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
+	protected function forceMaintenanceAndTrashbin(): void {
+		$this->wasTrashbinEnabled = (bool)$this->appManager->isEnabledForUser('files_trashbin');
 		$this->wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 		$this->appManager->disableApp('files_trashbin');
@@ -87,7 +69,7 @@ class EncryptAll extends Command {
 	/**
 	 * Reset the maintenance mode and re-enable the trashbin app
 	 */
-	protected function resetMaintenanceAndTrashbin() {
+	protected function resetMaintenanceAndTrashbin(): void {
 		$this->config->setSystemValue('maintenance', $this->wasMaintenanceModeEnabled);
 		if ($this->wasTrashbinEnabled) {
 			$this->appManager->enableApp('files_trashbin');
@@ -138,10 +120,9 @@ class EncryptAll extends Command {
 			}
 
 			$this->resetMaintenanceAndTrashbin();
-		} else {
-			$output->writeln('aborted');
-			return 1;
+			return 0;
 		}
-		return 0;
+		$output->writeln('aborted');
+		return 1;
 	}
 }
