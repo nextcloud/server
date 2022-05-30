@@ -1655,6 +1655,7 @@ return array(
     'OC\\Settings\\Manager' => $baseDir . '/lib/private/Settings/Manager.php',
     'OC\\Settings\\Section' => $baseDir . '/lib/private/Settings/Section.php',
     'OC\\Setup' => $baseDir . '/lib/private/Setup.php',
+    'OC\\SetupCheck\\SetupCheckManager' => $baseDir . '/lib/private/SetupCheck/SetupCheckManager.php',
     'OC\\Setup\\AbstractDatabase' => $baseDir . '/lib/private/Setup/AbstractDatabase.php',
     'OC\\Setup\\MySQL' => $baseDir . '/lib/private/Setup/MySQL.php',
     'OC\\Setup\\OCI' => $baseDir . '/lib/private/Setup/OCI.php',

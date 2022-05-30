@@ -1688,6 +1688,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Settings\\Manager' => __DIR__ . '/../../..' . '/lib/private/Settings/Manager.php',
         'OC\\Settings\\Section' => __DIR__ . '/../../..' . '/lib/private/Settings/Section.php',
         'OC\\Setup' => __DIR__ . '/../../..' . '/lib/private/Setup.php',
+        'OC\\SetupCheck\\SetupCheckManager' => __DIR__ . '/../../..' . '/lib/private/SetupCheck/SetupCheckManager.php',
         'OC\\Setup\\AbstractDatabase' => __DIR__ . '/../../..' . '/lib/private/Setup/AbstractDatabase.php',
         'OC\\Setup\\MySQL' => __DIR__ . '/../../..' . '/lib/private/Setup/MySQL.php',
         'OC\\Setup\\OCI' => __DIR__ . '/../../..' . '/lib/private/Setup/OCI.php',

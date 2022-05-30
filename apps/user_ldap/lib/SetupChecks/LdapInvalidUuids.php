@@ -24,27 +24,29 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Settings\SetupChecks;
+namespace OCA\User_LDAP\SetupChecks;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IServerContainer;
+use OCP\SetupCheck\ISetupCheck;
 
-class LdapInvalidUuids {
+class LdapInvalidUuids implements ISetupCheck {
+	private IL10N $l10n;
+	private IServerContainer $server;
+	private UserMapping $userMapping;
+	private GroupMapping $groupMapping;
 
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IServerContainer */
-	private $server;
-
-	public function __construct(IAppManager $appManager, IL10N $l10n, IServerContainer $server) {
-		$this->appManager = $appManager;
+	public function __construct(IL10N $l10n, UserMapping $userMapping, GroupMapping $groupMapping) {
 		$this->l10n = $l10n;
-		$this->server = $server;
+		$this->userMapping = $userMapping;
+		$this->groupMapping = $groupMapping;
+	}
+
+	public function getCategory(): string {
+		return 'ldap';
 	}
 
 	public function description(): string {
@@ -56,14 +58,7 @@ class LdapInvalidUuids {
 	}
 
 	public function run(): bool {
-		if (!$this->appManager->isEnabledForUser('user_ldap')) {
-			return true;
-		}
-		/** @var UserMapping $userMapping */
-		$userMapping = $this->server->get(UserMapping::class);
-		/** @var GroupMapping $groupMapping */
-		$groupMapping = $this->server->get(GroupMapping::class);
-		return count($userMapping->getList(0, 1, true)) === 0
-			&& count($groupMapping->getList(0, 1, true)) === 0;
+		return count($this->userMapping->getList(0, 1, true)) === 0
+			&& count($this->groupMapping->getList(0, 1, true)) === 0;
 	}
 }

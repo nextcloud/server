@@ -28,14 +28,13 @@ namespace OCA\Settings\SetupChecks;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SetupCheck\ISetupCheck;
+use OCP\SetupCheck\SetupResult;
 
-class LegacySSEKeyFormat {
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var IURLGenerator */
-	private $urlGenerator;
+class LegacySSEKeyFormat implements ISetupCheck {
+	private IL10N $l10n;
+	private IConfig $config;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct(IL10N $l10n, IConfig $config, IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
@@ -43,19 +42,18 @@ class LegacySSEKeyFormat {
 		$this->urlGenerator = $urlGenerator;
 	}
 
-	public function description(): string {
-		return $this->l10n->t('The old server-side-encryption format is enabled. We recommend disabling this.');
+	public function getCategory(): string {
+		return 'security';
 	}
 
-	public function severity(): string {
-		return 'warning';
+	public function getName(): string {
+		return $this->l10n->t('Checking for old server-side-encryption being disabled');
 	}
 
-	public function run(): bool {
-		return $this->config->getSystemValueBool('encryption.legacy_format_support', false) === false;
-	}
-
-	public function linkToDocumentation(): string {
-		return $this->urlGenerator->linkToDocs('admin-sse-legacy-format');
+	public function run(): SetupResult {
+		if ($this->config->getSystemValueBool('encryption.legacy_format_support', false) === false) {
+			return new SetupResult(SetupResult::SUCCESS);
+		}
+		return new SetupResult(SetupResult::WARNING, $this->l10n->t('The old server-side-encryption format is enabled. We recommend disabling this.'), $this->urlGenerator->linkToDocs('admin-sse-legacy-format'));
 	}
 }

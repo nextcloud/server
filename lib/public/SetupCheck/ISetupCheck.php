@@ -19,5 +19,10 @@ interface ISetupCheck {
 	/**
 	 * @since 25.0.0
 	 */
+	public function getName(): string;
+
+	/**
+	 * @since 25.0.0
+	 */
 	public function run(): SetupResult;
 }
