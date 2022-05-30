@@ -36,6 +36,7 @@ namespace OC\Template;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\CapabilitiesManager;
 use OC\Share\Share;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Defaults;
@@ -115,9 +116,12 @@ class JSConfigHelper {
 		}
 
 		foreach ($apps as $app) {
-			$apps_paths[$app] = $this->appManager->getAppWebPath($app);
+			try {
+				$apps_paths[$app] = $this->appManager->getAppWebPath($app);
+			} catch (AppPathNotFoundException $e) {
+				$apps_paths[$app] = false;
+			}
 		}
-
 
 		$enableLinkPasswordByDefault = $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no');
 		$enableLinkPasswordByDefault = $enableLinkPasswordByDefault === 'yes';
