@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	$('#backgroundjobs span.crondate').tooltip({ placement: 'top' })
 
-	$('#backgroundjobs input').change(() => {
+	$('#backgroundjobs input').change(function() {
 		if ($(this).is(':checked')) {
 			const mode = $(this).val()
 			if (mode === 'ajax' || mode === 'webcron' || mode === 'cron') {
