@@ -37,7 +37,6 @@ interface MoveableMount {
 	/**
 	 * Remove the mount points
 	 *
-	 * @return mixed
 	 * @return bool
 	 */
 	public function removeMount();
