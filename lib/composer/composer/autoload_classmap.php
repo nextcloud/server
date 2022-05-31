@@ -569,6 +569,7 @@ return array(
     'OCP\\UserMigration\\IExportDestination' => $baseDir . '/lib/public/UserMigration/IExportDestination.php',
     'OCP\\UserMigration\\IImportSource' => $baseDir . '/lib/public/UserMigration/IImportSource.php',
     'OCP\\UserMigration\\IMigrator' => $baseDir . '/lib/public/UserMigration/IMigrator.php',
+    'OCP\\UserMigration\\ISizeEstimationMigrator' => $baseDir . '/lib/public/UserMigration/ISizeEstimationMigrator.php',
     'OCP\\UserMigration\\TMigratorBasicVersionHandling' => $baseDir . '/lib/public/UserMigration/TMigratorBasicVersionHandling.php',
     'OCP\\UserMigration\\UserMigrationException' => $baseDir . '/lib/public/UserMigration/UserMigrationException.php',
     'OCP\\UserStatus\\IManager' => $baseDir . '/lib/public/UserStatus/IManager.php',
