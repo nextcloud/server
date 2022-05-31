@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -33,9 +35,12 @@ namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\CapabilitiesManager;
+use OC\Share\Share;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Defaults;
+use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
@@ -44,62 +49,29 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\User\Backend\IPasswordConfirmationBackend;
+use OCP\Util;
 
 class JSConfigHelper {
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var IUser|null */
-	private $currentUser;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IniGetWrapper */
-	private $iniWrapper;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var CapabilitiesManager */
-	private $capabilitiesManager;
-
-	/** @var IInitialStateService */
-	private $initialStateService;
+	protected IL10N $l;
+	protected Defaults $defaults;
+	protected IAppManager $appManager;
+	protected ISession $session;
+	protected ?IUser $currentUser;
+	protected IConfig $config;
+	protected IGroupManager $groupManager;
+	protected IniGetWrapper $iniWrapper;
+	protected IURLGenerator $urlGenerator;
+	protected CapabilitiesManager $capabilitiesManager;
+	protected IInitialStateService $initialStateService;
 
 	/** @var array user back-ends excluded from password verification */
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
-	/**
-	 * @param IL10N $l
-	 * @param Defaults $defaults
-	 * @param IAppManager $appManager
-	 * @param ISession $session
-	 * @param IUser|null $currentUser
-	 * @param IConfig $config
-	 * @param IGroupManager $groupManager
-	 * @param IniGetWrapper $iniWrapper
-	 * @param IURLGenerator $urlGenerator
-	 * @param CapabilitiesManager $capabilitiesManager
-	 */
 	public function __construct(IL10N $l,
 								Defaults $defaults,
 								IAppManager $appManager,
 								ISession $session,
-								$currentUser,
+								?IUser $currentUser,
 								IConfig $config,
 								IGroupManager $groupManager,
 								IniGetWrapper $iniWrapper,
@@ -119,7 +91,7 @@ class JSConfigHelper {
 		$this->initialStateService = $initialStateService;
 	}
 
-	public function getConfig() {
+	public function getConfig(): string {
 		$userBackendAllowsPasswordConfirmation = true;
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
@@ -144,9 +116,12 @@ class JSConfigHelper {
 		}
 
 		foreach ($apps as $app) {
-			$apps_paths[$app] = \OC_App::getAppWebPath($app);
+			try {
+				$apps_paths[$app] = $this->appManager->getAppWebPath($app);
+			} catch (AppPathNotFoundException $e) {
+				$apps_paths[$app] = false;
+			}
 		}
-
 
 		$enableLinkPasswordByDefault = $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no');
 		$enableLinkPasswordByDefault = $enableLinkPasswordByDefault === 'yes';
@@ -193,14 +168,14 @@ class JSConfigHelper {
 			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
 			'session_keepalive' => $this->config->getSystemValue('session_keepalive', true),
 			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
-			'version' => implode('.', \OCP\Util::getVersion()),
+			'version' => implode('.', Util::getVersion()),
 			'versionstring' => \OC_Util::getVersionString(),
 			'enable_avatars' => true, // here for legacy reasons - to not crash existing code that relies on this value
 			'lost_password_link' => $this->config->getSystemValue('lost_password_link', null),
 			'modRewriteWorking' => $this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true',
 			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
 			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
-			'blacklist_files_regex' => \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX,
+			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
 		];
 
 		$array = [
@@ -275,10 +250,10 @@ class JSConfigHelper {
 					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
 					'defaultExpireDate' => $defaultExpireDate,
 					'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
-					'enforcePasswordForPublicLink' => \OCP\Util::isPublicLinkPasswordRequired(),
+					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
-					'sharingDisabledForUser' => \OCP\Util::isSharingDisabledForUser(),
-					'resharingAllowed' => \OC\Share\Share::isResharingAllowed(),
+					'sharingDisabledForUser' => Util::isSharingDisabledForUser(),
+					'resharingAllowed' => Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
 					'allowGroupSharing' => \OC::$server->getShareManager()->allowGroupSharing(),
