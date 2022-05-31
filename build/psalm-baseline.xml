@@ -98,7 +98,9 @@
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1"/>
+    <InvalidArgument occurrences="1">
+      <code>CalendarDeletionDefaultUpdaterListener::class</code>
+    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getAppDataDir</code>
     </UndefinedInterfaceMethod>
@@ -722,7 +724,9 @@
     <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;backend-&gt;getArbiterPath()</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1"/>
+    <InvalidReturnType occurrences="1">
+      <code>bool</code>
+    </InvalidReturnType>
   </file>
   <file src="apps/dav/lib/Files/RootCollection.php">
     <UndefinedFunction occurrences="1">
@@ -885,6 +889,7 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -1632,7 +1637,9 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="apps/settings/lib/AppInfo/Application.php">
-    <InvalidArgument occurrences="1"/>
+    <InvalidArgument occurrences="1">
+      <code>AppPasswordCreatedActivityListener::class</code>
+    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getSettingsManager</code>
     </UndefinedInterfaceMethod>
@@ -3991,7 +3998,7 @@
   </file>
   <file src="lib/private/Streamer.php">
     <InvalidArgument occurrences="1">
-      <code>$fh</code>
+      <code>$stream</code>
     </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>get</code>
@@ -4141,8 +4148,12 @@
     </FalsableReturnStatement>
   </file>
   <file src="lib/private/User/Manager.php">
-    <ImplementedReturnTypeMismatch occurrences="1"/>
-    <InvalidArgument occurrences="1"/>
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>IUser|false</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidArgument occurrences="1">
+      <code>$backend</code>
+    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="2">
       <code>createUser</code>
       <code>getUsersForUserValueCaseInsensitive</code>
@@ -4224,9 +4235,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
-    <InvalidArgument occurrences="1">
-      <code>$fh</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="1">
       <code>mt_rand()</code>
     </InvalidScalarArgument>
@@ -4282,11 +4290,6 @@
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/public/Server.php">
-    <InvalidThrow occurrences="2">
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
@@ -4356,6 +4359,12 @@
     <InvalidThrow occurrences="2">
       <code>ContainerExceptionInterface</code>
       <code>ContainerExceptionInterface</code>
+    </InvalidThrow>
+  </file>
+  <file src="lib/public/Server.php">
+    <InvalidThrow occurrences="2">
+      <code>ContainerExceptionInterface</code>
+      <code>NotFoundExceptionInterface</code>
     </InvalidThrow>
   </file>
   <file src="remote.php">
