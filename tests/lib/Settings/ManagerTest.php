@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Settings\Tests\AppInfo;
+namespace OC\Settings\Tests\AppInfo;
 
 use OC\Settings\AuthorizedGroupMapper;
 use OC\Settings\Manager;
@@ -82,16 +82,26 @@ class ManagerTest extends TestCase {
 	public function testGetAdminSections() {
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
+		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$this->container->method('get')
+			->with(\OCA\WorkflowEngine\Settings\Section::class)
+			->willReturn($section);
+
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [$section],
 		], $this->manager->getAdminSections());
 	}
 
 	public function testGetPersonalSections() {
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
+		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$this->container->method('get')
+			->with(\OCA\WorkflowEngine\Settings\Section::class)
+			->willReturn($section);
+
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [$section],
 		], $this->manager->getPersonalSections());
 	}
 
@@ -181,14 +191,16 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSetting('personal', 'section1');
 		$this->manager->registerSetting('personal', 'section2');
 
-		$this->container->expects($this->at(0))
+		$this->container->expects($this->exactly(2))
 			->method('get')
-			->with('section1')
-			->willReturn($section);
-		$this->container->expects($this->at(1))
-			->method('get')
-			->with('section2')
-			->willReturn($section2);
+			->withConsecutive(
+				['section1'],
+				['section2']
+			)
+			->willReturnMap([
+				['section1', $section],
+				['section2', $section2],
+			]);
 
 		$settings = $this->manager->getPersonalSettings('security');
 
@@ -212,12 +224,18 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
+
+		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$this->container->method('get')
+			->with(\OCA\WorkflowEngine\Settings\Section::class)
+			->willReturn($section);
+
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [$section],
 		], $this->manager->getPersonalSections());
 
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [$section],
 		], $this->manager->getAdminSections());
 	}
 }
