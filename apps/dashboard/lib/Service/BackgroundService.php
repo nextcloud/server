@@ -150,6 +150,10 @@ class BackgroundService {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		/** @var File $file */
 		$file = $userFolder->get($path);
+		$image = new \OCP\Image();
+		if ($image->loadFromFileHandle($file->fopen('r')) === false) {
+			throw new InvalidArgumentException('Invalid image file');
+		}
 		$this->getAppDataFolder()->newFile('background.jpg', $file->fopen('r'));
 	}
 
