@@ -32,34 +32,20 @@ jobs:
           mkdir data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
 
-          cd apps
-          git clone https://github.com/icewind1991/blueprint
-          cd blueprint
-          composer install
-          cd ..
-
-          git clone -b cli https://github.com/nextcloud/profiler
-          cd ..
-
-          ./occ app:enable --force blueprint
-          ./occ app:enable --force profiler
-
-          ./occ profiler:enable
-          ./occ blueprint:enable
-          ./occ blueprint:apply apps/blueprint/blueprints/small.toml
-
           php -S localhost:8080 &
-      - name: Run warmup
-        run: |
-          curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+      - name: Apply blueprint
+        uses: icewind1991/blueprint@v0.1.1
+        with:
+          blueprint: apps/blueprint/blueprints/small.toml
+
       - name: Run before measurements
-        run: |
-          rm -rf data/profiler
+        uses: nextcloud/profiler@44befceb459ca489ba17a14c3f17683ab7206660
+        with:
+          run: |
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+            curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+          output: before.json
 
-          curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
-
-          ./occ profiler:list
-          ./occ profiler:export > before.json
       - name: Apply PR
         run: |
           git fetch origin ${{ github.event.pull_request.head.ref }}
@@ -67,16 +53,19 @@ jobs:
           git submodule update
 
           ./occ upgrade
+
       - name: Run after measurements
-        run: |
-          rm -rf data/profiler
-
-          curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
-
-          ./occ profiler:list
-          ./occ profiler:export > after.json
+        id: compare
+        uses: nextcloud/profiler@44befceb459ca489ba17a14c3f17683ab7206660
+        with:
+          run: |
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+            curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+          output: after.json
+          compare-with: before.json
 
       - name: Upload profiles
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: profiles
@@ -84,11 +73,6 @@ jobs:
             before.json
             after.json
 
-      - name: Compare measurements
-        uses: mathiasvr/command-output@v1
-        id: compare
-        with:
-          run: ./occ profiler:compare before.json after.json
       - uses: actions/github-script@v5
         if: failure() && steps.compare.outcome == 'failure'
         with:
@@ -98,7 +82,7 @@ jobs:
             comment += `<details><summary>Show Output</summary>
 
             \`\`\`
-            ${{ steps.compare.outputs.stdout }}
+            ${{ steps.compare.outputs.compare }}
             \`\`\`
 
             </details>`;
