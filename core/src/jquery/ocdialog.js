@@ -24,6 +24,7 @@
  */
 
 import $ from 'jquery'
+import { isA11yClick } from '../Util/a11y'
 
 $.widget('oc.ocdialog', {
 	options: {
@@ -60,7 +61,7 @@ $.widget('oc.ocdialog', {
 		if (self.element.find('input').length === 1) {
 			const $input = self.element.find('input')
 			$input.on('keydown', function(event) {
-				if (event.key === 'Enter') {
+				if (isA11yClick(event)) {
 					if (self.$buttonrow) {
 						const $button = self.$buttonrow.find('button.primary')
 						if ($button && !$button.prop('disabled')) {
@@ -157,7 +158,7 @@ $.widget('oc.ocdialog', {
 				}
 				self.$buttonrow.append($button)
 				$button.on('click keydown', function(event) {
-					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+					if (isA11yClick(event)) {
 						val.click.apply(self.element[0], arguments)
 					}
 				})
@@ -179,7 +180,7 @@ $.widget('oc.ocdialog', {
 				const $closeButton = $('<a class="oc-dialog-close" tabindex="0"></a>')
 				this.$dialog.prepend($closeButton)
 				$closeButton.on('click keydown', function(event) {
-					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+					if (isA11yClick(event)) {
 						self.options.closeCallback && self.options.closeCallback()
 						self.close()
 					}

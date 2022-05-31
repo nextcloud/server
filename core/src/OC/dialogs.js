@@ -49,6 +49,7 @@ import $ from 'jquery'
 
 import OC from './index'
 import OCA from '../OCA/index'
+import { isA11yClick } from '../Util/a11y'
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -312,7 +313,7 @@ const Dialogs = {
 
 			self.$showGridView = $('button#picker-showgridview')
 			self.$showGridView.on('click keydown', function(event) {
-				if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+				if (isA11yClick(event)) {
 					self._onGridviewChange()
 				}
 			})
@@ -352,7 +353,7 @@ const Dialogs = {
 			var $input = $form.find('input[type=\'text\']')
 			var $submit = $form.find('input[type=\'submit\']')
 			$input.on('keydown', function(event) {
-				if (event.key === 'Enter') {
+				if (isA11yClick(event)) {
 					event.stopImmediatePropagation()
 					event.preventDefault()
 					$form.submit()
@@ -444,17 +445,17 @@ const Dialogs = {
 				self.$filelistContainer = self.$filePicker.find('.filelist-container')
 				self.$dirTree = self.$filePicker.find('.dirtree')
 				self.$dirTree.on('click keydown', 'div:not(:last-child)', self, function(event) {
-					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+					if (isA11yClick(event)) {
 						self._handleTreeListSelect(event, type)
 					}
 				})
 				self.$filelist.on('click keydown', 'tr', function(event) {
-					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+					if (isA11yClick(event)) {
 						self._handlePickerClick(event, $(this), type)
 					}
 				})
 				self.$fileListHeader.on('click keydown', 'a', function(event) {
-					if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+					if (isA11yClick(event)) {
 						var dir = self.$filePicker.data('path')
 						self.filepicker.sortField = $(event.currentTarget).data('sort')
 						self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc'
