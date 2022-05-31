@@ -2979,11 +2979,6 @@
       <code>wrap</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Files/Mount/MoveableMount.php">
-    <InvalidDocblock occurrences="1">
-      <code>public function removeMount();</code>
-    </InvalidDocblock>
-  </file>
   <file src="lib/private/Files/Mount/ObjectHomeMountProvider.php">
     <InvalidNullableReturnType occurrences="1">
       <code>\OCP\Files\Mount\IMountPoint</code>
