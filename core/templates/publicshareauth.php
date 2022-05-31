@@ -17,7 +17,7 @@
 			<div class="warning-info"><?php p($l->t('This share is password-protected')); ?></div>
 		<?php endif; ?>
 		<?php if (isset($_['wrongpw'])): ?>
-			<div class="warning"><?php p($l->t('The password is wrong. Try again.')); ?></div>
+			<div class="warning wrongPasswordMsg"><?php p($l->t('The password is wrong or expired. Please try again or request a new one.')); ?></div>
 		<?php endif; ?>
 		<p>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
