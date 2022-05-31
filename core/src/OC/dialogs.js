@@ -1049,15 +1049,15 @@ const Dialogs = {
 		})
 	},
 	_onGridviewChange: function() {
-		const show = this.$showGridView.hasClass('icon-toggle-filelist')
+		const isGridView = this.$showGridView.hasClass('icon-toggle-filelist')
 		// only save state if user is logged in
 		if (OC.currentUser) {
-			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), { show: !show })
+			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), { show: !isGridView })
 		}
 		this.$showGridView
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
-			.addClass(show ? 'icon-toggle-pictures' : 'icon-toggle-filelist')
-		$('.list-container').toggleClass('view-grid', !show)
+			.addClass(isGridView ? 'icon-toggle-pictures' : 'icon-toggle-filelist')
+		$('.list-container').toggleClass('view-grid', !isGridView)
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred()
