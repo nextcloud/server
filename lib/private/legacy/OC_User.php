@@ -179,6 +179,7 @@ class OC_User {
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
 				$userSession->createSessionToken($request, $uid, $uid);
+				$userSession->createRememberMeToken($userSession->getUser());
 				// setup the filesystem
 				OC_Util::setupFS($uid);
 				// first call the post_login hooks, the login-process needs to be
