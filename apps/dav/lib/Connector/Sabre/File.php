@@ -215,15 +215,26 @@ class File extends Node implements IFile {
 				$data = $tmpData;
 			}
 
-			$data = HashWrapper::wrap($data, 'md5', function ($hash) {
-				$this->header('X-Hash-MD5: ' . $hash);
-			});
-			$data = HashWrapper::wrap($data, 'sha1', function ($hash) {
-				$this->header('X-Hash-SHA1: ' . $hash);
-			});
-			$data = HashWrapper::wrap($data, 'sha256', function ($hash) {
-				$this->header('X-Hash-SHA256: ' . $hash);
-			});
+			if ($this->request->getHeader('X-HASH') !== '') {
+				$hash = $this->request->getHeader('X-HASH');
+				if ($hash === 'all' || $hash === 'md5') {
+					$data = HashWrapper::wrap($data, 'md5', function ($hash) {
+						$this->header('X-Hash-MD5: ' . $hash);
+					});
+				}
+
+				if ($hash === 'all' || $hash === 'sha1') {
+					$data = HashWrapper::wrap($data, 'sha1', function ($hash) {
+						$this->header('X-Hash-SHA1: ' . $hash);
+					});
+				}
+
+				if ($hash === 'all' || $hash === 'sha256') {
+					$data = HashWrapper::wrap($data, 'sha256', function ($hash) {
+						$this->header('X-Hash-SHA256: ' . $hash);
+					});
+				}
+			}
 
 			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
 				$isEOF = false;
