@@ -304,7 +304,7 @@ class Util {
 			$storageService = \OC::$server->get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();
 			foreach ($storages as $storage) {
-				if (strpos($path, '/files/' . $storage->getMountPoint()) === 0) {
+				if (strpos($path, '/files/' . ltrim($storage->getMountPoint(), '/')) === 0) {
 					if ($this->isMountPointApplicableToUser($storage, $uid)) {
 						return true;
 					}
