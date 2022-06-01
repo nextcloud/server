@@ -87,10 +87,10 @@ jobs:
           npm run build --if-present
 
       - name: Build css
-        run: npm run sass
+        run: npm run --if-present sass
 
       - name: Build icons css
-        run: npm run sass:icons
+        run: npm run --if-present sass:icons
 
       - name: Commit and push default
         if: ${{ needs.init.outputs.arg1 != 'fixup' && needs.init.outputs.arg1 != 'amend' }}
