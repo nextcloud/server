@@ -681,7 +681,9 @@ class ShareAPIController extends OCSController {
 			$share->setNote($note);
 		}
 
-		$share = $this->setShareAttributes($share, $attributes);
+		if ($attributes !== null) {
+			$share = $this->setShareAttributes($share, $attributes);
+		}
 
 		try {
 			$share = $this->shareManager->createShare($share);
@@ -1228,7 +1230,9 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
-		$share = $this->setShareAttributes($share, $attributes);
+		if ($attributes !== null) {
+			$share = $this->setShareAttributes($share, $attributes);
+		}
 
 		try {
 			$share = $this->shareManager->updateShare($share);
