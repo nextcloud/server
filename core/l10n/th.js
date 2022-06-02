@@ -288,7 +288,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "ไคลเอ็นต์ของคุณควรได้รับการเชื่อมต่อแล้ว",
     "You can close this window." : "คุณสามารถปิดหน้าต่างนี้ได้",
     "This share is password-protected" : "การแชร์นี้มีการป้องกันด้วยรหัสผ่าน",
-    "The password is wrong. Try again." : "รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง",
     "Email address" : "ที่อยู่อีเมล",
     "Go to %s" : "ไปที่ %s",
     "Two-factor authentication" : "การยืนยันสองปัจจัย",
@@ -323,6 +322,7 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "หน้านี้จะรีเฟรชตัวเองเมื่อเซิร์ฟเวอร์สามารถใช้ได้อีกครั้ง",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ติดต่อผู้ดูแลระบบของคุณหากข้อความนี้ยังคงอยู่หรือปรากฏโดยไม่คาดคิด",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 เป็นรุ่นสุดท้ายที่รองรับ PHP 7.2 ส่วน Nextcloud 21 ต้องการ PHP 7.3 เป็นขั้นต่ำ",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ไดเรกทอรี data และไฟล์ของคุณอาจเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ไม่ทำงาน เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณให้ไดเรกทอรี data ไม่สามารถเข้าถึงได้ หรือย้ายไดเรกทอรี data ไปอยู่นอกรากที่เก็บเอกสารของเว็บเซิร์ฟเวอร์"
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ไดเรกทอรี data และไฟล์ของคุณอาจเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ไม่ทำงาน เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณให้ไดเรกทอรี data ไม่สามารถเข้าถึงได้ หรือย้ายไดเรกทอรี data ไปอยู่นอกรากที่เก็บเอกสารของเว็บเซิร์ฟเวอร์",
+    "The password is wrong. Try again." : "รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง"
 },
 "nplurals=1; plural=0;");

@@ -298,7 +298,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "El teu client ara hauria d'estar connectat!",
     "You can close this window." : "Podeu tancar aquesta finestra.",
     "This share is password-protected" : "Aquesta compartició està protegida amb contrasenya",
-    "The password is wrong. Try again." : "Contrasenya incorrecta. Torneu-ho a provar.",
     "Email address" : "Adreça de correu",
     "Request password" : "Sol·licita contrasenya",
     "Go to %s" : "Ves a %s",
@@ -338,6 +337,7 @@ OC.L10N.register(
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Aquest servidor no té una connexió a Internet operativa: no es poden accedir múltiples punts finals. Això significa que algunes de les funcions com a muntar emmagatzematge extern, notificacions sobre les actualitzacions o instal·lació d'apps de tercers no funcionarà. L’accés a fitxers remots i l’enviament de correus electrònics de notificació podrien no funcionar, tampoc. Establiu una connexió d'aquest servidor a Internet per a gaudir de totes les funcionalitats.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 és l’última versió compatible amb PHP 7.2. Nextcloud 21 requereix com a mínim PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "El vostre directori de dades i els fitxers són probablement accessibles des d'Internet. El fitxer .htaccess no està funcionant. És molt recomanable que configureu el servidor web de manera que el directori de dades no sigui accessible, o moure el directori de dades fora de l'arrel de documents del servidor web.",
+    "The password is wrong. Try again." : "Contrasenya incorrecta. Torneu-ho a provar.",
     "You haven't added any info yet" : "Encara no heu afegit cap informació",
     "{user} hasn't added any info yet" : "{user} encara no ha afegit cap informació"
 },

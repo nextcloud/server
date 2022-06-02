@@ -186,7 +186,6 @@
     "App token" : "Çelës identifikues i API-t",
     "Grant access" : "Akordoji hyrje",
     "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
-    "The password is wrong. Try again." : "Fjalëkalim i gabuar. Provojeni sërish.",
     "Go to %s" : "Shko tek %s",
     "Two-factor authentication" : "Verifikim dy-element",
     "Use backup code" : "Përdorni kodin e kopjes rezervë",
@@ -204,6 +203,7 @@
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Në qofte se unë vazhdoj të kryej përditësimin nëpëmjet web UI ka rrezik, që kërkesa mund të ndaloj dhe shkakton humbje të të dhënave, por unë di si ti rikthej të dhënat ne rast dështimi.",
     "Upgrade via web on my own risk" : "Përditëso me anë të internetit në rrezikun tim",
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
+    "The password is wrong. Try again." : "Fjalëkalim i gabuar. Provojeni sërish."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

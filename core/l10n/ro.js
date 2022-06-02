@@ -215,7 +215,6 @@ OC.L10N.register(
     "You are about to grant %1$s access to your %2$s account." : "Ești pe cale să permiți %1$s accesul la %2$s contul tău.",
     "Account connected" : "Cont conectat",
     "This share is password-protected" : "Această partajare este protejată cu parolă",
-    "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou.",
     "Two-factor authentication" : "Autentificare în doi-factori",
     "Set up two-factor authentication" : "Setează autentificarea cu doi factori",
     "Use backup code" : "Folosește un cod de backup",
@@ -238,6 +237,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizare prin interfața web pe riscul meu",
     "Maintenance mode" : "Mod mentenanță",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
+    "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -343,7 +343,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "您的客户端现在应该可以连接了！",
     "You can close this window." : "您可以关闭此窗口。",
     "This share is password-protected" : "这个共享是被密码保护的",
-    "The password is wrong. Try again." : "用户名或密码错误！请重试",
     "Email address" : "电子邮件地址",
     "Request password" : "需要密码",
     "Go to %s" : "转至 %s",
@@ -387,6 +386,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "数据库中的一些列缺少到 big int 的转换。由于更改大表上的列类型可能需要一些时间，所以它们不会被自动更改。通过运行 'occ db:convert-filecache-bigint'，这些挂起的更改可以手动应用。需要在实例离线时执行此操作。进一步的细节，可以阅读 {linkstart} 关于此问题的文档页面 ↗{linkend}",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "要迁移到另一个数据库，使用命令行工具 'occ db:convert-type'或见 {linkstart}文档↗{linkend}",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的数据目录和文件可以从互联网直接访问。.htaccess 文件不起作用。强烈建议您配置 Web 服务器，以便数据目录不再可访问，或者您可以将数据目录移动到 Web 服务器文档根目录。",
+    "The password is wrong. Try again." : "用户名或密码错误！请重试",
     "You haven't added any info yet" : "你尚未添加任何信息",
     "{user} hasn't added any info yet" : "{user} 尚未添加任何信息"
 },

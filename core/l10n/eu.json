@@ -351,7 +351,6 @@
     "Your client should now be connected!" : "Zure bezeroak konektatua behar luke orain!",
     "You can close this window." : "Leiho hau itxi dezakezu.",
     "This share is password-protected" : "Partekatutako hau pasahitzez babestua dago.",
-    "The password is wrong. Try again." : "Pasahitza ez da zuzena. Saiatu berriro.",
     "Please type in your email address to request a temporary password" : "Mesedez, idatzi zure helbide elektronikoa aldi baterako pasahitza eskatzeko",
     "Email address" : "Helbide elektronikoa",
     "Password sent!" : "Pasahitza bidalita!",
@@ -398,6 +397,7 @@
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Datu baseko zutabe batzuek big int bihurtzea falta dute. Taula handietan zutabe motak aldatzeak denbora dezente har dezakeenez ez dira automatikoki aldatu. 'Occ db: convert-filecache-bigint' exekutatuz zain dauden aldaketak eskuz aplika litezke. Eragiketa hau instantzia lineaz kanpo dagoen bitartean egin behar da. Xehetasun gehiagorako, irakurri {linkstart} honi buruzko dokumentazio orria ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Beste datu-base batera migratzeko, erabili komando-lerroko tresna hau: 'occ db: convert-type', edo ikusi {linkstart} dokumentazioa ↗ {linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Zure datuen direktorioa eta fitxategiak Internetetik atzitu daitezke. .htaccess fitxategiak ez du funtzionatzen. Biziki gomendatzen da  web zerbitzariaren konfigurazioa aldatzea datuen direktorioa atzigarri egon ez dadin edo datuen direktorioa web zerbitzariaren dokumentu errotik kanpora ateratzea.",
+    "The password is wrong. Try again." : "Pasahitza ez da zuzena. Saiatu berriro.",
     "You haven't added any info yet" : "Ez duzu informaziorik gehitu oraindik",
     "{user} hasn't added any info yet" : "{user} ez du informaziorik gehitu oraindik"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

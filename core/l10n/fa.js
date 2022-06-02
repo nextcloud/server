@@ -202,7 +202,6 @@ OC.L10N.register(
     "Grant access" : " مجوز اعطا دسترسی",
     "Account access" : "دسترسی به حساب",
     "This share is password-protected" : "این اشتراک توسط رمز عبور محافظت می شود",
-    "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید.",
     "Email address" : "آدرس ایمیل",
     "Go to %s" : "برو به %s",
     "Use backup code" : "از کد پشتیبان استفاده شود",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "برای جلوگیری از وقفه در نصب های طولانی تر، شما می توانید دستورات زیر را از مسیر نصبتان اجرا کنید:",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید.",
+    "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
 },
 "nplurals=2; plural=(n > 1);");

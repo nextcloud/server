@@ -351,7 +351,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Váš klient by mal byť pripojený!",
     "You can close this window." : "Toto okno už môžete zatvoriť.",
     "This share is password-protected" : "Toto sprístupnenie je chránené heslom",
-    "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "Please type in your email address to request a temporary password" : "Prosím zadajte vašu e-mailovú adresu pre získanie dočasného hesla",
     "Email address" : "E-mailová adresa",
     "Password sent!" : "Heslo odoslané!",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Niektorým stĺpcom v databáze chýba konverzia na big int. Vzhľadom na to, že zmena typov stĺpcov na veľkých tabuľkách by mohla chvíľu trvať, neboli zmenené automaticky. Spustením príkazu „occ db:convert-filecache-bigint“ budú zmeny aplikované manuálne. Túto operáciu je potrebné vykonať v čase, keď je inštancia offline. Ďalšie informácie nájdete na {linkstart} dokumentačnej stránke o tomto ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Na migráciu do inej databázy použite nástroj príkazového riadku: 'occ db:convert-type' alebo si pozrite dokumentáciu {linkstart} ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Váš priečinok s dátami aj vaše súbory sú pravdepodobne prístupné z internetu. Súbor .htaccess nefunguje. Dôrazne odporúčame nakonfigurovať webový server tak, aby priečinok s dátami nebol naďalej prístupný alebo presunúť priečinok s dátami mimo priestoru, ktorý webový server sprístupňuje.",
+    "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "You haven't added any info yet" : "Zatiaľ ste nepridali žiadne informácie",
     "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie"
 },
