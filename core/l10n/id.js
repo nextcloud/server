@@ -313,7 +313,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Klien sudah terhubung!",
     "You can close this window." : "Anda dapat menutup jendela ini.",
     "This share is password-protected" : "Berbagi ini dilindungi kata sandi",
-    "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
     "Please type in your email address to request a temporary password" : "Silakan ketik alamat email Anda untuk meminta kata sandi sementara",
     "Email address" : "Alamat email",
     "Password sent!" : "Kata sandi terkirim!",
@@ -356,6 +355,7 @@ OC.L10N.register(
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Peladen ini tidak terhubung ke internet. Beberapa titik akhir tidak dapat terjangkau. Hal ini berarti beberapa fitur, seperti: pemasangan penyimpanan eksternal, notifikasi pembaruan atau instalasi aplikasi pihak ketiga tidak akan berfungsi. Mengakses berkas dari jarak jauh dan mengirim notifikasi surel keduanya tidak akan berfungsi. Hubungkan peladen ini ke internet, untuk dapat mendapatkan fitur-fitur tersebut.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 adalah rilis terakhir yang mendukung PHP 7.2. Nextcloud 21 membutuhkan setidaknya PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Data folder dan berkas Anda kemungkinan dapat diakses dari Internet secara langsung, dikarenakan berkas .htaccess tidak bekerja. Sangat dianjurkan Anda untuk menyetel peladen web, untuk mencegah hal tersebut terjadi. Atau pindahkan lokasi data Anda di luar root dokumen peladen web.",
+    "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
     "You haven't added any info yet" : "Anda belum menambahkan info apa pun",
     "{user} hasn't added any info yet" : "{user} belum menambahkan info apa pun"
 },

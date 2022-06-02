@@ -264,7 +264,6 @@
     "Your client should now be connected!" : "Dabar, jūsų kliento programa turėtų būti prijungta!",
     "You can close this window." : "Galite užverti šį langą.",
     "This share is password-protected" : "Šis viešinys yra apsaugotas slaptažodžiu",
-    "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
     "Email address" : "El. pašto adresas",
     "Request password" : "Prašyti slaptažodžio",
     "Go to %s" : "Pereiti į %s",
@@ -296,6 +295,7 @@
     "Maintenance mode" : "Techninės priežiūros veiksena",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s egzempliorius šiuo metu yra techninės priežiūros veiksenoje, kas savo ruožtu gali šiek tiek užtrukti.",
     "This page will refresh itself when the instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai egzempliorius bus ir vėl prieinamas.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi, jei šis pranešimas nedingsta arba, jei jis pasirodė netikėtai."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi, jei šis pranešimas nedingsta arba, jei jis pasirodė netikėtai.",
+    "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

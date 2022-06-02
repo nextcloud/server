@@ -321,7 +321,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Вашиот клиент сега треба да биде поврзан!",
     "You can close this window." : "Можете да го затворите овој прозорец.",
     "This share is password-protected" : "Ова споделување е заштитено со лозинка",
-    "The password is wrong. Try again." : "Лозинката е погрешна. Обидите се повторно.",
     "Email address" : "Е-пошта адреси",
     "Request password" : "Барање на лозинка",
     "Go to %s" : "Оди до %s",
@@ -363,6 +362,7 @@ OC.L10N.register(
     "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Недостасува PHP модулот \"OPcache\". {linkstart}За да имате подобри перформанси е препорачливо ↗{linkend} да го овозможите во вашата PHP инсталација.",
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP модулот \"OPcache\" не е правилно конфигуриран. {linkstart}За да имате подобри перформанси е препорачливо ↗{linkend} да ги користите следните поставки во вашата <code>php.ini</code> датотека:",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "За да мигрирате во друга база на податоци, користете ја алатката во командната линија: 'occ db:convert-type', или погледнете во {linkstart}документацијата ↗{linkend}.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Вашата папка за податоци и вашите датотеки се најверојатно достапни од интернет. Датотеката .htaccess не работи. Строго ви препорачуваме да го подесите вашиот веб опслужувач на начин на кој вашата папка за податоци не е веќе достапна од интернет или да ја преместите папката за податоци надвор од коренот на веб опслужувачот."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Вашата папка за податоци и вашите датотеки се најверојатно достапни од интернет. Датотеката .htaccess не работи. Строго ви препорачуваме да го подесите вашиот веб опслужувач на начин на кој вашата папка за податоци не е веќе достапна од интернет или да ја преместите папката за податоци надвор од коренот на веб опслужувачот.",
+    "The password is wrong. Try again." : "Лозинката е погрешна. Обидите се повторно."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

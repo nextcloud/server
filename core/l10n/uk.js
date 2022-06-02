@@ -262,7 +262,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Зараз ваш клієнт має бути приєднано!",
     "You can close this window." : "Ви можете закрити це вікно.",
     "This share is password-protected" : "Доступ до цього ресурсу захищений паролем",
-    "The password is wrong. Try again." : "Пароль неправильний. Спробуйте ще раз.",
     "Email address" : "Адреса ел.пошти",
     "Go to %s" : "Перейти до %s",
     "Two-factor authentication" : "Двофакторна аутентифікація",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "Maintenance mode" : "Режим технічного обслуговування",
     "This %s instance is currently in maintenance mode, which may take a while." : "Цей сервер %s перебуває в режимі технічного обслуговування, що може зайняти деякий час.",
     "This page will refresh itself when the instance is available again." : "Ця сторінка оновиться автоматично, коли сервер знову стане доступний.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора, якщо це повідомлення не зникає або з'являється несподівано."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора, якщо це повідомлення не зникає або з'являється несподівано.",
+    "The password is wrong. Try again." : "Пароль неправильний. Спробуйте ще раз."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
