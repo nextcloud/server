@@ -192,22 +192,25 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
-	public function knownUnknownProvider() {
+	public function dataGetAvatarScopes() {
 		return [
-			[IAccountManager::SCOPE_LOCAL, false, false, false],
-			[IAccountManager::SCOPE_LOCAL, true, false, false],
-
 			// public access cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, true, false, true],
 			// unknown users cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, false, false, true],
 			// known users can see real avatar
 			[IAccountManager::SCOPE_PRIVATE, false, true, false],
+			[IAccountManager::SCOPE_LOCAL, false, false, false],
+			[IAccountManager::SCOPE_LOCAL, true, false, false],
+			[IAccountManager::SCOPE_FEDERATED, false, false, false],
+			[IAccountManager::SCOPE_FEDERATED, true, false, false],
+			[IAccountManager::SCOPE_PUBLISHED, false, false, false],
+			[IAccountManager::SCOPE_PUBLISHED, true, false, false],
 		];
 	}
 
 	/**
-	 * @dataProvider knownUnknownProvider
+	 * @dataProvider dataGetAvatarScopes
 	 */
 	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder) {
 		if ($isPublicCall) {
