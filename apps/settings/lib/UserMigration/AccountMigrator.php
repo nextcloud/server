@@ -133,7 +133,7 @@ class AccountMigrator implements IMigrator {
 
 			$output->writeln('Importing avatar from ' . $importPath . '…');
 			$stream = $importSource->getFileAsStream($importPath);
-			$image = new \OC_Image();
+			$image = new \OCP\Image();
 			$image->loadFromFileHandle($stream);
 
 			try {

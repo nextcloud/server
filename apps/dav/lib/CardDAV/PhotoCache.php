@@ -148,7 +148,7 @@ class PhotoCache {
 				throw new NotFoundException;
 			}
 
-			$photo = new \OC_Image();
+			$photo = new \OCP\Image();
 			/** @var ISimpleFile $file */
 			$file = $folder->getFile('photo.' . $ext);
 			$photo->loadFromData($file->getContent());

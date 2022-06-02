@@ -224,7 +224,7 @@ class AvatarController extends Controller {
 		}
 
 		try {
-			$image = new \OC_Image();
+			$image = new \OCP\Image();
 			$image->loadFromData($content);
 			$image->readExif($content);
 			$image->fixOrientation();
@@ -285,7 +285,7 @@ class AvatarController extends Controller {
 									Http::STATUS_NOT_FOUND);
 		}
 
-		$image = new \OC_Image();
+		$image = new \OCP\Image();
 		$image->loadFromData($tmpAvatar);
 
 		$resp = new DataDisplayResponse(
@@ -324,7 +324,7 @@ class AvatarController extends Controller {
 									Http::STATUS_BAD_REQUEST);
 		}
 
-		$image = new \OC_Image();
+		$image = new \OCP\Image();
 		$image->loadFromData($tmpAvatar);
 		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
 		try {
