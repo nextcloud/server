@@ -323,6 +323,26 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getShareAttributes(): array {
+		$attributes = [];
+
+		try {
+			$storage = $this->info->getStorage();
+		} catch (StorageNotAvailableException $e) {
+			$storage = null;
+		}
+
+		if ($storage && $storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			$attributes = $storage->getShare()->getAttributes()->toArray();
+		}
+
+		return $attributes;
+	}
+
+	/**
 	 * @param string $user
 	 * @return string
 	 */
