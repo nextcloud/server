@@ -42,11 +42,11 @@
   -moz-user-select: none;
   -ms-user-select: none;
 }
-#header a:focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
-#navigation a:focus-visible,
+#header a:not(.button):focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
+#navigation a:not(.button):focus-visible,
 #navigation button:not(.button-vue):focus-visible,
 #navigation div[role=button]:focus-visible,
-#expanddiv a:focus-visible,
+#expanddiv a:not(.button):focus-visible,
 #expanddiv button:not(.button-vue):focus-visible,
 #expanddiv div[role=button]:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-primary-text);
