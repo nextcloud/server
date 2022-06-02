@@ -161,12 +161,32 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getUID')
 			->willReturn('valid-user');
 
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
 			->with('valid-user')
 			->willReturn($folder);
+
+		$account = $this->createMock(IAccount::class);
+		$this->accountManager->expects($this->once())
+			->method('getAccount')
+			->with($user)
+			->willReturn($account);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$account->expects($this->once())
+			->method('getProperty')
+			->with(IAccountManager::PROPERTY_AVATAR)
+			->willReturn($property);
+
+		$property->expects($this->once())
+			->method('getScope')
+			->willReturn(IAccountManager::SCOPE_FEDERATED);
 
 		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
