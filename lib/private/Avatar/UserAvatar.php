@@ -31,7 +31,6 @@ namespace OC\Avatar;
 
 use OC\NotSquareException;
 use OC\User\User;
-use OC_Image;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -130,7 +129,7 @@ class UserAvatar extends Avatar {
 			return $data;
 		}
 
-		$img = new OC_Image();
+		$img = new \OCP\Image();
 		if (
 			(is_resource($data) && get_resource_type($data) === 'gd') ||
 			(is_object($data) && get_class($data) === \GdImage::class)
@@ -279,7 +278,7 @@ class UserAvatar extends Avatar {
 					$data = $this->generateAvatar($this->getDisplayName(), $size);
 				}
 			} else {
-				$avatar = new OC_Image();
+				$avatar = new \OCP\Image();
 				$file = $this->folder->getFile('avatar.' . $ext);
 				$avatar->loadFromData($file->getContent());
 				$avatar->resize($size);
