@@ -351,7 +351,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "クライアントはもう接続されているはずです！",
     "You can close this window." : "このウィンドウは閉じてしまって構いません。",
     "This share is password-protected" : "この共有はパスワードで保護されています",
-    "The password is wrong. Try again." : "パスワードが違います。再入力してください",
     "Please type in your email address to request a temporary password" : "仮パスワードを申請するためにメールアドレスを入力してください。",
     "Email address" : "メールアドレス",
     "Password sent!" : "パスワードを送信しました",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "データベースの一部のカラムがbigintへ変換されていません。大きなテーブルのカラムタイプの変更には時間がかかる可能性があるため、自動的には変更されませんでした。 'occ db:convert-filecache-bigint' を実行することにより、これらの保留中の変更を手動で適用できます。この操作は、インスタンスがオフラインのときに実行する必要があります。詳細については、{linkstart}これに関するドキュメントページ↗{linkend}をお読みください。",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "別のデータベースに移行するには、コマンドラインツール 'occ db:convert-type'を使用するか、{linkstart}ドキュメント↗{linkend}を参照してください。",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "あなたのデータディレクトリとファイルはおそらくインターネットからアクセス可能です。 .htaccessファイルが機能していません。 データディレクトリにアクセスできなくなるようにWebサーバーを設定するか、データディレクトリをWebサーバーのドキュメントルートの外側に移動することを強くお勧めします。",
+    "The password is wrong. Try again." : "パスワードが違います。再入力してください",
     "You haven't added any info yet" : "まだ情報が追加されていません",
     "{user} hasn't added any info yet" : "{user}が、まだ情報を追加していません"
 },

@@ -351,7 +351,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Клиентът ви вече трябва да е свързан!",
     "You can close this window." : "Можеш да затвориш този прозорец.",
     "This share is password-protected" : "Тази зона е защитена с парола.",
-    "The password is wrong. Try again." : "Паролата е грешна. Опитайте отново.",
     "Please type in your email address to request a temporary password" : "Моля, въведете имейл адреса си, за да поискате временна парола",
     "Email address" : "Имейл адрес",
     "Password sent!" : "Паролата е изпратена!",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "В някои колони от базата данни липсва преобразуване в big int. Поради факта, че промяната на типовете колони в големи таблици може да отнеме известно време, те не се променят автоматично. Чрез стартиране на 'occ db:convert-filecache-bigint' тези чакащи промени могат да бъдат приложени ръчно. Тази операция трябва да се извърши, докато екземплярът е офлайн. За повече подробности прочетете {linkstart}страницата с документация за това ↗{linkend}. ",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "За да мигрирате към друга база данни, използвайте инструмента за команден ред: 'occ db: convert-type' или вижте  {linkstart}документацията ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Най-вероятно вашите данни и файлове са достъпни от интернет. .htaccess файлът не функционира. Силно се препоръчва да настроите уеб сървъра по такъв начин, че директорията за данни да не бъде достъпна или я преместете извън началната директория на уеб сървъра.",
+    "The password is wrong. Try again." : "Паролата е грешна. Опитайте отново.",
     "You haven't added any info yet" : "Все още не сте добавили никаква информация",
     "{user} hasn't added any info yet" : "{user} все още не е добавил никаква информация"
 },

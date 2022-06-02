@@ -339,7 +339,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Je client zou nu moeten verbonden zijn!",
     "You can close this window." : "Je mag dit venster sluiten.",
     "This share is password-protected" : "Deze share is wachtwoordbeveiligd",
-    "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
     "Email address" : "E-mailadres",
     "Request password" : "Aanvragen wachtwoord",
     "Go to %s" : "Ga naar %s",
@@ -383,6 +382,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sommige kolommen in de database zijn niet geconverteerd naar 'big int'. Doordat het wijzigen van kolomtype op grote databases veel tijd kost, zijn ze niet automatisch gewijzigd. Door het uitvoeren van 'occ db:convert-filecache-bigint' worden de veranderingen alsnog uitgevoerd. Dat moet gebeuren als de server off-line staat. Voor meer informatie verwijzen we naar {linkstart}de documentatie hierover ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Om te migreren naar een andere database moet u de commandoregel tool gebruiken: 'occ db:convert-type', of lees de {linkstart} documentatie  ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Je datamap en je bestanden zijn waarschijnlijk vanaf het internet bereikbaar.  Het .htaccess-bestand werkt niet. We raden ten zeerste aan aan om je webserver zodanig te configureren, dat de datadirectory niet bereikbaar is vanaf het internet of om je datadirectory te verplaatsen naar een locatie buiten de document-root van de webserver.",
+    "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
     "You haven't added any info yet" : "Je hebt nog geen info toegevoegd",
     "{user} hasn't added any info yet" : "{user} heeft nog geen info toegevoegd"
 },

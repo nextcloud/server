@@ -351,7 +351,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Приложение-клиент подключено.",
     "You can close this window." : "Можете закрыть это окно.",
     "This share is password-protected" : "Доступ к этому ресурсу защищён паролем",
-    "The password is wrong. Try again." : "Неверный пароль. Повторите попытку.",
     "Please type in your email address to request a temporary password" : "Введите свой адрес эл. почты для запроса временного пароля",
     "Email address" : "Адрес эл. почты",
     "Password sent!" : "Пароль отправлен",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Некоторые индексы базы данных не были преобразованы в тип big int. Так как преобразование таких индексов может занять продолжительное время, оно должно быть запущенно вручную. Чтобы выполнить преобразование, необходимо включить режим обслуживания и запустить в терминале команду «occ db:convert-filecache-bigint». Дополнительные сведения приведены {linkstart}на соответствующей странице документации ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Для миграции на другую базу данных используйте команду 'occ db:convert-type' или обратитесь к {linkstart}документации ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Каталог данных и файлы, возможно, доступны из интернета. Файл «.htaccess» не работает. Настоятельно рекомендуется настроить веб сервер таким образом, чтобы каталог данных не был доступен из внешней сети, либо переместить каталог данных за пределы корневого каталога веб-сервера.",
+    "The password is wrong. Try again." : "Неверный пароль. Повторите попытку.",
     "You haven't added any info yet" : "Вы еще не добавили никакой информации",
     "{user} hasn't added any info yet" : "{user} ещё не добавил никакой информации"
 },
