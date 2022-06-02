@@ -211,7 +211,6 @@ OC.L10N.register(
     "Account access" : "Acceso a la cuenta",
     "Account connected" : "Cuenta conectada",
     "This share is password-protected" : "Este elemento compartido está protegido con una contraseña",
-    "The password is wrong. Try again." : "Error en la contraseña. Inténtelo de nuevo.",
     "Go to %s" : "Ir a %s",
     "Two-factor authentication" : "Autenticación de dos-factores",
     "Use backup code" : "Usar código de respaldo",
@@ -228,6 +227,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Estoy conciente de que si continuo haciendo la actualización vía web, la interfaz de usuario corre el riesgo de que el tiempo de la solicitud expire y cause pérdida de datos, pero cuento con un respaldo y sé como restaurar mi instancia en caso de una falla. ",
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
+    "The password is wrong. Try again." : "Error en la contraseña. Inténtelo de nuevo."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

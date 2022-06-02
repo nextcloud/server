@@ -322,7 +322,6 @@
     "Your client should now be connected!" : "Η εφαρμογή υπολογιστή έχει συνδεθεί!",
     "You can close this window." : "Μπορείτε να κλείσετε το παράθυρο.",
     "This share is password-protected" : "Το κοινόχρηστο έχει προστασία κωδικού",
-    "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
     "Email address" : "Διεύθυνση αλληλογραφίας",
     "Request password" : "Αίτηση κωδικού πρόσβασης",
     "Go to %s" : "Πηγαίνετε στο %s",
@@ -362,6 +361,7 @@
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Αυτός ο διακομιστής δεν έχει ενεργή σύνδεση στο διαδίκτυο. Δεν ήταν δυνατή η πρόσβαση σε πολλά τελικά σημεία. Αυτό σημαίνει πως κάποιες λειτουργίες/υπηρεσίες όπως η σύνδεση με εξωτερικούς χώρους αποθήκευσης, ειδοποιήσεις σχετικά με ενημερώσεις ή η εγκατάσταση εφαρμογών από τρίτους δεν θα λειτουργούν. Η απομακρυσμένη πρόσβαση στα αρχεία και η αποστολή ειδοποιήσεων ηλεκτρονικού ταχυδρομείου ενδέχεται να μη λειτουργούν. Σας προτείνουμε να ενεργοποιήσετε την πρόσβαση στο διαδίκτυο για τον συγκεκριμένο διακομιστή για να μπορείτε να χρησιμοποιήσετε και να απολαύσετε όλα τα χαρακτηριστικά και τις υπηρεσίες.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Το Nextcloud 20 είναι η τελευταία έκδοση που υποστηρίζει PHP 7.2. Το Nextcloud 21 απαιτεί τουλάχιστον PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανόν προσβάσιμα από το διαδίκτυο. Το αρχείο .htaccess δεν λειτουργεί. Σας προτείνουμε να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος δεδομένων να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο δεδομένων εκτός του ριζικού καταλόγου εγγράφων του διακομιστή.",
+    "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
     "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
     "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

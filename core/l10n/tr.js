@@ -353,7 +353,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "İstemciniz şimdi bağlantı kurmuş olmalı!",
     "You can close this window." : "Bu pencereyi kapatabilirsiniz.",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
-    "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
     "Please type in your email address to request a temporary password" : "Lütfen geçici parola isteğinde bulunmak için e-posta adresinizi yazın",
     "Email address" : "E-posta adresi",
     "Password sent!" : "Parola gönderildi!",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Veritabanında büyük tamsayıya dönüştürülecek bazı sütunlar eksik. Sütun türlerini büyük tablolara dönüştürme işlemi uzun sürebileceğinden bu işlem otomatik olarak yapılmaz. Sunucunuz normal çalışırken bekleyen değişiklikleri el ile uygulamak için \"occ db:convert-filecache-bigint\" komutunu yürütün. Bu işlem yapılırken Nextcloud kopyası çevrimdışı olur. Ayrıntılı bilgi almak için {linkstart}belgeler ↗{linkend} bölümüne bakabilirsiniz.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Başka bir veritabanına geçmek için komut satırı aracını kullanın: 'occ db:convert-type' ya da {linkstart}belgeler ↗{linkend} bölümüne bakın.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Veri klasörünüz ve dosyalarınız İnternet üzerinden erişime açık olabilir. .htaccess dosyası çalışmıyor. Web sunucunuzu yapılandırarak veri klasörüne erişimi engellemeniz ya da veri klasörünü web sunucu kök klasörü dışına taşımanız önemle önerilir.",
+    "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
     "You haven't added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",
     "{user} hasn't added any info yet" : "{user} henüz herhangi bir bilgi eklememiş"
 },

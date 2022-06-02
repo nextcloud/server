@@ -313,7 +313,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Päätteesi pitäisi olla yhdistetty!",
     "You can close this window." : "Voit sulkea tämän ikkunan.",
     "This share is password-protected" : "Jako on salasanasuojattu",
-    "The password is wrong. Try again." : "Salasana on väärin. Yritä uudelleen.",
     "Please type in your email address to request a temporary password" : "Kirjoita sähköpostiosoitteesi pyytääksesi väliaikaista salasanaa",
     "Email address" : "Sähköpostiosoite",
     "Password sent!" : "Salasana lähetetty!",
@@ -353,6 +352,7 @@ OC.L10N.register(
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 on viimeinen julkaisu, joka tukee PHP:n versiota 7.2. Nextcloud 21 vaatii vähintään version 7.3 PHP:sta.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Siirtyäksesi toiseen tietokantaan, käytä komentorivityökalua: 'occ db:convert-type', tai lue {linkstart}dokumentaatio ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Data-hakemisto ja tiedostot ovat luultavasti käytettävissä suoraan Internetistä. .htaccess-tiedosto ei toimi oikein. Suosittelemme määrittämään HTTP-palvelimen asetukset siten, ettei data-hakemisto ole suoraan käytettävissä Internetistä tai siirtämään data-hakemiston HTTP-palvelimen juurihakemiston ulkopuolelle.",
+    "The password is wrong. Try again." : "Salasana on väärin. Yritä uudelleen.",
     "You haven't added any info yet" : "Et ole lisännyt tietoja vielä",
     "{user} hasn't added any info yet" : "{user} ei ole lisännyt tietoja vielä"
 },

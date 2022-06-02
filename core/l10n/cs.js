@@ -353,7 +353,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Váš klient by nyní měl být připojen!",
     "You can close this window." : "Toto okno je možné zavřít.",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
-    "The password is wrong. Try again." : "Chybné heslo. Zkuste to znovu.",
     "Please type in your email address to request a temporary password" : "Pokud si chcete požádat o dočasné heslo, zadejte svou e-mailovou adresu",
     "Email address" : "E-mailová adresa",
     "Password sent!" : "Heslo zasláno!",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "U některých sloupců tabulek databáze doposud nebyla provedena konverze na datový typ big int. To proto, že změna typů sloupců ve velkých tabulkách může trvat dlouho a proto nebylo provedeno automaticky. Provedení je možné spustit ručně a to spuštěním příkazu „occ db: convert-filecache-bigint“. Ovšem provést lze jen tehdy, když je instance Nexcloud odstavená. Další podrobnosti naleznete {linkstart}na stránce v dokumentaci, pojednávající o tomto↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Pokud chcete-li převést do jiné databáze, použijte nástroj pro příkazový řádek:  „occ db:convert-type“, nebo si projděte {linkstart}dokumentaci ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Váš adresář data a vaše soubory jsou pravděpodobně dostupné z Internetu. Soubor .htaccess nefunguje. Je velmi doporučeno zajistit, aby tento adresář již nebyl dostupný z internetu, nebo byl přesunut mimo document root webového serveru.",
+    "The password is wrong. Try again." : "Chybné heslo. Zkuste to znovu.",
     "You haven't added any info yet" : "Zatím jste nezadali žádné informace",
     "{user} hasn't added any info yet" : "{user} uživatel zatím nezadal žádné informace"
 },

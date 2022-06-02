@@ -351,7 +351,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Votre client devrait maintenant être connecté !",
     "You can close this window." : "Vous pouvez fermer cette fenêtre.",
     "This share is password-protected" : "Ce partage est protégé par mot de passe",
-    "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
     "Please type in your email address to request a temporary password" : "Veuillez saisir votre adresse courriel pour recevoir un mot de passe temporaire",
     "Email address" : "Adresse e-mail",
     "Password sent!" : "Mot de passe envoyé !",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Certaines colonnes de la base de données n'ont pas été converties en big int. Changer le type de colonne dans de grandes tables peut prendre beaucoup de temps, elles n'ont donc pas été converties automatiquement. En exécutant 'occ db:convert-filecache-bigint', ces changements en suspens peuvent être déclenchés manuellement. Cette opération doit être exécutée pendant que l'instance est hors ligne. Pour plus d'information, consulter {linkstart}la page de documentation à ce propos ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Pour migrer vers une autre base de données, utiliser la ligne de commande : 'occ db:convert-type', ou se reporter à la {linkstart}documentation ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Votre dossier de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce dossier de données ne soit plus accessible, ou de le déplacer hors de la racine du serveur web.",
+    "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
     "You haven't added any info yet" : "Vous n'avez pas encore ajouté de données",
     "{user} hasn't added any info yet" : "{user} n'a pas encore ajouté de données"
 },

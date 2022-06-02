@@ -196,7 +196,6 @@
     "Grant access" : "უფლებების მინიჭება",
     "Account access" : "წვდომა ანგარიშზე",
     "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
-    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან.",
     "Go to %s" : "გადადით %s-ზე",
     "Two-factor authentication" : "ორ-ფაქტრიანი აუტენტიფიკაცია",
     "Use backup code" : "ბექაფის კოდის გამოყენება",
@@ -218,6 +217,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "ეს %s ინსტანცია ამჟამად სარემონტო რეჟიმშია, ამან შეიძლება გასტანოს გარკვეული დრო.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "ამ სერვერს არ გააჩნია მოქმედი ინტერნეტ კავშირი: მიუწვდომელია მრავალი წერტილი. ეს ნიშნავს, რომ ფუნქციები როგორებიცაა ექსტერნალური საცავის დაყენება, შეტყობინებები განახლებებზე ან მესამე მხარის აპლიკაციების ინსტალაცია არ იმუშავებს. შესაძლოა ფაილებთან დისტანციური წვდომა და საფოსტო შეტყობინებების გაგზავნაც არ მუშაობდეს. ყველა ფუნქციის მუშაობისთვის, ამ სერვერზე ჩართეთ ინტერნეტ კავშირი.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან.",
+    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

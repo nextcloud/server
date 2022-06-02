@@ -315,7 +315,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "O seu cliente xa debe estar conectado!",
     "You can close this window." : "Pode pechar esta xanela.",
     "This share is password-protected" : "Esta compartición está protexida con contrasinal ",
-    "The password is wrong. Try again." : "O contrasinal é incorrecto. Ténteo de novo. ",
     "Email address" : "Enderezo de correo",
     "Request password" : "Solicitar contrasinal",
     "Go to %s" : "Ira a %s",
@@ -358,6 +357,7 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "OPcache de PHP non está configurado correctamente. {linkstart}Para mellorar o rendemento recomendase ↗{linkend} usar os seguintes axustes en <code>php.ini</code>:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "A algunhas columnas fáltalles a conversión a enteiro grande. Por mor de que cambiar os tipos de columnas en táboas grandes podería levar moito tempo non se modificaron automaticamente. Pódense aplicar manualmente estes cambios pendentes executando «occ db:convert-filecache-bigint'». Esta operación ten que ser feita mentres a instancia está sen conexión. Para obter máis información, lea {linkstart}a páxina de documentación sobre isto ↗{linkend}",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Para migrar a outra base de datos use a ferramenta de liña de ordes «occ db:convert-type» ou vexa a {linkstart}documentación ↗{linkend}.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "O directorio de datos e os seus ficheiros probabelmente son accesíbeis dende a Internet. O ficheiro .htaccess non funciona. Recoméndase encarecidamente configurar o seu servidor web para que o directorio de datos deixe de ser accesíbel ou que mova o directorio de datos fora da raíz do documento do servidor web."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "O directorio de datos e os seus ficheiros probabelmente son accesíbeis dende a Internet. O ficheiro .htaccess non funciona. Recoméndase encarecidamente configurar o seu servidor web para que o directorio de datos deixe de ser accesíbel ou que mova o directorio de datos fora da raíz do documento do servidor web.",
+    "The password is wrong. Try again." : "O contrasinal é incorrecto. Ténteo de novo. "
 },
 "nplurals=2; plural=(n != 1);");
