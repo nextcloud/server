@@ -43,6 +43,14 @@ export default class Share {
 		ocsData.hide_download = !!ocsData.hide_download
 		ocsData.mail_send = !!ocsData.mail_send
 
+		if (ocsData.attributes) {
+			try {
+				ocsData.attributes = JSON.parse(ocsData.attributes)
+			} catch (e) {
+				console.warn('Could not parse share attributes returned by server: "' + ocsData.attributes + '"')
+			}
+		}
+
 		// store state
 		this._share = ocsData
 	}
@@ -94,6 +102,17 @@ export default class Share {
 	 */
 	get permissions() {
 		return this._share.permissions
+	}
+
+	/**
+	 * Get the share attributes
+	 *
+	 * @return {Array}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get attributes() {
+		return this._share.attributes
 	}
 
 	/**
@@ -525,6 +544,47 @@ export default class Share {
 	 */
 	get hasSharePermission() {
 		return !!((this.permissions & OC.PERMISSION_SHARE))
+	}
+
+	/**
+	 * Does this share have download permissions
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get hasDownloadPermission() {
+		for (const i in this._share.attributes) {
+			const attr = this._share.attributes[i]
+			if (attr.scope === 'permissions' && attr.key === 'download') {
+				return attr.enabled
+			}
+		}
+
+		return true
+	}
+
+	set hasDownloadPermission(enabled) {
+		this.setAttribute('permissions', 'download', !!enabled)
+	}
+
+	setAttribute(scope, key, enabled) {
+		const attrUpdate = {
+			scope,
+			key,
+			enabled,
+		}
+
+		// try and replace existing
+		for (const i in this._share.attributes) {
+			const attr = this._share.attributes[i]
+			if (attr.scope === attrUpdate.scope && attr.key === attrUpdate.key) {
+				this._share.attributes[i] = attrUpdate
+				return
+			}
+		}
+
+		this._share.attributes.push(attrUpdate)
 	}
 
 	// PERMISSIONS Shortcuts for the CURRENT USER

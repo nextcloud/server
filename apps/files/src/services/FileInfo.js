@@ -47,6 +47,7 @@ export default async function(url) {
 				<nc:mount-type />
 				<nc:is-encrypted />
 				<ocs:share-permissions />
+				<nc:share-attributes />
 				<oc:tags />
 				<oc:favorite />
 				<oc:comments-unread />
