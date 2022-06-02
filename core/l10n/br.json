@@ -276,7 +276,6 @@
     "Your client should now be connected!" : "O c'hliant a zlefe bezañ kenstaget !",
     "You can close this window." : "Gallout a rit serriñ ar prenestr.",
     "This share is password-protected" : "Al liamm a zo gwarezet gant ur ger-tremen",
-    "The password is wrong. Try again." : "Direizh eo ger-tremen. Klaskit en-dro.",
     "Request password" : "Goulenn ar -ger-tremen",
     "Go to %s" : "Mont da %s",
     "Two-factor authentication" : "Eil- elfenn dilesa",
@@ -313,6 +312,7 @@
     "This page will refresh itself when the instance is available again." : "Ar bajenn a azgreeno e unan pa vo vak an azgoulenn en dro.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kit e darempred gant anr merour reizhad ma chomm ar c'hemenadenn-mañ, pe ma ze war well dic'hortozet ",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Ar servijour-mañ n'en deus kenstagadenn Internet ebet o labourat: Ne vez ket tizhet meur a endpoint. Talvezout a ra ne vo ket posupl implijout perzhioù 'zo, evel lakaat ur memor diavaez, kaout keloù diwar-benn ar staliañ pe an adneveziñ. Adtapout restroù ha kas keloù postel ne labouront ket ivez marteze. Kenstagit ar servijour gant an Internet evit implijout ar c'heweriusterioù-mañ.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "An roadennoù teuliadoù ha restroù a zo marteze posuple bezha tizet dre Internet. Ar restr .htacces na gerzh ket. Kinniget krennañ eo stummañ o servijour web avit ma ne vefe ket tizaple ar roadennoù teuliadoù, pe fival anezhi er maez eus diel gwrizienn ar servijour web."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "An roadennoù teuliadoù ha restroù a zo marteze posuple bezha tizet dre Internet. Ar restr .htacces na gerzh ket. Kinniget krennañ eo stummañ o servijour web avit ma ne vefe ket tizaple ar roadennoù teuliadoù, pe fival anezhi er maez eus diel gwrizienn ar servijour web.",
+    "The password is wrong. Try again." : "Direizh eo ger-tremen. Klaskit en-dro."
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }

@@ -124,6 +124,7 @@ OC.L10N.register(
     "Update to {version}" : "Actualizare la {version}",
     "Remove" : "Șterge",
     "Disable" : "Dezactivați",
+    "View in store" : "Vezi în magazin",
     "Visit website" : "Viziteaza pagina web",
     "Report a bug" : "Raportează un defect",
     "User documentation" : "Documentație utilizator",

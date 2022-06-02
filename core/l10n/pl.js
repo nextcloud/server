@@ -353,7 +353,6 @@ OC.L10N.register(
     "Your client should now be connected!" : "Twój klient powinien być teraz podłączony!",
     "You can close this window." : "Możesz zamknąć to okno.",
     "This share is password-protected" : "Udostępnienie jest zabezpieczone hasłem",
-    "The password is wrong. Try again." : "Hasło jest nieprawidłowe. Spróbuj ponownie.",
     "Please type in your email address to request a temporary password" : "Wpisz swój adres e-mail, aby poprosić o tymczasowe hasło",
     "Email address" : "Adres e-mail",
     "Password sent!" : "Hasło wysłane!",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Niektóre kolumny w bazie danych nie zawierają konwersji do big integers. Ze względu na to, że zmiana typów kolumn w dużych tabelach może zająć dużo czasu, nie zostały one zmienione automatycznie. Oczekujące zmiany można wykonać ręcznie, uruchamiając 'occ db:convert-filecache-bigint'. Ta operacja musi zostać wykonana, gdy instancja jest w trybie offline. Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Aby przeprowadzić migrację do innej bazy danych, użyj narzędzia wiersza poleceń: 'occ db:convert-type' lub zapoznaj się z {linkstart}dokumentacją ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Twój katalog danych i pliki są prawdopodobnie dostępne przez Internet. Plik .htaccess nie działa. Zdecydowanie zaleca się skonfigurowanie serwera WWW w taki sposób, aby katalog danych nie był już dostępny, albo przenieś katalog danych poza główny katalog serwera WWW.",
+    "The password is wrong. Try again." : "Hasło jest nieprawidłowe. Spróbuj ponownie.",
     "You haven't added any info yet" : "Nie dodałeś jeszcze żadnych informacji",
     "{user} hasn't added any info yet" : "{user} nie dodał jeszcze żadnych informacji"
 },

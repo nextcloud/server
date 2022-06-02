@@ -351,7 +351,6 @@
     "Your client should now be connected!" : "Ihr Client sollte nun verbunden sein!",
     "You can close this window." : "Sie können dieses Fenster schließen.",
     "This share is password-protected" : "Diese Freigabe ist passwortgeschützt",
-    "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
     "Please type in your email address to request a temporary password" : "Bitte geben Sie Ihre E-Mail-Adresse ein um ein vorläufiges Passwort anzufordern",
     "Email address" : "E-Mail-Adresse",
     "Password sent!" : "Passwort versandt!",
@@ -398,6 +397,7 @@
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Bei einigen Spalten in der Datenbank fehlt eine Konvertierung in big int. Aufgrund der Tatsache, dass das Ändern von Spaltentypen bei großen Tabellen einige Zeit dauern kann, wurden sie nicht automatisch geändert. Durch Ausführen von \"occ db:convert-filecache-bigint\" können diese ausstehenden Änderungen manuell übernommen werden. Diese Operation muss ausgeführt werden, während die Instanz offline ist. Weitere Details finden Sie auf {linkstart}der zugehörigen Dokumentationsseite ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Um zu einer anderen Datenbank zu migrieren, benutzen Sie bitte die Befehlszeile: 'occ db:convert-type', oder in die {linkstart}Dokumentation ↗{linkend} schauen.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar. Die .htaccess-Datei funktioniert nicht. Es wird dringend empfohlen, Ihren Webserver dahingehend zu konfigurieren, dass das Datenverzeichnis nicht mehr vom Internet aus erreichbar ist oder dass Sie es aus dem Document-Root-Verzeichnis des Webservers herausverschieben.",
+    "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
     "You haven't added any info yet" : "Sie haben noch keine Infos hinzugefügt",
     "{user} hasn't added any info yet" : "{user} hat noch keine Infos hinzugefügt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

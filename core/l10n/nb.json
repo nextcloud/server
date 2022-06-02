@@ -351,7 +351,6 @@
     "Your client should now be connected!" : "Din klient skal nå være koblet til!",
     "You can close this window." : "Du kan lukke dette vinduet.",
     "This share is password-protected" : "Denne deling er beskyttet med passord",
-    "The password is wrong. Try again." : "Feil passord, forsøk igjen",
     "Please type in your email address to request a temporary password" : "Oppgi e-post adresse for å få midlertidig passord",
     "Email address" : "E-post adresse",
     "Password sent!" : "Passord er sendt.",
@@ -398,6 +397,7 @@
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Noen kolonner i databasen mangler en konvertering til big int. På grunn av det faktum at endring av kolonnetyper på store tabeller kunne ta litt tid ble de ikke endret automatisk. Ved å kjøre 'occ db:convert-filecache-bigint' kan de ventende endringene brukes manuelt. Denne operasjonen må utføres mens forekomsten er frakoblet. For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "For å migrere til en annen database, bruk kommandolinjeverktøyet: 'occ db:convert-type', eller se {linkstart}dokumentasjonen ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Datamappen og filene dine er sannsynligvis tilgjengelige fra Internett. .htaccess-filen fungerer ikke. Det anbefales sterkt at du setter opp webserveren slik at datamappen ikke kan nås eller at du flytter datamappen ut av webserverens dokumentrot.",
+    "The password is wrong. Try again." : "Feil passord, forsøk igjen",
     "You haven't added any info yet" : "DU har ikke lagt til noe informasjon enda",
     "{user} hasn't added any info yet" : "{user} har ikke lagt til informasjon enda"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
