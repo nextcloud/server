@@ -229,7 +229,13 @@ export default {
 				const properties = {}
 				// force value to string because that is what our
 				// share api controller accepts
-				propertyNames.map(p => (properties[p] = this.share[p].toString()))
+				propertyNames.forEach(name => {
+					if ((typeof this.share[name]) === 'object') {
+						properties[name] = JSON.stringify(this.share[name])
+					} else {
+						properties[name] = this.share[name].toString()
+					}
+				})
 
 				this.updateQueue.add(async () => {
 					this.saving = true

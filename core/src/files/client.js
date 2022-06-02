@@ -104,6 +104,7 @@ import escapeHTML from 'escape-html'
 	Client.PROPERTY_GETCONTENTLENGTH	= '{' + Client.NS_DAV + '}getcontentlength'
 	Client.PROPERTY_ISENCRYPTED	= '{' + Client.NS_DAV + '}is-encrypted'
 	Client.PROPERTY_SHARE_PERMISSIONS	= '{' + Client.NS_OCS + '}share-permissions'
+	Client.PROPERTY_SHARE_ATTRIBUTES	= '{' + Client.NS_NEXTCLOUD + '}share-attributes'
 	Client.PROPERTY_QUOTA_AVAILABLE_BYTES	= '{' + Client.NS_DAV + '}quota-available-bytes'
 
 	Client.PROTOCOL_HTTP	= 'http'
@@ -160,6 +161,10 @@ import escapeHTML from 'escape-html'
 		 * Share permissions
 		 */
 		[Client.NS_OCS, 'share-permissions'],
+		/**
+		 * Share attributes
+		 */
+		[Client.NS_NEXTCLOUD, 'share-attributes'],
 	]
 
 	/**
@@ -414,6 +419,18 @@ import escapeHTML from 'escape-html'
 			const sharePermissionsProp = props[Client.PROPERTY_SHARE_PERMISSIONS]
 			if (!_.isUndefined(sharePermissionsProp)) {
 				data.sharePermissions = parseInt(sharePermissionsProp)
+			}
+
+			const shareAttributesProp = props[Client.PROPERTY_SHARE_ATTRIBUTES]
+			if (!_.isUndefined(shareAttributesProp)) {
+				try {
+					data.shareAttributes = JSON.parse(shareAttributesProp)
+				} catch (e) {
+					console.warn('Could not parse share attributes returned by server: "' + shareAttributesProp + '"')
+					data.shareAttributes = [];
+				}
+			} else {
+				data.shareAttributes = [];
 			}
 
 			const mounTypeProp = props['{' + Client.NS_NEXTCLOUD + '}mount-type']
