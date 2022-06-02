@@ -38,7 +38,6 @@ namespace OC\Avatar;
 
 use Imagick;
 use OC\Color;
-use OC_Image;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use Psr\Log\LoggerInterface;
@@ -106,7 +105,7 @@ abstract class Avatar implements IAvatar {
 			return false;
 		}
 
-		$avatar = new OC_Image();
+		$avatar = new \OCP\Image();
 		$avatar->loadFromData($file->getContent());
 		return $avatar;
 	}
@@ -148,7 +147,7 @@ abstract class Avatar implements IAvatar {
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
 			$avatar->setImageFormat('png');
-			$image = new OC_Image();
+			$image = new \OCP\Image();
 			$image->loadFromData((string)$avatar);
 			$data = $image->data();
 			return $data === null ? false : $data;

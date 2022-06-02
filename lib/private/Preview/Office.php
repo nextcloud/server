@@ -83,7 +83,7 @@ abstract class Office extends ProviderV2 {
 			return null;
 		}
 
-		$image = new \OC_Image();
+		$image = new \OCP\Image();
 		$image->loadFromData((string) $png);
 
 		$this->cleanTmpFiles();
