@@ -139,6 +139,8 @@ OC.MimeTypeList={
     "video",
     "x-office-document",
     "x-office-drawing",
+    "x-office-form",
+    "x-office-form-template",
     "x-office-presentation",
     "x-office-spreadsheet"
 ],
