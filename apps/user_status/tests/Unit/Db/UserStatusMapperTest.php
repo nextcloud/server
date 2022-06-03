@@ -28,6 +28,7 @@ namespace OCA\UserStatus\Tests\Db;
 
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
 use Test\TestCase;
 
@@ -204,22 +205,16 @@ class UserStatusMapperTest extends TestCase {
 		];
 	}
 
-	public function testClearMessagesOlderThan(): void {
+	public function testClearOlderThanClearAt(): void {
 		$this->insertSampleStatuses();
 
-		$this->mapper->clearMessagesOlderThan(55000);
+		$this->mapper->clearOlderThanClearAt(55000);
 
 		$allStatuses = $this->mapper->findAll();
-		$this->assertCount(3, $allStatuses);
+		$this->assertCount(2, $allStatuses);
 
-		$user1Status = $this->mapper->findByUserId('user1');
-		$this->assertEquals('user1', $user1Status->getUserId());
-		$this->assertEquals('dnd', $user1Status->getStatus());
-		$this->assertEquals(5000, $user1Status->getStatusTimestamp());
-		$this->assertEquals(true, $user1Status->getIsUserDefined());
-		$this->assertEquals(null, $user1Status->getCustomIcon());
-		$this->assertEquals(null, $user1Status->getCustomMessage());
-		$this->assertEquals(null, $user1Status->getClearAt());
+		$this->expectException(DoesNotExistException::class);
+		$this->mapper->findByUserId('user1');
 	}
 
 	private function insertSampleStatuses(): void {
