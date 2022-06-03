@@ -317,7 +317,7 @@ class CheckSetupController extends Controller {
 					'app' => 'settings',
 					'exception' => $e,
 				]);
-				return $this->l10n->t('Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details.');
+				return $this->l10n->t('Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the Nextcloud log file for more details.');
 			}
 		}
 
