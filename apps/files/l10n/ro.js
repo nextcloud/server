@@ -131,6 +131,7 @@ OC.L10N.register(
     "Accept" : "Accept",
     "in %s" : "în %s",
     "File Management" : "Management fișiere",
+    "Change" : "Modificare",
     "Transfer" : "Transfer",
     "Tags" : "Etichete",
     "Cancel" : "Anulare",

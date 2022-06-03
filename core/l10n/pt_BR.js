@@ -353,6 +353,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "Seu cliente deve estar conectado agora!",
     "You can close this window." : "Você pode fechar esta janela.",
     "This share is password-protected" : "Compartilhamento protegido por senha",
+    "The password is wrong or expired. Please try again or request a new one." : "A senha está errada ou expirou. Tente novamente ou solicite uma nova.",
     "Please type in your email address to request a temporary password" : "Digite seu endereço de e-mail para solicitar uma senha temporária",
     "Email address" : "Endereço de e-mail",
     "Password sent!" : "Senha enviada!",
