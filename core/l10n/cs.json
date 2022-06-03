@@ -351,6 +351,7 @@
     "Your client should now be connected!" : "Váš klient by nyní měl být připojen!",
     "You can close this window." : "Toto okno je možné zavřít.",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
+    "The password is wrong or expired. Please try again or request a new one." : "Nesprávné heslo nebo jeho platnost skončila. Prosím zkuste to znovu nebo si zažádejte o nové.",
     "Please type in your email address to request a temporary password" : "Pokud si chcete požádat o dočasné heslo, zadejte svou e-mailovou adresu",
     "Email address" : "E-mailová adresa",
     "Password sent!" : "Heslo zasláno!",
