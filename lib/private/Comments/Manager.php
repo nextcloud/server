@@ -1258,8 +1258,6 @@ class Manager implements ICommentsManager {
 	}
 
 	private function sumReactions(string $parentId): void {
-		$qb = $this->dbConn->getQueryBuilder();
-
 		$totalQuery = $this->dbConn->getQueryBuilder();
 		$totalQuery
 			->selectAlias(
@@ -1273,7 +1271,7 @@ class Manager implements ICommentsManager {
 			)
 			->selectAlias($totalQuery->func()->count('id'), 'total')
 			->from('reactions', 'r')
-			->where($totalQuery->expr()->eq('r.parent_id', $qb->createNamedParameter($parentId)))
+			->where($totalQuery->expr()->eq('r.parent_id', $totalQuery->createNamedParameter($parentId)))
 			->groupBy('r.reaction')
 			->orderBy('total', 'DESC')
 			->addOrderBy('r.reaction', 'ASC')
@@ -1291,9 +1289,10 @@ class Manager implements ICommentsManager {
 			)
 			->from($jsonQuery->createFunction('(' . $totalQuery->getSQL() . ')'), 'json');
 
+		$qb = $this->dbConn->getQueryBuilder();
 		$qb
 			->update('comments')
-			->set('reactions', $jsonQuery->createFunction('(' . $jsonQuery->getSQL() . ')'))
+			->set('reactions', $qb->createFunction('(' . $jsonQuery->getSQL() . ')'))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($parentId)))
 			->executeStatement();
 	}
