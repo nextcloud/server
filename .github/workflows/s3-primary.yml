@@ -62,7 +62,7 @@ jobs:
         if: always()
         run: |
           docker ps -a
-          docker logs $(docker ps -aq)
+          docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 
 
   s3-primary-summary:
