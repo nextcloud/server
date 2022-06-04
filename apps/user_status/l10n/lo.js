@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Clear status message after" : "ລ້າງສະຖານະພາບຂໍ້ຄວາມພາຍຫຼັງ",
     "Set status" : "ຕັ້ງຄ່າສະຖານະພາບ",
     "Online status" : "ສະຖານະພາບອອນລາຍ",
     "Status message" : "ສະຖານະຂໍ້ຄວາມ",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "4 hours" : "4 ຊົ່ວໂມງ",
     "Mute all notifications" : "ປິດການແຈ້ງເຕືອນທັງໝົດ",
     "Appear offline" : "ເປີດອັອບລາຍ",
+    "Clear status message after" : "ລ້າງສະຖານະພາບຂໍ້ຄວາມພາຍຫຼັງ",
     "What's your status?" : "ສະຖານະຂອງທ່ານແມ່ນຫຍັງ?"
 },
 "nplurals=1; plural=0;");
