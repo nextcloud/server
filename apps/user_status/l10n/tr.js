@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "Bir çağrıda",
     "User status" : "Kullanıcı durumu",
     "View profile" : "Profili görüntüle",
-    "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın",
+    "Clear status after" : "Durum şu kadar sonra kaldırılsın",
     "What is your status?" : "Durumunuz nedir?",
     "Set status" : "Durumu ayarla",
     "Online status" : "Çevrimiçi durumu",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
     "Appear offline" : "Çevrimdışı görün",
+    "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın",
     "What's your status?" : "Durumunuz nedir?"
 },
 "nplurals=2; plural=(n > 1);");

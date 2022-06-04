@@ -10,7 +10,6 @@ OC.L10N.register(
     "In a call" : "Într-un apel",
     "User status" : "Statusul utilizatorului",
     "View profile" : "Vezi profilul",
-    "Clear status message after" : "Șterge mesajul de stare după",
     "What is your status?" : "Care este statusul dumneavoastră?",
     "Set status" : "Setează status",
     "Online status" : "Status online",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "4 hours" : "4 ore",
     "Mute all notifications" : "Dezactivați toate notificările",
     "Appear offline" : "Apari deconectat",
+    "Clear status message after" : "Șterge mesajul de stare după",
     "What's your status?" : "Care este statusul tău?"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

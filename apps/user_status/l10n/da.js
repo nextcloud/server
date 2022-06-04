@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Clear status message after" : "Ryd status notifikationer efter",
     "What is your status?" : "Hvad er din status",
     "Set status" : "Sæt status",
     "Online status" : "Online status",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "30 minutes" : "30 minutter",
     "1 hour" : "1 time",
     "4 hours" : "4 timer",
+    "Clear status message after" : "Ryd status notifikationer efter",
     "What's your status?" : "Hvad er din status"
 },
 "nplurals=2; plural=(n != 1);");

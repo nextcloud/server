@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "Hívásban",
     "User status" : "Felhasználói állapot",
     "View profile" : "Profil megtekintése",
-    "Clear status message after" : "Állapotüzenet törlése ennyi idő után:",
+    "Clear status after" : "Állapot törlése ennyi idő után",
     "What is your status?" : "Mi az állapota?",
     "Set status" : "Állapot beállítása",
     "Online status" : "Elérhető állapot",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
     "Appear offline" : "Megjelenés nem kapcsolódottként",
+    "Clear status message after" : "Állapotüzenet törlése ennyi idő után:",
     "What's your status?" : "Mi az állapota?"
 },
 "nplurals=2; plural=(n != 1);");

@@ -351,6 +351,7 @@
     "Your client should now be connected!" : "Zure bezeroak konektatua behar luke orain!",
     "You can close this window." : "Leiho hau itxi dezakezu.",
     "This share is password-protected" : "Partekatutako hau pasahitzez babestua dago.",
+    "The password is wrong or expired. Please try again or request a new one." : "Pasahitza oker dago edo iraungita dago. Mesedez, saiatu berriro edo eskatu berri bat.",
     "Please type in your email address to request a temporary password" : "Mesedez, idatzi zure helbide elektronikoa aldi baterako pasahitza eskatzeko",
     "Email address" : "Helbide elektronikoa",
     "Password sent!" : "Pasahitza bidalita!",

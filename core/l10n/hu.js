@@ -353,6 +353,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "A kliens most már kapcsolódik.",
     "You can close this window." : "Bezárhatja ezt az ablakot.",
     "This share is password-protected" : "Ez a megosztás jelszóval védett",
+    "The password is wrong or expired. Please try again or request a new one." : "A jelszó hibás vagy lejárt. Próbálja újra, vagy kérjen újat.",
     "Please type in your email address to request a temporary password" : "Írja be az e-mail-címét, hogy ideiglenes jelszót kérjen",
     "Email address" : "E-mail-cím",
     "Password sent!" : "Jelszó elküldve.",

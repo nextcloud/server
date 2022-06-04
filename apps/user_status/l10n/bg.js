@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "В обаждане",
     "User status" : "Потребителско състояние",
     "View profile" : "Преглед на профил",
-    "Clear status message after" : "Изчистване на съобщение за състоянието след",
+    "Clear status after" : "Изчистване на състоянието след",
     "What is your status?" : "Какъв е вашият статус?",
     "Set status" : "Задаване на състояние",
     "Online status" : "Състояние на линия",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Заглушаване на всички известия",
     "Appear offline" : "Показване като офлайн",
+    "Clear status message after" : "Изчистване на съобщение за състоянието след",
     "What's your status?" : "Какъв е вашият статус?"
 },
 "nplurals=2; plural=(n != 1);");
