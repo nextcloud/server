@@ -201,7 +201,8 @@ class Checker {
 			if ($filename === $this->environmentHelper->getServerRoot() . '/core/js/mimetypelist.js') {
 				$oldMimetypeList = new GenerateMimetypeFileBuilder();
 				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases());
-				if ($newFile === file_get_contents($filename)) {
+				$oldFile = $this->fileAccessHelper->file_get_contents($filename);
+				if ($newFile === $oldFile) {
 					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases()));
 					continue;
 				}
