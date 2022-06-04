@@ -106,6 +106,8 @@
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} изменил(а) запись {card} в адресной книге {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Вы изменили запись {card} в адресной книге {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Изменение  <strong>контакта</strong> или <strong>адресной книги</strong>",
+    "File is not updatable: %1$s" : "Файл не подлежит обновлению: %1$s",
+    "Could not write file contents" : "Не удалось записать содержимое файла",
     "System is in maintenance mode." : "Сервер находится в режиме обслуживания.",
     "Upgrade needed" : "Требуется обновление",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Ваш %s должен быть настроен на использование протокола HTTPS, чтобы можно было использовать CalDAV и CardDAV на iOS/macOS.",

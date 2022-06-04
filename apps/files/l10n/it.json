@@ -39,6 +39,8 @@
     "Details" : "Dettagli",
     "Please select tag(s) to add to the selection" : "Seleziona un'etichetta(e) da aggiungere alla selezione",
     "Apply tag(s) to selection" : "Applica etichetta(e) alla selezione",
+    "Select directory \"{dirName}\"" : "Seleziona cartella \"{dirName}\"",
+    "Select file \"{fileName}\"" : "Seleziona file \"{fileName}\"",
     "Pending" : "In corso",
     "Unable to determine date" : "Impossibile determinare la data",
     "This operation is forbidden" : "Questa operazione è vietata",
