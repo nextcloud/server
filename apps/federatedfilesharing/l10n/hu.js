@@ -44,6 +44,7 @@ OC.L10N.register(
     "Allow users on this server to receive group shares from other servers" : "Engedélyezi ezen kiszolgáló felhasználóinak, hogy csoportmegosztásokat fogadjanak más kiszolgálóktól",
     "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános címjegyzékben",
     "Allow users to publish their data to a global and public address book" : "A felhasználók közzétehetik az adataikat a globális és nyilvános címjegyzékben",
+    "Unable to update federated files sharing config" : "A föderált fájlmegosztási konfiguráció nem frissíthető",
     "Federated Cloud" : "Föderált felhő",
     "Open documentation" : "Dokumentáció megnyitása",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bármelyik Nextcloud-kiszolgálót vagy egyéb Open Cloud Mesh-kompatibilis (OCM) kiszolgálót és szolgáltatást használó felhasználóval megoszthatja adatait. Csak tegye a föderált felhőazonosítóját a megosztási párbeszédablakba. Hasonlóan néz ki: person@cloud.example.com",
