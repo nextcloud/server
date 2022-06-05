@@ -351,6 +351,7 @@
     "Your client should now be connected!" : "İstemciniz şimdi bağlantı kurmuş olmalı!",
     "You can close this window." : "Bu pencereyi kapatabilirsiniz.",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
+    "The password is wrong or expired. Please try again or request a new one." : "Parola hatalı ya da süresi geçmiş. Lütfen yeniden deneyin ya da parolanızı değiştirin. ",
     "Please type in your email address to request a temporary password" : "Lütfen geçici parola isteğinde bulunmak için e-posta adresinizi yazın",
     "Email address" : "E-posta adresi",
     "Password sent!" : "Parola gönderildi!",
