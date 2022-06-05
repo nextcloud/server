@@ -28,7 +28,7 @@
 		<div class="groups">
 			{{ userGroupsLabels }}
 		</div>
-		<div v-if="subAdminsGroups.length > 0 && settings.isAdmin" class="subAdminsGroups">
+		<div v-if="subAdminsGroups.length > 0 && settings.isAdmin" class="groups">
 			{{ userSubAdminsGroupsLabels }}
 		</div>
 		<div class="userQuota">
@@ -191,9 +191,12 @@ export default {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-}
+	}
 	.icon-more {
 		background-color: var(--color-main-background);
 		border: 0;
+	}
+	.groups {
+		overflow-wrap: anywhere;
 	}
 </style>
