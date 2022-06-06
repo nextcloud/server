@@ -27,8 +27,13 @@
 			<div class="email-address">{{contact.emailAddresses}}</div>
 		</a>
 	{{/if}}
+	{{#if contact.topAction}}
+		<a class="top-action" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}">
+			<img src="{{contact.topAction.icon}}" alt="{{contact.topAction.title}}">
+		</a>
+	{{/if}}
 {{else if contact.topAction}}
-	<a class="body" href="{{contact.topAction.hyperlink}}"> 
+	<a class="body" href="{{contact.topAction.hyperlink}}">
 		<div class="full-name">{{contact.fullName}}</div>
 		<div class="last-message">{{contact.lastMessage}}</div>
 		<div class="email-address">{{contact.emailAddresses}}</div>
@@ -49,7 +54,7 @@
 </a>
 {{/if}}
 {{#if contact.hasManyActions}}
-	<span class="other-actions icon-more"></span>
+	<button class="other-actions icon-more"></button>
 	<div class="menu popovermenu">
 		<ul>
 			{{#each contact.actions}}
