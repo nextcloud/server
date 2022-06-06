@@ -351,6 +351,7 @@
     "Your client should now be connected!" : "客戶端應該已完成連線",
     "You can close this window." : "可以關閉此視窗",
     "This share is password-protected" : "此分享受密碼保護",
+    "The password is wrong or expired. Please try again or request a new one." : "密碼錯誤或過期。請重試或重新申請。",
     "Please type in your email address to request a temporary password" : "請輸入您的電子郵件地址以申請臨時密碼",
     "Email address" : "電子郵件地址",
     "Password sent!" : "密碼已傳送！",
