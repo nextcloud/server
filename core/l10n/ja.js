@@ -332,6 +332,7 @@ OC.L10N.register(
     "Get your own free account" : "無料でアカウントを作成",
     "Skip to main content" : "メインコンテンツへスキップ",
     "Skip to navigation of app" : "アプリのナビゲーションにスキップする",
+    "%s's homepage" : "%sのホームページ",
     "More apps" : "さらにアプリ",
     "More" : "もっと見る",
     "More apps menu" : "その他のアプリメニュー",
