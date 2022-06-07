@@ -199,6 +199,7 @@ class RequestHandlerController extends Controller {
 				$e->getCode()
 			);
 		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(
 				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
 				Http::STATUS_BAD_REQUEST
