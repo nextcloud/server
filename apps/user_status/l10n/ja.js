@@ -7,6 +7,7 @@ OC.L10N.register(
     "Out sick" : "体調不良",
     "Vacationing" : "休暇",
     "Working remotely" : "リモートワーク中",
+    "In a call" : "通話中",
     "User status" : "ユーザーステータス",
     "View profile" : "プロフィールを表示",
     "Clear status after" : "ステータスの有効期限",
