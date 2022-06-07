@@ -1015,6 +1015,16 @@ span.ui-icon {
 			opacity: 1 !important;
 		}
 	}
+	
+	#contactsmenu-menu {
+		a {
+			padding: 2px;
+
+			&:focus-visible {
+				box-shadow: inset 0 0 0 2px var(--color-main-text) !important; // override rule in core/css/headers.scss #header a:focus-visible
+			}
+		}
+	}
 }
 
 #header .header-right > div#contactsmenu > .menu {

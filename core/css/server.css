@@ -957,6 +957,12 @@ span.ui-icon {
 #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
   opacity: 1 !important;
 }
+#contactsmenu #contactsmenu-menu a {
+  padding: 2px;
+}
+#contactsmenu #contactsmenu-menu a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-main-text) !important;
+}
 
 #header .header-right > div#contactsmenu > .menu {
   /* show 2.5 to 4.5 entries depending on the screen height */
