@@ -366,7 +366,7 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}
 
 		try {
@@ -378,7 +378,7 @@ class ShareAPIController extends OCSController {
 			// Fall trough
 		}
 
-		throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+		throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 	}
 
 	/**
@@ -394,7 +394,7 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}
 
 		try {
@@ -404,7 +404,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if (!$this->canAccessShare($share)) {
-			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}
 
 		// if it's a group share or a room share
@@ -1056,13 +1056,13 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}
 
 		$this->lock($share->getNode());
 
 		if (!$this->canAccessShare($share, false)) {
-			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}
 
 		if (!$this->canEditShare($share)) {
@@ -1291,11 +1291,11 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}
 
 		if (!$this->canAccessShare($share)) {
-			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}
 
 		try {
