@@ -11,6 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
  * @author Stephen Cuppett <steve@cuppett.com>
+ * @author Jasper Weyne <jasperweyne@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -140,6 +141,7 @@ trait S3ConnectionTrait {
 			'csm' => false,
 			'use_arn_region' => false,
 			'http' => ['verify' => $certPath],
+			'use_aws_shared_config_files' => false,
 		];
 		if ($this->getProxy()) {
 			$options['http']['proxy'] = $this->getProxy();
