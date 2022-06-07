@@ -11,6 +11,9 @@
 		}
 	},
 	"autoload": {
+		"files": [
+			"lib/public/Log/functions.php"
+		],
 		"psr-4": {
 			"": "lib/private/legacy",
 			"OC\\": "lib/private",
