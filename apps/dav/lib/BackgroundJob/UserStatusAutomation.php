@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\BackgroundJob;
 
-use DateTime;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
