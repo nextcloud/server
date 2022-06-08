@@ -2,6 +2,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 bootstrap="bootstrap.php"
 		 verbose="true"
+		 failOnRisky="true"
 		 backupGlobals="false"
 		 timeoutForSmallTests="900"
 		 timeoutForMediumTests="900"
