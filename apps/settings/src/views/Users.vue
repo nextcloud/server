@@ -338,7 +338,7 @@ export default {
 			this.showConfig.showNewUserForm = true
 			if (this.showConfig.showNewUserForm) {
 				Vue.nextTick(() => {
-					window.newusername.focus()
+					window.newusername?.focus()
 				})
 			}
 		},

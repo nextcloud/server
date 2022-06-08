@@ -22,7 +22,7 @@
 
 <template>
 	<div id="app-content" class="user-list-grid" @scroll.passive="onScroll">
-		<Modal v-if="showConfig.showNewUserForm" size="small" @close="closeModal">
+		<Modal v-if="showConfig.showNewUserForm && !isUserMax" size="small" @close="closeModal">
 			<form id="new-user"
 				:disabled="loading.all"
 				class="modal__content"
@@ -150,6 +150,12 @@
 					</Button>
 				</div>
 			</form>
+		</Modal>
+		<Modal v-if="showConfig.showNewUserForm && isUserMax" size="small" @close="closeModal">
+			<div class="modal__content">
+				<h2>{{ t('settings','User limit reached') }}</h2>
+				<p>{{ t('settings','The limit of users has been reached, to increase the number of users, select an advanced plan.') }}</p>
+			</div>
 		</Modal>
 		<div id="grid-header"
 			:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
@@ -363,6 +369,9 @@ export default {
 		},
 		usersCount() {
 			return this.users.length
+		},
+		isUserMax() {
+			return Boolean(this.users.length >= this.$store.getters.getUserMaxCount)
 		},
 
 		/* LANGUAGES */

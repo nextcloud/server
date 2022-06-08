@@ -489,6 +489,8 @@ OC.L10N.register(
     "days" : "дней",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Разрешить автозаполнение имени пользователя при вводе полного имени или адреса электронной почты (игнорируя отсутствующее совпадение в телефонной книге и находящиеся в той же группе)",
     "Change privacy level of full name" : "Изменить уровень конфиденциальности полного имени",
-    "No display name set" : "Отображаемое имя не указано"
+    "No display name set" : "Отображаемое имя не указано",
+    "User limit reached" : "Достигнут предел пользователей",
+    "The limit of users has been reached, to increase the number of users, select an advanced plan." : "Достигнут предел пользователей, для увеличения количества пользователей, выберите расширенный тариф."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

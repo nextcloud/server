@@ -5,9 +5,9 @@
 	<name>Nextcloud settings</name>
 	<summary>Nextcloud settings</summary>
 	<description>Nextcloud settings</description>
-	<version>1.6.0</version>
+	<version>1.6.1.0</version>
 	<licence>agpl</licence>
-	<author>Nextcloud</author>
+	<author>Customer</author>
 	<namespace>Settings</namespace>
 	<default_enable/>
 

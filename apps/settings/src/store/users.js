@@ -62,6 +62,7 @@ const state = {
 	usersOffset: 0,
 	usersLimit: 25,
 	userCount: 0,
+	userMaxCount: 5,
 }
 
 const mutations = {
@@ -241,6 +242,9 @@ const getters = {
 	},
 	getUserCount(state) {
 		return state.userCount
+	},
+	getUserMaxCount(state) {
+		return state.userMaxCount
 	},
 }
 

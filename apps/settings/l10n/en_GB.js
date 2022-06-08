@@ -283,6 +283,8 @@ OC.L10N.register(
     "Recommended" : "Recommended",
     "The cron.php needs to be executed by the system user \"%s\"." : "The cron.php needs to be executed by the system user \"%s\".",
     "days" : "days",
-    "No display name set" : "No display name set"
+    "No display name set" : "No display name set",
+    "User limit reached" : "User limit reached",
+    "The limit of users has been reached, to increase the number of users, select an advanced plan." : "The limit of users has been reached, to increase the number of users, select an advanced plan."
 },
 "nplurals=2; plural=(n != 1);");
