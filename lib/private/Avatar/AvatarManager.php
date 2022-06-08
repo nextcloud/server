@@ -136,20 +136,23 @@ class AvatarManager implements IAvatarManager {
 			$avatarScope = '';
 		}
 
-		if (
+		switch ($avatarScope) {
 			// v2-private scope hides the avatar from public access and from unknown users
-			$avatarScope === IAccountManager::SCOPE_PRIVATE
-			&& (
-				// accessing from public link
-				$requestingUser === null
-				// logged in, but unknown to user
-				|| !$this->knownUserService->isKnownToUser($requestingUser->getUID(), $userId)
-			)) {
-			// use a placeholder avatar which caches the generated images
-			return new PlaceholderAvatar($folder, $user, $this->logger);
+			case IAccountManager::SCOPE_PRIVATE:
+				if ($requestingUser !== null && $this->knownUserService->isKnownToUser($requestingUser->getUID(), $userId)) {
+					return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
+				}
+				break;
+			case IAccountManager::SCOPE_LOCAL:
+			case IAccountManager::SCOPE_FEDERATED:
+			case IAccountManager::SCOPE_PUBLISHED:
+				return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
+			default:
+				// use a placeholder avatar which caches the generated images
+				return new PlaceholderAvatar($folder, $user, $this->logger);
 		}
 
-		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
+		return new PlaceholderAvatar($folder, $user, $this->logger);
 	}
 
 	/**
