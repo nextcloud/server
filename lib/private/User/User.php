@@ -555,15 +555,9 @@ class User implements IUser {
 		return $uid . '@' . $server;
 	}
 
-	/**
-	 * @param string $url
-	 * @return string
-	 */
-	private function removeProtocolFromUrl($url) {
+	private function removeProtocolFromUrl(string $url): string {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
 		}
 
 		return $url;
