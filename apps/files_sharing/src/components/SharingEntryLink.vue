@@ -192,6 +192,12 @@
 						@submit="onPasswordSubmit">
 						{{ t('files_sharing', 'Enter a password') }}
 					</ActionInput>
+					<ActionText v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
+						{{ t('files_sharing', 'Password expires {passwordExpirationTime}', {passwordExpirationTime}) }}
+					</ActionText>
+					<ActionText v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
+						{{ t('files_sharing', 'Password expired') }}
+					</ActionText>
 
 					<!-- password protected by Talk -->
 					<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
@@ -459,6 +465,20 @@ export default {
 				Vue.set(this.share, 'password', enabled ? await GeneratePassword() : '')
 				Vue.set(this.share, 'newPassword', this.share.password)
 			},
+		},
+
+		passwordExpirationTime() {
+			if (this.share.passwordExpirationTime === null) {
+				return null
+			}
+
+			const expirationTime = moment(this.share.passwordExpirationTime)
+
+			if (expirationTime.diff(moment()) < 0) {
+				return false
+			}
+
+			return expirationTime.fromNow()
 		},
 
 		/**

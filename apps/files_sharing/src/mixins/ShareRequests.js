@@ -103,8 +103,9 @@ export default {
 				const request = await axios.put(shareUrl + `/${id}`, properties)
 				if (!request?.data?.ocs) {
 					throw request
+				} else {
+					return request.data.ocs.data
 				}
-				return true
 			} catch (error) {
 				console.error('Error while updating share', error)
 				if (error.response.status !== 400) {
