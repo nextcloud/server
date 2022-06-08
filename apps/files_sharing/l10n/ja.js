@@ -157,6 +157,7 @@ OC.L10N.register(
     "Read" : "読み込み",
     "Upload" : "アップロード",
     "Edit" : "編集",
+    "Bundled permissions" : "バンドルされているパーミッション",
     "Allow creating" : "作成許可",
     "Allow deleting" : "削除許可",
     "Allow resharing" : "再共有を許可する",
