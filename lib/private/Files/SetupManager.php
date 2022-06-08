@@ -403,6 +403,10 @@ class SetupManager {
 			return;
 		}
 
+		if (!$this->isSetupStarted($user)) {
+			$this->oneTimeUserSetup($user);
+		}
+
 		$mounts = [];
 		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
 			$setupProviders[] = $cachedMount->getMountProvider();
