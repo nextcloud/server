@@ -50,6 +50,7 @@ export default class Share {
 				console.warn('Could not parse share attributes returned by server: "' + ocsData.attributes + '"')
 			}
 		}
+		ocsData.attributes = ocsData.attributes ?? []
 
 		// store state
 		this._share = ocsData
