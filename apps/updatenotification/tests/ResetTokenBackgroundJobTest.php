@@ -65,13 +65,11 @@ class ResetTokenBackgroundJobTest extends TestCase {
 
 	public function testRunWithExpiredToken() {
 		$this->timeFactory
-			->expects($this->at(0))
 			->method('getTime')
-			->willReturn(1455131633);
-		$this->timeFactory
-			->expects($this->at(1))
-			->method('getTime')
-			->willReturn(1455045234);
+			->willReturnOnConsecutiveCalls(
+				1455131633,
+				1455045234
+			);
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
