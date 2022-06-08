@@ -4,8 +4,7 @@ namespace Test\Encryption;
 
 use OC\Encryption\Util;
 use OC\Files\View;
-use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\App\IAppManager;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 use Test\TestCase;
@@ -207,6 +206,15 @@ class UtilTest extends TestCase {
 	 * @dataProvider dataTestIsSystemWideMountPoint
 	 */
 	public function testIsSystemWideMountPoint($expectedResult, $expectationText, $applicableUsers, $applicableGroups, $mountPointName = '/mp') {
+		$appManager = $this->createMock(IAppManager::class);
+		$appManager
+			->expects($this->once())
+			->method('isEnabledForUser')
+			->with('files_external')
+			->willReturn(true);
+
+		$this->overwriteService(IAppManager::class, $appManager);
+
 		$this->groupManager->method('isInGroup')
 			 ->will($this->returnValueMap([
 			 	['user1', 'group1', true], // user is only in group1
@@ -215,17 +223,28 @@ class UtilTest extends TestCase {
 
 		$storages = [];
 
-		$storageConfig = $this->createMock(StorageConfig::class);
+		// StorageConfig
+		$storageConfig = $this->getMockBuilder('OCA\\Files_External\\Lib\\StorageConfig')
+			->setMethods([
+				'getMountPoint',
+				'getApplicableUsers',
+				'getApplicableGroups',
+			])
+			->getMock();
 		$storageConfig->method('getMountPoint')->willReturn($mountPointName);
 		$storageConfig->method('getApplicableUsers')->willReturn($applicableUsers);
 		$storageConfig->method('getApplicableGroups')->willReturn($applicableGroups);
 		$storages[] = $storageConfig;
 
-		$storagesServiceMock = $this->createMock(GlobalStoragesService::class);
+		$storagesServiceMock = $this->getMockBuilder('OCA\\Files_External\\Service\\GlobalStoragesService')
+			->setMethods([
+				'getAllStorages',
+			])
+			->getMock();
 		$storagesServiceMock->expects($this->atLeastOnce())->method('getAllStorages')
 			->willReturn($storages);
 
-		$this->overwriteService(GlobalStoragesService::class, $storagesServiceMock);
+		$this->overwriteService('OCA\\Files_External\\Service\\GlobalStoragesService', $storagesServiceMock);
 
 		$this->assertEquals($expectedResult, $this->util->isSystemWideMountPoint('/files/mp', 'user1'), 'Test case: ' . $expectationText);
 	}

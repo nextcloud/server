@@ -37,6 +37,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\App\IAppManager;
 
 class Util {
 	public const HEADER_START = 'HBEGIN';
@@ -299,7 +300,8 @@ class Util {
 	 * @return boolean
 	 */
 	public function isSystemWideMountPoint($path, $uid) {
-		if (\OCP\App::isEnabled("files_external")) {
+		$appManager = \OC::$server->get(IAppManager::class);
+		if ($appManager->isEnabledForUser('files_external', null)) {
 			/** @var GlobalStoragesService $storageService */
 			$storageService = \OC::$server->get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();
