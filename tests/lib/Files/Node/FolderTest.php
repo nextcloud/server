@@ -105,11 +105,14 @@ class FolderTest extends NodeTest {
 			->method('getUser')
 			->willReturn($this->user);
 
+		$expected = $this->createMock(Node::class);
 		$root->method('get')
-			->with('/bar/foo/asd');
+			->with('/bar/foo/asd')
+			->willReturn($expected);
 
 		$node = new Folder($root, $view, '/bar/foo');
-		$node->get('asd');
+		$return = $node->get('asd');
+		self::assertEquals($expected, $return);
 	}
 
 	public function testNodeExists() {
