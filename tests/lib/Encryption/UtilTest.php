@@ -40,11 +40,11 @@ class UtilTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userManager = $this->getMockBuilder('OC\User\Manager')
+		$this->userManager = $this->getMockBuilder(\OC\User\Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->groupManager = $this->getMockBuilder('OC\Group\Manager')
+		$this->groupManager = $this->getMockBuilder(\OC\Group\Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
 
