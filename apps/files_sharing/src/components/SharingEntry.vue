@@ -428,9 +428,8 @@ export default {
 			this.share.permissions = permissions
 			if (this.share.hasDownloadPermission !== isDownloadChecked) {
 				this.share.hasDownloadPermission = isDownloadChecked
-				this.queueUpdate('attributes')
 			}
-			this.queueUpdate('permissions')
+			this.queueUpdate('permissions', 'attributes')
 		},
 
 		/**
