@@ -244,7 +244,7 @@ class ImageManager {
 	 * a maximum of 4096 pixels wide (preserving aspect ratio), but only if the resizing
 	 * results in an image that has a smaller file size than the uploaded file.
 	 *
-	 * @param string $originalTmpFile The image key, e.g. "favicon"
+	 * @param string $originalTmpFile The tmpFile(path) as uploaded by the user
 	 * @return string Location of the resized file, or the original
 	 */
 	private function getResizedImagePathIfResizeIsSmaller(string $originalTmpFile): string
