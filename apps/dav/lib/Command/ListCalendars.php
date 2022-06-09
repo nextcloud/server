@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
@@ -25,14 +28,14 @@
  */
 namespace OCA\DAV\Command;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\Command\Command;
+use OCP\Command\IConfiguration;
+use OCP\Command\IInput;
+use OCP\Command\IOutput;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCalendars extends Command {
 
@@ -42,26 +45,29 @@ class ListCalendars extends Command {
 	/** @var CalDavBackend */
 	private $caldav;
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param CalDavBackend $caldav
-	 */
 	public function __construct(IUserManager $userManager, CalDavBackend $caldav) {
-		parent::__construct();
+		parent::__construct(Application::APP_ID);
 		$this->userManager = $userManager;
 		$this->caldav = $caldav;
 	}
 
-	protected function configure() {
-		$this
-			->setName('dav:list-calendars')
-			->setDescription('List all calendars of a user')
-			->addArgument('uid',
-				InputArgument::REQUIRED,
-				'User for whom all calendars will be listed');
+	public function getName(): string {
+		return 'list-calendars';
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int {
+	public function getDescription(): string {
+		return 'List all calendars of a user';
+	}
+
+	public function configure(IConfiguration $configuration): void {
+		$configuration->addArgument(
+			'uid',
+			true,
+			'User for whom all calendars will be listed'
+		);
+	}
+
+	public function execute(IInput $input, IOutput $output): int {
 		$user = $input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> is unknown.");
@@ -92,11 +98,11 @@ class ListCalendars extends Command {
 		}
 
 		if (count($calendarTableData) > 0) {
-			$table = new Table($output);
-			$table->setHeaders(['uri', 'displayname', 'owner\'s userid', 'owner\'s displayname', 'writable'])
-				->setRows($calendarTableData);
+			//$table = new Table($output);
+			//$table->setHeaders(['uri', 'displayname', 'owner\'s userid', 'owner\'s displayname', 'writable'])
+			//	->setRows($calendarTableData);
 
-			$table->render();
+			//$table->render();
 		} else {
 			$output->writeln("<info>User <$user> has no calendars</info>");
 		}

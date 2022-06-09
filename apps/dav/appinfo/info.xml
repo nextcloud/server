@@ -50,7 +50,6 @@
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\DeleteCalendar</command>
 		<command>OCA\DAV\Command\MoveCalendar</command>
-		<command>OCA\DAV\Command\ListCalendars</command>
 		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>

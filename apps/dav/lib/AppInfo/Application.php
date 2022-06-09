@@ -52,6 +52,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Command\ListCalendars;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
 use OCA\DAV\Events\AddressBookShareUpdatedEvent;
@@ -121,6 +122,11 @@ class Application extends App implements IBootstrap {
 		 * Register capabilities
 		 */
 		$context->registerCapability(Capabilities::class);
+
+		/**
+		 * Register commands
+		 */
+		$context->registerCommand(ListCalendars::class);
 
 		/*
 		 * Register Search Providers
