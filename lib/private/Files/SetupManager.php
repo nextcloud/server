@@ -380,13 +380,9 @@ class SetupManager {
 			return;
 		}
 
-		// for the user's home folder, it's always the home mount
-		if (rtrim($path) === "/" . $user->getUID() . "/files") {
-			if ($includeChildren) {
-				$this->setupForUser($user);
-			} else {
-				$this->oneTimeUserSetup($user);
-			}
+		// for the user's home folder, and includes children we need everything always
+		if (rtrim($path) === "/" . $user->getUID() . "/files" && $includeChildren) {
+			$this->setupForUser($user);
 			return;
 		}
 
