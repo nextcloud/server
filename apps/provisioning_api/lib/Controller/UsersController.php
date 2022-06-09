@@ -958,7 +958,11 @@ class UsersController extends AUserData {
 				} catch (PropertyDoesNotExistException $e) {
 					$userAccount->setProperty($key, $value, IAccountManager::SCOPE_PRIVATE, IAccountManager::NOT_VERIFIED);
 				}
-				$this->accountManager->updateAccount($userAccount);
+				try {
+					$this->accountManager->updateAccount($userAccount);
+				} catch (InvalidArgumentException $e) {
+					throw new OCSException('Invalid ' . $e->getMessage(), 102);
+				}
 				break;
 			case IAccountManager::PROPERTY_PROFILE_ENABLED:
 				$userAccount = $this->accountManager->getAccount($targetUser);
