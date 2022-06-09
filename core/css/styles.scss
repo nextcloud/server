@@ -34,7 +34,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 }
 
 :focus-visible {
-	box-shadow: 0 0 0 2px var(--color-primary);
+	box-shadow: inset 0 0 0 2px var(--color-primary);
 	outline: none;
 }
 
@@ -760,8 +760,7 @@ code {
 		}
 	}
 
-	/* Grid view toggle */
-	#picker-view-toggle {
+	#picker-showgridview {
 		position: absolute;
 		background-color: transparent;
 		border: none;
@@ -772,14 +771,11 @@ code {
 		top: 0;
 
 		&:hover,
+		&:active,
 		&:focus {
+			box-shadow: 0 0 0 2px var(--color-primary);
 			opacity: 1;
 		}
-	}
-
-	// keyboard focus
-	#picker-showgridview:focus + #picker-view-toggle {
-		opacity: 1;
 	}
 
 	.actions.creatable {
