@@ -611,4 +611,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			throw $e;
 		}
 	}
+
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		while ($sourceStorage->instanceOfStorage(Jail::class)) {
+			/**
+			 * @var Jail $sourceStorage
+			 */
+			$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+			$sourceStorage = $sourceStorage->getUnjailedStorage();
+		}
+		
+		$this->getCache()->moveFromCache($sourceStorage->getCache(), $sourceInternalPath, $targetInternalPath);
+		return true;
+	}
 }
