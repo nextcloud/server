@@ -254,17 +254,17 @@ class ImageManager {
 		$newImage = @imagecreatefromstring(file_get_contents($originalTmpFile));
 
 			// Preserve transparency
-			imagesavealpha($newImage, true);
-			imagealphablending($newImage, true);
+		imagesavealpha($newImage, true);
+		imagealphablending($newImage, true);
 
 		$newImageTmpFile = $this->tempManager->getTemporaryFile();
-			$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
-			$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
-			$outputImage = imagescale($newImage, $newWidth, $newHeight);
+		$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
+		$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
+		$outputImage = imagescale($newImage, $newWidth, $newHeight);
 
-			imageinterlace($outputImage, 1);
-			imagepng($outputImage, $tmpFile, 8);
-			imagedestroy($outputImage);
+		imageinterlace($outputImage, 1);
+		imagepng($outputImage, $newImageTmpFile, 8);
+		imagedestroy($outputImage);
 
 		// only actually use the image if it is an improvement
 		$newImageIsSmaller = filesize($newImageTmpFile) <= filesize($originalTmpFile);
