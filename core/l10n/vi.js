@@ -204,7 +204,6 @@ OC.L10N.register(
     "Account access" : "Truy cập tài khoản",
     "This share is password-protected" : "Chia sẽ này được bảo vệ bởi mật khẩu",
     "Email address" : "Địa chỉ thư điện tử",
-    "Request password" : "Yêu cầu mật khẩu",
     "Go to %s" : "Đi tới %s",
     "Two-factor authentication" : "Xác thực 2 bước",
     "Use backup code" : "Sử dụng mã dự phòng",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-    "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại."
+    "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại.",
+    "Request password" : "Yêu cầu mật khẩu"
 },
 "nplurals=1; plural=0;");

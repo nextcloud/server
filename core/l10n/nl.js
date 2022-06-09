@@ -340,7 +340,6 @@ OC.L10N.register(
     "You can close this window." : "Je mag dit venster sluiten.",
     "This share is password-protected" : "Deze share is wachtwoordbeveiligd",
     "Email address" : "E-mailadres",
-    "Request password" : "Aanvragen wachtwoord",
     "Go to %s" : "Ga naar %s",
     "Two-factor authentication" : "Tweefactor authenticatie",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Versterkte beveiliging is ingeschakeld voor je account. Kies een tweede factor voor authenticatie:",
@@ -384,6 +383,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Je datamap en je bestanden zijn waarschijnlijk vanaf het internet bereikbaar.  Het .htaccess-bestand werkt niet. We raden ten zeerste aan aan om je webserver zodanig te configureren, dat de datadirectory niet bereikbaar is vanaf het internet of om je datadirectory te verplaatsen naar een locatie buiten de document-root van de webserver.",
     "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
     "You haven't added any info yet" : "Je hebt nog geen info toegevoegd",
-    "{user} hasn't added any info yet" : "{user} heeft nog geen info toegevoegd"
+    "{user} hasn't added any info yet" : "{user} heeft nog geen info toegevoegd",
+    "Request password" : "Aanvragen wachtwoord"
 },
 "nplurals=2; plural=(n != 1);");

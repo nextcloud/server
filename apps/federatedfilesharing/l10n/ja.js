@@ -44,6 +44,7 @@ OC.L10N.register(
     "Allow users on this server to receive group shares from other servers" : "ユーザーが他のサーバーからこのサーバーにグループ共有することを許可する",
     "Search global and public address book for users" : "グローバルまたはユーザーの公開アドレス帳を検索する",
     "Allow users to publish their data to a global and public address book" : "公開アドレス帳をグローバルに公開することをユーザーに許可する",
+    "Unable to update federated files sharing config" : "クラウド共有設定を更新できませんでした",
     "Federated Cloud" : "クラウド共有",
     "Open documentation" : "ドキュメントを開く",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud サーバーまたはその他の Open Cloud Mesh (OCM) 互換のサーバーとサービスを使用しているユーザーであれば、共有ダイアログに Federated Cloud ID を入力するだけで誰とでも共有できます。例: person@cloud.example.com",

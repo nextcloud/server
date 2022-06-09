@@ -331,7 +331,6 @@ OC.L10N.register(
     "You can close this window." : "Du kan stänga det här fönstret.",
     "This share is password-protected" : "Denna delning är lösenordsskyddad",
     "Email address" : "E-postadress",
-    "Request password" : "Begär lösenord",
     "Go to %s" : "Gå till %s",
     "Two-factor authentication" : "Tvåfaktorsautentisering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Förbättrad säkerhet är aktiverad för ditt konto. Välj en andra faktor för autentisering:",
@@ -372,6 +371,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Din datamapp och filer är förmodligen tillgängliga från Internet. .htaccess-filen fungerar inte. Det rekommenderas starkt att du konfigurerar din webbserver så att datakatalogen inte längre är tillgänglig eller flyttar datakatalogen utanför dokument root för webbservern.",
     "The password is wrong. Try again." : "Felaktigt lösenord. Försök igen.",
     "You haven't added any info yet" : "Du har inte angivit någon information ännu",
-    "{user} hasn't added any info yet" : "{user} har inte angivit någon information ännu"
+    "{user} hasn't added any info yet" : "{user} har inte angivit någon information ännu",
+    "Request password" : "Begär lösenord"
 },
 "nplurals=2; plural=(n != 1);");

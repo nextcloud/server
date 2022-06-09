@@ -325,7 +325,6 @@ OC.L10N.register(
     "You can close this window." : "Μπορείτε να κλείσετε το παράθυρο.",
     "This share is password-protected" : "Το κοινόχρηστο έχει προστασία κωδικού",
     "Email address" : "Διεύθυνση αλληλογραφίας",
-    "Request password" : "Αίτηση κωδικού πρόσβασης",
     "Go to %s" : "Πηγαίνετε στο %s",
     "Two-factor authentication" : "Πιστοποίηση Δύο-Παραγόντων",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Έχει ενεργοποιηθεί η βελτιωμένη ασφάλεια για τον λογαριασμό σας. Παρακαλώ επιλέξτε δεύτερο παράγοντα αυθεντικοποίησης:",
@@ -365,6 +364,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανόν προσβάσιμα από το διαδίκτυο. Το αρχείο .htaccess δεν λειτουργεί. Σας προτείνουμε να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος δεδομένων να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο δεδομένων εκτός του ριζικού καταλόγου εγγράφων του διακομιστή.",
     "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
     "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
-    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες"
+    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες",
+    "Request password" : "Αίτηση κωδικού πρόσβασης"
 },
 "nplurals=2; plural=(n != 1);");

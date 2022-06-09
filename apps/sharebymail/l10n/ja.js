@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "メールで共有",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "あなたに自動生成したパスワードを送信できませんでした。個人設定画面から正しいメールアドレスを設定して再度実施してください。",
+    "Failed to send share by email. Got an invalid email address" : "共有メールの送信に失敗しました。無効なメールアドレスが入力されています",
     "Failed to send share by email" : "メールで共有の送信に失敗しました",
     "%1$s shared »%2$s« with you" : "%1$sが あなたと >> %2$s <<を共有しました",
     "%1$s shared »%2$s« with you." : "%1$sが あなたと >> %2$s <<を共有しました。",
@@ -49,6 +50,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "メールでファイルを共有できる共有プロバイダー",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
-    "Reply to initiator" : "返信先を共有開始者にする"
+    "Reply to initiator" : "返信先を共有開始者にする",
+    "Unable to update share by mail config" : "メールで共有設定の更新に失敗しました"
 },
 "nplurals=1; plural=0;");

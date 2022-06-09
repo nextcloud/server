@@ -317,7 +317,6 @@ OC.L10N.register(
     "Email address" : "Sähköpostiosoite",
     "Password sent!" : "Salasana lähetetty!",
     "You are not authorized to request a password for this share" : "Sinulla ei ole valtuutta pyytää salasanaa tähän jakoon",
-    "Request password" : "Pyydä salasanaa",
     "Go to %s" : "Siirry %s§",
     "Two-factor authentication" : "Kaksivaiheinen tunnistautuminen",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Tilisi tietoturvatasoa on korotettu. Käytä kaksivaiheista tunnistautumista:",
@@ -354,6 +353,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Data-hakemisto ja tiedostot ovat luultavasti käytettävissä suoraan Internetistä. .htaccess-tiedosto ei toimi oikein. Suosittelemme määrittämään HTTP-palvelimen asetukset siten, ettei data-hakemisto ole suoraan käytettävissä Internetistä tai siirtämään data-hakemiston HTTP-palvelimen juurihakemiston ulkopuolelle.",
     "The password is wrong. Try again." : "Salasana on väärin. Yritä uudelleen.",
     "You haven't added any info yet" : "Et ole lisännyt tietoja vielä",
-    "{user} hasn't added any info yet" : "{user} ei ole lisännyt tietoja vielä"
+    "{user} hasn't added any info yet" : "{user} ei ole lisännyt tietoja vielä",
+    "Request password" : "Pyydä salasanaa"
 },
 "nplurals=2; plural=(n != 1);");
