@@ -32,6 +32,7 @@ use OC\Log;
 use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use OCA\DAV\Exception\ServerMaintenanceMode;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
@@ -84,8 +85,10 @@ class ExceptionLoggerPluginTest extends TestCase {
 	public function providesExceptions() {
 		return [
 			['debug', new NotFound()],
-			['debug', new ServiceUnavailable('System in maintenance mode.')],
-			['critical', new ServiceUnavailable('Upgrade needed')],
+			['debug', new ServerMaintenanceMode('System is in maintenance mode.')],
+			// Faking a translation
+			['debug', new ServerMaintenanceMode('Syst3m 1s 1n m41nt3n4nc3 m0d3.')],
+			['debug', new ServerMaintenanceMode('Upgrade needed')],
 			['critical', new InvalidPath('This path leads to nowhere')]
 		];
 	}
