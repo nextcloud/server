@@ -232,29 +232,47 @@ class ImageManager {
 		}
 
 		if ($key === 'background' && strpos($detectedMimeType, 'image/svg') === false && strpos($detectedMimeType, 'image/gif') === false) {
-			// Optimize the image since some people may upload images that will be
-			// either to big or are not progressive rendering.
-			$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
-
-			// Preserve transparency
-			imagesavealpha($newImage, true);
-			imagealphablending($newImage, true);
-
-			$tmpFile = $this->tempManager->getTemporaryFile();
-			$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
-			$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
-			$outputImage = imagescale($newImage, $newWidth, $newHeight);
-
-			imageinterlace($outputImage, 1);
-			imagepng($outputImage, $tmpFile, 8);
-			imagedestroy($outputImage);
-
-			$target->putContent(file_get_contents($tmpFile));
-		} else {
-			$target->putContent(file_get_contents($tmpFile));
+			$tmpFile = $this->getResizedImagePathIfResizeIsSmaller($tmpFile);
 		}
 
+		$target->putContent(file_get_contents($tmpFile));
 		return $detectedMimeType;
+	}
+
+	/**
+	 * Returns the file path of the file stored as a png and resized to be 
+	 * a maximum of 4096 pixels wide (preserving aspect ratio), but only if the resizing
+	 * results in an image that has a smaller file size than the uploaded file.
+	 *
+	 * @param string $originalTmpFile The image key, e.g. "favicon"
+	 * @return string Location of the resized file, or the original
+	 */
+	private function getResizedImagePathIfResizeIsSmaller(string $originalTmpFile): string
+	{
+			// Optimize the image since some people may upload images that will be
+			// either to big or are not progressive rendering.
+		$newImage = @imagecreatefromstring(file_get_contents($originalTmpFile));
+
+			// Preserve transparency
+		imagesavealpha($newImage, true);
+		imagealphablending($newImage, true);
+
+		$newImageTmpFile = $this->tempManager->getTemporaryFile();
+		$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
+		$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
+		$outputImage = imagescale($newImage, $newWidth, $newHeight);
+
+		imageinterlace($outputImage, 1);
+		imagepng($outputImage, $newImageTmpFile, 8);
+		imagedestroy($outputImage);
+
+		// only actually use the image if it is an improvement
+		$newImageIsSmaller = filesize($newImageTmpFile) <= filesize($originalTmpFile);
+		if ($newImageIsSmaller) {
+			return $newImageTmpFile;
+		} else {
+			return $originalTmpFile;
+		}
 	}
 
 	/**
