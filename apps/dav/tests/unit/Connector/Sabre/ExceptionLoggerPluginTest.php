@@ -31,8 +31,8 @@ use OC\Log;
 use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;
+use OCA\DAV\Exception\ServerMaintenanceMode;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 use Test\TestCase;
 
@@ -91,8 +91,8 @@ class ExceptionLoggerPluginTest extends TestCase {
 	public function providesExceptions() {
 		return [
 			[0, '', new NotFound()],
-			[0, 'System in maintenance mode.', new ServiceUnavailable('System in maintenance mode.')],
-			[4, 'Upgrade needed', new ServiceUnavailable('Upgrade needed')],
+			[0, 'System in maintenance mode.', new ServerMaintenanceMode('System in maintenance mode.')],
+			[0, 'Upgrade needed', new ServerMaintenanceMode('Upgrade needed')],
 			[4, 'This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
 		];
 	}
