@@ -865,6 +865,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Command\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Command/FileAccess.php',
         'OC\\Command\\QueueBus' => __DIR__ . '/../../..' . '/lib/private/Command/QueueBus.php',
         'OC\\Command\\SymfonyCommandAdapter' => __DIR__ . '/../../..' . '/lib/private/Command/SymfonyCommandAdapter.php',
+        'OC\\Command\\SymfonyConfigurationAdapter' => __DIR__ . '/../../..' . '/lib/private/Command/SymfonyConfigurationAdapter.php',
         'OC\\Command\\SymfonyInputAdapter' => __DIR__ . '/../../..' . '/lib/private/Command/SymfonyInputAdapter.php',
         'OC\\Command\\SymfonyOutputAdapter' => __DIR__ . '/../../..' . '/lib/private/Command/SymfonyOutputAdapter.php',
         'OC\\Comments\\Comment' => __DIR__ . '/../../..' . '/lib/private/Comments/Comment.php',

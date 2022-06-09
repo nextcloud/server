@@ -30,6 +30,8 @@
  */
 namespace OC\Console;
 
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Command\SymfonyCommandAdapter;
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
 use OC_App;
@@ -44,6 +46,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 class Application {
 	/** @var IConfig */
@@ -138,6 +141,21 @@ class Application {
 									'exception' => $e,
 								]);
 							}
+						}
+					}
+					/** @var Coordinator $coordinator */
+					$coordinator = \OC::$server->get(Coordinator::class);
+					$registrationContext = $coordinator->getRegistrationContext();
+					foreach ($registrationContext->getCommands() as $commandRegistration) {
+						try {
+							$command = \OC::$server->get($commandRegistration->getService());
+							$adapter = new SymfonyCommandAdapter($command);
+							$this->application->add($adapter);
+						} catch (Throwable $e) {
+							$this->logger->error("Could not load command: " . $e->getMessage(), [
+								'exception' => $e,
+								'app' => $commandRegistration->getAppId(),
+							]);
 						}
 					}
 				}

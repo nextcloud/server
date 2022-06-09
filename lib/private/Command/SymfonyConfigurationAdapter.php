@@ -23,13 +23,30 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCP\Command;
+namespace OC\Command;
 
-interface IConfiguration {
+use OCP\Command\IConfiguration;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+
+class SymfonyConfigurationAdapter implements IConfiguration {
+
+	private Command $command;
+
+	public function __construct(Command $command) {
+		$this->command = $command;
+	}
 
 	public function addArgument(string $name,
 								bool $required = false,
 								string $description = '',
-								$default = null): void;
+								$default = null): void {
+		$this->command->addArgument(
+			$name,
+			$required ? InputArgument::REQUIRED : InputArgument::OPTIONAL,
+			$description,
+			$default
+		);
+	}
 
 }

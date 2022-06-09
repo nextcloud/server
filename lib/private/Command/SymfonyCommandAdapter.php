@@ -34,21 +34,26 @@ class SymfonyCommandAdapter extends Command {
 	private \OCP\Command\Command $command;
 
 	public function __construct(\OCP\Command\Command $command) {
-		parent::__construct($command->getFullyQualifiedName());
 		$this->command = $command;
+
+		parent::__construct($command->getFullyQualifiedName());
 	}
 
 	protected function configure() {
 		parent::configure();
 
 		$this->setDescription($this->command->getDescription());
+
+		$this->command->configure(
+			new SymfonyConfigurationAdapter($this)
+		);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->command->execute(
 			new SymfonyInputAdapter($input),
 			new SymfonyOutputAdapter($output)
-		)
+		);
 	}
 
 }

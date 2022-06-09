@@ -56,6 +56,8 @@ interface IRegistrationContext {
 	 */
 	public function registerCapability(string $capability): void;
 
+	public function registerCommand(string $command): void;
+
 	/**
 	 * Register an implementation of \OCP\Support\CrashReport\IReporter that
 	 * will receive unhandled exceptions and throwables

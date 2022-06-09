@@ -32,6 +32,7 @@ namespace OC\AppFramework\Bootstrap;
 use Closure;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
+use OCP\Command\Command;
 use OCP\Talk\ITalkBackend;
 use RuntimeException;
 use function array_shift;
@@ -60,6 +61,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ICapability>[] */
 	private $capabilities = [];
+
+	/** @var ServiceRegistration<Command>[] */
+	private $commands = [];
 
 	/** @var ServiceRegistration<IReporter>[] */
 	private $crashReporters = [];
@@ -148,6 +152,13 @@ class RegistrationContext {
 				$this->context->registerCapability(
 					$this->appId,
 					$capability
+				);
+			}
+
+			public function registerCommand(string $command): void {
+				$this->context->registerCommand(
+					$this->appId,
+					$command
 				);
 			}
 
@@ -312,6 +323,13 @@ class RegistrationContext {
 	 */
 	public function registerCapability(string $appId, string $capability): void {
 		$this->capabilities[] = new ServiceRegistration($appId, $capability);
+	}
+
+	/**
+	 * @psalm-param class-string<ICapability> $capability
+	 */
+	public function registerCommand(string $appId, string $command): void {
+		$this->commands[] = new ServiceRegistration($appId, $command);
 	}
 
 	/**
@@ -610,6 +628,13 @@ class RegistrationContext {
 				]);
 			}
 		}
+	}
+
+	/**
+	 * @return ServiceRegistration<Command>[]
+	 */
+	public function getCommands(): array {
+		return $this->commands;
 	}
 
 	/**

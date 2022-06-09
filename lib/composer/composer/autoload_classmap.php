@@ -832,6 +832,7 @@ return array(
     'OC\\Command\\FileAccess' => $baseDir . '/lib/private/Command/FileAccess.php',
     'OC\\Command\\QueueBus' => $baseDir . '/lib/private/Command/QueueBus.php',
     'OC\\Command\\SymfonyCommandAdapter' => $baseDir . '/lib/private/Command/SymfonyCommandAdapter.php',
+    'OC\\Command\\SymfonyConfigurationAdapter' => $baseDir . '/lib/private/Command/SymfonyConfigurationAdapter.php',
     'OC\\Command\\SymfonyInputAdapter' => $baseDir . '/lib/private/Command/SymfonyInputAdapter.php',
     'OC\\Command\\SymfonyOutputAdapter' => $baseDir . '/lib/private/Command/SymfonyOutputAdapter.php',
     'OC\\Comments\\Comment' => $baseDir . '/lib/private/Comments/Comment.php',
