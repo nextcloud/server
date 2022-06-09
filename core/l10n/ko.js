@@ -321,7 +321,6 @@ OC.L10N.register(
     "You can close this window." : "윈도우를 닫으셔도 됩니다.",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다.",
     "Email address" : "이메일 주소",
-    "Request password" : "비밀번호 요청",
     "Go to %s" : "%s로 이동",
     "Two-factor authentication" : "2단계 인증",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "현재 계정에 향상된 보안이 켜져 있습니다. 2단계 인증 방식을 선택하십시오:",
@@ -364,6 +363,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "데이터 디렉터리와 파일을 인터넷에서 접근할 수 있는 것 같습니다. .htaccess 파일을 사용할 수 없습니다. 웹 서버 설정을 변경하여 데이터 디렉터리에 접근할 수 없도록 하거나, 데이터 디렉터리를 웹 서버 문서 디렉터리 밖으로 옮기는 것을 추천합니다.",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 시도하십시오",
     "You haven't added any info yet" : "아직 아무 정보도 추가하지 않았습니다.",
-    "{user} hasn't added any info yet" : "{user} 아직 아무정보도 추가하지 않았습니다."
+    "{user} hasn't added any info yet" : "{user} 아직 아무정보도 추가하지 않았습니다.",
+    "Request password" : "비밀번호 요청"
 },
 "nplurals=1; plural=0;");

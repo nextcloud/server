@@ -39,6 +39,8 @@
     "Details" : "詳細",
     "Please select tag(s) to add to the selection" : "選択項目に付与するタグを選択してください",
     "Apply tag(s) to selection" : "選択項目にタグを適用",
+    "Select directory \"{dirName}\"" : "ディレクトリを選択: \"{dirName}\"",
+    "Select file \"{fileName}\"" : "ファイルを選択: \"{fileName}\"",
     "Pending" : "保留中",
     "Unable to determine date" : "更新日不明",
     "This operation is forbidden" : "この操作は禁止されています",

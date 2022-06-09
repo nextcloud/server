@@ -358,7 +358,6 @@ OC.L10N.register(
     "Email address" : "E-posta adresi",
     "Password sent!" : "Parola gönderildi!",
     "You are not authorized to request a password for this share" : "Bu paylaşım için parola isteğinde bulunma izniniz yok",
-    "Request password" : "Parola iste",
     "Go to %s" : "%s bölümüne git",
     "Two-factor authentication" : "İki aşamalı kimlik doğrulama",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Hesabınız için gelişmiş güvenlik etkinleştirildi. Kimlik doğrulaması için bir ikinci aşama seçin:",
@@ -402,6 +401,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Veri klasörünüz ve dosyalarınız İnternet üzerinden erişime açık olabilir. .htaccess dosyası çalışmıyor. Web sunucunuzu yapılandırarak veri klasörüne erişimi engellemeniz ya da veri klasörünü web sunucu kök klasörü dışına taşımanız önemle önerilir.",
     "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
     "You haven't added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",
-    "{user} hasn't added any info yet" : "{user} henüz herhangi bir bilgi eklememiş"
+    "{user} hasn't added any info yet" : "{user} henüz herhangi bir bilgi eklememiş",
+    "Request password" : "Parola iste"
 },
 "nplurals=2; plural=(n > 1);");

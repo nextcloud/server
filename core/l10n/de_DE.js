@@ -358,7 +358,6 @@ OC.L10N.register(
     "Email address" : "E-Mail-Adresse",
     "Password sent!" : "Passwort versandt!",
     "You are not authorized to request a password for this share" : "Sie sind nicht berechtigt, für diese Freigabe ein Passwort anzufordern.",
-    "Request password" : "Passwort anfordern",
     "Go to %s" : "%s aufrufen",
     "Two-factor authentication" : "Zwei-Faktor Authentifizierung",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Die erweiterte Sicherheit wurde für Ihr Konto aktiviert. Bitte wählen Sie einen zweiten Faktor für die Authentifizierung: ",
@@ -402,6 +401,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar. Die .htaccess-Datei funktioniert nicht. Es wird dringend empfohlen, Ihren Webserver dahingehend zu konfigurieren, dass das Datenverzeichnis nicht mehr vom Internet aus erreichbar ist oder dass Sie es aus dem Document-Root-Verzeichnis des Webservers herausverschieben.",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
     "You haven't added any info yet" : "Sie haben noch keine Infos hinzugefügt",
-    "{user} hasn't added any info yet" : "{user} hat noch keine Infos hinzugefügt"
+    "{user} hasn't added any info yet" : "{user} hat noch keine Infos hinzugefügt",
+    "Request password" : "Passwort anfordern"
 },
 "nplurals=2; plural=(n != 1);");

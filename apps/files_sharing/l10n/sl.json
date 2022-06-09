@@ -99,6 +99,7 @@
     "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
     "Could not delete share" : "Mesta souporabe ni mogoče izbrisati",
     "Please specify a file or folder path" : "Določiti je treba datoteko ali pot do mape",
+    "Wrong path, file/folder does not exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Could not create share" : "Mesta souporabe ni mogoče ustvariti",
     "Invalid permissions" : "Neustrezna dovoljenja",
     "Please specify a valid user" : "Navesti je treba veljavnega uporabnika.",
