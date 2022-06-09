@@ -232,7 +232,7 @@ class ImageManager {
 		}
 
 		if ($key === 'background' && strpos($detectedMimeType, 'image/svg') === false && strpos($detectedMimeType, 'image/gif') === false) {
-			$tmpFile = $this->getResizedImagePathIfResizeIsSmaller($tmpFile);
+			$tmpFile = $this->getResizedFilePath($tmpFile, $detectedMimeType);
 		}
 
 		$target->putContent(file_get_contents($tmpFile));
@@ -240,20 +240,21 @@ class ImageManager {
 	}
 
 	/**
-	 * Returns the file path of the file stored as a png and resized to be 
-	 * a maximum of 4096 pixels wide (preserving aspect ratio), but only if the resizing
-	 * results in an image that has a smaller file size than the uploaded file.
+	 * For png and webp files: Returns the file path of the file resized to a maximum of 4096 pixels wide (preserving aspect ratio)
+	 * but only if the resizing results in an image that has a smaller file size than the uploaded file. For jpeg files: 
+	 * Will always re-save the file at quality 80 (not too low, not too high to create large files).
 	 *
 	 * @param string $originalTmpFile The tmpFile(path) as uploaded by the user
-	 * @return string Location of the resized file, or the original
+	 * @param string $detectedMimeType The the MIME type of the file as uploaded by the user
+	 * @return string Location of the resized file, or the original if that was the smaller of the two
 	 */
-	private function getResizedImagePathIfResizeIsSmaller(string $originalTmpFile): string
+	private function getResizedFilePath(string $originalTmpFile, string $detectedMimeType): string
 	{
-			// Optimize the image since some people may upload images that will be
-			// either to big or are not progressive rendering.
+		// Optimize the image since some people may upload images that will be
+		// either to big or are not progressive rendering.
 		$newImage = @imagecreatefromstring(file_get_contents($originalTmpFile));
 
-			// Preserve transparency
+		// Preserve transparency
 		imagesavealpha($newImage, true);
 		imagealphablending($newImage, true);
 
@@ -263,16 +264,35 @@ class ImageManager {
 		$outputImage = imagescale($newImage, $newWidth, $newHeight);
 
 		imageinterlace($outputImage, 1);
-		imagepng($outputImage, $newImageTmpFile, 8);
-		imagedestroy($outputImage);
 
-		// only actually use the image if it is an improvement
-		$newImageIsSmaller = filesize($newImageTmpFile) <= filesize($originalTmpFile);
-		if ($newImageIsSmaller) {
-			return $newImageTmpFile;
-		} else {
-			return $originalTmpFile;
+		$checkIfFileSizeWasReduced = false;
+
+		// Preserve the original file format
+		switch($detectedMimeType) {
+			case 'image/png':
+				imagepng($outputImage, $newImageTmpFile, 8);
+				$checkIfFileSizeWasReduced = true;
+				break;
+			case 'image/webp':
+				imagewebp($outputImage, $newImageTmpFile, 80);
+				$checkIfFileSizeWasReduced = true;
+				break;
+			case 'image/jpeg':
+				imagejpeg($outputImage, $newImageTmpFile, 80);
+				// we have no convenient way if knowing if the original file was a progressive
+				// jpeg, so we just need to re-save it. 
+				$checkIfFileSizeWasReduced = false;
+				break;
 		}
+
+		imagedestroy($outputImage);
+		
+		$newImageIsLarger = filesize($newImageTmpFile) >= filesize($originalTmpFile);
+		if($checkIfFileSizeWasReduced && $newImageIsLarger) {
+			return $originalTmpFile;
+		}	
+		
+		return $newImageTmpFile;	
 	}
 
 	/**
