@@ -358,7 +358,6 @@ OC.L10N.register(
     "Email address" : "電郵地址",
     "Password sent!" : "密碼已傳送！",
     "You are not authorized to request a password for this share" : "您無權為此分享請求密碼",
-    "Request password" : "索取密碼",
     "Go to %s" : "前往 %s",
     "Two-factor authentication" : "雙重認證",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "您的賬號已啟用進階安全機制，請選擇一個雙重認證方法：",
@@ -402,6 +401,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的資料目錄和檔案看來可以被公開存取，這表示 。htaccess 設定檔並未生效，我們強烈建議您設定網頁伺服器，拒絕公開存取資料目錄，或者將您的資料目錄移出網頁伺服器根目錄。",
     "The password is wrong. Try again." : "密碼錯誤，請重試",
     "You haven't added any info yet" : "您尚未新增任何資訊",
-    "{user} hasn't added any info yet" : "{user} 尚未新增任何資訊"
+    "{user} hasn't added any info yet" : "{user} 尚未新增任何資訊",
+    "Request password" : "索取密碼"
 },
 "nplurals=1; plural=0;");

@@ -355,7 +355,6 @@ OC.L10N.register(
     "Email address" : "E-mailová adresa",
     "Password sent!" : "Heslo odoslané!",
     "You are not authorized to request a password for this share" : "Nemáte oprávnenie žiadať o heslo pre toto zdieľanie",
-    "Request password" : "Vyžiadať heslo",
     "Go to %s" : "Prejsť na %s",
     "Two-factor authentication" : "Dvojzložkové overovanie",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Vylepšená bezpečnosť je pre váš účet povolená. Vyberte druhý faktor overenia:",
@@ -399,6 +398,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Váš priečinok s dátami aj vaše súbory sú pravdepodobne prístupné z internetu. Súbor .htaccess nefunguje. Dôrazne odporúčame nakonfigurovať webový server tak, aby priečinok s dátami nebol naďalej prístupný alebo presunúť priečinok s dátami mimo priestoru, ktorý webový server sprístupňuje.",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "You haven't added any info yet" : "Zatiaľ ste nepridali žiadne informácie",
-    "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie"
+    "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie",
+    "Request password" : "Vyžiadať heslo"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

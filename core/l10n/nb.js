@@ -357,7 +357,6 @@ OC.L10N.register(
     "Email address" : "E-post adresse",
     "Password sent!" : "Passord er sendt.",
     "You are not authorized to request a password for this share" : "Du mangler tillatelse for å etterspørre passord til deling. ",
-    "Request password" : "Forespør om passord",
     "Go to %s" : "Gå til %s",
     "Two-factor authentication" : "Tofaktor autentisering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Utvidet sikkerhet er tilgjengelig fo rdin konto. Velg en to-faktor for autentisering.",
@@ -401,6 +400,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Datamappen og filene dine er sannsynligvis tilgjengelige fra Internett. .htaccess-filen fungerer ikke. Det anbefales sterkt at du setter opp webserveren slik at datamappen ikke kan nås eller at du flytter datamappen ut av webserverens dokumentrot.",
     "The password is wrong. Try again." : "Feil passord, forsøk igjen",
     "You haven't added any info yet" : "DU har ikke lagt til noe informasjon enda",
-    "{user} hasn't added any info yet" : "{user} har ikke lagt til informasjon enda"
+    "{user} hasn't added any info yet" : "{user} har ikke lagt til informasjon enda",
+    "Request password" : "Forespør om passord"
 },
 "nplurals=2; plural=(n != 1);");

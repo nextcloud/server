@@ -317,7 +317,6 @@ OC.L10N.register(
     "Email address" : "Alamat email",
     "Password sent!" : "Kata sandi terkirim!",
     "You are not authorized to request a password for this share" : "Anda tidak diizinkan untuk meminta kata sandi untuk pembagian ini",
-    "Request password" : "Minta kata sandi",
     "Go to %s" : "Pergi ke %s",
     "Two-factor authentication" : "Otentikasi Two-factor",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Peningkatan keamanan telah diaktifkan pada akun Anda. Pilih faktor-kedua untuk autentikasi:",
@@ -357,6 +356,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Data folder dan berkas Anda kemungkinan dapat diakses dari Internet secara langsung, dikarenakan berkas .htaccess tidak bekerja. Sangat dianjurkan Anda untuk menyetel peladen web, untuk mencegah hal tersebut terjadi. Atau pindahkan lokasi data Anda di luar root dokumen peladen web.",
     "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
     "You haven't added any info yet" : "Anda belum menambahkan info apa pun",
-    "{user} hasn't added any info yet" : "{user} belum menambahkan info apa pun"
+    "{user} hasn't added any info yet" : "{user} belum menambahkan info apa pun",
+    "Request password" : "Minta kata sandi"
 },
 "nplurals=1; plural=0;");

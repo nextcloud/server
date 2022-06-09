@@ -328,7 +328,6 @@ OC.L10N.register(
     "You can close this window." : "Možete zatvoriti ovaj prozor.",
     "This share is password-protected" : "Ovaj zajednički resurs je zaštićen zaporkom",
     "Email address" : "Adresa e-pošte",
-    "Request password" : "Zatraži zaporku",
     "Go to %s" : "Idi na %s",
     "Two-factor authentication" : "Dvofaktorska autentifikacija",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Vaš račun sada je dodatno osiguran. Odaberite drugi faktor za provođenje autentifikacije:",
@@ -370,6 +369,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "U određenim stupcima baze podataka nedostaje pretvorba u big int. Budući da promjena vrste stupca u velikim tablicama može potrajati neko duže vrijeme, stupci nisu automatski promijenjeni. Izvršenjem 'occ db:convert-filecache-bigint' te se promjene mogu ručno primijeniti. Ovu radnju morate izvršiti dok je instanca izvan mreže. Za više pojedinosti pročitajte {linkstart}odgovarajuće poglavlje dokumentacije ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Za prelazak na drugu bazu podataka koristite se naredbenim retkom: 'occ db:convert-type' ili pogledajte {linkstart}dokumentaciju ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Vaši direktoriji i datoteke vjerojatno su dostupni putem Interneta. Datoteka .htaccess nije u funkciji. Preporučujemo da konfigurirate web-poslužitelj tako da direktorij s podacima više nije dostupan ili premjestite direktorij s podacima izvan korijena web poslužitelja.",
-    "The password is wrong. Try again." : "Pogrešna zaporka. Pokušajte ponovno."
+    "The password is wrong. Try again." : "Pogrešna zaporka. Pokušajte ponovno.",
+    "Request password" : "Zatraži zaporku"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

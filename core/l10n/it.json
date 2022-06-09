@@ -353,7 +353,6 @@
     "Email address" : "Indirizzo email",
     "Password sent!" : "Password inviata!",
     "You are not authorized to request a password for this share" : "Non sei autorizzato a richiedere una password per questa condivisione",
-    "Request password" : "Richiedi password",
     "Go to %s" : "Vai a %s",
     "Two-factor authentication" : "Autenticazione a due fattori",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "La sicurezza migliorata è abilitata per il tuo account. Scegli un secondo fattore per l'autenticazione:",
@@ -397,6 +396,7 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "La cartella dei dati e i tuoi file sono probabilmente accessibili da Internet. Il file .htaccess non funziona. Ti consigliamo vivamente di configurare il server web in modo che la cartella dei dati non sia più accessibile o di spostare la cartella fuori dalla radice del server web.",
     "The password is wrong. Try again." : "La password è errata. Prova ancora.",
     "You haven't added any info yet" : "Non hai ancora aggiunto alcuna informazione",
-    "{user} hasn't added any info yet" : "{user} non ha ancora aggiunto alcuna informazione"
+    "{user} hasn't added any info yet" : "{user} non ha ancora aggiunto alcuna informazione",
+    "Request password" : "Richiedi password"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -224,7 +224,6 @@
     "App token" : "Lietotnes pilnvara",
     "Grant access" : "Piešķirt pieeju",
     "This share is password-protected" : "Šī koplietotne ir aizsargāta ar paroli",
-    "Request password" : "Pieprasīt paroli",
     "Two-factor authentication" : "Divpakāpju autentifikācija",
     "Use backup code" : "Izmantojiet dublēšanas kodu",
     "Cancel login" : "Atcelt pieteikšanos",
@@ -245,6 +244,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Šim serverim nav interneta savienojuma. Tas nozīmē, ka daži līdzekļi, piemēram, ārējās atmiņas montēšana vai trešās puses lietotņu paziņojumi par atjauninājumiem nedarbosies. Iespējams nedarbosies attālināti piekļūt datnēm un nosūtīt paziņojumus uz e-pastu. Izveido interneta savienojumu ar serveri, lai visas funkcijas darbotos.",
-    "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
+    "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz.",
+    "Request password" : "Pieprasīt paroli"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

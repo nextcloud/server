@@ -358,7 +358,6 @@ OC.L10N.register(
     "Email address" : "E-mail-cím",
     "Password sent!" : "Jelszó elküldve.",
     "You are not authorized to request a password for this share" : "Nincs jogosultsága, hogy jelszót kérjen ehhez a megosztáshoz",
-    "Request password" : "Jelszó kérése",
     "Go to %s" : "Ugrás ide: %s",
     "Two-factor authentication" : "Kétfaktoros hitelesítés",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "A fokozott biztonság engedélyezett a fiókja számára. Válasszon egy második faktort a hitelesítéshez.",
@@ -402,6 +401,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Az adatkönyvtárai és a fájljai valószínűleg elérhetőek az internetről. A .htaccess fájl nem működik. Erősen javasolt, hogy a webkiszolgálót úgy állítsa be, hogy az adatkönyvtár tartalma ne legyen közvetlenül elérhető, vagy helyezze át a könyvtárat a kiszolgálási területen kívülre.",
     "The password is wrong. Try again." : "A megadott jelszó hibás. Próbálja újra.",
     "You haven't added any info yet" : "Még nem adott hozzá információkat",
-    "{user} hasn't added any info yet" : "{user} még nem adott hozzá információkat"
+    "{user} hasn't added any info yet" : "{user} még nem adott hozzá információkat",
+    "Request password" : "Jelszó kérése"
 },
 "nplurals=2; plural=(n != 1);");
