@@ -34,7 +34,7 @@
 		"stylelint:fix": "stylelint src --fix",
 		"cypress": "TESTING=true cypress run",
 		"cypress:gui": "TESTING=true cypress open",
-		"cypress:update-snapshots": "cypress run --env type=base --spec cypress/integration/visual-regression.spec.js --config screenshotsFolder=cypress/snapshots/base",
+		"cypress:update-snapshots": "cypress run --env type=base --spec cypress/e2e/visual-regression.cy.js --config screenshotsFolder=cypress/snapshots/base",
 		"wait-on": "wait-on -i 500 -t 300000"
 	},
 	"dependencies": {
@@ -75,7 +75,7 @@
 		"@nextcloud/stylelint-config": "^2.1.2",
 		"@nextcloud/webpack-vue-config": "^5.1.0",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
-		"cypress": "^9.6.1",
+		"cypress": "^10.0.3",
 		"cypress-visual-regression": "^1.7.0",
 		"eslint-plugin-cypress": "^2.12.1",
 		"jest": "^28.1.1",
