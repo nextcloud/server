@@ -358,7 +358,6 @@ OC.L10N.register(
     "Email address" : "Adres e-mail",
     "Password sent!" : "Hasło wysłane!",
     "You are not authorized to request a password for this share" : "Nie masz uprawnień do żądania hasła dla tego udostępnienia",
-    "Request password" : "Żądanie hasła",
     "Go to %s" : "Przejdź do %s",
     "Two-factor authentication" : "Uwierzytelnianie dwuskładnikowe",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Dodatkowe zabezpieczenia są włączone dla Twojego konta. Wybierz drugą metodę uwierzytelniania:",
@@ -402,6 +401,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Twój katalog danych i pliki są prawdopodobnie dostępne przez Internet. Plik .htaccess nie działa. Zdecydowanie zaleca się skonfigurowanie serwera WWW w taki sposób, aby katalog danych nie był już dostępny, albo przenieś katalog danych poza główny katalog serwera WWW.",
     "The password is wrong. Try again." : "Hasło jest nieprawidłowe. Spróbuj ponownie.",
     "You haven't added any info yet" : "Nie dodałeś jeszcze żadnych informacji",
-    "{user} hasn't added any info yet" : "{user} nie dodał jeszcze żadnych informacji"
+    "{user} hasn't added any info yet" : "{user} nie dodał jeszcze żadnych informacji",
+    "Request password" : "Żądanie hasła"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

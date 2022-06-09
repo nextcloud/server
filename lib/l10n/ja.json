@@ -236,6 +236,7 @@
     "The required %s config variable is not configured in the config.php file." : "必要な %s 構成変数が config.php ファイルに設定されていません。",
     "Please ask your server administrator to check the Nextcloud configuration." : "サーバー管理者にNextcloud構成を確認するように依頼してください。",
     "PostgreSQL >= 9 required." : "PostgreSQL 9以上が必要です",
+    "Please upgrade your database version." : "新しいバージョンのデータベースにアップグレードしてください。",
     "Your data directory is readable by other users." : "データディレクトリは他のユーザーからも読み取ることができます",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "ディレクトリが他のユーザーから見えないように、パーミッションを 0770 に変更してください。",
     "Your data directory must be an absolute path." : "データディレクトリは、絶対パスにする必要があります",
