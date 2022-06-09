@@ -296,7 +296,15 @@ class Principal implements BackendInterface {
 		if ($searchLimit <= 0) {
 			$searchLimit = null;
 		}
+
+		$threshold = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
+
 		foreach ($searchProperties as $prop => $value) {
+			// only search for string larger than a given threshold
+			if (strlen($value) < $threshold) {
+				continue;
+			}
+
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
 					if (!$allowEnumeration) {
