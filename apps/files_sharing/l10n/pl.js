@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Udostępnij etykietę",
     "Hide download" : "Ukryj pobieranie",
     "Password protect" : "Zabezpiecz hasłem",
+    "Password expires {passwordExpirationTime}" : "Hasło wygasa {passwordExpirationTime}",
+    "Password expired" : "Hasło wygasło",
     "Video verification" : "Weryfikacja wideo",
     "Enter a note for the share recipient" : "Napisz notatkę dla odbiorcy udostępnienia",
     "Add another link" : "Dodaj kolejny link",

@@ -401,7 +401,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "あなたのデータディレクトリとファイルはおそらくインターネットからアクセス可能です。 .htaccessファイルが機能していません。 データディレクトリにアクセスできなくなるようにWebサーバーを設定するか、データディレクトリをWebサーバーのドキュメントルートの外側に移動することを強くお勧めします。",
     "The password is wrong. Try again." : "パスワードが違います。再入力してください",
     "You haven't added any info yet" : "まだ情報が追加されていません",
-    "{user} hasn't added any info yet" : "{user}が、まだ情報を追加していません",
-    "Request password" : "パスワードを入力"
+    "{user} hasn't added any info yet" : "{user}が、まだ情報を追加していません"
 },
 "nplurals=1; plural=0;");

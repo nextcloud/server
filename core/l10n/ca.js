@@ -338,7 +338,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "El vostre directori de dades i els fitxers són probablement accessibles des d'Internet. El fitxer .htaccess no està funcionant. És molt recomanable que configureu el servidor web de manera que el directori de dades no sigui accessible, o moure el directori de dades fora de l'arrel de documents del servidor web.",
     "The password is wrong. Try again." : "Contrasenya incorrecta. Torneu-ho a provar.",
     "You haven't added any info yet" : "Encara no heu afegit cap informació",
-    "{user} hasn't added any info yet" : "{user} encara no ha afegit cap informació",
-    "Request password" : "Sol·licita contrasenya"
+    "{user} hasn't added any info yet" : "{user} encara no ha afegit cap informació"
 },
 "nplurals=2; plural=(n != 1);");
