@@ -1840,6 +1840,18 @@ $CONFIG = [
 'localstorage.allowsymlinks' => false,
 
 /**
+ * Nextcloud overrides umask to ensure suitable access permissions
+ * regardless of webserver/php-fpm configuration and worker state.
+ * WARNING: Modifying this value has security implications and
+ * may soft-break the installation.
+ *
+ * Most installs shall not modify this value.
+ *
+ * Defaults to ``0022``
+ */
+'localstorage.umask' => 0022,
+
+/**
  * EXPERIMENTAL: option whether to include external storage in quota
  * calculation, defaults to false.
  *
