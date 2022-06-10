@@ -220,7 +220,7 @@ class AccountManager implements IAccountManager {
 		foreach ($properties as $property) {
 			if (strlen($property->getValue()) > 2048) {
 				if ($throwOnData) {
-					throw new InvalidArgumentException();
+					throw new InvalidArgumentException($property->getName());
 				} else {
 					$property->setValue('');
 				}
