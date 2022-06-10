@@ -232,9 +232,17 @@ class Generator {
 
 		foreach ($nodes as $node) {
 			$name = $node->getName();
-			if (($prefix === '' || strpos($name, $prefix) === 0)
-				&& (str_starts_with($name, '256-256-crop') && $crop || str_starts_with($name, '256-256') && !$crop)) {
-				return $node;
+			if (($prefix === '' || str_starts_with($name, $prefix))) {
+				// Prefix match
+				if (str_starts_with($name, $prefix . '256-256-crop') && $crop) {
+					// Cropped image
+					return $node;
+				}
+
+				if (str_starts_with($name, $prefix . '256-256.') && !$crop) {
+					// Uncropped image
+					return $node;
+				}
 			}
 		}
 
