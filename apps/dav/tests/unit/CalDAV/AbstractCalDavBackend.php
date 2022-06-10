@@ -31,6 +31,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -86,6 +87,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->setConstructorArgs([
 				$this->userManager,
 				$this->groupManager,
+				$this->createMock(IAccountManager::class),
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),

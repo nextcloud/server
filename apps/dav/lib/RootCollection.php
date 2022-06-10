@@ -44,6 +44,7 @@ use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
 use OCA\DAV\Upload\CleanupService;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -68,6 +69,7 @@ class RootCollection extends SimpleCollection {
 		$userPrincipalBackend = new Principal(
 			$userManager,
 			$groupManager,
+			\OC::$server->get(IAccountManager::class),
 			$shareManager,
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
