@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
+ * @copyright 2022 Thomas Citharel <nextcloud@tcit.fr>
  *
- * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,47 +23,26 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\DAV\Events;
+namespace OCA\DAV\Listener;
 
+use OCA\DAV\CardDAV\PhotoCache;
+use OCA\DAV\Events\CardDeletedEvent;
+use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 
-/**
- * Class CalendarPublishedEvent
- *
- * @package OCA\DAV\Events
- * @since 20.0.0
- */
-class CalendarUnpublishedEvent extends Event {
-	private int $calendarId;
-	private array $calendarData;
+class ClearPhotoCacheListener implements IEventListener {
+	private PhotoCache $photoCache;
 
-	/**
-	 * CalendarUnpublishedEvent constructor.
-	 *
-	 * @param int $calendarId
-	 * @param array $calendarData
-	 * @since 20.0.0
-	 */
-	public function __construct(int $calendarId,
-								array $calendarData) {
-		parent::__construct();
-		$this->calendarId = $calendarId;
-		$this->calendarData = $calendarData;
+	public function __construct(PhotoCache $photoCache) {
+		$this->photoCache = $photoCache;
 	}
 
-	/**
-	 * @return int
-	 * @since 20.0.0
-	 */
-	public function getCalendarId(): int {
-		return $this->calendarId;
-	}
+	public function handle(Event $event): void {
+		if ($event instanceof CardUpdatedEvent || $event instanceof CardDeletedEvent) {
+			$cardData = $event->getCardData();
 
-	/**
-	 * @return array
-	 * @since 20.0.0
-	 */
-	public function getCalendarData(): array {
-		return $this->calendarData;
+			$this->photoCache->delete($event->getAddressBookId(), $cardData['uri']);
+		}
 	}
 }
