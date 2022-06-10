@@ -86,7 +86,7 @@ class RemoteController extends OCSController {
 		$this->logger->error('Could not accept federated share with id: ' . $id,
 			['app' => 'files_sharing']);
 
-		throw new OCSNotFoundException('wrong share ID, share doesn\'t exist.');
+		throw new OCSNotFoundException('wrong share ID, share does not exist.');
 	}
 
 	/**
@@ -106,7 +106,7 @@ class RemoteController extends OCSController {
 		// Make sure the user has no notification for something that does not exist anymore.
 		$this->externalManager->processNotification($id);
 
-		throw new OCSNotFoundException('wrong share ID, share doesn\'t exist.');
+		throw new OCSNotFoundException('wrong share ID, share does not exist.');
 	}
 
 	/**

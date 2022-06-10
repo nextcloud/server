@@ -929,7 +929,7 @@ class ApiTest extends TestCase {
 			$ocs->getShare(0);
 			$this->fail();
 		} catch (OCSNotFoundException $e) {
-			$this->assertEquals('Wrong share ID, share doesn\'t exist', $e->getMessage());
+			$this->assertEquals('Wrong share ID, share does not exist', $e->getMessage());
 		}
 		$ocs->cleanup();
 	}
