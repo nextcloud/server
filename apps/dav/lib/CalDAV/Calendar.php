@@ -400,7 +400,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		return isset($this->calendarInfo['{http://owncloud.org/ns}public']);
 	}
 
-	protected function isShared() {
+	public function isShared() {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
 		}
@@ -410,6 +410,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 
 	public function isSubscription() {
 		return isset($this->calendarInfo['{http://calendarserver.org/ns/}source']);
+	}
+
+	public function isDeleted(): bool {
+		if (!isset($this->calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
+			return false;
+		}
+		return $this->calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT] !== null;
 	}
 
 	/**
