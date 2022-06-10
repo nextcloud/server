@@ -163,9 +163,10 @@ export default {
 					case this.atomicPermissions.DELETE:
 						return this.t('files_sharing', 'Delete')
 					default:
-						return ''
+						return null
 					}
 				})
+				.filter(permissionLabel => permissionLabel !== null)
 				.join(', ')
 		},
 
