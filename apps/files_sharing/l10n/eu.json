@@ -190,6 +190,8 @@
     "Share label" : "partekatu etiketa",
     "Hide download" : "Ezkutatu deskarga",
     "Password protect" : "Babestu pasahitzarekin",
+    "Password expires {passwordExpirationTime}" : "Pasahitza {passwordExpirationTime} iraungiko du",
+    "Password expired" : "Pasahitza iraungi da",
     "Video verification" : "Bideo egiaztapena",
     "Enter a note for the share recipient" : "Sartu ohar bat partekatzearen hartzailearentzat",
     "Add another link" : "Gehitu beste esteka bat",

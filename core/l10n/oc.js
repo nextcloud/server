@@ -330,7 +330,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactatz l’administrator sistèma s’aqueste messatge ten d’aparéisser o apareis sens rason.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Aqueste servidor a pas cap de connexion Internet operacionala. Mantun destinacions finalas an pas pogut èsser contactadas. Aquò significa que d’unas foncionalitats coma lo montatge d’estocatges extèrns, las notificacions de mesa a jorn o l’installacion d’aplicacions tèrças foncionaràn pas. L’accès distant als fichièrs e lo mandadís de corrièls poiriá foncionar pas tanpauc. Establissètz una connexion Internet per aprofitar de totas las foncionalitats.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 es la darrièra version que pren en carga PHP 7.2. Nextcloud 21 requerís almens PHP 7.3.",
-    "The password is wrong. Try again." : "Lo senhal es incorrècte. Ensajatz tornamai.",
-    "Request password" : "Demandar senhal"
+    "The password is wrong. Try again." : "Lo senhal es incorrècte. Ensajatz tornamai."
 },
 "nplurals=2; plural=(n > 1);");

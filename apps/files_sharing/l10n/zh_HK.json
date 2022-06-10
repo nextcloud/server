@@ -190,6 +190,8 @@
     "Share label" : "分享標籤",
     "Hide download" : "隱藏下載",
     "Password protect" : "密碼防護",
+    "Password expires {passwordExpirationTime}" : "密碼於 {passwordExpirationTime} 到期",
+    "Password expired" : "密碼已過期",
     "Video verification" : "視像驗證",
     "Enter a note for the share recipient" : "輸入分享收件人的註釋",
     "Add another link" : "加入另一個連結",

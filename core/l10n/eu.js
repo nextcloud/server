@@ -401,7 +401,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Zure datuen direktorioa eta fitxategiak Internetetik atzitu daitezke. .htaccess fitxategiak ez du funtzionatzen. Biziki gomendatzen da  web zerbitzariaren konfigurazioa aldatzea datuen direktorioa atzigarri egon ez dadin edo datuen direktorioa web zerbitzariaren dokumentu errotik kanpora ateratzea.",
     "The password is wrong. Try again." : "Pasahitza ez da zuzena. Saiatu berriro.",
     "You haven't added any info yet" : "Ez duzu informaziorik gehitu oraindik",
-    "{user} hasn't added any info yet" : "{user} ez du informaziorik gehitu oraindik",
-    "Request password" : "Eskatu pasahitza"
+    "{user} hasn't added any info yet" : "{user} ez du informaziorik gehitu oraindik"
 },
 "nplurals=2; plural=(n != 1);");

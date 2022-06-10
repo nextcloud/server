@@ -398,7 +398,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Votre dossier de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce dossier de données ne soit plus accessible, ou de le déplacer hors de la racine du serveur web.",
     "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
     "You haven't added any info yet" : "Vous n'avez pas encore ajouté de données",
-    "{user} hasn't added any info yet" : "{user} n'a pas encore ajouté de données",
-    "Request password" : "Demande de mot de passe"
+    "{user} hasn't added any info yet" : "{user} n'a pas encore ajouté de données"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

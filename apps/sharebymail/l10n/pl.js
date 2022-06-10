@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Hasło dostępu do %1$s udostępnionego przez %2$s.",
     "Password to access »%s«" : "Hasło dostępu do »%s«",
     "It is protected with the following password:" : "Zasób jest chroniony następującym hasłem:",
+    "This password will expire at %s" : "To hasło wygaśnie w %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s udostępnił »%2$s« z informacją:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s udostępnił »%2$s« z informacją dla Ciebie",
     "»%s« added a note to a file shared with you" : "»%s« wysłał dodatkową informację dot. udostępnionego zasobu",

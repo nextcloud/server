@@ -398,7 +398,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Каталог данных и файлы, возможно, доступны из интернета. Файл «.htaccess» не работает. Настоятельно рекомендуется настроить веб сервер таким образом, чтобы каталог данных не был доступен из внешней сети, либо переместить каталог данных за пределы корневого каталога веб-сервера.",
     "The password is wrong. Try again." : "Неверный пароль. Повторите попытку.",
     "You haven't added any info yet" : "Вы еще не добавили никакой информации",
-    "{user} hasn't added any info yet" : "{user} ещё не добавил никакой информации",
-    "Request password" : "Запрос пароля"
+    "{user} hasn't added any info yet" : "{user} ещё не добавил никакой информации"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

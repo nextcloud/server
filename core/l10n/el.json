@@ -362,7 +362,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανόν προσβάσιμα από το διαδίκτυο. Το αρχείο .htaccess δεν λειτουργεί. Σας προτείνουμε να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος δεδομένων να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο δεδομένων εκτός του ριζικού καταλόγου εγγράφων του διακομιστή.",
     "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
     "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
-    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες",
-    "Request password" : "Αίτηση κωδικού πρόσβασης"
+    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

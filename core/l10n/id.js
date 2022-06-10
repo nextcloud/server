@@ -356,7 +356,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Data folder dan berkas Anda kemungkinan dapat diakses dari Internet secara langsung, dikarenakan berkas .htaccess tidak bekerja. Sangat dianjurkan Anda untuk menyetel peladen web, untuk mencegah hal tersebut terjadi. Atau pindahkan lokasi data Anda di luar root dokumen peladen web.",
     "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
     "You haven't added any info yet" : "Anda belum menambahkan info apa pun",
-    "{user} hasn't added any info yet" : "{user} belum menambahkan info apa pun",
-    "Request password" : "Minta kata sandi"
+    "{user} hasn't added any info yet" : "{user} belum menambahkan info apa pun"
 },
 "nplurals=1; plural=0;");
