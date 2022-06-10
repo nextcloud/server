@@ -35,6 +35,7 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -232,13 +233,13 @@ EOD;
 			->method('dispatchTyped');
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
-		// get all the cards
+		// get all the calendar objects
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertCount(1, $calendarObjects);
 		$this->assertEquals($calendarId, $calendarObjects[0]['calendarid']);
 		$this->assertArrayHasKey('classification', $calendarObjects[0]);
 
-		// get the cards
+		// get the calendar objects
 		$calendarObject = $this->backend->getCalendarObject($calendarId, $uri);
 		$this->assertNotNull($calendarObject);
 		$this->assertArrayHasKey('id', $calendarObject);
@@ -247,6 +248,7 @@ EOD;
 		$this->assertArrayHasKey('etag', $calendarObject);
 		$this->assertArrayHasKey('size', $calendarObject);
 		$this->assertArrayHasKey('classification', $calendarObject);
+		$this->assertArrayHasKey('{' . SharingPlugin::NS_NEXTCLOUD . '}deleted-at', $calendarObject);
 		$this->assertEquals($calData, $calendarObject['calendardata']);
 
 		// update the card
