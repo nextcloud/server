@@ -396,7 +396,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Váš priečinok s dátami aj vaše súbory sú pravdepodobne prístupné z internetu. Súbor .htaccess nefunguje. Dôrazne odporúčame nakonfigurovať webový server tak, aby priečinok s dátami nebol naďalej prístupný alebo presunúť priečinok s dátami mimo priestoru, ktorý webový server sprístupňuje.",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "You haven't added any info yet" : "Zatiaľ ste nepridali žiadne informácie",
-    "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie",
-    "Request password" : "Vyžiadať heslo"
+    "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

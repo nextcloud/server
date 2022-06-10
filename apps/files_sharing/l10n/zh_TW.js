@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "分享標籤",
     "Hide download" : "隱藏下載",
     "Password protect" : "密碼保護",
+    "Password expires {passwordExpirationTime}" : "密碼於 {passwordExpirationTime} 到期",
+    "Password expired" : "密碼已過期",
     "Video verification" : "視訊驗證",
     "Enter a note for the share recipient" : "輸入給分享收件者的訊息",
     "Add another link" : "新增其他連結",

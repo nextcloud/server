@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Freigabe-Label",
     "Hide download" : "Download verbergen",
     "Password protect" : "Passwortschutz",
+    "Password expires {passwordExpirationTime}" : "Passwort läuft ab um {passwordExpirationTime}",
+    "Password expired" : "Passwort abgelaufen",
     "Video verification" : "Videoüberprüfung",
     "Enter a note for the share recipient" : "Notiz für Empfänger der Freigabe eingeben",
     "Add another link" : "Weiteren Link hinzufügen",

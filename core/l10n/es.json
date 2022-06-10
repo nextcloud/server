@@ -398,7 +398,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Tu directorio de datos y tus archivos son probablemente accesibles desde internet. El archivo .htaccess no funciona. Se recomienda encarecidamente que configures tu servidor web de tal manera que el directorio de datos no sea accesible, o que lo muevas fuera de la raíz de documentos del servidor web.",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Vuelve a intentarlo.",
     "You haven't added any info yet" : "Aún no has añadido ninguna información",
-    "{user} hasn't added any info yet" : "{user} no ha añadido aún ninguna información",
-    "Request password" : "Solicitar contraseña"
+    "{user} hasn't added any info yet" : "{user} no ha añadido aún ninguna información"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

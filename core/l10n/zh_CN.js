@@ -387,7 +387,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的数据目录和文件可以从互联网直接访问。.htaccess 文件不起作用。强烈建议您配置 Web 服务器，以便数据目录不再可访问，或者您可以将数据目录移动到 Web 服务器文档根目录。",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
     "You haven't added any info yet" : "你尚未添加任何信息",
-    "{user} hasn't added any info yet" : "{user} 尚未添加任何信息",
-    "Request password" : "需要密码"
+    "{user} hasn't added any info yet" : "{user} 尚未添加任何信息"
 },
 "nplurals=1; plural=0;");

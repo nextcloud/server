@@ -353,6 +353,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "Din klient skal nå være koblet til!",
     "You can close this window." : "Du kan lukke dette vinduet.",
     "This share is password-protected" : "Denne deling er beskyttet med passord",
+    "The password is wrong or expired. Please try again or request a new one." : "Passordet er feil eller har utgått. Prøv igjen eller be om et nytt.",
     "Please type in your email address to request a temporary password" : "Oppgi e-post adresse for å få midlertidig passord",
     "Email address" : "E-post adresse",
     "Password sent!" : "Passord er sendt.",
@@ -400,7 +401,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Datamappen og filene dine er sannsynligvis tilgjengelige fra Internett. .htaccess-filen fungerer ikke. Det anbefales sterkt at du setter opp webserveren slik at datamappen ikke kan nås eller at du flytter datamappen ut av webserverens dokumentrot.",
     "The password is wrong. Try again." : "Feil passord, forsøk igjen",
     "You haven't added any info yet" : "DU har ikke lagt til noe informasjon enda",
-    "{user} hasn't added any info yet" : "{user} har ikke lagt til informasjon enda",
-    "Request password" : "Forespør om passord"
+    "{user} hasn't added any info yet" : "{user} har ikke lagt til informasjon enda"
 },
 "nplurals=2; plural=(n != 1);");
