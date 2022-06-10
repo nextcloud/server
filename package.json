@@ -106,7 +106,7 @@
     "eslint-loader": "^4.0.2",
     "exports-loader": "^1.1.1",
     "file-loader": "^6.2.0",
-    "handlebars-loader": "^1.7.1",
+    "handlebars-loader": "^1.7.2",
     "jest": "^26.6.3",
     "jsdom": "^18.0.1",
     "sass": "^1.43.5",
