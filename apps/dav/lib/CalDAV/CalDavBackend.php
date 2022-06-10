@@ -1159,7 +1159,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function getCalendarObject($calendarId, $objectUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification'])
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification', 'deleted_at'])
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
@@ -1181,7 +1181,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			'size' => (int)$row['size'],
 			'calendardata' => $this->readBlob($row['calendardata']),
 			'component' => strtolower($row['componenttype']),
-			'classification' => (int)$row['classification']
+			'classification' => (int)$row['classification'],
+			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}deleted-at' => $row['deleted_at'] === null ? $row['deleted_at'] : (int) $row['deleted_at'],
 		];
 	}
 
