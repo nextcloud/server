@@ -48,7 +48,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function wrongPasswordMessage() {
-		return Locator::forThe()->xpath("//*[@class = 'warning' and normalize-space() = 'The password is wrong. Try again.']")->
+		return Locator::forThe()->css(".warning .wrongPasswordMsg")->
 				describedAs("Wrong password message in Authenticate page");
 	}
 
