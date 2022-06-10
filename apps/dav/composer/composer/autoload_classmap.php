@@ -224,6 +224,7 @@ return array(
     'OCA\\DAV\\Events\\SubscriptionCreatedEvent' => $baseDir . '/../lib/Events/SubscriptionCreatedEvent.php',
     'OCA\\DAV\\Events\\SubscriptionDeletedEvent' => $baseDir . '/../lib/Events/SubscriptionDeletedEvent.php',
     'OCA\\DAV\\Events\\SubscriptionUpdatedEvent' => $baseDir . '/../lib/Events/SubscriptionUpdatedEvent.php',
+    'OCA\\DAV\\Exception\\ServerMaintenanceMode' => $baseDir . '/../lib/Exception/ServerMaintenanceMode.php',
     'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => $baseDir . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',
     'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => $baseDir . '/../lib/Files/BrowserErrorPagePlugin.php',
     'OCA\\DAV\\Files\\FileSearchBackend' => $baseDir . '/../lib/Files/FileSearchBackend.php',
