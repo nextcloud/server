@@ -889,6 +889,15 @@ $CONFIG = [
 'loglevel' => 2,
 
 /**
+ * Loglevel used by the frontend to start logging at. The same values as
+ * for ``loglevel`` can be used. If not set it defaults to the value
+ * configured for ``loglevel`` or Warning if that is not set either.
+ *
+ * Defaults to ``2``
+ */
+'loglevel_frontend' => 2,
+
+/**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
  * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
