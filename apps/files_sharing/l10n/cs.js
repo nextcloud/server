@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Štítek sdílení",
     "Hide download" : "Skrýt stahování",
     "Password protect" : "Chránit heslem",
+    "Password expires {passwordExpirationTime}" : "Platnost hesla skončí {passwordExpirationTime}",
+    "Password expired" : "Platnost hesla skončila",
     "Video verification" : "Ověřování pomocí videa",
     "Enter a note for the share recipient" : "Zadejte poznámku pro příjemce sdílení",
     "Add another link" : "Přidat další odkaz",

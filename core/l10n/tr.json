@@ -399,7 +399,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Veri klasörünüz ve dosyalarınız İnternet üzerinden erişime açık olabilir. .htaccess dosyası çalışmıyor. Web sunucunuzu yapılandırarak veri klasörüne erişimi engellemeniz ya da veri klasörünü web sunucu kök klasörü dışına taşımanız önemle önerilir.",
     "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
     "You haven't added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",
-    "{user} hasn't added any info yet" : "{user} henüz herhangi bir bilgi eklememiş",
-    "Request password" : "Parola iste"
+    "{user} hasn't added any info yet" : "{user} henüz herhangi bir bilgi eklememiş"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

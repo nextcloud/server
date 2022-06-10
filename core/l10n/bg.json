@@ -396,7 +396,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Най-вероятно вашите данни и файлове са достъпни от интернет. .htaccess файлът не функционира. Силно се препоръчва да настроите уеб сървъра по такъв начин, че директорията за данни да не бъде достъпна или я преместете извън началната директория на уеб сървъра.",
     "The password is wrong. Try again." : "Паролата е грешна. Опитайте отново.",
     "You haven't added any info yet" : "Все още не сте добавили никаква информация",
-    "{user} hasn't added any info yet" : "{user} все още не е добавил никаква информация",
-    "Request password" : "Заявка за парола"
+    "{user} hasn't added any info yet" : "{user} все още не е добавил никаква информация"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

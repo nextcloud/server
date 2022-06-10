@@ -399,7 +399,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Az adatkönyvtárai és a fájljai valószínűleg elérhetőek az internetről. A .htaccess fájl nem működik. Erősen javasolt, hogy a webkiszolgálót úgy állítsa be, hogy az adatkönyvtár tartalma ne legyen közvetlenül elérhető, vagy helyezze át a könyvtárat a kiszolgálási területen kívülre.",
     "The password is wrong. Try again." : "A megadott jelszó hibás. Próbálja újra.",
     "You haven't added any info yet" : "Még nem adott hozzá információkat",
-    "{user} hasn't added any info yet" : "{user} még nem adott hozzá információkat",
-    "Request password" : "Jelszó kérése"
+    "{user} hasn't added any info yet" : "{user} még nem adott hozzá információkat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
