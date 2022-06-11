@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "فایل‌ها",
     "A file or folder has been <strong>shared</strong>" : "فایل یا پوشه ای به <strong>اشتراک</strong> گذاشته شد",
     "Shared link" : "پیوند به اشتراک گذاری شده",
-    "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
     "Could not delete share" : "اشتراک گذاری حذف نشد",
     "Please specify a file or folder path" : "لطفاً مسیر فایل یا پوشه را مشخص کنید",
     "Could not create share" : "امکان ایجاد اشتراک گذاری وجود ندارد",
@@ -215,7 +214,6 @@ OC.L10N.register(
     "Name" : "نام",
     "Share time" : "زمان به اشتراک گذاری",
     "Expiration date" : "تاریخ انقضا",
-    "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند",
     "Reasons might be:" : "ممکن است به این دلایل باشد:",
     "the item was removed" : "این مورد حذف شده است",
     "the link expired" : "این لینک منقضی شده است",
@@ -229,8 +227,10 @@ OC.L10N.register(
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
     "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
+    "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
     "Wrong path, file/folder doesn't exist" : "مسیر ، پرونده / پوشه اشتباه وجود ندارد",
     "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست.",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد",
+    "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند"
 },
 "nplurals=2; plural=(n > 1);");

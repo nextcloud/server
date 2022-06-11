@@ -58,7 +58,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fail","%n faili"],
     "{dirs} and {files}" : "{dirs} ja {files}",
     "_including %n hidden_::_including %n hidden_" : ["sealhulgas %n peidetud","sealhulgas %n peidetud"],
-    "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
     "_Uploading %n file_::_Uploading %n files_" : ["Laadin üles %n faili","Laadin üles %n faili"],
     "New" : "Uus",
     "{used} of {quota} used" : "Kasutatud {used}/{quota}",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Pending shares" : "Ootel jagamised",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "Select" : "Vali"
+    "Select" : "Vali",
+    "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks"
 },
 "nplurals=2; plural=(n != 1);");

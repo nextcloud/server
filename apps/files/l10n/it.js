@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n file","%n file","%n file"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluso %n nascosto","inclusi %n nascosti","inclusi %n nascosti"],
-    "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
     "_Uploading %n file_::_Uploading %n files_" : ["Caricamento di %n file in corso","Caricamento di %n file in corso","Caricamento di %n file in corso"],
     "New" : "Nuovo",
     "Select file range" : "Seleziona intervallo di file",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Trasferisci {path} a {userid}",
     "Invalid path selected" : "Percorso selezionato non valido",
     "Ownership transfer request sent" : "Richiesta di trasferimento della proprietà inviata",
-    "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri",
     "Tags" : "Etichette",
     "Unable to change the favourite state of the file" : "Impossibile cambiare lo stato di preferito del file",
     "Error while loading the file data" : "Errore durante il caricamento del file di dati",
@@ -212,6 +210,8 @@ OC.L10N.register(
     "Pending shares" : "Condivisioni in corso",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
-    "Select" : "Seleziona"
+    "Select" : "Seleziona",
+    "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
+    "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

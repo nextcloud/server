@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n soubor","%n soubory","%n souborů","%n soubory"],
     "{dirs} and {files}" : "{dirs} a {files}",
     "_including %n hidden_::_including %n hidden_" : ["včetně %n skrytého","včetně %n skrytých","včetně %n skrytých","včetně %n skrytých"],
-    "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrává se %n soubor","Nahrávají se %n soubory","Nahrává se %n souborů","Nahrávají se %n soubory"],
     "New" : "Nový",
     "Select file range" : "Vybrat rozsah souborů",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Převést {path} na {userid}",
     "Invalid path selected" : "Vybrán neplatný popis umístění",
     "Ownership transfer request sent" : "Žádost o převedení vlastnictví zaslána",
-    "Cannot transfer ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru či složky, které nejste vlastníky",
     "Tags" : "Značky",
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",
     "Error while loading the file data" : "Chyba při načítání dat souboru",
@@ -212,6 +210,8 @@ OC.L10N.register(
     "Pending shares" : "Čekající sdílení",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
-    "Select" : "Vybrat"
+    "Select" : "Vybrat",
+    "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
+    "Cannot transfer ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru či složky, které nejste vlastníky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

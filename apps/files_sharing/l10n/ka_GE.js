@@ -67,7 +67,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "ფაილი ან დირექტორია გაზიარდა <strong>სხვა სერვერიდან</strong>",
     "Files" : "ფაილები",
     "A file or folder has been <strong>shared</strong>" : "ფაილი ან დირექტორია <strong>გაზიარებულ იქნა</strong>",
-    "Wrong share ID, share doesn't exist" : "არასწორი გაზიარების ID, გაზიარება არ არსებობს",
     "Could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა",
     "Please specify a file or folder path" : "გთხოვთ მიუთითოთ ფაილის ან დირექტორიის მისამართი",
     "Could not create share" : "გაზიარება ვერ შეიქმნა",
@@ -120,7 +119,6 @@ OC.L10N.register(
     "Name" : "სახელი",
     "Share time" : "გაზიარების დრო",
     "Expiration date" : "გაუქმების თარიღი",
-    "Sorry, this link doesn’t seem to work anymore." : "ბოდიში, ეს ბმული აღარ მოქმედებს.",
     "Reasons might be:" : "შესაძლო მიზეზებია:",
     "the item was removed" : "ობიექტი გაუქმდა",
     "the link expired" : "ბმულს ვადა გაუვიდა",
@@ -130,6 +128,8 @@ OC.L10N.register(
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
-    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს"
+    "Wrong share ID, share doesn't exist" : "არასწორი გაზიარების ID, გაზიარება არ არსებობს",
+    "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
+    "Sorry, this link doesn’t seem to work anymore." : "ბოდიში, ეს ბმული აღარ მოქმედებს."
 },
 "nplurals=2; plural=(n!=1);");

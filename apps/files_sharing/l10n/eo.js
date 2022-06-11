@@ -88,7 +88,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Dosiero aŭ dosierujo kunhaviĝis el <strong>alia servilo</strong>",
     "Files" : "Dosieroj",
     "A file or folder has been <strong>shared</strong>" : "Dosiero aŭ dosierujo <strong>kunhaviĝis</strong>",
-    "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
     "Could not delete share" : "Ne eblis forigi kunhavon",
     "Please specify a file or folder path" : "Bv. entajpi vojon al dosiero aŭ dosierujo",
     "Could not create share" : "Ne eblis krei kunhavon",
@@ -188,7 +187,6 @@ OC.L10N.register(
     "Name" : "Nomo",
     "Share time" : "Kunhavotempo",
     "Expiration date" : "Limdato",
-    "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",
     "Reasons might be:" : "Kialoj povas esti:",
     "the item was removed" : "la ero foriĝis",
     "the link expired" : "la ligilo eksvalidiĝis",
@@ -202,7 +200,9 @@ OC.L10N.register(
     "Uploaded files:" : "Alŝutitaj dosieroj:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita",
+    "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias."
 },
 "nplurals=2; plural=(n != 1);");

@@ -67,7 +67,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n ficheiro","%n ficheiros","%n ficheiros"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluindo %n ocultos","incluindo %n ocultos","incluindo %n ocultos"],
-    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
     "_Uploading %n file_::_Uploading %n files_" : ["A enviar %n ficheiro","A enviar %n ficheiros","A enviar %n ficheiros"],
     "New" : "Novo",
     "Select file range" : "Selecionar o intervalo",
@@ -154,6 +153,7 @@ OC.L10N.register(
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "Select" : "Selecionar"
+    "Select" : "Selecionar",
+    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

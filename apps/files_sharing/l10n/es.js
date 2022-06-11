@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Archivos",
     "A file or folder has been <strong>shared</strong>" : "Se ha <strong>compartido</strong> un archivo o carpeta",
     "Shared link" : "Enlace compartido",
-    "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
     "Could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Please specify a file or folder path" : "Por favor, especifica la ubicación de un archivo o carpeta",
     "Wrong path, file/folder does not exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
@@ -192,6 +191,8 @@ OC.L10N.register(
     "Share label" : "Compartir etiqueta",
     "Hide download" : "Ocultar descarga",
     "Password protect" : "Protegido por contraseña",
+    "Password expires {passwordExpirationTime}" : "La contraseña caduca el {passwordExpirationTime}",
+    "Password expired" : "Contraseña caducada",
     "Video verification" : "Verificación por vídeo",
     "Enter a note for the share recipient" : "Escriba una nota para el recurso compartido del destinatario",
     "Add another link" : "Añadir otro enlace",
@@ -235,7 +236,6 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Share time" : "Compartido hace",
     "Expiration date" : "Fecha de caducidad",
-    "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar.",
     "Reasons might be:" : "Las causas podrían ser: ",
     "the item was removed" : "el elemento fue eliminado",
     "the link expired" : "el enlace caducó",
@@ -250,8 +250,10 @@ OC.L10N.register(
     "Uploaded files:" : "Archivos subidos:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
     "Add to your Nextcloud" : "Añadir a tu Nextcloud",
+    "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado",
+    "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

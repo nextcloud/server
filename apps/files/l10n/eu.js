@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["Fitxategi %n","%n fitxategi"],
     "{dirs} and {files}" : "{dirs} eta {files}",
     "_including %n hidden_::_including %n hidden_" : ["ezkutuko %n barne","ezkutuko %n barne"],
-    "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "_Uploading %n file_::_Uploading %n files_" : ["Fitxategi %n kargatzen","%n fitxategi kargatzen"],
     "New" : "Berria",
     "Select file range" : "Hautatu fitxategi-barrutia",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Transfereritu {path}  {userid} erabiltzaileari",
     "Invalid path selected" : "Bide baliogabea hautatuta",
     "Ownership transfer request sent" : "Jabetza transferentzia eskaera bidalita",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
     "Tags" : "Etiketak",
     "Unable to change the favourite state of the file" : "Ezinezkoa fitxategiaren gogoko egoera aldatzea",
     "Error while loading the file data" : "Errorea fitxategiaren datuak kargatzerakoan",
@@ -212,6 +210,8 @@ OC.L10N.register(
     "Pending shares" : "Zain dauden partekatzeak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
-    "Select" : "Hautatu"
+    "Select" : "Hautatu",
+    "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
+    "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu"
 },
 "nplurals=2; plural=(n != 1);");

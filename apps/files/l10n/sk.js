@@ -70,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n súbor","%n súbory","%n súborov","%n súborov"],
     "{dirs} and {files}" : "{dirs} a {files}",
     "_including %n hidden_::_including %n hidden_" : ["vrátane %n skytého","vrátane %n skrytých","vrátane %n skrytých","vrátane %n skrytých"],
-    "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrávam %n súbor","Nahrávam %n súbory","Nahrávam %n súborov","Nahrávam %n súborov"],
     "New" : "Nový",
     "Select file range" : "Vybrať rozsah súborov",
@@ -169,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Previesť {path} na {userid}",
     "Invalid path selected" : "Bola vybraná neplatná cesta",
     "Ownership transfer request sent" : "Žiadosť o prevod vlastníctva bola odoslaná",
-    "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
     "Tags" : "Štítky",
     "Unable to change the favourite state of the file" : "Nie je možné zmeniť stav „obľúbené“ daného súboru",
     "Error while loading the file data" : "Chyba pri načítaní údajov súboru",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Pending shares" : "Čakajúce prístupy",
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
-    "Select" : "Vybrať"
+    "Select" : "Vybrať",
+    "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
+    "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

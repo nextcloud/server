@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fájl","%n fájl"],
     "{dirs} and {files}" : "{dirs} és {files}",
     "_including %n hidden_::_including %n hidden_" : ["köztük %n rejtett","köztük %n rejtett"],
-    "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "_Uploading %n file_::_Uploading %n files_" : ["%n fájl feltöltése","%n fájl feltöltése"],
     "New" : "Új",
     "Select file range" : "Válasszon fájltartományt",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "{path} átruházása {userid} számára",
     "Invalid path selected" : "Érvénytelen útvonal kiválasztva",
     "Ownership transfer request sent" : "Tulajdonjog átruházási kérés elküldve",
-    "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
     "Tags" : "Címkék",
     "Unable to change the favourite state of the file" : "Nem lehet megváltoztatni a fájl kedvenc állapotát",
     "Error while loading the file data" : "Hiba történt a fájladatok betöltése közben",
@@ -212,6 +210,8 @@ OC.L10N.register(
     "Pending shares" : "Függőben lévő megosztások",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szövegfájl.txt",
-    "Select" : "Kiválasztás"
+    "Select" : "Kiválasztás",
+    "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
+    "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné"
 },
 "nplurals=2; plural=(n != 1);");

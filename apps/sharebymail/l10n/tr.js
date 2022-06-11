@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "»%1$s« için sizin tarafınızdan %2$s üzerinden paylaşılan erişim parolası",
     "Password to access »%s«" : "»%s« erişim parolası",
     "It is protected with the following password:" : "Şu parola ile korunuyor:",
+    "This password will expire at %s" : "Bu parola %s tarihinde geçersiz olacak",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s sizinle »%2$s« ögesini paylaştı ve eklemenizi istiyor:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s sizinle »%2$s« ögesini paylaştı ve eklemenizi istiyor",
     "»%s« added a note to a file shared with you" : "»%s« sizinle paylaştığı bir dosyaya bir not ekledi",
