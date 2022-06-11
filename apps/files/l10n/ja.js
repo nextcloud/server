@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n 個のファイル"],
     "{dirs} and {files}" : "{dirs} と {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n 個の隠しファイルが含まれています"],
-    "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "_Uploading %n file_::_Uploading %n files_" : ["%n 個のファイルをアップロード中"],
     "New" : "新規作成",
     "Select file range" : "ファイルを範囲選択",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "{path} を {userid} に転送する",
     "Invalid path selected" : "無効なパスが選択されました",
     "Ownership transfer request sent" : "所有権転送のリクエストを送信しました",
-    "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
     "Tags" : "タグ",
     "Unable to change the favourite state of the file" : "ファイルのお気に入りの状態を変更できません",
     "Error while loading the file data" : "ファイルデータの読み込み中にエラーが発生しました",
@@ -212,6 +210,8 @@ OC.L10N.register(
     "Pending shares" : "保留中の共有",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
-    "Select" : "選択"
+    "Select" : "選択",
+    "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
+    "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません"
 },
 "nplurals=1; plural=0;");

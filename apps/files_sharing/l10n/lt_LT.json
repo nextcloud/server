@@ -96,7 +96,6 @@
     "Files" : "Failai",
     "A file or folder has been <strong>shared</strong>" : "Failas ar aplankas <strong>pradėtas bendrinti</strong>",
     "Shared link" : "Bendrinimo nuoroda",
-    "Wrong share ID, share doesn't exist" : "Neteisingas dalinamų duomenų ID",
     "Could not delete share" : "Nepavyko nustoti dalintis duomenimis",
     "Please specify a file or folder path" : "Nurodykite kelią iki duomenų",
     "Wrong path, file/folder does not exist" : "Neteisingas kelias, failo/aplanko nėra",
@@ -221,7 +220,6 @@
     "Name" : "Pavadinimas",
     "Share time" : "Bendrinimo laikas",
     "Expiration date" : "Pabaigos data",
-    "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
     "Reasons might be:" : "Galimos priežastys:",
     "the item was removed" : "elementas buvo pašalintas",
     "the link expired" : "baigėsi nuorodos galiojimo laikas",
@@ -236,7 +234,9 @@
     "Uploaded files:" : "Įkelti failai:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Neteisingas dalinamų duomenų ID",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas "
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
+    "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

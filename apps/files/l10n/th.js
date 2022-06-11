@@ -70,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n ไฟล์"],
     "{dirs} and {files}" : "{dirs} และ {files}",
     "_including %n hidden_::_including %n hidden_" : ["รวมถึง %n ไฟล์ที่ซ่อนอยู่"],
-    "You don’t have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
     "_Uploading %n file_::_Uploading %n files_" : ["กำลังอัปโหลด %n ไฟล์"],
     "New" : "สร้างใหม่",
     "Select file range" : "เลือกช่วงไฟล์",
@@ -169,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "โอนย้าย {path} ไปยัง {userid}",
     "Invalid path selected" : "เลือกเส้นทางไม่ถูกต้อง",
     "Ownership transfer request sent" : "ส่งคำขอโอนย้ายความเป็นเจ้าของแล้ว",
-    "Cannot transfer ownership of a file or folder you don't own" : "ไม่สามารถโอนย้ายความเป็นเจ้าของไฟล์หรือโฟลเดอร์ที่คุณไม่ได้เป็นเจ้าของ",
     "Tags" : "แท็ก",
     "Unable to change the favourite state of the file" : "ไม่สามารถเปลี่ยนสถานะรายการโปรดของไฟล์",
     "Error while loading the file data" : "ข้อผิดพลาดขณะโหลดข้อมูลไฟล์",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Pending shares" : "การแชร์ที่กำลังดำเนินการ",
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่.txt",
-    "Select" : "เลือก"
+    "Select" : "เลือก",
+    "You don’t have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
+    "Cannot transfer ownership of a file or folder you don't own" : "ไม่สามารถโอนย้ายความเป็นเจ้าของไฟล์หรือโฟลเดอร์ที่คุณไม่ได้เป็นเจ้าของ"
 },
 "nplurals=1; plural=0;");

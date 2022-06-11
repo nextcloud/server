@@ -96,7 +96,6 @@
     "Files" : "Bestanden",
     "A file or folder has been <strong>shared</strong>" : "Een bestand of map is <strong>gedeeld</strong>",
     "Shared link" : "Gedeeld link",
-    "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
     "Could not delete share" : "Kan gedeelde folder niet verwijderen",
     "Please specify a file or folder path" : "Geef een bestand of pad van een map op",
     "Could not create share" : "Kan gedeelde folder niet aanmaken",
@@ -228,7 +227,6 @@
     "Name" : "Naam",
     "Share time" : "Deel tijd",
     "Expiration date" : "Vervaldatum",
-    "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
     "Reasons might be:" : "Redenen kunnen zijn:",
     "the item was removed" : "bestand was verwijderd",
     "the link expired" : "de link is verlopen",
@@ -243,8 +241,10 @@
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
     "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
+    "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

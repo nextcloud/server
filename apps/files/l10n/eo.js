@@ -64,7 +64,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n dosiero","%n dosieroj"],
     "{dirs} and {files}" : "{dirs} kaj {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluzive %n kaŝita","inkluzive %n kaŝita(j)"],
-    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "_Uploading %n file_::_Uploading %n files_" : ["Alŝutatas %n dosiero","Alŝutatas %n dosieroj"],
     "New" : "Nova",
     "Select file range" : "Elekti dosierintervalon",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "Select" : "Elekti"
+    "Select" : "Elekti",
+    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie"
 },
 "nplurals=2; plural=(n != 1);");

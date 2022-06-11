@@ -36,7 +36,6 @@
     "Privacy policy" : "Pravila o privatnosti",
     "Adjust the Nextcloud theme" : "Prilagodi temu Nextclouda",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Nama je vrlo važno osigurati univerzalan pristup. Pratimo sve internetske i mrežne standarde i provjeravamo je li sustav upotrebljiv bez miša i pomoćnog softvera, kao što je čitač zaslona. Naš je cilj postići sukladnost sa {guidelines}Smjernicama pristupačnosti web-sadržaja{linkend} 2.1 na razini AA s temom jakog kontrasta na razini AAA.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Prijavite sve pronađene poteškoće putem {issuetracker}alata za praćenje poteškoća{linkend}. Ako želite sudjelovati, pridružite se {designteam}našem dizajnerskom timu{linkend}!",
     "Open documentation" : "Otvori dokumentaciju",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Upravljanje temama omogućuje jednostavno prilagođavanje izgleda vaše instance i podržanih klijenata. To će biti vidljivo svim korisnicima.",
     "Name" : "Naziv",

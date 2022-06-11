@@ -96,7 +96,6 @@ OC.L10N.register(
     "Files" : "Filer",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe er blevet <strong>delt</strong>",
     "Shared link" : "Delt link",
-    "Wrong share ID, share doesn't exist" : "Forkert DelingsID, deling findes ikke",
     "Could not delete share" : "Kunne ikke slette deling",
     "Please specify a file or folder path" : "Præciser venligst en fil eller mappesti",
     "Please specify a valid user" : "Angiv en gyldig bruger",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Name" : "Navn",
     "Share time" : "Dele periode",
     "Expiration date" : "Udløbsdato",
-    "Sorry, this link doesn’t seem to work anymore." : "Desværre, dette link ser ikke ud til at fungerer længere.",
     "Reasons might be:" : "Årsagen kan være:",
     "the item was removed" : "Filen blev fjernet",
     "the link expired" : "linket udløb",
@@ -184,6 +182,8 @@ OC.L10N.register(
     "Select or drop files" : "Vælg eller slip filer",
     "Uploaded files:" : "Uploadede filer:",
     "Add to your Nextcloud" : "Tilføj til din Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Forkert sti, fil/mappe findes ikke"
+    "Wrong share ID, share doesn't exist" : "Forkert DelingsID, deling findes ikke",
+    "Wrong path, file/folder doesn't exist" : "Forkert sti, fil/mappe findes ikke",
+    "Sorry, this link doesn’t seem to work anymore." : "Desværre, dette link ser ikke ud til at fungerer længere."
 },
 "nplurals=2; plural=(n != 1);");

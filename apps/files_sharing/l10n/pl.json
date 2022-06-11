@@ -96,7 +96,6 @@
     "Files" : "Pliki",
     "A file or folder has been <strong>shared</strong>" : "Plik lub katalog został <strong>udostępniony</strong>",
     "Shared link" : "Udostępnij link",
-    "Wrong share ID, share doesn't exist" : "Złe ID udostępnienia, udostępnienie nie istnieje",
     "Could not delete share" : "Nie można usunąć udostępniania",
     "Please specify a file or folder path" : "Podaj ścieżkę do pliku lub katalogu",
     "Wrong path, file/folder does not exist" : "Błędna ścieżka, plik/katalog nie istnieje",
@@ -235,7 +234,6 @@
     "Name" : "Nazwa",
     "Share time" : "Czas udostępnienia",
     "Expiration date" : "Data wygaśnięcia",
-    "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa.",
     "Reasons might be:" : "Możliwe powody:",
     "the item was removed" : "element został usunięty",
     "the link expired" : "link wygasł",
@@ -250,8 +248,10 @@
     "Uploaded files:" : "Wysłane pliki:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Wysyłając pliki, zgadzasz się na %1$swarunki korzystania z usługi%2$s.",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Złe ID udostępnienia, udostępnienie nie istnieje",
     "Wrong path, file/folder doesn't exist" : "Ścieżka nieprawidłowa, plik/katalog nie istnieje",
     "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
+    "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

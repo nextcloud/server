@@ -57,7 +57,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n فایل","%n فایلونه"],
     "{dirs} and {files}" : "{dirs} او {files}",
     "_including %n hidden_::_including %n hidden_" : [" پټ سربېره","%n پټ سربېره"],
-    "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ",
     "_Uploading %n file_::_Uploading %n files_" : ["%n فایل پورته کول","%n فایلونه پورته کول"],
     "New" : "نوی",
     "Select file range" : "د فایلونو اندازه وټاکئ",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Deleted shares" : "ړنګ شوي لېنکونه",
     "Text file" : "متن فایل",
     "New text file.txt" : "New text file.txt",
-    "Select" : "ټاکل"
+    "Select" : "ټاکل",
+    "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ"
 },
 "nplurals=2; plural=(n != 1);");

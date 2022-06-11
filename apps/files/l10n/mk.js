@@ -68,7 +68,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n датотека","%n датотеки"],
     "{dirs} and {files}" : "{dirs} и {files}",
     "_including %n hidden_::_including %n hidden_" : ["вклучувајќи %n скриена","вклучувајќи %n скриени"],
-    "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
     "_Uploading %n file_::_Uploading %n files_" : ["Прикачување %n датотека","Прикачување на %n датотеки"],
     "New" : "Ново",
     "Select file range" : "Избери опсег на датотеки",
@@ -167,7 +166,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Трансфер {path} до {userid}",
     "Invalid path selected" : "Избрана невалидна патека",
     "Ownership transfer request sent" : "Испратено барање за трансфер на сопственост",
-    "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
     "Tags" : "Ознаки",
     "Unable to change the favourite state of the file" : "Неможе да се промени статусот на омимени на датотеката",
     "Error while loading the file data" : "Грешка при вчитување на податоците од датотеката",
@@ -207,6 +205,8 @@ OC.L10N.register(
     "Pending shares" : "Споделувања на чекање",
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
-    "Select" : "Избери"
+    "Select" : "Избери",
+    "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
+    "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

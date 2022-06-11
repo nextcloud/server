@@ -48,7 +48,6 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n carpeta","%n carpetes"],
     "_%n file_::_%n files_" : ["%n ficheru","%n ficheros"],
     "{dirs} and {files}" : "{dirs} y {files}",
-    "You don’t have permission to upload or create files here" : "Nun tienes permisu pa xubir o crear ficheros equí",
     "_Uploading %n file_::_Uploading %n files_" : ["Xubiendo %n ficheru","Xubiendo %n ficheros"],
     "New" : "Nuevu",
     "\"{name}\" is an invalid file name." : "\"{name}\" ye un nome de ficheru inválidu.",
@@ -108,6 +107,7 @@ OC.L10N.register(
     "Shared by link" : "Compartíos per enllaz",
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "Nuevu testu ficheru.txt",
-    "Select" : "Esbillar"
+    "Select" : "Esbillar",
+    "You don’t have permission to upload or create files here" : "Nun tienes permisu pa xubir o crear ficheros equí"
 },
 "nplurals=2; plural=(n != 1);");

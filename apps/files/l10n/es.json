@@ -70,7 +70,6 @@
     "_%n file_::_%n files_" : ["%n archivo","%n archivos","%n archivos"],
     "{dirs} and {files}" : "{dirs} y {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluyendo %n oculto","incluyendo %n ocultos","incluyendo %n ocultos"],
-    "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Subiendo %n archivos","Subiendo %n archivos"],
     "New" : "Nuevo",
     "Select file range" : "Seleccionar el rango de archivos",
@@ -169,7 +168,6 @@
     "Transfer {path} to {userid}" : "Transferir {path} a {userid}",
     "Invalid path selected" : "Ruta de archivo seleccionada no válida.",
     "Ownership transfer request sent" : "Enviada la solicitud de transferencia de propiedad",
-    "Cannot transfer ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece",
     "Tags" : "Etiquetas",
     "Unable to change the favourite state of the file" : "No se ha podido cambiar el estado de favorito del fichero",
     "Error while loading the file data" : "Error al cargar los datos del archivo",
@@ -210,6 +208,8 @@
     "Pending shares" : "Recursos compartidos pendientes",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
-    "Select" : "Seleccionar"
+    "Select" : "Seleccionar",
+    "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
+    "Cannot transfer ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

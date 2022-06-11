@@ -60,7 +60,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n lêer","%n lêers"],
     "{dirs} and {files}" : "{dirs} en {files}",
     "_including %n hidden_::_including %n hidden_" : ["insluitend %n verborge","insluitende %n verborge"],
-    "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
     "_Uploading %n file_::_Uploading %n files_" : ["Laai tans %n lêer op ","Laai tans %n lêers op"],
     "New" : "Nuwe",
     "{used} of {quota} used" : "{used} van {quota} gebruik",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
-    "Select" : "Kies"
+    "Select" : "Kies",
+    "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie"
 },
 "nplurals=2; plural=(n != 1);");

@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Fitxategiak",
     "A file or folder has been <strong>shared</strong>" : "Fitxategia edo karpeta bat <strong>partekatu</strong> da",
     "Shared link" : "Partekatutako esteka",
-    "Wrong share ID, share doesn't exist" : "Partekatze ID okerra, partekatzea ez da existitzen",
     "Could not delete share" : "Ezin izan da partekatzea ezabatu",
     "Please specify a file or folder path" : "Zehaztu fitxategi edo karpetaren bide bat",
     "Wrong path, file/folder does not exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
@@ -237,7 +236,6 @@ OC.L10N.register(
     "Name" : "Izena",
     "Share time" : "Partekatzearen ordua",
     "Expiration date" : "Iraungitze-data",
-    "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
     "Reasons might be:" : "Arrazoiak hurrengoak litezke:",
     "the item was removed" : "fitxategia kendu da",
     "the link expired" : "esteka iraungi da",
@@ -252,8 +250,10 @@ OC.L10N.register(
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
     "Add to your Nextcloud" : "Gehitu zure Nextclouden",
+    "Wrong share ID, share doesn't exist" : "Partekatze ID okerra, partekatzea ez da existitzen",
     "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
+    "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi."
 },
 "nplurals=2; plural=(n != 1);");
