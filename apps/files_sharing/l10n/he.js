@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "קבצים",
     "A file or folder has been <strong>shared</strong>" : "קובץ או תיקייה <strong>שותפו<strong/>",
     "Shared link" : "שותף קישור",
-    "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
     "Could not delete share" : "לא ניתן היה למחוק את השיתוף",
     "Please specify a file or folder path" : "יש לספק נתיב לקובץ או תיקייה",
     "Could not create share" : "לא ניתן ליצור שיתוף",
@@ -218,7 +217,6 @@ OC.L10N.register(
     "Name" : "שם",
     "Share time" : "זמן שיתוף",
     "Expiration date" : "מועד תפוגה",
-    "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
     "Reasons might be:" : "הסיבות יכולות להיות:",
     "the item was removed" : "הפריט הוסר",
     "the link expired" : "הקישור פג תוקף",
@@ -233,7 +231,9 @@ OC.L10N.register(
     "Uploaded files:" : "קבצים שהועלו:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
+    "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
+    "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. "
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -67,7 +67,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n failas","%n failai","%n failų","%n failas"],
     "{dirs} and {files}" : "{dirs} ir {files}",
     "_including %n hidden_::_including %n hidden_" : ["įskaitant %n paslėptą","įskaitant %n paslėptus","įskaitant %n paslėptų","įskaitant %n paslėptą"],
-    "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
     "_Uploading %n file_::_Uploading %n files_" : ["Įkeliamas %n failas","Įkeliami %n failai","Įkeliama %n failų","Įkeliamas %n failas"],
     "New" : "Naujas",
     "Select file range" : "Žymėti failų rėžį",
@@ -160,7 +159,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Perduoti {path} naudotojui {userid}",
     "Invalid path selected" : "Pasirinktas neteisingas kelias",
     "Ownership transfer request sent" : "Nuosavybės perdavimo užklausa išsiųsta",
-    "Cannot transfer ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės",
     "Tags" : "Žymės",
     "Unable to change the favourite state of the file" : "Nepavyksta pakeisti failo Lankomiausiųjų būsenos",
     "Error while loading the file data" : "Klaida įkeliant failo duomenis",
@@ -198,6 +196,8 @@ OC.L10N.register(
     "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Select" : "Pasirinkti"
+    "Select" : "Pasirinkti",
+    "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
+    "Cannot transfer ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

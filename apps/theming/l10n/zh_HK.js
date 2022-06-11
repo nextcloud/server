@@ -49,7 +49,6 @@ OC.L10N.register(
     "Privacy policy" : "隱私權政策",
     "Adjust the Nextcloud theme" : "調整 Nextcloud 佈景主題",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "我們非常重視無障礙使用。我們遵循網路標準，並透過檢查來確保所有內容皆可在沒有滑鼠或輔助軟體（例如螢幕閱讀器）的情況下使用。我們目標是能達到 {guidelines} 網頁內容可及性指引{linkend} 2.1 版的 AA 等級，加上高對比度主題甚至還能到 AAA 等級。",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "如果您發現任何問題，請在 {issuetracker}我們的問題追蹤系統{linkend} 舉報。而如果您想參與，歡迎加入 {designteam}我們的設計團隊{linked}！",
     "Theme selection is enforced" : "主題選擇已實施",
     "Open documentation" : "開啟說明文件",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "使用佈景主題來客製化網頁界面和客戶端程式的外觀（並非所有客戶端程式都支援佈景主題），外觀將會套用至所有用戶。",

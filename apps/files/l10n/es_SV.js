@@ -57,7 +57,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n archivo","%n archivos","%n archivos"],
     "{dirs} and {files}" : "{dirs} y {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluyendo %n oculto","incluyendo %n ocultos","incluyendo %n ocultos"],
-    "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Cargando %n archivos","Cargando %n archivos"],
     "New" : "Nuevo",
     "{used} of {quota} used" : "{used} de {quota} usados",
@@ -141,6 +140,7 @@ OC.L10N.register(
     "Shared by link" : "Compartido por liga",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "Select" : "Seleccionar"
+    "Select" : "Seleccionar",
+    "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí"
 },
 "nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

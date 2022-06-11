@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Filer",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe ble <strong>delt</strong>",
     "Shared link" : "Delte lenke",
-    "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
     "Could not delete share" : "Kunne ikke slette ressursen",
     "Please specify a file or folder path" : "Oppgi en fil eller mappesti",
     "Could not create share" : "Kunne ikke opprette ressurs",
@@ -198,7 +197,6 @@ OC.L10N.register(
     "Name" : "Navn",
     "Share time" : "Delingstidspunkt",
     "Expiration date" : "Utløpsdato",
-    "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger.",
     "Reasons might be:" : "Mulige årsaker:",
     "the item was removed" : "elementet er fjernet",
     "the link expired" : "lenken er utløpt",
@@ -212,7 +210,9 @@ OC.L10N.register(
     "Uploading files" : "Laster opp filer",
     "Uploaded files:" : "Opplastede filer:",
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
-    "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker"
+    "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker",
+    "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger."
 },
 "nplurals=2; plural=(n != 1);");

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Privacy policy" : "Fortrolighedspolitik",
     "Adjust the Nextcloud theme" : "Juster Nextcloud-temaet",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universel adgang er meget vigtig for os. Vi følger web standarder og sikrer os at gøre alt tilgængeligt også uden mus, eller med hjælpesoftware såsom screenreaders. Vi søger at følge reglerne{guidelines}Web Content Accessibility Guidelines{linkend} 2.1 og AA endda med højt kontrast tema på AAA niveau.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Tøv ikke med at rapportere problemer på vores issuetracker {issuetracker} hvis du finder nogen{linkend}. Og hvis du vil deltage, så kom med {designteam} i vores designteam{linkend}!",
     "Open documentation" : "Åbn dokumentation",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temaer gør det muligt nemt at tilpasse udseendet på din installation og understøttede klienter. Dette vil være synlig for alle brugere.",
     "Name" : "Navn",

@@ -88,7 +88,6 @@ OC.L10N.register(
     "Files" : "Failid",
     "A file or folder has been <strong>shared</strong>" : "Fail või kataloog on <strong>jagatud</strong>",
     "Shared link" : "Jagatud link",
-    "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "Could not delete share" : "Ei saanud jagamist eemaldada",
     "Please specify a file or folder path" : "Palun määra faili või kausta rada",
     "Could not create share" : "Ei saanud jagamist luua",
@@ -161,7 +160,6 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
     "Expiration date" : "Aegumise kuupäev",
-    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat.",
     "Reasons might be:" : "Põhjused võivad olla:",
     "the item was removed" : "üksus on eemaldatud",
     "the link expired" : "link on aegunud",
@@ -173,6 +171,8 @@ OC.L10N.register(
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
-    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud"
+    "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
+    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
+    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
 },
 "nplurals=2; plural=(n != 1);");

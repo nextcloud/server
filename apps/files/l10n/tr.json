@@ -70,7 +70,6 @@
     "_%n file_::_%n files_" : ["%n dosya","%n dosya"],
     "{dirs} and {files}" : "{dirs} ve {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n gizli ile birlikte","%n gizli ile birlikte"],
-    "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "_Uploading %n file_::_Uploading %n files_" : ["%n dosya yükleniyor","%n dosya yükleniyor"],
     "New" : "Yeni",
     "Select file range" : "Dosya aralığını seçin",
@@ -169,7 +168,6 @@
     "Transfer {path} to {userid}" : "{path} yolunun sahipliğini {userid} kullanıcısına aktar",
     "Invalid path selected" : "Seçilen yol geçersiz",
     "Ownership transfer request sent" : "Sahiplik aktarımı isteği gönderildi",
-    "Cannot transfer ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
     "Tags" : "Etiketler",
     "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
     "Error while loading the file data" : "Dosya verileri yüklenirken sorun çıktı",
@@ -210,6 +208,8 @@
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
-    "Select" : "Seçin"
+    "Select" : "Seçin",
+    "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
+    "Cannot transfer ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

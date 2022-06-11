@@ -82,7 +82,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "Skjali eða möppu hefur verið deilt <strong>frá öðrum þjóni</strong>",
     "Files" : "Skrár",
     "A file or folder has been <strong>shared</strong>" : "Skjali eða  möppu hefur verið <strong>deilt</strong>",
-    "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
     "Could not delete share" : "Tókst ekki að eyða sameign",
     "Please specify a file or folder path" : "Tiltaktu skrá eða slóð á möppu",
     "Could not create share" : "Ekki tókst að búa til sameign",
@@ -164,7 +163,6 @@
     "Name" : "Nafn",
     "Share time" : "Deilingartími",
     "Expiration date" : "Gildir til",
-    "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur.",
     "Reasons might be:" : "Mögulegar ástæður gætu verið:",
     "the item was removed" : "atriðið var fjarlægt",
     "the link expired" : "tengillinn er útrunninn",
@@ -178,7 +176,9 @@
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
     "Wrong path, file/folder doesn't exist" : "Röng slóð, skrá/mappa er ekki til",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
+    "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

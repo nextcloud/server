@@ -96,7 +96,6 @@
     "Files" : "File",
     "A file or folder has been <strong>shared</strong>" : "Un file o una cartella è stato <strong>condiviso</strong>",
     "Shared link" : "Collegamento condiviso",
-    "Wrong share ID, share doesn't exist" : "ID di condivisione errato, la condivisione non esiste",
     "Could not delete share" : "impossibile eliminare la condivisione",
     "Please specify a file or folder path" : "Specifica un percorso di un file o di una cartella",
     "Wrong path, file/folder does not exist" : "Percorso errato, file/cartella inesistente",
@@ -233,7 +232,6 @@
     "Name" : "Nome",
     "Share time" : "Tempo di condivisione",
     "Expiration date" : "Data di scadenza",
-    "Sorry, this link doesn’t seem to work anymore." : "Spiacenti, questo collegamento sembra non essere più attivo.",
     "Reasons might be:" : "I motivi potrebbero essere:",
     "the item was removed" : "l'elemento è stato rimosso",
     "the link expired" : "il collegamento è scaduto",
@@ -248,8 +246,10 @@
     "Uploaded files:" : "File caricati:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Caricando i file, accetti i %1$stermini del servizio%2$s.",
     "Add to your Nextcloud" : "Aggiungi al tuo Nextcloud",
+    "Wrong share ID, share doesn't exist" : "ID di condivisione errato, la condivisione non esiste",
     "Wrong path, file/folder doesn't exist" : "Percorso errato, file/cartella inesistente",
     "Cannot change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato",
+    "Sorry, this link doesn’t seem to work anymore." : "Spiacenti, questo collegamento sembra non essere più attivo."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

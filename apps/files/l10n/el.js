@@ -70,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n αρχείο","%n αρχεία"],
     "{dirs} and {files}" : "{dirs} και {files}",
     "_including %n hidden_::_including %n hidden_" : ["περιλαμβάνεται %n κρυφό","περιλαμβάνονται %n κρυφά"],
-    "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "_Uploading %n file_::_Uploading %n files_" : ["Μεταφόρτωση %n αρχείου","Μεταφόρτωση %n αρχείων"],
     "New" : "Νέο",
     "Select file range" : "Επιλέξτε εύρος αρχείων",
@@ -169,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Μεταφορά {path} στον {userid}",
     "Invalid path selected" : "Επιλέχθηκε μη έγκυρη διαδρομή",
     "Ownership transfer request sent" : "Αποστολή αίτησης μεταβίβασης κυριότητας",
-    "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
     "Tags" : "Ετικέτες",
     "Unable to change the favourite state of the file" : "Αδυναμία αλλαγής αγαπημένης κατάστασης αρχείου",
     "Error while loading the file data" : "Σφάλμα κατά την φόρτωση αρχείου δεδομένων",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Pending shares" : "Κοινή χρήση σε εκκρεμότητα",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο file.txt",
-    "Select" : "Επιλογή"
+    "Select" : "Επιλογή",
+    "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
+    "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
 },
 "nplurals=2; plural=(n != 1);");

@@ -43,7 +43,6 @@
     "Privacy policy" : "Политика за поверителност",
     "Adjust the Nextcloud theme" : "Коригиране на темата на Nextcloud",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универсалният достъп е много важен за нас. Следваме уеб стандартите и проверяваме, за да направим всичко използваемо и без мишка, и помощен софтуер, като екранни четци. Ние се стремим да бъдем съобразени с {guidelines}Насоки за достъпност на уеб съдържанието {linkend} 2.1 на ниво АА, с темата за висок контраст дори на ниво AAA.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ако откриете някакви проблеми, не се колебайте да ги съобщите на {issueetracker} нашия тракер на проблеми {linkend}. А ако искате да се включите, елате да се присъедините {designteam} към нашия дизайнерски екип {linkend}!",
     "Open documentation" : "Отвори документацията",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Чрез темите можете бързо и лесно за персонализирате вида на Nextcloud. Промените ще бъдат видими за всички потребители.",
     "Name" : "Име",

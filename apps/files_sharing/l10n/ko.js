@@ -90,7 +90,6 @@ OC.L10N.register(
     "Files" : "파일",
     "A file or folder has been <strong>shared</strong>" : "파일이나 폴더가 <strong>공유됨</strong>",
     "Shared link" : "공유 링크",
-    "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
     "Could not delete share" : "공유를 삭제할 수 없음",
     "Please specify a file or folder path" : "파일이나 폴더 경로를 지정하십시오",
     "Could not create share" : "공유를 만들 수 없음",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Name" : "이름",
     "Share time" : "공유 시간",
     "Expiration date" : "만료 날짜",
-    "Sorry, this link doesn’t seem to work anymore." : "죄송합니다. 이 링크는 더 이상 작동하지 않습니다.",
     "Reasons might be:" : "이유는 다음과 같을 수 있습니다:",
     "the item was removed" : "항목이 삭제됨",
     "the link expired" : "링크가 만료됨",
@@ -186,7 +184,9 @@ OC.L10N.register(
     "Uploaded files:" : "업로드한 파일:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
     "Add to your Nextcloud" : "내 Nextcloud에 추가",
+    "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
     "Wrong path, file/folder doesn't exist" : "잘못된 경로, 파일/폴더가 존재하지 않음",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud 토크가 활성화되어 있지 않기 때문에 Nextcloud 토크로 공유 암호를 전송할 수 없음"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud 토크가 활성화되어 있지 않기 때문에 Nextcloud 토크로 공유 암호를 전송할 수 없음",
+    "Sorry, this link doesn’t seem to work anymore." : "죄송합니다. 이 링크는 더 이상 작동하지 않습니다."
 },
 "nplurals=1; plural=0;");

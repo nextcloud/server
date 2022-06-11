@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Datoteke",
     "A file or folder has been <strong>shared</strong>" : "Za datoteko ali mapo je omogočena <strong>souporaba</strong>",
     "Shared link" : "Povezava do mesta souporabe",
-    "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
     "Could not delete share" : "Mesta souporabe ni mogoče izbrisati",
     "Please specify a file or folder path" : "Določiti je treba datoteko ali pot do mape",
     "Wrong path, file/folder does not exist" : "Napačna pot; datoteka ali mapa ne obstaja",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Name" : "Ime",
     "Share time" : "Čas souporabe",
     "Expiration date" : "Datum preteka",
-    "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi.",
     "Reasons might be:" : "Vzrok je lahko:",
     "the item was removed" : "predmet je odstranjen,",
     "the link expired" : "povezava je pretekla",
@@ -241,8 +239,10 @@ OC.L10N.register(
     "Uploaded files:" : "Poslane datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "S pošiljanjem datotek v oblak sprejemate tudi %1$spogoje uporabe storitve%2$s.",
     "Add to your Nextcloud" : "Dodaj v oblak Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
     "Wrong path, file/folder doesn't exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Cannot change permissions for public share links" : "Za javne povezave souporabe spreminjanje dovoljenj ni mogoče.",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen."
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen.",
+    "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

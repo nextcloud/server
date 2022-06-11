@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n Datei","%n Dateien"],
     "{dirs} and {files}" : "{dirs} und {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n versteckte eingeschlossen","%n versteckte eingeschlossen"],
-    "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "_Uploading %n file_::_Uploading %n files_" : ["%n Datei wird hochgeladen","%n Dateien werden hochgeladen"],
     "New" : "Neu",
     "Select file range" : "Dateibereich auswählen",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Übertrage {path} an {userid}",
     "Invalid path selected" : "Ungültiger Dateipfad ausgewählt",
     "Ownership transfer request sent" : "Anforderung für die Übertragung des Besitzes versandt",
-    "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Du nicht besitzt, kann nicht übertragen werden",
     "Tags" : "Schlagworte",
     "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei konnte nicht geändert werden",
     "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
@@ -212,6 +210,8 @@ OC.L10N.register(
     "Pending shares" : "Ausstehende Freigaben",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
-    "Select" : "Auswählen"
+    "Select" : "Auswählen",
+    "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
+    "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Du nicht besitzt, kann nicht übertragen werden"
 },
 "nplurals=2; plural=(n != 1);");
