@@ -1723,11 +1723,6 @@
       <code>$user</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/files_trashbin/lib/Hooks.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$user</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
@@ -1798,12 +1793,9 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidScalarArgument occurrences="5">
+    <InvalidScalarArgument occurrences="2">
       <code>$timestamp</code>
       <code>$timestamp</code>
-      <code>$uid</code>
-      <code>$user</code>
-      <code>$user</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/files_versions/appinfo/routes.php">
@@ -1842,9 +1834,8 @@
     <InvalidArgument occurrences="1">
       <code>'OCA\Files_Versions::createVersion'</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="1">
       <code>$timestamp</code>
-      <code>$uid</code>
     </InvalidScalarArgument>
     <TooManyArguments occurrences="2">
       <code>dispatch</code>
@@ -1880,9 +1871,6 @@
     <InvalidArgument occurrences="1">
       <code>AppPasswordCreatedActivityListener::class</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="1">
-      <code>\OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getSettingsManager</code>
     </UndefinedInterfaceMethod>
@@ -1940,9 +1928,6 @@
     </NullArgument>
   </file>
   <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$uid</code>
-    </InvalidScalarArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getLanguages</code>
     </UndefinedInterfaceMethod>
@@ -2080,9 +2065,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>$this-&gt;countUsers($filter)</code>
     </FalsableReturnStatement>
-    <InvalidArgument occurrences="1">
-      <code>$record</code>
-    </InvalidArgument>
     <InvalidReturnStatement occurrences="2">
       <code>$uuid</code>
       <code>$values</code>
@@ -2090,8 +2072,7 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
-      <code>$e-&gt;getCode()</code>
+    <InvalidScalarArgument occurrences="2">
       <code>$key</code>
       <code>$key</code>
     </InvalidScalarArgument>
@@ -2119,16 +2100,7 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/user_ldap/lib/Configuration.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>time()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/user_ldap/lib/Connection.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>LDAP_OPT_PROTOCOL_VERSION</code>
-      <code>LDAP_OPT_REFERRALS</code>
-    </InvalidScalarArgument>
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
@@ -2172,13 +2144,6 @@
       <code>Resource</code>
     </UndefinedDocblockClass>
   </file>
-  <file src="apps/user_ldap/lib/Jobs/CleanUp.php">
-    <InvalidScalarArgument occurrences="3">
-      <code>$newOffset</code>
-      <code>0</code>
-      <code>50</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
     <InvalidOperand occurrences="2">
       <code>$i</code>
@@ -2208,68 +2173,12 @@
       <code>3600</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/user_ldap/lib/LDAP.php">
-    <ImplementedParamTypeMismatch occurrences="22">
-      <code>$baseDN</code>
-      <code>$baseDN</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$link</code>
-      <code>$resource</code>
-      <code>$result</code>
-      <code>$result</code>
-      <code>$result</code>
-      <code>$result</code>
-      <code>$result</code>
-    </ImplementedParamTypeMismatch>
-    <InvalidArgument occurrences="1">
-      <code>$baseDN</code>
-    </InvalidArgument>
-    <LessSpecificImplementedReturnType occurrences="13">
-      <code>array|mixed</code>
-      <code>array|mixed</code>
-      <code>bool|mixed</code>
-      <code>bool|mixed</code>
-      <code>bool|mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed|string</code>
-      <code>mixed|true</code>
-      <code>mixed|true</code>
-    </LessSpecificImplementedReturnType>
-    <UndefinedDocblockClass occurrences="1">
-      <code>Resource</code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="apps/user_ldap/lib/LogWrapper.php">
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
-    <InvalidOperand occurrences="1">
-      <code>$isUnmapped</code>
-    </InvalidOperand>
-    <InvalidReturnStatement occurrences="1">
-      <code>$result</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
     <RedundantCondition occurrences="1">
       <code>isset($qb)</code>
     </RedundantCondition>
@@ -2298,8 +2207,7 @@
       <code>null</code>
       <code>null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
-      <code>$this-&gt;getHomePath($ldapEntry[$attr][0])</code>
+    <InvalidScalarArgument occurrences="2">
       <code>1</code>
       <code>true</code>
     </InvalidScalarArgument>
@@ -2308,9 +2216,6 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidScalarArgument occurrences="1">
-      <code>$path</code>
-    </InvalidScalarArgument>
     <MoreSpecificImplementedParamType occurrences="2">
       <code>$limit</code>
       <code>$offset</code>
@@ -2343,15 +2248,9 @@
       <code>private function detectGroupMemberAssoc() {</code>
       <code>private function getAttributeValuesFromEntry($result, $attribute, &amp;$known) {</code>
     </InvalidDocblock>
-    <InvalidScalarArgument occurrences="8">
+    <InvalidScalarArgument occurrences="2">
       <code>$port</code>
       <code>$port</code>
-      <code>LDAP_OPT_NETWORK_TIMEOUT</code>
-      <code>LDAP_OPT_NETWORK_TIMEOUT</code>
-      <code>LDAP_OPT_PROTOCOL_VERSION</code>
-      <code>LDAP_OPT_PROTOCOL_VERSION</code>
-      <code>LDAP_OPT_REFERRALS</code>
-      <code>LDAP_OPT_REFERRALS</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>!isset($item['cn']) &amp;&amp; !is_array($item['cn'])</code>
@@ -3101,23 +3000,12 @@
       <code>$userId</code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Avatar/GuestAvatar.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>InMemoryFile</code>
-    </ImplementedReturnTypeMismatch>
-  </file>
   <file src="lib/private/Avatar/PlaceholderAvatar.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>ISimpleFile</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidScalarArgument occurrences="1">
       <code>$data</code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Avatar/UserAvatar.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>ISimpleFile</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidScalarArgument occurrences="3">
       <code>$data</code>
       <code>$data</code>
@@ -3561,11 +3449,6 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
-      <code>$user</code>
-      <code>$user</code>
-      <code>\OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
@@ -4119,10 +4002,9 @@
     <InvalidReturnType occurrences="1">
       <code>\OC\Files\Mount\MountPoint</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$fileId</code>
       <code>$mtime</code>
-      <code>$user</code>
     </InvalidScalarArgument>
     <NullableReturnStatement occurrences="6">
       <code>$mount</code>
@@ -4132,13 +4014,9 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <RedundantCondition occurrences="7">
+    <RedundantCondition occurrences="3">
       <code>$data</code>
       <code>$data</code>
-      <code>$result</code>
-      <code>$result &amp;&amp; in_array('delete', $hooks) and $result</code>
-      <code>Constants::PERMISSION_READ</code>
-      <code>Constants::PERMISSION_READ</code>
       <code>is_resource($source)</code>
     </RedundantCondition>
     <UndefinedDocblockClass occurrences="2">
@@ -4362,11 +4240,6 @@
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Memcache/Memcached.php">
-    <TypeDoesNotContainType occurrences="1">
-      <code>\Memcached::HAVE_IGBINARY</code>
-    </TypeDoesNotContainType>
-  </file>
   <file src="lib/private/Memcache/Redis.php">
     <InvalidMethodCall occurrences="2">
       <code>exec</code>
@@ -4396,10 +4269,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>ISimpleFile</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$file-&gt;getId()</code>
-      <code>$file-&gt;getId()</code>
-    </InvalidScalarArgument>
     <MismatchingDocblockParamType occurrences="1">
       <code>ISimpleFile</code>
     </MismatchingDocblockParamType>
@@ -4439,9 +4308,6 @@
       <code>shell_exec('command -v libreoffice')</code>
       <code>shell_exec('command -v openoffice')</code>
     </ForbiddenCode>
-    <ImplicitToStringCast occurrences="1">
-      <code>$png</code>
-    </ImplicitToStringCast>
   </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement occurrences="1">
@@ -4670,10 +4536,6 @@
     <InvalidOperand occurrences="1">
       <code>!self::isResharingAllowed()</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="2">
-      <code>\OC_User::getUser()</code>
-      <code>\OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <UndefinedInterfaceMethod occurrences="2">
       <code>getParents</code>
       <code>getParents</code>
@@ -4874,10 +4736,9 @@
       <code>string</code>
       <code>string</code>
     </InvalidParamDefault>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$appName</code>
       <code>$appName</code>
-      <code>\OC_User::getUser()</code>
     </InvalidScalarArgument>
     <TooManyArguments occurrences="1">
       <code>Util::addScript('dist/unified-search', null, true)</code>
@@ -5126,11 +4987,6 @@
       <code>$isWritable</code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/legacy/OC_JSON.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>OC_User::getUser()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
@@ -5147,10 +5003,6 @@
     <InvalidReturnType occurrences="1">
       <code>float</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$user</code>
-      <code>OC_User::getUser()</code>
-    </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>is_string($expected)</code>
     </RedundantCondition>
