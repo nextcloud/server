@@ -351,6 +351,7 @@
     "Your client should now be connected!" : "Tu cliente debería estar ahora conectado.",
     "You can close this window." : "Puedes cerrar esta ventana.",
     "This share is password-protected" : "Este recurso compartido está protegido por contraseña",
+    "The password is wrong or expired. Please try again or request a new one." : "La contraseña está mal o ha caducado. Por favor, inténtalo de nuevo o solicita una nueva.",
     "Please type in your email address to request a temporary password" : "Escriba su dirección de correo electrónico para solicitar una contraseña temporal",
     "Email address" : "Dirección de correo",
     "Password sent!" : "¡Contraseña enviada!",

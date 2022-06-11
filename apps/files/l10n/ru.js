@@ -70,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n файл","%n файла","%n файлов","%n файлов"],
     "{dirs} and {files}" : "{dirs} и {files}",
     "_including %n hidden_::_including %n hidden_" : ["включая %n скрытый","включая %n скрытых","включая %n скрытых","включая %n скрытых"],
-    "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
     "_Uploading %n file_::_Uploading %n files_" : ["Передача %n файла","Передача %n файлов","Передача %n файлов","Передача %n файлов"],
     "New" : "Новый",
     "Select file range" : "Выбор диапазона файлов",
@@ -169,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Передать {path} пользователю {userid}",
     "Invalid path selected" : "Указан некорректный путь",
     "Ownership transfer request sent" : "Запрос на передачу прав владения отправлен",
-    "Cannot transfer ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок",
     "Tags" : "Метки",
     "Unable to change the favourite state of the file" : "Не удалось изменить состояние «избранный» этого файла.",
     "Error while loading the file data" : "Не удалось загрузить данные файла",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Pending shares" : "Ожидающие общие ресурсы",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
-    "Select" : "Выбрать"
+    "Select" : "Выбрать",
+    "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
+    "Cannot transfer ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

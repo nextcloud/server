@@ -70,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n tập tin"],
     "{dirs} and {files}" : "{dirs} và {files}",
     "_including %n hidden_::_including %n hidden_" : ["Bao gồm %n ẩn"],
-    "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
     "_Uploading %n file_::_Uploading %n files_" : ["Đang tải lên %n tập tin"],
     "New" : "Tạo mới",
     "Select file range" : "‎Chọn phạm vi tệp‎",
@@ -169,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "‎Chuyển {path} sang {userid}‎",
     "Invalid path selected" : "‎Đường dẫn không hợp lệ được chọn‎",
     "Ownership transfer request sent" : "‎Yêu cầu chuyển quyền sở hữu đã được gửi‎",
-    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
     "Tags" : "Nhãn",
     "Unable to change the favourite state of the file" : "‎Không thể thay đổi trạng thái yêu thích của tệp‎",
     "Error while loading the file data" : "‎Lỗi xảy ra trong khi tải dữ liệu tệp‎",
@@ -209,6 +207,8 @@ OC.L10N.register(
     "Pending shares" : "Chia sẻ đang chờ xử lý‎",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
-    "Select" : "Chọn"
+    "Select" : "Chọn",
+    "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
+    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎"
 },
 "nplurals=1; plural=0;");

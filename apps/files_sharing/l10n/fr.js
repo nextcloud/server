@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Fichiers",
     "A file or folder has been <strong>shared</strong>" : "Un fichier ou un répertoire a été <strong>partagé</strong>",
     "Shared link" : "Lien partagé",
-    "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
     "Could not delete share" : "Impossible de supprimer le partage",
     "Please specify a file or folder path" : "Veuillez indiquer un fichier ou un chemin",
     "Wrong path, file/folder does not exist" : "Chemin incorrect, le fichier/dossier n'existe pas",
@@ -235,7 +234,6 @@ OC.L10N.register(
     "Name" : "Nom",
     "Share time" : "Date de partage",
     "Expiration date" : "Date d'expiration",
-    "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
     "Reasons might be:" : "Les raisons peuvent être :",
     "the item was removed" : "l'élément a été supprimé",
     "the link expired" : "le lien a expiré",
@@ -250,8 +248,10 @@ OC.L10N.register(
     "Uploaded files:" : "Fichiers envoyés :",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
     "Add to your Nextcloud" : "Ajouter à votre Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
     "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé."
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
+    "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

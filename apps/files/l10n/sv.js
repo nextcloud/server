@@ -70,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fil","%n filer"],
     "{dirs} and {files}" : "{dirs} och {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluderar %n dold","inkluderar %n dolda"],
-    "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
     "_Uploading %n file_::_Uploading %n files_" : ["Laddar upp %n fil","Laddar upp %n filer"],
     "New" : "Ny",
     "Select file range" : "Välj filintervall",
@@ -169,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Överför {path} till {userid}",
     "Invalid path selected" : "Ogiltig sökväg vald",
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
-    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger",
     "Tags" : "Taggar",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
     "Error while loading the file data" : "Fel vid inläsning av fildata",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Pending shares" : "Väntande delningar",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
-    "Select" : "Välj"
+    "Select" : "Välj",
+    "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
+    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger"
 },
 "nplurals=2; plural=(n != 1);");

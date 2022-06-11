@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n plik","%n pliki","%n plików","%n plików"],
     "{dirs} and {files}" : "{dirs} i {files}",
     "_including %n hidden_::_including %n hidden_" : ["w tym %n ukryty","w tym %n ukryte","w tym %n ukrytych","w tym %n ukrytych"],
-    "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "_Uploading %n file_::_Uploading %n files_" : ["Wysyłanie %n pliku","Wysyłanie %n plików","Wysyłanie %n plików","Wysyłanie %n plików"],
     "New" : "Nowy",
     "Select file range" : "Wybierz zakres plików",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Przenieś {path} do {userid}",
     "Invalid path selected" : "Wybrano nieprawidłową ścieżkę",
     "Ownership transfer request sent" : "Wysłano żądanie przeniesienia własności",
-    "Cannot transfer ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
     "Tags" : "Etykiety",
     "Unable to change the favourite state of the file" : "Nie można zmienić ulubionego stanu pliku",
     "Error while loading the file data" : "Błąd podczas ładowania danych pliku",
@@ -212,6 +210,8 @@ OC.L10N.register(
     "Pending shares" : "Oczekujące udostępnienia",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
-    "Select" : "Wybierz"
+    "Select" : "Wybierz",
+    "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
+    "Cannot transfer ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

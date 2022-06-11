@@ -96,7 +96,6 @@
     "Files" : "ملفات",
     "A file or folder has been <strong>shared</strong>" : "ملف أو مجلد تم <strong>مشاركته</strong>",
     "Shared link" : "رابط المشاركة",
-    "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
     "Could not delete share" : "لا يمكن حذف المشاركة",
     "Please specify a file or folder path" : "يرجى تحديد مسار ملف او مجلد",
     "Could not create share" : "لا يمكن انشاء مشاركة",
@@ -216,7 +215,6 @@
     "Name" : "اسم",
     "Share time" : "وقت المشاركة",
     "Expiration date" : "تاريخ إنتهاء صلاحية المشاركة",
-    "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
     "Reasons might be:" : "الأسباب الممكنة :",
     "the item was removed" : "تم حذف العنصر المطلوب",
     "the link expired" : "انتهت صلاحية الرابط",
@@ -231,7 +229,9 @@
     "Uploaded files:" : "تم رفع ملفات:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
     "Add to your Nextcloud" : "اضف إلى حسابك",
+    "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث."
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
+    "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

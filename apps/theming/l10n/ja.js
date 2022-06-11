@@ -38,7 +38,6 @@ OC.L10N.register(
     "Privacy policy" : "個人情報保護方針",
     "Adjust the Nextcloud theme" : "Nextcloudテーマを調整する",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "ユニバーサルアクセスは私たちにとって非常に重要なことです。そのためウェブ標準に従い、マウスやスクリーンリーダーなどの支援ソフトウェアが無くても全ての機能をご利用いただけるようにチェックしています。AAAレベルのハイコントラストのテーマを採用することで、{guidelines} Webコンテンツアクセシビリティガイドライン2.1  {linkend} のAAAレベルに準拠することを目指しています。",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "問題がある場合は、お気軽に{issuetracker}issue tracker {linkend}に報告してください。 手伝って頂ける方は、{designteam}デザインチーム{linkend}にご参加ください。",
     "Open documentation" : "ドキュメントを開く",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "テーマでは、あなたのインスタンスとサポートされたクライアントのルック＆フィールを簡単に変更できます。この変更はすべてのユーザーが対象となります。",
     "Name" : "名前",

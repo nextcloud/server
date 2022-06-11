@@ -66,7 +66,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fișier","%n fișiere","%n fișiere"],
     "{dirs} and {files}" : "{dirs} și {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluzând %n ascuns","incluzând %nascunse","incluzând %nascuns"],
-    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "_Uploading %n file_::_Uploading %n files_" : ["Se încarcă %n fișier.","Se încarcă %n fișiere.","Se încarcă %n fișiere."],
     "New" : "Nou",
     "Select file range" : "Selectează un interval",
@@ -166,6 +165,7 @@ OC.L10N.register(
     "Pending shares" : "Partajări in asteptare",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
-    "Select" : "Alege"
+    "Select" : "Alege",
+    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

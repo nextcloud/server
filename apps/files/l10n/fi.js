@@ -72,7 +72,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n tiedosto","%n tiedostoa"],
     "{dirs} and {files}" : "{dirs} ja {files}",
     "_including %n hidden_::_including %n hidden_" : ["Sisältäen %n piilotetun","Sisältäen %n piilotettua"],
-    "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "_Uploading %n file_::_Uploading %n files_" : ["Lähetetään %n tiedosto","Lähetetään %n tiedostoa"],
     "New" : "Uusi",
     "Select file range" : "Valitse tiedostojoukko",
@@ -171,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Siirrä {path} käyttäjälle {userid}",
     "Invalid path selected" : "Valittu virheellinen polku",
     "Ownership transfer request sent" : "Pyyntö omistajuuden vaihdosta lähetetty",
-    "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Tags" : "Tunnisteet",
     "Unable to change the favourite state of the file" : "Suosikki-tilan muuttaminen epäonnistui.",
     "Error while loading the file data" : "Virhe tiedostoa ladatessa",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Pending shares" : "Odottavat jaot",
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
-    "Select" : "Valitse"
+    "Select" : "Valitse",
+    "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
+    "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista"
 },
 "nplurals=2; plural=(n != 1);");

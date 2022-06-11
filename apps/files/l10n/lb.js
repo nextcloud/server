@@ -46,7 +46,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["¦%n Datei","¦%n Dateien"],
     "{dirs} and {files}" : "{dirs} an {files}",
     "_including %n hidden_::_including %n hidden_" : ["Beinhaltet ¦%n verstoppte Saach","Beinhaltet ¦%n verstoppte Saachen"],
-    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen",
     "_Uploading %n file_::_Uploading %n files_" : ["Am Gaangen ¦%n Datei eropzelueden","Am Gaangen ¦%n Dateien eropzelueden"],
     "New" : "Nei",
     "\"{name}\" is an invalid file name." : "\"{name}\" ass een ongültegen Numm",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
     "New text file.txt" : "Neien Text file.txt",
-    "Select" : "Auswielen"
+    "Select" : "Auswielen",
+    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen"
 },
 "nplurals=2; plural=(n != 1);");

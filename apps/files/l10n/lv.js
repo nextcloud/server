@@ -56,7 +56,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n datnes","%n datne","%n datnes"],
     "{dirs} and {files}" : "{dirs} un {files}",
     "_including %n hidden_::_including %n hidden_" : ["ieskaitot %n paslēptos","ieskaitot %n paslēptos","ieskaitot %n paslēptos"],
-    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
     "_Uploading %n file_::_Uploading %n files_" : ["%n","Augšupielāde %n failu","Augšupielādē %n datnes"],
     "New" : "Jauna",
     "\"{name}\" is an invalid file name." : "\"{name}\" ir nepareizs datnes nosaukums.",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Pending shares" : "Gaidošie koplietojumi",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
-    "Select" : "Norādīt"
+    "Select" : "Norādīt",
+    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

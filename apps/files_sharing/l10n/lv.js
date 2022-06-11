@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Datnes",
     "A file or folder has been <strong>shared</strong>" : "<strong>Koplietota</strong> datne vai mape",
     "Shared link" : "Koplietota saite",
-    "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
     "Could not delete share" : "Neizdevās dzēst koplietotni",
     "Please specify a file or folder path" : "Lūdzu norādiet datnes vai mapes ceļu",
     "Could not create share" : "Nevar izveidot koplietošanu",
@@ -185,7 +184,6 @@ OC.L10N.register(
     "Name" : "Nosaukums",
     "Share time" : "Koplietošanas laiks",
     "Expiration date" : "Termiņa datums",
-    "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas",
     "Reasons might be:" : "Iespējamie iemesli:",
     "the item was removed" : "vienums tika dzēsts",
     "the link expired" : "saitei beidzies termiņš",
@@ -200,6 +198,8 @@ OC.L10N.register(
     "Uploaded files:" : "Augšupielādētas datnes:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē"
+    "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
+    "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē",
+    "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
