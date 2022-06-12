@@ -257,7 +257,7 @@ class Config {
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';
-		$content .= var_export($this->cache, true);
+		$content .= preg_replace('/\s+$/m', '', var_export($this->cache, true));
 		$content .= ";\n";
 
 		touch($this->configFilePath);
