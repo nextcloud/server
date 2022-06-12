@@ -21,6 +21,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files\BackgroundJob;
 
 use OC\Files\Utils\Scanner;
@@ -28,8 +29,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
-use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ScanFiles is a background job used to run the file scanner over the user
@@ -40,36 +40,24 @@ use OCP\IUserManager;
 class ScanFiles extends \OC\BackgroundJob\TimedJob {
 	/** @var IConfig */
 	private $config;
-	/** @var IUserManager */
-	private $userManager;
 	/** @var IEventDispatcher */
 	private $dispatcher;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	private $connection;
 
 	/** Amount of users that should get scanned per execution */
 	public const USERS_PER_SESSION = 500;
 
-	/**
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param IEventDispatcher $dispatcher
-	 * @param ILogger $logger
-	 * @param IDBConnection $connection
-	 */
 	public function __construct(
 		IConfig $config,
-		IUserManager $userManager,
 		IEventDispatcher $dispatcher,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IDBConnection $connection
 	) {
 		// Run once per 10 minutes
 		$this->setInterval(60 * 10);
 
 		$this->config = $config;
-		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
 		$this->connection = $connection;
@@ -81,33 +69,33 @@ class ScanFiles extends \OC\BackgroundJob\TimedJob {
 	protected function runScanner(string $user) {
 		try {
 			$scanner = new Scanner(
-					$user,
-					null,
-					$this->dispatcher,
-					$this->logger
+				$user,
+				null,
+				$this->dispatcher,
+				$this->logger
 			);
 			$scanner->backgroundScan('');
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'files']);
+			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'files']);
 		}
 		\OC_Util::tearDownFS();
 	}
 
 	/**
-	 * Find all storages which have unindexed files and return a user for each
+	 * Find a storage which have unindexed files and return a user with access to the storage
 	 *
-	 * @return string[]
+	 * @return string|false
 	 */
-	private function getUsersToScan(): array {
+	private function getUserToScan() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select($query->func()->max('user_id'))
+		$query->select('user_id')
 			->from('filecache', 'f')
 			->innerJoin('f', 'mounts', 'm', $query->expr()->eq('storage_id', 'storage'))
 			->where($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
-			->groupBy('storage_id')
-			->setMaxResults(self::USERS_PER_SESSION);
+			->andWhere($query->expr()->gt('parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+			->setMaxResults(1);
 
-		return $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+		return $query->execute()->fetchOne();
 	}
 
 	/**
@@ -119,10 +107,18 @@ class ScanFiles extends \OC\BackgroundJob\TimedJob {
 			return;
 		}
 
-		$users = $this->getUsersToScan();
-
-		foreach ($users as $user) {
+		$usersScanned = 0;
+		$lastUser = '';
+		$user = $this->getUserToScan();
+		while ($user && $usersScanned < self::USERS_PER_SESSION && $lastUser !== $user) {
 			$this->runScanner($user);
+			$lastUser = $user;
+			$user = $this->getUserToScan();
+			$usersScanned += 1;
+		}
+
+		if ($lastUser === $user) {
+			$this->logger->warning("User $user still has unscanned files after running background scan, background scan might be stopped prematurely");
 		}
 	}
 }

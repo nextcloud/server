@@ -26,6 +26,7 @@
  */
 namespace OCA\Files_Sharing;
 
+use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Share\IShare;
 
@@ -105,6 +106,7 @@ class Updater {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
+			/** @var MountPoint $mount */
 			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {
 				$mountPoint = $mount->getMountPoint();
 				$target = str_replace($absOldPath, $absNewPath, $mountPoint);

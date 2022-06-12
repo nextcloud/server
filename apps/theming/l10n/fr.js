@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Chargement de la prévisualisation...",
-    "Saved" : "Enregistré",
     "Admin" : "Administration",
+    "Saved" : "Enregistré",
     "a safe home for all your data" : "un lieu sûr pour toutes vos données",
     "Name cannot be empty" : "Le nom ne peut pas être vide",
     "The given name is too long" : "Le nom donné est trop long",
@@ -26,9 +26,19 @@ OC.L10N.register(
     "No file uploaded" : "Aucun fichier téléversé",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vous utilisez déjà un thème personnalisé. Les paramètres de l'application Theming peuvent être remplacés par ceux-ci.",
     "Theming" : "Personnaliser l'apparence",
+    "Appearance and accessibility" : "Apparence et accessibilité",
+    "Dark theme" : "Thème sombre",
+    "Enable dark theme" : "Activer le thème sombre",
+    "Dyslexia font" : "Police pour dyslexiques",
+    "Enable dyslexia font" : "Activer la police pour dyslexiques",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic est une police de caractères libre conçue pour atténuer certaines des erreurs de lecture courantes causées par la dyslexie.",
+    "High contrast mode" : "Thème à contraste élevé",
+    "Enable high contrast mode" : "Activer le thème à contraste élevé",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un thème au contraste élevé pour faciliter votre navigation. La qualité visuelle sera réduite, mais la lisibilité sera améliorée.",
     "Legal notice" : "Notice légale",
     "Privacy policy" : "Politique de confidentialité",
     "Adjust the Nextcloud theme" : "Modifier le thème Nextcloud",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accès universel est très important pour nous. Nous suivons les standards du web et nous assurons que tout soit également utilisable sans souris et avec des logiciels d'assistance technique tels que les lecteurs d'écran. Nous visons à respecter les {guidelines}Règles pour l'accessibilité des contenus Web{linkend} 2.1 de niveau AA et même de niveau AAA avec le thème à fort contraste.",
     "Open documentation" : "Voir la documentation",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Cette extension permet de personnaliser facilement l'apparence de votre instance et des clients supportés. La personnalisation de l'apparence sera visible par tous les utilisateurs.",
     "Name" : "Nom",
@@ -51,4 +61,4 @@ OC.L10N.register(
     "Upload new favicon" : "Téléverser un nouveau favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP Imagemagick avec le support pour les images SVG afin de générer automatiquement les favicons sur base du logo téléversé et de la couleur."
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

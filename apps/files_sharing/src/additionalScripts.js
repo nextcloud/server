@@ -5,7 +5,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,13 +24,9 @@
 
 import './share'
 import './sharebreadcrumbview'
-
 import './style/sharebreadcrumb.scss'
-
 import './collaborationresourceshandler.js'
 
-// eslint-disable-next-line camelcase
-__webpack_public_path__ = OC.linkTo('files_sharing', 'js/dist/')
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)
 

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Табла",
     "Dashboard app" : "Табла",
-    "Show something" : "Прикажи нешто",
     "Customize" : "Прилагоди",
     "Edit widgets" : "Уреди графички контроли",
     "Get more widgets from the App Store" : "Преземи повеќе графички контроли од продавницата со апликации",
@@ -27,9 +26,6 @@ OC.L10N.register(
     "Default images" : "Стандардни слики",
     "Plain background" : "Обична позадина",
     "Insert from {productName}" : "Вметнни од {productName}",
-    "Get more widgets from the app store" : "Преземи повеќе графички контроли од продавницата со апликации",
-    "Good night, {name}" : "Добра ноќ, {name}",
-    "Good night" : "Добра ноќ",
-    "Pick from files" : "Избери од датотеките"
+    "Show something" : "Прикажи нешто"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

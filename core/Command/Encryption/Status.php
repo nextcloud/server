@@ -27,12 +27,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Status extends Base {
-	/** @var IManager */
-	protected $encryptionManager;
+	protected IManager $encryptionManager;
 
-	/**
-	 * @param IManager $encryptionManager
-	 */
 	public function __construct(IManager $encryptionManager) {
 		parent::__construct();
 		$this->encryptionManager = $encryptionManager;

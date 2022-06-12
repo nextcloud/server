@@ -30,6 +30,7 @@ use OCA\DAV\CalDAV\Calendar;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,6 +50,9 @@ class DeleteCalendar extends Command {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/**
 	 * @param CalDavBackend $calDav
 	 * @param IConfig $config
@@ -59,13 +63,15 @@ class DeleteCalendar extends Command {
 		CalDavBackend $calDav,
 		IConfig $config,
 		IL10N $l10n,
-		IUserManager $userManager
+		IUserManager $userManager,
+		LoggerInterface $logger
 	) {
 		parent::__construct();
 		$this->calDav = $calDav;
 		$this->config = $config;
 		$this->l10n = $l10n;
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 	}
 
 	protected function configure(): void {
@@ -123,7 +129,9 @@ class DeleteCalendar extends Command {
 			$this->calDav,
 			$calendarInfo,
 			$this->l10n,
-			$this->config);
+			$this->config,
+			$this->logger
+		);
 
 		$force = $input->getOption('force');
 		if ($force) {

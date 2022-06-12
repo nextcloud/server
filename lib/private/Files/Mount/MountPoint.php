@@ -34,7 +34,8 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
-use OCP\ILogger;
+use OCP\Files\Storage\IStorageFactory;
+use Psr\Log\LoggerInterface;
 
 class MountPoint implements IMountPoint {
 	/**
@@ -76,6 +77,9 @@ class MountPoint implements IMountPoint {
 	/** @var int|null */
 	protected $mountId;
 
+	/** @var string */
+	protected $mountProvider;
+
 	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
@@ -83,9 +87,18 @@ class MountPoint implements IMountPoint {
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 * @param array $mountOptions mount specific options
 	 * @param int|null $mountId
+	 * @param string|null $mountProvider
 	 * @throws \Exception
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null, $mountId = null) {
+	public function __construct(
+		$storage,
+		string $mountpoint,
+		array $arguments = null,
+		IStorageFactory $loader = null,
+		array $mountOptions = null,
+		int $mountId = null,
+		string $mountProvider = null
+	) {
 		if (is_null($arguments)) {
 			$arguments = [];
 		}
@@ -113,6 +126,12 @@ class MountPoint implements IMountPoint {
 			$this->class = $storage;
 			$this->arguments = $arguments;
 		}
+		if ($mountProvider) {
+			if (strlen($mountProvider) > 128) {
+				throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
+			}
+		}
+		$this->mountProvider = $mountProvider ?? '';
 	}
 
 	/**
@@ -154,12 +173,12 @@ class MountPoint implements IMountPoint {
 					// the root storage could not be initialized, show the user!
 					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
 				} else {
-					\OC::$server->getLogger()->logException($exception, ['level' => ILogger::ERROR]);
+					\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
 				}
 				return;
 			}
 		} else {
-			\OCP\Util::writeLog('core', 'storage backend ' . $this->class . ' not found', ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
 			$this->invalidStorage = true;
 			return;
 		}
@@ -285,5 +304,9 @@ class MountPoint implements IMountPoint {
 
 	public function getMountType() {
 		return '';
+	}
+
+	public function getMountProvider(): string {
+		return $this->mountProvider;
 	}
 }

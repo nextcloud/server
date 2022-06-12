@@ -31,9 +31,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Add extends Base {
-
-	/** @var ISystemTagManager */
-	protected $systemTagManager;
+	protected ISystemTagManager $systemTagManager;
 
 	public function __construct(ISystemTagManager $systemTagManager) {
 		$this->systemTagManager = $systemTagManager;

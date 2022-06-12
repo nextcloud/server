@@ -33,17 +33,21 @@ namespace OCA\DAV\CalDAV\Reminder;
 use DateTimeImmutable;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject;
 use Sabre\VObject\Component\VAlarm;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
+use function count;
 use function strcasecmp;
 
 class ReminderService {
@@ -66,6 +70,12 @@ class ReminderService {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var IConfig */
+	private $config;
+
+	/** @var LoggerInterface */
+	private $logger;
+
 	public const REMINDER_TYPE_EMAIL = 'EMAIL';
 	public const REMINDER_TYPE_DISPLAY = 'DISPLAY';
 	public const REMINDER_TYPE_AUDIO = 'AUDIO';
@@ -81,28 +91,22 @@ class ReminderService {
 		self::REMINDER_TYPE_AUDIO
 	];
 
-	/**
-	 * ReminderService constructor.
-	 *
-	 * @param Backend $backend
-	 * @param NotificationProviderManager $notificationProviderManager
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param CalDavBackend $caldavBackend
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(Backend $backend,
 								NotificationProviderManager $notificationProviderManager,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								CalDavBackend $caldavBackend,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IConfig $config,
+								LoggerInterface $logger) {
 		$this->backend = $backend;
 		$this->notificationProviderManager = $notificationProviderManager;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->caldavBackend = $caldavBackend;
 		$this->timeFactory = $timeFactory;
+		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -111,42 +115,70 @@ class ReminderService {
 	 * @throws NotificationProvider\ProviderNotAvailableException
 	 * @throws NotificationTypeDoesNotExistException
 	 */
-	public function processReminders():void {
+	public function processReminders() :void {
 		$reminders = $this->backend->getRemindersToProcess();
+		$this->logger->debug('{numReminders} reminders to process', [
+			'numReminders' => count($reminders),
+		]);
 
 		foreach ($reminders as $reminder) {
 			$calendarData = is_resource($reminder['calendardata'])
 				? stream_get_contents($reminder['calendardata'])
 				: $reminder['calendardata'];
 
+			if (!$calendarData) {
+				continue;
+			}
+
 			$vcalendar = $this->parseCalendarData($calendarData);
 			if (!$vcalendar) {
+				$this->logger->debug('Reminder {id} does not belong to a valid calendar', [
+					'id' => $reminder['id'],
+				]);
 				$this->backend->removeReminder($reminder['id']);
 				continue;
 			}
 
 			$vevent = $this->getVEventByRecurrenceId($vcalendar, $reminder['recurrence_id'], $reminder['is_recurrence_exception']);
 			if (!$vevent) {
+				$this->logger->debug('Reminder {id} does not belong to a valid event', [
+					'id' => $reminder['id'],
+				]);
 				$this->backend->removeReminder($reminder['id']);
 				continue;
 			}
 
 			if ($this->wasEventCancelled($vevent)) {
+				$this->logger->debug('Reminder {id} belongs to a cancelled event', [
+					'id' => $reminder['id'],
+				]);
 				$this->deleteOrProcessNext($reminder, $vevent);
 				continue;
 			}
 
 			if (!$this->notificationProviderManager->hasProvider($reminder['type'])) {
+				$this->logger->debug('Reminder {id} does not belong to a valid notification provider', [
+					'id' => $reminder['id'],
+				]);
 				$this->deleteOrProcessNext($reminder, $vevent);
 				continue;
 			}
 
-			$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
+			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedGroupMembers', 'yes') === 'no') {
+				$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
+			} else {
+				$users = [];
+			}
+
 			$user = $this->getUserFromPrincipalURI($reminder['principaluri']);
 			if ($user) {
 				$users[] = $user;
 			}
 
+			$this->logger->debug('Reminder {id} will be sent to {numUsers} users', [
+				'id' => $reminder['id'],
+				'numUsers' => count($users),
+			]);
 			$notificationProvider = $this->notificationProviderManager->getProvider($reminder['type']);
 			$notificationProvider->send($vevent, $reminder['displayname'], $users);
 
@@ -167,6 +199,10 @@ class ReminderService {
 		$calendarData = is_resource($objectData['calendardata'])
 			? stream_get_contents($objectData['calendardata'])
 			: $objectData['calendardata'];
+
+		if (!$calendarData) {
+			return;
+		}
 
 		/** @var VObject\Component\VCalendar $vcalendar */
 		$vcalendar = $this->parseCalendarData($calendarData);
@@ -226,6 +262,10 @@ class ReminderService {
 				// This event is recurring, but it doesn't have a single
 				// instance. We are skipping this event from the output
 				// entirely.
+				return;
+			} catch (MaxInstancesExceededException $e) {
+				// The event has more than 3500 recurring-instances
+				// so we can ignore it
 				return;
 			}
 

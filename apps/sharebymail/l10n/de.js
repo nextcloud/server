@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Geteilt über eine E-Mail",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element bereits für den Benutzer freigegeben ist %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte gebe in Deinen persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche es erneut.",
+    "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Habe eine ungültige E-Mail-Adresse erhalten.",
     "Failed to send share by email" : "Fehler beim Senden der Freigabe per E-Mail",
     "%1$s shared »%2$s« with you" : "%1$s hat »%2$s« mit Dir geteilt",
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit Dir geteilt.",
@@ -49,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Anbieter zum Teilen. Ermöglicht das Teilen von Dateien per E-Mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern eine personalisierte Verknüpfung zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
-    "Reply to initiator" : "Antwort an Initiator",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte gebe in Deinen persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche es erneut.",
-    "Enforce password protection" : "Passwortschutz erzwingen"
+    "Reply to initiator" : "Antwort an Initiator"
 },
 "nplurals=2; plural=(n != 1);");

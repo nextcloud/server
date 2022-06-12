@@ -79,7 +79,7 @@ interface ILDAPProvider {
 	/**
 	 * Return a new LDAP connection resource for the specified user.
 	 * @param string $uid user id
-	 * @return resource of the LDAP connection
+	 * @return \LDAP\Connection|resource
 	 * @since 11.0.0
 	 */
 	public function getLDAPConnection($uid);
@@ -87,7 +87,7 @@ interface ILDAPProvider {
 	/**
 	 * Return a new LDAP connection resource for the specified group.
 	 * @param string $gid group id
-	 * @return resource of the LDAP connection
+	 * @return \LDAP\Connection|resource
 	 * @since 13.0.0
 	 */
 	public function getGroupLDAPConnection($gid);

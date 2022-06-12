@@ -28,9 +28,9 @@ use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\InvalidDataException;
 
 class CalDAVRemoveEmptyValue implements IRepairStep {
@@ -41,15 +41,9 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 	/** @var CalDavBackend */
 	private $calDavBackend;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
-	/**
-	 * @param IDBConnection $db
-	 * @param CalDavBackend $calDavBackend
-	 * @param ILogger $logger
-	 */
-	public function __construct(IDBConnection $db, CalDavBackend $calDavBackend, ILogger $logger) {
+	public function __construct(IDBConnection $db, CalDavBackend $calDavBackend, LoggerInterface $logger) {
 		$this->db = $db;
 		$this->calDavBackend = $calDavBackend;
 		$this->logger = $logger;

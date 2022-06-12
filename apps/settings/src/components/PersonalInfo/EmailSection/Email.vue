@@ -23,8 +23,7 @@
 <template>
 	<div>
 		<div class="email">
-			<input
-				:id="inputId"
+			<input :id="inputId"
 				ref="email"
 				type="email"
 				:placeholder="inputPlaceholder"
@@ -41,8 +40,7 @@
 				</transition>
 
 				<template v-if="!primary">
-					<FederationControl
-						:account-property="accountProperty"
+					<FederationControl :account-property="accountProperty"
 						:additional="true"
 						:additional-value="email"
 						:disabled="federationDisabled"
@@ -51,13 +49,11 @@
 						@update:scope="onScopeChange" />
 				</template>
 
-				<Actions
-					class="email__actions"
+				<Actions class="email__actions"
 					:aria-label="t('settings', 'Email options')"
 					:disabled="deleteDisabled"
 					:force-menu="true">
-					<ActionButton
-						:aria-label="deleteEmailLabel"
+					<ActionButton :aria-label="deleteEmailLabel"
 						:close-after-click="true"
 						:disabled="deleteDisabled"
 						icon="icon-delete"
@@ -198,10 +194,10 @@ export default {
 			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
 		},
 
-		  isNotificationEmail() {
-			  return (this.email === this.activeNotificationEmail)
-						|| (this.primary && this.activeNotificationEmail === '')
-		  },
+		isNotificationEmail() {
+			return (this.email && this.email === this.activeNotificationEmail)
+				|| (this.primary && this.activeNotificationEmail === '')
+		},
 	},
 
 	mounted() {

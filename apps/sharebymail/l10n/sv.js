@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Dela via e-post",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delning av %1$s misslyckades eftersom detta redan är delat med användaren %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
+    "Failed to send share by email. Got an invalid email address" : "Misslyckades att skicka delning via mejl. Ogiltig mejladress",
     "Failed to send share by email" : "Det gick inte att skicka delning via e-post",
     "%1$s shared »%2$s« with you" : "%1$s delade »%2$s« med dig",
     "%1$s shared »%2$s« with you." : "%1$s delade »%2$s« med dig.",
@@ -49,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Möjliggör delning av filer via e-post",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress",
     "Send password by mail" : "Skicka lösenord via e-post",
-    "Reply to initiator" : "Svara till startare",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
-    "Enforce password protection" : "Tvinga lösenordsskydd"
+    "Reply to initiator" : "Svara till startare"
 },
 "nplurals=2; plural=(n != 1);");

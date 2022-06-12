@@ -30,7 +30,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
-use OCP\Security\ISecureRandom;
+use OCP\IRequestId;
 
 /**
  * @group DB
@@ -69,7 +69,7 @@ class DIContainerTest extends \Test\TestCase {
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware() {
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
-			$this->createMock(ISecureRandom::class),
+			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
 		$dispatcher = $this->container['MiddlewareDispatcher'];

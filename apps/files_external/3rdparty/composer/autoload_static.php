@@ -68,6 +68,7 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
         'Icewind\\SMB\\IShare' => __DIR__ . '/..' . '/icewind/smb/src/IShare.php',
         'Icewind\\SMB\\ISystem' => __DIR__ . '/..' . '/icewind/smb/src/ISystem.php',
         'Icewind\\SMB\\ITimeZoneProvider' => __DIR__ . '/..' . '/icewind/smb/src/ITimeZoneProvider.php',
+        'Icewind\\SMB\\KerberosApacheAuth' => __DIR__ . '/..' . '/icewind/smb/src/KerberosApacheAuth.php',
         'Icewind\\SMB\\KerberosAuth' => __DIR__ . '/..' . '/icewind/smb/src/KerberosAuth.php',
         'Icewind\\SMB\\Native\\NativeFileInfo' => __DIR__ . '/..' . '/icewind/smb/src/Native/NativeFileInfo.php',
         'Icewind\\SMB\\Native\\NativeReadStream' => __DIR__ . '/..' . '/icewind/smb/src/Native/NativeReadStream.php',

@@ -202,6 +202,10 @@ class DefaultShareProvider implements IShareProvider {
 		// Set the file target
 		$qb->setValue('file_target', $qb->createNamedParameter($share->getTarget()));
 
+		if ($share->getNote() !== '') {
+			$qb->setValue('note', $qb->createNamedParameter($share->getNote()));
+		}
+
 		// Set the time this share was created
 		$qb->setValue('stime', $qb->createNamedParameter(time()));
 
@@ -666,17 +670,41 @@ class DefaultShareProvider implements IShareProvider {
 			);
 		}
 
-		$qb->innerJoin('s', 'filecache' ,'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
-		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
+		// todo? maybe get these from the oc_mounts table
+		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node): bool {
+			return $node->getInternalPath() === '';
+		});
+		$childMountRootIds = array_map(function (Node $node): int {
+			return $node->getId();
+		}, $childMountNodes);
+
+		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
+		$qb->andWhere(
+			$qb->expr()->orX(
+				$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+				$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
+			)
+		);
 
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
 		$shares = [];
-		while ($data = $cursor->fetch()) {
-			$shares[$data['fileid']][] = $this->createShare($data);
+
+		$chunks = array_chunk($childMountRootIds, 1000);
+
+		// Force the request to be run when there is 0 mount.
+		if (count($chunks) === 0) {
+			$chunks = [[]];
 		}
-		$cursor->closeCursor();
+
+		foreach ($chunks as $chunk) {
+			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$cursor = $qb->executeQuery();
+			while ($data = $cursor->fetch()) {
+				$shares[$data['fileid']][] = $this->createShare($data);
+			}
+			$cursor->closeCursor();
+		}
 
 		return $shares;
 	}

@@ -9,6 +9,8 @@
 namespace Test;
 
 use OC\Files\Storage\Temporary;
+use OCP\Files\Mount\IMountManager;
+use Test\Traits\UserTrait;
 
 /**
  * Test the storage functions of OC_Helper
@@ -16,6 +18,8 @@ use OC\Files\Storage\Temporary;
  * @group DB
  */
 class HelperStorageTest extends \Test\TestCase {
+	use UserTrait;
+
 	/** @var string */
 	private $user;
 	/** @var \OC\Files\Storage\Storage */
@@ -27,14 +31,15 @@ class HelperStorageTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->user = $this->getUniqueID('user_');
-		\OC_User::useBackend('dummy');
-		\OC::$server->getUserManager()->createUser($this->user, $this->user);
+		$this->createUser($this->user, $this->user);
 
-		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($this->user);
 		\OC\Files\Filesystem::init($this->user, '/' . $this->user . '/files');
-		\OC\Files\Filesystem::clearMounts();
+
+		/** @var IMountManager $manager */
+		$manager = \OC::$server->get(IMountManager::class);
+		$manager->removeMount('/' . $this->user);
 
 		$this->storageMock = null;
 	}
@@ -47,13 +52,8 @@ class HelperStorageTest extends \Test\TestCase {
 			$this->storageMock = null;
 		}
 		\OC\Files\Filesystem::tearDown();
-		\OC\Files\Filesystem::mount($this->storage, [], '/');
 
 		\OC_User::setUserId('');
-		$user = \OC::$server->getUserManager()->get($this->user);
-		if ($user !== null) {
-			$user->delete();
-		}
 		\OC::$server->getConfig()->deleteAllUserValues($this->user);
 
 		parent::tearDown();

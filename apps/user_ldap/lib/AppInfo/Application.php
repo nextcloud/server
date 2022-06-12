@@ -75,8 +75,13 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		$container->registerService(ILDAPWrapper::class, function () {
-			return new LDAP();
+		$container->registerService(ILDAPWrapper::class, function (IAppContainer $appContainer) {
+			/** @var IServerContainer $server */
+			$server = $appContainer->get(IServerContainer::class);
+
+			return new LDAP(
+				$server->getConfig()->getSystemValueString('ldap_log_file')
+			);
 		});
 	}
 

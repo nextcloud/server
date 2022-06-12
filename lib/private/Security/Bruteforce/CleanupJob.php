@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OC\Security\Bruteforce;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -41,6 +42,7 @@ class CleanupJob extends TimedJob {
 
 		// Run once a day
 		$this->setInterval(3600 * 24);
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {

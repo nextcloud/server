@@ -3,7 +3,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -41,7 +41,7 @@ export const setUp = () => {
 			if (!$excludedPageClasses.includes($page.attr('class'))) {
 				$page.find('img').remove()
 				$page.find('div').remove() // prevent odd double-clicks
-				$page.prepend($('<div/>').addClass('icon-loading-small'))
+				$page.prepend($('<div></div>').addClass('icon-loading-small'))
 			}
 		} else {
 			// Close navigation when opening menu entry in

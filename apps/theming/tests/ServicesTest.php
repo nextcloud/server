@@ -28,7 +28,7 @@ namespace OCA\Theming\Tests;
 use OCA\Theming\Capabilities;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Settings\Admin;
-use OCA\Theming\Settings\Section;
+use OCA\Theming\Settings\PersonalSection;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\App;
@@ -74,8 +74,8 @@ class ServicesTest extends TestCase {
 			// Settings
 			[Admin::class],
 			[Admin::class, ISettings::class],
-			[Section::class],
-			[Section::class, IIconSection::class],
+			[PersonalSection::class],
+			[PersonalSection::class, IIconSection::class],
 		];
 	}
 

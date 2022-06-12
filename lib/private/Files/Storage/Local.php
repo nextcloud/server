@@ -15,6 +15,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Martin Brugnara <martin@0x6d62.eu>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -47,8 +48,10 @@ use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
+use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * for local filestore, we only have to map the paths
@@ -59,6 +62,12 @@ class Local extends \OC\Files\Storage\Common {
 	protected $dataDirLength;
 
 	protected $realDataDir;
+
+	private IConfig $config;
+
+	private IMimeTypeDetector $mimeTypeDetector;
+
+	private $defUMask;
 
 	public function __construct($arguments) {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
@@ -76,6 +85,9 @@ class Local extends \OC\Files\Storage\Common {
 			$this->datadir .= '/';
 		}
 		$this->dataDirLength = strlen($this->realDataDir);
+		$this->config = \OC::$server->get(IConfig::class);
+		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
 	}
 
 	public function __destruct() {
@@ -87,7 +99,7 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function mkdir($path) {
 		$sourcePath = $this->getSourcePath($path);
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		$result = @mkdir($sourcePath, 0777, true);
 		umask($oldMask);
 		return $result;
@@ -155,6 +167,9 @@ class Local extends \OC\Files\Storage\Common {
 			$statResult['size'] = $filesize;
 			$statResult[7] = $filesize;
 		}
+		if (is_array($statResult)) {
+			$statResult['full_path'] = $fullPath;
+		}
 		return $statResult;
 	}
 
@@ -162,7 +177,11 @@ class Local extends \OC\Files\Storage\Common {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
-		$stat = $this->stat($path);
+		try {
+			$stat = $this->stat($path);
+		} catch (ForbiddenException $e) {
+			return null;
+		}
 		if (!$stat) {
 			return null;
 		}
@@ -181,15 +200,14 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		if (!($path === '' || $path === '/')) { // deletable depends on the parents unix permissions
-			$fullPath = $this->getSourcePath($path);
-			$parent = dirname($fullPath);
+			$parent = dirname($stat['full_path']);
 			if (is_writable($parent)) {
 				$permissions += Constants::PERMISSION_DELETE;
 			}
 		}
 
 		$data = [];
-		$data['mimetype'] = $isDir ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($path);
+		$data['mimetype'] = $isDir ? 'httpd/unix-directory' : $this->mimeTypeDetector->detectPath($path);
 		$data['mtime'] = $stat['mtime'];
 		if ($data['mtime'] === false) {
 			$data['mtime'] = time();
@@ -259,7 +277,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
 			return false;
 		}
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		if (!is_null($mtime)) {
 			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
@@ -278,7 +296,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents($path, $data) {
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		$result = file_put_contents($this->getSourcePath($path), $data);
 		umask($oldMask);
 		return $result;
@@ -309,17 +327,17 @@ class Local extends \OC\Files\Storage\Common {
 		$dstParent = dirname($path2);
 
 		if (!$this->isUpdatable($srcParent)) {
-			\OCP\Util::writeLog('core', 'unable to rename, source directory is not writable : ' . $srcParent, ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->isUpdatable($dstParent)) {
-			\OCP\Util::writeLog('core', 'unable to rename, destination directory is not writable : ' . $dstParent, ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->file_exists($path1)) {
-			\OCP\Util::writeLog('core', 'unable to rename, file does not exists : ' . $path1, ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('unable to rename, file does not exists : ' . $path1, ['app' => 'core']);
 			return false;
 		}
 
@@ -351,7 +369,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->is_dir($path1)) {
 			return parent::copy($path1, $path2);
 		} else {
-			$oldMask = umask(022);
+			$oldMask = umask($this->defUMask);
 			$result = copy($this->getSourcePath($path1), $this->getSourcePath($path2));
 			umask($oldMask);
 			return $result;
@@ -359,7 +377,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function fopen($path, $mode) {
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		$result = fopen($this->getSourcePath($path), $mode);
 		umask($oldMask);
 		return $result;
@@ -450,7 +468,7 @@ class Local extends \OC\Files\Storage\Common {
 
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
-		$allowSymlinks = \OC::$server->getConfig()->getSystemValue('localstorage.allowsymlinks', false);
+		$allowSymlinks = $this->config->getSystemValue('localstorage.allowsymlinks', false);
 		if ($allowSymlinks || $currentPath === '') {
 			return $fullPath;
 		}
@@ -470,7 +488,7 @@ class Local extends \OC\Files\Storage\Common {
 			return $fullPath;
 		}
 
-		\OCP\Util::writeLog('core', "Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", ILogger::ERROR);
+		\OC::$server->get(LoggerInterface::class)->error("Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", ['app' => 'core']);
 		throw new ForbiddenException('Following symlinks is not allowed', false);
 	}
 

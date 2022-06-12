@@ -30,7 +30,6 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
-use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -48,19 +47,14 @@ class EncryptionWrapper {
 	/** @var  Manager */
 	private $manager;
 
-	/** @var  ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/**
 	 * EncryptionWrapper constructor.
-	 *
-	 * @param ArrayCache $arrayCache
-	 * @param Manager $manager
-	 * @param ILogger $logger
 	 */
 	public function __construct(ArrayCache $arrayCache,
 								Manager $manager,
-								ILogger $logger
+								LoggerInterface $logger
 	) {
 		$this->arrayCache = $arrayCache;
 		$this->manager = $manager;
@@ -101,7 +95,7 @@ class EncryptionWrapper {
 				Filesystem::getMountManager(),
 				$this->manager,
 				$fileHelper,
-				\OC::$server->get(LoggerInterface::class),
+				$this->logger,
 				$uid
 			);
 			return new Encryption(

@@ -26,7 +26,7 @@
 			{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}
 		</p>
 		<AuthTokenList :tokens="tokens"
-			@toggleScope="toggleTokenScope"
+			@toggle-scope="toggleTokenScope"
 			@rename="rename"
 			@delete="deleteToken"
 			@wipe="wipeToken" />
@@ -55,8 +55,9 @@ const confirm = () => {
 
 /**
  * Tap into a promise without losing the value
+ *
  * @param {Function} cb the callback
- * @returns {any} val the value
+ * @return {any} val the value
  */
 const tap = cb => val => {
 	cb(val)
@@ -98,7 +99,7 @@ export default {
 				.then(tap(data => this.tokens.push(data.deviceToken)))
 				.catch(err => {
 					console.error.bind('could not create app password', err)
-					OC.Notification.showTemporary(t('core', 'Error while creating device token'))
+					OC.Notification.showTemporary(t('settings', 'Error while creating device token'))
 					throw err
 				})
 		},
@@ -112,7 +113,7 @@ export default {
 				.then(tap(() => console.debug('app token scope updated')))
 				.catch(err => {
 					console.error.bind('could not update app token scope', err)
-					OC.Notification.showTemporary(t('core', 'Error while updating device token scope'))
+					OC.Notification.showTemporary(t('settings', 'Error while updating device token scope'))
 
 					// Restore
 					token.scope[scope] = oldVal
@@ -130,7 +131,7 @@ export default {
 				.then(tap(() => console.debug('app token name updated')))
 				.catch(err => {
 					console.error.bind('could not update app token name', err)
-					OC.Notification.showTemporary(t('core', 'Error while updating device token name'))
+					OC.Notification.showTemporary(t('settings', 'Error while updating device token name'))
 
 					// Restore
 					token.name = oldName
@@ -151,7 +152,7 @@ export default {
 				.then(tap(() => console.debug('app token deleted')))
 				.catch(err => {
 					console.error.bind('could not delete app token', err)
-					OC.Notification.showTemporary(t('core', 'Error while deleting the token'))
+					OC.Notification.showTemporary(t('settings', 'Error while deleting the token'))
 
 					// Restore
 					// eslint-disable-next-line vue/no-mutating-props
@@ -174,7 +175,7 @@ export default {
 				token.type = 2
 			} catch (err) {
 				console.error('could not wipe app token', err)
-				OC.Notification.showTemporary(t('core', 'Error while wiping the device with the token'))
+				OC.Notification.showTemporary(t('settings', 'Error while wiping the device with the token'))
 			}
 		},
 	},

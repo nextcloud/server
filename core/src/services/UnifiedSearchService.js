@@ -6,7 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,20 +28,23 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 export const defaultLimit = loadState('unified-search', 'limit-default')
-export const minSearchLength = 2
-export const regexFilterIn = /[^-]in:([a-z_-]+)/ig
-export const regexFilterNot = /-in:([a-z_-]+)/ig
+export const minSearchLength = loadState('unified-search', 'min-search-length', 2)
+export const enableLiveSearch = loadState('unified-search', 'live-search', true)
+
+export const regexFilterIn = /(^|\s)in:([a-z_-]+)/ig
+export const regexFilterNot = /(^|\s)-in:([a-z_-]+)/ig
 
 /**
  * Create a cancel token
- * @returns {CancelTokenSource}
+ *
+ * @return {import('axios').CancelTokenSource}
  */
 const createCancelToken = () => axios.CancelToken.source()
 
 /**
  * Get the list of available search providers
  *
- * @returns {Array}
+ * @return {Promise<Array>}
  */
 export async function getTypes() {
 	try {
@@ -64,11 +67,11 @@ export async function getTypes() {
 /**
  * Get the list of available search providers
  *
- * @param {Object} options destructuring object
+ * @param {object} options destructuring object
  * @param {string} options.type the type to search
  * @param {string} options.query the search
- * @param {int|string|undefined} options.cursor the offset for paginated searches
- * @returns {Object} {request: Promise, cancel: Promise}
+ * @param {number|string|undefined} options.cursor the offset for paginated searches
+ * @return {object} {request: Promise, cancel: Promise}
  */
 export function search({ type, query, cursor }) {
 	/**
@@ -76,7 +79,7 @@ export function search({ type, query, cursor }) {
 	 */
 	const cancelToken = createCancelToken()
 
-	const request = async() => axios.get(generateOcsUrl('search/providers/{type}/search', { type }), {
+	const request = async () => axios.get(generateOcsUrl('search/providers/{type}/search', { type }), {
 		cancelToken: cancelToken.token,
 		params: {
 			term: query,

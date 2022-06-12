@@ -31,16 +31,17 @@ use OC\Core\Controller\TwoFactorChallengeController;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IRequestId;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -88,7 +89,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 					'REQUEST_URI' => 'test/url'
 				]
 			],
-			$this->createMock(ISecureRandom::class),
+			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
 
@@ -139,9 +140,9 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, 'index');
 	}
 
-	
+
 	public function testBeforeControllerTwoFactorAuthRequired() {
-		$this->expectException(\OC\Authentication\Exceptions\TwoFactorAuthRequiredException::class);
+		$this->expectException(TwoFactorAuthRequiredException::class);
 
 		$user = $this->createMock(IUser::class);
 
@@ -163,9 +164,9 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, 'index');
 	}
 
-	
+
 	public function testBeforeControllerUserAlreadyLoggedIn() {
-		$this->expectException(\OC\Authentication\Exceptions\UserAlreadyLoggedInException::class);
+		$this->expectException(UserAlreadyLoggedInException::class);
 
 		$user = $this->createMock(IUser::class);
 
@@ -187,32 +188,32 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->with($user)
 			->willReturn(false);
 
-		$twoFactorChallengeController = $this->getMockBuilder('\OC\Core\Controller\TwoFactorChallengeController')
+		$twoFactorChallengeController = $this->getMockBuilder(TwoFactorChallengeController::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->middleware->beforeController($twoFactorChallengeController, 'index');
 	}
 
 	public function testAfterExceptionTwoFactorAuthRequired() {
-		$ex = new \OC\Authentication\Exceptions\TwoFactorAuthRequiredException();
+		$ex = new TwoFactorAuthRequiredException();
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.selectChallenge')
 			->willReturn('test/url');
-		$expected = new \OCP\AppFramework\Http\RedirectResponse('test/url');
+		$expected = new RedirectResponse('test/url');
 
 		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
 	}
 
 	public function testAfterException() {
-		$ex = new \OC\Authentication\Exceptions\UserAlreadyLoggedInException();
+		$ex = new UserAlreadyLoggedInException();
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('files.view.index')
 			->willReturn('redirect/url');
-		$expected = new \OCP\AppFramework\Http\RedirectResponse('redirect/url');
+		$expected = new RedirectResponse('redirect/url');
 
 		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
 	}

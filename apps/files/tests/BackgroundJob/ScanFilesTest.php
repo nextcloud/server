@@ -28,9 +28,8 @@ use OC\Files\Storage\Temporary;
 use OCA\Files\BackgroundJob\ScanFiles;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
-use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
@@ -54,16 +53,14 @@ class ScanFilesTest extends TestCase {
 		parent::setUp();
 
 		$config = $this->createMock(IConfig::class);
-		$userManager = $this->createMock(IUserManager::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$connection = \OC::$server->getDatabaseConnection();
 		$this->mountCache = \OC::$server->getUserMountCache();
 
 		$this->scanFiles = $this->getMockBuilder('\OCA\Files\BackgroundJob\ScanFiles')
 			->setConstructorArgs([
 				$config,
-				$userManager,
 				$dispatcher,
 				$logger,
 				$connection,

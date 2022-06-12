@@ -30,10 +30,14 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Node as DavNode;
 use OCP\Files\Folder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use OCP\Share\IManager;
 use Sabre\DAV\PropFind;
+use Sabre\DAV\Tree;
+use Sabre\DAV\Server;
 
 /**
  * Sabre Plugin to provide share-related properties
@@ -50,36 +54,20 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
-
-	/** @var \OCP\Share\IManager */
-	private $shareManager;
-
-	/** @var \Sabre\DAV\Tree */
-	private $tree;
-
-	/** @var string */
-	private $userId;
-
-	/** @var \OCP\Files\Folder */
-	private $userFolder;
-
+	private IManager $shareManager;
+	private Tree $tree;
+	private string $userId;
+	private Folder $userFolder;
 	/** @var IShare[][] */
-	private $cachedShares = [];
-
+	private array $cachedShares = [];
 	/** @var string[] */
-	private $cachedFolders = [];
+	private array $cachedFolders = [];
 
-	/**
-	 * @param \Sabre\DAV\Tree $tree tree
-	 * @param IUserSession $userSession user session
-	 * @param \OCP\Files\Folder $userFolder user home folder
-	 * @param \OCP\Share\IManager $shareManager share manager
-	 */
 	public function __construct(
-		\Sabre\DAV\Tree $tree,
+		Tree $tree,
 		IUserSession $userSession,
-		\OCP\Files\Folder $userFolder,
-		\OCP\Share\IManager $shareManager
+		Folder $userFolder,
+		IManager $shareManager
 	) {
 		$this->tree = $tree;
 		$this->shareManager = $shareManager;
@@ -95,10 +83,10 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 *
-	 * @param \Sabre\DAV\Server $server
+	 * @return void
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
-		$server->xml->namespacesMap[self::NS_OWNCLOUD] = 'oc';
+	public function initialize(Server $server) {
+		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::SHARETYPES_PROPERTYNAME] = ShareTypeList::class;
 		$server->protectedProperties[] = self::SHARETYPES_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHAREES_PROPERTYNAME;
@@ -108,10 +96,10 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param Node $node
 	 * @return IShare[]
 	 */
-	private function getShare(\OCP\Files\Node $node): array {
+	private function getShare(Node $node): array {
 		$result = [];
 		$requestedShareTypes = [
 			IShare::TYPE_USER,
@@ -165,7 +153,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			// if we already cached the folder this file is in we know there are no shares for this file
 			if (array_search($parentPath, $this->cachedFolders) === false) {
 				try {
-					$node = $this->userFolder->get($sabreNode->getPath());
+					$node = $sabreNode->getNode();
 				} catch (NotFoundException $e) {
 					return [];
 				}
@@ -201,18 +189,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				!is_null($propFind->getStatus(self::SHAREES_PROPERTYNAME))
 			)
 		) {
-			try {
-				$folderNode = $this->userFolder->get($sabreNode->getPath());
-			} catch (NotFoundException $e) {
-				// If the folder can't be properly found just return
-				return;
-			}
-
-			if (!($folderNode instanceof Folder)) {
-				// Safety check
-				return;
-			}
-
+			$folderNode = $sabreNode->getNode();
 			$this->cachedFolders[] = $sabreNode->getPath();
 			$childShares = $this->getSharesFolder($folderNode);
 			foreach ($childShares as $id => $shares) {
@@ -220,7 +197,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 
-		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode) {
+		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode): ShareTypeList {
 			$shares = $this->getShares($sabreNode);
 
 			$shareTypes = array_unique(array_map(function (IShare $share) {
@@ -230,7 +207,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			return new ShareTypeList($shareTypes);
 		});
 
-		$propFind->handle(self::SHAREES_PROPERTYNAME, function () use ($sabreNode) {
+		$propFind->handle(self::SHAREES_PROPERTYNAME, function () use ($sabreNode): ShareeList {
 			$shares = $this->getShares($sabreNode);
 
 			return new ShareeList($shares);

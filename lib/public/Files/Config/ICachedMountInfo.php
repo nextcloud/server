@@ -35,31 +35,31 @@ interface ICachedMountInfo {
 	 * @return IUser
 	 * @since 9.0.0
 	 */
-	public function getUser();
+	public function getUser(): IUser;
 
 	/**
 	 * @return int the numeric storage id of the mount
 	 * @since 9.0.0
 	 */
-	public function getStorageId();
+	public function getStorageId(): int;
 
 	/**
 	 * @return int the fileid of the root of the mount
 	 * @since 9.0.0
 	 */
-	public function getRootId();
+	public function getRootId(): int;
 
 	/**
-	 * @return Node the root node of the mount
+	 * @return Node|null the root node of the mount
 	 * @since 9.0.0
 	 */
-	public function getMountPointNode();
+	public function getMountPointNode(): ?Node;
 
 	/**
 	 * @return string the mount point of the mount for the user
 	 * @since 9.0.0
 	 */
-	public function getMountPoint();
+	public function getMountPoint(): string;
 
 	/**
 	 * Get the id of the configured mount
@@ -67,7 +67,7 @@ interface ICachedMountInfo {
 	 * @return int|null mount id or null if not applicable
 	 * @since 9.1.0
 	 */
-	public function getMountId();
+	public function getMountId(): ?int;
 
 	/**
 	 * Get the internal path (within the storage) of the root of the mount
@@ -75,5 +75,13 @@ interface ICachedMountInfo {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRootInternalPath();
+	public function getRootInternalPath(): string;
+
+	/**
+	 * Get the class of the mount provider that this mount originates from
+	 *
+	 * @return string
+	 * @since 24.0.0
+	 */
+	public function getMountProvider(): string;
 }

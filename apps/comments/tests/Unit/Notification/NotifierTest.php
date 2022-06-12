@@ -95,7 +95,7 @@ class NotifierTest extends TestCase {
 	public function testPrepareSuccess() {
 		$fileName = 'Gre\'thor.odp';
 		$displayName = 'Huraga';
-		$message = '@Huraga mentioned you in a comment on “Gre\'thor.odp”';
+		$message = '@Huraga mentioned you in a comment on "Gre\'thor.odp"';
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -149,7 +149,7 @@ class NotifierTest extends TestCase {
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
-			->with('{user} mentioned you in a comment on “{file}”', $this->anything())
+			->with('{user} mentioned you in a comment on "{file}"', $this->anything())
 			->willReturnSelf();
 		$this->notification
 			->expects($this->once())
@@ -224,7 +224,7 @@ class NotifierTest extends TestCase {
 
 	public function testPrepareSuccessDeletedUser() {
 		$fileName = 'Gre\'thor.odp';
-		$message = 'You were mentioned on “Gre\'thor.odp”, in a comment by a user that has since been deleted';
+		$message = 'You were mentioned on "Gre\'thor.odp", in a comment by a user that has since been deleted';
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $you */
 		$you = $this->createMock(IUser::class);
@@ -273,7 +273,7 @@ class NotifierTest extends TestCase {
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
-			->with('You were mentioned on “{file}”, in a comment by a user that has since been deleted', $this->anything())
+			->with('You were mentioned on "{file}", in a comment by a user that has since been deleted', $this->anything())
 			->willReturnSelf();
 		$this->notification
 			->expects($this->once())

@@ -22,13 +22,11 @@
 
 <template>
 	<section>
-		<HeaderBar
-			:account-property="accountProperty"
+		<HeaderBar :account-property="accountProperty"
 			label-for="headline"
 			:scope.sync="primaryHeadline.scope" />
 
-		<Headline
-			:headline.sync="primaryHeadline.value"
+		<Headline :headline.sync="primaryHeadline.value"
 			:scope.sync="primaryHeadline.scope" />
 	</section>
 </template>

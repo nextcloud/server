@@ -48,7 +48,7 @@ class Version23000Date20210930122352 extends SimpleMigrationStep {
 		$hasTable = $schema->hasTable(self::TABLE_NAME);
 		if (!$hasTable) {
 			$table = $schema->createTable(self::TABLE_NAME);
-			$table->addColumn('id', Types::INTEGER, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 			]);
@@ -60,7 +60,7 @@ class Version23000Date20210930122352 extends SimpleMigrationStep {
 				'notnull' => true,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['user_id'], 'user_id');
+			$table->addUniqueIndex(['user_id'], self::TABLE_NAME . '_user_id_idx');
 			return $schema;
 		}
 

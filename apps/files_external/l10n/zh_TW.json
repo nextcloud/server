@@ -18,9 +18,10 @@
     "Never" : "永不",
     "Once every direct access" : "在每次進行存取動作時",
     "Read only" : "唯讀",
-    "Delete" : "刪除",
+    "Disconnect" : "解除連線",
     "Admin defined" : "管理員自訂",
-    "Are you sure you want to delete this external storage?" : "確定刪除這個外部儲存空間嗎？",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "因為設定的儲存空間數量過多，自動狀態檢查被停用，點擊以檢查狀態",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要斷開這個外部儲存空間嗎？這將讓該儲存空間無法在 Nextcloud 中使用，並將會在目前連線的任何同步客戶端上刪除這些檔案與資料夾，但不會刪除外部儲存空間本身的任何檔案與資料夾。",
     "Delete storage?" : "刪除儲存空間？",
     "Saved" : "已儲存",
     "Saving …" : "正在儲存……",
@@ -39,6 +40,7 @@
     "Credentials saved" : "已儲存認證資訊",
     "Credentials saving failed" : "認證資訊儲存失敗",
     "Credentials required" : "需要認證資訊",
+    "Forbidden to manage local mounts" : "禁止管理本機掛載",
     "Storage with ID \"%d\" not found" : "沒有找到 ID 為「%d」的儲存空間 ",
     "Invalid backend or authentication mechanism class" : "無效的後端或認證機制類別",
     "Invalid mount point" : "無效的掛載點",
@@ -78,6 +80,8 @@
     "Public key" : "公開金鑰",
     "RSA private key" : "RSA 私鑰",
     "Private key" : "私鑰",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 預設領域，預設為 \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Kerberos 票證 Apache 模式",
     "Kerberos ticket" : "Kerberos 票據",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -132,9 +136,8 @@
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許使用者自行掛載外部儲存空間",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。",
-    "External storages" : "外部儲存空間",
-    "(group)" : "（群組）",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "使用 OC 登入的 SMB / CIFS"
+    "Delete" : "刪除",
+    "Are you sure you want to delete this external storage?" : "確定刪除這個外部儲存空間嗎？",
+    "Kerberos ticket apache mode" : "Kerberos 票證 apache 模式"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

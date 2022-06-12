@@ -35,6 +35,7 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -134,6 +135,8 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 				return vsprintf($text, $parameters);
 			});
 
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+
 		$config = $this->createMock(IConfig::class);
 
 		$this->userManager->expects($this->any())
@@ -147,14 +150,11 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config, $logger);
 		$this->backend->updateShares($calendar, $add, []);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config, $logger);
 		$acl = $calendar->getACL();
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
@@ -230,13 +230,13 @@ EOD;
 			->method('dispatchTyped');
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
-		// get all the cards
+		// get all the calendar objects
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertCount(1, $calendarObjects);
 		$this->assertEquals($calendarId, $calendarObjects[0]['calendarid']);
 		$this->assertArrayHasKey('classification', $calendarObjects[0]);
 
-		// get the cards
+		// get the calendar objects
 		$calendarObject = $this->backend->getCalendarObject($calendarId, $uri);
 		$this->assertNotNull($calendarObject);
 		$this->assertArrayHasKey('id', $calendarObject);
@@ -245,6 +245,7 @@ EOD;
 		$this->assertArrayHasKey('etag', $calendarObject);
 		$this->assertArrayHasKey('size', $calendarObject);
 		$this->assertArrayHasKey('classification', $calendarObject);
+		$this->assertArrayHasKey('{' . SharingPlugin::NS_NEXTCLOUD . '}deleted-at', $calendarObject);
 		$this->assertEquals($calData, $calendarObject['calendardata']);
 
 		// update the card
@@ -500,8 +501,8 @@ EOD;
 		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
 		$config = $this->createMock(IConfig::class);
-
-		$calendar = new Calendar($this->backend, $calendarInfo, $l10n, $config);
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$calendar = new Calendar($this->backend, $calendarInfo, $l10n, $config, $logger);
 		$calendar->setPublishStatus(true);
 		$this->assertNotEquals(false, $calendar->getPublishStatus());
 
@@ -1237,7 +1238,9 @@ EOD;
 
 		$sharerCalendars = $this->backend->getCalendarsForUser($sharer);
 		$this->assertCount(1, $sharerCalendars);
-		$sharerCalendar = new Calendar($this->backend, $sharerCalendars[0], $l10n, $config);
+
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$sharerCalendar = new Calendar($this->backend, $sharerCalendars[0], $l10n, $config, $logger);
 		$this->backend->updateShares($sharerCalendar, [
 			[
 				'href' => 'principal:' . $me,

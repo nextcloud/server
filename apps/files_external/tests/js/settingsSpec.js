@@ -11,7 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -183,8 +183,8 @@ describe('OCA.Files_External.Settings tests', function() {
 		});
 		describe('selecting backend', function() {
 			it('populates the row and creates a new empty one', function() {
-				var $firstRow = view.$el.find('tr:first');
 				selectBackend('\\OC\\TestBackend');
+				var $firstRow = view.$el.find('tr:first');
 				expect($firstRow.find('.backend').text()).toEqual('Test Backend');
 				expect($firstRow.find('.selectBackend').length).toEqual(0);
 
@@ -205,8 +205,8 @@ describe('OCA.Files_External.Settings tests', function() {
 				// TODO: check "remove" button visibility
 			});
 			it('shows row even if selection row is hidden', function() {
-				view.$el.find('tr#addMountPoint').hide();
 				selectBackend('\\OC\\TestBackend');
+				view.$el.find('tr#addMountPoint').hide();
 				expect(view.$el.find('tr:first').is(':visible')).toBe(true);
 				expect(view.$el.find('tr#addMountPoint').is(':visible')).toBe(false);
 			});
@@ -217,8 +217,8 @@ describe('OCA.Files_External.Settings tests', function() {
 			var $tr;
 
 			beforeEach(function() {
-				$tr = view.$el.find('tr:first');
 				selectBackend('\\OC\\TestBackend');
+				$tr = view.$el.find('tr:first');
 			});
 			it('saves storage after clicking the save button', function() {
 				var $field1 = $tr.find('input[data-parameter=field1]');
@@ -274,8 +274,8 @@ describe('OCA.Files_External.Settings tests', function() {
 			var $tr;
 
 			beforeEach(function() {
-				$tr = view.$el.find('tr:first');
 				selectBackend('\\OC\\InputsTestBackend');
+				$tr = view.$el.find('tr:first');
 			});
 
 			it('lists missing fields in storage errors', function() {
@@ -342,9 +342,9 @@ describe('OCA.Files_External.Settings tests', function() {
 			var $td;
 
 			beforeEach(function() {
+				selectBackend('\\OC\\TestBackend');
 				$tr = view.$el.find('tr:first');
 				$td = $tr.find('.mountOptionsToggle');
-				selectBackend('\\OC\\TestBackend');
 			});
 
 			it('shows popovermenu when clicking on toggle button, hides when clicking outside', function() {

@@ -1,5 +1,5 @@
 <?php
-script('core', 'dist/install');
+script('core', 'install');
 ?>
 <input type='hidden' id='hasMySQL' value='<?php p($_['hasMySQL']) ?>'>
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
@@ -159,19 +159,9 @@ script('core', 'dist/install');
 		</fieldset>
 	<?php endif ?>
 
-	<fieldset>
-		<p class="info">
-			<input type="checkbox" id="install-recommended-apps" name="install-recommended-apps" class="checkbox checkbox--white" checked>
-			<label for="install-recommended-apps">
-				<?php p($l->t('Install recommended apps')); ?>
-				<span><?php p($l->t('Calendar, Contacts, Talk, Mail & Collaborative editing')); ?></span>
-			</label>
-		</p>
-	</fieldset>
-
 	<div class="icon-loading-dark float-spinner">&nbsp;</div>
 
-	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t('Finish setup')); ?>" data-finishing="<?php p($l->t('Finishing …')); ?>"></div>
+	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t('Install')); ?>" data-finishing="<?php p($l->t('Installing …')); ?>"></div>
 
 	<p class="info">
 		<span class="icon-info-white"></span>

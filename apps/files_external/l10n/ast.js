@@ -13,7 +13,7 @@ OC.L10N.register(
     "Enable encryption" : "Habilitar cifráu",
     "Never" : "Enxamás",
     "Read only" : "Namái llectura",
-    "Delete" : "Desaniciar",
+    "Disconnect" : "Desconeutar",
     "Delete storage?" : "¿Desaniciar almacenamientu?",
     "Saved" : "Guardáu",
     "Saving …" : "Guardando...",
@@ -71,9 +71,6 @@ OC.L10N.register(
     "Available for" : "Disponible pa",
     "Add storage" : "Amestar almacenamientu",
     "Advanced settings" : "Axustes avanzaos",
-    "External storages" : "Almacenamientos internos",
-    "(group)" : "(grupu)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC"
+    "Delete" : "Desaniciar"
 },
 "nplurals=2; plural=(n != 1);");

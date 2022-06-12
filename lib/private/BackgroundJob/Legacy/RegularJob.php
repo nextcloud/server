@@ -24,6 +24,9 @@ namespace OC\BackgroundJob\Legacy;
 
 use OCP\AutoloadNotAllowedException;
 
+/**
+ * @deprecated internal class, use \OCP\BackgroundJob\QueuedJob
+ */
 class RegularJob extends \OC\BackgroundJob\Job {
 	public function run($argument) {
 		try {

@@ -3,7 +3,7 @@
  *
  * @author Christopher Ng <chrng8@gmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,9 +30,9 @@ import confirmPassword from '@nextcloud/password-confirmation'
  *
  * @param {string} paramId the profile parameter ID
  * @param {string} visibility the visibility
- * @returns {object}
+ * @return {object}
  */
-export const saveProfileParameterVisibility = async(paramId, visibility) => {
+export const saveProfileParameterVisibility = async (paramId, visibility) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('/profile/{userId}', { userId })
 
@@ -41,6 +41,30 @@ export const saveProfileParameterVisibility = async(paramId, visibility) => {
 	const res = await axios.put(url, {
 		paramId,
 		visibility,
+	})
+
+	return res.data
+}
+
+/**
+ * Save profile default
+ *
+ * @param {boolean} isEnabled the default
+ * @return {object}
+ */
+export const saveProfileDefault = async (isEnabled) => {
+	// Convert to string for compatibility
+	isEnabled = isEnabled ? '1' : '0'
+
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'settings',
+		key: 'profile_enabled_by_default',
+	})
+
+	await confirmPassword()
+
+	const res = await axios.post(url, {
+		value: isEnabled,
 	})
 
 	return res.data

@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,13 +21,15 @@
  *
  */
 
-import $ from 'jquery'
 import moment from 'moment'
 
 import History from './util-history'
 import OC from './index'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
+/**
+ * @param {any} t -
+ */
 function chunkify(t) {
 	// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
 	const tz = []
@@ -54,6 +56,7 @@ function chunkify(t) {
 
 /**
  * Utility functions
+ *
  * @namespace OC.Util
  */
 export default {
@@ -69,8 +72,9 @@ export default {
 	 * Returns a file size in bytes from a humanly readable string
 	 * Makes 2kB to 2048.
 	 * Inspired by computerFileSize in helper.php
+	 *
 	 * @param  {string} string file size in human readable format
-	 * @returns {number} or null if string could not be parsed
+	 * @return {number} or null if string could not be parsed
 	 *
 	 *
 	 */
@@ -116,7 +120,7 @@ export default {
 	/**
 	 * @param {string|number} timestamp timestamp
 	 * @param {string} format date format, see momentjs docs
-	 * @returns {string} timestamp formatted as requested
+	 * @return {string} timestamp formatted as requested
 	 */
 	formatDate(timestamp, format) {
 		if (window.TESTING === undefined) {
@@ -128,7 +132,7 @@ export default {
 
 	/**
 	 * @param {string|number} timestamp timestamp
-	 * @returns {string} human readable difference from now
+	 * @return {string} human readable difference from now
 	 */
 	relativeModifiedDate(timestamp) {
 		if (window.TESTING === undefined) {
@@ -142,18 +146,9 @@ export default {
 	},
 
 	/**
-	 * Returns whether this is IE
-	 *
-	 * @returns {bool} true if this is IE, false otherwise
-	 */
-	isIE() {
-		return $('html').hasClass('ie')
-	},
-
-	/**
 	 * Returns the width of a generic browser scrollbar
 	 *
-	 * @returns {int} width of scrollbar
+	 * @return {number} width of scrollbar
 	 */
 	getScrollBarWidth() {
 		if (this._scrollBarWidth) {
@@ -193,7 +188,7 @@ export default {
 	 * Remove the time component from a given date
 	 *
 	 * @param {Date} date date
-	 * @returns {Date} date with stripped time
+	 * @return {Date} date with stripped time
 	 */
 	stripTime(date) {
 		// FIXME: likely to break when crossing DST
@@ -203,9 +198,10 @@ export default {
 
 	/**
 	 * Compare two strings to provide a natural sort
+	 *
 	 * @param {string} a first string to compare
 	 * @param {string} b second string to compare
-	 * @returns {number} -1 if b comes before a, 1 if a comes before b
+	 * @return {number} -1 if b comes before a, 1 if a comes before b
 	 * or 0 if the strings are identical
 	 */
 	naturalSortCompare(a, b) {
@@ -232,8 +228,9 @@ export default {
 
 	/**
 	 * Calls the callback in a given interval until it returns true
-	 * @param {function} callback function to call on success
-	 * @param {integer} interval in milliseconds
+	 *
+	 * @param {Function} callback function to call on success
+	 * @param {number} interval in milliseconds
 	 */
 	waitFor(callback, interval) {
 		const internalCallback = function() {
@@ -247,9 +244,10 @@ export default {
 
 	/**
 	 * Checks if a cookie with the given name is present and is set to the provided value.
+	 *
 	 * @param {string} name name of the cookie
 	 * @param {string} value value of the cookie
-	 * @returns {boolean} true if the cookie with the given name has the given value
+	 * @return {boolean} true if the cookie with the given name has the given value
 	 */
 	isCookieSetToValue(name, value) {
 		const cookies = document.cookie.split(';')

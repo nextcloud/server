@@ -22,13 +22,11 @@
 
 <template>
 	<section>
-		<HeaderBar
-			:account-property="accountProperty"
+		<HeaderBar :account-property="accountProperty"
 			label-for="language" />
 
 		<template v-if="isEditable">
-			<Language
-				:common-languages="commonLanguages"
+			<Language :common-languages="commonLanguages"
 				:other-languages="otherLanguages"
 				:language.sync="language" />
 		</template>

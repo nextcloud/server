@@ -9,7 +9,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -65,7 +65,7 @@ const OCEventSource = function(src, data) {
 	} else {
 		var iframeId = 'oc_eventsource_iframe_' + OCEventSource.iframeCount
 		OCEventSource.fallBackSources[OCEventSource.iframeCount] = this
-		this.iframe = $('<iframe/>')
+		this.iframe = $('<iframe></iframe>')
 		this.iframe.attr('id', iframeId)
 		this.iframe.hide()
 

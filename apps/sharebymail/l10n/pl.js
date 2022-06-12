@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Udostępnij e-mailem",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Udostępnianie %1$s nie powiodło się, ponieważ ten element jest już udostępniony użytkownikowi %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
+    "Failed to send share by email. Got an invalid email address" : "Nie udało się wysłać udostępnienia pocztą e-mail. Masz nieprawidłowy adres e-mail",
     "Failed to send share by email" : "Nie udało się wysłać linku udostępnienia e-mailem",
     "%1$s shared »%2$s« with you" : "%1$s udostępnił »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s udostępnił »%2$s«.",
@@ -38,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Hasło dostępu do %1$s udostępnionego przez %2$s.",
     "Password to access »%s«" : "Hasło dostępu do »%s«",
     "It is protected with the following password:" : "Zasób jest chroniony następującym hasłem:",
+    "This password will expire at %s" : "To hasło wygaśnie w %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s udostępnił »%2$s« z informacją:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s udostępnił »%2$s« z informacją dla Ciebie",
     "»%s« added a note to a file shared with you" : "»%s« wysłał dodatkową informację dot. udostępnionego zasobu",
@@ -50,7 +52,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Umożliwia użytkownikom udostępnianie spersonalizowanego linku do pliku lub katalogu poprzez umieszczenie go w wiadomości e-mail.",
     "Send password by mail" : "Wyślij hasło e-mailem",
     "Reply to initiator" : "Odpowiedz inicjatorowi",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
-    "Enforce password protection" : "Wymuś zabezpieczenie hasłem"
+    "Unable to update share by mail config" : "Nie można zaktualizować konfiguracji udostępniania przez pocztę"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

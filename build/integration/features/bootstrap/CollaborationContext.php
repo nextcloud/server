@@ -33,15 +33,28 @@ require __DIR__ . '/../../vendor/autoload.php';
 class CollaborationContext implements Context {
 	use Provisioning;
 	use AppConfiguration;
+	use WebDav;
 
 	/**
 	 * @Then /^get autocomplete for "([^"]*)"$/
 	 * @param TableNode|null $formData
 	 */
-	public function getAutocomplete(string $search, TableNode $formData): void {
+	public function getAutocompleteForUser(string $search, TableNode $formData): void {
+		$this->getAutocompleteWithType(0, $search, $formData);
+	}
+
+	/**
+	 * @Then /^get email autocomplete for "([^"]*)"$/
+	 * @param TableNode|null $formData
+	 */
+	public function getAutocompleteForEmail(string $search, TableNode $formData): void {
+		$this->getAutocompleteWithType(4, $search, $formData);
+	}
+
+	private function getAutocompleteWithType(int $type, string $search, TableNode $formData): void {
 		$query = $search === 'null' ? null : $search;
 
-		$this->sendRequestForJSON('GET', '/core/autocomplete/get?itemType=files&itemId=123&search=' . $query, [
+		$this->sendRequestForJSON('GET', '/core/autocomplete/get?itemType=files&itemId=123&shareTypes[]=' . $type . '&search=' . $query, [
 			'itemType' => 'files',
 			'itemId' => '123',
 			'search' => $query,
@@ -64,11 +77,54 @@ class CollaborationContext implements Context {
 		}, $suggestions, $formData->getHash()));
 	}
 
+	/**
+	 * @Given /^there is a contact in an addressbook$/
+	 */
+	public function thereIsAContactInAnAddressbook() {
+		$this->usingNewDavPath();
+		try {
+			$destination = '/users/admin/myaddressbook';
+			$data = '<x0:mkcol xmlns:x0="DAV:"><x0:set><x0:prop><x0:resourcetype><x0:collection/><x4:addressbook xmlns:x4="urn:ietf:params:xml:ns:carddav"/></x0:resourcetype><x0:displayname>myaddressbook</x0:displayname></x0:prop></x0:set></x0:mkcol>';
+			$this->response = $this->makeDavRequest($this->currentUser, "MKCOL", $destination, ['Content-Type' => 'application/xml'], $data, "addressbooks");
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
+
+		try {
+			$destination = '/users/admin/myaddressbook/contact1.vcf';
+			$data = <<<EOF
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Nextcloud Contacts v4.0.2
+UID:a0f4088a-4dca-4308-9b63-09a1ebcf78f3
+FN:A person
+ADR;TYPE=HOME:;;;;;;
+EMAIL;TYPE=HOME:user@example.com
+REV;VALUE=DATE-AND-OR-TIME:20211130T140111Z
+END:VCARD
+EOF;
+			$this->response = $this->makeDavRequest($this->currentUser, "PUT", $destination, [], $data, "addressbooks");
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
+	}
+
 	protected function resetAppConfigs(): void {
 		$this->deleteServerConfig('core', 'shareapi_allow_share_dialog_user_enumeration');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_group');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_phone');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_email');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name');
 		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');
 	}
 

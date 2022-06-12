@@ -98,7 +98,7 @@ interface IImage {
 	public function save($filePath = null, $mimeType = null);
 
 	/**
-	 * @return resource|\GdImage Returns the image resource in any.
+	 * @return false|resource|\GdImage Returns the image resource if any
 	 * @since 8.1.0
 	 */
 	public function resource();

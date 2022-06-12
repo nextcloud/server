@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Генериши кључеве",
     "Error generating key pair" : "Грешка при генерисању пара кључева",
     "All users. Type to select user or group." : "Сви корисници. Куцајте за избор корисника или групе.",
+    "(Group)" : "(група)",
     "Compatibility with Mac NFD encoding (slow)" : "Компатибилност са NFD кодирањем (споро)",
     "Enable encryption" : "Укључи шифровање",
     "Enable previews" : "Укључи прегледе",
@@ -19,9 +20,8 @@ OC.L10N.register(
     "Never" : "никад",
     "Once every direct access" : "једном при сваком директном приступу",
     "Read only" : "Само за читање",
-    "Delete" : "Обриши",
+    "Disconnect" : "Раскачи се",
     "Admin defined" : "Дефинисао администратор",
-    "Are you sure you want to delete this external storage?" : "Да ли стварно желите да обришете ово спољашње складиште?",
     "Delete storage?" : "Обриши складиште?",
     "Saved" : "Сачувано",
     "Saving …" : "Чувам…",
@@ -131,9 +131,7 @@ OC.L10N.register(
     "Advanced settings" : "Напредне поставке",
     "Allow users to mount external storage" : "Дозволи корисницима да монтирају спољашња складишта",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
-    "External storages" : "Спољашње складиште",
-    "(group)" : "(група)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS користећи Некстклауд пријаву"
+    "Delete" : "Обриши",
+    "Are you sure you want to delete this external storage?" : "Да ли стварно желите да обришете ово спољашње складиште?"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -29,6 +29,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use OCP\Files\Folder;
 use OCP\AppFramework\Http;
+use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
 
@@ -78,7 +79,18 @@ class BulkUploadPlugin extends ServerPlugin {
 			}
 
 			try {
+				// TODO: Remove 'x-file-mtime' when the desktop client no longer use it.
+				if (isset($headers['x-file-mtime'])) {
+					$mtime = MtimeSanitizer::sanitizeMtime($headers['x-file-mtime']);
+				} elseif (isset($headers['x-oc-mtime'])) {
+					$mtime = MtimeSanitizer::sanitizeMtime($headers['x-oc-mtime']);
+				} else {
+					$mtime = null;
+				}
+
 				$node = $this->userFolder->newFile($headers['x-file-path'], $content);
+				$node->touch($mtime);
+
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
 					"etag" => $node->getETag(),

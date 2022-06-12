@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard app",
-    "Show something" : "Vis noget",
     "Customize" : "Tilpas",
     "Edit widgets" : "Redigér widgets",
     "Get more widgets from the App Store" : "Få flere widgets fra App Store",
@@ -27,9 +26,6 @@ OC.L10N.register(
     "Default images" : "Standardbilleder",
     "Plain background" : "Standard baggrund",
     "Insert from {productName}" : "Indsæt fra {productName}",
-    "Get more widgets from the app store" : "Hent flere widgets fra app store",
-    "Good night, {name}" : "Godnat {name}",
-    "Good night" : "Godnat",
-    "Pick from files" : "Vælg fra Filer"
+    "Show something" : "Vis noget"
 },
 "nplurals=2; plural=(n != 1);");

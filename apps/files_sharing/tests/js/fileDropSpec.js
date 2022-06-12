@@ -3,7 +3,7 @@
  *
  * @author Artur Neumann <info@individual-it.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,7 +34,7 @@ describe("files Drop tests", function() {
 
 	//this pre/post positions should not change the result of the file name validation
 	var prePostPositions = [""," ","  ","	"];
-	
+
 	//use the testFiles and the pre/post positions to generate more testing data
 	var replicatedTestFiles = [];
 	prePostPositions.map(function (prePostPosition) {
@@ -80,7 +80,7 @@ describe("files Drop tests", function() {
 						'wrongly validated file named "'+testFile.name+'"'
 						);
 		});
-		
+
 		if (testFile.expectedValidationResult === true) {
 			it("should set correct PUT URL, Auth header and submit", function () {
 				data = {
@@ -88,7 +88,7 @@ describe("files Drop tests", function() {
 						'files': [testFile]
 					}
 				$('#sharingToken').val(sharingToken);
-				
+
 				OCA.FilesSharingDrop.addFileToUpload('',data);
 				expect(data.submit.calledOnce).toEqual(true);
 				expect(data.url).toContain("/public.php/webdav/" + encodeURI(testFile.name));

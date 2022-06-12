@@ -9,7 +9,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,6 +29,7 @@
 import api from './api'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
+import logger from '../logger'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -96,6 +97,15 @@ const mutations = {
 			console.error('Can\'t create group', e)
 		}
 	},
+	renameGroup(state, { gid, displayName }) {
+		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
+		if (groupIndex >= 0) {
+			const updatedGroup = state.groups[groupIndex]
+			updatedGroup.name = displayName
+			state.groups.splice(groupIndex, 1, updatedGroup)
+			state.groups = orderGroups(state.groups, state.orderBy)
+		}
+	},
 	removeGroup(state, gid) {
 		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
 		if (groupIndex >= 0) {
@@ -134,22 +144,59 @@ const mutations = {
 	},
 	deleteUser(state, userid) {
 		const userIndex = state.users.findIndex(user => user.id === userid)
+		this.commit('updateUserCounts', { user: state.users[userIndex], actionType: 'remove' })
 		state.users.splice(userIndex, 1)
 	},
 	addUserData(state, response) {
-		state.users.push(response.data.ocs.data)
+		const user = response.data.ocs.data
+		state.users.push(user)
+		this.commit('updateUserCounts', { user, actionType: 'create' })
 	},
 	enableDisableUser(state, { userid, enabled }) {
 		const user = state.users.find(user => user.id === userid)
 		user.enabled = enabled
-		// increment or not
-		if (state.userCount > 0) {
-			state.groups.find(group => group.id === 'disabled').usercount += enabled ? -1 : 1
-			state.userCount += enabled ? 1 : -1
-			user.groups.forEach(group => {
-				// Increment disabled count
-				state.groups.find(groupSearch => groupSearch.id === group).disabled += enabled ? -1 : 1
+		this.commit('updateUserCounts', { user, actionType: enabled ? 'enable' : 'disable' })
+	},
+	// update active/disabled counts, groups counts
+	updateUserCounts(state, { user, actionType }) {
+		const disabledGroup = state.groups.find(group => group.id === 'disabled')
+		switch (actionType) {
+		case 'enable':
+		case 'disable':
+			disabledGroup.usercount += user.enabled ? -1 : 1 // update Disabled Users count
+			state.userCount += user.enabled ? 1 : -1 // update Active Users count
+			user.groups.forEach(userGroup => {
+				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+				group.disabled += user.enabled ? -1 : 1 // update group disabled count
 			})
+			break
+		case 'create':
+			state.userCount++ // increment Active Users count
+
+			user.groups.forEach(userGroup => {
+				state.groups
+					.find(groupSearch => groupSearch.id === userGroup)
+				    .usercount++ // increment group total count
+			})
+			break
+		case 'remove':
+			if (user.enabled) {
+				state.userCount-- // decrement Active Users count
+				user.groups.forEach(userGroup => {
+					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					group.usercount-- // decrement group total count
+				})
+			} else {
+				disabledGroup.usercount-- // decrement Disabled Users count
+				user.groups.forEach(userGroup => {
+					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					group.disabled-- // decrement group disabled count
+				})
+			}
+			break
+		default:
+			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
+			// not throwing error to interupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {
@@ -163,7 +210,8 @@ const mutations = {
 
 	/**
 	 * Reset users list
-	 * @param {Object} state the store state
+	 *
+	 * @param {object} state the store state
 	 */
 	resetUsers(state) {
 		state.users = []
@@ -204,13 +252,13 @@ const actions = {
 	/**
 	 * Get all users with full details
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
 	 * @param {string} options.search Search amongst users
 	 * @param {string} options.group Get users from group
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	getUsers(context, { offset, limit, search, group }) {
 		if (searchRequestCancelSource) {
@@ -273,11 +321,12 @@ const actions = {
 	/**
 	 * Get all users with full details
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
-	 * @returns {Promise}
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search -
+	 * @return {Promise}
 	 */
 	getUsersFromList(context, { offset, limit, search }) {
 		search = typeof search === 'string' ? search : ''
@@ -295,11 +344,12 @@ const actions = {
 	/**
 	 * Get all users with full details from a groupid
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
-	 * @returns {Promise}
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.groupid -
+	 * @return {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
 		return api.get(generateOcsUrl('cloud/users/{groupId}/details?offset={offset}&limit={limit}', { groupId: encodeURIComponent(groupid), offset, limit }))
@@ -318,9 +368,9 @@ const actions = {
 	/**
 	 * Add group
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
@@ -339,11 +389,35 @@ const actions = {
 	},
 
 	/**
-	 * Remove group
+	 * Rename group
 	 *
 	 * @param {Object} context store context
+	 * @param {string} groupid Group id
+	 * @param {string} displayName Group display name
+	 * @return {Promise}
+	 */
+	renameGroup(context, { groupid, displayName }) {
+		return api.requireAdmin().then((response) => {
+			return api.put(generateOcsUrl('cloud/groups/{groupId}', { groupId: encodeURIComponent(groupid) }), { key: 'displayname', value: displayName })
+				.then((response) => {
+					context.commit('renameGroup', { gid: groupid, displayName })
+					return { groupid, displayName }
+				})
+				.catch((error) => { throw error })
+		}).catch((error) => {
+			context.commit('API_FAILURE', { groupid, error })
+			// let's throw one more time to prevent the view
+			// from renaming the group
+			throw error
+		})
+	},
+
+	/**
+	 * Remove group
+	 *
+	 * @param {object} context store context
 	 * @param {string} gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	removeGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
@@ -356,11 +430,11 @@ const actions = {
 	/**
 	 * Add user to group
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addUserGroup(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -373,11 +447,11 @@ const actions = {
 	/**
 	 * Remove user from group
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	removeUserGroup(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -395,11 +469,11 @@ const actions = {
 	/**
 	 * Add user to group admin
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addUserSubAdmin(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -412,11 +486,11 @@ const actions = {
 	/**
 	 * Remove user from group admin
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	removeUserSubAdmin(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -429,9 +503,9 @@ const actions = {
 	/**
 	 * Mark all user devices for remote wipe
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	wipeUserDevices(context, userid) {
 		return api.requireAdmin().then((response) => {
@@ -443,9 +517,9 @@ const actions = {
 	/**
 	 * Delete a user
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	deleteUser(context, userid) {
 		return api.requireAdmin().then((response) => {
@@ -458,8 +532,10 @@ const actions = {
 	/**
 	 * Add a user
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {Function} context.commit -
+	 * @param {Function} context.dispatch -
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.password User password
 	 * @param {string} options.displayName User display name
@@ -467,7 +543,8 @@ const actions = {
 	 * @param {string} options.groups User groups
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
-	 * @returns {Promise}
+	 * @param {string} options.language User language
+	 * @return {Promise}
 	 */
 	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language }) {
 		return api.requireAdmin().then((response) => {
@@ -483,9 +560,9 @@ const actions = {
 	/**
 	 * Get user data and commit addition
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addUserData(context, userid) {
 		return api.requireAdmin().then((response) => {
@@ -495,13 +572,14 @@ const actions = {
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
 
-	/** Enable or disable user
+	/**
+	 * Enable or disable user
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {boolean} options.enabled User enablement status
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	enableDisableUser(context, { userid, enabled = true }) {
 		const userStatus = enabled ? 'enable' : 'disable'
@@ -515,12 +593,12 @@ const actions = {
 	/**
 	 * Edit user data
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.key User field to edit
 	 * @param {string} options.value Value of the change
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	setUserData(context, { userid, key, value }) {
 		const allowedEmpty = ['email', 'displayname']
@@ -545,9 +623,9 @@ const actions = {
 	/**
 	 * Send welcome mail
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	sendWelcomeMail(context, userid) {
 		return api.requireAdmin().then((response) => {

@@ -67,7 +67,6 @@ OC.L10N.register(
     "Request user agent" : "Biðja um notandaforrit",
     "User group membership" : "Notandi er meðlimur í hópum",
     "is member of" : "er meðlimur í ",
-    "is not member of" : "er ekki meðlimur í",
-    "Browse the app store" : "Flakka um forritasafnið"
+    "is not member of" : "er ekki meðlimur í"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

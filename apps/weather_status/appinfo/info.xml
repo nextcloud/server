@@ -7,7 +7,7 @@
 	<description><![CDATA[Weather status integrated in the Dashboard app.
     User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.
     This status can also be integrated in other places like the Calendar app.]]></description>
-	<version>1.4.0</version>
+	<version>1.5.0</version>
 	<licence>agpl</licence>
 	<author mail="eneiluj@posteo.net">Julien Veyssier</author>
 	<namespace>WeatherStatus</namespace>
@@ -16,6 +16,6 @@
 	<category>dashboard</category>
 	<bugs>https://github.com/nextcloud/server</bugs>
 	<dependencies>
-		<nextcloud min-version="24" max-version="24"/>
+		<nextcloud min-version="25" max-version="25"/>
 	</dependencies>
 </info>

@@ -72,6 +72,11 @@ class Sharing implements IDelegatedSettings {
 		$linksExcludeGroupsList = !is_null(json_decode($linksExcludedGroups))
 			? implode('|', json_decode($linksExcludedGroups, true)) : '';
 
+		$excludedPasswordGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
+		$excludedPasswordGroupsList = !is_null(json_decode($excludedPasswordGroups))
+			? implode('|', json_decode($excludedPasswordGroups, true)) : '';
+
+
 		$parameters = [
 			// Built-In Sharing
 			'sharingAppEnabled' => $this->appManager->isEnabledForUser('files_sharing'),
@@ -84,7 +89,12 @@ class Sharing implements IDelegatedSettings {
 			'restrictUserEnumerationToGroup' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no'),
 			'restrictUserEnumerationToPhone' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no'),
 			'restrictUserEnumerationFullMatch' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes'),
-			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(),
+			'restrictUserEnumerationFullMatchUserId' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes'),
+			'restrictUserEnumerationFullMatchEmail' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes'),
+			'restrictUserEnumerationFullMatchIgnoreSecondDisplayName' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no'),
+			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(false),
+			'passwordExcludedGroups' => $excludedPasswordGroupsList,
+			'passwordExcludedGroupsFeatureEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
 			'shareAPIEnabled' => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
 			'shareDefaultExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no'),

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Xerar claves",
     "Error generating key pair" : "Produciuse un erro ao xerar o par de clave",
     "All users. Type to select user or group." : "Todos os usuarios. Escriba para seleccionar usuario ou grupo.",
+    "(Group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidade coa codificación Mac MFD (lenta)",
     "Enable encryption" : "Activar o cifrado",
     "Enable previews" : "Activar as vistas previas",
@@ -19,9 +20,8 @@ OC.L10N.register(
     "Never" : "Nunca",
     "Once every direct access" : "Unha vez cada acceso directo",
     "Read only" : "Só lectura",
-    "Delete" : "Eliminar",
+    "Disconnect" : "Desconectar",
     "Admin defined" : "Definido polo administrador",
-    "Are you sure you want to delete this external storage?" : "Confirma que quere eliminar este almacenamento externo?",
     "Delete storage?" : "Eliminar o almacenamento?",
     "Saved" : "Gardado",
     "Saving …" : "Gardando…",
@@ -131,9 +131,7 @@ OC.L10N.register(
     "Advanced settings" : "Axustes avanzados",
     "Allow users to mount external storage" : "Permitirlle aos usuarios montar almacenamento externo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
-    "External storages" : "Almacenamentos externos",
-    "(group)" : "(grupo)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando acceso OC"
+    "Delete" : "Eliminar",
+    "Are you sure you want to delete this external storage?" : "Confirma que quere eliminar este almacenamento externo?"
 },
 "nplurals=2; plural=(n != 1);");

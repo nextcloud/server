@@ -52,6 +52,10 @@ use OCP\IUserBackend;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\GetQuotaEvent;
+use OCP\User\Backend\ISetDisplayNameBackend;
+use OCP\User\Backend\ISetPasswordBackend;
+use OCP\User\Backend\IProvideAvatarBackend;
+use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -73,7 +77,7 @@ class User implements IUser {
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
-	/** @var bool */
+	/** @var bool|null */
 	private $enabled;
 
 	/** @var Emitter|Manager */
@@ -82,7 +86,7 @@ class User implements IUser {
 	/** @var string */
 	private $home;
 
-	/** @var int */
+	/** @var int|null */
 	private $lastLogin;
 
 	/** @var \OCP\IConfig */
@@ -104,9 +108,6 @@ class User implements IUser {
 		}
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
-		$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
-		$this->enabled = ($enabled === 'true');
-		$this->lastLogin = $this->config->getUserValue($uid, 'login', 'lastLogin', 0);
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
@@ -158,7 +159,9 @@ class User implements IUser {
 		$displayName = trim($displayName);
 		$oldDisplayName = $this->getDisplayName();
 		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName) && $displayName !== $oldDisplayName) {
-			$result = $this->backend->setDisplayName($this->uid, $displayName);
+			/** @var ISetDisplayNameBackend $backend */
+			$backend = $this->backend;
+			$result = $backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
 				$this->triggerChange('displayName', $displayName, $oldDisplayName);
@@ -231,17 +234,20 @@ class User implements IUser {
 	 * @return int
 	 */
 	public function getLastLogin() {
-		return $this->lastLogin;
+		if ($this->lastLogin === null) {
+			$this->lastLogin = (int) $this->config->getUserValue($this->uid, 'login', 'lastLogin', 0);
+		}
+		return (int) $this->lastLogin;
 	}
 
 	/**
 	 * updates the timestamp of the most recent login of this user
 	 */
 	public function updateLastLoginTimestamp() {
-		$firstTimeLogin = ($this->lastLogin === 0);
+		$firstTimeLogin = ($this->getLastLogin() === 0);
 		$this->lastLogin = time();
 		$this->config->setUserValue(
-			$this->uid, 'login', 'lastLogin', $this->lastLogin);
+			$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
 
 		return $firstTimeLogin;
 	}
@@ -280,7 +286,7 @@ class User implements IUser {
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
 
-			/** @var IAvatarManager $avatarManager */
+			/** @var AvatarManager $avatarManager */
 			$avatarManager = \OC::$server->query(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
@@ -319,14 +325,20 @@ class User implements IUser {
 			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
-			$result = $this->backend->setPassword($this->uid, $password);
-			$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
-				'password' => $password,
-				'recoveryPassword' => $recoveryPassword,
-			]));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
+			/** @var ISetPasswordBackend $backend */
+			$backend = $this->backend;
+			$result = $backend->setPassword($this->uid, $password);
+
+			if ($result !== false) {
+				$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
+					'password' => $password,
+					'recoveryPassword' => $recoveryPassword,
+				]));
+				if ($this->emitter) {
+					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
+				}
 			}
+
 			return !($result === false);
 		} else {
 			return false;
@@ -340,7 +352,8 @@ class User implements IUser {
 	 */
 	public function getHome() {
 		if (!$this->home) {
-			if ($this->backend->implementsActions(Backend::GET_HOME) and $home = $this->backend->getHome($this->uid)) {
+			/** @psalm-suppress UndefinedInterfaceMethod Once we get rid of the legacy implementsActions, psalm won't complain anymore */
+			if (($this->backend instanceof IGetHomeBackend || $this->backend->implementsActions(Backend::GET_HOME)) && $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
 			} elseif ($this->config) {
 				$this->home = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
@@ -363,18 +376,20 @@ class User implements IUser {
 		return get_class($this->backend);
 	}
 
-	public function getBackend() {
+	public function getBackend(): ?UserInterface {
 		return $this->backend;
 	}
 
 	/**
-	 * check if the backend allows the user to change his avatar on Personal page
+	 * Check if the backend allows the user to change his avatar on Personal page
 	 *
 	 * @return bool
 	 */
 	public function canChangeAvatar() {
-		if ($this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
-			return $this->backend->canChangeAvatar($this->uid);
+		if ($this->backend instanceof IProvideAvatarBackend || $this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
+			/** @var IProvideAvatarBackend $backend */
+			$backend = $this->backend;
+			return $backend->canChangeAvatar($this->uid);
 		}
 		return true;
 	}
@@ -406,7 +421,11 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function isEnabled() {
-		return $this->enabled;
+		if ($this->enabled === null) {
+			$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+			$this->enabled = $enabled === 'true';
+		}
+		return (bool) $this->enabled;
 	}
 
 	/**
@@ -493,7 +512,7 @@ class User implements IUser {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
 			$quota = OC_Helper::computerFileSize($quota);
-			$quota = OC_Helper::humanFileSize($quota);
+			$quota = OC_Helper::humanFileSize((int)$quota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
@@ -536,15 +555,9 @@ class User implements IUser {
 		return $uid . '@' . $server;
 	}
 
-	/**
-	 * @param string $url
-	 * @return string
-	 */
-	private function removeProtocolFromUrl($url) {
+	private function removeProtocolFromUrl(string $url): string {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
 		}
 
 		return $url;

@@ -47,6 +47,7 @@ class QBTestEntity extends Entity {
 	protected $stringProp;
 	protected $integerProp;
 	protected $booleanProp;
+	protected $jsonProp;
 
 	public function __construct() {
 		$this->addType('intProp', 'int');
@@ -54,10 +55,9 @@ class QBTestEntity extends Entity {
 		$this->addType('stringProp', 'string');
 		$this->addType('integerProp', 'integer');
 		$this->addType('booleanProp', 'boolean');
+		$this->addType('jsonProp', 'json');
 	}
 }
-
-;
 
 /**
  * Class QBTestMapper
@@ -69,7 +69,7 @@ class QBTestMapper extends QBMapper {
 		parent::__construct($db, 'table');
 	}
 
-	public function getParameterTypeForPropertyForTest(Entity $entity, string $property): int {
+	public function getParameterTypeForPropertyForTest(Entity $entity, string $property) {
 		return parent::getParameterTypeForProperty($entity, $property);
 	}
 }
@@ -109,11 +109,11 @@ class QBMapperTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->qb = $this->getMockBuilder(IQueryBuilder:: class)
+		$this->qb = $this->getMockBuilder(IQueryBuilder::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->expr = $this->getMockBuilder(IExpressionBuilder:: class)
+		$this->expr = $this->getMockBuilder(IExpressionBuilder::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -171,6 +171,7 @@ class QBMapperTest extends \Test\TestCase {
 		$entity->setStringProp('string');
 		$entity->setIntegerProp(456);
 		$entity->setBooleanProp(false);
+		$entity->setJsonProp(["hello" => "world"]);
 
 		$idParam = $this->qb->createNamedParameter('id', IQueryBuilder::PARAM_INT);
 		$intParam = $this->qb->createNamedParameter('int_prop', IQueryBuilder::PARAM_INT);
@@ -178,8 +179,9 @@ class QBMapperTest extends \Test\TestCase {
 		$stringParam = $this->qb->createNamedParameter('string_prop', IQueryBuilder::PARAM_STR);
 		$integerParam = $this->qb->createNamedParameter('integer_prop', IQueryBuilder::PARAM_INT);
 		$booleanParam = $this->qb->createNamedParameter('boolean_prop', IQueryBuilder::PARAM_BOOL);
+		$jsonParam = $this->qb->createNamedParameter('json_prop', IQueryBuilder::PARAM_JSON);
 
-		$this->qb->expects($this->exactly(6))
+		$this->qb->expects($this->exactly(7))
 			->method('createNamedParameter')
 			->withConsecutive(
 				[$this->equalTo(123), $this->equalTo(IQueryBuilder::PARAM_INT)],
@@ -187,17 +189,19 @@ class QBMapperTest extends \Test\TestCase {
 				[$this->equalTo('string'), $this->equalTo(IQueryBuilder::PARAM_STR)],
 				[$this->equalTo(456), $this->equalTo(IQueryBuilder::PARAM_INT)],
 				[$this->equalTo(false), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo(789), $this->equalTo(IQueryBuilder::PARAM_INT)]
+				[$this->equalTo(["hello" => "world"]), $this->equalTo(IQueryBuilder::PARAM_JSON)],
+				[$this->equalTo(789), $this->equalTo(IQueryBuilder::PARAM_INT)],
 			);
 
-		$this->qb->expects($this->exactly(5))
+		$this->qb->expects($this->exactly(6))
 			->method('set')
 			->withConsecutive(
 				[$this->equalTo('int_prop'), $this->equalTo($intParam)],
 				[$this->equalTo('bool_prop'), $this->equalTo($boolParam)],
 				[$this->equalTo('string_prop'), $this->equalTo($stringParam)],
 				[$this->equalTo('integer_prop'), $this->equalTo($integerParam)],
-				[$this->equalTo('boolean_prop'), $this->equalTo($booleanParam)]
+				[$this->equalTo('boolean_prop'), $this->equalTo($booleanParam)],
+				[$this->equalTo('json_prop'), $this->equalTo($jsonParam)]
 			);
 
 		$this->expr->expects($this->once())
@@ -226,6 +230,9 @@ class QBMapperTest extends \Test\TestCase {
 
 		$stringType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'stringProp');
 		$this->assertEquals(IQueryBuilder::PARAM_STR, $stringType, 'String type property mapping incorrect');
+
+		$jsonType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'jsonProp');
+		$this->assertEquals(IQueryBuilder::PARAM_JSON, $jsonType, 'JSON type property mapping incorrect');
 
 		$unknownType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'someProp');
 		$this->assertEquals(IQueryBuilder::PARAM_STR, $unknownType, 'Unknown type property mapping incorrect');

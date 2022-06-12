@@ -23,7 +23,7 @@
 <template>
 	<div :class="{ 'icon-loading': loading }">
 		<!-- error message -->
-		<div v-if="error" class="emptycontent">
+		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
 			<h2>{{ error }}</h2>
 		</div>
@@ -33,8 +33,7 @@
 			<!-- shared with me information -->
 			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 				<template #avatar>
-					<Avatar
-						:user="sharedWithMe.user"
+					<Avatar :user="sharedWithMe.user"
 						:display-name="sharedWithMe.displayName"
 						class="sharing-entry__avatar"
 						tooltip-message="" />
@@ -74,15 +73,15 @@
 				:id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
-
-			<!-- additionnal entries, use it with cautious -->
-			<div v-for="(section, index) in sections"
-				:ref="'section-' + index"
-				:key="index"
-				class="sharingTab__additionalContent">
-				<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
-			</div>
 		</template>
+
+		<!-- additionnal entries, use it with cautious -->
+		<div v-for="(section, index) in sections"
+			:ref="'section-' + index"
+			:key="index"
+			class="sharingTab__additionalContent">
+			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+		</div>
 	</div>
 </template>
 
@@ -144,7 +143,7 @@ export default {
 		/**
 		 * Is this share shared with me?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isSharedWithMe() {
 			return Object.keys(this.sharedWithMe).length > 0
@@ -159,7 +158,8 @@ export default {
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
-		 * @param {Object} fileInfo the current file FileInfo
+		 *
+		 * @param {object} fileInfo the current file FileInfo
 		 */
 		async update(fileInfo) {
 			this.fileInfo = fileInfo
@@ -204,7 +204,11 @@ export default {
 				this.processSharedWithMe(sharedWithMe)
 				this.processShares(shares)
 			} catch (error) {
-				this.error = t('files_sharing', 'Unable to load the shares list')
+				if (error.response.data?.ocs?.meta?.message) {
+					this.error = error.response.data.ocs.meta.message
+				} else {
+					this.error = t('files_sharing', 'Unable to load the shares list')
+				}
 				this.loading = false
 				console.error('Error loading the shares list', error)
 			}
@@ -246,8 +250,8 @@ export default {
 		 * Process the current shares data
 		 * and init shares[]
 		 *
-		 * @param {Object} share the share ocs api request data
-		 * @param {Object} share.data the request data
+		 * @param {object} share the share ocs api request data
+		 * @param {object} share.data the request data
 		 */
 		processShares({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
@@ -268,8 +272,8 @@ export default {
 		 * Process the sharedWithMe share data
 		 * and init sharedWithMe
 		 *
-		 * @param {Object} share the share ocs api request data
-		 * @param {Object} share.data the request data
+		 * @param {object} share the share ocs api request data
+		 * @param {object} share.data the request data
 		 */
 		processSharedWithMe({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data[0]) {
@@ -292,6 +296,19 @@ export default {
 					this.updateExpirationSubtitle(share)
 					// interval update
 					this.expirationInterval = setInterval(this.updateExpirationSubtitle, 10000, share)
+				}
+			} else if (this.fileInfo && this.fileInfo.shareOwnerId !== undefined ? this.fileInfo.shareOwnerId !== OC.currentUser : false) {
+				// Fallback to compare owner and current user.
+				this.sharedWithMe = {
+					displayName: this.fileInfo.shareOwner,
+					title: t(
+						'files_sharing',
+						'Shared with you by {owner}',
+						{ owner: this.fileInfo.shareOwner },
+						undefined,
+						{ escape: false }
+					),
+					user: this.fileInfo.shareOwnerId,
 				}
 			}
 		},
@@ -340,3 +357,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+.emptyContentWithSections {
+	margin: 1rem auto;
+}
+</style>

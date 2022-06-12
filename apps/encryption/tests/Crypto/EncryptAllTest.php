@@ -117,9 +117,12 @@ class EncryptAllTest extends TestCase {
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 
+		/* We need format method to return a string */
+		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('format')->willReturnArgument(0);
 
 		$this->outputInterface->expects($this->any())->method('getFormatter')
-			->willReturn($this->createMock(OutputFormatterInterface::class));
+			->willReturn($outputFormatter);
 
 		$this->userManager->expects($this->any())->method('getBackends')->willReturn([$this->userInterface]);
 		$this->userInterface->expects($this->any())->method('getUsers')->willReturn(['user1', 'user2']);
@@ -163,9 +166,9 @@ class EncryptAllTest extends TestCase {
 			->getMock();
 
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
-		$encryptAll->expects($this->at(0))->method('createKeyPairs')->with();
-		$encryptAll->expects($this->at(1))->method('outputPasswords')->with();
-		$encryptAll->expects($this->at(2))->method('encryptAllUsersFiles')->with();
+		$encryptAll->expects($this->once())->method('createKeyPairs')->with();
+		$encryptAll->expects($this->once())->method('outputPasswords')->with();
+		$encryptAll->expects($this->once())->method('encryptAllUsersFiles')->with();
 
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
 	}
@@ -193,7 +196,7 @@ class EncryptAllTest extends TestCase {
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(true);
 		$encryptAll->expects($this->never())->method('createKeyPairs');
 		$this->keyManager->expects($this->once())->method('validateMasterKey');
-		$encryptAll->expects($this->at(0))->method('encryptAllUsersFiles')->with();
+		$encryptAll->expects($this->once())->method('encryptAllUsersFiles')->with();
 		$encryptAll->expects($this->never())->method('outputPasswords');
 
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
@@ -274,8 +277,11 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($encryptAll, 'output', [$this->outputInterface]);
 		$this->invokePrivate($encryptAll, 'userPasswords', [['user1' => 'pwd1', 'user2' => 'pwd2']]);
 
-		$encryptAll->expects($this->at(0))->method('encryptUsersFiles')->with('user1');
-		$encryptAll->expects($this->at(1))->method('encryptUsersFiles')->with('user2');
+		$encryptAll->expects($this->exactly(2))->method('encryptUsersFiles')
+			->withConsecutive(
+				['user1'],
+				['user2'],
+			);
 
 		$this->invokePrivate($encryptAll, 'encryptAllUsersFiles');
 	}
@@ -302,16 +308,15 @@ class EncryptAllTest extends TestCase {
 
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
 
-		$this->view->expects($this->at(0))->method('getDirectoryContent')
-			->with('/user1/files')->willReturn(
+		$this->view->expects($this->exactly(2))->method('getDirectoryContent')
+			->withConsecutive(
+				['/user1/files'],
+				['/user1/files/foo'],
+			)->willReturnOnConsecutiveCalls(
 				[
 					['name' => 'foo', 'type' => 'dir'],
 					['name' => 'bar', 'type' => 'file'],
-				]
-			);
-
-		$this->view->expects($this->at(3))->method('getDirectoryContent')
-			->with('/user1/files/foo')->willReturn(
+				],
 				[
 					['name' => 'subfile', 'type' => 'file']
 				]
@@ -327,8 +332,11 @@ class EncryptAllTest extends TestCase {
 				}
 			);
 
-		$encryptAll->expects($this->at(1))->method('encryptFile')->with('/user1/files/bar');
-		$encryptAll->expects($this->at(2))->method('encryptFile')->with('/user1/files/foo/subfile');
+		$encryptAll->expects($this->exactly(2))->method('encryptFile')
+			->withConsecutive(
+				['/user1/files/bar'],
+				['/user1/files/foo/subfile'],
+			);
 
 		$this->outputInterface->expects($this->any())
 			->method('getFormatter')

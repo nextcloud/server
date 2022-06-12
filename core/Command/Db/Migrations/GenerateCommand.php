@@ -28,6 +28,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
 use OCP\App\IAppManager;
+use OCP\Util;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -35,12 +36,35 @@ use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
 	protected static $_templateSimple =
 		'<?php
 
 declare(strict_types=1);
+
+/**
+ * @copyright Copyright (c) {{year}} Your name <your@email.com>
+ *
+ * @author Your name <your@email.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace {{namespace}};
 
@@ -82,16 +106,9 @@ class {{classname}} extends SimpleMigrationStep {
 }
 ';
 
-	/** @var Connection */
-	protected $connection;
+	protected Connection $connection;
+	protected IAppManager $appManager;
 
-	/** @var IAppManager */
-	protected $appManager;
-
-	/**
-	 * @param Connection $connection
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(Connection $connection, IAppManager $appManager) {
 		$this->connection = $connection;
 		$this->appManager = $appManager;
@@ -113,9 +130,39 @@ class {{classname}} extends SimpleMigrationStep {
 		$appName = $input->getArgument('app');
 		$version = $input->getArgument('version');
 
-		if (!preg_match('/^\d{1,16}$/',$version)) {
+		if (!preg_match('/^\d{1,16}$/', $version)) {
 			$output->writeln('<error>The given version is invalid. Only 0-9 are allowed (max. 16 digits)</error>');
 			return 1;
+		}
+
+		if ($appName === 'core') {
+			$fullVersion = implode('.', Util::getVersion());
+		} else {
+			try {
+				$fullVersion = $this->appManager->getAppVersion($appName, false);
+			} catch (\Throwable $e) {
+				$fullVersion = '';
+			}
+		}
+
+		if ($fullVersion) {
+			[$major, $minor] = explode('.', $fullVersion);
+			$shouldVersion = (string) ((int)$major * 1000 + (int)$minor);
+			if ($version !== $shouldVersion) {
+				$output->writeln('<comment>Unexpected migration version for current version: ' . $fullVersion . '</comment>');
+				$output->writeln('<comment> - Pattern:  XYYY </comment>');
+				$output->writeln('<comment> - Expected: ' . $shouldVersion . '</comment>');
+				$output->writeln('<comment> - Actual:   ' . $version . '</comment>');
+
+				if ($input->isInteractive()) {
+					$helper = $this->getHelper('question');
+					$question = new ConfirmationQuestion('Continue with your given version? (y/n) [n] ', false);
+
+					if (!$helper->ask($input, $output, $question)) {
+						return 1;
+					}
+				}
+			}
 		}
 
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
@@ -173,11 +220,13 @@ class {{classname}} extends SimpleMigrationStep {
 			'{{namespace}}',
 			'{{classname}}',
 			'{{schemabody}}',
+			'{{year}}',
 		];
 		$replacements = [
 			$ms->getMigrationsNamespace(),
 			$className,
 			$schemaBody,
+			date('Y')
 		];
 		$code = str_replace($placeHolders, $replacements, self::$_templateSimple);
 		$dir = $ms->getMigrationsDirectory();

@@ -50,7 +50,7 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Encryption extends Wrapper {
 	use LocalTempFileTrait;
@@ -64,8 +64,7 @@ class Encryption extends Wrapper {
 	/** @var \OCP\Encryption\IManager */
 	private $encryptionManager;
 
-	/** @var \OCP\ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var string */
 	private $uid;
@@ -96,21 +95,12 @@ class Encryption extends Wrapper {
 
 	/**
 	 * @param array $parameters
-	 * @param IManager $encryptionManager
-	 * @param Util $util
-	 * @param ILogger $logger
-	 * @param IFile $fileHelper
-	 * @param string $uid
-	 * @param IStorage $keyStorage
-	 * @param Update $update
-	 * @param Manager $mountManager
-	 * @param ArrayCache $arrayCache
 	 */
 	public function __construct(
 		$parameters,
 		IManager $encryptionManager = null,
 		Util $util = null,
-		ILogger $logger = null,
+		LoggerInterface $logger = null,
 		IFile $fileHelper = null,
 		$uid = null,
 		IStorage $keyStorage = null,
@@ -448,9 +438,8 @@ class Encryption extends Wrapper {
 					}
 				}
 			} catch (ModuleDoesNotExistsException $e) {
-				$this->logger->logException($e, [
-					'message' => 'Encryption module "' . $encryptionModuleId . '" not found, file will be stored unencrypted',
-					'level' => ILogger::WARN,
+				$this->logger->warning('Encryption module "' . $encryptionModuleId . '" not found, file will be stored unencrypted', [
+					'exception' => $e,
 					'app' => 'core',
 				]);
 			}
@@ -503,8 +492,7 @@ class Encryption extends Wrapper {
 				try {
 					$result = $this->fixUnencryptedSize($path, $size, $unencryptedSize);
 				} catch (\Exception $e) {
-					$this->logger->error('Couldn\'t re-calculate unencrypted size for ' . $path);
-					$this->logger->logException($e);
+					$this->logger->error('Couldn\'t re-calculate unencrypted size for ' . $path, ['exception' => $e]);
 				}
 				unset($this->fixUnencryptedSizeOf[$this->getFullPath($path)]);
 			}
@@ -694,7 +682,16 @@ class Encryption extends Wrapper {
 			'encrypted' => $isEncrypted,
 		];
 		if ($isEncrypted) {
-			$encryptedVersion = $sourceStorage->getCache()->get($sourceInternalPath)['encryptedVersion'];
+			$sourceCacheEntry = $sourceStorage->getCache()->get($sourceInternalPath);
+			$targetCacheEntry = $this->getCache()->get($targetInternalPath);
+
+			// Rename of the cache already happened, so we do the cleanup on the target
+			if ($sourceCacheEntry === false && $targetCacheEntry !== false) {
+				$encryptedVersion = $targetCacheEntry['encryptedVersion'];
+				$isRename = false;
+			} else {
+				$encryptedVersion = $sourceCacheEntry['encryptedVersion'];
+			}
 
 			// In case of a move operation from an unencrypted to an encrypted
 			// storage the old encrypted version would stay with "0" while the
@@ -768,7 +765,11 @@ class Encryption extends Wrapper {
 
 		if ($sourceStorage->is_dir($sourceInternalPath)) {
 			$dh = $sourceStorage->opendir($sourceInternalPath);
-			$result = $this->mkdir($targetInternalPath);
+			if (!$this->is_dir($targetInternalPath)) {
+				$result = $this->mkdir($targetInternalPath);
+			} else {
+				$result = true;
+			}
 			if (is_resource($dh)) {
 				while ($result and ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
@@ -784,8 +785,12 @@ class Encryption extends Wrapper {
 				fclose($source);
 				fclose($target);
 			} catch (\Exception $e) {
-				fclose($source);
-				fclose($target);
+				if (is_resource($source)) {
+					fclose($source);
+				}
+				if (is_resource($target)) {
+					fclose($target);
+				}
 				throw $e;
 			}
 			if ($result) {

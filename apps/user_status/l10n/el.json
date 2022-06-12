@@ -5,8 +5,10 @@
     "Out sick" : "Αναρρωτική άδεια",
     "Vacationing" : "Διακοπάρω",
     "Working remotely" : "Εργασία εξ αποστάσεως",
+    "In a call" : "Σε μια κλήση",
     "User status" : "Κατάσταση χρήστη",
-    "Clear status message after" : "Εκκαθάριση μηνύματος κατάστασης μετά από",
+    "View profile" : "Προβολή προφίλ",
+    "Clear status after" : "Εκκαθάριση κατάστασης μετά από",
     "What is your status?" : "Ποια είναι η κατάστασή σας;",
     "Set status" : "Ορισμός κατάστασης",
     "Online status" : "Κατάσταση σε σύνδεση",
@@ -31,7 +33,7 @@
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
     "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
-    "Clear status after" : "Εκκαθάριση κατάστασης μετά από",
+    "Clear status message after" : "Εκκαθάριση μηνύματος κατάστασης μετά από",
     "What's your status?" : "Ποια είναι η κατάστασή σας;"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -25,8 +25,8 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Tests\Settings\Personal\Security;
 
-use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
+use OC\Authentication\Token\PublicKeyToken;
 use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -74,15 +74,15 @@ class AuthtokensTest extends TestCase {
 	}
 
 	public function testGetForm() {
-		$token1 = new DefaultToken();
+		$token1 = new PublicKeyToken();
 		$token1->setId(100);
-		$token2 = new DefaultToken();
+		$token2 = new PublicKeyToken();
 		$token2->setId(200);
 		$tokens = [
 			$token1,
 			$token2,
 		];
-		$sessionToken = new DefaultToken();
+		$sessionToken = new PublicKeyToken();
 		$sessionToken->setId(100);
 
 		$this->authTokenProvider->expects($this->once())
@@ -96,33 +96,34 @@ class AuthtokensTest extends TestCase {
 			->method('getToken')
 			->with('session123')
 			->willReturn($sessionToken);
-		$this->initialState->expects($this->at(0))
+		$this->initialState->expects($this->exactly(2))
 			->method('provideInitialState')
-			->with('app_tokens', [
+			->withConsecutive(
 				[
-					'id' => 100,
-					'name' => null,
-					'lastActivity' => 0,
-					'type' => 0,
-					'canDelete' => false,
-					'current' => true,
-					'scope' => ['filesystem' => true],
-					'canRename' => false,
+					'app_tokens', [
+						[
+							'id' => 100,
+							'name' => null,
+							'lastActivity' => 0,
+							'type' => 0,
+							'canDelete' => false,
+							'current' => true,
+							'scope' => ['filesystem' => true],
+							'canRename' => false,
+						],
+						[
+							'id' => 200,
+							'name' => null,
+							'lastActivity' => 0,
+							'type' => 0,
+							'canDelete' => true,
+							'scope' => ['filesystem' => true],
+							'canRename' => true,
+						],
+					]
 				],
-				[
-					'id' => 200,
-					'name' => null,
-					'lastActivity' => 0,
-					'type' => 0,
-					'canDelete' => true,
-					'scope' => ['filesystem' => true],
-					'canRename' => true,
-				],
-			]);
-
-		$this->initialState->expects($this->at(1))
-			->method('provideInitialState')
-			->with('can_create_app_token', true);
+				['can_create_app_token', true],
+			);
 
 		$form = $this->section->getForm();
 

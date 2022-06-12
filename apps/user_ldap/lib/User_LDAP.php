@@ -47,9 +47,12 @@ use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Backend\ICountUsersBackend;
+use OCP\IUserBackend;
+use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend {
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
 
@@ -617,7 +620,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * The cloned connection needs to be closed manually.
 	 * of the current access.
 	 * @param string $uid
-	 * @return resource of the LDAP connection
+	 * @return resource|\LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		$connection = clone $this->access->getConnection();

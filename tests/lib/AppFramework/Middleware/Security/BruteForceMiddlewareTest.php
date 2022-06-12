@@ -36,8 +36,7 @@ class BruteForceMiddlewareTest extends TestCase {
 	private $throttler;
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var BruteForceMiddleware */
-	private $bruteForceMiddleware;
+	private BruteForceMiddleware $bruteForceMiddleware;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -135,7 +134,7 @@ class BruteForceMiddlewareTest extends TestCase {
 
 		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
-		$this->bruteForceMiddleware->afterController($controller, 'testMethod' ,$response);
+		$this->bruteForceMiddleware->afterController($controller, 'testMethod', $response);
 	}
 
 	public function testAfterControllerWithAnnotationAndNotThrottledRequest() {
@@ -165,7 +164,7 @@ class BruteForceMiddlewareTest extends TestCase {
 
 		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
-		$this->bruteForceMiddleware->afterController($controller, 'testMethod' ,$response);
+		$this->bruteForceMiddleware->afterController($controller, 'testMethod', $response);
 	}
 
 	public function testAfterControllerWithoutAnnotation() {
@@ -188,6 +187,6 @@ class BruteForceMiddlewareTest extends TestCase {
 		$controller = $this->createMock(Controller::class);
 		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
 		$response = $this->createMock(Response::class);
-		$this->bruteForceMiddleware->afterController($controller, 'testMethod' ,$response);
+		$this->bruteForceMiddleware->afterController($controller, 'testMethod', $response);
 	}
 }

@@ -28,9 +28,9 @@ namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
@@ -45,7 +45,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	/** @var ProxyMapper|\PHPUnit\Framework\MockObject\MockObject */
@@ -71,7 +71,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->proxyMapper = $this->createMock(ProxyMapper::class);
 	}
 

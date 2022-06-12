@@ -29,6 +29,8 @@ use OC\ForbiddenException;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Http\Client\LocalServerException;
+use Psr\Log\LoggerInterface;
 
 class Scanner extends \OC\Files\Cache\Scanner {
 	/** @var \OCA\Files_Sharing\External\Storage */
@@ -36,8 +38,15 @@ class Scanner extends \OC\Files\Cache\Scanner {
 
 	/** {@inheritDoc} */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
-		if (!$this->storage->remoteIsOwnCloud()) {
-			return parent::scan($path, $recursive, $recursive, $lock);
+		try {
+			if (!$this->storage->remoteIsOwnCloud()) {
+				return parent::scan($path, $recursive, $reuse, $lock);
+			}
+		} catch (LocalServerException $e) {
+			// Scanner doesn't have dependency injection
+			\OC::$server->get(LoggerInterface::class)
+				->warning('Trying to scan files inside invalid external storage: ' . $this->storage->getRemote() . ' for mountpoint ' . $this->storage->getMountPoint() . ' and id ' . $this->storage->getId());
+			return;
 		}
 
 		$this->scanAll();

@@ -53,6 +53,8 @@ use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\ICacheFactory;
 use OCP\IMemcache;
+use OCP\Server;
+use OCP\ICache;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -62,23 +64,18 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	/** @var CappedMemoryCache|Result[] */
-	private $objectCache;
+	/** @var CappedMemoryCache<array|false> */
+	private CappedMemoryCache $objectCache;
 
-	/** @var CappedMemoryCache|bool[] */
-	private $directoryCache;
+	/** @var CappedMemoryCache<bool> */
+	private CappedMemoryCache $directoryCache;
 
-	/** @var CappedMemoryCache|array */
-	private $filesCache;
+	/** @var CappedMemoryCache<array> */
+	private CappedMemoryCache $filesCache;
 
-	/** @var IMimeTypeDetector */
-	private $mimeDetector;
-
-	/** @var bool|null */
-	private $versioningEnabled = null;
-
-	/** @var IMemcache */
-	private $memCache;
+	private IMimeTypeDetector $mimeDetector;
+	private ?bool $versioningEnabled = null;
+	private ICache $memCache;
 
 	public function __construct($parameters) {
 		parent::__construct($parameters);
@@ -87,9 +84,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$this->objectCache = new CappedMemoryCache();
 		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
-		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
 		/** @var ICacheFactory $cacheFactory */
-		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
 	}
 
@@ -145,10 +142,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param $key
 	 * @return array|false
 	 */
-	private function headObject($key) {
+	private function headObject(string $key) {
 		if (!isset($this->objectCache[$key])) {
 			try {
 				$this->objectCache[$key] = $this->getConnection()->headObject([
@@ -164,6 +160,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
 			$this->objectCache[$key]["Key"] = $key;
 		}
 		return $this->objectCache[$key];
@@ -732,14 +729,26 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if ($this->versioningEnabled === null) {
 			$cached = $this->memCache->get('versioning-enabled::' . $this->getBucket());
 			if ($cached === null) {
-				$result = $this->getConnection()->getBucketVersioning(['Bucket' => $this->getBucket()]);
-				$this->versioningEnabled = $result->get('Status') === 'Enabled';
+				$this->versioningEnabled = $this->getVersioningStatusFromBucket();
 				$this->memCache->set('versioning-enabled::' . $this->getBucket(), $this->versioningEnabled, 60);
 			} else {
 				$this->versioningEnabled = $cached;
 			}
 		}
 		return $this->versioningEnabled;
+	}
+
+	protected function getVersioningStatusFromBucket(): bool {
+		try {
+			$result = $this->getConnection()->getBucketVersioning(['Bucket' => $this->getBucket()]);
+			return $result->get('Status') === 'Enabled';
+		} catch (S3Exception $s3Exception) {
+			// This is needed for compatibility with Storj gateway which does not support versioning yet
+			if ($s3Exception->getAwsErrorCode() === 'NotImplemented') {
+				return false;
+			}
+			throw $s3Exception;
+		}
 	}
 
 	public function hasUpdated($path, $time) {

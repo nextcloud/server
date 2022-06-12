@@ -37,7 +37,6 @@ OC.L10N.register(
     "Sharing" : "Compartir",
     "Federated file sharing" : "Compartir federado",
     "Provide federated file sharing across servers" : "Provee compartición federada de archivos entre servidores",
-    "Open documentation" : "Abrir documentación",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Ajusta cómo las personas pueden compartir entre servidores. Esto incluye también los recursos compartidos entre usuarios de este servidor si utilizan el uso compartido federado.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permitir a los usuarios de este servidor compartir con usuarios de otros servidores (esta opción también permite acceso de WebDAV a los elementos públicos compartidos)",
     "Allow users on this server to receive shares from other servers" : "Permitir a los usuarios de este servidor recibir de usuarios de otros servidores",
@@ -45,7 +44,9 @@ OC.L10N.register(
     "Allow users on this server to receive group shares from other servers" : "Permitir a los usuarios de este servidor recibir de grupos de otros servidores",
     "Search global and public address book for users" : "Buscar usuarios en libreta de direcciones global y pública",
     "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar su información en la libreta de direcciones global y pública",
+    "Unable to update federated files sharing config" : "Incapaz de actualizar la configuración de la compartición federada de archivos",
     "Federated Cloud" : "Nube Federada",
+    "Open documentation" : "Abrir documentación",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Puedes compartir con cualquiera que use un servidor Nextcloud u otros servidores y servicios compatibles con Open Cloud Mesh (OCM). Simplemente, pon su ID de Nube Federada en el diálogo de compartir. Es algo como persona@nube.ejemplo.com",
     "Your Federated Cloud ID:" : "Tu ID de Nube Federada:",
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
@@ -54,4 +55,4 @@ OC.L10N.register(
     "HTML Code:" : "Código HTML:",
     "Adjust how people can share between servers." : "Ajusta cómo la gente puede compartir entre servidores."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

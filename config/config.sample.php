@@ -354,6 +354,13 @@ $CONFIG = [
 'lost_password_link' => 'https://example.org/link/to/password/reset',
 
 /**
+ * URL to use as target for the logo link in the header (top-left logo)
+ *
+ * Defaults to the base URL of your Nextcloud instance
+ */
+'logo_url' => 'https://example.org',
+
+/**
  * Mail Parameters
  *
  * These configure the email settings for Nextcloud notifications and password
@@ -775,6 +782,10 @@ $CONFIG = [
  * connection. If none of these hosts are reachable, the administration panel
  * will show a warning. Set to an empty list to not do any such checks (warning
  * will still be shown).
+ * If no protocol is provided, both http and https will be tested.
+ * For example, 'http://www.nextcloud.com' and 'https://www.nextcloud.com'
+ * will be tested for 'www.nextcloud.com'
+ * If a protocol is provided, only this one will be tested.
  *
  * Defaults to the following domains:
  *
@@ -824,11 +835,11 @@ $CONFIG = [
 
 /**
  * In certain environments it is desired to have a read-only configuration file.
- * When this switch is set to ``true`` Nextcloud will not verify whether the
- * configuration is writable. However, it will not be possible to configure
- * all options via the Web interface. Furthermore, when updating Nextcloud
- * it is required to make the configuration file writable again for the update
- * process.
+ * When this switch is set to ``true``, writing to the config file will be
+ * forbidden. Therefore, it will not be possible to configure all options via
+ * the Web interface. Furthermore, when updating Nextcloud it is required to
+ * make the configuration file writable again and to set this switch to ``false``
+ * for the update process.
  *
  * Defaults to ``false``
  */
@@ -855,6 +866,13 @@ $CONFIG = [
 'log_type' => 'file',
 
 /**
+ * This parameter determines where the audit logs are sent. See ``log_type`` for more information.
+ *
+ * Defaults to ``file``
+ */
+'log_type_audit' => 'file',
+
+/**
  * Name of the file to which the Nextcloud logs are written if parameter
  * ``log_type`` is set to ``file``.
  *
@@ -863,7 +881,15 @@ $CONFIG = [
 'logfile' => '/var/log/nextcloud.log',
 
 /**
- * Log file mode for the Nextcloud loggin type in octal notation.
+ * Name of the file to which the audit logs are written if parameter
+ * ``log_type`` is set to ``file``.
+ *
+ * Defaults to ``[datadirectory]/audit.log``
+ */
+'logfile_audit' => '/var/log/audit.log',
+
+/**
+ * Log file mode for the Nextcloud logging type in octal notation.
  *
  * Defaults to 0640 (writeable by user, readable by group).
  */
@@ -878,6 +904,15 @@ $CONFIG = [
 'loglevel' => 2,
 
 /**
+ * Loglevel used by the frontend to start logging at. The same values as
+ * for ``loglevel`` can be used. If not set it defaults to the value
+ * configured for ``loglevel`` or Warning if that is not set either.
+ *
+ * Defaults to ``2``
+ */
+'loglevel_frontend' => 2,
+
+/**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
  * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
@@ -886,6 +921,16 @@ $CONFIG = [
  * The default value is ``Nextcloud``.
  */
 'syslog_tag' => 'Nextcloud',
+
+/**
+ * If you maintain different instances and aggregate the logs, you may want
+ * to distinguish between them. ``syslog_tag_audit`` can be set per instance
+ * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
+ * ``systemd``.
+ *
+ * The default value is the value of ``syslog_tag``.
+ */
+'syslog_tag_audit' => 'Nextcloud',
 
 /**
  * Log condition for log level increase based on conditions. Once one of these
@@ -941,6 +986,14 @@ $CONFIG = [
  */
 'log_rotate_size' => 100 * 1024 * 1024,
 
+/**
+ * Enable built-in profiler. Helpful when trying to debug performance
+ * issues.
+ *
+ * Note that this has a performance impact and shouldn't be enabled
+ * on production.
+ */
+'profiler' => false,
 
 /**
  * Alternate Code Locations
@@ -1050,13 +1103,24 @@ $CONFIG = [
 'preview_max_y' => 4096,
 
 /**
- * max file size for generating image previews with imagegd (default behavior)
+ * Max file size for generating image previews with imagegd (default behavior).
  * If the image is bigger, it'll try other preview generators, but will most
- * likely show the default mimetype icon. Set to -1 for no limit.
+ * likely either show the default mimetype icon or not display the image at all.
+ * Set to ``-1`` for no limit and try to generate image previews on all file sizes.
  *
  * Defaults to ``50`` megabytes
  */
 'preview_max_filesize_image' => 50,
+
+/**
+ * max memory for generating image previews with imagegd (default behavior)
+ * Reads the image dimensions from the header and assumes 32 bits per pixel.
+ * If creating the image would allocate more memory, preview generation will
+ * be disabled and the default mimetype icon is shown. Set to -1 for no limit.
+ *
+ * Defaults to ``128`` megabytes
+ */
+'preview_max_memory' => 128,
 
 /**
  * custom path for LibreOffice/OpenOffice binary
@@ -1073,6 +1137,14 @@ $CONFIG = [
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
 	'--convert-to png --outdir ',
+
+/**
+ * Set the URL of the Imaginary service to send image previews to.
+ * Also requires the OC\Preview\Imaginary provider to be enabled.
+ *
+ * See https://github.com/h2non/imaginary
+ */
+'preview_imaginary_url' => 'http://previews_hpb:8088/',
 
 /**
  * Only register providers that have been explicitly enabled
@@ -1186,6 +1258,20 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'maintenance' => false,
+
+/**
+ * UTC Hour for maintenance windows
+ *
+ * Some background jobs only run once a day. When an hour is defined for this config,
+ * the background jobs which advertise themselves as not time sensitive will be
+ * delayed during the "working" hours and only run in the 4 hours after the given time.
+ * This is e.g. used for activity expiration, suspicious login training and update checks.
+ *
+ * A value of 1 e.g. will only run these background jobs between 01:00am UTC and 05:00am UTC.
+ *
+ * Defaults to ``100`` which disables the feature
+ */
+'maintenance_window_start' => 1,
 
 
 /**
@@ -1405,6 +1491,8 @@ $CONFIG = [
 		'region' => 'RegionOne',
 		// The Identity / Keystone endpoint
 		'url' => 'http://8.21.28.222:5000/v2.0',
+		// uploadPartSize: size of the uploaded chunks, defaults to 524288000
+		'uploadPartSize' => 524288000,
 		// required on dev-/trystack
 		'tenantName' => 'facebook100000123456789',
 		// dev-/trystack uses swift by default, the lib defaults to 'cloudFiles'
@@ -1479,6 +1567,18 @@ $CONFIG = [
 'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
 
 /**
+ * Enables expiration for link share passwords sent by email (sharebymail).
+ * The passwords will expire after the configured interval, the users can
+ * still request a new one in the public link page.
+ */
+'sharing.enable_mail_link_password_expiration' => false,
+
+/**
+ * Expiration interval for passwords, in seconds.
+ */
+'sharing.mail_link_password_expiration_interval' => 3600,
+
+/**
  * Define max number of results returned by the search for auto-completion of
  * users, groups, etc. The value must not be lower than 0 (for unlimited).
  *
@@ -1517,6 +1617,11 @@ $CONFIG = [
  * Set to false to stop sending a mail when users receive a share
  */
 'sharing.enable_share_mail' => true,
+
+/**
+ * Set to true to enable the feature to add exceptions for share password enforcement
+ */
+'sharing.allow_disabled_password_enforcement_groups' => false,
 
 /**
  * Set to true to always transfer incoming shares by default
@@ -1577,7 +1682,7 @@ $CONFIG = [
  * Tables will be created with
  *  * character set: utf8mb4
  *  * collation:     utf8mb4_bin
- *  * row_format:    compressed
+ *  * row_format:    dynamic
  *
  * See:
  * https://dev.mysql.com/doc/refman/5.7/en/charset-unicode-utf8mb4.html
@@ -1709,6 +1814,13 @@ $CONFIG = [
 'theme' => '',
 
 /**
+ * Enforce the user theme. This will disable the user theming settings
+ * This must be a valid ITheme ID.
+ * E.g. light, dark, highcontrast, dark-highcontrast...
+ */
+'enforce_theme' => '',
+
+/**
  * The default cipher for encrypting files. Currently supported are:
  *  - AES-256-CTR
  *  - AES-128-CTR
@@ -1718,6 +1830,15 @@ $CONFIG = [
  * Defaults to ``AES-256-CTR``
  */
 'cipher' => 'AES-256-CTR',
+
+/**
+ * Use the legacy base64 format for encrypted files instead of the more space-efficient
+ * binary format. The option affects only newly written files, existing encrypted files
+ * will not be touched and will remain readable whether they use the new format or not.
+ *
+ * Defaults to ``false``
+ */
+'encryption.use_legacy_base64_encoding' => false,
 
 /**
  * The minimum Nextcloud desktop client version that will be allowed to sync with
@@ -1743,6 +1864,18 @@ $CONFIG = [
 'localstorage.allowsymlinks' => false,
 
 /**
+ * Nextcloud overrides umask to ensure suitable access permissions
+ * regardless of webserver/php-fpm configuration and worker state.
+ * WARNING: Modifying this value has security implications and
+ * may soft-break the installation.
+ *
+ * Most installs shall not modify this value.
+ *
+ * Defaults to ``0022``
+ */
+'localstorage.umask' => 0022,
+
+/**
  * EXPERIMENTAL: option whether to include external storage in quota
  * calculation, defaults to false.
  *
@@ -1760,6 +1893,19 @@ $CONFIG = [
  * Defaults to ``1800`` (seconds)
  */
 'external_storage.auth_availability_delay' => 1800,
+
+/**
+ * Allows to create external storages of type "Local" in the web interface and APIs.
+ *
+ * When disable, it is still possible to create local storages with occ using
+ * the following command:
+ *
+ * % php occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
+ *
+ * Defaults to ``true``
+ *
+ */
+'files_external_allow_create_new_local' => true,
 
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
@@ -1997,4 +2143,79 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'files_no_background_scan' => false,
+
+/**
+ * Log all queries into a file
+ *
+ * Warning: This heavily decreases the performance of the server and is only
+ * meant to debug/profile the query interaction manually.
+ * Also, it might log sensitive data into a plain text file.
+ */
+'query_log_file' => '',
+
+/**
+ * Log all redis requests into a file
+ *
+ * Warning: This heavily decreases the performance of the server and is only
+ * meant to debug/profile the redis interaction manually.
+ * Also, it might log sensitive data into a plain text file.
+ */
+'redis_log_file' => '',
+
+/**
+ * Log all LDAP requests into a file
+ *
+ * Warning: This heavily decreases the performance of the server and is only
+ * meant to debug/profile the LDAP interaction manually.
+ * Also, it might log sensitive data into a plain text file.
+ */
+'ldap_log_file' => '',
+
+/**
+ * Enable diagnostics event logging
+ *
+ * If enabled the timings of common execution steps will be logged to the
+ * Nextcloud log at debug level. log.condition is useful to enable this on
+ * production systems to only log under some conditions
+ */
+'diagnostics.logging' => true,
+
+/**
+ * Limit diagnostics event logging to events longer than the configured threshold in ms
+ *
+ * when set to 0 no diagnostics events will be logged
+ */
+'diagnostics.logging.threshold' => 0,
+
+/**
+ * Enable profile globally
+ *
+ * Defaults to ``true``
+ */
+'profile.enabled' => true,
+
+/**
+ * Enable file metadata collection
+ *
+ * This is helpful for the mobile clients and will enable a few optimization in
+ * the future for the preview generation.
+ *
+ * Note that when enabled, this data will be stored in the database and might increase
+ * the database storage.
+ */
+'enable_file_metadata' => true,
+
+/**
+ * Allows to override the default scopes for Account data.
+ * The list of overridable properties and valid values for scopes are in
+ * OCP\Accounts\IAccountManager. Values added here are merged with
+ * default values, which are in OC\Accounts\AccountManager
+ *
+ * For instance, if the phone property should default to the private scope
+ * instead of the local one:
+ * [
+ *   \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
+ * ]
+ */
+'account_manager.default_property_scope' => []
 ];

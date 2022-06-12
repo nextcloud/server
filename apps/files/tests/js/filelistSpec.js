@@ -29,7 +29,7 @@
  * @author Tomasz Grobelny <tomasz@grobelny.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -119,12 +119,12 @@ describe('OCA.Files.FileList tests', function() {
 			'<thead><tr>' +
 			'<th id="headerName" class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
-			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
+			'<a class="name columntitle" href="#" onclick="event.preventDefault()" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span id="selectedActionsList" class="selectedActions hidden">' +
-			'<a href class="actions-selected"><span class="icon icon-more"></span><span>Actions</span></a>' +
+			'<a class="actions-selected" href="#" onclick="event.preventDefault()"><span class="icon icon-more"></span><span>Actions</span></a>' +
 			'</th>' +
-			'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
-			'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
+			'<th class="hidden column-size"><a class="columntitle" href="#" onclick="event.preventDefault()" data-sort="size"><span class="sort-indicator"></span></a></th>' +
+			'<th class="hidden column-mtime"><a class="columntitle" href="#" onclick="event.preventDefault()" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
 			'</tr></thead>' +
 			'<tbody id="fileList"></tbody>' +
 			'<tfoot></tfoot>' +
@@ -3442,6 +3442,7 @@ describe('OCA.Files.FileList tests', function() {
 
 		beforeEach(function() {
 			fileListStub = sinon.stub(OCA.Files.FileList.prototype, 'changeDirectory');
+			fileList._currentDirectory = '/subdir';
 		});
 		afterEach(function() {
 			fileListStub.restore();

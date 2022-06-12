@@ -39,16 +39,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class Add extends Command {
-	/** @var \OCP\IUserManager */
-	protected $userManager;
+	protected IUserManager $userManager;
+	protected IGroupManager $groupManager;
 
-	/** @var \OCP\IGroupManager */
-	protected $groupManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 */
 	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
 		parent::__construct();
 		$this->userManager = $userManager;
@@ -107,7 +100,7 @@ class Add extends Command {
 
 			$question = new Question('Confirm password: ');
 			$question->setHidden(true);
-			$confirm = $helper->ask($input, $output,$question);
+			$confirm = $helper->ask($input, $output, $question);
 
 			if ($password !== $confirm) {
 				$output->writeln("<error>Passwords did not match!</error>");

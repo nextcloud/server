@@ -7,7 +7,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,6 +26,9 @@
 
 (function(OCA) {
 
+	/**
+	 * @param {any} model -
+	 */
 	function modelToSelection(model) {
 		const data = model.toJSON()
 		if (!OC.isUserAdmin() && !data.canAssign) {
@@ -53,7 +56,7 @@
 			id: 'systemTagsInfoView',
 
 			/**
-			 * @type OC.SystemTags.SystemTagsInputField
+			 * @type {OC.SystemTags.SystemTagsInputField}
 			 */
 			_inputView: null,
 
@@ -82,7 +85,8 @@
 
 			/**
 			 * Event handler whenever a tag was selected
-			 * @param {Object} tag the tag to create
+			 *
+			 * @param {object} tag the tag to create
 			 */
 			_onSelectTag(tag) {
 			// create a mapping entry for this tag

@@ -126,7 +126,7 @@ trait S3ObjectTrait {
 			if ($e->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
-			throw $e;
+			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway("Error while uploading to S3 bucket", 0, $e);
 		}
 	}
 
@@ -144,9 +144,9 @@ trait S3ObjectTrait {
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
 		// so the optimisation does not apply
 		$buffer = new Psr7\Stream(fopen("php://memory", 'rwb+'));
-		Utils::copyToStream($psrStream, $buffer, MultipartUploader::PART_MIN_SIZE);
+		Utils::copyToStream($psrStream, $buffer, $this->uploadPartSize);
 		$buffer->seek(0);
-		if ($buffer->getSize() < MultipartUploader::PART_MIN_SIZE) {
+		if ($buffer->getSize() < $this->putSizeLimit) {
 			// buffer is fully seekable, so use it directly for the small upload
 			$this->writeSingle($urn, $buffer, $mimetype);
 		} else {

@@ -72,4 +72,35 @@ class OCIFunctionBuilder extends FunctionBuilder {
 
 		return parent::least($x, $y);
 	}
+
+	public function concat($x, ...$expr): IQueryFunction {
+		$args = func_get_args();
+		$list = [];
+		foreach ($args as $item) {
+			$list[] = $this->helper->quoteColumnName($item);
+		}
+		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
+	}
+
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$orderByClause = ' WITHIN GROUP(ORDER BY NULL)';
+		if (is_null($separator)) {
+			return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ')' . $orderByClause);
+		}
+
+		$separator = $this->connection->quote($separator);
+		return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')' . $orderByClause);
+	}
+
+	public function octetLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTHB(' . $quotedName . ')' . $alias);
+	}
+
+	public function charLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('LENGTH(' . $quotedName . ')' . $alias);
+	}
 }

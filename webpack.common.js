@@ -1,47 +1,25 @@
 /* eslint-disable camelcase */
-const { merge } = require('webpack-merge')
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
-
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
-const ESLintPlugin = require('eslint-webpack-plugin')
+const webpack = require('webpack')
+const modules = require('./webpack.modules.js')
 
-const accessibility = require('./apps/accessibility/webpack')
-const comments = require('./apps/comments/webpack')
-const core = require('./core/webpack')
-const dashboard = require('./apps/dashboard/webpack')
-const dav = require('./apps/dav/webpack')
-const files = require('./apps/files/webpack')
-const files_sharing = require('./apps/files_sharing/webpack')
-const files_trashbin = require('./apps/files_trashbin/webpack')
-const files_versions = require('./apps/files_versions/webpack')
-const oauth2 = require('./apps/oauth2/webpack')
-const settings = require('./apps/settings/webpack')
-const systemtags = require('./apps/systemtags/webpack')
-const user_status = require('./apps/user_status/webpack')
-const weather_status = require('./apps/weather_status/webpack')
-const twofactor_backupscodes = require('./apps/twofactor_backupcodes/webpack')
-const updatenotification = require('./apps/updatenotification/webpack')
-const workflowengine = require('./apps/workflowengine/webpack')
+const formatOutputFromModules = (modules) => {
+	// merge all configs into one object, and use AppID to generate the fileNames
+	// with the following format:
+	// AppId-fileName: path/to/js-file.js
+	const moduleEntries = Object.keys(modules).map(moduleKey => {
+		const module = modules[moduleKey]
 
-const modules = {
-	accessibility,
-	comments,
-	core,
-	dashboard,
-	dav,
-	files,
-	files_sharing,
-	files_trashbin,
-	files_versions,
-	oauth2,
-	settings,
-	systemtags,
-	user_status,
-	weather_status,
-	twofactor_backupscodes,
-	updatenotification,
-	workflowengine,
+		const entries = Object.keys(module).map(entryKey => {
+			const entry = module[entryKey]
+			return { [`${moduleKey}-${entryKey}`]: entry }
+		})
+
+		return Object.assign({}, ...Object.values(entries))
+	})
+	return Object.assign({}, ...Object.values(moduleEntries))
 }
 
 const modulesToBuild = () => {
@@ -50,84 +28,137 @@ const modulesToBuild = () => {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
 		}
-		return [modules[MODULE]]
+		return formatOutputFromModules({
+			[MODULE]: modules[MODULE],
+		})
 	}
-	return Object.values(modules)
+
+	return formatOutputFromModules(modules)
 }
 
-module.exports = []
-	.concat(
-		...modulesToBuild()
-	)
-	.map(config => merge({
-		module: {
-			rules: [
-				{
-					test: /\.css$/,
-					use: ['style-loader', 'css-loader'],
-				},
-				{
-					test: /\.scss$/,
-					use: ['style-loader', 'css-loader', 'sass-loader'],
-				},
-				{
-					test: /\.vue$/,
-					loader: 'vue-loader',
-					exclude: BabelLoaderExcludeNodeModulesExcept([
-						'vue-material-design-icons',
-					]),
-				},
-				{
-					test: /\.js$/,
-					loader: 'babel-loader',
-					// automatically detect necessary packages to
-					// transpile in the node_modules folder
-					exclude: BabelLoaderExcludeNodeModulesExcept([
-						'@nextcloud/dialogs',
-						'@nextcloud/event-bus',
-						'@nextcloud/vue-dashboard',
-						'davclient.js',
-						'nextcloud-vue-collections',
-						'p-finally',
-						'p-limit',
-						'p-locate',
-						'p-queue',
-						'p-timeout',
-						'p-try',
-						'semver',
-						'striptags',
-						'toastify-js',
-						'v-tooltip',
-						'yocto-queue',
-					]),
-				},
-				{
-					test: /\.(png|jpg|gif)$/,
-					loader: 'url-loader',
-					options: {
-						name: '[name].[ext]?[hash]',
-						limit: 8192,
-					},
-				},
-				{
-					test: /\.handlebars/,
-					loader: 'handlebars-loader',
-					query: {
-						extensions: '.handlebars',
-					},
-				},
+module.exports = {
+	entry: modulesToBuild(),
+	output: {
+		// Step away from the src folder and extract to the js folder
+		path: path.join(__dirname, 'dist'),
+		// Let webpack determine automatically where it's located
+		publicPath: 'auto',
+		filename: '[name].js?v=[contenthash]',
+		chunkFilename: '[name]-[id].js?v=[contenthash]',
+		// Make sure sourcemaps have a proper path and do not
+		// leak local paths https://github.com/webpack/webpack/issues/3603
+		devtoolNamespace: 'nextcloud',
+		devtoolModuleFilenameTemplate(info) {
+			const rootDir = process.cwd()
+			const rel = path.relative(rootDir, info.absoluteResourcePath)
+			return `webpack:///nextcloud/${rel}`
+		},
+		clean: {
+			keep: /icons\.css/, // Keep static icons css
+		},
+	},
 
-			],
-		},
-		plugins: [new VueLoaderPlugin(), new ESLintPlugin()],
-		resolve: {
-			alias: {
-				OC: path.resolve(__dirname, './core/src/OC'),
-				OCA: path.resolve(__dirname, './core/src/OCA'),
-				// make sure to use the handlebar runtime when importing
-				handlebars: 'handlebars/runtime',
+	module: {
+		rules: [
+			{
+				test: /davclient/,
+				loader: 'exports-loader',
+				options: {
+					type: 'commonjs',
+					exports: 'dav',
+				},
 			},
-			extensions: ['*', '.js', '.vue'],
-			symlinks: false,
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader'],
+			},
+			{
+				test: /\.scss$/,
+				use: ['style-loader', 'css-loader', 'sass-loader'],
+			},
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader',
+				exclude: BabelLoaderExcludeNodeModulesExcept([
+					'vue-material-design-icons',
+					'emoji-mart-vue-fast',
+				]),
+			},
+			{
+				test: /\.js$/,
+				loader: 'babel-loader',
+				// automatically detect necessary packages to
+				// transpile in the node_modules folder
+				exclude: BabelLoaderExcludeNodeModulesExcept([
+					'@nextcloud/dialogs',
+					'@nextcloud/event-bus',
+					'@nextcloud/vue-dashboard',
+					'davclient.js',
+					'nextcloud-vue-collections',
+					'p-finally',
+					'p-limit',
+					'p-locate',
+					'p-queue',
+					'p-timeout',
+					'p-try',
+					'semver',
+					'striptags',
+					'toastify-js',
+					'v-tooltip',
+					'yocto-queue',
+				]),
+			},
+			{
+				test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf)$/,
+				type: 'asset/inline',
+			},
+			{
+				test: /\.handlebars/,
+				loader: 'handlebars-loader',
+			},
+
+		],
+	},
+
+	optimization: {
+		splitChunks: {
+			automaticNameDelimiter: '-',
+			cacheGroups: {
+				vendors: {
+					// split every dependency into one bundle
+					test: /[\\/]node_modules[\\/]/,
+					enforce: true,
+					// necessary to keep this name to properly inject it
+					// see OC_Template.php
+					name: 'core-common',
+					chunks: 'all',
+				},
+			},
 		},
-	}, config))
+	},
+
+	plugins: [
+		new VueLoaderPlugin(),
+		new webpack.ProvidePlugin({
+			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
+			jQuery: 'jquery',
+			// Shim ICAL to prevent using the global object (window.ICAL).
+			// The library ical.js heavily depends on instanceof checks which will
+			// break if two separate versions of the library are used (e.g. bundled one
+			// and global one).
+			ICAL: 'ical.js',
+		}),
+	],
+	resolve: {
+		alias: {
+			// make sure to use the handlebar runtime when importing
+			handlebars: 'handlebars/runtime',
+		},
+		extensions: ['*', '.js', '.vue'],
+		symlinks: false,
+		fallback: {
+			stream: require.resolve('stream-browserify'),
+			buffer: require.resolve('buffer'),
+		},
+	},
+}

@@ -21,6 +21,7 @@
     "{actor} shared calendar {calendar} with group {group}" : "{actor} сподели календар {calendar} со група {group}",
     "You unshared calendar {calendar} from group {group}" : "Отстранивте споделување на календар {calendar} од група {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} отстрани споделување на календар {calendar} од група {group}",
+    "Untitled event" : "Неименуван настан",
     "{actor} created event {event} in calendar {calendar}" : "{actor} креираше настан {event} во календар {calendar}",
     "You created event {event} in calendar {calendar}" : "Креиравте настан {event} во календар {calendar}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} избриша настан {event} од календар {calendar}",
@@ -50,7 +51,6 @@
     "Date:" : "Датум:",
     "Where:" : "Каде: ",
     "Description:" : "Опис:",
-    "Untitled event" : "Неименуван настан",
     "_%n year_::_%n years_" : ["една година","%n години"],
     "_%n month_::_%n months_" : ["еден месец","%n месеци"],
     "_%n day_::_%n days_" : ["еден ден","%n дена"],
@@ -91,13 +91,13 @@
     "Completed on %s" : "Завршена на %s",
     "Due on %s by %s" : "Истекува на %s од %s",
     "Due on %s" : "Истекува на %s",
+    "Contacts and groups" : "Контакти и групи",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крајна точка",
     "Availability" : "Достапност",
     "to" : "до",
     "Delete slot" : "Избриши слот",
     "Add slot" : "Додади слот",
-    "Save" : "Зачувај",
     "Monday" : "Понеделник",
     "Tuesday" : "Вторник",
     "Wednesday" : "Среда",
@@ -105,6 +105,7 @@
     "Friday" : "Петок",
     "Saturday" : "Сабота",
     "Sunday" : "Недела",
+    "Save" : "Зачувај",
     "Calendar server" : "Календар сервер",
     "Send invitations to attendees" : "Испрати покани на учесниците",
     "Automatically generate a birthday calendar" : "Автоматско генерирање на календар со родендени",
@@ -121,7 +122,6 @@
     "Tentative" : "Прелиминарно",
     "Number of guests" : "Број на гости",
     "Comment" : "Коментар",
-    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
-    "Calendar and tasks" : "Календар и задачи"
+    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

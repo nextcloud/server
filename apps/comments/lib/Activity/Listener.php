@@ -35,28 +35,15 @@ use OCP\IUserSession;
 use OCP\Share\IShareHelper;
 
 class Listener {
-	/** @var IManager */
-	protected $activityManager;
-	/** @var IUserSession */
-	protected $session;
-	/** @var \OCP\App\IAppManager */
-	protected $appManager;
-	/** @var \OCP\Files\Config\IMountProviderCollection */
-	protected $mountCollection;
-	/** @var \OCP\Files\IRootFolder */
-	protected $rootFolder;
-	/** @var IShareHelper */
-	protected $shareHelper;
+	protected IManager $activityManager;
+	protected IUserSession $session;
+	protected IAppManager $appManager;
+	protected IMountProviderCollection $mountCollection;
+	protected IRootFolder $rootFolder;
+	protected IShareHelper $shareHelper;
 
 	/**
 	 * Listener constructor.
-	 *
-	 * @param IManager $activityManager
-	 * @param IUserSession $session
-	 * @param IAppManager $appManager
-	 * @param IMountProviderCollection $mountCollection
-	 * @param IRootFolder $rootFolder
-	 * @param IShareHelper $shareHelper
 	 */
 	public function __construct(IManager $activityManager,
 								IUserSession $session,

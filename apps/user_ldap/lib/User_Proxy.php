@@ -35,8 +35,9 @@ use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Backend\ICountUsersBackend;
 
-class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
+class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP, ICountUsersBackend {
 	private $backends = [];
 	/** @var User_LDAP */
 	private $refBackend = null;
@@ -368,7 +369,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * The connection needs to be closed manually.
 	 *
 	 * @param string $uid
-	 * @return resource of the LDAP connection
+	 * @return resource|\LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		return $this->handleRequest($uid, 'getNewLDAPConnection', [$uid]);

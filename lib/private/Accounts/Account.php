@@ -72,6 +72,28 @@ class Account implements IAccount {
 		});
 	}
 
+	public function setAllPropertiesFromJson(array $properties): IAccount {
+		foreach ($properties as $propertyName => $propertyObject) {
+			if ($this->isCollection($propertyName)) {
+				$collection = new AccountPropertyCollection($propertyName);
+				/** @var array<int, IAccountProperty> $collectionProperties */
+				$collectionProperties = [];
+				/** @var array<int, array<string, string>> $propertyObject */
+				foreach ($propertyObject as ['value' => $value, 'scope' => $scope, 'verified' => $verified, 'verificationData' => $verificationData]) {
+					$collectionProperties[] = new AccountProperty($collection->getName(), $value, $scope, $verified, $verificationData);
+				}
+				$collection->setProperties($collectionProperties);
+				$this->setPropertyCollection($collection);
+			} else {
+				/** @var array<string, string> $propertyObject */
+				['value' => $value, 'scope' => $scope, 'verified' => $verified, 'verificationData' => $verificationData] = $propertyObject;
+				$this->setProperty($propertyName, $value, $scope, $verified, $verificationData);
+			}
+		}
+
+		return $this;
+	}
+
 	public function getAllProperties(): Generator {
 		foreach ($this->properties as $propertyObject) {
 			if ($propertyObject instanceof IAccountProperty) {
@@ -104,9 +126,16 @@ class Account implements IAccount {
 		return $result;
 	}
 
-	/** @return IAccountPropertyCollection[]|IAccountProperty[] */
+	/** @return array<string, IAccountProperty|array<int, IAccountProperty>> */
 	public function jsonSerialize(): array {
-		return $this->properties;
+		$properties = $this->properties;
+		foreach ($properties as $propertyName => $propertyObject) {
+			if ($propertyObject instanceof IAccountPropertyCollection) {
+				// Override collection serialization to discard duplicate name
+				$properties[$propertyName] = $propertyObject->jsonSerialize()[$propertyName];
+			}
+		}
+		return $properties;
 	}
 
 	public function getUser(): IUser {

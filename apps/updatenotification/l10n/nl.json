@@ -33,7 +33,6 @@
     "Checking apps for compatible versions" : "Apps controleren op compatibele versies.",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Zorg ervoor dat je in config.php <samp>appstoreenabled</samp> niet op 'false' zet.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kan niet verbinden met de App Store of er zijn geen updates teruggegeven. Zoek handmatig naar updates of verifieer dat je server internettoegang heeft en kan verbinden met de App Store.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alle</strong> apps hebben een compatibele versie voor deze Nextcloud versie",
     "View changelog" : "Bekijk wijzigingenoverzicht",
     "Enterprise" : "Zakelijk",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Voor zakelijk gebruik. Biedt altijd het laatste patch level, maar zal niet meteen naar de laatste hoofdrelease bijwerken. Die update vindt pas plaats nadat Nextcloud GmbH aanvullende hardening en tests voor grootschalige en bedrijfskritische installaties heeft uitgevoerd. Dit kanaal is alleen beschikbaar voor klanten en levert het Nextcloud Enterprise pakket.",
@@ -41,14 +40,7 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Een vroeg vrijgegeven versie, alleen bedoeld om nieuwe functies te testen. Niet voor productieomgevingen.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app heeft geen compatibele versie voor deze Nextcloud versie","<strong>%n</strong> apps hebben geen compatibele versie voor deze Nextcloud versie"],
-    "Apps missing updates" : "Apps met ontbrekende updates",
-    "Apps with available updates" : "Apps met beschikbare updates",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Houd er rekening mee dat het enige tijd kan duren voordat na een nieuwe versie hier verschijnt. We verspreiden nieuwe versies over de tijd aan onze gebruikers en soms slaan we een versie over als er problemen zijn gevonden.",
-    "Only notification for app updates are available." : "Er zijn alleen meldingen voor apps beschikbaar.",
-    "Checking apps for compatible updates" : "Apps controleren op compatibele updates",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Kan niet verbinden met de appstore of de appstore gaf geen updates terug. Zoek handmatig naar updates of verifieer dat je server internettoegang heeft en kan verbinden met de appstore.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Alle</strong> apps hebben een update voor deze versie beschikbaar",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app heeft geen update voor deze versie beschikbaar","<strong>%n</strong> apps hebben geen update voor deze versie beschikbaar"]
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alle</strong> apps hebben een compatibele versie voor deze Nextcloud versie",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app heeft geen compatibele versie voor deze Nextcloud versie","<strong>%n</strong> apps hebben geen compatibele versie voor deze Nextcloud versie"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

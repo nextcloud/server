@@ -53,14 +53,9 @@ class Upgrade extends Command {
 	public const ERROR_INVALID_ARGUMENTS = 4;
 	public const ERROR_FAILURE = 5;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var Installer */
-	private $installer;
+	private IConfig $config;
+	private LoggerInterface $logger;
+	private Installer $installer;
 
 	public function __construct(IConfig $config, LoggerInterface $logger, Installer $installer) {
 		parent::__construct();
@@ -247,8 +242,7 @@ class Upgrade extends Command {
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
 				. 'logfile (data/nextcloud.log). If you want to re-run the '
 				. 'upgrade procedure, remove the "maintenance mode" from '
-				. 'config.php and call this script again.</comment>'
-				, true);
+				. 'config.php and call this script again.</comment>', true);
 			return self::ERROR_MAINTENANCE_MODE;
 		} else {
 			$output->writeln('<info>Nextcloud is already latest version</info>');

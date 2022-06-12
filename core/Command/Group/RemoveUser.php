@@ -24,22 +24,19 @@
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserManager;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RemoveUser extends Base {
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IGroupManager */
-	protected $groupManager;
+	protected IUserManager $userManager;
+	protected IGroupManager $groupManager;
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 */
 	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -74,5 +71,25 @@ class RemoveUser extends Base {
 		}
 		$group->removeUser($user);
 		return 0;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'group') {
+			return array_map(static fn (IGroup $group) => $group->getGID(), $this->groupManager->search($context->getCurrentWord()));
+		}
+		if ($argumentName === 'user') {
+			$groupId = $context->getWordAtIndex($context->getWordIndex() - 1);
+			$group = $this->groupManager->get($groupId);
+			if ($group === null) {
+				return [];
+			}
+			return array_map(static fn (IUser $user) => $user->getUID(), $group->searchUsers($context->getCurrentWord()));
+		}
+		return [];
 	}
 }

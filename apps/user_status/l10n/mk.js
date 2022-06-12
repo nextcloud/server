@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "Во разговор",
     "User status" : "Статус на корисникот",
     "View profile" : "Прегледај профил",
-    "Clear status message after" : "Тргни го статусот после",
+    "Clear status after" : "Тргни го статусот после",
     "What is your status?" : "Кој е вашиот статус?",
     "Set status" : "Постави статус",
     "Online status" : "Присутен",
@@ -35,7 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Занеми (Mute) ги сите известувања",
     "Appear offline" : "Прикажи исклучен",
-    "Clear status after" : "Тргни го статусот после",
+    "Clear status message after" : "Тргни го статусот после",
     "What's your status?" : "Кој е вашиот статус?"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

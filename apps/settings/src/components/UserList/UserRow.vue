@@ -43,22 +43,19 @@
 	</div>
 
 	<!-- User full data -->
-	<UserRowSimple
-		v-else-if="!editing"
+	<UserRowSimple v-else-if="!editing"
 		:editing.sync="editing"
 		:feedback-message="feedbackMessage"
 		:groups="groups"
 		:languages="languages"
 		:loading="loading"
-		:opened-menu="openedMenu"
+		:opened-menu.sync="openedMenu"
 		:settings="settings"
 		:show-config="showConfig"
 		:sub-admins-groups="subAdminsGroups"
 		:user-actions="userActions"
 		:user="user"
-		:class="{'row--menu-opened': openedMenu}"
-		@hideMenu="hideMenu"
-		@toggleMenu="toggleMenu" />
+		:class="{'row--menu-opened': openedMenu}" />
 	<div v-else
 		:class="{
 			'disabled': loading.delete || loading.disable,
@@ -77,12 +74,10 @@
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
-			<form
-				:class="{'icon-loading-small': loading.displayName}"
+			<form :class="{'icon-loading-small': loading.displayName}"
 				class="displayName"
 				@submit.prevent="updateDisplayName">
-				<input
-					:id="'displayName'+user.id+rand"
+				<input :id="'displayName'+user.id+rand"
 					ref="displayName"
 					:disabled="loading.displayName||loading.all"
 					:value="user.displayname"
@@ -91,8 +86,7 @@
 					autocorrect="off"
 					spellcheck="false"
 					type="text">
-				<input
-					class="icon-confirm"
+				<input class="icon-confirm"
 					type="submit"
 					value="">
 			</form>
@@ -225,8 +219,8 @@
 					</ActionButton>
 				</Actions>
 				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
-					<div class="icon-more"
-						@click="toggleMenu" />
+					<button class="icon-more"
+						@click.prevent="toggleMenu" />
 					<div :class="{ 'open': openedMenu }" class="popovermenu">
 						<PopoverMenu :menu="userActions" />
 					</div>
@@ -432,10 +426,10 @@ export default {
 		},
 
 		/**
-			 * Set user displayName
-			 *
-			 * @param {string} displayName The display name
-			 */
+		 * Set user displayName
+		 *
+		 * @param {string} displayName The display name
+		 */
 		updateDisplayName() {
 			const displayName = this.$refs.displayName.value
 			this.loading.displayName = true
@@ -450,10 +444,10 @@ export default {
 		},
 
 		/**
-			 * Set user password
-			 *
-			 * @param {string} password The email adress
-			 */
+		 * Set user password
+		 *
+		 * @param {string} password The email adress
+		 */
 		updatePassword() {
 			const password = this.$refs.password.value
 			this.loading.password = true
@@ -468,10 +462,10 @@ export default {
 		},
 
 		/**
-			 * Set user mailAddress
-			 *
-			 * @param {string} mailAddress The email adress
-			 */
+		 * Set user mailAddress
+		 *
+		 * @param {string} mailAddress The email adress
+		 */
 		updateEmail() {
 			const mailAddress = this.$refs.mailAddress.value
 			this.loading.mailAddress = true
@@ -486,10 +480,10 @@ export default {
 		},
 
 		/**
-			 * Create a new group and add user to it
-			 *
-			 * @param {string} gid Group id
-			 */
+		 * Create a new group and add user to it
+		 *
+		 * @param {string} gid Group id
+		 */
 		async createGroup(gid) {
 			this.loading = { groups: true, subadmins: true }
 			try {
@@ -505,10 +499,10 @@ export default {
 		},
 
 		/**
-			 * Add user to group
-			 *
-			 * @param {object} group Group object
-			 */
+		 * Add user to group
+		 *
+		 * @param {object} group Group object
+		 */
 		async addUserGroup(group) {
 			if (group.canAdd === false) {
 				return false
@@ -526,10 +520,10 @@ export default {
 		},
 
 		/**
-			 * Remove user from group
-			 *
-			 * @param {object} group Group object
-			 */
+		 * Remove user from group
+		 *
+		 * @param {object} group Group object
+		 */
 		async removeUserGroup(group) {
 			if (group.canRemove === false) {
 				return false
@@ -555,10 +549,10 @@ export default {
 		},
 
 		/**
-			 * Add user to group
-			 *
-			 * @param {object} group Group object
-			 */
+		 * Add user to group
+		 *
+		 * @param {object} group Group object
+		 */
 		async addUserSubAdmin(group) {
 			this.loading.subadmins = true
 			const userid = this.user.id
@@ -576,10 +570,10 @@ export default {
 		},
 
 		/**
-			 * Remove user from group
-			 *
-			 * @param {object} group Group object
-			 */
+		 * Remove user from group
+		 *
+		 * @param {object} group Group object
+		 */
 		async removeUserSubAdmin(group) {
 			this.loading.subadmins = true
 			const userid = this.user.id
@@ -598,11 +592,11 @@ export default {
 		},
 
 		/**
-			 * Dispatch quota set request
-			 *
-			 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
-			 * @returns {string}
-			 */
+		 * Dispatch quota set request
+		 *
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {string}
+		 */
 		async setUserQuota(quota = 'none') {
 			this.loading.quota = true
 			// ensure we only send the preset id
@@ -623,11 +617,11 @@ export default {
 		},
 
 		/**
-			 * Validate quota string to make sure it's a valid human file size
-			 *
-			 * @param {string} quota Quota in readable format '5 GB'
-			 * @returns {Promise|boolean}
-			 */
+		 * Validate quota string to make sure it's a valid human file size
+		 *
+		 * @param {string} quota Quota in readable format '5 GB'
+		 * @return {Promise|boolean}
+		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			const validQuota = OC.Util.computerFileSize(quota)
@@ -640,11 +634,11 @@ export default {
 		},
 
 		/**
-			 * Dispatch language set request
-			 *
-			 * @param {Object} lang language object {code:'en', name:'English'}
-			 * @returns {Object}
-			 */
+		 * Dispatch language set request
+		 *
+		 * @param {object} lang language object {code:'en', name:'English'}
+		 * @return {object}
+		 */
 		async setUserLanguage(lang) {
 			this.loading.languages = true
 			// ensure we only send the preset id
@@ -663,8 +657,8 @@ export default {
 		},
 
 		/**
-			 * Dispatch new welcome mail request
-			 */
+		 * Dispatch new welcome mail request
+		 */
 		sendWelcomeMail() {
 			this.loading.all = true
 			this.$store.dispatch('sendWelcomeMail', this.user.id)

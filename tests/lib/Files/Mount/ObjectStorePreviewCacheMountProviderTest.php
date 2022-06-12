@@ -30,8 +30,8 @@ use OC\Files\ObjectStore\S3;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group DB
@@ -43,7 +43,7 @@ class ObjectStorePreviewCacheMountProviderTest extends \Test\TestCase {
 	/** @var ObjectStorePreviewCacheMountProvider */
 	protected $provider;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
 	/** @var IConfig|MockObject */
 	protected $config;
@@ -54,7 +54,7 @@ class ObjectStorePreviewCacheMountProviderTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->loader = $this->createMock(StorageFactory::class);
 

@@ -27,8 +27,8 @@ namespace OC\Files\Mount;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 /**
  * Mount provider for object store home storages
@@ -65,7 +65,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 			return null;
 		}
 
-		return new MountPoint('\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader);
+		return new MountPoint('\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader, null, null, self::class);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 
 		// sanity checks
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('No class given for objectstore', ['app' => 'files']);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = [];
@@ -105,7 +105,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 
 		// sanity checks
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('No class given for objectstore', ['app' => 'files']);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = [];

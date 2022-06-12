@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,11 +28,11 @@ export const DEFAULT_LIMIT = 20
 /**
  * Retrieve the comments list
  *
- * @param {Object} data destructuring object
+ * @param {object} data destructuring object
  * @param {string} data.commentsType the ressource type
  * @param {number} data.ressourceId the ressource ID
- * @param {Object} [options] optional options for axios
- * @returns {Object[]} the comments list
+ * @param {object} [options] optional options for axios
+ * @return {object[]} the comments list
  */
 export default async function({ commentsType, ressourceId }, options = {}) {
 	let response = null
@@ -64,6 +64,10 @@ export default async function({ commentsType, ressourceId }, options = {}) {
 }
 
 // https://github.com/perry-mitchell/webdav-client/blob/9de2da4a2599e06bd86c2778145b7ade39fe0b3c/source/interface/directoryContents.js#L32
+/**
+ * @param {any} result -
+ * @param {any} isDetailed -
+ */
 function processMultistatus(result, isDetailed = false) {
 	// Extract the response items (directory contents)
 	const {
@@ -86,6 +90,10 @@ function processMultistatus(result, isDetailed = false) {
 	})
 }
 
+/**
+ * @param {any} value -
+ * @param {any} passes -
+ */
 function decodeHtmlEntities(value, passes = 1) {
 	const parser = new DOMParser()
 	let decoded = value

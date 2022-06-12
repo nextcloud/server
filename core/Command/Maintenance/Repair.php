@@ -40,25 +40,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Repair extends Command {
-	/** @var \OC\Repair $repair */
-	protected $repair;
-	/** @var IConfig */
-	protected $config;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-	/** @var ProgressBar */
-	private $progress;
-	/** @var OutputInterface */
-	private $output;
-	/** @var IAppManager */
-	private $appManager;
+	protected \OC\Repair $repair;
+	protected IConfig $config;
+	private EventDispatcherInterface $dispatcher;
+	private ProgressBar $progress;
+	private OutputInterface $output;
+	private IAppManager $appManager;
 
-	/**
-	 * @param \OC\Repair $repair
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $dispatcher
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(\OC\Repair $repair, IConfig $config, EventDispatcherInterface $dispatcher, IAppManager $appManager) {
 		$this->repair = $repair;
 		$this->config = $config;

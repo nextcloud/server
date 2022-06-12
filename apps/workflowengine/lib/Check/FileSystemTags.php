@@ -36,6 +36,7 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IFileCheck;
+use OC\Files\Storage\Wrapper\Wrapper;
 
 class FileSystemTags implements ICheck, IFileCheck {
 	use TFileCheck;
@@ -132,13 +133,26 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return int[]
 	 */
 	protected function getFileIds(ICache $cache, $path, $isExternalStorage) {
-		// TODO: Fix caching inside group folders
-		// Do not cache file ids inside group folders because multiple file ids might be mapped to
-		// the same combination of cache id + path.
-		$shouldCacheFileIds = !$this->storage
-			->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
-		$cacheId = $cache->getNumericStorageId();
-		if ($shouldCacheFileIds && isset($this->fileIds[$cacheId][$path])) {
+		/** @psalm-suppress InvalidArgument */
+		if ($this->storage->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class)) {
+			// Special implementation for groupfolder since all groupfolders share the same storage
+			// id so add the group folder id in the cache key too.
+			$groupFolderStorage = $this->storage;
+			if ($this->storage instanceof Wrapper) {
+				$groupFolderStorage = $this->storage->getInstanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
+			}
+			if ($groupFolderStorage === null) {
+				throw new \LogicException('Should not happen: Storage is instance of GroupFolderStorage but no group folder storage found while unwrapping.');
+			}
+			/**
+			 * @psalm-suppress UndefinedDocblockClass
+			 * @psalm-suppress UndefinedInterfaceMethod
+			 */
+			$cacheId = $cache->getNumericStorageId() . '/' . $groupFolderStorage->getFolderId();
+		} else {
+			$cacheId = $cache->getNumericStorageId();
+		}
+		if (isset($this->fileIds[$cacheId][$path])) {
 			return $this->fileIds[$cacheId][$path];
 		}
 
@@ -151,12 +165,10 @@ class FileSystemTags implements ICheck, IFileCheck {
 
 		$fileId = $cache->getId($path);
 		if ($fileId !== -1) {
-			$parentIds[] = $cache->getId($path);
+			$parentIds[] = $fileId;
 		}
 
-		if ($shouldCacheFileIds) {
-			$this->fileIds[$cacheId][$path] = $parentIds;
-		}
+		$this->fileIds[$cacheId][$path] = $parentIds;
 
 		return $parentIds;
 	}

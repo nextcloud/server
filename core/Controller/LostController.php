@@ -47,7 +47,6 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -55,6 +54,7 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
+use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
 use function reset;
@@ -67,33 +67,21 @@ use function reset;
  * @package OC\Core\Controller
  */
 class LostController extends Controller {
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var Defaults */
-	protected $defaults;
-	/** @var IL10N */
-	protected $l10n;
-	/** @var string */
-	protected $from;
-	/** @var IManager */
-	protected $encryptionManager;
-	/** @var IConfig */
-	protected $config;
-	/** @var IMailer */
-	protected $mailer;
-	/** @var ILogger */
-	private $logger;
-	/** @var Manager */
-	private $twoFactorManager;
-	/** @var IInitialStateService */
-	private $initialStateService;
-	/** @var IVerificationToken */
-	private $verificationToken;
+	protected IURLGenerator $urlGenerator;
+	protected IUserManager $userManager;
+	protected Defaults $defaults;
+	protected IL10N $l10n;
+	protected string $from;
+	protected IManager $encryptionManager;
+	protected IConfig $config;
+	protected IMailer $mailer;
+	private LoggerInterface $logger;
+	private Manager $twoFactorManager;
+	private IInitialStateService $initialStateService;
+	private IVerificationToken $verificationToken;
 
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IURLGenerator $urlGenerator,
 		IUserManager $userManager,
@@ -103,7 +91,7 @@ class LostController extends Controller {
 		$defaultMailAddress,
 		IManager $encryptionManager,
 		IMailer $mailer,
-		ILogger $logger,
+		LoggerInterface $logger,
 		Manager $twoFactorManager,
 		IInitialStateService $initialStateService,
 		IVerificationToken $verificationToken
@@ -128,12 +116,8 @@ class LostController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 *
-	 * @param string $token
-	 * @param string $userId
-	 * @return TemplateResponse
 	 */
-	public function resetform($token, $userId) {
+	public function resetform(string $token, string $userId): TemplateResponse {
 		try {
 			$this->checkPasswordResetToken($token, $userId);
 		} catch (\Exception $e) {
@@ -168,8 +152,6 @@ class LostController extends Controller {
 	}
 
 	/**
-	 * @param string $token
-	 * @param string $userId
 	 * @throws \Exception
 	 */
 	protected function checkPasswordResetToken(string $token, string $userId): void {
@@ -184,20 +166,11 @@ class LostController extends Controller {
 		}
 	}
 
-	/**
-	 * @param $message
-	 * @param array $additional
-	 * @return array
-	 */
-	private function error($message, array $additional = []) {
+	private function error(string $message, array $additional = []): array {
 		return array_merge(['status' => 'error', 'msg' => $message], $additional);
 	}
 
-	/**
-	 * @param array $data
-	 * @return array
-	 */
-	private function success($data = []) {
+	private function success(array $data = []): array {
 		return array_merge($data, ['status' => 'success']);
 	}
 
@@ -205,11 +178,8 @@ class LostController extends Controller {
 	 * @PublicPage
 	 * @BruteForceProtection(action=passwordResetEmail)
 	 * @AnonRateThrottle(limit=10, period=300)
-	 *
-	 * @param string $user
-	 * @return JSONResponse
 	 */
-	public function email($user) {
+	public function email(string $user): JSONResponse {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
@@ -227,7 +197,7 @@ class LostController extends Controller {
 			// Ignore the error since we do not want to leak this info
 			$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 
 		$response = new JSONResponse($this->success());
@@ -237,13 +207,8 @@ class LostController extends Controller {
 
 	/**
 	 * @PublicPage
-	 * @param string $token
-	 * @param string $userId
-	 * @param string $password
-	 * @param boolean $proceed
-	 * @return array
 	 */
-	public function setPassword($token, $userId, $password, $proceed) {
+	public function setPassword(string $token, string $userId, string $password, bool $proceed): array {
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
 			$encryptionModules = $this->encryptionManager->getEncryptionModules();
 			foreach ($encryptionModules as $module) {
@@ -282,11 +247,10 @@ class LostController extends Controller {
 	}
 
 	/**
-	 * @param string $input
 	 * @throws ResetPasswordException
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	protected function sendEmail($input) {
+	protected function sendEmail(string $input): void {
 		$user = $this->findUserByIdOrMail($input);
 		$email = $user->getEMailAddress();
 
@@ -330,16 +294,14 @@ class LostController extends Controller {
 			$this->mailer->send($message);
 		} catch (\Exception $e) {
 			// Log the exception and continue
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['app' => 'core', 'exception' => $e]);
 		}
 	}
 
 	/**
-	 * @param string $input
-	 * @return IUser
 	 * @throws ResetPasswordException
 	 */
-	protected function findUserByIdOrMail($input) {
+	protected function findUserByIdOrMail(string $input): IUser {
 		$user = $this->userManager->get($input);
 		if ($user instanceof IUser) {
 			if (!$user->isEnabled()) {

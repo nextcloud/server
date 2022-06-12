@@ -543,9 +543,10 @@ class Storage {
 		});
 
 		foreach ($versions as $version) {
-			\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $version->getInternalPath(), 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+			$internalPath = $version->getInternalPath();
+			\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 			$version->delete();
-			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $version->getInternalPath(), 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 		}
 	}
 

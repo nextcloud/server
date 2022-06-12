@@ -10,22 +10,12 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s komentoi te %2$s",
     "{author} commented on {file}" : "{author} komentoi në {file}",
     "<strong>Comments</strong> for files" : "<strong>Komente</strong> për skedarët",
-    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”",
     "Edit comment" : "Përpunoni komentin",
     "Delete comment" : "Fshije komentin",
     "No comments yet, start the conversation!" : "Akoma asnjë koment, fillo një bisedë!",
     "Retry" : "Riprovoni",
     "_%n unread comment_::_%n unread comments_" : ["%n komente të palexuara","%n komente të palexuara "],
     "Comment" : "Koment",
-    "New comment …" : "Koment i ri ...",
-    "Post" : "Postoje",
-    "Cancel" : "Anuloje",
-    "[Deleted user]" : "[Përdorues i fshirë]",
-    "More comments …" : "Më shumë komente ...",
-    "Save" : "Ruaje",
-    "Allowed characters {count} of {max}" : "Shenja të lejuara {count} nga {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Ndodhi një gabim gjatë rimarrjes së komentit me ID {id}",
-    "Error occurred while updating comment with id {id}" : "Ndodhi një gabim teksa përditësohej komenti me id {id}",
-    "Error occurred while posting comment" : "Ndodhi një gabim teksa postohej komenti"
+    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

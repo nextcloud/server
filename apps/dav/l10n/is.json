@@ -21,6 +21,7 @@
     "{actor} shared calendar {calendar} with group {group}" : "{actor} deildi dagatalinu {calendar} með hópnum {group}",
     "You unshared calendar {calendar} from group {group}" : "Þú tókst af deilingu á dagatalinu {calendar} frá hópnum {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} tók af deilingu á dagatalinu {calendar} frá hópnum {group}",
+    "Untitled event" : "Ónefndur atburður",
     "{actor} created event {event} in calendar {calendar}" : "{actor} bjó til atburðinn {event} í dagatalinu {calendar}",
     "You created event {event} in calendar {calendar}" : "Þú bjóst til atburðinn {event} í dagatalinu {calendar}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} eyddi atburðinum {event} úr dagatalinu {calendar}",
@@ -46,7 +47,6 @@
     "Date:" : "Dagsetning:",
     "Where:" : "Hvar:",
     "Description:" : "Lýsing:",
-    "Untitled event" : "Ónefndur atburður",
     "_%n year_::_%n years_" : ["%n ár","%n ár"],
     "_%n month_::_%n months_" : ["%n mánuður","%n mánuðir"],
     "_%n day_::_%n days_" : ["%n dagur","%n dagar"],
@@ -75,6 +75,14 @@
     "Untitled task" : "Ónefnt verkefni",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-endapunktur",
+    "to" : "til",
+    "Monday" : "Mánudagur",
+    "Tuesday" : "Þriðjudagur",
+    "Wednesday" : "Miðvikudagur",
+    "Thursday" : "Fimmtudagur",
+    "Friday" : "Föstudagur",
+    "Saturday" : "Laugardagur",
+    "Sunday" : "Sunnudagur",
     "Save" : "Vista",
     "Calendar server" : "Dagatalaþjónn",
     "Send invitations to attendees" : "Senda boð til þátttakenda",
@@ -87,6 +95,7 @@
     "Please contact the organizer directly." : "Hafðu samband beint við skipuleggjendurna.",
     "Are you accepting the invitation?" : "Ætlar þú að samþykkja boðið?",
     "Tentative" : "Bráðabirgða",
+    "Comment" : "Athugasemd",
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

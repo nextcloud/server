@@ -32,7 +32,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Faili \"{file}\" info laadimine ebaõnnestus",
     "Files" : "Failid",
     "Details" : "Üksikasjad",
-    "Select" : "Vali",
     "Pending" : "Ootel",
     "Unable to determine date" : "Kuupäeva tuvastamine ei õnnestunud",
     "This operation is forbidden" : "See toiming on keelatud",
@@ -59,7 +58,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fail","%n faili"],
     "{dirs} and {files}" : "{dirs} ja {files}",
     "_including %n hidden_::_including %n hidden_" : ["sealhulgas %n peidetud","sealhulgas %n peidetud"],
-    "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
     "_Uploading %n file_::_Uploading %n files_" : ["Laadin üles %n faili","Laadin üles %n faili"],
     "New" : "Uus",
     "{used} of {quota} used" : "Kasutatud {used}/{quota}",
@@ -117,6 +115,8 @@ OC.L10N.register(
     "in %s" : "kaustas %s",
     "Change" : "Muuda",
     "Tags" : "Sildid",
+    "Cancel" : "Loobu",
+    "Create" : "Loo",
     "%s used" : "Kasutatud %s",
     "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
     "Settings" : "Seaded",
@@ -139,8 +139,7 @@ OC.L10N.register(
     "Pending shares" : "Ootel jagamised",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Sinu andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["vastab '{filter}'","vastab '{filter}'"]
+    "Select" : "Vali",
+    "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks"
 },
 "nplurals=2; plural=(n != 1);");

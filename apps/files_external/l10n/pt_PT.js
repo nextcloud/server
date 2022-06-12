@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Gerar chaves",
     "Error generating key pair" : "Erro ao gerar chave par",
     "All users. Type to select user or group." : "Todos os utilizadores. Digite para selecionar o utilizador ou grupo.",
+    "(Group)" : "(Grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidade com a codificação NFD Mac (lenta)",
     "Enable encryption" : "Activar encriptação",
     "Enable previews" : "Ativar pré-visualizações",
@@ -19,10 +20,11 @@ OC.L10N.register(
     "Never" : "Nunca",
     "Once every direct access" : "Uma vez em cada acesso direto",
     "Read only" : "Apenas leitura",
-    "Delete" : "Apagar",
+    "Disconnect" : "Desligado",
     "Admin defined" : "Administrador definido",
     "Delete storage?" : "Apagar armazenamento?",
     "Saved" : "Guardado",
+    "Saving …" : "A guardar...",
     "Save" : "Guardar",
     "Empty response from the server" : "Resposta vazia a partir do servidor",
     "Couldn't access. Please log out and in again to activate this mount point" : "Não foi possível aceder. Por favor faça logout e volte-se a autenticar para activar este ponto de montagem.",
@@ -113,9 +115,6 @@ OC.L10N.register(
     "Add storage" : "Adicionar armazenamento",
     "Advanced settings" : "Definições avançadas",
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "External storages" : "Armazenamento externo",
-    "(group)" : "(grupo)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS utilizando o início de sessão OC"
+    "Delete" : "Apagar"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

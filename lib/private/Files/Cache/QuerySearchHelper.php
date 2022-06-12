@@ -28,13 +28,14 @@ namespace OC\Files\Cache;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\SystemConfig;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
 
@@ -44,8 +45,7 @@ class QuerySearchHelper {
 	private $connection;
 	/** @var SystemConfig */
 	private $systemConfig;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var SearchBuilder */
 	private $searchBuilder;
 	/** @var QueryOptimizer */
@@ -55,7 +55,7 @@ class QuerySearchHelper {
 		IMimeTypeLoader $mimetypeLoader,
 		IDBConnection $connection,
 		SystemConfig $systemConfig,
-		ILogger $logger,
+		LoggerInterface $logger,
 		SearchBuilder $searchBuilder,
 		QueryOptimizer $queryOptimizer
 	) {
@@ -111,13 +111,21 @@ class QuerySearchHelper {
 				throw new \InvalidArgumentException("Searching by tag requires the user to be set in the query");
 			}
 			$query
-				->innerJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
-				->innerJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
+				->leftJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
+				->leftJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
 					$builder->expr()->eq('tagmap.type', 'tag.type'),
-					$builder->expr()->eq('tagmap.categoryid', 'tag.id')
+					$builder->expr()->eq('tagmap.categoryid', 'tag.id'),
+					$builder->expr()->eq('tag.type', $builder->createNamedParameter('files')),
+					$builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID()))
 				))
-				->andWhere($builder->expr()->eq('tag.type', $builder->createNamedParameter('files')))
-				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID())));
+				->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $builder->expr()->andX(
+					$builder->expr()->eq('file.fileid', $builder->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+					$builder->expr()->eq('systemtagmap.objecttype', $builder->createNamedParameter('files'))
+				))
+				->leftJoin('systemtagmap', 'systemtag', 'systemtag', $builder->expr()->andX(
+					$builder->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
+					$builder->expr()->eq('systemtag.visibility', $builder->createNamedParameter(true))
+				));
 		}
 
 		$storageFilters = array_values(array_map(function (ICache $cache) {

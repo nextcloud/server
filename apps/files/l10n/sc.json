@@ -39,7 +39,6 @@
     "Details" : "Detàllios",
     "Please select tag(s) to add to the selection" : "Seletziona eticheta(s) pro agiùnghere a sa seletzione",
     "Apply tag(s) to selection" : "Àplica eticheta(s) a sa seletzione",
-    "Select" : "Seletziona",
     "Pending" : "In suspesu",
     "Unable to determine date" : "Non faghet a determinare sa data",
     "This operation is forbidden" : "Custa operatzione no est permìtida",
@@ -69,7 +68,6 @@
     "_%n file_::_%n files_" : ["%n archìviu","%n archìvios"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["inclùdidu %n cuadu","inclùdidos %n cuados"],
-    "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
     "_Uploading %n file_::_Uploading %n files_" : ["Carrighende %n archìviu","Carrighende %n archìvios"],
     "New" : "Nou",
     "Select file range" : "Seletziona classe de archìviu",
@@ -168,7 +166,6 @@
     "Transfer {path} to {userid}" : "Tràmuda {path} a {userid}",
     "Invalid path selected" : "Percursu seletzionadu non vàlidu",
     "Ownership transfer request sent" : "Dimanda de tràmuda de propriedade imbiada",
-    "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
     "Tags" : "Etichetas",
     "Unable to change the favourite state of the file" : "Non faghet a cambiare s'istadu de preferidu de s'archìviu",
     "Error while loading the file data" : "Errore in su carrigamentu de is datos de s'archìviu",
@@ -209,10 +206,8 @@
     "Pending shares" : "Cumpartziduras in suspesu",
     "Text file" : "Archìviu de testu",
     "New text file.txt" : "Archìviu de testu .txt nou",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "S'archiviatzione de {owner} est prena, non podes prus carrigare o sincronizare archìvios!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Sa cartella de grupu \"{mountPoint}\" est prena, non podes prus carrigare o sincronizare archìvios!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "S'archiviatzione de foras \"{mountPoint}\" est prena, non podes prus carrigare o sincronizare archìvios!",
-    "Your storage is full, files can not be updated or synced anymore!" : "S'archiviatzione est prena, non podes prus carrigare o sincronizare archìvios!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["currispondèntzias '{filter}'","currispondèntzia '{filter}'"]
+    "Select" : "Seletziona",
+    "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
+    "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

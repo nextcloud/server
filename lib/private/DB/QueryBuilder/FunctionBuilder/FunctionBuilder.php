@@ -26,18 +26,23 @@ namespace OC\DB\QueryBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\IDBConnection;
 
 class FunctionBuilder implements IFunctionBuilder {
+	/** @var IDBConnection */
+	protected $connection;
+
+	/** @var IQueryBuilder */
+	protected $queryBuilder;
+
 	/** @var QuoteHelper */
 	protected $helper;
 
-	/**
-	 * ExpressionBuilder constructor.
-	 *
-	 * @param QuoteHelper $helper
-	 */
-	public function __construct(QuoteHelper $helper) {
+	public function __construct(IDBConnection $connection, IQueryBuilder $queryBuilder, QuoteHelper $helper) {
+		$this->connection = $connection;
+		$this->queryBuilder = $queryBuilder;
 		$this->helper = $helper;
 	}
 
@@ -45,8 +50,18 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction('MD5(' . $this->helper->quoteColumnName($input) . ')');
 	}
 
-	public function concat($x, $y): IQueryFunction {
-		return new QueryFunction('CONCAT(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
+	public function concat($x, ...$expr): IQueryFunction {
+		$args = func_get_args();
+		$list = [];
+		foreach ($args as $item) {
+			$list[] = $this->helper->quoteColumnName($item);
+		}
+		return new QueryFunction(sprintf('CONCAT(%s)', implode(', ', $list)));
+	}
+
+	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+		$separator = $this->connection->quote($separator);
+		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ' SEPARATOR ' . $separator . ')');
 	}
 
 	public function substring($input, $start, $length = null): IQueryFunction {
@@ -77,6 +92,18 @@ class FunctionBuilder implements IFunctionBuilder {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $count === '' ? '*' : $this->helper->quoteColumnName($count);
 		return new QueryFunction('COUNT(' . $quotedName . ')' . $alias);
+	}
+
+	public function octetLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('OCTET_LENGTH(' . $quotedName . ')' . $alias);
+	}
+
+	public function charLength($field, $alias = ''): IQueryFunction {
+		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$quotedName = $this->helper->quoteColumnName($field);
+		return new QueryFunction('CHAR_LENGTH(' . $quotedName . ')' . $alias);
 	}
 
 	public function max($field): IQueryFunction {

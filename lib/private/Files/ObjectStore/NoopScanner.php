@@ -31,7 +31,7 @@ use OC\Files\Storage\Storage;
 
 class NoopScanner extends Scanner {
 	public function __construct(Storage $storage) {
-		//we don't need the storage, so do nothing here
+		// we don't need the storage, so do nothing here
 	}
 
 	/**

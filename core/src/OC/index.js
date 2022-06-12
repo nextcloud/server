@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -133,8 +133,9 @@ export default {
 	 */
 	/**
 	 * Check if a user file is allowed to be handled.
+	 *
 	 * @param {string} file to check
-	 * @returns {Boolean}
+	 * @return {boolean}
 	 * @deprecated 17.0.0
 	 */
 	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
@@ -152,7 +153,7 @@ export default {
 	/**
 	 * Currently logged in user or null if none
 	 *
-	 * @type String
+	 * @type {string}
 	 * @deprecated use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
 	 */
 	currentUser,
@@ -171,6 +172,7 @@ export default {
 
 	/**
 	 * Ajax error handlers
+	 *
 	 * @todo remove from here and keep internally -> requires new tests
 	 */
 	_ajaxConnectionLostHandler: ajaxConnectionLostHandler,
@@ -234,7 +236,7 @@ export default {
 	/**
 	 * Loads translations for the given app asynchronously.
 	 *
-	 * @param {String} app app name
+	 * @param {string} app app name
 	 * @param {Function} callback callback to call after loading
 	 * @return {Promise}
 	 * @deprecated 17.0.0 use OC.L10N.load instead
@@ -286,9 +288,9 @@ export default {
 	 */
 	linkTo,
 	/**
-	 * @param {String} service service name
-	 * @param {Number} version OCS API version
-	 * @returns {String} OCS API base path
+	 * @param {string} service service name
+	 * @param {number} version OCS API version
+	 * @return {string} OCS API base path
 	 * @deprecated 19.0.0 use `generateOcsUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	linkToOCS: (service, version) => {
@@ -305,7 +307,7 @@ export default {
 	 * Relative path to Nextcloud root.
 	 * For example: "/nextcloud"
 	 *
-	 * @type string
+	 * @type {string}
 	 *
 	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 * @see OC#getRootPath

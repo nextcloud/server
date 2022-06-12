@@ -21,10 +21,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Cache;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
+use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
 
 /**
@@ -91,9 +93,11 @@ class Propagator implements IPropagator {
 
 		$builder->update('filecache')
 			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT)))
-			->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('path_hash', $hashParams));
+		if (!$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
+			$builder->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR));
+		}
 
 		$builder->execute();
 
@@ -141,7 +145,7 @@ class Propagator implements IPropagator {
 			$this->batch[$internalPath] = [
 				'hash' => md5($internalPath),
 				'time' => $time,
-				'size' => $sizeDifference
+				'size' => $sizeDifference,
 			];
 		} else {
 			$this->batch[$internalPath]['size'] += $sizeDifference;

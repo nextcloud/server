@@ -50,7 +50,7 @@ OC.MimeType = {
 			return 'folder-shared';
 		} else if (mimeType === 'dir-public' && $.inArray('folder-public', files) !== -1) {
 			return 'folder-public';
-		} else if (mimeType === 'dir-external' && $.inArray('folder-external', files) !== -1) {
+		} else if ((mimeType === 'dir-external' || mimeType === 'dir-external-root') && $.inArray('folder-external', files) !== -1) {
 			return 'folder-external';
 		} else if ($.inArray(icon, files) !== -1) {
 			return icon;

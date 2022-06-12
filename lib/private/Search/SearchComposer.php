@@ -28,14 +28,14 @@ declare(strict_types=1);
 namespace OC\Search;
 
 use InvalidArgumentException;
-use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OC\AppFramework\Bootstrap\Coordinator;
+use Psr\Log\LoggerInterface;
 use function array_map;
 
 /**
@@ -68,12 +68,11 @@ class SearchComposer {
 	/** @var IServerContainer */
 	private $container;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	public function __construct(Coordinator $bootstrapCoordinator,
 								IServerContainer $container,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->container = $container;
 		$this->logger = $logger;
 		$this->bootstrapCoordinator = $bootstrapCoordinator;
@@ -99,9 +98,8 @@ class SearchComposer {
 				$this->providers[$provider->getId()] = $provider;
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.
-				$this->logger->logException($e, [
-					'message' => 'Could not load search provider dynamically: ' . $e->getMessage(),
-					'level' => ILogger::ERROR,
+				$this->logger->error('Could not load search provider dynamically: ' . $e->getMessage(), [
+					'exception' => $e,
 					'app' => $registration->getAppId(),
 				]);
 			}

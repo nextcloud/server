@@ -67,7 +67,12 @@ class RemotePlugin implements ISearchPlugin {
 		$resultType = new SearchResultType('remotes');
 
 		// Search in contacts
-		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN'], ['limit' => $limit, 'offset' => $offset]);
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN'], [
+			'limit' => $limit,
+			'offset' => $offset,
+			'enumeration' => false,
+			'fullmatch' => false,
+		]);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
 				continue;

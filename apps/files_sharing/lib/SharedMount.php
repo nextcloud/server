@@ -26,6 +26,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Cache\CappedMemoryCache;
@@ -34,7 +35,10 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\ICache;
+use OCP\IUser;
 use OCP\Share\Events\VerifyMountPointEvent;
 
 /**
@@ -51,10 +55,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	private $recipientView;
 
-	/**
-	 * @var string
-	 */
-	private $user;
+	private IUser $user;
 
 	/** @var \OCP\Share\IShare */
 	private $superShare;
@@ -62,23 +63,32 @@ class SharedMount extends MountPoint implements MoveableMount {
 	/** @var \OCP\Share\IShare[] */
 	private $groupedShares;
 
-	/**
-	 * @param string $storage
-	 * @param SharedMount[] $mountpoints
-	 * @param array $arguments
-	 * @param IStorageFactory $loader
-	 * @param View $recipientView
-	 */
-	public function __construct($storage, array $mountpoints, $arguments, IStorageFactory $loader, View $recipientView, CappedMemoryCache $folderExistCache) {
-		$this->user = $arguments['user'];
+	private IEventDispatcher $eventDispatcher;
+
+	private ICache $cache;
+
+	public function __construct(
+		$storage,
+		array $mountpoints,
+		$arguments,
+		IStorageFactory $loader,
+		View $recipientView,
+		CappedMemoryCache $folderExistCache,
+		IEventDispatcher $eventDispatcher,
+		IUser $user,
+		ICache $cache
+	) {
+		$this->user = $user;
 		$this->recipientView = $recipientView;
+		$this->eventDispatcher = $eventDispatcher;
+		$this->cache = $cache;
 
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
 
 		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
-		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
-		parent::__construct($storage, $absMountPoint, $arguments, $loader);
+		$absMountPoint = '/' . $user->getUID() . '/files' . $newMountPoint;
+		parent::__construct($storage, $absMountPoint, $arguments, $loader, null, null, MountProvider::class);
 	}
 
 	/**
@@ -86,16 +96,25 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @param SharedMount[] $mountpoints
+	 * @param CappedMemoryCache<bool> $folderExistCache
 	 * @return string
 	 */
-	private function verifyMountPoint(\OCP\Share\IShare $share, array $mountpoints, CappedMemoryCache $folderExistCache) {
+	private function verifyMountPoint(
+		\OCP\Share\IShare $share,
+		array $mountpoints,
+		CappedMemoryCache $folderExistCache
+	) {
+		$cacheKey = $this->user->getUID() . '/' . $share->getTarget();
+		$cached = $this->cache->get($cacheKey);
+		if ($cached !== null) {
+			return $cached;
+		}
+
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
 		$event = new VerifyMountPointEvent($share, $this->recipientView, $parent);
-		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->query(IEventDispatcher::class);
-		$dispatcher->dispatchTyped($event);
+		$this->eventDispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
 
 		if ($folderExistCache->hasKey($parent)) {
@@ -105,7 +124,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$folderExistCache->set($parent, $parentExists);
 		}
 		if (!$parentExists) {
-			$parent = Helper::getShareFolder($this->recipientView, $this->user);
+			$parent = Helper::getShareFolder($this->recipientView, $this->user->getUID());
 		}
 
 		$newMountPoint = $this->generateUniqueTarget(
@@ -117,6 +136,8 @@ class SharedMount extends MountPoint implements MoveableMount {
 		if ($newMountPoint !== $share->getTarget()) {
 			$this->updateFileTarget($newMountPoint, $share);
 		}
+
+		$this->cache->set($cacheKey, $newMountPoint, 60 * 60);
 
 		return $newMountPoint;
 	}
@@ -133,8 +154,10 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		foreach ($this->groupedShares as $tmpShare) {
 			$tmpShare->setTarget($newPath);
-			\OC::$server->getShareManager()->moveShare($tmpShare, $this->user);
+			\OC::$server->getShareManager()->moveShare($tmpShare, $this->user->getUID());
 		}
+
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->user));
 	}
 
 

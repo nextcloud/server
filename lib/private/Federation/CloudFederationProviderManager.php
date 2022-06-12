@@ -32,7 +32,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Manager
@@ -55,8 +55,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var array cache OCM end-points */
 	private $ocmEndPoints = [];
@@ -69,12 +68,11 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @param IAppManager $appManager
 	 * @param IClientService $httpClientService
 	 * @param ICloudIdManager $cloudIdManager
-	 * @param ILogger $logger
 	 */
 	public function __construct(IAppManager $appManager,
 								IClientService $httpClientService,
 								ICloudIdManager $cloudIdManager,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->cloudFederationProvider = [];
 		$this->appManager = $appManager;
 		$this->httpClientService = $httpClientService;
@@ -152,11 +150,12 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 				return (is_array($result)) ? $result : [];
 			}
 		} catch (\Exception $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+
 			// if flat re-sharing is not supported by the remote server
 			// we re-throw the exception and fall back to the old behaviour.
 			// (flat re-shares has been introduced in Nextcloud 9.1)
 			if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
-				$this->logger->debug($e->getMessage());
 				throw $e;
 			}
 		}
@@ -190,7 +189,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 			}
 		} catch (\Exception $e) {
 			// log the error and return false
-			$this->logger->error('error while sending notification for federated share: ' . $e->getMessage());
+			$this->logger->error('error while sending notification for federated share: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
 		return false;

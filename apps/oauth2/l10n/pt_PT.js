@@ -10,11 +10,11 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth2.0 permite que dispositivos externos peçam acesso a {instanceName}.",
     "Add client" : "Adicionar cliente",
     "Name" : "Nome",
-    "Redirection URI" : "URI de redireccionamento",
+    "Redirection URI" : "URI de redirecionamento",
     "Add" : "Adicionar",
     "Client Identifier" : "Identificador de Cliente",
     "Secret" : "Segredo",
     "Show client secret" : "Mostrar segredo do cliente",
     "Delete" : "Apagar"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

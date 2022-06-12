@@ -24,14 +24,12 @@
 		<transition name="fade" mode="out-in">
 			<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''"
 				key="login">
-				<LoginForm
-					:username.sync="user"
+				<LoginForm :username.sync="user"
 					:redirect-url="redirectUrl"
 					:direct-login="directLogin"
 					:messages="messages"
 					:errors="errors"
 					:throttle-delay="throttleDelay"
-					:inverted-colors="invertedColors"
 					:auto-complete-allowed="autoCompleteAllowed"
 					@submit="loading = true" />
 				<a v-if="canResetPassword && resetPasswordLink !== ''"
@@ -67,10 +65,8 @@
 			<div v-else-if="!loading && passwordlessLogin"
 				key="reset"
 				class="login-additional">
-				<PasswordLessLoginForm
-					:username.sync="user"
+				<PasswordLessLoginForm :username.sync="user"
 					:redirect-url="redirectUrl"
-					:inverted-colors="invertedColors"
 					:auto-complete-allowed="autoCompleteAllowed"
 					:is-https="isHttps"
 					:is-localhost="isLocalhost"
@@ -87,14 +83,12 @@
 					<ResetPassword v-if="resetPassword"
 						:username.sync="user"
 						:reset-password-link="resetPasswordLink"
-						:inverted-colors="invertedColors"
 						@abort="resetPassword = false" />
 				</div>
 			</div>
 			<div v-else-if="resetPasswordTarget !== ''">
 				<UpdatePassword :username.sync="user"
 					:reset-password-target="resetPasswordTarget"
-					:inverted-colors="invertedColors"
 					@done="passwordResetFinished" />
 			</div>
 		</transition>
@@ -143,7 +137,7 @@ export default {
 	data() {
 		return {
 			loading: false,
-			user: this.username,
+			user: loadState('core', 'loginUsername', ''),
 			passwordlessLogin: false,
 			resetPassword: false,
 
@@ -151,9 +145,7 @@ export default {
 			errors: loadState('core', 'loginErrors', []),
 			messages: loadState('core', 'loginMessages', []),
 			redirectUrl: loadState('core', 'loginRedirectUrl', false),
-			username: loadState('core', 'loginUsername', ''),
 			throttleDelay: loadState('core', 'loginThrottleDelay', 0),
-			invertedColors: OCA.Theming && OCA.Theming.inverted,
 			canResetPassword: loadState('core', 'loginCanResetPassword', false),
 			resetPasswordLink: loadState('core', 'loginResetPasswordLink', ''),
 			autoCompleteAllowed: loadState('core', 'loginAutocomplete', true),
@@ -168,6 +160,7 @@ export default {
 			hideLoginForm: loadState('core', 'hideLoginForm', false),
 		}
 	},
+
 	methods: {
 		passwordResetFinished() {
 			this.resetPasswordTarget = ''

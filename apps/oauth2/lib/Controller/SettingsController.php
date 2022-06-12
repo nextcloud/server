@@ -30,7 +30,6 @@ declare(strict_types=1);
  */
 namespace OCA\OAuth2\Controller;
 
-use OC\Authentication\Token\DefaultTokenMapper;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
@@ -48,34 +47,22 @@ class SettingsController extends Controller {
 	private $secureRandom;
 	/** @var AccessTokenMapper  */
 	private $accessTokenMapper;
-	/** @var  DefaultTokenMapper */
-	private $defaultTokenMapper;
 	/** @var IL10N */
 	private $l;
 
 	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param ClientMapper $clientMapper
-	 * @param ISecureRandom $secureRandom
-	 * @param AccessTokenMapper $accessTokenMapper
-	 * @param DefaultTokenMapper $defaultTokenMapper
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								ClientMapper $clientMapper,
 								ISecureRandom $secureRandom,
 								AccessTokenMapper $accessTokenMapper,
-								DefaultTokenMapper $defaultTokenMapper,
 								IL10N $l
 	) {
 		parent::__construct($appName, $request);
 		$this->secureRandom = $secureRandom;
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
-		$this->defaultTokenMapper = $defaultTokenMapper;
 		$this->l = $l;
 	}
 
@@ -106,7 +93,6 @@ class SettingsController extends Controller {
 	public function deleteClient(int $id): JSONResponse {
 		$client = $this->clientMapper->getByUid($id);
 		$this->accessTokenMapper->deleteByClientId($id);
-		$this->defaultTokenMapper->deleteByName($client->getName());
 		$this->clientMapper->delete($client);
 		return new JSONResponse([]);
 	}

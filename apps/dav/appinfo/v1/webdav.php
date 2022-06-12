@@ -28,6 +28,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+use Psr\Log\LoggerInterface;
+
 // no php execution timeout for webdav
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	@set_time_limit(0);
@@ -39,7 +41,7 @@ ignore_user_abort(true);
 
 $serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getConfig(),
-	\OC::$server->getLogger(),
+	\OC::$server->get(LoggerInterface::class),
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getMountManager(),

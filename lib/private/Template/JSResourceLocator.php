@@ -27,12 +27,14 @@
  */
 namespace OC\Template;
 
+use Psr\Log\LoggerInterface;
+
 class JSResourceLocator extends ResourceLocator {
 
 	/** @var JSCombiner */
 	protected $jsCombiner;
 
-	public function __construct(\OCP\ILogger $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
+	public function __construct(LoggerInterface $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
 		parent::__construct($logger, $theme, $core_map, $party_map);
 
 		$this->jsCombiner = $JSCombiner;
@@ -47,6 +49,10 @@ class JSResourceLocator extends ResourceLocator {
 			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')) {
 			return;
 		}
+
+		// Extracting the appId and the script file name
+		$app = substr($script, 0, strpos($script, '/'));
+		$scriptName = basename($script);
 
 		if (strpos($script, '/l10n/') !== false) {
 			// For language files we try to load them all, so themes can overwrite
@@ -65,15 +71,17 @@ class JSResourceLocator extends ResourceLocator {
 		} elseif ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $script.'.js')
+			|| $this->appendIfExist($this->serverroot, "dist/$app-$scriptName.js")
+			|| $this->appendIfExist($this->serverroot, 'apps/'.$script.'.js')
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$script.'.js')
+			|| (strpos($scriptName, '/') === -1 && $this->appendIfExist($this->serverroot, "dist/core-$scriptName.js"))
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
 		) {
 			return;
 		}
 
-		$app = substr($script, 0, strpos($script, '/'));
 		$script = substr($script, strpos($script, '/') + 1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);

@@ -22,7 +22,6 @@ $getUserAvatar = static function (int $size) use ($_): string {
 				p($theme->getTitle());
 			?>
 		</title>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 		<?php if ($theme->getiTunesAppId() !== '') { ?>
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
@@ -41,7 +40,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
 	</head>
-	<body id="<?php p($_['bodyid']);?>">
+	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
+				p("data-theme-$themeId ");
+			}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
 	<?php include 'layout.noscript.warning.php'; ?>
 
 		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
@@ -56,30 +57,30 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		</div>
 		<header role="banner" id="header">
 			<div class="header-left">
-				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
+				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
 					id="nextcloud">
 					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
-							<?php p($theme->getName()); ?> <?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
+							<?php p($l->t('%s\'s homepage', [$theme->getName()])); ?>
 						</h1>
 					</div>
 				</a>
 
-				<ul id="appmenu" <?php if ($_['themingInvertMenu']) { ?>class="inverted"<?php } ?>>
+				<ul id="appmenu">
 					<?php foreach ($_['navigation'] as $entry): ?>
 						<li data-id="<?php p($entry['id']); ?>" class="hidden" tabindex="-1">
 							<a href="<?php print_unescaped($entry['href']); ?>"
+								<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
 								<?php if ($entry['active']): ?> class="active"<?php endif; ?>
 								aria-label="<?php p($entry['name']); ?>">
 									<svg width="24" height="20" viewBox="0 0 24 20" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
 										<defs>
-											<?php if ($_['themingInvertMenu']) { ?><filter id="invertMenuMain-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter><?php } ?>
 											<mask id="hole">
 												<rect width="100%" height="100%" fill="white"/>
 												<circle r="4.5" cx="21" cy="3" fill="black"/>
 											</mask>
 										</defs>
-										<image x="2" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet"<?php if ($_['themingInvertMenu']) { ?> filter="url(#invertMenuMain-<?php p($entry['id']); ?>)"<?php } ?> xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>" style="<?php if ($entry['unread'] !== 0) { ?>mask: url("#hole");<?php } ?>" class="app-icon"></image>
+										<image x="2" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>" style="<?php if ($entry['unread'] !== 0) { ?>mask: url("#hole");<?php } ?>" class="app-icon"></image>
 										<circle class="app-icon-notification" r="3" cx="21" cy="3" fill="red"/>
 									</svg>
 								<div class="unread-counter" aria-hidden="true"><?php p($entry['unread']); ?></div>
@@ -105,9 +106,10 @@ $getUserAvatar = static function (int $size) use ($_): string {
 								<?php foreach ($_['navigation'] as $entry): ?>
 									<li data-id="<?php p($entry['id']); ?>">
 									<a href="<?php print_unescaped($entry['href']); ?>"
+										<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
 										<?php if ($entry['active']): ?> class="active"<?php endif; ?>
 										aria-label="<?php p($entry['name']); ?>">
-										<svg width="20" height="20" viewBox="0 0 20 20" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
+										<svg width="20" height="20" viewBox="0 0 16 16" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
 											<defs>
 												<filter id="invertMenuMore-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter>
 												<mask id="hole">
@@ -131,10 +133,10 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			</div>
 
 			<div class="header-right">
-				<div id="notifications"></div>
 				<div id="unified-search"></div>
+				<div id="notifications"></div>
 				<div id="contactsmenu">
-					<div class="icon-contacts menutoggle" tabindex="0" role="button"
+					<div class="menutoggle" tabindex="0" role="button"
 					aria-haspopup="true" aria-controls="contactsmenu-menu" aria-expanded="false">
 						<span class="hidden-visually"><?php p($l->t('Contacts'));?></span>
 					</div>
@@ -152,11 +154,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			} ?>"
 							 data-user="<?php p($_['user_uid']); ?>"
 							 data-displayname="<?php p($_['user_displayname']); ?>"
-			<?php if ($_['userStatus'] !== false) { ?>
-				data-userstatus="<?php p($_['userStatus']->getStatus()); ?>"
-				data-userstatus_message="<?php p($_['userStatus']->getMessage()); ?>"
-				data-userstatus_icon="<?php p($_['userStatus']->getIcon()); ?>"
-			<?php }
+			<?php
 			if ($_['userAvatarSet']) {
 				$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
 			<?php
@@ -201,6 +199,6 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 			<?php print_unescaped($_['content']); ?>
 		</div>
-
+		<div id="profiler-toolbar"></div>
 	</body>
 </html>

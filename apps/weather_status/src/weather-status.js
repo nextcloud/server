@@ -3,7 +3,7 @@
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,15 +22,10 @@
 
 import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
-import { generateUrl } from '@nextcloud/router'
 import App from './App'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
-
-// Correct the root of the app for chunk loading
-// eslint-disable-next-line
-__webpack_public_path__ = generateUrl('/apps/weather_status/js/')
 
 Vue.prototype.t = t
 

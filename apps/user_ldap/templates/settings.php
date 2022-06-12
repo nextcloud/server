@@ -1,10 +1,9 @@
 <?php
 
-vendor_script('user_ldap', 'ui-multiselect/src/jquery.multiselect');
-
-vendor_style('user_ldap', 'ui-multiselect/jquery.multiselect');
+style('user_ldap', 	'vendor/ui-multiselect/jquery.multiselect');
 
 script('user_ldap', [
+	'vendor/ui-multiselect/src/jquery.multiselect',
 	'wizard/controller',
 	'wizard/configModel',
 	'wizard/view',
@@ -126,7 +125,7 @@ style('user_ldap', 'settings');
 	</fieldset>
 	<fieldset id="ldapSettings-2">
 		<p><strong><?php p($l->t('Internal Username'));?></strong></p>
-		<p class="ldapIndent"><?php p($l->t('By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [a-zA-Z0-9_.@-].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Changes will have effect only on newly mapped (added) LDAP users. Leave it empty for default behavior.'));?></p>
+		<p class="ldapIndent"><?php p($l->t('By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [a-zA-Z0-9_.@-]. Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all DAV services. With this setting, the default behavior can be overridden. Changes will have effect only on newly mapped (added) LDAP users. Leave it empty for default behavior.'));?></p>
 		<p class="ldapIndent"><label for="ldap_expert_username_attr"><?php p($l->t('Internal Username Attribute:'));?></label><input type="text" id="ldap_expert_username_attr" name="ldap_expert_username_attr" data-default="<?php p($_['ldap_expert_username_attr_default']); ?>" /></p>
 		<p><strong><?php p($l->t('Override UUID detection'));?></strong></p>
 		<p class="ldapIndent"><?php p($l->t('By default, the UUID attribute is automatically detected. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users and groups.'));?></p>

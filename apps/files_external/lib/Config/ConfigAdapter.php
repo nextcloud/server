@@ -33,7 +33,6 @@ use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\Availability;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Migration\StorageMigrator;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\Config\IMountProvider;
@@ -52,22 +51,17 @@ class ConfigAdapter implements IMountProvider {
 
 	/** @var UserGlobalStoragesService */
 	private $userGlobalStoragesService;
-	/** @var StorageMigrator  */
-	private $migrator;
 
 	/**
 	 * @param UserStoragesService $userStoragesService
 	 * @param UserGlobalStoragesService $userGlobalStoragesService
-	 * @param StorageMigrator $migrator
 	 */
 	public function __construct(
 		UserStoragesService $userStoragesService,
-		UserGlobalStoragesService $userGlobalStoragesService,
-		StorageMigrator $migrator
+		UserGlobalStoragesService $userGlobalStoragesService
 	) {
 		$this->userStoragesService = $userStoragesService;
 		$this->userGlobalStoragesService = $userGlobalStoragesService;
-		$this->migrator = $migrator;
 	}
 
 	/**
@@ -120,8 +114,6 @@ class ConfigAdapter implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$this->migrator->migrateUser($user);
-
 		$this->userStoragesService->setUser($user);
 		$this->userGlobalStoragesService->setUser($user);
 

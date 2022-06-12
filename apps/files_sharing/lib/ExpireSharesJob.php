@@ -25,6 +25,7 @@
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -50,6 +51,7 @@ class ExpireSharesJob extends TimedJob {
 
 		// Run once a day
 		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
 
@@ -83,7 +85,7 @@ class ExpireSharesJob extends TimedJob {
 				)
 			);
 
-		$shares = $qb->execute();
+		$shares = $qb->executeQuery();
 		while ($share = $shares->fetch()) {
 			if ((int)$share['share_type'] === IShare::TYPE_LINK) {
 				$id = 'ocinternal';

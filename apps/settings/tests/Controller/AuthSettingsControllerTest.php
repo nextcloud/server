@@ -32,10 +32,10 @@ namespace Test\Settings\Controller;
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\IWipeableToken;
+use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
@@ -178,7 +178,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	public function testDestroy() {
 		$tokenId = 124;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$this->mockGetTokenById($tokenId, $token);
 		$this->mockActivityManager();
@@ -200,7 +200,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	public function testDestroyExpired() {
 		$tokenId = 124;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$token->expects($this->exactly(2))
 			->method('getId')
@@ -224,7 +224,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	public function testDestroyWrongUser() {
 		$tokenId = 124;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$this->mockGetTokenById($tokenId, $token);
 
@@ -252,7 +252,7 @@ class AuthSettingsControllerTest extends TestCase {
 	 */
 	public function testUpdateRename(string $name, string $newName): void {
 		$tokenId = 42;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$this->mockGetTokenById($tokenId, $token);
 		$this->mockActivityManager();
@@ -295,7 +295,7 @@ class AuthSettingsControllerTest extends TestCase {
 	 */
 	public function testUpdateFilesystemScope(bool $filesystem, bool $newFilesystem): void {
 		$tokenId = 42;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$this->mockGetTokenById($tokenId, $token);
 		$this->mockActivityManager();
@@ -325,7 +325,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	public function testUpdateNoChange(): void {
 		$tokenId = 42;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$this->mockGetTokenById($tokenId, $token);
 
@@ -356,7 +356,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	public function testUpdateExpired() {
 		$tokenId = 42;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$token->expects($this->once())
 			->method('getUID')
@@ -376,7 +376,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	public function testUpdateTokenWrongUser() {
 		$tokenId = 42;
-		$token = $this->createMock(DefaultToken::class);
+		$token = $this->createMock(PublicKeyToken::class);
 
 		$this->mockGetTokenById($tokenId, $token);
 

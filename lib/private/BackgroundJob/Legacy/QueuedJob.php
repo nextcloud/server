@@ -23,6 +23,9 @@
  */
 namespace OC\BackgroundJob\Legacy;
 
+/**
+ * @deprecated internal class, use \OCP\BackgroundJob\QueuedJob
+ */
 class QueuedJob extends \OC\BackgroundJob\QueuedJob {
 	public function run($argument) {
 		$class = $argument['klass'];

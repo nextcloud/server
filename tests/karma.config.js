@@ -48,18 +48,23 @@ module.exports = function(config) {
 		// other apps tests don't run yet... needs further research / clean up
 		return [
 			'files',
-			'files_trashbin',
 			'files_versions',
-			'systemtags',
+			{
+				name: 'comments',
+				srcFiles: [
+					'dist/comments-comments.js'
+				],
+				testFiles: ['apps/comments/tests/js/**/*.js']
+			},
 			{
 				name: 'files_sharing',
 				srcFiles: [
 					// only test these files, others are not ready and mess
 					// up with the global namespace/classes/state
-					'apps/files_sharing/js/dist/additionalScripts.js',
-					'apps/files_sharing/js/dist/files_sharing_tab.js',
-					'apps/files_sharing/js/dist/files_sharing.js',
-					'apps/files_sharing/js/dist/main.js',
+					'dist/files_sharing-additionalScripts.js',
+					'dist/files_sharing-files_sharing_tab.js',
+					'dist/files_sharing-files_sharing.js',
+					'dist/files_sharing-main.js',
 					'apps/files_sharing/js/files_drop.js',
 					'apps/files_sharing/js/public.js',
 					'apps/files_sharing/js/sharedfilelist.js',
@@ -80,13 +85,8 @@ module.exports = function(config) {
 				],
 				testFiles: ['apps/files_external/tests/js/*.js']
 			},
-			{
-				name: 'comments',
-				srcFiles: [
-					'apps/comments/js/comments.js'
-				],
-				testFiles: ['apps/comments/tests/js/**/*.js']
-			}
+			'systemtags',
+			'files_trashbin',
 		];
 	}
 
@@ -100,9 +100,9 @@ module.exports = function(config) {
 	);
 
 	// default apps to test when none is specified (TODO: read from filesystem ?)
-	var appsToTest = process.env.KARMA_TESTSUITE;
-	if (appsToTest) {
-		appsToTest = appsToTest.split(' ');
+	let appsToTest = []
+	if (process.env.KARMA_TESTSUITE) {
+		appsToTest = process.env.KARMA_TESTSUITE.split(' ');
 	} else {
 		appsToTest = ['core'].concat(findApps());
 	}
@@ -113,8 +113,8 @@ module.exports = function(config) {
 	// these are required by all apps so always need to be loaded
 	// note that the loading order is important that's why they
 	// are specified in a separate file
-	var corePath = 'core/js/';
-	var coreModule = require('../' + corePath + 'core.json');
+	var corePath = 'dist/';
+	var coreModule = require('../core/js/core.json');
 	var testCore = false;
 	var files = [];
 	var index;
@@ -127,20 +127,21 @@ module.exports = function(config) {
 		testCore = true;
 	}
 
-	files.push(corePath + 'tests/html-domparser.js');
-	files.push('core/js/dist/main.js');
-	files.push('core/js/dist/files_fileinfo.js');
-	files.push('core/js/dist/files_client.js');
-	files.push('core/js/dist/systemtags.js');
-	// core mocks
-	files.push(corePath + 'tests/specHelper.js');
-
 	var srcFile, i;
 	// add core library files
 	for (i = 0; i < coreModule.libraries.length; i++) {
 		srcFile = corePath + coreModule.libraries[i];
 		files.push(srcFile);
 	}
+
+	files.push('core/js/tests/html-domparser.js');
+	files.push('dist/core-main.js');
+	files.push('dist/core-files_fileinfo.js');
+	files.push('dist/core-files_client.js');
+	files.push('dist/core-systemtags.js');
+
+	// core mocks
+	files.push('core/js/tests/specHelper.js');
 
 	// add core modules files
 	for (i = 0; i < coreModule.modules.length; i++) {
@@ -156,14 +157,14 @@ module.exports = function(config) {
 	// need to test the core app as well ?
 	if (testCore) {
 		// core tests
-		files.push(corePath + 'tests/specs/**/*.js');
+		files.push('core/js/tests/specs/**/*.js');
 	}
 
 	function addApp(app) {
 		// if only a string was specified, expand to structure
 		if (typeof app === 'string') {
 			app = {
-				srcFiles: 'apps/' + app + '/js/**/*.js',
+				srcFiles: ['dist/' + app + '-*.js', 'apps/' + app + '/js/**/*.js'],
 				testFiles: 'apps/' + app + '/tests/js/**/*.js'
 			};
 		}
@@ -200,12 +201,6 @@ module.exports = function(config) {
 		included: true,
 		served: true
 	});
-	files.push({
-		pattern: 'tests/css/*.css',
-		watched: true,
-		included: true,
-		served: true
-	});
 
 	// Allow fonts
 	files.push({
@@ -214,6 +209,8 @@ module.exports = function(config) {
 		included: false,
 		served: true
 	});
+
+	console.log(files)
 
 	config.set({
 		// base path, that will be used to resolve files and exclude

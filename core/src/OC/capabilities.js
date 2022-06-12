@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -27,9 +27,9 @@ import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
 /**
  * Returns the capabilities
  *
- * @returns {Array} capabilities
+ * @return {Array} capabilities
  *
- * @since 14.0
+ * @since 14.0.0
  */
 export const getCapabilities = () => {
 	console.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')

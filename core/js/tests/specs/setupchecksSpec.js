@@ -226,6 +226,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -236,8 +237,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -249,6 +249,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -284,6 +286,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -294,8 +297,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -307,6 +309,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -343,6 +347,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -353,8 +358,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -366,6 +370,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -399,6 +405,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -410,8 +417,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -423,6 +429,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -454,6 +462,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -465,8 +474,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -478,6 +486,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -497,6 +507,63 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		it('should return an info if the mail server config was not set or verified, yet', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'You have not set or verified your email server configuration, yet. Please head over to the <a href="http://localhost/index.php/settings/admin">Basic settings</a> in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
 		it('should return a warning if there are app directories with wrong permissions', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -509,6 +576,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -520,8 +588,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -535,6 +602,8 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [
 						'/some/path'
 					],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -566,6 +635,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -577,8 +647,7 @@ describe('OC.SetupChecks tests', function() {
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -590,6 +659,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -621,6 +692,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -632,8 +704,7 @@ describe('OC.SetupChecks tests', function() {
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: false,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -645,6 +716,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -676,6 +749,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -687,8 +761,7 @@ describe('OC.SetupChecks tests', function() {
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -700,6 +773,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: false,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -751,6 +826,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -763,8 +839,7 @@ describe('OC.SetupChecks tests', function() {
 					phpSupported: {eol: true, version: '5.4.0'},
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -776,6 +851,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -807,6 +884,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -818,9 +896,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: false,
-					hasOpcacheLoaded: true,
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
+					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -832,6 +908,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -844,63 +922,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache module is not properly configured. <a target="_blank" rel="noreferrer noopener" class="external" href="https://example.org/link/to/doc">For better performance it is recommended ↗</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					}]);
-				done();
-			});
-		});
-
-		it('should return an info if server has no opcache at all', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: false,
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-						msg: 'The PHP OPcache module is not loaded. <a target="_blank" rel="noreferrer noopener" class="external" href="https://example.org/link/to/doc">For better performance it is recommended ↗</a> to load it into your PHP installation.',
+						msg: 'The PHP OPcache module is not properly configured. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-php-opcache">documentation ↗</a> for more information.<ul><li>recommendation1</li><li>recommendation2</li></ul>',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -919,6 +941,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -930,9 +953,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
-					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: false,
 					missingIndexes: [],
@@ -944,6 +965,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -975,6 +998,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -986,8 +1010,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -999,6 +1022,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
@@ -1034,6 +1059,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1045,8 +1071,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -1058,6 +1083,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1090,6 +1117,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1101,8 +1129,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -1114,6 +1141,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1143,6 +1172,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1154,8 +1184,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -1167,6 +1196,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1186,6 +1217,122 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		
+		it('should return an error if imagick is not enabled', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: false,
+					areWebauthnExtensionsEnabled: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		
+		it('should return an error if gmp or bcmath are not enabled', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: false,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
 		it('should return an info if there is no default phone region', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1198,6 +1345,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1209,8 +1357,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -1222,6 +1369,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1253,6 +1402,7 @@ describe('OC.SetupChecks tests', function() {
 					hasFileinfoInstalled: true,
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
@@ -1264,8 +1414,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: true,
+					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -1277,6 +1426,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1341,12 +1492,8 @@ describe('OC.SetupChecks tests', function() {
 				}, {
 					msg: 'The "X-Robots-Tag" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-
 				}, {
 					msg: 'The "X-Frame-Options" HTTP header is not set to "SAMEORIGIN". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}, {
-					msg: 'The "X-Download-Options" HTTP header is not set to "noopen". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
 					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
@@ -1373,7 +1520,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000;preload',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				}
@@ -1405,7 +1551,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer'
 				}
@@ -1428,7 +1573,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1449,7 +1593,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1470,7 +1613,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1496,7 +1638,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1524,7 +1665,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
 				});
@@ -1545,7 +1685,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer-when-downgrade',
 				});
@@ -1566,7 +1705,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin',
 				});
@@ -1587,7 +1725,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin-when-cross-origin',
 				});
@@ -1608,7 +1745,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'same-origin',
 				});
@@ -1629,7 +1765,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin',
 				});
@@ -1655,7 +1790,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin-when-cross-origin',
 				});
@@ -1681,7 +1815,6 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'unsafe-url',
 				});
@@ -1709,7 +1842,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1756,7 +1888,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1782,7 +1913,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1808,7 +1938,6 @@ describe('OC.SetupChecks tests', function() {
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
 				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Download-Options': 'noopen',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
 			}
@@ -1833,7 +1962,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});
@@ -1854,7 +1982,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});
@@ -1875,7 +2002,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});
@@ -1896,7 +2022,6 @@ describe('OC.SetupChecks tests', function() {
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
 			'X-Frame-Options': 'SAMEORIGIN',
-			'X-Download-Options': 'noopen',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
 		});

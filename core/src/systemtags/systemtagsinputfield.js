@@ -6,7 +6,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -57,10 +57,10 @@ import templateSelection from './templates/selection.handlebars'
 		 *
 		 * @param {Object} [options]
 		 * @param {string} [options.objectType=files] object type for which tags are assigned to
-		 * @param {bool} [options.multiple=false] whether to allow selecting multiple tags
-		 * @param {bool} [options.allowActions=true] whether tags can be renamed/delete within the dropdown
-		 * @param {bool} [options.allowCreate=true] whether new tags can be created
-		 * @param {bool} [options.isAdmin=true] whether the user is an administrator
+		 * @param {boolean} [options.multiple=false] whether to allow selecting multiple tags
+		 * @param {boolean} [options.allowActions=true] whether tags can be renamed/delete within the dropdown
+		 * @param {boolean} [options.allowCreate=true] whether new tags can be created
+		 * @param {boolean} [options.isAdmin=true] whether the user is an administrator
 		 * @param {Function} options.initSelection function to convert selection to data
 		 */
 			initialize: function(options) {

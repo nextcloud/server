@@ -31,6 +31,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\Search\Provider;
+use OCP\Comments\ICommentsManager;
 use function count;
 
 class LegacyProvider extends Provider {
@@ -43,7 +44,7 @@ class LegacyProvider extends Provider {
 	 * @since 7.0.0
 	 */
 	public function search($query): array {
-		$cm = \OC::$server->getCommentsManager();
+		$cm = \OC::$server->get(ICommentsManager::class);
 		$us = \OC::$server->getUserSession();
 
 		$user = $us->getUser();

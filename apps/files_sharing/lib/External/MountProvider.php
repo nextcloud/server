@@ -28,6 +28,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IDBConnection;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUser;
 
 class MountProvider implements IMountProvider {
@@ -72,18 +73,19 @@ class MountProvider implements IMountProvider {
 	}
 
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$query = $this->connection->prepare('
-				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
-				FROM `*PREFIX*share_external`
-				WHERE `user` = ? AND `accepted` = ?
-			');
-		$query->execute([$user->getUID(), 1]);
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('remote', 'share_token', 'password', 'mountpoint', 'owner')
+			->from('share_external')
+			->where($qb->expr()->eq('user', $qb->createNamedParameter($user->getUID())))
+			->andWhere($qb->expr()->eq('accepted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
 		$mounts = [];
-		while ($row = $query->fetch()) {
+		while ($row = $result->fetch()) {
 			$row['manager'] = $this;
 			$row['token'] = $row['share_token'];
 			$mounts[] = $this->getMount($user, $row, $loader);
 		}
+		$result->closeCursor();
 		return $mounts;
 	}
 }

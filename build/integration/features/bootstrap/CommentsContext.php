@@ -175,7 +175,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		if ($res->getStatusCode() === 207) {
 			$service = new Sabre\Xml\Service();
 			$this->response = $service->parse($res->getBody()->getContents());
-			$this->commentId = (int)$this->response[0]['value'][2]['value'][0]['value'][0]['value'];
+			$this->commentId = (int) ($this->response[0]['value'][2]['value'][0]['value'][0]['value'] ?? 0);
 		}
 	}
 

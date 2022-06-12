@@ -1,8 +1,8 @@
 { "translations": {
-    "Shared with %1$s" : "V skupni rabi prek %1$s",
-    "Shared with {email}" : "V skupni rabi prek {email}",
-    "Shared with %1$s by %2$s" : "%2$s omogoči souporabo prek %1$s",
-    "Shared with {email} by {actor}" : "{actor} omogoči souporabo prek {email}",
+    "Shared with %1$s" : "V skupni rabi po %1$s",
+    "Shared with {email}" : "V skupni rabi po {email}",
+    "Shared with %1$s by %2$s" : "%2$s omogoči souporabo z uporabo %1$s",
+    "Shared with {email} by {actor}" : "{actor} omogoči souporabo po {email}",
     "Unshared from %1$s" : "Souporaba z %1$s je prekinjena",
     "Unshared from {email}" : "Souporaba z naslovom {email} je prekinjena",
     "Unshared from %1$s by %2$s" : "%2$s onemogoči souporabo z naslovom %1$s",
@@ -45,10 +45,8 @@
     "You can choose a different password at any time in the share dialog." : "Geslo je mogoče kadarkoli spremeniti med nastavitvami souporabe.",
     "Could not find share" : "Mape v souporabi ni mogoče najti",
     "Share provider which allows you to share files by mail" : "Ponudnik souporabe, ki omogoča souporabo datotek prek elektronske pošte",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoli uporabnikom omogočanje souporabe prek osebne povezave na datoteko ali mapo z vpisom elektronskega naslova.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoli uporabnikom omogočanje souporabe z osebno povezavo na datoteko ali mapo z vpisom elektronskega naslova.",
     "Send password by mail" : "Pošlji geslo po elektronski pošti",
-    "Reply to initiator" : "Odgovori pošiljatelju",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Nastaviti je treba veljavni elektronski naslov med osebnimi nastavitvami.",
-    "Enforce password protection" : "Vsili zaščito z geslom"
+    "Reply to initiator" : "Odgovori pošiljatelju"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

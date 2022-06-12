@@ -23,19 +23,17 @@
  */
 namespace OC\Core\Command\User;
 
+use OC\Core\Command\Base;
+use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Enable extends Command {
-	/** @var IUserManager */
-	protected $userManager;
+class Enable extends Base {
+	protected IUserManager $userManager;
 
-	/**
-	 * @param IUserManager $userManager
-	 */
 	public function __construct(IUserManager $userManager) {
 		$this->userManager = $userManager;
 		parent::__construct();
@@ -62,5 +60,23 @@ class Enable extends Command {
 		$user->setEnabled(true);
 		$output->writeln('<info>The specified user is enabled</info>');
 		return 0;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'uid') {
+			return array_map(
+				static fn (IUser $user) => $user->getUID(),
+				array_filter(
+					$this->userManager->search($context->getCurrentWord()),
+					static fn (IUser $user) => !$user->isEnabled()
+				)
+			);
+		}
+		return [];
 	}
 }

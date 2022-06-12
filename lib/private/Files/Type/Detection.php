@@ -42,8 +42,8 @@ declare(strict_types=1);
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Detection
@@ -66,8 +66,7 @@ class Detection implements IMimeTypeDetector {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var string */
 	private $customConfigDir;
@@ -75,14 +74,8 @@ class Detection implements IMimeTypeDetector {
 	/** @var string */
 	private $defaultConfigDir;
 
-	/**
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 * @param string $customConfigDir
-	 * @param string $defaultConfigDir
-	 */
 	public function __construct(IURLGenerator $urlGenerator,
-								ILogger $logger,
+								LoggerInterface $logger,
 								string $customConfigDir,
 								string $defaultConfigDir) {
 		$this->urlGenerator = $urlGenerator;

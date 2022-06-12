@@ -3,7 +3,7 @@
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,6 +23,9 @@
 import Axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 
+/**
+ * @param {any} loginName -
+ */
 export function startAuthentication(loginName) {
 	const url = generateUrl('/login/webauthn/start')
 
@@ -30,6 +33,9 @@ export function startAuthentication(loginName) {
 		.then(resp => resp.data)
 }
 
+/**
+ * @param {any} data -
+ */
 export function finishAuthentication(data) {
 	const url = generateUrl('/login/webauthn/finish')
 

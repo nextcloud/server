@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -45,9 +48,6 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
 
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
 	/** @var RegisterRegenerateBirthdayCalendars */
 	private $backgroundJob;
 
@@ -57,10 +57,12 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->jobList = $this->createMock(IJobList::class);
-		$this->config = $this->createMock(IConfig::class);
 
-		$this->backgroundJob = new RegisterRegenerateBirthdayCalendars($this->time,
-			$this->userManager, $this->jobList);
+		$this->backgroundJob = new RegisterRegenerateBirthdayCalendars(
+			$this->time,
+			$this->userManager,
+			$this->jobList
+		);
 	}
 
 	public function testRun() {

@@ -39,6 +39,7 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
 use OCP\AppFramework\IAppContainer;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
@@ -96,6 +97,11 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	protected $mountCache;
 
+	/**
+	 * @var \PHPUnit\Framework\MockObject\MockObject|IEventDispatcher
+	 */
+	protected IEventDispatcher $eventDispatcher;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
@@ -108,6 +114,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		\OCA\Files_External\MountConfig::$skipTest = true;
 
 		$this->mountCache = $this->createMock(IUserMountCache::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		// prepare BackendService mock
 		$this->backendService =

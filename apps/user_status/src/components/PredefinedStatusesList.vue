@@ -20,11 +20,9 @@
   -->
 
 <template>
-	<div
-		v-if="hasLoaded"
+	<div v-if="hasLoaded"
 		class="predefined-statuses-list">
-		<PredefinedStatus
-			v-for="status in predefinedStatuses"
+		<PredefinedStatus v-for="status in predefinedStatuses"
 			:key="status.id"
 			:message-id="status.id"
 			:icon="status.icon"
@@ -32,8 +30,7 @@
 			:clear-at="status.clearAt"
 			@select="selectStatus(status)" />
 	</div>
-	<div
-		v-else
+	<div v-else
 		class="predefined-statuses-list">
 		<div class="icon icon-loading-small" />
 	</div>
@@ -55,7 +52,7 @@ export default {
 		/**
 		 * Indicator whether the predefined statuses have already been loaded
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasLoaded() {
 			return this.predefinedStatuses.length > 0
@@ -72,10 +69,10 @@ export default {
 		/**
 		 * Emits an event when the user selects a status
 		 *
-		 * @param {Object} status The selected status
+		 * @param {object} status The selected status
 		 */
 		selectStatus(status) {
-			this.$emit('selectStatus', status)
+			this.$emit('select-status', status)
 		},
 	},
 }

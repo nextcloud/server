@@ -52,8 +52,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
 use InvalidArgumentException;
 use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\Authentication\Token\DefaultTokenCleanupJob;
-use OC\Authentication\Token\DefaultTokenProvider;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -432,8 +431,8 @@ class Setup {
 			// The token provider requires a working db, so it's not injected on setup
 			/* @var $userSession User\Session */
 			$userSession = \OC::$server->getUserSession();
-			$defaultTokenProvider = \OC::$server->query(DefaultTokenProvider::class);
-			$userSession->setTokenProvider($defaultTokenProvider);
+			$provider = \OC::$server->query(PublicKeyTokenProvider::class);
+			$userSession->setTokenProvider($provider);
 			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
 
@@ -451,7 +450,6 @@ class Setup {
 
 	public static function installBackgroundJobs() {
 		$jobList = \OC::$server->getJobList();
-		$jobList->add(DefaultTokenCleanupJob::class);
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);
 	}

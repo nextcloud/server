@@ -26,7 +26,7 @@
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -49,6 +49,7 @@ import $ from 'jquery'
 
 import OC from './index'
 import OCA from '../OCA/index'
+import { isA11yActivation } from '../Util/a11y'
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -243,6 +244,7 @@ const Dialogs = {
 	 * @param {string} [type] Type of file picker : Choose, copy, move, copy and move
 	 * @param {string} [path] path to the folder that the the file can be picket from
 	 * @param {Object} [options] additonal options that need to be set
+	 * @param {Function} [options.filter] filter function for advanced filtering
 	 */
 	filepicker: function(title, callback, multiselect, mimetypeFilter, modal, type, path, options) {
 		var self = this
@@ -296,6 +298,9 @@ const Dialogs = {
 				sizeCol: t('core', 'Size'),
 				modifiedCol: t('core', 'Modified')
 			}).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter).data('allowDirectoryChooser', options.allowDirectoryChooser)
+			if (typeof(options.filter) === 'function') {
+				self.$filePicker.data('filter', options.filter)
+			}
 
 			if (modal === undefined) {
 				modal = false
@@ -304,27 +309,22 @@ const Dialogs = {
 				multiselect = false
 			}
 
-			// No grid for IE!
-			if (OC.Util.isIE()) {
-				self.$filePicker.find('#picker-view-toggle').remove()
-				self.$filePicker.find('#picker-filestable').removeClass('view-grid')
-			}
+			$('body').prepend(self.$filePicker)
 
-			$('body').append(self.$filePicker)
-
-			self.$showGridView = $('input#picker-showgridview')
-			self.$showGridView.on('change', _.bind(self._onGridviewChange, self))
-
-			if (!OC.Util.isIE()) {
-				self._getGridSettings()
-			}
+			self.$showGridView = $('button#picker-showgridview')
+			self.$showGridView.on('click keydown', function(event) {
+				if (isA11yActivation(event)) {
+					self._onGridviewChange()
+				}
+			})
+			self._getGridSettings()
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add')
 			if (type === self.FILEPICKER_TYPE_CHOOSE && !options.allowDirectoryChooser) {
 				newButton.hide()
 			}
 			newButton.on('focus', function() {
-				self.$filePicker.ocdialog('setEnterCallback', function() {
+				self.$filePicker.ocdialog('setEnterCallback', function(event) {
 					event.stopImmediatePropagation()
 					event.preventDefault()
 					newButton.click()
@@ -335,8 +335,9 @@ const Dialogs = {
 			})
 
 			OC.registerMenu(newButton, self.$filePicker.find('.menu'), function() {
+				$input.tooltip('hide')
 				$input.focus()
-				self.$filePicker.ocdialog('setEnterCallback', function() {
+				self.$filePicker.ocdialog('setEnterCallback', function(event) {
 					event.stopImmediatePropagation()
 					event.preventDefault()
 					self.$filePicker.submit()
@@ -351,12 +352,18 @@ const Dialogs = {
 			var $form = self.$filePicker.find('.filenameform')
 			var $input = $form.find('input[type=\'text\']')
 			var $submit = $form.find('input[type=\'submit\']')
+			$input.on('keydown', function(event) {
+				if (isA11yActivation(event)) {
+					event.stopImmediatePropagation()
+					event.preventDefault()
+					$form.submit()
+				}
+			})
 			$submit.on('click', function(event) {
 				event.stopImmediatePropagation()
 				event.preventDefault()
 				$form.submit()
 			})
-
 
 			/**
 			 * Checks whether the given file name is valid.
@@ -428,12 +435,8 @@ const Dialogs = {
 					$input.val(newText)
 				}
 			})
-			$input.keypress(function(event) {
-				if (event.keyCode === 13 || event.which === 13) {
-					event.stopImmediatePropagation()
-					event.preventDefault()
-					$form.submit()
-				}
+			$input.on('input', function(event) {
+				$input.tooltip('hide')
 			})
 
 			self.$filePicker.ready(function() {
@@ -441,17 +444,23 @@ const Dialogs = {
 				self.$filelist = self.$filePicker.find('.filelist tbody')
 				self.$filelistContainer = self.$filePicker.find('.filelist-container')
 				self.$dirTree = self.$filePicker.find('.dirtree')
-				self.$dirTree.on('click', 'div:not(:last-child)', self, function(event) {
-					self._handleTreeListSelect(event, type)
+				self.$dirTree.on('click keydown', 'div:not(:last-child)', self, function(event) {
+					if (isA11yActivation(event)) {
+						self._handleTreeListSelect(event, type)
+					}
 				})
-				self.$filelist.on('click', 'tr', function(event) {
-					self._handlePickerClick(event, $(this), type)
+				self.$filelist.on('click keydown', 'tr', function(event) {
+					if (isA11yActivation(event)) {
+						self._handlePickerClick(event, $(this), type)
+					}
 				})
-				self.$fileListHeader.on('click', 'a', function(event) {
-					var dir = self.$filePicker.data('path')
-					self.filepicker.sortField = $(event.currentTarget).data('sort')
-					self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc'
-					self._fillFilePicker(dir)
+				self.$fileListHeader.on('click keydown', 'a', function(event) {
+					if (isA11yActivation(event)) {
+						var dir = self.$filePicker.data('path')
+						self.filepicker.sortField = $(event.currentTarget).data('sort')
+						self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc'
+						self._fillFilePicker(dir)
+					}
 				})
 				self._fillFilePicker(path)
 			})
@@ -1031,27 +1040,24 @@ const Dialogs = {
 	},
 	// get the gridview setting and set the input accordingly
 	_getGridSettings: function() {
-		var self = this
+		const self = this
 		$.get(OC.generateUrl('/apps/files/api/v1/showgridview'), function(response) {
-			self.$showGridView.get(0).checked = response.gridview
-			self.$showGridView.next('#picker-view-toggle')
+			self.$showGridView
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
 			$('.list-container').toggleClass('view-grid', response.gridview)
 		})
 	},
 	_onGridviewChange: function() {
-		var show = this.$showGridView.is(':checked')
+		const isGridView = this.$showGridView.hasClass('icon-toggle-filelist')
 		// only save state if user is logged in
 		if (OC.currentUser) {
-			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
-				show: show
-			})
+			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), { show: !isGridView })
 		}
-		this.$showGridView.next('#picker-view-toggle')
+		this.$showGridView
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
-			.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-		$('.list-container').toggleClass('view-grid', show)
+			.addClass(isGridView ? 'icon-toggle-pictures' : 'icon-toggle-filelist')
+		$('.list-container').toggleClass('view-grid', !isGridView)
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred()
@@ -1126,6 +1132,7 @@ const Dialogs = {
 		this.$filelistContainer.addClass('icon-loading')
 		this.$filePicker.data('path', dir)
 		var filter = this.$filePicker.data('mimetype')
+		var advancedFilter = this.$filePicker.data('filter')
 		if (typeof (filter) === 'string') {
 			filter = [filter]
 		}
@@ -1141,6 +1148,20 @@ const Dialogs = {
 			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
 				files = files.filter(function(file) {
 					return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1
+				})
+			}
+
+			if (advancedFilter) {
+				files = files.filter(advancedFilter)
+			}
+
+			// Check if the showHidden input field exist and if it exist follow it
+			// Otherwise just show the hidden files
+			const showHiddenInput = document.getElementById('showHiddenFiles')
+			const showHidden = showHiddenInput === null || showHiddenInput.value === "1"
+			if (!showHidden) {
+				files = files.filter(function(file) {
+					return !file.name.startsWith('.')
 				})
 			}
 
@@ -1255,7 +1276,7 @@ const Dialogs = {
 
 		var dir
 		var path = this.$filePicker.data('path')
-		var $template = $('<div data-dir="{dir}"><a>{name}</a></div>').addClass('crumb')
+		var $template = $('<div data-dir="{dir}" tabindex="0"><a>{name}</a></div>').addClass('crumb')
 		if (path) {
 			var paths = path.split('/')
 			$.each(paths, function(index, dir) {

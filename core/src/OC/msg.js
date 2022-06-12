@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author rakekniven <mark.ziegler@rakekniven.de>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,7 @@ export default {
 	/**
 	 * Displayes a "Saving..." message in the given message placeholder
 	 *
-	 * @param {Object} selector    Placeholder to display the message in
+	 * @param {object} selector    Placeholder to display the message in
 	 */
 	startSaving(selector) {
 		this.startAction(selector, t('core', 'Saving …'))
@@ -44,7 +44,7 @@ export default {
 	/**
 	 * Displayes a custom message in the given message placeholder
 	 *
-	 * @param {Object} selector    Placeholder to display the message in
+	 * @param {object} selector    Placeholder to display the message in
 	 * @param {string} message    Plain text message to display (no HTML allowed)
 	 */
 	startAction(selector, message) {
@@ -58,9 +58,9 @@ export default {
 	/**
 	 * Displayes an success/error message in the given selector
 	 *
-	 * @param {Object} selector    Placeholder to display the message in
-	 * @param {Object} response    Response of the server
-	 * @param {Object} response.data    Data of the servers response
+	 * @param {object} selector    Placeholder to display the message in
+	 * @param {object} response    Response of the server
+	 * @param {object} response.data    Data of the servers response
 	 * @param {string} response.data.message    Plain text message to display (no HTML allowed)
 	 * @param {string} response.status    is being used to decide whether the message
 	 * is displayed as an error/success
@@ -72,9 +72,9 @@ export default {
 	/**
 	 * Displayes an success/error message in the given selector
 	 *
-	 * @param {Object} selector    Placeholder to display the message in
-	 * @param {Object} response    Response of the server
-	 * @param {Object} response.data Data of the servers response
+	 * @param {object} selector    Placeholder to display the message in
+	 * @param {object} response    Response of the server
+	 * @param {object} response.data Data of the servers response
 	 * @param {string} response.data.message Plain text message to display (no HTML allowed)
 	 * @param {string} response.status is being used to decide whether the message
 	 * is displayed as an error/success
@@ -90,7 +90,7 @@ export default {
 	/**
 	 * Displayes an success message in the given selector
 	 *
-	 * @param {Object} selector Placeholder to display the message in
+	 * @param {object} selector Placeholder to display the message in
 	 * @param {string} message Plain text success message to display (no HTML allowed)
 	 */
 	finishedSuccess(selector, message) {
@@ -106,7 +106,7 @@ export default {
 	/**
 	 * Displayes an error message in the given selector
 	 *
-	 * @param {Object} selector Placeholder to display the message in
+	 * @param {object} selector Placeholder to display the message in
 	 * @param {string} message Plain text error message to display (no HTML allowed)
 	 */
 	finishedError(selector, message) {

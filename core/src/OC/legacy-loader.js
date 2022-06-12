@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,6 +22,7 @@
  *
  */
 
+/** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
 import { generateFilePath } from '@nextcloud/router'
 
@@ -31,10 +32,11 @@ const loadedStyles = []
 /**
  * Load a script for the server and load it. If the script is already loaded,
  * the event handler will be called directly
+ *
  * @param {string} app the app id to which the script belongs
  * @param {string} script the filename of the script
  * @param {Function} ready event handler to be called when the script is loaded
- * @returns {jQuery.Deferred}
+ * @return {jQuery.Deferred}
  * @deprecated 16.0.0 Use OCP.Loader.loadScript
  */
 export const addScript = (app, script, ready) => {
@@ -56,6 +58,7 @@ export const addScript = (app, script, ready) => {
 
 /**
  * Loads a CSS file
+ *
  * @param {string} app the app id to which the css style belongs
  * @param {string} style the filename of the css file
  * @deprecated 16.0.0 Use OCP.Loader.loadStylesheet

@@ -52,7 +52,7 @@ class ApplicationTest extends TestCase {
 		$c = $app->getContainer();
 
 		// assert service instances in the container are properly setup
-		$s = $c->query('NotificationsController');
+		$s = $c->get('NotificationsController');
 		$this->assertInstanceOf('OCA\Comments\Controller\Notifications', $s);
 
 		$services = [
@@ -65,7 +65,7 @@ class ApplicationTest extends TestCase {
 		];
 
 		foreach ($services as $service) {
-			$s = $c->query($service);
+			$s = $c->get($service);
 			$this->assertInstanceOf($service, $s);
 		}
 	}

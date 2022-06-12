@@ -25,14 +25,13 @@ declare(strict_types=1);
  */
 namespace OC\Http\Client;
 
-use OCP\ILogger;
 use OCP\Http\Client\LocalServerException;
+use Psr\Log\LoggerInterface;
 
 class LocalAddressChecker {
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 

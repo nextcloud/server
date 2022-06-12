@@ -14,8 +14,8 @@ namespace Test\Security;
 use OC\Files\View;
 use OC\Security\CertificateManager;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class CertificateManagerTest
@@ -58,7 +58,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->certificateManager = new CertificateManager(
 			new \OC\Files\View(),
 			$config,
-			$this->createMock(ILogger::class),
+			$this->createMock(LoggerInterface::class),
 			$this->random
 		);
 	}
@@ -156,7 +156,7 @@ class CertificateManagerTest extends \Test\TestCase {
 
 		/** @var CertificateManager | \PHPUnit\Framework\MockObject\MockObject $certificateManager */
 		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
-			->setConstructorArgs([$view, $config, $this->createMock(ILogger::class), $this->random])
+			->setConstructorArgs([$view, $config, $this->createMock(LoggerInterface::class), $this->random])
 			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
 			->getMock();
 

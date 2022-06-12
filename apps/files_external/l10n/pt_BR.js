@@ -20,9 +20,10 @@ OC.L10N.register(
     "Never" : "Nunca",
     "Once every direct access" : "Uma vez a cada acesso direto",
     "Read only" : "Somente leitura",
-    "Delete" : "Excluir",
+    "Disconnect" : "Desconectar",
     "Admin defined" : "Definido pelo administrador",
-    "Are you sure you want to delete this external storage?" : "Quer realmente excluir este armazenamento externo?",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "A verificação automática de status está desabilitada devido ao grande número de armazenamentos configurados, clique para verificar o status",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Tem certeza de que deseja desconectar este armazenamento externo? Isso tornará o armazenamento indisponível no Nextcloud e levará à exclusão desses arquivos e pastas em qualquer cliente de sincronização que esteja conectado no momento, mas não excluirá nenhum arquivo e pasta no próprio armazenamento externo.",
     "Delete storage?" : "Excluir armazenamento?",
     "Saved" : "Salvo",
     "Saving …" : "Salvando...",
@@ -41,6 +42,7 @@ OC.L10N.register(
     "Credentials saved" : "Credenciais salvas",
     "Credentials saving failed" : "Erro ao salvar as credenciais",
     "Credentials required" : "Credenciais necessárias",
+    "Forbidden to manage local mounts" : "Proibido gerenciar montagens locais",
     "Storage with ID \"%d\" not found" : "A armazenagem com a ID \"%d\" não foi encontrada",
     "Invalid backend or authentication mechanism class" : "Plataforma de serviço ou classe de mecanismo de autenticação inválido",
     "Invalid mount point" : "Ponto de montagem inválido",
@@ -80,6 +82,8 @@ OC.L10N.register(
     "Public key" : "Chave pública",
     "RSA private key" : "Chave privada RSA",
     "Private key" : "Chave privada",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "reino padrão do Kerberos, padrão para \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Bilhete Kerberos Modo Apache",
     "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Cesta",
@@ -134,9 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "Configurações avançadas",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais.",
-    "External storages" : "Armazenamentos externos",
-    "(group)" : "(grupo)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando OC login"
+    "Delete" : "Excluir",
+    "Are you sure you want to delete this external storage?" : "Quer realmente excluir este armazenamento externo?",
+    "Kerberos ticket apache mode" : "Modo apache de tíquete Kerberos"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

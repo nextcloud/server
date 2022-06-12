@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@ import $ from 'jquery'
 /*
  * Detects links:
  * Either the http(s) protocol is given or two strings, basically limited to ascii with the last
- * 	word being at least one digit long,
+ * word being at least one digit long,
  * followed by at least another character
  *
  * The downside: anything not ascii is excluded. Not sure how common it is in areas using different
@@ -34,14 +34,23 @@ import $ from 'jquery'
  */
 const urlRegex = /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
 
+/**
+ * @param {any} content -
+ */
 export function plainToRich(content) {
 	return this.formatLinksRich(content)
 }
 
+/**
+ * @param {any} content -
+ */
 export function richToPlain(content) {
 	return this.formatLinksPlain(content)
 }
 
+/**
+ * @param {any} content -
+ */
 export function formatLinksRich(content) {
 	return content.replace(urlRegex, function(_, leadingSpace, protocol, url, trailingSpace) {
 		let linkText = url
@@ -55,6 +64,9 @@ export function formatLinksRich(content) {
 	})
 }
 
+/**
+ * @param {any} content -
+ */
 export function formatLinksPlain(content) {
 	const $content = $('<div></div>').html(content)
 	$content.find('a').each(function() {

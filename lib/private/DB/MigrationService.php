@@ -27,7 +27,6 @@
  */
 namespace OC\DB;
 
-use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Schema\Index;
@@ -43,6 +42,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
+use Psr\Log\LoggerInterface;
 
 class MigrationService {
 
@@ -73,7 +73,7 @@ class MigrationService {
 		$this->connection = $connection;
 		$this->output = $output;
 		if (null === $this->output) {
-			$this->output = new SimpleOutput(\OC::$server->getLogger(), $appName);
+			$this->output = new SimpleOutput(\OC::$server->get(LoggerInterface::class), $appName);
 		}
 
 		if ($appName === 'core') {
@@ -423,10 +423,10 @@ class MigrationService {
 		foreach ($toBeExecuted as $version) {
 			try {
 				$this->executeStep($version, $schemaOnly);
-			} catch (DriverException $e) {
+			} catch (\Exception $e) {
 				// The exception itself does not contain the name of the migration,
 				// so we wrap it here, to make debugging easier.
-				throw new \Exception('Database error when running migration ' . $to . ' for app ' . $this->getApp(), 0, $e);
+				throw new \Exception('Database error when running migration ' . $version . ' for app ' . $this->getApp() . PHP_EOL. $e->getMessage(), 0, $e);
 			}
 		}
 	}
@@ -559,9 +559,13 @@ class MigrationService {
 	 * - Primary key names must be set or the table name 23 chars or shorter
 	 *
 	 * Data constraints:
+	 * - Tables need a primary key (Not specific to Oracle, but required for performant clustering support)
 	 * - Columns with "NotNull" can not have empty string as default value
 	 * - Columns with "NotNull" can not have number 0 as default value
 	 * - Columns with type "bool" (which is in fact integer of length 1) can not be "NotNull" as it can not store 0/false
+	 * - Columns with type "string" can not be longer than 4.000 characters, use "text" instead
+	 *
+	 * @see https://github.com/nextcloud/documentation/blob/master/developer_manual/basics/storage/database.rst
 	 *
 	 * @param Schema $sourceSchema
 	 * @param Schema $targetSchema
@@ -582,17 +586,31 @@ class MigrationService {
 			}
 
 			foreach ($table->getColumns() as $thing) {
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				// If the table doesn't exist OR if the column doesn't exist in the table
+				if (!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) {
+					if (\strlen($thing->getName()) > 30) {
+						throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+					}
+
+					if ($thing->getNotnull() && $thing->getDefault() === ''
+						&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
+						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+					}
+
+					if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
+					}
+
+					$sourceColumn = null;
+				} else {
+					$sourceColumn = $sourceTable->getColumn($thing->getName());
 				}
 
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && $thing->getNotnull() && $thing->getDefault() === ''
-					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
-					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
-				}
-
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && $thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
-					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
+				// If the column was just created OR the length changed OR the type changed
+				// we will NOT detect invalid length if the column is not modified
+				if (($sourceColumn === null || $sourceColumn->getLength() !== $thing->getLength() || $sourceColumn->getType()->getName() !== Types::STRING)
+					&& $thing->getLength() > 4000 && $thing->getType()->getName() === Types::STRING) {
+					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type String, but exceeding the 4.000 length limit.');
 				}
 			}
 
@@ -634,6 +652,11 @@ class MigrationService {
 				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength >= 23) {
 					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" is too long.');
 				}
+			} elseif (!$primaryKey instanceof Index && !$sourceTable instanceof Table) {
+				/** @var LoggerInterface $logger */
+				$logger = \OC::$server->get(LoggerInterface::class);
+				$logger->error('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups. This will throw an exception and not be installable in a future version of Nextcloud.');
+				// throw new \InvalidArgumentException('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups.');
 			}
 		}
 

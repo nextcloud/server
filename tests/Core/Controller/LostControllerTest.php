@@ -32,7 +32,6 @@ use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -41,6 +40,7 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class LostControllerTest
@@ -69,7 +69,7 @@ class LostControllerTest extends \Test\TestCase {
 	private $encryptionManager;
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $twofactorManager;
@@ -125,7 +125,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->encryptionManager->expects($this->any())
 			->method('isEnabled')
 			->willReturn(true);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->twofactorManager = $this->createMock(Manager::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->verificationToken = $this->createMock(IVerificationToken::class);
@@ -196,7 +196,7 @@ class LostControllerTest extends \Test\TestCase {
 			]);
 
 		$this->logger->expects($this->exactly(0))
-			->method('logException');
+			->method('error');
 		$this->logger->expects($this->exactly(2))
 			->method('warning');
 
@@ -397,7 +397,7 @@ class LostControllerTest extends \Test\TestCase {
 			->will($this->throwException(new \Exception()));
 
 		$this->logger->expects($this->exactly(1))
-			->method('logException');
+			->method('error');
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = new JSONResponse(['status' => 'success']);
@@ -549,7 +549,7 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$this->logger->expects($this->exactly(0))
-			->method('logException');
+			->method('error');
 		$this->logger->expects($this->once())
 			->method('warning');
 
@@ -632,7 +632,7 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn([$user1, $user2]);
 
 		$this->logger->expects($this->exactly(0))
-			->method('logException');
+			->method('error');
 		$this->logger->expects($this->once())
 			->method('warning');
 

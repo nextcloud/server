@@ -35,6 +35,7 @@ use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class HookManager {
@@ -104,10 +105,7 @@ class HookManager {
 			$this->postDeleteUser(['uid' => $uid]);
 		});
 		\OC::$server->getUserManager()->listen('\OC\User', 'postUnassignedUserId', [$this, 'postUnassignedUserId']);
-		Util::connectHook('OC_User',
-			'changeUser',
-			$this,
-			'changeUser');
+		Util::connectHook('OC_User', 'changeUser', $this, 'changeUser');
 	}
 
 	public function postCreateUser($params) {
@@ -163,7 +161,12 @@ class HookManager {
 
 	public function changeUser($params) {
 		$user = $params['user'];
-		$this->syncService->updateUser($user);
+		$feature = $params['feature'];
+		// This case is already covered by the account manager firing up a signal
+		// later on
+		if ($feature !== 'eMailAddress' && $feature !== 'displayName') {
+			$this->syncService->updateUser($user);
+		}
 	}
 
 	public function firstLogin(IUser $user = null) {
@@ -176,8 +179,8 @@ class HookManager {
 						'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary(),
 						'components' => 'VEVENT'
 					]);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+				} catch (\Exception $e) {
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 			if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
@@ -185,8 +188,8 @@ class HookManager {
 					$this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
 						'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 					]);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+				} catch (\Exception $e) {
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 		}

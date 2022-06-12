@@ -36,15 +36,13 @@
 				show if we have a message id and current user is author -->
 			<Actions v-if="isOwnComment && id && !loading" class="comment__actions">
 				<template v-if="!editing">
-					<ActionButton
-						:close-after-click="true"
+					<ActionButton :close-after-click="true"
 						icon="icon-rename"
 						@click="onEdit">
 						{{ t('comments', 'Edit comment') }}
 					</ActionButton>
 					<ActionSeparator />
-					<ActionButton
-						:close-after-click="true"
+					<ActionButton :close-after-click="true"
 						icon="icon-delete"
 						@click="onDeleteWithUndo">
 						{{ t('comments', 'Delete comment') }}
@@ -166,7 +164,8 @@ export default {
 
 		/**
 		 * Is the current user the author of this comment
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		isOwnComment() {
 			return getCurrentUser().uid === this.actorId
@@ -174,7 +173,8 @@ export default {
 
 		/**
 		 * Rendered content as html string
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		renderedContent() {
 			if (this.isEmptyMessage) {
@@ -208,6 +208,7 @@ export default {
 	methods: {
 		/**
 		 * Update local Message on outer change
+		 *
 		 * @param {string} message the message to set
 		 */
 		updateLocalMessage(message) {
@@ -243,6 +244,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:math";
+
 $comment-padding: 10px;
 
 .comment {
@@ -253,7 +256,7 @@ $comment-padding: 10px;
 		display: flex;
 		align-items: center;
 		min-height: 44px;
-		padding: $comment-padding / 2 0;
+		padding: math.div($comment-padding, 2) 0;
 	}
 
 	&__author,

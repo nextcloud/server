@@ -36,10 +36,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package OC\Core\Command\Integrity
  */
 class CheckCore extends Base {
-	/**
-	 * @var Checker
-	 */
-	private $checker;
+	private Checker $checker;
 
 	public function __construct(Checker $checker) {
 		parent::__construct();

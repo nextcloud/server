@@ -4,10 +4,16 @@
 		"optimize-autoloader": true,
 		"sort-packages": true,
 		"platform": {
-			"php": "7.3"
+			"php": "7.4"
+		},
+		"allow-plugins": {
+			"bamarni/composer-bin-plugin": true
 		}
 	},
 	"autoload": {
+		"files": [
+			"lib/public/Log/functions.php"
+		],
 		"psr-4": {
 			"": "lib/private/legacy",
 			"OC\\": "lib/private",
@@ -39,7 +45,7 @@
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
-		"psalm": "psalm",
-		"psalm:update-baseline": "psalm --update-baseline --set-baseline=build/psalm-baseline.xml"
+		"psalm": "psalm --threads=1",
+		"psalm:update-baseline": "psalm --threads=1 --update-baseline"
 	}
 }

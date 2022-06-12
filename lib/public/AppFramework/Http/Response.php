@@ -33,6 +33,7 @@ namespace OCP\AppFramework\Http;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -94,6 +95,12 @@ class Response {
 	 * @since 17.0.0
 	 */
 	public function __construct() {
+		/** @var IRequest $request */
+		/**
+		 * @psalm-suppress UndefinedClass
+		 */
+		$request = \OC::$server->get(IRequest::class);
+		$this->addHeader("X-Request-Id", $request->getId());
 	}
 
 	/**
@@ -103,10 +110,10 @@ class Response {
 	 * @return $this
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function cacheFor(int $cacheSeconds, bool $public = false) {
+	public function cacheFor(int $cacheSeconds, bool $public = false, bool $immutable = false) {
 		if ($cacheSeconds > 0) {
 			$pragma = $public ? 'public' : 'private';
-			$this->addHeader('Cache-Control', $pragma . ', max-age=' . $cacheSeconds . ', must-revalidate');
+			$this->addHeader('Cache-Control', sprintf('%s, max-age=%s, %s', $pragma, $cacheSeconds, ($immutable ? 'immutable' : 'must-revalidate')));
 			$this->addHeader('Pragma', $pragma);
 
 			// Set expires header

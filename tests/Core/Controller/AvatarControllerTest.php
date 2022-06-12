@@ -42,10 +42,10 @@ use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AvatarControllerTest
@@ -72,7 +72,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $userManager;
 	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -90,7 +90,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
@@ -193,24 +193,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
-	/**
-	 * Make sure we get the correct size
-	 */
-	public function testGetAvatarSize() {
-		$this->avatarMock->expects($this->once())
-			->method('getFile')
-			->with($this->equalTo(32))
-			->willReturn($this->avatarFile);
-
-		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
-
-		$this->avatarController->getAvatar('userId', 32);
-	}
-
-	/**
-	 * We cannot get avatars that are 0 or negative
-	 */
-	public function testGetAvatarSizeMin() {
+	public function testGetAvatarSize64(): void {
 		$this->avatarMock->expects($this->once())
 			->method('getFile')
 			->with($this->equalTo(64))
@@ -218,21 +201,78 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
-		$this->avatarController->getAvatar('userId', 0);
+		$this->logger->expects($this->never())
+			->method('debug');
+
+		$this->avatarController->getAvatar('userId', 64);
 	}
 
-	/**
-	 * We do not support avatars larger than 2048*2048
-	 */
-	public function testGetAvatarSizeMax() {
+	public function testGetAvatarSize512(): void {
 		$this->avatarMock->expects($this->once())
 			->method('getFile')
-			->with($this->equalTo(2048))
+			->with($this->equalTo(512))
 			->willReturn($this->avatarFile);
 
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
-		$this->avatarController->getAvatar('userId', 2049);
+		$this->logger->expects($this->never())
+			->method('debug');
+
+		$this->avatarController->getAvatar('userId', 512);
+	}
+
+	/**
+	 * Small sizes return 64 and generate a log
+	 */
+	public function testGetAvatarSizeTooSmall(): void {
+		$this->avatarMock->expects($this->once())
+			->method('getFile')
+			->with($this->equalTo(64))
+			->willReturn($this->avatarFile);
+
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
+
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with('Avatar requested in deprecated size 32');
+
+		$this->avatarController->getAvatar('userId', 32);
+	}
+
+	/**
+	 * Avatars between 64 and 512 are upgraded to 512
+	 */
+	public function testGetAvatarSizeBetween(): void {
+		$this->avatarMock->expects($this->once())
+			->method('getFile')
+			->with($this->equalTo(512))
+			->willReturn($this->avatarFile);
+
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
+
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with('Avatar requested in deprecated size 65');
+
+		$this->avatarController->getAvatar('userId', 65);
+	}
+
+	/**
+	 * We do not support avatars larger than 512
+	 */
+	public function testGetAvatarSizeTooBig(): void {
+		$this->avatarMock->expects($this->once())
+			->method('getFile')
+			->with($this->equalTo(512))
+			->willReturn($this->avatarFile);
+
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
+
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with('Avatar requested in deprecated size 513');
+
+		$this->avatarController->getAvatar('userId', 513);
 	}
 
 	/**
@@ -253,8 +293,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with(new \Exception("foo"));
+			->method('error')
+			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->deleteAvatar());
 	}
@@ -445,8 +485,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$userFolder->method('get')->willReturn($file);
 
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with(new \Exception("foo"));
+			->method('error')
+			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_OK);
 		$this->assertEquals($expectedResponse, $this->avatarController->postAvatar('avatar.jpg'));
 	}
@@ -505,8 +545,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with(new \Exception('foo'));
+			->method('error')
+			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]));
 	}

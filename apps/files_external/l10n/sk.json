@@ -18,9 +18,8 @@
     "Never" : "Nikdy",
     "Once every direct access" : "S každým priamym prístupom",
     "Read only" : "Len na čítanie",
-    "Delete" : "Zmazať",
+    "Disconnect" : "Odpojiť",
     "Admin defined" : "Nastavené správcom",
-    "Are you sure you want to delete this external storage?" : "Naozaj chcete zmazať toto externé úložisko?",
     "Delete storage?" : "Zmazať externé úložisko?",
     "Saved" : "Uložené",
     "Saving …" : "Ukladá sa...",
@@ -39,6 +38,7 @@
     "Credentials saved" : "Prihlasovacie údaje uložené",
     "Credentials saving failed" : "Uloženie prihlasovacích údajov zlyhalo",
     "Credentials required" : "Vyžadované prihlasovacie údaje",
+    "Forbidden to manage local mounts" : "Zakázané spravovať lokálne pripojenia",
     "Storage with ID \"%d\" not found" : "Úložisko s ID \"%d\" sa nenašlo",
     "Invalid backend or authentication mechanism class" : "Neplatný backend, prípadne trieda mechanizmu autentifikácie",
     "Invalid mount point" : "Chybný prípojný bod",
@@ -78,6 +78,8 @@
     "Public key" : "Verejný kľúč",
     "RSA private key" : "RSA súkromný kľúč",
     "Private key" : "Súkromný kľúč",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Predvolená oblasť Kerberos, ak nie je nastavené použije sa \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Kerberos ticket v režime Apache",
     "Kerberos ticket" : "Kerberos tiket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Sektor",
@@ -132,9 +134,8 @@
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
-    "External storages" : "Externé úložiská",
-    "(group)" : "(skupina)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS s použitím OC prihlásenia"
+    "Delete" : "Zmazať",
+    "Are you sure you want to delete this external storage?" : "Naozaj chcete zmazať toto externé úložisko?",
+    "Kerberos ticket apache mode" : "Kerberos ticket v režime apache"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

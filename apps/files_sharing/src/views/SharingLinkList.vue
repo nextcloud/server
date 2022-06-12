@@ -87,7 +87,7 @@ export default {
 		 * Using this to still show the `new link share`
 		 * button regardless of mail shares
 		 *
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		hasLinkShares() {
 			return this.shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK).length > 0
@@ -96,7 +96,7 @@ export default {
 		/**
 		 * Do we have any link or email shares?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasShares() {
 			return this.shares.length > 0

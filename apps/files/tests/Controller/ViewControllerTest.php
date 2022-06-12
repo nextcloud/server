@@ -407,8 +407,7 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'hiddenFields' => [],
-				'showgridview' => false,
-				'isIE' => false,
+				'showgridview' => false
 			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
@@ -443,11 +442,11 @@ class ViewControllerTest extends TestCase {
 			->with('testuser1')
 			->willReturn($baseFolder);
 
-		$baseFolder->expects($this->at(0))
+		$baseFolder->expects($this->once())
 			->method('getById')
 			->with(123)
 			->willReturn([$node]);
-		$baseFolder->expects($this->at(1))
+		$baseFolder->expects($this->once())
 			->method('getRelativePath')
 			->with('/testuser1/files/test/sub')
 			->willReturn('/test/sub');
@@ -459,7 +458,7 @@ class ViewControllerTest extends TestCase {
 			->willReturn('/apps/files/?dir=/test/sub');
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub');
-		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
+		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 
 	public function testShowFileRouteWithFile() {
@@ -483,11 +482,11 @@ class ViewControllerTest extends TestCase {
 			->method('getName')
 			->willReturn('somefile.txt');
 
-		$baseFolder->expects($this->at(0))
+		$baseFolder->expects($this->once())
 			->method('getById')
 			->with(123)
 			->willReturn([$node]);
-		$baseFolder->expects($this->at(1))
+		$baseFolder->expects($this->once())
 			->method('getRelativePath')
 			->with('testuser1/files/test')
 			->willReturn('/test');
@@ -499,7 +498,7 @@ class ViewControllerTest extends TestCase {
 			->willReturn('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
-		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
+		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 
 	public function testShowFileRouteWithInvalidFileId() {
@@ -509,7 +508,7 @@ class ViewControllerTest extends TestCase {
 			->with('testuser1')
 			->willReturn($baseFolder);
 
-		$baseFolder->expects($this->at(0))
+		$baseFolder->expects($this->once())
 			->method('getById')
 			->with(123)
 			->willReturn([]);
@@ -519,7 +518,7 @@ class ViewControllerTest extends TestCase {
 			->with('files.view.index', ['fileNotFound' => true])
 			->willReturn('redirect.url');
 
-		$response = $this->viewController->index('MyDir', 'MyView', '123');
+		$response = $this->viewController->index('', 'MyView', '123');
 		$this->assertInstanceOf('OCP\AppFramework\Http\RedirectResponse', $response);
 		$this->assertEquals('redirect.url', $response->getRedirectURL());
 	}
@@ -538,11 +537,11 @@ class ViewControllerTest extends TestCase {
 		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
 		$baseFolderTrash = $this->getMockBuilder(Folder::class)->getMock();
 
-		$this->rootFolder->expects($this->at(0))
+		$this->rootFolder->expects($this->once())
 			->method('getUserFolder')
 			->with('testuser1')
 			->willReturn($baseFolderFiles);
-		$this->rootFolder->expects($this->at(1))
+		$this->rootFolder->expects($this->once())
 			->method('get')
 			->with('testuser1/files_trashbin/files/')
 			->willReturn($baseFolderTrash);
@@ -560,11 +559,11 @@ class ViewControllerTest extends TestCase {
 			->method('getName')
 			->willReturn('somefile.txt');
 
-		$baseFolderTrash->expects($this->at(0))
+		$baseFolderTrash->expects($this->once())
 			->method('getById')
 			->with(123)
 			->willReturn([$node]);
-		$baseFolderTrash->expects($this->at(1))
+		$baseFolderTrash->expects($this->once())
 			->method('getRelativePath')
 			->with('testuser1/files_trashbin/files/test.d1462861890/sub')
 			->willReturn('/test.d1462861890/sub');
@@ -576,6 +575,6 @@ class ViewControllerTest extends TestCase {
 			->willReturn('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
 
 		$expected = new Http\RedirectResponse('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
-		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
+		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 }

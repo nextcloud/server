@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,8 +28,9 @@ import {
 
 /**
  * Creates a relative url for remote use
+ *
  * @param {string} service id
- * @returns {string} the url
+ * @return {string} the url
  */
 export const linkToRemoteBase = service => {
 	return realGetRootUrl() + '/remote.php/' + service

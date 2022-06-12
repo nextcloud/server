@@ -44,8 +44,11 @@
  *
  */
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
+use OCP\ICacheFactory;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
@@ -92,7 +95,7 @@ class OC_Helper {
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
-	 * @return float|bool a file size in bytes
+	 * @return float|false a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
@@ -417,11 +420,11 @@ class OC_Helper {
 	 */
 	public static function uploadLimit() {
 		$ini = \OC::$server->get(IniGetWrapper::class);
-		$upload_max_filesize = OCP\Util::computerFileSize($ini->get('upload_max_filesize'));
-		$post_max_size = OCP\Util::computerFileSize($ini->get('post_max_size'));
-		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
+		$upload_max_filesize = (int)OCP\Util::computerFileSize($ini->get('upload_max_filesize'));
+		$post_max_size = (int)OCP\Util::computerFileSize($ini->get('post_max_size'));
+		if ($upload_max_filesize === 0 && $post_max_size === 0) {
 			return INF;
-		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
+		} elseif ($upload_max_filesize === 0 || $post_max_size === 0) {
 			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
 		} else {
 			return min($upload_max_filesize, $post_max_size);
@@ -485,9 +488,20 @@ class OC_Helper {
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public static function getStorageInfo($path, $rootInfo = null) {
+	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true) {
+		/** @var ICacheFactory $cacheFactory */
+		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$memcache = $cacheFactory->createLocal('storage_info');
+
 		// return storage info without adding mount points
 		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
+
+		$fullPath = Filesystem::getView()->getAbsolutePath($path);
+		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
+		$cached = $memcache->get($cacheKey);
+		if ($cached) {
+			return $cached;
+		}
 
 		if (!$rootInfo) {
 			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, $includeExtStorage ? 'ext' : false);
@@ -495,7 +509,7 @@ class OC_Helper {
 		if (!$rootInfo instanceof \OCP\Files\FileInfo) {
 			throw new \OCP\Files\NotFoundException();
 		}
-		$used = $rootInfo->getSize();
+		$used = $rootInfo->getSize($includeMountPoints);
 		if ($used < 0) {
 			$used = 0;
 		}
@@ -505,7 +519,6 @@ class OC_Helper {
 		$sourceStorage = $storage;
 		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
 			$includeExtStorage = false;
-			$sourceStorage = $storage->getSourceStorage();
 		}
 		if ($includeExtStorage) {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
@@ -528,7 +541,19 @@ class OC_Helper {
 			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
 			$quota = $sourceStorage->getQuota();
 		}
-		$free = $sourceStorage->free_space($rootInfo->getInternalPath());
+		try {
+			$free = $sourceStorage->free_space($rootInfo->getInternalPath());
+		} catch (\Exception $e) {
+			if ($path === "") {
+				throw $e;
+			}
+			/** @var LoggerInterface $logger */
+			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger->warning("Error while getting quota info, using root quota", ['exception' => $e]);
+			$rootInfo = self::getStorageInfo("");
+			$memcache->set($cacheKey, $rootInfo, 5 * 60);
+			return $rootInfo;
+		}
 		if ($free >= 0) {
 			$total = $free + $used;
 		} else {
@@ -556,7 +581,7 @@ class OC_Helper {
 			[,,,$mountPoint] = explode('/', $mount->getMountPoint(), 4);
 		}
 
-		return [
+		$info = [
 			'free' => $free,
 			'used' => $used,
 			'quota' => $quota,
@@ -567,6 +592,10 @@ class OC_Helper {
 			'mountType' => $mount->getMountType(),
 			'mountPoint' => trim($mountPoint, '/'),
 		];
+
+		$memcache->set($cacheKey, $info, 5 * 60);
+
+		return $info;
 	}
 
 	/**

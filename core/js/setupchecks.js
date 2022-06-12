@@ -195,6 +195,14 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
+					if (!data.wasEmailTestSuccessful) {
+						messages.push({
+							msg: t('core', 'You have not set or verified your email server configuration, yet. Please head over to the {mailSettingsStart}Basic settings{mailSettingsEnd} in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',)
+							.replace('{mailSettingsStart}', '<a href="' + OC.generateUrl('/settings/admin') + '">')
+							.replace('{mailSettingsEnd}', '</a>'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
 					if (!data.hasValidTransactionIsolationLevel) {
 						messages.push({
 							msg: t('core', 'Your database does not run with "READ COMMITTED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.'),
@@ -217,7 +225,7 @@
 					}
 					if (data.suggestedOverwriteCliURL !== '') {
 						messages.push({
-							msg: t('core', 'If your installation is not installed at the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (suggestion: "{suggestedOverwriteCliURL}")', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
+							msg: t('core', 'Please make sure to set the "overwrite.cli.url" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: "{suggestedOverwriteCliURL}". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -232,17 +240,14 @@
 					if (data.cronErrors.length > 0) {
 						var listOfCronErrors = "";
 						data.cronErrors.forEach(function(element){
-							listOfCronErrors += "<li>";
+							listOfCronErrors += '<li>';
 							listOfCronErrors += element.error;
 							listOfCronErrors += ' ';
 							listOfCronErrors += element.hint;
-							listOfCronErrors += "</li>";
+							listOfCronErrors += '</li>';
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'It was not possible to execute the cron job via CLI. The following technical errors have appeared:'
-							) + "<ul>" + listOfCronErrors + "</ul>",
+							msg: t('core', 'It was not possible to execute the cron job via CLI. The following technical errors have appeared:') + '<ul>' + listOfCronErrors + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						})
 					}
@@ -328,124 +333,116 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(!data.hasOpcacheLoaded) {
-						messages.push({
-							msg: t('core', 'The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.phpOpcacheDocumentation + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					if(data.OpcacheSetupRecommendations.length > 0) {
+						var listOfOPcacheRecommendations = "";
+						data.OpcacheSetupRecommendations.forEach(function(element){
+							listOfOPcacheRecommendations += '<li>' + element + '</li>';
 						});
-					} else if(!data.isOpcacheProperlySetup) {
 						messages.push({
-							msg: t('core', 'The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.phpOpcacheDocumentation + '">')
-								.replace('{linkend}', '</a>') + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+							msg: t('core', 'The PHP OPcache module is not properly configured. See the {linkstart}documentation ↗{linkend} for more information.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-opcache') + '">')
+								.replace('{linkend}', '</a>') + '<ul>' + listOfOPcacheRecommendations + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if(!data.isSettimelimitAvailable) {
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
+							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 					if (!data.hasFreeTypeSupport) {
 						messages.push({
-							msg: t(
-								'core',
-								'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'
-							),
+							msg: t('core', 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.missingIndexes.length > 0) {
 						var listOfMissingIndexes = "";
 						data.missingIndexes.forEach(function(element){
-							listOfMissingIndexes += "<li>";
+							listOfMissingIndexes += '<li>';
 							listOfMissingIndexes += t('core', 'Missing index "{indexName}" in table "{tableName}".', element);
-							listOfMissingIndexes += "</li>";
+							listOfMissingIndexes += '</li>';
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running "occ db:add-missing-indices" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.'
-							) + "<ul>" + listOfMissingIndexes + "</ul>",
+							msg: t('core', 'The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running "occ db:add-missing-indices" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.') + '<ul>' + listOfMissingIndexes + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.missingPrimaryKeys.length > 0) {
 						var listOfMissingPrimaryKeys = "";
 						data.missingPrimaryKeys.forEach(function(element){
-							listOfMissingPrimaryKeys += "<li>";
+							listOfMissingPrimaryKeys += '<li>';
 							listOfMissingPrimaryKeys += t('core', 'Missing primary key on table "{tableName}".', element);
-							listOfMissingPrimaryKeys += "</li>";
+							listOfMissingPrimaryKeys += '</li>';
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running "occ db:add-missing-primary-keys" those missing primary keys could be added manually while the instance keeps running.'
-							) + "<ul>" + listOfMissingPrimaryKeys + "</ul>",
+							msg: t('core', 'The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running "occ db:add-missing-primary-keys" those missing primary keys could be added manually while the instance keeps running.') + '<ul>' + listOfMissingPrimaryKeys + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.missingColumns.length > 0) {
 						var listOfMissingColumns = "";
 						data.missingColumns.forEach(function(element){
-							listOfMissingColumns += "<li>";
+							listOfMissingColumns += '<li>';
 							listOfMissingColumns += t('core', 'Missing optional column "{columnName}" in table "{tableName}".', element);
-							listOfMissingColumns += "</li>";
+							listOfMissingColumns += '</li>';
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running "occ db:add-missing-columns" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.'
-							) + "<ul>" + listOfMissingColumns + "</ul>",
+							msg: t('core', 'The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running "occ db:add-missing-columns" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.') + '<ul>' + listOfMissingColumns + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.recommendedPHPModules.length > 0) {
 						var listOfRecommendedPHPModules = "";
 						data.recommendedPHPModules.forEach(function(element){
-							listOfRecommendedPHPModules += "<li>" + element + "</li>";
+							listOfRecommendedPHPModules += '<li>' + element + '</li>';
 						});
+						messages.push({
+							msg: t('core', 'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.') + '<ul><code>' + listOfRecommendedPHPModules + '</code></ul>',
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
+					if (!data.isImagickEnabled) {
 						messages.push({
 							msg: t(
 								'core',
-								'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.'
-							) + "<ul><code>" + listOfRecommendedPHPModules + "</code></ul>",
+								'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
+					if (!data.areWebauthnExtensionsEnabled) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.'
+							),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.imageMagickLacksSVGSupport) {
 						messages.push({
-							msg: t(
-								'core',
-								'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'
-							),
+							msg: t('core', 'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.pendingBigIntConversionColumns.length > 0) {
 						var listOfPendingBigIntConversionColumns = "";
 						data.pendingBigIntConversionColumns.forEach(function(element){
-							listOfPendingBigIntConversionColumns += "<li>" + element + "</li>";
+							listOfPendingBigIntConversionColumns += '<li>' + element + '</li>';
 						});
 						messages.push({
-							msg: t('core', 'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \'occ db:convert-filecache-bigint\' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}.')
+							msg: t('core', 'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running "occ db:convert-filecache-bigint" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion') + '">')
-								.replace('{linkend}', '</a>') + "<ul>" + listOfPendingBigIntConversionColumns + "</ul>",
+								.replace('{linkend}', '</a>') + '<ul>' + listOfPendingBigIntConversionColumns + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
 					if (data.isSqliteUsed) {
 						messages.push({
-							msg: t(
-								'core',
-								'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.'
-							) + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
-							t('core', 'To migrate to another database use the command line tool: \'occ db:convert-type\', or see the {linkstart}documentation ↗{linkend}.')
+							msg: t('core', 'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.') + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
+							t('core', 'To migrate to another database use the command line tool: "occ db:convert-type", or see the {linkstart}documentation ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.databaseConversionDocumentation + '">')
 								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
@@ -453,10 +450,7 @@
 					}
 					if (!data.isMemoryLimitSufficient) {
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP memory limit is below the recommended value of 512MB.'
-							),
+							msg: t('core', 'The PHP memory limit is below the recommended value of 512MB.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						})
 					}
@@ -486,19 +480,13 @@
 					}
 					if (!data.isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed) {
 						messages.push({
-							msg: t(
-								'core',
-								'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'
-							),
+							msg: t('core', 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
 					if (!data.temporaryDirectoryWritable) {
 						messages.push({
-							msg: t(
-								'core',
-								'The temporary directory of this instance points to an either non-existing or non-writable directory.'
-							),
+							msg: t('core', 'The temporary directory of this instance points to an either non-existing or non-writable directory.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
@@ -516,6 +504,7 @@
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\CheckUserCertificates', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SupportedDatabase', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LdapInvalidUuids', messages)
 
 				} else {
 					messages.push({
@@ -634,7 +623,6 @@
 					'X-Content-Type-Options': ['nosniff'],
 					'X-Robots-Tag': ['none'],
 					'X-Frame-Options': ['SAMEORIGIN', 'DENY'],
-					'X-Download-Options': ['noopen'],
 					'X-Permitted-Cross-Domain-Policies': ['none'],
 				};
 				for (var header in securityHeaders) {

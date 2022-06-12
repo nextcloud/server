@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,16 +21,12 @@
  */
 
 import Vue from 'vue'
-import { generateFilePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import Dashboard from './views/Dashboard'
 
-// eslint-disable-next-line
+// eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
-
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath('user_status', '', 'js/')
 
 Vue.prototype.t = translate
 Vue.prototype.n = translatePlural

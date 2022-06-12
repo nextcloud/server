@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Tablèu de bòrd",
     "Dashboard app" : "Aplicacion de tablèu de bòrd",
-    "Show something" : "Mostrar quicòm",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
     "Get more widgets from the App Store" : "Obténer mai de widgets sus l’App Store",
@@ -24,7 +23,6 @@ OC.L10N.register(
     "Hello, {name}" : "Adieu, {name}",
     "Default images" : "Imatges per defaut",
     "Plain background" : "Fons unit",
-    "Good night, {name}" : "Bona nuèch, {name}",
-    "Good night" : "Bona nuèch"
+    "Show something" : "Mostrar quicòm"
 },
 "nplurals=2; plural=(n > 1);");

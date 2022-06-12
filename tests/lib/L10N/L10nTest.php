@@ -35,6 +35,13 @@ class L10nTest extends TestCase {
 		return new Factory($config, $request, $userSession, \OC::$SERVERROOT);
 	}
 
+	public function testSimpleTranslationWithTrailingColon(): void {
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
+
+		$this->assertEquals('Files:', $l->t('Files:'));
+	}
+
 	public function testGermanPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
@@ -45,7 +52,7 @@ class L10nTest extends TestCase {
 
 	public function testRussianPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
-		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA',[$transFile]);
+		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA', [$transFile]);
 
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
 		$this->assertEquals('2 файла', (string)$l->n('%n file', '%n files', 2));

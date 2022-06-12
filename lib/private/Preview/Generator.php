@@ -31,6 +31,7 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\IAppData;
+use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -38,6 +39,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
+use OCP\IStreamImage;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -113,7 +115,7 @@ class Generator {
 	 * Generates previews of a file
 	 *
 	 * @param File $file
-	 * @param array $specifications
+	 * @param non-empty-array $specifications
 	 * @param string $mimeType
 	 * @return ISimpleFile the last preview that was generated
 	 * @throws NotFoundException
@@ -134,6 +136,23 @@ class Generator {
 		$previewVersion = '';
 		if ($file instanceof IVersionedPreviewFile) {
 			$previewVersion = $file->getPreviewVersion() . '-';
+		}
+
+		// If imaginary is enabled, and we request a small thumbnail,
+		// let's not generate the max preview for performance reasons
+		if (count($specifications) === 1
+			&& ($specifications[0]['width'] <= 256 || $specifications[0]['height'] <= 256)
+			&& preg_match(Imaginary::supportedMimeTypes(), $mimeType)
+			&& $this->config->getSystemValueString('preview_imaginary_url', 'invalid') !== 'invalid') {
+			$crop = $specifications[0]['crop'] ?? false;
+			$preview = $this->getSmallImagePreview($previewFolder, $file, $mimeType, $previewVersion, $crop);
+
+			if ($preview->getSize() === 0) {
+				$preview->delete();
+				throw new NotFoundException('Cached preview size 0, invalid!');
+			}
+
+			return $preview;
 		}
 
 		// Get the max preview and infer the max preview sizes from that
@@ -194,14 +213,90 @@ class Generator {
 				throw new NotFoundException('Cached preview size 0, invalid!');
 			}
 		}
+		assert($preview !== null);
 
 		// Free memory being used by the embedded image resource.  Without this the image is kept in memory indefinitely.
 		// Garbage Collection does NOT free this memory.  We have to do it ourselves.
-		if ($maxPreviewImage instanceof \OC_Image) {
+		if ($maxPreviewImage instanceof \OCP\Image) {
 			$maxPreviewImage->destroy();
 		}
 
 		return $preview;
+	}
+
+	/**
+	 * Generate a small image straight away without generating a max preview first
+	 * Preview generated is 256x256
+	 *
+	 * @throws NotFoundException
+	 */
+	private function getSmallImagePreview(ISimpleFolder $previewFolder, File $file, string $mimeType, string $prefix, bool $crop): ISimpleFile {
+		$nodes = $previewFolder->getDirectoryListing();
+
+		foreach ($nodes as $node) {
+			$name = $node->getName();
+			if (($prefix === '' || str_starts_with($name, $prefix))) {
+				// Prefix match
+				if (str_starts_with($name, $prefix . '256-256-crop') && $crop) {
+					// Cropped image
+					return $node;
+				}
+
+				if (str_starts_with($name, $prefix . '256-256.') && !$crop) {
+					// Uncropped image
+					return $node;
+				}
+			}
+		}
+
+		$previewProviders = $this->previewManager->getProviders();
+		foreach ($previewProviders as $supportedMimeType => $providers) {
+			// Filter out providers that does not support this mime
+			if (!preg_match($supportedMimeType, $mimeType)) {
+				continue;
+			}
+
+			foreach ($providers as $providerClosure) {
+				$provider = $this->helper->getProvider($providerClosure);
+				if (!($provider instanceof IProviderV2)) {
+					continue;
+				}
+
+				if (!$provider->isAvailable($file)) {
+					continue;
+				}
+
+				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, $crop);
+
+				if (!($preview instanceof IImage)) {
+					continue;
+				}
+
+				// Try to get the extension.
+				try {
+					$ext = $this->getExtention($preview->dataMimeType());
+				} catch (\InvalidArgumentException $e) {
+					// Just continue to the next iteration if this preview doesn't have a valid mimetype
+					continue;
+				}
+
+				$path = $this->generatePath(256, 256, $crop, $preview->dataMimeType(), $prefix);
+				try {
+					$file = $previewFolder->newFile($path);
+					if ($preview instanceof IStreamImage) {
+						$file->putContent($preview->resource());
+					} else {
+						$file->putContent($preview->data());
+					}
+				} catch (NotPermittedException $e) {
+					throw new NotFoundException();
+				}
+
+				return $file;
+			}
+		}
+
+		throw new NotFoundException('No provider successfully handled the preview generation');
 	}
 
 	/**
@@ -259,7 +354,11 @@ class Generator {
 				$path = $prefix . (string)$preview->width() . '-' . (string)$preview->height() . '-max.' . $ext;
 				try {
 					$file = $previewFolder->newFile($path);
-					$file->putContent($preview->data());
+					if ($preview instanceof IStreamImage) {
+						$file->putContent($preview->resource());
+					} else {
+						$file->putContent($preview->data());
+					}
 				} catch (NotPermittedException $e) {
 					throw new NotFoundException();
 				}
@@ -464,12 +563,19 @@ class Generator {
 	 *
 	 * @param File $file
 	 * @return ISimpleFolder
+	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	private function getPreviewFolder(File $file) {
+		// Obtain file id outside of try catch block to prevent the creation of an existing folder
+		$fileId = (string)$file->getId();
+
 		try {
-			$folder = $this->appData->getFolder($file->getId());
+			$folder = $this->appData->getFolder($fileId);
 		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($file->getId());
+			$folder = $this->appData->newFolder($fileId);
 		}
 
 		return $folder;

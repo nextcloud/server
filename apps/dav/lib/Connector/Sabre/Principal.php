@@ -41,6 +41,9 @@ use OC\KnownUser\KnownUserService;
 use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
@@ -63,6 +66,9 @@ class Principal implements BackendInterface {
 
 	/** @var IGroupManager */
 	private $groupManager;
+
+	/** @var IAccountManager */
+	private $accountManager;
 
 	/** @var IShareManager */
 	private $shareManager;
@@ -95,6 +101,7 @@ class Principal implements BackendInterface {
 
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
+								IAccountManager $accountManager,
 								IShareManager $shareManager,
 								IUserSession $userSession,
 								IAppManager $appManager,
@@ -105,6 +112,7 @@ class Principal implements BackendInterface {
 								string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
+		$this->accountManager = $accountManager;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
@@ -270,6 +278,8 @@ class Principal implements BackendInterface {
 		$limitEnumerationGroup = $this->shareManager->limitEnumerationToGroups();
 		$limitEnumerationPhone = $this->shareManager->limitEnumerationToPhone();
 		$allowEnumerationFullMatch = $this->shareManager->allowEnumerationFullMatch();
+		$ignoreSecondDisplayName = $this->shareManager->ignoreSecondDisplayName();
+		$matchEmail = $this->shareManager->matchEmail();
 
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
@@ -298,7 +308,7 @@ class Principal implements BackendInterface {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
 					if (!$allowEnumeration) {
-						if ($allowEnumerationFullMatch) {
+						if ($allowEnumerationFullMatch && $matchEmail) {
 							$users = $this->userManager->getByEmail($value);
 						} else {
 							$users = [];
@@ -347,9 +357,11 @@ class Principal implements BackendInterface {
 
 					if (!$allowEnumeration) {
 						if ($allowEnumerationFullMatch) {
+							$lowerSearch = strtolower($value);
 							$users = $this->userManager->searchDisplayName($value, $searchLimit);
-							$users = \array_filter($users, static function (IUser $user) use ($value) {
-								return $user->getDisplayName() === $value;
+							$users = \array_filter($users, static function (IUser $user) use ($lowerSearch, $ignoreSecondDisplayName) {
+								$lowerDisplayName = strtolower($user->getDisplayName());
+								return $lowerDisplayName === $lowerSearch || ($ignoreSecondDisplayName && trim(preg_replace('/ \(.*\)$/', '', $lowerDisplayName)) === $lowerSearch);
 							});
 						} else {
 							$users = [];
@@ -502,6 +514,7 @@ class Principal implements BackendInterface {
 	/**
 	 * @param IUser $user
 	 * @return array
+	 * @throws PropertyDoesNotExistException
 	 */
 	protected function userToPrincipal($user) {
 		$userId = $user->getUID();
@@ -513,9 +526,16 @@ class Principal implements BackendInterface {
 			'{http://nextcloud.com/ns}language' => $this->languageFactory->getUserLanguage($user),
 		];
 
+		$account = $this->accountManager->getAccount($user);
+		$alternativeEmails = array_map(fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
+
 		$email = $user->getSystemEMailAddress();
 		if (!empty($email)) {
 			$principal['{http://sabredav.org/ns}email-address'] = $email;
+		}
+
+		if (!empty($alternativeEmails)) {
+			$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
 		}
 
 		return $principal;

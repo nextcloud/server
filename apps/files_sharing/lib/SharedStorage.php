@@ -35,13 +35,20 @@ namespace OCA\Files_Sharing;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\NullWatcher;
 use OC\Files\Cache\Watcher;
-use OC\Files\Filesystem;
+use OC\Files\ObjectStore\HomeObjectStoreStorage;
+use OC\Files\Storage\Common;
+use OC\Files\Storage\Home;
+use OC\User\DisplayNameCache;
+use OCP\Files\Folder;
+use OCP\Files\IHomeStorage;
+use OCP\Files\Node;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\User\NoUserException;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
@@ -88,6 +95,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/** @var boolean */
 	private $sharingDisabledForUser;
 
+	/** @var ?Folder $ownerUserFolder */
+	private $ownerUserFolder = null;
+
+	private string $sourcePath = '';
+
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
 		$this->logger = \OC::$server->getLogger();
@@ -129,14 +141,26 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		}
 		$this->initialized = true;
 		try {
-			Filesystem::initMountPoints($this->superShare->getShareOwner());
-			$storageId = $this->superShare->getNodeCacheEntry() ? $this->superShare->getNodeCacheEntry()->getStorageId() : null;
-			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId(), $storageId);
-			[$this->nonMaskedStorage, $this->rootPath] = $this->ownerView->resolvePath($sourcePath);
-			$this->storage = new PermissionsMask([
-				'storage' => $this->nonMaskedStorage,
-				'mask' => $this->superShare->getPermissions(),
-			]);
+			/** @var IRootFolder $rootFolder */
+			$rootFolder = \OC::$server->get(IRootFolder::class);
+			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
+			$sourceId = $this->superShare->getNodeId();
+			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
+			/** @var Node|false $ownerNode */
+			$ownerNode = current($ownerNodes);
+			if (!$ownerNode) {
+				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found")]);
+				$this->cache = new FailedCache();
+				$this->rootPath = '';
+			} else {
+				$this->nonMaskedStorage = $ownerNode->getStorage();
+				$this->sourcePath = $ownerNode->getPath();
+				$this->rootPath = $ownerNode->getInternalPath();
+				$this->storage = new PermissionsMask([
+					'storage' => $this->nonMaskedStorage,
+					'mask' => $this->superShare->getPermissions(),
+				]);
+			}
 		} catch (NotFoundException $e) {
 			// original file not accessible or deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
@@ -163,10 +187,17 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	 * @inheritdoc
 	 */
 	public function instanceOfStorage($class): bool {
-		if ($class === '\OC\Files\Storage\Common') {
+		if ($class === '\OC\Files\Storage\Common' || $class == Common::class) {
 			return true;
 		}
-		if (in_array($class, ['\OC\Files\Storage\Home', '\OC\Files\ObjectStore\HomeObjectStoreStorage', '\OCP\Files\IHomeStorage'])) {
+		if (in_array($class, [
+			'\OC\Files\Storage\Home',
+			'\OC\Files\ObjectStore\HomeObjectStoreStorage',
+			'\OCP\Files\IHomeStorage',
+			Home::class,
+			HomeObjectStoreStorage::class,
+			IHomeStorage::class
+		])) {
 			return false;
 		}
 		return parent::instanceOfStorage($class);
@@ -386,7 +417,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$this->cache = new \OCA\Files_Sharing\Cache(
 			$storage,
 			$sourceRoot,
-			\OC::$server->get(IUserManager::class)
+			\OC::$server->get(DisplayNameCache::class)
 		);
 		return $this->cache;
 	}
@@ -444,7 +475,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$targetStorage->acquireLock($targetInternalPath, $type, $provider);
 		// lock the parent folders of the owner when locking the share as recipient
 		if ($path === '') {
-			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
+			$sourcePath = $this->ownerUserFolder->getRelativePath($this->sourcePath);
 			$this->ownerView->lockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
 		}
 	}
@@ -460,7 +491,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$targetStorage->releaseLock($targetInternalPath, $type, $provider);
 		// unlock the parent folders of the owner when unlocking the share as recipient
 		if ($path === '') {
-			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
+			$sourcePath = $this->ownerUserFolder->getRelativePath($this->sourcePath);
 			$this->ownerView->unlockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
 		}
 	}

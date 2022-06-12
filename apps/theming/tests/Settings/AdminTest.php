@@ -27,6 +27,7 @@
  */
 namespace OCA\Theming\Tests\Settings;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Settings\Admin;
 use OCA\Theming\ThemingDefaults;
@@ -59,6 +60,7 @@ class AdminTest extends TestCase {
 		$this->imageManager = $this->createMock(ImageManager::class);
 
 		$this->admin = new Admin(
+			Application::APP_ID,
 			$this->config,
 			$this->l10n,
 			$this->themingDefaults,

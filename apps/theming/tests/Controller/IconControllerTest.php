@@ -91,6 +91,8 @@ class IconControllerTest extends TestCase {
 		$icon->expects($this->any())->method('getContent')->willReturn($data);
 		$icon->expects($this->any())->method('getMimeType')->willReturn('image type');
 		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');
+		$icon->expects($this->any())->method('getName')->willReturn('my name');
+		$icon->expects($this->any())->method('getMTime')->willReturn(42);
 		$icon->method('getName')->willReturn($filename);
 		return new SimpleFile($icon);
 	}
@@ -102,7 +104,7 @@ class IconControllerTest extends TestCase {
 			->with('icon-core-filetypes_folder.svg')
 			->willReturn($file);
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
-		$expected->cacheFor(86400);
+		$expected->cacheFor(86400, false, true);
 		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 

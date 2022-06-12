@@ -41,35 +41,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class DecryptAll extends Command {
+	protected IManager $encryptionManager;
+	protected IAppManager $appManager;
+	protected IConfig $config;
+	protected QuestionHelper $questionHelper;
+	protected bool $wasTrashbinEnabled;
+	protected bool $wasMaintenanceModeEnabled;
+	protected \OC\Encryption\DecryptAll $decryptAll;
 
-	/** @var IManager */
-	protected $encryptionManager;
-
-	/** @var  IAppManager */
-	protected $appManager;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var  QuestionHelper */
-	protected $questionHelper;
-
-	/** @var bool */
-	protected $wasTrashbinEnabled;
-
-	/** @var  bool */
-	protected $wasMaintenanceModeEnabled;
-
-	/** @var \OC\Encryption\DecryptAll */
-	protected $decryptAll;
-
-	/**
-	 * @param IManager $encryptionManager
-	 * @param IAppManager $appManager
-	 * @param IConfig $config
-	 * @param \OC\Encryption\DecryptAll $decryptAll
-	 * @param QuestionHelper $questionHelper
-	 */
 	public function __construct(
 		IManager $encryptionManager,
 		IAppManager $appManager,
@@ -89,7 +68,7 @@ class DecryptAll extends Command {
 	/**
 	 * Set maintenance mode and disable the trashbin app
 	 */
-	protected function forceMaintenanceAndTrashbin() {
+	protected function forceMaintenanceAndTrashbin(): void {
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
 		$this->wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
@@ -99,7 +78,7 @@ class DecryptAll extends Command {
 	/**
 	 * Reset the maintenance mode and re-enable the trashbin app
 	 */
-	protected function resetMaintenanceAndTrashbin() {
+	protected function resetMaintenanceAndTrashbin(): void {
 		$this->config->setSystemValue('maintenance', $this->wasMaintenanceModeEnabled);
 		if ($this->wasTrashbinEnabled) {
 			$this->appManager->enableApp('files_trashbin');
@@ -181,13 +160,12 @@ class DecryptAll extends Command {
 				}
 				$this->resetMaintenanceAndTrashbin();
 				return 0;
-			} else {
-				$output->write('Enable server side encryption... ');
-				$this->config->setAppValue('core', 'encryption_enabled', 'yes');
-				$output->writeln('done.');
-				$output->writeln('aborted');
-				return 1;
 			}
+			$output->write('Enable server side encryption... ');
+			$this->config->setAppValue('core', 'encryption_enabled', 'yes');
+			$output->writeln('done.');
+			$output->writeln('aborted');
+			return 1;
 		} catch (\Exception $e) {
 			// enable server side encryption again if something went wrong
 			$this->config->setAppValue('core', 'encryption_enabled', 'yes');

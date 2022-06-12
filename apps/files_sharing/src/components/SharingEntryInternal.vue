@@ -1,7 +1,6 @@
 
 <template>
-	<SharingEntrySimple
-		class="sharing-entry__internal"
+	<SharingEntrySimple class="sharing-entry__internal"
 		:title="t('files_sharing', 'Internal link')"
 		:subtitle="internalLinkSubtitle">
 		<template #avatar>
@@ -49,7 +48,8 @@ export default {
 	computed: {
 		/**
 		 * Get the internal link to this file id
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		internalLink() {
 			return window.location.protocol + '//' + window.location.host + generateUrl('/f/') + this.fileInfo.id
@@ -57,7 +57,8 @@ export default {
 
 		/**
 		 * Clipboard v-tooltip message
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		clipboardTooltip() {
 			if (this.copied) {

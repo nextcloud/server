@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -41,6 +41,7 @@ export const ajaxConnectionLostHandler = _.throttle(() => {
 /**
  * Process ajax error, redirects to main page
  * if an error/auth error status was returned.
+ *
  * @param {XMLHttpRequest} xhr xhr request
  */
 export const processAjaxError = xhr => {

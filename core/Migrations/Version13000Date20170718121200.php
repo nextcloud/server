@@ -333,6 +333,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => false,
 			]);
 			$table->setPrimaryKey(['userid', 'appid', 'configkey']);
+			$table->addIndex(['appid', 'configkey'], 'preferences_app_key');
 		}
 
 		if (!$schema->hasTable('properties')) {
@@ -363,6 +364,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['userid'], 'property_index');
 			$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
+			$table->addIndex(['propertypath'], 'properties_pathonly_index');
 		} else {
 			$table = $schema->getTable('properties');
 			if ($table->hasColumn('propertytype')) {
@@ -525,6 +527,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['class'], 'job_class_index');
+			$table->addIndex(['last_checked', 'reserved_at'], 'job_lastcheck_reserved');
 		}
 
 		if (!$schema->hasTable('users')) {

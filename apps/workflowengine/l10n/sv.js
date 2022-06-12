@@ -74,7 +74,7 @@ OC.L10N.register(
     "When" : "När",
     "and" : "och",
     "Cancel" : "Avbryt",
-    "Delete" : "Ta bort",
+    "Delete" : "Radera",
     "The configuration is invalid" : "Konfigurationen är felaktig",
     "Active" : "Aktiv",
     "Save" : "Spara",
@@ -112,7 +112,6 @@ OC.L10N.register(
     "Request user agent" : "Begär användaragent",
     "User group membership" : "Användargruppsmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i",
-    "Browse the app store" : "Bläddra i appbutiken"
+    "is not member of" : "är inte medlem i"
 },
 "nplurals=2; plural=(n != 1);");

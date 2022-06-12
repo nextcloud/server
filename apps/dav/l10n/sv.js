@@ -25,6 +25,7 @@ OC.L10N.register(
     "{actor} shared calendar {calendar} with group {group}" : "{actor} delade kalender {calendar} med grupp {group}",
     "You unshared calendar {calendar} from group {group}" : "Du slutade dela kalender {calendar} med gruppen {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} slutade dela kalender {calendar} med gruppen {group}",
+    "Untitled event" : "Namnlös händelse",
     "{actor} created event {event} in calendar {calendar}" : "{actor} skapade händelse {event} i kalender {calendar}",
     "You created event {event} in calendar {calendar}" : "Du skapade händelse {event} i kalender {calendar}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} tog bort händelse {event} från kalender {calendar}",
@@ -54,7 +55,6 @@ OC.L10N.register(
     "Date:" : "Datum:",
     "Where:" : "Var:",
     "Description:" : "Beskrivning:",
-    "Untitled event" : "Namnlös händelse",
     "_%n year_::_%n years_" : ["%n år","%n år"],
     "_%n month_::_%n months_" : ["%n månad","%n månader"],
     "_%n day_::_%n days_" : ["%n dag","%n dagar"],
@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "Slutförd %s",
     "Due on %s by %s" : "Slutar den %s vid %s",
     "Due on %s" : "Slutar den %s",
+    "Contacts and groups" : "Kontakter och grupper",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Availability" : "Tillgänglighet",
@@ -126,7 +127,6 @@ OC.L10N.register(
     "Time zone:" : "Tidszon:",
     "to" : "till",
     "No working hours set" : "Inga arbetstimmar satta",
-    "Save" : "Spara",
     "Monday" : "Måndag",
     "Tuesday" : "Tisdag",
     "Wednesday" : "Onsdag",
@@ -134,6 +134,7 @@ OC.L10N.register(
     "Friday" : "Fredag",
     "Saturday" : "Lördag",
     "Sunday" : "Söndag",
+    "Save" : "Spara",
     "Calendar server" : "Kalenderserver",
     "Send invitations to attendees" : "Skicka inbjudan till deltagare",
     "Automatically generate a birthday calendar" : "Generera en födelsedagskalender automatiskt",
@@ -150,7 +151,6 @@ OC.L10N.register(
     "Tentative" : "Preliminärt",
     "Number of guests" : "Antal gäster",
     "Comment" : "Kommentar",
-    "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
-    "Calendar and tasks" : "Kalender och uppgifter"
+    "Your attendance was updated successfully." : "Dina närvaro uppdaterades."
 },
 "nplurals=2; plural=(n != 1);");

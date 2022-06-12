@@ -30,10 +30,10 @@ use OCA\DAV\Comments\CommentNode;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\MessageTooLongException;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
 
 class CommentsNodeTest extends \Test\TestCase {
@@ -62,7 +62,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -230,7 +230,7 @@ class CommentsNodeTest extends \Test\TestCase {
 			->method('save');
 
 		$this->logger->expects($this->once())
-			->method('logException');
+			->method('error');
 
 		$this->node->updateComment($msg);
 	}
@@ -268,7 +268,7 @@ class CommentsNodeTest extends \Test\TestCase {
 			->method('save');
 
 		$this->logger->expects($this->once())
-			->method('logException');
+			->method('error');
 
 		// imagine 'foo' has >1k characters. comment is mocked anyway.
 		$this->node->updateComment('foo');
@@ -404,6 +404,7 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'objectId' => '1848',
 			$ns . 'referenceId' => 'ref',
 			$ns . 'isUnread' => null,
+			$ns . 'reactions' => [],
 		];
 
 		$this->commentsManager->expects($this->exactly(2))

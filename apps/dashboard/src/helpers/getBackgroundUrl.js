@@ -5,7 +5,7 @@
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,16 +26,22 @@ import { generateUrl } from '@nextcloud/router'
 import prefixWithBaseUrl from './prefixWithBaseUrl'
 
 export default (background, time = 0, themingDefaultBackground = '') => {
+	const enabledThemes = window.OCA.Theming.enabledThemes
+	const isDarkTheme = enabledThemes.join('').indexOf('dark') !== -1
+
 	if (background === 'default') {
 		if (themingDefaultBackground && themingDefaultBackground !== 'backgroundColor') {
 			return generateUrl('/apps/theming/image/background') + '?v=' + window.OCA.Theming.cacheBuster
 		}
-		if (window.OCA.Accessibility && window.OCA.Accessibility.theme === 'dark') {
+
+		if (isDarkTheme) {
 			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
 		}
+
 		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
 	} else if (background === 'custom') {
 		return generateUrl('/apps/dashboard/background') + '?v=' + time
 	}
+
 	return prefixWithBaseUrl(background)
 }

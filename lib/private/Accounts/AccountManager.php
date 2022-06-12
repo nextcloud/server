@@ -14,6 +14,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -40,6 +41,8 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use OC\Profile\TProfileHelper;
+use OC\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -79,6 +82,8 @@ use function json_last_error;
 class AccountManager implements IAccountManager {
 	use TAccountsHelper;
 
+	use TProfileHelper;
+
 	/** @var  IDBConnection database connection */
 	private $connection;
 
@@ -113,6 +118,24 @@ class AccountManager implements IAccountManager {
 	private $crypto;
 	/** @var IFactory */
 	private $l10nfactory;
+	private CappedMemoryCache $internalCache;
+
+	/**
+	 * The list of default scopes for each property.
+	 */
+	public const DEFAULT_SCOPES = [
+		self::PROPERTY_DISPLAYNAME => self::SCOPE_FEDERATED,
+		self::PROPERTY_ADDRESS => self::SCOPE_LOCAL,
+		self::PROPERTY_WEBSITE => self::SCOPE_LOCAL,
+		self::PROPERTY_EMAIL => self::SCOPE_FEDERATED,
+		self::PROPERTY_AVATAR => self::SCOPE_FEDERATED,
+		self::PROPERTY_PHONE => self::SCOPE_LOCAL,
+		self::PROPERTY_TWITTER => self::SCOPE_LOCAL,
+		self::PROPERTY_ORGANISATION => self::SCOPE_LOCAL,
+		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
+		self::PROPERTY_HEADLINE => self::SCOPE_LOCAL,
+		self::PROPERTY_BIOGRAPHY => self::SCOPE_LOCAL,
+	];
 
 	public function __construct(
 		IDBConnection            $connection,
@@ -139,6 +162,7 @@ class AccountManager implements IAccountManager {
 		$this->crypto = $crypto;
 		// DIing IL10N results in a dependency loop
 		$this->l10nfactory = $factory;
+		$this->internalCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -196,7 +220,7 @@ class AccountManager implements IAccountManager {
 		foreach ($properties as $property) {
 			if (strlen($property->getValue()) > 2048) {
 				if ($throwOnData) {
-					throw new InvalidArgumentException();
+					throw new InvalidArgumentException($property->getName());
 				} else {
 					$property->setValue('');
 				}
@@ -263,12 +287,15 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	protected function updateUser(IUser $user, array $data, bool $throwOnData = false): array {
-		$oldUserData = $this->getUser($user, false);
+	protected function updateUser(IUser $user, array $data, ?array $oldUserData, bool $throwOnData = false): array {
+		if ($oldUserData === null) {
+			$oldUserData = $this->getUser($user, false);
+		}
+
 		$updated = true;
 
 		if ($oldUserData !== $data) {
-			$this->updateExistingUser($user, $data);
+			$this->updateExistingUser($user, $data, $oldUserData);
 		} else {
 			// nothing needs to be done if new and old data set are the same
 			$updated = false;
@@ -388,7 +415,10 @@ class AccountManager implements IAccountManager {
 		} catch (PropertyDoesNotExistException $e) {
 			return;
 		}
-		$oldMail = isset($oldData[self::PROPERTY_EMAIL]) ? $oldData[self::PROPERTY_EMAIL]['value']['value'] : '';
+
+		$oldMailIndex = array_search(self::PROPERTY_EMAIL, array_column($oldData, 'name'), true);
+		$oldMail = $oldMailIndex !== false ? $oldData[$oldMailIndex]['value'] : '';
+
 		if ($oldMail !== $property->getValue()) {
 			$this->jobList->add(
 				VerifyUserData::class,
@@ -592,12 +622,9 @@ class AccountManager implements IAccountManager {
 	}
 
 	/**
-	 * update existing user in accounts table
-	 *
-	 * @param IUser $user
-	 * @param array $data
+	 * Update existing user in accounts table
 	 */
-	protected function updateExistingUser(IUser $user, array $data): void {
+	protected function updateExistingUser(IUser $user, array $data, array $oldData): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = $this->prepareJson($data);
 		$query = $this->connection->getQueryBuilder();
@@ -630,7 +657,7 @@ class AccountManager implements IAccountManager {
 			}
 
 			// the value col is limited to 255 bytes. It is used for searches only.
-			$value = $property['value'] ? Util::shortenMultibyteString($property['value'],  255) : '';
+			$value = $property['value'] ? Util::shortenMultibyteString($property['value'], 255) : '';
 
 			$query->setParameter('name', $property['name'])
 				->setParameter('value', $value);
@@ -640,86 +667,89 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * build default user record in case not data set exists yet
-	 *
-	 * @param IUser $user
-	 * @return array
 	 */
-	protected function buildDefaultUserRecord(IUser $user) {
+	protected function buildDefaultUserRecord(IUser $user): array {
+		$scopes = array_merge(self::DEFAULT_SCOPES, array_filter($this->config->getSystemValue('account_manager.default_property_scope', []), static function (string $scope, string $property) {
+			return in_array($property, self::ALLOWED_PROPERTIES, true) && in_array($scope, self::ALLOWED_SCOPES, true);
+		}, ARRAY_FILTER_USE_BOTH));
+
 		return [
 			[
 				'name' => self::PROPERTY_DISPLAYNAME,
 				'value' => $user->getDisplayName(),
-				'scope' => self::SCOPE_FEDERATED,
+				// Display name must be at least SCOPE_LOCAL
+				'scope' => $scopes[self::PROPERTY_DISPLAYNAME] === self::SCOPE_PRIVATE ? self::SCOPE_LOCAL : $scopes[self::PROPERTY_DISPLAYNAME],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_ADDRESS,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_ADDRESS],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_WEBSITE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_WEBSITE],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_EMAIL,
 				'value' => $user->getEMailAddress(),
-				'scope' => self::SCOPE_FEDERATED,
+				// Email must be at least SCOPE_LOCAL
+				'scope' => $scopes[self::PROPERTY_EMAIL] === self::SCOPE_PRIVATE ? self::SCOPE_LOCAL : $scopes[self::PROPERTY_EMAIL],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_AVATAR,
-				'scope' => self::SCOPE_FEDERATED
+				'scope' => $scopes[self::PROPERTY_AVATAR],
 			],
 
 			[
 				'name' => self::PROPERTY_PHONE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_PHONE],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_TWITTER,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_TWITTER],
 				'verified' => self::NOT_VERIFIED,
 			],
 
 			[
 				'name' => self::PROPERTY_ORGANISATION,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_ORGANISATION],
 			],
 
 			[
 				'name' => self::PROPERTY_ROLE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_ROLE],
 			],
 
 			[
 				'name' => self::PROPERTY_HEADLINE,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_HEADLINE],
 			],
 
 			[
 				'name' => self::PROPERTY_BIOGRAPHY,
 				'value' => '',
-				'scope' => self::SCOPE_LOCAL,
+				'scope' => $scopes[self::PROPERTY_BIOGRAPHY],
 			],
 
 			[
 				'name' => self::PROPERTY_PROFILE_ENABLED,
-				'value' => '1',
+				'value' => $this->isProfileEnabledByDefault($this->config) ? '1' : '0',
 			],
 		];
 	}
@@ -757,7 +787,12 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function getAccount(IUser $user): IAccount {
-		return $this->parseAccountData($user, $this->getUser($user));
+		if ($this->internalCache->hasKey($user->getUID())) {
+			return $this->internalCache->get($user->getUID());
+		}
+		$account = $this->parseAccountData($user, $this->getUser($user));
+		$this->internalCache->set($user->getUID(), $account);
+		return $account;
 	}
 
 	public function updateAccount(IAccount $account): void {
@@ -776,17 +811,8 @@ class AccountManager implements IAccountManager {
 			//  valid case, nothing to do
 		}
 
-		static $allowedScopes = [
-			self::SCOPE_PRIVATE,
-			self::SCOPE_LOCAL,
-			self::SCOPE_FEDERATED,
-			self::SCOPE_PUBLISHED,
-			self::VISIBILITY_PRIVATE,
-			self::VISIBILITY_CONTACTS_ONLY,
-			self::VISIBILITY_PUBLIC,
-		];
 		foreach ($account->getAllProperties() as $property) {
-			$this->testPropertyScope($property, $allowedScopes, true);
+			$this->testPropertyScope($property, self::ALLOWED_SCOPES, true);
 		}
 
 		$oldData = $this->getUser($account->getUser(), false);
@@ -806,6 +832,7 @@ class AccountManager implements IAccountManager {
 			];
 		}
 
-		$this->updateUser($account->getUser(), $data, true);
+		$this->updateUser($account->getUser(), $data, $oldData, true);
+		$this->internalCache->set($account->getUser()->getUID(), $account);
 	}
 }

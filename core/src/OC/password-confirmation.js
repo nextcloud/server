@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -52,7 +52,7 @@ export default {
 
 	/**
 	 * @param {Function} callback success callback function
-	 * @param {Object} options options
+	 * @param {object} options options
 	 * @param {Function} rejectCallback error callback function
 	 */
 	requirePasswordConfirmation(callback, options, rejectCallback) {

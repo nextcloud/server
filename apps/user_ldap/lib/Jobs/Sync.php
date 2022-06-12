@@ -317,7 +317,7 @@ class Sync extends TimedJob {
 		if (isset($argument['ldapWrapper'])) {
 			$this->ldap = $argument['ldapWrapper'];
 		} else {
-			$this->ldap = new LDAP();
+			$this->ldap = new LDAP($this->config->getSystemValueString('ldap_log_file'));
 		}
 
 		if (isset($argument['avatarManager'])) {

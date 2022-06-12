@@ -220,7 +220,7 @@ class Util {
 	 * get the owner and the path for the file relative to the owners files folder
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return array{0: string, 1: string}
 	 * @throws \BadMethodCallException
 	 */
 	public function getUidAndFilename($path) {
@@ -304,7 +304,7 @@ class Util {
 			$storageService = \OC::$server->get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();
 			foreach ($storages as $storage) {
-				if (strpos($path, '/files/' . $storage->getMountPoint()) === 0) {
+				if (strpos($path, '/files/' . ltrim($storage->getMountPoint(), '/')) === 0) {
 					if ($this->isMountPointApplicableToUser($storage, $uid)) {
 						return true;
 					}

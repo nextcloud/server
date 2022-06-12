@@ -8,6 +8,7 @@
 
 namespace Test\Files\Mount;
 
+use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\Temporary;
 
 class LongId extends Temporary {
@@ -24,12 +25,10 @@ class ManagerTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->manager = new \OC\Files\Mount\Manager();
+		$this->manager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
 	}
 
 	public function testFind() {
-		$this->assertNull($this->manager->find('/'));
-
 		$rootMount = new \OC\Files\Mount\MountPoint(new Temporary([]), '/');
 		$this->manager->addMount($rootMount);
 		$this->assertEquals($rootMount, $this->manager->find('/'));

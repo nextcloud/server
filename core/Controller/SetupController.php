@@ -35,10 +35,8 @@ use OC\Setup;
 use OCP\ILogger;
 
 class SetupController {
-	/** @var Setup */
-	protected $setupHelper;
-	/** @var string */
-	private $autoConfigFile;
+	protected Setup $setupHelper;
+	private string $autoConfigFile;
 
 	/**
 	 * @param Setup $setupHelper
@@ -48,10 +46,7 @@ class SetupController {
 		$this->setupHelper = $setupHelper;
 	}
 
-	/**
-	 * @param $post
-	 */
-	public function run($post) {
+	public function run(array $post): void {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->setupHelper->getSystemInfo();
@@ -78,7 +73,7 @@ class SetupController {
 				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
 			} else {
-				$this->finishSetup(isset($post['install-recommended-apps']));
+				$this->finishSetup();
 			}
 		} else {
 			$options = array_merge($opts, $post);
@@ -90,7 +85,7 @@ class SetupController {
 		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display($post) {
+	public function display($post): void {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -106,7 +101,7 @@ class SetupController {
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
-	private function finishSetup(bool $installRecommended) {
+	private function finishSetup() {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
@@ -118,16 +113,11 @@ class SetupController {
 			}
 		}
 
-		if ($installRecommended) {
-			header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
-			exit();
-		} else {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
-			exit();
-		}
+		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
+		exit();
 	}
 
-	public function loadAutoConfig($post) {
+	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
 			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
 			$AUTOCONFIG = [];

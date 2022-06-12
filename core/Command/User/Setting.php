@@ -27,34 +27,22 @@ namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Setting extends Base {
-	/** @var IUserManager */
-	protected $userManager;
+	protected IUserManager $userManager;
+	protected IConfig $config;
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param IDBConnection $connection
-	 */
-	public function __construct(IUserManager $userManager, IConfig $config, IDBConnection $connection) {
+	public function __construct(IUserManager $userManager, IConfig $config) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->config = $config;
-		$this->connection = $connection;
 	}
 
 	protected function configure() {
@@ -178,7 +166,7 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && in_array($key , ['email', 'display_name'])) {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
 						if ($key === 'email') {
@@ -208,7 +196,7 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && in_array($key , ['email', 'display_name'])) {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
 						if ($key === 'email') {
@@ -247,26 +235,41 @@ class Setting extends Base {
 	}
 
 	protected function getUserSettings($uid, $app) {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('*')
-			->from('preferences')
-			->where($query->expr()->eq('userid', $query->createNamedParameter($uid)));
-
+		$settings = $this->config->getAllUserValues($uid);
 		if ($app !== '') {
-			$query->andWhere($query->expr()->eq('appid', $query->createNamedParameter($app)));
-		}
-
-		$result = $query->execute();
-		$settings = [];
-		while ($row = $result->fetch()) {
-			$settings[$row['appid']][$row['configkey']] = $row['configvalue'];
+			if (isset($settings[$app])) {
+				$settings = [$app => $settings[$app]];
+			} else {
+				$settings = [];
+			}
 		}
 
 		$user = $this->userManager->get($uid);
 		$settings['settings']['display_name'] = $user->getDisplayName();
 
-		$result->closeCursor();
-
 		return $settings;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'uid') {
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+		}
+		if ($argumentName === 'app') {
+			$userId = $context->getWordAtIndex($context->getWordIndex() - 1);
+			$settings = $this->getUserSettings($userId, '');
+			return array_keys($settings);
+		}
+		if ($argumentName === 'key') {
+			$userId = $context->getWordAtIndex($context->getWordIndex() - 2);
+			$app = $context->getWordAtIndex($context->getWordIndex() - 1);
+			$settings = $this->getUserSettings($userId, $app);
+			return array_keys($settings[$app]);
+		}
+		return [];
 	}
 }

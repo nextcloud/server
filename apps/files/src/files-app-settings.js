@@ -5,7 +5,7 @@
  * @author Gary Kim <gary@garykim.dev>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -37,6 +37,9 @@ Object.assign(window.OCA.Files, { Settings: new Settings() })
 Object.assign(window.OCA.Files.Settings, { Setting })
 
 window.addEventListener('DOMContentLoaded', function() {
+	if (window.TESTING) {
+		return
+	}
 	// Init Vue app
 	// eslint-disable-next-line
 	new Vue({

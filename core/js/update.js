@@ -160,6 +160,7 @@ window.addEventListener('DOMContentLoaded', function() {
 		});
 		return false;
 	});
+
 	$('.update-show-detailed').on('click', function() {
 		$('#update-progress-detailed').toggleClass('hidden');
 		return false;

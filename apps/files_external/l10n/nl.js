@@ -20,9 +20,8 @@ OC.L10N.register(
     "Never" : "Nooit",
     "Once every direct access" : "Een keer bij elke directe toegang",
     "Read only" : "Alleen lezen",
-    "Delete" : "Verwijder",
+    "Disconnect" : "Verbreek verbinding",
     "Admin defined" : "Beheerder gedefinieerd",
-    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen",
     "Delete storage?" : "Opslag verwijderen?",
     "Saved" : "Bewaard",
     "Saving …" : "Opslaan ...",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Credentials saved" : "Inloggegevens opgeslagen",
     "Credentials saving failed" : "Opslaan inloggegevens mislukt",
     "Credentials required" : "Inloggegevens vereist",
+    "Forbidden to manage local mounts" : "Niet toegestaan lokale koppelpunten te beheren",
     "Storage with ID \"%d\" not found" : "Opslag met ID \"%d\" niet gevonden",
     "Invalid backend or authentication mechanism class" : "Ongeldige backend of authenticatie mechanisme klasse",
     "Invalid mount point" : "Ongeldig aankoppelpunt",
@@ -134,9 +134,7 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
-    "External storages" : "Externe opslag",
-    "(group)" : "(groep)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS via OC inlog"
+    "Delete" : "Verwijder",
+    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen"
 },
 "nplurals=2; plural=(n != 1);");

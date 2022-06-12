@@ -34,6 +34,7 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -100,6 +101,9 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var ICloudFederationShare|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationShare;
 
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
+
 	protected function setUp(): void {
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
@@ -124,7 +128,8 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationProvider = $this->createMock(ICloudFederationProvider::class);
 		$this->cloudFederationShare = $this->createMock(ICloudFederationShare::class);
-
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->eventDispatcher->expects($this->any())->method('dispatchTyped');
 
 		$this->logger = $this->createMock(LoggerInterface::class);
 
@@ -140,7 +145,8 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			$this->cloudIdManager,
 			$this->logger,
 			$this->cloudFederationFactory,
-			$this->cloudFederationProviderManager
+			$this->cloudFederationProviderManager,
+			$this->eventDispatcher
 		);
 	}
 

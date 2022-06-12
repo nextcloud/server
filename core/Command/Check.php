@@ -29,10 +29,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Check extends Base {
-	/**
-	 * @var SystemConfig
-	 */
-	private $config;
+	private SystemConfig $config;
 
 	public function __construct(SystemConfig $config) {
 		parent::__construct();

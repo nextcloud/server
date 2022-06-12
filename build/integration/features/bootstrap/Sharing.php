@@ -679,14 +679,14 @@ trait Sharing {
 	 * @When save last share id
 	 */
 	public function saveLastShareId() {
-		$this->savedShareId = $this->lastShareData['data']['id'];
+		$this->savedShareId = ($this->lastShareData['data']['id'] ?? null);
 	}
 
 	/**
 	 * @Then share ids should match
 	 */
 	public function shareIdsShouldMatch() {
-		if ($this->savedShareId !== $this->lastShareData['data']['id']) {
+		if ($this->savedShareId !== ($this->lastShareData['data']['id'] ?? null)) {
 			throw new \Exception('Expected the same link share to be returned');
 		}
 	}

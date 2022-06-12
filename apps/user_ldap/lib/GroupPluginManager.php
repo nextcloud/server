@@ -26,9 +26,10 @@ namespace OCA\User_LDAP;
 use OCP\GroupInterface;
 
 class GroupPluginManager {
-	private $respondToActions = 0;
+	private int $respondToActions = 0;
 
-	private $which = [
+	/** @var array<int, ?ILDAPGroupPlugin> */
+	private array $which = [
 		GroupInterface::CREATE_GROUP => null,
 		GroupInterface::DELETE_GROUP => null,
 		GroupInterface::ADD_TO_GROUP => null,
@@ -36,6 +37,8 @@ class GroupPluginManager {
 		GroupInterface::COUNT_USERS => null,
 		GroupInterface::GROUP_DETAILS => null
 	];
+
+	private bool $suppressDeletion = false;
 
 	/**
 	 * @return int All implemented actions
@@ -84,16 +87,31 @@ class GroupPluginManager {
 		throw new \Exception('No plugin implements createGroup in this LDAP Backend.');
 	}
 
+	public function canDeleteGroup(): bool {
+		return !$this->suppressDeletion && $this->implementsActions(GroupInterface::DELETE_GROUP);
+	}
+
+	/**
+	 * @return bool – the value before the change
+	 */
+	public function setSuppressDeletion(bool $value): bool {
+		$old = $this->suppressDeletion;
+		$this->suppressDeletion = $value;
+		return $old;
+	}
+
 	/**
 	 * Delete a group
-	 * @param string $gid Group Id of the group to delete
-	 * @return bool
+	 *
 	 * @throws \Exception
 	 */
-	public function deleteGroup($gid) {
+	public function deleteGroup(string $gid): bool {
 		$plugin = $this->which[GroupInterface::DELETE_GROUP];
 
 		if ($plugin) {
+			if ($this->suppressDeletion) {
+				return false;
+			}
 			return $plugin->deleteGroup($gid);
 		}
 		throw new \Exception('No plugin implements deleteGroup in this LDAP Backend.');

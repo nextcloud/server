@@ -33,6 +33,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Share\IManager as IShareManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,6 +64,9 @@ class MoveCalendar extends Command {
 	/** @var CalDavBackend */
 	private $calDav;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	public const URI_USERS = 'principals/users/';
 
 	/**
@@ -79,7 +83,8 @@ class MoveCalendar extends Command {
 		IShareManager $shareManager,
 		IConfig $config,
 		IL10N $l10n,
-		CalDavBackend $calDav
+		CalDavBackend $calDav,
+		LoggerInterface $logger
 	) {
 		parent::__construct();
 		$this->userManager = $userManager;
@@ -88,6 +93,7 @@ class MoveCalendar extends Command {
 		$this->config = $config;
 		$this->l10n = $l10n;
 		$this->calDav = $calDav;
+		$this->logger = $logger;
 	}
 
 	protected function configure() {
@@ -218,7 +224,7 @@ class MoveCalendar extends Command {
 			 */
 			if ($this->shareManager->shareWithGroupMembersOnly() === true && 'groups' === $prefix && !$this->groupManager->isInGroup($userDestination, $userOrGroup)) {
 				if ($force) {
-					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config), [], ['href' => 'principal:principals/groups/' . $userOrGroup]);
+					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['href' => 'principal:principals/groups/' . $userOrGroup]);
 				} else {
 					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$userOrGroup> with whom the calendar <" . $calendar['uri'] . "> was shared. You may use -f to move the calendar while deleting this share.");
 				}
@@ -229,7 +235,7 @@ class MoveCalendar extends Command {
 			 */
 			if ($userOrGroup === $userDestination) {
 				if ($force) {
-					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config), [], ['href' => 'principal:principals/users/' . $userOrGroup]);
+					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['href' => 'principal:principals/users/' . $userOrGroup]);
 				} else {
 					throw new \InvalidArgumentException("The calendar <" . $calendar['uri'] . "> is already shared to user <$userDestination>.You may use -f to move the calendar while deleting this share.");
 				}

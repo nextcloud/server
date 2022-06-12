@@ -53,9 +53,9 @@ OC.L10N.register(
     "Please login with the new password" : "Por favor inicia sesion con la nueva contraseña",
     "Your password will expire tomorrow." : "Tu contraseña expirará mañana.",
     "Your password will expire today." : "Tu contraseña expirará el día de hoy. ",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. "],
-    "_%s group found_::_%s groups found_" : ["Grupo %s encontrado","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","%s usuarios encontrados"],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. ","La contraseña expirará dentro de %n días. "],
+    "_%s group found_::_%s groups found_" : ["Grupo %s encontrado","%s grupos encontrados","%s grupos encontrados"],
+    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","%s usuarios encontrados","%s usuarios encontrados"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "No fue posible detectar el atributo del nombre a desplegar del usuario. Por favor especifícalo tú mismo en las configuraciones avanzadas de LDAP. ",
     "Could not find the desired feature" : "No fue posible encontrar la función deseada.",
     "Invalid Host" : "Servidor inválido",
@@ -173,14 +173,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atributo UUID para Grupos:",
     "Username-LDAP User Mapping" : "Mapeo del Usuario al Usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Usuarios a los Usuarios-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos-LDAP",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Se presentó una falla con la conexión al servidor LDAP / AD, por favor verifica el servidor, puerto y credenciales. ",
-    "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Falta el \"%uid\" del marcador de posición. Será reemplazado con el nombre de usuario al consultar LDAP / AD.",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "El cuadro de grupo está deshabilitado, porque el servidor LDAP / AD no soporta memberOf.",
-    "LDAP / AD integration" : "Integración con LDAP / AD",
-    "LDAP / AD Username:" : "Usuario LDAP / AD:",
-    "Allows login against the LDAP / AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "Permite iniciar sesión contra el usuario LDAP / AD que es ya sea \"uid\" o \"sAMAccountName\" y será detectado. ",
-    "LDAP / AD Email Address:" : "Dirección de correo electrónico LDAP / AD",
-    "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "Por defecto, el usuario interno se creará con base en el atributo UUID. Ésto asegura que el nombre de usuario sea único y que los caracteres no tengan que ser convertidos. El usuario intenro tiene la restricción de que sólo permite los siguientes caracteres: [ a-zA-Z0-9_.@- ]. El resto de los caracteres son reemplazados con su correspondencia ASCII o simplemente se omiten. En caso de colisiones, se agregará/ incrementará un número. El usuario interno se usa para identificar a un usuario internamente. Adicionalmente es el nombre predeterminado para la carpeta de inicio. También es parte de las URLs remotas, por ejemplo, para todos los servicios *DAV. Con este ajuste se puede anular el comportamiento predeterminado. Déjalo vacío para mantener el comportamiento predeterminado. Los cambios surtiran efecto sólo en los usuarios mapeados (agregados) nuevos a LDAP. "
+    "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos-LDAP"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

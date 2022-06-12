@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,7 +34,7 @@ export default class Tab {
 	/**
 	 * Create a new tab instance
 	 *
-	 * @param {Object} options destructuring object
+	 * @param {object} options destructuring object
 	 * @param {string} options.id the unique id of this tab
 	 * @param {string} options.name the translated tab name
 	 * @param {string} options.icon the vue component

@@ -26,26 +26,30 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Mount;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
+use OC\Files\SetupManagerFactory;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
-	private $mounts = [];
+	private array $mounts = [];
+	/** @var CappedMemoryCache<IMountPoint> */
+	private CappedMemoryCache $pathCache;
+	/** @var CappedMemoryCache<IMountPoint[]> */
+	private CappedMemoryCache $inPathCache;
+	private SetupManager $setupManager;
 
-	/** @var CappedMemoryCache */
-	private $pathCache;
-
-	/** @var CappedMemoryCache */
-	private $inPathCache;
-
-	public function __construct() {
+	public function __construct(SetupManagerFactory $setupManagerFactory) {
 		$this->pathCache = new CappedMemoryCache();
 		$this->inPathCache = new CappedMemoryCache();
+		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
 	/**
@@ -85,10 +89,10 @@ class Manager implements IMountManager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return MountPoint|null
+	 * @return IMountPoint
 	 */
-	public function find(string $path) {
-		\OC_Util::setupFS();
+	public function find(string $path): IMountPoint {
+		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
 
 		if (isset($this->pathCache[$path])) {
@@ -101,10 +105,8 @@ class Manager implements IMountManager {
 			if (isset($this->mounts[$mountPoint])) {
 				$this->pathCache[$path] = $this->mounts[$mountPoint];
 				return $this->mounts[$mountPoint];
-			}
-
-			if ($current === '') {
-				return null;
+			} elseif ($current === '') {
+				break;
 			}
 
 			$current = dirname($current);
@@ -112,16 +114,18 @@ class Manager implements IMountManager {
 				$current = '';
 			}
 		}
+
+		throw new NotFoundException("No mount for path " . $path . " existing mounts: " . implode(",", array_keys($this->mounts)));
 	}
 
 	/**
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findIn(string $path): array {
-		\OC_Util::setupFS();
+		$this->setupManager->setupForPath($path, true);
 		$path = $this->formatPath($path);
 
 		if (isset($this->inPathCache[$path])) {
@@ -151,10 +155,9 @@ class Manager implements IMountManager {
 	 * Find mounts by storage id
 	 *
 	 * @param string $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByStorageId(string $id): array {
-		\OC_Util::setupFS();
 		if (\strlen($id) > 64) {
 			$id = md5($id);
 		}
@@ -168,7 +171,7 @@ class Manager implements IMountManager {
 	}
 
 	/**
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getAll(): array {
 		return $this->mounts;
@@ -178,7 +181,7 @@ class Manager implements IMountManager {
 	 * Find mounts by numeric storage id
 	 *
 	 * @param int $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByNumericId(int $id): array {
 		$storageId = \OC\Files\Cache\Storage::getStorageId($id);
@@ -195,5 +198,27 @@ class Manager implements IMountManager {
 			$path .= '/';
 		}
 		return $path;
+	}
+
+	public function getSetupManager(): SetupManager {
+		return $this->setupManager;
+	}
+
+	/**
+	 * Return all mounts in a path from a specific mount provider
+	 *
+	 * @param string $path
+	 * @param string[] $mountProviders
+	 * @return MountPoint[]
+	 */
+	public function getMountsByMountProvider(string $path, array $mountProviders) {
+		$this->getSetupManager()->setupForProvider($path, $mountProviders);
+		if (in_array('', $mountProviders)) {
+			return $this->mounts;
+		} else {
+			return array_filter($this->mounts, function ($mount) use ($mountProviders) {
+				return in_array($mount->getMountProvider(), $mountProviders);
+			});
+		}
 	}
 }

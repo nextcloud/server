@@ -71,12 +71,12 @@ class TwitterAction implements ILinkAction {
 	}
 
 	public function getDisplayId(): string {
-		return $this->l10nFactory->get('core')->t('Twitter');
+		return $this->l10nFactory->get('lib')->t('Twitter');
 	}
 
 	public function getTitle(): string {
 		$displayUsername = $this->value[0] === '@' ? $this->value : '@' . $this->value;
-		return $this->l10nFactory->get('core')->t('View %s on Twitter', [$displayUsername]);
+		return $this->l10nFactory->get('lib')->t('View %s on Twitter', [$displayUsername]);
 	}
 
 	public function getPriority(): int {

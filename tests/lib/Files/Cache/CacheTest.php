@@ -399,23 +399,17 @@ class CacheTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 
 		$this->assertCount(1, $this->cache->searchQuery(new SearchQuery(
-			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foo')
-			, 10, 0, [], $user)));
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foo'), 10, 0, [], $user)));
 		$this->assertCount(2, $this->cache->searchQuery(new SearchQuery(
-			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', 'foo%')
-			, 10, 0, [], $user)));
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', 'foo%'), 10, 0, [], $user)));
 		$this->assertCount(2, $this->cache->searchQuery(new SearchQuery(
-			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'foo/file')
-			, 10, 0, [], $user)));
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'foo/file'), 10, 0, [], $user)));
 		$this->assertCount(3, $this->cache->searchQuery(new SearchQuery(
-			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', 'foo/%')
-			, 10, 0, [], $user)));
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', 'foo/%'), 10, 0, [], $user)));
 		$this->assertCount(1, $this->cache->searchQuery(new SearchQuery(
-			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'size', 100)
-			, 10, 0, [], $user)));
+			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'size', 100), 10, 0, [], $user)));
 		$this->assertCount(2, $this->cache->searchQuery(new SearchQuery(
-			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN_EQUAL, 'size', 100)
-			, 10, 0, [], $user)));
+			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN_EQUAL, 'size', 100), 10, 0, [], $user)));
 	}
 
 	public function movePathProvider() {

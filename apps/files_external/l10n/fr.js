@@ -20,9 +20,8 @@ OC.L10N.register(
     "Never" : "Jamais",
     "Once every direct access" : "Une fois à chaque accès direct",
     "Read only" : "Lecture seule",
-    "Delete" : "Supprimer",
+    "Disconnect" : "Se déconnecter",
     "Admin defined" : "Défini par l'administrateur",
-    "Are you sure you want to delete this external storage?" : "Êtes-vous sûr de vouloir supprimer ce stockage externe ?",
     "Delete storage?" : "Supprimer ce support de stockage ?",
     "Saved" : "Enregistré",
     "Saving …" : "Enregistrement ...",
@@ -134,9 +133,7 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants.",
-    "External storages" : "Stockages externes",
-    "(group)" : "(groupe)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS en utilisant les identifiants OC"
+    "Delete" : "Supprimer",
+    "Are you sure you want to delete this external storage?" : "Êtes-vous sûr de vouloir supprimer ce stockage externe ?"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

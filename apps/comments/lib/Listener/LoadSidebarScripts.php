@@ -35,8 +35,7 @@ use OCP\Util;
 
 class LoadSidebarScripts implements IEventListener {
 
-	/** @var ICommentsManager */
-	private $commentsManager;
+	private ICommentsManager $commentsManager;
 
 	public function __construct(ICommentsManager $commentsManager) {
 		$this->commentsManager = $commentsManager;
@@ -52,6 +51,6 @@ class LoadSidebarScripts implements IEventListener {
 		// TODO: make sure to only include the sidebar script when
 		// we properly split it between files list and sidebar
 		Util::addScript(Application::APP_ID, 'comments');
-		Util::addScript(Application::APP_ID, 'comments-tab');
+		Util::addScript(Application::APP_ID, 'comments-tab', 'files');
 	}
 }

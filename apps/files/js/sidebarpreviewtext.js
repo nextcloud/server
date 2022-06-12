@@ -25,7 +25,7 @@
 				$thumbnailDiv.removeClass('icon-loading icon-32');
 				$thumbnailContainer.addClass('large');
 				$thumbnailContainer.addClass('text');
-				var $textPreview = $('<pre/>').text(content);
+				var $textPreview = $('<pre></pre>').text(content);
 				$thumbnailDiv.children('.stretcher').remove();
 				$thumbnailDiv.append($textPreview);
 				$thumbnailContainer.css("max-height", previewHeight);

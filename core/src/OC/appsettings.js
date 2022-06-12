@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,6 +24,7 @@
 /* eslint-disable */
 import $ from 'jquery'
 import { filePath } from './routing'
+import { generateFilePath } from "@nextcloud/router"
 
 /**
  * Opens a popup with the setting for an app.
@@ -64,7 +65,7 @@ export const appSettings = args => {
 		popup.hide().remove()
 	} else {
 		const arrowclass = settings.hasClass('topright') ? 'up' : 'left'
-		$.get(filePath(props.appid, '', props.scriptName), function(data) {
+		$.get(generateFilePath(props.appid, '', props.scriptName), function(data) {
 			popup.html(data).ready(function() {
 				popup.prepend('<span class="arrow ' + arrowclass + '"></span><h2>' + t('core', 'Settings') + '</h2><a class="close"></a>').show()
 				popup.find('.close').bind('click', function() {
@@ -85,7 +86,7 @@ export const appSettings = args => {
 					if (props.cache) {
 						$.ajaxSetup({ cache: true })
 					}
-					$.getScript(filePath(props.appid, 'js', scriptname))
+					$.getScript(generateFilePath(props.appid, 'js', scriptname))
 						.fail(function(jqxhr, settings, e) {
 							throw e
 						})

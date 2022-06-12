@@ -47,15 +47,22 @@ class Configuration {
 	public const LDAP_SERVER_FEATURE_AVAILABLE = 'available';
 	public const LDAP_SERVER_FEATURE_UNAVAILABLE = 'unavailable';
 
-	protected $configPrefix = null;
+	/**
+	 * @var string
+	 */
+	protected $configPrefix;
+	/**
+	 * @var bool
+	 */
 	protected $configRead = false;
 	/**
-	 * @var string[] pre-filled with one reference key so that at least one entry is written on save request and
-	 *               the config ID is registered
+	 * @var string[]
 	 */
-	protected $unsavedChanges = ['ldapConfigurationActive' => 'ldapConfigurationActive'];
+	protected array $unsavedChanges = [];
 
-	//settings
+	/**
+	 * @var array<string, mixed> settings
+	 */
 	protected $config = [
 		'ldapHost' => null,
 		'ldapPort' => null,
@@ -115,11 +122,7 @@ class Configuration {
 		'ldapMatchingRuleInChainState' => self::LDAP_SERVER_FEATURE_UNKNOWN,
 	];
 
-	/**
-	 * @param string $configPrefix
-	 * @param bool $autoRead
-	 */
-	public function __construct($configPrefix, $autoRead = true) {
+	public function __construct(string $configPrefix, bool $autoRead = true) {
 		$this->configPrefix = $configPrefix;
 		if ($autoRead) {
 			$this->readConfiguration();
@@ -145,10 +148,7 @@ class Configuration {
 		$this->setConfiguration([$name => $value]);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getConfiguration() {
+	public function getConfiguration(): array {
 		return $this->config;
 	}
 
@@ -159,13 +159,8 @@ class Configuration {
 	 * @param array $config array that holds the config parameters in an associated
 	 * array
 	 * @param array &$applied optional; array where the set fields will be given to
-	 * @return false|null
 	 */
-	public function setConfiguration($config, &$applied = null) {
-		if (!is_array($config)) {
-			return false;
-		}
-
+	public function setConfiguration(array $config, array &$applied = null): void {
 		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
 			if (strpos($inputKey, '_') !== false && array_key_exists($inputKey, $cta)) {
@@ -207,11 +202,10 @@ class Configuration {
 			}
 			$this->unsavedChanges[$key] = $key;
 		}
-		return null;
 	}
 
-	public function readConfiguration() {
-		if (!$this->configRead && !is_null($this->configPrefix)) {
+	public function readConfiguration(): void {
+		if (!$this->configRead) {
 			$cta = array_flip($this->getConfigTranslationArray());
 			foreach ($this->config as $key => $val) {
 				if (!isset($cta[$key])) {
@@ -260,8 +254,9 @@ class Configuration {
 	/**
 	 * saves the current config changes in the database
 	 */
-	public function saveConfiguration() {
+	public function saveConfiguration(): void {
 		$cta = array_flip($this->getConfigTranslationArray());
+		$changed = false;
 		foreach ($this->unsavedChanges as $key) {
 			$value = $this->config[$key];
 			switch ($key) {
@@ -291,9 +286,12 @@ class Configuration {
 			if (is_null($value)) {
 				$value = '';
 			}
+			$changed = true;
 			$this->saveValue($cta[$key], $value);
 		}
-		$this->saveValue('_lastChange', time());
+		if ($changed) {
+			$this->saveValue('_lastChange', (string)time());
+		}
 		$this->unsavedChanges = [];
 	}
 
@@ -318,7 +316,7 @@ class Configuration {
 	 * @param string $varName name of config-key
 	 * @param array|string $value to set
 	 */
-	protected function setMultiLine($varName, $value) {
+	protected function setMultiLine(string $varName, $value): void {
 		if (empty($value)) {
 			$value = '';
 		} elseif (!is_array($value)) {
@@ -349,36 +347,20 @@ class Configuration {
 		$this->setRawValue($varName, $finalValue);
 	}
 
-	/**
-	 * @param string $varName
-	 * @return string
-	 */
-	protected function getPwd($varName) {
+	protected function getPwd(string $varName): string {
 		return base64_decode($this->getValue($varName));
 	}
 
-	/**
-	 * @param string $varName
-	 * @return string
-	 */
-	protected function getLcValue($varName) {
+	protected function getLcValue(string $varName): string {
 		return mb_strtolower($this->getValue($varName), 'UTF-8');
 	}
 
-	/**
-	 * @param string $varName
-	 * @return string
-	 */
-	protected function getSystemValue($varName) {
+	protected function getSystemValue(string $varName): string {
 		//FIXME: if another system value is added, softcode the default value
 		return \OC::$server->getConfig()->getSystemValue($varName, false);
 	}
 
-	/**
-	 * @param string $varName
-	 * @return string
-	 */
-	protected function getValue($varName) {
+	protected function getValue(string $varName): string {
 		static $defaults;
 		if (is_null($defaults)) {
 			$defaults = $this->getDefaults();
@@ -394,7 +376,7 @@ class Configuration {
 	 * @param string $varName name of config key
 	 * @param mixed $value to set
 	 */
-	protected function setValue($varName, $value) {
+	protected function setValue(string $varName, $value): void {
 		if (is_string($value)) {
 			$value = trim($value);
 		}
@@ -407,16 +389,11 @@ class Configuration {
 	 * @param string $varName name of config key
 	 * @param mixed $value to set
 	 */
-	protected function setRawValue($varName, $value) {
+	protected function setRawValue(string $varName, $value): void {
 		$this->config[$varName] = $value;
 	}
 
-	/**
-	 * @param string $varName
-	 * @param string $value
-	 * @return bool
-	 */
-	protected function saveValue($varName, $value) {
+	protected function saveValue(string $varName, string $value): bool {
 		\OC::$server->getConfig()->setAppValue(
 			'user_ldap',
 			$this->configPrefix.$varName,
@@ -429,7 +406,7 @@ class Configuration {
 	 * @return array an associative array with the default values. Keys are correspond
 	 * to config-value entries in the database table
 	 */
-	public function getDefaults() {
+	public function getDefaults(): array {
 		return [
 			'ldap_host' => '',
 			'ldap_port' => '',
@@ -492,7 +469,7 @@ class Configuration {
 	/**
 	 * @return array that maps internal variable names to database fields
 	 */
-	public function getConfigTranslationArray() {
+	public function getConfigTranslationArray(): array {
 		//TODO: merge them into one representation
 		static $array = [
 			'ldap_host' => 'ldapHost',
@@ -554,18 +531,16 @@ class Configuration {
 	}
 
 	/**
-	 * @param string $rule
-	 * @return array
 	 * @throws \RuntimeException
 	 */
-	public function resolveRule($rule) {
+	public function resolveRule(string $rule): array {
 		if ($rule === 'avatar') {
 			return $this->getAvatarAttributes();
 		}
 		throw new \RuntimeException('Invalid rule');
 	}
 
-	public function getAvatarAttributes() {
+	public function getAvatarAttributes(): array {
 		$value = $this->ldapUserAvatarRule ?: self::AVATAR_PREFIX_DEFAULT;
 		$defaultAttributes = ['jpegphoto', 'thumbnailphoto'];
 

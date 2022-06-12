@@ -23,6 +23,7 @@
     "{actor} shared calendar {calendar} with group {group}" : "{actor} pradėjo bendrinti kalendorių {calendar} su grupe {group}",
     "You unshared calendar {calendar} from group {group}" : "Jūs nustojote bendrinti kalendorių {calendar} su grupe {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} nustojo bendrinti kalendorių {calendar} su grupe {group}",
+    "Untitled event" : "Įvykis be pavadinimo",
     "{actor} created event {event} in calendar {calendar}" : "{actor} kalendoriuje {calendar} sukūrė įvykį {event}",
     "You created event {event} in calendar {calendar}" : "Jūs kalendoriuje {calendar} sukūrėte įvykį {event}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} ištrynė įvykį {event} iš kalendoriaus {calendar}",
@@ -51,7 +52,6 @@
     "Date:" : "Data:",
     "Where:" : "Kur:",
     "Description:" : "Aprašas:",
-    "Untitled event" : "Įvykis be pavadinimo",
     "_%n year_::_%n years_" : ["%n metai","%n metai","%n metų","%n metai"],
     "_%n month_::_%n months_" : ["%n mėnesis","%n mėnesiai","%n mėnesių","%n mėnesis"],
     "_%n day_::_%n days_" : ["%n diena","%n dienos","%n dienų","%n diena"],
@@ -92,8 +92,12 @@
     "Events" : "Įvykiai",
     "Tasks" : "Užduotys",
     "Untitled task" : "Užduotis be pavadinimo",
+    "Contacts and groups" : "Adresatai ir grupės",
     "WebDAV" : "WebDAV",
-    "Save" : "Įrašyti",
+    "Availability" : "Pasiekiamumas",
+    "Time zone:" : "Laiko juosta:",
+    "to" : "iki",
+    "No working hours set" : "Nenustatyta jokių darbo valandų",
     "Monday" : "Pirmadienis",
     "Tuesday" : "Antradienis",
     "Wednesday" : "Trečiadienis",
@@ -101,6 +105,7 @@
     "Friday" : "Penktadienis",
     "Saturday" : "Šeštadienis",
     "Sunday" : "Sekmadienis",
+    "Save" : "Įrašyti",
     "Calendar server" : "Kalendoriaus serveris",
     "Send invitations to attendees" : "Siųsti pakvietimus kviestiniams",
     "Automatically generate a birthday calendar" : "Automatiškai sukurti gimtadienių kalendorių",
@@ -114,6 +119,6 @@
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Tentative" : "Preliminarus",
     "Number of guests" : "Svečių skaičius",
-    "Calendar and tasks" : "Kalendorius ir užduotys"
+    "Comment" : "Komentaras"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

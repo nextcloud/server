@@ -102,7 +102,8 @@ export default {
 	computed: {
 		/**
 		 * Strip away extension from name
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		nameWithoutExt() {
 			return this.basename.indexOf('.') > -1 ? this.basename.split('.').slice(0, -1).join('.') : this.basename

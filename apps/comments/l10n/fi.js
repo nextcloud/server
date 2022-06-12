@@ -10,8 +10,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommentoi kohdetta %2$s",
     "{author} commented on {file}" : "{author} kommentoi tiedostoa {file}",
     "<strong>Comments</strong> for files" : "Tiedostojen <strong>kommentit</strong>",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Sinut mainittiin tiedoston “{file}” kommentissa käyttäjän toimesta, joka on sittemmin poistettu",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa",
     "Edit comment" : "Muokkaa kommenttia",
     "Delete comment" : "Poista kommentti",
     "Cancel edit" : "Peruuta muokkaus",
@@ -27,15 +25,7 @@ OC.L10N.register(
     "Comment deleted" : "Kommentti poistettu",
     "An error occurred while trying to delete the comment" : "Kommenttia poistaessa tapahtui virhe",
     "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe",
-    "New comment …" : "Uusi kommentti…",
-    "Post" : "Lähetä",
-    "Cancel" : "Peruuta",
-    "[Deleted user]" : "[Poistettu käyttäjä]",
-    "More comments …" : "Lisää kommentteja…",
-    "Save" : "Tallenna",
-    "Allowed characters {count} of {max}" : "Sallittujen merkkien määrä {count}/{max}",
-    "Error occurred while retrieving comment with ID {id}" : "Virhe haettaessa kommenttia tunnisteella {id}",
-    "Error occurred while updating comment with id {id}" : "Virhe päivittäessä kommenttia tunnisteella {id}",
-    "Error occurred while posting comment" : "Virhe kommenttia lähettäessä"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Sinut mainittiin tiedoston “{file}” kommentissa käyttäjän toimesta, joka on sittemmin poistettu",
+    "{user} mentioned you in a comment on “{file}”" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa"
 },
 "nplurals=2; plural=(n != 1);");

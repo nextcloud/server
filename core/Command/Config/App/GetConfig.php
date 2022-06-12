@@ -28,12 +28,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
-	/** * @var IConfig */
-	protected $config;
+	protected IConfig $config;
 
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(IConfig $config) {
 		parent::__construct();
 		$this->config = $config;
@@ -69,7 +65,7 @@ class GetConfig extends Base {
 	 *
 	 * @param InputInterface  $input  An InputInterface instance
 	 * @param OutputInterface $output An OutputInterface instance
-	 * @return null|int null or 0 if everything went fine, or an error code
+	 * @return int 0 if everything went fine, or an error code
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');

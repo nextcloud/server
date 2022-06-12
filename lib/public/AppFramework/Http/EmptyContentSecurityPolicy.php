@@ -41,6 +41,8 @@ class EmptyContentSecurityPolicy {
 	protected $inlineScriptAllowed = null;
 	/** @var string Whether JS nonces should be used */
 	protected $useJsNonce = null;
+	/** @var bool Whether strict-dynamic should be used */
+	protected $strictDynamicAllowed = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
 	 * TODO: Disallow per default
@@ -90,6 +92,16 @@ class EmptyContentSecurityPolicy {
 	 */
 	public function allowInlineScript($state = false) {
 		$this->inlineScriptAllowed = $state;
+		return $this;
+	}
+
+	/**
+	 * @param bool $state
+	 * @return EmptyContentSecurityPolicy
+	 * @since 24.0.0
+	 */
+	public function useStrictDynamic(bool $state = false): self {
+		$this->strictDynamicAllowed = $state;
 		return $this;
 	}
 
@@ -438,6 +450,9 @@ class EmptyContentSecurityPolicy {
 		if (!empty($this->allowedScriptDomains) || $this->inlineScriptAllowed || $this->evalScriptAllowed) {
 			$policy .= 'script-src ';
 			if (is_string($this->useJsNonce)) {
+				if ($this->strictDynamicAllowed) {
+					$policy .= '\'strict-dynamic\' ';
+				}
 				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);

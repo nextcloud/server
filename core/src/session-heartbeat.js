@@ -6,7 +6,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -48,7 +48,8 @@ const loadConfig = () => {
 
 /**
  * session heartbeat (defaults to enabled)
- * @returns {boolean}
+ *
+ * @return {boolean}
  */
 const keepSessionAlive = () => {
 	return config.session_keepalive === undefined
@@ -57,7 +58,8 @@ const keepSessionAlive = () => {
 
 /**
  * get interval in seconds
- * @returns {Number}
+ *
+ * @return {number}
  */
 const getInterval = () => {
 	let interval = NaN
@@ -75,7 +77,7 @@ const getInterval = () => {
 	)
 }
 
-const getToken = async() => {
+const getToken = async () => {
 	const url = generateUrl('/csrftoken')
 
 	// Not using Axios here as Axios is not stubbable with the sinon fake server
@@ -86,7 +88,7 @@ const getToken = async() => {
 	return resp.token
 }
 
-const poll = async() => {
+const poll = async () => {
 	try {
 		const token = await getToken()
 		setRequestToken(token)
@@ -151,7 +153,7 @@ export const initSessionHeartBeat = () => {
 	}
 	let interval = startPolling()
 
-	window.addEventListener('online', async() => {
+	window.addEventListener('online', async () => {
 		console.info('browser is online again, resuming heartbeat')
 		interval = startPolling()
 		try {

@@ -2,6 +2,28 @@
 
 declare(strict_types=1);
 
+/**
+ * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 namespace OCA\User_LDAP\Migration;
 
 use Closure;
@@ -70,19 +92,19 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 	}
 
 	protected function handleIDs(string $table, bool $emitHooks) {
-		$q = $this->getSelectQuery($table);
-		$u = $this->getUpdateQuery($table);
+		$select = $this->getSelectQuery($table);
+		$update = $this->getUpdateQuery($table);
 
-		$r = $q->executeQuery();
-		while ($row = $r->fetch()) {
+		$result = $select->executeQuery();
+		while ($row = $result->fetch()) {
 			$newId = hash('sha256', $row['owncloud_name'], false);
 			if ($emitHooks) {
 				$this->emitUnassign($row['owncloud_name'], true);
 			}
-			$u->setParameter('uuid', $row['directory_uuid']);
-			$u->setParameter('newId', $newId);
+			$update->setParameter('uuid', $row['directory_uuid']);
+			$update->setParameter('newId', $newId);
 			try {
-				$u->executeStatement();
+				$update->executeStatement();
 				if ($emitHooks) {
 					$this->emitUnassign($row['owncloud_name'], false);
 					$this->emitAssign($newId);
@@ -100,23 +122,23 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 				);
 			}
 		}
-		$r->closeCursor();
+		$result->closeCursor();
 	}
 
 	protected function getSelectQuery(string $table): IQueryBuilder {
-		$q = $this->dbc->getQueryBuilder();
-		$q->select('owncloud_name', 'directory_uuid')
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->select('owncloud_name', 'directory_uuid')
 			->from($table)
-			->where($q->expr()->like('owncloud_name', $q->createNamedParameter(str_repeat('_', 65) . '%'), Types::STRING));
-		return $q;
+			->where($qb->expr()->gt($qb->func()->octetLength('owncloud_name'), $qb->createNamedParameter('64'), IQueryBuilder::PARAM_INT));
+		return $qb;
 	}
 
 	protected function getUpdateQuery(string $table): IQueryBuilder {
-		$q = $this->dbc->getQueryBuilder();
-		$q->update($table)
-			->set('owncloud_name', $q->createParameter('newId'))
-			->where($q->expr()->eq('directory_uuid', $q->createParameter('uuid')));
-		return $q;
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->update($table)
+			->set('owncloud_name', $qb->createParameter('newId'))
+			->where($qb->expr()->eq('directory_uuid', $qb->createParameter('uuid')));
+		return $qb;
 	}
 
 	protected function emitUnassign(string $oldId, bool $pre): void {

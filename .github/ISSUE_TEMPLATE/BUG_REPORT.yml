@@ -1,0 +1,205 @@
+name: "Bug report: Nextcloud Server"
+description: "Submit a report and help us improve Nextcloud Server"
+title: "[Bug]: "
+labels: ["bug", "0. Needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 👍 Thank you for contributing to our project!
+        Please note this is a **free and open-source** project. Most people take on their own time to help you, so please, be patient.
+        You can obtain [Enterprise support](https://nextcloud.com/support/) if you run Nextcloud Server in a mission critical environment.
+  - type: checkboxes
+    id: before-posting
+    attributes:
+      label: "⚠️ This issue respects the following points: ⚠️"
+      description: All conditions are **required**. Your issue can be closed if these are checked incorrectly.
+      options:
+        - label: This is a **bug**, not a question or a configuration/webserver/proxy issue.
+          required: true
+        - label: This issue is **not** already reported on Github _(I've searched it)_.
+          required: true
+        - label: Nextcloud Server **is** up to date. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
+          required: true
+        - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/).
+          required: true
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug description
+      description: |
+        Provide a description of the bug you're experiencing.
+        Don't just expect someone will guess what your specific problem is and provide full details.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Describe the steps to reproduce the bug.
+        The better your description is _(go 'here', click 'there'...)_ the fastest you'll get an _(accurate)_ answer. 
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: Installation method
+      description: |
+        Select installation method you've used.
+        _Describe the method in the "Additional info" section if you chose "Other"._
+      options:
+        - "Manual installation"
+        - "Official Docker image"
+        - "Official VM scripts"
+        - "Official SNAP package"
+        - "Official All-in-One appliance"
+        - "Web installer on a VPS or web space"
+        - "Other"
+  - type: dropdown
+    id: system
+    attributes:
+      label: Operating system
+      description: |
+        Select operating system where Nextcloud Server is installed.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+        - "Debian/Ubuntu"
+        - "RHEL/CentOS"
+        - "Other"
+  - type: dropdown
+    id: php
+    attributes:
+      label: PHP engine version
+      description: |
+        Select PHP engine version serving Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+        - "PHP 7.3"
+        - "PHP 7.4"
+        - "PHP 8.0"
+        - "PHP 8.1"
+        - "Other"
+  - type: dropdown
+    id: webserver
+    attributes:
+      label: Web server
+      description: |
+        Select Webserver serving Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+        - "Apache (supported)"
+        - "Nginx"
+        - "Lighttpd"
+        - "Other"
+  - type: dropdown
+    id: database
+    attributes:
+      label: Database engine version
+      description: |
+        Select Database engine serving Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+        - "MySQL"
+        - "MariaDB"
+        - "PostgreSQL"
+        - "SQlite"
+        - "Oracle"
+        - "Other"
+  - type: dropdown
+    id: fresh
+    attributes:
+      label: Is this bug present after an update or on a fresh install?
+      description: |
+        Select if bug is present after an update or on a fresh install.
+      options:
+        - "Updated from a minor version (ex. 22.2.3 to 22.2.4)"
+        - "Updated to a major version (ex. 22.2.3 to 23.0.1)"
+        - "Fresh Nextcloud Server install"
+  - type: dropdown
+    id: encryption
+    attributes:
+      label: Are you using the Nextcloud Server Encryption module?
+      description: Select if encryption is Enabled on your Nextcloud Server.
+      options:
+        - "Encryption is Enabled"
+        - "Encryption is Disabled"
+  - type: checkboxes
+    id: users
+    attributes:
+      label: What user-backends are you using?
+      description: |
+        Select **all** user-backends Enabled on your Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+      - label: "Default user-backend _(database)_"
+      - label: "LDAP/ Active Directory"
+      - label: "SSO - SAML"
+      - label: "Other"
+  - type: textarea
+    id: configs
+    attributes:
+      label: Configuration report
+      description: |
+        Provide information about your configuration.
+        To get this information, execute one of the following commands on the CLI:
+        ```shell
+        sudo -u www-data php occ config:list system
+        php occ config:list system
+        ./occ config:list system
+        ```
+        > NOTE: This will be automatically formatted into code for better readability.
+      render: shell
+  - type: textarea
+    id: apps
+    attributes:
+      label: List of activated Apps
+      description: |
+        Provide information about your apps.
+        To get this information, execute one of the following commands on the CLI:
+        ```shell
+        sudo -u www-data php occ app:list
+        php occ app:list
+        ./occ app:list
+        ```
+        > NOTE: This will be automatically formatted into code for better readability.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: nextcloud-signingstatus
+    attributes:
+      label: Nextcloud Signing status
+      description: |
+        Provide Nextcloud Signing status.
+        First, login as Admin user into your Nextcloud, then access this URL:
+        ```shell
+        https://yournextcloud.tld/index.php/settings/integrity/failed 
+        ```
+        > NOTE: This will be automatically formatted into code for better readability.
+      render: shell
+  - type: textarea
+    id: nextcloud-log
+    attributes:
+      label: Nextcloud Logs
+      description: |
+        Provide Nextcloud logs lines.
+        Copy all contents from `data/nextcloud.log` or a RAW from `/settings/admin/logging` section:
+        > NOTE: This will be automatically formatted into code for better readability.
+      render: shell
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional info
+      description: Any additional information related to the issue (ex. browser console errors, software versions).

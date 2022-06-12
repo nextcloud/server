@@ -31,8 +31,7 @@
 					<a v-if="isCurrentUser"
 						class="primary profile__header__container__edit-button"
 						:href="settingsUrl">
-						<PencilIcon
-							class="pencil-icon"
+						<PencilIcon class="pencil-icon"
 							decorative
 							title=""
 							:size="16" />
@@ -50,8 +49,7 @@
 
 		<div class="profile__content">
 			<div class="profile__sidebar">
-				<Avatar
-					class="avatar"
+				<Avatar class="avatar"
 					:class="{ interactive: isCurrentUser }"
 					:user="userId"
 					:size="180"
@@ -84,8 +82,7 @@
 								backgroundImage: `url(${action.icon})`,
 								...(colorMainBackground === '#181818' && { filter: 'invert(1)' })
 							}">
-							<ActionLink
-								:close-after-click="true"
+							<ActionLink :close-after-click="true"
 								:icon="action.icon"
 								:href="action.target"
 								:target="action.id === 'phone' ? '_self' :'_blank'">
@@ -93,10 +90,9 @@
 							</ActionLink>
 						</Actions>
 						<template v-if="otherActions">
-							<Actions v-for="action in otherActions"
-								:key="action.id"
-								:force-menu="true">
-								<ActionLink
+							<Actions :force-menu="true">
+								<ActionLink v-for="action in otherActions"
+									:key="action.id"
 									:class="{ 'icon-invert': colorMainBackground === '#181818' }"
 									:close-after-click="true"
 									:icon="action.icon"
@@ -117,8 +113,7 @@
 					</div>
 					<div v-if="address" class="detail">
 						<p>
-							<MapMarkerIcon
-								class="map-icon"
+							<MapMarkerIcon class="map-icon"
 								decorative
 								title=""
 								:size="16" />
@@ -136,8 +131,7 @@
 				</template>
 				<template v-else>
 					<div class="profile__blocks-empty-info">
-						<AccountIcon
-							decorative
+						<AccountIcon decorative
 							title=""
 							fill-color="var(--color-text-maxcontrast)"
 							:size="60" />
@@ -258,12 +252,14 @@ export default {
 
 		emptyProfileMessage() {
 			return this.isCurrentUser
-				? t('core', 'You haven\'t added any info yet')
-				: t('core', '{user} hasn\'t added any info yet', { user: (this.displayname || this.userId) })
+				? t('core', 'You have not added any info yet')
+				: t('core', '{user} has not added any info yet', { user: (this.displayname || this.userId) })
 		},
 	},
 
 	mounted() {
+		// Set the user's displayname or userId in the page title and preserve the default title of "Nextcloud" at the end
+		document.title = `${this.displayname || this.userId} - ${document.title}`
 		subscribe('user_status:status.updated', this.handleStatusUpdate)
 	},
 
@@ -273,7 +269,9 @@ export default {
 
 	methods: {
 		handleStatusUpdate(status) {
-			this.status = status
+			if (this.isCurrentUser && status.userId === this.userId) {
+				this.status = status
+			}
 		},
 
 		openStatusModal() {
@@ -314,6 +312,8 @@ $content-max-width: 640px;
 		position: sticky;
 		height: 190px;
 		top: -40px;
+		background-color: var(--color-primary);
+		background-image: var(--gradient-primary-background);
 
 		&__container {
 			align-self: flex-end;
@@ -578,6 +578,9 @@ $content-max-width: 640px;
 		display: flex;
 		justify-content: center;
 		gap: 0 4px;
+		a {
+			filter: var(--background-invert-if-dark);
+		}
 	}
 }
 

@@ -35,19 +35,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExecuteCommand extends Command implements CompletionAwareInterface {
+	private Connection $connection;
+	private IConfig $config;
 
-	/** @var Connection */
-	private $connection;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * ExecuteCommand constructor.
-	 *
-	 * @param Connection $connection
-	 * @param IConfig $config
-	 */
 	public function __construct(Connection $connection, IConfig $config) {
 		$this->connection = $connection;
 		$this->config = $config;
@@ -79,7 +69,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 			$olderVersions = $ms->getMigratedVersions();
 			$olderVersions[] = '0';
 			$olderVersions[] = 'prev';
-			if (in_array($version,  $olderVersions, true)) {
+			if (in_array($version, $olderVersions, true)) {
 				$output->writeln('<error>Can not go back to previous migration without debug enabled</error>');
 				return 1;
 			}

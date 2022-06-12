@@ -4,7 +4,7 @@
  *
  * @author Gary Kim <gary@garykim.dev>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,6 +33,7 @@ export default class Setting {
 	 *
 	 * @since 19.0.0
 	 * @param {string} name the name of this setting
+	 * @param {object} component the component
 	 * @param {Function} component.el function that returns an unmounted dom element to be added
 	 * @param {Function} [component.open] callback for when setting is added
 	 * @param {Function} [component.close] callback for when setting is closed

@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,8 +26,9 @@ import $ from 'jquery'
 
 /**
  * Parses a URL query string into a JS map
+ *
  * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
- * @returns {Object.<string, string>} map containing key/values matching the URL parameters
+ * @return {object.<string, string>} map containing key/values matching the URL parameters
  */
 export const parse = queryString => {
 	let pos
@@ -75,8 +76,9 @@ export const parse = queryString => {
 
 /**
  * Builds a URL query from a JS map.
- * @param {Object.<string, string>} params map containing key/values matching the URL parameters
- * @returns {string} String containing a URL query (without question) mark
+ *
+ * @param {object.<string, string>} params map containing key/values matching the URL parameters
+ * @return {string} String containing a URL query (without question) mark
  */
 export const build = params => {
 	if (!params) {

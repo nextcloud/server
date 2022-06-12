@@ -49,11 +49,13 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IRequestId;
+use OCP\PreConditionNotMetException;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\ILogger;
-use OCP\PreConditionNotMetException;
+use Psr\Log\LoggerInterface;
+use OCP\Profiler\IProfiler;
 
 class Connection extends \Doctrine\DBAL\Connection {
 	/** @var string */
@@ -65,8 +67,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/** @var SystemConfig */
 	private $systemConfig;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	protected $lockedTable = null;
 
@@ -76,12 +77,63 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/** @var int */
 	protected $queriesExecuted = 0;
 
+	/** @var DbDataCollector|null */
+	protected $dbDataCollector = null;
+
+	/**
+	 * Initializes a new instance of the Connection class.
+	 *
+	 * @throws \Exception
+	 */
+	public function __construct(
+		array $params,
+		Driver $driver,
+		?Configuration $config = null,
+		?EventManager $eventManager = null
+	) {
+		if (!isset($params['adapter'])) {
+			throw new \Exception('adapter not set');
+		}
+		if (!isset($params['tablePrefix'])) {
+			throw new \Exception('tablePrefix not set');
+		}
+		/**
+		 * @psalm-suppress InternalMethod
+		 */
+		parent::__construct($params, $driver, $config, $eventManager);
+		$this->adapter = new $params['adapter']($this);
+		$this->tablePrefix = $params['tablePrefix'];
+
+		$this->systemConfig = \OC::$server->getSystemConfig();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
+
+		/** @var \OCP\Profiler\IProfiler */
+		$profiler = \OC::$server->get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$this->dbDataCollector = new DbDataCollector($this);
+			$profiler->add($this->dbDataCollector);
+			$debugStack = new BacktraceDebugStack();
+			$this->dbDataCollector->setDebugStack($debugStack);
+			$this->_config->setSQLLogger($debugStack);
+		}
+	}
+
 	/**
 	 * @throws Exception
 	 */
 	public function connect() {
 		try {
-			return parent::connect();
+			if ($this->_conn) {
+				return parent::connect();
+			}
+
+			// Only trigger the event logger for the initial connect call
+			$eventLogger = \OC::$server->getEventLogger();
+			$eventLogger->start('connect:db', 'db connection opened');
+			$status = parent::connect();
+			$eventLogger->end('connect:db');
+
+			return $status;
 		} catch (Exception $e) {
 			// throw a new exception to prevent leaking info from the stacktrace
 			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
@@ -115,7 +167,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
-		\OC::$server->getLogger()->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->logger->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::createQueryBuilder();
 	}
@@ -128,7 +180,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
-		\OC::$server->getLogger()->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->logger->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::getExpressionBuilder();
 	}
@@ -155,34 +207,6 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function getPrefix() {
 		return $this->tablePrefix;
-	}
-
-	/**
-	 * Initializes a new instance of the Connection class.
-	 *
-	 * @param array $params  The connection parameters.
-	 * @param \Doctrine\DBAL\Driver $driver
-	 * @param \Doctrine\DBAL\Configuration $config
-	 * @param \Doctrine\Common\EventManager $eventManager
-	 * @throws \Exception
-	 */
-	public function __construct(array $params, Driver $driver, Configuration $config = null,
-		EventManager $eventManager = null) {
-		if (!isset($params['adapter'])) {
-			throw new \Exception('adapter not set');
-		}
-		if (!isset($params['tablePrefix'])) {
-			throw new \Exception('tablePrefix not set');
-		}
-		/**
-		 * @psalm-suppress InternalMethod
-		 */
-		parent::__construct($params, $driver, $config, $eventManager);
-		$this->adapter = new $params['adapter']($this);
-		$this->tablePrefix = $params['tablePrefix'];
-
-		$this->systemConfig = \OC::$server->getSystemConfig();
-		$this->logger = \OC::$server->getLogger();
 	}
 
 	/**
@@ -233,6 +257,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeQuery($sql, $params, $types, $qcp);
 	}
 
@@ -243,6 +268,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeUpdate($sql, $params, $types);
 	}
 
@@ -264,7 +290,24 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeStatement($sql, $params, $types);
+	}
+
+	protected function logQueryToFile(string $sql): void {
+		$logFile = $this->systemConfig->getValue('query_log_file');
+		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
+			$prefix = '';
+			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
+				$prefix .= \OC::$server->get(IRequestId::class)->getId() . "\t";
+			}
+
+			file_put_contents(
+				$this->systemConfig->getValue('query_log_file', ''),
+				$prefix . $sql . "\n",
+				FILE_APPEND
+			);
+		}
 	}
 
 	/**
@@ -524,12 +567,20 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * Migrate the database to the given schema
 	 *
 	 * @param Schema $toSchema
+	 * @param bool $dryRun If true, will return the sql queries instead of running them.
 	 *
 	 * @throws Exception
+	 *
+	 * @return string|null Returns a string only if $dryRun is true.
 	 */
-	public function migrateToSchema(Schema $toSchema) {
+	public function migrateToSchema(Schema $toSchema, bool $dryRun = false) {
 		$migrator = $this->getMigrator();
-		$migrator->migrate($toSchema);
+
+		if ($dryRun) {
+			return $migrator->generateChangeScript($toSchema);
+		} else {
+			$migrator->migrate($toSchema);
+		}
 	}
 
 	private function getMigrator() {

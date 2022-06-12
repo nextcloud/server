@@ -5,7 +5,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -38,8 +38,8 @@
 		/**
 		 * Restores the original file to this revision
 		 *
-		 * @param {Object} [options] options
-		 * @returns {Promise}
+		 * @param {object} [options] options
+		 * @return {Promise}
 		 */
 		revert(options) {
 			options = options ? _.clone(options) : {}

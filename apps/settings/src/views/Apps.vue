@@ -28,24 +28,20 @@
 		<!-- Categories & filters -->
 		<AppNavigation>
 			<template #list>
-				<AppNavigationItem
-					id="app-category-your-apps"
+				<AppNavigationItem id="app-category-your-apps"
 					:to="{ name: 'apps' }"
 					:exact="true"
 					icon="icon-category-installed"
 					:title="t('settings', 'Your apps')" />
-				<AppNavigationItem
-					id="app-category-enabled"
+				<AppNavigationItem id="app-category-enabled"
 					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 					icon="icon-category-enabled"
 					:title="t('settings', 'Active apps')" />
-				<AppNavigationItem
-					id="app-category-disabled"
+				<AppNavigationItem id="app-category-disabled"
 					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
 					icon="icon-category-disabled"
 					:title="t('settings', 'Disabled apps')" />
-				<AppNavigationItem
-					v-if="updateCount > 0"
+				<AppNavigationItem v-if="updateCount > 0"
 					id="app-category-updates"
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
@@ -54,8 +50,7 @@
 						{{ updateCount }}
 					</AppNavigationCounter>
 				</AppNavigationItem>
-				<AppNavigationItem
-					id="app-category-your-bundles"
+				<AppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 					icon="icon-category-app-bundles"
 					:title="t('settings', 'App bundles')" />
@@ -64,14 +59,12 @@
 
 				<!-- App store categories -->
 				<template v-if="settings.appstoreEnabled">
-					<AppNavigationItem
-						id="app-category-featured"
+					<AppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
 						:title="t('settings', 'Featured apps')" />
 
-					<AppNavigationItem
-						v-for="cat in categories"
+					<AppNavigationItem v-for="cat in categories"
 						:key="'icon-category-' + cat.ident"
 						:icon="'icon-category-' + cat.ident"
 						:to="{
@@ -81,10 +74,9 @@
 						:title="cat.displayName" />
 				</template>
 
-				<AppNavigationItem
-					id="app-developer-docs"
-					href="settings.developerDocumentation"
-					:title="t('settings', 'Developer documentation') + ' ↗'" />
+				<AppNavigationItem id="app-developer-docs"
+					:title="t('settings', 'Developer documentation') + ' ↗'"
+					@click="openDeveloperDocumentation" />
 			</template>
 		</AppNavigation>
 
@@ -94,8 +86,7 @@
 		</AppContent>
 
 		<!-- Selected app details -->
-		<AppSidebar
-			v-if="id && app"
+		<AppSidebar v-if="id && app"
 			v-bind="appSidebar"
 			:class="{'app-sidebar--without-background': !appSidebar.background}"
 			@close="hideAppDetails">
@@ -115,6 +106,9 @@
 						class="official icon-checkmark">
 						{{ t('settings', 'Featured') }}</span>
 					<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
+				</div>
+				<div class="app-version">
+					<p>{{ app.version }}</p>
 				</div>
 			</template>
 
@@ -229,13 +223,19 @@ export default {
 
 		// sidebar app binding
 		appSidebar() {
+			const authorName = (xmlNode) => {
+				if (xmlNode['@value']) {
+					// Complex node (with email or homepage attribute)
+					return xmlNode['@value']
+				}
+
+				// Simple text node
+				return xmlNode
+			}
+
 			const author = Array.isArray(this.app.author)
-				? this.app.author[0]['@value']
-					? this.app.author.map(author => author['@value']).join(', ')
-					: this.app.author.join(', ')
-				: this.app.author['@value']
-					? this.app.author['@value']
-					: this.app.author
+				? this.app.author.map(authorName).join(', ')
+				: authorName(this.app.author)
 			const license = t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
 
 			const subtitle = t('settings', 'by {author}\n{license}', { author, license })
@@ -302,6 +302,9 @@ export default {
 				params: { category: this.category },
 			})
 		},
+		openDeveloperDocumentation() {
+			window.open(this.settings.developerDocumentation)
+		},
 	},
 }
 </script>
@@ -318,6 +321,12 @@ export default {
 			background-size: 32px;
 
 			filter: invert(1);
+		}
+	}
+
+	.app-sidebar-header__description {
+		.app-version {
+			padding-left: 10px;
 		}
 	}
 
@@ -355,19 +364,25 @@ export default {
 	}
 }
 
-	.app-sidebar-tabs__release {
-		h2 {
-			border-bottom: 1px solid var(--color-border);
-		}
+// Align the appNavigation toggle with the apps header toolbar
+.app-navigation::v-deep button.app-navigation-toggle {
+	top: 8px;
+	right: -8px;
+}
 
-		// Overwrite changelog heading styles
-		::v-deep {
-			h3 {
-				font-size: 20px;
-			}
-			h4 {
-				font-size: 17px;
-			}
+.app-sidebar-tabs__release {
+	h2 {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	// Overwrite changelog heading styles
+	::v-deep {
+		h3 {
+			font-size: 20px;
+		}
+		h4 {
+			font-size: 17px;
 		}
 	}
+}
 </style>

@@ -15,7 +15,7 @@
  * @author Samuel <faust64@gmail.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,6 +34,9 @@
 
 /* eslint-disable */
 import escapeHTML from 'escape-html'
+
+import { Type as ShareTypes } from '@nextcloud/sharing'
+import { getCapabilities } from '@nextcloud/capabilities'
 
 (function() {
 
@@ -70,7 +73,7 @@ import escapeHTML from 'escape-html'
 		 */
 		attach: function(fileList) {
 			// core sharing is disabled/not loaded
-			if (!OC.Share) {
+			if (!getCapabilities().files_sharing?.api_enabled) {
 				return
 			}
 			if (fileList.id === 'trashbin' || fileList.id === 'files.public') {
@@ -164,30 +167,30 @@ import escapeHTML from 'escape-html'
 
 				_.each($files, function(file) {
 					var $tr = $(file)
-					var shareTypes = $tr.attr('data-share-types') || ''
+					var shareTypesStr = $tr.attr('data-share-types') || ''
 					var shareOwner = $tr.attr('data-share-owner')
-					if (shareTypes || shareOwner) {
+					if (shareTypesStr || shareOwner) {
 						var hasLink = false
 						var hasShares = false
-						_.each(shareTypes.split(',') || [], function(shareType) {
-							shareType = parseInt(shareType, 10)
-							if (shareType === OC.Share.SHARE_TYPE_LINK) {
+						_.each(shareTypesStr.split(',') || [], function(shareTypeStr) {
+							let shareType = parseInt(shareTypeStr, 10)
+							if (shareType === ShareTypes.SHARE_TYPE_LINK) {
 								hasLink = true
-							} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_EMAIL) {
 								hasLink = true
-							} else if (shareType === OC.Share.SHARE_TYPE_USER) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_USER) {
 								hasShares = true
-							} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_GROUP) {
 								hasShares = true
-							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_REMOTE) {
 								hasShares = true
-							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_REMOTE_GROUP) {
 								hasShares = true
-							} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_CIRCLE) {
 								hasShares = true
-							} else if (shareType === OC.Share.SHARE_TYPE_ROOM) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_ROOM) {
 								hasShares = true
-							} else if (shareType === OC.Share.SHARE_TYPE_DECK) {
+							} else if (shareType === ShareTypes.SHARE_TYPE_DECK) {
 								hasShares = true
 							}
 						})
@@ -218,8 +221,8 @@ import escapeHTML from 'escape-html'
 				permissions: OC.PERMISSION_ALL,
 				iconClass: function(fileName, context) {
 					var shareType = parseInt(context.$file.data('share-types'), 10)
-					if (shareType === OC.Share.SHARE_TYPE_EMAIL
-						|| shareType === OC.Share.SHARE_TYPE_LINK) {
+					if (shareType === ShareTypes.SHARE_TYPE_EMAIL
+						|| shareType === ShareTypes.SHARE_TYPE_LINK) {
 						return 'icon-public'
 					}
 					return 'icon-shared'

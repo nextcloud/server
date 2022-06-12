@@ -39,7 +39,6 @@
     "Details" : "Detaljer",
     "Please select tag(s) to add to the selection" : "Vælg venligst tag(s) for at tilføje til udvalget",
     "Apply tag(s) to selection" : "Anvend tag(s) på markeringen",
-    "Select" : "Vælg",
     "Pending" : "Afventer",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Denne operation er forbudt",
@@ -69,7 +68,6 @@
     "_%n file_::_%n files_" : ["%n fil","%n filer"],
     "{dirs} and {files}" : "{dirs} og {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n skujlte inkluderet","%n skujlte inkluderet"],
-    "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "_Uploading %n file_::_Uploading %n files_" : ["Uploader %n fil","Uploader %n filer"],
     "New" : "Ny",
     "Select file range" : "Vælg filområde",
@@ -168,7 +166,6 @@
     "Transfer {path} to {userid}" : "Overfør {path} til {userid}",
     "Invalid path selected" : "Ugyldig filsti valgt",
     "Ownership transfer request sent" : "Anmodning om ejerskabsoverdragelse sendt",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
     "Tags" : "Mærker",
     "Unable to change the favourite state of the file" : "Kan ikke ændre favorittilstanden for filen",
     "Error while loading the file data" : "Fejl under indlæsning af fildata",
@@ -209,10 +206,8 @@
     "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Opbevaringspladsen tilhørende {owner} er fyldt op - filer kan ikke længere opdateres eller synkroniseres!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppemappen \"{mountPoint}\" er fuld, filer kan ikke længere opdateres eller synkroniseres!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Eksternt lager \"{mountPoint}\" er fuldt, filer kan ikke længere opdateres eller synkroniseres!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkroniseres længere!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["match '{filter}'","match '{filter}'"]
+    "Select" : "Vælg",
+    "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

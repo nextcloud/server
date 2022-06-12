@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -65,14 +65,14 @@ import escapeHTML from 'escape-html'
  * var contacts = // fetched in some ajax call
  *
  * $.each(contacts, function(idx, contact) {
- * 		$contactList.append(
- * 			$tmpl.octemplate({
- * 				id: contact.getId(),
- * 				name: contact.getDisplayName(),
- * 				email: contact.getPreferredEmail(),
- * 				phone: contact.getPreferredPhone(),
- * 			});
- * 		);
+ *         $contactList.append(
+ *             $tmpl.octemplate({
+ *                 id: contact.getId(),
+ *                 name: contact.getDisplayName(),
+ *                 email: contact.getPreferredEmail(),
+ *                 phone: contact.getPreferredPhone(),
+ *             });
+ *         );
  * });
  */
 /**

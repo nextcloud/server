@@ -153,7 +153,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return true;
 	}
 }

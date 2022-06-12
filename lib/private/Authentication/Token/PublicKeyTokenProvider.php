@@ -84,6 +84,10 @@ class PublicKeyTokenProvider implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+		if (mb_strlen($name) > 128) {
+			$name = mb_substr($name, 0, 120) . '…';
+		}
+
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
 		$this->mapper->insert($dbToken);
 
@@ -97,12 +101,17 @@ class PublicKeyTokenProvider implements IProvider {
 		$tokenHash = $this->hashToken($tokenId);
 
 		if (isset($this->cache[$tokenHash])) {
+			if ($this->cache[$tokenHash] instanceof DoesNotExistException) {
+				$ex = $this->cache[$tokenHash];
+				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
+			}
 			$token = $this->cache[$tokenHash];
 		} else {
 			try {
 				$token = $this->mapper->getToken($this->hashToken($tokenId));
 				$this->cache[$token->getToken()] = $token;
 			} catch (DoesNotExistException $ex) {
+				$this->cache[$tokenHash] = $ex;
 				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
 			}
 		}
@@ -319,30 +328,6 @@ class PublicKeyTokenProvider implements IProvider {
 	private function hashToken(string $token): string {
 		$secret = $this->config->getSystemValue('secret');
 		return hash('sha512', $token . $secret);
-	}
-
-	/**
-	 * Convert a DefaultToken to a publicKeyToken
-	 * This will also be updated directly in the Database
-	 * @throws \RuntimeException when OpenSSL reports a problem
-	 */
-	public function convertToken(DefaultToken $defaultToken, string $token, $password): PublicKeyToken {
-		$this->cache->clear();
-
-		$pkToken = $this->newToken(
-			$token,
-			$defaultToken->getUID(),
-			$defaultToken->getLoginName(),
-			$password,
-			$defaultToken->getName(),
-			$defaultToken->getType(),
-			$defaultToken->getRemember()
-		);
-
-		$pkToken->setExpires($defaultToken->getExpires());
-		$pkToken->setId($defaultToken->getId());
-
-		return $this->mapper->update($pkToken);
 	}
 
 	/**

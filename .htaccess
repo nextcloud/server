@@ -24,9 +24,6 @@
     Header onsuccess unset X-Content-Type-Options
     Header always set X-Content-Type-Options "nosniff"
 
-    Header onsuccess unset X-Download-Options
-    Header always set X-Download-Options "noopen"
-
     Header onsuccess unset X-Frame-Options
     Header always set X-Frame-Options "SAMEORIGIN"
 
@@ -45,6 +42,10 @@
   # Add cache control for static resources
   <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)$">
     Header set Cache-Control "max-age=15778463"
+  </FilesMatch>
+
+  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)(\?v=.*)?$">
+    Header set Cache-Control "max-age=15778463, immutable"
   </FilesMatch>
 
   # Let browsers cache WOFF files for a week

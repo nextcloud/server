@@ -21,42 +21,46 @@
 -->
 
 <template>
-	<h3
-		:class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
+	<h3 :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
 		<label :for="labelFor">
 			<!-- Already translated as required by prop validator -->
 			{{ accountProperty }}
 		</label>
 
 		<template v-if="scope">
-			<FederationControl
-				class="federation-control"
+			<FederationControl class="federation-control"
 				:account-property="accountProperty"
 				:scope.sync="localScope"
 				@update:scope="onScopeChange" />
 		</template>
 
 		<template v-if="isEditable && isMultiValueSupported">
-			<AddButton
-				class="add-button"
+			<Button type="tertiary"
 				:disabled="!isValidSection"
-				@click.stop.prevent="onAddAdditional" />
+				:aria-label="t('settings', 'Add additional email')"
+				@click.stop.prevent="onAddAdditional">
+				<template #icon>
+					<Plus :size="20" />
+				</template>
+				{{ t('settings', 'Add') }}
+			</Button>
 		</template>
 	</h3>
 </template>
 
 <script>
-import AddButton from './AddButton'
 import FederationControl from './FederationControl'
-
+import Button from '@nextcloud/vue/dist/Components/Button'
+import Plus from 'vue-material-design-icons/Plus'
 import { ACCOUNT_PROPERTY_READABLE_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM, PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 export default {
 	name: 'HeaderBar',
 
 	components: {
-		AddButton,
 		FederationControl,
+		Button,
+		Plus,
 	},
 
 	props: {
@@ -140,7 +144,7 @@ export default {
 		margin: -12px 0 0 8px;
 	}
 
-	.add-button {
-		margin: -12px 0 0 auto !important;
+	.button-vue  {
+		margin: -6px 0 0 auto !important;
 	}
 </style>

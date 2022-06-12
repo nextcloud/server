@@ -10,21 +10,12 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s komentēja %2$s",
     "{author} commented on {file}" : "{author} komentārs {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentāri</strong> datnēm",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”",
     "Edit comment" : "Rediģēt komentāru",
     "Delete comment" : "Dzēst komentāru",
     "No comments yet, start the conversation!" : "Vēl nav komentāru, uzsāciet sarunu!",
     "Retry" : "Mēģināt vēlreiz",
     "_%n unread comment_::_%n unread comments_" : ["%n nelasīti komentāri","%n nelasīti komentāri","%n nelasīti komentāri"],
     "Comment" : "Komentārs",
-    "New comment …" : "Jauns komentārs...",
-    "Post" : "Pievienot",
-    "Cancel" : "Atcelt",
-    "[Deleted user]" : "[Dzēsts lietotājs]",
-    "More comments …" : "Vairāk komentāri...",
-    "Save" : "Saglabāt",
-    "Allowed characters {count} of {max}" : "Atļautās zīmes {count} no {max}",
-    "Error occurred while updating comment with id {id}" : "Kļūda atjauninot komentāru ar id {id}",
-    "Error occurred while posting comment" : "Notika kļūda pievienojot komentāru"
+    "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

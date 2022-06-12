@@ -15,7 +15,6 @@ use OC\Security\CertificateManager;
 use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
 use OCP\IConfig;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -30,8 +29,6 @@ class ClientTest extends \Test\TestCase {
 	private $client;
 	/** @var IConfig|MockObject */
 	private $config;
-	/** @var ILogger|MockObject */
-	private $logger;
 	/** @var LocalAddressChecker|MockObject */
 	private $localAddressChecker;
 	/** @var array */
@@ -40,13 +37,11 @@ class ClientTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(ILogger::class);
 		$this->guzzleClient = $this->createMock(\GuzzleHttp\Client::class);
 		$this->certificateManager = $this->createMock(ICertificateManager::class);
 		$this->localAddressChecker = $this->createMock(LocalAddressChecker::class);
 		$this->client = new Client(
 			$this->config,
-			$this->logger,
 			$this->certificateManager,
 			$this->guzzleClient,
 			$this->localAddressChecker
@@ -244,7 +239,7 @@ class ClientTest extends \Test\TestCase {
 		->method('ThrowIfLocalAddress')
 		->with('http://' . $uri)
 		->will($this->throwException(new LocalServerException()));
-	
+
 		$this->client->post('http://' . $uri);
 	}
 
@@ -259,7 +254,7 @@ class ClientTest extends \Test\TestCase {
 			->method('ThrowIfLocalAddress')
 			->with('http://' . $uri)
 			->will($this->throwException(new LocalServerException()));
-		
+
 		$this->client->put('http://' . $uri);
 	}
 
@@ -292,7 +287,7 @@ class ClientTest extends \Test\TestCase {
 			->method('getSystemValueBool')
 		 ->with('allow_local_remote_servers', false)
 		 ->willReturn(true);
-	
+
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')

@@ -32,7 +32,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class BuildReminderIndexBackgroundJob
@@ -47,8 +47,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 	/** @var ReminderService */
 	private $reminderService;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var IJobList */
 	private $jobList;
@@ -58,16 +57,10 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 
 	/**
 	 * BuildReminderIndexBackgroundJob constructor.
-	 *
-	 * @param IDBConnection $db
-	 * @param ReminderService $reminderService
-	 * @param ILogger $logger
-	 * @param IJobList $jobList
-	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IDBConnection $db,
 								ReminderService $reminderService,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IJobList $jobList,
 								ITimeFactory $timeFactory) {
 		parent::__construct($timeFactory);
@@ -78,12 +71,9 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 		$this->timeFactory = $timeFactory;
 	}
 
-	/**
-	 * @param $arguments
-	 */
-	public function run($arguments) {
-		$offset = (int) $arguments['offset'];
-		$stopAt = (int) $arguments['stopAt'];
+	public function run($argument) {
+		$offset = (int) $argument['offset'];
+		$stopAt = (int) $argument['stopAt'];
 
 		$this->logger->info('Building calendar reminder index (' . $offset .'/' . $stopAt . ')');
 
@@ -126,7 +116,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			try {
 				$this->reminderService->onCalendarObjectCreate($row);
 			} catch (\Exception $ex) {
-				$this->logger->logException($ex);
+				$this->logger->error($ex->getMessage(), ['exception' => $ex]);
 			}
 
 			if (($this->timeFactory->getTime() - $startTime) > 15) {

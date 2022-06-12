@@ -24,7 +24,7 @@
 
 namespace OC\Contacts\ContactsMenu\Providers;
 
-use OCP\Accounts\IAccountManager;
+use OC\Profile\ProfileManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
@@ -33,39 +33,21 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
 
 class ProfileProvider implements IProvider {
-	use \OC\Profile\TProfileHelper;
+	private IActionFactory $actionFactory;
+	private ProfileManager $profileManager;
+	private IL10NFactory $l10nFactory;
+	private IURLGenerator $urlGenerator;
+	private IUserManager $userManager;
 
-	/** @var IAccountManager */
-	private $accountManager;
-
-	/** @var IActionFactory */
-	private $actionFactory;
-
-	/** @var IL10NFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/**
-	 * @param IAccountManager $accountManager
-	 * @param IActionFactory $actionFactory
-	 * @param IL10NFactory $l10nFactory
-	 * @param IURLGenerator $urlGenerator
-	 * @param IUserManager $userManager
-	 */
 	public function __construct(
-		IAccountManager $accountManager,
 		IActionFactory $actionFactory,
+		ProfileManager $profileManager,
 		IL10NFactory $l10nFactory,
 		IURLGenerator $urlGenerator,
 		IUserManager $userManager
 	) {
-		$this->accountManager = $accountManager;
 		$this->actionFactory = $actionFactory;
+		$this->profileManager = $profileManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -78,10 +60,9 @@ class ProfileProvider implements IProvider {
 		$targetUserId = $entry->getProperty('UID');
 		$targetUser = $this->userManager->get($targetUserId);
 		if (!empty($targetUser)) {
-			$account = $this->accountManager->getAccount($targetUser);
-			if ($this->isProfileEnabled($account)) {
+			if ($this->profileManager->isProfileEnabled($targetUser)) {
 				$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/profile.svg'));
-				$profileActionText = $this->l10nFactory->get('core')->t('View profile');
+				$profileActionText = $this->l10nFactory->get('lib')->t('View profile');
 				$profileUrl = $this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $targetUserId]);
 				$action = $this->actionFactory->newLinkAction($iconUrl, $profileActionText, $profileUrl, 'profile');
 				// Set highest priority (by descending order), other actions have the default priority 10 as defined in lib/private/Contacts/ContactsMenu/Actions/LinkAction.php

@@ -7,7 +7,7 @@
  * @author nacho <nacho@ownyourbits.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -98,7 +98,8 @@ const initLiveTimestamps = () => {
 	// Update live timestamps every 30 seconds
 	setInterval(() => {
 		$('.live-relative-timestamp').each(function() {
-			$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)))
+			const timestamp = parseInt($(this).attr('data-timestamp'), 10)
+			$(this).text(moment(timestamp).fromNow())
 		})
 	}, 30 * 1000)
 }
@@ -133,20 +134,10 @@ moment.locale(locale)
  */
 export const initCore = () => {
 	const userAgent = window.navigator.userAgent
-	const msie = userAgent.indexOf('MSIE ')
-	const trident = userAgent.indexOf('Trident/')
 	const edge = userAgent.indexOf('Edge/')
 
-	if (msie > 0 || trident > 0) {
-		// (IE 10 or older) || IE 11
-		$('html').addClass('ie')
-	} else if (edge > 0) {
-		// for edge
+	if (edge > 0) {
 		$('html').addClass('edge')
-	}
-
-	// css variables fallback for IE
-	if (msie > 0 || trident > 0 || edge > 0) {
 		console.info('Legacy browser detected, applying css vars polyfill')
 		cssVars({
 			watch: true,

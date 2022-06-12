@@ -56,6 +56,12 @@ class Install extends Command {
 				InputOption::VALUE_NONE,
 				'install the app regardless of the Nextcloud version requirement'
 			)
+			->addOption(
+				'allow-unstable',
+				null,
+				InputOption::VALUE_NONE,
+				'allow installing an unstable releases'
+			)
 		;
 	}
 
@@ -71,7 +77,7 @@ class Install extends Command {
 		try {
 			/** @var Installer $installer */
 			$installer = \OC::$server->query(Installer::class);
-			$installer->downloadApp($appId);
+			$installer->downloadApp($appId, $input->getOption('allow-unstable'));
 			$result = $installer->installApp($appId, $forceEnable);
 		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());

@@ -79,6 +79,7 @@ class UpdateConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$key = $input->getArgument('key');
 		$value = $input->getArgument('value');
+		assert(is_string($value) || $value === null, 'At most one value should be provided.');
 
 		if ($key === null) {
 			$output->writeln('Current theming config:');

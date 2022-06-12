@@ -119,7 +119,7 @@ class Backend {
 	 * @param array $calendarData
 	 * @param bool $publishStatus
 	 */
-	public function onCalendarPublication(array $calendarData, $publishStatus) {
+	public function onCalendarPublication(array $calendarData, bool $publishStatus): void {
 		$this->triggerCalendarActivity($publishStatus ? Calendar::SUBJECT_PUBLISH : Calendar::SUBJECT_UNPUBLISH, $calendarData);
 	}
 

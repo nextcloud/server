@@ -26,13 +26,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
-use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -41,55 +38,27 @@ use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
 class ProfilePageController extends Controller {
-	use \OC\Profile\TProfileHelper;
-
-	/** @var IInitialState */
-	private $initialStateService;
-
-	/** @var IAccountManager */
-	private $accountManager;
-
-	/** @var ProfileManager */
-	private $profileManager;
-
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var KnownUserService */
-	private $knownUserService;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IUserStatusManager */
-	private $userStatusManager;
+	private IInitialState $initialStateService;
+	private ProfileManager $profileManager;
+	private IShareManager $shareManager;
+	private IUserManager $userManager;
+	private IUserSession $userSession;
+	private IUserStatusManager $userStatusManager;
 
 	public function __construct(
 		$appName,
 		IRequest $request,
 		IInitialState $initialStateService,
-		IAccountManager $accountManager,
 		ProfileManager $profileManager,
 		IShareManager $shareManager,
-		IGroupManager $groupManager,
-		KnownUserService $knownUserService,
 		IUserManager $userManager,
 		IUserSession $userSession,
 		IUserStatusManager $userStatusManager
 	) {
 		parent::__construct($appName, $request);
 		$this->initialStateService = $initialStateService;
-		$this->accountManager = $accountManager;
 		$this->profileManager = $profileManager;
 		$this->shareManager = $shareManager;
-		$this->groupManager = $groupManager;
-		$this->knownUserService = $knownUserService;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->userStatusManager = $userStatusManager;
@@ -114,9 +83,8 @@ class ProfilePageController extends Controller {
 			return $profileNotFoundTemplate;
 		}
 		$visitingUser = $this->userSession->getUser();
-		$targetAccount = $this->accountManager->getAccount($targetUser);
 
-		if (!$this->isProfileEnabled($targetAccount)) {
+		if (!$this->profileManager->isProfileEnabled($targetUser)) {
 			return $profileNotFoundTemplate;
 		}
 
@@ -143,7 +111,7 @@ class ProfilePageController extends Controller {
 			$this->profileManager->getProfileParams($targetUser, $visitingUser),
 		);
 
-		\OCP\Util::addScript('core', 'dist/profile');
+		\OCP\Util::addScript('core', 'profile');
 
 		return new TemplateResponse(
 			'core',

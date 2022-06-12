@@ -73,6 +73,9 @@ interface IOperation {
 	 * user scope is permitted, the default behaviour should return `true`,
 	 * otherwise `false`.
 	 *
+	 * @param int $scope
+	 * @psalm-param IManager::SCOPE_* $scope
+	 *
 	 * @since 18.0.0
 	 */
 	public function isAvailableForScope(int $scope): bool;

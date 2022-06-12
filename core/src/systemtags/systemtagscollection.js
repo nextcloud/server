@@ -4,7 +4,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -61,7 +61,7 @@
 		 * Lazy fetch.
 		 * Only fetches once, subsequent calls will directly call the success handler.
 		 *
-		 * @param options
+		 * @param {any} options -
 		 * @param [options.force] true to force fetch even if cached entries exist
 		 *
 		 * @see Backbone.Collection#fetch

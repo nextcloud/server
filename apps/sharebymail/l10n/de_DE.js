@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "Geteilt über eine E-Mail",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element schon mit dem Benutzer %2$s geteilt wird.",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte geben Sie in Ihren persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche Sie es erneut.",
+    "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Habe eine ungültige E-Mail-Adresse erhalten.",
     "Failed to send share by email" : "Fehler beim Senden der Freigabe per E-Mail",
     "%1$s shared »%2$s« with you" : "%1$s hat »%2$s« mit Ihnen geteilt",
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit Ihnen geteilt.",
@@ -38,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Das Passwort zum Zugriff auf %1$s wurde durch %2$s mit Ihnen geteilt.",
     "Password to access »%s«" : "Passwort um auf »%s« zu zugreifen",
     "It is protected with the following password:" : "Dies ist mit dem folgendem Passwort geschützt:",
+    "This password will expire at %s" : "Dieses Passwort wird um %s ablaufen.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s hat » %2$s« mit Ihnen geteilt und möchte folgendes hinzufügen:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s hat »%2$s« mit Ihnen geteilt und möchte folgendes hinzufügen",
     "»%s« added a note to a file shared with you" : "»%s« hat eine Bemerkung zu einer mit Ihnen geteilten Datei hinzugefügt",
@@ -50,7 +52,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
     "Reply to initiator" : "Antwort an Initiator",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte geben Sie in Ihren persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche Sie es erneut.",
-    "Enforce password protection" : "Passwortschutz erzwingen"
+    "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden"
 },
 "nplurals=2; plural=(n != 1);");

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Nadzorna ploča",
     "Dashboard app" : "Nadzorna ploča aplikacije",
-    "Show something" : "Prikaži nešto",
     "Customize" : "Uredi",
     "Edit widgets" : "Uredi widgete",
     "Get more widgets from the App Store" : "Nabavite više widgeta iz trgovine aplikacijama",
@@ -27,9 +26,6 @@ OC.L10N.register(
     "Default images" : "Zadane slike",
     "Plain background" : "Obična pozadina",
     "Insert from {productName}" : "Umetni iz {productName}",
-    "Get more widgets from the app store" : "Pronađite više widgeta u trgovini aplikacijama",
-    "Good night, {name}" : "Dobro večer, {name}",
-    "Good night" : "Dobro večer",
-    "Pick from files" : "Odaberi iz datoteka"
+    "Show something" : "Prikaži nešto"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

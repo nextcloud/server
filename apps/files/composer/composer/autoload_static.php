@@ -55,6 +55,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Controller\\ViewController' => __DIR__ . '/..' . '/../lib/Controller/ViewController.php',
         'OCA\\Files\\Db\\TransferOwnership' => __DIR__ . '/..' . '/../lib/Db/TransferOwnership.php',
         'OCA\\Files\\Db\\TransferOwnershipMapper' => __DIR__ . '/..' . '/../lib/Db/TransferOwnershipMapper.php',
+        'OCA\\Files\\DirectEditingCapabilities' => __DIR__ . '/..' . '/../lib/DirectEditingCapabilities.php',
         'OCA\\Files\\Event\\LoadAdditionalScriptsEvent' => __DIR__ . '/..' . '/../lib/Event/LoadAdditionalScriptsEvent.php',
         'OCA\\Files\\Event\\LoadSidebar' => __DIR__ . '/..' . '/../lib/Event/LoadSidebar.php',
         'OCA\\Files\\Exception\\TransferOwnershipException' => __DIR__ . '/..' . '/../lib/Exception/TransferOwnershipException.php',

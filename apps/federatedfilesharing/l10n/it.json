@@ -35,7 +35,6 @@
     "Sharing" : "Condivisione",
     "Federated file sharing" : "Condivisione file federata",
     "Provide federated file sharing across servers" : "Fornisce una condivisione di file federata tra server",
-    "Open documentation" : "Apri la documentazione",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Regola come le persone possono condividere tra i server. Ciò include anche le condivisioni tra utenti in questo server se usano la condivisione federata.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Consenti agli utenti su questo server di inviare condivisioni ad altri server (questa opzione consente anche l'accesso WebDAV alle condivisioni pubbliche)",
     "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server",
@@ -44,6 +43,7 @@
     "Search global and public address book for users" : "Cerca gli utenti nella rubrica globale e pubblica",
     "Allow users to publish their data to a global and public address book" : "Consenti agli utenti di pubblicare i propri dati in una rubrica globale e pubblica",
     "Federated Cloud" : "Cloud federata",
+    "Open documentation" : "Apri la documentazione",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Puoi condividere con chiunque utilizzi server Nextcloud o altri server e servizi Open Cloud Mesh (OCM) compatibili. Ti basta inserire il loro ID di cloud federata nella finestra di condivisione. Assomiglia a persona@cloud.esempio.com ",
     "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Share it so your friends can share files with you:" : "Condividilo in modo che i tuoi amici possano condividere file con te:",
@@ -51,5 +51,5 @@
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
     "Adjust how people can share between servers." : "Regola come le persone possono condividere tra i server."
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

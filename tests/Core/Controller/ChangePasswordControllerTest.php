@@ -138,6 +138,9 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 
 		$expects = [
 			'status' => 'error',
+			'data' => [
+				'message' => 'Unable to change personal password',
+			],
 		];
 
 		$res = $this->controller->changePersonalPassword('old');
@@ -163,6 +166,9 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 
 		$expects = new JSONResponse([
 			'status' => 'error',
+			'data' => [
+				'message' => 'Unable to change personal password',
+			],
 		]);
 
 		$actual = $this->controller->changePersonalPassword('old', 'new');

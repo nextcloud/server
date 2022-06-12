@@ -45,7 +45,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
 
       - name: Set up Nextcloud
         run: |
@@ -55,7 +55,7 @@ jobs:
           php -S localhost:8080 &
       - name: PHPUnit
         run: |
-          echo "<?php return ['run' => true,'hostname' => 'localhost','key' => 'minio','secret' => 'minio123', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/${{ env.APP_NAME }}/tests/config.amazons3.php
+          echo "<?php return ['run' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => 'minio','secret' => 'minio123', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/${{ env.APP_NAME }}/tests/config.amazons3.php
           phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/Amazons3Test.php
           phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/VersionedAmazonS3Test.php
       - name: S3 logs
@@ -94,7 +94,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
 
       - name: Set up Nextcloud
         run: |

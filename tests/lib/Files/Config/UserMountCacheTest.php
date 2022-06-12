@@ -11,7 +11,7 @@ namespace Test\Files\Config;
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
-use OC\Log;
+use OC\Cache\CappedMemoryCache;
 use OC\User\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
@@ -19,6 +19,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
@@ -45,6 +46,8 @@ class UserMountCacheTest extends TestCase {
 	private $fileIds = [];
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->fileIds = [];
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$config = $this->getMockBuilder(IConfig::class)
@@ -64,7 +67,7 @@ class UserMountCacheTest extends TestCase {
 		$userBackend->createUser('u2', '');
 		$userBackend->createUser('u3', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(Log::class));
+		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(LoggerInterface::class));
 	}
 
 	protected function tearDown(): void {
@@ -112,7 +115,7 @@ class UserMountCacheTest extends TestCase {
 	}
 
 	private function clearCache() {
-		$this->invokePrivate($this->cache, 'mountsForUsers', [[]]);
+		$this->invokePrivate($this->cache, 'mountsForUsers', [new CappedMemoryCache()]);
 	}
 
 	public function testNewMounts() {

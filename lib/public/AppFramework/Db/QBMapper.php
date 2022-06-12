@@ -253,6 +253,8 @@ abstract class QBMapper {
 				return IQueryBuilder::PARAM_LOB;
 			case 'datetime':
 				return IQueryBuilder::PARAM_DATE;
+			case 'json':
+				return IQueryBuilder::PARAM_JSON;
 		}
 
 		return IQueryBuilder::PARAM_STR;
@@ -332,16 +334,15 @@ abstract class QBMapper {
 	 */
 	protected function findEntities(IQueryBuilder $query): array {
 		$result = $query->executeQuery();
-
-		$entities = [];
-
-		while ($row = $result->fetch()) {
-			$entities[] = $this->mapRowToEntity($row);
+		try {
+			$entities = [];
+			while ($row = $result->fetch()) {
+				$entities[] = $this->mapRowToEntity($row);
+			}
+			return $entities;
+		} finally {
+			$result->closeCursor();
 		}
-
-		$result->closeCursor();
-
-		return $entities;
 	}
 
 

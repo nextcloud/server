@@ -126,8 +126,13 @@ class Manager implements IManager {
 		}
 
 		foreach (array_unique($this->sectionClasses[$type]) as $index => $class) {
-			/** @var IIconSection $section */
-			$section = \OC::$server->get($class);
+			try {
+				/** @var IIconSection $section */
+				$section = $this->container->get($class);
+			} catch (QueryException $e) {
+				$this->log->info($e->getMessage(), ['exception' => $e]);
+				continue;
+			}
 
 			$sectionID = $section->getID();
 
@@ -335,23 +340,20 @@ class Manager implements IManager {
 
 	public function getAllowedAdminSettings(string $section, IUser $user): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
-		$isSubAdmin = $this->subAdmin->isSubAdmin($user);
-		$subAdminOnly = !$isAdmin && $isSubAdmin;
-
-		if ($subAdminOnly) {
-			// not an admin => look if the user is still authorized to access some
-			// settings
-			$subAdminSettingsFilter = function (ISettings $settings) {
-				return $settings instanceof ISubAdminSettings;
-			};
-			$appSettings = $this->getSettings('admin', $section, $subAdminSettingsFilter);
-		} elseif ($isAdmin) {
+		if ($isAdmin) {
 			$appSettings = $this->getSettings('admin', $section);
 		} else {
 			$authorizedSettingsClasses = $this->mapper->findAllClassesForUser($user);
-			$authorizedGroupFilter = function (ISettings $settings) use ($authorizedSettingsClasses) {
-				return in_array(get_class($settings), $authorizedSettingsClasses) === true;
-			};
+			if ($this->subAdmin->isSubAdmin($user)) {
+				$authorizedGroupFilter = function (ISettings $settings) use ($authorizedSettingsClasses) {
+					return $settings instanceof ISubAdminSettings
+						|| in_array(get_class($settings), $authorizedSettingsClasses) === true;
+				};
+			} else {
+				$authorizedGroupFilter = function (ISettings $settings) use ($authorizedSettingsClasses) {
+					return in_array(get_class($settings), $authorizedSettingsClasses) === true;
+				};
+			}
 			$appSettings = $this->getSettings('admin', $section, $authorizedGroupFilter);
 		}
 

@@ -26,10 +26,12 @@
 
 namespace OCP\Files;
 
+use OCP\Files\Storage\IStorage;
+
 /**
  * Interface IHomeStorage
  *
  * @since 7.0.0
  */
-interface IHomeStorage {
+interface IHomeStorage extends IStorage {
 }

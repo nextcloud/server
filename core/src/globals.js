@@ -6,7 +6,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -68,9 +68,9 @@ const warnIfNotTesting = function() {
  * warn if used!
  *
  * @param {Function} func the library to deprecate
- * @param {String} funcName the name of the library
- * @param {Int} version the version this gets removed
- * @returns {function}
+ * @param {string} funcName the name of the library
+ * @param {number} version the version this gets removed
+ * @return {Function}
  */
 const deprecate = (func, funcName, version) => {
 	const oldFunc = func
@@ -128,6 +128,7 @@ $.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
  * translate a string
+ *
  * @param {string} app the id of the app for which to translate the string
  * @param {string} text the string to translate
  * @param [vars] map of placeholder key to value
@@ -138,6 +139,7 @@ window.t = _.bind(OC.L10N.translate, OC.L10N)
 
 /**
  * translate a string
+ *
  * @param {string} app the id of the app for which to translate the string
  * @param {string} text_singular the string to translate for exactly one object
  * @param {string} text_plural the string to translate for n objects

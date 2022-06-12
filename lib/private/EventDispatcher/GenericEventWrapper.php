@@ -26,13 +26,11 @@ declare(strict_types=1);
  */
 namespace OC\EventDispatcher;
 
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class GenericEventWrapper extends GenericEvent {
-
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var GenericEvent */
 	private $event;
@@ -43,7 +41,7 @@ class GenericEventWrapper extends GenericEvent {
 	/** @var bool */
 	private $deprecationNoticeLogged = false;
 
-	public function __construct(ILogger $logger, string $eventName, ?GenericEvent $event) {
+	public function __construct(LoggerInterface $logger, string $eventName, ?GenericEvent $event) {
 		parent::__construct($eventName);
 		$this->logger = $logger;
 		$this->event = $event;

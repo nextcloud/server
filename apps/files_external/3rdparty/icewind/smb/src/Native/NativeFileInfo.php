@@ -99,7 +99,7 @@ class NativeFileInfo implements IFileInfo {
 	public function isDirectory(): bool {
 		$mode = $this->getMode();
 		if ($mode > 0x1000) {
-			return (bool)($mode & 0x4000); // 0x4000: unix directory flag
+			return ($mode & 0x4000 && !($mode & 0x8000)); // 0x4000: unix directory flag shares bits with 0xC000: socket
 		} else {
 			return (bool)($mode & IFileInfo::MODE_DIRECTORY);
 		}

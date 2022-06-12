@@ -28,9 +28,10 @@
 		<p v-else-if="loadingAppsError" class="loading-error text-center">
 			{{ t('core', 'Could not fetch list of apps from the App Store.') }}
 		</p>
-		<p v-else class="text-center">
+		<p v-else-if="installingApps" class="text-center">
 			{{ t('core', 'Installing apps …') }}
 		</p>
+
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
 			<img :src="customIcon(app.id)" alt="">
 			<div class="info">
@@ -51,6 +52,10 @@
 				</p>
 			</div>
 		</div>
+
+		<InstallButton v-if="showInstallButton"
+			@click.stop.prevent="installApps" />
+
 		<p class="text-center">
 			<a :href="defaultPageUrl">{{ t('core', 'Cancel') }}</a>
 		</p>
@@ -63,6 +68,9 @@ import { generateUrl, imagePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import pLimit from 'p-limit'
 import { translate as t } from '@nextcloud/l10n'
+
+// TODO replace with Button component when @nextcloud/vue is upgraded to v5
+import InstallButton from './InstallButton'
 
 import logger from '../../logger'
 
@@ -81,15 +89,15 @@ const recommended = {
 	},
 	spreed: {
 		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
-		icon: imagePath('core', 'apps/spreed.svg')
+		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {
 		description: t('core', 'Collaboratively edit office documents.'),
-		icon: imagePath('core', 'apps/richdocuments.svg')
+		icon: imagePath('core', 'apps/richdocuments.svg'),
 	},
 	richdocumentscode: {
 		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
-		icon: imagePath('core', 'apps/richdocumentscode.svg')
+		icon: imagePath('core', 'apps/richdocumentscode.svg'),
 	},
 }
 const recommendedIds = Object.keys(recommended)
@@ -97,8 +105,13 @@ const defaultPageUrl = loadState('core', 'defaultPageUrl')
 
 export default {
 	name: 'RecommendedApps',
+	components: {
+		InstallButton,
+	},
 	data() {
 		return {
+			showInstallButton: false,
+			installingApps: false,
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
@@ -110,28 +123,28 @@ export default {
 			return this.apps.filter(app => recommendedIds.includes(app.id))
 		},
 	},
-	mounted() {
-		return axios.get(generateUrl('settings/apps/list'))
-			.then(resp => resp.data)
-			.then(data => {
-				logger.info(`${data.apps.length} apps fetched`)
+	async mounted() {
+		try {
+			const { data } = await axios.get(generateUrl('settings/apps/list'))
+			logger.info(`${data.apps.length} apps fetched`)
 
-				this.apps = data.apps.map(app => Object.assign(app, { loading: false, installationError: false }))
-				logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps })
+			this.apps = data.apps.map(app => Object.assign(app, { loading: false, installationError: false }))
+			logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps })
 
-				this.installApps()
-			})
-			.catch(error => {
-				logger.error('could not fetch app list', { error })
+			this.showInstallButton = true
+		} catch (error) {
+			logger.error('could not fetch app list', { error })
 
-				this.loadingAppsError = true
-			})
-			.then(() => {
-				this.loadingApps = false
-			})
+			this.loadingAppsError = true
+		} finally {
+			this.loadingApps = false
+		}
 	},
 	methods: {
 		installApps() {
+			this.showInstallButton = false
+			this.installingApps = true
+
 			const limit = pLimit(1)
 			const installing = this.recommendedApps
 				.filter(app => !app.active && app.isCompatible && app.canInstall)
@@ -180,8 +193,15 @@ export default {
 
 }
 
-p.loading, p.loading-error {
-	height: 100px;
+p {
+	&.loading,
+	&.loading-error {
+		height: 100px;
+	}
+
+	&:last-child {
+		margin-top: 10px;
+	}
 }
 
 .text-center {

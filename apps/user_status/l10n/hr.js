@@ -7,8 +7,11 @@ OC.L10N.register(
     "Out sick" : "Na bolovanju",
     "Vacationing" : "Na odmoru",
     "Working remotely" : "Rad na daljinu",
+    "In a call" : "U pozivu",
     "User status" : "Status korisnika",
-    "Clear status message after" : "Izbriši poruku statusa nakon",
+    "View profile" : "Prikaži profil",
+    "Clear status after" : "Izbriši status nakon",
+    "What is your status?" : "Koji je vaš status?",
     "Set status" : "Postavi status",
     "Online status" : "Status na mreži",
     "Status message" : "Poruka statusa",
@@ -32,7 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 sata",
     "Mute all notifications" : "Utišaj sve obavijesti",
     "Appear offline" : "Prikaži izvanmrežno",
-    "Clear status after" : "Izbriši status nakon",
+    "Clear status message after" : "Izbriši poruku statusa nakon",
     "What's your status?" : "Koji je vaš status?"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

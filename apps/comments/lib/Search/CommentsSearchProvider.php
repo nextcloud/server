@@ -40,17 +40,10 @@ use function pathinfo;
 
 class CommentsSearchProvider implements IProvider {
 
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var LegacyProvider */
-	private $legacyProvider;
+	private IUserManager $userManager;
+	private IL10N $l10n;
+	private IURLGenerator $urlGenerator;
+	private LegacyProvider $legacyProvider;
 
 	public function __construct(IUserManager $userManager,
 								IL10N $l10n,

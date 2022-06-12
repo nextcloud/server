@@ -21,8 +21,8 @@
  */
 namespace OC\Migration;
 
-use OCP\ILogger;
 use OCP\Migration\IOutput;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class SimpleOutput
@@ -33,12 +33,10 @@ use OCP\Migration\IOutput;
  * @package OC\Migration
  */
 class SimpleOutput implements IOutput {
-
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	private $appName;
 
-	public function __construct(ILogger $logger, $appName) {
+	public function __construct(LoggerInterface $logger, $appName) {
 		$this->logger = $logger;
 		$this->appName = $appName;
 	}

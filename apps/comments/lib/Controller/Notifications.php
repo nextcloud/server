@@ -43,34 +43,18 @@ use OCP\Notification\IManager;
  * @package OCA\Comments\Controller
  */
 class Notifications extends Controller {
-	/** @var IRootFolder  */
-	protected $rootFolder;
 
-	/** @var ICommentsManager  */
-	protected $commentsManager;
-
-	/** @var IURLGenerator  */
-	protected $urlGenerator;
-
-	/** @var IManager  */
-	protected $notificationManager;
-
-	/** @var IUserSession  */
-	protected $userSession;
+	protected IRootFolder $rootFolder;
+	protected ICommentsManager $commentsManager;
+	protected IURLGenerator $urlGenerator;
+	protected IManager $notificationManager;
+	protected IUserSession $userSession;
 
 	/**
 	 * Notifications constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param ICommentsManager $commentsManager
-	 * @param IRootFolder $rootFolder
-	 * @param IURLGenerator $urlGenerator
-	 * @param IManager $notificationManager
-	 * @param IUserSession $userSession
 	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		ICommentsManager $commentsManager,
 		IRootFolder $rootFolder,
@@ -89,11 +73,8 @@ class Notifications extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 *
-	 * @param string $id		the comment ID
-	 * @return Response
 	 */
-	public function view($id) {
+	public function view(string $id): Response {
 		$currentUser = $this->userSession->getUser();
 		if (!$currentUser instanceof IUser) {
 			return new RedirectResponse(
@@ -133,10 +114,8 @@ class Notifications extends Controller {
 
 	/**
 	 * Marks the notification about a comment as processed
-	 * @param IComment $comment
-	 * @param IUser $currentUser
 	 */
-	protected function markProcessed(IComment $comment, IUser $currentUser) {
+	protected function markProcessed(IComment $comment, IUser $currentUser): void {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('comments')
 			->setObject('comment', $comment->getId())

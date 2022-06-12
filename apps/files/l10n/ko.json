@@ -39,7 +39,6 @@
     "Details" : "자세한 정보",
     "Please select tag(s) to add to the selection" : "선택한 항목에 추가할 태그를 고르세요",
     "Apply tag(s) to selection" : "선택한 항목에 태그 적용하기",
-    "Select" : "선택",
     "Pending" : "대기 중",
     "Unable to determine date" : "날짜를 결정할 수 없음",
     "This operation is forbidden" : "이 작업이 금지됨",
@@ -69,7 +68,6 @@
     "_%n file_::_%n files_" : ["파일 %n개"],
     "{dirs} and {files}" : "{dirs} 그리고 {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n개의 숨겨진 파일 포함"],
-    "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
     "_Uploading %n file_::_Uploading %n files_" : ["파일 %n개 업로드 중"],
     "New" : "새로 만들기",
     "{used} of {quota} used" : "{quota} 중 {used} 사용함",
@@ -167,7 +165,6 @@
     "Transfer {path} to {userid}" : "{path}을(를) {userid}에게 이전하기",
     "Invalid path selected" : "잘못된 경로가 선택됨",
     "Ownership transfer request sent" : "소유권 이전 요청이 전송됨",
-    "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
     "Tags" : "태그",
     "Unable to change the favourite state of the file" : "파일의 즐겨찾기 상태를 변경할 수 없음",
     "Error while loading the file data" : "파일 데이터를 불러오는 중 오류 발생",
@@ -204,10 +201,8 @@
     "Pending shares" : "진행중인 공유",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}의 저장소가 가득 찼습니다. 파일을 더 이상 업데이트하거나 동기화할 수 없습니다!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "그룹 폴더 \"{mountPoint}\"이(가) 가득 찼습니다. 파일을 더 이상 업데이트하거나 동기화할 수 없습니다!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "외부 저장소 \"{mountPoint}\"이(가) 가득 찼습니다. 파일을 더 이상 업데이트하거나 동기화할 수 없습니다!",
-    "Your storage is full, files can not be updated or synced anymore!" : "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 동기화할 수 없습니다!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}'와(과) 일치"]
+    "Select" : "선택",
+    "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
+    "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

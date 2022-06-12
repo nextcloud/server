@@ -18,6 +18,7 @@
     "It is not allowed to send federated group shares from this server." : "Il n'est pas autorisé d'envoyer des partages à des groupes fédérés depuis ce serveur.",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Le partage de %1$s a échoué, parce que cet élément est déjà partagé avec l'utilisateur %2$s",
     "Not allowed to create a federated share with the same user" : "Non autorisé à créer un partage fédéré avec le même utilisateur",
+    "Federated shares require read permissions" : "Les partages fédérés nécessitent des permissions de lecture.",
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %1$s a échoué, impossible de trouver %2$s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
     "Could not find share" : "Impossible de trouver le partage",
@@ -34,7 +35,7 @@
     "Sharing" : "Partage",
     "Federated file sharing" : "Partage de fichiers fédéré",
     "Provide federated file sharing across servers" : "Fourni un partage de fichiers fédéré entre plusieurs serveurs",
-    "Open documentation" : "Voir la documentation",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Configurer comment les utilisateurs peuvent faire des partages entre serveurs. Cela inclut aussi les partages entre utilisateurs de ce serveur s'ils utilisent des partages fédérés.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs (cette option permet aussi l'accès WebDAV aux partages publics)",
     "Allow users on this server to receive shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages d'autres serveurs",
     "Allow users on this server to send shares to groups on other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages à des groupes sur d'autres serveurs",
@@ -42,6 +43,7 @@
     "Search global and public address book for users" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs",
     "Allow users to publish their data to a global and public address book" : "Autoriser les utilisateurs à publier leurs données dans un carnet d'adresse global et public",
     "Federated Cloud" : "Cloud Fédéré",
+    "Open documentation" : "Voir la documentation",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec quiconque utilise un serveur Nextcloud ou un serveur ou service compatible Open Cloud Mesh (OCM). Renseignez simplement son identifiant sur une instance fédérée dans la boîte de dialogue de partage. Cela prend la forme de utilisateur@cloud.exemple.com.",
     "Your Federated Cloud ID:" : "Votre identifiant de Cloud Fédéré :",
     "Share it so your friends can share files with you:" : "Partagez-le afin que vos amis puissent partager des fichiers avec vous :",
@@ -49,5 +51,5 @@
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
     "HTML Code:" : "Code HTML :",
     "Adjust how people can share between servers." : "Réglez comment les personnes peuvent partager entre les serveurs."
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

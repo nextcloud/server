@@ -11,6 +11,8 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'variables';
+@import 'functions';
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
@@ -43,7 +45,7 @@ div[contenteditable=false] {
 /* Default global values */
 div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2
 select,
-button:not(.button-vue), .button:not(.button-vue),
+button:not(.button-vue), .button,
 input:not([type='range']),
 textarea,
 div[contenteditable=true],
@@ -69,6 +71,9 @@ div[contenteditable=true],
 			outline: none;
 			background-color: var(--color-main-background);
 			color: var(--color-text-light);
+		}
+		&:focus-visible {
+			box-shadow: 0 0 0 2px var(--color-primary);
 		}
 	}
 	&:disabled {
@@ -168,8 +173,8 @@ input {
 
 /* 'Click' inputs */
 select,
-button:not(.button-vue), .button:not(.button-vue),
-input[type='button']:not(.button-vue),
+button:not(.button-vue), .button,
+input[type='button'],
 input[type='submit'],
 input[type='reset'] {
 	padding: 6px 16px;
@@ -184,7 +189,7 @@ input[type='reset'] {
 	}
 }
 select,
-button:not(.button-vue), .button:not(.button-vue) {
+button:not(.button-vue), .button {
 	* {
 		cursor: pointer;
 	}
@@ -197,8 +202,8 @@ button:not(.button-vue), .button:not(.button-vue) {
 }
 
 /* Buttons */
-button:not(.button-vue), .button:not(.button-vue),
-input[type='button']:not(.button-vue),
+button:not(.button-vue), .button,
+input[type='button'],
 input[type='submit'],
 input[type='reset'] {
 	font-weight: bold;
@@ -215,7 +220,7 @@ input[type='reset'] {
 		color: #fff !important;
 	}
 }
-button:not(.button-vue):not(.action-button), .button:not(.button-vue) {
+button:not(.button-vue):not(.action-button), .button {
 	> span {
 		/* icon position inside buttons */
 		&[class^='icon-'],
@@ -253,7 +258,7 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: var(--icon-triangle-s-000) no-repeat right 4px center;
+	background: var(--icon-triangle-s-dark) no-repeat right 4px center;
 	background-color: inherit;
 	outline: 0;
 	padding-right: 24px !important;
@@ -281,7 +286,7 @@ input {
 			margin-right: 0;
 			&:disabled {
 				cursor: default;
-				@include icon-color('confirm-fade', 'actions', $color-black, 2, true);
+				@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
 			}
 		}
 
@@ -330,8 +335,6 @@ select,
 
 /* Radio & Checkboxes */
 $checkbox-radio-size: 14px;
-$color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
-$color-checkbox-radio-border: nc-darken($color-main-background, 47%);
 $color-checkbox-radio-white: #fff;
 
 input {
@@ -360,7 +363,7 @@ input {
 				vertical-align: middle;
 				border-radius: 50%;
 				margin: 0 6px 3px 3px;
-				border: 1px solid $color-checkbox-radio-border;
+				border: 1px solid var(--color-text-lighter);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
@@ -381,11 +384,11 @@ input {
 				border-color: var(--color-primary-element);
 			}
 			&:disabled + label:before {
-				border: 1px solid $color-checkbox-radio-border;
-				background-color: $color-checkbox-radio-disabled !important; /* override other status */
+				border: 1px solid var(--color-text-lighter);
+				background-color: var(--color-text-maxcontrast) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				background-color: $color-checkbox-radio-disabled;
+				background-color: var(--color-text-maxcontrast);
 			}
 
 			// Detail description below label of checkbox or radio button
@@ -413,7 +416,7 @@ input {
 			}
 		}
 
-		/* We do not use the nc-darken function as this is not supposed to be changed */
+		/* We do not use the variables as we keep the colours as white for this variant */
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
@@ -472,7 +475,7 @@ div.select2-drop {
 	}
 	.select2-search input {
 		min-height: auto;
-		background: var(--icon-search-000) no-repeat right center !important;
+		background: var(--icon-search-dark) no-repeat right center !important;
 		background-origin: content-box !important;
 	}
 	.select2-results {
@@ -485,6 +488,10 @@ div.select2-drop {
 			text-overflow: ellipsis;
 			span {
 				cursor: pointer;
+				em {
+					cursor: inherit;
+					background: unset;
+				}
 			}
 		}
 		.select2-result,
@@ -595,7 +602,7 @@ div.select2-container {
 			border-radius: 0;
 			border: none;
 			b {
-				background: var(--icon-triangle-s-000) no-repeat center !important;
+				background: var(--icon-triangle-s-dark) no-repeat center !important;
 				opacity: .5;
 			}
 		}
@@ -660,7 +667,7 @@ div.select2-container {
 				color: inherit !important;
 				&::before {
 					content: ' ';
-					background-image: var(--icon-checkmark-000);
+					background-image: var(--icon-checkmark-dark);
 					background-repeat: no-repeat;
 					background-position: center;
 					min-width: 16px;
@@ -850,7 +857,7 @@ div.select2-container {
 				/* selected checkmark icon */
 				&::before {
 					content: ' ';
-					background-image: var(--icon-checkmark-000);
+					background-image: var(--icon-checkmark-dark);
 					background-repeat: no-repeat;
 					background-position: center;
 					min-width: 16px;
@@ -869,7 +876,7 @@ div.select2-container {
 				 */
 				&[data-select='create'] {
 					&::before {
-						background-image: var(--icon-add-000);
+						background-image: var(--icon-add-dark);
 						visibility: visible;
 					}
 				}

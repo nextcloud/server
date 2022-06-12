@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "I ett samtal",
     "User status" : "Användarstatus",
     "View profile" : "Visa profil",
-    "Clear status message after" : "Rensa statusmeddelande efter",
+    "Clear status after" : "Rensa status efter",
     "What is your status?" : "Vad är din status?",
     "Set status" : "Sätt status",
     "Online status" : "Online-status",
@@ -35,7 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
     "Appear offline" : "Visa som frånkopplad",
-    "Clear status after" : "Rensa status efter",
+    "Clear status message after" : "Rensa statusmeddelande efter",
     "What's your status?" : "Vad är din status?"
 },
 "nplurals=2; plural=(n != 1);");

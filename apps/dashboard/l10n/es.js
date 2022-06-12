@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "App Dashboard",
-    "Show something" : "Mostrar algo",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comienza tu día informado\n\nEl Dashboard de Nextcloud es tu punto de partida del día, dándote un\nresumen de tus próximas citas, emails urgentes, mensajes de chat,\npróximos tickets, últimos tweets y mucho más! Los usuarios pueden agregr widgets\nque le gusten y cambiar el fondo a su gusto.",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
     "Get more widgets from the App Store" : "Conseguir más widgets desde la tienda de Apps",
@@ -27,9 +27,6 @@ OC.L10N.register(
     "Default images" : "Imágenes predeterminadas",
     "Plain background" : "Fondo liso",
     "Insert from {productName}" : "Insertar desde {productName}",
-    "Get more widgets from the app store" : "Conseguir más widgets desde la app store",
-    "Good night, {name}" : "Buenas noches, {name}",
-    "Good night" : "Buenas noches",
-    "Pick from files" : "Escoger desde los archivos"
+    "Show something" : "Mostrar algo"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

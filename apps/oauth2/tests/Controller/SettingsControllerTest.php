@@ -26,7 +26,6 @@
  */
 namespace OCA\OAuth2\Tests\Controller;
 
-use OC\Authentication\Token\DefaultTokenMapper;
 use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
@@ -47,8 +46,6 @@ class SettingsControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var AccessTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $accessTokenMapper;
-	/** @var DefaultTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $defaultTokenMapper;
 	/** @var SettingsController */
 	private $settingsController;
 
@@ -59,7 +56,6 @@ class SettingsControllerTest extends TestCase {
 		$this->clientMapper = $this->createMock(ClientMapper::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
-		$this->defaultTokenMapper = $this->createMock(DefaultTokenMapper::class);
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')
 			->willReturnArgument(0);
@@ -70,7 +66,6 @@ class SettingsControllerTest extends TestCase {
 			$this->clientMapper,
 			$this->secureRandom,
 			$this->accessTokenMapper,
-			$this->defaultTokenMapper,
 			$l
 		);
 	}
@@ -136,10 +131,6 @@ class SettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('deleteByClientId')
 			->with(123);
-		$this->defaultTokenMapper
-			->expects($this->once())
-			->method('deleteByName')
-			->with('My Client Name');
 		$this->clientMapper
 			->method('delete')
 			->with($client);

@@ -28,12 +28,12 @@ namespace OC\Support\CrashReport;
 
 use Exception;
 use OCP\AppFramework\QueryException;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\Support\CrashReport\ICollectBreadcrumbs;
 use OCP\Support\CrashReport\IMessageReporter;
 use OCP\Support\CrashReport\IRegistry;
 use OCP\Support\CrashReport\IReporter;
+use Psr\Log\LoggerInterface;
 use Throwable;
 use function array_shift;
 
@@ -47,9 +47,6 @@ class Registry implements IRegistry {
 
 	/** @var IServerContainer */
 	private $serverContainer;
-
-	/** @var ILogger */
-	private $logger;
 
 	public function __construct(IServerContainer $serverContainer) {
 		$this->serverContainer = $serverContainer;
@@ -129,9 +126,8 @@ class Registry implements IRegistry {
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
 				 */
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Could not load lazy crash reporter: ' . $e->getMessage(),
-					'level' => ILogger::FATAL,
+				\OC::$server->get(LoggerInterface::class)->critical('Could not load lazy crash reporter: ' . $e->getMessage(), [
+					'exception' => $e,
 				]);
 			}
 			/**
@@ -145,9 +141,8 @@ class Registry implements IRegistry {
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
 				 */
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Could not register lazy crash reporter: ' . $e->getMessage(),
-					'level' => ILogger::FATAL,
+				\OC::$server->get(LoggerInterface::class)->critical('Could not register lazy crash reporter: ' . $e->getMessage(), [
+					'exception' => $e,
 				]);
 			}
 		}

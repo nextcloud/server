@@ -25,8 +25,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
 class LazyStorageMountInfo extends CachedMountInfo {
-	/** @var IMountPoint */
-	private $mount;
+	private IMountPoint $mount;
 
 	/**
 	 * CachedMountInfo constructor.
@@ -37,12 +36,15 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	public function __construct(IUser $user, IMountPoint $mount) {
 		$this->user = $user;
 		$this->mount = $mount;
+		$this->rootId = 0;
+		$this->storageId = 0;
+		$this->mountPoint = '';
 	}
 
 	/**
 	 * @return int the numeric storage id of the mount
 	 */
-	public function getStorageId() {
+	public function getStorageId(): int {
 		if (!$this->storageId) {
 			$this->storageId = $this->mount->getNumericStorageId();
 		}
@@ -52,7 +54,7 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	/**
 	 * @return int the fileid of the root of the mount
 	 */
-	public function getRootId() {
+	public function getRootId(): int {
 		if (!$this->rootId) {
 			$this->rootId = $this->mount->getStorageRootId();
 		}
@@ -62,14 +64,14 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	/**
 	 * @return string the mount point of the mount for the user
 	 */
-	public function getMountPoint() {
+	public function getMountPoint(): string {
 		if (!$this->mountPoint) {
 			$this->mountPoint = $this->mount->getMountPoint();
 		}
 		return parent::getMountPoint();
 	}
 
-	public function getMountId() {
+	public function getMountId(): ?int {
 		return $this->mount->getMountId();
 	}
 
@@ -78,7 +80,11 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	 *
 	 * @return string
 	 */
-	public function getRootInternalPath() {
+	public function getRootInternalPath(): string {
 		return $this->mount->getInternalPath($this->mount->getMountPoint());
+	}
+
+	public function getMountProvider(): string {
+		return $this->mount->getMountProvider();
 	}
 }

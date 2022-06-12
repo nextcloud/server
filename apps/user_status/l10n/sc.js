@@ -8,7 +8,8 @@ OC.L10N.register(
     "Vacationing" : "In vacàntzia",
     "Working remotely" : "Traballende in remotu",
     "User status" : "Istadu de s'utente",
-    "Clear status message after" : "Lìmpia su messàgiu de istadu a pustis",
+    "Clear status after" : "Lìmpia s'istadu a pustis",
+    "What is your status?" : "Cale est s'istadu tuo?",
     "Set status" : "Imposta istadu",
     "Online status" : "Istadu in lìnia",
     "Status message" : "Messàgiu de istadu",
@@ -32,7 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 oras",
     "Mute all notifications" : "Istuda totu is notìficas",
     "Appear offline" : "Mustra•ti foras de lìnia",
-    "Clear status after" : "Lìmpia s'istadu a pustis",
+    "Clear status message after" : "Lìmpia su messàgiu de istadu a pustis",
     "What's your status?" : "Cale est s'istadu tuo?"
 },
 "nplurals=2; plural=(n != 1);");

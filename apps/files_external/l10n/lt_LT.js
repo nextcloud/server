@@ -20,9 +20,8 @@ OC.L10N.register(
     "Never" : "Niekada",
     "Once every direct access" : "Kartą per tiesioginę peržiūrą",
     "Read only" : "Tik skaitymui",
-    "Delete" : "Ištrinti",
+    "Disconnect" : "Atsijungti",
     "Admin defined" : "Administratorius apibrėžtas",
-    "Are you sure you want to delete this external storage?" : "Ar tikrai norite ištrinti šią išorinę saugyklą?",
     "Delete storage?" : "Ištrinti saugyklą?",
     "Saved" : "Įrašyta",
     "Saving …" : "Įrašoma …",
@@ -121,9 +120,7 @@ OC.L10N.register(
     "Add storage" : "Pridėti saugyklą",
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
-    "External storages" : "Išorinės saugyklos",
-    "(group)" : "(grupė)",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą"
+    "Delete" : "Ištrinti",
+    "Are you sure you want to delete this external storage?" : "Ar tikrai norite ištrinti šią išorinę saugyklą?"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

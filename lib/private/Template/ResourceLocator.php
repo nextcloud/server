@@ -29,6 +29,8 @@
  */
 namespace OC\Template;
 
+use Psr\Log\LoggerInterface;
+
 abstract class ResourceLocator {
 	protected $theme;
 
@@ -39,16 +41,14 @@ abstract class ResourceLocator {
 
 	protected $resources = [];
 
-	/** @var \OCP\ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/**
-	 * @param \OCP\ILogger $logger
 	 * @param string $theme
 	 * @param array $core_map
 	 * @param array $party_map
 	 */
-	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map) {
+	public function __construct(LoggerInterface $logger, $theme, $core_map, $party_map) {
 		$this->logger = $logger;
 		$this->theme = $theme;
 		$this->mapping = $core_map + $party_map;

@@ -89,7 +89,7 @@
 				</a>
 			</p>
 
-			<LoginButton :loading="loading" :inverted-colors="invertedColors" />
+			<LoginButton :loading="loading" />
 
 			<p v-if="invalidPassword"
 				class="warning wrongPasswordMsg">
@@ -157,10 +157,6 @@ export default {
 		throttleDelay: {
 			type: Number,
 			default: 0,
-		},
-		invertedColors: {
-			type: Boolean,
-			default: false,
 		},
 		autoCompleteAllowed: {
 			type: Boolean,

@@ -49,6 +49,8 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
+use OC\User\DisplayNameCache;
+use OC\User\LazyUser;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
@@ -62,10 +64,10 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class to provide access to ownCloud filesystem via a "view", and methods for
@@ -99,8 +101,9 @@ class View {
 	/** @var \OC\User\Manager */
 	private $userManager;
 
-	/** @var \OCP\ILogger */
-	private $logger;
+	private LoggerInterface $logger;
+
+	private DisplayNameCache $displayNameCache;
 
 	/**
 	 * @param string $root
@@ -118,7 +121,8 @@ class View {
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
-		$this->logger = \OC::$server->getLogger();
+		$this->displayNameCache = \OC::$server->get(DisplayNameCache::class);
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	public function getAbsolutePath($path = '/') {
@@ -274,7 +278,7 @@ class View {
 	/**
 	 * remove mount point
 	 *
-	 * @param \OC\Files\Mount\MoveableMount $mount
+	 * @param IMountPoint $mount
 	 * @param string $path relative to data/
 	 * @return boolean
 	 */
@@ -574,7 +578,7 @@ class View {
 		try {
 			$result = $this->basicOperation('touch', $path, $hooks, $mtime);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['level' => ILogger::INFO, 'message' => 'Error while setting modified time']);
+			$this->logger->info('Error while setting modified time', ['app' => 'core', 'exception' => $e]);
 			$result = false;
 		}
 		if (!$result) {
@@ -719,7 +723,7 @@ class View {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
-		if ($mount and $mount->getInternalPath($absolutePath) === '') {
+		if ($mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $absolutePath);
 		}
 		if ($this->is_dir($path)) {
@@ -995,11 +999,11 @@ class View {
 				$hooks[] = 'write';
 				break;
 			default:
-				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, ILogger::ERROR);
+				$this->logger->error('invalid mode (' . $mode . ') for ' . $path, ['app' => 'core']);
 		}
 
 		if ($mode !== 'r' && $mode !== 'w') {
-			\OC::$server->getLogger()->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends');
+			$this->logger->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends', ['app' => 'core']);
 		}
 
 		return $this->basicOperation('fopen', $path, $hooks, $mode);
@@ -1099,6 +1103,7 @@ class View {
 					[Filesystem::signal_param_path => $this->getHookPath($path)]
 				);
 			}
+			/** @var Storage|null $storage */
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($storage) {
 				return $storage->hash($type, $internalPath, $raw);
@@ -1179,10 +1184,10 @@ class View {
 					throw $e;
 				}
 
-				if ($result && in_array('delete', $hooks) and $result) {
+				if ($result && in_array('delete', $hooks)) {
 					$this->removeUpdate($storage, $internalPath);
 				}
-				if ($result && in_array('write', $hooks,  true) && $operation !== 'fopen' && $operation !== 'touch') {
+				if ($result && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
 					$this->writeUpdate($storage, $internalPath);
 				}
 				if ($result && in_array('touch', $hooks)) {
@@ -1311,15 +1316,10 @@ class View {
 
 	/**
 	 * @param string $ownerId
-	 * @return \OC\User\User
+	 * @return IUser
 	 */
-	private function getUserObjectForOwner($ownerId) {
-		$owner = $this->userManager->get($ownerId);
-		if ($owner instanceof IUser) {
-			return $owner;
-		} else {
-			return new User($ownerId, null, \OC::$server->getEventDispatcher());
-		}
+	private function getUserObjectForOwner(string $ownerId) {
+		return new LazyUser($ownerId, $this->displayNameCache, $this->userManager);
 	}
 
 	/**
@@ -1340,7 +1340,7 @@ class View {
 
 		try {
 			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
-			if (!$data || $data['size'] === -1) {
+			if (!$data || (isset($data['size']) && $data['size'] === -1)) {
 				if (!$storage->file_exists($internalPath)) {
 					return false;
 				}
@@ -1383,10 +1383,6 @@ class View {
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 
 		$mount = Filesystem::getMountManager()->find($path);
-		if (!$mount) {
-			\OC::$server->getLogger()->warning('Mountpoint not found for path: ' . $path);
-			return false;
-		}
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
 		if ($storage) {
@@ -1407,7 +1403,7 @@ class View {
 			}
 			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 
-			if ($data and isset($data['fileid'])) {
+			if (isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
@@ -1421,7 +1417,7 @@ class View {
 
 			return $info;
 		} else {
-			\OC::$server->getLogger()->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint());
+			$this->logger->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint(), ['app' => 'core']);
 		}
 
 		return false;
@@ -1434,129 +1430,131 @@ class View {
 	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public function getDirectoryContent($directory, $mimetype_filter = '') {
+	public function getDirectoryContent($directory, $mimetype_filter = '', \OCP\Files\FileInfo $directoryInfo = null) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
 		}
+
 		$path = $this->getAbsolutePath($directory);
 		$path = Filesystem::normalizePath($path);
 		$mount = $this->getMount($directory);
-		if (!$mount) {
-			return [];
-		}
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
-		if ($storage) {
-			$cache = $storage->getCache($internalPath);
-			$user = \OC_User::getUser();
-
-			$data = $this->getCacheEntry($storage, $internalPath, $directory);
-
-			if (!$data instanceof ICacheEntry || !isset($data['fileid']) || !($data->getPermissions() && Constants::PERMISSION_READ)) {
-				return [];
-			}
-
-			$folderId = $data['fileid'];
-			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
-
-			$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
-
-			$fileNames = array_map(function (ICacheEntry $content) {
-				return $content->getName();
-			}, $contents);
-			/**
-			 * @var \OC\Files\FileInfo[] $fileInfos
-			 */
-			$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
-				if ($sharingDisabled) {
-					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
-				}
-				$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
-				return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
-			}, $contents);
-			$files = array_combine($fileNames, $fileInfos);
-
-			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
-			$mounts = Filesystem::getMountManager()->findIn($path);
-			$dirLength = strlen($path);
-			foreach ($mounts as $mount) {
-				$mountPoint = $mount->getMountPoint();
-				$subStorage = $mount->getStorage();
-				if ($subStorage) {
-					$subCache = $subStorage->getCache('');
-
-					$rootEntry = $subCache->get('');
-					if (!$rootEntry) {
-						$subScanner = $subStorage->getScanner('');
-						try {
-							$subScanner->scanFile('');
-						} catch (\OCP\Files\StorageNotAvailableException $e) {
-							continue;
-						} catch (\OCP\Files\StorageInvalidException $e) {
-							continue;
-						} catch (\Exception $e) {
-							// sometimes when the storage is not available it can be any exception
-							\OC::$server->getLogger()->logException($e, [
-								'message' => 'Exception while scanning storage "' . $subStorage->getId() . '"',
-								'level' => ILogger::ERROR,
-								'app' => 'lib',
-							]);
-							continue;
-						}
-						$rootEntry = $subCache->get('');
-					}
-
-					if ($rootEntry && ($rootEntry->getPermissions() && Constants::PERMISSION_READ)) {
-						$relativePath = trim(substr($mountPoint, $dirLength), '/');
-						if ($pos = strpos($relativePath, '/')) {
-							//mountpoint inside subfolder add size to the correct folder
-							$entryName = substr($relativePath, 0, $pos);
-							foreach ($files as &$entry) {
-								if ($entry->getName() === $entryName) {
-									$entry->addSubEntry($rootEntry, $mountPoint);
-								}
-							}
-						} else { //mountpoint in this folder, add an entry for it
-							$rootEntry['name'] = $relativePath;
-							$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
-							$permissions = $rootEntry['permissions'];
-							// do not allow renaming/deleting the mount point if they are not shared files/folders
-							// for shared files/folders we use the permissions given by the owner
-							if ($mount instanceof MoveableMount) {
-								$rootEntry['permissions'] = $permissions | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
-							} else {
-								$rootEntry['permissions'] = $permissions & (\OCP\Constants::PERMISSION_ALL - (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE));
-							}
-
-							$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
-
-							// if sharing was disabled for the user we remove the share permissions
-							if (\OCP\Util::isSharingDisabledForUser()) {
-								$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
-							}
-
-							$owner = $this->getUserObjectForOwner($subStorage->getOwner(''));
-							$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
-						}
-					}
-				}
-			}
-
-			if ($mimetype_filter) {
-				$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
-					if (strpos($mimetype_filter, '/')) {
-						return $file->getMimetype() === $mimetype_filter;
-					} else {
-						return $file->getMimePart() === $mimetype_filter;
-					}
-				});
-			}
-
-			return array_values($files);
-		} else {
+		if (!$storage) {
 			return [];
 		}
+
+		$cache = $storage->getCache($internalPath);
+		$user = \OC_User::getUser();
+
+		if (!$directoryInfo) {
+			$data = $this->getCacheEntry($storage, $internalPath, $directory);
+			if (!$data instanceof ICacheEntry || !isset($data['fileid'])) {
+				return [];
+			}
+		} else {
+			$data = $directoryInfo;
+		}
+
+		if (!($data->getPermissions() & Constants::PERMISSION_READ)) {
+			return [];
+		}
+
+		$folderId = $data->getId();
+		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+
+		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
+
+		$fileNames = array_map(function (ICacheEntry $content) {
+			return $content->getName();
+		}, $contents);
+		/**
+		 * @var \OC\Files\FileInfo[] $fileInfos
+		 */
+		$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
+			if ($sharingDisabled) {
+				$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
+			}
+			$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
+			return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
+		}, $contents);
+		$files = array_combine($fileNames, $fileInfos);
+
+		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
+		$mounts = Filesystem::getMountManager()->findIn($path);
+		$dirLength = strlen($path);
+		foreach ($mounts as $mount) {
+			$mountPoint = $mount->getMountPoint();
+			$subStorage = $mount->getStorage();
+			if ($subStorage) {
+				$subCache = $subStorage->getCache('');
+
+				$rootEntry = $subCache->get('');
+				if (!$rootEntry) {
+					$subScanner = $subStorage->getScanner();
+					try {
+						$subScanner->scanFile('');
+					} catch (\OCP\Files\StorageNotAvailableException $e) {
+						continue;
+					} catch (\OCP\Files\StorageInvalidException $e) {
+						continue;
+					} catch (\Exception $e) {
+						// sometimes when the storage is not available it can be any exception
+						$this->logger->error('Exception while scanning storage "' . $subStorage->getId() . '"', [
+							'exception' => $e,
+							'app' => 'core',
+						]);
+						continue;
+					}
+					$rootEntry = $subCache->get('');
+				}
+
+				if ($rootEntry && ($rootEntry->getPermissions() & Constants::PERMISSION_READ)) {
+					$relativePath = trim(substr($mountPoint, $dirLength), '/');
+					if ($pos = strpos($relativePath, '/')) {
+						//mountpoint inside subfolder add size to the correct folder
+						$entryName = substr($relativePath, 0, $pos);
+						if (isset($files[$entryName])) {
+							$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
+						}
+					} else { //mountpoint in this folder, add an entry for it
+						$rootEntry['name'] = $relativePath;
+						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+						$permissions = $rootEntry['permissions'];
+						// do not allow renaming/deleting the mount point if they are not shared files/folders
+						// for shared files/folders we use the permissions given by the owner
+						if ($mount instanceof MoveableMount) {
+							$rootEntry['permissions'] = $permissions | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
+						} else {
+							$rootEntry['permissions'] = $permissions & (\OCP\Constants::PERMISSION_ALL - (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE));
+						}
+
+						$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
+
+						// if sharing was disabled for the user we remove the share permissions
+						if (\OCP\Util::isSharingDisabledForUser()) {
+							$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
+						}
+
+						$owner = $this->getUserObjectForOwner($subStorage->getOwner(''));
+						$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
+					}
+				}
+			}
+		}
+
+		if ($mimetype_filter) {
+			$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
+				if (strpos($mimetype_filter, '/')) {
+					return $file->getMimetype() === $mimetype_filter;
+				} else {
+					return $file->getMimePart() === $mimetype_filter;
+				}
+			});
+		}
+
+		return array_values($files);
 	}
 
 	/**
@@ -1739,12 +1737,13 @@ class View {
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);
 		$mounts[] = $manager->find($this->fakeRoot);
-		// reverse the array so we start with the storage this view is in
+		$mounts = array_filter($mounts);
+		// reverse the array, so we start with the storage this view is in
 		// which is the most likely to contain the file we're looking for
 		$mounts = array_reverse($mounts);
 
-		// put non shared mounts in front of the shared mount
-		// this prevent unneeded recursion into shares
+		// put non-shared mounts in front of the shared mount
+		// this prevents unneeded recursion into shares
 		usort($mounts, function (IMountPoint $a, IMountPoint $b) {
 			return $a instanceof SharedMount && (!$b instanceof SharedMount) ? 1 : -1;
 		});
@@ -1815,9 +1814,9 @@ class View {
 		);
 
 		if (count($shares) > 0) {
-			\OCP\Util::writeLog('files',
+			$this->logger->debug(
 				'It is not allowed to move one mount point into a shared folder',
-				ILogger::DEBUG);
+				['app' => 'files']);
 			return false;
 		}
 
@@ -1915,14 +1914,10 @@ class View {
 	 * @param string $absolutePath absolute path
 	 * @param bool $useParentMount true to return parent mount instead of whatever
 	 * is mounted directly on the given path, false otherwise
-	 * @return \OC\Files\Mount\MountPoint mount point for which to apply locks
+	 * @return IMountPoint mount point for which to apply locks
 	 */
 	private function getMountForLock($absolutePath, $useParentMount = false) {
-		$results = [];
 		$mount = Filesystem::getMountManager()->find($absolutePath);
-		if (!$mount) {
-			return $results;
-		}
 
 		if ($useParentMount) {
 			// find out if something is mounted directly on the path
@@ -2149,9 +2144,9 @@ class View {
 		// "$user", "files", "path/to/dir"
 		if (!isset($parts[1]) || $parts[1] !== 'files') {
 			$this->logger->error(
-				'$absolutePath must be relative to "files", value is "%s"',
+				'$absolutePath must be relative to "files", value is "{absolutePath}"',
 				[
-					$absolutePath
+					'absolutePath' => $absolutePath,
 				]
 			);
 			throw new \InvalidArgumentException('$absolutePath must be relative to "files"');

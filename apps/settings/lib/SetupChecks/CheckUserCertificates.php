@@ -39,10 +39,7 @@ class CheckUserCertificates {
 
 	public function __construct(IL10N $l10n, IConfig $config, IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
-		$configValue = $config->getAppValue('files_external', 'user_certificate_scan', false);
-		if (!is_string($configValue)) {
-			$configValue = '';
-		}
+		$configValue = $config->getAppValue('files_external', 'user_certificate_scan', '');
 		$this->configValue = $configValue;
 		$this->urlGenerator = $urlGenerator;
 	}

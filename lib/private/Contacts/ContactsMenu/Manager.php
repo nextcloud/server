@@ -25,6 +25,7 @@
  */
 namespace OC\Contacts\ContactsMenu;
 
+use Exception;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Contacts\ContactsMenu\IEntry;
@@ -32,24 +33,11 @@ use OCP\IConfig;
 use OCP\IUser;
 
 class Manager {
+	private ContactsStore $store;
+	private ActionProviderStore $actionProviderStore;
+	private IAppManager $appManager;
+	private IConfig $config;
 
-	/** @var ContactsStore */
-	private $store;
-
-	/** @var ActionProviderStore */
-	private $actionProviderStore;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param ContactsStore $store
-	 * @param ActionProviderStore $actionProviderStore
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(ContactsStore $store, ActionProviderStore $actionProviderStore, IAppManager $appManager, IConfig $config) {
 		$this->store = $store;
 		$this->actionProviderStore = $actionProviderStore;
@@ -59,14 +47,15 @@ class Manager {
 
 	/**
 	 * @param IUser $user
-	 * @param string $filter
+	 * @param string|null $filter
 	 * @return array
+	 * @throws Exception
 	 */
-	public function getEntries(IUser $user, $filter) {
+	public function getEntries(IUser $user, ?string $filter): array {
 		$maxAutocompleteResults = max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT));
-		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
+		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength');
 		$topEntries = [];
-		if (strlen($filter) >= $minSearchStringLength) {
+		if (strlen($filter ?? '') >= $minSearchStringLength) {
 			$entries = $this->store->getContacts($user, $filter, $maxAutocompleteResults);
 
 			$sortedEntries = $this->sortEntries($entries);
@@ -82,12 +71,9 @@ class Manager {
 	}
 
 	/**
-	 * @param IUser $user
-	 * @param integer $shareType
-	 * @param string $shareWith
-	 * @return IEntry
+	 * @throws Exception
 	 */
-	public function findOne(IUser $user, $shareType, $shareWith) {
+	public function findOne(IUser $user, int $shareType, string $shareWith): ?IEntry {
 		$entry = $this->store->findOne($user, $shareType, $shareWith);
 		if ($entry) {
 			$this->processEntries([$entry], $user);
@@ -100,7 +86,7 @@ class Manager {
 	 * @param IEntry[] $entries
 	 * @return IEntry[]
 	 */
-	private function sortEntries(array $entries) {
+	private function sortEntries(array $entries): array {
 		usort($entries, function (IEntry $entryA, IEntry $entryB) {
 			return strcasecmp($entryA->getFullName(), $entryB->getFullName());
 		});
@@ -110,6 +96,7 @@ class Manager {
 	/**
 	 * @param IEntry[] $entries
 	 * @param IUser $user
+	 * @throws Exception
 	 */
 	private function processEntries(array $entries, IUser $user) {
 		$providers = $this->actionProviderStore->getProviders($user);

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "แดชบอร์ด",
     "Dashboard app" : "แอปแดชบอร์ด",
-    "Show something" : "แสดงบางอย่าง",
     "Customize" : "ปรับแต่ง",
     "Edit widgets" : "แก้ไขวิดเจ็ต",
     "Get more widgets from the App Store" : "เลือกวิดเจ็ตจาก App Store",
@@ -27,9 +26,6 @@ OC.L10N.register(
     "Default images" : "รูปภาพเริ่มต้น",
     "Plain background" : "พื้นหลังเปล่า",
     "Insert from {productName}" : "แทรกจาก {productName}",
-    "Get more widgets from the app store" : "เพิ่มวิดเจ็ตจาก App Store",
-    "Good night, {name}" : "ราตรีสวัสดิ์ {name}",
-    "Good night" : "ราตรีสวัสดิ์",
-    "Pick from files" : "เลือกจากไฟล์"
+    "Show something" : "แสดงบางอย่าง"
 },
 "nplurals=1; plural=0;");

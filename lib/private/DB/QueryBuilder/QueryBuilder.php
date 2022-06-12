@@ -53,7 +53,7 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
 
@@ -63,8 +63,7 @@ class QueryBuilder implements IQueryBuilder {
 	/** @var SystemConfig */
 	private $systemConfig;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var \Doctrine\DBAL\Query\QueryBuilder */
 	private $queryBuilder;
@@ -83,9 +82,8 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @param ConnectionAdapter $connection
 	 * @param SystemConfig $systemConfig
-	 * @param ILogger $logger
 	 */
-	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, ILogger $logger) {
+	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->systemConfig = $systemConfig;
 		$this->logger = $logger;
@@ -155,16 +153,16 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function func() {
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIFunctionBuilder($this->helper);
+			return new OCIFunctionBuilder($this->connection, $this, $this->helper);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteFunctionBuilder($this->helper);
+			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlFunctionBuilder($this->helper);
+			return new PgSqlFunctionBuilder($this->connection, $this, $this->helper);
 		}
 
-		return new FunctionBuilder($this->helper);
+		return new FunctionBuilder($this->connection, $this, $this->helper);
 	}
 
 	/**
@@ -229,8 +227,7 @@ class QueryBuilder implements IQueryBuilder {
 				}
 			} catch (\Error $e) {
 				// likely an error during conversion of $value to string
-				$this->logger->debug('DB QueryBuilder: error trying to log SQL query');
-				$this->logger->logException($e);
+				$this->logger->error('DB QueryBuilder: error trying to log SQL query', ['exception' => $e]);
 			}
 		}
 
@@ -245,11 +242,10 @@ class QueryBuilder implements IQueryBuilder {
 
 			if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
 				$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-				$this->logger->logException($exception, [
-					'message' => 'Query is selecting * and specific values in the same query. This is not supported in Oracle.',
+				$this->logger->error($exception->getMessage(), [
 					'query' => $this->getSQL(),
-					'level' => ILogger::ERROR,
 					'app' => 'core',
+					'exception' => $exception,
 				]);
 			}
 		}
@@ -266,21 +262,19 @@ class QueryBuilder implements IQueryBuilder {
 
 		if ($hasTooLargeArrayParameter) {
 			$exception = new QueryException('More than 1000 expressions in a list are not allowed on Oracle.');
-			$this->logger->logException($exception, [
-				'message' => 'More than 1000 expressions in a list are not allowed on Oracle.',
+			$this->logger->error($exception->getMessage(), [
 				'query' => $this->getSQL(),
-				'level' => ILogger::ERROR,
 				'app' => 'core',
+				'exception' => $exception,
 			]);
 		}
 
 		if ($numberOfParameters > 65535) {
 			$exception = new QueryException('The number of parameters must not exceed 65535. Restriction by PostgreSQL.');
-			$this->logger->logException($exception, [
-				'message' => 'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',
+			$this->logger->error($exception->getMessage(), [
 				'query' => $this->getSQL(),
-				'level' => ILogger::ERROR,
 				'app' => 'core',
+				'exception' => $exception,
 			]);
 		}
 
@@ -694,7 +688,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->from('users', 'u')
 	 * </code>
 	 *
-	 * @param string $from The table.
+	 * @param string|IQueryFunction $from The table.
 	 * @param string|null $alias The alias of the table.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -1102,7 +1096,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * Specifies an ordering for the query results.
 	 * Replaces any previously specified orderings, if any.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -1119,7 +1113,7 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Adds an ordering to the query results.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -1303,7 +1297,7 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Returns the table name quoted and with database prefix as needed by the implementation
 	 *
-	 * @param string $table
+	 * @param string|IQueryFunction $table
 	 * @return string
 	 */
 	public function getTableName($table) {

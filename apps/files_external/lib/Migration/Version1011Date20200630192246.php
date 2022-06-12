@@ -116,7 +116,7 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('value', Types::STRING, [
 				'notnull' => false,
-				'length' => 4096,
+				'length' => 4000,
 			]);
 			$table->setPrimaryKey(['config_id']);
 			$table->addUniqueIndex(['mount_id', 'key'], 'config_mount_key');
@@ -124,7 +124,7 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 			$table = $schema->getTable('external_config');
 			$table->changeColumn('value', [
 				'notnull' => false,
-				'length' => 4096,
+				'length' => 4000,
 			]);
 		}
 

@@ -1,11 +1,11 @@
 {
 	"config": {
 		"platform": {
-			"php": "7.3"
+			"php": "7.4"
 		}
 	},
-    "require": {
-        "friendsofphp/php-cs-fixer": "2.19.1",
-        "nextcloud/coding-standard": "^0.5.0"
-    }
+	"require": {
+		"friendsofphp/php-cs-fixer": "^3.4.0",
+		"nextcloud/coding-standard": "^1.0.0"
+	}
 }

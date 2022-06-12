@@ -162,10 +162,10 @@ class ViewController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 * @throws NotFoundException
 	 */
-	public function showFile(string $fileid = null): Response {
+	public function showFile(string $fileid = null, int $openfile = 1): Response {
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile($fileid, true);
+			return $this->redirectToFile($fileid, $openfile !== 0);
 		} catch (NotFoundException $e) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 		}
@@ -184,7 +184,7 @@ class ViewController extends Controller {
 	 * @throws NotFoundException
 	 */
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
-		if ($fileid !== null) {
+		if ($fileid !== null && $dir === '') {
 			try {
 				return $this->redirectToFile($fileid);
 			} catch (NotFoundException $e) {
@@ -196,8 +196,8 @@ class ViewController extends Controller {
 
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
-		\OCP\Util::addScript('files', 'merged-index');
-		\OCP\Util::addScript('files', 'dist/main');
+		\OCP\Util::addScript('files', 'merged-index', 'files');
+		\OCP\Util::addScript('files', 'main');
 
 		// mostly for the home storage's free space
 		// FIXME: Make non static
@@ -313,7 +313,6 @@ class ViewController extends Controller {
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$params['showgridview'] = $this->config->getUserValue($user, 'files', 'show_grid', false);
-		$params['isIE'] = \OC_Util::isIe();
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
 		$cropImagePreviews = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', true);

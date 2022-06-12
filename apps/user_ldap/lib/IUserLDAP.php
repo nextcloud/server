@@ -37,7 +37,7 @@ interface IUserLDAP {
 	/**
 	 * Return a new LDAP connection for the specified user.
 	 * @param string $uid
-	 * @return resource of the LDAP connection
+	 * @return resource|\LDAP\Connection of the LDAP connection
 	 */
 	public function getNewLDAPConnection($uid);
 

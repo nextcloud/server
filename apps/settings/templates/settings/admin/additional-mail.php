@@ -140,7 +140,7 @@ $mail_sendmailmode = [
 			<input type="text" name="mail_smtphost" id="mail_smtphost" placeholder="smtp.example.com"
 				   value="<?php p($_['mail_smtphost']) ?>" />
 			:
-			<input type="text" name="mail_smtpport" id="mail_smtpport" placeholder="<?php p($l->t('Port'))?>"
+			<input type="text" inputmode="numeric" name="mail_smtpport" id="mail_smtpport" placeholder="<?php p($l->t('Port'))?>"
 				   value="<?php p($_['mail_smtpport']) ?>" />
 		</p>
 	</form>
@@ -158,7 +158,7 @@ $mail_sendmailmode = [
 	</form>
 
 	<br />
-	<em><?php p($l->t('Test email settings')); ?></em>
+	<em><?php p($l->t('Test and verify email settings')); ?></em>
 	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t('Send email')); ?>"/>
 	<span id="sendtestmail_msg" class="msg"></span>
 </div>

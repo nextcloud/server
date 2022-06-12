@@ -1,0 +1,3 @@
+/*! For license information please see core-files_fileinfo.js.LICENSE.txt */
+!function(i){var t=function(i){var t=this;_.each(i,(function(i,e){_.isFunction(i)||(t[e]=i)})),_.isUndefined(this.id)||(this.id=parseInt(i.id,10)),this.path=i.path||"","dir"===this.type?this.mimetype="httpd/unix-directory":this.mimetype=this.mimetype||"application/octet-stream",this.type||("httpd/unix-directory"===this.mimetype?this.type="dir":this.type="file")};t.prototype={id:null,name:null,path:null,mimetype:null,icon:null,type:null,permissions:null,mtime:null,etag:null,mountType:null,hasPreview:!0,sharePermissions:null,quotaAvailableBytes:-1},i.Files||(i.Files={}),i.Files.FileInfo=t}(OC);
+//# sourceMappingURL=core-files_fileinfo.js.map?v=d9cc5e8823977a1e870b

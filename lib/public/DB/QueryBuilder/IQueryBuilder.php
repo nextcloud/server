@@ -65,6 +65,11 @@ interface IQueryBuilder {
 	public const PARAM_DATE = 'datetime';
 
 	/**
+	 * @since 24.0.0
+	 */
+	public const PARAM_JSON = 'json';
+
+	/**
 	 * @since 9.0.0
 	 */
 	public const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
@@ -73,6 +78,11 @@ interface IQueryBuilder {
 	 */
 	public const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
 
+	/**
+	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL
+	 * database server.
+	 */
+	public const MAX_ROW_DELETION = 100000;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
@@ -470,7 +480,7 @@ interface IQueryBuilder {
 	 *         ->from('users', 'u')
 	 * </code>
 	 *
-	 * @param string $from The table.
+	 * @param string|IQueryFunction $from The table.
 	 * @param string|null $alias The alias of the table.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -810,7 +820,7 @@ interface IQueryBuilder {
 	 * Specifies an ordering for the query results.
 	 * Replaces any previously specified orderings, if any.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -824,7 +834,7 @@ interface IQueryBuilder {
 	/**
 	 * Adds an ordering to the query results.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -994,7 +1004,7 @@ interface IQueryBuilder {
 	/**
 	 * Returns the table name quoted and with database prefix as needed by the implementation
 	 *
-	 * @param string $table
+	 * @param string|IQueryFunction $table
 	 * @return string
 	 * @since 9.0.0
 	 */

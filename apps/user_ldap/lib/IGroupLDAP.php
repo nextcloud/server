@@ -36,7 +36,7 @@ interface IGroupLDAP {
 	/**
 	 * Return a new LDAP connection for the specified group.
 	 * @param string $gid
-	 * @return resource of the LDAP connection
+	 * @return resource|\LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($gid);
 }

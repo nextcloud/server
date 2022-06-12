@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.22.0</version>
+	<version>1.24.0</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -16,7 +16,7 @@
 	<category>integration</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="24" max-version="24"/>
+		<nextcloud min-version="25" max-version="25"/>
 	</dependencies>
 
 	<background-jobs>
@@ -39,6 +39,7 @@
 			<step>OCA\DAV\Migration\RemoveOrphanEventsAndContacts</step>
 			<step>OCA\DAV\Migration\RemoveClassifiedEventActivity</step>
 			<step>OCA\DAV\Migration\RemoveDeletedUsersCalendarSubscriptions</step>
+			<step>OCA\DAV\Migration\RemoveObjectProperties</step>
 		</post-migration>
 		<live-migration>
 			<step>OCA\DAV\Migration\ChunkCleanup</step>

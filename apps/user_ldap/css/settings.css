@@ -9,7 +9,8 @@
 }
 
 .tablerow {
-	display: table-row;
+	display: flex;
+	align-items: center;
 	white-space: nowrap;
 	text-align: left;
 }
@@ -210,19 +211,10 @@ select[multiple=multiple] + button {
 }
 
 #ldapSettings {
-	background-color: white;
 	padding: 0;
 }
 
-#ldapSettings > fieldset {
-	background-color: white;
-}
-
-#ldapSettings ul.ui-tabs-nav .ui-tabs-active,
-#ldapSettings ul.ui-tabs-nav .ui-tabs-active > a {
-	background-color: white;
-}
-
-#ldapSettings div.ui-accordion-content {
-	background: white;
+ul.ui-multiselect-checkboxes label {
+	display: flex;
+	align-items: center;
 }

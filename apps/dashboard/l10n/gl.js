@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Taboleiro",
     "Dashboard app" : "Aplicación de taboleiro",
-    "Show something" : "Amosar algo",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar trebellos",
     "Change background image" : "Cambiar imaxe de fondo",
@@ -26,9 +25,6 @@ OC.L10N.register(
     "Default images" : "Imaxes predeterminadas",
     "Plain background" : "Fondo sinxelo",
     "Insert from {productName}" : "Inserir dende {productName}",
-    "Get more widgets from the app store" : "Obter máis trebellos na tenda de aplicacións",
-    "Good night, {name}" : "Boas noites, {name}",
-    "Good night" : "Boas noites",
-    "Pick from files" : "Escolla entre os ficheiros"
+    "Show something" : "Amosar algo"
 },
 "nplurals=2; plural=(n != 1);");

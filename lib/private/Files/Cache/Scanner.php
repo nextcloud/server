@@ -36,13 +36,14 @@
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
-use OC\Files\Filesystem;
-use OC\Files\Storage\Wrapper\Encoding;
-use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
-use OCP\ILogger;
+use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\Lock\ILockingProvider;
+use OC\Files\Storage\Wrapper\Encoding;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Hooks\BasicEmitter;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Scanner
@@ -114,7 +115,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
-			\OCP\Util::writeLog(Scanner::class, "!!! Path '$path' is not accessible or present !!!", ILogger::DEBUG);
+			\OC::$server->get(LoggerInterface::class)->debug("!!! Path '$path' is not accessible or present !!!", ['app' => 'core']);
 		}
 		return $data;
 	}
@@ -139,8 +140,8 @@ class Scanner extends BasicEmitter implements IScanner {
 				return null;
 			}
 		}
-		// only proceed if $file is not a partial file nor a blacklisted file
-		if (!self::isPartialFile($file) and !Filesystem::isFileBlacklisted($file)) {
+		// only proceed if $file is not a partial file, blacklist is handled by the storage
+		if (!self::isPartialFile($file)) {
 
 			//acquire a lock
 			if ($lock) {
@@ -208,7 +209,7 @@ class Scanner extends BasicEmitter implements IScanner {
 							if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 								$data['size'] = $cacheData['size'];
 							}
-							if ($reuseExisting & self::REUSE_ETAG) {
+							if ($reuseExisting & self::REUSE_ETAG && !$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
 								$data['etag'] = $etag;
 							}
 						}
@@ -424,7 +425,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$file = trim(\OC\Files\Filesystem::normalizePath($originalFile), '/');
 			if (trim($originalFile, '/') !== $file) {
 				// encoding mismatch, might require compatibility wrapper
-				\OC::$server->getLogger()->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
+				\OC::$server->get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
 				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
 				// skip this entry
 				continue;
@@ -455,10 +456,9 @@ class Scanner extends BasicEmitter implements IScanner {
 					\OC::$server->getDatabaseConnection()->rollback();
 					\OC::$server->getDatabaseConnection()->beginTransaction();
 				}
-				\OC::$server->getLogger()->logException($ex, [
-					'message' => 'Exception while scanning file "' . $child . '"',
-					'level' => ILogger::DEBUG,
+				\OC::$server->get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
 					'app' => 'core',
+					'exception' => $ex,
 				]);
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
@@ -509,19 +509,31 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		if (!$this->cache->inCache('')) {
-			$this->runBackgroundScanJob(function () {
-				$this->scan('', self::SCAN_RECURSIVE, self::REUSE_ETAG);
-			}, '');
+		if ($this->storage->instanceOfStorage(Jail::class)) {
+			// for jail storage wrappers (shares, groupfolders) we run the background scan on the source storage
+			// this is mainly done because the jail wrapper doesn't implement `getIncomplete` (because it would be inefficient).
+			//
+			// Running the scan on the source storage might scan more than "needed", but the unscanned files outside the jail will
+			// have to be scanned at some point anyway.
+			$unJailedScanner = $this->storage->getUnjailedStorage()->getScanner();
+			$unJailedScanner->backgroundScan();
 		} else {
-			$lastPath = null;
-			while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-				$this->runBackgroundScanJob(function () use ($path) {
-					$this->scan($path, self::SCAN_RECURSIVE_INCOMPLETE, self::REUSE_ETAG | self::REUSE_SIZE);
-				}, $path);
-				// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
-				// to make this possible
-				$lastPath = $path;
+			if (!$this->cache->inCache('')) {
+				// if the storage isn't in the cache yet, just scan the root completely
+				$this->runBackgroundScanJob(function () {
+					$this->scan('', self::SCAN_RECURSIVE, self::REUSE_ETAG);
+				}, '');
+			} else {
+				$lastPath = null;
+				// find any path marked as unscanned and run the scanner until no more paths are unscanned (or we get stuck)
+				while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
+					$this->runBackgroundScanJob(function () use ($path) {
+						$this->scan($path, self::SCAN_RECURSIVE_INCOMPLETE, self::REUSE_ETAG | self::REUSE_SIZE);
+					}, $path);
+					// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
+					// to make this possible
+					$lastPath = $path;
+				}
 			}
 		}
 	}

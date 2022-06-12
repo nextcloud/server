@@ -47,7 +47,7 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			$table = $schema->createTable('ldap_user_mapping');
 			$table->addColumn('ldap_dn', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 4000,
 				'default' => '',
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
@@ -60,15 +60,20 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 				'length' => 255,
 				'default' => '',
 			]);
+			$table->addColumn('ldap_dn_hash', Types::STRING, [
+				'notnull' => false,
+				'length' => 64,
+			]);
 			$table->setPrimaryKey(['owncloud_name']);
-			$table->addUniqueIndex(['ldap_dn'], 'ldap_dn_users');
+			$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_user_dn_hashes');
+			$table->addUniqueIndex(['directory_uuid'], 'ldap_user_directory_uuid');
 		}
 
 		if (!$schema->hasTable('ldap_group_mapping')) {
 			$table = $schema->createTable('ldap_group_mapping');
 			$table->addColumn('ldap_dn', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 4000,
 				'default' => '',
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
@@ -81,8 +86,13 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 				'length' => 255,
 				'default' => '',
 			]);
-			$table->setPrimaryKey(['ldap_dn']);
-			$table->addUniqueIndex(['owncloud_name'], 'owncloud_name_groups');
+			$table->addColumn('ldap_dn_hash', Types::STRING, [
+				'notnull' => false,
+				'length' => 64,
+			]);
+			$table->setPrimaryKey(['owncloud_name']);
+			$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_group_dn_hashes');
+			$table->addUniqueIndex(['directory_uuid'], 'ldap_group_directory_uuid');
 		}
 
 		if (!$schema->hasTable('ldap_group_members')) {

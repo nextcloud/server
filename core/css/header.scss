@@ -12,6 +12,7 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'variables';
 
 /* prevent ugly selection effect on accidental selection */
 #header,
@@ -20,6 +21,11 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	a:not(.button):focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
+		box-shadow: inset 0 0 0 2px var(--color-primary-text);
+		border-radius: var(--border-radius);
+		outline: none;
+	}
 }
 
 /* removed until content-focusing issue is fixed */
@@ -48,29 +54,27 @@
 	top: 0;
 	width: 100%;
 	z-index: 2000;
-	height: $header-height;
+	height: variables.$header-height;
 	background-color: var(--color-primary);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
+	background-image: var(--gradient-primary-background);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	padding: 7px 0;
+	padding: 5px 0;
 	padding-left: 86px; // logo width + 2* pa
 	position: relative;
-	height: 100%;
+	height: calc(100% - 4px);
 	box-sizing: border-box;
 	opacity: 1;
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	overflow: hidden;
+	margin: 2px;
 
-	&:focus {
-		opacity: .75;
-	}
 	&:hover, &:active {
 		opacity: 1;
 	}
@@ -78,7 +82,7 @@
 
 @mixin header-menu-height() {
 	min-height: calc(44px * 1.5); // show at least 1.5 entries
-	max-height: calc(100vh - #{$header-height} * 4);
+	max-height: calc(100vh - #{variables.$header-height} * 4);
 }
 
 #header {
@@ -96,7 +100,7 @@
 		max-width: 350px;
 		@include header-menu-height();
 		right: 5px; // relative to parent
-		top: $header-height;
+		top: variables.$header-height;
 		margin: 0;
 
 		&:not(.popovermenu) {
@@ -146,6 +150,10 @@
 					&.active {
 						background-color: var(--color-primary-light);
 					}
+					&:focus-visible {
+						box-shadow: inset 0 0 0 2px var(--color-primary);
+						outline: none;
+					}
 					span {
 						display: inline-block;
 						padding-bottom: 0;
@@ -165,6 +173,7 @@
 						margin-right: 10px;
 						height: 16px;
 						width: 16px;
+						filter: var(--background-invert-if-dark);
 					}
 				}
 			}
@@ -172,7 +181,7 @@
 	}
 	.logo {
 		display: inline-flex;
-		background-image: var(--image-logo);
+		background-image: var(--image-logoheader, var(--image-logo, url('../img/logo/logo.svg')));
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: center;
@@ -181,12 +190,8 @@
 		left: 12px;
 		top: 1px;
 		bottom: 1px;
-
-		img {
-			opacity: 0;
-			max-width: 100%;
-			max-height: 200px;
-		}
+		// Invert non-custom logo if primary is too bright
+		filter: var(--image-logoheader-custom, var(--primary-invert-if-bright))
 	}
 
 	.header-appname-container {
@@ -232,12 +237,20 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				width: $header-height;
-				height: 100%;
+				width: variables.$header-height;
+				height: 44px;
 				cursor: pointer;
-				opacity: 0.6;
+				opacity: 0.85;
 				padding: 0;
-				margin: 0;
+				margin: 2px 0;
+
+				&:focus {
+					opacity: 1;
+				}
+
+				&:focus-visible {
+					outline: none;
+				}
 			}
 		}
 	}
@@ -303,9 +316,9 @@
 /* NAVIGATION --------------------------------------------------------------- */
 nav[role='navigation'] {
 	display: inline-block;
-	width: $header-height;
-	height: $header-height;
-	margin-left: -$header-height;
+	width: variables.$header-height;
+	height: variables.$header-height;
+	margin-left: -#{variables.$header-height};
 	position: relative;
 }
 
@@ -355,7 +368,7 @@ nav[role='navigation'] {
 	/* User menu on the right */
 	#expand {
 		opacity: 1; /* override icon opacity */
-		padding-right: 12px;
+		margin-right: 12px;
 
 		&:hover,
 		&:focus,
@@ -427,7 +440,7 @@ nav[role='navigation'] {
 /* Apps menu */
 #appmenu {
 	display: inline-flex;
-	min-width: $header-height;
+	min-width: variables.$header-height;
 	z-index: 2;
 
 	li {
@@ -441,14 +454,15 @@ nav[role='navigation'] {
 			position: relative;
 			display: flex;
 			margin: 0;
-			height: $header-height;
-			width: $header-height;
+			height: calc(variables.$header-height - 6px);
+			width: variables.$header-height;
 			align-items: center;
 			justify-content: center;
-			opacity: .6;
+			opacity: .85;
 			// Make sure most app names don’t ellipsize
 			letter-spacing: -0.5px;
 			font-size: 12px;
+			margin: 2px;
 		}
 
 		/* focused app visual feedback */
@@ -506,6 +520,8 @@ nav[role='navigation'] {
 		svg,
 		.icon-more-white {
 			transition: transform var(--animation-quick) ease;
+			// If the primary is too bright, invert the app icons
+			filter: var(--primary-invert-if-bright);
 		}
 
 		/* Triangle */
@@ -583,7 +599,7 @@ nav[role='navigation'] {
 		border-width: 10px;
 		transform: translateX(-50%);
 		left: 50%;
-		bottom: 0;
+		bottom: -5px;
 		display: none;
 	}
 
@@ -643,71 +659,16 @@ nav[role='navigation'] {
 	background: var(--color-primary) !important;
 
 	&.skip-content {
-		left: $navigation-width;
+		left: variables.$navigation-width;
 		margin-left: 3px;
 	}
 
 	&:focus,
 	&:active {
-		top: $header-height;
+		top: variables.$header-height;
 	}
 }
 
-/* SEARCHBOX --------------------------------------------------------------- */
-.searchbox {
-	position: relative;
-	display: flex;
-	align-items: center;
-	input[type='search'] {
-		position: relative;
-		font-size: 1.2em;
-		padding: 3px;
-		padding-left: 25px;
-		padding-right: 20px;
-		background-color: transparent;
-		color: var(--color-primary-text);
-		border: 0;
-		border-radius: var(--border-radius-pill);
-		height: 34px;
-		width: 0;
-		cursor: pointer;
-		transition: width 100ms, opacity 100ms;
-		opacity: .6;
-		&:focus, &:active, &:valid {
-			background-position-x: 6px;
-			color: var(--color-primary-text);
-			width: 155px;
-			cursor: text;
-			background-color: transparent !important;
-			border: 1px solid var(--color-primary-text) !important;
-		}
-		&:hover, &:focus, &:active {
-			opacity: 1;
-		}
-		& ~ .icon-close-white {
-			display: inline;
-			position: absolute;
-			width: 30px;
-			height: 100%;
-			right: 0;
-			top: 0;
-			margin: 0;
-			&, &:focus, &:active, &:hover {
-				border: none;
-				background-color: transparent;
-			}
-		}
-		&:not(:valid) ~ .icon-close-white {
-			display: none;
-		}
-		&::-webkit-search-cancel-button {
-			-webkit-appearance: none;
-		}
-	}
-	.icon-search-force-white {
-		@include icon-color('search', 'actions', '#fffffe', 1, true);
-	}
-}
 
 /* Empty content messages in the header e.g. notifications, contacts menu, … */
 header #emptycontent,

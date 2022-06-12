@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@
 
 export default class ShareSearch {
 
-	_state;
+	_state
 
 	constructor() {
 		// init empty state
@@ -38,7 +38,7 @@ export default class ShareSearch {
 	 *
 	 * @readonly
 	 * @memberof ShareSearch
-	 * @returns {Object} the data state
+	 * @return {object} the data state
 	 */
 	get state() {
 		return this._state
@@ -49,14 +49,14 @@ export default class ShareSearch {
 	 * Mostly used by the guests app.
 	 * We should consider deprecation and add results via php ?
 	 *
-	 * @param {Object} result entry to append
+	 * @param {object} result entry to append
 	 * @param {string} [result.user] entry user
 	 * @param {string} result.displayName entry first line
 	 * @param {string} [result.desc] entry second line
 	 * @param {string} [result.icon] entry icon
-	 * @param {function} result.handler function to run on entry selection
-	 * @param {function} [result.condition] condition to add entry or not
-	 * @returns {boolean}
+	 * @param {Function} result.handler function to run on entry selection
+	 * @param {Function} [result.condition] condition to add entry or not
+	 * @return {boolean}
 	 */
 	addNewResult(result) {
 		if (result.displayName.trim() !== ''

@@ -34,6 +34,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -57,6 +58,9 @@ class CoordinatorTest extends TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
+	/** @var IEventLogger|MockObject */
+	private $eventLogger;
+
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
@@ -71,6 +75,7 @@ class CoordinatorTest extends TestCase {
 		$this->crashReporterRegistry = $this->createMock(Registry::class);
 		$this->dashboardManager = $this->createMock(IManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->eventLogger = $this->createMock(IEventLogger::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->coordinator = new Coordinator(
@@ -78,6 +83,7 @@ class CoordinatorTest extends TestCase {
 			$this->crashReporterRegistry,
 			$this->dashboardManager,
 			$this->eventDispatcher,
+			$this->eventLogger,
 			$this->logger
 		);
 	}

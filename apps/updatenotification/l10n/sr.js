@@ -33,14 +33,6 @@ OC.L10N.register(
     "Stable" : "Стабилна",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Најскорашњија стабилна верзија. Погодна за редовну употребу и увек ће бити на најновијој главној верзији.",
     "Beta" : "Бета",
-    "A pre-release version only for testing new features, not for production environments." : "Пред-издање и служи само за тестирање нових могућности, не за свакодневни рад.",
-    "Apps missing updates" : "Апликације којима недостаје ажурирање",
-    "Apps with available updates" : "Апликације са доступним ажурирањима",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "После издавања нове верзије, може да прође неко време пре него што се верзија појави овде. Ми избацујемо нове верзије постепено и можемо некад да прескочимо верзију ако наиђемо на проблеме.",
-    "Only notification for app updates are available." : "Доступна су само обавештења о новим верзијама апликација.",
-    "Checking apps for compatible updates" : "Проверавам компатибилна ажурирања за апликације",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Не могу да се повежем на продавницу апликација или продавница нема ниједно ажурирање. Претражите ручно ажурирања или проверите да ли сервер има везу са интернетом",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Све</strong> апликације имају доступна ажурирања за ову верзију",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> апликација имају доступна ажурирања за ову верзију","<strong>%n</strong> апликације имају доступна ажурирања за ову верзију","<strong>%n</strong> апликација имају доступна ажурирања за ову верзију"]
+    "A pre-release version only for testing new features, not for production environments." : "Пред-издање и служи само за тестирање нових могућности, не за свакодневни рад."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -48,7 +48,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function invalidate(string $token) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
@@ -61,7 +61,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function invalidateOld(int $olderThan, int $remember = IToken::DO_NOT_REMEMBER) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->lt('last_activity', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
@@ -78,7 +78,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
@@ -100,7 +100,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
@@ -126,7 +126,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
@@ -144,7 +144,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function deleteById(string $uid, int $id) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
@@ -158,7 +158,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	 */
 	public function deleteByName(string $name) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
@@ -167,7 +167,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function deleteTempToken(PublicKeyToken $except) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($except->getUID())))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN)))
 			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($except->getId())))
@@ -179,7 +179,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function hasExpiredTokens(string $uid): bool {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('password_invalid', $qb->createNamedParameter(true), IQueryBuilder::PARAM_BOOL))
 			->setMaxResults(1);

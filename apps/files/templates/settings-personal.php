@@ -22,7 +22,7 @@
  */
 
 
-script(\OCA\Files\AppInfo\Application::APP_ID, 'dist/personal-settings');
+script(\OCA\Files\AppInfo\Application::APP_ID, 'personal-settings');
 
 ?>
 <div id="files-personal-settings" class="section">

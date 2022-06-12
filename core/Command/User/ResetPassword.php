@@ -27,8 +27,10 @@
  */
 namespace OC\Core\Command\User;
 
+use OC\Core\Command\Base;
+use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,10 +39,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class ResetPassword extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
+class ResetPassword extends Base {
+	protected IUserManager $userManager;
 
 	public function __construct(IUserManager $userManager) {
 		$this->userManager = $userManager;
@@ -132,5 +132,17 @@ class ResetPassword extends Command {
 			return 1;
 		}
 		return 0;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'user') {
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+		}
+		return [];
 	}
 }

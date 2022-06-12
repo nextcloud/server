@@ -35,15 +35,10 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 class Helper {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var CappedMemoryCache */
-	protected $sanitizeDnCache;
+	private IConfig $config;
+	private IDBConnection $connection;
+	/** @var CappedMemoryCache<string> */
+	protected CappedMemoryCache $sanitizeDnCache;
 
 	public function __construct(IConfig $config,
 								IDBConnection $connection) {
@@ -129,10 +124,10 @@ class Helper {
 		sort($serverConnections);
 		$lastKey = array_pop($serverConnections);
 		$lastNumber = (int)str_replace('s', '', $lastKey);
-		return 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
+		return 's' . str_pad((string)($lastNumber + 1), 2, '0', STR_PAD_LEFT);
 	}
 
-	private function getServersConfig($value) {
+	private function getServersConfig(string $value): array {
 		$regex = '/' . $value . '$/S';
 
 		$keys = $this->config->getAppKeys('user_ldap');
@@ -211,7 +206,7 @@ class Helper {
 	/**
 	 * sanitizes a DN received from the LDAP server
 	 *
-	 * @param array $dn the DN in question
+	 * @param array|string $dn the DN in question
 	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
@@ -275,10 +270,10 @@ class Helper {
 	 * listens to a hook thrown by server2server sharing and replaces the given
 	 * login name by a username, if it matches an LDAP user.
 	 *
-	 * @param array $param
+	 * @param array $param contains a reference to a $uid var under 'uid' key
 	 * @throws \Exception
 	 */
-	public static function loginName2UserName($param) {
+	public static function loginName2UserName($param): void {
 		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}

@@ -20,6 +20,7 @@
  */
 
 style('core', 'login/authpicker');
+script('core', 'login/authpicker');
 
 /** @var array $_ */
 /** @var \OCP\IURLGenerator $urlGenerator */
@@ -45,9 +46,26 @@ $urlGenerator = $_['urlGenerator'];
 	<br/>
 
 	<p id="redirect-link">
-		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.grantPage', ['stateToken' => $_['stateToken']])) ?>">
+		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.grantPage', ['stateToken' => $_['stateToken'], 'user' => $_['user']])) ?>">
 			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>">
 		</a>
 	</p>
 
+	<form action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.apptokenRedirect')); ?>" method="post" id="app-token-login-field" class="hidden">
+		<p class="grouptop">
+			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Username')) ?>">
+			<label for="user" class="infield"><?php p($l->t('Username')) ?></label>
+		</p>
+		<p class="groupbottom">
+			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App token')) ?>">
+			<label for="password" class="infield"><?php p($l->t('Password')) ?></label>
+		</p>
+		<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
+		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
+		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
+	</form>
+
+	<?php if (empty($_['oauthState'])): ?>
+		<a id="app-token-login" class="apptoken-link" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
+	<?php endif; ?>
 </div>

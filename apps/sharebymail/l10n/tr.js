@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "E-posta ile paylaş",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
+    "Failed to send share by email. Got an invalid email address" : "Paylaşım e-posta ile gönderilemedi. Bir e-posta adresi geçersiz",
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%1$s shared »%2$s« with you" : "%1$s, sizinle »%2$s« ögesini paylaştı",
     "%1$s shared »%2$s« with you." : "%1$s, sizinle »%2$s« ögesini paylaştı.",
@@ -38,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "»%1$s« için sizin tarafınızdan %2$s üzerinden paylaşılan erişim parolası",
     "Password to access »%s«" : "»%s« erişim parolası",
     "It is protected with the following password:" : "Şu parola ile korunuyor:",
+    "This password will expire at %s" : "Bu parola %s tarihinde geçersiz olacak",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s sizinle »%2$s« ögesini paylaştı ve eklemenizi istiyor:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s sizinle »%2$s« ögesini paylaştı ve eklemenizi istiyor",
     "»%s« added a note to a file shared with you" : "»%s« sizinle paylaştığı bir dosyaya bir not ekledi",
@@ -50,7 +52,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
     "Reply to initiator" : "Başlatanı yanıtla",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
-    "Enforce password protection" : "Parola koruması dayatılsın"
+    "Unable to update share by mail config" : "E-posta ile paylaşım yapılandırması güncellenemedi"
 },
 "nplurals=2; plural=(n > 1);");

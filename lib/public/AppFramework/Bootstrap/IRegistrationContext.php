@@ -122,11 +122,11 @@ interface IRegistrationContext {
 	 *
 	 * This is equivalent to calling IEventDispatcher::addServiceListener
 	 *
-	 * @template T of \OCP\EventDispatcher\Event
+	 * @psalm-template T of \OCP\EventDispatcher\Event
 	 * @param string $event preferably the fully-qualified class name of the Event sub class to listen for
 	 * @psalm-param string|class-string<T> $event preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $listener fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
-	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener<T>> $listener fully qualified class name that can be built by the DI container
+	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener> $listener fully qualified class name that can be built by the DI container
 	 * @param int $priority The higher this value, the earlier an event
 	 *                      listener will be triggered in the chain (defaults to 0)
 	 *
@@ -264,4 +264,46 @@ interface IRegistrationContext {
 	 * @since 23.0.0
 	 */
 	public function registerProfileLinkAction(string $actionClass): void;
+
+	/**
+	 * Register the backend of the Talk app
+	 *
+	 * This service must only be used by the Talk app
+	 *
+	 * @param string $backend
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerTalkBackend(string $backend): void;
+
+	/**
+	 * Register a resource backend for the DAV server
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Calendar\Resource\IBackend> $actionClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerCalendarResourceBackend(string $class): void;
+
+	/**
+	 * Register a room backend for the DAV server
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerCalendarRoomBackend(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\UserMigration\IMigrator that
+	 * will handle the implementation of a migrator
+	 *
+	 * @param string $migratorClass
+	 * @psalm-param class-string<\OCP\UserMigration\IMigrator> $migratorClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerUserMigrator(string $migratorClass): void;
 }

@@ -28,6 +28,9 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IRequestId;
+use OC\AppFramework\DependencyInjection\DIContainer;
 
 class ChildController extends Controller {
 	public function __construct($appName, $request) {
@@ -59,6 +62,7 @@ class ControllerTest extends \Test\TestCase {
 	 */
 	private $controller;
 	private $app;
+	private $request;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -73,15 +77,11 @@ class ControllerTest extends \Test\TestCase {
 				'session' => ['sezession' => 'kein'],
 				'method' => 'hi',
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 
-		$this->app = $this->getMockBuilder('OC\AppFramework\DependencyInjection\DIContainer')
+		$this->app = $this->getMockBuilder(DIContainer::class)
 			->setMethods(['getAppName'])
 			->setConstructorArgs(['test'])
 			->getMock();
@@ -90,6 +90,8 @@ class ControllerTest extends \Test\TestCase {
 				->willReturn('apptemplate_advanced');
 
 		$this->controller = new ChildController($this->app, $request);
+		$this->overwriteService(IRequest::class, $request);
+		$this->request = $request;
 	}
 
 
@@ -114,6 +116,7 @@ class ControllerTest extends \Test\TestCase {
 			'Content-Type' => 'application/json; charset=utf-8',
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
+			'X-Request-Id' => $this->request->getId(),
 			'X-Robots-Tag' => 'none',
 		];
 

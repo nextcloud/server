@@ -185,6 +185,7 @@ class ProviderFactory implements IProviderFactory {
 			$settingsManager = new SettingsManager($this->serverContainer->getConfig());
 
 			$this->shareByMailProvider = new ShareByMailProvider(
+				$this->serverContainer->getConfig(),
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),

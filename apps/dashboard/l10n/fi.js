@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Dashboard" : "Konsoli",
     "Dashboard app" : "Konsolisovellus",
-    "Show something" : "Näytä jotain",
     "Customize" : "Mukauta",
     "Edit widgets" : "Muokkaa pienoissovelluksia",
+    "Get more widgets from the App Store" : "Hae lisää pienoissovelluksia sovelluskaupasta",
     "Change background image" : "Vaihda taustakuva",
     "Weather service" : "Sääpalvelu",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Yksityisyytesi vuoksi Nextcloud-palvelin hakee säätiedot, joten sääpalvelulle ei lähetetä henkilökohtaisia tietojasi.",
@@ -25,9 +25,7 @@ OC.L10N.register(
     "Pick from Files" : "Valitse tiedostoista",
     "Default images" : "Oletuskuvat",
     "Plain background" : "Yksinkertainen tausta",
-    "Get more widgets from the app store" : "Hae lisää pienoissovelluksia sovelluskaupasta",
-    "Good night, {name}" : "Hyvää yötä, {name}",
-    "Good night" : "Hyvää yötä",
-    "Pick from files" : "Valitse tiedostoista"
+    "Insert from {productName}" : "Aseta kohteesta {productName}",
+    "Show something" : "Näytä jotain"
 },
 "nplurals=2; plural=(n != 1);");

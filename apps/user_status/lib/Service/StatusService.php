@@ -35,7 +35,9 @@ use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\IConfig;
+use OCP\IEmojiHelper;
 use OCP\UserStatus\IUserStatus;
 
 /**
@@ -54,8 +56,7 @@ class StatusService {
 	/** @var PredefinedStatusService */
 	private $predefinedStatusService;
 
-	/** @var EmojiService */
-	private $emojiService;
+	private IEmojiHelper $emojiHelper;
 
 	/** @var bool */
 	private $shareeEnumeration;
@@ -93,24 +94,15 @@ class StatusService {
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
-	/**
-	 * StatusService constructor.
-	 *
-	 * @param UserStatusMapper $mapper
-	 * @param ITimeFactory $timeFactory
-	 * @param PredefinedStatusService $defaultStatusService
-	 * @param EmojiService $emojiService
-	 * @param IConfig $config
-	 */
 	public function __construct(UserStatusMapper $mapper,
 								ITimeFactory $timeFactory,
 								PredefinedStatusService $defaultStatusService,
-								EmojiService $emojiService,
+								IEmojiHelper $emojiHelper,
 								IConfig $config) {
 		$this->mapper = $mapper;
 		$this->timeFactory = $timeFactory;
 		$this->predefinedStatusService = $defaultStatusService;
-		$this->emojiService = $emojiService;
+		$this->emojiHelper = $emojiHelper;
 		$this->shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
@@ -229,6 +221,7 @@ class StatusService {
 			$userStatus->setStatus(IUserStatus::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
 			$userStatus->setIsUserDefined(false);
+			$userStatus->setIsBackup(false);
 		}
 
 		if (!$this->predefinedStatusService->isValidId($messageId)) {
@@ -254,8 +247,62 @@ class StatusService {
 
 	/**
 	 * @param string $userId
+	 * @param string $status
+	 * @param string $messageId
+	 * @param bool $createBackup
+	 * @throws InvalidStatusTypeException
+	 * @throws InvalidMessageIdException
+	 */
+	public function setUserStatus(string $userId,
+										 string $status,
+										 string $messageId,
+										 bool $createBackup): void {
+		// Check if status-type is valid
+		if (!\in_array($status, self::PRIORITY_ORDERED_STATUSES, true)) {
+			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
+		}
+
+		if (!$this->predefinedStatusService->isValidId($messageId)) {
+			throw new InvalidMessageIdException('Message-Id "' . $messageId . '" is not supported');
+		}
+
+		if ($createBackup) {
+			if ($this->backupCurrentStatus($userId) === false) {
+				return; // Already a status set automatically => abort.
+			}
+
+			// If we just created the backup
+			$userStatus = new UserStatus();
+			$userStatus->setUserId($userId);
+		} else {
+			try {
+				$userStatus = $this->mapper->findByUserId($userId);
+			} catch (DoesNotExistException $ex) {
+				$userStatus = new UserStatus();
+				$userStatus->setUserId($userId);
+			}
+		}
+
+		$userStatus->setStatus($status);
+		$userStatus->setStatusTimestamp($this->timeFactory->getTime());
+		$userStatus->setIsUserDefined(true);
+		$userStatus->setIsBackup(false);
+		$userStatus->setMessageId($messageId);
+		$userStatus->setCustomIcon(null);
+		$userStatus->setCustomMessage(null);
+		$userStatus->setClearAt(null);
+
+		if ($userStatus->getId() !== null) {
+			$this->mapper->update($userStatus);
+			return;
+		}
+		$this->mapper->insert($userStatus);
+	}
+
+	/**
+	 * @param string $userId
 	 * @param string|null $statusIcon
-	 * @param string $message
+	 * @param string|null $message
 	 * @param int|null $clearAt
 	 * @return UserStatus
 	 * @throws InvalidClearAtException
@@ -264,7 +311,7 @@ class StatusService {
 	 */
 	public function setCustomMessage(string $userId,
 									 ?string $statusIcon,
-									 string $message,
+									 ?string $message,
 									 ?int $clearAt): UserStatus {
 		try {
 			$userStatus = $this->mapper->findByUserId($userId);
@@ -277,11 +324,11 @@ class StatusService {
 		}
 
 		// Check if statusIcon contains only one character
-		if ($statusIcon !== null && !$this->emojiService->isValidEmoji($statusIcon)) {
+		if ($statusIcon !== null && !$this->emojiHelper->isValidSingleEmoji($statusIcon)) {
 			throw new InvalidStatusIconException('Status-Icon is longer than one character');
 		}
 		// Check for maximum length of custom message
-		if (\mb_strlen($message) > self::MAXIMUM_MESSAGE_LENGTH) {
+		if ($message !== null && \mb_strlen($message) > self::MAXIMUM_MESSAGE_LENGTH) {
 			throw new StatusMessageTooLongException('Message is longer than supported length of ' . self::MAXIMUM_MESSAGE_LENGTH . ' characters');
 		}
 		// Check that clearAt is in the future
@@ -385,6 +432,7 @@ class StatusService {
 			$this->cleanStatus($status);
 		}
 		if ($clearAt !== null && $clearAt < $this->timeFactory->getTime()) {
+			$this->cleanStatus($status);
 			$this->cleanStatusMessage($status);
 		}
 		if ($status->getMessageId() !== null) {
@@ -434,33 +482,21 @@ class StatusService {
 	}
 
 	/**
-	 * @return bool false iff there is already a backup. In this case abort the procedure.
+	 * @return bool false if there is already a backup. In this case abort the procedure.
 	 */
 	public function backupCurrentStatus(string $userId): bool {
 		try {
-			$this->mapper->findByUserId($userId, true);
-			return false;
-		} catch (DoesNotExistException $ex) {
-			// No backup already existing => Good
-		}
-
-		try {
-			$userStatus = $this->mapper->findByUserId($userId);
-		} catch (DoesNotExistException $ex) {
-			// if there is no status to backup, just return
+			$this->mapper->createBackupStatus($userId);
 			return true;
+		} catch (Exception $ex) {
+			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return false;
+			}
+			throw $ex;
 		}
-
-		$userStatus->setIsBackup(true);
-		// Prefix user account with an underscore because user_id is marked as unique
-		// in the table. Starting an username with an underscore is not allowed so this
-		// shouldn't create any trouble.
-		$userStatus->setUserId('_' . $userStatus->getUserId());
-		$this->mapper->update($userStatus);
-		return true;
 	}
 
-	public function revertUserStatus(string $userId, ?string $messageId, string $status): void {
+	public function revertUserStatus(string $userId, string $messageId, string $status): void {
 		try {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
@@ -468,19 +504,49 @@ class StatusService {
 			// No user status to revert, do nothing
 			return;
 		}
-		try {
-			$userStatus = $this->mapper->findByUserId($userId);
-			if ($userStatus->getMessageId() !== $messageId || $userStatus->getStatus() !== $status) {
-				// Another status is set automatically, do nothing
-				return;
-			}
-			$this->removeUserStatus($userId);
-		} catch (DoesNotExistException $ex) {
-			// No current status => nothing to delete
+
+		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId, $status);
+		if (!$deleted) {
+			// Another status is set automatically or no status, do nothing
+			return;
 		}
+
 		$backupUserStatus->setIsBackup(false);
 		// Remove the underscore prefix added when creating the backup
 		$backupUserStatus->setUserId(substr($backupUserStatus->getUserId(), 1));
 		$this->mapper->update($backupUserStatus);
+	}
+
+	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
+		// Get all user statuses and the backups
+		$findById = $userIds;
+		foreach ($userIds as $userId) {
+			$findById[] = '_' . $userId;
+		}
+		$userStatuses = $this->mapper->findByUserIds($findById);
+
+		$backups = $restoreIds = $statuesToDelete = [];
+		foreach ($userStatuses as $userStatus) {
+			if (!$userStatus->getIsBackup()
+				&& $userStatus->getMessageId() === $messageId
+				&& $userStatus->getStatus() === $status) {
+				$statuesToDelete[$userStatus->getUserId()] = $userStatus->getId();
+			} else if ($userStatus->getIsBackup()) {
+				$backups[$userStatus->getUserId()] = $userStatus->getId();
+			}
+		}
+
+		// For users with both (normal and backup) delete the status when matching
+		foreach ($statuesToDelete as $userId => $statusId) {
+			$backupUserId = '_' . $userId;
+			if (isset($backups[$backupUserId])) {
+				$restoreIds[] = $backups[$backupUserId];
+			}
+		}
+
+		$this->mapper->deleteByIds(array_values($statuesToDelete));
+
+		// For users that matched restore the previous status
+		$this->mapper->restoreBackupStatuses($restoreIds);
 	}
 }

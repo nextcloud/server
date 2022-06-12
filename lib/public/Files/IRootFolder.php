@@ -38,11 +38,22 @@ interface IRootFolder extends Folder, Emitter {
 	 * Returns a view to user's files folder
 	 *
 	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
+	 * @return Folder
 	 * @throws NoUserException
 	 * @throws NotPermittedException
 	 *
 	 * @since 8.2.0
 	 */
 	public function getUserFolder($userId);
+
+	/**
+	 * Get a file or folder by fileid, inside a parent path
+	 *
+	 * @param int $id
+	 * @param string $path
+	 * @return Node[]
+	 *
+	 * @since 24.0.0
+	 */
+	public function getByIdInPath(int $id, string $path);
 }

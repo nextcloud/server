@@ -134,6 +134,7 @@ class BackgroundCleanupJob extends TimedJob {
 			))
 			->where(
 				$qb->expr()->andX(
+					$qb->expr()->eq('a.storage', $qb->createNamedParameter($this->previewFolder->getStorageId())),
 					$qb->expr()->isNull('b.fileid'),
 					$qb->expr()->like('a.path', $qb->createNamedParameter($like)),
 					$qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory')))

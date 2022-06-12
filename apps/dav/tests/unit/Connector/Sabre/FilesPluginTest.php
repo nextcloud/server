@@ -65,6 +65,7 @@ class FilesPluginTest extends TestCase {
 	public const SIZE_PROPERTYNAME = FilesPlugin::SIZE_PROPERTYNAME;
 	public const PERMISSIONS_PROPERTYNAME = FilesPlugin::PERMISSIONS_PROPERTYNAME;
 	public const LASTMODIFIED_PROPERTYNAME = FilesPlugin::LASTMODIFIED_PROPERTYNAME;
+	public const CREATIONDATE_PROPERTYNAME = FilesPlugin::CREATIONDATE_PROPERTYNAME;
 	public const DOWNLOADURL_PROPERTYNAME = FilesPlugin::DOWNLOADURL_PROPERTYNAME;
 	public const OWNER_ID_PROPERTYNAME = FilesPlugin::OWNER_ID_PROPERTYNAME;
 	public const OWNER_DISPLAY_NAME_PROPERTYNAME = FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME;
@@ -168,6 +169,9 @@ class FilesPluginTest extends TestCase {
 		$fileInfo->expects($this->any())
 			->method('isReadable')
 			->willReturn(true);
+		$fileInfo->expects($this->any())
+			->method('getCreationTime')
+			->willReturn(123456789);
 
 		$node->expects($this->any())
 			->method('getFileInfo')
@@ -192,6 +196,7 @@ class FilesPluginTest extends TestCase {
 				self::OWNER_ID_PROPERTYNAME,
 				self::OWNER_DISPLAY_NAME_PROPERTYNAME,
 				self::DATA_FINGERPRINT_PROPERTYNAME,
+				self::CREATIONDATE_PROPERTYNAME,
 			],
 			0
 		);
@@ -222,6 +227,7 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('"abc"', $propFind->get(self::GETETAG_PROPERTYNAME));
 		$this->assertEquals('00000123instanceid', $propFind->get(self::FILEID_PROPERTYNAME));
 		$this->assertEquals('123', $propFind->get(self::INTERNAL_FILEID_PROPERTYNAME));
+		$this->assertEquals('1973-11-29T21:33:09+00:00', $propFind->get(self::CREATIONDATE_PROPERTYNAME));
 		$this->assertEquals(null, $propFind->get(self::SIZE_PROPERTYNAME));
 		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals('http://example.com/', $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
@@ -396,6 +402,7 @@ class FilesPluginTest extends TestCase {
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
 		$testDate = 'Fri, 13 Feb 2015 00:01:02 GMT';
+		$testCreationDate = '2007-08-31T16:47+00:00';
 
 		$node->expects($this->once())
 			->method('touch')
@@ -406,10 +413,15 @@ class FilesPluginTest extends TestCase {
 			->with('newetag')
 			->willReturn(true);
 
+		$node->expects($this->once())
+			->method('setCreationTime')
+			->with('1188578820');
+
 		// properties to set
 		$propPatch = new PropPatch([
 			self::GETETAG_PROPERTYNAME => 'newetag',
-			self::LASTMODIFIED_PROPERTYNAME => $testDate
+			self::LASTMODIFIED_PROPERTYNAME => $testDate,
+			self::CREATIONDATE_PROPERTYNAME => $testCreationDate,
 		]);
 
 		$this->plugin->handleUpdateProperties(
@@ -424,6 +436,7 @@ class FilesPluginTest extends TestCase {
 		$result = $propPatch->getResult();
 		$this->assertEquals(200, $result[self::LASTMODIFIED_PROPERTYNAME]);
 		$this->assertEquals(200, $result[self::GETETAG_PROPERTYNAME]);
+		$this->assertEquals(200, $result[self::CREATIONDATE_PROPERTYNAME]);
 	}
 
 	public function testUpdatePropsForbidden() {
@@ -577,9 +590,12 @@ class FilesPluginTest extends TestCase {
 			->willReturn($isClumsyAgent);
 
 		$response
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('addHeader')
-			->with('Content-Disposition', $contentDispositionHeader);
+			->withConsecutive(
+				['Content-Disposition', $contentDispositionHeader],
+				['X-Accel-Buffering', 'no']
+			);
 
 		$this->plugin->httpGet($request, $response);
 	}

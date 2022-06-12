@@ -5,7 +5,7 @@
  *
  * @author 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -73,7 +73,7 @@ describe('Contacts menu', function() {
 
 		opening.then(function() {
 			expect($menuEl.html()).toContain('Could not load your contacts');
-			expect(console.error).toHaveBeenCalledTimes(1);
+			expect(console.error).toHaveBeenCalled();
 			done();
 		}, function(e) {
 			done.fail(e);

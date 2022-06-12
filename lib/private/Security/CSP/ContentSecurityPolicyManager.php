@@ -82,7 +82,12 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 				$currentValues = \is_array($defaultPolicy->$getter()) ? $defaultPolicy->$getter() : [];
 				$defaultPolicy->$setter(array_values(array_unique(array_merge($currentValues, $value))));
 			} elseif (\is_bool($value)) {
-				$defaultPolicy->$setter($value);
+				$getter = 'is'.ucfirst($name);
+				$currentValue = $defaultPolicy->$getter();
+				// true wins over false
+				if ($value > $currentValue) {
+					$defaultPolicy->$setter($value);
+				}
 			}
 		}
 

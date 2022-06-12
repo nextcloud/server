@@ -22,7 +22,7 @@
 
 <template>
 	<div id="app-content" class="user-list-grid" @scroll.passive="onScroll">
-		<Modal v-if="showConfig.showNewUserForm" @close="closeModal">
+		<Modal v-if="showConfig.showNewUserForm" size="small" @close="closeModal">
 			<form id="new-user"
 				:disabled="loading.all"
 				class="modal__content"
@@ -142,12 +142,12 @@
 				<div v-if="showConfig.showUserBackend" class="userBackend" />
 				<div v-if="showConfig.showLastLogin" class="lastLogin" />
 				<div class="user-actions">
-					<button id="newsubmit"
-						class="button primary"
-						type="submit"
+					<Button id="newsubmit"
+						type="primary"
+						native-type="submit"
 						value="">
 						{{ t('settings', 'Add a new user') }}
-					</button>
+					</Button>
 				</div>
 			</form>
 		</Modal>
@@ -234,8 +234,8 @@
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import InfiniteLoading from 'vue-infinite-loading'
 import Vue from 'vue'
-import { Modal } from '@nextcloud/vue'
-
+import Modal from '@nextcloud/vue/dist/Components/Modal'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import userRow from './UserList/UserRow'
@@ -269,6 +269,7 @@ export default {
 		userRow,
 		Multiselect,
 		InfiniteLoading,
+		Button,
 	},
 	props: {
 		users: {
@@ -438,7 +439,7 @@ export default {
 		 * Validate quota string to make sure it's a valid human file size
 		 *
 		 * @param {string} quota Quota in readable format '5 GB'
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
@@ -550,7 +551,7 @@ export default {
 		 * Create a new group
 		 *
 		 * @param {string} gid Group id
-		 * @returns {Promise}
+		 * @return {Promise}
 		 */
 		createGroup(gid) {
 			this.loading.groups = true
@@ -568,8 +569,8 @@ export default {
 		/**
 		 * If the selected group is the disabled group but the count is 0
 		 * redirect to the all users page.
-		 * * we only check for 0 because we don't have the count on ldap
-		 * * and we therefore set the usercount to -1 in this specific case
+		 * we only check for 0 because we don't have the count on ldap
+		 * and we therefore set the usercount to -1 in this specific case
 		 */
 		redirectIfDisabled() {
 			const allGroups = this.$store.getters.getGroups
@@ -598,7 +599,6 @@ export default {
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		overflow: auto;
 	}
 	.modal__item {
 		margin-bottom: 16px;
@@ -622,5 +622,17 @@ export default {
 	}
 	.row::v-deep .multiselect__single {
 		z-index: auto !important;
+	}
+
+	/* fake input for groups validation */
+	input#newgroups {
+		position: absolute;
+		opacity: 0;
+		/* The "hidden" input is behind the Multiselect, so in general it does
+		 * not receives clicks. However, with Firefox, after the validation
+		 * fails, it will receive the first click done on it, so its width needs
+		 * to be set to 0 to prevent that ("pointer-events: none" does not
+		 * prevent it). */
+		width: 0;
 	}
 </style>

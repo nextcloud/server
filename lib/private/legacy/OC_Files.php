@@ -98,6 +98,7 @@ class OC_Files {
 			}
 		}
 		header('Content-Type: '.$type, true);
+		header('X-Accel-Buffering: no');
 	}
 
 	/**
@@ -144,21 +145,26 @@ class OC_Files {
 			}
 
 			self::lockFiles($view, $dir, $files);
+			$numberOfFiles = 0;
+			$fileSize = 0;
 
 			/* Calculate filesize and number of files */
 			if ($getType === self::ZIP_FILES) {
 				$fileInfos = [];
-				$fileSize = 0;
 				foreach ($files as $file) {
 					$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $file);
-					$fileSize += $fileInfo->getSize();
-					$fileInfos[] = $fileInfo;
+					if ($fileInfo) {
+						$fileSize += $fileInfo->getSize();
+						$fileInfos[] = $fileInfo;
+					}
 				}
 				$numberOfFiles = self::getNumberOfFiles($fileInfos);
 			} elseif ($getType === self::ZIP_DIR) {
 				$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $files);
-				$fileSize = $fileInfo->getSize();
-				$numberOfFiles = self::getNumberOfFiles([$fileInfo]);
+				if ($fileInfo) {
+					$fileSize = $fileInfo->getSize();
+					$numberOfFiles = self::getNumberOfFiles([$fileInfo]);
+				}
 			}
 
 			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize, $numberOfFiles);

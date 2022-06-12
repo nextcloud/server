@@ -34,7 +34,7 @@ class ExternalMountPoint extends MountPoint {
 
 	public function __construct(StorageConfig $storageConfig, $storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null, $mountId = null) {
 		$this->storageConfig = $storageConfig;
-		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId);
+		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId, ConfigAdapter::class);
 	}
 
 	public function getMountType() {

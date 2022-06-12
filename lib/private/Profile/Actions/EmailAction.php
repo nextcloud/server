@@ -70,11 +70,11 @@ class EmailAction implements ILinkAction {
 	}
 
 	public function getDisplayId(): string {
-		return $this->l10nFactory->get('core')->t('Email');
+		return $this->l10nFactory->get('lib')->t('Email');
 	}
 
 	public function getTitle(): string {
-		return $this->l10nFactory->get('core')->t('Mail %s', [$this->value]);
+		return $this->l10nFactory->get('lib')->t('Mail %s', [$this->value]);
 	}
 
 	public function getPriority(): int {

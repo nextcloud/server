@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@
 
 export default class ExternalShareActions {
 
-	_state;
+	_state
 
 	constructor() {
 		// init empty state
@@ -38,7 +38,7 @@ export default class ExternalShareActions {
 	 *
 	 * @readonly
 	 * @memberof ExternalLinkActions
-	 * @returns {Object} the data state
+	 * @return {object} the data state
 	 */
 	get state() {
 		return this._state
@@ -47,19 +47,19 @@ export default class ExternalShareActions {
 	/**
 	 * Register a new option/entry for the a given share type
 	 *
-	 * @param {Object} action new action component to register
+	 * @param {object} action new action component to register
 	 * @param {string} action.id unique action id
 	 * @param {Function} action.data data to bind the component to
-	 * @param {Array} action.shareType list of OC.Share.SHARE_XXX to be mounted on
-	 * @param {Object} action.handlers list of listeners
-	 * @returns {boolean}
+	 * @param {Array} action.shareType list of \@nextcloud/sharing.Types.SHARE_XXX to be mounted on
+	 * @param {object} action.handlers list of listeners
+	 * @return {boolean}
 	 */
 	registerAction(action) {
 		// Validate action
 		if (typeof action !== 'object'
 			|| typeof action.id !== 'string'
 			|| typeof action.data !== 'function' // () => {disabled: true}
-			|| !Array.isArray(action.shareType) // [OC.Share.SHARE_TYPE_LINK, ...]
+			|| !Array.isArray(action.shareType) // [\@nextcloud/sharing.Types.SHARE_TYPE_LINK, ...]
 			|| typeof action.handlers !== 'object' // {click: () => {}, ...}
 			|| !Object.values(action.handlers).every(handler => typeof handler === 'function')) {
 			console.error('Invalid action provided', action)

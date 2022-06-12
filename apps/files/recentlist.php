@@ -23,17 +23,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Check if we are a user
-OC_Util::checkLoggedIn();
+
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
-$isIE = OC_Util::isIe();
 
 $tmpl = new OCP\Template('files', 'recentlist', '');
 
 // gridview not available for ie
-$tmpl->assign('showgridview', $showgridview && !$isIE);
+$tmpl->assign('showgridview', $showgridview);
 
 $tmpl->printPage();

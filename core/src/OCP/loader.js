@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,7 @@ export default {
 	 *
 	 * @param {string} app the app name
 	 * @param {string} file the script file name
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	loadScript(app, file) {
 		const key = app + file
@@ -59,7 +59,7 @@ export default {
 	 *
 	 * @param {string} app the app name
 	 * @param {string} file the script file name
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	loadStylesheet(app, file) {
 		const key = app + file

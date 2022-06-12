@@ -39,14 +39,12 @@
 				<span>{{ share.status.message || '' }}</span>
 			</p>
 		</component>
-		<Actions
-			menu-align="right"
+		<Actions menu-align="right"
 			class="sharing-entry__actions"
 			@close="onMenuClose">
 			<template v-if="share.canEdit">
 				<!-- edit permission -->
-				<ActionCheckbox
-					ref="canEdit"
+				<ActionCheckbox ref="canEdit"
 					:checked.sync="canEdit"
 					:value="permissionsEdit"
 					:disabled="saving || !canSetEdit">
@@ -54,8 +52,7 @@
 				</ActionCheckbox>
 
 				<!-- create permission -->
-				<ActionCheckbox
-					v-if="isFolder"
+				<ActionCheckbox v-if="isFolder"
 					ref="canCreate"
 					:checked.sync="canCreate"
 					:value="permissionsCreate"
@@ -64,8 +61,7 @@
 				</ActionCheckbox>
 
 				<!-- delete permission -->
-				<ActionCheckbox
-					v-if="isFolder"
+				<ActionCheckbox v-if="isFolder"
 					ref="canDelete"
 					:checked.sync="canDelete"
 					:value="permissionsDelete"
@@ -74,8 +70,7 @@
 				</ActionCheckbox>
 
 				<!-- reshare permission -->
-				<ActionCheckbox
-					v-if="config.isResharingAllowed"
+				<ActionCheckbox v-if="config.isResharingAllowed"
 					ref="canReshare"
 					:checked.sync="canReshare"
 					:value="permissionsShare"
@@ -100,7 +95,6 @@
 					}"
 					:class="{ error: errors.expireDate}"
 					:disabled="saving"
-					:first-day-of-week="firstDay"
 					:lang="lang"
 					:value="share.expireDate"
 					value-type="format"
@@ -113,8 +107,7 @@
 
 				<!-- note -->
 				<template v-if="canHaveNote">
-					<ActionCheckbox
-						:checked.sync="hasNote"
+					<ActionCheckbox :checked.sync="hasNote"
 						:disabled="saving"
 						@uncheck="queueUpdate('note')">
 						{{ t('files_sharing', 'Note to recipient') }}
@@ -233,7 +226,7 @@ export default {
 		/**
 		 * Can the sharer set whether the sharee can edit the file ?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canSetEdit() {
 			// If the owner revoked the permission after the resharer granted it
@@ -245,7 +238,7 @@ export default {
 		/**
 		 * Can the sharer set whether the sharee can create the file ?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canSetCreate() {
 			// If the owner revoked the permission after the resharer granted it
@@ -257,7 +250,7 @@ export default {
 		/**
 		 * Can the sharer set whether the sharee can delete the file ?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canSetDelete() {
 			// If the owner revoked the permission after the resharer granted it
@@ -269,7 +262,7 @@ export default {
 		/**
 		 * Can the sharer set whether the sharee can reshare the file ?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canSetReshare() {
 			// If the owner revoked the permission after the resharer granted it
@@ -338,7 +331,8 @@ export default {
 
 		/**
 		 * Is the current share a folder ?
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		isFolder() {
 			return this.fileInfo.type === 'dir'
@@ -346,7 +340,8 @@ export default {
 
 		/**
 		 * Does the current share have an expiration date
-		 * @returns {boolean}
+		 *
+		 * @return {boolean}
 		 */
 		hasExpirationDate: {
 			get() {
@@ -372,7 +367,7 @@ export default {
 		},
 
 		/**
-		 * @returns {bool}
+		 * @return {boolean}
 		 */
 		hasStatus() {
 			if (this.share.type !== this.SHARE_TYPES.SHARE_TYPE_USER) {

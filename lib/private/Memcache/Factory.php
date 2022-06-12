@@ -31,49 +31,50 @@
  */
 namespace OC\Memcache;
 
+use OCP\Profiler\IProfiler;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\ILogger;
 use OCP\IMemcache;
+use Psr\Log\LoggerInterface;
 
 class Factory implements ICacheFactory {
 	public const NULL_CACHE = NullCache::class;
 
-	/**
-	 * @var string $globalPrefix
-	 */
-	private $globalPrefix;
+	private string $globalPrefix;
+
+	private LoggerInterface $logger;
 
 	/**
-	 * @var ILogger $logger
+	 * @var ?class-string<ICache> $localCacheClass
 	 */
-	private $logger;
+	private ?string $localCacheClass;
 
 	/**
-	 * @var string $localCacheClass
+	 * @var ?class-string<ICache> $distributedCacheClass
 	 */
-	private $localCacheClass;
+	private ?string $distributedCacheClass;
 
 	/**
-	 * @var string $distributedCacheClass
+	 * @var ?class-string<IMemcache> $lockingCacheClass
 	 */
-	private $distributedCacheClass;
+	private ?string $lockingCacheClass;
 
-	/**
-	 * @var string $lockingCacheClass
-	 */
-	private $lockingCacheClass;
+	private string $logFile;
+
+	private IProfiler $profiler;
 
 	/**
 	 * @param string $globalPrefix
-	 * @param ILogger $logger
-	 * @param string|null $localCacheClass
-	 * @param string|null $distributedCacheClass
-	 * @param string|null $lockingCacheClass
+	 * @param LoggerInterface $logger
+	 * @param ?class-string<ICache> $localCacheClass
+	 * @param ?class-string<ICache> $distributedCacheClass
+	 * @param ?class-string<IMemcache> $lockingCacheClass
+	 * @param string $logFile
 	 */
-	public function __construct(string $globalPrefix, ILogger $logger,
-		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null) {
+	public function __construct(string $globalPrefix, LoggerInterface $logger, IProfiler $profiler,
+		?string $localCacheClass = null, ?string $distributedCacheClass = null, ?string $lockingCacheClass = null, string $logFile = '') {
 		$this->logger = $logger;
+		$this->logFile = $logFile;
 		$this->globalPrefix = $globalPrefix;
 
 		if (!$localCacheClass) {
@@ -103,6 +104,7 @@ class Factory implements ICacheFactory {
 		$this->localCacheClass = $localCacheClass;
 		$this->distributedCacheClass = $distributedCacheClass;
 		$this->lockingCacheClass = $lockingCacheClass;
+		$this->profiler = $profiler;
 	}
 
 	/**
@@ -112,7 +114,19 @@ class Factory implements ICacheFactory {
 	 * @return IMemcache
 	 */
 	public function createLocking(string $prefix = ''): IMemcache {
-		return new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix);
+		assert($this->lockingCacheClass !== null);
+		$cache = new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix);
+		if ($this->profiler->isEnabled() && $this->lockingCacheClass === '\OC\Memcache\Redis') {
+			// We only support the profiler with Redis
+			$cache = new ProfilerWrapperCache($cache, 'Locking');
+			$this->profiler->add($cache);
+		}
+
+		if ($this->lockingCacheClass === Redis::class &&
+			$this->logFile !== '' && is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
+			$cache = new LoggerWrapperCache($cache, $this->logFile);
+		}
+		return $cache;
 	}
 
 	/**
@@ -122,7 +136,19 @@ class Factory implements ICacheFactory {
 	 * @return ICache
 	 */
 	public function createDistributed(string $prefix = ''): ICache {
-		return new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix);
+		assert($this->distributedCacheClass !== null);
+		$cache = new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix);
+		if ($this->profiler->isEnabled() && $this->distributedCacheClass === '\OC\Memcache\Redis') {
+			// We only support the profiler with Redis
+			$cache = new ProfilerWrapperCache($cache, 'Distributed');
+			$this->profiler->add($cache);
+		}
+
+		if ($this->distributedCacheClass === Redis::class && $this->logFile !== ''
+			&& is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
+			$cache = new LoggerWrapperCache($cache, $this->logFile);
+		}
+		return $cache;
 	}
 
 	/**
@@ -132,7 +158,19 @@ class Factory implements ICacheFactory {
 	 * @return ICache
 	 */
 	public function createLocal(string $prefix = ''): ICache {
-		return new $this->localCacheClass($this->globalPrefix . '/' . $prefix);
+		assert($this->localCacheClass !== null);
+		$cache = new $this->localCacheClass($this->globalPrefix . '/' . $prefix);
+		if ($this->profiler->isEnabled() && $this->localCacheClass === '\OC\Memcache\Redis') {
+			// We only support the profiler with Redis
+			$cache = new ProfilerWrapperCache($cache, 'Local');
+			$this->profiler->add($cache);
+		}
+
+		if ($this->localCacheClass === Redis::class && $this->logFile !== ''
+			&& is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
+			$cache = new LoggerWrapperCache($cache, $this->logFile);
+		}
+		return $cache;
 	}
 
 	/**

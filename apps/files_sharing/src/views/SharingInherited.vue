@@ -23,8 +23,7 @@
 <template>
 	<ul id="sharing-inherited-shares">
 		<!-- Main collapsible entry -->
-		<SharingEntrySimple
-			class="sharing-entry__inherited"
+		<SharingEntrySimple class="sharing-entry__inherited"
 			:title="mainTitle"
 			:subtitle="subTitle">
 			<template #avatar>

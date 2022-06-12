@@ -2,8 +2,8 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Cargando vista previa...",
-    "Saved" : "Guardado",
     "Admin" : "Administración",
+    "Saved" : "Guardado",
     "a safe home for all your data" : "un lugar seguro para todos tus datos",
     "Name cannot be empty" : "El nombre no puede estar en blanco",
     "The given name is too long" : "El nombre dado es demasiado largo",
@@ -44,4 +44,4 @@ OC.L10N.register(
     "Upload new favicon" : "Cargar un nuevo favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión Imagemagick de PHP con soporte a imagenes SVG para generar los favicons en automático con base en el logotipo cargado y el color."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Et konnten keng Informatiounen zu {file} gelueden ginn",
     "Files" : "Dateien",
     "Details" : "Detailer",
-    "Select" : "Auswielen",
     "Pending" : "Ausstoend",
     "Unable to determine date" : "Datum kann net festgestallt ginn",
     "This operation is forbidden" : "Dës Operatioun ass verbueden.",
@@ -47,7 +46,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["¦%n Datei","¦%n Dateien"],
     "{dirs} and {files}" : "{dirs} an {files}",
     "_including %n hidden_::_including %n hidden_" : ["Beinhaltet ¦%n verstoppte Saach","Beinhaltet ¦%n verstoppte Saachen"],
-    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen",
     "_Uploading %n file_::_Uploading %n files_" : ["Am Gaangen ¦%n Datei eropzelueden","Am Gaangen ¦%n Dateien eropzelueden"],
     "New" : "Nei",
     "\"{name}\" is an invalid file name." : "\"{name}\" ass een ongültegen Numm",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "Upload (max. %s)" : "Upload (maximal ¦%s)",
     "in %s" : "an %s",
     "Tags" : "Tags",
+    "Cancel" : "Ofbriechen",
+    "Create" : "Erstellen",
     "Settings" : "Astellungen",
     "Show hidden files" : "Weis déi verstoppten Dateien",
     "WebDAV" : "WebDAV",
@@ -111,8 +111,7 @@ OC.L10N.register(
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
     "New text file.txt" : "Neien Text file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Späicher vum {owener} ass voll, et kennen keng Dokumenter méi eropgelueden oder synchroniséiert ginn!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Däin Späicher ass voll, et kennen keng Dateien méi eropgeluden oder synchrosniséiert ginn",
-    "_matches '{filter}'_::_match '{filter}'_" : ["entsprecht","entspriechen"]
+    "Select" : "Auswielen",
+    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen"
 },
 "nplurals=2; plural=(n != 1);");

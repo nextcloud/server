@@ -28,6 +28,7 @@ namespace OCA\DAV\CalDAV;
 use OCP\Calendar\ICalendarProvider;
 use OCP\IConfig;
 use OCP\IL10N;
+use Psr\Log\LoggerInterface;
 
 class CalendarProvider implements ICalendarProvider {
 
@@ -40,10 +41,14 @@ class CalendarProvider implements ICalendarProvider {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(CalDavBackend $calDavBackend, IL10N $l10n, IConfig $config) {
+	/** @var LoggerInterface */
+	private $logger;
+
+	public function __construct(CalDavBackend $calDavBackend, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
 		$this->calDavBackend = $calDavBackend;
 		$this->l10n = $l10n;
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
@@ -60,7 +65,7 @@ class CalendarProvider implements ICalendarProvider {
 
 		$iCalendars = [];
 		foreach ($calendarInfos as $calendarInfo) {
-			$calendar = new Calendar($this->calDavBackend, $calendarInfo, $this->l10n, $this->config);
+			$calendar = new Calendar($this->calDavBackend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 			$iCalendars[] = new CalendarImpl(
 				$calendar,
 				$calendarInfo,

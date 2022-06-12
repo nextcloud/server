@@ -14,7 +14,7 @@
 		/** @type {Function} **/
 		_template: undefined,
 
-		/** @type {bool} */
+		/** @type {boolean} */
 		_uploading: false,
 
 		addFileToUpload: function(e, data) {

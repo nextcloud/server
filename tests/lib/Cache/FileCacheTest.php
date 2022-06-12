@@ -23,6 +23,8 @@
 namespace Test\Cache;
 
 use OC\Files\Storage\Local;
+use OCP\Files\Mount\IMountManager;
+use Test\Traits\UserTrait;
 
 /**
  * Class FileCacheTest
@@ -32,6 +34,8 @@ use OC\Files\Storage\Local;
  * @package Test\Cache
  */
 class FileCacheTest extends TestCache {
+	use UserTrait;
+
 	/**
 	 * @var string
 	 * */
@@ -56,27 +60,21 @@ class FileCacheTest extends TestCache {
 	protected function setUp(): void {
 		parent::setUp();
 
-		//clear all proxies and hooks so we can do clean testing
-		\OC_Hook::clear('OC_Filesystem');
-
-		//set up temporary storage
-		$this->storage = \OC\Files\Filesystem::getStorage('/');
-		\OC\Files\Filesystem::clearMounts();
-		$storage = new \OC\Files\Storage\Temporary([]);
-		\OC\Files\Filesystem::mount($storage,[],'/');
-		$datadir = str_replace('local::', '', $storage->getId());
-		$config = \OC::$server->getConfig();
-		$this->datadir = $config->getSystemValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');
-		$config->setSystemValue('cachedirectory', $datadir);
-
-		\OC_User::clearBackends();
-		\OC_User::useBackend(new \Test\Util\User\Dummy());
-
 		//login
-		\OC::$server->getUserManager()->createUser('test', 'test');
+		$this->createUser('test', 'test');
 
 		$this->user = \OC_User::getUser();
 		\OC_User::setUserId('test');
+
+		//clear all proxies and hooks so we can do clean testing
+		\OC_Hook::clear('OC_Filesystem');
+
+		/** @var IMountManager $manager */
+		$manager = \OC::$server->get(IMountManager::class);
+		$manager->removeMount('/test');
+
+		$storage = new \OC\Files\Storage\Temporary([]);
+		\OC\Files\Filesystem::mount($storage, [], '/test/cache');
 
 		//set up the users dir
 		$this->rootView = new \OC\Files\View('');
@@ -94,20 +92,11 @@ class FileCacheTest extends TestCache {
 		}
 
 		\OC_User::setUserId($this->user);
-		\OC::$server->getConfig()->setSystemValue('cachedirectory', $this->datadir);
 
 		if ($this->instance) {
 			$this->instance->clear();
 			$this->instance = null;
 		}
-
-		//tear down the users dir aswell
-		$user = \OC::$server->getUserManager()->get('test');
-		$user->delete();
-
-		// Restore the original mount point
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->storage, [], '/');
 
 		parent::tearDown();
 	}

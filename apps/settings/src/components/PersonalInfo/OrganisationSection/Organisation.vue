@@ -22,8 +22,7 @@
 
 <template>
 	<div class="organisation">
-		<input
-			id="organisation"
+		<input id="organisation"
 			type="text"
 			:placeholder="t('settings', 'Your organisation')"
 			:value="organisation"

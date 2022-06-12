@@ -58,6 +58,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Metadata cache for a storage
@@ -128,7 +129,7 @@ class Cache implements ICache {
 		return new CacheQueryBuilder(
 			$this->connection,
 			\OC::$server->getSystemConfig(),
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 	}
 
@@ -151,7 +152,7 @@ class Cache implements ICache {
 		$query = $this->getQueryBuilder();
 		$query->selectFileCache();
 
-		if (is_string($file) or $file == '') {
+		if (is_string($file) || $file == '') {
 			// normalize file
 			$file = $this->normalize($file);
 
@@ -166,7 +167,7 @@ class Cache implements ICache {
 		$result->closeCursor();
 
 		//merge partial data
-		if (!$data and is_string($file) and isset($this->partial[$file])) {
+		if (!$data && is_string($file) && isset($this->partial[$file])) {
 			return $this->partial[$file];
 		} elseif (!$data) {
 			return $data;
@@ -590,7 +591,7 @@ class Cache implements ICache {
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
 				->where($query->expr()->in('fileid', $query->createParameter('childIds')));
-			
+
 			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$query->execute();
@@ -819,7 +820,7 @@ class Cache implements ICache {
 		$this->calculateFolderSize($path, $data);
 		if ($path !== '') {
 			$parent = dirname($path);
-			if ($parent === '.' or $parent === '/') {
+			if ($parent === '.' || $parent === '/') {
 				$parent = '';
 			}
 			if ($isBackgroundScan) {
@@ -865,7 +866,7 @@ class Cache implements ICache {
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		$totalSize = 0;
-		if (is_null($entry) or !isset($entry['fileid'])) {
+		if (is_null($entry) || !isset($entry['fileid'])) {
 			$entry = $this->get($path);
 		}
 		if (isset($entry['mimetype']) && $entry['mimetype'] === FileInfo::MIMETYPE_FOLDER) {

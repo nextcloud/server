@@ -37,9 +37,9 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\LocalServerException;
 use OCP\IConfig;
-use OCP\ILogger;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
@@ -56,41 +56,29 @@ use function count;
 class RefreshWebcalService {
 
 	/** @var CalDavBackend */
-	private $calDavBackend;
+	private CalDavBackend $calDavBackend;
 
 	/** @var IClientService */
-	private $clientService;
+	private IClientService $clientService;
 
 	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
-	/** @var ILogger */
-	private $logger;
+	/** @var LoggerInterface */
+	private LoggerInterface $logger;
 
 	public const REFRESH_RATE = '{http://apple.com/ns/ical/}refreshrate';
 	public const STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
 	public const STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
 	public const STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
 
-	/**
-	 * RefreshWebcalJob constructor.
-	 *
-	 * @param CalDavBackend $calDavBackend
-	 * @param IClientService $clientService
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 */
-	public function __construct(CalDavBackend $calDavBackend, IClientService $clientService, IConfig $config, ILogger $logger) {
+	public function __construct(CalDavBackend $calDavBackend, IClientService $clientService, IConfig $config, LoggerInterface $logger) {
 		$this->calDavBackend = $calDavBackend;
 		$this->clientService = $clientService;
 		$this->config = $config;
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @param string $principalUri
-	 * @param string $uri
-	 */
 	public function refreshSubscription(string $principalUri, string $uri) {
 		$subscription = $this->getSubscription($principalUri, $uri);
 		$mutations = [];
@@ -138,12 +126,12 @@ class RefreshWebcalService {
 					continue;
 				}
 
-				$uri = $this->getRandomCalendarObjectUri();
+				$objectUri = $this->getRandomCalendarObjectUri();
 				$calendarData = $vObject->serialize();
 				try {
-					$this->calDavBackend->createCalendarObject($subscription['id'], $uri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+					$this->calDavBackend->createCalendarObject($subscription['id'], $objectUri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 				} catch (NoInstancesException | BadRequest $ex) {
-					$this->logger->logException($ex);
+					$this->logger->error('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
 				}
 			}
 
@@ -154,21 +142,14 @@ class RefreshWebcalService {
 
 			$this->updateSubscription($subscription, $mutations);
 		} catch (ParseException $ex) {
-			$subscriptionId = $subscription['id'];
-
-			$this->logger->logException($ex);
-			$this->logger->warning("Subscription $subscriptionId could not be refreshed due to a parsing error");
+			$this->logger->error("Subscription {subscriptionId} could not be refreshed due to a parsing error", ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
 		}
 	}
 
 	/**
 	 * loads subscription from backend
-	 *
-	 * @param string $principalUri
-	 * @param string $uri
-	 * @return array|null
 	 */
-	public function getSubscription(string $principalUri, string $uri) {
+	public function getSubscription(string $principalUri, string $uri): ?array {
 		$subscriptions = array_values(array_filter(
 			$this->calDavBackend->getSubscriptionsForUser($principalUri),
 			function ($sub) use ($uri) {
@@ -185,12 +166,8 @@ class RefreshWebcalService {
 
 	/**
 	 * gets webcal feed from remote server
-	 *
-	 * @param array $subscription
-	 * @param array &$mutations
-	 * @return null|string
 	 */
-	private function queryWebcalFeed(array $subscription, array &$mutations) {
+	private function queryWebcalFeed(array $subscription, array &$mutations): ?string {
 		$client = $this->clientService->newClient();
 
 		$didBreak301Chain = false;
@@ -200,7 +177,7 @@ class RefreshWebcalService {
 		$handlerStack->push(Middleware::mapRequest(function (RequestInterface $request) {
 			return $request
 				->withHeader('Accept', 'text/calendar, application/calendar+json, application/calendar+xml')
-				->withHeader('User-Agent', 'Nextcloud Webcal Crawler');
+				->withHeader('User-Agent', 'Nextcloud Webcal Service');
 		}));
 		$handlerStack->push(Middleware::mapResponse(function (ResponseInterface $response) use (&$didBreak301Chain, &$latestLocation) {
 			if (!$didBreak301Chain) {
@@ -252,7 +229,7 @@ class RefreshWebcalService {
 						$jCalendar = Reader::readJson($body, Reader::OPTION_FORGIVING);
 					} catch (Exception $ex) {
 						// In case of a parsing error return null
-						$this->logger->debug("Subscription $subscriptionId could not be parsed");
+						$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
 						return null;
 					}
 					return $jCalendar->serialize();
@@ -262,7 +239,7 @@ class RefreshWebcalService {
 						$xCalendar = Reader::readXML($body);
 					} catch (Exception $ex) {
 						// In case of a parsing error return null
-						$this->logger->debug("Subscription $subscriptionId could not be parsed");
+						$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
 						return null;
 					}
 					return $xCalendar->serialize();
@@ -273,22 +250,20 @@ class RefreshWebcalService {
 						$vCalendar = Reader::read($body);
 					} catch (Exception $ex) {
 						// In case of a parsing error return null
-						$this->logger->debug("Subscription $subscriptionId could not be parsed");
+						$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
 						return null;
 					}
 					return $vCalendar->serialize();
 			}
 		} catch (LocalServerException $ex) {
-			$this->logger->logException($ex, [
-				'message' => "Subscription $subscriptionId was not refreshed because it violates local access rules",
-				'level' => ILogger::WARN,
+			$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules", [
+				'exception' => $ex,
 			]);
 
 			return null;
 		} catch (Exception $ex) {
-			$this->logger->logException($ex, [
-				'message' => "Subscription $subscriptionId could not be refreshed due to a network error",
-				'level' => ILogger::WARN,
+			$this->logger->warning("Subscription $subscriptionId could not be refreshed due to a network error", [
+				'exception' => $ex,
 			]);
 
 			return null;
@@ -301,11 +276,8 @@ class RefreshWebcalService {
 	 *  - the webcal feed suggests a refreshrate
 	 *  - return suggested refreshrate if user didn't set a custom one
 	 *
-	 * @param array $subscription
-	 * @param string $webcalData
-	 * @return string|null
 	 */
-	private function checkWebcalDataForRefreshRate($subscription, $webcalData) {
+	private function checkWebcalDataForRefreshRate(array $subscription, string $webcalData): ?string {
 		// if there is no refreshrate stored in the database, check the webcal feed
 		// whether it suggests any refresh rate and store that in the database
 		if (isset($subscription[self::REFRESH_RATE]) && $subscription[self::REFRESH_RATE] !== null) {
@@ -363,7 +335,7 @@ class RefreshWebcalService {
 	 * @param string $url
 	 * @return string|null
 	 */
-	private function cleanURL(string $url) {
+	private function cleanURL(string $url): ?string {
 		$parsed = parse_url($url);
 		if ($parsed === false) {
 			return null;

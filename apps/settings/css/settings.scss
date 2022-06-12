@@ -1,6 +1,8 @@
 /* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
+@use 'variables';
+@import 'functions';
 
 input {
 	&#openid, &#webdav {
@@ -15,23 +17,23 @@ input {
 
 /* icons for sidebar */
 .nav-icon-personal-settings {
-	@include icon-color('personal', 'settings', $color-black);
+	@include icon-color('personal', 'settings', variables.$color-black);
 }
 
 .nav-icon-security {
-	@include icon-color('toggle-filelist', 'settings', $color-black);
+	@include icon-color('toggle-filelist', 'settings', variables.$color-black);
 }
 
 .nav-icon-clientsbox {
-	@include icon-color('change', 'settings', $color-black);
+	@include icon-color('change', 'settings', variables.$color-black);
 }
 
 .nav-icon-federated-cloud {
-	@include icon-color('share', 'settings', $color-black);
+	@include icon-color('share', 'settings', variables.$color-black);
 }
 
 .nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-	@include icon-color('password', 'settings', $color-black);
+	@include icon-color('password', 'settings', variables.$color-black);
 }
 
 #avatarform {
@@ -183,6 +185,12 @@ select {
 // Button for 'Reasons to use Nextcloud in your organization'
 .development-notice {
 	text-align: center;
+	a:not(.link-button) {
+		text-decoration: underline;
+		&:hover {
+			background-color: var(--color-primary-element-lighter);
+		}
+	}
 }
 
 .link-button {
@@ -554,6 +562,9 @@ table.nostyle {
 .social-button {
 	padding-left: 0 !important;
 	margin-left: -10px;
+	a {
+		display: inline-block;
+	}
 
 	img {
 		padding: 10px;
@@ -916,7 +927,7 @@ span.version {
 	}
 }
 
-@media only screen and (max-width: $breakpoint-mobile) {
+@media only screen and (max-width: variables.$breakpoint-mobile) {
 	.store .section {
 		width: 50%;
 	}
@@ -1021,6 +1032,9 @@ span.version {
 }
 
 .apps-list {
+	$toolbar-padding: 8px;
+	$toolbar-height: 44px + $toolbar-padding * 2;
+
 	.section {
 		cursor: pointer;
 	}
@@ -1033,9 +1047,17 @@ span.version {
 		margin-left: 10px;
 	}
 
-	.counter {
-		padding-left: $header-height - 10px;
-		margin: 10px;
+	.toolbar {
+		height: $toolbar-height;
+		padding: $toolbar-padding;
+		// Leave room for app-navigation-toggle
+		padding-left: $toolbar-height;
+		width: 100%;
+		background-color: var(--color-main-background);
+		position: fixed;
+		z-index: 1;
+		display: flex;
+		align-items: center;
 	}
 
 	&.installed {
@@ -1043,6 +1065,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
+			margin-top: $toolbar-height;
 		}
 
 		margin-bottom: 100px;
@@ -1555,40 +1578,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			/* various */
-			&#grid-header,
-			&#new-user {
-				@include position('sticky');
+			&#grid-header {
+				position: sticky;
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 100; /* above multiselect */
-				top: $header-height;
+				top: variables.$header-height;
 
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
-				}
-
-				/* fake input for groups validation */
-				input#newgroups {
-					position: absolute;
-					opacity: 0;
-					width: 80% !important;
-					margin: 0 10%;
-					z-index: 0;
-				}
-			}
-
-			// separate prop to set initial value to top: 50px
-			&#new-user {
-				height: 120px;
-
-				.row {
-					padding-top: 50px;
 				}
 			}
 
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
-				z-index: 60; /* above new-user */
 				border-bottom-width: thin;
 
 				#headerDisplayName,
@@ -1768,4 +1771,19 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			user-select: none;
 		}
 	}
+}
+
+.animated {
+    animation: blink-animation 1s steps(5, start) 4;
+}
+
+@keyframes blink-animation {
+  to {
+    opacity: 0.6;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    opacity: 1;
+  }
 }

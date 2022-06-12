@@ -72,6 +72,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
@@ -84,53 +85,21 @@ use OCP\Template;
  * @package OCA\Files_Sharing\Controllers
  */
 class ShareController extends AuthPublicShareController {
+	protected IConfig $config;
+	protected IUserManager $userManager;
+	protected ILogger $logger;
+	protected \OCP\Activity\IManager $activityManager;
+	protected IPreview $previewManager;
+	protected IRootFolder $rootFolder;
+	protected FederatedShareProvider $federatedShareProvider;
+	protected IAccountManager $accountManager;
+	protected IEventDispatcher $eventDispatcher;
+	protected IL10N $l10n;
+	protected Defaults $defaults;
+	protected ShareManager $shareManager;
+	protected ISecureRandom $secureRandom;
+	protected ?Share\IShare $share = null;
 
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var ILogger */
-	protected $logger;
-	/** @var \OCP\Activity\IManager */
-	protected $activityManager;
-	/** @var IPreview */
-	protected $previewManager;
-	/** @var IRootFolder */
-	protected $rootFolder;
-	/** @var FederatedShareProvider */
-	protected $federatedShareProvider;
-	/** @var IAccountManager */
-	protected $accountManager;
-	/** @var IEventDispatcher */
-	protected $eventDispatcher;
-	/** @var IL10N */
-	protected $l10n;
-	/** @var Defaults */
-	protected $defaults;
-	/** @var ShareManager */
-	protected $shareManager;
-
-	/** @var Share\IShare */
-	protected $share;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IURLGenerator $urlGenerator
-	 * @param IUserManager $userManager
-	 * @param ILogger $logger
-	 * @param \OCP\Activity\IManager $activityManager
-	 * @param \OCP\Share\IManager $shareManager
-	 * @param ISession $session
-	 * @param IPreview $previewManager
-	 * @param IRootFolder $rootFolder
-	 * @param FederatedShareProvider $federatedShareProvider
-	 * @param IAccountManager $accountManager
-	 * @param IEventDispatcher $eventDispatcher
-	 * @param IL10N $l10n
-	 * @param Defaults $defaults
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
@@ -146,6 +115,7 @@ class ShareController extends AuthPublicShareController {
 								IAccountManager $accountManager,
 								IEventDispatcher $eventDispatcher,
 								IL10N $l10n,
+								ISecureRandom $secureRandom,
 								Defaults $defaults) {
 		parent::__construct($appName, $request, $session, $urlGenerator);
 
@@ -159,6 +129,7 @@ class ShareController extends AuthPublicShareController {
 		$this->accountManager = $accountManager;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->l10n = $l10n;
+		$this->secureRandom = $secureRandom;
 		$this->defaults = $defaults;
 		$this->shareManager = $shareManager;
 	}
@@ -207,6 +178,56 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * The template to show after user identification
+	 */
+	protected function showIdentificationResult(bool $success = false): TemplateResponse {
+		$templateParameters = ['share' => $this->share, 'identityOk' => $success];
+
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
+
+		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+		if ($this->share->getSendPasswordByTalk()) {
+			$csp = new ContentSecurityPolicy();
+			$csp->addAllowedConnectDomain('*');
+			$csp->addAllowedMediaDomain('blob:');
+			$response->setContentSecurityPolicy($csp);
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Validate the identity token of a public share
+	 *
+	 * @param ?string $identityToken
+	 * @return bool
+	 */
+	protected function validateIdentity(?string $identityToken = null): bool {
+
+		if ($this->share->getShareType() !== IShare::TYPE_EMAIL) {
+			return false;
+		}
+
+		if ($identityToken === null || $this->share->getSharedWith() === null) {
+			return false;
+		}
+
+		return $identityToken === $this->share->getSharedWith();
+	}
+
+	/**
+	 * Generates a password for the share, respecting any password policy defined
+	 */
+	protected function generatePassword(): void {
+		$event = new \OCP\Security\Events\GenerateSecurePasswordEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+		$password = $event->getPassword() ?? $this->secureRandom->generate(20);
+
+		$this->share->setPassword($password);
+		$this->shareManager->updateShare($this->share);
 	}
 
 	protected function verifyPassword(string $password): bool {
@@ -729,6 +750,10 @@ class ShareController extends AuthPublicShareController {
 		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$userPath = $userFolder->getRelativePath($userNode->getPath());
 		$ownerPath = $ownerFolder->getRelativePath($node->getPath());
+		$remoteAddress = $this->request->getRemoteAddress();
+		$dateTime = new \DateTime();
+		$dateTime = $dateTime->format('Y-m-d H');
+		$remoteAddressHash = md5($dateTime . '-' . $remoteAddress);
 
 		$parameters = [$userPath];
 
@@ -742,8 +767,10 @@ class ShareController extends AuthPublicShareController {
 		} else {
 			if ($node instanceof \OCP\Files\File) {
 				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+				$parameters[] = $remoteAddressHash;
 			} else {
 				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
+				$parameters[] = $remoteAddressHash;
 			}
 		}
 

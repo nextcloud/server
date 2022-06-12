@@ -22,8 +22,7 @@
 
 <template>
 	<div>
-		<Multiselect
-			:value="currentValue"
+		<Multiselect :value="currentValue"
 			:placeholder="t('workflowengine', 'Select a request URL')"
 			label="label"
 			track-by="pattern"

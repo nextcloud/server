@@ -30,6 +30,7 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
+use OC\Metadata\IMetadataManager;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
@@ -44,6 +45,7 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 use OCP\Share\IManager;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Backend\SearchResult;
@@ -88,14 +90,12 @@ class FileSearchBackend implements ISearchBackend {
 
 	/**
 	 * Search endpoint will be remote.php/dav
-	 *
-	 * @return string
 	 */
-	public function getArbiterPath() {
+	public function getArbiterPath(): string {
 		return '';
 	}
 
-	public function isValidScope($href, $depth, $path) {
+	public function isValidScope(string $href, $depth, ?string $path): bool {
 		// only allow scopes inside the dav server
 		if (is_null($path)) {
 			return false;
@@ -109,7 +109,7 @@ class FileSearchBackend implements ISearchBackend {
 		}
 	}
 
-	public function getPropertyDefinitionsForScope($href, $path) {
+	public function getPropertyDefinitionsForScope(string $href, ?string $path): array {
 		// all valid scopes support the same schema
 
 		//todo dynamically load all propfind properties that are supported
@@ -124,23 +124,52 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, false),
 
 			// select only properties
-			new SearchPropertyDefinition('{DAV:}resourcetype', false, true, false),
-			new SearchPropertyDefinition('{DAV:}getcontentlength', false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::CHECKSUMS_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::PERMISSIONS_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::GETETAG_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
-			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
+			new SearchPropertyDefinition('{DAV:}resourcetype', true, false, false),
+			new SearchPropertyDefinition('{DAV:}getcontentlength', true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::CHECKSUMS_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::PERMISSIONS_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::GETETAG_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
+			new SearchPropertyDefinition(FilesPlugin::FILE_METADATA_SIZE, true, false, false, SearchPropertyDefinition::DATATYPE_STRING),
+			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 		];
+	}
+
+	/**
+	 * @param INode[] $nodes
+	 * @param string[] $requestProperties
+	 */
+	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
+		if (in_array(FilesPlugin::FILE_METADATA_SIZE, $requestProperties, true)) {
+			// Preloading of the metadata
+			$fileIds = [];
+			foreach ($nodes as $node) {
+				/** @var \OCP\Files\Node|\OCA\DAV\Connector\Sabre\Node $node */
+				if (str_starts_with($node->getFileInfo()->getMimeType(), 'image/')) {
+					/** @var \OCA\DAV\Connector\Sabre\File $node */
+					$fileIds[] = $node->getFileInfo()->getId();
+				}
+			}
+			/** @var IMetaDataManager $metadataManager */
+			$metadataManager = \OC::$server->get(IMetadataManager::class);
+			$preloadedMetadata = $metadataManager->fetchMetadataFor('size', $fileIds);
+			foreach ($nodes as $node) {
+				/** @var \OCP\Files\Node|\OCA\DAV\Connector\Sabre\Node $node */
+				if (str_starts_with($node->getFileInfo()->getMimeType(), 'image/')) {
+					/** @var \OCA\DAV\Connector\Sabre\File $node */
+					$node->setMetadata('size', $preloadedMetadata[$node->getFileInfo()->getId()]);
+				}
+			}
+		}
 	}
 
 	/**
 	 * @param Query $search
 	 * @return SearchResult[]
 	 */
-	public function search(Query $search) {
+	public function search(Query $search): array {
 		if (count($search->from) !== 1) {
 			throw new \InvalidArgumentException('Searching more than one folder is not supported');
 		}

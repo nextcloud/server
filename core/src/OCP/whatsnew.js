@@ -4,7 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,6 +25,9 @@ import _ from 'underscore'
 import $ from 'jquery'
 import { generateOcsUrl } from '@nextcloud/router'
 
+/**
+ * @param {any} options -
+ */
 export function query(options) {
 	options = options || {}
 	const dismissOptions = options.dismiss || {}
@@ -38,6 +41,10 @@ export function query(options) {
 	})
 }
 
+/**
+ * @param {any} version -
+ * @param {any} options -
+ */
 export function dismiss(version, options) {
 	options = options || {}
 	$.ajax({
@@ -51,6 +58,12 @@ export function dismiss(version, options) {
 	$('.whatsNewPopover').remove()
 }
 
+/**
+ * @param {any} data -
+ * @param {any} statusText -
+ * @param {any} xhr -
+ * @param {any} dismissOptions -
+ */
 function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	console.debug('querying Whats New data was successful: ' + statusText)
 	console.debug(data)
@@ -131,15 +144,26 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	document.body.appendChild(div)
 }
 
+/**
+ * @param {any} x -
+ * @param {any} t -
+ * @param {any} e -
+ */
 function onQueryError(x, t, e) {
 	console.debug('querying Whats New Data resulted in an error: ' + t + e)
 	console.debug(x)
 }
 
+/**
+ * @param {any} data -
+ */
 function onDismissSuccess(data) {
 	// noop
 }
 
+/**
+ * @param {any} data -
+ */
 function onDismissError(data) {
 	console.debug('dismissing Whats New data resulted in an error: ' + data)
 }

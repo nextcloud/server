@@ -50,13 +50,12 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
-use OCP\ILogger;
-use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class DAV
@@ -275,6 +274,7 @@ class DAV extends Common {
 						'{http://open-collaboration-services.org/ns}share-permissions',
 						'{DAV:}resourcetype',
 						'{DAV:}getetag',
+						'{DAV:}quota-available-bytes',
 					]
 				);
 				$this->statCache->set($path, $response);
@@ -369,7 +369,7 @@ class DAV extends Common {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
 						throw new \OCP\Lock\LockedException($path);
 					} else {
-						Util::writeLog("webdav client", 'Guzzle get returned status code ' . $response->getStatusCode(), ILogger::ERROR);
+						\OC::$server->get(LoggerInterface::class)->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
 					}
 				}
 
@@ -428,8 +428,7 @@ class DAV extends Common {
 		$this->init();
 		$path = $this->cleanPath($path);
 		try {
-			// TODO: cacheable ?
-			$response = $this->client->propfind($this->encodePath($path), ['{DAV:}quota-available-bytes']);
+			$response = $this->propfind($path);
 			if ($response === false) {
 				return FileInfo::SPACE_UNKNOWN;
 			}
@@ -587,8 +586,8 @@ class DAV extends Common {
 				return false;
 			}
 			return [
-				'mtime' => strtotime($response['{DAV:}getlastmodified']),
-				'size' => (int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
+				'mtime' => isset($response['{DAV:}getlastmodified']) ? strtotime($response['{DAV:}getlastmodified']) : null,
+				'size' => (int)($response['{DAV:}getcontentlength'] ?? 0),
 			];
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
@@ -792,11 +791,8 @@ class DAV extends Common {
 			}
 			if (isset($response['{DAV:}getetag'])) {
 				$cachedData = $this->getCache()->get($path);
-				$etag = null;
-				if (isset($response['{DAV:}getetag'])) {
-					$etag = trim($response['{DAV:}getetag'], '"');
-				}
-				if (!empty($etag) && $cachedData['etag'] !== $etag) {
+				$etag = trim($response['{DAV:}getetag'], '"');
+				if (($cachedData === false) || (!empty($etag) && ($cachedData['etag'] !== $etag))) {
 					return true;
 				} elseif (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 					$sharePermissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
@@ -807,9 +803,12 @@ class DAV extends Common {
 				} else {
 					return false;
 				}
-			} else {
+			} elseif (isset($response['{DAV:}getlastmodified'])) {
 				$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 				return $remoteMtime > $time;
+			} else {
+				// neither `getetag` nor `getlastmodified` is set
+				return false;
 			}
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 405) {
@@ -843,7 +842,7 @@ class DAV extends Common {
 	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, $path = '') {
-		\OC::$server->getLogger()->logException($e, ['app' => 'files_external', 'level' => ILogger::DEBUG]);
+		\OC::$server->get(LoggerInterface::class)->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
 				throw new \OCP\Lock\LockedException($path);

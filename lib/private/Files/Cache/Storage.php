@@ -126,19 +126,9 @@ class Storage {
 	 * @param int $numericId
 	 * @return string|null either the storage id string or null if the numeric id is not known
 	 */
-	public static function getStorageId($numericId) {
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query->select('id')
-			->from('storages')
-			->where($query->expr()->eq('numeric_id', $query->createNamedParameter($numericId)));
-		$result = $query->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-		if ($row) {
-			return $row['id'];
-		} else {
-			return null;
-		}
+	public static function getStorageId(int $numericId): ?string {
+		$storage = self::getGlobalCache()->getStorageInfoByNumericId($numericId);
+		return $storage['id'] ?? null;
 	}
 
 	/**
@@ -158,7 +148,7 @@ class Storage {
 	}
 
 	/**
-	 * @return array|null [ available, last_checked ]
+	 * @return array [ available, last_checked ]
 	 */
 	public function getAvailability() {
 		if ($row = self::getStorageById($this->storageId)) {
@@ -167,7 +157,10 @@ class Storage {
 				'last_checked' => $row['last_checked']
 			];
 		} else {
-			return null;
+			return [
+				'available' => true,
+				'last_checked' => time(),
+			];
 		}
 	}
 
@@ -237,6 +230,7 @@ class Storage {
 				->from('mounts')
 				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 			$storageIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$storageIds = array_unique($storageIds);
 
 			$query = $db->getQueryBuilder();
 			$query->delete('filecache')

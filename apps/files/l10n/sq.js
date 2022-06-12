@@ -26,7 +26,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nuk mund të ngarkohet informacioni për skedarin \"{file}\"",
     "Files" : "Skedar",
     "Details" : "Hollësi",
-    "Select" : "Përzgjidhe",
     "Pending" : "Në pritje",
     "Unable to determine date" : "S’arrihet të përcaktohet data",
     "This operation is forbidden" : "Ky veprim është i ndaluar",
@@ -50,7 +49,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n kartelë","%n skedar"],
     "{dirs} and {files}" : "{dirs} dhe {files}",
     "_including %n hidden_::_including %n hidden_" : ["Përfshirë %n të fshehura","Përfshirë %n të fshehura"],
-    "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu",
     "_Uploading %n file_::_Uploading %n files_" : ["Po ngarkohet %n kartelë","Po ngarkohen %n skedar"],
     "New" : "E re",
     "\"{name}\" is an invalid file name." : "\"{name}\" është emër i pavlefshëm kartele.",
@@ -103,6 +101,8 @@ OC.L10N.register(
     "in %s" : "në %s",
     "Change" : "Ndrysho",
     "Tags" : "Etiketë",
+    "Cancel" : "Anullo",
+    "Create" : "Krijo",
     "%s used" : "%s të përdorura",
     "%1$s of %2$s used" : "%1$s e %2$s përdorur",
     "Settings" : "Rregullime",
@@ -124,8 +124,7 @@ OC.L10N.register(
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Depozita e {owner} është plot, kartelat s’mund të përditësohen ose sinkronizohet më!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Depozita juaj është plot, kartelat s’mund të përditësohen ose sinkronizohet më!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["ka përputhje me '{filter}'","ka përputhje me '{filter}'"]
+    "Select" : "Përzgjidhe",
+    "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -75,9 +75,10 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * get the next job in the list
 	 *
+	 * @param bool $onlyTimeSensitive
 	 * @return IJob|null
 	 */
-	public function getNext() {
+	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
 		if (count($this->jobs) > 0) {
 			if ($this->last < (count($this->jobs) - 1)) {
 				$i = $this->last + 1;

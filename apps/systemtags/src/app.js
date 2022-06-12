@@ -6,7 +6,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -38,6 +38,9 @@
 				return this._fileList
 			}
 
+			const tagsParam = (new URL(window.location.href)).searchParams.get('tags')
+			const initialTags = tagsParam ? tagsParam.split(',').map(parseInt) : []
+
 			this._fileList = new OCA.SystemTags.FileList(
 				$el,
 				{
@@ -49,6 +52,7 @@
 					// done if handling the event with the file list already
 					// created.
 					shown: true,
+					systemTagIds: initialTags,
 				}
 			)
 

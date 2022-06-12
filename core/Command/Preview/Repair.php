@@ -32,9 +32,9 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,29 +43,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Repair extends Command {
-	/** @var IConfig */
-	protected $config;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var ILogger */
-	private $logger;
+	protected IConfig $config;
+	private IRootFolder $rootFolder;
+	private LoggerInterface $logger;
+	private bool $stopSignalReceived = false;
+	private int $memoryLimit;
+	private int $memoryTreshold;
+	private ILockingProvider $lockingProvider;
 
-	/** @var bool */
-	private $stopSignalReceived = false;
-	/** @var int */
-	private $memoryLimit;
-	/** @var int */
-	private $memoryTreshold;
-	/** @var ILockingProvider */
-	private $lockingProvider;
-
-	public function __construct(IConfig $config, IRootFolder $rootFolder, ILogger $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
+	public function __construct(IConfig $config, IRootFolder $rootFolder, LoggerInterface $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
 		$this->lockingProvider = $lockingProvider;
 
-		$this->memoryLimit = $phpIni->getBytes('memory_limit');
+		$this->memoryLimit = (int)$phpIni->getBytes('memory_limit');
 		$this->memoryTreshold = $this->memoryLimit - 25 * 1024 * 1024;
 
 		parent::__construct();
@@ -76,7 +68,8 @@ class Repair extends Command {
 			->setName('preview:repair')
 			->setDescription('distributes the existing previews into subfolders')
 			->addOption('batch', 'b', InputOption::VALUE_NONE, 'Batch mode - will not ask to start the migration and start it right away.')
-			->addOption('dry', 'd', InputOption::VALUE_NONE, 'Dry mode - will not create, move or delete any files - in combination with the verbose mode one could check the operations.');
+			->addOption('dry', 'd', InputOption::VALUE_NONE, 'Dry mode - will not create, move or delete any files - in combination with the verbose mode one could check the operations.')
+			->addOption('delete', null, InputOption::VALUE_NONE, 'Delete instead of migrating them. Usefull if too many entries to migrate.');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -94,9 +87,14 @@ class Repair extends Command {
 		}
 
 		$dryMode = $input->getOption('dry');
+		$deleteMode = $input->getOption('delete');
+
 
 		if ($dryMode) {
 			$output->writeln("INFO: The migration is run in dry mode and will not modify anything.");
+			$output->writeln("");
+		} elseif ($deleteMode) {
+			$output->writeln("WARN: The migration will _DELETE_ old previews.");
 			$output->writeln("");
 		}
 
@@ -250,23 +248,45 @@ class Repair extends Command {
 						$progressBar->advance();
 						continue;
 					}
-					$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
+
+					// Execute process
 					if (!$dryMode) {
-						try {
-							$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
-						} catch (\Exception $e) {
-							$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to move preview from preview/$name/$previewName to preview/$newFoldername"]);
+						// Delete preview instead of moving
+						if ($deleteMode) {
+							try {
+								$section1->writeln("         Delete preview/$name/$previewName", OutputInterface::VERBOSITY_VERBOSE);
+								$preview->delete();
+							} catch (\Exception $e) {
+								$this->logger->error("Failed to delete preview at preview/$name/$previewName", [
+									'app' => 'core',
+									'exception' => $e,
+								]);
+							}
+						} else {
+							try {
+								$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
+								$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
+							} catch (\Exception $e) {
+								$this->logger->error("Failed to move preview from preview/$name/$previewName to preview/$newFoldername", [
+									'app' => 'core',
+									'exception' => $e,
+								]);
+							}
 						}
 					}
 				}
 			}
+
 			if ($oldPreviewFolder->getDirectoryListing() === []) {
 				$section1->writeln("         Delete empty folder preview/$name", OutputInterface::VERBOSITY_VERBOSE);
 				if (!$dryMode) {
 					try {
 						$oldPreviewFolder->delete();
 					} catch (\Exception $e) {
-						$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to delete empty folder preview/$name"]);
+						$this->logger->error("Failed to delete empty folder preview/$name", [
+							'app' => 'core',
+							'exception' => $e,
+						]);
 					}
 				}
 			}

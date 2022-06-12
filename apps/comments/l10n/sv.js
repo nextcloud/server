@@ -10,8 +10,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommenterade på %2$s",
     "{author} commented on {file}" : "{author} kommenterade på {file}",
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> för filer",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du nämndes på “{file}” i en kommentar av en användare som nu har tagits bort",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\"",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du har nämnts i  \"{file}\", i en kommentar av en användare som sedan har blivit borttagen",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} nämnde dig i kommentar för \"{file}\"",
     "Files app plugin to add comments to files" : "Filer-appinsticksmodul för att lägga till kommentarer till filer",
     "Edit comment" : "Redigera kommentar",
     "Delete comment" : "Ta bort kommentar",
@@ -28,15 +28,7 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar borttagen",
     "An error occurred while trying to delete the comment" : "Ett fel uppstod när du försökte ta bort kommentaren",
     "An error occurred while trying to create the comment" : "Ett fel uppstod när du försökte skapa kommentaren",
-    "New comment …" : "Ny kommentar ...",
-    "Post" : "Skicka",
-    "Cancel" : "Avbryt",
-    "[Deleted user]" : "[Borttagen användare]",
-    "More comments …" : "Fler kommentarer ...",
-    "Save" : "Spara",
-    "Allowed characters {count} of {max}" : "Antal tillåtna tecken, {count} av {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Fel uppstod när kommentaren med ID {id} hämtades",
-    "Error occurred while updating comment with id {id}" : "Fel inträffade vid uppdatering av kommentar med id {id}",
-    "Error occurred while posting comment" : "Fel inträffade vid publicering av kommentar"
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du nämndes på “{file}” i en kommentar av en användare som nu har tagits bort",
+    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\""
 },
 "nplurals=2; plural=(n != 1);");

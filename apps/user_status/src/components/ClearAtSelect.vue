@@ -21,12 +21,10 @@
 
 <template>
 	<div class="clear-at-select">
-		<span
-			class="clear-at-select__label">
-			{{ $t('user_status', 'Clear status message after') }}
+		<span class="clear-at-select__label">
+			{{ $t('user_status', 'Clear status after') }}
 		</span>
-		<Multiselect
-			label="label"
+		<Multiselect label="label"
 			:value="option"
 			:options="options"
 			open-direction="top"
@@ -59,7 +57,7 @@ export default {
 		/**
 		 * Returns an object of the currently selected option
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		option() {
 			return {
@@ -72,14 +70,14 @@ export default {
 		/**
 		 * Triggered when the user selects a new option.
 		 *
-		 * @param {Object=} option The new selected option
+		 * @param {object=} option The new selected option
 		 */
 		select(option) {
 			if (!option) {
 				return
 			}
 
-			this.$emit('selectClearAt', option.clearAt)
+			this.$emit('select-clear-at', option.clearAt)
 		},
 	},
 }

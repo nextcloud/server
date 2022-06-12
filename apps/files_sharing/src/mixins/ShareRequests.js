@@ -6,7 +6,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -31,16 +31,13 @@ import axios from '@nextcloud/axios'
 import Share from '../models/Share'
 
 const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
-const headers = {
-	'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-}
 
 export default {
 	methods: {
 		/**
 		 * Create a new share
 		 *
-		 * @param {Object} data destructuring object
+		 * @param {object} data destructuring object
 		 * @param {string} data.path  path to the file/folder which should be shared
 		 * @param {number} data.shareType  0 = user; 1 = group; 3 = public link; 6 = federated cloud share
 		 * @param {string} data.shareWith  user/group id with which the file should be shared (optional for shareType > 1)
@@ -50,7 +47,7 @@ export default {
 		 * @param {boolean} [data.sendPasswordByTalk=false] send the password via a talk conversation
 		 * @param {string} [data.expireDate=''] expire the shareautomatically after
 		 * @param {string} [data.label=''] custom label
-		 * @returns {Share} the new share
+		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
 		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label }) {
@@ -99,15 +96,16 @@ export default {
 		 * Update a share
 		 *
 		 * @param {number} id share id
-		 * @param {Object} properties key-value object of the properties to update
+		 * @param {object} properties key-value object of the properties to update
 		 */
 		async updateShare(id, properties) {
 			try {
-				const request = await axios.put(shareUrl + `/${id}`, properties, headers)
+				const request = await axios.put(shareUrl + `/${id}`, properties)
 				if (!request?.data?.ocs) {
 					throw request
+				} else {
+					return request.data.ocs.data
 				}
-				return true
 			} catch (error) {
 				console.error('Error while updating share', error)
 				if (error.response.status !== 400) {

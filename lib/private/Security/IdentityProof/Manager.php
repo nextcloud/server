@@ -32,9 +32,9 @@ namespace OC\Security\IdentityProof;
 use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\ICrypto;
+use Psr\Log\LoggerInterface;
 
 class Manager {
 	/** @var IAppData */
@@ -43,13 +43,12 @@ class Manager {
 	private $crypto;
 	/** @var IConfig */
 	private $config;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	public function __construct(Factory $appDataFactory,
 								ICrypto $crypto,
 								IConfig $config,
-								ILogger $logger
+								LoggerInterface $logger
 	) {
 		$this->appData = $appDataFactory->get('identityproof');
 		$this->crypto = $crypto;

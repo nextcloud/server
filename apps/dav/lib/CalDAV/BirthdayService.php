@@ -53,34 +53,15 @@ use Sabre\VObject\Reader;
  */
 class BirthdayService {
 	public const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
-
-	/** @var GroupPrincipalBackend */
-	private $principalBackend;
-
-	/** @var CalDavBackend  */
-	private $calDavBackEnd;
-
-	/** @var CardDavBackend  */
-	private $cardDavBackEnd;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IDBConnection */
-	private $dbConnection;
-
-	/** @var IL10N */
-	private $l10n;
+	private GroupPrincipalBackend $principalBackend;
+	private CalDavBackend $calDavBackEnd;
+	private CardDavBackend $cardDavBackEnd;
+	private IConfig $config;
+	private IDBConnection $dbConnection;
+	private IL10N $l10n;
 
 	/**
 	 * BirthdayService constructor.
-	 *
-	 * @param CalDavBackend $calDavBackEnd
-	 * @param CardDavBackend $cardDavBackEnd
-	 * @param GroupPrincipalBackend $principalBackend
-	 * @param IConfig $config
-	 * @param IDBConnection $dbConnection
-	 * @param IL10N $l10n
 	 */
 	public function __construct(CalDavBackend $calDavBackEnd,
 								CardDavBackend $cardDavBackEnd,
@@ -96,14 +77,9 @@ class BirthdayService {
 		$this->l10n = $l10n;
 	}
 
-	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
-	 * @param string $cardData
-	 */
 	public function onCardChanged(int $addressBookId,
 								  string $cardUri,
-								  string $cardData) {
+								  string $cardData): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -129,12 +105,8 @@ class BirthdayService {
 		}
 	}
 
-	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
-	 */
 	public function onCardDeleted(int $addressBookId,
-								  string $cardUri) {
+								  string $cardUri): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -150,17 +122,15 @@ class BirthdayService {
 			$calendar = $this->ensureCalendarExists($principalUri);
 			foreach (['', '-death', '-anniversary'] as $tag) {
 				$objectUri = $book['uri'] . '-' . $cardUri . $tag .'.ics';
-				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 			}
 		}
 	}
 
 	/**
-	 * @param string $principal
-	 * @return array|null
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function ensureCalendarExists(string $principal):?array {
+	public function ensureCalendarExists(string $principal): ?array {
 		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
 		if (!is_null($calendar)) {
 			return $calendar;
@@ -306,7 +276,7 @@ class BirthdayService {
 		$calendarObjects = $this->calDavBackEnd->getCalendarObjects($calendar['id'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
 
 		foreach ($calendarObjects as $calendarObject) {
-			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $calendarObject['uri'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
+			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $calendarObject['uri'], CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 		}
 	}
 
@@ -384,7 +354,7 @@ class BirthdayService {
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
 		if ($calendarData === null) {
 			if ($existing !== null) {
-				$this->calDavBackEnd->deleteCalendarObject($calendarId, $objectUri);
+				$this->calDavBackEnd->deleteCalendarObject($calendarId, $objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 			}
 		} else {
 			if ($existing === null) {
@@ -398,7 +368,7 @@ class BirthdayService {
 					if ($existing2path !== null && array_key_exists('uri', $calendarInfo)) {
 						// delete the old birthday entry first so that we do not get duplicate UIDs
 						$existing2objectUri = substr($existing2path, strlen($calendarInfo['uri']) + 1);
-						$this->calDavBackEnd->deleteCalendarObject($calendarId, $existing2objectUri);
+						$this->calDavBackEnd->deleteCalendarObject($calendarId, $existing2objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 					}
 				}
 

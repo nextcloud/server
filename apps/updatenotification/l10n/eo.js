@@ -33,14 +33,6 @@ OC.L10N.register(
     "Stable" : "Stabila",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La plej freŝa stabila versio. Ĝi taŭgas por ĉiutaga uzo, kaj ĝi ĝisdatiĝos ĉiufoje al la lasta ĉefversio.",
     "Beta" : "Beta",
-    "A pre-release version only for testing new features, not for production environments." : "Antaŭeldona versio nur por testi novajn trajtojn; ne taŭgas por produktada medio.",
-    "Apps missing updates" : "Aplikaĵoj kun mankantaj ĝisdatigoj",
-    "Apps with available updates" : "Apikaĵoj kun disponeblaj ĝisdatigoj",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Rimarku, ke, post nova eldono, necesos iom da tempo, antaŭ ol ĝi montriĝos ĉi tie. Ni eldonas novajn versiojn laŭgrade al niaj uzantoj, kaj ni kelkfoje preterlasas version, kiam oni trovas problemojn.",
-    "Only notification for app updates are available." : "Nur sciigoj pri aplikaĵaj ĝisdatigoj disponeblas.",
-    "Checking apps for compatible updates" : "Kontrolado de aplikaĵoj pri kongruaj ĝisdatigoj",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Ne eblis konektiĝi al aplikaĵejo, aŭ la aplikaĵejo sendis neniun ĝisdatigojn. Serĉu permane pri ĝisdatigoj, aŭ certigu, ke via servilo povas aliri al la interreto kaj povas konektiĝi al la aplikaĵejo.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Ĉiuj</strong> aplikaĵoj havas ĝisdatigon por tiu ĉi versio",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikaĵo havas neniun ĝisdatigon por tiu versio","<strong>%n</strong> aplikaĵoj havas neniun ĝisdatigon por tiu versio"]
+    "A pre-release version only for testing new features, not for production environments." : "Antaŭeldona versio nur por testi novajn trajtojn; ne taŭgas por produktada medio."
 },
 "nplurals=2; plural=(n != 1);");

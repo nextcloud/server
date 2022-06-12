@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,6 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import { showError } from '@nextcloud/dialogs'
+import rebuildNavigation from '../service/rebuild-navigation.js'
 
 export default {
 	computed: {
@@ -109,33 +112,33 @@ export default {
 		},
 		forceEnable(appId) {
 			this.$store.dispatch('forceEnableApp', { appId, groups: [] })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		enable(appId) {
 			this.$store.dispatch('enableApp', { appId, groups: [] })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		disable(appId) {
 			this.$store.dispatch('disableApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		remove(appId) {
 			this.$store.dispatch('uninstallApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		install(appId) {
 			this.$store.dispatch('enableApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		update(appId) {
 			this.$store.dispatch('updateApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 	},
 }

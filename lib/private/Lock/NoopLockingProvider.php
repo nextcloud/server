@@ -45,28 +45,28 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function acquireLock(string $path, int $type, string $readablePath = null) {
+	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		// do nothing
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function releaseLock(string $path, int $type) {
+	public function releaseLock(string $path, int $type): void {
 		// do nothing
 	}
 
 	/**1
 	 * {@inheritdoc}
 	 */
-	public function releaseAll() {
+	public function releaseAll(): void {
 		// do nothing
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function changeLock(string $path, int $targetType) {
+	public function changeLock(string $path, int $targetType): void {
 		// do nothing
 	}
 }

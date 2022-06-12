@@ -21,6 +21,7 @@
     "{actor} shared calendar {calendar} with group {group}" : "{actor} поширив календар {calendar} з групою {group}",
     "You unshared calendar {calendar} from group {group}" : "Ви припинили поширення календаря {calendar} з групою {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} припинив поширення календаря {calendar} з групою {group}",
+    "Untitled event" : "Подія без назви",
     "{actor} created event {event} in calendar {calendar}" : "{actor} створив подію {event} у календарі {calendar}",
     "You created event {event} in calendar {calendar}" : "Ви створили подію {event} у календарі {calendar}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} вилучив подію {event} з календаря {calendar}",
@@ -47,7 +48,6 @@
     "Date:" : "Дата:",
     "Where:" : "Місце:",
     "Description:" : "Опис:",
-    "Untitled event" : "Подія без назви",
     "_%n year_::_%n years_" : ["%n рік","%n років","%n років","%n роки "],
     "_%n month_::_%n months_" : ["%n місяць","%n місяців","%n місяців","%n місяці"],
     "_%n day_::_%n days_" : ["%n день","%n днів","%n днів","%n дні"],
@@ -77,6 +77,14 @@
     "Untitled task" : "Завдання без назви",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Точка доступу WebDAV",
+    "to" : "до",
+    "Monday" : "понеділок",
+    "Tuesday" : "Вівторок",
+    "Wednesday" : "Середа",
+    "Thursday" : "Четвер",
+    "Friday" : "П'ятниця",
+    "Saturday" : "Субота",
+    "Sunday" : "Неділя",
     "Save" : "Зберегти",
     "Calendar server" : "Сервер календаря",
     "Send invitations to attendees" : "Надіслати запрошення учасникам",
@@ -92,6 +100,7 @@
     "Please contact the organizer directly." : "Будь-ласка повідомте організатора.",
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
+    "Comment" : "Коментар",
     "Your attendance was updated successfully." : "Ваша участь успішно оновлена."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

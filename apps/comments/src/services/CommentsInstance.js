@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -49,7 +49,7 @@ export default class CommentInstance {
 	 * Initialize a new Comments instance for the desired type
 	 *
 	 * @param {string} commentsType the comments endpoint type
-	 * @param  {Object} options the vue options (propsData, parent, el...)
+	 * @param  {object} options the vue options (propsData, parent, el...)
 	 */
 	constructor(commentsType = 'files', options) {
 		// Add comments type as a global mixin

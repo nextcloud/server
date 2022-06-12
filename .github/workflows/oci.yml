@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [ '7.3', '7.4', '8.0' ]
+        php-versions: [ '7.4', '8.0', '8.1']
         databases: [ 'oci' ]
 
     name: php${{ matrix.php-versions }}-${{ matrix.databases }}
@@ -40,7 +40,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: ctype,curl,dom,fileinfo,gd,iconv,imagick,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
           tools: phpunit:9
           coverage: none
 

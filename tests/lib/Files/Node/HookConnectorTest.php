@@ -30,9 +30,9 @@ use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Node;
-use OCP\ILogger;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
@@ -77,8 +77,9 @@ class HookConnectorTest extends TestCase {
 			$this->view,
 			\OC::$server->getUserManager()->get($this->userId),
 			\OC::$server->getUserMountCache(),
-			$this->createMock(ILogger::class),
-			$this->createMock(IUserManager::class)
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IUserManager::class),
+			$this->createMock(IEventDispatcher::class)
 		);
 		$this->legacyDispatcher = \OC::$server->getEventDispatcher();
 		$this->eventDispatcher = \OC::$server->query(IEventDispatcher::class);

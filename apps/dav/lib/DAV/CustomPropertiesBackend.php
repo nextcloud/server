@@ -31,12 +31,28 @@ use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
+use Sabre\DAV\Xml\Property\Complex;
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
 
 	/** @var string */
 	private const TABLE_NAME = 'properties';
+
+	/**
+	 * Value is stored as string.
+	 */
+	public const PROPERTY_TYPE_STRING = 1;
+
+	/**
+	 * Value is stored as XML fragment.
+	 */
+	public const PROPERTY_TYPE_XML = 2;
+
+	/**
+	 * Value is stored as a property object.
+	 */
+	public const PROPERTY_TYPE_OBJECT = 3;
 
 	/**
 	 * Ignored properties
@@ -54,6 +70,28 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://owncloud.org/ns}dDC',
 		'{http://owncloud.org/ns}size',
 		'{http://nextcloud.org/ns}is-encrypted',
+
+		// Currently, returning null from any propfind handler would still trigger the backend,
+		// so we add all known Nextcloud custom properties in here to avoid that
+
+		// text app
+		'{http://nextcloud.org/ns}rich-workspace',
+		'{http://nextcloud.org/ns}rich-workspace-file',
+		// groupfolders
+		'{http://nextcloud.org/ns}acl-enabled',
+		'{http://nextcloud.org/ns}acl-can-manage',
+		'{http://nextcloud.org/ns}acl-list',
+		'{http://nextcloud.org/ns}inherited-acl-list',
+		'{http://nextcloud.org/ns}group-folder-id',
+		// files_lock
+		'{http://nextcloud.org/ns}lock',
+		'{http://nextcloud.org/ns}lock-owner-type',
+		'{http://nextcloud.org/ns}lock-owner',
+		'{http://nextcloud.org/ns}lock-owner-displayname',
+		'{http://nextcloud.org/ns}lock-owner-editor',
+		'{http://nextcloud.org/ns}lock-time',
+		'{http://nextcloud.org/ns}lock-timeout',
+		'{http://nextcloud.org/ns}lock-token',
 	];
 
 	/**
@@ -217,7 +255,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$result = $qb->executeQuery();
 		$props = [];
 		while ($row = $result->fetch()) {
-			$props[$row['propertyname']] = $row['propertyvalue'];
+			$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 		}
 		$result->closeCursor();
 		return $props;
@@ -260,7 +298,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		$props = [];
 		while ($row = $result->fetch()) {
-			$props[$row['propertyname']] = $row['propertyvalue'];
+			$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 		}
 
 		$result->closeCursor();
@@ -282,9 +320,9 @@ class CustomPropertiesBackend implements BackendInterface {
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
 		$insertStatement = 'INSERT INTO `*PREFIX*properties`' .
-			' (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)';
+			' (`userid`,`propertypath`,`propertyname`,`propertyvalue`, `valuetype`) VALUES(?,?,?,?,?)';
 
-		$updateStatement = 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ?' .
+		$updateStatement = 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ?, `valuetype` = ?' .
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
 		// TODO: use "insert or update" strategy ?
@@ -303,19 +341,22 @@ class CustomPropertiesBackend implements BackendInterface {
 					);
 				}
 			} else {
+				[$value, $valueType] = $this->encodeValueForDatabase($propertyValue);
 				if (!array_key_exists($propertyName, $existing)) {
 					$this->connection->executeUpdate($insertStatement,
 						[
 							$this->user->getUID(),
 							$this->formatPath($path),
 							$propertyName,
-							$propertyValue,
+							$value,
+							$valueType
 						]
 					);
 				} else {
 					$this->connection->executeUpdate($updateStatement,
 						[
-							$propertyValue,
+							$value,
+							$valueType,
 							$this->user->getUID(),
 							$this->formatPath($path),
 							$propertyName,
@@ -340,8 +381,40 @@ class CustomPropertiesBackend implements BackendInterface {
 	private function formatPath(string $path): string {
 		if (strlen($path) > 250) {
 			return sha1($path);
+		}
+
+		return $path;
+	}
+
+	/**
+	 * @param mixed $value
+	 * @return array
+	 */
+	private function encodeValueForDatabase($value): array {
+		if (is_scalar($value)) {
+			$valueType = self::PROPERTY_TYPE_STRING;
+		} elseif ($value instanceof Complex) {
+			$valueType = self::PROPERTY_TYPE_XML;
+			$value = $value->getXml();
 		} else {
-			return $path;
+			$valueType = self::PROPERTY_TYPE_OBJECT;
+			$value = serialize($value);
+		}
+		return [$value, $valueType];
+	}
+
+	/**
+	 * @return mixed|Complex|string
+	 */
+	private function decodeValueFromDatabase(string $value, int $valueType) {
+		switch ($valueType) {
+			case self::PROPERTY_TYPE_XML:
+				return new Complex($value);
+			case self::PROPERTY_TYPE_OBJECT:
+				return unserialize($value);
+			case self::PROPERTY_TYPE_STRING:
+			default:
+				return $value;
 		}
 	}
 }

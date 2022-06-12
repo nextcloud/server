@@ -112,7 +112,7 @@ class AccessTest extends TestCase {
 	private function getConnectorAndLdapMock() {
 		$lw = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMockBuilder(Connection::class)
-			->setConstructorArgs([$lw, null, null])
+			->setConstructorArgs([$lw, '', null])
 			->getMock();
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
@@ -494,7 +494,7 @@ class AccessTest extends TestCase {
 			->willReturn(true);
 		$connection = $this->createMock(LDAP::class);
 		$this->connection
-			->expects($this->once())
+			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
 		$this->ldap
@@ -518,7 +518,7 @@ class AccessTest extends TestCase {
 			->willReturn(true);
 		$connection = $this->createMock(LDAP::class);
 		$this->connection
-			->expects($this->once())
+			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
 		$this->ldap
@@ -559,7 +559,7 @@ class AccessTest extends TestCase {
 			->expects($this->any())
 			->method('isResource')
 			->willReturnCallback(function ($resource) {
-				return is_resource($resource);
+				return is_resource($resource) || is_object($resource);
 			});
 		$this->ldap
 			->expects($this->any())
@@ -688,16 +688,14 @@ class AccessTest extends TestCase {
 	}
 
 	public function intUsernameProvider() {
-		// system dependent :-/
-		$translitExpected = @iconv('UTF-8', 'ASCII//TRANSLIT', 'fränk') ? 'frank' : 'frnk';
-
 		return [
 			['alice', 'alice'],
 			['b/ob', 'bob'],
 			['charly🐬', 'charly'],
 			['debo rah', 'debo_rah'],
 			['epost@poste.test', 'epost@poste.test'],
-			['fränk', $translitExpected],
+			['fränk', 'frank'],
+			[' UPPÉR Case/[\]^`', 'UPPER_Case'],
 			[' gerda ', 'gerda'],
 			['🕱🐵🐘🐑', null],
 			[
@@ -731,9 +729,6 @@ class AccessTest extends TestCase {
 	 * @param $expected
 	 */
 	public function testSanitizeUsername($name, $expected) {
-		if ($name === 'fränk' && PHP_MAJOR_VERSION > 7) {
-			$this->markTestSkipped('Special chars do boom still on CI in php8');
-		}
 		if ($expected === null) {
 			$this->expectException(\InvalidArgumentException::class);
 		}

@@ -54,7 +54,7 @@ function highlightInput($input) {
  * Initialize select2 plugin on the given elements
  *
  * @param {Array<Object>} array of jQuery elements
- * @param {int} userListLimit page size for result list
+ * @param {number} userListLimit page size for result list
  */
 function addSelect2 ($elements, userListLimit) {
 	var escapeHTML = function (text) {
@@ -141,7 +141,7 @@ function addSelect2 ($elements, userListLimit) {
 			return element.name;
 		},
 		formatResult: function (element) {
-			var $result = $('<span><div class="avatardiv"/><span>'+escapeHTML(element.displayname)+'</span></span>');
+			var $result = $('<span><div class="avatardiv"></div><span>'+escapeHTML(element.displayname)+'</span></span>');
 			var $div = $result.find('.avatardiv')
 				.attr('data-type', element.type)
 				.attr('data-name', element.name)
@@ -479,7 +479,7 @@ MountOptionsDropdown.prototype = {
 			mountOptionsFilesystemCheckOnce: t('files_external', 'Never'),
 			mountOptionsFilesystemCheckDA: t('files_external', 'Once every direct access'),
 			mountOptionsReadOnlyLabel: t('files_external', 'Read only'),
-			deleteLabel: t('files_external', 'Delete')
+			deleteLabel: t('files_external', 'Disconnect')
 		}));
 		this.$el = $el;
 
@@ -571,7 +571,7 @@ MountOptionsDropdown.prototype = {
  *
  * @param {Object} $el DOM object containing the list
  * @param {Object} [options]
- * @param {int} [options.userListLimit] page size in applicable users dropdown
+ * @param {number} [options.userListLimit] page size in applicable users dropdown
  */
 var MountConfigListView = function($el, options) {
 	this.initialize($el, options);
@@ -642,7 +642,7 @@ MountConfigListView.prototype = _.extend({
 	/**
 	 * @param {Object} $el DOM object containing the list
 	 * @param {Object} [options]
-	 * @param {int} [options.userListLimit] page size in applicable users dropdown
+	 * @param {number} [options.userListLimit] page size in applicable users dropdown
 	 */
 	initialize: function($el, options) {
 		var self = this;
@@ -659,6 +659,7 @@ MountConfigListView.prototype = _.extend({
 		}
 
 		this._encryptionEnabled = options.encryptionEnabled;
+		this._canCreateLocal = options.canCreateLocal;
 
 		// read the backend config that was carefully crammed
 		// into the data-configurations attribute of the select
@@ -788,9 +789,10 @@ MountConfigListView.prototype = _.extend({
 	 *
 	 * @param {StorageConfig} storageConfig storage config to pull values from
 	 * @param {jQuery.Deferred} onCompletion
+	 * @param {boolean} deferAppend
 	 * @return {jQuery} created row
 	 */
-	newStorage: function(storageConfig, onCompletion) {
+	newStorage: function(storageConfig, onCompletion, deferAppend) {
 		var mountPoint = storageConfig.mountPoint;
 		var backend = this._allBackends[storageConfig.backend];
 
@@ -802,8 +804,11 @@ MountConfigListView.prototype = _.extend({
 		}
 
 		// FIXME: Replace with a proper Handlebar template
-		var $tr = this.$el.find('tr#addMountPoint');
-		this.$el.find('tbody').append($tr.clone());
+		var $template = this.$el.find('tr#addMountPoint');
+		var $tr = $template.clone();
+		if (!deferAppend) {
+			$tr.insertBefore($template);
+		}
 
 		$tr.data('storageConfig', storageConfig);
 		$tr.show();
@@ -811,7 +816,9 @@ MountConfigListView.prototype = _.extend({
 		$tr.find('td').last().removeAttr('style');
 		$tr.removeAttr('id');
 		$tr.find('select#selectBackend');
-		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+		if (!deferAppend) {
+			addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+		}
 
 		if (storageConfig.id) {
 			$tr.data('id', storageConfig.id);
@@ -825,10 +832,13 @@ MountConfigListView.prototype = _.extend({
 		$tr.addClass(backend.identifier);
 		$tr.find('.backend').data('identifier', backend.identifier);
 
-		if (backend.invalid) {
+		if (backend.invalid || (backend.identifier === 'local' && !this._canCreateLocal)) {
 			$tr.find('[name=mountPoint]').prop('disabled', true);
 			$tr.find('.applicable,.mountOptionsToggle').empty();
-			this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+			$tr.find('.save').empty();
+			if (backend.invalid) {
+				this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+			}
 			return $tr;
 		}
 
@@ -907,6 +917,14 @@ MountConfigListView.prototype = _.extend({
 	loadStorages: function() {
 		var self = this;
 
+		var onLoaded1 = $.Deferred();
+		var onLoaded2 = $.Deferred();
+
+		this.$el.find('.externalStorageLoading').removeClass('hidden');
+		$.when(onLoaded1, onLoaded2).always(() => {
+			self.$el.find('.externalStorageLoading').addClass('hidden');
+		})
+
 		if (this._isPersonal) {
 			// load userglobal storages
 			$.ajax({
@@ -916,7 +934,8 @@ MountConfigListView.prototype = _.extend({
 				contentType: 'application/json',
 				success: function(result) {
 					var onCompletion = jQuery.Deferred();
-					$.each(result, function(i, storageParams) {
+					var $rows = $();
+					Object.values(result).forEach(function(storageParams) {
 						var storageConfig;
 						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
 						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
@@ -926,7 +945,7 @@ MountConfigListView.prototype = _.extend({
 							storageConfig = new self._storageConfigClass();
 						}
 						_.extend(storageConfig, storageParams);
-						var $tr = self.newStorage(storageConfig, onCompletion);
+						var $tr = self.newStorage(storageConfig, onCompletion,true);
 
 						// userglobal storages must be at the top of the list
 						$tr.detach();
@@ -945,7 +964,10 @@ MountConfigListView.prototype = _.extend({
 							// userglobal storages do not expose configuration data
 							$tr.find('.configuration').text(t('files_external', 'Admin defined'));
 						}
+						$rows = $rows.add($tr);
 					});
+					addSelect2(self.$el.find('.applicableUsers'), this._userListLimit);
+					self.$el.find('tr#addMountPoint').before($rows);
 					var mainForm = $('#files_external');
 					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
 						mainForm.hide();
@@ -953,8 +975,11 @@ MountConfigListView.prototype = _.extend({
 						$('#emptycontent').show();
 					}
 					onCompletion.resolve();
+					onLoaded1.resolve();
 				}
 			});
+		} else {
+			onLoaded1.resolve();
 		}
 
 		var url = this._storageConfigClass.prototype._url;
@@ -964,15 +989,27 @@ MountConfigListView.prototype = _.extend({
 			url: OC.generateUrl(url),
 			contentType: 'application/json',
 			success: function(result) {
+				result = Object.values(result);
 				var onCompletion = jQuery.Deferred();
-				$.each(result, function(i, storageParams) {
+				var $rows = $();
+				result.forEach(function(storageParams) {
 					storageParams.mountPoint = (storageParams.mountPoint === '/')? '/' : storageParams.mountPoint.substr(1); // trim leading slash
 					var storageConfig = new self._storageConfigClass();
 					_.extend(storageConfig, storageParams);
-					var $tr = self.newStorage(storageConfig, onCompletion);
-					self.recheckStorageConfig($tr);
+					var $tr = self.newStorage(storageConfig, onCompletion, true);
+
+					// don't recheck config automatically when there are a large number of storages
+					if (result.length < 20) {
+						self.recheckStorageConfig($tr);
+					} else {
+						self.updateStatus($tr, StorageConfig.Status.INDETERMINATE, t('files_external', 'Automatic status checking is disabled due to the large number of configured storages, click to check status'));
+					}
+					$rows = $rows.add($tr);
 				});
+				addSelect2($rows.find('.applicableUsers'), this._userListLimit);
+				self.$el.find('tr#addMountPoint').before($rows);
 				onCompletion.resolve();
+				onLoaded2.resolve();
 			}
 		});
 	},
@@ -1126,7 +1163,7 @@ MountConfigListView.prototype = _.extend({
 		}
 		var storage = new this._storageConfigClass(configId);
 
-		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage?', {
+		OC.dialogs.confirm(t('files_external', 'Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.', {
 				storage: this.mountPoint
 			}), t('files_external', 'Delete storage?'), function(confirm) {
 			if (confirm) {
@@ -1210,7 +1247,7 @@ MountConfigListView.prototype = _.extend({
 	 * Update status display
 	 *
 	 * @param {jQuery} $tr
-	 * @param {int} status
+	 * @param {number} status
 	 * @param {string} message
 	 */
 	updateStatus: function($tr, status, message) {
@@ -1313,9 +1350,11 @@ MountConfigListView.prototype = _.extend({
 
 window.addEventListener('DOMContentLoaded', function() {
 	var enabled = $('#files_external').attr('data-encryption-enabled');
+	var canCreateLocal = $('#files_external').attr('data-can-create-local');
 	var encryptionEnabled = (enabled ==='true')? true: false;
 	var mountConfigListView = new MountConfigListView($('#externalStorage'), {
-		encryptionEnabled: encryptionEnabled
+		encryptionEnabled: encryptionEnabled,
+		canCreateLocal: (canCreateLocal === 'true') ? true: false,
 	});
 	mountConfigListView.loadStorages();
 

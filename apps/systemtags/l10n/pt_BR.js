@@ -43,6 +43,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (invisível)",
     "<strong>System tags</strong> for a file have been modified" : "As <strong>etiquetas de sistema</strong> para um arquivo foram modificadas",
     "Tags" : "Etiquetas",
+    "All tagged %s …" : "Todos os %s marcados …",
+    "tagged %s" : "marcado %s",
     "Collaborative tags" : "Etiquetas colaborativas",
     "Collaborative tagging functionality which shares tags among users." : "Funcionalidade de marcação colaborativa que compartilha rótulos entre usuários.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de marcação colaborativa que compartilha rótulos entre usuários. Ótimo para equipes.\n\t(Se você for um provedor de uma instalação de multilocação, é aconselhável desativar isso, pois os rótulos são compartilhados.)",
@@ -64,4 +66,4 @@ OC.L10N.register(
     "Size" : "Tamanho",
     "Modified" : "Modificado"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

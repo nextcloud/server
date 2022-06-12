@@ -31,57 +31,37 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\Node\Folder;
+use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\SabrePluginEvent;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
-	/** @var IConfig */
-	private $config;
-	/** @var ILogger */
-	private $logger;
-	/** @var IDBConnection */
-	private $databaseConnection;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IMountManager */
-	private $mountManager;
-	/** @var ITagManager */
-	private $tagManager;
-	/** @var IRequest */
-	private $request;
-	/** @var IPreview  */
-	private $previewManager;
-	/** @var EventDispatcherInterface */
-	private $eventDispatcher;
-	/** @var IL10N */
-	private $l10n;
+	private IConfig $config;
+	private LoggerInterface $logger;
+	private IDBConnection $databaseConnection;
+	private IUserSession $userSession;
+	private IMountManager $mountManager;
+	private ITagManager $tagManager;
+	private IRequest $request;
+	private IPreview $previewManager;
+	private EventDispatcherInterface $eventDispatcher;
+	private IL10N $l10n;
 
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param IDBConnection $databaseConnection
-	 * @param IUserSession $userSession
-	 * @param IMountManager $mountManager
-	 * @param ITagManager $tagManager
-	 * @param IRequest $request
-	 * @param IPreview $previewManager
-	 */
 	public function __construct(
 		IConfig $config,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IDBConnection $databaseConnection,
 		IUserSession $userSession,
 		IMountManager $mountManager,
@@ -104,16 +84,12 @@ class ServerFactory {
 	}
 
 	/**
-	 * @param string $baseUri
-	 * @param string $requestUri
-	 * @param Plugin $authPlugin
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
-	 * @return Server
 	 */
-	public function createServer($baseUri,
-								 $requestUri,
+	public function createServer(string $baseUri,
+								 string $requestUri,
 								 Plugin $authPlugin,
-								 callable $viewCallBack) {
+								 callable $viewCallBack): Server {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$server = new \OCA\DAV\Connector\Sabre\Server($objectTree);
@@ -130,6 +106,9 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
+
+		$server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
+
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if ($this->request->isUserAgent([
@@ -177,6 +156,7 @@ class ServerFactory {
 				)
 			);
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\QuotaPlugin($view, true));
+			$server->addPlugin(new \OCA\DAV\Connector\Sabre\ChecksumUpdatePlugin());
 
 			if ($this->userSession->isLoggedIn()) {
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));

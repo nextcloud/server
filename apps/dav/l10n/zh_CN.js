@@ -25,6 +25,7 @@ OC.L10N.register(
     "{actor} shared calendar {calendar} with group {group}" : "{actor} 通过组 {group} 共享了日历 {calendar}",
     "You unshared calendar {calendar} from group {group}" : "群组 {group} 取消了你共享的日历 {calendar}",
     "{actor} unshared calendar {calendar} from group {group}" : "群组 {group} 取消了 {actor} 共享的日历 {calendar}",
+    "Untitled event" : "未命名事件",
     "{actor} created event {event} in calendar {calendar}" : "{actor} 在日历 {calendar} 中创建了事件 {event}",
     "You created event {event} in calendar {calendar}" : "您在日历 {calendar} 中创建了事件 {event}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} 在日历 {calendar} 中删除了事件 {event}",
@@ -54,7 +55,6 @@ OC.L10N.register(
     "Date:" : "日期：",
     "Where:" : "地点：",
     "Description:" : "描述：",
-    "Untitled event" : "未命名事件",
     "_%n year_::_%n years_" : ["%n 年"],
     "_%n month_::_%n months_" : ["%n 月"],
     "_%n day_::_%n days_" : ["%n 天"],
@@ -119,6 +119,7 @@ OC.L10N.register(
     "Completed on %s" : "已完成 %s",
     "Due on %s by %s" : "到期于%s ，在%s之前",
     "Due on %s" : "到期于%s",
+    "Contacts and groups" : "联系人和群组",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV端点",
     "Availability" : "可用性",
@@ -128,7 +129,6 @@ OC.L10N.register(
     "Delete slot" : "删除插槽",
     "No working hours set" : "尚未设置工作时间",
     "Add slot" : "添加插槽",
-    "Save" : "保存",
     "Monday" : "周一",
     "Tuesday" : "周二",
     "Wednesday" : "周三",
@@ -136,6 +136,7 @@ OC.L10N.register(
     "Friday" : "周五",
     "Saturday" : "周六",
     "Sunday" : "周日",
+    "Save" : "保存",
     "Calendar server" : "日历服务器",
     "Send invitations to attendees" : "向与会者发送邀请",
     "Automatically generate a birthday calendar" : "自动生成生日日历",
@@ -152,7 +153,6 @@ OC.L10N.register(
     "Tentative" : "暂定",
     "Number of guests" : "客人数目",
     "Comment" : "备注",
-    "Your attendance was updated successfully." : "您的出席状态更新成功。",
-    "Calendar and tasks" : "日历和任务"
+    "Your attendance was updated successfully." : "您的出席状态更新成功。"
 },
 "nplurals=1; plural=0;");

@@ -33,11 +33,15 @@ use DateTimeInterface;
 use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
+use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IL10N;
+use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\IMoveTarget;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropPatch;
 
 /**
@@ -46,7 +50,7 @@ use Sabre\DAV\PropPatch;
  * @package OCA\DAV\CalDAV
  * @property CalDavBackend $caldavBackend
  */
-class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable {
+class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable, IMoveTarget {
 
 	/** @var IConfig */
 	private $config;
@@ -57,6 +61,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	/** @var bool */
 	private $useTrashbin = true;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/**
 	 * Calendar constructor.
 	 *
@@ -65,7 +72,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 */
-	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config) {
+	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
 		// Convert deletion date to ISO8601 string
 		if (isset($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			$calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT] = (new DateTimeImmutable())
@@ -85,6 +92,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 
 		$this->config = $config;
 		$this->l10n = $l10n;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -392,7 +400,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		return isset($this->calendarInfo['{http://owncloud.org/ns}public']);
 	}
 
-	protected function isShared() {
+	public function isShared() {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
 		}
@@ -402,6 +410,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 
 	public function isSubscription() {
 		return isset($this->calendarInfo['{http://calendarserver.org/ns/}source']);
+	}
+
+	public function isDeleted(): bool {
+		if (!isset($this->calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
+			return false;
+		}
+		return $this->calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT] !== null;
 	}
 
 	/**
@@ -415,11 +430,30 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		return parent::getChanges($syncToken, $syncLevel, $limit);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function restore(): void {
 		$this->caldavBackend->restoreCalendar((int) $this->calendarInfo['id']);
 	}
 
 	public function disableTrashbin(): void {
 		$this->useTrashbin = false;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function moveInto($targetName, $sourcePath, INode $sourceNode) {
+		if (!($sourceNode instanceof CalendarObject)) {
+			return false;
+		}
+
+		try {
+			return $this->caldavBackend->moveCalendarObject($sourceNode->getCalendarId(), (int)$this->calendarInfo['id'], $sourceNode->getId(), $sourceNode->getPrincipalUri());
+		} catch (Exception $e) {
+			$this->logger->error('Could not move calendar object: ' . $e->getMessage(), ['exception' => $e]);
+			return false;
+		}
 	}
 }

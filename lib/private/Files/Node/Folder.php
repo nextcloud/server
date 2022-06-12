@@ -36,6 +36,7 @@ use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Utils\PathHelper;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
@@ -76,17 +77,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return string|null
 	 */
 	public function getRelativePath($path) {
-		if ($this->path === '' or $this->path === '/') {
-			return $this->normalizePath($path);
-		}
-		if ($path === $this->path) {
-			return '/';
-		} elseif (strpos($path, $this->path . '/') !== 0) {
-			return null;
-		} else {
-			$path = substr($path, strlen($this->path));
-			return $this->normalizePath($path);
-		}
+		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
 
 	/**
@@ -106,10 +97,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getDirectoryListing() {
-		$folderContent = $this->view->getDirectoryContent($this->path);
+		$folderContent = $this->view->getDirectoryContent($this->path, '', $this->getFileInfo());
 
 		return array_map(function (FileInfo $info) {
-			if ($info->getMimetype() === 'httpd/unix-directory') {
+			if ($info->getMimetype() === FileInfo::MIMETYPE_FOLDER) {
 				return new Folder($this->root, $this->view, $info->getPath(), $info);
 			} else {
 				return new File($this->root, $this->view, $info->getPath(), $info);
@@ -342,70 +333,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return \OC\Files\Node\Node[]
 	 */
 	public function getById($id) {
-		$mountCache = $this->root->getUserMountCache();
-		if (strpos($this->getPath(), '/', 1) > 0) {
-			[, $user] = explode('/', $this->getPath());
-		} else {
-			$user = null;
-		}
-		$mountsContainingFile = $mountCache->getMountsForFileId((int)$id, $user);
-
-		// when a user has access trough the same storage trough multiple paths
-		// (such as an external storage that is both mounted for a user and shared to the user)
-		// the mount cache will only hold a single entry for the storage
-		// this can lead to issues as the different ways the user has access to a storage can have different permissions
-		//
-		// so instead of using the cached entries directly, we instead filter the current mounts by the rootid of the cache entry
-
-		$mountRootIds = array_map(function ($mount) {
-			return $mount->getRootId();
-		}, $mountsContainingFile);
-		$mountRootPaths = array_map(function ($mount) {
-			return $mount->getRootInternalPath();
-		}, $mountsContainingFile);
-		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
-
-		$mounts = $this->root->getMountsIn($this->path);
-		$mounts[] = $this->root->getMount($this->path);
-
-		$mountsContainingFile = array_filter($mounts, function ($mount) use ($mountRoots) {
-			return isset($mountRoots[$mount->getStorageRootId()]);
-		});
-
-		if (count($mountsContainingFile) === 0) {
-			if ($user === $this->getAppDataDirectoryName()) {
-				return $this->getByIdInRootMount((int)$id);
-			}
-			return [];
-		}
-
-		$nodes = array_map(function (IMountPoint $mount) use ($id, $mountRoots) {
-			$rootInternalPath = $mountRoots[$mount->getStorageRootId()];
-			$cacheEntry = $mount->getStorage()->getCache()->get((int)$id);
-			if (!$cacheEntry) {
-				return null;
-			}
-
-			// cache jails will hide the "true" internal path
-			$internalPath = ltrim($rootInternalPath . '/' . $cacheEntry->getPath(), '/');
-			$pathRelativeToMount = substr($internalPath, strlen($rootInternalPath));
-			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
-			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
-			return $this->root->createNode($absolutePath, new \OC\Files\FileInfo(
-				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
-				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
-			));
-		}, $mountsContainingFile);
-
-		$nodes = array_filter($nodes);
-
-		$folders = array_filter($nodes, function (Node $node) {
-			return $this->getRelativePath($node->getPath());
-		});
-		usort($folders, function ($a, $b) {
-			return $b->getPath() <=> $a->getPath();
-		});
-		return $folders;
+		return $this->root->getByIdInPath((int)$id, $this->getPath());
 	}
 
 	protected function getAppDataDirectoryName(): string {

@@ -50,6 +50,14 @@ OCA.Sharing.PublicApp = {
 		var token = $('#sharingToken').val();
 		var hideDownload = $('#hideDownload').val();
 
+		// Prevent all right-click options if hideDownload is enabled
+		if (hideDownload === 'true') {
+			window.oncontextmenu = function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				return false;
+		   };
+		}
 
 		// file list mode ?
 		if ($el.find('#filestable').length) {
@@ -347,12 +355,12 @@ OCA.Sharing.PublicApp = {
 	},
 
 	_showTextPreview: function (data, previewHeight) {
-		var textDiv = $('<div/>').addClass('text-preview');
+		var textDiv = $('<div></div>').addClass('text-preview');
 		textDiv.text(data);
 		textDiv.appendTo('#imgframe');
 		var divHeight = textDiv.height();
 		if (data.length > 999) {
-			var ellipsis = $('<div/>').addClass('ellipsis');
+			var ellipsis = $('<div></div>').addClass('ellipsis');
 			ellipsis.html('(&#133;)');
 			ellipsis.appendTo('#imgframe');
 		}
@@ -377,12 +385,12 @@ OCA.Sharing.PublicApp = {
 	 * fall back to old behaviour where we redirect the user to his server to mount
 	 * the public link instead of creating a dedicated federated share
 	 *
-	 * @param remote
-	 * @param token
-	 * @param owner
-	 * @param ownerDisplayName
-	 * @param name
-	 * @param isProtected
+	 * @param {any} remote -
+	 * @param {any} token -
+	 * @param {any} owner -
+	 * @param {any} ownerDisplayName -
+	 * @param {any} name -
+	 * @param {any} isProtected -
 	 * @private
 	 */
 	_legacyCreateFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {

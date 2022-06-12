@@ -163,6 +163,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:math";
+
 $clickable-area: 44px;
 $margin: 10px;
 
@@ -197,7 +199,7 @@ $margin: 10px;
 		background-position: center center;
 		background-size: 32px;
 		&--rounded {
-			border-radius: $clickable-area / 2;
+			border-radius: math.div($clickable-area, 2);
 		}
 		&--no-preview {
 			background-size: 32px;

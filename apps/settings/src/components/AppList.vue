@@ -24,15 +24,20 @@
 	<div id="app-content-inner">
 		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
-				<div v-if="showUpdateAll" class="counter">
+				<div v-if="showUpdateAll" class="toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
-					<button v-if="showUpdateAll"
+					<Button v-if="showUpdateAll"
 						id="app-list-update-all"
-						class="primary"
+						type="primary"
 						@click="updateAll">
-						{{ t('settings', 'Update all') }}
-					</button>
+						{{ n('settings', 'Update', 'Update all', counter) }}
+					</Button>
 				</div>
+
+				<div v-if="!showUpdateAll" class="toolbar">
+					{{ t('settings', 'All apps are up-to-date.') }}
+				</div>
+
 				<transition-group name="app-list" tag="div" class="apps-list-container">
 					<AppItem v-for="app in apps"
 						:key="app.id"
@@ -40,6 +45,7 @@
 						:category="category" />
 				</transition-group>
 			</template>
+
 			<transition-group v-if="useBundleView"
 				name="app-list"
 				tag="div"
@@ -101,11 +107,13 @@
 import AppItem from './AppList/AppItem'
 import PrefixMixin from './PrefixMixin'
 import pLimit from 'p-limit'
+import Button from '@nextcloud/vue/dist/Components/Button'
 
 export default {
 	name: 'AppList',
 	components: {
 		AppItem,
+		Button,
 	},
 	mixins: [PrefixMixin],
 	props: ['category', 'app', 'search'],
@@ -117,10 +125,10 @@ export default {
 			return this.$store.getters.loading('list')
 		},
 		hasPendingUpdate() {
-			return this.apps.filter(app => app.update).length > 1
+			return this.apps.filter(app => app.update).length > 0
 		},
 		showUpdateAll() {
-			return this.hasPendingUpdate && ['installed', 'updates'].includes(this.category)
+			return this.hasPendingUpdate && this.useListView
 		},
 		apps() {
 			const apps = this.$store.getters.getAllApps

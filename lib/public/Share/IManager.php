@@ -37,7 +37,11 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 
 /**
- * Interface IManager
+ * This interface allows to manage sharing files between users and groups.
+ *
+ * This interface must not be implemented in your application but
+ * instead should be used as a service and injected in your code with
+ * dependency injection.
  *
  * @since 9.0.0
  */
@@ -317,10 +321,12 @@ interface IManager {
 	/**
 	 * Is password on public link requires
 	 *
+	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return bool
 	 * @since 9.0.0
+	 * @since 24.0.0 Added optional $checkGroupMembership parameter
 	 */
-	public function shareApiLinkEnforcePassword();
+	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true);
 
 	/**
 	 * Is default expire date enabled
@@ -447,6 +453,22 @@ interface IManager {
 	 * @since 21.0.1
 	 */
 	public function allowEnumerationFullMatch(): bool;
+
+	/**
+	 * Check if the search should match the email
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function matchEmail(): bool;
+
+	/**
+	 * Check if the search should ignore the second in parentheses display name if there is any
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function ignoreSecondDisplayName(): bool;
 
 	/**
 	 * Check if the current user can enumerate the target user

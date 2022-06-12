@@ -266,8 +266,8 @@ class User {
 
 	/**
 	 * returns the home directory of the user if specified by LDAP settings
-	 * @param string $valueFromLDAP
-	 * @return bool|string
+	 * @param ?string $valueFromLDAP
+	 * @return false|string
 	 * @throws \Exception
 	 */
 	public function getHomePath($valueFromLDAP = null) {
@@ -278,8 +278,7 @@ class User {
 		   && strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0
 		   && $this->access->connection->homeFolderNamingRule !== 'attr:') {
 			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
-			$homedir = $this->access->readAttribute(
-				$this->access->username2dn($this->getUsername()), $attr);
+			$homedir = $this->access->readAttribute($this->access->username2dn($this->getUsername()), $attr);
 			if ($homedir && isset($homedir[0])) {
 				$path = $homedir[0];
 			}
@@ -464,9 +463,9 @@ class User {
 	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
 	 *
 	 * fetches the quota from LDAP and stores it as Nextcloud user value
-	 * @param string $valueFromLDAP the quota attribute's value can be passed,
+	 * @param ?string $valueFromLDAP the quota attribute's value can be passed,
 	 * to save the readAttribute request
-	 * @return null
+	 * @return void
 	 */
 	public function updateQuota($valueFromLDAP = null) {
 		if ($this->wasRefreshed('quota')) {
@@ -487,7 +486,7 @@ class User {
 			} elseif (is_array($aQuota) && isset($aQuota[0])) {
 				$this->logger->debug('no suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', ['app' => 'user_ldap']);
 			}
-		} elseif ($this->verifyQuotaValue($valueFromLDAP)) {
+		} elseif (!is_null($valueFromLDAP) && $this->verifyQuotaValue($valueFromLDAP)) {
 			$quota = $valueFromLDAP;
 		} else {
 			$this->logger->debug('no suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', ['app' => 'user_ldap']);
@@ -509,7 +508,7 @@ class User {
 		}
 	}
 
-	private function verifyQuotaValue($quotaValue) {
+	private function verifyQuotaValue(string $quotaValue) {
 		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 

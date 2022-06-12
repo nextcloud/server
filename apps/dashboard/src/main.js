@@ -3,7 +3,7 @@
  *
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,25 +21,26 @@
  */
 
 import Vue from 'vue'
-import App from './App.vue'
+import DashboardApp from './DashboardApp.vue'
 import { translate as t } from '@nextcloud/l10n'
 import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import { getRequestToken } from '@nextcloud/auth'
-import { generateFilePath } from '@nextcloud/router'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
-// eslint-disable-next-line camelcase
-__webpack_public_path__ = generateFilePath('dashboard', '', 'js/')
 
 Vue.directive('Tooltip', VTooltip)
 
 Vue.prototype.t = t
 
 // FIXME workaround to make the sidebar work
+if (!window.OCA.Files) {
+	window.OCA.Files = {}
+}
+
 Object.assign(window.OCA.Files, { App: { fileList: { filesClient: OC.Files.getClient() } } }, window.OCA.Files)
 
-const Dashboard = Vue.extend(App)
+const Dashboard = Vue.extend(DashboardApp)
 const Instance = new Dashboard({}).$mount('#app-content-vue')
 
 window.OCA.Dashboard = {

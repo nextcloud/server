@@ -225,30 +225,118 @@ class UtilTest extends \Test\TestCase {
 
 		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
+		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
 	}
 	protected function tearDown(): void {
 		parent::tearDown();
 
 		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
+		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
 	}
 
 	public function testAddScript() {
-		\OC_Util::addScript('core', 'myFancyJSFile1');
-		\OC_Util::addScript('myApp', 'myFancyJSFile2');
-		\OC_Util::addScript('core', 'myFancyJSFile0', true);
-		\OC_Util::addScript('core', 'myFancyJSFile10', true);
+		\OCP\Util::addScript('first', 'myFirstJSFile');
+		\OCP\Util::addScript('core', 'myFancyJSFile1');
+		\OCP\Util::addScript('files', 'myFancyJSFile2', 'core');
+		\OCP\Util::addScript('myApp5', 'myApp5JSFile', 'myApp2');
+		\OCP\Util::addScript('myApp', 'myFancyJSFile3');
+		\OCP\Util::addScript('core', 'myFancyJSFile4');
+		// after itself
+		\OCP\Util::addScript('core', 'myFancyJSFile5', 'core');
 		// add duplicate
-		\OC_Util::addScript('core', 'myFancyJSFile1');
+		\OCP\Util::addScript('core', 'myFancyJSFile1');
+		// dependency chain
+		\OCP\Util::addScript('myApp4', 'myApp4JSFile', 'myApp3');
+		\OCP\Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
+		\OCP\Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
+		\OCP\Util::addScript('core', 'common');
+		\OCP\Util::addScript('core', 'main');
 
-		$this->assertEquals([
-			'core/js/myFancyJSFile10',
-			'core/js/myFancyJSFile0',
-			'core/js/myFancyJSFile1',
-			'myApp/l10n/en',
-			'myApp/js/myFancyJSFile2',
-		], \OC_Util::$scripts);
-		$this->assertEquals([], \OC_Util::$styles);
+		$scripts = \OCP\Util::getScripts();
+
+		// Core should appear first
+		$this->assertEquals(
+			0,
+			array_search('core/js/common', $scripts, true)
+		);
+		$this->assertEquals(
+			1,
+			array_search('core/js/main', $scripts, true)
+		);
+		$this->assertEquals(
+			2,
+			array_search('core/js/myFancyJSFile1', $scripts, true)
+		);
+		$this->assertEquals(
+			3,
+			array_search('core/js/myFancyJSFile4', $scripts, true)
+		);
+
+		// Dependencies should appear before their children
+		$this->assertLessThan(
+			array_search('files/js/myFancyJSFile2', $scripts, true),
+			array_search('core/js/myFancyJSFile3', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp2/js/myApp2JSFile', $scripts, true),
+			array_search('myApp/js/myFancyJSFile3', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp3/js/myApp3JSFile', $scripts, true),
+			array_search('myApp2/js/myApp2JSFile', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp4/js/myApp4JSFile', $scripts, true),
+			array_search('myApp3/js/myApp3JSFile', $scripts, true)
+		);
+		$this->assertLessThan(
+			array_search('myApp5/js/myApp5JSFile', $scripts, true),
+			array_search('myApp2/js/myApp2JSFile', $scripts, true)
+		);
+
+		// No duplicates
+		$this->assertEquals(
+			$scripts,
+			array_unique($scripts)
+		);
+
+		// All scripts still there
+		$scripts = [
+			"core/js/common",
+			"core/js/main",
+			"core/js/myFancyJSFile1",
+			"core/js/myFancyJSFile4",
+			"core/js/myFancyJSFile5",
+			"first/l10n/en",
+			"first/js/myFirstJSFile",
+			"files/l10n/en",
+			"files/js/myFancyJSFile2",
+			"myApp/l10n/en",
+			"myApp/js/myFancyJSFile3",
+			"myApp2/l10n/en",
+			"myApp2/js/myApp2JSFile",
+			"myApp5/l10n/en",
+			"myApp5/js/myApp5JSFile",
+			"myApp3/l10n/en",
+			"myApp3/js/myApp3JSFile",
+			"myApp4/l10n/en",
+			"myApp4/js/myApp4JSFile",
+		];
+		foreach ($scripts as $script) {
+			$this->assertContains($script, $scripts);
+		}
+	}
+
+	public function testAddScriptCircularDependency() {
+		\OCP\Util::addScript('circular', 'file1', 'dependency');
+		\OCP\Util::addScript('dependency', 'file2', 'circular');
+
+		$scripts = \OCP\Util::getScripts();
+		$this->assertContains('circular/js/file1', $scripts);
+		$this->assertContains('dependency/js/file2', $scripts);
 	}
 
 	public function testAddVendorScript() {

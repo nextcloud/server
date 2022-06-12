@@ -44,8 +44,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -71,8 +71,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private $userManager;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var \OC\Group\Group[] */
 	private $cachedGroups = [];
@@ -83,14 +82,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/** @var \OC\SubAdmin */
 	private $subAdmin = null;
 
-	/**
-	 * @param \OC\User\Manager $userManager
-	 * @param EventDispatcherInterface $dispatcher
-	 * @param ILogger $logger
-	 */
 	public function __construct(\OC\User\Manager $userManager,
 								EventDispatcherInterface $dispatcher,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;

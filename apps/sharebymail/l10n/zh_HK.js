@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share by mail" : "通過郵件分享",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失敗，此項目已經與用戶 %2$s 分享",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼發送與您。請在您的個人設置中提供有效的電郵地址後重試。",
+    "Failed to send share by email. Got an invalid email address" : "透過電子郵件傳送分享失敗。收到無效的電郵地址",
     "Failed to send share by email" : "通過電郵發送分享失敗",
     "%1$s shared »%2$s« with you" : "%1$s 與您分享了 »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s 與您分享了 »%2$s«。",
@@ -38,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "%2$s 與您分享了的訪問 »%1$s« 的密碼",
     "Password to access »%s«" : "存取 »%s« 的密碼",
     "It is protected with the following password:" : "其已被以下密碼保護：",
+    "This password will expire at %s" : "此密碼將於 %s 到期",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s 與您分享了 »%2$s« 並希望添加：",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s 與您分享了 »%2$s« 並希望添加",
     "»%s« added a note to a file shared with you" : "»%s« 在與您分享的檔案中添加了備註",
@@ -50,7 +52,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "使用戶可以通過輸入電郵地址來分享指向檔案或資料夾的個性化連結。",
     "Send password by mail" : "通過電郵發送密碼",
     "Reply to initiator" : "回覆發起人",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼發送與您。請在您的個人設置中提供有效的電郵地址後重試。",
-    "Enforce password protection" : "強制密碼保護"
+    "Unable to update share by mail config" : "無法更新通過郵件分享配置"
 },
 "nplurals=1; plural=0;");

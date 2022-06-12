@@ -5,7 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,7 +30,7 @@
 	 * @classdesc SystemTags file list.
 	 * Contains a list of files filtered by system tags.
 	 *
-	 * @param {Object} $el container element with existing markup for the #controls and a table
+	 * @param {object} $el container element with existing markup for the #controls and a table
 	 * @param {Array} [options] map of options, see other parameters
 	 * @param {Array.<string>} [options.systemTagIds] array of system tag ids to
 	 * filter by
@@ -48,7 +48,7 @@
 			/**
 			 * Array of system tag ids to filter by
 			 *
-			 * @type Array.<string>
+			 * @type {Array.<string>}
 			 */
 			_systemTagIds: [],
 			_lastUsedTags: [],
@@ -60,8 +60,8 @@
 
 			/**
 			 * @private
-			 * @param {Object} $el container element
-			 * @param {Object} [options] map of options, see other parameters
+			 * @param {object} $el container element
+			 * @param {object} [options] map of options, see other parameters
 			 */
 			initialize($el, options) {
 				OCA.Files.FileList.prototype.initialize.apply(this, arguments)
@@ -101,6 +101,7 @@
 			_initFilterField($container) {
 				const self = this
 				this.$filterField = $('<input type="hidden" name="tags"/>')
+				this.$filterField.val(this._systemTagIds.join(','))
 				$container.append(this.$filterField)
 				this.$filterField.select2({
 					placeholder: t('systemtags', 'Select tags to filter by'),
@@ -132,12 +133,12 @@
 											tags.push(tag.toJSON())
 										}
 									})
-
 									callback(tags)
+									self._onTagsChanged({ target: element })
 								},
 							})
 						} else {
-							// eslint-disable-next-line node/no-callback-literal
+							// eslint-disable-next-line n/no-callback-literal
 							callback([])
 						}
 					},
@@ -190,7 +191,7 @@
 			/**
 			 * Autocomplete function for dropdown results
 			 *
-			 * @param {Object} query select2 query object
+			 * @param {object} query select2 query object
 			 */
 			_queryTagsAutocomplete(query) {
 				OC.SystemTags.collection.fetch({

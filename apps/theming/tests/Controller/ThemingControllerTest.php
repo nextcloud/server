@@ -34,8 +34,8 @@
 namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
-use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
+use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
@@ -72,10 +72,10 @@ class ThemingControllerTest extends TestCase {
 	private $appData;
 	/** @var ImageManager|MockObject */
 	private $imageManager;
-	/** @var SCSSCacher */
-	private $scssCacher;
-	/** @var IURLGenerator */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
+	/** @var ThemeService|MockObject */
+	private $themesService;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
@@ -85,9 +85,9 @@ class ThemingControllerTest extends TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->tempManager = \OC::$server->getTempManager();
-		$this->scssCacher = $this->createMock(SCSSCacher::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
+		$this->themesService = $this->createMock(ThemesService::class);
 
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->expects($this->any())
@@ -104,10 +104,10 @@ class ThemingControllerTest extends TestCase {
 			$this->l10n,
 			$this->tempManager,
 			$this->appData,
-			$this->scssCacher,
 			$this->urlGenerator,
 			$this->appManager,
-			$this->imageManager
+			$this->imageManager,
+			$this->themesService,
 		);
 
 		parent::setUp();
@@ -144,23 +144,12 @@ class ThemingControllerTest extends TestCase {
 			->willReturnCallback(function ($str) {
 				return $str;
 			});
-		$this->scssCacher
-			->expects($this->once())
-			->method('getCachedSCSS')
-			->with('core', '/core/css/css-variables.scss')
-			->willReturn('/core/css/someHash-css-variables.scss');
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkTo')
-			->with('', '/core/css/someHash-css-variables.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 
 		$expected = new DataResponse(
 			[
 				'data' =>
 					[
 						'message' => $message,
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success',
 			]
@@ -382,9 +371,6 @@ class ThemingControllerTest extends TestCase {
 				return $str;
 			});
 
-		$this->urlGenerator->expects($this->once())
-			->method('linkTo')
-			->willReturn('serverCss');
 		$this->imageManager->expects($this->once())
 			->method('getImageUrl')
 			->with('logo')
@@ -400,7 +386,6 @@ class ThemingControllerTest extends TestCase {
 						'name' => 'logo.svg',
 						'message' => 'Saved',
 						'url' => 'imageUrl',
-						'serverCssUrl' => 'serverCss'
 					],
 				'status' => 'success'
 			]
@@ -440,9 +425,6 @@ class ThemingControllerTest extends TestCase {
 		$this->imageManager->expects($this->once())
 			->method('updateImage');
 
-		$this->urlGenerator->expects($this->once())
-			->method('linkTo')
-			->willReturn('serverCss');
 		$this->imageManager->expects($this->once())
 			->method('getImageUrl')
 			->with('background')
@@ -454,7 +436,6 @@ class ThemingControllerTest extends TestCase {
 						'name' => 'logo.svg',
 						'message' => 'Saved',
 						'url' => 'imageUrl',
-						'serverCssUrl' => 'serverCss'
 					],
 				'status' => 'success'
 			]
@@ -607,24 +588,13 @@ class ThemingControllerTest extends TestCase {
 			->method('undo')
 			->with('MySetting')
 			->willReturn('MyValue');
-		$this->scssCacher
-			->expects($this->once())
-			->method('getCachedSCSS')
-			->with('core', '/core/css/css-variables.scss')
-			->willReturn('/core/css/someHash-css-variables.scss');
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkTo')
-			->with('', '/core/css/someHash-css-variables.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 
 		$expected = new DataResponse(
 			[
 				'data' =>
 					[
 						'value' => 'MyValue',
-						'message' => 'Saved',
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
+						'message' => 'Saved'
 					],
 				'status' => 'success'
 			]
@@ -651,16 +621,6 @@ class ThemingControllerTest extends TestCase {
 			->method('undo')
 			->with($value)
 			->willReturn($value);
-		$this->scssCacher
-			->expects($this->once())
-			->method('getCachedSCSS')
-			->with('core', '/core/css/css-variables.scss')
-			->willReturn('/core/css/someHash-css-variables.scss');
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkTo')
-			->with('', '/core/css/someHash-css-variables.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 
 		$expected = new DataResponse(
 			[
@@ -668,7 +628,6 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => $value,
 						'message' => 'Saved',
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success'
 			]
@@ -689,6 +648,8 @@ class ThemingControllerTest extends TestCase {
 
 	public function testGetLogo() {
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('logo.svg');
+		$file->method('getMTime')->willReturn(42);
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -719,6 +680,8 @@ class ThemingControllerTest extends TestCase {
 
 	public function testGetLoginBackground() {
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('background.png');
+		$file->method('getMTime')->willReturn(42);
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -737,50 +700,6 @@ class ThemingControllerTest extends TestCase {
 		$csp->allowInlineStyle();
 		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
-	}
-
-
-	public function testGetStylesheet() {
-		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
-		$file = $this->createMock(ISimpleFile::class);
-		$file->expects($this->any())->method('getName')->willReturn('theming.css');
-		$file->expects($this->any())->method('getContent')->willReturn('compiled');
-		$this->scssCacher->expects($this->once())->method('process')->willReturn(true);
-		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willReturn($file);
-
-		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
-		$response->cacheFor(86400);
-
-		$actual = $this->themingController->getStylesheet();
-		$this->assertEquals($response, $actual);
-	}
-
-	public function testGetStylesheetFails() {
-		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
-		$file = $this->createMock(ISimpleFile::class);
-		$file->expects($this->any())->method('getName')->willReturn('theming.css');
-		$file->expects($this->any())->method('getContent')->willReturn('compiled');
-		$this->scssCacher->expects($this->once())->method('process')->willReturn(true);
-		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willThrowException(new NotFoundException());
-		$response = new Http\NotFoundResponse();
-
-		$actual = $this->themingController->getStylesheet();
-		$this->assertEquals($response, $actual);
-	}
-
-	public function testGetStylesheetOutsideServerroot() {
-		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn('/outside/serverroot/theming');
-		$file = $this->createMock(ISimpleFile::class);
-		$file->expects($this->any())->method('getName')->willReturn('theming.css');
-		$file->expects($this->any())->method('getContent')->willReturn('compiled');
-		$this->scssCacher->expects($this->once())->method('process')->with('/outside/serverroot/theming', 'css/theming.scss', 'theming')->willReturn(true);
-		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willReturn($file);
-
-		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
-		$response->cacheFor(86400);
-
-		$actual = $this->themingController->getStylesheet();
-		$this->assertEquals($response, $actual);
 	}
 
 	public function testGetManifest() {

@@ -8,7 +8,8 @@ OC.L10N.register(
     "Vacationing" : "Poilsiauju",
     "Working remotely" : "Dirbu nuotoliniu būdu",
     "User status" : "Naudotojo būsena",
-    "Clear status message after" : "Išvalyti būsenos žinutę po",
+    "View profile" : "Rodyti profilį",
+    "Clear status after" : "Išvalyti būseną po",
     "What is your status?" : "Kokia jūsų būsena?",
     "Set status" : "Nustatyti būseną",
     "Online status" : "Prisijungimo būsena",
@@ -33,7 +34,7 @@ OC.L10N.register(
     "4 hours" : "4 valandos",
     "Mute all notifications" : "Išjungti visus pranešimus",
     "Appear offline" : "Atrodyti atsijungusiu",
-    "Clear status after" : "Išvalyti būseną po",
+    "Clear status message after" : "Išvalyti būsenos žinutę po",
     "What's your status?" : "Kokia jūsų būsena?"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

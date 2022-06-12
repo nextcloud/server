@@ -9,7 +9,6 @@
 		<title>
 		<?php p($theme->getTitle()); ?>
 		</title>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 		<?php if ($theme->getiTunesAppId() !== '') { ?>
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
@@ -37,10 +36,6 @@
 								<h1 class="hidden-visually">
 									<?php p($theme->getName()); ?>
 								</h1>
-								<?php if (\OC::$server->getConfig()->getSystemValue('installed', false)
-									&& \OC::$server->getConfig()->getAppValue('theming', 'logoMime', false)): ?>
-									<img src="<?php p($theme->getLogo()); ?>"/>
-								<?php endif; ?>
 							</div>
 						</div>
 					</header>
