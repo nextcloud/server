@@ -37,6 +37,7 @@
     "Password to access »%1$s« shared to you by %2$s" : "»%1$s«への共有アクセスのパスワードが %2$s から共有されました",
     "Password to access »%s«" : "»%s« にアクセスするパスワード",
     "It is protected with the following password:" : "次のパスワードで保護されています。",
+    "This password will expire at %s" : "このパスワードは%sで期限切れとなります。",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s さんが »%2$s« にノートを追加しました。",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s さんが »%2$s« にノートを追加しました。",
     "»%s« added a note to a file shared with you" : "»%s« あなたと共有しているファイルにノートを追加しました。 ",
