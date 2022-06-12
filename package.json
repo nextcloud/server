@@ -52,7 +52,7 @@
     "css-vars-ponyfill": "^2.4.7",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.2.1",
     "debounce": "^1.2.1",
-    "dompurify": "^2.3.6",
+    "dompurify": "^2.3.8",
     "escape-html": "^1.0.3",
     "handlebars": "^4.7.7",
     "ical.js": "^1.4.0",
