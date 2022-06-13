@@ -715,11 +715,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|ICompositeExpression|null $condition The condition for the join.
+	 * @param string|IQueryFunction|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function join($fromAlias, $join, $alias, $condition = null) {
+		$condition = $condition !== null ? (string)$condition : null;
 		$this->queryBuilder->join(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -743,11 +744,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|ICompositeExpression|null $condition The condition for the join.
+	 * @param string|IQueryFunction|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
+		$condition = $condition !== null ? (string)$condition : null;
 		$this->queryBuilder->innerJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -771,11 +773,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|ICompositeExpression|null $condition The condition for the join.
+	 * @param string|IQueryFunction|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
+		$condition = $condition !== null ? (string)$condition : null;
 		$this->queryBuilder->leftJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -799,11 +802,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|ICompositeExpression|null $condition The condition for the join.
+	 * @param string|IQueryFunction|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function rightJoin($fromAlias, $join, $alias, $condition = null) {
+		$condition = $condition !== null ? (string)$condition : null;
 		$this->queryBuilder->rightJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
