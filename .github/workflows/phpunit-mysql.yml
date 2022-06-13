@@ -48,6 +48,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
           coverage: none
+          update: true
 
       - name: composer i
         run: |
@@ -58,6 +59,7 @@ jobs:
         env:
           DB_PORT: 4444
         run: |
+          php --version
           mkdir data
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
 
