@@ -230,11 +230,11 @@ interface IComment {
 	/**
 	 * sets the date of the most recent child
 	 *
-	 * @param \DateTime $dateTime
+	 * @param \DateTime|null $dateTime
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setLatestChildDateTime(\DateTime $dateTime);
+	public function setLatestChildDateTime(\DateTime $dateTime = null);
 
 	/**
 	 * returns the object type the comment is attached to
