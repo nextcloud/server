@@ -352,7 +352,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
-	public function setLatestChildDateTime(\DateTime $dateTime = null) {
+	public function setLatestChildDateTime(?\DateTime $dateTime = null) {
 		$this->data['latestChildDT'] = $dateTime;
 		return $this;
 	}

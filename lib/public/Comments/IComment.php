@@ -234,7 +234,7 @@ interface IComment {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setLatestChildDateTime(\DateTime $dateTime = null);
+	public function setLatestChildDateTime(?\DateTime $dateTime = null);
 
 	/**
 	 * returns the object type the comment is attached to
