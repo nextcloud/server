@@ -157,19 +157,23 @@ class RequestHandlerController extends Controller {
 			$shareWith = $this->mapUid($shareWith);
 
 			if (!$this->userManager->userExists($shareWith)) {
-				return new JSONResponse(
+				$response = new JSONResponse(
 					['message' => 'User "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
 					Http::STATUS_BAD_REQUEST
 				);
+				$response->throttle();
+				return $response;
 			}
 		}
 
 		if ($shareType === 'group') {
 			if (!$this->groupManager->groupExists($shareWith)) {
-				return new JSONResponse(
+				$response = new JSONResponse(
 					['message' => 'Group "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
 					Http::STATUS_BAD_REQUEST
 				);
+				$response->throttle();
+				return $response;
 			}
 		}
 
@@ -253,10 +257,12 @@ class RequestHandlerController extends Controller {
 				Http::STATUS_BAD_REQUEST
 			);
 		} catch (ShareNotFound $e) {
-			return new JSONResponse(
+			$response = new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_BAD_REQUEST
 			);
+			$response->throttle();
+			return $response;
 		} catch (ActionNotSupportedException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
@@ -265,7 +271,9 @@ class RequestHandlerController extends Controller {
 		} catch (BadRequestException $e) {
 			return new JSONResponse($e->getReturnMessage(), Http::STATUS_BAD_REQUEST);
 		} catch (AuthenticationFailedException $e) {
-			return new JSONResponse(["message" => "RESOURCE_NOT_FOUND"], Http::STATUS_FORBIDDEN);
+			$response = new JSONResponse(['message' => 'RESOURCE_NOT_FOUND'], Http::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
 		} catch (\Exception $e) {
 			return new JSONResponse(
 				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
