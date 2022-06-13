@@ -1,0 +1,48 @@
+name: PHPUnit custom
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - stable*
+
+jobs:
+  phpunit-custom:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          path: server
+
+      - name: Install dependencies
+        run: |
+          sudo sed -i -e "s/\# deb-src/deb-src/g" /etc/apt/sources.list
+          sudo apt-get update
+          sudo apt-get --no-install-recommends install -y composer
+          #sudo apt-get --no-install-recommends build-dep -y php php7.4 php7.4-ldap php7.4-zip php7.4-curl php7.4-intl php7.4-gd php-imagick
+          sudo apt-get --no-install-recommends install -y apache2-dev autopoint bison bsdmainutils build-essential chrpath debhelper dh-autoreconf dh-php dh-strip-nondeterminism dh-systemd dictionaries-common dwz emacsen-common firebird-dev firebird3.0-common firebird3.0-common-doc flex freetds-common freetds-dev gettext gettext-base groff-base hunspell-en-us intltool-debian libaio1 libapparmor-dev libapr1-dev libaprutil1-dev libarchive-zip-perl libargon2-dev libaspell-dev libaspell15 libbsd-dev libc-client2007e libc-client2007e-dev libcroco3 libct4 libdebhelper-perl libedit-dev libenchant-dev libenchant1c2a libexporter-tiny-perl libfbclient2 libfile-stripnondeterminism-perl libgcrypt20-dev libgd-dev libgd3 libgmp3-dev libgpg-error-dev libhunspell-1.7-0 libib-util libldap2-dev liblist-moreutils-perl liblmdb-dev libmagic-dev libmecab2 libmhash-dev libmhash2 libnss-myhostname libnuma1 libodbc1 libonig-dev libpam0g-dev libpci-dev libpci3 libpipeline1 libpspell-dev libqdbm-dev libqdbm14 libsasl2-dev libsctp-dev libsctp1 libsensors-config libsensors4-dev libsensors5 libsnmp-base libsnmp-dev libsnmp35 libsodium-dev libsodium23 libsub-override-perl libsybdb5 libsystemd-dev libtext-iconv-perl libtidy-dev libtidy5deb1 libtommath1 libuchardet0 libudev-dev libvpx-dev libvpx6 libwrap0-dev libxmlrpc-epi-dev libxmlrpc-epi0 libxmltok1 libxmltok1-dev libxpm-dev libxpm4 libzip-dev libzip5 locales-all man-db mlock netcat-traditional odbcinst odbcinst1debian2 pci.ids php-all-dev po-debconf psmisc re2c shtool systemtap-sdt-dev unixodbc unixodbc-dev xml2 libldap-2.4-2 libudev1 libxml2 libxml2-dev libzip-dev
+
+      - name: Checkout php
+        run: git clone --depth=1 https://github.com/php/php-src.git
+
+      - name: Build php
+        working-directory: php-src
+        run: |
+          ./buildconf
+          ./configure --with-ldap --with-ldap-sasl --with-zip --with-curl --with-openssl --with-zlib --enable-mbstring --enable-pcntl --enable-intl --with-password-argon2 --with-freetype --with-jpeg --enable-gd --with-imagick
+          #make
+
+      - name: composer i
+        working-directory: server
+        run: |
+          composer i
+          composer require --dev phpunit/phpunit
+
+      - name: PHPUnit
+        working-directory: server
+        run: PATH=../php-src/sapi/cli:$PATH ./autotest.sh sqlite
