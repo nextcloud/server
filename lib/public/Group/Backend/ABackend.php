@@ -80,4 +80,27 @@ abstract class ABackend implements GroupInterface {
 		}
 		return $users;
 	}
+
+	public function groupsExists(array $gids): array {
+		$existingGroups = [];
+		foreach ($gids as $gid) {
+			$exists = $this->groupExists($gid);
+			if ($exists) {
+				$existringGroups[] = $gid;
+			}
+		}
+		return $existingGroups;
+	}
+
+	public function getGroupsDetails(array $gids): array {
+		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
+			throw new \Exception("Should not have been called");
+		}
+		/** @var IGroupDetailsBackend $this */
+		$groupData = [];
+		foreach ($gids as $gid) {
+			$groupData[$gid] = $this->getGroupDetails($gid);
+		}
+		return $groupData;
+	}
 }

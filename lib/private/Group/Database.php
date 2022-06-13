@@ -62,11 +62,9 @@ class Database extends ABackend implements
 			   ISetDisplayNameBackend,
 			   INamedBackend {
 
-	/** @var string[] */
-	private $groupCache = [];
-
-	/** @var IDBConnection */
-	private $dbConn;
+	/** @var array<string, array{gid: string, displayname: string}> */
+	private array $groupCache = [];
+	private ?IDBConnection $dbConn;
 
 	/**
 	 * \OC\Group\Database constructor.
@@ -270,7 +268,7 @@ class Database extends ABackend implements
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('gid')
+		$query->select('gid', 'displayname')
 			->from('groups')
 			->orderBy('gid', 'ASC');
 
@@ -289,6 +287,10 @@ class Database extends ABackend implements
 
 		$groups = [];
 		while ($row = $result->fetch()) {
+			$this->groupCache[$row['gid']] = [
+				'displayname' => $row['displayname'],
+				'gid' => $row['gid'],
+			];
 			$groups[] = $row['gid'];
 		}
 		$result->closeCursor();
@@ -527,6 +529,28 @@ class Database extends ABackend implements
 		}
 
 		return [];
+	}
+
+	public function getGroupsDetails(array $gids): array {
+		$details = [];
+		foreach (array_chunk($gids, 1000) as $chunk) {
+			$query = $this->dbConn->getQueryBuilder();
+			$query->select('gid', 'displayname')
+				->from('groups')
+				->where($query->expr()->in('gid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
+
+			$result = $query->executeQuery();
+			while ($row = $result->fetch()) {
+				$details[$row['gid']] = $row['displayname'];
+				$this->groupCache[$row['gid']] = [
+					'displayname' => $row['displayname'],
+					'gid' => $row['gid'],
+				];
+			}
+			$result->closeCursor();
+		}
+
+		return $details;
 	}
 
 	public function setDisplayName(string $gid, string $displayName): bool {

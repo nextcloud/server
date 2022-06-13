@@ -76,10 +76,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private $dispatcher;
 	private LoggerInterface $logger;
 
-	/** @var \OC\Group\Group[] */
-	private $cachedGroups = [];
+	/** @var array<string, IGroup> */
+	private array $cachedGroups = [];
 
-	/** @var (string[])[] */
+	/** @var array<string, list<string> */
 	private $cachedUserGroups = [];
 
 	/** @var \OC\SubAdmin */
@@ -172,12 +172,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return $this->getGroupObject($gid);
 	}
 
-	/**
-	 * @param string $gid
-	 * @param string $displayName
-	 * @return \OCP\IGroup|null
-	 */
-	protected function getGroupObject($gid, $displayName = null) {
+	protected function getGroupObject(string $gid, ?string $displayName = null): ?IGroup {
 		$backends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof IGroupDetailsBackend || $backend->implementsActions(GroupInterface::GROUP_DETAILS)) {
@@ -200,6 +195,49 @@ class Manager extends PublicEmitter implements IGroupManager {
 		/** @var GroupInterface[] $backends */
 		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this, $displayName);
 		return $this->cachedGroups[$gid];
+	}
+
+	/**
+	 * @param list<string> $gids List of groupIds for which we want to create a IGroup object
+	 * @param array<string, string> $displayNames Array containing already know display name for a groupId
+	 * @return array<string, IGroup>
+	 */
+	protected function getGroupsObject(array $gids, array $displayNames = []): array {
+		$backends = [];
+		$groups = [];
+		foreach ($gids as $gid) {
+			$backends[$gid] = [];
+			if (!isset($displayNames[$gid])) {
+				$displayNames[$gid] = null;
+			}
+		}
+		foreach ($this->backends as $backend) {
+			if ($backend instanceof IGroupDetailsBackend || $backend->implementsActions(GroupInterface::GROUP_DETAILS)) {
+				$groupDatas = $backend->getGroupsDetails($gids);
+				foreach ($groupDatas as $gid => $groupData) {
+					if (!empty($groupData)) {
+						// take the display name from the first backend that has a non-null one
+						if (isset($groupData['displayName'])) {
+							$displayNames[$gid] = $groupData['displayName'];
+						}
+						$backends[$gid][] = $backend;
+					}
+				}
+			} else {
+				$existingGroups = $backend->groupsExists($gids);
+				foreach ($existingGroups as $group) {
+					$backends[$group][] = $backend;
+				}
+			}
+		}
+		foreach ($gids as $gid) {
+			if (count($backends[$gid]) === 0) {
+				 continue;
+			}
+			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $this, $displayNames[$gid]);
+			$groups[$gid] = $this->cachedGroups[$gid];
+		}
+		return $groups;
 	}
 
 	/**
@@ -245,13 +283,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
-			foreach ($groupIds as $groupId) {
-				$aGroup = $this->get($groupId);
-				if ($aGroup instanceof IGroup) {
-					$groups[$groupId] = $aGroup;
-				} else {
-					$this->logger->debug('Group "' . $groupId . '" was returned by search but not found through direct access', ['app' => 'core']);
-				}
+			$newGroups = $this->getGroupsObject($groupIds);
+			foreach ($newGroups as $groupId => $group) {
+				$groups[$groupId] = $group;
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($groups);
@@ -374,7 +408,35 @@ class Manager extends PublicEmitter implements IGroupManager {
 		if (is_null($group)) {
 			return [];
 		}
-		$groupUsers = $group->searchUsers($search, $limit, $offset);
+		$search = trim($search);
+		$groupUsers = [];
+
+		if (!empty($search)) {
+			// only user backends have the capability to do a complex search for users
+			$searchOffset = 0;
+			$searchLimit = $limit * 100;
+			if ($limit === -1) {
+				$searchLimit = 500;
+			}
+
+			do {
+				$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset);
+				foreach ($filteredUsers as $filteredUser) {
+					if ($group->inGroup($filteredUser)) {
+						$groupUsers[] = $filteredUser;
+					}
+				}
+				$searchOffset += $searchLimit;
+			} while (count($groupUsers) < $searchLimit + $offset && count($filteredUsers) >= $searchLimit);
+
+			if ($limit === -1) {
+				$groupUsers = array_slice($groupUsers, $offset);
+			} else {
+				$groupUsers = array_slice($groupUsers, $offset, $limit);
+			}
+		} else {
+			$groupUsers = $group->searchUsers('', $limit, $offset);
+		}
 
 		$matchingUsers = [];
 		foreach ($groupUsers as $groupUser) {

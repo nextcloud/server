@@ -94,7 +94,7 @@ interface GroupInterface {
 	 * @return array an array of group names
 	 * @since 4.5.0
 	 *
-	 * Returns a list with all groups
+	 * @deprecated since 25.0.0 use getGroupObjects as it is more efficient
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0);
 
@@ -105,6 +105,14 @@ interface GroupInterface {
 	 * @since 4.5.0
 	 */
 	public function groupExists($gid);
+
+	/**
+	 * Check if a list of groups exists
+	 * @param list<string> $gids
+	 * @return list<string> The list of group that exists
+	 * @since 25.0.0
+	 */
+	public function groupsExists(array $gids): array;
 
 	/**
 	 * @brief Get a list of user ids in a group matching the given search parameters.
@@ -138,4 +146,6 @@ interface GroupInterface {
 	 * @since 25.0.0
 	 */
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;
+
+	public function getGroupsDetails(array $gids): array;
 }

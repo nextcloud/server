@@ -67,7 +67,7 @@ class Group implements IGroup {
 
 	/**
 	 * @param string $gid
-	 * @param GroupInterface[] $backends
+	 * @param list<GroupInterface> $backends
 	 * @param EventDispatcherInterface $dispatcher
 	 * @param IUserManager $userManager
 	 * @param PublicEmitter $emitter
