@@ -66,15 +66,3 @@ jobs:
       - name: PHPUnit
         working-directory: tests
         run: ../lib/composer/bin/phpunit --configuration phpunit-autotest.xml
-
-  summary:
-    runs-on: ubuntu-latest
-    needs: phpunit-mysql
-
-    if: always()
-
-    name: phpunit-mysql-summary
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.phpunit-mysql.result != 'success' }}; then exit 1; fi
