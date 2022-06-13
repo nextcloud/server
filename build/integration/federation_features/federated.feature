@@ -86,7 +86,7 @@ Feature: federated
 			| file_parent | A_NUMBER |
 			| displayname_owner | user1 |
 			| share_with | user0@LOCAL |
-			| share_with_displayname | user0@LOCAL |
+			| share_with_displayname | user0 |
 
 	Scenario: Remote sharee can see the pending share
 		Given Using server "REMOTE"
