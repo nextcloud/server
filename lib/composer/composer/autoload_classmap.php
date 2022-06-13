@@ -981,6 +981,8 @@ return array(
     'OC\\Core\\Db\\LoginFlowV2Mapper' => $baseDir . '/core/Db/LoginFlowV2Mapper.php',
     'OC\\Core\\Db\\ProfileConfig' => $baseDir . '/core/Db/ProfileConfig.php',
     'OC\\Core\\Db\\ProfileConfigMapper' => $baseDir . '/core/Db/ProfileConfigMapper.php',
+    'OC\\Core\\Events\\BeforePasswordResetEvent' => $baseDir . '/core/Events/BeforePasswordResetEvent.php',
+    'OC\\Core\\Events\\PasswordResetEvent' => $baseDir . '/core/Events/PasswordResetEvent.php',
     'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => $baseDir . '/core/Exception/LoginFlowV2NotFoundException.php',
     'OC\\Core\\Exception\\ResetPasswordException' => $baseDir . '/core/Exception/ResetPasswordException.php',
     'OC\\Core\\Middleware\\TwoFactorMiddleware' => $baseDir . '/core/Middleware/TwoFactorMiddleware.php',
