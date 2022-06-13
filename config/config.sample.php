@@ -651,8 +651,7 @@ $CONFIG = [
  *
  *  * If no user quota is defined, the available space on the Nextcloud data 
  *    partition sets the limit for the trashbin
- *    (issues: see https://github.com/nextcloud/server/issues/28451 
- *    and https://github.com/nextcloud/server/issues/28450).
+ *    (issues: see https://github.com/nextcloud/server/issues/28451).
  *  * If a user quota is defined, 50% of the user's remaining quota space sets 
  *    the limit for the trashbin.
  *
