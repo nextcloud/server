@@ -25,9 +25,9 @@ use OCA\Files_Sharing\SharedStorage;
 use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCP\Files\File;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Test\TestCase;
@@ -45,7 +45,7 @@ class ViewOnlyPluginTest extends TestCase {
 
 	public function setUp(): void {
 		$this->plugin = new ViewOnlyPlugin(
-			$this->createMock(ILogger::class)
+			$this->createMock(LoggerInterface::class)
 		);
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->tree = $this->createMock(Tree::class);

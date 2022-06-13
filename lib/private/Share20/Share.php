@@ -338,7 +338,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function newAttributes() {
+	public function newAttributes(): IAttributes {
 		return new ShareAttributes();
 	}
 
