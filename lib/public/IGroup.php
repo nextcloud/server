@@ -99,7 +99,7 @@ interface IGroup {
 	 * @return \OCP\IUser[]
 	 * @since 8.0.0
 	 */
-	public function searchUsers($search, $limit = null, $offset = null);
+	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array;
 
 	/**
 	 * returns the number of users matching the search string

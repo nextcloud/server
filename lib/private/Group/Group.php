@@ -242,18 +242,13 @@ class Group implements IGroup {
 	}
 
 	/**
-	 * search for users in the group by userid
-	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * Search for users in the group by userid or display name
+	 * @return IUser[]
 	 */
-	public function searchUsers($search, $limit = null, $offset = null) {
+	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			$users += $this->getVerifiedUsers($userIds);
+			$users = array_merge($users, $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0));
 			if (!is_null($limit) and $limit <= 0) {
 				return $users;
 			}
@@ -309,12 +304,12 @@ class Group implements IGroup {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \OC\User\User[]
+	 * @deprecated 25.0.0 Use searchUsers instead (same implementation)
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			$users = $this->getVerifiedUsers($userIds);
+			$users = array_merge($users, $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0));
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
 			}

@@ -5,6 +5,11 @@
       <code>OC</code>
     </UndefinedClass>
   </file>
+  <file src="lib/public/Group/Backend/ABackend.php">
+    <UndefinedClass occurrences="2">
+      <code>OC</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>

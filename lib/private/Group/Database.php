@@ -43,6 +43,9 @@ use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\IDBConnection;
+use OCP\IUserManager;
+use OC\User\LazyUser;
+use OC\User\DisplayNameCache;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
@@ -370,6 +373,55 @@ class Database extends ABackend implements
 		$users = [];
 		while ($row = $result->fetch()) {
 			$users[] = $row['uid'];
+		}
+		$result->closeCursor();
+
+		return $users;
+	}
+
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('g.uid', 'u.displayname');
+
+		$query->from('group_user', 'g')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
+			->orderBy('g.uid', 'ASC');
+
+		$query->leftJoin('g', 'users', 'u', $query->expr()->eq('g.uid', 'u.uid'))
+
+		if ($search !== '') {
+			$query->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
+				$query->expr()->eq('p.userid', 'u.uid'),
+				$query->expr()->eq('p.appid', $query->expr()->literal('settings')),
+				$query->expr()->eq('p.configkey', $query->expr()->literal('email'))
+			))
+				// sqlite doesn't like re-using a single named parameter here
+				->andWhere(
+					$query->expr()->orX(
+						$query->expr()->ilike('g.uid', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
+						$query->expr()->ilike('u.displayname', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
+						$query->expr()->ilike('p.configvalue', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%'))
+					)
+				)
+				->orderBy('u.uid_lower', 'ASC');
+		}
+
+		if ($limit !== -1) {
+			$query->setMaxResults($limit);
+		}
+		if ($offset !== 0) {
+			$query->setFirstResult($offset);
+		}
+
+		$result = $query->executeQuery();
+
+		$users = [];
+		$userManager = \OCP\Server::get(IUserManager::class);
+		$displayNameCache = \OCP\Server::get(DisplayNameCache::class);
+		while ($row = $result->fetch()) {
+			$users[$row['uid']] = new LazyUser($row['uid'], $displayNameCache, $userManager, $row['displayname'] ?? null);
 		}
 		$result->closeCursor();
 

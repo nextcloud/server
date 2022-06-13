@@ -303,9 +303,9 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('2');
 
@@ -325,13 +325,13 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 		$backend2->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('2');
 
@@ -348,9 +348,9 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 1, 1)
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('user', 1, 1);
 
@@ -370,13 +370,13 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 		$backend2->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user1']);
+			->willReturn(['user1' => new \OC\User\User('user1', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('user', 2, 1);
 

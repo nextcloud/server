@@ -29,12 +29,18 @@
 
 namespace Test\Util\Group;
 
-use OC\Group\Backend;
+use Test\Util\User\Dummy as DummyUser;
+use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\ICountUsersBackend;
 
 /**
- * dummy group backend, does not keep state, only for testing use
+ * Dummy group backend, does not keep state, only for testing use
  */
-class Dummy extends Backend {
+class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend, IAddToGroupBackend, IRemoveFromGroupBackend, ICountUsersBackend {
 	private $groups = [];
 	/**
 	 * Try to create a new group
@@ -44,7 +50,7 @@ class Dummy extends Backend {
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public function createGroup($gid) {
+	public function createGroup(string $gid): bool {
 		if (!isset($this->groups[$gid])) {
 			$this->groups[$gid] = [];
 			return true;
@@ -60,7 +66,7 @@ class Dummy extends Backend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public function deleteGroup($gid) {
+	public function deleteGroup(string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			unset($this->groups[$gid]);
 			return true;
@@ -93,7 +99,7 @@ class Dummy extends Backend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup($uid, $gid) {
+	public function addToGroup(string $uid, string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			if (array_search($uid, $this->groups[$gid]) === false) {
 				$this->groups[$gid][] = $uid;
@@ -114,7 +120,7 @@ class Dummy extends Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid, $gid) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			if (($index = array_search($uid, $this->groups[$gid])) !== false) {
 				unset($this->groups[$gid][$index]);
@@ -192,6 +198,25 @@ class Dummy extends Backend {
 		}
 	}
 
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		if (isset($this->groups[$gid])) {
+			if (empty($search)) {
+				$length = $limit < 0 ? null : $limit;
+				$users = array_slice($this->groups[$gid], $offset, $length);
+				return array_map(fn ($user) => new DummyUser($user, ''));
+			}
+			$result = [];
+			foreach ($this->groups[$gid] as $user) {
+				if (stripos($user, $search) !== false) {
+					$result[] = new DummyUser($user, '');
+				}
+			}
+			return $result;
+		} else {
+			return [];
+		}
+	}
+
 	/**
 	 * get the number of all users in a group
 	 * @param string $gid
@@ -200,7 +225,7 @@ class Dummy extends Backend {
 	 * @param int $offset
 	 * @return int
 	 */
-	public function countUsersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+	public function countUsersInGroup(string $gid, string $search = ''): int {
 		if (isset($this->groups[$gid])) {
 			if (empty($search)) {
 				return count($this->groups[$gid]);
@@ -213,5 +238,10 @@ class Dummy extends Backend {
 			}
 			return $count;
 		}
+		return 0;
+	}
+
+	public function groupExists($gid) {
+		return isset($this->groups[$gid]);
 	}
 }
