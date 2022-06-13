@@ -165,6 +165,7 @@ class Application extends App implements IBootstrap {
 			'file.beforeGetDirect',
 			function (GenericEvent $event) use ($userSession, $rootFolder) {
 				$pathsToCheck = [$event->getArgument('path')];
+				$event->setArgument('run', true);
 
 				// Check only for user/group shares. Don't restrict e.g. share links
 				if ($userSession && $userSession->isLoggedIn()) {
@@ -173,6 +174,7 @@ class Application extends App implements IBootstrap {
 						$rootFolder->getUserFolder($uid)
 					);
 					if (!$viewOnlyHandler->check($pathsToCheck)) {
+						$event->setArgument('run', false);
 						$event->setArgument('errorMessage', 'Access to this resource or one of its sub-items has been denied.');
 					}
 				}
