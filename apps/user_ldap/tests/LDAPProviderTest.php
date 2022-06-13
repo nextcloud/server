@@ -58,7 +58,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setMethods(['getUserManager', 'getBackends', 'getGroupManager'])
 			 ->setConstructorArgs(['', new \OC\Config(\OC::$configDir)])
 			 ->getMock();
-		$server->expects($this->at(1))
+		$server->expects($this->never())
 			->method('getBackends')
 			->willReturn([$userBackend]);
 		$server->expects($this->any())
@@ -136,10 +136,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setMethods(['userExists', 'getLDAPAccess', 'username2dn'])
 			 ->disableOriginalConstructor()
 			 ->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(2))
+		$userBackend->expects($this->once())
 			->method('username2dn')
 			->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$userBackend->expects($this->any())
@@ -186,10 +186,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$groupBackend->expects($this->at(0))
+		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
-		$groupBackend->expects($this->at(2))
+		$groupBackend->expects($this->once())
 			->method('groupname2dn')
 			->willReturn('cn=existing_group,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$groupBackend->expects($this->any())
@@ -473,10 +473,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'clearCache'])
 			 ->disableOriginalConstructor()
 			 ->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(3))
+		$userBackend->expects($this->once())
 			->method('clearCache')
 			->willReturn(true);
 		$userBackend->expects($this->any())
@@ -518,10 +518,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['groupExists', 'getLDAPAccess', 'getConnection', 'clearCache'])
 			->disableOriginalConstructor()
 			->getMock();
-		$groupBackend->expects($this->at(0))
+		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
-		$groupBackend->expects($this->at(3))
+		$groupBackend->expects($this->once())
 			->method('clearCache')
 			->willReturn(true);
 		$groupBackend->expects($this->any())
@@ -598,10 +598,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
 			->disableOriginalConstructor()
 			->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(3))
+		$userBackend->expects($this->once())
 			->method('getConfiguration')
 			->willReturn(['ldap_display_name' => 'displayName']);
 		$userBackend->expects($this->any())
@@ -636,10 +636,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
 			->disableOriginalConstructor()
 			->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(3))
+		$userBackend->expects($this->once())
 			->method('getConfiguration')
 			->willReturn(['ldap_email_attr' => 'mail']);
 		$userBackend->expects($this->any())
@@ -684,7 +684,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$groupBackend->expects($this->at(0))
+		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
 		$groupBackend->expects($this->any())
