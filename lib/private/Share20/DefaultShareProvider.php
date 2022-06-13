@@ -175,6 +175,8 @@ class DefaultShareProvider implements IShareProvider {
 			if (method_exists($share, 'getParent')) {
 				$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
 			}
+
+			$qb->setValue('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT));
 		} else {
 			throw new \Exception('invalid share type!');
 		}

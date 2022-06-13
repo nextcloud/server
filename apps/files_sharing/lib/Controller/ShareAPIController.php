@@ -47,6 +47,7 @@ namespace OCA\Files_Sharing\Controller;
 use OC\Files\FileInfo;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\SharedStorage;
 use OCA\Files\Helper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -547,6 +548,14 @@ class ShareAPIController extends OCSController {
 			// Can we even share links?
 			if (!$this->shareManager->shareApiAllowLinks()) {
 				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
+			}
+
+			if ($share->getNode()->getStorage()->instanceOfStorage(SharedStorage::class)) {
+				/** @var \OCA\Files_Sharing\SharedStorage $storage */
+				$inheritedAttributes = $share->getNode()->getStorage()->getShare()->getAttributes();
+				if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
+					$share->setHideDownload(true);
+				}
 			}
 
 			if ($publicUpload === 'true') {
@@ -1123,6 +1132,24 @@ class ShareAPIController extends OCSController {
 				$share->setHideDownload(true);
 			} elseif ($hideDownload === 'false') {
 				$share->setHideDownload(false);
+			}
+
+			$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
+			// get the node with the point of view of the current user
+			$nodes = $userFolder->getById($share->getNode()->getId());
+			if (count($nodes) > 0) {
+				$node = $nodes[0];
+				$storage = $node->getStorage();
+				if ($storage->instanceOfStorage(SharedStorage::class)) {
+					/** @var \OCA\Files_Sharing\SharedStorage $storage */
+					$inheritedAttributes = $storage->getShare()->getAttributes();
+					if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
+						if ($hideDownload === 'false') {
+							throw new OCSBadRequestException($this->l->t('Cannot increate permissions'));
+						}
+						$share->setHideDownload(true);
+					}
+				}
 			}
 
 			$newPermissions = null;
