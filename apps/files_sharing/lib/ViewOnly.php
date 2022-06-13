@@ -42,7 +42,7 @@ class ViewOnly {
 	 * @param string[] $pathsToCheck
 	 * @return bool
 	 */
-	public function check($pathsToCheck) {
+	public function check(array $pathsToCheck): bool {
 		// If any of elements cannot be downloaded, prevent whole download
 		foreach ($pathsToCheck as $file) {
 			try {
@@ -70,7 +70,7 @@ class ViewOnly {
 	 * @return bool
 	 * @throws NotFoundException
 	 */
-	private function dirRecursiveCheck(Folder $dirInfo) {
+	private function dirRecursiveCheck(Folder $dirInfo): bool {
 		if (!$this->checkFileInfo($dirInfo)) {
 			return false;
 		}
@@ -94,7 +94,7 @@ class ViewOnly {
 	 * @return bool
 	 * @throws NotFoundException
 	 */
-	private function checkFileInfo(Node $fileInfo) {
+	private function checkFileInfo(Node $fileInfo): bool {
 		// Restrict view-only to nodes which are shared
 		$storage = $fileInfo->getStorage();
 		if (!$storage->instanceOfStorage(SharedStorage::class)) {
@@ -105,9 +105,14 @@ class ViewOnly {
 		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 		$share = $storage->getShare();
 
-		// Check if read-only and on whether permission can download is both set and disabled.
+		$canDownload = true;
 
-		$canDownload = $share->getAttributes()->getAttribute('permissions', 'download');
+		// Check if read-only and on whether permission can download is both set and disabled.
+		$attributes = $share->getAttributes();
+		if ($attributes !== null) {
+			$canDownload = $attributes->getAttribute('permissions', 'download');
+		}
+
 		if ($canDownload !== null && !$canDownload) {
 			return false;
 		}

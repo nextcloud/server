@@ -36,7 +36,9 @@ use OCP\Files\NotFoundException;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 
 /**
- * Interface IShare
+ * This interface allows to represent a share object.
+ *
+ * This interface must not be implemented in your application.
  *
  * @since 9.0.0
  */
@@ -320,7 +322,7 @@ interface IShare {
 	 * @since 25.0.0
 	 * @return IAttributes
 	 */
-	public function newAttributes();
+	public function newAttributes(): IAttributes;
 
 	/**
 	 * Set share attributes

@@ -26,7 +26,7 @@ use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\DAV\Meta\MetaFile;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -40,13 +40,13 @@ class ViewOnlyPlugin extends ServerPlugin {
 	/** @var Server $server */
 	private $server;
 
-	/** @var ILogger $logger */
+	/** @var LoggerInterface $logger */
 	private $logger;
 
 	/**
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 		$this->server = null;
 	}

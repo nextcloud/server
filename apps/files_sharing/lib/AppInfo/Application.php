@@ -125,12 +125,12 @@ class Application extends App implements IBootstrap {
 	}
 
 
-	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider) {
+	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider): void {
 		$mountProviderCollection->registerProvider($mountProvider);
 		$mountProviderCollection->registerProvider($externalMountProvider);
 	}
 
-	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher) {
+	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher): void {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$dispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LegacyBeforeTemplateRenderedListener::class);
@@ -159,12 +159,12 @@ class Application extends App implements IBootstrap {
 		IEventDispatcher $dispatcher,
 		?IUserSession $userSession,
 		IRootFolder $rootFolder
-	) {
+	): void {
 
 		$dispatcher->addListener(
 			'file.beforeGetDirect',
 			function (GenericEvent $event) use ($userSession, $rootFolder) {
-				$pathsToCheck[] = $event->getArgument('path');
+				$pathsToCheck = [$event->getArgument('path')];
 
 				// Check only for user/group shares. Don't restrict e.g. share links
 				if ($userSession && $userSession->isLoggedIn()) {
@@ -213,7 +213,7 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession) {
+	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession): void {
 		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
 			return;
 		}
