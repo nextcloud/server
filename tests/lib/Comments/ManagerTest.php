@@ -14,6 +14,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IInitialStateService;
 use OCP\IUser;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -37,7 +38,7 @@ class ManagerTest extends TestCase {
 		$this->connection->prepare($sql)->execute();
 	}
 
-	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null) {
+	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null, $expireDate = null) {
 		if (is_null($creationDT)) {
 			$creationDT = new \DateTime();
 		}
@@ -63,6 +64,7 @@ class ManagerTest extends TestCase {
 				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter($objectId),
+				'expire_date' => $qb->createNamedParameter($expireDate, 'datetime'),
 			])
 			->execute();
 
@@ -699,6 +701,51 @@ class ManagerTest extends TestCase {
 		// we still expect to get true back
 		$wasSuccessful = $manager->deleteCommentsAtObject('files', 'file64');
 		$this->assertTrue($wasSuccessful);
+	}
+
+	public function testDeleteMessageExpiredAtObject(): void {
+		$ids = [];
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
+
+		$manager = new Manager(
+			$this->connection,
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IConfig::class),
+			Server::get(ITimeFactory::class),
+			new EmojiHelper($this->connection),
+			$this->createMock(IInitialStateService::class)
+		);
+
+		// just to make sure they are really set, with correct actor data
+		$comment = $manager->get(strval($ids[1]));
+		$this->assertSame($comment->getObjectType(), 'files');
+		$this->assertSame($comment->getObjectId(), 'file64');
+
+		$deleted = $manager->deleteMessageExpiredAtObject('files', 'file64');
+		$this->assertTrue($deleted);
+
+		$deleted = 0;
+		$exists = 0;
+		foreach ($ids as $id) {
+			try {
+				$manager->get(strval($id));
+				$exists++;
+			} catch (NotFoundException $e) {
+				$deleted++;
+			}
+		}
+		$this->assertSame($exists, 3);
+		$this->assertSame($deleted, 3);
+
+		// actor info is gone from DB, but when database interaction is alright,
+		// we still expect to get true back
+		$deleted = $manager->deleteMessageExpiredAtObject('files', 'file64');
+		$this->assertFalse($deleted);
 	}
 
 	public function testSetMarkRead() {

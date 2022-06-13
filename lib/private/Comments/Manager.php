@@ -107,6 +107,9 @@ class Manager implements ICommentsManager {
 		if (!is_null($data['latest_child_timestamp'])) {
 			$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
 		}
+		if (!is_null($data['expire_date'])) {
+			$data['expire_date'] = new \DateTime($data['expire_date']);
+		}
 		$data['children_count'] = (int)$data['children_count'];
 		$data['reference_id'] = $data['reference_id'] ?? null;
 		if ($this->supportReactions()) {
@@ -1203,6 +1206,7 @@ class Manager implements ICommentsManager {
 			'latest_child_timestamp' => $qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'),
 			'object_type' => $qb->createNamedParameter($comment->getObjectType()),
 			'object_id' => $qb->createNamedParameter($comment->getObjectId()),
+			'expire_date' => $qb->createNamedParameter($comment->getExpireDate(), 'datetime'),
 		];
 
 		if ($tryWritingReferenceId) {
@@ -1641,5 +1645,22 @@ class Manager implements ICommentsManager {
 	public function load(): void {
 		$this->initialStateService->provideInitialState('comments', 'max-message-length', IComment::MAX_MESSAGE_LENGTH);
 		Util::addScript('comments', 'comments-app');
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function deleteMessageExpiredAtObject(string $objectType, string $objectId): bool {
+		$qb = $this->dbConn->getQueryBuilder();
+		$affectedRows = $qb->delete('comments')
+			->where($qb->expr()->lt('expire_date',
+				$qb->createNamedParameter($this->timeFactory->getDateTime(), IQueryBuilder::PARAM_DATE)))
+			->andWhere($qb->expr()->eq('object_type', $qb->createNamedParameter($objectType)))
+			->andWhere($qb->expr()->eq('object_id', $qb->createNamedParameter($objectId)))
+			->executeStatement();
+
+		$this->commentsCache = [];
+
+		return $affectedRows > 0;
 	}
 }
