@@ -143,7 +143,7 @@ class Scan extends Base {
 				$scanner->scan($path, $recursive, $homeOnly ? [$this, 'filterHomeMount'] : null);
 			}
 		} catch (ForbiddenException $e) {
-			$output->writeln("<error>Home storage for user $user not writable</error>");
+			$output->writeln("<error>Home storage for user $user not writable or 'files' subdirectory missing</error>");
 			$output->writeln('Make sure you\'re running the scan command only as the user the web server runs as');
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
