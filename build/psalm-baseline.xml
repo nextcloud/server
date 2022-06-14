@@ -136,16 +136,6 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
-    <InvalidArgument occurrences="8">
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::createCachedCalendarObject'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::createSubscription'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteCachedCalendarObject'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteSubscription'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::publishCalendar'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::updateCachedCalendarObject'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::updateShares'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::updateSubscription'</code>
-    </InvalidArgument>
     <InvalidNullableReturnType occurrences="2">
       <code>array</code>
       <code>array</code>
@@ -161,16 +151,6 @@
     <RedundantCast occurrences="1">
       <code>(int)$calendarId</code>
     </RedundantCast>
-    <TooManyArguments occurrences="8">
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
     <UndefinedFunction occurrences="4">
       <code>Uri\split($principalUri)</code>
       <code>Uri\split($row['principaluri'])</code>
@@ -341,9 +321,6 @@
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/CardDAV/AddressBookImpl.php">
-    <InvalidArgument occurrences="1">
-      <code>$id</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;getKey()</code>
       <code>$this-&gt;getKey()</code>
@@ -358,16 +335,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidArgument occurrences="3">
-      <code>'\OCA\DAV\CardDAV\CardDavBackend::createCard'</code>
-      <code>'\OCA\DAV\CardDAV\CardDavBackend::deleteCard'</code>
-      <code>'\OCA\DAV\CardDAV\CardDavBackend::updateCard'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="3">
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
     <TypeDoesNotContainType occurrences="1">
       <code>$addressBooks[$row['id']][$readOnlyPropertyName] === 0</code>
     </TypeDoesNotContainType>
@@ -672,14 +639,6 @@
       <code>null</code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/dav/lib/DAV/Sharing/Backend.php">
-    <InvalidArrayOffset occurrences="4">
-      <code>$element['href']</code>
-      <code>$element['href']</code>
-      <code>$element['href']</code>
-      <code>$element['readOnly']</code>
-    </InvalidArrayOffset>
-  </file>
   <file src="apps/dav/lib/DAV/SystemPrincipalBackend.php">
     <InvalidNullableReturnType occurrences="1">
       <code>array</code>
@@ -889,7 +848,6 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
-      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -1730,14 +1688,6 @@
   <file src="apps/updatenotification/lib/Notification/Notifier.php">
     <InvalidScalarArgument occurrences="1">
       <code>0</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/updatenotification/lib/ResetTokenBackgroundJob.php">
-    <InvalidOperand occurrences="1">
-      <code>$this-&gt;config-&gt;getAppValue('core', 'updater.secret.created', $this-&gt;timeFactory-&gt;getTime())</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="1">
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/updatenotification/lib/Settings/Admin.php">
@@ -3366,16 +3316,13 @@
       <code>$result</code>
       <code>$this-&gt;copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="6">
+    <InvalidReturnStatement occurrences="4">
       <code>$newUnencryptedSize</code>
       <code>$result</code>
-      <code>$stat</code>
       <code>$this-&gt;storage-&gt;file_get_contents($path)</code>
       <code>$this-&gt;storage-&gt;filesize($path)</code>
-      <code>$this-&gt;storage-&gt;getLocalFile($path)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="5">
-      <code>array</code>
+    <InvalidReturnType occurrences="3">
       <code>bool</code>
       <code>int</code>
       <code>string</code>
