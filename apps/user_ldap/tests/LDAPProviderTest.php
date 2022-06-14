@@ -58,9 +58,6 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setMethods(['getUserManager', 'getBackends', 'getGroupManager'])
 			 ->setConstructorArgs(['', new \OC\Config(\OC::$configDir)])
 			 ->getMock();
-		$server->expects($this->never())
-			->method('getBackends')
-			->willReturn([$userBackend]);
 		$server->expects($this->any())
 			->method('getUserManager')
 			->willReturn($this->getUserManagerMock($userBackend));
