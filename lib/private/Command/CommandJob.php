@@ -30,7 +30,7 @@ use OCP\Command\ICommand;
  */
 class CommandJob extends QueuedJob {
 	protected function run($serializedCommand) {
-		$command = \Opis\Closure\unserialize($serializedCommand);
+		$command = unserialize($serializedCommand);
 		if ($command instanceof ICommand) {
 			$command->handle();
 		} else {
