@@ -209,6 +209,7 @@ return array(
     'OCA\\DAV\\Events\\CalendarMovedToTrashEvent' => $baseDir . '/../lib/Events/CalendarMovedToTrashEvent.php',
     'OCA\\DAV\\Events\\CalendarObjectCreatedEvent' => $baseDir . '/../lib/Events/CalendarObjectCreatedEvent.php',
     'OCA\\DAV\\Events\\CalendarObjectDeletedEvent' => $baseDir . '/../lib/Events/CalendarObjectDeletedEvent.php',
+    'OCA\\DAV\\Events\\CalendarObjectMovedEvent' => $baseDir . '/../lib/Events/CalendarObjectMovedEvent.php',
     'OCA\\DAV\\Events\\CalendarObjectMovedToTrashEvent' => $baseDir . '/../lib/Events/CalendarObjectMovedToTrashEvent.php',
     'OCA\\DAV\\Events\\CalendarObjectRestoredEvent' => $baseDir . '/../lib/Events/CalendarObjectRestoredEvent.php',
     'OCA\\DAV\\Events\\CalendarObjectUpdatedEvent' => $baseDir . '/../lib/Events/CalendarObjectUpdatedEvent.php',

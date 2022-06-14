@@ -69,6 +69,10 @@ class Todo extends Event {
 			$subject = $this->l->t('{actor} reopened todo {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self') {
 			$subject = $this->l->t('You reopened todo {todo} in list {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_todo') {
+			$subject = $this->l->t('{actor} moved todo {todo} from list {sourceCalendar} to list {targetCalendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_todo_self') {
+			$subject = $this->l->t('You moved todo {todo} from list {sourceCalendar} to list {targetCalendar}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -109,6 +113,24 @@ class Todo extends Event {
 				case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'todo' => $this->generateObjectParameter($parameters['object']),
+					];
+			}
+		}
+
+		if (isset($parameters['sourceCalendar']) && isset($parameters['targetCalendar'])) {
+			switch ($subject) {
+				case self::SUBJECT_OBJECT_MOVE . '_todo':
+					return [
+						'actor' => $this->generateUserParameter($parameters['actor']),
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
+						'todo' => $this->generateObjectParameter($parameters['object']),
+					];
+				case self::SUBJECT_OBJECT_MOVE . '_todo_self':
+					return [
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
 						'todo' => $this->generateObjectParameter($parameters['object']),
 					];
 			}

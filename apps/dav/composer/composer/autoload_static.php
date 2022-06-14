@@ -224,6 +224,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Events\\CalendarMovedToTrashEvent' => __DIR__ . '/..' . '/../lib/Events/CalendarMovedToTrashEvent.php',
         'OCA\\DAV\\Events\\CalendarObjectCreatedEvent' => __DIR__ . '/..' . '/../lib/Events/CalendarObjectCreatedEvent.php',
         'OCA\\DAV\\Events\\CalendarObjectDeletedEvent' => __DIR__ . '/..' . '/../lib/Events/CalendarObjectDeletedEvent.php',
+        'OCA\\DAV\\Events\\CalendarObjectMovedEvent' => __DIR__ . '/..' . '/../lib/Events/CalendarObjectMovedEvent.php',
         'OCA\\DAV\\Events\\CalendarObjectMovedToTrashEvent' => __DIR__ . '/..' . '/../lib/Events/CalendarObjectMovedToTrashEvent.php',
         'OCA\\DAV\\Events\\CalendarObjectRestoredEvent' => __DIR__ . '/..' . '/../lib/Events/CalendarObjectRestoredEvent.php',
         'OCA\\DAV\\Events\\CalendarObjectUpdatedEvent' => __DIR__ . '/..' . '/../lib/Events/CalendarObjectUpdatedEvent.php',
