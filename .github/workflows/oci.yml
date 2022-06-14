@@ -36,13 +36,13 @@ jobs:
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, oci8, openssl, pdo_sqlite, posix, sqlite, xml, zip
           tools: phpunit:9
           coverage: none
+          ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: composer i
         run: |
           composer i
-          composer require --dev phpunit/phpunit
 
       - name: Set up Nextcloud
         run: |
@@ -52,7 +52,7 @@ jobs:
 
       - name: PHPUnit
         working-directory: tests
-        run: ../lib/composer/bin/phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
+        run: phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
 
   summary:
     permissions:

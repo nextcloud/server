@@ -46,6 +46,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+          tools: phpunit
           extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
           coverage: none
           update: true
@@ -54,7 +55,6 @@ jobs:
       - name: composer i
         run: |
           composer i
-          composer require --dev phpunit/phpunit
 
       - name: Set up Nextcloud
         env:
@@ -66,4 +66,4 @@ jobs:
 
       - name: PHPUnit
         working-directory: tests
-        run: ../lib/composer/bin/phpunit --configuration phpunit-autotest.xml
+        run: phpunit --configuration phpunit-autotest.xml
