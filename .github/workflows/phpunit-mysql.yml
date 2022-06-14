@@ -49,6 +49,7 @@ jobs:
           extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
           coverage: none
           update: true
+          ini-file: development
 
       - name: composer i
         run: |

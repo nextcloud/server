@@ -42,6 +42,7 @@ jobs:
           tools: phpunit
           extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, gd
           coverage: none
+          ini-file: development
 
       - name: composer i
         run: composer i
