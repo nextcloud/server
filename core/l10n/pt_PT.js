@@ -307,7 +307,6 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Configurar autenticação de dois fatores",
     "Use backup code" : "Usar código de cópia de segurança",
     "Cancel login" : "Cancelar login",
-    "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
     "Error while validating your second factor" : "Erro ao validar o segundo fator",
     "Access through untrusted domain" : "Aceder através de um domínio não confiável",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Por favor contacte o seu administrador. Se é um administrador, edite a definição \"trusted_domains\" no config/config.php como no exemplo em config.sample.php.",
@@ -331,6 +330,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou apareceu inesperadamente.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Este servidor não tem ligação à Internet: Não foi possível detetar vários endpoints. Isso significa que algumas das funcionalidades como a montagem de armazenamento externo, notificações sobre atualizações ou instalação de aplicações de terceiros não funcionarão. Pode também não ser possível aceder a ficheiros remotamente e enviar e-mails de notificação. Sugerimos que ative a ligação à Internet para este servidor, caso pretenda ter todas as funcionalidades.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Os directórios de datos e ficheiros estão provavelmente acessíveis através da Internet. O ficheiro .htaccess não está a funcionar. É altamente recomendado que configure o seu servidor web para que o directório de dados deixa de estar acessível, ou movê-lo para fora da raiz de documentos do servidor web. ",
-    "The password is wrong. Try again." : "A palavra-passe está errada. Por favor, tente de novo."
+    "The password is wrong. Try again." : "A palavra-passe está errada. Por favor, tente de novo.",
+    "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

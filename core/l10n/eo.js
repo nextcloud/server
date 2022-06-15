@@ -293,7 +293,6 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Agordi dufazan aŭtentigon",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Dufaza aŭtentigo estas ebligita, sed ĝi ne estis agordita por via konto. Uzu unu el viaj rezervkodoj por ensaluti, aŭ kontaktu vian administranton por helpo.",
     "Use backup code" : "Uzi rezervkodon",
-    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Plibonigita sekurigo estas devigata por via konto. Elektu provizanton agordotan:",
     "Error while validating your second factor" : "Eraro dum validigo de via dua fazo",
     "Access through untrusted domain" : "Aliro tra nefidinda domajno",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "La servilo ne havas funkciantan retkonekton. Pluraj finpunktoj ne atingeblis. Do, kelkaj elementoj kiel surmeto de ekstera konservejo, sciigoj pri ĝisdatigoj aŭ instalado de ekstera liveranto ne funkcios. Defora atingo de dosieroj kaj sendo de sciigaj retmesaĝoj eble ne funkcios. Starigu konekton el tiu servilo al interreto por uzi ĉiujn eblojn.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 estas la lasta versio, kiu subtenas PHP 7.2. Nextcloud 21 bezonas almenaŭ PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Via datumdosierujo kaj viaj dosieroj estas probable elirebla el la interreto. La dosiero „.htaccess“ ne funkcias. Ni tre rekomendas, ke vi agordu vian retservilon, por ke la dosierujo de datumoj („data“) estu ne alirebla aŭ ĝi estu movita ekster la dokumentradiko de la retservilo.",
-    "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove."
+    "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
+    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
 },
 "nplurals=2; plural=(n != 1);");

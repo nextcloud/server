@@ -363,7 +363,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "L'autenticazione a due fattori è applicata, ma non è stata configurata nel tuo account. Utilizza uno dei tuoi codici di backup per accedere o contatta il tuo amministratore per assistenza.",
     "Use backup code" : "Usa il codice di backup",
     "Cancel login" : "Annulla l'accesso",
-    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "La sicurezza migliorata è applicata al tuo account. Scegli quale fornitore configurare:",
     "Error while validating your second factor" : "Errore durante la convalida del tuo secondo fattore",
     "Access through untrusted domain" : "Accedi tramite un dominio non attendibile",
@@ -395,6 +394,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Per migrare a un altro database, usa lo strumento da riga di comando: 'occ db:convert-type', o leggi la {linkstart}documentazione ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "La cartella dei dati e i tuoi file sono probabilmente accessibili da Internet. Il file .htaccess non funziona. Ti consigliamo vivamente di configurare il server web in modo che la cartella dei dati non sia più accessibile o di spostare la cartella fuori dalla radice del server web.",
     "The password is wrong. Try again." : "La password è errata. Prova ancora.",
+    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
     "You haven't added any info yet" : "Non hai ancora aggiunto alcuna informazione",
     "{user} hasn't added any info yet" : "{user} non ha ancora aggiunto alcuna informazione"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

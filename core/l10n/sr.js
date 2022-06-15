@@ -301,7 +301,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Двофакторска провера идентитета је захтевана, али није још подешена на Вашем налогу. Или употребите Ваше резервне кôдове, или контактирајте администратора за помоћ.",
     "Use backup code" : "Користите резервни кôд",
     "Cancel login" : "Откажи пријављивање",
-    "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Повећана сигурност је захтевана за овај налог. Одаберите провајдера којег желите да подесите:",
     "Error while validating your second factor" : "Грешка при провери Вашег другог фактора",
     "Access through untrusted domain" : "Приступ кроз небезбедни домен",
@@ -328,6 +327,7 @@ OC.L10N.register(
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Овај сервер нема интернет конекцију: немогуће је доћи до више интернет крајњих тачака. Ово значи да неке могућности као што су качење спољних складишта, обавештења о ажурирањима или инсталација апликација треће стране неће радити. Приступање фајловима споља и слање обавештења е-поштом исто тако може да не ради. Омогућите интернет конекцију на овом серверу ако желите да уживате у свим могућностима.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Некстклауд 20 је последње издање са подршком за PHP 7.2. Некстклауд 21 захтева бар PHP 7.3",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ваша фасцикла са подацима и фајлови су вероватно доступни са интернета. .htaccess фајл не ради. Препоручујемо да подесите Ваш веб сервер тако да је фасцикла са подацима ван фасцикле кореног документа веб сервера.",
-    "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново."
+    "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
+    "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -243,7 +243,6 @@
     "Set up two-factor authentication" : "Setează autentificarea cu doi factori",
     "Use backup code" : "Folosește un cod de backup",
     "Cancel login" : "Anulează autentificarea",
-    "Setup two-factor authentication" : "Setează autentificarea cu doi factori",
     "Error while validating your second factor" : "Eroare la validarea celui de-al doilea factor",
     "Access through untrusted domain" : "Acces printr-un domeniu nesigur",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Vă rugăm contactați administratorul. Dacă sunteți administrator, editați setarea \"trusted_domains\" în config/config.php la fel ca în exemplul din config.sample.php",
@@ -262,6 +261,7 @@
     "Maintenance mode" : "Mod mentenanță",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
-    "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou."
+    "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou.",
+    "Setup two-factor authentication" : "Setează autentificarea cu doi factori"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

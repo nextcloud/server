@@ -365,7 +365,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Двустепенното удостоверяване е приложено, но не е конфигурирано във вашия профил. Използвайте един от резервните си кодове, за да влезете или се свържете с вашия администратор за съдействие.",
     "Use backup code" : "Използвай код за възстановяване",
     "Cancel login" : "Откажи вписване",
-    "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Повишената сигурност е активирана за вашия профил. Изберете кой доставчик да настроите: ",
     "Error while validating your second factor" : "Грешка при валидиране на втория ви фактор",
     "Access through untrusted domain" : "Достъп през недоверен домейн",
@@ -397,6 +396,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "За да мигрирате към друга база данни, използвайте инструмента за команден ред: 'occ db: convert-type' или вижте  {linkstart}документацията ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Най-вероятно вашите данни и файлове са достъпни от интернет. .htaccess файлът не функционира. Силно се препоръчва да настроите уеб сървъра по такъв начин, че директорията за данни да не бъде достъпна или я преместете извън началната директория на уеб сървъра.",
     "The password is wrong. Try again." : "Паролата е грешна. Опитайте отново.",
+    "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
     "You haven't added any info yet" : "Все още не сте добавили никаква информация",
     "{user} hasn't added any info yet" : "{user} все още не е добавил никаква информация"
 },
