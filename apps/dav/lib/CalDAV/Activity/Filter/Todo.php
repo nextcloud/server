@@ -52,7 +52,7 @@ class Todo implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('Todos');
+		return $this->l->t('To-dos');
 	}
 
 	/**
