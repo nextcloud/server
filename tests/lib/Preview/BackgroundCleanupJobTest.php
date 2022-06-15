@@ -202,6 +202,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$root = $this->getRoot();
 		$this->assertSame(11, $this->countPreviews($root, $fileIds));
 
+		$oldConfig = $this->config->getSystemValueBool('enable_previews', true);
 		$this->config->setSystemValue('enable_previews', false);
 
 		$job = new BackgroundCleanupJob($this->config, $this->connection, $root, $this->mimeTypeLoader, true);
@@ -211,7 +212,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->assertSame(11, $this->countPreviews($root, $fileIds));
 
 		// Cleanup
-		$this->config->setSystemValue('enable_previews', true);
+		$this->config->setSystemValue('enable_previews', $oldConfig);
 	}
 
 	public function testOldPreviews() {
