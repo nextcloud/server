@@ -365,7 +365,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Двухфакторное подтверждение подлинности включено в настройках но ваша учётная запись еще не сконфигурирована для его использования. Используйте один из резервных кодов для входа в аккаунт или свяжитесь с вашим администратором для получения помощи.",
     "Use backup code" : "Использовать резервный код",
     "Cancel login" : "Отменить вход",
-    "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Повышенная безопасность включена для вашей учетной записи. Выберите провайдера для настройки:",
     "Error while validating your second factor" : "Ошибка проверки кода",
     "Access through untrusted domain" : "Доступ через недоверенный домен",
@@ -397,6 +396,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Для миграции на другую базу данных используйте команду 'occ db:convert-type' или обратитесь к {linkstart}документации ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Каталог данных и файлы, возможно, доступны из интернета. Файл «.htaccess» не работает. Настоятельно рекомендуется настроить веб сервер таким образом, чтобы каталог данных не был доступен из внешней сети, либо переместить каталог данных за пределы корневого каталога веб-сервера.",
     "The password is wrong. Try again." : "Неверный пароль. Повторите попытку.",
+    "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
     "You haven't added any info yet" : "Вы еще не добавили никакой информации",
     "{user} hasn't added any info yet" : "{user} ещё не добавил никакой информации"
 },

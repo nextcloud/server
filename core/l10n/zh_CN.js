@@ -354,7 +354,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "已强制执行两步验证，但尚未在您的账号上对其进行配置。 使用您的备用验证码之一登录或与管理员联系以获取帮助。",
     "Use backup code" : "使用备用口令",
     "Cancel login" : "取消登录",
-    "Setup two-factor authentication" : "配置两步验证",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "您的账号将获得增强的安全性。 选择要设置的提供者：",
     "Error while validating your second factor" : "验证您的第二项时出错",
     "Access through untrusted domain" : "通过不被信任的域名访问",
@@ -386,6 +385,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "要迁移到另一个数据库，使用命令行工具 'occ db:convert-type'或见 {linkstart}文档↗{linkend}",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的数据目录和文件可以从互联网直接访问。.htaccess 文件不起作用。强烈建议您配置 Web 服务器，以便数据目录不再可访问，或者您可以将数据目录移动到 Web 服务器文档根目录。",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
+    "Setup two-factor authentication" : "配置两步验证",
     "You haven't added any info yet" : "你尚未添加任何信息",
     "{user} hasn't added any info yet" : "{user} 尚未添加任何信息"
 },

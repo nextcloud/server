@@ -350,7 +350,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Tweefactor authenticatie is ingeschakeld, maar niet geconfigureerd voor je account. Gebruik een van je backup codes om in te loggen of neem voor hulp contact op met je beheerder.",
     "Use backup code" : "Gebruik back-upcode",
     "Cancel login" : "Inlog annuleren",
-    "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Versterkte beveiliging is ingeschakeld voor je account. Kies een provider om in te stellen:",
     "Error while validating your second factor" : "Fout bij het verifiëren van je tweede factor",
     "Access through untrusted domain" : "Toegang via een niet vertrouwd domein",
@@ -382,6 +381,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Om te migreren naar een andere database moet u de commandoregel tool gebruiken: 'occ db:convert-type', of lees de {linkstart} documentatie  ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Je datamap en je bestanden zijn waarschijnlijk vanaf het internet bereikbaar.  Het .htaccess-bestand werkt niet. We raden ten zeerste aan aan om je webserver zodanig te configureren, dat de datadirectory niet bereikbaar is vanaf het internet of om je datadirectory te verplaatsen naar een locatie buiten de document-root van de webserver.",
     "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
+    "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
     "You haven't added any info yet" : "Je hebt nog geen info toegevoegd",
     "{user} hasn't added any info yet" : "{user} heeft nog geen info toegevoegd"
 },

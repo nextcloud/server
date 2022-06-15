@@ -354,7 +354,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "To-faktor adgang påkrævet, men endnu ikke indstillet for din konto. Brug en af dine nødkoder for at logge ind eller kontakt din administrator for hjælp.",
     "Use backup code" : "Benyt backup-kode",
     "Cancel login" : "Annuller login",
-    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Forbedret sikkerhed er påkrævet for din konto. Vælg hvilken udbyder at opsætte:",
     "Error while validating your second factor" : "Fejl i valideringen af din anden faktor login",
     "Access through untrusted domain" : "Tilgå gennem et utroværdigt domæne.",
@@ -386,6 +385,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "For at migrere til en anden database skal du bruge kommandolinjeværktøjet: 'occ db:convert-type', eller se {linkstart}dokumentationen ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Din data-mappe og dine filer ser ud til at være tilgængelig på intetnettet. Din .htaccess fungere ikke korrekt. Du anbefales på det kraftigste til at sætte din webserver op så din data-mappe ikke længere er tilgængelig på intetnettet eller flytte data-mappen væk fra webserverens dokumentrod.",
     "The password is wrong. Try again." : "Passwordet er forkert. Prøv igen.",
+    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
     "You haven't added any info yet" : "Du har ikke tilføjet nogle info endnu",
     "{user} hasn't added any info yet" : "{user} har ikke tilføjet nogle info endnu"
 },

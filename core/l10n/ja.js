@@ -368,7 +368,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "二要素認証が強制されていますが、アカウントに設定されていません。 バックアップコードを使用してログインするか、不明点は管理者に連絡してください。",
     "Use backup code" : "バックアップコードを使用する",
     "Cancel login" : "ログインをキャンセル",
-    "Setup two-factor authentication" : "二要素認証を設定",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "アカウントのセキュリティ強化が必要です。使用する認証手段を選択してください。",
     "Error while validating your second factor" : "第二要素の検証でエラーが発生しました",
     "Access through untrusted domain" : "信頼できないドメインを介したアクセス",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "別のデータベースに移行するには、コマンドラインツール 'occ db:convert-type'を使用するか、{linkstart}ドキュメント↗{linkend}を参照してください。",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "あなたのデータディレクトリとファイルはおそらくインターネットからアクセス可能です。 .htaccessファイルが機能していません。 データディレクトリにアクセスできなくなるようにWebサーバーを設定するか、データディレクトリをWebサーバーのドキュメントルートの外側に移動することを強くお勧めします。",
     "The password is wrong. Try again." : "パスワードが違います。再入力してください",
+    "Setup two-factor authentication" : "二要素認証を設定",
     "You haven't added any info yet" : "まだ情報が追加されていません",
     "{user} hasn't added any info yet" : "{user}が、まだ情報を追加していません"
 },

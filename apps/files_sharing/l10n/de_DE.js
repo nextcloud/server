@@ -237,7 +237,7 @@ OC.L10N.register(
     "Name" : "Name",
     "Share time" : "Freigabezeitpunkt",
     "Expiration date" : "Ablaufdatum",
-    "Sorry, this link does not seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
+    "Sorry, this link does not seem to work anymore." : "Leider scheint dieser Link nicht mehr zu funktionieren.",
     "Reasons might be:" : "Gründe könnten sein:",
     "the item was removed" : "Das Element wurde entfernt",
     "the link expired" : "Der Link ist abgelaufen",
