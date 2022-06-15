@@ -368,7 +368,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Dvojfaktorová autentifikácia je vyžadovaná ale nebola nakonfigurovaná pre Váš účet.  Použite jeden zo záložných kódov na prihlásenie alebo kontaktujte administrátora pre ďalšiu asistenciu.",
     "Use backup code" : "Použiť záložný kód",
     "Cancel login" : "Zruš prihlasovanie",
-    "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Pre váš účet je vynútená zvýšená bezpečnosť. Vyberte si poskytovateľa, ktorého chcete nastaviť:",
     "Error while validating your second factor" : "Chyba počas overovania druhého faktora",
     "Access through untrusted domain" : "Prístup cez nedôveryhodnú doménu",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Na migráciu do inej databázy použite nástroj príkazového riadku: 'occ db:convert-type' alebo si pozrite dokumentáciu {linkstart} ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Váš priečinok s dátami aj vaše súbory sú pravdepodobne prístupné z internetu. Súbor .htaccess nefunguje. Dôrazne odporúčame nakonfigurovať webový server tak, aby priečinok s dátami nebol naďalej prístupný alebo presunúť priečinok s dátami mimo priestoru, ktorý webový server sprístupňuje.",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
+    "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
     "You haven't added any info yet" : "Zatiaľ ste nepridali žiadne informácie",
     "{user} hasn't added any info yet" : "{user} zatiaľ nepridal žiadne informácie"
 },

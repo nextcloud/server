@@ -366,7 +366,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "雙因素驗證已被強制要求啟用，您的帳號目前還沒設定。請使用一個備用碼來登入或聯絡管理員。",
     "Use backup code" : "使用備用認證碼",
     "Cancel login" : "取消登入",
-    "Setup two-factor authentication" : "設定雙因素驗證",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "您的帳號已啟用進階安全機制，請選擇一個提供者：",
     "Error while validating your second factor" : "驗證您的第二因素時發生錯誤",
     "Access through untrusted domain" : "經由不可信任的域名存取",
@@ -398,6 +397,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "若要遷移至另一個資料庫，請使用命令列工具： 'occ db:convert-type' ，或是查閱{linkstart}文件 ↗{linkend}。",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的資料目錄和檔案看來可以被公開存取，這表示 .htaccess 設定檔並未生效，我們強烈建議您設定網頁伺服器，拒絕公開存取資料目錄，或者將您的資料目錄移出網頁伺服器根目錄。",
     "The password is wrong. Try again." : "密碼錯誤，請重試",
+    "Setup two-factor authentication" : "設定雙因素驗證",
     "You haven't added any info yet" : "您尚未新增任何資訊",
     "{user} hasn't added any info yet" : "{user} 尚未新增任何資訊"
 },"pluralForm" :"nplurals=1; plural=0;"

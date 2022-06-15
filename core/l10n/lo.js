@@ -315,7 +315,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "ການຢັ້ງຢືນສອງປັດໃຈແມ່ນຖືກບັງຄັບໃຊ້ແຕ່ຍັງບໍ່ໄດ້ຖືກຕັ້ງຄ່າໃນບັນຊີຂອງທ່ານ. ໃຊ້ລະຫັດສໍາຮອງຂອງທ່ານເພື່ອເຂົ້າລະບົບຫຼືຕິດຕໍ່ admin ຂອງທ່ານສໍາລັບການຊ່ວຍເຫຼືອ.",
     "Use backup code" : "ໃຊ້ລະຫັດສໍາຮອງ",
     "Cancel login" : "ຍົກເລີກ login",
-    "Setup two-factor authentication" : "ການຕັ້ງຄ່າຮັບຮອງການຢັ້ງຢືນສອງຄັ້ງ",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "ເພີ່ມທະວີຄວາມປອດໄພແມ່ນຖືກບັງຄັບໃຊ້ ສໍາລັບບັນຊີ ຂອງທ່ານ . ເລືອກຜູ້ໃຫ້ບໍລິການທີ່ກຳນົດໄວ້",
     "Error while validating your second factor" : "ຄວາມຜິດພາດໃນຂະນະທີ່ການຢັ້ງຢືນທີສອງຂອງທ່ານ",
     "Access through untrusted domain" : "ການເຂົ້າເຖິງຜ່ານໂດເມນທີ່ບໍ່ໜ້າເຊື່ຶອຖື",
@@ -346,6 +345,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "ບາງຄໍລໍາໃນຖານຂໍ້ມູນແມ່ນຂາດການປ່ຽນ ໂຕແປໃຫຍ່ ໃຫຍ່ . ເນື່ອງຈາກວ່າການປ່ຽນ ແປງແບບ column ໃນຕາຕະລາງ ອາດຈະໃຊ້ ເວລາດົນ ທີ່ພວກເຂົາເຈົ້າບໍ່ໄດ້ ປ່ຽນແປງ ໂດຍອັດຕະໂນມັດ . ໂດຍການແລ່ນ 'occ db:convert-filecache-bigint' ຜຸ້ທີ່ກໍາລັງປ່ຽນແປງທີ່ກໍາລັງຄ້າງສາມາດນໍາໃຊ້ໄດ້ດ້ວຍມື. ການດໍາເນີນງານນີ້ຈໍາເປັນຕ້ອງໄດ້ ເຮັດ ໃນຂະນະທີ່ຕົວຢ່າງແມ່ນ offline . ສໍາລັບລາຍລະອຽດເພີ່ມເຕີມອ່ານ {linkstart}ຫນ້າເອກະສານກ່ຽວ ກັບ ↗{linkend} ນີ້.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "ເພື່ອຍົກຍ້າຍໄປຖານຂໍ້ມູນອື່ນໃຊ້ເຄື່ອງມືຄໍາສັ່ງ: 'occ db:convert-type', ຫຼື ເບິ່ງ{linkstart}ເອກະສານ ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ຊອບແວຂໍ້ມູນ ແລະ ຟາຍຂອງທ່ານອາດຈະສາມາດເຂົ້າເຖິງໄດ້ຈາກອິນເຕີເນັດ .ຟາຍ htaccess ບໍ່ໄດ້ເຮັດວຽກ . ແນະ ນໍາໃຫ້ ທ່ານຕັ້ງຄ່າ ເວັບ ໄຊ ຂອງ ທ່ານ ເພື່ອວ່າຂໍ້ມູນບໍ່ ສາ ມາດ ເຂົ້າ ເຖິງ ໄດ້ ໂດຍກົງ ອີກ ຕໍ່ ໄປ , ຫຼື ການ ເຄື່ອນ ຍ້າຍຂໍ້ ມູນ ຢູ່ ນອກຮາກຖານຂອງເອກະ ສານ web server  ໂດຍກົງ ",
-    "The password is wrong. Try again." : "ລະຫັດບໍ່ຖືກຕ້ອງ. ລອງໃໝ່ອີກຄັ້ງ."
+    "The password is wrong. Try again." : "ລະຫັດບໍ່ຖືກຕ້ອງ. ລອງໃໝ່ອີກຄັ້ງ.",
+    "Setup two-factor authentication" : "ການຕັ້ງຄ່າຮັບຮອງການຢັ້ງຢືນສອງຄັ້ງ"
 },
 "nplurals=1; plural=0;");

@@ -368,7 +368,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "A kétfaktoros hitelesítés be van tartatva, de nincs beállítva a fiókján. Használja a biztonsági kódjai egyikét a bejelentkezéshez, vagy ha segítségre van szüksége, akkor lépjen kapcsolatba a rendszergazdával.",
     "Use backup code" : "Biztonsági kód használata",
     "Cancel login" : "Bejelentkezés megszakítása",
-    "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "A fokozott biztonság be van tartatva a fiókjánál. Válassza ki a beállítandó szolgáltatót:",
     "Error while validating your second factor" : "Hiba történt a második faktor évényesítésekor",
     "Access through untrusted domain" : "Nem megbízható tartományon keresztüli hozzáférés",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Más adatbázisba történő áttéréshez használja a parancssori eszközt: „occ db: convert-type”, vagy tekintse meg a {linkstart}dokumentációt ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Az adatkönyvtárai és a fájljai valószínűleg elérhetőek az internetről. A .htaccess fájl nem működik. Erősen javasolt, hogy a webkiszolgálót úgy állítsa be, hogy az adatkönyvtár tartalma ne legyen közvetlenül elérhető, vagy helyezze át a könyvtárat a kiszolgálási területen kívülre.",
     "The password is wrong. Try again." : "A megadott jelszó hibás. Próbálja újra.",
+    "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
     "You haven't added any info yet" : "Még nem adott hozzá információkat",
     "{user} hasn't added any info yet" : "{user} még nem adott hozzá információkat"
 },

@@ -335,7 +335,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Ο έλεγχος ταυτότητας δύο παραγόντων επιβάλλεται αλλά δεν έχει ρυθμιστεί στο λογαριασμό σας. Χρησιμοποιήστε έναν από τους εφεδρικούς κωδικούς σας για να συνδεθείτε ή επικοινωνήστε με το διαχειριστή σας για βοήθεια.",
     "Use backup code" : "Χρήση εφεδρικών κωδικών",
     "Cancel login" : "Ακύρωση εισόδου",
-    "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Έχει ενεργοποιηθεί βελτιωμένη ασφάλεια για τον λογαριασμό σας. Επιλέξτε ποιόν πάροχο θα ρυθμίσετε:",
     "Error while validating your second factor" : "Σφάλμα κατά την επικύρωση του δεύτερου παράγοντα",
     "Access through untrusted domain" : "Πρόσβαση από μη αξιόπιστο τομέα",
@@ -363,6 +362,7 @@ OC.L10N.register(
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Το Nextcloud 20 είναι η τελευταία έκδοση που υποστηρίζει PHP 7.2. Το Nextcloud 21 απαιτεί τουλάχιστον PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανόν προσβάσιμα από το διαδίκτυο. Το αρχείο .htaccess δεν λειτουργεί. Σας προτείνουμε να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος δεδομένων να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο δεδομένων εκτός του ριζικού καταλόγου εγγράφων του διακομιστή.",
     "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
+    "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων",
     "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
     "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες"
 },

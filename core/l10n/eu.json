@@ -366,7 +366,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Bi faktoreko autentifikazioa aplikatzen da baina ez da konfiguratu zure kontuan. Erabili zure ordezko kode bat saioa hasteko edo jarri harremanetan zure administratzailearekin laguntza jasotzeko.",
     "Use backup code" : "Erabili ordezko kodea",
     "Cancel login" : "Ezeztatu saio-hasiera",
-    "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Segurtasun hobetua aplikatzen da zure kontuan. Aukeratu hornitzailea konfiguratzeko:",
     "Error while validating your second factor" : "Errorea zure bigarren faktorea balioztatzean",
     "Access through untrusted domain" : "Domeinu ez-fidagarritik sartzen",
@@ -398,6 +397,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Beste datu-base batera migratzeko, erabili komando-lerroko tresna hau: 'occ db: convert-type', edo ikusi {linkstart} dokumentazioa ↗ {linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Zure datuen direktorioa eta fitxategiak Internetetik atzitu daitezke. .htaccess fitxategiak ez du funtzionatzen. Biziki gomendatzen da  web zerbitzariaren konfigurazioa aldatzea datuen direktorioa atzigarri egon ez dadin edo datuen direktorioa web zerbitzariaren dokumentu errotik kanpora ateratzea.",
     "The password is wrong. Try again." : "Pasahitza ez da zuzena. Saiatu berriro.",
+    "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
     "You haven't added any info yet" : "Ez duzu informaziorik gehitu oraindik",
     "{user} hasn't added any info yet" : "{user} ez du informaziorik gehitu oraindik"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
