@@ -365,7 +365,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Die Zwei-Faktor-Authentifizierung wird erzwungen, wurde jedoch für Dein Konto nicht konfiguriert. Verwende einen Deiner Backup-Codes zum Anmelden, oder wende Dich für Unterstützung an Deinen Administrator.",
     "Use backup code" : "Backup-Code benutzen",
     "Cancel login" : "Anmelden abbrechen",
-    "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Erhöhte Sicherheit ist für Dein Konto aktiviert. Bitte wähle einen Anbieter zum Einrichten: ",
     "Error while validating your second factor" : "Fehler beim Bestätigen des zweiten Sicherheitsfaktors",
     "Access through untrusted domain" : "Zugriff über eine nicht vertrauenswürdige Domain",
@@ -397,6 +396,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Um zu einer anderen Datenbank zu migrieren, benutze bitte die Befehlszeile: 'occ db:convert-type', oder in die {linkstart}Dokumentation ↗{linkend} schauen.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Dein Datenverzeichnis und Deine Dateien sind wahrscheinlich vom Internet aus erreichbar. Die .htaccess-Datei funktioniert nicht. Es wird dringend empfohlen, Deinen Webserver dahingehend zu konfigurieren, dass das Datenverzeichnis nicht mehr vom Internet aus erreichbar ist oder dass Du es aus dem Dokument-Root-Verzeichnis des Webservers bewegst.",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuche es erneut.",
+    "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
     "You haven't added any info yet" : "Du hast noch keine Infos hinzugefügt",
     "{user} hasn't added any info yet" : "{user} hat noch keine Infos hinzugefügt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

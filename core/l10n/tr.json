@@ -366,7 +366,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "İki aşamalı kimlik doğrulaması kullanımı zorunlu kılınmış ancak hesabınız için yapılandırılmamış. Yedek kodlarınızdan birini kullanın ya da yardım almak için sistem yöneticiniz ile görüşün.",
     "Use backup code" : "Yedek kodu kullanacağım",
     "Cancel login" : "Oturum açmaktan vazgeç",
-    "Setup two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Hesabınız için gelişmiş güvenlik kullanımı dayatılmış. Kuracağınız hizmet sağlayıcıyı seçin:",
     "Error while validating your second factor" : "İkinci aşama doğrulanırken sorun çıktı",
     "Access through untrusted domain" : "Güvenilmeyen etki alanı üzerinden erişim",
@@ -398,6 +397,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Başka bir veritabanına geçmek için komut satırı aracını kullanın: 'occ db:convert-type' ya da {linkstart}belgeler ↗{linkend} bölümüne bakın.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Veri klasörünüz ve dosyalarınız İnternet üzerinden erişime açık olabilir. .htaccess dosyası çalışmıyor. Web sunucunuzu yapılandırarak veri klasörüne erişimi engellemeniz ya da veri klasörünü web sunucu kök klasörü dışına taşımanız önemle önerilir.",
     "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
+    "Setup two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
     "You haven't added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",
     "{user} hasn't added any info yet" : "{user} henüz herhangi bir bilgi eklememiş"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

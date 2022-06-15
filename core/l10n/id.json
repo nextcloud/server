@@ -325,7 +325,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Autentikasi faktor-kedua diwajibkan, namun belum terkonfigurasi pada akun Anda. Gunakan salah satu kode cadangan untuk log masuk, atau hubungi admin untuk asistensi.",
     "Use backup code" : "Gunakan kode cadangan",
     "Cancel login" : "Batalkan log masuk",
-    "Setup two-factor authentication" : "Setel autentikasi faktor-kedua",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Peningkatan keamanan diwajibkan untuk akun Anda. Pilih penyedia setelan:",
     "Error while validating your second factor" : "Galat ketika memvalidasi faktor kedua anda",
     "Access through untrusted domain" : "Akses melalui domain tidak terpercaya",
@@ -353,6 +352,7 @@
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 adalah rilis terakhir yang mendukung PHP 7.2. Nextcloud 21 membutuhkan setidaknya PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Data folder dan berkas Anda kemungkinan dapat diakses dari Internet secara langsung, dikarenakan berkas .htaccess tidak bekerja. Sangat dianjurkan Anda untuk menyetel peladen web, untuk mencegah hal tersebut terjadi. Atau pindahkan lokasi data Anda di luar root dokumen peladen web.",
     "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
+    "Setup two-factor authentication" : "Setel autentikasi faktor-kedua",
     "You haven't added any info yet" : "Anda belum menambahkan info apa pun",
     "{user} hasn't added any info yet" : "{user} belum menambahkan info apa pun"
 },"pluralForm" :"nplurals=1; plural=0;"

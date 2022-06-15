@@ -366,7 +366,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Je vynucováno dvoufázové ověřování ale to pro váš účet není nastaveno. Přihlaste se použitím nějakého ze svých záložních kódů nebo se obraťte o pomoc na svého správce.",
     "Use backup code" : "Použít záložní kód",
     "Cancel login" : "Zrušit přihlášení",
-    "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Vylepšené zabezpečení je vynuceno vaším účtem. Zvolte, kterého poskytovatele nastavit:",
     "Error while validating your second factor" : "Chyba při ověřování druhého faktoru",
     "Access through untrusted domain" : "Přístup prostřednictvím nedůvěryhodné domény",
@@ -398,6 +397,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Pokud chcete-li převést do jiné databáze, použijte nástroj pro příkazový řádek:  „occ db:convert-type“, nebo si projděte {linkstart}dokumentaci ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Váš adresář data a vaše soubory jsou pravděpodobně dostupné z Internetu. Soubor .htaccess nefunguje. Je velmi doporučeno zajistit, aby tento adresář již nebyl dostupný z internetu, nebo byl přesunut mimo document root webového serveru.",
     "The password is wrong. Try again." : "Chybné heslo. Zkuste to znovu.",
+    "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
     "You haven't added any info yet" : "Zatím jste nezadali žádné informace",
     "{user} hasn't added any info yet" : "{user} uživatel zatím nezadal žádné informace"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
