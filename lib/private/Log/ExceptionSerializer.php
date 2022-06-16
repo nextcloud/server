@@ -208,14 +208,16 @@ class ExceptionSerializer {
 	}
 
 	private function removeValuesFromArgs($args, $values) {
-		foreach ($args as &$arg) {
+		$workArgs = [];
+		foreach ($args as $arg) {
 			if (in_array($arg, $values, true)) {
 				$arg = '*** sensitive parameter replaced ***';
 			} elseif (is_array($arg)) {
 				$arg = $this->removeValuesFromArgs($arg, $values);
 			}
+			$workArgs[] = $arg;
 		}
-		return $args;
+		return $workArgs;
 	}
 
 	private function encodeTrace($trace) {
