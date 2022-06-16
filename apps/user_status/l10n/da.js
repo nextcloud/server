@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Seneste status",
     "What is your status?" : "Hvad er din status",
     "Set status" : "Sæt status",
     "Online status" : "Online status",
