@@ -62,7 +62,7 @@ class ExceptionSerializerTest extends TestCase {
 		} catch (\Exception $e) {
 			$serializedData = $this->serializer->serializeException($e);
 			$this->assertSame(['Secret'], $secret);
-			$this->assertSame('*** sensitive parameters replaced ***', $serializedData['Trace'][0]['args'][0]);
+			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][0]['args'][0]);
 		}
 	}
 }
