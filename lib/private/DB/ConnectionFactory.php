@@ -233,6 +233,10 @@ class ConnectionFactory {
 			];
 		}
 
+		if ($this->config->getValue('persistent', false)) {
+			$connectionParams['persistent'] = true;
+		}
+
 		return $connectionParams;
 	}
 
