@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,11 +27,33 @@ declare(strict_types=1);
 namespace OCP\Group\Backend;
 
 /**
+ * @brief Optional interface for group backends
  * @since 14.0.0
  */
 interface IGroupDetailsBackend {
 	/**
+	 * @brief Get additional details for a group, for example the display name.
+	 *
+	 * The array returned can be empty when no additional information is available
+	 * for the group.
+	 *
+	 * @return array{displayName?: string}
 	 * @since 14.0.0
 	 */
 	public function getGroupDetails(string $gid): array;
+
+
+	/**
+	 * @brief Batch method to get the group details of a list of groups
+	 *
+	 * The default implementation in ABackend will just call getGroupDetail in
+	 * a loop. But a GroupBackend implementation should provides a more optimized
+	 * override this method to provide a more optimized way to execute this operation.
+	 *
+	 * @throw \RuntimeException if called on a backend that doesn't implements IGroupDetailsBackend
+	 *
+	 * @return array<string, array{displayName: string}>
+	 * @since 26.0.0
+	 */
+	public function getGroupsDetails(array $gids): array;
 }

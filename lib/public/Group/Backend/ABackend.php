@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -64,5 +65,34 @@ abstract class ABackend implements GroupInterface {
 		}
 
 		return (bool)($actions & $implements);
+	}
+
+	/**
+	 * @since 26.0.0
+	 */
+	public function groupsExists(array $gids): array {
+		$existingGroups = [];
+		foreach ($gids as $gid) {
+			$exists = $this->groupExists($gid);
+			if ($exists) {
+				$existingGroups[$gid] = $gid;
+			}
+		}
+		return $existingGroups;
+	}
+
+	/**
+	 * @since 26.0.0
+	 */
+	public function getGroupsDetails(array $gids): array {
+		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
+			throw new \Exception("Should not have been called");
+		}
+		/** @var IGroupDetailsBackend $this */
+		$groupData = [];
+		foreach ($gids as $gid) {
+			$groupData[$gid] = $this->getGroupDetails($gid);
+		}
+		return $groupData;
 	}
 }
