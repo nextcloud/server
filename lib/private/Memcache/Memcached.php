@@ -104,8 +104,18 @@ class Memcached extends Cache implements IMemcache {
 		return $this->prefix;
 	}
 
+	private function normalizeKey(string $key): string {
+		// Memcached key has a max length of 250 characters and doesn't
+		// allow spaces and control characters.
+		if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
+			return hash('xxh128', $key); // Very fast and provide very good collisions protection
+		} else {
+			return hash('md5', $key);
+		}
+	}
+
 	public function get($key) {
-		$result = self::$cache->get($this->getNameSpace() . $key);
+		$result = self::$cache->get($this->getNameSpace() . $this->normalizeKey($key));
 		if ($result === false and self::$cache->getResultCode() == \Memcached::RES_NOTFOUND) {
 			return null;
 		} else {
@@ -115,9 +125,9 @@ class Memcached extends Cache implements IMemcache {
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			$result = self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
+			$result = self::$cache->set($this->getNameSpace() . $this->normalizeKey($key), $value, $ttl);
 		} else {
-			$result = self::$cache->set($this->getNameSpace() . $key, $value);
+			$result = self::$cache->set($this->getNameSpace() . $this->normalizeKey($key), $value);
 		}
 		if ($result !== true) {
 			$this->verifyReturnCode();
@@ -126,12 +136,12 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	public function hasKey($key) {
-		self::$cache->get($this->getNameSpace() . $key);
+		self::$cache->get($this->getNameSpace() . $this->normalizeKey($key));
 		return self::$cache->getResultCode() === \Memcached::RES_SUCCESS;
 	}
 
 	public function remove($key) {
-		$result = self::$cache->delete($this->getNameSpace() . $key);
+		$result = self::$cache->delete($this->getNameSpace() . $this->normalizeKey($key));
 		if (self::$cache->getResultCode() !== \Memcached::RES_NOTFOUND) {
 			$this->verifyReturnCode();
 		}
@@ -154,7 +164,7 @@ class Memcached extends Cache implements IMemcache {
 	 * @throws \Exception
 	 */
 	public function add($key, $value, $ttl = 0) {
-		$result = self::$cache->add($this->getPrefix() . $key, $value, $ttl);
+		$result = self::$cache->add($this->getPrefix() . $this->normalizeKey($key), $value, $ttl);
 		if (self::$cache->getResultCode() !== \Memcached::RES_NOTSTORED) {
 			$this->verifyReturnCode();
 		}
@@ -169,8 +179,8 @@ class Memcached extends Cache implements IMemcache {
 	 * @return int | bool
 	 */
 	public function inc($key, $step = 1) {
-		$this->add($key, 0);
-		$result = self::$cache->increment($this->getPrefix() . $key, $step);
+		$this->add($this->normalizeKey($key), 0);
+		$result = self::$cache->increment($this->getPrefix() . $this->normalizeKey($key), $step);
 
 		if (self::$cache->getResultCode() !== \Memcached::RES_SUCCESS) {
 			return false;
@@ -187,7 +197,7 @@ class Memcached extends Cache implements IMemcache {
 	 * @return int | bool
 	 */
 	public function dec($key, $step = 1) {
-		$result = self::$cache->decrement($this->getPrefix() . $key, $step);
+		$result = self::$cache->decrement($this->getPrefix() . $this->normalizeKey($key), $step);
 
 		if (self::$cache->getResultCode() !== \Memcached::RES_SUCCESS) {
 			return false;
