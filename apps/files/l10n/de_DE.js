@@ -21,6 +21,7 @@ OC.L10N.register(
     "Target folder \"{dir}\" does not exist any more" : "Ziel-Verzeichnis \"{dir}\" existiert nicht mehr",
     "Not enough free space" : "Nicht genügend freier Speicherplatz",
     "An unknown error has occurred" : "Es ist ein unbekannter Fehler aufgetreten",
+    "File could not be uploaded" : "Datei konnte nicht hochgeladen werden",
     "Uploading …" : "Lade hoch …",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} von {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Hochladen von Daten dieser Art wird nicht unterstützt.",

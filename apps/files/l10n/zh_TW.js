@@ -21,6 +21,7 @@ OC.L10N.register(
     "Target folder \"{dir}\" does not exist any more" : "目標資料夾「{dir}」不存在",
     "Not enough free space" : "空間不足",
     "An unknown error has occurred" : "發生未知的錯誤",
+    "File could not be uploaded" : "檔案無法上傳",
     "Uploading …" : "正在上傳……",
     "{loadedSize} of {totalSize} ({bitrate})" : "{totalSize} 中的 {loadedSize} ({bitrate})",
     "Uploading that item is not supported" : "不支援上傳該項目",
