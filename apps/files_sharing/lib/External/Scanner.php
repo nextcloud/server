@@ -34,6 +34,11 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	/** @var \OCA\Files_Sharing\External\Storage */
 	protected $storage;
 
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
+		// Disable locking for federated shares
+		parent::scan($path, $recursive, $reuse, false);
+	}
+
 	/**
 	 * Scan a single file and store it in the cache.
 	 * If an exception happened while accessing the external storage,
