@@ -21,6 +21,7 @@ OC.L10N.register(
     "Target folder \"{dir}\" does not exist any more" : "Katalog docelowy \"{dir}\" już nie istnieje",
     "Not enough free space" : "Za mało wolnego miejsca",
     "An unknown error has occurred" : "Wystąpił nieznany błąd",
+    "File could not be uploaded" : "Nie można przesłać pliku",
     "Uploading …" : "Wysyłanie…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Wysyłanie tego elementu nie jest wspierane",
