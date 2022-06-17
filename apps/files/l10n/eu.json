@@ -19,6 +19,7 @@
     "Target folder \"{dir}\" does not exist any more" : "\"{dir}\" helburuko karpeta ez da existitzen jadanik",
     "Not enough free space" : "Ez dago leku libre nahikorik",
     "An unknown error has occurred" : "Errore ezezagun bat gertatu da",
+    "File could not be uploaded" : "Fitxategia ezin izan da kargatu",
     "Uploading …" : "Kargatzen...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Ez da onartzen elementu hori kargatzea",
