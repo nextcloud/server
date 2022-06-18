@@ -19,6 +19,7 @@
     "Target folder \"{dir}\" does not exist any more" : "Cílová složka „{dir}“ už neexistuje",
     "Not enough free space" : "Nedostatek volného prostoru",
     "An unknown error has occurred" : "Vyskytla se neznámá chyba",
+    "File could not be uploaded" : "Soubor se nepodařilo nahrát",
     "Uploading …" : "Nahrávání…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Nahrání této položky není podporováno",

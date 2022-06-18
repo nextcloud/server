@@ -21,6 +21,7 @@ OC.L10N.register(
     "Target folder \"{dir}\" does not exist any more" : "A(z) „{dir}” célmappa már nem létezik",
     "Not enough free space" : "Nincs elég szabad hely",
     "An unknown error has occurred" : "Ismeretlen hiba történt",
+    "File could not be uploaded" : "A fájlt nem lehetett feltölteni",
     "Uploading …" : "Feltöltés…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Ezen elem feltöltése nem támogatott",
