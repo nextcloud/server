@@ -38,7 +38,7 @@ class Todo extends CalDAVSetting {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('A calendar <strong>todo</strong> was modified');
+		return $this->l->t('A calendar <strong>to-do</strong> was modified');
 	}
 
 	/**
