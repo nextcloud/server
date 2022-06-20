@@ -722,7 +722,7 @@ class ManagerTest extends TestCase {
 		);
 
 		// just to make sure they are really set, with correct actor data
-		$comment = $manager->get(strval($ids[1]));
+		$comment = $manager->get((string) $ids[1]);
 		$this->assertSame($comment->getObjectType(), 'files');
 		$this->assertSame($comment->getObjectId(), 'file64');
 
@@ -733,7 +733,7 @@ class ManagerTest extends TestCase {
 		$exists = 0;
 		foreach ($ids as $id) {
 			try {
-				$manager->get(strval($id));
+				$manager->get((string) $id);
 				$exists++;
 			} catch (NotFoundException $e) {
 				$deleted++;
